@@ -23,4 +23,15 @@ if (typeof window !== 'undefined') {
   if (!window.TextDecoder && typeof TextDecoder !== 'undefined') {
     window.TextDecoder = TextDecoder;
   }
+  if (!window.speechSynthesis) {
+    window.speechSynthesis = {
+      getVoices: () => [],
+      speak: () => {},
+      cancel: () => {},
+      pause: () => {},
+      resume: () => {},
+      onvoiceschanged: null
+    };
+  }
 }
+

@@ -3,7 +3,5 @@ const TRANSLATIONS = Object.assign({},
   typeof TRANSLATIONS_PART2 !== 'undefined' ? TRANSLATIONS_PART2 : {}
 );
 
-
-// Warmherzige Pausen-Empfehlungen (Entlastung & Bewegung)
- 
- 
+if (typeof window !== 'undefined') window.TRANSLATIONS = TRANSLATIONS;
+if (typeof globalThis !== 'undefined') globalThis.TRANSLATIONS = TRANSLATIONS;

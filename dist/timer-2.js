@@ -1,11 +1,21 @@
 // timer.js Teil 2/3: Klingel-/Chime-Logik & Ringing-Modal
 
+var ringInterval = typeof ringInterval !== 'undefined' ? ringInterval : (typeof window !== 'undefined' ? window.ringInterval : null);
+var ringTimeout = typeof ringTimeout !== 'undefined' ? ringTimeout : (typeof window !== 'undefined' ? window.ringTimeout : null);
+
+function isTimerSoundActiveInChime() {
+  if (typeof timerSoundEnabled !== 'undefined') return timerSoundEnabled;
+  if (typeof window !== 'undefined' && typeof window.timerSoundEnabled !== 'undefined') return window.timerSoundEnabled;
+  if (typeof globalThis !== 'undefined' && typeof globalThis.timerSoundEnabled !== 'undefined') return globalThis.timerSoundEnabled;
+  return true;
+}
+
 function playMinuteChime() {
-  if (!timerSoundEnabled) return;
+  if (!isTimerSoundActiveInChime()) return;
   try {
-    initAudioContext();
-    if (!audioCtx) return;
-    const ctx = audioCtx;
+    if (typeof initAudioContext === 'function') initAudioContext();
+    const ctx = typeof audioCtx !== 'undefined' ? audioCtx : (typeof window !== 'undefined' ? window.audioCtx : null);
+    if (!ctx) return;
     const dest = typeof getMasterAudioDestination === 'function' ? getMasterAudioDestination() : ctx.destination;
     if (!dest) return;
     const now = ctx.currentTime;
@@ -77,7 +87,7 @@ function playMinuteChime() {
 // Weckruf mit prozeduralen Synthesizer-Mustern (wechselt zufällig)
 function startPleasantRinging() {
   stopPleasantRinging();
-  if (!timerSoundEnabled) return;
+  if (!isTimerSoundActiveInChime()) return;
   
   // Wechselt durch 6 sanfte Melodien
   currentEndingPatternIndex = (currentEndingPatternIndex + 1) % 6;
@@ -85,10 +95,10 @@ function startPleasantRinging() {
 
   const playSynthPattern = () => {
     try {
-      initAudioContext();
-      if (!audioCtx) return;
+      if (typeof initAudioContext === 'function') initAudioContext();
+      const ctx = typeof audioCtx !== 'undefined' ? audioCtx : (typeof window !== 'undefined' ? window.audioCtx : null);
+      if (!ctx) return;
       
-      const ctx = audioCtx;
       const dest = typeof getMasterAudioDestination === 'function' ? getMasterAudioDestination() : ctx.destination;
       if (!dest) return;
       const now = ctx.currentTime;

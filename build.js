@@ -81,11 +81,6 @@ try {
   });
   if (result.outputFiles && result.outputFiles.length > 0) {
     const bundlePath = path.join(distDir, 'app.bundle.js');
-    try {
-      if (fs.existsSync(bundlePath)) {
-        fs.unlinkSync(bundlePath);
-      }
-    } catch (ignore) {}
     fs.writeFileSync(bundlePath, result.outputFiles[0].contents);
     console.log('✓ app.bundle.js mit esbuild erfolgreich erzeugt');
   }

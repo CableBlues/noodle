@@ -6,6 +6,12 @@ export default defineConfig({
     setupFiles: ['./tests/setup.js'],
     globals: true,
     include: ['tests/**/*.test.js'],
-    fileParallelism: false
+    fileParallelism: false,
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: true
+      }
+    }
   }
 });

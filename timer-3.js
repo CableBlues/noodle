@@ -1,6 +1,13 @@
 // timer.js Teil 3/3: Timer-Start/Stop/Pause & UI-Updates
 var timerHasTriggeredZero = false;
 
+function isTimerSoundActive() {
+  if (typeof timerSoundEnabled !== 'undefined') return timerSoundEnabled;
+  if (typeof window !== 'undefined' && typeof window.timerSoundEnabled !== 'undefined') return window.timerSoundEnabled;
+  if (typeof globalThis !== 'undefined' && typeof globalThis.timerSoundEnabled !== 'undefined') return globalThis.timerSoundEnabled;
+  return true;
+}
+
 function startTaskTimer(taskName, event) {
   if (event) event.stopPropagation();
   if (!taskName) return;
@@ -15,7 +22,7 @@ function startTaskTimer(taskName, event) {
   startTimer();
   updateTimerDisplay();
   updateTimerUI();
-  showToast(`⏱️ Focus: "${taskName}" (${mins}m)`);
+  if (typeof showToast === 'function') showToast(`⏱️ Focus: "${taskName}" (${mins}m)`);
 }
 
 function updateActiveTimerLabels() {
@@ -68,7 +75,7 @@ function setTimerPreset(mins) {
   updateTimerDisplay();
   updateTimerUI();
   if (typeof renderApp === 'function') renderApp();
-  showToast(`⏱️ ${mins}m`);
+  if (typeof showToast === 'function') showToast(`⏱️ ${mins}m`);
 }
 
 let timerPresetHoverTimeout = null;
@@ -202,7 +209,7 @@ function startTimer() {
   }
 
   // Zeitansage zu Beginn einer frischen Sitzung (nicht beim Fortsetzen nach Pause), je nach Sound-Einstellung
-  if (isFreshStart && timerSoundEnabled) {
+  if (isFreshStart && isTimerSoundActive()) {
     try {
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
       const startMins = Math.round(timerInitialSeconds / 60);
@@ -243,7 +250,7 @@ function startTimer() {
         stopAmbientSound(true);
       }
 
-      if (timerSoundEnabled) {
+      if (isTimerSoundActive()) {
         const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
         const timeUp = (typeof TIME_UP_PHRASES !== 'undefined' && TIME_UP_PHRASES[lang]) 
           ? TIME_UP_PHRASES[lang] 
@@ -508,10 +515,11 @@ function updateTimerDisplay() {
   const sign = isNegative ? '-' : '';
   const str = `${sign}${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   
-  // Überzeit in allen Displays farblich und animiert hervorheben
-  const displays = ['timer-display', 'helper-pick-timer-display', 'helper-steps-timer-display', 'zen-timer-display', 'game-hud-timer-display', 'mobile-timer-display', 'alarm-timer-display'];
-  displays.forEach(id => {
-    const el = document.getElementById(id);
+  // Überzeit in allen Displays farblich und animiert hervorheben (querySelectorAll für Duplikate & mobile Ansichten)
+  const displayElements = document.querySelectorAll(
+    '#timer-display, #helper-pick-timer-display, #helper-steps-timer-display, #zen-timer-display, #game-hud-timer-display, #mobile-timer-display, #alarm-timer-display, .timer-display-live'
+  );
+  displayElements.forEach(el => {
     if (el) {
       el.innerText = str;
       el.classList.toggle('text-rose-400', isNegative);
@@ -559,9 +567,10 @@ function updateTimerDisplay() {
   }
   
   const pct = timerInitialSeconds > 0 ? Math.max(0, (timerSeconds / timerInitialSeconds) * 100) : 100;
-  const progressBars = ['timer-progress-bar', 'helper-pick-timer-progress-bar', 'helper-steps-timer-progress-bar'];
-  progressBars.forEach(id => {
-    const el = document.getElementById(id);
+  const progressBars = document.querySelectorAll(
+    '#timer-progress-bar, #helper-pick-timer-progress-bar, #helper-steps-timer-progress-bar, .timer-progress-live'
+  );
+  progressBars.forEach(el => {
     if (el) {
       el.style.width = isNegative ? '100%' : `${pct}%`;
       el.classList.toggle('bg-rose-500', isNegative);

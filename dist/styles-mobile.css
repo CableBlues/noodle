@@ -229,8 +229,14 @@
     border-radius: 20px !important;
   }
 
+  main > article.mobile-active-col,
+  body:not([data-mobile-cat]) main > article:first-of-type,
   body[data-mobile-cat="daily"]         main > article[data-category="daily"],
   body[data-mobile-cat="weekly"]        main > article[data-category="weekly"],
+  body[data-mobile-cat="work_focus"]    main > article[data-category="work_focus"],
+  body[data-mobile-cat="work_in_progress"] main > article[data-category="work_in_progress"],
+  body[data-mobile-cat="work_backlog"]  main > article[data-category="work_backlog"],
+  body[data-mobile-cat="work_waiting"]  main > article[data-category="work_waiting"],
   body[data-mobile-cat="todo"]          main > article[data-category="todo"],
   body[data-mobile-cat="done"]          main > article[data-category="done"],
   body[data-mobile-cat="termine"]       main > article[data-category="termine"],

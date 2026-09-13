@@ -58,9 +58,11 @@ import './app-weather-news.js';
 import './app-radio-news.js';
 import './app-dice.js';
 import './app-command-palette.js';
+import './app-routine-presets.js';
 import './onboarding.js';
 import './monetization.js';
 import './app-feedback.js';
+import './app-tooltip.js';
 import './app-core.js';
 
 console.log('⚡ [Noodle] Alle Module erfolgreich initialisiert.');

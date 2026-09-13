@@ -85,12 +85,23 @@
       <!-- ====================================================================== -->
       <!-- 1. LINKE ZONE: BRANDING & SUCHE -->
       <!-- ====================================================================== -->
-      <div class="flex items-center gap-2.5 md:gap-3.5 shrink-0">
+      <div class="flex items-center gap-2 md:gap-2.5 shrink-0">
         <!-- 1. TOOLS BUTTON & DROPDOWN (Hovern & Klicken öffnet Tools) -->
         <div class="relative flex items-center shrink-0" id="header-tools-wrapper" onmouseenter="showPanelHover('header-tools', 0)" onmouseleave="hidePanelHover('header-tools')">
-          <button id="btn-header-tools" onclick="togglePanel('header-tools')" class="relative flex items-center justify-center h-10 w-10 md:h-10.5 md:w-10.5 rounded-2xl bg-gradient-to-br from-purple-500/25 via-white/[0.1] to-purple-600/25 hover:from-purple-500/40 hover:via-white/[0.18] hover:to-purple-500/40 active:scale-95 border border-purple-400/50 hover:border-purple-300 cursor-pointer transition-all duration-300 shadow-[0_2px_14px_rgba(0,0,0,0.4)] hover:shadow-[0_0_24px_rgba(168,85,247,0.5)] shrink-0 group select-none" title="Tools Menü • Klicken oder Hovern" aria-label="Tools Menü">
-            <i data-lucide="layout-grid" class="w-5 h-5 md:w-5.5 md:h-5.5 text-purple-300 group-hover:text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-300"></i>
-            <span class="w-2 h-2 rounded-full bg-cyan-400 absolute top-1.5 right-1.5 opacity-80 group-hover:opacity-100 group-hover:animate-ping"></span>
+          <button id="btn-header-tools" onclick="togglePanel('header-tools')" class="tools-btn-logo-themed relative flex items-center justify-center h-10 w-10 md:h-[38px] md:w-[38px] rounded-2xl active:scale-95 cursor-pointer transition-all duration-300 shrink-0 group select-none overflow-visible" title="Tools Menü • Klicken oder Hovern" aria-label="Tools Menü">
+            <!-- Ambient Logo Aura -->
+            <div class="tools-aura-animated absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-purple-500/40 via-sky-400/30 to-pink-500/40 blur-md pointer-events-none"></div>
+
+            <!-- Colorful 3D Modular Grid Icon in Logo Palettes (animiert alle 10s) -->
+            <div class="tools-icon-animated flex items-center justify-center w-[22px] h-[22px]">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" class="w-[22px] h-[22px] drop-shadow-md group-hover:scale-110 transition-transform duration-300" style="display: block;">
+                <!-- 4 colorful modular tiles in Logo hues (Purple, Sky Cyan, Pink, Emerald) -->
+                <rect x="3" y="3" width="7.5" height="7.5" rx="2.2" fill="#c084fc" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
+                <rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2" fill="#38bdf8" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
+                <rect x="3" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#f472b6" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
+                <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#34d399" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
+              </svg>
+            </div>
           </button>
 
           <!-- TOOLS SPHERES POPOVER DROPDOWN -->
@@ -1025,6 +1036,16 @@
               </div>
               </div>
 
+              <!-- Grundreinigung & Putz-Guide Sphere -->
+              <div class="relative flex flex-col items-center">
+                <button onclick="if(typeof openCleaningGuideModal==='function') openCleaningGuideModal(); togglePanel('header-tools');" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Grundreinigung & Putz-Guide 🧹✨">
+                  <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/25 to-teal-600/20 border border-emerald-400/40 hover:border-emerald-300 flex items-center justify-center text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(16,185,129,0.4)] group-hover/orb:scale-110 transition-all duration-250">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                  </div>
+                  <span class="text-[10px] font-bold text-gray-300 group-hover/orb:text-white transition-colors" data-i18n="clean_guide_title_short">Putz-Guide</span>
+                </button>
+              </div>
+
               <!-- 3. Sport Sphere -->
               <div class="relative flex flex-col items-center">
                 <button onclick="if(typeof openFitnessModal==='function') openFitnessModal(); else if(typeof toggleFitnessTracker==='function') toggleFitnessTracker();" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Fitness & Sport">
@@ -1113,7 +1134,7 @@
           </div>
         </div>
 
-        <!-- 2. NOODLE LOGO & FEEDBACK HUB (Hovern & Klicken öffnet Feedback!) -->
+        <!-- 3. NOODLE LOGO & FEEDBACK HUB (Hovern & Klicken öffnet Feedback!) -->
         <div class="relative flex items-center shrink-0" id="header-logo-wrapper" onmouseenter="showPanelHover('feedback', 0)" onmouseleave="hidePanelHover('feedback')">
           <div class="flow-logo-container relative inline-flex items-center justify-center px-2 py-0.5 rounded-2xl bg-transparent hover:bg-white/[0.04] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 border-none outline-none cursor-pointer overflow-hidden" title="Feedback, Bewertung & Wünsche an Noodle ❤️" onclick="openFeedbackModal()">
             <!-- Subtile Ambient Nebula Aura im Hintergrund (begrenzt) -->
@@ -1309,10 +1330,9 @@
           </div>
         </div>
 
-        <!-- Was nun? (Mit lebendiger Ideen-Funken Animation & leuchtender Aura) -->
-        <button id="btn-whatnow-dance" onclick="openHelperModal('pick')" class="whatnow-animated-btn flex items-center justify-center gap-1.5 h-9 md:h-[36.5px] px-3 rounded-xl text-amber-300 hover:text-amber-200 bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 border border-amber-500/35 hover:border-amber-400 cursor-pointer transition-all duration-300 shrink-0 shadow-sm group" title="Was soll ich als Nächstes tun? (Entscheidungshilfe) [W]" data-i18n-title="whatnow_tooltip" aria-label="Was nun?">
-          <i data-lucide="lightbulb" class="whatnow-animated-bulb w-3.5 h-3.5 text-amber-300 group-hover:scale-110 transition-transform shrink-0"></i>
-          <span class="text-xs font-bold text-amber-200 whitespace-nowrap" data-i18n="whatnow">Was nun?</span>
+        <!-- Brainstorming Studio Schnellzugriff [B] (Links vom Datum, Icon-Only mit Tooltip) -->
+        <button id="btn-header-brainstorm" onclick="openBrainstormModal()" class="flex items-center justify-center h-9 w-9 md:h-[36.5px] md:w-[36.5px] rounded-xl text-teal-300 hover:text-white bg-teal-500/15 hover:bg-teal-500/25 active:scale-95 border border-teal-500/35 hover:border-teal-400 cursor-pointer transition-all duration-300 shrink-0 shadow-sm group" title="Brainstorming Studio: Ideen erfassen & Mikrofon [B]" aria-label="Brainstorming Studio">
+          <i data-lucide="brain" class="w-3.5 h-3.5 text-teal-300 group-hover:scale-110 group-hover:text-teal-200 transition-transform shrink-0"></i>
         </button>
 
         <!-- Zentrales Datum & Monatskalender Dropdown (HERZSTÜCK DES HEADERS) -->
@@ -1398,9 +1418,10 @@
           </div>
         </div>
 
-        <!-- Brainstorming Studio Schnellzugriff [B] (Rechts vom Datum, Icon-Only mit Tooltip) -->
-        <button id="btn-header-brainstorm" onclick="openBrainstormModal()" class="flex items-center justify-center h-9 w-9 md:h-[36.5px] md:w-[36.5px] rounded-xl text-teal-300 hover:text-white bg-teal-500/15 hover:bg-teal-500/25 active:scale-95 border border-teal-500/35 hover:border-teal-400 cursor-pointer transition-all duration-300 shrink-0 shadow-sm group" title="Brainstorming Studio: Ideen erfassen & Mikrofon [B]" aria-label="Brainstorming Studio">
-          <i data-lucide="brain" class="w-3.5 h-3.5 text-teal-300 group-hover:scale-110 group-hover:text-teal-200 transition-transform shrink-0"></i>
+        <!-- Was nun? (Mit lebendiger Ideen-Funken Animation & leuchtender Aura) -->
+        <button id="btn-whatnow-dance" onclick="openHelperModal('pick')" class="whatnow-animated-btn flex items-center justify-center gap-1.5 h-9 md:h-[36.5px] px-3 rounded-xl text-amber-300 hover:text-amber-200 bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 border border-amber-500/35 hover:border-amber-400 cursor-pointer transition-all duration-300 shrink-0 shadow-sm group" title="Was soll ich als Nächstes tun? (Entscheidungshilfe) [W]" data-i18n-title="whatnow_tooltip" aria-label="Was nun?">
+          <i data-lucide="lightbulb" class="whatnow-animated-bulb w-3.5 h-3.5 text-amber-300 group-hover:scale-110 transition-transform shrink-0"></i>
+          <span class="text-xs font-bold text-amber-200 whitespace-nowrap" data-i18n="whatnow">Was nun?</span>
         </button>
 
         <!-- Focus Mode Hook (Unsichtbar im Header, vollständig integriert in 'Was nun?' & Shortcut [F]) -->
@@ -1728,8 +1749,15 @@
                 </div>
               </div>
 
-              <!-- SECTION 3: WORKSPACE & PHONE LIVE-SYNC (Volle Breite & gut lesbarer Text) -->
+              <!-- SECTION 3: WORKSPACE, ROUTINES & SYNC (Volle Breite & gut lesbarer Text) -->
               <div class="space-y-1.5 pt-1 border-t border-white/10">
+                <button onclick="openRoutinePresetsModal(); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="w-full p-2.5 bg-gradient-to-r from-purple-500/15 to-indigo-500/15 hover:from-purple-500/25 hover:to-indigo-500/25 border border-purple-500/30 hover:border-purple-400 rounded-xl text-purple-200 text-left text-xs font-bold flex items-center justify-between transition cursor-pointer">
+                  <div class="flex items-center gap-2 min-w-0">
+                    <span class="text-sm shrink-0">✨</span>
+                    <span class="whitespace-nowrap font-bold">Routinen & Standards anpassen</span>
+                  </div>
+                  <i data-lucide="sliders" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
+                </button>
                 <button id="btn-workspace-toggle" onclick="toggleWorkspace();" class="w-full p-2.5 bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 rounded-xl text-purple-200 text-left text-xs font-bold flex items-center justify-between transition cursor-pointer" data-i18n-title="workspace_private">
                   <div class="flex items-center gap-2 min-w-0">
                     <span id="ws-toggle-icon" class="text-sm shrink-0">🏠</span>
@@ -1748,16 +1776,11 @@
             </div>
           </div>
 
-          <!-- 3. Reset Board (Dezent im Header) -->
-          <button onclick="handleReset()" class="h-9 w-9 md:h-[36.5px] md:w-[36.5px] p-0 border border-white/10 hover:border-rose-500/40 rounded-xl bg-white/[0.03] hover:bg-rose-500/15 active:scale-95 text-gray-400 hover:text-rose-300 flex items-center justify-center cursor-pointer transition shrink-0" title="Board zurücksetzen (Reset)" aria-label="Board zurücksetzen">
-            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
-          </button>
-
-          <!-- 4. Sound Master Toggle & Hover Volume Slider (rechts von Optionen) -->
-          <div id="header-btn-sound-container" class="relative group/sound-wrapper cursor-pointer" onmouseenter="showSoundHoverSlider()" onmouseleave="hideSoundHoverSlider()" onclick="toggleSoundVolumePopover(event)">
-            <button id="header-btn-sound-toggle" onclick="toggleMasterSound()" class="h-9 w-9 md:h-[36.5px] md:w-[36.5px] p-0 border border-purple-500/30 hover:border-purple-400/60 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_12px_rgba(168,85,247,0.12)] shrink-0 group/sound-btn opacity-90 hover:opacity-100">
+          <!-- 3. Sound Master Toggle & Hover Volume Slider (Rechts nach Optionen) -->
+          <div id="header-btn-sound-container" class="relative group/sound-wrapper cursor-pointer shrink-0" onmouseenter="showSoundHoverSlider()" onmouseleave="hideSoundHoverSlider()" onclick="toggleSoundVolumePopover(event)">
+            <button id="header-btn-sound-toggle" onclick="toggleMasterSound()" class="h-9 md:h-[36.5px] px-2.5 2xl:px-3 border border-purple-500/30 hover:border-purple-400/60 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_12px_rgba(168,85,247,0.12)] shrink-0 group/sound-btn opacity-90 hover:opacity-100" title="Lautstärke & Sound-Mute" aria-label="Lautstärke & Sound-Mute">
               <span id="header-sound-icon-wrapper" class="flex items-center justify-center">
-                <i data-lucide="volume-x" class="w-3.5 h-3.5 text-purple-300/80 group-hover/sound-btn:text-purple-200"></i>
+                <i data-lucide="volume-x" class="w-4 h-4 text-purple-300/80 group-hover/sound-btn:text-purple-200"></i>
               </span>
               <span id="header-sound-eq-bars" class="hidden items-end gap-[1.5px] h-3 ml-0.5">
                 <span class="w-[2px] h-1.5 bg-purple-400 rounded-full animate-bounce [animation-delay:0ms]"></span>
@@ -1766,8 +1789,8 @@
               </span>
             </button>
 
-            <!-- Discreet Vertical Volume Slider on Hover -->
-            <div id="header-sound-volume-popover" class="hidden group-hover/sound-wrapper:flex absolute right-0 top-[calc(100%+6px)] z-[130] w-9 py-2 bg-[#0e0e16]/95 border border-purple-500/40 rounded-2xl shadow-2xl backdrop-blur-xl flex-col items-center justify-between gap-1.5 animate-fade-in text-center pointer-events-auto select-none" onclick="event.stopPropagation()">
+            <!-- Discreet Vertical Volume Slider on Hover (Right-aligned in dropdown) -->
+            <div id="header-sound-volume-popover" class="hidden group-hover/sound-wrapper:flex absolute right-0 top-[calc(100%+8px)] z-[160] w-9 py-2 bg-[#0e0e16]/95 border border-purple-500/40 rounded-2xl shadow-2xl backdrop-blur-xl flex-col items-center justify-between gap-1.5 animate-fade-in text-center pointer-events-auto select-none" onclick="event.stopPropagation()">
               <span id="header-sound-volume-percent" class="text-[9px] font-mono font-bold text-purple-200 leading-none">50%</span>
               <div class="h-[90px] flex items-center justify-center my-0.5">
                 <input type="range" orient="vertical" min="0" max="1" step="0.01" value="0.5" id="header-sound-volume-slider" oninput="handleHeaderVolumeInput(this.value)" class="vertical-header-volume-slider master-volume-slider cursor-pointer" title="Lautstärke">
@@ -1786,25 +1809,45 @@
 
     <!-- BOARD SUB-HEADER / DISCREET TOP BAR (DESKTOP & MOBILE) -->
     <div id="board-top-bar" class="relative z-20 flex items-center justify-between gap-2 mb-2 px-1 text-xs select-none">
-      <!-- DYNAMIC UNDO BUTTON (Links oberhalb der Listen) -->
-      <div id="board-undo-wrapper" class="flex items-center gap-1.5 shrink-0">
-        <button id="btn-board-undo" onclick="handleUndo()" class="hidden px-2.5 py-1 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/35 hover:border-amber-400 text-amber-200 hover:text-white transition flex items-center gap-1.5 text-xs font-bold cursor-pointer shadow-sm active:scale-95 animate-fade-in group/undo" title="Letzte Aktion rückgängig machen (Ctrl+Z)">
-          <i data-lucide="undo-2" class="w-3.5 h-3.5 text-amber-300 group-hover/undo:-rotate-45 transition-transform"></i>
-          <span class="text-[11px] sm:text-xs">Rückgängig</span>
-        </button>
-      </div>
-
       <!-- MOBILE: Horizontale Wisch-Leiste für Kategorie-Pills (nur auf Touch/Mobile sichtbar) -->
       <nav id="mobile-category-tabs" class="mobile-category-tabs flex-1 min-w-0" aria-label="Kategorien"></nav>
+
+      <!-- DYNAMIC CONTROLS (Rechts oberhalb der Listen: Spalten anpassen, Undo & Reset) -->
+      <div id="board-undo-wrapper" class="flex items-center gap-2.5 sm:gap-3.5 shrink-0 relative ml-auto">
+        <!-- SPALTEN ANPASSEN HOVER-MENÜ WRAPPER (dezent-minimal, vergrößert sich flüssig bei Hover) -->
+        <div id="columns-menu-wrapper" class="relative" onmouseenter="cancelCloseColumnsDropdown()" onmouseleave="scheduleCloseColumnsDropdown()">
+          <button id="btn-board-columns" onclick="toggleColumnsDropdown(event)" onmouseenter="openColumnsDropdown(this)" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/25 border border-purple-500/20 hover:border-purple-400/60 text-purple-200/80 hover:text-purple-100 transition-all duration-200 hover:scale-110 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(168,85,247,0.25)] group/cols shrink-0" title="Spalten anpassen & Liste hinzufügen (Reihenfolge, Ein-/Ausblenden, Neue Liste) ⚙️">
+            <i data-lucide="sliders" class="w-3 h-3 text-purple-300/80 group-hover/cols:text-purple-300 group-hover/cols:rotate-90 transition-transform"></i>
+            <span class="text-[10px] sm:text-[11px]" data-i18n="board_columns">Spalten anpassen</span>
+          </button>
+
+          <!-- HOVER DROPDOWN FOR SPALTEN ANPASSEN & LISTE HINZUFÜGEN (nach links ausklappend) -->
+          <div id="dropdown-manage-columns" class="hidden absolute right-0 top-[calc(100%+6px)] z-[250] w-[320px] sm:w-[350px] p-3.5 bg-[#12111e]/98 border border-purple-500/35 rounded-2xl shadow-[0_15px_45px_rgba(0,0,0,0.8),0_0_25px_rgba(168,85,247,0.25)] backdrop-blur-2xl text-white space-y-3 animate-fade-in" onclick="event.stopPropagation()">
+            <!-- Dynamisch befüllt via renderColumnsDropdownContent() -->
+          </div>
+        </div>
+
+        <!-- RÜCKGÄNGIG BUTTON (nach Spalten anpassen, dezent-minimal, vergrößert sich flüssig bei Hover) -->
+        <button id="btn-board-undo" onclick="handleUndo()" class="hidden px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/25 border border-amber-500/20 hover:border-amber-400/60 text-amber-200/80 hover:text-amber-100 transition-all duration-200 hover:scale-110 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(245,158,11,0.25)] animate-fade-in group/undo shrink-0" title="Letzte Aktion rückgängig machen (Ctrl+Z)" data-i18n-title="title_undo">
+          <i data-lucide="undo-2" class="w-3 h-3 text-amber-300/80 group-hover/undo:text-amber-300 group-hover/undo:-rotate-45 transition-transform"></i>
+          <span class="text-[10px] sm:text-[11px]" data-i18n="board_undo">Rückgängig</span>
+        </button>
+
+        <!-- RESET BUTTON (rechts nach Spalten anpassen & Undo, dezent-minimal, vergrößert sich flüssig bei Hover) -->
+        <button id="btn-board-reset" onclick="handleReset()" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/25 border border-rose-500/20 hover:border-rose-400/60 text-rose-200/80 hover:text-rose-100 transition-all duration-200 hover:scale-110 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(244,63,94,0.25)] group/reset shrink-0" title="Board zurücksetzen (Reset)" data-i18n-title="title_reset" aria-label="Board zurücksetzen">
+          <i data-lucide="rotate-ccw" class="w-3 h-3 text-rose-300/80 group-hover/reset:text-rose-300 group-hover/reset:-rotate-90 transition-transform"></i>
+          <span class="text-[10px] sm:text-[11px]" data-i18n="board_reset">Reset</span>
+        </button>
+      </div>
     </div>
 
     <!-- DASHBOARD 7-COLUMN GRID (100% Breite) -->
-    <main id="main-content" class="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3.5 flex-1 w-full min-h-0 items-start">
+    <main id="main-content" class="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-2.5 2xl:gap-3.5 flex-1 w-full min-h-0 items-start">
       <!-- Generated columns via JS -->
     </main>
 
-    <!-- FLOATING BOTTOM-RIGHT: + LISTE HINZUFÜGEN -->
-    <div id="floating-add-list-container" class="fixed bottom-3 right-3 sm:bottom-4 sm:right-4 z-40 select-none">
+    <!-- FLOATING BOTTOM-RIGHT (integriert in Spalten anpassen; Fallback Container) -->
+    <div id="floating-add-list-container" class="hidden fixed bottom-3 right-3 sm:bottom-4 sm:right-4 z-40 select-none">
       <div class="relative flex items-center">
         <button id="btn-add-list-bottom" onclick="toggleAddListPopover(event)" class="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-2xl bg-[#141422]/95 hover:bg-purple-600/30 border border-purple-500/40 hover:border-purple-400 text-gray-200 hover:text-white transition flex items-center gap-2 text-xs font-bold cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_20px_rgba(168,85,247,0.25)] backdrop-blur-xl active:scale-95 group/addlist" title="Neue Liste erstellen">
           <i data-lucide="plus" class="w-4 h-4 text-purple-400 group-hover/addlist:scale-110 transition-transform"></i>
@@ -2283,6 +2326,18 @@
             <div>
               <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_shop_title">Einkaufsliste</h4>
               <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_shop_sub">Artikel & Mengen</p>
+            </div>
+          </div>
+
+          <!-- Grundreinigung & Putz-Guide -->
+          <div onclick="if(typeof openCleaningGuideModal==='function') openCleaningGuideModal(); closeHubModal();" class="p-4 rounded-2xl bg-gradient-to-br from-emerald-950/50 to-[#12121a] border border-emerald-500/40 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">🧹</span>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold" data-i18n="clean_guide_title_short">Putz-Guide</span>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="clean_guide_title">Grundreinigung</h4>
+              <p class="text-[10px] text-emerald-300 mt-0.5">4 Modi & Timer</p>
             </div>
           </div>
 
@@ -4079,6 +4134,16 @@
           <div>
             <div class="text-xs font-bold text-white leading-tight" data-i18n="dock_clarity">Klarheit</div>
             <div class="text-[10px] text-gray-400" data-i18n="clarity_subtitle">Impulskontrolle & Reflexion</div>
+          </div>
+        </button>
+
+        <button onclick="closeMobileToolsSheet(); if(typeof openCleaningGuideModal==='function') openCleaningGuideModal();" class="p-3 bg-white/[0.03] border border-white/10 rounded-2xl text-left hover:bg-white/[0.08] active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white leading-tight" data-i18n="clean_guide_title">Grundreinigung & Putz-Guide</div>
+            <div class="text-[10px] text-gray-400">15m, 45m, 90m & ADHD-Modus</div>
           </div>
         </button>
 
