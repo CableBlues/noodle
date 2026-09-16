@@ -565,7 +565,8 @@ function setLogoAnimationMode(modeIndexOrName) {
   const targetMode = NOODLE_LOGO_MODES[_currentLogoModeIdx];
   container.classList.add(targetMode.id);
   container.setAttribute('data-logo-mode', targetMode.id);
-  container.setAttribute('title', `Noodle Studio • ${targetMode.name} (Klick für nächsten Modus)`);
+  container.setAttribute('title', 'Onboarding & Feedback');
+  container.setAttribute('data-noodle-tooltip', 'Onboarding & Feedback');
 
   // Tab-Favicon synchron mitbewegen
   if (typeof animateFavicon === 'function') {
