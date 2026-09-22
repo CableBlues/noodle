@@ -228,8 +228,12 @@ function setTaskColor(columnId, index, color, e) {
 
 function saveCategoriesOrder() {
   try {
-    const isWork = state && state.activeWorkspace === 'work';
-    if (isWork) {
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    if (ws === 'study') {
+      if (typeof studyCategoriesOrder !== 'undefined' && Array.isArray(studyCategoriesOrder)) {
+        localStorage.setItem('flow_study_categories_order', JSON.stringify(studyCategoriesOrder));
+      }
+    } else if (ws === 'work') {
       if (typeof workCategoriesOrder !== 'undefined' && Array.isArray(workCategoriesOrder)) {
         localStorage.setItem('flow_work_categories_order', JSON.stringify(workCategoriesOrder));
       }
@@ -241,6 +245,17 @@ function saveCategoriesOrder() {
   } catch (err) {
     console.warn('[Categories] Error saving categories order:', err);
   }
+}
+
+function getActiveCategoriesOrder() {
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (ws === 'study') {
+    return (typeof window !== 'undefined' && window.studyCategoriesOrder) ? window.studyCategoriesOrder : (studyCategoriesOrder || (typeof STUDY_CATEGORIES_ORDER !== 'undefined' ? STUDY_CATEGORIES_ORDER : []));
+  }
+  if (ws === 'work') {
+    return (typeof window !== 'undefined' && window.workCategoriesOrder) ? window.workCategoriesOrder : (workCategoriesOrder || (typeof WORK_CATEGORIES_ORDER !== 'undefined' ? WORK_CATEGORIES_ORDER : []));
+  }
+  return (typeof window !== 'undefined' && window.categoriesOrder) ? window.categoriesOrder : (categoriesOrder || (typeof CATEGORIES_ORDER !== 'undefined' ? CATEGORIES_ORDER : []));
 }
 
 function toggleAddListPopover(e, forceState = null) {
@@ -277,8 +292,7 @@ function submitNewListTop() {
     return;
   }
   const icon = iconSelect ? iconSelect.value : 'layers';
-  const isWork = state && state.activeWorkspace === 'work';
-  const targetList = isWork ? (workCategoriesOrder || WORK_CATEGORIES_ORDER) : categoriesOrder;
+  const targetList = getActiveCategoriesOrder();
   const colId = `custom_${Date.now()}`;
 
   saveHistory();
@@ -317,10 +331,854 @@ function submitAddListInline() {
   submitNewListTop();
 }
 
+let openColumnOptionsMenuId = null;
+let columnMenuCloseTimer = null;
+
+function cancelCloseColumnOptionsMenu() {
+  if (columnMenuCloseTimer) {
+    clearTimeout(columnMenuCloseTimer);
+    columnMenuCloseTimer = null;
+  }
+}
+
+function scheduleCloseColumnOptionsMenu(delay = 220) {
+  cancelCloseColumnOptionsMenu();
+  columnMenuCloseTimer = setTimeout(() => {
+    closeColumnOptionsMenu();
+  }, delay);
+}
+
+function closeColumnOptionsMenu() {
+  cancelCloseColumnOptionsMenu();
+  const existing = document.getElementById('column-options-dropdown');
+  if (existing) existing.remove();
+  openColumnOptionsMenuId = null;
+}
+
+function openColumnOptionsMenu(colId, btnEl) {
+  cancelCloseColumnOptionsMenu();
+  if (openColumnOptionsMenuId === colId && document.getElementById('column-options-dropdown')) {
+    return;
+  }
+  closeColumnOptionsMenu();
+  openColumnOptionsMenuId = colId;
+
+  const btn = btnEl || null;
+  const activeOrder = getActiveCategoriesOrder();
+  const entry = (activeOrder || []).find(([id]) => id === colId);
+  const listTitle = (entry && entry[2]) || t(colId);
+  const curItems = getCurrentWorkspaceItems();
+  const isDone = colId === 'done';
+  const taskCount = isDone ? (getCurrentWorkspaceDone() || []).length : (curItems[colId] || []).length;
+
+  const dropdown = document.createElement('div');
+  dropdown.id = 'column-options-dropdown';
+  dropdown.className = 'fixed z-[100000] w-48 bg-[#12111a]/95 border border-white/15 rounded-2xl shadow-[0_16px_48px_rgba(0,0,0,0.75)] backdrop-blur-2xl p-1.5 text-xs text-gray-200 animate-fade-in divide-y divide-white/[0.08] space-y-1';
+  dropdown.onmouseenter = cancelCloseColumnOptionsMenu;
+  dropdown.onmouseleave = () => scheduleCloseColumnOptionsMenu(200);
+
+  let actionsHtml = '';
+  let cleaningMenuHtml = '';
+  if (colId === 'weekly' || colId === 'work_in_progress') {
+    cleaningMenuHtml = `
+      <div class="py-0.5 pb-1 border-b border-white/10">
+        <button onclick="if(typeof openCleaningGuideModal === 'function') openCleaningGuideModal(); closeColumnOptionsMenu();" class="w-full px-2 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 hover:text-emerald-100 font-bold transition flex items-center justify-between cursor-pointer border border-emerald-500/30">
+          <div class="flex items-center gap-1.5 min-w-0">
+            <span class="text-sm">🧹</span>
+            <span class="truncate font-bold">${tr({ de: 'Putz-Guide & Routinen', en: 'Cleaning Guide & Routines', fr: 'Guide de ménage', it: 'Guida pulizie', es: 'Guía de limpieza', el: 'Οδηγός καθαρισμού' })}</span>
+          </div>
+          <span class="text-[9px] font-mono px-1 py-0.5 rounded bg-emerald-500/40 text-emerald-200 shrink-0 ml-1">4 Levels ↗</span>
+        </button>
+      </div>
+    `;
+  }
+  if (isDone) {
+    actionsHtml = `
+      <div class="py-0.5 space-y-0.5">
+        <button onclick="clearCompletedInColumn('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-emerald-500/15 text-emerald-300 hover:text-emerald-200 transition flex items-center gap-2 text-left cursor-pointer">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+          <span>${tr({ de: 'Erledigte aufräumen', en: 'Clear completed', fr: 'Nettoyer les terminées', it: 'Pulisci completate', es: 'Limpiar completadas', el: 'Καθαρισμός ολοκληρωμένων' })}</span>
+        </button>
+        <button onclick="archiveColumnTasks('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-white/10 hover:text-white transition flex items-center gap-2 text-left cursor-pointer">
+          <i data-lucide="archive" class="w-3.5 h-3.5 text-cyan-400 shrink-0"></i>
+          <span>${tr({ de: 'Archivieren', en: 'Archive', fr: 'Archiver', it: 'Archivia', es: 'Archivar', el: 'Αρχειοθέτηση' })}</span>
+        </button>
+        <button onclick="clearColumnTasks('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-rose-500/15 text-rose-300 hover:text-rose-200 transition flex items-center gap-2 text-left cursor-pointer">
+          <i data-lucide="eraser" class="w-3.5 h-3.5 text-rose-400 shrink-0"></i>
+          <span>${tr({ de: 'Spalte leeren', en: 'Clear column', fr: 'Vider la colonne', it: 'Svuota colonna', es: 'Vaciar columna', el: 'Άδειασμα στήλης' })}</span>
+        </button>
+      </div>
+    `;
+  } else {
+    actionsHtml = `
+      ${cleaningMenuHtml}
+      <div class="py-0.5 space-y-0.5">
+        <button onclick="archiveColumnTasks('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-white/10 hover:text-white transition flex items-center gap-2 text-left cursor-pointer">
+          <i data-lucide="archive" class="w-3.5 h-3.5 text-cyan-400 shrink-0"></i>
+          <span>${tr({ de: 'Archivieren', en: 'Archive', fr: 'Archiver', it: 'Archivia', es: 'Archivar', el: 'Αρχειοθέτηση' })}</span>
+        </button>
+        <button onclick="clearColumnTasks('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-rose-500/15 text-rose-300 hover:text-rose-200 transition flex items-center gap-2 text-left cursor-pointer">
+          <i data-lucide="eraser" class="w-3.5 h-3.5 text-rose-400 shrink-0"></i>
+          <span>${tr({ de: 'Spalte leeren', en: 'Clear column', fr: 'Vider la colonne', it: 'Svuota colonna', es: 'Vaciar columna', el: 'Άδειασμα στήλης' })}</span>
+        </button>
+      </div>
+      <div class="py-0.5 space-y-0.5">
+        <button onclick="renameColumn('${colId}', event); closeColumnOptionsMenu();" class="w-full px-2 py-1.5 rounded-xl hover:bg-white/10 hover:text-white transition flex items-center gap-2 text-left cursor-pointer">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
+          <span>${tr({ de: 'Umbenennen', en: 'Rename', fr: 'Renommer', it: 'Rinomina', es: 'Renombrar', el: 'Μετονομασία' })}</span>
+        </button>
+        <button onclick="deleteColumn('${colId}', event); closeColumnOptionsMenu();" class="w-full px-2 py-1.5 rounded-xl hover:bg-rose-500/15 text-rose-300 hover:text-rose-200 transition flex items-center gap-2 text-left cursor-pointer">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-400 shrink-0"></i>
+          <span>${tr({ de: 'Spalte entfernen', en: 'Remove column', fr: 'Supprimer la colonne', it: 'Rimuovi colonna', es: 'Eliminar columna', el: 'Αφαίρεση στήλης' })}</span>
+        </button>
+      </div>
+    `;
+  }
+
+  dropdown.innerHTML = `
+    <div class="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
+      <span class="truncate max-w-[120px] text-white">${escapeHtml(listTitle)}</span>
+      <span class="text-gray-400 font-mono text-[9px] px-1.5 py-0.2 rounded bg-white/5 border border-white/10">${taskCount}</span>
+    </div>
+    ${actionsHtml}
+  `;
+
+  document.body.appendChild(dropdown);
+  if (typeof renderLucideIcons === 'function') renderLucideIcons(false, dropdown);
+
+  if (btn) {
+    const rect = btn.getBoundingClientRect();
+    const dropdownRect = dropdown.getBoundingClientRect();
+    let top = rect.bottom + 6;
+    let left = rect.right - dropdownRect.width;
+
+    if (left < 10) left = 10;
+    if (left + dropdownRect.width > window.innerWidth - 10) {
+      left = window.innerWidth - dropdownRect.width - 10;
+    }
+    if (top + dropdownRect.height > window.innerHeight - 10) {
+      top = rect.top - dropdownRect.height - 6;
+    }
+
+    dropdown.style.top = `${Math.max(10, top)}px`;
+    dropdown.style.left = `${Math.max(10, left)}px`;
+  }
+}
+
+function toggleColumnOptionsMenu(colId, e) {
+  if (e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+  if (openColumnOptionsMenuId === colId && document.getElementById('column-options-dropdown')) {
+    closeColumnOptionsMenu();
+  } else {
+    const btn = e ? e.currentTarget : null;
+    openColumnOptionsMenu(colId, btn);
+  }
+}
+
+async function clearColumnTasks(colId, e) {
+  if (e) e.stopPropagation();
+  closeColumnOptionsMenu();
+  const curItems = getCurrentWorkspaceItems();
+  const isDone = colId === 'done';
+  const taskList = isDone ? (getCurrentWorkspaceDone() || []) : (curItems[colId] || []);
+  const taskCount = taskList.length;
+  if (taskCount === 0) {
+    showToast(tr({ de: 'Die Liste ist bereits leer! ℹ️', en: 'List is already empty! ℹ️', fr: 'La liste est déjà vide ! ℹ️', it: 'La lista è già vuota! ℹ️', es: '¡La lista ya está vacía! ℹ️', el: 'Η λίστα είναι ήδη άδεια! ℹ️' }));
+    return;
+  }
+  
+  const activeOrder = getActiveCategoriesOrder();
+  const entry = (activeOrder || []).find(([id]) => id === colId);
+  const listTitle = (entry && entry[2]) || t(colId);
+
+  saveHistory();
+  if (isDone) {
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    if (ws === 'study') {
+      state.studyDone = [];
+    } else if (ws === 'work') {
+      state.workDone = [];
+    } else {
+      state.done = [];
+    }
+  } else {
+    curItems[colId] = [];
+  }
+  
+  saveState();
+  renderApp();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+  if (typeof updateZenView === 'function') updateZenView();
+
+  showToast(tr({
+    de: `Spalte "${listTitle}" geleert (${taskCount} Aufgaben) 🗑️`,
+    en: `Column "${listTitle}" cleared (${taskCount} tasks) 🗑️`,
+    fr: `Colonne "${listTitle}" vidée (${taskCount} tâches) 🗑️`,
+    it: `Colonna "${listTitle}" svuotata (${taskCount} attività) 🗑️`,
+    es: `Columna "${listTitle}" vaciada (${taskCount} tareas) 🗑️`,
+    el: `Η στήλη "${listTitle}" άδειασε (${taskCount} εργασίες) 🗑️`
+  }), { undo: true, duration: 5000 });
+}
+
+async function archiveColumnTasks(colId, e) {
+  if (e) e.stopPropagation();
+  closeColumnOptionsMenu();
+  const curItems = getCurrentWorkspaceItems();
+  const isDone = colId === 'done';
+  const taskList = isDone ? (getCurrentWorkspaceDone() || []) : (curItems[colId] || []);
+  const taskCount = taskList.length;
+  if (taskCount === 0) {
+    showToast(tr({ de: 'Keine Aufgaben zum Archivieren vorhanden! ℹ️', en: 'No tasks to archive! ℹ️', fr: 'Aucune tâche à archiver ! ℹ️', it: 'Nessuna attività da archiviare! ℹ️', es: '¡No hay tareas para archivar! ℹ️', el: 'Δεν υπάρχουν εργασίες για αρχειοθέτηση! ℹ️' }));
+    return;
+  }
+  
+  saveHistory();
+  if (!Array.isArray(state.archive)) state.archive = [];
+  
+  const now = new Date();
+  const dateStr = now.toISOString().split('T')[0];
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  taskList.forEach(item => {
+    const text = typeof item === 'object' ? (item.task || item.name || '') : String(item);
+    if (text) {
+      state.archive.push({
+        task: text,
+        origin: colId,
+        date: dateStr,
+        time: timeStr,
+        archivedAt: now.toISOString()
+      });
+    }
+  });
+
+  if (isDone) {
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    if (ws === 'study') state.studyDone = [];
+    else if (ws === 'work') state.workDone = [];
+    else state.done = [];
+  } else {
+    curItems[colId] = [];
+  }
+
+  saveState();
+  renderApp();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+  if (typeof updateZenView === 'function') updateZenView();
+
+  const activeOrder = getActiveCategoriesOrder();
+  const entry = (activeOrder || []).find(([id]) => id === colId);
+  const listTitle = (entry && entry[2]) || t(colId);
+
+  showToast(tr({
+    de: `${taskCount} Aufgaben aus "${listTitle}" ins Archiv verschoben 📦`,
+    en: `${taskCount} tasks from "${listTitle}" moved to archive 📦`,
+    fr: `${taskCount} tâches de "${listTitle}" archivées 📦`,
+    it: `${taskCount} attività da "${listTitle}" archiviate 📦`,
+    es: `${taskCount} tareas de "${listTitle}" archivadas 📦`,
+    el: `${taskCount} εργασίες από "${listTitle}" αρχειοθετήθηκαν 📦`
+  }), { undo: true, duration: 5000 });
+}
+
+function clearCompletedInColumn(colId, e) {
+  if (e) e.stopPropagation();
+  closeColumnOptionsMenu();
+  if (colId === 'done') {
+    clearColumnTasks(colId, e);
+    return;
+  }
+  const curItems = getCurrentWorkspaceItems();
+  const list = curItems[colId] || [];
+  const completedIndices = [];
+  list.forEach((item, idx) => {
+    if (typeof item === 'object' && (item.completed === true || item.status === 'stattgefunden' || item.checked === true)) {
+      completedIndices.push(idx);
+    }
+  });
+  
+  if (completedIndices.length === 0) {
+    const doneList = getCurrentWorkspaceDone() || [];
+    const doneFromCol = doneList.filter(d => d.origin === colId);
+    if (doneFromCol.length > 0) {
+      saveHistory();
+      if (state.activeWorkspace === 'work') {
+        state.workDone = (state.workDone || []).filter(d => d.origin !== colId);
+      } else {
+        state.done = (state.done || []).filter(d => d.origin !== colId);
+      }
+      saveState();
+      renderApp();
+      showToast(tr({
+        de: `${doneFromCol.length} erledigte Einträge von "${t(colId)}" aufgeräumt 🧹`,
+        en: `${doneFromCol.length} completed items of "${t(colId)}" cleared 🧹`
+      }), { undo: true, duration: 5000 });
+      return;
+    }
+    showToast(tr({ de: 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️', en: 'No completed tasks found to clear ℹ️' }));
+    return;
+  }
+
+  saveHistory();
+  curItems[colId] = list.filter((item, idx) => !completedIndices.includes(idx));
+  saveState();
+  renderApp();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+  if (typeof updateZenView === 'function') updateZenView();
+
+  showToast(tr({
+    de: `${completedIndices.length} erledigte Aufgaben aufgeräumt 🧹`,
+    en: `${completedIndices.length} completed tasks cleared 🧹`
+  }), { undo: true, duration: 5000 });
+}
+
+let columnsDropdownCloseTimer = null;
+
+function cancelCloseColumnsDropdown() {
+  if (columnsDropdownCloseTimer) {
+    clearTimeout(columnsDropdownCloseTimer);
+    columnsDropdownCloseTimer = null;
+  }
+}
+
+function scheduleCloseColumnsDropdown(delay = 280) {
+  cancelCloseColumnsDropdown();
+  columnsDropdownCloseTimer = setTimeout(() => {
+    closeColumnsDropdown();
+  }, delay);
+}
+
+function toggleColumnsDropdown(e) {
+  if (e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+  const dropdown = document.getElementById('dropdown-manage-columns');
+  if (!dropdown) {
+    openColumnsManagerModal();
+    return;
+  }
+  if (dropdown.classList.contains('hidden')) {
+    openColumnsDropdown();
+  } else {
+    closeColumnsDropdown();
+  }
+}
+
+function closeColumnsDropdown() {
+  const dropdown = document.getElementById('dropdown-manage-columns');
+  if (dropdown) dropdown.classList.add('hidden');
+}
+
+function openColumnsDropdown(triggerEl) {
+  cancelCloseColumnsDropdown();
+  const dropdown = document.getElementById('dropdown-manage-columns');
+  if (!dropdown) {
+    openColumnsManagerModal();
+    return;
+  }
+
+  renderColumnsDropdownContent(dropdown);
+  dropdown.classList.remove('hidden');
+  if (typeof renderLucideIcons === 'function') renderLucideIcons(false, dropdown);
+
+  const titleInput = dropdown.querySelector('#manage-columns-new-title');
+  if (titleInput && triggerEl && triggerEl._autoFocusInput) {
+    setTimeout(() => titleInput.focus(), 50);
+  }
+}
+
+function renderColumnsDropdownContent(dropdown) {
+  if (!dropdown) dropdown = document.getElementById('dropdown-manage-columns');
+  if (!dropdown) return;
+
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  const activeOrder = getActiveCategoriesOrder();
+  const activeIds = new Set((activeOrder || []).map(([id]) => id));
+  
+  let allPossibleColumns = [];
+  if (ws === 'study') {
+    allPossibleColumns = [
+      ['study_focus', 'target', t('study_focus')],
+      ['study_modules', 'book-open', t('study_modules')],
+      ['study_submissions', 'clock', t('study_submissions')],
+      ['study_deep', 'brain', t('study_deep')],
+      ['done', 'check-circle', t('done')],
+      ['termine', 'calendar', t('termine')],
+      ['notes', 'file-text', t('notes')]
+    ];
+  } else if (ws === 'work') {
+    allPossibleColumns = [
+      ['work_focus', 'target', t('work_focus')],
+      ['work_in_progress', 'zap', t('work_in_progress')],
+      ['work_waiting', 'hourglass', t('work_waiting')],
+      ['work_backlog', 'folder-kanban', t('work_backlog')],
+      ['done', 'check-circle', t('done')],
+      ['termine', 'clock', t('termine')],
+      ['notes', 'sticky-note', t('notes')]
+    ];
+  } else {
+    allPossibleColumns = [
+      ['daily', 'sun', t('daily')],
+      ['weekly', 'home', t('weekly')],
+      ['todo', 'list-todo', t('todo')],
+      ['done', 'check-circle-2', t('done')],
+      ['termine', 'calendar', t('termine')],
+      ['notes', 'file-text', t('notes')],
+      ['occasionally', 'clock', t('occasionally')]
+    ];
+  }
+
+  (activeOrder || []).forEach(([id, icon, title, isCustom]) => {
+    if ((isCustom || String(id).startsWith('custom_')) && !allPossibleColumns.some(([cid]) => cid === id)) {
+      allPossibleColumns.push([id, icon || 'layers', title || id, true]);
+    }
+  });
+
+  const curItems = getCurrentWorkspaceItems();
+  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠' });
+  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓' });
+  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼' });
+
+  dropdown.innerHTML = `
+    <div class="flex items-center justify-between pb-2 border-b border-white/10">
+      <div class="flex items-center gap-2">
+        <div class="w-6 h-6 rounded-lg bg-purple-500/20 border border-purple-500/35 flex items-center justify-center text-purple-300">
+          <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+        </div>
+        <div>
+          <h3 class="font-display font-bold text-xs text-white">${tr({ de: 'Spalten & Listen verwalten', en: 'Manage Columns & Lists' })}</h3>
+          <p class="text-[10px] text-gray-400">${wsName}</p>
+        </div>
+      </div>
+      <button onclick="closeColumnsDropdown()" class="w-5 h-5 rounded bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs font-bold transition cursor-pointer">✕</button>
+    </div>
+
+    <!-- NEUE LISTE ANLEGEN INLINE FORM -->
+    <div class="p-2.5 bg-purple-500/10 border border-purple-500/25 rounded-xl space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-[11px] font-bold text-purple-200 flex items-center gap-1.5">
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-purple-400"></i>
+          <span>${tr({ de: 'Neue Liste hinzufügen', en: 'Add new list' })}</span>
+        </span>
+      </div>
+      <div class="flex items-center gap-1.5">
+        <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der Liste...', en: 'List name...' })}" class="flex-1 px-2.5 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-purple-400" onkeydown="if(event.key==='Enter') submitAddListFromManager()">
+        <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-purple-200 focus:outline-none focus:border-purple-400 cursor-pointer">
+          <option value="layers">📑 Liste</option>
+          <option value="target">🎯 Fokus</option>
+          <option value="zap">⚡ Sprint</option>
+          <option value="book-open">📚 Studium</option>
+          <option value="graduation-cap">🎓 Uni</option>
+          <option value="brain">🧠 Deep Work</option>
+          <option value="check-circle-2">✅ Done</option>
+          <option value="flame">🔥 Wichtig</option>
+          <option value="heart">❤️ Leben</option>
+          <option value="briefcase">💼 Projekt</option>
+          <option value="calendar">📅 Termine</option>
+          <option value="sparkles">✨ Gewohnheit</option>
+        </select>
+        <button onclick="submitAddListFromManager()" class="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer shrink-0">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- SPALTEN LISTE -->
+    <div class="space-y-1 max-h-[220px] overflow-y-auto custom-scrollbar pr-1">
+      ${allPossibleColumns.map(([id, icon, title, isCustom]) => {
+        const isVisible = activeIds.has(id);
+        const count = id === 'done' ? (getCurrentWorkspaceDone() || []).length : (curItems[id] || []).length;
+        return `
+          <div class="flex items-center justify-between p-1.5 rounded-lg ${isVisible ? 'bg-white/5 border border-white/10' : 'bg-transparent border border-transparent opacity-60 hover:opacity-100'} transition">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="w-5 h-5 rounded flex items-center justify-center ${isVisible ? 'text-purple-300' : 'text-gray-500'}">
+                <i data-lucide="${icon || 'layers'}" class="w-3.5 h-3.5"></i>
+              </span>
+              <span class="text-xs font-medium text-gray-200 truncate max-w-[150px]">${escapeHtml(title)}</span>
+              <span class="text-[9px] font-mono text-gray-400">(${count})</span>
+            </div>
+            <div class="flex items-center gap-1">
+              <button onclick="toggleColumnVisibility('${id}')" class="px-2 py-0.5 rounded text-[10px] font-bold transition cursor-pointer ${isVisible ? 'bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30' : 'bg-white/10 text-gray-400 hover:text-white'}">
+                ${isVisible ? tr({ de: 'Aktiv', en: 'Active' }) : tr({ de: 'Ausgeblendet', en: 'Hidden' })}
+              </button>
+              ${isCustom ? `
+                <button onclick="deleteColumn('${id}', event)" class="p-1 text-gray-400 hover:text-rose-400 transition" title="${tr({ de: 'Löschen', en: 'Delete' })}">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('')}
+    </div>
+
+    <!-- FOOTER ACTIONS -->
+    <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
+      <div class="flex items-center gap-1.5">
+        <button onclick="resetColumnsToDefault()" class="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-medium text-gray-300 hover:text-white transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Standard-Spalten wiederherstellen', en: 'Restore default columns' })}">
+          <i data-lucide="rotate-ccw" class="w-3 h-3 text-amber-400"></i>
+          <span>${tr({ de: 'Standard', en: 'Default' })}</span>
+        </button>
+        <button onclick="handleClearAllLists(); closeColumnsDropdown();" class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 hover:border-rose-400/50 rounded-lg text-[10px] font-medium text-rose-300 hover:text-rose-200 transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Alle Aufgaben in den Spalten leeren', en: 'Clear all tasks in columns' })}">
+          <i data-lucide="eraser" class="w-3 h-3 text-rose-400"></i>
+          <span>${tr({ de: 'Spalten leeren', en: 'Clear columns' })}</span>
+        </button>
+      </div>
+      <button onclick="closeColumnsDropdown()" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] rounded-lg shadow transition cursor-pointer">
+        ${tr({ de: 'Fertig', en: 'Done' })}
+      </button>
+    </div>
+  `;
+}
+
+function submitAddListFromManager() {
+  const input = document.getElementById('manage-columns-new-title') || document.getElementById('input-new-list-title');
+  const iconSelect = document.getElementById('manage-columns-new-icon') || document.getElementById('select-new-list-icon');
+  if (!input) return;
+  const title = input.value.trim();
+  if (!title) {
+    input.focus();
+    return;
+  }
+  const icon = iconSelect ? iconSelect.value : 'layers';
+  let currentTargetList = getActiveCategoriesOrder();
+  const colId = `custom_${Date.now()}`;
+
+  saveHistory();
+  currentTargetList.push([colId, icon, title, true]);
+
+  // Ensure arrays exist in state items
+  const curItems = getCurrentWorkspaceItems();
+  if (curItems && !curItems[colId]) {
+    curItems[colId] = [];
+  }
+  if (state) {
+    const ws = state.activeWorkspace || 'private';
+    if (ws === 'study') {
+      if (!state.studyItems) state.studyItems = {};
+      if (!state.studyItems[colId]) state.studyItems[colId] = [];
+    } else if (ws === 'work') {
+      if (!state.workItems) state.workItems = {};
+      if (!state.workItems[colId]) state.workItems[colId] = [];
+    } else {
+      if (!state.items) state.items = {};
+      if (!state.items[colId]) state.items[colId] = [];
+    }
+  }
+
+  saveCategoriesOrder();
+  saveState();
+  renderApp();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+
+  if (typeof setMobileCategory === 'function') {
+    setMobileCategory(colId);
+  }
+
+  showToast(tr({
+    de: `Neue Liste "${title}" erstellt! 📋`,
+    en: `New list "${title}" created! 📋`,
+    es: `¡Nueva lista "${title}" creada! 📋`,
+    fr: `Nouvelle liste "${title}" créée ! 📋`,
+    it: `Nuova lista "${title}" creata! 📋`,
+    el: `Νέα λίστα "${title}" δημιουργήθηκε! 📋`
+  }), { undo: true });
+
+  const dropdown = document.getElementById('dropdown-manage-columns');
+  if (dropdown && !dropdown.classList.contains('hidden')) {
+    renderColumnsDropdownContent(dropdown);
+    if (typeof renderLucideIcons === 'function') renderLucideIcons(false, dropdown);
+  }
+
+  const modal = document.getElementById('modal-manage-columns');
+  if (modal && !modal.classList.contains('hidden')) {
+    openColumnsManagerModal();
+  }
+}
+
+function openColumnsManagerModal() {
+  let modal = document.getElementById('modal-manage-columns');
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'modal-manage-columns';
+    modal.className = 'fixed inset-0 z-[150000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in';
+    document.body.appendChild(modal);
+  }
+
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  const activeOrder = getActiveCategoriesOrder();
+  const activeIds = new Set((activeOrder || []).map(([id]) => id));
+  
+  let allPossibleColumns = [];
+  if (ws === 'study') {
+    allPossibleColumns = [
+      ['study_focus', 'target', t('study_focus')],
+      ['study_modules', 'book-open', t('study_modules')],
+      ['study_submissions', 'clock', t('study_submissions')],
+      ['study_deep', 'brain', t('study_deep')],
+      ['done', 'check-circle', t('done')],
+      ['termine', 'calendar', t('termine')],
+      ['notes', 'file-text', t('notes')]
+    ];
+  } else if (ws === 'work') {
+    allPossibleColumns = [
+      ['work_focus', 'target', t('work_focus')],
+      ['work_in_progress', 'zap', t('work_in_progress')],
+      ['work_waiting', 'hourglass', t('work_waiting')],
+      ['work_backlog', 'folder-kanban', t('work_backlog')],
+      ['done', 'check-circle', t('done')],
+      ['termine', 'clock', t('termine')],
+      ['notes', 'sticky-note', t('notes')]
+    ];
+  } else {
+    allPossibleColumns = [
+      ['daily', 'sun', t('daily')],
+      ['weekly', 'home', t('weekly')],
+      ['todo', 'list-todo', t('todo')],
+      ['done', 'check-circle-2', t('done')],
+      ['termine', 'calendar', t('termine')],
+      ['notes', 'file-text', t('notes')],
+      ['occasionally', 'clock', t('occasionally')]
+    ];
+  }
+
+  (activeOrder || []).forEach(([id, icon, title, isCustom]) => {
+    if ((isCustom || String(id).startsWith('custom_')) && !allPossibleColumns.some(([cid]) => cid === id)) {
+      allPossibleColumns.push([id, icon || 'layers', title || id, true]);
+    }
+  });
+
+  const curItems = getCurrentWorkspaceItems();
+  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠' });
+  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓' });
+  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼' });
+
+  modal.innerHTML = `
+    <div class="relative w-full max-w-md bg-[#121118]/95 border border-white/15 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-5 sm:p-6 text-white space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/35 flex items-center justify-center text-purple-300">
+            <i data-lucide="sliders" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="font-display font-black text-sm text-white">${tr({ de: 'Spalten verwalten & Liste hinzufügen', en: 'Manage Columns & Add List' })}</h3>
+            <p class="text-[11px] text-gray-400">${wsName}</p>
+          </div>
+        </div>
+        <button onclick="closeColumnsManagerModal()" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center text-sm font-bold transition cursor-pointer">✕</button>
+      </div>
+
+      <!-- HARMONIOUS INLINE "NEUE LISTE ANLEGEN" SECTION -->
+      <div class="p-3 bg-purple-500/10 border border-purple-500/25 rounded-2xl space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-purple-200 flex items-center gap-1.5">
+            <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-purple-400"></i>
+            <span>${tr({ de: 'Neue Liste anlegen', en: 'Create New List' })}</span>
+          </span>
+        </div>
+        <div class="flex items-center gap-2">
+          <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der neuen Liste...', en: 'New list name...' })}"
+            class="flex-1 min-w-0 px-2.5 py-1.5 bg-black/50 border border-white/15 focus:border-purple-400 text-white text-xs rounded-xl focus:outline-none placeholder:text-gray-500 shadow-inner font-medium"
+            onkeydown="if(event.key === 'Enter') submitAddListFromManager();" />
+          <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/50 border border-white/15 text-xs text-gray-200 rounded-xl focus:outline-none focus:border-purple-400 cursor-pointer">
+            <option value="layers">🗂️ Standard</option>
+            <option value="list-todo">📝 Todo</option>
+            <option value="sparkles">✨ Highlights</option>
+            <option value="target">🎯 Fokus</option>
+            <option value="zap">⚡ Sprint</option>
+            <option value="book-open">📚 Studium</option>
+            <option value="graduation-cap">🎓 Uni</option>
+            <option value="brain">🧠 Deep Work</option>
+            <option value="bookmark">🔖 Gemerkt</option>
+            <option value="folder">📁 Projekt</option>
+            <option value="heart">❤️ Wünsche</option>
+            <option value="shopping-bag">🛍️ Shopping</option>
+            <option value="code">💻 Code</option>
+          </select>
+          <button onclick="submitAddListFromManager()" class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center gap-1 shrink-0">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>${tr({ de: 'Hinzufügen', en: 'Add' })}</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="space-y-1.5 max-h-[280px] overflow-y-auto pr-1 custom-scrollbar">
+        ${allPossibleColumns.map(([id, icon, label, isCustom]) => {
+          const isActive = activeIds.has(id);
+          const count = id === 'done' ? (getCurrentWorkspaceDone() || []).length : (curItems[id] || []).length;
+          return `
+            <div class="p-2.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 flex items-center justify-between gap-3 transition">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="w-7 h-7 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-purple-300 shrink-0">
+                  <i data-lucide="${icon || 'layers'}" class="w-3.5 h-3.5"></i>
+                </span>
+                <div class="truncate">
+                  <div class="flex items-center gap-1.5">
+                    <p class="text-xs font-bold text-gray-200 truncate">${escapeHtml(label)}</p>
+                    ${isCustom ? `<span class="text-[9px] px-1.5 py-0.5 bg-purple-500/20 text-purple-300 rounded font-medium border border-purple-500/30">Custom</span>` : ''}
+                  </div>
+                  <p class="text-[10px] text-gray-400 font-mono">${count} ${tr({ de: 'Aufgaben', en: 'tasks' })}</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button onclick="toggleColumnVisibility('${id}')" class="px-2.5 py-1 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${isActive ? 'bg-purple-600/30 text-purple-200 border border-purple-400/40 shadow-sm' : 'bg-white/5 text-gray-400 border border-white/10 hover:text-white'}">
+                  <span>${isActive ? tr({ de: 'Aktiv ✓', en: 'Active ✓' }) : tr({ de: 'Ausgeblendet', en: 'Hidden' })}</span>
+                </button>
+                ${isCustom ? `
+                  <button onclick="deleteColumn('${id}').then(() => openColumnsManagerModal())" class="p-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 transition cursor-pointer" title="${tr({ de: 'Liste löschen', en: 'Delete list' })}">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
+        <button onclick="resetColumnsToDefault()" class="px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-medium text-gray-300 hover:text-white transition cursor-pointer flex items-center gap-1.5">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>${tr({ de: 'Standard wiederherstellen', en: 'Reset to default' })}</span>
+        </button>
+        <button onclick="closeColumnsManagerModal()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-lg transition cursor-pointer">
+          ${tr({ de: 'Fertig', en: 'Done' })}
+        </button>
+      </div>
+    </div>
+  `;
+
+  modal.classList.remove('hidden');
+  if (typeof renderLucideIcons === 'function') renderLucideIcons(false, modal);
+}
+
+function closeColumnsManagerModal() {
+  const modal = document.getElementById('modal-manage-columns');
+  if (modal) modal.classList.add('hidden');
+}
+
+function toggleColumnVisibility(colId) {
+  let activeOrder = getActiveCategoriesOrder();
+  const idx = activeOrder.findIndex(([id]) => id === colId);
+
+  saveHistory();
+  if (idx !== -1) {
+    if (activeOrder.length <= 1) {
+      showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!' }));
+      return;
+    }
+    activeOrder.splice(idx, 1);
+  } else {
+    const defaultIconMap = {
+      daily: 'sun', weekly: 'home', todo: 'list-todo', done: 'check-circle-2',
+      termine: 'calendar', notes: 'file-text', occasionally: 'clock',
+      work_focus: 'target', work_in_progress: 'zap', work_waiting: 'hourglass', work_backlog: 'folder-kanban',
+      study_focus: 'target', study_modules: 'book-open', study_submissions: 'clock', study_deep: 'brain'
+    };
+    const icon = defaultIconMap[colId] || 'layers';
+    activeOrder.push([colId, icon]);
+  }
+
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (ws === 'study') {
+    studyCategoriesOrder = activeOrder;
+    if (typeof window !== 'undefined') window.studyCategoriesOrder = activeOrder;
+  } else if (ws === 'work') {
+    workCategoriesOrder = activeOrder;
+    if (typeof window !== 'undefined') window.workCategoriesOrder = activeOrder;
+  } else {
+    categoriesOrder = activeOrder;
+    if (typeof window !== 'undefined') window.categoriesOrder = activeOrder;
+  }
+
+  saveCategoriesOrder();
+  saveState();
+  renderApp();
+
+  const dropdown = document.getElementById('dropdown-manage-columns');
+  if (dropdown && !dropdown.classList.contains('hidden')) {
+    renderColumnsDropdownContent(dropdown);
+    if (typeof renderLucideIcons === 'function') renderLucideIcons(false, dropdown);
+  }
+
+  const modal = document.getElementById('modal-manage-columns');
+  if (modal && !modal.classList.contains('hidden')) {
+    openColumnsManagerModal();
+  }
+  showToast(tr({ de: 'Spalten-Ansicht aktualisiert ✨', en: 'Columns updated ✨' }), { undo: true });
+}
+
+function resetColumnsToDefault() {
+  saveHistory();
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (ws === 'study') {
+    studyCategoriesOrder = [
+      ['study_focus', 'target'],
+      ['study_modules', 'book-open'],
+      ['study_submissions', 'clock'],
+      ['study_deep', 'brain'],
+      ['done', 'check-circle'],
+      ['termine', 'calendar'],
+      ['notes', 'file-text']
+    ];
+    if (typeof window !== 'undefined') window.studyCategoriesOrder = studyCategoriesOrder;
+  } else if (ws === 'work') {
+    workCategoriesOrder = [
+      ['work_focus', 'target'],
+      ['work_in_progress', 'zap'],
+      ['work_waiting', 'hourglass'],
+      ['work_backlog', 'folder-kanban'],
+      ['done', 'check-circle'],
+      ['termine', 'clock'],
+      ['notes', 'sticky-note']
+    ];
+    if (typeof window !== 'undefined') window.workCategoriesOrder = workCategoriesOrder;
+  } else {
+    categoriesOrder = [
+      ['daily', 'sun'],
+      ['weekly', 'home'],
+      ['todo', 'list-todo'],
+      ['done', 'check-circle-2'],
+      ['termine', 'calendar'],
+      ['notes', 'file-text'],
+      ['occasionally', 'clock']
+    ];
+    if (typeof window !== 'undefined') window.categoriesOrder = categoriesOrder;
+  }
+  saveCategoriesOrder();
+  saveState();
+  renderApp();
+
+  const dropdown = document.getElementById('dropdown-manage-columns');
+  if (dropdown && !dropdown.classList.contains('hidden')) {
+    renderColumnsDropdownContent(dropdown);
+    if (typeof renderLucideIcons === 'function') renderLucideIcons(false, dropdown);
+  }
+
+  const modal = document.getElementById('modal-manage-columns');
+  if (modal && !modal.classList.contains('hidden')) {
+    openColumnsManagerModal();
+  }
+  showToast(tr({ de: 'Standard-Spalten wiederhergestellt 🔄', en: 'Default columns restored 🔄' }), { undo: true });
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('pointerdown', (e) => {
+    const menu = document.getElementById('column-options-dropdown');
+    if (menu && !menu.contains(e.target)) {
+      const btn = e.target.closest('.column-options-btn');
+      if (!btn) {
+        closeColumnOptionsMenu();
+      }
+    }
+  });
+}
+
 function renameColumn(colId, e) {
   if (e) e.stopPropagation();
-  const isWork = state && state.activeWorkspace === 'work';
-  const activeOrder = isWork ? (workCategoriesOrder || WORK_CATEGORIES_ORDER) : categoriesOrder;
+  const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
   const entry = activeOrder.find(([id]) => id === colId);
   if (!entry) return;
   const currentTitle = entry[2] || t(colId);
@@ -338,18 +1196,23 @@ function renameColumn(colId, e) {
 
 async function deleteColumn(colId, e) {
   if (e) e.stopPropagation();
-  const isWork = state && state.activeWorkspace === 'work';
-  const activeOrder = isWork ? (workCategoriesOrder || WORK_CATEGORIES_ORDER) : categoriesOrder;
+  closeColumnOptionsMenu();
+  const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
   const idx = activeOrder.findIndex(([id]) => id === colId);
   if (idx === -1) return;
+  if (activeOrder.length <= 1) {
+    showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!' }));
+    return;
+  }
   const entry = activeOrder[idx];
   const listTitle = entry[2] || t(colId);
   const curItems = getCurrentWorkspaceItems();
-  const taskCount = (curItems[colId] || []).length;
+  const isDone = colId === 'done';
+  const taskCount = isDone ? (getCurrentWorkspaceDone() || []).length : (curItems[colId] || []).length;
   
   const confirmMsg = tr({
-    de: `Möchtest du die Liste "${listTitle}" wirklich entfernen?${taskCount > 0 ? ` (${taskCount} Aufgaben gehen verloren)` : ''}`,
-    en: `Do you really want to delete list "${listTitle}"?${taskCount > 0 ? ` (${taskCount} tasks will be deleted)` : ''}`,
+    de: `Möchtest du die Liste "${listTitle}" wirklich vom Board entfernen?${taskCount > 0 ? ` (${taskCount} Aufgaben)` : ''}`,
+    en: `Do you really want to remove list "${listTitle}"?${taskCount > 0 ? ` (${taskCount} tasks)` : ''}`,
     es: `¿Seguro que deseas eliminar la lista "${listTitle}"?`,
     fr: `Voulez-vous vraiment supprimer la liste "${listTitle}" ?`,
     it: `Vuoi davvero eliminare la lista "${listTitle}"?`,
@@ -357,9 +1220,9 @@ async function deleteColumn(colId, e) {
   });
 
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
-    title: typeof tr === 'function' ? tr({ de: 'Liste löschen?', en: 'Delete list?' }) : 'Liste löschen?',
+    title: typeof tr === 'function' ? tr({ de: 'Liste entfernen?', en: 'Remove list?' }) : 'Liste entfernen?',
     message: confirmMsg,
-    confirmText: typeof tr === 'function' ? tr({ de: 'Liste löschen', en: 'Delete list' }) : 'Löschen',
+    confirmText: typeof tr === 'function' ? tr({ de: 'Entfernen', en: 'Remove' }) : 'Entfernen',
     isDanger: true,
     icon: 'trash-2'
   }) : confirm(confirmMsg);
@@ -367,19 +1230,25 @@ async function deleteColumn(colId, e) {
   if (confirmed) {
     saveHistory();
     activeOrder.splice(idx, 1);
-    delete curItems[colId];
+    if (isDone) {
+      if (state.activeWorkspace === 'study') state.studyDone = [];
+      else if (state.activeWorkspace === 'work') state.workDone = [];
+      else state.done = [];
+    } else {
+      delete curItems[colId];
+    }
     saveCategoriesOrder();
     saveState();
     renderApp();
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
     showToast(tr({
-      de: `Liste "${listTitle}" gelöscht 🗑️`,
-      en: `List "${listTitle}" deleted 🗑️`,
+      de: `Liste "${listTitle}" vom Board entfernt 🗑️`,
+      en: `List "${listTitle}" removed from board 🗑️`,
       es: `Lista "${listTitle}" eliminada 🗑️`,
-      el: `Η λίστα "${listTitle}" διαγράφηκε 🗑️`,
+      el: `Η λίστα "${listTitle}" αφαιρέθηκε 🗑️`,
       fr: `Liste "${listTitle}" supprimée 🗑️`,
-      it: `Lista "${listTitle}" eliminata 🗑️`
-    }), { undo: true });
+      it: `Lista "${listTitle}" rimossa 🗑️`
+    }), { undo: true, duration: 5000 });
   }
 }
 
@@ -401,31 +1270,45 @@ function quickAddTaskTop(colId, e) {
 const COLUMN_THEMES = {
   daily: { color: 'text-amber-300', bg: 'bg-amber-500/15 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]' },
   work_focus: { color: 'text-amber-300', bg: 'bg-amber-500/15 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]' },
+  study_focus: { color: 'text-amber-300', bg: 'bg-amber-500/15 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]' },
   weekly: { color: 'text-purple-300', bg: 'bg-purple-500/15 border-purple-500/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]' },
   work_in_progress: { color: 'text-purple-300', bg: 'bg-purple-500/15 border-purple-500/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]' },
+  study_modules: { color: 'text-blue-300', bg: 'bg-blue-500/15 border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.15)]' },
   todo: { color: 'text-cyan-300', bg: 'bg-cyan-500/15 border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.15)]' },
   work_backlog: { color: 'text-cyan-300', bg: 'bg-cyan-500/15 border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.15)]' },
+  study_submissions: { color: 'text-rose-300', bg: 'bg-rose-500/15 border-rose-500/30 shadow-[0_0_10px_rgba(244,63,94,0.15)]' },
   occasionally: { color: 'text-indigo-300', bg: 'bg-indigo-500/15 border-indigo-500/30 shadow-[0_0_10px_rgba(99,102,241,0.15)]' },
   work_waiting: { color: 'text-indigo-300', bg: 'bg-indigo-500/15 border-indigo-500/30 shadow-[0_0_10px_rgba(99,102,241,0.15)]' },
+  study_deep: { color: 'text-purple-300', bg: 'bg-purple-500/15 border-purple-500/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]' },
   done: { color: 'text-emerald-300', bg: 'bg-emerald-500/15 border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.15)]' },
   termine: { color: 'text-orange-300', bg: 'bg-orange-500/15 border-orange-500/30 shadow-[0_0_10px_rgba(249,115,22,0.15)]' },
   notes: { color: 'text-amber-300', bg: 'bg-amber-500/15 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]' }
 };
 
 function getCurrentWorkspaceItems() {
-  if (typeof state !== 'undefined' && state && state.activeWorkspace === 'work') {
-    if (!state.workItems) state.workItems = createDefaultWorkItems(typeof currentLang !== 'undefined' ? currentLang : 'en');
-    return state.workItems;
+  const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+  if (s && s.activeWorkspace === 'study') {
+    if (!s.studyItems) s.studyItems = typeof createDefaultStudyItems === 'function' ? createDefaultStudyItems(typeof currentLang !== 'undefined' ? currentLang : 'en') : {};
+    return s.studyItems;
   }
-  return state.items;
+  if (s && s.activeWorkspace === 'work') {
+    if (!s.workItems) s.workItems = typeof createDefaultWorkItems === 'function' ? createDefaultWorkItems(typeof currentLang !== 'undefined' ? currentLang : 'en') : {};
+    return s.workItems;
+  }
+  return s ? s.items : {};
 }
 
 function getCurrentWorkspaceDone() {
-  if (typeof state !== 'undefined' && state && state.activeWorkspace === 'work') {
-    if (!state.workDone) state.workDone = [];
-    return state.workDone;
+  const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+  if (s && s.activeWorkspace === 'study') {
+    if (!s.studyDone) s.studyDone = [];
+    return s.studyDone;
   }
-  return state.done;
+  if (s && s.activeWorkspace === 'work') {
+    if (!s.workDone) s.workDone = [];
+    return s.workDone;
+  }
+  return s ? s.done : [];
 }
 
 function renderApp() {
@@ -441,22 +1324,25 @@ function renderApp() {
   
   const currentItems = getCurrentWorkspaceItems() || {};
   const doneList = getCurrentWorkspaceDone() || [];
-  const isWork = state && state.activeWorkspace === 'work';
-  const activeOrder = isWork 
-    ? (workCategoriesOrder || (typeof WORK_CATEGORIES_ORDER !== 'undefined' ? WORK_CATEGORIES_ORDER : [])) 
-    : (categoriesOrder || (typeof CATEGORIES_ORDER !== 'undefined' ? CATEGORIES_ORDER : []));
+  const activeOrder = typeof getActiveCategoriesOrder === 'function'
+    ? getActiveCategoriesOrder()
+    : (state && state.activeWorkspace === 'study'
+      ? (studyCategoriesOrder || (typeof STUDY_CATEGORIES_ORDER !== 'undefined' ? STUDY_CATEGORIES_ORDER : []))
+      : (state && state.activeWorkspace === 'work' 
+        ? (workCategoriesOrder || (typeof WORK_CATEGORIES_ORDER !== 'undefined' ? WORK_CATEGORIES_ORDER : [])) 
+        : (categoriesOrder || (typeof CATEGORIES_ORDER !== 'undefined' ? CATEGORIES_ORDER : []))));
 
   (activeOrder || []).forEach(([id, iconKey], colIndex) => {
     const isDone = id === 'done'; const isNotes = id === 'notes'; const isTermine = id === 'termine';
-    const isDaily = (id === 'daily' || id === 'work_focus');
-    const isWeekly = (id === 'weekly' || id === 'work_in_progress');
+    const isDaily = (id === 'daily' || id === 'work_focus' || id === 'study_focus');
+    const isWeekly = (id === 'weekly' || id === 'work_in_progress' || id === 'study_modules');
     const activeCount = (currentItems[id] || []).length;
     let doneInCat = 0;
 
     if (isDaily) {
-      doneInCat = doneList.filter(t => (t.origin === 'daily' || t.origin === 'work_focus') && t.date === todayISO).length;
+      doneInCat = doneList.filter(t => (t.origin === 'daily' || t.origin === 'work_focus' || t.origin === 'study_focus') && t.date === todayISO).length;
     } else if (isWeekly) {
-      doneInCat = doneList.filter(t => (t.origin === 'weekly' || t.origin === 'work_in_progress') && t.date >= mondayISO).length;
+      doneInCat = doneList.filter(t => (t.origin === 'weekly' || t.origin === 'work_in_progress' || t.origin === 'study_modules') && t.date >= mondayISO).length;
     } else {
       doneInCat = doneList.filter(t => t.origin === id).length;
     }
@@ -494,7 +1380,7 @@ function renderApp() {
       }
       
       countBadgeHTML = `
-        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border shadow-xs ${badgeStyle} transition-all duration-300 shrink-0" title="${doneInCat} von ${totalInCat} erledigt (${pct}%)">
+        <span class="px-1.5 py-0.2 rounded text-[9.5px] font-mono font-bold border shadow-xs ${badgeStyle} transition-all duration-300 shrink-0" title="${doneInCat} von ${totalInCat} erledigt (${pct}%)">
           ${doneInCat}/${totalInCat}${checkSuffix}
         </span>
       `;
@@ -504,7 +1390,7 @@ function renderApp() {
     const article = document.createElement('article');
     article.dataset.category = id;
     article.dataset.columnType = isCustomCol ? 'custom' : 'system';
-    article.className = `group/col relative min-h-[380px] h-full flex flex-col p-3 pt-3.5 rounded-2xl transition-all duration-300 cursor-default column-card-breathing overflow-hidden ${isCustomCol ? 'border border-dashed border-purple-500/25' : ''} ${isLastCol ? 'pb-16' : ''}`;
+    article.className = `group/col relative min-h-[380px] h-full flex flex-col p-2.5 sm:p-3 pt-3 rounded-2xl transition-all duration-300 cursor-default column-card-breathing overflow-hidden ${isCustomCol ? 'border border-dashed border-purple-500/25' : ''} ${isLastCol ? 'pb-16' : ''}`;
 
     article.draggable = true;
     article.ondragstart = (e) => {
@@ -521,7 +1407,8 @@ function renderApp() {
       if (draggedColumnId) {
         const srcId = draggedColumnId; const targetId = id;
         if (srcId !== targetId) {
-          const targetList = isWork ? (workCategoriesOrder || WORK_CATEGORIES_ORDER) : categoriesOrder;
+          const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+          const targetList = ws === 'study' ? (studyCategoriesOrder || (typeof STUDY_CATEGORIES_ORDER !== 'undefined' ? STUDY_CATEGORIES_ORDER : [])) : (ws === 'work' ? (workCategoriesOrder || (typeof WORK_CATEGORIES_ORDER !== 'undefined' ? WORK_CATEGORIES_ORDER : [])) : (categoriesOrder || (typeof CATEGORIES_ORDER !== 'undefined' ? CATEGORIES_ORDER : [])));
           const srcIdx = targetList.findIndex(([catId]) => catId === srcId);
           const targetIdx = targetList.findIndex(([catId]) => catId === targetId);
           if (srcIdx !== -1 && targetIdx !== -1) {
@@ -535,30 +1422,33 @@ function renderApp() {
         draggedColumnId = null;
       } else { handleDrop(e, id); }
     };
-    const hasDice = (id === 'daily' || id === 'weekly' || id === 'todo' || id === 'occasionally' || id === 'work_focus' || id === 'work_in_progress' || id === 'work_backlog' || id === 'work_waiting');
-
     const COLUMN_ICONS_DEFAULT = {
       daily: 'sun',
-      work_focus: 'sun',
+      work_focus: 'target',
+      study_focus: 'target',
       weekly: 'home',
-      work_in_progress: 'home',
+      work_in_progress: 'zap',
+      study_modules: 'book-open',
       todo: 'list-todo',
-      work_backlog: 'list-todo',
+      work_backlog: 'folder-kanban',
+      study_submissions: 'clock',
       occasionally: 'clock',
-      work_waiting: 'clock',
+      work_waiting: 'hourglass',
+      study_deep: 'brain',
       done: 'check-circle-2',
       termine: 'calendar',
       notes: 'file-text'
     };
     const finalIcon = COLUMN_ICONS_DEFAULT[id] || iconKey || 'layers';
     const theme = COLUMN_THEMES[id] || { color: 'text-[var(--accent-light)]', bg: 'bg-white/5 border-white/10 shadow-xs' };
+    const hasDice = (id === 'daily' || id === 'weekly' || id === 'todo' || id === 'occasionally' || id === 'work_focus' || id === 'work_in_progress' || id === 'work_backlog' || id === 'work_waiting' || id === 'study_focus' || id === 'study_modules' || id === 'study_submissions' || id === 'study_deep');
 
     let columnIconHTML = '';
     if (hasDice && typeof renderColumnFortuneIconHTML === 'function') {
-      columnIconHTML = renderColumnFortuneIconHTML(id);
+      columnIconHTML = renderColumnFortuneIconHTML(id, colIndex);
     } else {
       columnIconHTML = `
-        <span class="w-5 h-5 rounded-md border ${theme.bg} flex items-center justify-center ${theme.color} shrink-0 pointer-events-none transition-transform group-hover/col:scale-105">
+        <span class="w-4.5 h-4.5 rounded-md border ${theme.bg} flex items-center justify-center ${theme.color} shrink-0 pointer-events-none transition-transform group-hover/col:scale-105">
           ${svgFn(finalIcon, 'w-3 h-3')}
         </span>
       `;
@@ -571,46 +1461,23 @@ function renderApp() {
         </div>
       ` : ''}
       
-      <!-- Floating Action Mini-Capsule -->
-      <div class="absolute right-2 top-2 flex items-center gap-1 bg-[#13131e]/90 sm:bg-[#13131e]/95 border border-white/15 px-1.5 py-0.5 sm:py-1 rounded-xl shadow-xl z-20 backdrop-blur-md opacity-90 sm:opacity-0 sm:group-hover/col:opacity-100 transition-all duration-150">
-        ${(id === 'weekly' || id === 'work_in_progress') ? `
-          <button onclick="if(typeof openCleaningGuideModal === 'function') openCleaningGuideModal(); if(event) event.stopPropagation();" aria-label="${tr({ de: 'Grundreinigung', en: 'Deep Cleaning', es: 'Limpieza a fondo', el: 'Γενική καθαριότητα', fr: 'Nettoyage en profondeur', it: 'Pulizia profonda' })}" class="clean-guide-btn p-1 px-1.5 bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-400/30 text-emerald-300 hover:text-white rounded-lg shadow-sm hover:scale-105 active:scale-95 transition cursor-pointer flex items-center justify-center gap-1 group/cleanbtn" title="${tr({ de: 'Grundreinigung (Wohnungs-Reset & Guides) 🧹✨', en: 'Deep Cleaning Guide 🧹✨' })}">
-            <span class="relative inline-flex items-center justify-center w-3.5 h-3.5 text-emerald-400 group-hover/cleanbtn:text-emerald-200">
-              <svg class="w-3.5 h-3.5 clean-spray-svg transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 3h-2.5a1 1 0 0 0-1 1v2.5H8.8a1.2 1.2 0 0 0-.9.4L6.2 9H5a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h1.2l.6 8.5a2 2 0 0 0 2 2.5h6.4a2 2 0 0 0 2-2.5L17.8 7.5h-2.3V4a1 1 0 0 0-1-1z" fill="currentColor" fill-opacity="0.16"/>
-                <path d="M7 14.5c2-.8 5-.8 7 0" stroke="currentColor" stroke-width="1.2" stroke-opacity="0.6"/>
-                <circle cx="2.6" cy="4.2" r="1.1" fill="currentColor" class="clean-mist-drop-1"/>
-                <circle cx="5.2" cy="2" r="0.8" fill="currentColor" class="clean-mist-drop-2"/>
-                <circle cx="1.6" cy="7.2" r="0.8" fill="currentColor" class="clean-mist-drop-3"/>
-              </svg>
-            </span>
-          </button>
-        ` : ''}
-        ${!isDone ? `
-          <button onclick="quickAddTaskTop('${id}', event)" aria-label="${tr({ de: 'Aufgabe hinzufügen ➕', en: 'Add task ➕', es: 'Añadir tarea ➕', el: 'Προσθήκη εργασίας ➕', fr: 'Ajouter tâche ➕', it: 'Aggiungi attività ➕' })}" class="p-1 text-gray-300 hover:text-[var(--accent-light)] hover:bg-white/10 rounded-lg transition cursor-pointer flex items-center justify-center" title="${tr({ de: 'Aufgabe hinzufügen ➕', en: 'Add task ➕', es: 'Añadir tarea ➕', el: 'Προσθήκη εργασίας ➕', fr: 'Ajouter tâche ➕', it: 'Aggiungi Aktivitäten ➕' })}">
-            ${svgFn('plus', 'w-3.5 h-3.5')}
-          </button>
-        ` : ''}
-        ${isCustomCol ? `
-          <button onclick="renameColumn('${id}', event)" aria-label="${t('rename_column') || 'Liste umbenennen'}" class="p-1 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition cursor-pointer flex items-center justify-center" title="${t('rename_column') || 'Liste umbenennen'}">${svgFn('edit-3', 'w-3 h-3')}</button>
-          <button onclick="deleteColumn('${id}', event)" aria-label="${t('delete_column') || 'Liste löschen'}" class="p-1 text-gray-400 hover:text-red-400 hover:bg-red-500/15 rounded-lg transition cursor-pointer flex items-center justify-center" title="${t('delete_column') || 'Liste löschen'}">${svgFn('trash-2', 'w-3 h-3')}</button>
-        ` : ''}
-      </div>
-
-      <div class="flex items-center justify-between gap-1.5 mb-2 pb-1.5 border-b border-white/[0.04]">
+      <div class="flex items-center justify-between gap-1 mb-2 pb-1.5 border-b border-white/[0.04]">
         <div class="flex items-center gap-1.5 select-none min-w-0 flex-1 cursor-grab active:cursor-grabbing" title="${tr({ de: 'Spalte durch Ziehen neu anordnen', en: 'Drag to reorder column', fr: 'Glisser pour réorganiser la colonne', it: 'Trascina per riordinare la colonna', es: 'Arrastrar para reordenar columna', el: 'Σύρετε για αναδιάταξη στήλης' })}">
           ${columnIconHTML}
-          <h2 class="text-gray-200 hover:text-white font-bold font-display text-xs tracking-wide uppercase transition whitespace-nowrap">
+          <h2 class="text-gray-200 hover:text-white font-bold font-display text-[10.5px] 2xl:text-xs tracking-tight uppercase transition whitespace-nowrap overflow-hidden text-ellipsis min-w-0" title="${catName}">
             ${catName}
           </h2>
         </div>
-        <div class="flex items-center gap-1 shrink-0 ml-1">
+        <div class="flex items-center gap-1 shrink-0">
           ${countBadgeHTML}
+          <button onmouseenter="cancelCloseColumnOptionsMenu(); openColumnOptionsMenu('${id}', this);" onmouseleave="scheduleCloseColumnOptionsMenu();" onclick="toggleColumnOptionsMenu('${id}', event)" aria-label="${tr({ de: 'Spalten-Aktionen & Aufräumen', en: 'Column actions & clear' })}" class="column-options-btn w-5 h-5 p-0 text-gray-400 hover:text-white hover:bg-white/10 rounded-md transition-all duration-150 cursor-pointer flex items-center justify-center opacity-70 hover:opacity-100 shrink-0" title="${tr({ de: 'Spalten-Aktionen & Aufräumen (Leeren, Archivieren, Löschen) ⚙️', en: 'Column actions & clear ⚙️' })}">
+            ${svgFn('more-vertical', 'w-3 h-3')}
+          </button>
         </div>
       </div>
       <div id="list-${id}" class="flex flex-col gap-1.5 flex-1 min-h-[100px] overflow-y-auto py-0.5 px-0.5 custom-scrollbar"></div>
       ${(!isDone) ? `
-        <div class="flex items-center justify-start pt-1 px-0.5 mt-auto">
+        <div class="flex items-center justify-between pt-1 px-0.5 mt-auto border-t border-white/[0.03]">
           <button onclick="openTextImportModal('${id}', event)" aria-label="${isNotes ? 'Notizen importieren' : (isTermine ? 'Termine importieren' : 'Aufgaben importieren')}" class="p-1 rounded-md bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 text-gray-500 hover:text-gray-200 opacity-40 hover:opacity-100 transition-all duration-200 cursor-pointer flex items-center justify-center shrink-0" title="${isNotes ? tr({ de: 'Notizen importieren (.txt, .md, .csv, .json oder Zwischenablage)', en: 'Import notes (.txt, .md, .csv, .json or clipboard)', es: 'Importar notas (.txt, .md, .csv, .json o portapapeles)', el: 'Εισαγωγή σημειώσεων (.txt, .md, .csv, .json ή πρόχειρο)', fr: 'Importer des notes (.txt, .md, .csv, .json ou presse-papiers)', it: 'Importa note (.txt, .md, .csv, .json o appunti)' }) : (isTermine ? tr({ de: 'Termine aus Kalenderdatei (.ics) oder Text importieren', en: 'Import appointments from calendar file (.ics) or text', es: 'Importar citas desde archivo (.ics) o texto', el: 'Εισαγωγή ραντεβού από ημερολόγιο (.ics) ή κείμενο', fr: 'Importer des rendez-vous depuis un fichier (.ics) ou texte', it: 'Importa appuntamenti da file (.ics) o testo' }) : tr({ de: 'Aufgaben importieren (.txt, .md, .csv, .json oder Zwischenablage)', en: 'Import tasks (.txt, .md, .csv, .json or clipboard)', es: 'Importar tareas (.txt, .md, .csv, .json o portapapeles)', el: 'Εισαγωγή εργασιών (.txt, .md, .csv, .json ή πρόχειρο)', fr: 'Importer des tâches (.txt, .md, .csv, .json ou presse-papiers)', it: 'Importa attività (.txt, .md, .csv, .json o appunti)' }))}">
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -862,7 +1729,10 @@ function renderApp() {
         itemDiv.className = `group relative w-full h-auto min-h-[34px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] ${borderBgClass} text-gray-200 font-medium rounded-xl transition-colors`;
         const safeTaskEscaped = escapeHtml(taskText);
         const formattedTaskHtml = safeTaskEscaped.replace(/ &amp; /g, '&nbsp;&amp; ').replace(/ & /g, '&nbsp;& ');
-        const pair = HOVER_COLOR_PAIRS[(index + id.charCodeAt(0)) % HOVER_COLOR_PAIRS.length];
+        const hoverPairs = (typeof HOVER_COLOR_PAIRS !== 'undefined' ? HOVER_COLOR_PAIRS : (typeof window !== 'undefined' && window.HOVER_COLOR_PAIRS ? window.HOVER_COLOR_PAIRS : [
+          { border: 'hover:border-purple-400/50', glow: 'hover:shadow-[0_0_15px_rgba(168,85,247,0.15)]', text: 'hover:text-purple-300' }
+        ]));
+        const pair = hoverPairs[(index + id.charCodeAt(0)) % hoverPairs.length];
         const recurrenceBadge = (taskObj.recurrence && taskObj.recurrence !== 'none')
           ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30 shrink-0 ml-auto mr-1">🔁 ${t('recurrence_' + taskObj.recurrence) || taskObj.recurrence}</span>`
           : '';
@@ -900,6 +1770,8 @@ function renderApp() {
           const taskObj = (typeof ensureItemIdentity === 'function') 
             ? ensureItemIdentity(taskText, `task_${id}`)
             : { task: taskText };
+          const curItems = getCurrentWorkspaceItems();
+          if (!curItems[id]) curItems[id] = [];
           curItems[id].push(taskObj);
           addInput.value = '';
           openTaskAddColumns[id] = false;
@@ -908,7 +1780,24 @@ function renderApp() {
         if (e.key === 'Escape') { openTaskAddColumns[id] = false; renderApp(); }
       };
       if (openTaskAddColumns[id]) {
-        listEl.appendChild(addInput);
+        const inputWrap = document.createElement('div');
+        inputWrap.className = 'w-full flex items-center gap-1.5 mt-1';
+        inputWrap.appendChild(addInput);
+
+        const suggestBtn = document.createElement('button');
+        suggestBtn.type = 'button';
+        suggestBtn.className = 'p-1.5 px-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
+        suggestBtn.title = tr({ de: '💡 Aufgaben-Vorschläge & Inspiration', en: '💡 Task Suggestions & Inspiration' });
+        suggestBtn.innerHTML = '<span>💡</span>';
+        suggestBtn.onclick = (e) => {
+          e.stopPropagation();
+          if (typeof openRoutinePresetsModal === 'function') {
+            openRoutinePresetsModal('suggestions');
+          }
+        };
+        inputWrap.appendChild(suggestBtn);
+        listEl.appendChild(inputWrap);
+
         setTimeout(() => {
           if (typeof addInput.focus === 'function') addInput.focus();
           try { addInput.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch(e) {}
@@ -932,14 +1821,14 @@ function renderMobileCategoryTabs() {
   const bar = document.getElementById('mobile-category-tabs');
   if (!bar) return;
 
-  const curItems = getCurrentWorkspaceItems();
-  const doneList = getCurrentWorkspaceDone();
-  const isWork = state && state.activeWorkspace === 'work';
-  const activeOrder = isWork ? (workCategoriesOrder || WORK_CATEGORIES_ORDER) : categoriesOrder;
+  const curItems = getCurrentWorkspaceItems() || {};
+  const doneList = getCurrentWorkspaceDone() || [];
+  const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
 
   let activeCat = localStorage.getItem('flowPlannerMobileCategory');
   if (!activeCat || !activeOrder.some(([id]) => id === activeCat)) {
-    activeCat = activeOrder[0] ? activeOrder[0][0] : (isWork ? 'work_focus' : 'daily');
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    activeCat = activeOrder[0] ? activeOrder[0][0] : (ws === 'study' ? 'study_focus' : (ws === 'work' ? 'work_focus' : 'daily'));
   }
   document.body.dataset.mobileCat = activeCat;
 
@@ -986,16 +1875,41 @@ function setMobileCategory(id) {
 }
 
 function stepMobileCategory(direction = 1) {
-  const isWork = state && state.activeWorkspace === 'work';
-  const activeOrder = isWork ? (workCategoriesOrder || WORK_CATEGORIES_ORDER) : categoriesOrder;
+  const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
   const currentCat = document.body.dataset.mobileCat || (activeOrder[0] ? activeOrder[0][0] : 'daily');
   const idx = activeOrder.findIndex(([id]) => id === currentCat);
   if (idx === -1) return;
   const nextIdx = (idx + direction + activeOrder.length) % activeOrder.length;
   setMobileCategory(activeOrder[nextIdx][0]);
 }
+
+function switchMobileNavTab(tabName) {
+  if (!tabName) tabName = 'planer';
+  document.body.dataset.mobileNav = tabName;
+  localStorage.setItem('flowPlannerMobileNav', tabName);
+
+  document.querySelectorAll('.mobile-nav-item').forEach(btn => {
+    const isTarget = btn.id === `mob-nav-${tabName}`;
+    btn.classList.toggle('active', isTarget);
+  });
+
+  if (tabName === 'planer') {
+    const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
+    const curCat = document.body.dataset.mobileCat || (activeOrder[0] ? activeOrder[0][0] : 'daily');
+    setMobileCategory(curCat);
+  }
+
+  if (typeof renderLucideIcons === 'function') renderLucideIcons();
+}
+
 window.setMobileCategory = setMobileCategory;
 window.stepMobileCategory = stepMobileCategory;
+window.switchMobileNavTab = switchMobileNavTab;
+if (typeof globalThis !== 'undefined') {
+  globalThis.setMobileCategory = setMobileCategory;
+  globalThis.stepMobileCategory = stepMobileCategory;
+  globalThis.switchMobileNavTab = switchMobileNavTab;
+}
 
 function animateTaskToDone(taskEl, targetSelector, onComplete) {
   if (!taskEl) { onComplete(); return; }
@@ -1131,7 +2045,8 @@ function handleRestoreDoneTask(doneIndex) {
   const reversedIndex = curDone.length - 1 - doneIndex;
   const item = curDone[reversedIndex]; if (!item) return;
   curDone.splice(reversedIndex, 1);
-  const fallbackCat = state.activeWorkspace === 'work' ? 'work_focus' : 'daily';
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  const fallbackCat = ws === 'study' ? 'study_focus' : (ws === 'work' ? 'work_focus' : 'daily');
   const targetCat = curItems[item.origin] ? item.origin : fallbackCat;
   if (!curItems[targetCat]) curItems[targetCat] = [];
   curItems[targetCat].push(item.task);
@@ -1942,6 +2857,10 @@ function editTaskInline(cat, index, event) {
 }
 
 function openSampleManagerModal() {
+  if (typeof openRoutinePresetsModal === 'function') {
+    openRoutinePresetsModal('custom');
+    return;
+  }
   const modal = document.getElementById('sample-manager-modal');
   if (!modal) return;
   modal.classList.remove('hidden');
@@ -2373,9 +3292,27 @@ if (typeof window !== 'undefined') {
   window.submitAddListInline = submitAddListInline;
   window.toggleAddListPopover = toggleAddListPopover;
   window.submitNewListTop = submitNewListTop;
-  window.saveCategoriesOrder = saveCategoriesOrder;
   window.renameColumn = renameColumn;
   window.deleteColumn = deleteColumn;
+  window.toggleColumnOptionsMenu = toggleColumnOptionsMenu;
+  window.openColumnOptionsMenu = openColumnOptionsMenu;
+  window.closeColumnOptionsMenu = closeColumnOptionsMenu;
+  window.cancelCloseColumnOptionsMenu = cancelCloseColumnOptionsMenu;
+  window.scheduleCloseColumnOptionsMenu = scheduleCloseColumnOptionsMenu;
+  window.clearColumnTasks = clearColumnTasks;
+  window.clearCompletedInColumn = clearCompletedInColumn;
+  window.archiveColumnTasks = archiveColumnTasks;
+  window.submitAddListFromManager = submitAddListFromManager;
+  window.openColumnsDropdown = openColumnsDropdown;
+  window.closeColumnsDropdown = closeColumnsDropdown;
+  window.toggleColumnsDropdown = toggleColumnsDropdown;
+  window.scheduleCloseColumnsDropdown = scheduleCloseColumnsDropdown;
+  window.cancelCloseColumnsDropdown = cancelCloseColumnsDropdown;
+  window.renderColumnsDropdownContent = renderColumnsDropdownContent;
+  window.openColumnsManagerModal = openColumnsManagerModal;
+  window.closeColumnsManagerModal = closeColumnsManagerModal;
+  window.toggleColumnVisibility = toggleColumnVisibility;
+  window.resetColumnsToDefault = resetColumnsToDefault;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.renderApp = renderApp;
@@ -2409,8 +3346,27 @@ if (typeof globalThis !== 'undefined') {
   globalThis.submitAddListInline = submitAddListInline;
   globalThis.toggleAddListPopover = toggleAddListPopover;
   globalThis.submitNewListTop = submitNewListTop;
+  globalThis.submitAddListFromManager = submitAddListFromManager;
+  globalThis.openColumnsDropdown = openColumnsDropdown;
+  globalThis.closeColumnsDropdown = closeColumnsDropdown;
+  globalThis.toggleColumnsDropdown = toggleColumnsDropdown;
+  globalThis.scheduleCloseColumnsDropdown = scheduleCloseColumnsDropdown;
+  globalThis.cancelCloseColumnsDropdown = cancelCloseColumnsDropdown;
+  globalThis.renderColumnsDropdownContent = renderColumnsDropdownContent;
   globalThis.saveCategoriesOrder = saveCategoriesOrder;
   globalThis.renameColumn = renameColumn;
   globalThis.deleteColumn = deleteColumn;
+  globalThis.toggleColumnOptionsMenu = toggleColumnOptionsMenu;
+  globalThis.openColumnOptionsMenu = openColumnOptionsMenu;
+  globalThis.closeColumnOptionsMenu = closeColumnOptionsMenu;
+  globalThis.cancelCloseColumnOptionsMenu = cancelCloseColumnOptionsMenu;
+  globalThis.scheduleCloseColumnOptionsMenu = scheduleCloseColumnOptionsMenu;
+  globalThis.clearColumnTasks = clearColumnTasks;
+  globalThis.clearCompletedInColumn = clearCompletedInColumn;
+  globalThis.archiveColumnTasks = archiveColumnTasks;
+  globalThis.openColumnsManagerModal = openColumnsManagerModal;
+  globalThis.closeColumnsManagerModal = closeColumnsManagerModal;
+  globalThis.toggleColumnVisibility = toggleColumnVisibility;
+  globalThis.resetColumnsToDefault = resetColumnsToDefault;
 }
  

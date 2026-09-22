@@ -140,58 +140,39 @@ function clearActiveTimeouts() {
   activeTimeouts = [];
 }
 
-// Hauptfunktion zum Abspielen der 18 Naturgeräusche (mit integriertem Crossfade-Support)
+// Hauptfunktion zum Abspielen der 18 Naturgeräusche (mit integriertem Crossfade-Support & Toggle-Stopp)
 function playAmbientSound(type, crossfade = false) {
   initAudioContext();
   if (!audioCtx) return;
 
-  if (crossfade && currentSoundType) {
-    const oldGain = soundGainNode;
-    const oldNodes = [...activeNodes];
-
-    if (oldGain) {
-      pendingCrossfadeGains.push(oldGain);
-      const now = audioCtx.currentTime;
-      try {
-        oldGain.gain.cancelScheduledValues(now);
-        oldGain.gain.setValueAtTime(oldGain.gain.value, now);
-        oldGain.gain.linearRampToValueAtTime(0.0001, now + 4.0); // Blendet den alten Sound aus
-      } catch (e) {
-        console.warn('[Audio] Crossfade ramp error:', e);
-      }
-    }
-
-    if (oldNodes.length > 0) {
-      pendingCrossfadeNodes.push(...oldNodes);
-    }
-
-    const crossTimeout = setTimeout(() => {
-      oldNodes.forEach(node => {
-        try { if (typeof node.stop === 'function') node.stop(0); } catch (e) { console.warn('[Audio] crossfade oldNode.stop error:', e); }
-        try { node.disconnect(); } catch (e) { console.warn('[Audio] crossfade oldNode.disconnect error:', e); }
-      });
-      try { if (oldGain) oldGain.disconnect(); } catch (e) { console.warn('[Audio] crossfade oldGain.disconnect error:', e); }
-      
-      pendingCrossfadeNodes = pendingCrossfadeNodes.filter(n => !oldNodes.includes(n));
-      pendingCrossfadeGains = pendingCrossfadeGains.filter(g => g !== oldGain);
-    }, 4200);
-    activeTimeouts.push(crossTimeout);
-
-    activeNodes = [];
-    currentSoundType = type;
-
-    soundGainNode = audioCtx.createGain();
-    soundGainNode.gain.setValueAtTime(0, audioCtx.currentTime);
-    soundGainNode.gain.linearRampToValueAtTime(soundMasterVolume * 1.0, audioCtx.currentTime + 4.0); // Auf volle Lautstärke
-    soundGainNode.connect(getMasterAudioDestination() || audioCtx.destination);
-  } else {
+  // Wenn der geklickte Sound bereits läuft -> stoppen (Toggle-Funktion)
+  if (currentSoundType === type) {
     stopAmbientSound(true);
-    currentSoundType = type;
-
-    soundGainNode = audioCtx.createGain();
-    soundGainNode.gain.setValueAtTime(soundMasterVolume * 1.0, audioCtx.currentTime);
-    soundGainNode.connect(getMasterAudioDestination() || audioCtx.destination);
+    if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+    updateSoundscapeUI();
+    if (typeof showToast === 'function') {
+      showToast(typeof tr === 'function' ? tr({ de: 'Audio gestoppt ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio gestoppt ⏹️');
+    }
+    return;
   }
+
+  // Ansonsten: Alle anderen vorher laufenden Sounds/Musik/Radio restlos stoppen
+  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+  stopAmbientSound(true);
+
+  // Exklusivität: Radio stoppen falls aktiv
+  try {
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
+      RadioNewsEngine.toggleRadioPlayback();
+    } else if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
+      window.radioAudioEl.pause();
+    }
+  } catch (e) {}
+
+  currentSoundType = type;
+  soundGainNode = audioCtx.createGain();
+  soundGainNode.gain.setValueAtTime(soundMasterVolume * 1.0, audioCtx.currentTime);
+  soundGainNode.connect(getMasterAudioDestination() || audioCtx.destination);
 
   // Generatoren anstoßen
   startAmbientGeneratorForType(type);
@@ -200,32 +181,36 @@ function playAmbientSound(type, crossfade = false) {
   lastSelectedSound = type;
 }
 
-// Ducking-Regler auf 1.0 festgeschrieben (Gleiche Lautstärke)
-function duckAmbientVolume(ratio) {
+// Harmonisches Audio-Ducking für Sprachansagen
+function duckAmbientVolume(ratio = 0.18) {
   if (soundGainNode && audioCtx) {
     try {
-      soundGainNode.gain.setValueAtTime(soundGainNode.gain.value, audioCtx.currentTime);
-      soundGainNode.gain.linearRampToValueAtTime(soundMasterVolume * 1.0, audioCtx.currentTime + 0.35);
+      const now = audioCtx.currentTime;
+      soundGainNode.gain.cancelScheduledValues(now);
+      soundGainNode.gain.setValueAtTime(soundGainNode.gain.value, now);
+      soundGainNode.gain.linearRampToValueAtTime(soundMasterVolume * ratio, now + 0.2);
     } catch (e) {
       console.warn('[Audio] duckAmbientVolume error:', e);
     }
   }
   if (activeUserAudio) {
-    try { activeUserAudio.volume = soundMasterVolume * 0.7; } catch (e) { console.warn('[Audio] duck activeUserAudio error:', e); }
+    try { activeUserAudio.volume = Math.max(0, Math.min(1, soundMasterVolume * ratio)); } catch (e) { console.warn('[Audio] duck activeUserAudio error:', e); }
   }
 }
 
 function restoreAmbientVolume() {
   if (soundGainNode && audioCtx) {
     try {
-      soundGainNode.gain.setValueAtTime(soundGainNode.gain.value, audioCtx.currentTime);
-      soundGainNode.gain.linearRampToValueAtTime(soundMasterVolume * 1.0, audioCtx.currentTime + 0.6);
+      const now = audioCtx.currentTime;
+      soundGainNode.gain.cancelScheduledValues(now);
+      soundGainNode.gain.setValueAtTime(soundGainNode.gain.value, now);
+      soundGainNode.gain.linearRampToValueAtTime(soundMasterVolume * 1.0, now + 0.45);
     } catch (e) {
       console.warn('[Audio] restoreAmbientVolume error:', e);
     }
   }
   if (activeUserAudio) {
-    try { activeUserAudio.volume = soundMasterVolume * 0.7; } catch (e) { console.warn('[Audio] restore activeUserAudio error:', e); }
+    try { activeUserAudio.volume = Math.max(0, Math.min(1, soundMasterVolume * 0.7)); } catch (e) { console.warn('[Audio] restore activeUserAudio error:', e); }
   }
 }
 

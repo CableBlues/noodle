@@ -444,6 +444,7 @@ if (typeof document !== 'undefined') {
 
 if (typeof window !== 'undefined') {
   window.openSportModal = openSportModal;
+  window.openFitnessModal = openSportModal;
   window.closeSportModal = closeSportModal;
   window.switchSportCategory = typeof switchSportCategory !== 'undefined' ? switchSportCategory : undefined;
   window.generateSportSuggestion = generateSportSuggestion;

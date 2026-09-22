@@ -15,7 +15,7 @@ const ONBOARDING_STEPS = [
     },
     icon: "sparkles",
     color: "from-purple-500 to-pink-500",
-    badge: "1 / 3",
+    badge: "1 / 4",
     description: {
       de: "Noodle verbindet intelligentes Aufgabenmanagement mit beruhigenden Soundscapes, Fokus-Timern und alltagsnahen Tools — ohne Reizüberflutung.",
       en: "Noodle combines intelligent task management with calming soundscapes, focus timers, and mindful daily tools — distraction-free."
@@ -32,10 +32,28 @@ const ONBOARDING_STEPS = [
     },
     icon: "layout-grid",
     color: "from-cyan-500 to-teal-500",
-    badge: "2 / 3",
+    badge: "2 / 4",
     description: {
       de: "Organisiere deine Aufgaben in Tages- und Wochenspalten. Du kannst Spalten per Drag & Drop verschieben, eigene Spalten anlegen und Aufgaben mit Prioritätsfarben oder Wiederholungen 🔁 versehen.",
       en: "Manage tasks across daily and weekly columns. Reorder via drag & drop, create custom columns, and add priority colors or recurrences 🔁."
+    }
+  },
+  {
+    title: {
+      de: "Eigene Routinen & Standards ✨",
+      en: "Custom Routines & Lifestyle Presets ✨"
+    },
+    subtitle: {
+      de: "Passend für deinen Alltag: Minimalist, ADHS-Fokus oder Deep Work",
+      en: "Tailored to your lifestyle: Minimalist, ADHD-friendly or Deep Work"
+    },
+    icon: "sliders",
+    color: "from-amber-500 to-rose-500",
+    badge: "3 / 4",
+    actionButton: true,
+    description: {
+      de: "Wähle vorkonfigurierte Routine-Standards oder erstelle deine eigene Vorlage. Beim Neuladen des Tagesplans erscheinen genau deine gewählten Aufgaben!",
+      en: "Pick a preconfigured lifestyle preset or create your custom default template. Your chosen tasks will load every day!"
     }
   },
   {
@@ -49,7 +67,7 @@ const ONBOARDING_STEPS = [
     },
     icon: "shield-check",
     color: "from-emerald-500 to-teal-500",
-    badge: "3 / 3",
+    badge: "4 / 4",
     description: {
       de: "Alle Daten bleiben lokal auf deinem Gerät gespeichert (mit automatischer IndexedDB-Sicherung). Nutze optional den Multi-Device Cloud-Sync, um nahtlos zwischen Handy und PC zu wechseln.",
       en: "All data stays local on your device with automatic IndexedDB resilience. Optionally enable multi-device sync to switch smoothly between mobile and desktop."
@@ -90,6 +108,15 @@ function renderOnboardingStep() {
     `).join('');
   }
 
+  const actionWrap = modal.querySelector('#onboarding-action-wrap');
+  if (actionWrap) {
+    if (step.actionButton) {
+      actionWrap.classList.remove('hidden');
+    } else {
+      actionWrap.classList.add('hidden');
+    }
+  }
+
   if (prevBtn) {
     if (onboardingCurrentStep === 0) {
       prevBtn.classList.add('invisible');
@@ -127,7 +154,7 @@ function startOnboardingTour() {
 
         <!-- Top Header: Badge & Skip Button -->
         <div class="w-full flex items-center justify-between mb-2">
-          <span id="onboarding-step-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/5 border border-white/10 text-purple-300">1 / 3</span>
+          <span id="onboarding-step-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white/5 border border-white/10 text-purple-300">1 / 4</span>
           <button onclick="closeOnboardingTour()" class="text-xs font-semibold text-gray-400 hover:text-white transition cursor-pointer px-2 py-1 rounded-lg hover:bg-white/5">
             Überspringen
           </button>
@@ -143,7 +170,15 @@ function startOnboardingTour() {
         <!-- Text Area -->
         <h3 id="onboarding-title" class="text-lg font-black font-display text-white mb-1.5 leading-snug">Willkommen bei Noodle!</h3>
         <p id="onboarding-subtitle" class="text-xs font-semibold text-purple-300/90 mb-3.5"></p>
-        <p id="onboarding-desc" class="text-xs text-gray-300/85 leading-relaxed mb-6 max-w-sm"></p>
+        <p id="onboarding-desc" class="text-xs text-gray-300/85 leading-relaxed mb-4 max-w-sm"></p>
+
+        <!-- Optional Action Trigger for Presets -->
+        <div id="onboarding-action-wrap" class="hidden mb-5 w-full max-w-xs">
+          <button onclick="openRoutinePresetsModal(); closeOnboardingTour();" class="w-full py-2.5 px-3 bg-gradient-to-r from-amber-500/20 to-purple-500/20 hover:from-amber-500/30 hover:to-purple-500/30 text-amber-200 border border-amber-500/40 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md cursor-pointer active:scale-95">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-amber-300"></i>
+            <span>Routine-Presets & Standards wählen ✨</span>
+          </button>
+        </div>
 
         <!-- Progress Dots -->
         <div id="onboarding-dots" class="flex items-center gap-1.5 mb-6"></div>

@@ -1,13 +1,19 @@
 // timer.js Teil 1/3: State, Konstanten & Sound/Sprach-Hilfsfunktionen
 
-var timerSeconds = 2 * 60; // Standardmäßig auf 2 Minuten initialisiert
-var timerInitialSeconds = 2 * 60;
+var timerSeconds = 3 * 60; // Standardmäßig auf 3 Minuten initialisiert
+var timerInitialSeconds = 3 * 60;
 var timerRunning = false;
 var timerInterval = null;
 var activeTimerTask = null;
 var timerTargetEndTime = null;
 
+var timerSoundEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerSoundEnabled') : null) !== 'false';
+var timerVoiceEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceEnabled') : null) !== 'false';
+var timerAudioMode = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerAudioMode') : null) || 'ambient';
+var timerVoiceRotationIndex = 0;
+var lastSelectedTimerAmbient = null;
 var currentSpeechSessionId = 0;
+
 if (typeof window !== 'undefined') {
   window.timerSeconds = timerSeconds;
   window.timerInitialSeconds = timerInitialSeconds;
@@ -16,6 +22,9 @@ if (typeof window !== 'undefined') {
   window.activeTimerTask = activeTimerTask;
   window.timerTargetEndTime = timerTargetEndTime;
   window.currentSpeechSessionId = currentSpeechSessionId;
+  window.timerSoundEnabled = timerSoundEnabled;
+  window.timerVoiceEnabled = timerVoiceEnabled;
+  window.timerAudioMode = timerAudioMode;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.timerSeconds = timerSeconds;
@@ -25,37 +34,51 @@ if (typeof globalThis !== 'undefined') {
   globalThis.activeTimerTask = activeTimerTask;
   globalThis.timerTargetEndTime = timerTargetEndTime;
   globalThis.currentSpeechSessionId = currentSpeechSessionId;
+  globalThis.timerSoundEnabled = timerSoundEnabled;
+  globalThis.timerVoiceEnabled = timerVoiceEnabled;
+  globalThis.timerAudioMode = timerAudioMode;
 }
 
-var timerSoundEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerSoundEnabled') : null) !== 'false';
-var timerVoiceRotationIndex = 0;
-var lastSelectedTimerAmbient = null;
-
 // Audio-Intervalle für die harmonischen Synthesizer-Loops am Ende
-let ringInterval = null;
-let ringTimeout = null;
-let currentEndingPatternIndex = 0;
+var ringInterval = null;
+var ringTimeout = null;
+var currentEndingPatternIndex = 0;
 
 // Tracker für die im Modal angezeigte Alarm-Klingelzeit
-let ringingSeconds = 0;
-let ringingSecondsInterval = null;
+var ringingSeconds = 0;
+var ringingSecondsInterval = null;
+
+if (typeof window !== 'undefined') {
+  window.ringInterval = ringInterval;
+  window.ringTimeout = ringTimeout;
+  window.currentEndingPatternIndex = currentEndingPatternIndex;
+  window.ringingSeconds = ringingSeconds;
+  window.ringingSecondsInterval = ringingSecondsInterval;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.ringInterval = ringInterval;
+  globalThis.ringTimeout = ringTimeout;
+  globalThis.currentEndingPatternIndex = currentEndingPatternIndex;
+  globalThis.ringingSeconds = ringingSeconds;
+  globalThis.ringingSecondsInterval = ringingSecondsInterval;
+}
 
 // Konstante Liste aller integrierten sanften Ambient-Sounds & Melodien zum Durchmischen
 const TIMER_AMBIENTS = ['piano', 'lofi', 'chimes', 'space', 'guitar', 'singingbowl', 'musicbox', 'breeze', 'campfire', 'birds', 'cafe', 'clock', 'lofi_sunshine', 'summer_meadow', 'bossa_nova'];
 
-// VIELFÄLTIGE NATÜRLICHE STIMMPROFILE: Warm, menschlich, empathisch, nicht roboterhaft
+// VIELFÄLTIGE NATÜRLICHE STIMMPROFILE: Warm, freundlich, empathisch, nicht roboterhaft
 const VOICE_PROFILES = [
-  // 1. FRAUENSTIMMEN (Warm, Sanft, Achtsam, Lebendig)
-  { id: 'female_warm', name: 'Sanfte warme Begleiterin', pitch: 1.01, rate: 0.93, gender: 'female', style: 'warm' },
-  { id: 'female_clear', name: 'Klare achtsame Mentorin', pitch: 1.04, rate: 0.95, gender: 'female', style: 'clear' },
-  { id: 'female_zen', name: 'Entspannte Zen-Stimme', pitch: 0.97, rate: 0.90, gender: 'female', style: 'zen' },
-  { id: 'female_dynamic', name: 'Freundliche Motivatorin', pitch: 1.03, rate: 0.96, gender: 'female', style: 'dynamic' },
+  // 1. FRAUENSTIMMEN (Warm, Sanft, Freundlich, Natürlich)
+  { id: 'female_warm', name: 'Sanfte warme Begleiterin', pitch: 1.02, rate: 0.93, gender: 'female', style: 'warm' },
+  { id: 'female_clear', name: 'Klare freundliche Stimme', pitch: 1.04, rate: 0.94, gender: 'female', style: 'clear' },
+  { id: 'female_zen', name: 'Entspannte Zen-Stimme', pitch: 0.99, rate: 0.91, gender: 'female', style: 'zen' },
+  { id: 'female_dynamic', name: 'Freundliche Motivatorin', pitch: 1.03, rate: 0.95, gender: 'female', style: 'dynamic' },
 
-  // 2. MÄNNERSTIMMEN (Ruhig, Sonor, Vertrauensvoll, Natürlich)
-  { id: 'male_calm', name: 'Ruhiger Coach', pitch: 0.95, rate: 0.93, gender: 'male', style: 'calm' },
-  { id: 'male_deep', name: 'Tiefe warme Stimme', pitch: 0.91, rate: 0.91, gender: 'male', style: 'deep' },
-  { id: 'male_steady', name: 'Fokussierter Begleiter', pitch: 0.96, rate: 0.94, gender: 'male', style: 'steady' },
-  { id: 'male_coach', name: 'Empathischer Mentor', pitch: 0.98, rate: 0.95, gender: 'male', style: 'coach' }
+  // 2. MÄNNERSTIMMEN (Ruhig, Freundlich, Vertrauensvoll, Natürlich)
+  { id: 'male_calm', name: 'Ruhiger freundlicher Coach', pitch: 0.98, rate: 0.93, gender: 'male', style: 'calm' },
+  { id: 'male_warm', name: 'Warme entspannte Stimme', pitch: 0.96, rate: 0.92, gender: 'male', style: 'warm' },
+  { id: 'male_steady', name: 'Freundlicher Begleiter', pitch: 0.99, rate: 0.94, gender: 'male', style: 'steady' },
+  { id: 'male_coach', name: 'Empathischer Mentor', pitch: 1.00, rate: 0.94, gender: 'male', style: 'coach' }
 ];
 
 let globalVoiceTurnIndex = 0;
@@ -471,6 +494,14 @@ function pickWithoutImmediateRepeat(list, lastValue) {
   return choice;
 }
 
+function safeTr(obj) {
+  if (typeof tr === 'function') return tr(obj);
+  if (typeof t === 'function' && typeof obj === 'string') return t(obj);
+  if (!obj || typeof obj !== 'object') return String(obj || '');
+  const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+  return obj[lang] || obj.de || obj.en || Object.values(obj)[0] || '';
+}
+
 function safeTranslate(key) {
   if (typeof TRANSLATIONS === 'undefined') return key;
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
@@ -483,33 +514,43 @@ function getCurrentPresetMinutes() {
 }
 
 // Synchronisiert den Timer-Zustand beim Laden
-document.addEventListener('DOMContentLoaded', () => {
-  const mins = getCurrentPresetMinutes();
-  timerSeconds = mins * 60;
-  timerInitialSeconds = mins * 60;
-  updateTimerDisplay();
-  updateTimerUI();
-  updateMuteButtonsUI();
-});
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    const mins = getCurrentPresetMinutes();
+    timerSeconds = mins * 60;
+    timerInitialSeconds = mins * 60;
+    if (typeof updateTimerDisplay === 'function') updateTimerDisplay();
+    if (typeof updateTimerUI === 'function') updateTimerUI();
+    if (typeof updateMuteButtonsUI === 'function') updateMuteButtonsUI();
+  });
+}
 
 // Stummschaltung toggeln und Buttons aktualisieren
 function toggleTimerSound() {
   timerSoundEnabled = !timerSoundEnabled;
-  localStorage.setItem('flowTimerSoundEnabled', String(timerSoundEnabled));
+  if (typeof window !== 'undefined') window.timerSoundEnabled = timerSoundEnabled;
+  if (typeof globalThis !== 'undefined') globalThis.timerSoundEnabled = timerSoundEnabled;
+  try {
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('flowTimerSoundEnabled', String(timerSoundEnabled));
+    }
+  } catch(e) {}
   
   if (!timerSoundEnabled) {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try { window.speechSynthesis.cancel(); } catch(e) {}
     }
-    stopAmbientSound(true);
+    if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
     if (ringInterval) {
       clearInterval(ringInterval);
       ringInterval = null;
     }
-    showToast(tr({ de: "Timer-Sound stummgeschaltet 🔇", en: "Timer sound muted 🔇", es: "Sonido del temporizador silenciado 🔇", el: "Ο ήχος του χρονομέτρου σίγασε 🔇", fr: "Son du minuteur coupé 🔇", it: "Audio del timer disattivato 🔇" }));
+    const msg = safeTr({ de: "Timer-Sound stummgeschaltet 🔇", en: "Timer sound muted 🔇", es: "Sonido del temporizador silenciado 🔇", el: "Ο ήχος του χρονομέτρου σίγασε 🔇", fr: "Son du minuteur coupé 🔇", it: "Audio del timer disattivato 🔇" });
+    if (typeof showToast === 'function') showToast(msg);
   } else {
-    showToast(tr({ de: "Timer-Sound eingeschaltet 🔊", en: "Timer sound unmuted 🔊", es: "Sonido del temporizador activado 🔊", el: "Ο ήχος του χρονομέτρου ενεργοποιήθηκε 🔊", fr: "Son du minuteur activé 🔊", it: "Audio del timer attivato 🔊" }));
-    if (timerRunning) {
+    const msg = safeTr({ de: "Timer-Sound eingeschaltet 🔊", en: "Timer sound unmuted 🔊", es: "Sonido del temporizador activado 🔊", el: "Ο ήχος του χρονομέτρου ενεργοποιήθηκε 🔊", fr: "Son du minuteur activé 🔊", it: "Audio del timer attivato 🔊" });
+    if (typeof showToast === 'function') showToast(msg);
+    if (timerRunning && typeof playRandomTimerAmbient === 'function') {
       playRandomTimerAmbient();
     }
   }
@@ -523,19 +564,19 @@ function updateMuteButtonsUI() {
     if (el) {
       if (timerSoundEnabled) {
         el.innerHTML = '<i data-lucide="volume-2" class="w-3.5 h-3.5 text-gray-300 hover:text-white"></i>';
-        el.title = tr({ de: "Stummschalten", en: "Mute", es: "Silenciar", el: "Σίγαση", fr: "Couper le son", it: "Disattiva audio" });
+        el.title = safeTr({ de: "Stummschalten", en: "Mute", es: "Silenciar", el: "Σίγαση", fr: "Couper le son", it: "Disattiva audio" });
       } else {
         el.innerHTML = '<i data-lucide="volume-x" class="w-3.5 h-3.5 text-rose-400"></i>';
-        el.title = tr({ de: "Ton einschalten", en: "Unmute", es: "Activar sonido", el: "Ενεργοποίηση ήχου", fr: "Activer le son", it: "Attiva audio" });
+        el.title = safeTr({ de: "Ton einschalten", en: "Unmute", es: "Activar sonido", el: "Ενεργοποίηση ήχου", fr: "Activer le son", it: "Attiva audio" });
       }
     }
   });
-  if (typeof lucide !== 'undefined') lucide.createIcons();
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
 
 // Startet bei jedem Timer-Start einen neuen Natursound im Hintergrund
-function playRandomTimerAmbient(crossfade = false) {
-  if (!timerSoundEnabled || !timerRunning) return;
+function playRandomTimerAmbient(crossfade = false, force = false) {
+  if (!timerSoundEnabled || (!timerRunning && !force)) return;
   
   let chosen;
   do {
@@ -552,18 +593,49 @@ function playRandomTimerAmbient(crossfade = false) {
 // Caching der Systemstimmen & dynamisches Re-Loading
 let cachedVoices = [];
 function updateSpeechVoices() {
-  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window && typeof window.speechSynthesis.getVoices === 'function') {
     cachedVoices = window.speechSynthesis.getVoices() || [];
   }
 }
-if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+if (typeof window !== 'undefined' && 'speechSynthesis' in window && typeof window.speechSynthesis.getVoices === 'function') {
   updateSpeechVoices();
   window.speechSynthesis.onvoiceschanged = updateSpeechVoices;
 }
 
+let speechDuckingTimeout = null;
+
+// Harmonisches Audio-Ducking für alle laufenden Klangquellen (Radio, Ambient, Sound Machine)
+function duckAllAudioForSpeech(isDucked) {
+  if (speechDuckingTimeout) {
+    clearTimeout(speechDuckingTimeout);
+    speechDuckingTimeout = null;
+  }
+  if (isDucked) {
+    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.18);
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.duckRadio === 'function') {
+      RadioNewsEngine.duckRadio(true);
+    } else if (typeof window !== 'undefined' && typeof window.duckRadio === 'function') {
+      window.duckRadio(true);
+    }
+    // Sicherheits-Timeout: Audio nach 8.5s automatisch wiederherstellen, falls Browser-Event hakt
+    speechDuckingTimeout = setTimeout(() => {
+      duckAllAudioForSpeech(false);
+    }, 8500);
+  } else {
+    if (typeof restoreAmbientVolume === 'function') restoreAmbientVolume();
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.duckRadio === 'function') {
+      RadioNewsEngine.duckRadio(false);
+    } else if (typeof window !== 'undefined' && typeof window.duckRadio === 'function') {
+      window.duckRadio(false);
+    }
+  }
+}
+if (typeof window !== 'undefined') window.duckAllAudioForSpeech = duckAllAudioForSpeech;
+if (typeof globalThis !== 'undefined') globalThis.duckAllAudioForSpeech = duckAllAudioForSpeech;
+
 // Globale, hochqualitative Sprach-Synthese mit organischen, menschlich-warmen Stimmen
 function speakWithProfile(text, profileIndex = null) {
-  if (!timerSoundEnabled) return;
+  if (!timerSoundEnabled || timerVoiceEnabled === false) return;
   if (!('speechSynthesis' in window)) return;
   if (!text || typeof text !== 'string') return;
 
@@ -607,28 +679,36 @@ function speakWithProfile(text, profileIndex = null) {
     const langPrefix = targetLang.split('-')[0].toLowerCase();
     const matchingVoices = allVoices.filter(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith(langPrefix));
 
-    // Höchste Priorität für Neural / Natural / Online / Wavenet / Siri / Enhanced Stimmen
+    // Höchste Priorität für Neural / Natural / Online / Wavenet / Siri / Enhanced / Freundliche Stimmen
     function getVoiceScore(voice) {
       const name = (voice.name || '').toLowerCase();
       let score = 0;
-      if (name.includes('natural') || name.includes('neural')) score += 100;
-      if (name.includes('online')) score += 50;
-      if (name.includes('google') || name.includes('wavenet')) score += 40;
-      if (name.includes('siri') || name.includes('enhanced') || name.includes('premium')) score += 40;
-      if (name.includes('katja') || name.includes('conrad') || name.includes('luisa') || name.includes('jenny') || name.includes('anna')) score += 30;
+      if (name.includes('natural') || name.includes('neural')) score += 120;
+      if (name.includes('online')) score += 60;
+      if (name.includes('google') || name.includes('wavenet')) score += 50;
+      if (name.includes('siri') || name.includes('enhanced') || name.includes('premium')) score += 50;
+      if (name.includes('marlene') || name.includes('vicki') || name.includes('katja') || 
+          name.includes('luisa') || name.includes('amira') || name.includes('jenny') || 
+          name.includes('conrad') || name.includes('stefan') || name.includes('florian') ||
+          name.includes('anna') || name.includes('serena') || name.includes('samantha')) {
+        score += 40;
+      }
+      if (name.includes('desktop') || name.includes('legacy') || name.includes('espeak')) {
+        score -= 40;
+      }
       return score;
     }
 
     const sortedVoices = (matchingVoices.length > 0 ? matchingVoices : allVoices).slice().sort((a, b) => getVoiceScore(b) - getVoiceScore(a));
 
     const femaleKeywords = [
-      'katja', 'luisa', 'hedda', 'anna', 'zira', 'petra', 'elena', 'hazel', 'susan', 'samantha', 'moira',
+      'marlene', 'vicki', 'katja', 'luisa', 'hedda', 'anna', 'zira', 'petra', 'elena', 'hazel', 'susan', 'samantha', 'moira',
       'tessa', 'deutsch', 'female', 'julie', 'hortense', 'clara', 'paola', 'lucia', 'monica',
       'victoria', 'audrey', 'alice', 'federica', 'denise', 'jenny', 'sonia', 'isabella', 'athina',
-      'elli', 'marta', 'laura', 'chiara', 'serena', 'ava', 'karen'
+      'elli', 'marta', 'laura', 'chiara', 'serena', 'ava', 'karen', 'amira'
     ];
     const maleKeywords = [
-      'conrad', 'stefan', 'yannick', 'markus', 'david', 'george', 'ravi', 'stefanos', 'male', 'paul',
+      'conrad', 'stefan', 'florian', 'yannick', 'markus', 'david', 'george', 'ravi', 'stefanos', 'male', 'paul',
       'henri', 'alvaro', 'jorge', 'cosimo', 'thomas', 'daniel', 'oliver', 'arthur', 'claude',
       'guy', 'diego', 'nestoras', 'nikos', 'paulino', 'matteo'
     ];
@@ -654,19 +734,26 @@ function speakWithProfile(text, profileIndex = null) {
       utterance.voice = selectedVoice;
     }
 
-    if (typeof currentSoundType !== 'undefined' && currentSoundType) {
-      if (typeof duckAmbientVolume === 'function') duckAmbientVolume(1.0); 
-      utterance.onend = () => {
-        if (typeof restoreAmbientVolume === 'function') restoreAmbientVolume();
-      };
-      utterance.onerror = () => {
-        if (typeof restoreAmbientVolume === 'function') restoreAmbientVolume();
-      };
-    }
+    // 4. Harmonisches Ducking: Hintergrundsounds/Radio sanft abdämpfen und nach Sprache wieder anheben
+    duckAllAudioForSpeech(true);
+
+    utterance.onstart = () => {
+      duckAllAudioForSpeech(true);
+    };
+
+    const cleanupDucking = () => {
+      duckAllAudioForSpeech(false);
+    };
+
+    utterance.onend = cleanupDucking;
+    utterance.onerror = cleanupDucking;
 
     const speakSessionToken = currentSpeechSessionId;
     const speakTimeout = setTimeout(() => {
-      if (currentSpeechSessionId !== speakSessionToken) return;
+      if (currentSpeechSessionId !== speakSessionToken) {
+        cleanupDucking();
+        return;
+      }
       try {
         if (window.speechSynthesis.paused) {
           window.speechSynthesis.resume();
@@ -674,6 +761,7 @@ function speakWithProfile(text, profileIndex = null) {
         window.speechSynthesis.speak(utterance);
       } catch (err) {
         console.warn("speechSynthesis.speak error:", err);
+        cleanupDucking();
       }
     }, 50);
     if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
@@ -681,6 +769,7 @@ function speakWithProfile(text, profileIndex = null) {
     }
   } catch (e) {
     console.error("Fehler bei der speakWithProfile Ausführung:", e);
+    duckAllAudioForSpeech(false);
   }
 }
 

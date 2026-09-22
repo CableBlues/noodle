@@ -276,6 +276,18 @@ document.addEventListener('keydown', (e) => {
   }
 
   switch(key) {
+    case '1':
+      e.preventDefault();
+      if (typeof setWorkspace === 'function') setWorkspace('private');
+      break;
+    case '2':
+      e.preventDefault();
+      if (typeof setWorkspace === 'function') setWorkspace('work');
+      break;
+    case '3':
+      e.preventDefault();
+      if (typeof setWorkspace === 'function') setWorkspace('study');
+      break;
     case 'f':
       e.preventDefault();
       toggleMinimalist();
@@ -383,6 +395,7 @@ function closeAllPanelsAndModals() {
     'feierabend-celebration-modal', 'privacy-legal-modal', 'note-detail-modal',
     'helper-safespace-modal', 'helper-pick-modal', 'helper-sport-modal',
     'helper-break-modal', 'helper-steps-modal', 'modal-p2p-sync',
+    'modal-regulation',
     'modal-report-dashboard', 'modal-settings', 'modal-command-palette',
     'modal-keyboard-shortcuts', 'text-import-modal', 'report-export-modal',
     'mobile-menu-drawer', 'mobile-tools-sheet', 'modal-mobile-quick-menu',
@@ -603,6 +616,18 @@ function getAvailableCommands() {
       action: () => { if (typeof openBreakModal === 'function') openBreakModal('breath'); }
     },
     {
+      id: 'regulation',
+      title: tr({
+        de: '🌿 Innere Ruhe & Somatische Regulation (Nervensystem beruhigen)',
+        en: '🌿 Inner Peace & Somatic Regulation (Calm nervous system)',
+        fr: '🌿 Paix Intérieure & Régulation Somatique',
+        it: '🌿 Pace Interiore & Regolazione Somatica',
+        es: '🌿 Paz Interior & Regulación Somática',
+        el: '🌿 Εσωτερική Γαλήνη & Σωματική Ρύθμιση'
+      }),
+      action: () => { if (typeof openRegulationModal === 'function') openRegulationModal('reset'); }
+    },
+    {
       id: 'dashboard',
       title: tr({
         de: '📊 Produktivitäts- & Analyse-Dashboard',
@@ -625,6 +650,18 @@ function getAvailableCommands() {
         el: '↩️ Αναίρεση τελευταίας ενέργειας (Ctrl+Z)'
       }),
       action: () => { if (typeof handleUndo === 'function') handleUndo(); }
+    },
+    {
+      id: 'clear_columns',
+      title: tr({
+        de: '🧹 Spalten leeren (Alle Aufgaben im Bereich leeren)',
+        en: '🧹 Clear columns (Clear all tasks in workspace)',
+        fr: '🧹 Vider les colonnes (Vider toutes les tâches)',
+        it: '🧹 Svuota colonne (Svuota tutte le attività)',
+        es: '🧹 Vaciar columnas (Vaciar todas las tareas)',
+        el: '🧹 Άδειασμα στηλών (Άδειασμα όλων των εργασιών)'
+      }),
+      action: () => { if (typeof handleClearAllLists === 'function') handleClearAllLists(); }
     },
     {
       id: 'reset',
@@ -1459,8 +1496,8 @@ function getTaskIconDetails(taskText, category = '') {
     { rx: /einkauf|shop|compr|achat|spesa|supermarkt|market|store|kauf|epicerie|agor|αγορ|σουπερ/, ic: 'shopping-cart', col: 'text-emerald-400' },
     // 20. Arbeit / Job / Büro / Termine / Meetings
     { rx: /arbeit|work|trabaj|travail|lavor|doul|job|office|schreib|mail|call|anruf|meeting|appuntament|rendez|cita|termin|geschaft|δουλει|γραφει/, ic: 'briefcase', col: 'text-amber-500' },
-    // 21. Lesen / Buch / Lernen / Studium
-    { rx: /les|book|libr|livr|vivl|lernen|study|etud|stud|buch|diavas|διαβασ|βιβλι/, ic: 'book-open', col: 'text-violet-400' },
+    // 21. Lesen / Buch / Lernen / Studium / Uni / Vorlesung
+    { rx: /les|book|libr|livr|vivl|lernen|study|etud|stud|buch|diavas|διαβασ|βιβλι|vorlesung|lecture|skript|klausur|exam|abgabe|deadline|seminar|modul|bachelor|master|prof|tutor|ubung|uebung/, ic: 'book-open', col: 'text-violet-400' },
     // 22. Sport / Fitness / Training / Laufen / Spazieren
     { rx: /sport|gym|fit|train|gymn|workout|run|laufen|gehen|walk|course|correre|caminar|marcher|exerc|ασκησ|γυμναστ|τρεξιμ/, ic: 'activity', col: 'text-green-400' },
     // 23. Pause / Ausruhen / Erholen / Meditation
@@ -1484,7 +1521,11 @@ function getTaskIconDetails(taskText, category = '') {
     work_focus: { icon: 'target', color: 'text-amber-400' },
     work_in_progress: { icon: 'zap', color: 'text-blue-400' },
     work_waiting: { icon: 'hourglass', color: 'text-purple-400' },
-    work_backlog: { icon: 'folder-kanban', color: 'text-indigo-400' }
+    work_backlog: { icon: 'folder-kanban', color: 'text-indigo-400' },
+    study_focus: { icon: 'target', color: 'text-amber-400' },
+    study_modules: { icon: 'book-open', color: 'text-blue-400' },
+    study_submissions: { icon: 'clock', color: 'text-rose-400' },
+    study_deep: { icon: 'brain', color: 'text-purple-400' }
   };
   return defaults[category] || { icon: 'check-circle', color: 'text-purple-400' };
 }

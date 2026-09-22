@@ -153,7 +153,7 @@ function getCommandPaletteActions() {
     },
     {
       id: 'cmd-open-dice',
-      title: tr({ de: 'Schicksals-Würfel werfen', en: 'Roll Task Dice' }),
+      title: tr({ de: 'Glückswürfel werfen (Aufgabe auslosen)', en: 'Roll Lucky Dice (Pick task)' }),
       category: tr({ de: 'Werkzeuge', en: 'Tools' }),
       icon: 'dice-5',
       color: 'text-amber-400',
