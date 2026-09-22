@@ -276,36 +276,36 @@ function renderAlarmPanel() {
         `}
       </div>
 
-      <!-- Presets (Schnell-Auswahl) -->
+      <!-- Presets (Schnell-Auswahl mit direktem Sync) -->
       <div class="space-y-1">
         <div class="flex items-center justify-between text-[10px] font-mono text-gray-400 font-bold uppercase">
           <span>Dauer wählen</span>
           <span>Presets</span>
         </div>
         <div class="grid grid-cols-4 gap-1.5">
-          <button onclick="if(typeof setTimerPreset==='function') setTimerPreset(15); renderAlarmPanel();" class="py-2 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/40 text-gray-200 text-xs font-mono font-bold transition cursor-pointer text-center">15m</button>
-          <button onclick="if(typeof setTimerPreset==='function') setTimerPreset(25); renderAlarmPanel();" class="py-2 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-200 text-xs font-mono font-bold transition cursor-pointer text-center shadow-sm">25m 🍅</button>
-          <button onclick="if(typeof setTimerPreset==='function') setTimerPreset(45); renderAlarmPanel();" class="py-2 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/40 text-gray-200 text-xs font-mono font-bold transition cursor-pointer text-center">45m</button>
-          <button onclick="if(typeof setTimerPreset==='function') setTimerPreset(60); renderAlarmPanel();" class="py-2 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/40 text-gray-200 text-xs font-mono font-bold transition cursor-pointer text-center">60m</button>
+          <button onclick="if(typeof selectTimerPreset==='function'){selectTimerPreset(15);}else if(typeof setTimerPreset==='function'){setTimerPreset(15);} renderAlarmPanel();" class="py-2 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/40 text-gray-200 text-xs font-mono font-bold transition cursor-pointer text-center">15m</button>
+          <button onclick="if(typeof selectTimerPreset==='function'){selectTimerPreset(25);}else if(typeof setTimerPreset==='function'){setTimerPreset(25);} renderAlarmPanel();" class="py-2 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-200 text-xs font-mono font-bold transition cursor-pointer text-center shadow-sm">25m 🍅</button>
+          <button onclick="if(typeof selectTimerPreset==='function'){selectTimerPreset(45);}else if(typeof setTimerPreset==='function'){setTimerPreset(45);} renderAlarmPanel();" class="py-2 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/40 text-gray-200 text-xs font-mono font-bold transition cursor-pointer text-center">45m</button>
+          <button onclick="if(typeof selectTimerPreset==='function'){selectTimerPreset(60);}else if(typeof setTimerPreset==='function'){setTimerPreset(60);} renderAlarmPanel();" class="py-2 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/40 text-gray-200 text-xs font-mono font-bold transition cursor-pointer text-center">60m</button>
         </div>
       </div>
 
-      <!-- Steuerungs-Buttons (Start / Pause / Reset) -->
+      <!-- Steuerungs-Buttons (Start / Pause / Reset & Stopp) -->
       <div class="flex gap-2 pt-1">
         ${tRunning ? `
-          <button onclick="if(typeof pauseTimer==='function') pauseTimer(); renderAlarmPanel();" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-2xl transition cursor-pointer flex items-center justify-center gap-2 text-xs shadow-md">
+          <button onclick="if(typeof pauseTimer==='function') pauseTimer(); renderAlarmPanel();" class="flex-1 py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-2xl transition cursor-pointer flex items-center justify-center gap-2 text-xs shadow-md active:scale-95">
             <i data-lucide="pause" class="w-4 h-4"></i>
             <span>Pausieren</span>
           </button>
         ` : `
-          <button onclick="if(typeof startTimer==='function') startTimer(); renderAlarmPanel();" class="flex-1 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl transition cursor-pointer flex items-center justify-center gap-2 text-xs shadow-md">
+          <button onclick="if(typeof startTimer==='function') startTimer(); renderAlarmPanel();" class="flex-1 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl transition cursor-pointer flex items-center justify-center gap-2 text-xs shadow-md active:scale-95">
             <i data-lucide="play" class="w-4 h-4"></i>
             <span>Timer starten</span>
           </button>
         `}
-        <button onclick="if(typeof resetTimer==='function') resetTimer(); renderAlarmPanel();" class="px-4 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white font-bold rounded-2xl transition cursor-pointer flex items-center justify-center gap-1.5 text-xs">
-          <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
-          <span>Reset</span>
+        <button onclick="if(typeof stopTimer==='function') stopTimer(); else if(typeof resetTimer==='function') resetTimer(); renderAlarmPanel();" class="px-4 py-2.5 bg-white/5 hover:bg-rose-500/20 border border-white/10 hover:border-rose-500/40 text-gray-300 hover:text-rose-300 font-bold rounded-2xl transition cursor-pointer flex items-center justify-center gap-1.5 text-xs active:scale-95" title="Stoppen & Zurücksetzen">
+          <i data-lucide="square" class="w-3.5 h-3.5"></i>
+          <span>Stop</span>
         </button>
       </div>
 

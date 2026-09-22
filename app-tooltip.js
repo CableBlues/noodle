@@ -11,7 +11,7 @@
   let isWarm = false;
   let currentTarget = null;
 
-  const DELAY_SHOW = 90; // Schnelle Reaktionszeit in ms (statt Browser 1500ms)
+  const DELAY_SHOW = 25; // Ultraschnelle Reaktionszeit in ms (sofortiges Einblenden)
   const WARM_TIMEOUT = 450; // Schneller Wechsel zwischen Buttons ohne Verzögerung
 
   function getOrCreateTooltip() {
@@ -40,9 +40,11 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
 
-    // Tastenkürzel wie [T], [Ctrl+Z], [S], (Ctrl+Z) in elegante Mini-Kbd-Badges umwandeln
-    safe = safe.replace(/\[([A-Z0-9\+\-\s]{1,10})\]/g, '<kbd class="noodle-tooltip-kbd">$1</kbd>');
-    safe = safe.replace(/\((Ctrl\+[A-Za-z0-9]|Strg\+[A-Za-z0-9]|Alt\+[A-Za-z0-9]|Shift\+[A-Za-z0-9]|Cmd\+[A-Za-z0-9])\)/gi, '<kbd class="noodle-tooltip-kbd">$1</kbd>');
+    // Tastenkürzel wie [T], [Ctrl+Z], [S], (Ctrl+Z) immer unzerbrechlich in der gleichen Zeile halten
+    safe = safe.replace(/(\s*)(?:\[([A-Z0-9\+\-\s]{1,10})\]|\((Ctrl\+[A-Za-z0-9]|Strg\+[A-Za-z0-9]|Alt\+[A-Za-z0-9]|Shift\+[A-Za-z0-9]|Cmd\+[A-Za-z0-9])\))/gi, (match, space, kbd1, kbd2) => {
+      const key = kbd1 || kbd2;
+      return `<span class="noodle-tooltip-shortcut-wrap">&nbsp;<kbd class="noodle-tooltip-kbd">${key}</kbd></span>`;
+    });
 
     // Optionaler Bullet / Info-Trenner
     safe = safe.replace(/(\s[•·]\s)/g, '<span class="noodle-tooltip-bullet">$1</span>');
@@ -135,6 +137,9 @@
   function findTooltipTarget(el) {
     let curr = el;
     while (curr && curr !== document.body && curr !== document.documentElement) {
+      if (curr.getAttribute('data-no-tooltip') === 'true' || curr.hasAttribute('data-no-tooltip')) {
+        return null;
+      }
       if (curr.hasAttribute('title') && curr.getAttribute('title').trim()) {
         const titleText = curr.getAttribute('title').trim();
         curr.setAttribute('data-noodle-tooltip', titleText);

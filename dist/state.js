@@ -60,6 +60,25 @@ function loadWorkCategoriesOrder() {
   ];
 }
 
+function loadStudyCategoriesOrder() {
+  try {
+    const saved = localStorage.getItem('flowPlannerStudyCategoriesOrder') || localStorage.getItem('flow_study_categories_order');
+    if (saved) return JSON.parse(saved);
+  } catch (e) {
+    console.warn('[State] loadStudyCategoriesOrder warning:', e);
+  }
+  
+  return [
+    ['study_focus', 'target'],
+    ['study_modules', 'book-open'],
+    ['study_submissions', 'clock'],
+    ['study_deep', 'brain'],
+    ['done', 'check-circle'],
+    ['termine', 'calendar'],
+    ['notes', 'file-text']
+  ];
+}
+
 let workCategoriesOrder = null;
 const WORK_CATEGORIES_ORDER = [
   ['work_focus', 'target'],
@@ -71,54 +90,116 @@ const WORK_CATEGORIES_ORDER = [
   ['notes', 'sticky-note']
 ];
 
+let studyCategoriesOrder = null;
+const STUDY_CATEGORIES_ORDER = [
+  ['study_focus', 'target'],
+  ['study_modules', 'book-open'],
+  ['study_submissions', 'clock'],
+  ['study_deep', 'brain'],
+  ['done', 'check-circle'],
+  ['termine', 'calendar'],
+  ['notes', 'file-text']
+];
+
 const DEFAULT_WORK_TASKS_BY_LANG = {
   de: {
-    work_focus: ['Wichtigste Tagesaufgabe (Must-Do)', 'E-Mails & Prioritäten sortieren (15 Min.)'],
-    work_in_progress: ['Projekt-Konzept ausarbeiten', 'Kundenanfrage beantworten'],
-    work_waiting: ['Feedback von Kollege/Chef zu Entwurf', 'Angebot Freigabe Kunde A'],
-    work_backlog: ['Dokumentation aktualisieren', 'Monatsbericht vorbereiten', 'Recherchen Q4'],
-    termine: [],
-    notes: ['Wichtige Links & Notizen zum aktuellen Sprint...']
+    work_focus: ['🎯 Wichtigste Tagesaufgabe (Must-Do)', '📧 E-Mails & Prioritäten sortieren (15 Min.)'],
+    work_in_progress: ['⚡ Projekt-Konzept ausarbeiten', '📞 Kundenanfrage beantworten'],
+    work_waiting: ['⏳ Feedback von Kollege/Chef zu Entwurf', '📄 Angebot Freigabe Kunde A'],
+    work_backlog: ['📋 Dokumentation aktualisieren', '📊 Monatsbericht vorbereiten', '💡 Recherchen Q4'],
+    termine: ['📅 Wöchentliches Team-Sync (Mo 10:00)'],
+    notes: ['📌 Wichtige Links & Notizen zum aktuellen Sprint...']
   },
   en: {
-    work_focus: ['Key priority of the day (Must-Do)', 'Sort emails & daily priorities (15 min)'],
-    work_in_progress: ['Draft project concept', 'Answer client inquiry'],
-    work_waiting: ['Waiting on design feedback', 'Client invoice approval'],
-    work_backlog: ['Update documentation', 'Prepare monthly report', 'Q4 Research'],
-    termine: [],
-    notes: ['Key links & scratchpad for current sprint...']
+    work_focus: ['🎯 Key priority of the day (Must-Do)', '📧 Sort emails & daily priorities (15 min)'],
+    work_in_progress: ['⚡ Draft project concept', '📞 Answer client inquiry'],
+    work_waiting: ['⏳ Waiting on design feedback', '📄 Client invoice approval'],
+    work_backlog: ['📋 Update documentation', '📊 Prepare monthly report', '💡 Q4 Research'],
+    termine: ['📅 Weekly Team Sync (Mon 10:00 AM)'],
+    notes: ['📌 Key links & scratchpad for current sprint...']
   },
   es: {
-    work_focus: ['Prioridad clave del día (Must-Do)', 'Revisar correos y prioridades'],
-    work_in_progress: ['Elaborar concepto del proyecto', 'Responder consulta de cliente'],
-    work_waiting: ['Esperando comentarios de diseño', 'Aprobación de factura'],
-    work_backlog: ['Actualizar documentación', 'Preparar informe mensual'],
-    termine: [],
-    notes: ['Notas clave y enlaces del sprint...']
+    work_focus: ['🎯 Prioridad clave del día (Must-Do)', '📧 Revisar correos y prioridades'],
+    work_in_progress: ['⚡ Elaborar concepto del proyecto', '📞 Responder consulta de cliente'],
+    work_waiting: ['⏳ Esperando comentarios de diseño', '📄 Aprobación de factura'],
+    work_backlog: ['📋 Actualizar documentación', '📊 Preparar informe mensual'],
+    termine: ['📅 Sincronización semanal de equipo'],
+    notes: ['📌 Notas clave y enlaces del sprint...']
   },
   fr: {
-    work_focus: ['Priorité clé du jour (Must-Do)', 'Trier les e-mails et priorités'],
-    work_in_progress: ['Rédiger le concept du projet', 'Répondre à la demande client'],
-    work_waiting: ['En attente du retour client', 'Validation du devis'],
-    work_backlog: ['Mettre à jour la documentation', 'Préparer le rapport mensuel'],
-    termine: [],
-    notes: ['Notes et liens importants...']
+    work_focus: ['🎯 Priorité clé du jour (Must-Do)', '📧 Trier les e-mails et priorités'],
+    work_in_progress: ['⚡ Rédiger le concept du projet', '📞 Répondre à la demande client'],
+    work_waiting: ['⏳ En attente du retour client', '📄 Validation du devis'],
+    work_backlog: ['📋 Mettre à jour la documentation', '📊 Préparer le rapport mensuel'],
+    termine: ['📅 Réunion d\'équipe hebdomadaire'],
+    notes: ['📌 Notes et liens importants...']
   },
   it: {
-    work_focus: ['Priorità chiave del giorno (Must-Do)', 'Controllare email e priorità'],
-    work_in_progress: ['Sviluppare concetto del progetto', 'Rispondere alla richiesta del cliente'],
-    work_waiting: ['In attesa di feedback', 'Approvazione preventivo'],
-    work_backlog: ['Aggiornare documentazione', 'Preparare report mensile'],
-    termine: [],
-    notes: ['Note e link importanti...']
+    work_focus: ['🎯 Priorità chiave del giorno (Must-Do)', '📧 Controllare email e priorità'],
+    work_in_progress: ['⚡ Sviluppare concetto del progetto', '📞 Rispondere alla richiesta del cliente'],
+    work_waiting: ['⏳ In attesa di feedback', '📄 Approvazione preventivo'],
+    work_backlog: ['📋 Aggiornare documentazione', '📊 Preparare report mensile'],
+    termine: ['📅 Sync settimanale del team'],
+    notes: ['📌 Note e link importanti...']
   },
   el: {
-    work_focus: ['Κύρια προτεραιότητα ημέρας (Must-Do)', 'Έλεγχος email & προτεραιοτήτων'],
-    work_in_progress: ['Σύνταξη σχεδίου έργου', 'Απάντηση σε αίτημα πελάτη'],
-    work_waiting: ['Αναμονή για σχόλια', 'Έγκριση προσφοράς'],
-    work_backlog: ['Ενημέρωση τεκμηρίωσης', 'Προετοιμασία μηνιαίας αναφοράς'],
-    termine: [],
-    notes: ['Σημειώσεις & σύνδεσμοι...']
+    work_focus: ['🎯 Κύρια προτεραιότητα ημέρας (Must-Do)', '📧 Έλεγχος email & προτεραιοτήτων'],
+    work_in_progress: ['⚡ Σύνταξη σχεδίου έργου', '📞 Απάντηση σε αίτημα πελάτη'],
+    work_waiting: ['⏳ Αναμονή για σχόλια', '📄 Έγκριση προσφοράς'],
+    work_backlog: ['📋 Ενημέρωση τεκμηρίωσης', '📊 Προετοιμασία μηνιαίας αναφοράς'],
+    termine: ['📅 Εβδομαδιαίος συγχρονισμός ομάδας'],
+    notes: ['📌 Σημειώσεις & σύνδεσμοι...']
+  }
+};
+
+const DEFAULT_STUDY_TASKS_BY_LANG = {
+  de: {
+    study_focus: ['🎯 Tages-Lernziel: Skript Kapitel 3 durcharbeiten', '⏱️ 3x 45-Minuten Pomodoro Deep-Study'],
+    study_modules: ['📚 Modul 1: Vorlesungs-Folien wiederholen', '📐 Modul 2: Übungsaufgaben rechnen', '🔬 Modul 3: Laborbericht / Skripte sichten'],
+    study_submissions: ['⏳ Übungsblatt 4 abgeben (Deadline Do 23:59)', '📝 Seminararbeit: Einleitung & Gliederung einreichen'],
+    study_deep: ['🧠 Zusammenfassung Modul A anfertigen', '🃏 30 Karteikarten wiederholen (Spaced Repetition)', '📑 Altklausuren 2023/24 unter Zeitlimit rechnen'],
+    termine: ['⚠️ Klausur-Anmeldefrist nicht verpassen!', '👨‍🏫 Sprechstunde Dozent (Mi 14:00 Uhr)'],
+    notes: ['📖 Literatur-Quellen, Bib-Links & Vorlesungs-Notizen...']
+  },
+  en: {
+    study_focus: ['🎯 Daily Study Goal: Master Chapters 3 & 4', '⏱️ 3x 45-Minute Deep Focus Pomodoros'],
+    study_modules: ['📚 Course 1: Review lecture slides', '📐 Course 2: Solve practice problem set', '🔬 Course 3: Read lab script & research notes'],
+    study_submissions: ['⏳ Assignment 4 submission (Due Thu 11:59 PM)', '📝 Term paper: Submit outline & intro draft'],
+    study_deep: ['🧠 Create summary cheat-sheet for Exam A', '🃏 Review 30 flashcards (Spaced Repetition)', '📑 Practice mock exams under time constraint'],
+    termine: ['⚠️ Exam registration deadline!', '👨‍🏫 Professor office hours (Wed 2:00 PM)'],
+    notes: ['📖 Bibliography links, lecture scratchpad & quotes...']
+  },
+  es: {
+    study_focus: ['🎯 Objetivo de estudio: Repasar capítulo 3', '⏱️ 3 sesiones Pomodoro de estudio profundo'],
+    study_modules: ['📚 Asignatura 1: Revisar diapositivas', '📐 Asignatura 2: Resolver ejercicios prácticos', '🔬 Asignatura 3: Lecturas complementarias'],
+    study_submissions: ['⏳ Entrega de ejercicios (Jueves 23:59)', '📝 Trabajo de curso: Borrador inicial'],
+    study_deep: ['🧠 Resumen temario examen', '🃏 Repasar tarjetas de memoria', '📑 Exámenes de años anteriores'],
+    termine: ['⚠️ Límite de inscripción a exámenes', '👨‍🏫 Tutoría profesor (Mié 14:00)'],
+    notes: ['📖 Bibliografía, enlaces de biblioteca y notas...']
+  },
+  fr: {
+    study_focus: ['🎯 Objectif d\'étude : Travailler le chapitre 3', '⏱️ 3 sessions Pomodoro de travail intense'],
+    study_modules: ['📚 Cours 1 : Relire les transparents', '📐 Cours 2 : Faire la fiche de TD', '🔬 Cours 3 : Notes de recherche'],
+    study_submissions: ['⏳ Rendu du devoir (Jeudi 23h59)', '📝 Mémoire : Rédiger le plan détaillé'],
+    study_deep: ['🧠 Fiche de révision pour l\'examen', '🃏 Réviser les flashcards (Répétition espacée)', '📑 Annales d\'examens 2023/24'],
+    termine: ['⚠️ Date limite d\'inscription aux examens', '👨‍🏫 Heure de permanence professeur (Mer 14h)'],
+    notes: ['📖 Références bibliographiques & notes de cours...']
+  },
+  it: {
+    study_focus: ['🎯 Obiettivo di studio: Capitolo 3 & 4', '⏱️ 3 sessioni Pomodoro di studio profondo'],
+    study_modules: ['📚 Corso 1: Rivedere le slide della lezione', '📐 Corso 2: Risolvere esercizi pratici', '🔬 Corso 3: Letture di approfondimento'],
+    study_submissions: ['⏳ Consegna esercitazione (Giovedì 23:59)', '📝 Tesina: Bozze e indice argomenti'],
+    study_deep: ['🧠 Sintesi e schemi per l\'esame', '🃏 Ripasso 30 flashcard (Ripetizione spaziata)', '📑 Simulazione prove d\'esame passate'],
+    termine: ['⚠️ Scadenza iscrizione esami', '👨‍🏫 Ricevimento professore (Mer 14:00)'],
+    notes: ['📖 Fonti bibliografiche, link biblioteca & appunti...']
+  },
+  el: {
+    study_focus: ['🎯 Στόχος ημέρας: Κεφάλαιο 3 & 4', '⏱️ 3 συνεδρίες Pomodoro βαθιάς μελέτης'],
+    study_modules: ['📚 Μάθημα 1: Επανάληψη διαφανειών', '📐 Μάθημα 2: Επίλυση ασκήσεων', '🔬 Μάθημα 3: Μελέτη εργαστηρίου'],
+    study_submissions: ['⏳ Παράδοση εργασίας (Πέμπτη 23:59)', '📝 Εξαμηνιαία εργασία: Προσχέδιο'],
+    study_deep: ['🧠 Περίληψη & σχεδιαγράμματα για την εξεταστική', '🃏 Επανάληψη καρτών μνήμης', '📑 Παλαιά θέματα εξετάσεων'],
+    termine: ['⚠️ Προθεσμία δήλωσης μαθημάτων/εξετάσεων', '👨‍🏫 Ώρες γραφείου καθηγητή (Τετ 14:00)'],
+    notes: ['📖 Βιβλιογραφία, σύνδεσμοι βιβλιοθήκης & σημειώσεις...']
   }
 };
 
@@ -130,7 +211,20 @@ function createDefaultWorkItems(lang) {
     work_in_progress: [...defaults.work_in_progress],
     work_waiting: [...defaults.work_waiting],
     work_backlog: [...defaults.work_backlog],
-    termine: [],
+    termine: [...(defaults.termine || [])],
+    notes: [...defaults.notes]
+  };
+}
+
+function createDefaultStudyItems(lang) {
+  const curL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const defaults = DEFAULT_STUDY_TASKS_BY_LANG[curL] || DEFAULT_STUDY_TASKS_BY_LANG['de'];
+  return {
+    study_focus: [...defaults.study_focus],
+    study_modules: [...defaults.study_modules],
+    study_submissions: [...defaults.study_submissions],
+    study_deep: [...defaults.study_deep],
+    termine: [...(defaults.termine || [])],
     notes: [...defaults.notes]
   };
 }
@@ -175,8 +269,12 @@ function createDefaultCookingState() {
 
 function saveCategoriesOrder() {
   try {
-    const isWork = (typeof state !== 'undefined' && state && state.activeWorkspace === 'work') || (typeof window !== 'undefined' && window.state && window.state.activeWorkspace === 'work');
-    if (isWork) {
+    const ws = (typeof state !== 'undefined' && state && state.activeWorkspace) ? state.activeWorkspace : ((typeof window !== 'undefined' && window.state && window.state.activeWorkspace) ? window.state.activeWorkspace : 'private');
+    if (ws === 'study') {
+      const order = (typeof window !== 'undefined' && window.studyCategoriesOrder) ? window.studyCategoriesOrder : (studyCategoriesOrder || STUDY_CATEGORIES_ORDER);
+      localStorage.setItem('flowPlannerStudyCategoriesOrder', JSON.stringify(order));
+      localStorage.setItem('flow_study_categories_order', JSON.stringify(order));
+    } else if (ws === 'work') {
       const order = (typeof window !== 'undefined' && window.workCategoriesOrder) ? window.workCategoriesOrder : (workCategoriesOrder || WORK_CATEGORIES_ORDER);
       localStorage.setItem('flowPlannerWorkCategoriesOrder', JSON.stringify(order));
       localStorage.setItem('flow_work_categories_order', JSON.stringify(order));
@@ -334,6 +432,8 @@ function migrateState(raw, lang) {
       customSteps: {},
       workItems: typeof createDefaultWorkItems === 'function' ? createDefaultWorkItems(currentL) : {},
       workDone: [],
+      studyItems: typeof createDefaultStudyItems === 'function' ? createDefaultStudyItems(currentL) : {},
+      studyDone: [],
       sampleBannerDismissed: false,
       shoppingList: [],
       shoppingHistory: [],
@@ -396,7 +496,7 @@ function migrateState(raw, lang) {
   if (s.sampleBannerDismissed === undefined) s.sampleBannerDismissed = false;
 
   // 3. Workspaces
-  s.activeWorkspace = (s.activeWorkspace === 'work') ? 'work' : 'private';
+  s.activeWorkspace = (s.activeWorkspace === 'work' || s.activeWorkspace === 'study') ? s.activeWorkspace : 'private';
   if (!s.workItems || typeof s.workItems !== 'object') {
     s.workItems = typeof createDefaultWorkItems === 'function' ? createDefaultWorkItems(currentL) : {};
   }
@@ -406,6 +506,16 @@ function migrateState(raw, lang) {
     });
   }
   if (!Array.isArray(s.workDone)) s.workDone = [];
+
+  if (!s.studyItems || typeof s.studyItems !== 'object') {
+    s.studyItems = typeof createDefaultStudyItems === 'function' ? createDefaultStudyItems(currentL) : {};
+  }
+  if (s.studyItems && typeof s.studyItems === 'object') {
+    ['study_focus', 'study_modules', 'study_submissions', 'study_deep', 'termine', 'notes'].forEach(k => {
+      if (!Array.isArray(s.studyItems[k])) s.studyItems[k] = [];
+    });
+  }
+  if (!Array.isArray(s.studyDone)) s.studyDone = [];
 
 
   // 4. Shopping & Cooking
@@ -495,40 +605,127 @@ function loadState() {
 }
 
 function setWorkspace(mode) {
-  if (mode !== 'private' && mode !== 'work') return;
+  if (mode !== 'private' && mode !== 'work' && mode !== 'study') return;
   state.activeWorkspace = mode;
   saveState();
   updateWorkspaceSwitchUI();
   if (typeof renderApp === 'function') renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof showToast === 'function') {
-    showToast(mode === 'work' ? tr({
-      de: '💼 Arbeitsmodus aktiviert!',
-      en: '💼 Work Mode activated!',
-      es: '💼 ¡Modo Trabajo activado!',
-      el: '💼 Ενεργοποιήθηκε ο Χώρος Εργασίας!',
-      fr: '💼 Mode Travail activé !',
-      it: '💼 Modalità Lavoro attivata!'
-    }) : tr({
-      de: '🏠 Privat-Modus aktiviert!',
-      en: '🏠 Personal Mode activated!',
-      es: '🏠 ¡Modo Personal activado!',
-      el: '🏠 Ενεργοποιήθηκε ο Προσωπικός Χώρος!',
-      fr: '🏠 Mode Personnel activé !',
-      it: '🏠 Modalità Personale attivata!'
-    }));
+    if (mode === 'study') {
+      showToast(tr({
+        de: '🎓 Studium-Modus aktiviert!',
+        en: '🎓 Study Mode activated!',
+        es: '🎓 ¡Modo Estudio activado!',
+        el: '🎓 Ενεργοποιήθηκε ο Χώρος Σπουδών!',
+        fr: '🎓 Mode Études activé !',
+        it: '🎓 Modalità Studio attivata!'
+      }));
+    } else if (mode === 'work') {
+      showToast(tr({
+        de: '💼 Arbeitsmodus aktiviert!',
+        en: '💼 Work Mode activated!',
+        es: '💼 ¡Modo Trabajo activado!',
+        el: '💼 Ενεργοποιήθηκε ο Χώρος Εργασίας!',
+        fr: '💼 Mode Travail activé !',
+        it: '💼 Modalità Lavoro attivata!'
+      }));
+    } else {
+      showToast(tr({
+        de: '🏠 Privat-Modus aktiviert!',
+        en: '🏠 Personal Mode activated!',
+        es: '🏠 ¡Modo Personal activado!',
+        el: '🏠 Ενεργοποιήθηκε ο Προσωπικός Χώρος!',
+        fr: '🏠 Mode Personnel activé !',
+        it: '🏠 Modalità Personale attivata!'
+      }));
+    }
   }
 }
 window.setWorkspace = setWorkspace;
+window.switchWorkspace = setWorkspace;
 
 function toggleWorkspace() {
-  const nextMode = (state && state.activeWorkspace === 'work') ? 'private' : 'work';
+  const current = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
+  const nextMode = (current === 'private') ? 'work' : ((current === 'work') ? 'study' : 'private');
   setWorkspace(nextMode);
 }
 window.toggleWorkspace = toggleWorkspace;
 
+let headerWsDropdownTimer = null;
+
+function cancelCloseHeaderWorkspaceDropdown() {
+  if (headerWsDropdownTimer) {
+    clearTimeout(headerWsDropdownTimer);
+    headerWsDropdownTimer = null;
+  }
+}
+window.cancelCloseHeaderWorkspaceDropdown = cancelCloseHeaderWorkspaceDropdown;
+
+function openHeaderWorkspaceDropdown() {
+  cancelCloseHeaderWorkspaceDropdown();
+  const el = document.getElementById('dropdown-header-workspace');
+  if (el) {
+    el.classList.remove('hidden');
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  }
+}
+window.openHeaderWorkspaceDropdown = openHeaderWorkspaceDropdown;
+
+function closeHeaderWorkspaceDropdown() {
+  if (headerWsDropdownTimer) clearTimeout(headerWsDropdownTimer);
+  headerWsDropdownTimer = setTimeout(() => {
+    const el = document.getElementById('dropdown-header-workspace');
+    if (el) el.classList.add('hidden');
+  }, 220);
+}
+window.closeHeaderWorkspaceDropdown = closeHeaderWorkspaceDropdown;
+
+function toggleHeaderWorkspaceDropdown(event) {
+  if (event) event.stopPropagation();
+  const el = document.getElementById('dropdown-header-workspace');
+  if (!el) return;
+  if (el.classList.contains('hidden')) {
+    openHeaderWorkspaceDropdown();
+  } else {
+    el.classList.add('hidden');
+  }
+}
+window.toggleHeaderWorkspaceDropdown = toggleHeaderWorkspaceDropdown;
+
 function updateWorkspaceSwitchUI() {
   const currentWs = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
+
+  // 1. BOARD SUB-HEADER WORKSPACE BUTTON & DROPDOWN (Links vor den Spalten platziert)
+  const headerBtn = document.getElementById('btn-header-workspace');
+  const headerIcon = document.getElementById('header-ws-icon');
+  const headerLabel = document.getElementById('header-ws-label');
+
+  if (headerBtn && headerIcon && headerLabel) {
+    if (currentWs === 'study') {
+      headerIcon.textContent = '🎓';
+      headerLabel.textContent = typeof t === 'function' ? t('workspace_study') : 'Studium';
+      headerBtn.className = 'px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/25 border border-emerald-500/20 hover:border-emerald-400/60 text-emerald-200/90 hover:text-emerald-100 transition-all duration-200 hover:scale-110 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(16,185,129,0.25)] group/ws shrink-0';
+    } else if (currentWs === 'work') {
+      headerIcon.textContent = '💼';
+      headerLabel.textContent = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
+      headerBtn.className = 'px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-blue-500/10 hover:bg-blue-500/25 border border-blue-500/20 hover:border-blue-400/60 text-blue-200/90 hover:text-blue-100 transition-all duration-200 hover:scale-110 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(59,130,246,0.25)] group/ws shrink-0';
+    } else {
+      headerIcon.textContent = '🏠';
+      headerLabel.textContent = typeof t === 'function' ? t('workspace_private') : 'Privat';
+      headerBtn.className = 'px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/25 border border-purple-500/20 hover:border-purple-400/60 text-purple-200/90 hover:text-purple-100 transition-all duration-200 hover:scale-110 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(168,85,247,0.25)] group/ws shrink-0';
+    }
+  }
+
+  // Active option highlight inside Header Dropdown (Solid backgrounds to avoid overlap artifacts)
+  const optPriv = document.getElementById('header-ws-opt-private');
+  const optWork = document.getElementById('header-ws-opt-work');
+  const optStudy = document.getElementById('header-ws-opt-study');
+  if (optPriv) optPriv.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'private' ? 'bg-purple-500/20 border-purple-400/50 text-purple-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
+  if (optWork) optWork.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'work' ? 'bg-blue-500/20 border-blue-400/50 text-blue-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
+  if (optStudy) optStudy.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'study' ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
+
+  // 2. SETTINGS / MOBILE TOGGLE FALLBACKS
   const toggleBtn = document.getElementById('btn-workspace-toggle');
   const iconEl = document.getElementById('ws-toggle-icon');
   const textEl = document.getElementById('ws-toggle-text');
@@ -537,53 +734,32 @@ function updateWorkspaceSwitchUI() {
   const mobileIconEl = document.getElementById('mobile-ws-toggle-icon');
   const mobileTextEl = document.getElementById('mobile-ws-toggle-text');
 
-  // When activeWorkspace is 'work', the toggle button displays the TARGET switch to Private mode
-  // When activeWorkspace is 'private', the toggle button displays the TARGET switch to Work mode
-  const targetIsWork = (currentWs === 'private');
-  const targetIcon = targetIsWork ? '💼' : '🏠';
-  const targetText = targetIsWork ? t('workspace_work') : t('workspace_private');
-  const targetTitle = targetIsWork
-    ? tr({
-        de: 'Zu Arbeitsmodus wechseln',
-        en: 'Switch to Work Mode',
-        es: 'Cambiar a Modo Trabajo',
-        el: 'Εναλλαγή σε Χώρο Εργασίας',
-        fr: 'Passer en Mode Travail',
-        it: 'Passa a Modalità Lavoro'
-      })
-    : tr({
-        de: 'Zu Privat-Modus wechseln',
-        en: 'Switch to Personal Mode',
-        es: 'Cambiar a Modo Personal',
-        el: 'Εναλλαγή σε Προσωπικό Χώρο',
-        fr: 'Passer en Mode Personnel',
-        it: 'Passa a Modalità Personale'
-      });
+  let currentIcon = '🏠';
+  let currentLabel = typeof t === 'function' ? t('workspace_private') : 'Privat';
+  if (currentWs === 'work') {
+    currentIcon = '💼';
+    currentLabel = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
+  } else if (currentWs === 'study') {
+    currentIcon = '🎓';
+    currentLabel = typeof t === 'function' ? t('workspace_study') : 'Studium';
+  }
 
-  const btnClass = targetIsWork
-    ? 'p-2.5 bg-blue-500/15 hover:bg-blue-500/25 border border-blue-500/40 hover:border-blue-500/60 rounded-xl text-blue-200 text-left text-xs font-bold flex items-center gap-2 transition cursor-pointer'
-    : 'p-2.5 bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 hover:border-purple-500/50 rounded-xl text-purple-200 text-left text-xs font-bold flex items-center gap-2 transition cursor-pointer';
-
-  if (iconEl) iconEl.textContent = targetIcon;
+  if (iconEl) iconEl.textContent = currentIcon;
   if (textEl) {
-    textEl.textContent = targetText;
-    textEl.className = targetIsWork ? 'truncate text-blue-300' : 'truncate text-purple-300';
+    textEl.textContent = currentLabel;
+    textEl.className = currentWs === 'work' ? 'truncate text-blue-300' : (currentWs === 'study' ? 'truncate text-emerald-300' : 'truncate text-purple-300');
   }
   if (toggleBtn) {
-    toggleBtn.className = btnClass;
-    toggleBtn.title = targetTitle;
+    toggleBtn.title = currentLabel;
   }
 
-  if (mobileIconEl) mobileIconEl.textContent = targetIcon;
+  if (mobileIconEl) mobileIconEl.textContent = currentIcon;
   if (mobileTextEl) {
-    mobileTextEl.textContent = targetText;
-    mobileTextEl.className = targetIsWork ? 'text-xs font-bold text-blue-300 hidden sm:inline' : 'text-xs font-bold text-purple-300 hidden sm:inline';
+    mobileTextEl.textContent = currentLabel;
+    mobileTextEl.className = currentWs === 'work' ? 'text-xs font-bold text-blue-300 hidden sm:inline' : (currentWs === 'study' ? 'text-xs font-bold text-emerald-300 hidden sm:inline' : 'text-xs font-bold text-purple-300 hidden sm:inline');
   }
   if (mobileToggleBtn) {
-    mobileToggleBtn.className = targetIsWork
-      ? 'h-9 px-2.5 bg-blue-500/15 hover:bg-blue-500/25 border border-blue-500/40 text-blue-200 rounded-xl flex items-center gap-1 text-xs font-bold transition cursor-pointer shadow-sm'
-      : 'h-9 px-2.5 bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 text-purple-200 rounded-xl flex items-center gap-1 text-xs font-bold transition cursor-pointer shadow-sm';
-    mobileToggleBtn.title = targetTitle;
+    mobileToggleBtn.title = currentLabel;
   }
 }
 window.updateWorkspaceSwitchUI = updateWorkspaceSwitchUI;
@@ -601,6 +777,7 @@ function loadHistory() {
 // Initialisierung nach Definition aller Konstruktoren und Konstanten
 categoriesOrder = loadCategoriesOrder();
 workCategoriesOrder = loadWorkCategoriesOrder();
+studyCategoriesOrder = loadStudyCategoriesOrder();
 state = loadState();
 historyStack = loadHistory();
 
@@ -684,6 +861,7 @@ function saveHistory() {
   if (currentState) {
     const activeCats = (typeof window !== 'undefined' && window.categoriesOrder) ? window.categoriesOrder : (typeof categoriesOrder !== 'undefined' ? categoriesOrder : null);
     const activeWorkCats = (typeof window !== 'undefined' && window.workCategoriesOrder) ? window.workCategoriesOrder : (typeof workCategoriesOrder !== 'undefined' ? workCategoriesOrder : null);
+    const activeStudyCats = (typeof window !== 'undefined' && window.studyCategoriesOrder) ? window.studyCategoriesOrder : (typeof studyCategoriesOrder !== 'undefined' ? studyCategoriesOrder : null);
 
     const snapshot = JSON.parse(JSON.stringify(currentState));
     if (activeCats) {
@@ -691,6 +869,9 @@ function saveHistory() {
     }
     if (activeWorkCats) {
       snapshot._savedWorkCategoriesOrder = JSON.parse(JSON.stringify(activeWorkCats));
+    }
+    if (activeStudyCats) {
+      snapshot._savedStudyCategoriesOrder = JSON.parse(JSON.stringify(activeStudyCats));
     }
 
     stack.push(snapshot);
@@ -762,6 +943,12 @@ function handleUndo() {
     if (typeof globalThis !== 'undefined') globalThis.workCategoriesOrder = workCategoriesOrder;
     if (typeof saveCategoriesOrder === 'function') saveCategoriesOrder();
   }
+  if (popped._savedStudyCategoriesOrder) {
+    studyCategoriesOrder = JSON.parse(JSON.stringify(popped._savedStudyCategoriesOrder));
+    if (typeof window !== 'undefined') window.studyCategoriesOrder = studyCategoriesOrder;
+    if (typeof globalThis !== 'undefined') globalThis.studyCategoriesOrder = studyCategoriesOrder;
+    if (typeof saveCategoriesOrder === 'function') saveCategoriesOrder();
+  }
 
   delete popped._savedCategoriesOrder;
   delete popped._savedWorkCategoriesOrder;
@@ -831,6 +1018,90 @@ async function handleReset() {
     renderApp();
     populateHelperTaskSelect();
   }
+}
+
+async function handleClearAllLists() {
+  const curItems = typeof getCurrentWorkspaceItems === 'function' ? getCurrentWorkspaceItems() : (state ? state.items : {});
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  const curDone = typeof getCurrentWorkspaceDone === 'function' ? getCurrentWorkspaceDone() : (ws === 'study' ? state?.studyDone : ws === 'work' ? state?.workDone : state?.done);
+  
+  let totalTasks = (Array.isArray(curDone) ? curDone.length : 0);
+  if (curItems && typeof curItems === 'object') {
+    Object.values(curItems).forEach(list => {
+      if (Array.isArray(list)) totalTasks += list.length;
+    });
+  }
+
+  if (totalTasks === 0) {
+    if (typeof showToast === 'function') {
+      showToast(tr({
+        de: 'Die Spalten sind bereits leer! ℹ️',
+        en: 'The columns are already empty! ℹ️',
+        fr: 'Les colonnes sont déjà vides ! ℹ️',
+        it: 'Le colonne sono già vuote! ℹ️',
+        es: '¡Las columnas ya están vacías! ℹ️',
+        el: 'Οι στήλες είναι ήδη άδειες! ℹ️'
+      }));
+    }
+    return;
+  }
+
+  const confirmMsg = tr({
+    de: `Möchtest du wirklich alle ${totalTasks} Aufgaben aus allen Spalten dieses Bereichs leeren?`,
+    en: `Do you really want to clear all ${totalTasks} tasks from all columns in this workspace?`,
+    fr: `Veux-tu vraiment vider toutes les ${totalTasks} tâches de toutes les colonnes de cet espace ?`,
+    it: `Vuoi davvero svuotare tutte le ${totalTasks} attività da tutte le colonne di questo spazio?`,
+    es: `¿Seguro que quieres vaciar todas las ${totalTasks} tareas de todas las columnas de este espacio?`,
+    el: `Θέλεις πραγματικά να αδειάσεις όλες τις ${totalTasks} εργασίες από όλες τις στήλες αυτού του χώρου;`
+  });
+
+  const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
+    title: typeof tr === 'function' ? tr({ de: 'Spalten leeren?', en: 'Clear all columns?' }) : 'Spalten leeren?',
+    message: confirmMsg,
+    confirmText: typeof tr === 'function' ? tr({ de: 'Spalten leeren', en: 'Clear columns' }) : 'Spalten leeren',
+    isDanger: true,
+    icon: 'eraser'
+  }) : confirm(confirmMsg);
+
+  if (confirmed) {
+    if (typeof saveHistory === 'function') saveHistory();
+    if (curItems && typeof curItems === 'object') {
+      Object.keys(curItems).forEach(colId => {
+        curItems[colId] = [];
+      });
+    }
+    if (ws === 'study') {
+      state.studyDone = [];
+    } else if (ws === 'work') {
+      state.workDone = [];
+    } else {
+      state.done = [];
+    }
+    saveState();
+    if (typeof renderApp === 'function') renderApp();
+    if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+    if (typeof updateZenView === 'function') updateZenView();
+    if (typeof showToast === 'function') {
+      showToast(tr({
+        de: `🧹 Alle Spalten geleert (${totalTasks} Aufgaben entfernt)`,
+        en: `🧹 All columns cleared (${totalTasks} tasks removed)`,
+        fr: `🧹 Toutes les colonnes vidées (${totalTasks} tâches supprimées)`,
+        it: `🧹 Tutte le colonne svuotate (${totalTasks} attività rimosse)`,
+        es: `🧹 Todas las columnas vaciadas (${totalTasks} tareas eliminadas)`,
+        el: `🧹 Όλες οι στήλες άδειασαν (${totalTasks} εργασίες αφαιρέθηκαν)`
+      }));
+    }
+  }
+}
+window.handleClearAllLists = handleClearAllLists;
+window.clearAllLists = handleClearAllLists;
+window.handleClearAllColumns = handleClearAllLists;
+window.clearAllColumns = handleClearAllLists;
+if (typeof globalThis !== 'undefined') {
+  globalThis.handleClearAllLists = handleClearAllLists;
+  globalThis.clearAllLists = handleClearAllLists;
+  globalThis.handleClearAllColumns = handleClearAllLists;
+  globalThis.clearAllColumns = handleClearAllLists;
 }
 
 function handleSaveJson() {
@@ -1075,8 +1346,12 @@ if (typeof window !== 'undefined') {
   window.updateUndoUI = updateUndoUI;
   window.loadCategoriesOrder = loadCategoriesOrder;
   window.loadWorkCategoriesOrder = loadWorkCategoriesOrder;
+  window.loadStudyCategoriesOrder = loadStudyCategoriesOrder;
   window.categoriesOrder = categoriesOrder;
   window.workCategoriesOrder = workCategoriesOrder;
+  window.studyCategoriesOrder = studyCategoriesOrder;
+  window.STUDY_CATEGORIES_ORDER = STUDY_CATEGORIES_ORDER;
+  window.WORK_CATEGORIES_ORDER = WORK_CATEGORIES_ORDER;
   window.getCustomDefaults = getCustomDefaults;
   window.saveCustomDefaults = saveCustomDefaults;
   window.t = t;
@@ -1105,8 +1380,12 @@ if (typeof globalThis !== 'undefined') {
   globalThis.updateUndoUI = updateUndoUI;
   globalThis.loadCategoriesOrder = loadCategoriesOrder;
   globalThis.loadWorkCategoriesOrder = loadWorkCategoriesOrder;
+  globalThis.loadStudyCategoriesOrder = loadStudyCategoriesOrder;
   globalThis.categoriesOrder = categoriesOrder;
   globalThis.workCategoriesOrder = workCategoriesOrder;
+  globalThis.studyCategoriesOrder = studyCategoriesOrder;
+  globalThis.STUDY_CATEGORIES_ORDER = STUDY_CATEGORIES_ORDER;
+  globalThis.WORK_CATEGORIES_ORDER = WORK_CATEGORIES_ORDER;
   globalThis.t = t;
   globalThis.tr = tr;
 }

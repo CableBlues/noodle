@@ -199,6 +199,7 @@ function renderMiniCalendar(force = false) {
 }
 
 let calendarHoverTimeout = null;
+let weatherHoverTimeout = null;
 
 function toggleCalendarDropdown(event) {
   if (event) event.stopPropagation();
@@ -236,10 +237,48 @@ function toggleWeatherDropdown(event) {
 }
 window.toggleWeatherDropdown = toggleWeatherDropdown;
 
+function openWeatherHover() {
+  if (weatherHoverTimeout) {
+    clearTimeout(weatherHoverTimeout);
+    weatherHoverTimeout = null;
+  }
+  if (calendarHoverTimeout) {
+    clearTimeout(calendarHoverTimeout);
+    calendarHoverTimeout = null;
+  }
+  const calEl = document.getElementById('panel-calendar-dropdown');
+  if (calEl) calEl.classList.add('hidden');
+
+  const el = document.getElementById('panel-weather');
+  if (el) {
+    el.classList.remove('hidden');
+    if (typeof updateWeatherDisplay === 'function') updateWeatherDisplay();
+  }
+}
+window.openWeatherHover = openWeatherHover;
+
+function closeWeatherHover() {
+  if (weatherHoverTimeout) clearTimeout(weatherHoverTimeout);
+  weatherHoverTimeout = setTimeout(() => {
+    const el = document.getElementById('panel-weather');
+    const trigger = document.getElementById('date-weather-badge');
+    const isOverEl = el && el.matches(':hover');
+    const isOverTrigger = trigger && trigger.matches(':hover');
+    if (el && !isOverEl && !isOverTrigger) {
+      el.classList.add('hidden');
+    }
+  }, 180);
+}
+window.closeWeatherHover = closeWeatherHover;
+
 function openCalendarHover() {
   if (calendarHoverTimeout) {
     clearTimeout(calendarHoverTimeout);
     calendarHoverTimeout = null;
+  }
+  if (weatherHoverTimeout) {
+    clearTimeout(weatherHoverTimeout);
+    weatherHoverTimeout = null;
   }
   const weatherEl = document.getElementById('panel-weather');
   if (weatherEl) weatherEl.classList.add('hidden');
@@ -262,7 +301,7 @@ function closeCalendarHover() {
     if (el && !isOverEl && !isOverTrigger) {
       el.classList.add('hidden');
     }
-  }, 250);
+  }, 180);
 }
 window.closeCalendarHover = closeCalendarHover;
 
@@ -320,7 +359,7 @@ function updateDateAndStreak() {
     const dayMonth = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
     const displayEl = document.getElementById('date-display');
     if (displayEl) {
-      displayEl.innerHTML = `<span class="text-purple-300 font-extrabold text-xs md:text-sm tracking-wide">${weekday},</span> <span class="text-white font-black text-xs md:text-sm tracking-tight">${dayMonth}</span>`;
+      displayEl.innerHTML = `<span class="text-zinc-400 font-medium text-xs md:text-sm tracking-normal">${weekday},</span> <span class="text-zinc-100 font-semibold text-xs md:text-sm tracking-normal">${dayMonth}</span>`;
     }
   } catch (e) {
     const displayEl = document.getElementById('date-display');

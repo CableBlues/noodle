@@ -22,8 +22,27 @@ html body #app #timer-trigger-container button#timer-pause-btn i {
   color: var(--accent) !important;
 }
 
+html body #app #timer-trigger-container button#timer-stop-btn {
+  background-color: transparent !important;
+  border: 1px solid transparent !important;
+  color: rgba(244, 63, 94, 0.8) !important;
+  border-radius: 0.5rem !important;
+}
+
 html body #app #timer-trigger-container button#timer-stop-btn i {
-  color: #f43f5e !important;
+  color: rgba(244, 63, 94, 0.8) !important;
+  fill: none !important;
+}
+
+html body #app #timer-trigger-container button#timer-stop-btn:hover {
+  background-color: rgba(244, 63, 94, 0.15) !important;
+  border-color: rgba(244, 63, 94, 0.3) !important;
+  color: #fb7185 !important;
+}
+
+html body #app #timer-trigger-container button#timer-stop-btn:hover i {
+  color: #fb7185 !important;
+  fill: none !important;
 }
 
 html body #app #timer-trigger-container button#timer-mute-btn i {
@@ -41,36 +60,32 @@ html body #app #timer-trigger-container button#timer-mute-btn i {
 }
 
 #date-container {
-  border: 1.5px solid color-mix(in srgb, var(--accent) 30%, rgba(255, 255, 255, 0.15));
-  border-bottom: 3.5px solid rgba(0, 0, 0, 0.45);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-  box-shadow: 
-    0 4px 10px rgba(0, 0, 0, 0.25), 
-    inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  will-change: transform;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.035);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 #date-container:hover {
-  border-color: var(--accent-light) !important;
-  border-bottom-color: rgba(0, 0, 0, 0.5) !important;
-  box-shadow: 
-    0 12px 25px color-mix(in srgb, var(--accent) 25%, transparent), 
-    inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
-  transform: scale(1.08) translateY(-3px) !important;
-  z-index: 10000 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background: rgba(255, 255, 255, 0.065) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+  transform: translateY(-1px) !important;
 }
 
 #date-display {
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 900;
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 55%, var(--text-header) 100%);
-  -webkit-background-clip: text !important;
-  -webkit-text-fill-color: transparent !important;
-  background-clip: text !important;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 0.84rem;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: #f4f4f5;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  -webkit-text-fill-color: initial !important;
+  background-clip: border-box !important;
+  text-shadow: none !important;
 }
 
 #date-icon {

@@ -6,18 +6,18 @@ describe('Timer Real-World Execution Suite', () => {
     localStorage.clear();
     document.body.innerHTML = `
       <div id="timer-trigger-container"></div>
-      <span id="timer-display">02:00</span>
+      <span id="timer-display">03:00</span>
       <div id="timer-progress-bar" style="width: 100%"></div>
       <button id="timer-play-btn"></button>
       <button id="timer-pause-btn" class="hidden"></button>
       <button id="timer-stop-btn"></button>
       <button id="timer-mute-btn"></button>
-      <span id="mobile-timer-display">02:00</span>
+      <span id="mobile-timer-display">03:00</span>
       <span id="zen-timer-display">25:00</span>
       <span id="zen-timer-status">Bereit</span>
       <button id="zen-play-btn"></button>
       <button id="zen-pause-btn" class="hidden"></button>
-      <input type="hidden" id="timer-preset-select-real" value="2">
+      <input type="hidden" id="timer-preset-select-real" value="3">
     `;
 
     if (!window.speechSynthesis) {
@@ -41,10 +41,10 @@ describe('Timer Real-World Execution Suite', () => {
   });
 
   it('initializes timer correctly to preset duration', () => {
-    expect(window.timerSeconds).toBe(120);
-    expect(window.timerInitialSeconds).toBe(120);
+    expect(window.timerSeconds).toBe(180);
+    expect(window.timerInitialSeconds).toBe(180);
     expect(window.timerRunning).toBe(false);
-    expect(document.getElementById('timer-display').innerText).toBe('02:00');
+    expect(document.getElementById('timer-display').innerText).toBe('03:00');
   });
 
   it('starts timer, ticks every second and updates UI displays', () => {
@@ -55,15 +55,15 @@ describe('Timer Real-World Execution Suite', () => {
 
     // Advance 1 second
     vi.advanceTimersByTime(1000);
-    expect(document.getElementById('timer-display').innerText).toBe('01:59');
+    expect(document.getElementById('timer-display').innerText).toBe('02:59');
 
     // Advance 10 seconds
     vi.advanceTimersByTime(10000);
-    expect(document.getElementById('timer-display').innerText).toBe('01:49');
+    expect(document.getElementById('timer-display').innerText).toBe('02:49');
 
     // Advance 60 seconds
     vi.advanceTimersByTime(60000);
-    expect(document.getElementById('timer-display').innerText).toBe('00:49');
+    expect(document.getElementById('timer-display').innerText).toBe('01:49');
 
     vi.useRealTimers();
   });
@@ -71,23 +71,23 @@ describe('Timer Real-World Execution Suite', () => {
   it('handles pause and resume without resetting target time', () => {
     vi.useFakeTimers();
     window.startTimer();
-    vi.advanceTimersByTime(30000); // 30s elapsed -> 90s left
-    expect(document.getElementById('timer-display').innerText).toBe('01:30');
+    vi.advanceTimersByTime(30000); // 30s elapsed -> 150s left
+    expect(document.getElementById('timer-display').innerText).toBe('02:30');
 
     window.pauseTimer();
     expect(window.timerRunning).toBe(false);
-    expect(window.timerSeconds).toBe(90);
+    expect(window.timerSeconds).toBe(150);
 
     // Wait while paused
     vi.advanceTimersByTime(10000);
-    expect(window.timerSeconds).toBe(90);
-    expect(document.getElementById('timer-display').innerText).toBe('01:30');
+    expect(window.timerSeconds).toBe(150);
+    expect(document.getElementById('timer-display').innerText).toBe('02:30');
 
     // Resume
     window.startTimer();
     expect(window.timerRunning).toBe(true);
     vi.advanceTimersByTime(1000);
-    expect(document.getElementById('timer-display').innerText).toBe('01:29');
+    expect(document.getElementById('timer-display').innerText).toBe('02:29');
 
     vi.useRealTimers();
   });
@@ -95,8 +95,8 @@ describe('Timer Real-World Execution Suite', () => {
   it('handles zero crossing and enters overtime smoothly', () => {
     vi.useFakeTimers();
     window.startTimer();
-    // Advance full 120 seconds
-    vi.advanceTimersByTime(120000);
+    // Advance full 180 seconds
+    vi.advanceTimersByTime(180000);
     expect(document.getElementById('timer-display').innerText).toBe('00:00');
 
     // 5 seconds overtime

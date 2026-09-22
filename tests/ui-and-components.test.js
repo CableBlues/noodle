@@ -94,5 +94,20 @@ describe('UI Architecture, Modals & Components (Production Code)', () => {
     window.closeCleaningGuideModal();
     expect(document.getElementById('helper-cleaning-modal').classList.contains('hidden')).toBe(true);
   });
+
+  it('UI contains Workspace Selector, Tools and Board controls', () => {
+    expect(document.getElementById('header-tools-wrapper')).not.toBeNull();
+    expect(document.getElementById('btn-header-tools')).not.toBeNull();
+    expect(document.getElementById('panel-header-tools')).not.toBeNull();
+    
+    // Check board controls
+    expect(document.getElementById('btn-board-columns')).not.toBeNull();
+    expect(document.getElementById('btn-board-undo')).not.toBeNull();
+    expect(document.getElementById('btn-board-reset')).not.toBeNull();
+    
+    expect(typeof window.handleClearAllLists).toBe('function');
+    expect(typeof window.setWorkspace).toBe('function');
+    expect(typeof window.toggleWorkspace).toBe('function');
+  });
 });
 

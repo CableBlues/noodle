@@ -322,6 +322,36 @@
     return radioAudioEl;
   }
 
+  let isRadioDucked = false;
+  let radioDuckingInterval = null;
+
+  function duckRadio(isDucked) {
+    const audio = getRadioAudio();
+    if (!audio) return;
+    if (radioDuckingInterval) {
+      clearInterval(radioDuckingInterval);
+      radioDuckingInterval = null;
+    }
+    isRadioDucked = isDucked;
+    const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+    const targetVol = isDucked ? (baseVol * 0.18) : baseVol;
+    const startVol = audio.volume;
+    const steps = 12;
+    const duration = isDucked ? 180 : 450;
+    const stepTime = duration / steps;
+    let step = 0;
+    radioDuckingInterval = setInterval(() => {
+      step++;
+      const progress = step / steps;
+      audio.volume = Math.max(0, Math.min(1, startVol + (targetVol - startVol) * progress));
+      if (step >= steps) {
+        clearInterval(radioDuckingInterval);
+        radioDuckingInterval = null;
+        audio.volume = targetVol;
+      }
+    }, stepTime);
+  }
+
   function playRadioStation(stationId) {
     const station = RADIO_STATIONS.find(s => s.id === stationId);
     if (!station) return;
@@ -336,12 +366,19 @@
 
     if (isSpeakingQueue) stopNewsReader();
 
+    // Exklusivität: Hintergrundgeräusche und Synthesizer stoppen
+    try {
+      if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+      if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+      if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
+    } catch(e) {}
+
     const audio = getRadioAudio();
     try {
       audio.pause();
       audio.src = station.stream;
       audio.load();
-      audio.volume = radioVolume;
+      audio.volume = isRadioDucked ? (radioVolume * 0.18) : radioVolume;
       audio.play().then(() => {
         isRadioPlaying = true;
         updateRadioUIState(true);
@@ -366,6 +403,11 @@
       isRadioPlaying = false;
       updateRadioUIState(false);
     } else {
+      // Exklusivität: Hintergrundgeräusche stoppen beim Starten
+      try {
+        if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+        if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+      } catch(e) {}
       playRadioStation(currentStationId);
     }
     renderRadioPanelContent();
@@ -375,7 +417,9 @@
     radioVolume = Math.max(0, Math.min(1, parseFloat(val)));
     localStorage.setItem('flow_radio_vol', radioVolume.toString());
     const audio = getRadioAudio();
-    audio.volume = radioVolume;
+    if (!isRadioDucked) {
+      audio.volume = radioVolume;
+    }
   }
 
   function updateRadioUIState(isPlaying) {
@@ -1024,6 +1068,7 @@
     nextNewsItem,
     prevNewsItem,
     setSpeechRate,
+    duckRadio,
     fetchNewsForRegion
   };
 
@@ -1031,9 +1076,11 @@
     window.RadioNewsEngine = RadioNewsEngine;
     window.playRadioStation = playRadioStation;
     window.toggleRadioPlayback = toggleRadioPlayback;
+    window.duckRadio = duckRadio;
   }
   if (typeof globalThis !== 'undefined') {
     globalThis.RadioNewsEngine = RadioNewsEngine;
+    globalThis.duckRadio = duckRadio;
   }
 
   if (typeof document !== 'undefined') {

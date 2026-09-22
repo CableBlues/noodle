@@ -60,12 +60,32 @@ describe('Web Audio Generators & Sequencer Engine (Production Code)', () => {
     expect(audioCoreCode).toContain('triggerHapticFeedback');
   });
 
-  it('app-radio-news.js exports Live Radio & News Engine with stations', () => {
+  it('app-radio-news.js exports Live Radio & News Engine with stations and duckRadio', () => {
     const radioNewsCode = fs.readFileSync(path.join(rootDir, 'app-radio-news.js'), 'utf8');
     expect(radioNewsCode).toContain('RADIO_STATIONS');
     expect(radioNewsCode).toContain('Deutschlandfunk');
     expect(radioNewsCode).toContain('SomaFM Groove Salad');
     expect(radioNewsCode).toContain('playRadioStation');
     expect(radioNewsCode).toContain('toggleRadioPlayback');
+    expect(radioNewsCode).toContain('duckRadio');
+  });
+
+  it('timer-1.js defines duckAllAudioForSpeech and friendly voice profiles with natural score weighting', () => {
+    const timer1Code = fs.readFileSync(path.join(rootDir, 'timer-1.js'), 'utf8');
+    expect(timer1Code).toContain('duckAllAudioForSpeech');
+    expect(timer1Code).toContain('VOICE_PROFILES');
+    expect(timer1Code).toContain('getVoiceScore');
+    expect(timer1Code).toContain('natural');
+    expect(timer1Code).toContain('neural');
+    expect(timer1Code).toContain('marlene');
+    expect(timer1Code).toContain('conrad');
+  });
+
+  it('timer-3.js setTimerAudioMode toggles off on same mode and provides instant exclusive playback', () => {
+    const timer3Code = fs.readFileSync(path.join(rootDir, 'timer-3.js'), 'utf8');
+    expect(timer3Code).toContain('setTimerAudioMode');
+    expect(timer3Code).toContain("newMode = 'silent'");
+    expect(timer3Code).toContain('stopAmbientSound');
+    expect(timer3Code).toContain('playRadioStation');
   });
 });
