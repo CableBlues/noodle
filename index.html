@@ -86,26 +86,14 @@
       <!-- 1. LINKE ZONE: BRANDING & SUCHE -->
       <!-- ====================================================================== -->
       <div class="flex items-center gap-2 md:gap-2.5 shrink-0">
-        <!-- 1. TOOLS BUTTON & DROPDOWN (Hovern & Klicken öffnet Tools) -->
-        <div class="relative flex items-center shrink-0" id="header-tools-wrapper" onmouseenter="showPanelHover('header-tools', 0)" onmouseleave="hidePanelHover('header-tools')">
-          <button id="btn-header-tools" onclick="togglePanel('header-tools')" class="tools-btn-logo-themed relative flex items-center justify-center h-10 w-10 md:h-[38px] md:w-[38px] rounded-2xl active:scale-95 cursor-pointer transition-all duration-300 shrink-0 group select-none overflow-visible" title="Noodle Tools" aria-label="Noodle Tools" data-noodle-tooltip="Noodle Tools">
-            <!-- Ambient Logo Aura -->
-            <div class="tools-aura-animated absolute inset-0 -z-10 rounded-2xl bg-gradient-to-r from-purple-500/40 via-sky-400/30 to-pink-500/40 blur-md pointer-events-none"></div>
-
-            <!-- Colorful 3D Modular Grid Icon in Logo Palettes (animiert alle 10s) -->
-            <div class="tools-icon-animated flex items-center justify-center w-[22px] h-[22px]">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" class="w-[22px] h-[22px] drop-shadow-md group-hover:scale-110 transition-transform duration-300" style="display: block;">
-                <!-- 4 colorful modular tiles in Logo hues (Purple, Sky Cyan, Pink, Emerald) -->
-                <rect x="3" y="3" width="7.5" height="7.5" rx="2.2" fill="#c084fc" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
-                <rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2" fill="#38bdf8" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
-                <rect x="3" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#f472b6" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
-                <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#34d399" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
-              </svg>
-            </div>
+        <!-- 1. TOOLS BUTTON & DROPDOWN -->
+        <div class="relative flex items-center shrink-0" id="header-tools-wrapper">
+          <button id="btn-header-tools" onclick="togglePanel('header-tools')" class="relative flex items-center justify-center h-9 w-9 md:h-[36.5px] md:w-[36.5px] rounded-xl text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 border border-purple-500/25 hover:border-purple-400 cursor-pointer transition-all duration-200 shrink-0 group select-none shadow-xs" title="Noodle Tools" aria-label="Noodle Tools" data-noodle-tooltip="Noodle Tools">
+            <i data-lucide="layout-grid" class="w-4 h-4 text-purple-300 group-hover:scale-110 transition-transform"></i>
           </button>
 
           <!-- TOOLS SPHERES POPOVER DROPDOWN -->
-          <div id="panel-header-tools" onmouseenter="showPanelHover('header-tools', 0)" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+6px)] left-0 z-[150] w-[280px] sm:w-[310px] bg-[#0f0e17]/98 border border-purple-500/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-2xl flex flex-col gap-2.5 text-left animate-fade-in cursor-default">
+          <div id="panel-header-tools" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+6px)] left-0 z-[150] w-[290px] sm:w-[315px] bg-[#0f0e17]/98 border border-purple-500/30 p-3.5 rounded-3xl shadow-2xl backdrop-blur-2xl flex flex-col gap-2.5 text-left animate-fade-in cursor-default">
             
             <!-- Header -->
             <div class="flex items-center justify-between pb-2 border-b border-white/10 px-1">
@@ -118,11 +106,16 @@
               <button onclick="togglePanel('header-tools')" aria-label="Tools Menü schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 px-1.5 rounded-lg hover:bg-white/10 transition cursor-pointer">✕</button>
             </div>
 
-            <!-- 3x3 Spheres Grid (Runde Orbs, kein Overload) -->
-            <div class="grid grid-cols-3 gap-2.5 pt-1">
+            <!-- 1. FOKUS & MEDIEN -->
+            <div class="space-y-1.5">
+              <div class="flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-purple-300/80">
+                <i data-lucide="headphones" class="w-3 h-3 text-purple-400"></i>
+                <span>Fokus & Medien</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 pt-0.5">
               
               <!-- 6. Soundscapes Sphere -->
-              <div class="relative flex flex-col items-center" onmouseenter="showPanelHover('audio')" onmouseleave="hidePanelHover('audio')">
+              <div class="relative flex flex-col items-center">
                 <button onclick="togglePanel('audio')" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Soundscapes & Audio Studio">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-500/25 to-indigo-600/20 border border-purple-400/40 hover:border-purple-300 flex items-center justify-center text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(168,85,247,0.4)] group-hover/orb:scale-110 transition-all duration-250">
                     <i data-lucide="headphones" class="w-5 h-5"></i>
@@ -793,7 +786,7 @@
               </div>
 
               <!-- 4. Live-Radio Sphere -->
-              <div class="relative flex flex-col items-center" onmouseenter="showPanelHover('radio')" onmouseleave="hidePanelHover('radio')">
+              <div class="relative flex flex-col items-center">
                 <button onclick="togglePanel('radio')" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Live-Radio">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-rose-500/25 to-red-600/20 border border-rose-400/40 hover:border-rose-300 flex items-center justify-center text-rose-300 shadow-[0_0_15px_rgba(244,63,94,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(244,63,94,0.4)] group-hover/orb:scale-110 transition-all duration-250">
                     <i data-lucide="radio" class="w-5 h-5"></i>
@@ -841,7 +834,7 @@
               </div>
 
               <!-- 5. Nachrichten Sphere -->
-              <div class="relative flex flex-col items-center" onmouseenter="showPanelHover('news')" onmouseleave="hidePanelHover('news')">
+              <div class="relative flex flex-col items-center">
                 <button onclick="togglePanel('news')" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Nachrichten & Audio">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-500/25 to-rose-600/20 border border-pink-400/40 hover:border-pink-300 flex items-center justify-center text-pink-300 shadow-[0_0_15px_rgba(236,72,153,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(236,72,153,0.4)] group-hover/orb:scale-110 transition-all duration-250">
                     <i data-lucide="newspaper" class="w-5 h-5"></i>
@@ -936,9 +929,19 @@
                   </div>
                 </div>
               </div>
+              </div>
+            </div>
+
+            <!-- 2. ALLTAG & HAUSHALT -->
+            <div class="space-y-1.5 pt-2 border-t border-white/10">
+              <div class="flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-emerald-300/80">
+                <i data-lucide="home" class="w-3 h-3 text-emerald-400"></i>
+                <span>Alltag & Haushalt</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 pt-0.5">
 
               <!-- 1. Einkauf Sphere -->
-              <div class="relative flex flex-col items-center" onmouseenter="showPanelHover('shopping')" onmouseleave="hidePanelHover('shopping')">
+              <div class="relative flex flex-col items-center">
                 <button onclick="togglePanel('shopping')" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Einkaufsliste [E]">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/25 to-teal-600/20 border border-emerald-400/40 hover:border-emerald-300 flex items-center justify-center text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(16,185,129,0.4)] group-hover/orb:scale-110 transition-all duration-250 relative">
                     <i data-lucide="shopping-cart" class="w-5 h-5"></i>
@@ -1009,7 +1012,7 @@
               </div>
 
               <!-- 2. Kochen Sphere -->
-              <div class="relative flex flex-col items-center" onmouseenter="showPanelHover('cooking')" onmouseleave="hidePanelHover('cooking')">
+              <div class="relative flex flex-col items-center">
                 <button onclick="togglePanel('cooking')" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Kochen & Rezepte [K]">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500/25 to-amber-600/20 border border-orange-400/40 hover:border-orange-300 flex items-center justify-center text-orange-300 shadow-[0_0_15px_rgba(249,115,22,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(249,115,22,0.4)] group-hover/orb:scale-110 transition-all duration-250 relative">
                     <i data-lucide="chef-hat" class="w-5 h-5"></i>
@@ -1023,7 +1026,7 @@
               </div>
 
               <!-- 7. Wecker Sphere -->
-              <div class="relative flex flex-col items-center" onmouseenter="showPanelHover('alarm')" onmouseleave="hidePanelHover('alarm')">
+              <div class="relative flex flex-col items-center">
                 <button onclick="togglePanel('alarm')" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Wecker & Alarme">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500/25 to-blue-600/20 border border-cyan-400/40 hover:border-cyan-300 flex items-center justify-center text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(6,182,212,0.4)] group-hover/orb:scale-110 transition-all duration-250 relative">
                     <i data-lucide="bell" class="w-5 h-5"></i>
@@ -1038,17 +1041,27 @@
 
               <!-- Grundreinigung & Putz-Guide Sphere -->
               <div class="relative flex flex-col items-center">
-                <button onclick="if(typeof openCleaningGuideModal==='function') openCleaningGuideModal(); togglePanel('header-tools');" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Grundreinigung & Putz-Guide 🧹✨">
+                <button onclick="if(typeof openCleaningGuideModal==='function') openCleaningGuideModal(); togglePanel('header-tools');" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Grundreinigung & Putz-Guide">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/25 to-teal-600/20 border border-emerald-400/40 hover:border-emerald-300 flex items-center justify-center text-emerald-300 shadow-[0_0_15px_rgba(16,185,129,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(16,185,129,0.4)] group-hover/orb:scale-110 transition-all duration-250">
                     <i data-lucide="sparkles" class="w-5 h-5"></i>
                   </div>
                   <span class="text-[10px] font-bold text-gray-300 group-hover/orb:text-white transition-colors" data-i18n="clean_guide_title_short">Putz-Guide</span>
                 </button>
               </div>
+              </div>
+            </div>
+
+            <!-- 3. WOHLBEFINDEN & LERNEN -->
+            <div class="space-y-1.5 pt-2 border-t border-white/10">
+              <div class="flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-amber-300/80">
+                <i data-lucide="sparkles" class="w-3 h-3 text-amber-400"></i>
+                <span>Wohlbefinden & Lernen</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 pt-0.5">
 
               <!-- 3. Sport Sphere -->
               <div class="relative flex flex-col items-center">
-                <button onclick="if(typeof openFitnessModal==='function') openFitnessModal(); else if(typeof toggleFitnessTracker==='function') toggleFitnessTracker();" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Fitness & Sport">
+                <button onclick="openSportModal(); togglePanel('header-tools');" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Fitness & Sport">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-lime-500/25 to-green-600/20 border border-lime-400/40 hover:border-lime-300 flex items-center justify-center text-lime-300 shadow-[0_0_15px_rgba(132,204,22,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(132,204,22,0.4)] group-hover/orb:scale-110 transition-all duration-250">
                     <i data-lucide="activity" class="w-5 h-5"></i>
                   </div>
@@ -1056,19 +1069,9 @@
                 </button>
               </div>
 
-              <!-- 9. Lernen & Quiz-Labor Sphere -->
-              <div class="relative flex flex-col items-center">
-                <button onclick="openLearningHubModal()" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Wissens- & Quiz-Labor">
-                  <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500/25 to-yellow-600/20 border border-amber-400/40 hover:border-amber-300 flex items-center justify-center text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(245,158,11,0.4)] group-hover/orb:scale-110 transition-all duration-250">
-                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-                  </div>
-                  <span class="text-[10px] font-bold text-gray-300 group-hover/orb:text-white transition-colors">Lernen</span>
-                </button>
-              </div>
-
               <!-- 8. Klarheit & Impulskontrolle Sphere -->
               <div class="relative flex flex-col items-center">
-                <button onclick="openClarityModal()" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Klarheit & Innehalten">
+                <button onclick="openClarityModal(); togglePanel('header-tools');" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Klarheit & Innehalten">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-500/25 to-teal-600/20 border border-indigo-400/40 hover:border-indigo-300 flex items-center justify-center text-indigo-300 shadow-[0_0_15px_rgba(99,102,241,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(99,102,241,0.4)] group-hover/orb:scale-110 transition-all duration-250">
                     <i data-lucide="anchor" class="w-5 h-5"></i>
                   </div>
@@ -1076,8 +1079,28 @@
                 </button>
               </div>
 
+              <!-- 9. Lernen & Quiz-Labor Sphere -->
+              <div class="relative flex flex-col items-center">
+                <button onclick="openLearningHubModal(); togglePanel('header-tools');" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Wissens- & Quiz-Labor">
+                  <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-amber-500/25 to-yellow-600/20 border border-amber-400/40 hover:border-amber-300 flex items-center justify-center text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(245,158,11,0.4)] group-hover/orb:scale-110 transition-all duration-250">
+                    <i data-lucide="graduation-cap" class="w-5 h-5"></i>
+                  </div>
+                  <span class="text-[10px] font-bold text-gray-300 group-hover/orb:text-white transition-colors">Lernen</span>
+                </button>
+              </div>
+              </div>
+            </div>
+
+            <!-- 4. AUSTAUSCH -->
+            <div class="space-y-1.5 pt-2 border-t border-white/10">
+              <div class="flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-violet-300/80">
+                <i data-lucide="message-square" class="w-3 h-3 text-violet-400"></i>
+                <span>Austausch</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2 pt-0.5">
+
               <!-- 10. Team Chat Sphere -->
-              <div class="relative flex flex-col items-center" onmouseenter="showPanelHover('collab-chat')" onmouseleave="hidePanelHover('collab-chat')">
+              <div class="relative flex flex-col items-center">
                 <button onclick="togglePanel('collab-chat')" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Team Chat & Live-Kollaboration">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500/25 to-fuchsia-600/20 border border-violet-400/40 hover:border-violet-300 flex items-center justify-center text-violet-300 shadow-[0_0_15px_rgba(168,85,247,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(168,85,247,0.4)] group-hover/orb:scale-110 transition-all duration-250 relative">
                     <i data-lucide="message-square" class="w-5 h-5"></i>
@@ -1129,6 +1152,7 @@
                   </div>
                 </div>
               </div>
+              </div>
             </div>
 
           </div>
@@ -1136,7 +1160,7 @@
 
         <!-- 3. NOODLE LOGO (Klick öffnet direkt Noodle Hub & Feedback Modal) -->
         <div class="relative flex items-center shrink-0" id="header-logo-wrapper">
-          <button class="flow-logo-container relative inline-flex items-center justify-center px-2 py-0.5 rounded-2xl bg-transparent hover:bg-white/[0.04] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 border-none outline-none cursor-pointer overflow-hidden" title="Onboarding & Feedback" data-noodle-tooltip="Onboarding & Feedback" onclick="openFeedbackModal()" aria-label="Onboarding & Feedback">
+          <button class="flow-logo-container relative inline-flex items-center justify-center px-2 py-0.5 rounded-2xl bg-transparent hover:bg-white/[0.04] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 border-none outline-none cursor-pointer overflow-hidden" title="Noodle Studio · Feedback & Info" data-noodle-tooltip="Noodle Studio · Feedback & Info" onclick="openFeedbackModal()" aria-label="Noodle Studio · Feedback & Info">
             <!-- Noodle 3D Clay Wordmark + STUDIO Subline -->
             <div class="relative flex flex-col items-center justify-center overflow-hidden">
               <div class="relative overflow-hidden rounded-md flex items-center justify-center">
@@ -1148,7 +1172,7 @@
         </div>
 
         <!-- Suche / Command-Palette (direkt nach dem Logo, Icon-Only) -->
-        <button onclick="openCommandPalette()" class="hidden md:flex items-center justify-center h-9 w-9 md:h-[36.5px] md:w-[36.5px] rounded-xl text-purple-300 hover:text-white bg-purple-500/15 hover:bg-purple-500/25 active:scale-95 border border-purple-500/35 hover:border-purple-400 cursor-pointer transition shadow-[0_0_12px_rgba(168,85,247,0.15)] shrink-0 group" title="Suche & Schnellbefehle [Strg+K]" data-i18n-title="cmd_search" aria-label="Suche">
+        <button onclick="openCommandPalette()" class="hidden md:flex items-center justify-center h-9 w-9 md:h-[36.5px] md:w-[36.5px] rounded-xl text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 border border-purple-500/25 hover:border-purple-400 cursor-pointer transition shadow-xs shrink-0 group" title="Suche & Schnellbefehle [Strg+K]" data-i18n-title="cmd_search" aria-label="Suche">
           <i data-lucide="search" class="w-4 h-4 text-purple-300 group-hover:scale-110 transition-transform shrink-0"></i>
         </button>
 
