@@ -73,7 +73,7 @@
     </div>
 
     <!-- HEADER BAR (12% schlankere Höhe, schwebende Zentrierung) -->
-    <header class="relative z-[9999] flex flex-nowrap items-center justify-between gap-3 md:gap-4.5 lg:gap-5 mb-2 w-full lg:max-w-[85%] mx-auto px-3 py-1 md:px-4 md:py-1 rounded-2xl backdrop-blur-xl shadow-2xl">
+    <header class="relative z-[9999] flex flex-nowrap items-center justify-between gap-3 md:gap-4 lg:gap-5 mb-2 w-full lg:max-w-[85%] mx-auto pl-2.5 pr-3.5 py-1.5 md:pl-3 md:pr-4.5 md:py-1.5 rounded-2xl backdrop-blur-xl shadow-2xl">
       
       <!-- Subtile Wave-Bewegung im Hintergrund -->
       <div class="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none opacity-20 zen-hide">
@@ -86,16 +86,16 @@
       <!-- 1. LINKE ZONE: BRANDING & SUCHE -->
       <!-- ====================================================================== -->
       <div class="flex items-center gap-2 md:gap-2.5 shrink-0">
-        <!-- 0. NOODLE TOOLS (ganz oben links, 6% vergrößert und noch weiter nach links gerückt) -->
-        <div class="relative flex items-center shrink-0 mr-4 sm:mr-5 md:mr-7 pr-3.5 sm:pr-4.5 border-r border-white/15" id="header-tools-wrapper">
-          <button id="btn-header-tools" onclick="togglePanel('header-tools')" class="relative flex flex-col items-center justify-center gap-0.5 h-[42px] md:h-[44.5px] px-3 sm:px-3.5 scale-[1.06] rounded-xl bg-purple-500/15 hover:bg-purple-500/25 active:scale-100 border border-purple-500/30 hover:border-purple-400 cursor-pointer transition-all duration-200 shrink-0 group select-none shadow-sm hover:shadow-[0_0_18px_rgba(168,85,247,0.35)]" title="Noodle Tools" aria-label="Noodle Tools" data-noodle-tooltip="Noodle Tools">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" class="w-5 h-5 group-hover:scale-105 transition-transform duration-200 shrink-0">
+        <!-- 0. NOODLE TOOLS (ganz links platziert, einheitliche Höhe h-9 md:h-[38px], dezent-moderne bunte Schrift) -->
+        <div class="relative flex items-center shrink-0 mr-3.5 sm:mr-4 md:mr-5.5 pr-2.5 sm:pr-3.5 border-r border-white/15" id="header-tools-wrapper">
+          <button id="btn-header-tools" onclick="togglePanel('header-tools')" class="relative flex flex-col items-center justify-center gap-0.5 h-[41px] px-3 sm:px-3.5 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 active:scale-95 border border-purple-500/30 hover:border-purple-400 cursor-pointer transition-all duration-200 shrink-0 group select-none shadow-sm hover:shadow-[0_0_18px_rgba(168,85,247,0.35)]" title="Noodle Tools" aria-label="Noodle Tools" data-noodle-tooltip="Noodle Tools">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" class="w-[18px] h-[18px] group-hover:scale-105 transition-transform duration-200 shrink-0">
               <rect x="3" y="3" width="7.5" height="7.5" rx="2.2" fill="#c084fc" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
               <rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2" fill="#38bdf8" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
               <rect x="3" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#f472b6" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
               <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#34d399" stroke="rgba(255,255,255,0.6)" stroke-width="0.75"/>
             </svg>
-            <span class="text-[10px] sm:text-[11px] font-bold tracking-tight text-purple-200 group-hover:text-white transition-colors leading-none">Tools</span>
+            <span class="text-[9px] sm:text-[9.5px] font-black font-display tracking-[0.14em] uppercase leading-none drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]" style="background: linear-gradient(135deg, #c084fc 0%, #38bdf8 33%, #f472b6 66%, #34d399 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Tools</span>
           </button>
 
           <!-- TOOLS SPHERES POPOVER DROPDOWN -->
@@ -384,7 +384,7 @@
                         </div>
                         <div class="flex items-center gap-1.5">
                           <button onclick="playPrevMusicTrack()" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"><i data-lucide="skip-back" class="w-3.5 h-3.5"></i></button>
-                          <button onclick="toggleMusicPlayback()" id="music-play-pause-btn" class="p-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition cursor-pointer shadow-md"><i data-lucide="play" class="w-3.5 h-3.5"></i></button>
+                          <button onclick="toggleMusicPlayback()" id="music-play-pause-btn" class="p-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition cursor-pointer shadow-md"><i data-lucide="play" class="w-4 h-4"></i></button>
                           <button onclick="playNextMusicTrack()" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"><i data-lucide="skip-forward" class="w-3.5 h-3.5"></i></button>
                         </div>
                         <div class="flex items-center gap-1 w-20">
@@ -1085,13 +1085,13 @@
                 </button>
               </div>
 
-              <!-- 3. Sport Sphere -->
+              <!-- 3. Bewegung & Home-Workout Sphere -->
               <div class="relative flex flex-col items-center">
-                <button onclick="openSportModal(); togglePanel('header-tools');" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Fitness & Sport">
+                <button onclick="openSportModal(); togglePanel('header-tools');" class="flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Bewegung & Modulare Home-Workouts">
                   <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-lime-500/25 to-green-600/20 border border-lime-400/40 hover:border-lime-300 flex items-center justify-center text-lime-300 shadow-[0_0_15px_rgba(132,204,22,0.15)] group-hover/orb:shadow-[0_0_22px_rgba(132,204,22,0.4)] group-hover/orb:scale-110 transition-all duration-250">
                     <i data-lucide="activity" class="w-5 h-5"></i>
                   </div>
-                  <span class="text-[9.5px] font-bold text-gray-300 group-hover/orb:text-white transition-colors">Sport</span>
+                  <span class="text-[9.5px] font-bold text-gray-300 group-hover/orb:text-white transition-colors">Bewegung</span>
                 </button>
               </div>
 
@@ -1174,20 +1174,20 @@
           </div>
         </div>
 
-        <!-- 1. SUCHE / COMMAND-PALETTE (gleich links vor dem Logo) -->
-        <button onclick="openCommandPalette()" class="hidden md:flex items-center justify-center h-10 w-10 md:h-[40px] md:w-[40px] rounded-xl text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 border border-purple-500/25 hover:border-purple-400 cursor-pointer transition shadow-xs shrink-0 group" title="Suche & Schnellbefehle [Strg+K]" data-i18n-title="cmd_search" aria-label="Suche">
-          <i data-lucide="search" class="w-4 h-4 text-purple-300 group-hover:scale-110 transition-transform shrink-0"></i>
+        <!-- 1. SUCHE / COMMAND-PALETTE (gleich links vor dem Logo, einheitliche Höhe) -->
+        <button onclick="openCommandPalette()" class="hidden md:flex items-center justify-center h-[41px] w-[41px] rounded-xl text-purple-300 hover:text-white bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 border border-purple-500/25 hover:border-purple-400 cursor-pointer transition shadow-xs shrink-0 group" title="Suche & Schnellbefehle [Strg+K]" data-i18n-title="cmd_search" aria-label="Suche">
+          <i data-lucide="search" class="w-[18px] h-[18px] text-purple-300 group-hover:scale-110 transition-transform shrink-0"></i>
         </button>
 
-        <!-- 2. NOODLE LOGO (Klick öffnet direkt Noodle Hub & Feedback Modal) -->
+        <!-- 2. NOODLE LOGO (Klick öffnet direkt Noodle Hub & Feedback Modal, einheitliche Höhe) -->
         <div class="relative flex items-center shrink-0" id="header-logo-wrapper">
-          <button class="flow-logo-container relative inline-flex items-center justify-center px-2 py-0.5 rounded-2xl bg-transparent hover:bg-white/[0.04] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 border-none outline-none cursor-pointer overflow-hidden" title="Noodle Studio · Feedback & Info" data-noodle-tooltip="Noodle Studio · Feedback & Info" onclick="openFeedbackModal()" aria-label="Noodle Studio · Feedback & Info">
+          <button class="flow-logo-container relative inline-flex items-center justify-center h-[41px] px-2.5 rounded-2xl bg-transparent hover:bg-white/[0.04] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 border-none outline-none cursor-pointer overflow-hidden" title="Noodle Studio · Feedback & Info" data-noodle-tooltip="Noodle Studio · Feedback & Info" onclick="openFeedbackModal()" aria-label="Noodle Studio · Feedback & Info">
             <!-- Noodle 3D Clay Wordmark + STUDIO Subline -->
             <div class="relative flex flex-col items-center justify-center overflow-hidden">
               <div class="relative overflow-hidden rounded-md flex items-center justify-center">
-                <img id="header-noodle-logo" src="logo-noodle.png" alt="Noodle Studio" class="h-[22px] sm:h-[24px] md:h-[26px] w-auto max-w-none object-contain select-none pointer-events-none transition-transform duration-300 group-hover/logo:scale-105" />
+                <img id="header-noodle-logo" src="logo-noodle.png" alt="Noodle Studio" class="h-[20px] w-auto max-w-none object-contain select-none pointer-events-none transition-transform duration-300 group-hover/logo:scale-105" />
               </div>
-              <span class="noodle-studio-badge text-[8px] sm:text-[8.5px] md:text-[9.5px] font-bold font-display tracking-[0.32em] uppercase text-purple-200/90 leading-none mt-1 sm:mt-1.5 select-none">STUDIO</span>
+              <span class="noodle-studio-badge text-[8px] sm:text-[8.5px] md:text-[9px] font-bold font-display tracking-[0.32em] uppercase text-purple-200/90 leading-none mt-0.5 select-none">STUDIO</span>
             </div>
           </button>
         </div>
@@ -1217,87 +1217,34 @@
       </div>
 
       <!-- ====================================================================== -->
-      <!-- 2. ZENTRALE ZONE: WAS NUN? + FOKUS-TIMER + DATUM & KALENDER + FOCUS-MODE -->
+      <!-- 2. ZENTRALE ZONE: BRAINSTORMING + WAS NUN? + DATUM & KALENDER + TIMER + PAUSE -->
       <!-- ====================================================================== -->
-      <div class="hidden md:flex items-center justify-center gap-3 md:gap-4 lg:gap-4.5 shrink-0 mx-auto zen-hide">
+      <div class="hidden md:flex items-center justify-center gap-2.5 md:gap-3.5 lg:gap-4 shrink-0 mx-auto zen-hide">
 
-        <!-- Fokus-Timer (Links im Zentrum platziert mit stabilem Hover) -->
-        <div class="relative flex items-center bg-transparent shrink-0" id="timer-wrapper" onmouseenter="showPanelHover('timer-presets')" onmouseleave="hidePanelHover('timer-presets')">
-          <div id="timer-trigger-container" class="flex items-center gap-1.5 h-9 md:h-[36.5px] px-2.5 bg-black/30 border border-white/10 rounded-xl shadow-sm transition-all duration-300">
-            <!-- Pfeile nach oben & nach unten (links vor der Zeit) -->
-            <div class="flex flex-col items-center justify-center -space-y-0.5 shrink-0 select-none">
-              <button onclick="event.stopPropagation(); cycleTimerPreset(1);" class="w-4 h-3.5 rounded hover:bg-white/15 text-purple-300/70 hover:text-white flex items-center justify-center transition cursor-pointer active:scale-90" title="Zeit erhöhen (+1 Min)" aria-label="Zeit erhöhen">
-                <i data-lucide="chevron-up" class="w-3 h-3 stroke-[2.2]"></i>
-              </button>
-              <button onclick="event.stopPropagation(); cycleTimerPreset(-1);" class="w-4 h-3.5 rounded hover:bg-white/15 text-purple-300/70 hover:text-white flex items-center justify-center transition cursor-pointer active:scale-90" title="Zeit verringern (-1 Min)" aria-label="Zeit verringern">
-                <i data-lucide="chevron-down" class="w-3 h-3 stroke-[2.2]"></i>
-              </button>
-            </div>
-
-            <!-- Zeit-Anzeige -->
-            <div id="btn-timer-presets" onclick="toggleTimerPresetMenu(event)" onmouseenter="openTimerPresetMenu()" class="flex flex-col items-center justify-center min-w-[36px] cursor-pointer group/timer-click select-none" title="Fokus-Studio: Dauer & Audio einstellen" data-i18n-title="timer_click_toggle_tooltip">
-              <span id="timer-display" class="font-display font-black text-xs md:text-sm tracking-wider text-[var(--accent-light)] group-hover/timer-click:text-purple-200 leading-none transition-colors select-none">03:00</span>
-              <div class="w-full h-1 bg-white/10 rounded-full mt-0.5 overflow-hidden">
-                <div id="timer-progress-bar" class="h-full bg-[var(--accent)] transition-all duration-300" style="width: 100%"></div>
-              </div>
-            </div>
-
-            <!-- Versteckter Sync-State für Skripte -->
-            <input type="hidden" id="timer-preset-select-real" value="3">
-            <select id="timer-preset-select" onchange="setTheme(currentTheme)" class="hidden"></select>
-
-            <!-- Start / Pause / Reset (rot) / Mute Buttons -->
-            <div class="flex items-center gap-1 shrink-0 pl-1 border-l border-white/10">
-              <button id="timer-play-btn" onclick="startTimer()" class="p-1 hover:bg-emerald-500/20 text-emerald-400 rounded-lg transition cursor-pointer" title="Start timer [T]" data-i18n-title="timer_play_btn_tooltip" aria-label="Start">
-                <i data-lucide="play" class="w-3.5 h-3.5"></i>
-              </button>
-              <button id="timer-pause-btn" onclick="pauseTimer()" class="p-1 hover:bg-white/10 text-[var(--accent-light)] rounded-lg transition cursor-pointer hidden" title="Pause timer [T]" data-i18n-title="timer_pause_btn_tooltip" aria-label="Pause">
-                <i data-lucide="pause" class="w-3.5 h-3.5 animate-pulse"></i>
-              </button>
-              <button id="timer-stop-btn" onclick="stopTimer()" class="p-1 hover:bg-rose-500/15 text-rose-400/80 hover:text-rose-300 rounded-lg transition cursor-pointer active:scale-90" title="Stoppen / Zurücksetzen [S]" data-i18n-title="timer_stop_btn_tooltip" aria-label="Stoppen">
-                <i data-lucide="square" class="w-3.5 h-3.5 stroke-[2]"></i>
-              </button>
-              <button id="timer-mute-btn" onclick="toggleTimerSound()" class="p-1 hover:bg-white/10 text-gray-400 hover:text-white rounded-lg transition cursor-pointer" title="Toggle timer sound" data-i18n-title="timer_sound_btn_tooltip" aria-label="Sound">
-                <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
-              </button>
-            </div>
-            <span id="active-timer-badge" class="hidden text-[10px] text-[var(--accent-light)] font-semibold border-l border-white/15 pl-2 truncate max-w-[70px]"></span>
-          </div>
-
-          <!-- Timer Presets Popover Dropdown -->
-          <div id="panel-timer-presets" onmouseenter="showPanelHover('timer-presets')" onclick="event.stopPropagation()" class="hidden absolute top-full mt-2 left-0 z-50 bg-[#121118]/95 backdrop-blur-xl border border-purple-500/30 rounded-2xl shadow-2xl p-2.5 w-52 animate-in fade-in zoom-in-95 duration-150">
-            <div class="text-[10px] font-bold uppercase tracking-wider text-purple-300 font-mono mb-2 flex items-center justify-between px-1 border-b border-white/10 pb-1.5">
-              <span>⏱️ Fokus-Dauer</span>
-              <div class="flex items-center gap-1.5">
-                <span class="text-[9px] text-gray-400">Presets</span>
-                <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" aria-label="Timer-Presets schließen" class="text-gray-400 hover:text-white text-xs font-bold p-0.5 rounded hover:bg-white/10 transition cursor-pointer">✕</button>
-              </div>
-            </div>
-            <div class="grid grid-cols-3 gap-1.5">
-              <button onclick="selectTimerPreset(1)" data-mins="1" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">1m</button>
-              <button onclick="selectTimerPreset(2)" data-mins="2" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">2m</button>
-              <button onclick="selectTimerPreset(3)" data-mins="3" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-purple-500/20 border border-purple-500/40 text-xs font-bold text-purple-200 hover:text-white transition text-center cursor-pointer">3m</button>
-              <button onclick="selectTimerPreset(5)" data-mins="5" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">5m</button>
-              <button onclick="selectTimerPreset(10)" data-mins="10" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">10m</button>
-              <button onclick="selectTimerPreset(15)" data-mins="15" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">15m</button>
-              <button onclick="selectTimerPreset(20)" data-mins="20" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">20m</button>
-              <button onclick="selectTimerPreset(25)" data-mins="25" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">25m 🍅</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Brainstorming Studio Schnellzugriff [B] (Links vom Datum, Icon-Only mit Tooltip) -->
-        <button id="btn-header-brainstorm" onclick="openBrainstormModal()" class="flex items-center justify-center h-9 w-9 md:h-[36.5px] md:w-[36.5px] rounded-xl text-teal-300 hover:text-white bg-teal-500/15 hover:bg-teal-500/25 active:scale-95 border border-teal-500/35 hover:border-teal-400 cursor-pointer transition-all duration-300 shrink-0 shadow-sm group" title="Brainstorming Studio: Ideen erfassen & Mikrofon [B]" aria-label="Brainstorming Studio">
-          <i data-lucide="brain" class="w-3.5 h-3.5 text-teal-300 group-hover:scale-110 group-hover:text-teal-200 transition-transform shrink-0"></i>
+        <!-- 1. Brainstorming Studio Schnellzugriff [B] (Einheitliche Höhe h-9 md:h-[38px]) -->
+        <button id="btn-header-brainstorm" onclick="openBrainstormModal()" class="flex items-center justify-center h-[41px] w-[41px] rounded-xl text-teal-300 hover:text-white bg-teal-500/15 hover:bg-teal-500/25 active:scale-95 border border-teal-500/35 hover:border-teal-400 cursor-pointer transition-all duration-300 shrink-0 shadow-sm group" title="Brainstorming Studio: Ideen erfassen & Mikrofon [B]" aria-label="Brainstorming Studio">
+          <i data-lucide="brain" class="w-[18px] h-[18px] text-teal-300 group-hover:scale-110 group-hover:text-teal-200 transition-transform shrink-0"></i>
         </button>
 
-        <!-- Zentrales Datum & Monatskalender Dropdown -->
-        <div id="date-container" class="flex items-center justify-center h-9 md:h-[36.5px] px-3 lg:px-3.5 bg-white/[0.035] hover:bg-white/[0.07] border border-white/10 hover:border-white/20 rounded-xl shadow-xs shrink-0 transition-all duration-200 relative group select-none">
+        <!-- 2. Was nun? (Direkt nach Brainstorming, einheitliche Höhe h-9 md:h-[38px]) -->
+        <button id="btn-whatnow-dance" onclick="openHelperModal('pick')" class="whatnow-animated-btn flex items-center justify-center gap-1.5 h-[41px] px-3.5 rounded-xl text-amber-300 hover:text-amber-200 bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 border border-amber-500/35 hover:border-amber-400 cursor-pointer transition-all duration-300 shrink-0 shadow-sm group" title="Was soll ich als Nächstes tun? (Entscheidungshilfe) [W]" data-i18n-title="whatnow_tooltip" aria-label="Was nun?">
+          <i data-lucide="lightbulb" class="whatnow-animated-bulb w-4 h-4 text-amber-300 group-hover:scale-110 transition-transform shrink-0"></i>
+          <span class="text-[13px] font-bold text-amber-200 whitespace-nowrap" data-i18n="whatnow">Was nun?</span>
+        </button>
+
+        <!-- Focus Mode Hook (Unsichtbar im Header, vollständig integriert in 'Was nun?' & Shortcut [F]) -->
+        <button id="btn-focus-mode" onclick="toggleMinimalist()" class="hidden" title="Fokus [F]" data-i18n-title="minimal_mode" aria-label="Fokus">
+          <i id="zen-btn-icon" data-lucide="eye" class="w-3.5 h-3.5 text-purple-400 shrink-0"></i>
+          <span class="hidden 2xl:inline" id="minimal-mode-btn-text" data-i18n="minimal_mode">Fokus</span>
+        </button>
+
+        <!-- 3. Zentrales Datum & Monatskalender Dropdown (Einheitliche Höhe h-9 md:h-[38px]) -->
+        <div id="date-container" class="flex items-center justify-center h-[41px] px-3.5 lg:px-4 bg-white/[0.035] hover:bg-white/[0.07] border border-white/10 hover:border-white/20 rounded-xl shadow-xs shrink-0 transition-all duration-200 relative group select-none">
           <div class="flex items-center gap-1.5 lg:gap-2 px-0.5">
             <!-- Wetter & Temperatur Pill -->
-            <div id="date-weather-badge" onclick="toggleWeatherDropdown(event)" onmouseenter="showPanelHover('weather')" onmouseleave="hidePanelHover('weather')" class="flex items-center gap-1 px-1.5 py-0.5 rounded-lg bg-sky-500/15 border border-sky-500/30 hover:bg-sky-500/25 hover:border-sky-400/60 text-[10px] font-bold text-sky-300 transition cursor-pointer relative select-none shadow-sm group/weather" title="Local Weather" data-i18n-title="weather_title">
-              <span id="date-weather-emoji" class="text-xs shrink-0 group-hover/weather:scale-110 transition-transform">☀️</span>
-              <span id="date-weather-temp" class="font-mono font-bold text-sky-200 text-[10px]">20°</span>
+            <div id="date-weather-badge" onclick="toggleWeatherDropdown(event)" onmouseenter="showPanelHover('weather')" onmouseleave="hidePanelHover('weather')" class="flex items-center gap-1 h-[28px] px-2 rounded-lg bg-sky-500/15 border border-sky-500/30 hover:bg-sky-500/25 hover:border-sky-400/60 text-[10px] font-bold text-sky-300 transition cursor-pointer relative select-none shadow-sm group/weather" title="Local Weather" data-i18n-title="weather_title">
+              <span id="date-weather-emoji" class="text-sm shrink-0 group-hover/weather:scale-110 transition-transform">☀️</span>
+              <span id="date-weather-temp" class="font-mono font-bold text-sky-200 text-[11px]">20°</span>
 
               <!-- VOLLER WETTER- & NEWS-BRIEFING POPOVER (Links-bündig am Button-Anfang) -->
               <div id="panel-weather" onmouseenter="showPanelHover('weather')" onmouseleave="hidePanelHover('weather')" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+10px)] left-0 z-[120] w-[330px] sm:w-[370px] bg-[var(--bg-modal)] border border-[var(--border-main)] p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left animate-fade-in cursor-default">
@@ -1323,7 +1270,7 @@
                 <!-- Ort eingeben oder aus Dropdown wählen (Combobox) -->
                 <div class="relative">
                   <div class="flex gap-1">
-                    <input type="text" id="weather-city-input" list="weather-preset-cities" placeholder="Enter or choose city..." data-i18n-placeholder="weather_placeholder" oninput="handleWeatherSearchInput(this.value)" onkeydown="if(event.key==='Enter') searchWeatherCityInstant(this.value)" class="flex-1 p-1.5 bg-black/50 border border-white/10 rounded-xl text-xs text-white outline-none focus:border-sky-500 font-semibold" />
+                    <input type="text" id="weather-city-input" list="weather-preset-cities" placeholder="Enter or choose city..." data-i18n-placeholder="weather_placeholder" oninput="handleWeatherSearchInput(this.value)" onchange="if(this.value) searchWeatherCityInstant(this.value)" onkeydown="if(event.key==='Enter') searchWeatherCityInstant(this.value)" class="flex-1 p-1.5 bg-black/50 border border-white/10 rounded-xl text-xs text-white outline-none focus:border-sky-500 font-semibold" />
                     <datalist id="weather-preset-cities">
                       <option value="Berlin">
                       <option value="München">
@@ -1333,15 +1280,46 @@
                       <option value="Stuttgart">
                       <option value="Düsseldorf">
                       <option value="Dortmund">
+                      <option value="Essen">
                       <option value="Leipzig">
+                      <option value="Bremen">
+                      <option value="Dresden">
+                      <option value="Hannover">
+                      <option value="Nürnberg">
+                      <option value="Potsdam">
+                      <option value="Kiel">
+                      <option value="Erfurt">
+                      <option value="Magdeburg">
+                      <option value="Mainz">
+                      <option value="Wiesbaden">
+                      <option value="Saarbrücken">
+                      <option value="Schwerin">
+                      <option value="Augsburg">
+                      <option value="Freiburg">
+                      <option value="Heidelberg">
+                      <option value="Karlsruhe">
+                      <option value="Mannheim">
+                      <option value="Bonn">
+                      <option value="Münster">
                       <option value="Wien">
+                      <option value="Graz">
+                      <option value="Salzburg">
+                      <option value="Innsbruck">
+                      <option value="Linz">
                       <option value="Zürich">
                       <option value="Basel">
                       <option value="Bern">
+                      <option value="Genf">
+                      <option value="Luzern">
                       <option value="London">
+                      <option value="Paris">
+                      <option value="Rom">
                       <option value="Madrid">
+                      <option value="Barcelona">
                       <option value="Athen">
+                      <option value="Amsterdam">
                       <option value="New York">
+                      <option value="Tokio">
                     </datalist>
                     <button onclick="searchWeatherCityInstant(document.getElementById('weather-city-input').value)" class="p-1 px-2 bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 rounded-lg text-[10px] font-bold transition cursor-pointer" title="Search" data-i18n-title="cmd_tasks">
                       <i data-lucide="search" class="w-3 h-3"></i>
@@ -1376,23 +1354,76 @@
           </div>
         </div>
 
-        <!-- Was nun? (Mit lebendiger Ideen-Funken Animation & leuchtender Aura) -->
-        <button id="btn-whatnow-dance" onclick="openHelperModal('pick')" class="whatnow-animated-btn flex items-center justify-center gap-1.5 h-9 md:h-[36.5px] px-3 rounded-xl text-amber-300 hover:text-amber-200 bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 border border-amber-500/35 hover:border-amber-400 cursor-pointer transition-all duration-300 shrink-0 shadow-sm group" title="Was soll ich als Nächstes tun? (Entscheidungshilfe) [W]" data-i18n-title="whatnow_tooltip" aria-label="Was nun?">
-          <i data-lucide="lightbulb" class="whatnow-animated-bulb w-3.5 h-3.5 text-amber-300 group-hover:scale-110 transition-transform shrink-0"></i>
-          <span class="text-xs font-bold text-amber-200 whitespace-nowrap" data-i18n="whatnow">Was nun?</span>
-        </button>
+        <!-- 4. Fokus-Timer (Rechts nach dem Datum platziert, einheitliche Höhe h-9 md:h-[38px]) -->
+        <div class="relative flex items-center bg-transparent shrink-0" id="timer-wrapper" onmouseenter="showPanelHover('timer-presets')" onmouseleave="hidePanelHover('timer-presets')">
+          <div id="timer-trigger-container" class="flex items-center gap-2 h-[41px] px-3 bg-black/30 border border-white/10 rounded-xl shadow-sm transition-all duration-300">
+            <!-- Pfeile nach oben & nach unten (links vor der Zeit) -->
+            <div class="flex flex-col items-center justify-center -space-y-0.5 shrink-0 select-none">
+              <button onclick="event.stopPropagation(); cycleTimerPreset(1);" class="w-4 h-3.5 rounded hover:bg-white/15 text-purple-300/70 hover:text-white flex items-center justify-center transition cursor-pointer active:scale-90" title="Zeit erhöhen (+1 Min)" aria-label="Zeit erhöhen">
+                <i data-lucide="chevron-up" class="w-3 h-3 stroke-[2.2]"></i>
+              </button>
+              <button onclick="event.stopPropagation(); cycleTimerPreset(-1);" class="w-4 h-3.5 rounded hover:bg-white/15 text-purple-300/70 hover:text-white flex items-center justify-center transition cursor-pointer active:scale-90" title="Zeit verringern (-1 Min)" aria-label="Zeit verringern">
+                <i data-lucide="chevron-down" class="w-3 h-3 stroke-[2.2]"></i>
+              </button>
+            </div>
 
-        <!-- Focus Mode Hook (Unsichtbar im Header, vollständig integriert in 'Was nun?' & Shortcut [F]) -->
-        <button id="btn-focus-mode" onclick="toggleMinimalist()" class="hidden" title="Fokus [F]" data-i18n-title="minimal_mode" aria-label="Fokus">
-          <i id="zen-btn-icon" data-lucide="eye" class="w-3.5 h-3.5 text-purple-400 shrink-0"></i>
-          <span class="hidden 2xl:inline" id="minimal-mode-btn-text" data-i18n="minimal_mode">Fokus</span>
-        </button>
+            <!-- Zeit-Anzeige -->
+            <div id="btn-timer-presets" onclick="toggleTimerPresetMenu(event)" onmouseenter="openTimerPresetMenu()" class="flex flex-col items-center justify-center min-w-[36px] cursor-pointer group/timer-click select-none" title="Fokus-Studio: Dauer & Audio einstellen" data-i18n-title="timer_click_toggle_tooltip">
+              <span id="timer-display" class="font-display font-black text-[13px] md:text-[15px] tracking-wider text-[var(--accent-light)] group-hover/timer-click:text-purple-200 leading-none transition-colors select-none">03:00</span>
+              <div class="w-full h-1 bg-white/10 rounded-full mt-0.5 overflow-hidden">
+                <div id="timer-progress-bar" class="h-full bg-[var(--accent)] transition-all duration-300" style="width: 100%"></div>
+              </div>
+            </div>
 
-        <!-- 1. Pause & Erholung mit animiertem Dampf-Tassenicon (Zentriert mit stabilem Hover) -->
+            <!-- Versteckter Sync-State für Skripte -->
+            <input type="hidden" id="timer-preset-select-real" value="3">
+            <select id="timer-preset-select" onchange="setTheme(currentTheme)" class="hidden"></select>
+
+            <!-- Start / Pause / Reset (rot) / Mute Buttons -->
+            <div class="flex items-center gap-1 shrink-0 pl-1 border-l border-white/10">
+              <button id="timer-play-btn" onclick="startTimer()" class="p-1 hover:bg-emerald-500/20 text-emerald-400 rounded-lg transition cursor-pointer" title="Start timer [T]" data-i18n-title="timer_play_btn_tooltip" aria-label="Start">
+                <i data-lucide="play" class="w-3.5 h-3.5"></i>
+              </button>
+              <button id="timer-pause-btn" onclick="pauseTimer()" class="p-1 hover:bg-white/10 text-[var(--accent-light)] rounded-lg transition cursor-pointer hidden" title="Pause timer [T]" data-i18n-title="timer_pause_btn_tooltip" aria-label="Pause">
+                <i data-lucide="pause" class="w-4 h-4 animate-pulse"></i>
+              </button>
+              <button id="timer-stop-btn" onclick="stopTimer()" class="p-1 hover:bg-rose-500/15 text-rose-400/80 hover:text-rose-300 rounded-lg transition cursor-pointer active:scale-90" title="Stoppen / Zurücksetzen [S]" data-i18n-title="timer_stop_btn_tooltip" aria-label="Stoppen">
+                <i data-lucide="square" class="w-4 h-4 stroke-[2]"></i>
+              </button>
+              <button id="timer-mute-btn" onclick="toggleTimerSound()" class="p-1 hover:bg-white/10 text-gray-400 hover:text-white rounded-lg transition cursor-pointer" title="Toggle timer sound" data-i18n-title="timer_sound_btn_tooltip" aria-label="Sound">
+                <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+            <span id="active-timer-badge" class="hidden text-[10px] text-[var(--accent-light)] font-semibold border-l border-white/15 pl-2 truncate max-w-[70px]"></span>
+          </div>
+
+          <!-- Timer Presets Popover Dropdown -->
+          <div id="panel-timer-presets" onmouseenter="showPanelHover('timer-presets')" onclick="event.stopPropagation()" class="hidden absolute top-full mt-2 left-0 z-50 bg-[#121118]/95 backdrop-blur-xl border border-purple-500/30 rounded-2xl shadow-2xl p-2.5 w-52 animate-in fade-in zoom-in-95 duration-150">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-purple-300 font-mono mb-2 flex items-center justify-between px-1 border-b border-white/10 pb-1.5">
+              <span>⏱️ Fokus-Dauer</span>
+              <div class="flex items-center gap-1.5">
+                <span class="text-[9px] text-gray-400">Presets</span>
+                <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" aria-label="Timer-Presets schließen" class="text-gray-400 hover:text-white text-xs font-bold p-0.5 rounded hover:bg-white/10 transition cursor-pointer">✕</button>
+              </div>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="selectTimerPreset(1)" data-mins="1" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">1m</button>
+              <button onclick="selectTimerPreset(2)" data-mins="2" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">2m</button>
+              <button onclick="selectTimerPreset(3)" data-mins="3" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-purple-500/20 border border-purple-500/40 text-xs font-bold text-purple-200 hover:text-white transition text-center cursor-pointer">3m</button>
+              <button onclick="selectTimerPreset(5)" data-mins="5" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">5m</button>
+              <button onclick="selectTimerPreset(10)" data-mins="10" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">10m</button>
+              <button onclick="selectTimerPreset(15)" data-mins="15" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">15m</button>
+              <button onclick="selectTimerPreset(20)" data-mins="20" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">20m</button>
+              <button onclick="selectTimerPreset(25)" data-mins="25" class="timer-preset-btn py-1.5 px-2 rounded-xl bg-white/5 hover:bg-purple-600/30 hover:border-purple-400 border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition text-center cursor-pointer">25m 🍅</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Pause & Erholung mit animiertem Dampf-Tassenicon (Einheitliche Höhe h-9 md:h-[38px]) -->
         <div id="header-btn-pause-container" class="relative group cursor-pointer shrink-0" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')">
-          <button onclick="togglePanel('pause-dropdown')" class="h-9 md:h-[36.5px] px-3 2xl:px-3.5 border border-teal-500/40 hover:border-teal-400/70 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 active:scale-95 text-teal-200 hover:text-white flex items-center gap-1.5 text-xs md:text-sm font-semibold cursor-pointer transition whitespace-nowrap shadow-[0_0_12px_rgba(20,184,166,0.18)] group/pause-btn" data-i18n-title="pause_panel_title">
+          <button onclick="togglePanel('pause-dropdown')" class="h-[41px] px-3.5 2xl:px-4 border border-teal-500/40 hover:border-teal-400/70 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 active:scale-95 text-teal-200 hover:text-white flex items-center gap-1.5 text-[13px] md:text-[14.5px] font-semibold cursor-pointer transition whitespace-nowrap shadow-[0_0_12px_rgba(20,184,166,0.18)] group/pause-btn" data-i18n-title="pause_panel_title">
             <!-- Animiertes Dampf-Tassen SVG Icon -->
-            <svg class="w-3.5 h-3.5 text-teal-300 steam-cup-icon shrink-0 overflow-visible" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="w-4 h-4 text-teal-300 steam-cup-icon shrink-0 overflow-visible" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
               <path d="M2 8h16v7a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4Z" />
               <line x1="6" x2="6" y1="1" y2="4" class="steam-line steam-line-1" stroke="currentColor" stroke-width="1.8" />
@@ -1596,12 +1627,12 @@
       <div class="hidden md:flex items-center gap-3 md:gap-4 lg:gap-4.5 shrink-0">
         
         <!-- Hauptkapsel: Statistik + Optionen + Sound (Rechts von Optionen, Icon-Only) -->
-        <div id="header-capsule-wellbeing" class="flex items-center gap-2 p-0.5 bg-white/[0.025] border border-white/[0.07] rounded-xl shadow-sm">
+        <div id="header-capsule-wellbeing" class="flex items-center gap-2 p-0 bg-transparent border-0 rounded-xl shadow-none">
           
           <!-- 1. Statistik (Indigo / Blau mit stabilem Hover) -->
           <div id="header-btn-report-container" class="relative group cursor-pointer" onmouseenter="showPanelHover('report')" onmouseleave="hidePanelHover('report')">
-            <button onclick="togglePanel('report')" class="h-9 md:h-[36.5px] px-3 2xl:px-3.5 border border-indigo-500/40 hover:border-indigo-400/70 rounded-xl bg-indigo-500/15 hover:bg-indigo-500/25 active:scale-95 text-indigo-200 hover:text-white flex items-center gap-1.5 text-xs md:text-sm font-semibold cursor-pointer transition whitespace-nowrap shadow-[0_0_12px_rgba(99,102,241,0.18)]" data-i18n-title="report_title">
-              <i data-lucide="bar-chart-3" class="w-3.5 h-3.5 text-indigo-300"></i>
+            <button onclick="togglePanel('report')" class="h-[41px] px-3.5 2xl:px-4 border border-indigo-500/40 hover:border-indigo-400/70 rounded-xl bg-indigo-500/15 hover:bg-indigo-500/25 active:scale-95 text-indigo-200 hover:text-white flex items-center gap-1.5 text-[13px] md:text-[14.5px] font-semibold cursor-pointer transition whitespace-nowrap shadow-[0_0_12px_rgba(99,102,241,0.18)]" data-i18n-title="report_title">
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-300"></i>
               <span class="hidden 2xl:inline" id="btn-label-report" data-i18n="report">Stats</span>
             </button>
             
@@ -1638,9 +1669,9 @@
 
           <!-- 2. Optionen / Einstellungen (Fuchsia / Purple mit stabilem Hover) -->
           <div id="header-btn-options-container" class="relative group cursor-pointer" onmouseenter="showPanelHover('settings-dropdown')" onmouseleave="hidePanelHover('settings-dropdown')">
-            <button onclick="togglePanel('settings-dropdown')" class="h-9 md:h-[36.5px] px-3 2xl:px-3.5 flex items-center gap-1.5 border border-fuchsia-500/40 hover:border-fuchsia-400/70 active:scale-95 rounded-xl bg-fuchsia-500/15 hover:bg-fuchsia-500/25 text-fuchsia-200 hover:text-white cursor-pointer transition shadow-[0_0_12px_rgba(217,70,239,0.18)] shrink-0" data-i18n-title="options_title">
-              <i data-lucide="settings" class="w-3.5 h-3.5 text-fuchsia-300"></i>
-              <span class="text-xs md:text-sm font-bold text-fuchsia-200 group-hover:text-white hidden 2xl:inline" data-i18n="settings">Options</span>
+            <button onclick="togglePanel('settings-dropdown')" class="h-[41px] px-3.5 2xl:px-4 flex items-center gap-1.5 border border-fuchsia-500/40 hover:border-fuchsia-400/70 active:scale-95 rounded-xl bg-fuchsia-500/15 hover:bg-fuchsia-500/25 text-fuchsia-200 hover:text-white cursor-pointer transition shadow-[0_0_12px_rgba(217,70,239,0.18)] shrink-0" data-i18n-title="options_title">
+              <i data-lucide="settings" class="w-4 h-4 text-fuchsia-300"></i>
+              <span class="text-[13px] md:text-[14.5px] font-bold text-fuchsia-200 group-hover:text-white hidden 2xl:inline" data-i18n="settings">Options</span>
             </button>
 
             <div id="panel-settings-dropdown" onmouseenter="showPanelHover('settings-dropdown')" class="hidden absolute right-0 top-[calc(100%+8px)] z-[120] w-[275px] bg-[#111116]/98 border border-fuchsia-500/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-3 text-left animate-fade-in" onclick="event.stopPropagation()">
@@ -1736,9 +1767,9 @@
 
           <!-- 3. Sound Master Toggle & Hover Volume Slider (Rechts nach Optionen) -->
           <div id="header-btn-sound-container" class="relative group/sound-wrapper cursor-pointer shrink-0" onmouseenter="showSoundHoverSlider()" onmouseleave="hideSoundHoverSlider()" onclick="toggleSoundVolumePopover(event)">
-            <button id="header-btn-sound-toggle" onclick="toggleMasterSound()" class="h-9 md:h-[36.5px] px-2.5 2xl:px-3 border border-purple-500/30 hover:border-purple-400/60 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_12px_rgba(168,85,247,0.12)] shrink-0 group/sound-btn opacity-90 hover:opacity-100" title="Lautstärke & Sound-Mute" aria-label="Lautstärke & Sound-Mute">
+            <button id="header-btn-sound-toggle" onclick="toggleMasterSound()" class="h-[41px] px-3 2xl:px-3.5 border border-purple-500/30 hover:border-purple-400/60 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_12px_rgba(168,85,247,0.12)] shrink-0 group/sound-btn opacity-90 hover:opacity-100" title="Lautstärke & Sound-Mute" aria-label="Lautstärke & Sound-Mute">
               <span id="header-sound-icon-wrapper" class="flex items-center justify-center">
-                <i data-lucide="volume-x" class="w-4 h-4 text-purple-300/80 group-hover/sound-btn:text-purple-200"></i>
+                <i data-lucide="volume-x" class="w-[18px] h-[18px] text-purple-300/80 group-hover/sound-btn:text-purple-200"></i>
               </span>
               <span id="header-sound-eq-bars" class="hidden items-end gap-[1.5px] h-3 ml-0.5">
                 <span class="w-[2px] h-1.5 bg-purple-400 rounded-full animate-bounce [animation-delay:0ms]"></span>
@@ -1759,8 +1790,6 @@
 
         </div>
 
-        
-
       </div>
 
     </header>
@@ -1769,17 +1798,18 @@
 
     <!-- BOARD SUB-HEADER / DISCREET TOP BAR (DESKTOP & MOBILE) -->
     <div id="board-top-bar" class="relative z-20 flex items-center justify-between gap-2 mb-2 px-1 text-xs select-none">
-      <!-- LINKS: Workspace Switcher + Spalten anpassen, Spalten leeren, Rückgängig, Reset -->
+      <!-- LINKS: Privat/Arbeit Workspace Switcher, Spalten anpassen, Spalten leeren, Rückgängig, Reset -->
       <div class="flex items-center gap-2 sm:gap-3 shrink-0 flex-wrap">
-        <!-- Workspace Switcher (Privat / Arbeit / Studium) -->
+        
+        <!-- 1. Workspace Switcher (Privat / Arbeit / Studium) links von Spalten anpassen -->
         <div id="header-workspace-wrapper" class="relative flex items-center shrink-0" onmouseenter="cancelCloseHeaderWorkspaceDropdown()" onmouseleave="closeHeaderWorkspaceDropdown()">
-          <button id="btn-header-workspace" onclick="toggleHeaderWorkspaceDropdown(event)" onmouseenter="openHeaderWorkspaceDropdown()" class="px-2.5 py-1 rounded-xl bg-purple-500/10 hover:bg-purple-500/25 border border-purple-500/20 hover:border-purple-400/60 text-purple-200 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1.5 text-xs font-semibold cursor-pointer shadow-xs group/ws" title="Arbeitsbereich wechseln (Privat, Arbeit, Studium)">
+          <button id="btn-header-workspace" onclick="toggleHeaderWorkspaceDropdown(event)" onmouseenter="openHeaderWorkspaceDropdown()" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/25 hover:border-purple-400/60 text-purple-200 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1.5 text-[11px] font-semibold cursor-pointer shadow-xs group/ws" title="Arbeitsbereich wechseln (Privat, Arbeit, Studium)">
             <span id="header-ws-icon" class="text-sm">🏠</span>
             <span id="header-ws-label" class="font-bold">Privat</span>
             <i data-lucide="chevron-down" class="w-3 h-3 text-purple-400/80 group-hover/ws:text-purple-300 transition-transform"></i>
           </button>
 
-          <!-- Workspace Dropdown (Solid background to avoid overlap issues) -->
+          <!-- Workspace Dropdown -->
           <div id="dropdown-header-workspace" class="hidden absolute left-0 top-[calc(100%+6px)] z-[250] w-48 p-2 bg-[#12111e]/98 border border-purple-500/35 rounded-2xl shadow-2xl backdrop-blur-2xl text-white space-y-1 animate-fade-in" onclick="event.stopPropagation()">
             <button id="header-ws-opt-private" onclick="setWorkspace('private'); closeHeaderWorkspaceDropdown();" class="w-full p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer hover:bg-white/10 text-gray-200 text-xs font-semibold">
               <span class="text-base">🏠</span> <span>Privat</span>
@@ -1793,35 +1823,38 @@
           </div>
         </div>
 
-        <!-- DYNAMIC CONTROLS MIT ABSTAND (Spalten anpassen, Spalten leeren, Rückgängig, Reset) -->
-        <div id="board-undo-wrapper" class="flex items-center gap-1.5 sm:gap-2 shrink-0 relative pl-2 sm:pl-3 border-l border-white/15">
+        <!-- Trennlinie / Abstandhalter zwischen Workspace und Spalten anpassen -->
+        <div class="h-3.5 w-px bg-white/15 hidden sm:block"></div>
+
+        <!-- DYNAMIC CONTROLS (Spalten anpassen, Spalten leeren, Rückgängig, Reset) -->
+        <div id="board-undo-wrapper" class="flex items-center gap-1.5 sm:gap-2 shrink-0 relative">
           <!-- SPALTEN ANPASSEN HOVER-MENÜ WRAPPER -->
           <div id="columns-menu-wrapper" class="relative" onmouseenter="cancelCloseColumnsDropdown()" onmouseleave="scheduleCloseColumnsDropdown()">
-            <button id="btn-board-columns" onclick="toggleColumnsDropdown(event)" onmouseenter="openColumnsDropdown(this)" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/25 border border-purple-500/20 hover:border-purple-400/60 text-purple-200/80 hover:text-purple-100 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(168,85,247,0.25)] group/cols shrink-0" title="Spalten anpassen & Liste hinzufügen (Reihenfolge, Ein-/Ausblenden, Neue Liste) ⚙️">
+            <button id="btn-board-columns" onclick="toggleColumnsDropdown(event)" onmouseenter="openColumnsDropdown(this)" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl bg-purple-500/10 hover:bg-purple-500/25 border border-purple-500/20 hover:border-purple-400/60 text-purple-200/80 hover:text-purple-100 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(168,85,247,0.25)] group/cols shrink-0" title="Spalten anpassen & Liste hinzufügen (Reihenfolge, Ein-/Ausblenden, Neue Liste) ⚙️">
               <i data-lucide="sliders" class="w-3 h-3 text-purple-300/80 group-hover/cols:text-purple-300 group-hover/cols:rotate-90 transition-transform"></i>
               <span class="text-[10px] sm:text-[11px]" data-i18n="board_columns">Spalten anpassen</span>
             </button>
 
-            <!-- HOVER DROPDOWN FOR SPALTEN ANPASSEN & LISTE HINZUFÜGEN (nach links ausklappend) -->
+            <!-- HOVER DROPDOWN FOR SPALTEN ANPASSEN & LISTE HINZUFÜGEN -->
             <div id="dropdown-manage-columns" class="hidden absolute left-0 top-[calc(100%+6px)] z-[250] w-[320px] sm:w-[350px] p-3.5 bg-[#12111e]/98 border border-purple-500/35 rounded-2xl shadow-[0_15px_45px_rgba(0,0,0,0.8),0_0_25px_rgba(168,85,247,0.25)] backdrop-blur-2xl text-white space-y-3 animate-fade-in" onclick="event.stopPropagation()">
               <!-- Dynamisch befüllt via renderColumnsDropdownContent() -->
             </div>
           </div>
 
           <!-- SPALTEN LEEREN OPTION BUTTON -->
-          <button id="btn-board-clear" onclick="handleClearAllLists()" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-red-500/10 hover:bg-red-500/25 border border-red-500/20 hover:border-red-400/60 text-red-200/80 hover:text-red-100 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(239,68,68,0.25)] group/clear shrink-0" title="Alle Aufgaben in den Spalten leeren 🗑️" data-i18n-title="title_clear_lists" aria-label="Spalten leeren">
+          <button id="btn-board-clear" onclick="handleClearAllLists()" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl bg-red-500/10 hover:bg-red-500/25 border border-red-500/20 hover:border-red-400/60 text-red-200/80 hover:text-red-100 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(239,68,68,0.25)] group/clear shrink-0" title="Alle Aufgaben in den Spalten leeren 🗑️" data-i18n-title="title_clear_lists" aria-label="Spalten leeren">
             <i data-lucide="eraser" class="w-3 h-3 text-red-300/80 group-hover/clear:text-red-300 group-hover/clear:rotate-12 transition-transform"></i>
             <span class="text-[10px] sm:text-[11px]" data-i18n="board_clear_lists">Spalten leeren</span>
           </button>
 
-          <!-- RÜCKGÄNGIG BUTTON (nach Spalten leeren, dezent-minimal, vergrößert sich flüssig bei Hover) -->
-          <button id="btn-board-undo" onclick="handleUndo()" class="hidden px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-amber-500/10 hover:bg-amber-500/25 border border-amber-500/20 hover:border-amber-400/60 text-amber-200/80 hover:text-amber-100 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(245,158,11,0.25)] animate-fade-in group/undo shrink-0" title="Letzte Aktion rückgängig machen (Ctrl+Z)" data-i18n-title="title_undo">
+          <!-- RÜCKGÄNGIG BUTTON -->
+          <button id="btn-board-undo" onclick="handleUndo()" class="hidden px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl bg-amber-500/10 hover:bg-amber-500/25 border border-amber-500/20 hover:border-amber-400/60 text-amber-200/80 hover:text-amber-100 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(245,158,11,0.25)] animate-fade-in group/undo shrink-0" title="Letzte Aktion rückgängig machen (Ctrl+Z)" data-i18n-title="title_undo">
             <i data-lucide="undo-2" class="w-3 h-3 text-amber-300/80 group-hover/undo:text-amber-300 group-hover/undo:-rotate-45 transition-transform"></i>
             <span class="text-[10px] sm:text-[11px]" data-i18n="board_undo">Rückgängig</span>
           </button>
 
-          <!-- RESET BUTTON (rechts nach Spalten anpassen & Undo, dezent-minimal, vergrößert sich flüssig bei Hover) -->
-          <button id="btn-board-reset" onclick="handleReset()" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/25 border border-rose-500/20 hover:border-rose-400/60 text-rose-200/80 hover:text-rose-100 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(244,63,94,0.25)] group/reset shrink-0" title="Board zurücksetzen (Reset)" data-i18n-title="title_reset" aria-label="Board zurücksetzen">
+          <!-- RESET BUTTON -->
+          <button id="btn-board-reset" onclick="handleReset()" class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-xl bg-rose-500/10 hover:bg-rose-500/25 border border-rose-500/20 hover:border-rose-400/60 text-rose-200/80 hover:text-rose-100 transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(244,63,94,0.25)] group/reset shrink-0" title="Board zurücksetzen (Reset)" data-i18n-title="title_reset" aria-label="Board zurücksetzen">
             <i data-lucide="rotate-ccw" class="w-3 h-3 text-rose-300/80 group-hover/reset:text-rose-300 group-hover/reset:-rotate-90 transition-transform"></i>
             <span class="text-[10px] sm:text-[11px]" data-i18n="board_reset">Reset</span>
           </button>
@@ -2711,49 +2744,255 @@
     </div>
   </div>
 
-  <!-- SANFTER BEWEGUNGS-IMPULS MODAL -->
-  <div id="helper-sport-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
-    <div id="helper-sport-card" class="mobile-modal-card animate-spring-modal w-full max-w-md bg-[#111116]/95 border border-orange-500/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300">
-      <span onclick="closeSportModal()" class="modal-close-btn text-gray-400 hover:text-white text-lg font-bold p-1 cursor-pointer transition">✕</span>
+  <!-- BEWEGUNG & MODULARE HOME-WORKOUTS MODAL -->
+  <div id="helper-sport-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
+    <div id="helper-sport-card" class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#0f1017]/98 border border-lime-500/40 p-4 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300 max-h-[92vh] flex flex-col">
+      
+      <!-- Close Button -->
+      <button onclick="closeSportModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-1 rounded-xl hover:bg-white/10 transition cursor-pointer text-sm font-bold z-10" aria-label="Schließen">✕</button>
 
-      <h3 class="text-white font-bold text-sm font-display mb-4 pb-2 border-b border-white/10 flex items-center gap-2">
-        <i data-lucide="dumbbell" class="w-4 h-4 text-orange-400 animate-bounce"></i>
-        <span data-i18n="sport_modal_title">Sanfter Bewegungs-Impuls 🏃</span>
-      </h3>
-
-      <div class="space-y-4">
-        <p class="text-xs text-gray-400 leading-relaxed font-semibold" data-i18n="sport_modal_desc">
-          Ganz entspannt bewegen: Wähle einfach dein aktuelles Energie-Level, um eine perfekt passende, wohltuende Bewegung zu erhalten:
-        </p>
-
-        <div>
-          <label class="text-[9px] text-gray-500 font-bold block mb-1" data-i18n="sport_modal_desc">Dein aktuelles Energie-Level</label>
-          <select id="sport-energy-select" onchange="generateSportSuggestion()" class="w-full p-2.5 bg-[#12121e]/80 border border-white/10 rounded-xl text-xs text-orange-300 font-semibold outline-none focus:border-orange-500 cursor-pointer">
-            <option value="1" data-i18n="sport_level_1">🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)</option>
-            <option value="2" selected data-i18n="sport_level_2">🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)</option>
-            <option value="3" data-i18n="sport_level_3">🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)</option>
-          </select>
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-lime-500/30 to-emerald-600/20 border border-lime-400/50 flex items-center justify-center text-lime-300 shadow-[0_0_15px_rgba(132,204,22,0.25)] shrink-0">
+            <i data-lucide="activity" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="text-white font-bold text-sm sm:text-base font-display flex items-center gap-2">
+              <span>Bewegung & Home-Workouts</span>
+              <span class="px-2 py-0.5 rounded-full bg-lime-500/15 border border-lime-500/30 text-[9px] font-mono font-bold text-lime-300">Wohnung-Safe</span>
+            </h3>
+            <p class="text-[11px] text-gray-400 font-medium">Modulare Workouts & Impulse · Leise ohne Springen · Haltung & Mobilität</p>
+          </div>
         </div>
 
-        <div id="sport-suggestion-box" class="p-4 bg-orange-500/5 border border-orange-500/20 rounded-xl space-y-2 text-center"></div>
+        <!-- Live Stats Pill -->
+        <div id="sport-stats-badge" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 rounded-xl text-[10px] text-gray-300 font-mono">
+          <span>⚡ <strong class="text-lime-300">0</strong> Sessions</span>
+          <span class="text-gray-600">|</span>
+          <span>⏱️ <strong class="text-lime-300">0</strong>m</span>
+        </div>
+      </div>
 
-        <div id="sport-timer-container" class="hidden p-3 bg-black/40 border border-white/5 rounded-xl flex flex-col items-center gap-2.5">
-          <div class="flex items-center gap-3">
-            <span id="sport-timer-display" class="font-display font-black text-2xl tracking-wider text-orange-300">01:00</span>
-            <div class="w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
-              <div id="sport-timer-progress" class="h-full bg-orange-400 transition-all duration-300" style="width: 100%"></div>
+      <!-- Navigation Tabs (Only visible when player is not running) -->
+      <div id="sport-modal-nav" class="grid grid-cols-4 bg-black/50 p-1 rounded-2xl border border-white/10 gap-1 my-3 shrink-0">
+        <button id="sport-tab-btn-presets" onclick="switchSportTab('presets')" class="py-2 px-1 rounded-xl font-bold text-[11px] sm:text-xs bg-lime-500/20 text-lime-300 border border-lime-400/50 shadow-sm transition flex items-center justify-center gap-1 cursor-pointer">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-lime-400"></i>
+          <span class="truncate">Programme</span>
+        </button>
+        <button id="sport-tab-btn-builder" onclick="switchSportTab('builder')" class="py-2 px-1 rounded-xl font-semibold text-[11px] sm:text-xs text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition flex items-center justify-center gap-1 cursor-pointer">
+          <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
+          <span class="truncate">Baukasten</span>
+        </button>
+        <button id="sport-tab-btn-library" onclick="switchSportTab('library')" class="py-2 px-1 rounded-xl font-semibold text-[11px] sm:text-xs text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition flex items-center justify-center gap-1 cursor-pointer">
+          <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+          <span class="truncate">Lexikon</span>
+        </button>
+        <button id="sport-tab-btn-spoons" onclick="switchSportTab('spoons')" class="py-2 px-1 rounded-xl font-semibold text-[11px] sm:text-xs text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition flex items-center justify-center gap-1 cursor-pointer">
+          <i data-lucide="battery-charging" class="w-3.5 h-3.5"></i>
+          <span class="truncate">1-3 Löffel</span>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="flex-1 overflow-y-auto pr-1 space-y-4 custom-scrollbar min-h-0">
+
+        <!-- PANE 1: SCHNELL-PROGRAMME (PRESETS) -->
+        <div id="sport-pane-presets" class="space-y-3">
+          <div class="flex items-center justify-between text-[11px] font-bold text-gray-400 px-1">
+            <span>Wähle ein vorgefertigtes Workout:</span>
+            <span class="text-lime-300/80 font-mono text-[10px]">Keine Geräte nötig</span>
+          </div>
+          <div id="sport-presets-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <!-- Dynamically rendered via renderWorkoutPresets() in sport.js -->
+          </div>
+        </div>
+
+        <!-- PANE 2: MODULARER BAUKASTEN (CUSTOM ROUTINE BUILDER) -->
+        <div id="sport-pane-builder" class="hidden space-y-3.5">
+          <div class="p-3 bg-white/[0.02] border border-white/10 rounded-2xl space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <div>
+                <label class="text-[10px] text-gray-400 font-bold block mb-1">⏱️ Dauer / Umfang</label>
+                <select id="sport-builder-duration" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+                  <option value="3">3 Min. · 3 Übungen (Express)</option>
+                  <option value="5" selected>5 Min. · 5 Übungen (Optimal)</option>
+                  <option value="8">8 Min. · 8 Übungen (Intensiv)</option>
+                  <option value="12">12 Min. · 12 Übungen (Power)</option>
+                  <option value="16">16 Min. · 16 Übungen (Voller Zirkel)</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-[10px] text-gray-400 font-bold block mb-1">🎯 Fokus-Zone</label>
+                <select id="sport-builder-zone" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+                  <option value="all" selected>🌟 Ausgewogener Ganzkörper-Mix</option>
+                  <option value="mobility">🪑 Desk-Mobility & Nacken-Reset</option>
+                  <option value="core">🔥 Core & Rumpfstabilität</option>
+                  <option value="legs">🦵 Beine & Gesäß (Ohne Springen)</option>
+                  <option value="upper">💪 Oberkörper & Haltung</option>
+                  <option value="full">🤸 Cardio-Flow (Low Impact)</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-[10px] text-gray-400 font-bold block mb-1">🪑 Verfügbares Equipment</label>
+                <select id="sport-builder-equip" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+                  <option value="all" selected>✨ Alles (Bodyweight, Stuhl, Wand, Matte)</option>
+                  <option value="none">🚫 Rein Bodyweight (Kein Equipment)</option>
+                  <option value="chair">🪑 Nur Schreibtischstuhl / Wand</option>
+                </select>
+              </div>
+              <div>
+                <label class="text-[10px] text-gray-400 font-bold block mb-1">⚡ Intervall-Taktung (Übung/Pause)</label>
+                <select id="sport-builder-interval" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+                  <option value="30_15">30s Aktiv / 15s Pause (Sanft)</option>
+                  <option value="45_15" selected>45s Aktiv / 15s Pause (Standard)</option>
+                  <option value="50_10">50s Aktiv / 10s Pause (Intensiv)</option>
+                  <option value="60_20">60s Aktiv / 20s Pause (Ausdauer)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Quiet apartment toggle -->
+            <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/10 rounded-xl cursor-pointer hover:bg-black/60 transition">
+              <input type="checkbox" id="sport-builder-quiet" checked onchange="updateCustomWorkoutPreview()" class="w-4 h-4 rounded text-lime-500 focus:ring-lime-400 cursor-pointer accent-lime-500">
+              <div class="text-left min-w-0">
+                <span class="text-xs font-bold text-gray-200 flex items-center gap-1.5">
+                  <span>🛋️ 100% Nachbarschafts-Freundlich</span>
+                  <span class="text-[9px] px-1.5 py-0.2 rounded-md bg-lime-500/20 text-lime-300 font-mono font-bold">Flüsterleise</span>
+                </span>
+                <p class="text-[10px] text-gray-400 leading-tight">Kein Springen, kein Trittschall, geräuschlos auf Teppich oder Parkett.</p>
+              </div>
+            </label>
+          </div>
+
+          <!-- Live Preview List -->
+          <div>
+            <div class="flex items-center justify-between text-[10px] font-bold text-gray-400 px-1 mb-1.5">
+              <span>Zusammengestellte Übungen:</span>
+              <button onclick="updateCustomWorkoutPreview()" class="text-lime-300 hover:text-lime-200 text-[10px] flex items-center gap-1 cursor-pointer">
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i> <span>Neu mischen</span>
+              </button>
+            </div>
+            <div id="sport-custom-preview-list" class="space-y-1.5 max-h-[150px] overflow-y-auto pr-1 custom-scrollbar"></div>
+          </div>
+
+          <button onclick="startCustomGeneratedWorkout()" class="w-full py-2.5 bg-gradient-to-r from-lime-500 via-emerald-500 to-teal-500 hover:from-lime-400 hover:to-teal-400 text-black font-black text-xs rounded-xl shadow-lg transition duration-150 transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
+            <i data-lucide="play" class="w-4 h-4 fill-black"></i>
+            <span>Individuelles Workout Starten 🚀</span>
+          </button>
+        </div>
+
+        <!-- PANE 3: ÜBUNGS-LEXIKON & BIBLIOTHEK -->
+        <div id="sport-pane-library" class="hidden space-y-3">
+          <div class="flex flex-col sm:flex-row gap-2">
+            <div class="relative flex-1">
+              <input type="text" id="sport-library-search" oninput="renderExerciseLibrary()" placeholder="Übung suchen (z.B. Nacken, Squat, Plank)..." class="w-full py-2 pl-8 pr-3 bg-[#14141e] border border-white/15 rounded-xl text-xs text-white placeholder-gray-500 outline-none focus:border-lime-500">
+              <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5"></i>
+            </div>
+            <select id="sport-library-category-filter" onchange="renderExerciseLibrary()" class="py-2 px-2.5 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+              <option value="all">Alle Kategorien</option>
+              <option value="mobility">🪑 Desk-Mobility</option>
+              <option value="core">🔥 Core & Rumpf</option>
+              <option value="legs">🦵 Beine & Gesäß</option>
+              <option value="upper">💪 Oberkörper</option>
+              <option value="full">🤸 Ganzkörper & Flow</option>
+            </select>
+          </div>
+          <div id="sport-library-list" class="space-y-2 max-h-[320px] overflow-y-auto pr-1 custom-scrollbar">
+            <!-- Dynamically populated via renderExerciseLibrary() in sport.js -->
+          </div>
+        </div>
+
+        <!-- PANE 4: 1-3 LÖFFEL MINI-IMPULSE -->
+        <div id="sport-pane-spoons" class="hidden space-y-4">
+          <p class="text-xs text-gray-400 leading-relaxed font-semibold">
+            Ganz entspannt bewegen: Wähle einfach dein aktuelles Energie-Level, um eine perfekt passende, wohltuende Einzelbewegung zu erhalten:
+          </p>
+
+          <div>
+            <label class="text-[10px] text-gray-400 font-bold block mb-1">Dein aktuelles Energie-Level</label>
+            <select id="sport-energy-select" onchange="generateSportSuggestion()" class="w-full p-2.5 bg-[#12121e]/80 border border-white/10 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+              <option value="1">🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)</option>
+              <option value="2" selected>🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)</option>
+              <option value="3">🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)</option>
+            </select>
+          </div>
+
+          <div id="sport-suggestion-box" class="p-4 bg-lime-500/5 border border-lime-500/20 rounded-2xl space-y-2 text-center"></div>
+
+          <div id="sport-timer-container" class="hidden p-3.5 bg-black/50 border border-white/10 rounded-2xl flex flex-col items-center gap-2.5">
+            <div class="flex items-center gap-3">
+              <span id="sport-timer-display" class="font-display font-black text-2xl tracking-wider text-lime-300">01:00</span>
+              <div class="w-28 h-2 bg-white/10 rounded-full overflow-hidden">
+                <div id="sport-timer-progress" class="h-full bg-lime-400 transition-all duration-300" style="width: 100%"></div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="sport-timer-play-btn" onclick="startSportTimer()" class="px-3.5 py-1.5 bg-lime-500/20 hover:bg-lime-500/30 border border-lime-500/40 text-lime-300 text-xs font-bold rounded-xl transition cursor-pointer">Start</button>
+              <button id="sport-timer-pause-btn" onclick="pauseSportTimer()" class="hidden px-3.5 py-1.5 bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-bold rounded-xl transition cursor-pointer">Pause</button>
+              <button onclick="skipSportTimer()" class="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-bold rounded-xl transition cursor-pointer">Anderer Impuls 🔄</button>
             </div>
           </div>
-          <div class="flex items-center gap-2">
-            <button id="sport-timer-play-btn" onclick="startSportTimer()" class="px-3 py-1 bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/40 text-orange-300 text-[10px] font-bold rounded-xl transition cursor-pointer" data-i18n="sport_start_btn">Start</button>
-            <button id="sport-timer-pause-btn" onclick="pauseSportTimer()" class="hidden px-3 py-1 bg-white/5 hover:bg-white/10 text-gray-300 text-[10px] font-bold rounded-xl transition cursor-pointer" data-i18n="pause_btn">Pause</button>
-            <button onclick="skipSportTimer()" class="px-3 py-1 bg-white/5 hover:bg-white/10 text-gray-300 text-[10px] font-bold rounded-xl transition cursor-pointer" data-i18n="sport_skip_btn">Überspringen</button>
+
+          <button id="sport-complete-btn" onclick="completeSportActivity()" class="w-full py-2.5 bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-black font-black text-xs rounded-xl shadow-lg transition duration-150 transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
+            <i data-lucide="check-circle" class="w-4 h-4"></i> <span>Übung absolviert & belohnen</span>
+          </button>
+        </div>
+
+        <!-- PANE 5: INTERAKTIVER WORKOUT-PLAYER -->
+        <div id="sport-pane-player" class="hidden space-y-4 py-2">
+          <!-- Routine Info Bar -->
+          <div class="flex items-center justify-between px-1">
+            <div>
+              <span id="sport-player-routine-title" class="font-bold text-xs text-lime-300 font-display">Workout</span>
+              <div class="text-[10px] text-gray-400 font-mono">Übung <span id="sport-player-step-counter" class="text-white font-bold">1 / 8</span></div>
+            </div>
+            <span id="sport-player-state-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-lime-500/25 text-lime-300 border border-lime-400/40">Los geht's!</span>
+          </div>
+
+          <!-- Main Player Display Card -->
+          <div class="p-5 rounded-3xl bg-gradient-to-b from-white/[0.04] to-black/60 border border-lime-500/30 flex flex-col items-center justify-center text-center gap-3 relative shadow-inner">
+            <span id="sport-player-timer-display" class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-lime-300 drop-shadow-[0_0_15px_rgba(132,204,22,0.3)]">00:45</span>
+            
+            <!-- Progress Bar -->
+            <div class="w-full bg-black/60 h-2.5 rounded-full overflow-hidden border border-white/10">
+              <div id="sport-player-progress-bar" class="h-full bg-gradient-to-r from-lime-400 to-emerald-400 transition-all duration-300" style="width: 100%"></div>
+            </div>
+
+            <!-- Exercise Details -->
+            <div class="space-y-1 mt-1">
+              <h4 id="sport-player-ex-name" class="text-base sm:text-lg font-black text-white font-display">Langsame Tief-Kniebeugen 🦵</h4>
+              <p id="sport-player-ex-desc" class="text-xs text-gray-300 max-w-sm mx-auto leading-relaxed">3 Sek. kontrolliert absenken, 1 Sek. kraftvoll aufstehen. Fersen bleiben am Boden.</p>
+              <span id="sport-player-ex-muscle" class="inline-block px-2 py-0.5 rounded-lg bg-white/5 text-[10px] text-lime-300/90 font-mono font-semibold mt-1">🎯 Fokus: Beine & Gesäß</span>
+            </div>
+
+            <!-- Next Up Banner -->
+            <div id="sport-player-next-up-box" class="p-2 px-3 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 w-full flex items-center justify-between">
+              <span class="text-gray-400">Als Nächstes:</span>
+              <span class="text-lime-200 font-bold">Beckenbrücke</span>
+            </div>
+          </div>
+
+          <!-- Player Controls -->
+          <div class="flex items-center gap-2 pt-1">
+            <button onclick="prevWorkoutExercise()" class="px-3 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1" title="Vorherige Übung">
+              <i data-lucide="skip-back" class="w-4 h-4"></i>
+            </button>
+            <button id="sport-player-play-btn" onclick="resumeWorkoutRoutine()" class="hidden flex-1 py-2.5 bg-lime-500 hover:bg-lime-400 text-black font-black text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <i data-lucide="play" class="w-4 h-4 fill-black"></i> <span>Fortsetzen</span>
+            </button>
+            <button id="sport-player-pause-btn" onclick="pauseWorkoutRoutine()" class="flex-1 py-2.5 bg-lime-500 hover:bg-lime-400 text-black font-black text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <i data-lucide="pause" class="w-4 h-4 fill-black"></i> <span>Pausieren</span>
+            </button>
+            <button onclick="nextWorkoutExercise()" class="px-3 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1" title="Nächste Übung">
+              <i data-lucide="skip-forward" class="w-4 h-4"></i>
+            </button>
+            <button onclick="quitWorkoutRoutine()" class="px-3 py-2.5 bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 rounded-xl text-xs font-bold transition cursor-pointer" title="Workout beenden">
+              <span>Beenden</span>
+            </button>
           </div>
         </div>
 
-        <button id="sport-complete-btn" onclick="completeSportActivity()" class="w-full py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white font-bold text-xs rounded-xl shadow-lg transition duration-150 transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
-          <i data-lucide="dumbbell" class="w-4 h-4"></i> <span data-i18n="sport_complete_btn">Übung absolviert</span>
-        </button>
       </div>
     </div>
   </div>
