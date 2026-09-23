@@ -453,37 +453,7 @@ function updateDateWeatherWidget(data) {
 }
 window.updateDateWeatherWidget = updateDateWeatherWidget;
 
-let weatherHoverTimeout = null;
 
-function openWeatherHover() {
-  if (weatherHoverTimeout) {
-    clearTimeout(weatherHoverTimeout);
-    weatherHoverTimeout = null;
-  }
-  const calEl = document.getElementById('panel-calendar-dropdown');
-  if (calEl) calEl.classList.add('hidden');
-
-  const el = document.getElementById('panel-weather');
-  if (el) {
-    el.classList.remove('hidden');
-    if (typeof fetchLocalWeather === 'function') fetchLocalWeather();
-  }
-}
-window.openWeatherHover = openWeatherHover;
-
-function closeWeatherHover() {
-  if (weatherHoverTimeout) clearTimeout(weatherHoverTimeout);
-  weatherHoverTimeout = setTimeout(() => {
-    const el = document.getElementById('panel-weather');
-    const badge = document.getElementById('date-weather-badge');
-    const isOverEl = el && el.matches(':hover');
-    const isOverBadge = badge && badge.matches(':hover');
-    if (el && !isOverEl && !isOverBadge) {
-      el.classList.add('hidden');
-    }
-  }, 250);
-}
-window.closeWeatherHover = closeWeatherHover;
 
 function renderWeatherData(data) {
   if (!data || !data.current || typeof data.current.temperature_2m !== 'number') {
@@ -623,6 +593,15 @@ function renderWeatherData(data) {
     </div>
   `;
 
+  const locDisplay = document.getElementById('weather-location-display');
+  if (locDisplay) {
+    locDisplay.innerText = `${currentWeatherLocation.name}${currentWeatherLocation.country ? ' · ' + currentWeatherLocation.country : ''}`;
+  }
+  const searchInput = document.getElementById('weather-city-input');
+  if (searchInput && document.activeElement !== searchInput && !searchInput.value) {
+    searchInput.placeholder = `${currentWeatherLocation.name} (${tr({ de: 'oder Stadt suchen...', en: 'or search city...' })})`;
+  }
+
   if (typeof renderLucideIcons === 'function') {
     renderLucideIcons(false, container);
   } else if (typeof lucide !== 'undefined' && lucide.createIcons) {
@@ -678,16 +657,43 @@ const PRESET_CITY_COORDINATES = {
   'hannover': { name: 'Hannover', country: 'Deutschland', lat: 52.3759, lon: 9.7320 },
   'nürnberg': { name: 'Nürnberg', country: 'Deutschland', lat: 49.4521, lon: 11.0767 },
   'nurnberg': { name: 'Nürnberg', country: 'Deutschland', lat: 49.4521, lon: 11.0767 },
+  'potsdam': { name: 'Potsdam', country: 'Deutschland', lat: 52.3988, lon: 13.0657 },
+  'kiel': { name: 'Kiel', country: 'Deutschland', lat: 54.3233, lon: 10.1228 },
+  'erfurt': { name: 'Erfurt', country: 'Deutschland', lat: 50.9848, lon: 11.0299 },
+  'magdeburg': { name: 'Magdeburg', country: 'Deutschland', lat: 52.1205, lon: 11.6276 },
+  'mainz': { name: 'Mainz', country: 'Deutschland', lat: 49.9929, lon: 8.2473 },
+  'wiesbaden': { name: 'Wiesbaden', country: 'Deutschland', lat: 50.0782, lon: 8.2398 },
+  'saarbrücken': { name: 'Saarbrücken', country: 'Deutschland', lat: 49.2402, lon: 6.9969 },
+  'saarbrucken': { name: 'Saarbrücken', country: 'Deutschland', lat: 49.2402, lon: 6.9969 },
+  'schwerin': { name: 'Schwerin', country: 'Deutschland', lat: 53.6355, lon: 11.4012 },
+  'augsburg': { name: 'Augsburg', country: 'Deutschland', lat: 48.3705, lon: 10.8978 },
+  'freiburg': { name: 'Freiburg', country: 'Deutschland', lat: 47.9990, lon: 7.8421 },
+  'heidelberg': { name: 'Heidelberg', country: 'Deutschland', lat: 49.3988, lon: 8.6724 },
+  'karlsruhe': { name: 'Karlsruhe', country: 'Deutschland', lat: 49.0069, lon: 8.4037 },
+  'mannheim': { name: 'Mannheim', country: 'Deutschland', lat: 49.4875, lon: 8.4660 },
+  'bonn': { name: 'Bonn', country: 'Deutschland', lat: 50.7374, lon: 7.0982 },
+  'münster': { name: 'Münster', country: 'Deutschland', lat: 51.9607, lon: 7.6261 },
+  'munster': { name: 'Münster', country: 'Deutschland', lat: 51.9607, lon: 7.6261 },
+  'bielefeld': { name: 'Bielefeld', country: 'Deutschland', lat: 52.0302, lon: 8.5325 },
+  'aachen': { name: 'Aachen', country: 'Deutschland', lat: 50.7753, lon: 6.0839 },
+  'kassel': { name: 'Kassel', country: 'Deutschland', lat: 51.3127, lon: 9.4797 },
+  'rostock': { name: 'Rostock', country: 'Deutschland', lat: 54.0924, lon: 12.0991 },
   'wien': { name: 'Wien', country: 'Österreich', lat: 48.2082, lon: 16.3738 },
   'vienna': { name: 'Wien', country: 'Österreich', lat: 48.2082, lon: 16.3738 },
   'graz': { name: 'Graz', country: 'Österreich', lat: 47.0707, lon: 15.4395 },
   'salzburg': { name: 'Salzburg', country: 'Österreich', lat: 47.8095, lon: 13.0550 },
   'innsbruck': { name: 'Innsbruck', country: 'Österreich', lat: 47.2692, lon: 11.4041 },
+  'linz': { name: 'Linz', country: 'Österreich', lat: 48.3069, lon: 14.2858 },
+  'klagenfurt': { name: 'Klagenfurt', country: 'Österreich', lat: 46.6247, lon: 14.3053 },
   'zürich': { name: 'Zürich', country: 'Schweiz', lat: 47.3769, lon: 8.5417 },
   'zurich': { name: 'Zürich', country: 'Schweiz', lat: 47.3769, lon: 8.5417 },
   'bern': { name: 'Bern', country: 'Schweiz', lat: 46.9480, lon: 7.4474 },
   'basel': { name: 'Basel', country: 'Schweiz', lat: 47.5596, lon: 7.5886 },
   'genf': { name: 'Genf', country: 'Schweiz', lat: 46.2044, lon: 6.1432 },
+  'luzern': { name: 'Luzern', country: 'Schweiz', lat: 47.0502, lon: 8.3093 },
+  'st. gallen': { name: 'St. Gallen', country: 'Schweiz', lat: 47.4245, lon: 9.3767 },
+  'winterthur': { name: 'Winterthur', country: 'Schweiz', lat: 47.4984, lon: 8.7237 },
+  'lugano': { name: 'Lugano', country: 'Schweiz', lat: 46.0037, lon: 8.9511 },
   'london': { name: 'London', country: 'Großbritannien', lat: 51.5074, lon: -0.1278 },
   'paris': { name: 'Paris', country: 'Frankreich', lat: 48.8566, lon: 2.3522 },
   'rom': { name: 'Rom', country: 'Italien', lat: 41.9028, lon: 12.4964 },
@@ -822,8 +828,8 @@ function selectWeatherCity(name, country, lat, lon) {
   }
 }
 
-async function useDeviceLocationWeather() {
-  if (typeof showToast === 'function') {
+async function useDeviceLocationWeather(silent = false) {
+  if (!silent && typeof showToast === 'function') {
     showToast(tr({ de: 'Ermittle deinen Standort... 📍', en: 'Detecting your location... 📍' }));
   }
 
@@ -847,15 +853,36 @@ async function useDeviceLocationWeather() {
     } catch(e) {}
 
     selectWeatherCity(detectedCity, detectedCountry, lat, lon);
-    if (typeof showToast === 'function') {
+    if (!silent && typeof showToast === 'function') {
       showToast(tr({ de: `📍 Standort erkannt: ${detectedCity}! ☀️`, en: `📍 Location detected: ${detectedCity}! ☀️` }));
     }
   };
 
   const tryIpLocation = async () => {
+    // 1. ipwho.is (schnell und hochpräzise)
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
+      const res = await fetch('https://ipwho.is/', { signal: controller.signal });
+      clearTimeout(timeoutId);
+      if (res.ok) {
+        const ipData = await res.json();
+        if (ipData && ipData.success !== false && typeof ipData.latitude === 'number' && typeof ipData.longitude === 'number') {
+          const city = ipData.city || 'Mein Standort';
+          const country = ipData.country || 'Deutschland';
+          selectWeatherCity(city, country, ipData.latitude, ipData.longitude);
+          if (!silent && typeof showToast === 'function') {
+            showToast(tr({ de: `📍 Standort erkannt: ${city}! ☀️`, en: `📍 Location detected: ${city}! ☀️` }));
+          }
+          return true;
+        }
+      }
+    } catch (e) {}
+
+    // 2. freeipapi.com als Fallback
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3500);
       const res = await fetch('https://freeipapi.com/api/json', { signal: controller.signal });
       clearTimeout(timeoutId);
       if (res.ok) {
@@ -864,7 +891,7 @@ async function useDeviceLocationWeather() {
           const city = ipData.cityName || 'Mein Standort';
           const country = ipData.countryName || 'Deutschland';
           selectWeatherCity(city, country, ipData.latitude, ipData.longitude);
-          if (typeof showToast === 'function') {
+          if (!silent && typeof showToast === 'function') {
             showToast(tr({ de: `📍 Standort erkannt: ${city}! ☀️`, en: `📍 Location detected: ${city}! ☀️` }));
           }
           return true;
@@ -876,7 +903,7 @@ async function useDeviceLocationWeather() {
     return false;
   };
 
-  if (typeof navigator !== 'undefined' && navigator.geolocation) {
+  if (!silent && typeof navigator !== 'undefined' && navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const lat = pos.coords.latitude;
@@ -886,7 +913,7 @@ async function useDeviceLocationWeather() {
       async (err) => {
         console.warn("HTML5 Geolocation nicht verfügbar oder verweigert, versuche IP-Ortung:", err.message);
         const ipSuccess = await tryIpLocation();
-        if (!ipSuccess && typeof showToast === 'function') {
+        if (!ipSuccess && !silent && typeof showToast === 'function') {
           showToast(tr({ de: 'Standort konnte nicht ermittelt werden. Bitte Stadt manuell suchen.', en: 'Location could not be detected. Please search city manually.' }));
         }
       },
@@ -898,7 +925,7 @@ async function useDeviceLocationWeather() {
     );
   } else {
     const ipSuccess = await tryIpLocation();
-    if (!ipSuccess && typeof showToast === 'function') {
+    if (!ipSuccess && !silent && typeof showToast === 'function') {
       showToast(tr({ de: 'Standort konnte nicht ermittelt werden. Bitte Stadt manuell suchen.', en: 'Location could not be detected. Please search city manually.' }));
     }
   }
@@ -914,6 +941,8 @@ function toggleWeatherUnit() {
 
 // Initialer Auto-Start beim Laden & Regelmäßige Hintergrund-Aktualisierung
 function initWeatherSystem() {
+  const hasSavedLoc = !!localStorage.getItem('flow_weather_loc');
+
   if (cachedWeatherData) {
     updateDateWeatherWidget(cachedWeatherData);
   } else {
@@ -923,6 +952,11 @@ function initWeatherSystem() {
   // Sofort frisches Wetter abrufen
   fetchLocalWeather(false);
   fetchPinnedCitiesWeather();
+
+  // Falls noch kein individueller Standort gespeichert ist: Automatische, unaufdringliche IP-Standorterkennung im Hintergrund
+  if (!hasSavedLoc) {
+    useDeviceLocationWeather(true);
+  }
 
   // 1. Regelmäßige automatische Aktualisierung alle 10 Minuten
   if (typeof window !== 'undefined' && !window._weatherPollingInterval) {

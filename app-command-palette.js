@@ -82,7 +82,7 @@ function getCommandPaletteActions() {
     },
     {
       id: 'cmd-open-sport',
-      title: tr({ de: 'Sport & 60s Micro-Workouts [O]', en: 'Sport & 60s Workouts [O]' }),
+      title: tr({ de: 'Bewegung & Modulare Home-Workouts [O]', en: 'Movement & Modular Home Workouts [O]' }),
       category: tr({ de: 'Werkzeuge', en: 'Tools' }),
       icon: 'activity',
       color: 'text-rose-400',
