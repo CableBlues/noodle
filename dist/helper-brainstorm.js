@@ -1,3 +1,88 @@
+
+let brainstormViewMode = 'list'; // 'list' | 'cluster'
+
+function setBrainstormViewMode(mode) {
+  brainstormViewMode = mode;
+  const listBtn = document.getElementById('brainstorm-view-btn-list');
+  const clusterBtn = document.getElementById('brainstorm-view-btn-cluster');
+  if (listBtn && clusterBtn) {
+    if (mode === 'cluster') {
+      clusterBtn.className = 'px-2 py-1 rounded-xl text-xs font-bold bg-teal-500/25 text-teal-300 border border-teal-500/40 shadow-xs cursor-pointer flex items-center gap-1';
+      listBtn.className = 'px-2 py-1 rounded-xl text-xs font-semibold text-gray-400 hover:text-white bg-white/5 border border-white/5 cursor-pointer flex items-center gap-1';
+    } else {
+      listBtn.className = 'px-2 py-1 rounded-xl text-xs font-bold bg-teal-500/25 text-teal-300 border border-teal-500/40 shadow-xs cursor-pointer flex items-center gap-1';
+      clusterBtn.className = 'px-2 py-1 rounded-xl text-xs font-semibold text-gray-400 hover:text-white bg-white/5 border border-white/5 cursor-pointer flex items-center gap-1';
+    }
+  }
+  renderBrainstormUI();
+}
+
+function copyBrainstormAsMindmap() {
+  if (brainstormIdeas.length === 0) return;
+  const groups = {};
+  Object.keys(BRAINSTORM_TAGS).forEach(t => groups[t] = []);
+  brainstormIdeas.forEach(i => {
+    if (!groups[i.tag]) groups[i.tag] = [];
+    groups[i.tag].push(i);
+  });
+
+  let lines = ['# Mindmap - Brainstorming Studio (' + new Date().toLocaleDateString() + ')\n'];
+  Object.entries(groups).forEach(([tag, items]) => {
+    if (items.length > 0) {
+      const conf = BRAINSTORM_TAGS[tag] || BRAINSTORM_TAGS.idea;
+      lines.push(`## ${conf.icon} ${conf.label.de || tag}`);
+      items.forEach(it => {
+        const star = it.starred ? '⭐ ' : '';
+        lines.push(`  - ${star}${it.text}`);
+      });
+      lines.push('');
+    }
+  });
+
+  const text = lines.join('\n');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      if (typeof showToast === 'function') showToast(tr({ de: '🗺️ Mindmap in die Zwischenablage kopiert!', en: '🗺️ Mindmap copied to clipboard!' }));
+    });
+  }
+}
+
+function exportBrainstormAsActionPlan() {
+  if (brainstormIdeas.length === 0) return;
+  const quickwins = brainstormIdeas.filter(i => i.tag === 'quickwin');
+  const projects = brainstormIdeas.filter(i => i.tag === 'project');
+  const goals = brainstormIdeas.filter(i => i.tag === 'goal');
+  const ideas = brainstormIdeas.filter(i => i.tag === 'idea');
+  const questions = brainstormIdeas.filter(i => i.tag === 'question');
+
+  let lines = [
+    '# 🎯 Sofort-Aktionsplan (Synthetisiert)',
+    `Erstellt am: ${new Date().toLocaleString()}`,
+    '',
+    '## ⚡ Phase 1: Quick Wins (Sofort umsetzen)',
+    quickwins.length ? quickwins.map(q => `- [ ] ${q.text}`).join('\n') : '- Keine Quick Wins definiert',
+    '',
+    '## 🚀 Phase 2: Kern-Projekte',
+    projects.length ? projects.map(p => `- [ ] ${p.text}`).join('\n') : '- Keine Projekte definiert',
+    '',
+    '## 🎯 Phase 3: Langfristige Ziele & Meilensteine',
+    goals.length ? goals.map(g => `- [ ] ${g.text}`).join('\n') : '- Keine Ziele definiert',
+    '',
+    '## 💡 Ideenpool & Inspirationsspeicher',
+    ideas.length ? ideas.map(i => `- ${i.text}`).join('\n') : '- Keine Ideen im Pool',
+    '',
+    '## ❓ Zu klärende Fragen & Recherchen',
+    questions.length ? questions.map(q => `- [ ] ${q.text}`).join('\n') : '- Keine offenen Fragen'
+  ];
+
+  const text = lines.join('\n');
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      if (typeof showToast === 'function') showToast(tr({ de: '📋 Aktionsplan in Zwischenablage kopiert!', en: '📋 Action plan copied to clipboard!' }));
+    });
+  }
+}
+
 // =============================================================
 // NOODLE SMART BRAINSTORMING STUDIO (IDEEN-LABOR)
 // Vollständig lautlos, mit Mikrofon-Spracheingabe & Board-Verknüpfung
@@ -474,6 +559,50 @@ function renderBrainstormUI() {
 
   listEl.innerHTML = '';
 
+  if (brainstormViewMode === 'cluster') {
+    listEl.className = 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 overflow-y-auto pr-1 custom-scrollbar flex-1';
+    const tagKeys = ['quickwin', 'project', 'idea', 'goal', 'question'];
+    tagKeys.forEach(tKey => {
+      const tagItems = filtered.filter(i => i.tag === tKey);
+      if (tagItems.length === 0 && brainstormActiveFilter !== 'all' && brainstormActiveFilter !== tKey) return;
+      const tagConf = BRAINSTORM_TAGS[tKey];
+      const col = document.createElement('div');
+      col.className = 'p-3 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col gap-2 min-w-0';
+      col.innerHTML = `
+        <div class="flex items-center justify-between pb-1.5 border-b border-white/10 shrink-0">
+          <div class="flex items-center gap-1.5">
+            <span>${tagConf.icon}</span>
+            <span class="text-xs font-bold text-gray-200">${tagConf.label.de || tKey}</span>
+          </div>
+          <span class="px-1.5 py-0.2 rounded-md bg-white/5 text-[9.5px] font-mono font-bold text-teal-300">${tagItems.length}</span>
+        </div>
+        <div class="space-y-2 flex-1 overflow-y-auto max-h-[360px] custom-scrollbar pr-0.5">
+          ${tagItems.length === 0 ? '<div class="text-[10px] text-gray-500 italic py-2 text-center">Keine Einträge</div>' : ''}
+          ${tagItems.map(item => `
+            <div class="group p-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-teal-500/40 rounded-xl transition flex flex-col gap-1.5 shadow-xs text-xs">
+              <div class="flex items-start justify-between gap-1">
+                <span class="text-gray-200 font-medium leading-relaxed select-text">${escapeHtml(item.text)}</span>
+                <button onclick="deleteBrainstormIdea('${item.id}')" class="opacity-0 group-hover:opacity-100 p-0.5 text-gray-500 hover:text-red-400 transition cursor-pointer shrink-0">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                </button>
+              </div>
+              <div class="flex items-center gap-1 pt-1 border-t border-white/5 flex-wrap">
+                <button onclick="transferIdeaToBoard('${item.id}', 'heute')" class="px-1.5 py-0.5 rounded bg-teal-500/15 hover:bg-teal-500/30 text-teal-300 text-[9px] font-bold transition cursor-pointer">Heute</button>
+                <button onclick="transferIdeaToBoard('${item.id}', 'morgen')" class="px-1.5 py-0.5 rounded bg-indigo-500/15 hover:bg-indigo-500/30 text-indigo-300 text-[9px] font-bold transition cursor-pointer">Demnächst</button>
+                <button onclick="expandIdeaToMicroSteps('${item.id}')" class="px-1.5 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-[9px] font-bold transition cursor-pointer">Steps ✨</button>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      listEl.appendChild(col);
+    });
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
+    return;
+  }
+
+  listEl.className = 'space-y-2.5 overflow-y-auto pr-1 custom-scrollbar flex-1';
+
   filtered.forEach(item => {
     const tagConfig = BRAINSTORM_TAGS[item.tag] || BRAINSTORM_TAGS.idea;
     const tagLabel = tr(tagConfig.label);
@@ -588,6 +717,11 @@ if (typeof window !== 'undefined') {
   window.renderBrainstormUI = renderBrainstormUI;
   window.loadBrainstormIdeas = loadBrainstormIdeas;
   window.saveBrainstormIdeas = saveBrainstormIdeas;
+
+  window.setBrainstormViewMode = setBrainstormViewMode;
+  window.copyBrainstormAsMindmap = copyBrainstormAsMindmap;
+  window.exportBrainstormAsActionPlan = exportBrainstormAsActionPlan;
+
 }
 
 if (typeof globalThis !== 'undefined') {
@@ -614,4 +748,9 @@ if (typeof globalThis !== 'undefined') {
   globalThis.renderBrainstormUI = renderBrainstormUI;
   globalThis.loadBrainstormIdeas = loadBrainstormIdeas;
   globalThis.saveBrainstormIdeas = saveBrainstormIdeas;
+
+  globalThis.setBrainstormViewMode = setBrainstormViewMode;
+  globalThis.copyBrainstormAsMindmap = copyBrainstormAsMindmap;
+  globalThis.exportBrainstormAsActionPlan = exportBrainstormAsActionPlan;
+
 }

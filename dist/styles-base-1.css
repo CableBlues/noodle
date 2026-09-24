@@ -575,6 +575,8 @@ body.theme-botanical .noodle-studio-badge {
 .dock-popover-panel,
 .mobile-modal-card,
 [id$="-modal"] > div,
+#panel-feedback,
+#panel-search,
 #panel-logo-guide,
 #panel-calendar-dropdown,
 #panel-report,
@@ -1162,6 +1164,8 @@ button:hover .steam-cup-icon .steam-line-3 {
 /* ==========================================================================
    STABILE HOVER-BRÜCKEN (Verhindert nervöses/plötzliches Schließen bei Mausbewegung)
    ========================================================================== */
+#panel-feedback::before,
+#panel-search::before,
 #panel-report::before,
 #panel-settings-dropdown::before,
 #panel-weather::before,

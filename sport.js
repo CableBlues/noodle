@@ -1,3 +1,171 @@
+
+// =========================================================================
+// MOVEMENT HISTORY & LOG TRACKING ENGINE
+// =========================================================================
+const MOVEMENT_HISTORY_KEY = 'noodle_movement_history_v1';
+
+function getMovementHistory() {
+  try {
+    const raw = localStorage.getItem(MOVEMENT_HISTORY_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveMovementHistory(history) {
+  try {
+    localStorage.setItem(MOVEMENT_HISTORY_KEY, JSON.stringify(history.slice(0, 100)));
+  } catch (e) {
+    console.warn('saveMovementHistory error:', e);
+  }
+}
+
+function logCompletedMovementEntry(title, durationMinutes, exerciseCount = 1) {
+  try {
+    const history = getMovementHistory();
+    const now = new Date();
+    const entry = {
+      id: 'mov_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+      title: title || 'Workout-Session',
+      durationMinutes: durationMinutes || 5,
+      exerciseCount: exerciseCount || 1,
+      date: now.toLocaleDateString(),
+      time: now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      timestamp: Date.now()
+    };
+    history.unshift(entry);
+    saveMovementHistory(history);
+  } catch (e) {
+    console.warn('logCompletedMovementEntry error:', e);
+  }
+}
+
+function deleteMovementHistoryItem(id) {
+  try {
+    let history = getMovementHistory();
+    history = history.filter(item => item.id !== id);
+    saveMovementHistory(history);
+    renderMovementHistoryUI();
+  } catch (e) {}
+}
+
+function clearAllMovementHistory() {
+  try {
+    localStorage.removeItem(MOVEMENT_HISTORY_KEY);
+    renderMovementHistoryUI();
+    if (typeof showToast === 'function') {
+      showToast('🗑️ Bewegungs-Tagebuch geleert');
+    }
+  } catch (e) {}
+}
+
+function renderMovementHistoryUI() {
+  const listEl = document.getElementById('sport-history-list');
+  const totalMinsEl = document.getElementById('sport-history-total-mins');
+  const totalCountEl = document.getElementById('sport-history-total-count');
+  const streakEl = document.getElementById('sport-history-streak');
+  if (!listEl) return;
+
+  const stats = getMovementStats();
+  const history = getMovementHistory();
+
+  if (totalMinsEl) totalMinsEl.innerText = `${stats.totalMinutes || 0}m`;
+  if (totalCountEl) totalCountEl.innerText = `${stats.completedWorkouts || 0}`;
+  if (streakEl) streakEl.innerText = `${stats.streakDays || 0} Tage`;
+
+  if (history.length === 0) {
+    listEl.innerHTML = `
+      <div class="p-6 text-center text-gray-400 space-y-2">
+        <div class="w-12 h-12 mx-auto rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-2xl">🌱</div>
+        <p class="text-xs font-bold text-gray-300">Noch keine Bewegungseinheiten protokolliert.</p>
+        <p class="text-[11px] text-gray-500">Starte oben ein Programm oder eine kurze 1-Löffel-Übung – jeder Schritt zählt!</p>
+      </div>
+    `;
+    return;
+  }
+
+  listEl.innerHTML = history.map(item => `
+    <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 transition flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-8 h-8 rounded-xl bg-lime-500/15 border border-lime-500/30 flex items-center justify-center text-lime-300 shrink-0 text-xs">
+          🏃
+        </div>
+        <div class="min-w-0">
+          <h4 class="text-xs font-bold text-white truncate font-display">${item.title}</h4>
+          <p class="text-[10px] text-gray-400 font-mono">${item.date} um ${item.time} · ${item.exerciseCount} Übung(en)</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <span class="px-2 py-0.5 rounded-md bg-lime-500/20 text-lime-300 text-[10px] font-mono font-bold border border-lime-500/30">${item.durationMinutes} Min</span>
+        <button onclick="deleteMovementHistoryItem('${item.id}')" class="p-1 rounded-lg text-gray-500 hover:text-rose-400 hover:bg-white/10 transition cursor-pointer" title="Eintrag löschen">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+}
+
+function playSportProceduralGong(mode = 'work') {
+  try {
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextClass) return;
+    const ctx = window.audioCtx || new AudioContextClass();
+    if (!ctx) return;
+    if (ctx.state === 'suspended') ctx.resume().catch(() => {});
+
+    const now = ctx.currentTime;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    if (mode === 'work') {
+      // Warm rising interval chord (C5 -> G5)
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, now);
+      osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.12);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+    } else if (mode === 'rest') {
+      // Soft gentle gong chime (E4 -> C4)
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(329.63, now);
+      osc.frequency.exponentialRampToValueAtTime(261.63, now + 0.2);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
+    } else if (mode === 'countdown') {
+      // Crisp tick
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(880, now);
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+    } else if (mode === 'finish') {
+      // Grand celebratory chime
+      [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.setValueAtTime(freq, now + idx * 0.08);
+        g.gain.setValueAtTime(0.15, now + idx * 0.08);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 0.9);
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.start(now + idx * 0.08);
+        o.stop(now + idx * 0.08 + 1.0);
+      });
+      return;
+    }
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.9);
+  } catch (e) {
+    console.warn('playSportProceduralGong error:', e);
+  }
+}
+
 // =========================================================================
 // MODULAR HOME WORKOUT & PROFESSIONAL MOVEMENT ENGINE ("Bewegung")
 // =========================================================================
@@ -326,9 +494,106 @@ const HOME_WORKOUT_LIBRARY = [
     quiet: true,
     intensity: 'light',
     name: { de: 'Mausarm- & Handgelenk-Dehnung 👐', en: 'Wrist & Forearm Release 👐', fr: 'Étirement Poignets & Avant-Bras 👐', es: 'Estiramiento de Muñecas y Brazos 👐', it: 'Allungamento Polsi e Avambracci 👐', el: 'Διάταση Καρπών & Πήχεων 👐' },
-    desc: { de: 'Arm nach vorn strecken, Finger mit anderer Hand sanft nach hinten dehnen. Löst Krämpfe von Maus & Tastatur.', en: 'Extend arm forward, gently pull fingers back with opposite hand. Releases mouse tension.', fr: "Tends le bras, tire doucement les doigts vers l'arrière.", es: 'Extiende el brazo, tira suavemente los dedos hacia atrás.', it: 'Stendi il braccio, tira delicatamente le dita indietro.', el: 'Τέντωσε το χέρι μπροστά, τράβα απαλά τα δάχτυλα πίσω.' },
+    desc: { de: 'Arm nach vorn strecken, Finger mit anderer Hand sanft nach hinten dehnen. Löst Krämpfe von Maus & Tastatur.', en: 'Extend arm forward, gently pull fingers back with opposite hand. Releases mouse tension.', fr: "Tends le bras, tire doucement les doigts vers l\'arrière.", es: 'Extiende el brazo, tira suavemente los dedos hacia atrás.', it: 'Stendi il braccio, tira delicatamente le dita indietro.', el: 'Τέντωσε το χέρι μπροστά, τράβα απαλά τα δάχτυλα πίσω.' },
     muscle: { de: 'Unterarme & Sehnen', en: 'Forearms & Flexors', fr: 'Avant-Bras & Tendons', es: 'Antebrazos y Tendones', it: 'Avambracci e Tendini', el: 'Πήχεις & Τένοντες' },
     defaultSec: 40
+  },
+
+  
+  // 6. YOGA & ACHTSAMER FLOW
+  {
+    id: 'yoga_sun_salute_flow',
+    category: 'full',
+    equipment: 'none',
+    quiet: true,
+    intensity: 'light',
+    name: { de: 'Sonnengruß-Streckung & Flow 🧘‍♂️', en: 'Sun Salutation Flow 🧘‍♂️', fr: 'Salutation au Soleil 🧘‍♂️', es: 'Saludo al Sol 🧘‍♂️', it: 'Saluto al Sole 🧘‍♂️', el: 'Χαιρετισμός στον Ήλιο 🧘‍♂️' },
+    desc: { de: 'Tief einatmen, Arme nach oben strecken, sanft in die Vorbeuge abtauchen und Wirbel für Wirbel aufrichten. Fließend und beruhigend.', en: 'Inhale deep, extend arms up, fold gently down, roll spine up vertebra by vertebra.', fr: 'Inspire profondément, étends les bras, penche-toi en avant et remonte doucement.', es: 'Inhala hondo, eleva brazos, baja suavemente y sube vértebra por vértebra.', it: 'Inspira a fondo, stendi le braccia, flettiti in avanti e risali lentamente.', el: 'Εισπνοή, τέντωσε ψηλά τα χέρια, δίπλωσε μπροστά και ανέβα σπόνδυλο-σπόνδυλο.' },
+    muscle: { de: 'Ganzkörper-Flexibilität & Atmung', en: 'Full Body Mobility & Breath', fr: 'Mobilité & Respiration', es: 'Movilidad y Respiración', it: 'Mobilità e Respiro', el: 'Ευλυγισία & Αναπνοή' },
+    defaultSec: 50
+  },
+  {
+    id: 'yoga_warrior_balance',
+    category: 'legs',
+    equipment: 'none',
+    quiet: true,
+    intensity: 'medium',
+    name: { de: 'Krieger-Stand & Fokus (Warrior) 🏹', en: 'Warrior Balance & Strength 🏹', fr: 'Posture du Guerrier & Équilibre 🏹', es: 'Guerrero & Equilibrio 🏹', it: 'Guerriero & Equilibrio 🏹', el: 'Πολεμιστής & Ισορροπία 🏹' },
+    desc: { de: 'Ausfallschritt, Arme parallel zum Boden öffnen, Blick über die vordere Hand. 25s halten, dann Seite wechseln. Baut Standfestigkeit auf.', en: 'Lunge stance, arms parallel to floor, gaze forward. Hold 25s then switch legs.', fr: 'Fente, bras ouverts parallèles, regarde devant. 25s par côté.', es: 'Zancada, brazos paralelos al suelo, mira al frente. 25s por pierna.', it: 'Affondo, braccia aperte parallele, fissa avanti. 25s per lato.', el: 'Προβολή, χέρια παράλληλα στο έδαφος. Κράτα 25δ και άλλαξε πλευρά.' },
+    muscle: { de: 'Beine, Hüfte & Mentale Ruhe', en: 'Legs, Hips & Focus', fr: 'Jambes, Hanches & Focus', es: 'Piernas, Cadera y Enfoque', it: 'Gambe, Fianchi e Focus', el: 'Πόδια, Ισχία & Συγκέντρωση' },
+    defaultSec: 50
+  },
+
+  // 7. ANTI-BILDSCHIRM & KOPFSCHMERZ-PRÄVENTION
+  {
+    id: 'eye_focus_20_20',
+    category: 'mobility',
+    equipment: 'none',
+    quiet: true,
+    intensity: 'light',
+    name: { de: '20-20-20 Augen-Erholung 👀', en: '20-20-20 Eye Strain Reset 👀', fr: 'Reset Visuel 20-20-20 👀', es: 'Descanso Ocular 20-20-20 👀', it: 'Reset Visivo 20-20-20 👀', el: 'Χαλάρωση Ματιών 20-20-20 👀' },
+    desc: { de: 'Blicke in die Ferne (aus dem Fenster), bewege den Blick in Form einer liegenden Acht (∞). Entspannt die Augenmuskeln vom Monitor.', en: 'Look far away (out the window), trace a slow horizontal figure 8 (∞) with eyes. Relieves screen fatigue.', fr: 'Regarde au loin, dessine un 8 horizontal (∞) avec les yeux.', es: 'Mira a lo lejos, traza un 8 horizontal (∞) con los ojos.', it: 'Guarda lontano, traccia un 8 orizzontale (∞) con gli occhi.', el: 'Κοίταξε μακριά, σχημάτισε αργά το άπειρο (∞) με τα μάτια.' },
+    muscle: { de: 'Augenmuskulatur & HWS-Stress', en: 'Eye Muscles & Visual Reset', fr: 'Muscles Oculaires', es: 'Músculos Oculares', it: 'Muscoli Oculari', el: 'Μύες Ματιών' },
+    defaultSec: 40
+  },
+  {
+    id: 'neck_acupressure_glide',
+    category: 'mobility',
+    equipment: 'chair',
+    quiet: true,
+    intensity: 'light',
+    name: { de: 'Nacken-Gleiten & Schädelbasis 💆', en: 'Suboccipital Neck Release 💆', fr: 'Détente Base du Crâne 💆', es: 'Liberación de Base Craneal 💆', it: 'Rilascio Base del Cranio 💆', el: 'Αποσυμφόρηση Βάσης Κρανίου 💆' },
+    desc: { de: 'Mit den Fingerspitzen sanft die Schädelbasis massieren, Kinn leicht zur Brust ziehen (Doppelkinn) und Hinterkopf nach oben strecken.', en: 'Gently massage base of skull with fingertips, tuck chin lightly, lengthen spine up.', fr: 'Masse doucement la base du crâne, rentre légèrement le menton, allonge la nuque.', es: 'Masajea suave la base del cráneo, mete el mentón y estira la columna.', it: 'Massaggia la base del cranio, ritrai il mento e allunga il collo.', el: 'Κάνε απαλό μασάζ στη βάση του κρανίου, μάζεψε το πιγούνι, τέντωσε τον αυχένα.' },
+    muscle: { de: 'Subokzipitale Nackenmuskeln', en: 'Neck Base & Headache Relief', fr: 'Nuque & Soulagement Tête', es: 'Cuello y Alivio Craneal', it: 'Collo e Sollievo Tensione', el: 'Βάση Αυχένα & Κεφαλαλγία' },
+    defaultSec: 45
+  },
+
+  // 8. LEISER WOHNUNGS-HIIT & FETTVERBRENNUNG (OHNE TRITTSCHALL)
+  {
+    id: 'hiit_silent_mountain_climber',
+    category: 'full',
+    equipment: 'none',
+    quiet: true,
+    intensity: 'medium',
+    name: { de: 'Stehender Leiser Bergsteiger 🏔️', en: 'Silent Standing Climbers 🏔️', fr: 'Grimpeurs Debout Silencieux 🏔️', es: 'Escaladores de Pie Silenciosos 🏔️', it: 'Scalatori in Piedi Silenziosi 🏔️', el: 'Αθόρυβοι Ορειβάτες Όρθιοι 🏔️' },
+    desc: { de: 'Knie im schnellen, kontrollierten Takt nach oben ziehen, Arme wie beim Klettern über Kopf ziehen. Hoher Puls ohne Fuß-Aufprall.', en: 'Drive knees up rhythmically while pulling arms down from above. Cardio boost with zero floor impact.', fr: 'Monte les genoux en rythme en tirant les bras vers le bas. Zéro impact.', es: 'Sube rodillas a buen ritmo bajando los brazos. Cero impacto en el suelo.', it: 'Solleva le ginocchia a ritmo abbassando le braccia. Zero impatto.', el: 'Σήκωνε ρυθμικά τα γόνατα ψηλά τραβώντας τα χέρια κάτω. Μηδέν κρούση.' },
+    muscle: { de: 'Puls, Bauch & Hüftbeuger', en: 'Cardio, Abs & Hip Flexors', fr: 'Cardio, Abdos & Hanches', es: 'Cardio, Abdomen y Cadera', it: 'Cardio, Addome e Fianchi', el: 'Καρδιαγγειακό & Κοιλιακοί' },
+    defaultSec: 45
+  },
+  {
+    id: 'hiit_speed_skater_glide',
+    category: 'full',
+    equipment: 'none',
+    quiet: true,
+    intensity: 'medium',
+    name: { de: 'Leiser Skater-Gleitschritt ⛸️', en: 'Silent Skater Glides ⛸️', fr: 'Glissades Skater Silencieuses ⛸️', es: 'Patinador Silencioso ⛸️', it: 'Pattinatore Silenzioso ⛸️', el: 'Πλαϊνά Βήματα Skater ⛸️' },
+    desc: { de: 'Tiefer Stand. Sanft von einem Bein aufs andere gleiten, hinteres Bein diagonal kreuzen, Arme schwungvoll mitschwingen.', en: 'Low athletic stance. Glide softly side to side, cross back foot behind smoothly.', fr: 'Posture basse. Glisse doucement de gauche à droite en croisant derrière.', es: 'Postura baja. Deslízate suave de lado a lado cruzando por detrás.', it: "Posizione bassa. Scivola morbidamente da un lato all'altro.", el: 'Χαμηλή στάση. Γλίστρα απαλά δεξιά-αριστερά σταυρώνοντας πίσω.' },
+    muscle: { de: 'Seitliches Gesäß & Dynamik', en: 'Lateral Glutes & Agility', fr: 'Fessiers Latéraux & Agilité', es: 'Glúteos Laterales y Agilidad', it: 'Glutei Laterali e Agilità', el: 'Πλάγιοι Γλουτοί & Ευκινησία' },
+    defaultSec: 45
+  },
+
+  // 9. WIRBELSÄULE & HÜFTMOBILISATION
+  {
+    id: 'mobility_hip_90_90',
+    category: 'mobility',
+    equipment: 'none',
+    quiet: true,
+    intensity: 'light',
+    name: { de: '90/90 Hüftöffner am Boden 🧘‍♀️', en: '90/90 Hip Mobility Flow 🧘‍♀️', fr: 'Mobilité Hanche 90/90 🧘‍♀️', es: 'Movilidad de Cadera 90/90 🧘‍♀️', it: 'Mobilità Anca 90/90 🧘‍♀️', el: 'Διάταση Ισχίων 90/90 🧘‍♀️' },
+    desc: { de: 'Am Boden sitzen, beide Beine im 90-Grad-Winkel ablegen. Oberkörper aufrecht halten, sanft nach vorn lehnen, nach 25s wechseln.', en: 'Sit on floor, both knees at 90° angles. Sit tall, hinge forward gently, switch at 25s.', fr: 'Assis au sol, genoux à 90°, buste droit, penche doucement en avant.', es: 'Siéntate con rodillas a 90°, torso erguido, inclina suavemente al frente.', it: 'Seduto a terra con ginocchia a 90°, busto dritto, inclinati avanti.', el: 'Κάθισε στο πάτωμα με γόνατα στις 90°, ίσιος κορμός, γείρε απαλά μπροστά.' },
+    muscle: { de: 'Hüftgelenke & Beckenboden', en: 'Hip Rotators & Pelvis', fr: 'Rotateurs de Hanche', es: 'Rotadores de Cadera', it: "Rotatori dell'Anca", el: 'Στροφείς Ισχίου' },
+    defaultSec: 50
+  },
+  {
+    id: 'mobility_open_book_thoracic',
+    category: 'mobility',
+    equipment: 'none',
+    quiet: true,
+    intensity: 'light',
+    name: { de: 'Open-Book Brustkorb-Öffner 📖', en: 'Open-Book Thoracic Windmill 📖', fr: 'Livre Ouvert Thoracique 📖', es: 'Libro Abierto Torácico 📖', it: 'Libro Aperto Toracico 📖', el: 'Άνοιγμα Θώρακα Open Book 📖' },
+    desc: { de: 'Seitlage, Knie gebeugt. Oberen Arm wie ein Buch weit nach hinten aufklappen, Kopf folgt der Hand. 20s halten, dann Seite wechseln.', en: 'Side-lying, knees bent. Open top arm like a book across chest. Breathe deeply.', fr: "Sur le côté, ouvre le bras supérieur comme un livre vers l'arrière.", es: 'De lado, abre el brazo superior como un libro hacia atrás.', it: 'Sul fianco, apri il braccio superiore come un libro verso dietro.', el: 'Στο πλάι, άνοιξε το πάνω χέρι σαν βιβλίο προς τα πίσω.' },
+    muscle: { de: 'Brustwirbelsäule & Atemvolumen', en: 'Thoracic Spine & Ribcage', fr: 'Colonne Thoracique & Côtes', es: 'Columna Dorsal y Costillas', it: 'Colonna Toracica e Gabbia', el: 'Θωρακική Μοίρα & Πλευρά' },
+    defaultSec: 45
   },
 
   // 5. LOW-IMPACT FLOW & GANZKÖRPER
@@ -369,6 +634,47 @@ const HOME_WORKOUT_LIBRARY = [
 
 // Presets mapping
 const WORKOUT_PRESETS = {
+  
+  yoga_morning_flow_8: {
+    id: 'yoga_morning_flow_8',
+    icon: 'sun',
+    title: { de: '🌅 Morgen-Yoga & Mobility (8 Min)', en: '🌅 Morning Yoga & Mobility (8 Min)', fr: '🌅 Yoga & Mobilité Matinale (8 Min)', es: '🌅 Yoga Matutino y Movilidad (8 Min)', it: '🌅 Yoga Mattutino & Mobilità (8 Min)', el: '🌅 Πρωινή Yoga & Ευκινησία (8 Min)' },
+    subtitle: { de: 'Sanfter Flow für frische Energie & elastische Gelenke', en: 'Gentle flow for fresh morning vitality and open joints', fr: 'Flux doux pour une vitalité matinale éclatante', es: 'Flujo suave para vitalidad matutina y articulaciones', it: 'Flusso dolce per vitalità mattutina e articulazioni', el: 'Ήπια ροή για πρωινή ενέργεια και ευλυγισία' },
+    durationMin: 8,
+    exerciseIds: ['yoga_sun_salute_flow', 'prone_y_t_w', 'yoga_warrior_balance', 'doorframe_chest_stretch', 'mobility_open_book_thoracic', 'mobility_hip_90_90', 'good_mornings'],
+    workSec: 50,
+    restSec: 15
+  },
+  screen_fatigue_anti_headache_5: {
+    id: 'screen_fatigue_anti_headache_5',
+    icon: 'eye',
+    title: { de: '👓 Anti-Bildschirm & Kopf-Reset (5 Min)', en: '👓 Screen Fatigue & Head Reset (5 Min)', fr: '👓 Reset Anti-Fatigue Écran (5 Min)', es: '👓 Reset Anti-Fatiga de Pantalla (5 Min)', it: '👓 Reset Anti-Affaticamento Schermi (5 Min)', el: '👓 Επαναφορά από Οθόνες & Κόπωση (5 Min)' },
+    subtitle: { de: 'Entlastet Augen, Nacken und Kiefer sofort', en: 'Instantly relaxes eyes, cervical spine and temples', fr: 'Soulage instantanément yeux et nuque', es: 'Alivia al instante ojos, cuello y sienes', it: 'Rilassa istantaneamente occhi e cervicale', el: 'Άμεση ανακούφιση για μάτια και αυχένα' },
+    durationMin: 5,
+    exerciseIds: ['eye_focus_20_20', 'neck_acupressure_glide', 'desk_neck_release', 'seated_spinal_twist', 'wrist_forearm_carpal'],
+    workSec: 45,
+    restSec: 15
+  },
+  hiit_silent_fatburn_10: {
+    id: 'hiit_silent_fatburn_10',
+    icon: 'flame',
+    title: { de: '🔥 Leiser Wohnungs-HIIT (10 Min)', en: '🔥 Silent Apartment HIIT Burn (10 Min)', fr: '🔥 HIIT Brûle-Graisses Silencieux (10 Min)', es: '🔥 HIIT Silencioso Quema-Calorías (10 Min)', it: '🔥 HIIT Brucia-Grassi Silenzioso (10 Min)', el: '🔥 Αθόρυβο HIIT Καύσης (10 Min)' },
+    subtitle: { de: 'Maximaler Puls & Fettverbrennung ohne Springen oder Trittschall', en: 'High cardio burn without jumping or neighbor noise', fr: 'Cardio intense sans sauts ni bruit', es: 'Quema cardio intensa sin saltos ni ruido', it: 'Cardio intenso senza salti né rumore', el: 'Έντονο cardio χωρίς άλματα και θόρυβο' },
+    durationMin: 10,
+    exerciseIds: ['low_impact_step_jack', 'hiit_silent_mountain_climber', 'quiet_squat', 'hiit_speed_skater_glide', 'shadow_boxing_flow', 'reverse_lunges', 'standing_cross_crunch', 'wall_incline_pushups'],
+    workSec: 45,
+    restSec: 15
+  },
+  spine_hips_mobility_10: {
+    id: 'spine_hips_mobility_10',
+    icon: 'compass',
+    title: { de: '🌿 Wirbelsäule & Hüft-Befreiung (10 Min)', en: '🌿 Spine & Hip Freedom (10 Min)', fr: '🌿 Libération Colonne & Hanches (10 Min)', es: '🌿 Liberación de Columna y Caderas (10 Min)', it: '🌿 Libertà Colonna & Fianchi (10 Min)', el: '🌿 Αποσυμφόρηση Σπονδυλικής & Ισχίων (10 Min)' },
+    subtitle: { de: 'Tiefe Dekompression für langes Sitzen im Homeoffice', en: 'Deep decompression for prolonged office sitting', fr: 'Décompression profonde pour le travail assis', es: 'Descompresión profunda para trabajo sentado', it: 'Decompressione profonda per chi sta seduto', el: 'Βαθιά αποσυμπίεση για καθιστική εργασία' },
+    durationMin: 10,
+    exerciseIds: ['seated_spinal_twist', 'mobility_open_book_thoracic', 'mobility_hip_90_90', 'good_mornings', 'glute_bridge', 'bird_dog', 'doorframe_chest_stretch', 'yoga_sun_salute_flow'],
+    workSec: 50,
+    restSec: 15
+  },
   express_5: {
     id: 'express_5',
     icon: 'zap',
@@ -487,6 +793,7 @@ function openSportModal(initialTab = 'presets') {
     renderWorkoutPresets();
     renderCustomWorkoutSelector();
     renderExerciseLibrary();
+    renderMovementHistoryUI();
     updateMovementStatsBadge();
     generateSportSuggestion();
     if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -505,7 +812,7 @@ function closeSportModal() {
 }
 
 function switchSportTab(tabId) {
-  const tabs = ['presets', 'builder', 'library', 'spoons', 'player'];
+  const tabs = ['presets', 'builder', 'library', 'spoons', 'history', 'player'];
   tabs.forEach(t => {
     const pane = document.getElementById(`sport-pane-${t}`);
     const btn = document.getElementById(`sport-tab-btn-${t}`);
@@ -781,7 +1088,7 @@ function handleRoutineTick() {
 
   // Audio cues on 3, 2, 1
   if (activeRoutineRemainingSec > 0 && activeRoutineRemainingSec <= 3) {
-    if (typeof playProceduralSound === 'function') playProceduralSound(6);
+    playSportProceduralGong('countdown'); if (typeof playProceduralSound === 'function') playProceduralSound(6);
   }
 
   if (activeRoutineRemainingSec <= 0) {
@@ -792,7 +1099,7 @@ function handleRoutineTick() {
         activeRoutineState = 'rest';
         activeRoutineRemainingSec = activeRoutine.restSec;
         activeRoutineTargetEndTime = Date.now() + (activeRoutine.restSec * 1000);
-        if (typeof playProceduralSound === 'function') playProceduralSound(2);
+        playSportProceduralGong('rest'); if (typeof playProceduralSound === 'function') playProceduralSound(2);
         updateWorkoutPlayerUI();
       }
     } else if (activeRoutineState === 'rest') {
@@ -800,7 +1107,7 @@ function handleRoutineTick() {
       activeRoutineState = 'work';
       activeRoutineRemainingSec = activeRoutine.workSec;
       activeRoutineTargetEndTime = Date.now() + (activeRoutine.workSec * 1000);
-      if (typeof playProceduralSound === 'function') playProceduralSound(1);
+      playSportProceduralGong('work'); if (typeof playProceduralSound === 'function') playProceduralSound(1);
       updateWorkoutPlayerUI();
     }
   }
@@ -948,6 +1255,8 @@ function quitWorkoutRoutine() {
 function completeWorkoutRoutine() {
   const approxMinutes = activeRoutine ? Math.max(1, Math.round((activeRoutine.exercises.length * (activeRoutine.workSec + activeRoutine.restSec)) / 60)) : 5;
   recordCompletedWorkout(approxMinutes);
+  logCompletedMovementEntry(activeRoutine ? activeRoutine.title : 'Workout', approxMinutes, activeRoutine ? activeRoutine.exercises.length : 1);
+  playSportProceduralGong('finish');
   updateMovementStatsBadge();
 
   clearInterval(activeRoutineTimerInterval);
@@ -1096,6 +1405,8 @@ function resetSportTimer() {
 
 function completeSportActivity() {
   recordCompletedWorkout(1);
+  logCompletedMovementEntry(currentSportExercise ? (currentSportExercise.name?.de || currentSportExercise.name) : '1-Löffel Impuls', 1, 1);
+  playSportProceduralGong('finish');
   resetSportTimer();
 
   if (typeof playProceduralSound === 'function') {
@@ -1143,6 +1454,13 @@ if (typeof window !== 'undefined') {
   window.skipSportTimer = skipSportTimer;
   window.resetSportTimer = resetSportTimer;
   window.completeSportActivity = completeSportActivity;
+
+  window.getMovementHistory = getMovementHistory;
+  window.deleteMovementHistoryItem = deleteMovementHistoryItem;
+  window.clearAllMovementHistory = clearAllMovementHistory;
+  window.renderMovementHistoryUI = renderMovementHistoryUI;
+  window.playSportProceduralGong = playSportProceduralGong;
+
 }
 
 if (typeof globalThis !== 'undefined') {
@@ -1168,4 +1486,11 @@ if (typeof globalThis !== 'undefined') {
   globalThis.skipSportTimer = skipSportTimer;
   globalThis.resetSportTimer = resetSportTimer;
   globalThis.completeSportActivity = completeSportActivity;
+
+  globalThis.getMovementHistory = getMovementHistory;
+  globalThis.deleteMovementHistoryItem = deleteMovementHistoryItem;
+  globalThis.clearAllMovementHistory = clearAllMovementHistory;
+  globalThis.renderMovementHistoryUI = renderMovementHistoryUI;
+  globalThis.playSportProceduralGong = playSportProceduralGong;
+
 }

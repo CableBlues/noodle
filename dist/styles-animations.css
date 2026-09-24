@@ -1157,3 +1157,33 @@ main article .group:hover {
   color: #c084fc !important;
   animation: bounce 1.5s infinite;
 }
+
+
+/* --- LEBENDIGES, GEWICHTETES NOODLE LOGO (EMPHASIS & ANIMATION) --- */
+.flow-logo-container {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.16), rgba(56, 189, 248, 0.1)) !important;
+  border: 1px solid rgba(168, 85, 247, 0.35) !important;
+  box-shadow: 0 0 16px rgba(168, 85, 247, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.flow-logo-container:hover {
+  transform: translateY(-1.5px) scale(1.03) !important;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(56, 189, 248, 0.2)) !important;
+  border-color: rgba(192, 132, 252, 0.65) !important;
+  box-shadow: 0 0 24px rgba(168, 85, 247, 0.45), 0 6px 18px rgba(0, 0, 0, 0.4) !important;
+}
+
+@keyframes noodle-clay-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-1.5px) rotate(0.8deg);
+  }
+}
+
+.noodle-logo-animated {
+  animation: noodle-clay-float 4s ease-in-out infinite !important;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+}

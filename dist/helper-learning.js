@@ -1,3 +1,49 @@
+
+  // ============================================================================
+  // SPACED REPETITION & LEITNER BOX SYSTEM
+  // ============================================================================
+  const SR_STORAGE_KEY = 'noodle_flashcards_sr_v1';
+
+  function getSRData() {
+    try {
+      const raw = localStorage.getItem(SR_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveSRData(data) {
+    try {
+      localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function rateQuestionSR(questionId, rating) {
+    // rating: 'again' (Box 1), 'good' (Box +1), 'master' (Box 5)
+    const data = getSRData();
+    const entry = data[questionId] || { box: 1, streak: 0, lastReview: Date.now() };
+
+    if (rating === 'again') {
+      entry.box = 1;
+      entry.streak = 0;
+    } else if (rating === 'good') {
+      entry.box = Math.min(5, (entry.box || 1) + 1);
+      entry.streak = (entry.streak || 0) + 1;
+    } else if (rating === 'master') {
+      entry.box = 5;
+      entry.streak = (entry.streak || 0) + 3;
+    }
+    entry.lastReview = Date.now();
+    data[questionId] = entry;
+    saveSRData(data);
+
+    if (typeof showToast === 'function') {
+      showToast(`🧠 Leitner-Box: Stufe ${entry.box} / 5 gespeichert!`);
+    }
+    renderLearningSessionUI();
+  }
+
 // helper-learning.js: Deep Learning & Intelligent Quiz Engine
 // 100% Serverless, Offline-first, Adaptive Active Recall & Deep Knowledge Synthesis
 // Supports curated packs, dynamic custom topic synthesis, deep explanations & spaced repetition.
@@ -91,6 +137,98 @@
       ]
     },
 
+    
+    productivity_science: {
+      id: 'productivity_science',
+      title: 'Produktivitäts- & Fokus-Wissenschaft',
+      icon: '⚡',
+      color: 'amber',
+      desc: 'Time-Blocking, Ultradian Rhythms, Parkinsons Gesetz & Zeigarnik-Effekt',
+      level: 'Wissenschaft & Neurobiologie',
+      questions: [
+        {
+          id: 'prod_1',
+          question: 'Was besagt das „Parkinsonsche Gesetz“ (Parkinson\'s Law) und wie nutzt man es für maximale Produktivität?',
+          options: [
+            'Dass Aufgaben immer mehr Geld kosten als ursprünglich geplant.',
+            'Dass Arbeit sich genau in dem Maße ausdehnt, wie Zeit für ihre Erledigung zur Verfügung steht — Lösung: Künstlich knappe Time-Boxes setzen.',
+            'Dass man nie mehr als 3 Aufgaben pro Tag anfangen darf.',
+            'Dass die Geschwindigkeit der Arbeit vom Alter des Ausführenden abhängt.'
+          ],
+          correct: 1,
+          explanation: 'Wenn man für einen Bericht 2 Wochen einplant, dauert er 2 Wochen (mit Grübeln und Perfektionismus). Gibt man sich ein striktes 3-Stunden-Fenster, zwingt dies das Gehirn zur Konzentration auf das absolut Wesentliche.',
+          mnemonic: '💡 Merksatz: „Arbeit ist wie Gas — sie füllt jeden Raum aus.“ — Verknappe die Box, schärfe den Fokus.',
+          pitfall: 'Option A beschreibt Kosten-Kalkulationsfehler, nicht die zeitliche Ausdehnung von Arbeit.'
+        },
+        {
+          id: 'prod_2',
+          question: 'Wie funktioniert der „Zeigarnik-Effekt“ und wie schützt man sich vor mentalem Brain Fog?',
+          options: [
+            'Das Gehirn erinnert sich besser an erledigte Dinge als an offene.',
+            'Das Arbeitsgedächtnis hält unerledigte, unterbrochene Aufgaben in ständiger unbewusster Wachsamkeit (Open Loops), was Energie raubt — Lösung: Sofort aufschreiben (Brain Dump).',
+            'Ein Zustand, bei dem man Namen von Personen vergisst.',
+            'Dass Pausen die Arbeitsleistung stets verringern.'
+          ],
+          correct: 1,
+          explanation: 'Bluma Zeigarnik entdeckte: Das Gehirn erzeugt kognitive Spannung für alle offenen Schleifen. Sobald man einen konkreten nächsten Schritt aufschreibt, signalisiert man dem Gehirn Sicherheit und beendet den Hintergrund-Energieverbrauch.',
+          mnemonic: '💡 Merksatz: „Dein Gehirn ist eine Denkmaschine, kein Speicher-Stick.“ — Schließe Open Loops auf Papier.',
+          pitfall: 'Option A ist das genaue Gegenteil der Entdeckung von Zeigarnik.'
+        },
+        {
+          id: 'prod_3',
+          question: 'Was sind „Ultradiane Rhythmen“ (Basic Rest-Activity Cycle) im menschlichen Gehirn?',
+          options: [
+            'Schlafzyklen, die nur alle 7 Tage auftreten.',
+            'Biologische 90- bis 120-Minuten-Wellen neuronaler Höchstleistung, gefolgt von einem natürlichen 15-20 Min. Tiefpunkt für Regeneration.',
+            'Tägliche Mahlzeiten-Rhythmen für den Blutzucker.',
+            'Die Anzahl der Herzschläge pro Stunde.'
+          ],
+          correct: 1,
+          explanation: 'Prof. Kleitman entdeckte: Wie im REM-Schlaf pulsiert auch unsere Wach-Aufmerksamkeit in 90-Minuten-Zyklen. Danach sinkt die neuronale Signalstärke; eine 15-minütige echte Pause lädt die Neurotransmitter wieder auf.',
+          mnemonic: '💡 Merksatz: „Surfe auf der 90-Minuten-Welle.“ — Arbeite intensiv im Peak, erhole dich im Tal.',
+          pitfall: 'Option C bezieht sich auf Ernährung, nicht auf die Zyklen des zentralen Nervensystems.'
+        }
+      ]
+    },
+
+    sleep_recovery: {
+      id: 'sleep_recovery',
+      title: 'Schlaf-Biologie & Erholung (NSDR)',
+      icon: '🌙',
+      color: 'indigo',
+      desc: 'Zirkadiane Rhythmik, Adenosin-Druck, Melatonin & Non-Sleep Deep Rest',
+      level: 'Gesundheit & Neurowissenschaft',
+      questions: [
+        {
+          id: 'sleep_1',
+          question: 'Wie reguliert das Molekül „Adenosin“ den Schlafdruck und wie interagiert Koffein damit?',
+          options: [
+            'Adenosin wird nachts gebildet und Koffein zerstört es dauerhaft.',
+            'Adenosin baut sich mit jeder wachen Stunde im Gehirn auf und erzeugt Schlafdruck. Koffein blockiert temporär die Adenosin-Rezeptoren (ohne das Adenosin abzubauen), was nach Abklingen zum Koffein-Crash führt.',
+            'Adenosin ist ein Muskelhormon, das Koffein bindet.',
+            'Adenosin verhindert die Aufnahme von Vitamin D.'
+          ],
+          correct: 1,
+          explanation: 'Koffein ist ein Antagonist: Es besetzt die Adenosin-Rezeptoren wie ein falscher Schlüssel im Schloss. Das Gehirn spürt die Müdigkeit nicht, während sich im Hintergrund immer mehr Adenosin anstaut. Lässt das Koffein nach, flutet das aufgestaute Adenosin die Rezeptoren (Koffein-Absturz).',
+          mnemonic: '💡 Merksatz: „Koffein leiht Energie aus der Zukunft, erzeugt aber keine neue.“',
+          pitfall: 'Option A ist falsch: Koffein baut Adenosin nicht ab, sondern maskiert es nur temporär.'
+        },
+        {
+          id: 'sleep_2',
+          question: 'Was ist „NSDR“ (Non-Sleep Deep Rest / Yoga Nidra) und welchen messbaren Effekt hat es auf das Gehirn?',
+          options: [
+            'Ein 8-stündiger Koma-Schlaf.',
+            'Ein 10-20 minütiger geführter Zustand tiefer physischer Entspannung bei wachem Geist, der Dopamin im Striatum regeneriert und neuroplastische Lernspuren konsolidiert.',
+            'Ein Medikament zur Einschlafhilfe.',
+            'Ein Cardio-Intervall-Workout für den Abend.'
+          ],
+          correct: 1,
+          explanation: 'Forschung von Dr. Andrew Huberman zeigt: NSDR senkt die Herzfrequenzvariabilität, schaltet das Gehirn in Theta-Wellen und beschleunigt das Abspeichern kurz zuvor gelernter Fähigkeiten um ein Vielfaches.',
+          mnemonic: '💡 Merksatz: „Lernen geschieht im Tun, Festigung geschieht in der Ruhe.“ — 15 Min. NSDR ersetzen Stunden.',
+          pitfall: 'Option C ist falsch: NSDR ist eine reine physiologische Atem- und Körper-Technik, keine Chemie.'
+        }
+      ]
+    },
     stoicism_mental_models: {
       id: 'stoicism_mental_models',
       title: 'Stoizismus & Denkmodelle',
@@ -817,6 +955,14 @@
           '<p class="text-gray-200 leading-relaxed">' + currentQ.explanation + '</p>' +
           (currentQ.mnemonic ? '<div class="p-2.5 bg-black/40 rounded-xl border border-white/10 text-amber-200 font-medium">' + currentQ.mnemonic + '</div>' : '') +
           (currentQ.pitfall ? '<div class="text-[11px] text-gray-400 italic">⚠️ Typischer Fehler: ' + currentQ.pitfall + '</div>' : '') +
+          '<div class="pt-2 border-t border-white/10 flex items-center justify-between gap-1.5 flex-wrap">' +
+            '<span class="text-[10px] text-gray-400 font-mono">🧠 Spaced Repetition (Leitner):</span>' +
+            '<div class="flex items-center gap-1">' +
+              '<button onclick="rateQuestionSR(\'' + currentQ.id + '\', \'again\')" class="px-2 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[10px] font-bold transition cursor-pointer">Wiederholen (Box 1)</button>' +
+              '<button onclick="rateQuestionSR(\'' + currentQ.id + '\', \'good\')" class="px-2 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-bold transition cursor-pointer">Gut (+1)</button>' +
+              '<button onclick="rateQuestionSR(\'' + currentQ.id + '\', \'master\')" class="px-2 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold transition cursor-pointer">Meisterhaft (Box 5)</button>' +
+            '</div>' +
+          '</div>' +
         '</div>';
       }
 
@@ -913,6 +1059,8 @@
     window.selectLearningPack = selectLearningPack;
     window.startLearningSessionWithTopic = startLearningSessionWithTopic;
     window.renderLearningHub = renderLearningSessionUI;
+    window.rateQuestionSR = rateQuestionSR;
+    window.getSRData = getSRData;
     window.renderLearningSessionUI = renderLearningSessionUI;
     window.activeLearningSession = activeLearningSession;
     window.customPacksStorage = customPacksStorage;

@@ -355,11 +355,13 @@ function updateDateAndStreak() {
   const now = new Date();
   const locales = { de: 'de-DE', en: 'en-GB', el: 'el-GR', es: 'es-ES', fr: 'fr-FR', it: 'it-IT' };
   try {
-    const weekday = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { weekday: 'long' }).format(now);
-    const dayMonth = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
+    const weekdayLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { weekday: 'long' }).format(now);
+    const weekdayShort = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { weekday: 'short' }).format(now);
+    const dayMonth = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'short' }).format(now);
+    const dayMonthLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
     const displayEl = document.getElementById('date-display');
     if (displayEl) {
-      displayEl.innerHTML = `<span class="text-zinc-400 font-medium text-xs md:text-sm tracking-normal">${weekday},</span> <span class="text-zinc-100 font-semibold text-xs md:text-sm tracking-normal">${dayMonth}</span>`;
+      displayEl.innerHTML = `<span class="text-zinc-400 font-medium text-xs md:text-sm tracking-normal"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="text-zinc-100 font-semibold text-xs md:text-sm tracking-normal"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
     }
   } catch (e) {
     const displayEl = document.getElementById('date-display');

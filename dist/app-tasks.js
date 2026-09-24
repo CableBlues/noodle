@@ -2289,7 +2289,7 @@ function showPanelHover(panelName, delay = 160) {
     return;
   }
 
-  hoverPanelShowTimeout = setTimeout(() => {
+    const executeShow = () => {
     // Nochmals prüfen ob zwischenzeitlich gepinnt wurde
     if (pinnedPanel && pinnedPanel !== panelName) {
       if (!(pinnedPanel === 'header-tools' && TOOL_SUBPANELS.includes(panelName))) {
@@ -2365,7 +2365,12 @@ function showPanelHover(panelName, delay = 160) {
       if (typeof CollabEngine.renderPresenceUI === 'function') CollabEngine.renderPresenceUI();
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
-  }, delay);
+    };
+  if (delay <= 0) {
+    executeShow();
+  } else {
+    hoverPanelShowTimeout = setTimeout(executeShow, delay);
+  }
 }
 window.showPanelHover = showPanelHover;
 

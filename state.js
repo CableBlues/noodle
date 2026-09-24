@@ -398,10 +398,15 @@ function saveCustomDefaults(customDefaults) {
 }
 
 function migrateState(raw, lang) {
-  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'en');
-  const localizedDefaults = (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG[currentL]) 
-    ? DEFAULT_TASKS_BY_LANG[currentL] 
-    : ((typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG['en']) ? DEFAULT_TASKS_BY_LANG['en'] : { daily: [], weekly: [], occasionally: [] });
+  const currentL = lang || (typeof window !== 'undefined' && window.currentLang ? window.currentLang : (typeof currentLang !== 'undefined' ? currentLang : 'de'));
+  const defTasksMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+    ? window.DEFAULT_TASKS_BY_LANG
+    : ((typeof globalThis !== 'undefined' && globalThis.DEFAULT_TASKS_BY_LANG)
+        ? globalThis.DEFAULT_TASKS_BY_LANG
+        : (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null));
+  const localizedDefaults = (defTasksMap && defTasksMap[currentL]) 
+    ? defTasksMap[currentL] 
+    : ((defTasksMap && defTasksMap['de']) ? defTasksMap['de'] : { daily: [], weekly: [], occasionally: [] });
   const customDefaults = getCustomDefaults();
   const initDaily = (customDefaults && Array.isArray(customDefaults.daily)) ? customDefaults.daily : (localizedDefaults.daily || []);
   const initWeekly = (customDefaults && Array.isArray(customDefaults.weekly)) ? customDefaults.weekly : (localizedDefaults.weekly || []);
@@ -439,7 +444,8 @@ function migrateState(raw, lang) {
       shoppingHistory: [],
       cooking: typeof createDefaultCookingState === 'function' ? createDefaultCookingState() : {},
       clarity: { streakDays: 0, lastCheckinDate: null, history: [], savedReasons: [] },
-      userPlan: 'free' // 'free' | 'pro' — Grundlage für spätere Paywall-Logik
+      userPlan: 'free', // 'free' | 'pro' — Grundlage für spätere Paywall-Logik
+      settings: { language: currentL, theme: 'aurora', isMinimalist: false }
     };
   }
 
@@ -544,6 +550,13 @@ function migrateState(raw, lang) {
     s.clarity.lastCheckinDate = s.clarity.lastCheckinDate || null;
     s.clarity.history = Array.isArray(s.clarity.history) ? s.clarity.history : [];
     s.clarity.savedReasons = Array.isArray(s.clarity.savedReasons) ? s.clarity.savedReasons : [];
+  }
+
+  // 5.5 Settings
+  if (!s.settings || typeof s.settings !== 'object') {
+    s.settings = { language: currentL, theme: 'aurora', isMinimalist: false };
+  } else if (!s.settings.language) {
+    s.settings.language = currentL;
   }
 
   // 6. Deduplizierung daily tasks (Face washing terms)
@@ -1186,18 +1199,25 @@ function reloadDailyTasks(isAuto = false) {
 
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
-    : ((typeof globalThis !== 'undefined' && globalThis.currentLang)
-        ? globalThis.currentLang
-        : (typeof currentLang !== 'undefined' ? currentLang : 'de'));
+    : ((currentState && currentState.settings && currentState.settings.language)
+        ? currentState.settings.language
+        : ((typeof globalThis !== 'undefined' && globalThis.currentLang)
+            ? globalThis.currentLang
+            : (typeof currentLang !== 'undefined' ? currentLang : 'de')));
   
   const customDefaults = getCustomDefaults();
   let dailyTasks = null;
   if (customDefaults && Array.isArray(customDefaults.daily)) {
     dailyTasks = customDefaults.daily;
   } else {
-    const localizedDefaults = (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG[curL]) 
-      ? DEFAULT_TASKS_BY_LANG[curL] 
-      : ((typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG['de']) ? DEFAULT_TASKS_BY_LANG['de'] : { daily: [] });
+    const defTasksMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+      ? window.DEFAULT_TASKS_BY_LANG
+      : ((typeof globalThis !== 'undefined' && globalThis.DEFAULT_TASKS_BY_LANG)
+          ? globalThis.DEFAULT_TASKS_BY_LANG
+          : (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null));
+    const localizedDefaults = (defTasksMap && defTasksMap[curL]) 
+      ? defTasksMap[curL] 
+      : ((defTasksMap && defTasksMap['de']) ? defTasksMap['de'] : { daily: [] });
     dailyTasks = localizedDefaults.daily || [];
   }
 
@@ -1205,9 +1225,14 @@ function reloadDailyTasks(isAuto = false) {
   currentState.items.daily = [...dailyTasks];
 
   if (currentState.workItems) {
-    const workDefaults = (typeof DEFAULT_WORK_TASKS_BY_LANG !== 'undefined' && DEFAULT_WORK_TASKS_BY_LANG[curL])
-      ? DEFAULT_WORK_TASKS_BY_LANG[curL]
-      : (typeof DEFAULT_WORK_TASKS_BY_LANG !== 'undefined' ? DEFAULT_WORK_TASKS_BY_LANG['de'] : { work_focus: [] });
+    const defWorkMap = (typeof window !== 'undefined' && window.DEFAULT_WORK_TASKS_BY_LANG)
+      ? window.DEFAULT_WORK_TASKS_BY_LANG
+      : ((typeof globalThis !== 'undefined' && globalThis.DEFAULT_WORK_TASKS_BY_LANG)
+          ? globalThis.DEFAULT_WORK_TASKS_BY_LANG
+          : (typeof DEFAULT_WORK_TASKS_BY_LANG !== 'undefined' ? DEFAULT_WORK_TASKS_BY_LANG : null));
+    const workDefaults = (defWorkMap && defWorkMap[curL])
+      ? defWorkMap[curL]
+      : ((defWorkMap && defWorkMap['de']) ? defWorkMap['de'] : { work_focus: [] });
     if (workDefaults && workDefaults.work_focus) {
       currentState.workItems.work_focus = [...workDefaults.work_focus];
     }
@@ -1237,18 +1262,25 @@ function reloadWeeklyHouseholdTasks(isAuto = false) {
 
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
-    : ((typeof globalThis !== 'undefined' && globalThis.currentLang)
-        ? globalThis.currentLang
-        : (typeof currentLang !== 'undefined' ? currentLang : 'de'));
+    : ((currentState && currentState.settings && currentState.settings.language)
+        ? currentState.settings.language
+        : ((typeof globalThis !== 'undefined' && globalThis.currentLang)
+            ? globalThis.currentLang
+            : (typeof currentLang !== 'undefined' ? currentLang : 'de')));
   
   const customDefaults = getCustomDefaults();
   let weeklyTasks = null;
   if (customDefaults && Array.isArray(customDefaults.weekly)) {
     weeklyTasks = customDefaults.weekly;
   } else {
-    const localizedDefaults = (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG[curL]) 
-      ? DEFAULT_TASKS_BY_LANG[curL] 
-      : ((typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG['de']) ? DEFAULT_TASKS_BY_LANG['de'] : { weekly: [] });
+    const defTasksMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+      ? window.DEFAULT_TASKS_BY_LANG
+      : ((typeof globalThis !== 'undefined' && globalThis.DEFAULT_TASKS_BY_LANG)
+          ? globalThis.DEFAULT_TASKS_BY_LANG
+          : (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null));
+    const localizedDefaults = (defTasksMap && defTasksMap[curL]) 
+      ? defTasksMap[curL] 
+      : ((defTasksMap && defTasksMap['de']) ? defTasksMap['de'] : { weekly: [] });
     weeklyTasks = localizedDefaults.weekly || [];
   }
 

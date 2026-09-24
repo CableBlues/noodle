@@ -7,11 +7,6 @@ export default defineConfig({
     globals: true,
     include: ['tests/**/*.test.js'],
     fileParallelism: false,
-    pool: 'threads',
-    poolOptions: {
-      threads: {
-        singleThread: true
-      }
-    }
+    pool: 'forks'
   }
 });

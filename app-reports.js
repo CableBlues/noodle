@@ -102,8 +102,12 @@ function togglePanel(panelName) {
   if (!el) return;
   const isCurrentlyHidden = el.classList.contains('hidden');
 
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat'];
+  const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
+
   // Andere Popover-Panels schließen
-  ['feedback', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'radio-news', 'timer-presets'].forEach(p => {
+  ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'radio-news', 'timer-presets'].forEach(p => {
+    if (isSubpanelOfTools && p === 'header-tools') return;
     if (p !== panelName) {
       const other = document.getElementById(`panel-${p}`);
       if (other) other.classList.add('hidden');

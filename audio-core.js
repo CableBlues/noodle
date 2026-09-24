@@ -1,3 +1,364 @@
+
+// =========================================================================
+// MULTI-TRACK AMBIENT MIXER & BINAURAL FOCUS FREQUENCIES ENGINE
+// =========================================================================
+
+var activeAmbientLayers = {}; // [type]: { source, gainNode, filter, volume }
+var activeBinauralBeat = null; // 'alpha', 'theta', 'gamma', or null
+var binauralAudioNodes = null;
+var binauralVolume = 0.4;
+
+const SOUND_MIX_PRESETS = {
+  rainy_cafe: {
+    name: 'Regnerisches Café',
+    icon: '☕',
+    layers: { cafe: 0.65, stream: 0.5 }
+  },
+  camp_forest: {
+    name: 'Wald & Lagerfeuer',
+    icon: '🏕️',
+    layers: { campfire: 0.7, birds: 0.4, breeze: 0.35 }
+  },
+  zen_deep: {
+    name: 'Zen Deep Space',
+    icon: '🧘',
+    layers: { space: 0.65, breeze: 0.3 }
+  },
+  study_cozy: {
+    name: 'Cozy Study Corner',
+    icon: '📚',
+    layers: { cafe: 0.45, campfire: 0.4, breeze: 0.25 }
+  }
+};
+
+function isAmbientLayerActive(type) {
+  return Boolean(activeAmbientLayers[type]);
+}
+
+function getAmbientLayerVolume(type) {
+  return activeAmbientLayers[type] ? (activeAmbientLayers[type].volume || 0.5) : 0.5;
+}
+
+function setAmbientLayerVolume(type, vol) {
+  const v = Math.max(0, Math.min(1, parseFloat(vol)));
+  if (activeAmbientLayers[type]) {
+    activeAmbientLayers[type].volume = v;
+    if (activeAmbientLayers[type].gainNode && audioCtx) {
+      const now = audioCtx.currentTime;
+      activeAmbientLayers[type].gainNode.gain.cancelScheduledValues(now);
+      activeAmbientLayers[type].gainNode.gain.linearRampToValueAtTime(v * (soundMasterVolume || 0.5), now + 0.05);
+    }
+  }
+  updateMixerUI();
+}
+
+function toggleAmbientLayer(type, forceState) {
+  initAudioContext();
+  if (!audioCtx) return;
+
+  const isRunning = Boolean(activeAmbientLayers[type]);
+  const shouldRun = forceState !== undefined ? forceState : !isRunning;
+
+  if (!shouldRun && isRunning) {
+    stopAmbientLayer(type);
+  } else if (shouldRun && !isRunning) {
+    startAmbientLayer(type);
+  }
+  updateMixerUI();
+}
+
+function startAmbientLayer(type, initialVolume = 0.5) {
+  initAudioContext();
+  if (!audioCtx) return;
+  if (activeAmbientLayers[type]) return; // already active
+
+  const masterDest = getMasterAudioDestination() || audioCtx.destination;
+  const layerGain = audioCtx.createGain();
+  const vol = Math.max(0, Math.min(1, initialVolume));
+  layerGain.gain.setValueAtTime(vol * (soundMasterVolume || 0.5), audioCtx.currentTime);
+  layerGain.connect(masterDest);
+
+  const layerObj = {
+    type: type,
+    gainNode: layerGain,
+    volume: vol,
+    nodes: []
+  };
+
+  const now = audioCtx.currentTime;
+
+  if (type === 'cafe') {
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('pink');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(280, now);
+    source.connect(filter);
+    filter.connect(layerGain);
+    source.start(now);
+    layerObj.nodes.push(source, filter);
+  } else if (type === 'stream') {
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('pink');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(800, now);
+    filter.Q.setValueAtTime(1.2, now);
+    source.connect(filter);
+    filter.connect(layerGain);
+    source.start(now);
+    layerObj.nodes.push(source, filter);
+  } else if (type === 'campfire') {
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('brown');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(140, now);
+    source.connect(filter);
+    filter.connect(layerGain);
+    source.start(now);
+    layerObj.nodes.push(source, filter);
+  } else if (type === 'birds') {
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('pink');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(320, now);
+    source.connect(filter);
+    filter.connect(layerGain);
+    source.start(now);
+    layerObj.nodes.push(source, filter);
+  } else if (type === 'breeze') {
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('pink');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(320, now);
+    source.connect(filter);
+    filter.connect(layerGain);
+    source.start(now);
+    layerObj.nodes.push(source, filter);
+  } else if (type === 'space') {
+    const freqs = [65.4, 98.0, 130.8];
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(260, now);
+    filter.connect(layerGain);
+    freqs.forEach(f => {
+      const osc = audioCtx.createOscillator();
+      const oscGain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(f, now);
+      oscGain.gain.setValueAtTime(0.12 / freqs.length, now);
+      osc.connect(oscGain);
+      oscGain.connect(filter);
+      osc.start(now);
+      layerObj.nodes.push(osc, oscGain);
+    });
+    layerObj.nodes.push(filter);
+  }
+
+  activeAmbientLayers[type] = layerObj;
+  updateMixerUI();
+}
+
+function stopAmbientLayer(type) {
+  if (!activeAmbientLayers[type]) return;
+  const layer = activeAmbientLayers[type];
+  if (layer.gainNode && audioCtx) {
+    try {
+      layer.gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      layer.gainNode.gain.linearRampToValueAtTime(0.0001, audioCtx.currentTime + 0.15);
+    } catch (e) {}
+  }
+  setTimeout(() => {
+    (layer.nodes || []).forEach(node => {
+      try { if (node.stop) node.stop(); } catch (e) {}
+      try { if (node.disconnect) node.disconnect(); } catch (e) {}
+    });
+    try { if (layer.gainNode) layer.gainNode.disconnect(); } catch (e) {}
+  }, 180);
+  delete activeAmbientLayers[type];
+  updateMixerUI();
+}
+
+function stopAllAmbientLayers() {
+  Object.keys(activeAmbientLayers).forEach(stopAmbientLayer);
+  stopBinauralBeat();
+  updateMixerUI();
+}
+
+function applySoundMixPreset(presetKey) {
+  const preset = SOUND_MIX_PRESETS[presetKey];
+  if (!preset) return;
+
+  stopAllAmbientLayers();
+  setTimeout(() => {
+    Object.entries(preset.layers).forEach(([type, vol]) => {
+      startAmbientLayer(type, vol);
+    });
+    if (typeof showToast === 'function') {
+      showToast(`🎛️ Mix-Preset aktiv: ${preset.name}`);
+    }
+    updateMixerUI();
+  }, 200);
+}
+
+// =========================================================================
+// BINAURAL FOCUS FREQUENCIES (ALPHA, THETA, GAMMA)
+// =========================================================================
+
+function toggleBinauralBeat(type) {
+  if (activeBinauralBeat === type) {
+    stopBinauralBeat();
+  } else {
+    playBinauralBeat(type);
+  }
+}
+
+function playBinauralBeat(type) {
+  initAudioContext();
+  if (!audioCtx) return;
+
+  stopBinauralBeat();
+
+  let baseFreq = 200;
+  let beatDiff = 10; // Alpha 10 Hz (8-12 Hz)
+  let label = 'Alpha (10 Hz) · Flow & Entspannung';
+
+  if (type === 'theta') {
+    baseFreq = 150;
+    beatDiff = 6; // Theta 6 Hz (4-7 Hz)
+    label = 'Theta (6 Hz) · Tiefenmeditation & Intuition';
+  } else if (type === 'gamma') {
+    baseFreq = 240;
+    beatDiff = 40; // Gamma 40 Hz (30-50 Hz)
+    label = 'Gamma (40 Hz) · Spitzen-Fokus & Kognition';
+  }
+
+  const now = audioCtx.currentTime;
+  const masterGain = audioCtx.createGain();
+  masterGain.gain.setValueAtTime(0.001, now);
+  masterGain.gain.linearRampToValueAtTime(binauralVolume * (soundMasterVolume || 0.5) * 0.4, now + 1.2);
+  masterGain.connect(getMasterAudioDestination() || audioCtx.destination);
+
+  // Left channel
+  const oscL = audioCtx.createOscillator();
+  const panL = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
+  oscL.type = 'sine';
+  oscL.frequency.setValueAtTime(baseFreq, now);
+
+  // Right channel
+  const oscR = audioCtx.createOscillator();
+  const panR = audioCtx.createStereoPanner ? audioCtx.createStereoPanner() : null;
+  oscR.type = 'sine';
+  oscR.frequency.setValueAtTime(baseFreq + beatDiff, now);
+
+  if (panL && panR) {
+    panL.pan.setValueAtTime(-1.0, now);
+    panR.pan.setValueAtTime(1.0, now);
+    oscL.connect(panL);
+    panL.connect(masterGain);
+    oscR.connect(panR);
+    panR.connect(masterGain);
+  } else {
+    oscL.connect(masterGain);
+    oscR.connect(masterGain);
+  }
+
+  oscL.start(now);
+  oscR.start(now);
+
+  activeBinauralBeat = type;
+  binauralAudioNodes = { oscL, oscR, panL, panR, masterGain };
+
+  if (typeof showToast === 'function') {
+    showToast(`🧠 Binaurale Frequenz: ${label}`);
+  }
+  updateMixerUI();
+}
+
+function stopBinauralBeat() {
+  if (binauralAudioNodes && audioCtx) {
+    try {
+      const now = audioCtx.currentTime;
+      binauralAudioNodes.masterGain.gain.cancelScheduledValues(now);
+      binauralAudioNodes.masterGain.gain.linearRampToValueAtTime(0.0001, now + 0.3);
+      setTimeout(() => {
+        try { if (binauralAudioNodes.oscL) binauralAudioNodes.oscL.stop(); } catch (e) {}
+        try { if (binauralAudioNodes.oscR) binauralAudioNodes.oscR.stop(); } catch (e) {}
+        try { if (binauralAudioNodes.masterGain) binauralAudioNodes.masterGain.disconnect(); } catch (e) {}
+        binauralAudioNodes = null;
+      }, 350);
+    } catch (e) {}
+  }
+  activeBinauralBeat = null;
+  updateMixerUI();
+}
+
+function setBinauralVolume(vol) {
+  binauralVolume = Math.max(0, Math.min(1, parseFloat(vol)));
+  if (binauralAudioNodes && audioCtx) {
+    const now = audioCtx.currentTime;
+    binauralAudioNodes.masterGain.gain.cancelScheduledValues(now);
+    binauralAudioNodes.masterGain.gain.linearRampToValueAtTime(binauralVolume * (soundMasterVolume || 0.5) * 0.4, now + 0.05);
+  }
+}
+
+function updateMixerUI() {
+  const mixerLayers = ['cafe', 'stream', 'campfire', 'birds', 'breeze', 'space'];
+  mixerLayers.forEach(layer => {
+    const active = isAmbientLayerActive(layer);
+    const vol = getAmbientLayerVolume(layer);
+
+    const btn = document.getElementById(`mixer-toggle-${layer}`);
+    const slider = document.getElementById(`mixer-vol-${layer}`);
+    const valBadge = document.getElementById(`mixer-val-${layer}`);
+
+    if (btn) {
+      if (active) {
+        btn.className = 'px-2.5 py-1 rounded-xl text-xs font-bold bg-fuchsia-500/25 text-fuchsia-200 border border-fuchsia-400/60 shadow-sm flex items-center gap-1.5 cursor-pointer';
+      } else {
+        btn.className = 'px-2.5 py-1 rounded-xl text-xs font-semibold text-gray-400 hover:text-white bg-white/5 border border-white/10 flex items-center gap-1.5 cursor-pointer';
+      }
+    }
+    if (slider) {
+      slider.value = vol;
+      slider.disabled = !active;
+      slider.style.opacity = active ? '1' : '0.4';
+    }
+    if (valBadge) {
+      valBadge.innerText = `${Math.round(vol * 100)}%`;
+      valBadge.style.opacity = active ? '1' : '0.4';
+    }
+  });
+
+  // Binaural UI
+  ['alpha', 'theta', 'gamma'].forEach(b => {
+    const btn = document.getElementById(`binaural-btn-${b}`);
+    if (btn) {
+      if (activeBinauralBeat === b) {
+        btn.className = 'flex-1 py-1.5 px-2 rounded-xl font-bold text-xs bg-fuchsia-500 text-black shadow-lg shadow-fuchsia-500/30 transition flex items-center justify-center gap-1 cursor-pointer animate-pulse';
+      } else {
+        btn.className = 'flex-1 py-1.5 px-2 rounded-xl font-semibold text-xs text-gray-300 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 transition flex items-center justify-center gap-1 cursor-pointer';
+      }
+    }
+  });
+
+  const binLiveBadge = document.getElementById('binaural-live-indicator');
+  if (binLiveBadge) {
+    binLiveBadge.classList.toggle('hidden', !activeBinauralBeat);
+  }
+
+  updateAudioStudioHeader();
+  updateHeaderSoundBtnUI();
+}
+
 // Globale Audio-Variablen
 var audioCtx = null;
 var currentSoundType = null;
@@ -631,6 +992,17 @@ if (typeof window !== 'undefined') {
   window.playCheerfulSuccessJingle = playCheerfulSuccessJingle;
   window.triggerHapticFeedback = triggerHapticFeedback;
   window.updateSoundscapeUI = updateSoundscapeUI;
+
+  window.isAmbientLayerActive = isAmbientLayerActive;
+  window.getAmbientLayerVolume = getAmbientLayerVolume;
+  window.setAmbientLayerVolume = setAmbientLayerVolume;
+  window.toggleAmbientLayer = toggleAmbientLayer;
+  window.stopAllAmbientLayers = stopAllAmbientLayers;
+  window.applySoundMixPreset = applySoundMixPreset;
+  window.toggleBinauralBeat = toggleBinauralBeat;
+  window.setBinauralVolume = setBinauralVolume;
+  window.updateMixerUI = updateMixerUI;
+
   window.applyAudioMoodPreset = applyAudioMoodPreset;
   window.updateAudioStudioHeader = updateAudioStudioHeader;
   window.stopAllStudioAudio = stopAllStudioAudio;
@@ -654,6 +1026,17 @@ if (typeof globalThis !== 'undefined') {
   globalThis.playCheerfulSuccessJingle = playCheerfulSuccessJingle;
   globalThis.triggerHapticFeedback = triggerHapticFeedback;
   globalThis.updateSoundscapeUI = updateSoundscapeUI;
+
+  globalThis.isAmbientLayerActive = isAmbientLayerActive;
+  globalThis.getAmbientLayerVolume = getAmbientLayerVolume;
+  globalThis.setAmbientLayerVolume = setAmbientLayerVolume;
+  globalThis.toggleAmbientLayer = toggleAmbientLayer;
+  globalThis.stopAllAmbientLayers = stopAllAmbientLayers;
+  globalThis.applySoundMixPreset = applySoundMixPreset;
+  globalThis.toggleBinauralBeat = toggleBinauralBeat;
+  globalThis.setBinauralVolume = setBinauralVolume;
+  globalThis.updateMixerUI = updateMixerUI;
+
   globalThis.applyAudioMoodPreset = applyAudioMoodPreset;
   globalThis.updateAudioStudioHeader = updateAudioStudioHeader;
   globalThis.stopAllStudioAudio = stopAllStudioAudio;

@@ -137,7 +137,7 @@ function switchAudioTab(tabName) {
     }
   };
 
-  const tabs = ['ambient', 'beats', 'music', 'dj'];
+  const tabs = ['ambient', 'mixer', 'beats', 'music', 'dj'];
   tabs.forEach(t => {
     const btn = document.getElementById(`audio-tab-btn-${t}`);
     const pane = document.getElementById(`audio-pane-${t}`);
