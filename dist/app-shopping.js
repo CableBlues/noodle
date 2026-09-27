@@ -378,7 +378,7 @@ function updateShoppingListPopup(skipLucide = false) {
       
       html += `
         <div class="space-y-1 pt-1">
-          <div class="flex items-center gap-1.5 text-[10px] font-bold text-${deptInfo.color}-300 uppercase tracking-wider px-1">
+          <div class="flex items-center gap-1.5 text-[10px] font-bold text-[#c084fc] uppercase tracking-wider px-1">
             <i data-lucide="${deptInfo.icon}" class="w-3 h-3 text-${deptInfo.color}-400"></i>
             <span>${deptTitle}</span>
           </div>
@@ -389,13 +389,13 @@ function updateShoppingListPopup(skipLucide = false) {
         const qtyLabel = (item.qty && item.qty > 1) ? `${item.qty}${item.unit ? item.unit : 'x'} ` : '';
         html += `
           <div class="flex items-center justify-between gap-1.5 p-1.5 bg-black/40 hover:bg-white/[0.04] border border-white/5 rounded-xl text-gray-300 transition group">
-            <input type="checkbox" onclick="handleToggleShoppingItem(${originalIdx})" class="w-4 h-4 rounded bg-black border-white/10 text-emerald-500 accent-emerald-500 cursor-pointer shrink-0" />
-            <span class="truncate font-medium flex-1 pl-1 text-xs text-white" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
+            <input type="checkbox" onclick="handleToggleShoppingItem(${originalIdx})" class="w-4 h-4 rounded bg-black border-white/10 text-[#00ff66] accent-[#00ff66] cursor-pointer shrink-0" />
+            <span class="truncate font-medium flex-1 pl-1 text-xs text-[#00f2ff]" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
             
             <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 shrink-0">
-              <button onclick="adjustShoppingItemQty(${originalIdx}, -1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-gray-400 text-[10px] flex items-center justify-center cursor-pointer font-bold">-</button>
-              <span class="text-[10px] font-mono text-emerald-400 px-0.5">${item.qty || 1}</span>
-              <button onclick="adjustShoppingItemQty(${originalIdx}, 1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-gray-400 text-[10px] flex items-center justify-center cursor-pointer font-bold">+</button>
+              <button onclick="adjustShoppingItemQty(${originalIdx}, -1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-[#c0caf5] text-[10px] flex items-center justify-center cursor-pointer font-bold">-</button>
+              <span class="text-[10px] font-mono text-[#00f2ff] px-0.5">${item.qty || 1}</span>
+              <button onclick="adjustShoppingItemQty(${originalIdx}, 1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-[#c0caf5] text-[10px] flex items-center justify-center cursor-pointer font-bold">+</button>
               <button onclick="handleDeleteShoppingItem(${originalIdx})" aria-label="Artikel löschen" class="p-1 text-gray-500 hover:text-red-400 rounded transition cursor-pointer ml-1">
                 <i data-lucide="trash-2" class="w-3 h-3"></i>
               </button>
@@ -432,7 +432,7 @@ function updateShoppingListPopup(skipLucide = false) {
           <span class="truncate max-w-[140px] line-through text-gray-400 font-medium">${safeEscape(hItem.name)}</span>
           <div class="flex items-center gap-1.5">
             <span class="font-mono text-[8px] text-gray-500">${hItem.date || ''}</span>
-            <button onclick="restoreShoppingHistoryItem(${realIdx})" aria-label="Wieder auf Liste setzen" class="text-emerald-400 hover:text-emerald-300 text-[9px] font-bold cursor-pointer" title="Wieder auf Liste setzen">＋</button>
+            <button onclick="restoreShoppingHistoryItem(${realIdx})" aria-label="Wieder auf Liste setzen" class="text-[#00ff66] hover:text-[#00ff66]/80 text-[9px] font-bold cursor-pointer" title="Wieder auf Liste setzen">＋</button>
           </div>
         `;
         historyList.appendChild(hDiv);
@@ -454,6 +454,7 @@ function generateSmartShoppingTips(container) {
     'Tipp: Sortiere deine Liste nach Regal-Gängen, um Zeit zu sparen.'
   ];
   tipEl.innerText = tips[Math.floor(Math.random() * tips.length)];
+  tipEl.className = 'text-xs text-[#ff7a00] font-medium';
 }
 window.generateSmartShoppingTips = generateSmartShoppingTips;
 
@@ -520,7 +521,7 @@ function renderSupermarketModal() {
 
     html += `
       <div class="p-3 bg-white/[0.02] border border-white/10 rounded-2xl space-y-2">
-        <div class="flex items-center gap-2 font-bold text-xs text-${deptInfo.color}-300 pb-1 border-b border-white/5">
+        <div class="flex items-center gap-2 font-bold text-xs text-[#c084fc] pb-1 border-b border-white/5">
           <i data-lucide="${deptInfo.icon}" class="w-4 h-4 text-${deptInfo.color}-400"></i>
           <span>${deptTitle}</span>
           <span class="text-[10px] text-gray-500 font-mono">(${grouped[deptKey].length})</span>
@@ -529,14 +530,14 @@ function renderSupermarketModal() {
     `;
 
     grouped[deptKey].forEach(({ item, originalIdx }) => {
-      const qtyLabel = (item.qty && item.qty > 1) ? `<span class="px-2 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs">${item.qty}${item.unit ? ' ' + item.unit : 'x'}</span>` : '';
+      const qtyLabel = (item.qty && item.qty > 1) ? `<span class="px-2 py-0.5 rounded-lg bg-[#00f2ff]/20 text-[#00f2ff] font-bold text-xs">${item.qty}${item.unit ? ' ' + item.unit : 'x'}</span>` : '';
       html += `
         <div class="flex items-center justify-between p-3 bg-black/40 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 rounded-xl transition cursor-pointer group" onclick="handleToggleShoppingItem(${originalIdx})">
           <div class="flex items-center gap-3 min-w-0">
             <div class="w-6 h-6 rounded-lg border-2 border-white/30 group-hover:border-emerald-400 flex items-center justify-center transition">
               <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 opacity-0 group-hover:opacity-100 transition"></i>
             </div>
-            <span class="font-bold text-sm text-white truncate">${escapeHtml(item.name)}</span>
+            <span class="font-bold text-sm text-[#00f2ff] truncate">${escapeHtml(item.name)}</span>
           </div>
           <div class="flex items-center gap-2" onclick="event.stopPropagation()">
             ${qtyLabel}
@@ -556,7 +557,7 @@ function renderSupermarketModal() {
     html += `
       <div class="pt-3 border-t border-white/10">
         <div class="flex items-center justify-between text-xs text-gray-400 font-bold mb-2">
-          <span class="flex items-center gap-1.5 text-emerald-400">
+          <span class="flex items-center gap-1.5 text-[#00ff66]">
             <i data-lucide="check-circle-2" class="w-4 h-4"></i>
             <span>${tr({ en: 'In Cart (Bought)', de: 'Bereits im Einkaufswagen', fr: 'Dans le panier', it: 'Nel carrello', es: 'En el carrito', el: 'Στο καλάθι' })} (${hist.length})</span>
           </span>
@@ -568,9 +569,9 @@ function renderSupermarketModal() {
     hist.slice().reverse().forEach((hItem, hIdx) => {
       const realIdx = hist.length - 1 - hIdx;
       html += `
-        <div class="flex items-center justify-between p-2.5 bg-white/[0.02] border border-white/5 rounded-xl text-xs text-gray-400">
-          <span class="line-through truncate">${hItem.name}</span>
-          <button onclick="restoreShoppingHistoryItem(${realIdx})" class="px-2 py-0.5 bg-white/5 hover:bg-emerald-500/20 text-emerald-300 rounded text-[10px] font-semibold cursor-pointer">
+        <div class="flex items-center justify-between p-2.5 bg-white/[0.02] border border-white/5 rounded-xl text-xs text-[#00ff66]">
+          <span class="line-through truncate text-[#00ff66]">${hItem.name}</span>
+          <button onclick="restoreShoppingHistoryItem(${realIdx})" class="px-2 py-0.5 bg-white/5 hover:bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]/30 rounded text-[10px] font-semibold cursor-pointer">
             ↩ ${tr({ en: 'Undo', de: 'Zurück', fr: 'Annuler', it: 'Ripristina', es: 'Deshacer', el: 'Αναίρεση' })}
           </button>
         </div>

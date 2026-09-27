@@ -158,12 +158,20 @@ function switchAudioTab(tabName) {
   const audioPanel = document.getElementById('panel-audio');
   if (audioPanel) {
     audioPanel.setAttribute('data-active-tab', tabName);
+    audioPanel.classList.toggle('is-dj-mode', tabName === 'dj');
     const moodPresetsEl = document.getElementById('audio-studio-mood-presets');
     if (moodPresetsEl) {
       moodPresetsEl.classList.toggle('hidden', tabName === 'dj');
     }
+    const rightMasterFader = document.getElementById('audio-studio-master-fader');
+    if (rightMasterFader) {
+      rightMasterFader.classList.toggle('hidden', tabName === 'dj');
+    }
   }
 
+  if (tabName === 'music' && typeof renderMusicPlaylist === 'function') {
+    renderMusicPlaylist();
+  }
   if (tabName === 'dj' && typeof initDjDecks === 'function') {
     initDjDecks();
   }
@@ -228,11 +236,17 @@ document.addEventListener('keydown', (e) => {
     }
     e.preventDefault();
     closeAllPanelsAndModals();
+    // Timer mit Esc zurücksetzen
+    if (typeof resetTimer === 'function') {
+      resetTimer();
+    } else if (typeof stopTimer === 'function') {
+      stopTimer();
+    }
     return;
   }
 
   const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-  if (activeTag === 'input' || activeTag === 'textarea' || (document.activeElement && document.activeElement.isContentEditable)) {
+  if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || (document.activeElement && document.activeElement.isContentEditable)) {
     return;
   }
 
@@ -240,8 +254,24 @@ document.addEventListener('keydown', (e) => {
   const isPickModalOpen = pickModal && !pickModal.classList.contains('hidden');
   const key = e.key.toLowerCase();
 
+  // Space / Leertaste -> Timer pausieren / starten
+  if (e.key === ' ' || e.code === 'Space') {
+    if (isPickModalOpen) {
+      e.preventDefault();
+      if (typeof currentWhatNowChosen !== 'undefined' && currentWhatNowChosen && currentWhatNowChosen.task) {
+        startZenWithTask(currentWhatNowChosen.task, currentWhatNowChosen.cat || 'todo');
+      }
+      return;
+    }
+    e.preventDefault();
+    if (typeof toggleTimer === 'function') {
+      toggleTimer();
+    }
+    return;
+  }
+
   if (isPickModalOpen) {
-    if (e.key === ' ' || e.key === 'Enter') {
+    if (e.key === 'Enter') {
       e.preventDefault();
       if (typeof currentWhatNowChosen !== 'undefined' && currentWhatNowChosen && currentWhatNowChosen.task) {
         startZenWithTask(currentWhatNowChosen.task, currentWhatNowChosen.cat || 'todo');
@@ -654,12 +684,12 @@ function getAvailableCommands() {
     {
       id: 'clear_columns',
       title: tr({
-        de: '🧹 Spalten leeren (Alle Aufgaben im Bereich leeren)',
-        en: '🧹 Clear columns (Clear all tasks in workspace)',
-        fr: '🧹 Vider les colonnes (Vider toutes les tâches)',
-        it: '🧹 Svuota colonne (Svuota tutte le attività)',
-        es: '🧹 Vaciar columnas (Vaciar todas las tareas)',
-        el: '🧹 Άδειασμα στηλών (Άδειασμα όλων των εργασιών)'
+        de: '🧹 Karten leeren (Alle Aufgaben im Bereich leeren)',
+        en: '🧹 Clear cards (Clear all tasks in workspace)',
+        fr: '🧹 Vider les cartes (Vider toutes les tâches)',
+        it: '🧹 Svuota schede (Svuota tutte le attività)',
+        es: '🧹 Vaciar tarjetas (Vaciar todas las tareas)',
+        el: '🧹 Άδειασμα καρτών (Άδειασμα όλων των εργασιών)'
       }),
       action: () => { if (typeof handleClearAllLists === 'function') handleClearAllLists(); }
     },
@@ -1108,63 +1138,62 @@ function getSimilarTheme(current) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-const ALL_VALID_THEMES = [
-  'botanical', 'aurora', 'obsidian', 'ocean', 'sage', 'latte',
-  'sunset', 'peach', 'crimson', 'honey', 'cyberpunk', 'matrix',
-  'terracotta', 'royal', 'nebula', 'candlelight', 'matcha'
-];
+var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt'];
 
 const THEME_ALIASES = {
-  'default': 'botanical',
-  'botanic': 'botanical',
-  'eco': 'botanical',
-  'nature': 'botanical',
-  'journal': 'botanical',
-  'handcrafted': 'botanical',
-  'neon-cyber': 'cyberpunk',
-  'synthwave': 'cyberpunk',
+  'default': 'aurora',
+  'daylight': 'botanical',
+  'paper': 'botanical',
   'aurora-violet': 'aurora',
   'lavender-cloud': 'aurora',
-  'forest': 'matrix',
+  'syntax': 'aurora',
+  'editor': 'aurora',
+  'dark': 'aurora',
+  'matrix': 'botanical',
+  'forest': 'botanical',
+  'matcha': 'botanical',
+  'matcha-sage': 'botanical',
+  'sage': 'botanical',
+  'sage-breeze': 'botanical',
+  'sage-latte': 'botanical',
+  'eco': 'botanical',
+  'nature': 'botanical',
+  'carbon': 'obsidian',
+  'charcoal': 'obsidian',
+  'executive': 'obsidian',
+  'ruby': 'peach',
+  'cyberpunk': 'peach',
+  'neon-cyber': 'peach',
+  'synthwave': 'peach',
+  'sakura': 'peach',
+  'sakura-blossom': 'peach',
+  'peach-cashmere': 'peach',
+  'sunset': 'latte',
+  'warm-sunset': 'latte',
+  'honey': 'latte',
+  'honey-chamomile': 'latte',
+  'cozy-amber': 'latte',
+  'cozy': 'latte',
+  'citrus': 'latte',
+  'amber': 'latte',
+  'oat-latte': 'latte',
+  'coffee': 'latte',
+  'candlelight': 'latte',
+  'cozy-candlelight': 'latte',
+  'fireplace': 'latte',
+  'terracotta-sun': 'latte',
+  'terracotta': 'latte',
+  'cobalt': 'ocean',
   'lagoon': 'ocean',
   'glacier': 'ocean',
   'glacier-frost': 'ocean',
   'holo-chrome': 'ocean',
-  'architect': 'ocean',
-  'amber': 'honey',
-  'honey-chamomile': 'honey',
-  'cozy-amber': 'honey',
-  'cozy': 'honey',
-  'citrus': 'honey',
-  'carbon': 'obsidian',
-  'charcoal': 'obsidian',
-  'executive': 'obsidian',
-  'sakura': 'peach',
-  'sakura-blossom': 'peach',
-  'peach-cashmere': 'peach',
-  'sage-breeze': 'sage',
-  'eucalyptus-dew': 'sage',
-  'matcha-latte': 'matcha',
-  'matcha': 'sage',
-  'matcha-sage': 'sage',
-  'sage-latte': 'sage',
-  'terracotta-sun': 'terracotta',
-  'oat-latte': 'latte',
-  'coffee': 'latte',
-  'warm-sunset': 'sunset',
-  'apricot': 'sunset',
-  'cozy-candlelight': 'candlelight',
-  'candlelight': 'candlelight',
-  'fireplace': 'candlelight',
-  'paper': 'botanical',
-  'white': 'botanical',
-  'light': 'botanical',
-  'daylight': 'botanical'
+  'architect': 'ocean'
 };
 
 function setTheme(theme) {
   if (THEME_ALIASES[theme]) theme = THEME_ALIASES[theme];
-  if (!ALL_VALID_THEMES.includes(theme)) theme = 'botanical';
+  if (!ALL_VALID_THEMES.includes(theme)) theme = 'code-night';
   if (typeof window !== 'undefined') window.currentTheme = theme;
   if (typeof globalThis !== 'undefined') globalThis.currentTheme = theme;
   try { currentTheme = theme; } catch(e) {}
@@ -1172,6 +1201,9 @@ function setTheme(theme) {
   if (typeof document !== 'undefined' && document.body) {
     document.body.className = `h-full antialiased flex flex-col font-sans select-none overflow-x-hidden text-[#f4f4f5] theme-${theme}`;
     if (typeof isMinimalist !== 'undefined' && isMinimalist) document.body.classList.add('minimalist');
+  }
+  if (typeof document !== 'undefined' && document.documentElement) {
+    document.documentElement.className = `theme-${theme}`;
   }
   try { localStorage.setItem('flowPlannerTheme', theme); } catch(e) {}
 
@@ -1185,6 +1217,9 @@ function setTheme(theme) {
         el.classList.remove('ring-2', 'ring-white', 'scale-110', 'shadow-lg');
       }
     });
+  }
+  if (typeof renderApp === 'function') {
+    try { renderApp(); } catch(e) {}
   }
 }
 
@@ -1227,6 +1262,24 @@ function setLanguage(lang) {
   translateUI(); const textEl = document.getElementById('minimal-mode-btn-text');
   if (textEl) { textEl.innerText = isMinimalist ? t('standard_mode') : t('minimal_mode'); }
   updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
+  // 1. Localize News Region
+  const langToNewsRegion = { de: 'de', en: 'uk', fr: 'fr', it: 'it', es: 'es', el: 'gr' };
+  const targetNewsRegion = langToNewsRegion[lang] || 'de';
+  if (typeof RadioNewsEngine !== 'undefined') {
+    if (typeof RadioNewsEngine.selectRegion === 'function') {
+      RadioNewsEngine.selectRegion(targetNewsRegion);
+    } else if (typeof RadioNewsEngine.initNewsPanel === 'function') {
+      RadioNewsEngine.initNewsPanel();
+    }
+  }
+
+  // 2. Weather: Keep user's real location, update translated texts/UI
+  if (typeof updateWeatherDisplay === 'function') {
+    updateWeatherDisplay();
+  } else if (typeof window !== 'undefined' && typeof window.updateWeatherDisplay === 'function') {
+    window.updateWeatherDisplay();
+  }
+
   renderLucideIcons();
 }
 
@@ -1261,32 +1314,163 @@ function translateUI() {
   });
 }
 
+function translateTaskString(taskName, targetLang) {
+  if (!taskName || typeof taskName !== 'string') return taskName;
+  const target = targetLang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const allLangs = ['de', 'en', 'es', 'fr', 'it', 'el'];
+
+  // 1. Check DEFAULT_TASKS_BY_LANG (Personal)
+  const defTasks = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG) || (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null);
+  if (defTasks) {
+    const cats = ['daily', 'weekly', 'occasionally'];
+    for (const cat of cats) {
+      for (const l of allLangs) {
+        const list = defTasks[l]?.[cat];
+        if (Array.isArray(list)) {
+          const idx = list.indexOf(taskName);
+          if (idx !== -1 && defTasks[target]?.[cat]?.[idx]) {
+            return defTasks[target][cat][idx];
+          }
+        }
+      }
+    }
+  }
+
+  // 2. Check DEFAULT_WORK_TASKS_BY_LANG (Work)
+  const defWork = (typeof window !== 'undefined' && window.DEFAULT_WORK_TASKS_BY_LANG) || (typeof DEFAULT_WORK_TASKS_BY_LANG !== 'undefined' ? DEFAULT_WORK_TASKS_BY_LANG : null);
+  if (defWork) {
+    const workCats = ['work_focus', 'work_in_progress', 'work_waiting', 'work_backlog', 'termine', 'notes'];
+    for (const cat of workCats) {
+      for (const l of allLangs) {
+        const list = defWork[l]?.[cat];
+        if (Array.isArray(list)) {
+          const idx = list.indexOf(taskName);
+          if (idx !== -1 && defWork[target]?.[cat]?.[idx]) {
+            return defWork[target][cat][idx];
+          }
+        }
+      }
+    }
+  }
+
+  // 3. Check DEFAULT_STUDY_TASKS_BY_LANG (Study)
+  const defStudy = (typeof window !== 'undefined' && window.DEFAULT_STUDY_TASKS_BY_LANG) || (typeof DEFAULT_STUDY_TASKS_BY_LANG !== 'undefined' ? DEFAULT_STUDY_TASKS_BY_LANG : null);
+  if (defStudy) {
+    const studyCats = ['study_focus', 'study_modules', 'study_submissions', 'study_deep', 'termine', 'notes'];
+    for (const cat of studyCats) {
+      for (const l of allLangs) {
+        const list = defStudy[l]?.[cat];
+        if (Array.isArray(list)) {
+          const idx = list.indexOf(taskName);
+          if (idx !== -1 && defStudy[target]?.[cat]?.[idx]) {
+            return defStudy[target][cat][idx];
+          }
+        }
+      }
+    }
+  }
+
+  // 4. Check ROUTINE_PRESETS
+  const rPresets = (typeof window !== 'undefined' && window.ROUTINE_PRESETS) || (typeof ROUTINE_PRESETS !== 'undefined' ? ROUTINE_PRESETS : null);
+  if (Array.isArray(rPresets)) {
+    for (const preset of rPresets) {
+      if (preset.tasks) {
+        for (const cat in preset.tasks) {
+          const catObj = preset.tasks[cat];
+          if (typeof catObj === 'object') {
+            for (const l of allLangs) {
+              const list = catObj[l];
+              if (Array.isArray(list)) {
+                const idx = list.indexOf(taskName);
+                if (idx !== -1 && catObj[target]?.[idx]) {
+                  return catObj[target][idx];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return taskName;
+}
+window.translateTaskString = translateTaskString;
+
+function translateTaskCollection(collection, targetLang) {
+  if (!collection || typeof collection !== 'object') return collection;
+  for (const cat in collection) {
+    if (Array.isArray(collection[cat])) {
+      collection[cat] = collection[cat].map(item => {
+        if (!item) return item;
+        if (typeof item === 'string') {
+          return translateTaskString(item, targetLang);
+        }
+        if (typeof item === 'object' && item.task) {
+          return {
+            ...item,
+            task: translateTaskString(item.task, targetLang)
+          };
+        }
+        return item;
+      });
+    }
+  }
+  return collection;
+}
+
 function translateUserTasks(fromLang, toLang) {
-  if (fromLang === toLang) return; if (!DEFAULT_TASKS_BY_LANG[fromLang] || !DEFAULT_TASKS_BY_LANG[toLang]) return;
-  saveHistory(); const cats = ['daily', 'weekly', 'occasionally'];
-  cats.forEach(cat => {
-    if (!state.items[cat]) return;
-    state.items[cat] = state.items[cat].map(taskItem => {
-      const taskName = typeof taskItem === 'object' ? taskItem.task : taskItem;
-      const fromList = DEFAULT_TASKS_BY_LANG[fromLang][cat]; const oList = DEFAULT_TASKS_BY_LANG[toLang][cat];
-      const idx = fromList.indexOf(taskName);
-      if (idx !== -1) { const nextVal = oList[idx]; return typeof taskItem === 'object' ? { ...taskItem, task: nextVal } : nextVal; }
-      return taskItem;
-    });
-  });
+  if (fromLang === toLang) return;
+  if (typeof saveHistory === 'function') saveHistory();
+
+  // 1. Translate state.items (Personal workspace)
+  if (state.items) {
+    translateTaskCollection(state.items, toLang);
+  }
+
+  // 2. Translate state.workItems (Work workspace)
+  if (state.workItems) {
+    translateTaskCollection(state.workItems, toLang);
+  }
+
+  // 3. Translate state.studyItems (Study workspace)
+  if (state.studyItems) {
+    translateTaskCollection(state.studyItems, toLang);
+  }
+
+  // 4. Translate state.completedSteps
   if (state.completedSteps) {
     const nextStepsObj = {};
     for (let key in state.completedSteps) {
-      let updatedKey = key;
-      cats.forEach(cat => {
-        const fromList = DEFAULT_TASKS_BY_LANG[fromLang][cat]; const oList = DEFAULT_TASKS_BY_LANG[toLang][cat];
-        const idx = fromList.indexOf(key); if (idx !== -1) updatedKey = oList[idx];
-      });
-      nextStepsObj[updatedKey] = state.completedSteps[key];
+      const translatedKey = translateTaskString(key, toLang);
+      nextStepsObj[translatedKey] = state.completedSteps[key];
     }
     state.completedSteps = nextStepsObj;
   }
-  saveState();
+
+  // 5. Translate completed tasks history
+  ['completedTasks', 'workDone', 'studyDone'].forEach(prop => {
+    if (Array.isArray(state[prop])) {
+      state[prop] = state[prop].map(t => {
+        if (!t) return t;
+        if (typeof t === 'string') return translateTaskString(t, toLang);
+        if (typeof t === 'object' && t.task) {
+          return { ...t, task: translateTaskString(t.task, toLang) };
+        }
+        return t;
+      });
+    }
+  });
+
+  // 6. Translate active focus / timer task
+  if (state.currentFocusTask) {
+    state.currentFocusTask = translateTaskString(state.currentFocusTask, toLang);
+  }
+  if (state.activeTimerTask) {
+    state.activeTimerTask = translateTaskString(state.activeTimerTask, toLang);
+  }
+
+  if (typeof saveState === 'function') saveState();
 }
 
 function toggleMinimalist() {
@@ -1794,7 +1978,7 @@ function initAmbientFlowCanvas() {
       this.vy = -0.15 - Math.random() * 0.32;
       this.baseAlpha = 0.15 + Math.random() * 0.35;
       this.alpha = this.baseAlpha;
-      this.color = Math.random() > 0.5 ? 'rgba(56, 189, 248,' : 'rgba(192, 132, 252,';
+      this.color = Math.random() > 0.5 ? 'rgba(137, 207, 240,' : 'rgba(192, 132, 252,';
     }
     update() {
       this.x += this.vx;

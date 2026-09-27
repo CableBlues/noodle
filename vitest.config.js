@@ -7,6 +7,5 @@ export default defineConfig({
     globals: true,
     include: ['tests/**/*.test.js'],
     fileParallelism: false,
-    pool: 'forks'
   }
 });

@@ -43,6 +43,30 @@ var djDecks = {
   }
 };
 
+// Demo Synthesized Focus Stems & Preloaded MP3s
+var BUILTIN_DJ_STEMS = [
+  { id: 'deep_house', name: 'Deep House 126 BPM', bpm: 126, file: 'music/deep_house_sunset.mp3', color: 'cyan', emoji: '⚡' },
+  { id: 'lofi_chill', name: 'Lofi Chill 85 BPM', bpm: 85, file: 'music/deep_focus_lofi.mp3', color: 'purple', emoji: '☕' },
+  { id: 'cyber_wave', name: 'Cyber Wave 128 BPM', bpm: 128, file: 'music/synthwave_neon_drive.mp3', color: 'cyan', emoji: '🌌' },
+  { id: 'tech_groove', name: 'Tech Groove 130 BPM', bpm: 130, color: 'purple', emoji: '🥁' },
+  { id: 'ambient_flow', name: 'Ambient Chill 118 BPM', bpm: 118, file: 'music/zen_meditation_flow.mp3', color: 'cyan', emoji: '🍃' }
+];
+
+function updateDjPresetDropdowns() {
+  ['a', 'b'].forEach(deckId => {
+    const sel = document.getElementById(`dj-preset-select-${deckId}`);
+    if (!sel) return;
+    const currentVal = sel.value;
+    sel.innerHTML = BUILTIN_DJ_STEMS.map(stem => {
+      return `<option value="${stem.id}">${stem.name}</option>`;
+    }).join('');
+    if (currentVal && BUILTIN_DJ_STEMS.some(s => s.id === currentVal)) {
+      sel.value = currentVal;
+    }
+  });
+}
+window.updateDjPresetDropdowns = updateDjPresetDropdowns;
+
 // ============================================================================
 // 1. FORMATIERUNG & UTILS
 // ============================================================================
@@ -55,20 +79,210 @@ function formatAudioTime(secs) {
 window.formatAudioTime = formatAudioTime;
 
 // ============================================================================
-// 2. TAB 3: EIGENE TRACKS / PLAYLIST PLAYER
+// 2. TAB 3: EIGENE TRACKS / PLAYLIST PLAYER & INDEXEDDB AUDIO VAULT
 // ============================================================================
+
+const IDB_AUDIO_DB_NAME = 'noodle_audio_vault';
+const IDB_AUDIO_STORE_NAME = 'user_tracks';
+
+function getAudioVaultDB() {
+  return new Promise((resolve) => {
+    if (typeof indexedDB === 'undefined') return resolve(null);
+    try {
+      const req = indexedDB.open(IDB_AUDIO_DB_NAME, 1);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(IDB_AUDIO_STORE_NAME)) {
+          db.createObjectStore(IDB_AUDIO_STORE_NAME, { keyPath: 'id' });
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+    } catch(e) {
+      resolve(null);
+    }
+  });
+}
+
+async function saveTrackToAudioVault(track, file) {
+  const db = await getAudioVaultDB();
+  if (!db) return;
+  try {
+    const tx = db.transaction(IDB_AUDIO_STORE_NAME, 'readwrite');
+    const store = tx.objectStore(IDB_AUDIO_STORE_NAME);
+    store.put({
+      id: track.id || ('usr_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7)),
+      name: track.name,
+      fullName: track.fullName || track.name,
+      duration: track.duration || 0,
+      blob: file,
+      addedAt: Date.now()
+    });
+  } catch(e) {
+    console.warn('[AudioVault] Error saving track:', e);
+  }
+}
+
+async function removeTrackFromAudioVault(trackId) {
+  if (!trackId) return;
+  const db = await getAudioVaultDB();
+  if (!db) return;
+  try {
+    const tx = db.transaction(IDB_AUDIO_STORE_NAME, 'readwrite');
+    const store = tx.objectStore(IDB_AUDIO_STORE_NAME);
+    store.delete(trackId);
+  } catch(e) {
+    console.warn('[AudioVault] Error deleting track:', e);
+  }
+}
+
+async function loadSavedUserAudioTracks() {
+  const db = await getAudioVaultDB();
+  if (!db) return;
+  try {
+    const tx = db.transaction(IDB_AUDIO_STORE_NAME, 'readonly');
+    const store = tx.objectStore(IDB_AUDIO_STORE_NAME);
+    const req = store.getAll();
+    req.onsuccess = () => {
+      const records = req.result || [];
+      if (records.length === 0) return;
+      
+      const loadedTracks = records.map(r => ({
+        id: r.id,
+        name: r.name,
+        fullName: r.fullName,
+        duration: r.duration || null,
+        url: URL.createObjectURL(r.blob),
+        isUserUploaded: true
+      }));
+
+      const existingIds = new Set(playlistTracks.map(t => t.id || t.name));
+      const freshTracks = loadedTracks.filter(t => !existingIds.has(t.id) && !existingIds.has(t.name));
+      
+      if (freshTracks.length > 0) {
+        playlistTracks = playlistTracks.concat(freshTracks);
+        freshTracks.forEach(preloadMusicTrackDuration);
+        renderMusicPlaylist();
+      }
+    };
+  } catch(e) {
+    console.warn('[AudioVault] Error loading saved tracks:', e);
+  }
+}
+
+async function scanMusicFolderTracks() {
+  try {
+    let res = await fetch('music/list.php').catch(() => null);
+    if (!res || !res.ok) {
+      res = await fetch('music/manifest.json').catch(() => null);
+    }
+    if (res && res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.tracks) && data.tracks.length > 0) {
+        const foundTracks = data.tracks;
+        
+        const realTracks = foundTracks.map(t => {
+          let cleanTitle = (t.name || t.fullName || '')
+            .replace(/^🎵\s*/, '')
+            .replace(/\s*-\s*/g, ' – ')
+            .replace(/[_]+/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+          return {
+            id: t.id || ('folder_' + Math.random().toString(36).slice(2, 7)),
+            name: cleanTitle,
+            fullName: t.fullName || cleanTitle,
+            url: t.url,
+            duration: null,
+            isLocalFolder: true
+          };
+        });
+
+        playlistTracks = [...realTracks];
+        if (typeof window !== 'undefined') window.playlistTracks = playlistTracks;
+
+        playlistTracks.forEach(preloadMusicTrackDuration);
+        renderMusicPlaylist();
+
+        BUILTIN_DJ_STEMS.length = 0;
+        realTracks.forEach((t, i) => {
+          const stemId = 'track_stem_' + i;
+          BUILTIN_DJ_STEMS.push({
+            id: stemId,
+            name: t.name,
+            bpm: 120,
+            file: t.url,
+            color: (i % 2 === 0 ? 'cyan' : 'purple'),
+            emoji: '🎵'
+          });
+        });
+
+        updateDjPresetDropdowns();
+
+        if (BUILTIN_DJ_STEMS.length > 0 && (!djDecks.a.track || !djDecks.a.isPlaying)) {
+          loadDjBuiltinTrack('a', BUILTIN_DJ_STEMS[0].id, false);
+        }
+        if (BUILTIN_DJ_STEMS.length > 1 && (!djDecks.b.track || !djDecks.b.isPlaying)) {
+          loadDjBuiltinTrack('b', BUILTIN_DJ_STEMS[1].id, false);
+        }
+      }
+    }
+  } catch(e) {
+    console.warn('[AudioPlayer] Folder scan notice:', e);
+  }
+}
+window.scanMusicFolderTracks = scanMusicFolderTracks;
+
+// Auto-load saved tracks and scan music folder on startup
+if (typeof window !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSavedUserAudioTracks();
+      scanMusicFolderTracks();
+    });
+  } else {
+    loadSavedUserAudioTracks();
+    scanMusicFolderTracks();
+  }
+}
+
+var DEFAULT_PRELOADED_TRACKS = (typeof window !== 'undefined' && Array.isArray(window.DEFAULT_PRELOADED_TRACKS))
+  ? window.DEFAULT_PRELOADED_TRACKS
+  : [
+      { id: 'track_lofi', name: '☕ Deep Focus Lofi', url: 'music/deep_focus_lofi.mp3', bpm: 85, presetKey: 'lofi_chill', duration: 180, isPreloaded: true },
+      { id: 'track_deep_house', name: '🪩 Deep House Sunset', url: 'music/deep_house_sunset.mp3', bpm: 126, presetKey: 'deep_house', duration: 210, isPreloaded: true },
+      { id: 'track_synthwave', name: '🌆 Synthwave Neon Drive', url: 'music/synthwave_neon_drive.mp3', bpm: 128, presetKey: 'cyber_wave', duration: 195, isPreloaded: true },
+      { id: 'track_zen', name: '🍃 Zen Meditation Flow', url: 'music/zen_meditation_flow.mp3', bpm: 118, presetKey: 'ambient_flow', duration: 240, isPreloaded: true }
+    ];
+
+if (typeof playlistTracks === 'undefined' || !Array.isArray(playlistTracks) || playlistTracks.length === 0) {
+  playlistTracks = [...DEFAULT_PRELOADED_TRACKS];
+}
+
+function openAudioStudioModal() {
+  if (typeof togglePanel === 'function') togglePanel('audio');
+  scanMusicFolderTracks();
+}
+window.openAudioStudioModal = openAudioStudioModal;
 
 function handleMusicFilesUpload(event) {
   const files = event.target.files;
   if (!files || files.length === 0) return;
 
   const wasEmpty = playlistTracks.length === 0;
-  const newTracks = Array.from(files).map(file => ({
-    url: URL.createObjectURL(file),
-    name: file.name.replace(/\.[^/.]+$/, ''),
-    fullName: file.name,
-    duration: null
-  }));
+  const newTracks = Array.from(files).map((file, i) => {
+    const trackId = 'usr_' + Date.now() + '_' + i + '_' + Math.random().toString(36).slice(2, 6);
+    const track = {
+      id: trackId,
+      url: URL.createObjectURL(file),
+      name: file.name.replace(/\.[^/.]+$/, ''),
+      fullName: file.name,
+      duration: null,
+      isUserUploaded: true
+    };
+    saveTrackToAudioVault(track, file);
+    return track;
+  });
 
   playlistTracks = playlistTracks.concat(newTracks);
   newTracks.forEach(preloadMusicTrackDuration);
@@ -82,7 +296,7 @@ function handleMusicFilesUpload(event) {
       : 0;
     playMusicTrack(currentTrackIndex);
   } else {
-    showToast(`${newTracks.length} Track(s) geladen! 🎧`);
+    showToast(`${newTracks.length} Track(s) dauerhaft gespeichert! 🎧💾`);
   }
   event.target.value = '';
 }
@@ -90,12 +304,19 @@ window.handleMusicFilesUpload = handleMusicFilesUpload;
 window.handleUserSoundFile = handleMusicFilesUpload;
 
 function preloadMusicTrackDuration(track) {
+  if (!track || !track.url) return;
   const probe = new Audio();
   probe.preload = 'metadata';
   probe.addEventListener('loadedmetadata', () => {
     track.duration = probe.duration;
     renderMusicPlaylist();
     updateMusicNowPlayingDisplay();
+  });
+  probe.addEventListener('error', () => {
+    if (!track.duration) {
+      track.duration = 180;
+    }
+    renderMusicPlaylist();
   });
   probe.src = track.url;
 }
@@ -116,7 +337,7 @@ function renderMusicPlaylist() {
     return `
       <div onclick="playMusicTrack(${idx})" class="p-1.5 px-2 rounded-xl border transition flex items-center justify-between gap-2 cursor-pointer ${isSelected ? 'bg-purple-500/20 border-purple-500/40 text-white' : 'bg-black/30 hover:bg-white/5 border-white/5 text-gray-300'}">
         <div class="flex items-center gap-2 min-w-0">
-          <span class="text-[10px] font-mono ${isActive ? 'text-emerald-400 font-bold' : 'text-gray-500'} w-4 shrink-0">${idx + 1}.</span>
+          <span class="text-[10px] font-mono ${isActive ? 'text-[#00ff66] font-bold' : 'text-gray-500'} w-4 shrink-0">${idx + 1}.</span>
           <div class="truncate text-xs font-semibold ${isSelected ? 'text-purple-200' : ''}">${track.name}</div>
         </div>
         <div class="flex items-center gap-2 shrink-0">
@@ -167,12 +388,30 @@ function playMusicTrack(index) {
     }
   });
 
+  const triggerSyntheticFallback = () => {
+    if (track.presetKey && typeof createSyntheticBeatAudio === 'function') {
+      const fallbackUrl = createSyntheticBeatAudio(track.bpm || 120, track.presetKey);
+      if (fallbackUrl && audio.src !== fallbackUrl) {
+        console.log(`[AudioPlayer] Falling back to procedural audio for ${track.name}`);
+        audio.src = fallbackUrl;
+        audio.play().then(() => {
+          updateMusicPlayBtnUI(true);
+          updateMusicNowPlayingDisplay();
+          renderMusicPlaylist();
+        }).catch(e => console.warn('[AudioPlayer] Procedural fallback play error:', e));
+      }
+    }
+  };
+
+  audio.addEventListener('error', triggerSyntheticFallback);
+
   audio.play().then(() => {
     updateMusicPlayBtnUI(true);
     updateMusicNowPlayingDisplay();
     renderMusicPlaylist();
   }).catch(err => {
-    console.warn('[AudioPlayer] Playback error:', err);
+    console.warn('[AudioPlayer] Playback attempt notice:', err);
+    triggerSyntheticFallback();
   });
 }
 window.playMusicTrack = playMusicTrack;
@@ -290,8 +529,11 @@ function removeMusicTrack(idx, event) {
 
   const wasPlaying = idx === curIdx && audioObj && !audioObj.paused;
   const [removedTrack] = tracks.splice(idx, 1);
-  if (removedTrack && removedTrack.url && String(removedTrack.url).startsWith('blob:')) {
-    try { URL.revokeObjectURL(removedTrack.url); } catch(e) {}
+  if (removedTrack) {
+    if (removedTrack.id) removeTrackFromAudioVault(removedTrack.id);
+    if (removedTrack.url && String(removedTrack.url).startsWith('blob:')) {
+      try { URL.revokeObjectURL(removedTrack.url); } catch(e) {}
+    }
   }
 
   if (tracks.length === 0) {
@@ -390,9 +632,64 @@ function switchMusicSourceTab(tab) {
   if (typeof AppStorage !== 'undefined') {
     AppStorage.set('flow_music_active_tab', tab);
   }
+
+  if (tab === 'spotify') {
+    const spotifyContainer = document.getElementById('spotify-embed-container');
+    if (spotifyContainer && !spotifyContainer.querySelector('iframe')) {
+      const saved = (typeof AppStorage !== 'undefined' ? AppStorage.get('flow_spotify_url') : '') || 'https://open.spotify.com/playlist/37i9dQZF1DXdLEN7aqioXM';
+      loadSpotifyEmbed(saved);
+    }
+  } else if (tab === 'youtube') {
+    const ytContainer = document.getElementById('youtube-embed-container');
+    if (ytContainer && !ytContainer.querySelector('iframe')) {
+      const saved = (typeof AppStorage !== 'undefined' ? AppStorage.get('flow_youtube_url') : '') || 'https://www.youtube.com/watch?v=jfKfPfyJRdk';
+      loadYoutubeEmbed(saved);
+    }
+  }
+
   if (typeof renderLucideIcons === 'function') renderLucideIcons();
 }
 window.switchMusicSourceTab = switchMusicSourceTab;
+
+function formatSpotifyEmbedUrl(input) {
+  if (!input) return 'https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM';
+  let str = input.trim();
+  
+  // Strip iframe code if user pasted whole <iframe>
+  const iframeMatch = str.match(/src=["'](.*?)["']/);
+  if (iframeMatch && iframeMatch[1]) {
+    str = iframeMatch[1];
+  }
+
+  // spotify:playlist:ID or spotify:track:ID or spotify:album:ID
+  if (str.startsWith('spotify:')) {
+    const parts = str.split(':');
+    if (parts.length >= 3) {
+      return `https://open.spotify.com/embed/${parts[1]}/${parts[2]}`;
+    }
+  }
+
+  // Clean parameters and query strings from raw URL first
+  const cleanUrl = str.split('?')[0];
+
+  // Regex matching playlist, track, album, episode, artist, show across any localized subdomain (e.g. open.spotify.com/intl-de/playlist/...)
+  const match = cleanUrl.match(/open\.spotify\.com\/(?:[a-zA-Z-]+(?:\/|))?(playlist|track|album|artist|show|episode)\/([a-zA-Z0-9]+)/);
+  if (match && match[1] && match[2]) {
+    return `https://open.spotify.com/embed/${match[1]}/${match[2]}`;
+  }
+
+  // If already open.spotify.com/embed/...
+  if (cleanUrl.includes('open.spotify.com/embed/')) {
+    return cleanUrl;
+  }
+
+  // If plain 22-character alphanumeric ID (standard Spotify 22-char Base62 ID)
+  if (/^[a-zA-Z0-9]{22}$/.test(str)) {
+    return `https://open.spotify.com/embed/playlist/${str}`;
+  }
+
+  return `https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM`;
+}
 
 function loadSpotifyEmbed(urlOrId) {
   let val = urlOrId;
@@ -400,28 +697,78 @@ function loadSpotifyEmbed(urlOrId) {
     const input = document.getElementById('spotify-url-input');
     val = input ? input.value.trim() : '';
   }
-  if (!val) return;
+  if (!val) {
+    val = 'https://open.spotify.com/playlist/37i9dQZF1DXdLEN7aqioXM';
+  }
 
   const container = document.getElementById('spotify-embed-container');
   if (!container) return;
 
-  let embedUrl = val;
-  if (val.includes('open.spotify.com/')) {
-    embedUrl = val.replace('open.spotify.com/', 'open.spotify.com/embed/');
-  } else if (!val.includes('spotify.com')) {
-    embedUrl = `https://open.spotify.com/embed/playlist/${val}`;
+  const embedUrl = formatSpotifyEmbedUrl(val);
+  const input = document.getElementById('spotify-url-input');
+  if (input && urlOrId) {
+    input.value = urlOrId;
   }
 
   container.innerHTML = `
-    <iframe style="border-radius:16px" src="${embedUrl}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe style="border-radius:14px" src="${embedUrl}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   `;
 
   if (typeof AppStorage !== 'undefined') {
     AppStorage.set('flow_spotify_url', val);
   }
-  showToast('Spotify Playlist geladen! 🟢');
+  if (typeof showToast === 'function') {
+    showToast('Spotify Playlist geladen! 🟢');
+  }
 }
 window.loadSpotifyEmbed = loadSpotifyEmbed;
+
+function formatYoutubeEmbedData(input) {
+  if (!input) return { type: 'video', id: 'jfKfPfyJRdk', listId: null };
+  let str = input.trim();
+
+  // Strip iframe code if user pasted whole <iframe>
+  const iframeMatch = str.match(/src=["'](.*?)["']/);
+  if (iframeMatch && iframeMatch[1]) {
+    str = iframeMatch[1];
+  }
+
+  // Extract playlist ID
+  const playlistMatch = str.match(/[?&]list=([a-zA-Z0-9_-]+)/);
+  const listId = playlistMatch ? playlistMatch[1] : null;
+
+  // Extract video ID from youtube.com, youtu.be, live streams, shorts, embeds
+  const videoMatch = str.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|live\/|shorts\/))([\w-]{11})/);
+  
+  if (videoMatch && videoMatch[1]) {
+    return {
+      type: 'video',
+      id: videoMatch[1],
+      listId: listId
+    };
+  }
+
+  if (listId) {
+    return {
+      type: 'playlist',
+      id: listId
+    };
+  }
+
+  if (/^[\w-]{11}$/.test(str)) {
+    return {
+      type: 'video',
+      id: str,
+      listId: null
+    };
+  }
+
+  return {
+    type: 'video',
+    id: 'jfKfPfyJRdk',
+    listId: null
+  };
+}
 
 function loadYoutubeEmbed(urlOrId) {
   let val = urlOrId;
@@ -429,27 +776,38 @@ function loadYoutubeEmbed(urlOrId) {
     const input = document.getElementById('youtube-url-input');
     val = input ? input.value.trim() : '';
   }
-  if (!val) return;
+  if (!val) {
+    val = 'https://www.youtube.com/watch?v=jfKfPfyJRdk';
+  }
 
   const container = document.getElementById('youtube-embed-container');
   if (!container) return;
 
-  let videoId = val;
-  const match = val.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
-  if (match && match[1]) {
-    videoId = match[1];
+  const data = formatYoutubeEmbedData(val);
+  const input = document.getElementById('youtube-url-input');
+  if (input && urlOrId) {
+    input.value = urlOrId;
+  }
+
+  let srcUrl = '';
+  if (data.type === 'playlist') {
+    srcUrl = `https://www.youtube.com/embed/videoseries?list=${data.id}&autoplay=1&rel=0`;
+  } else {
+    srcUrl = `https://www.youtube.com/embed/${data.id}?autoplay=1&rel=0&modestbranding=1${data.listId ? '&list=' + data.listId : ''}`;
   }
 
   container.innerHTML = `
     <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-lg">
-      <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      <iframe class="w-full h-full" src="${srcUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
     </div>
   `;
 
   if (typeof AppStorage !== 'undefined') {
     AppStorage.set('flow_youtube_url', val);
   }
-  showToast('YouTube Stream geladen! 🔴');
+  if (typeof showToast === 'function') {
+    showToast('YouTube Stream geladen! 🔴');
+  }
 }
 window.loadYoutubeEmbed = loadYoutubeEmbed;
 window.loadYouTubeEmbed = loadYoutubeEmbed;
@@ -457,15 +815,6 @@ window.loadYouTubeEmbed = loadYoutubeEmbed;
 // ============================================================================
 // 4. TAB 4: 2-DECK PRO DJ MIXER & AUTOMIX WORKSTATION
 // ============================================================================
-
-// Demo Synthesized Focus Stems
-const BUILTIN_DJ_STEMS = [
-  { id: 'deep_house', name: 'Deep House 126 BPM', bpm: 126, color: 'cyan', emoji: '⚡' },
-  { id: 'lofi_chill', name: 'Lofi Chill 85 BPM', bpm: 85, color: 'purple', emoji: '☕' },
-  { id: 'cyber_wave', name: 'Cyber Wave 128 BPM', bpm: 128, color: 'cyan', emoji: '🌌' },
-  { id: 'tech_groove', name: 'Tech Groove 130 BPM', bpm: 130, color: 'purple', emoji: '🥁' },
-  { id: 'ambient_flow', name: 'Ambient Chill 118 BPM', bpm: 118, color: 'cyan', emoji: '🍃' }
-];
 
 var djAutomix = {
   enabled: false,
@@ -608,7 +957,7 @@ function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
   if (!deck) return;
 
   const stem = BUILTIN_DJ_STEMS.find(s => s.id === presetKey) || BUILTIN_DJ_STEMS[0];
-  const url = createSyntheticBeatAudio(stem.bpm, stem.id);
+  const syntheticUrl = createSyntheticBeatAudio(stem.bpm, stem.id);
 
   if (deck.audio) {
     try { deck.audio.pause(); } catch(e) {}
@@ -618,7 +967,8 @@ function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
   }
 
   const track = {
-    url: url,
+    url: stem.file || syntheticUrl,
+    fallbackUrl: syntheticUrl,
     name: stem.name,
     fullName: stem.name,
     isBuiltin: true
@@ -626,9 +976,21 @@ function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
 
   deck.track = track;
   deck.bpm = stem.bpm;
-  deck.audio = new Audio(track.url);
-  deck.audio.loop = true;
-  deck.audio.playbackRate = deck.pitch;
+  
+  const audio = new Audio(track.url);
+  audio.loop = true;
+  audio.playbackRate = deck.pitch;
+
+  audio.addEventListener('error', () => {
+    if (track.fallbackUrl && audio.src !== track.fallbackUrl) {
+      console.log(`[DJ] MP3 file not found (${track.url}), falling back to synthetic audio for ${stem.name}`);
+      audio.src = track.fallbackUrl;
+      deck.track.url = track.fallbackUrl;
+      if (deck.isPlaying) audio.play().catch(() => {});
+    }
+  });
+
+  deck.audio = audio;
 
   bindDjAudioEvents(deckId);
   updateDjDeckUI(deckId);
@@ -653,12 +1015,16 @@ function handleDjDeckUpload(deckId, event) {
     try { URL.revokeObjectURL(deck.track.url); } catch(e) {}
   }
 
+  const trackId = 'usr_dj_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
   const track = {
+    id: trackId,
     url: URL.createObjectURL(file),
     name: file.name.replace(/\.[^/.]+$/, ''),
     fullName: file.name,
-    isBuiltin: false
+    isBuiltin: false,
+    isUserUploaded: true
   };
+  saveTrackToAudioVault(track, file);
 
   deck.track = track;
   deck.audio = new Audio(track.url);
@@ -667,7 +1033,7 @@ function handleDjDeckUpload(deckId, event) {
   bindDjAudioEvents(deckId);
   updateDjDeckUI(deckId);
 
-  showToast(`Deck ${deckId.toUpperCase()}: "${track.name}" geladen! 🎛️`);
+  showToast(`Deck ${deckId.toUpperCase()}: "${track.name}" geladen & gesichert! 🎛️💾`);
   event.target.value = '';
 }
 window.handleDjDeckUpload = handleDjDeckUpload;
@@ -1138,3 +1504,24 @@ if (typeof globalThis !== 'undefined') {
   globalThis.removeMusicTrack = removeMusicTrack;
 }
 
+
+
+function updateDjVuMeters() {
+  const vuA = document.getElementById('dj-vu-meter-a');
+  const vuB = document.getElementById('dj-vu-meter-b');
+  
+  if (djDecks.a && djDecks.a.isPlaying && vuA) {
+    const h = 25 + Math.random() * 65;
+    vuA.style.height = h + '%';
+  } else if (vuA) {
+    vuA.style.height = '10%';
+  }
+
+  if (djDecks.b && djDecks.b.isPlaying && vuB) {
+    const h = 25 + Math.random() * 65;
+    vuB.style.height = h + '%';
+  } else if (vuB) {
+    vuB.style.height = '10%';
+  }
+}
+setInterval(updateDjVuMeters, 100);

@@ -1,3 +1,69 @@
+
+const _taskIconCache = new Map();
+
+function getTaskIconDetails(taskText, category = '') {
+  if (typeof window !== 'undefined' && typeof window.getTaskIconDetails === 'function' && window.getTaskIconDetails !== getTaskIconDetails) {
+    return window.getTaskIconDetails(taskText, category);
+  }
+  if (!taskText) return { icon: 'check-circle', color: 'text-[#00f2ff]' };
+  
+  const cacheKey = category + ':::' + taskText;
+  if (_taskIconCache.has(cacheKey)) {
+    return _taskIconCache.get(cacheKey);
+  }
+
+  const rawTrimmed = String(taskText).trim();
+  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  const rules = [
+    { rx: /medi|pill|tablett|vitam|pharm|arzt|doctor|therap|apothek|klinik|krank|gesund|comprim|docteur|medecin|sante|pastill|farmac|salud|pastigl|pillol|dottore|salute|φαρμακ|χαπι|γιατρ|υγει/, ic: 'pill', col: 'text-[#f472b6]' },
+    { rx: /zahn|zahne|brush|teeth|tooth|dent|gesicht|face|mouth|bross|visage|dient|cepill|cara|spazzol|viso|faccia|δοντ|βουρτσ|προσωπ/, ic: 'smile', col: 'text-[#89cff0]' },
+    { rx: /dusch|shower|bath|bad|waschbecken|sink|wash|douch|bain|lavab|duch|ban|docc|bagn|lavand|ντους|μπανι/, ic: 'bath', col: 'text-[#60a5fa]' },
+    { rx: /koch|cook|food|essen|rezept|meal|dinner|lunch|breakfast|fruhstuck|herd|oven|fridge|kuehl|kuhl|geschirr|spul|dish|abwasch|plate|bread|egg|coffee|brot|eier|kaffee|cuisin|manger|repas|diner|dejeuner|four|frigo|vaissell|pain|oeuf|cafe|cocin|comer|comida|cena|almuerz|desayun|horno|never|plato|vajill|pan|huevo|caffe|cucin|mangia|pasto|colazion|piatt|stovigl|pane|uov|μαγειρ|φαγητ|γευμ|δειπν|πρωιν|πιατ|ψωμ|καφε/, ic: 'cooking-pot', col: 'text-[#fb923c]' },
+    { rx: /saugen|vacu|staubsaug|aspir/, ic: 'tornado', col: 'text-[#f472b6]' },
+    { rx: /wisch|mop|clean|putz|klo|toilet|wc|sweep|wipe|reinigen|nettoy|menag|propr|limpi|freg|aseo|puliz|pulir|σκουπ|καθαρισ|τουαλετ/, ic: 'sparkles', col: 'text-[#f472b6]' },
+    { rx: /wasche|wasch|laundry|aufhang|clothes|shirt|cloth|iron|hang|buegeln|kleidung|waesche|lessiv|ling|repass|vetement|colad|rop|planch|bucat|panni|vestit|stirar|μπουγαδ|πλυντ|ρουχ/, ic: 'shirt', col: 'text-[#a78bfa]' },
+    { rx: /mull|trash|pfand|bottle|recycle|abfall|entsorg|garbage|waste|bin|poub|dechet|bouteill|basur|desech|botell|recicl|spazzatur|rifiut|bottigl|ricicl|σκουπιδ|απορριμ|μπουκαλ|ανακυκλ/, ic: 'trash-2', col: 'text-[#f472b6]' },
+    { rx: /bett|bed|schlaf|sleep|bettwasche|drap|sheet|mattress|lit|dormir|sommeil|cam|saban|suen|lett|lenzuol|sonno|κρεβατ|σεντον|υπν/, ic: 'bed', col: 'text-[#fbbf24]' },
+    { rx: /luft|wind|luften|breath|ventil|plant|pflanz|bloom|garten/, ic: 'wind', col: 'text-[#2dd4bf]' },
+    { rx: /arbeit|work|job|code|programm|dev|stud|uni|lernen|learn|book|buch|les|klausur|exam|modul|project|task|write|schreib|boulot|etud|universit|apprendr|livr|lir|examen|projet|ecrir|trabaj|empleo|codig|estudi|universid|aprend|libr|leer|proyect|escrib|lavor|impieg|codic|impar|legg|esame|progett|scriv|εργασι|δουλει|κωδικ|σπουδ|μαθ|βιβλι|διαβασ|εξετασ|γραφ/, ic: 'briefcase', col: 'text-[#c084fc]' },
+    { rx: /sport|gym|fit|train|workout|run|laufen|walk|gehen|jogging|dehn|stretch|beweg|yoga|schwimm|exercise|jog|move|swim|entrain|courir|march|etir|nag|deport|gimnas|entren|corr|camin|estir|nad|palestr|allen|cammin|nuot|σπορ|γυμναστ|προπον|τρεξ|περπατ|γιoγκ|κολυμβ/, ic: 'activity', col: 'text-[#4ade80]' },
+    { rx: /einkauf|shop|buy|kauf|supermarkt|grocery|store|market|markt|cours|achet|supermarch|magasin|compr|supermercad|tiend|mercad|spes|acquist|supermercat|negozi|ψωνι|αγορ|σουπερμαρκετ|μαγαζ/, ic: 'shopping-cart', col: 'text-[#fb923c]' },
+    { rx: /haar|hair|nagel|nail|scissors|cheveux|pelo|capell|μαλλι/, ic: 'scissors', col: 'text-[#f472b6]' },
+    { rx: /trink|wasser|water|hydrat|drink|boire|eau|beber|agua|bere|acqua|νερο|πιν/, ic: 'glass-water', col: 'text-[#89cff0]' }
+  ];
+
+  for (const r of rules) {
+    if (r.rx.test(norm)) {
+      const res = { icon: r.ic, color: r.col };
+      if (_taskIconCache.size > 2500) _taskIconCache.clear();
+      _taskIconCache.set(cacheKey, res);
+      return res;
+    }
+  }
+
+  const defaults = {
+    daily: { icon: 'sun', color: 'text-[#ffb703]' },
+    weekly: { icon: 'home', color: 'text-[#ff00aa]' },
+    todo: { icon: 'list-todo', color: 'text-[#89cff0]' },
+    done: { icon: 'check-circle', color: 'text-[#00ff66]' },
+    termine: { icon: 'calendar', color: 'text-[#00f2ff]' },
+    occasionally: { icon: 'calendar-range', color: 'text-[#2dd4bf]' },
+    notes: { icon: 'sticky-note', color: 'text-[#c084fc]' },
+    work_focus: { icon: 'target', color: 'text-[#ff7a00]' },
+    work_in_progress: { icon: 'zap', color: 'text-[#00f2ff]' },
+    work_waiting: { icon: 'hourglass', color: 'text-[#c084fc]' },
+    work_backlog: { icon: 'folder-kanban', color: 'text-[#89cff0]' },
+    study_focus: { icon: 'target', color: 'text-[#ffb703]' },
+    study_modules: { icon: 'book-open', color: 'text-[#89cff0]' },
+    study_submissions: { icon: 'clock', color: 'text-[#ff3366]' },
+    study_deep: { icon: 'brain', color: 'text-[#c084fc]' }
+  };
+  const res = defaults[category] || { icon: 'check-circle', color: 'text-[#00f2ff]' };
+  if (_taskIconCache.size > 2500) _taskIconCache.clear();
+  _taskIconCache.set(cacheKey, res);
+  return res;
+}
 /**
  * ============================================================================
  * Noodle - Aufgaben- & Board-Management (app-tasks.js)
@@ -25,7 +91,7 @@ if (typeof globalThis !== 'undefined' && !globalThis.openTaskAddColumns) {
 /**
  * Plant das automatische Schließen des Aufgaben-Kontextmenüs nach einer kurzen Verzögerung.
  */
-function scheduleCloseTaskMenu(delay = 650) {
+function scheduleCloseTaskMenu(delay = 180) {
   if (taskMenuCloseTimer) clearTimeout(taskMenuCloseTimer);
   taskMenuCloseTimer = setTimeout(() => {
     closeTaskOptionsMenu();
@@ -55,7 +121,7 @@ function toggleTaskOptionsMenu(colId, index, event) {
 function closeTaskOptionsMenu() {
   cancelCloseTaskMenu();
   const el = document.getElementById('task-context-dropdown');
-  if (el) el.classList.add('hidden');
+  if (el) el.classList.add('hidden'); syncHeaderToolsMenuState();
   openTaskMenuMeta = null;
 }
 
@@ -112,8 +178,8 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
         <button onclick="setTaskColor('${colId}', ${index}, 'none', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}" class="w-2.5 h-2.5 rounded-full border border-gray-400 bg-transparent hover:scale-125 transition cursor-pointer ${taskColor === 'none' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}"></button>
         <button onclick="setTaskColor('${colId}', ${index}, 'rose', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}" class="w-2.5 h-2.5 rounded-full bg-rose-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'rose' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}"></button>
         <button onclick="setTaskColor('${colId}', ${index}, 'orange', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Orange', en: 'Orange', fr: 'Orange', it: 'Arancione', es: 'Naranja', el: 'Πορτοκαλί' })}" class="w-2.5 h-2.5 rounded-full bg-orange-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'orange' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Orange', en: 'Orange', fr: 'Orange', it: 'Arancione', es: 'Naranja', el: 'Πορτοκαλί' })}"></button>
-        <button onclick="setTaskColor('${colId}', ${index}, 'amber', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Gelb', en: 'Yellow', fr: 'Jaune', it: 'Giallo', es: 'Amarillo', el: 'Κίτρινο' })}" class="w-2.5 h-2.5 rounded-full bg-amber-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'amber' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Gelb', en: 'Yellow', fr: 'Jaune', it: 'Giallo', es: 'Amarillo', el: 'Κίτρινο' })}"></button>
-        <button onclick="setTaskColor('${colId}', ${index}, 'emerald', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Grün', en: 'Green', fr: 'Vert', it: 'Verde', es: 'Verde', el: 'Πράσινο' })}" class="w-2.5 h-2.5 rounded-full bg-emerald-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'emerald' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Grün', en: 'Green', fr: 'Vert', it: 'Verde', es: 'Verde', el: 'Πράσινο' })}"></button>
+        <button onclick="setTaskColor('${colId}', ${index}, 'cyan', event); closeTaskOptionsMenu();" aria-label="Cyan" class="w-2.5 h-2.5 rounded-full bg-[#00f2ff] hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'cyan' ? 'ring-1 ring-white' : ''}" title="Cyan"></button>
+        <button onclick="setTaskColor('${colId}', ${index}, 'emerald', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Grün', en: 'Green', fr: 'Vert', it: 'Verde', es: 'Verde', el: 'Πράσινο' })}" class="w-2.5 h-2.5 rounded-full bg-[#00ff66] hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'emerald' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Grün', en: 'Green', fr: 'Vert', it: 'Verde', es: 'Verde', el: 'Πράσινο' })}"></button>
         <button onclick="setTaskColor('${colId}', ${index}, 'sky', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Blau', en: 'Blue', fr: 'Bleu', it: 'Blu', es: 'Azul', el: 'Μπλε' })}" class="w-2.5 h-2.5 rounded-full bg-sky-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'sky' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Blau', en: 'Blue', fr: 'Bleu', it: 'Blu', es: 'Azul', el: 'Μπλε' })}"></button>
         <button onclick="setTaskColor('${colId}', ${index}, 'purple', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Lila', en: 'Purple', fr: 'Violet', it: 'Viola', es: 'Morado', el: 'Μωβ' })}" class="w-2.5 h-2.5 rounded-full bg-purple-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'purple' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Lila', en: 'Purple', fr: 'Violet', it: 'Viola', es: 'Morado', el: 'Μωβ' })}"></button>
       </div>
@@ -153,56 +219,93 @@ if (typeof document !== 'undefined') {
 }
 
 const TASK_COLOR_MAP = {
-  rose: {
-    border: 'border-l-rose-500',
-    bg: 'bg-rose-500/10 hover:bg-rose-500/15',
-    text: 'text-rose-200',
-    iconColor: 'text-rose-400',
-    shadow: 'shadow-[0_0_12px_rgba(244,63,94,0.18)]'
-  },
-  orange: {
-    border: 'border-l-orange-500',
-    bg: 'bg-orange-500/10 hover:bg-orange-500/15',
-    text: 'text-orange-200',
-    iconColor: 'text-orange-400',
-    shadow: 'shadow-[0_0_12px_rgba(249,115,22,0.18)]'
-  },
-  amber: {
-    border: 'border-l-amber-500',
-    bg: 'bg-amber-500/10 hover:bg-amber-500/15',
-    text: 'text-amber-200',
-    iconColor: 'text-amber-400',
-    shadow: 'shadow-[0_0_12px_rgba(245,158,11,0.18)]'
-  },
-  emerald: {
-    border: 'border-l-emerald-500',
-    bg: 'bg-emerald-500/10 hover:bg-emerald-500/15',
-    text: 'text-emerald-200',
-    iconColor: 'text-emerald-400',
-    shadow: 'shadow-[0_0_12px_rgba(16,185,129,0.18)]'
-  },
-  sky: {
-    border: 'border-l-sky-500',
-    bg: 'bg-sky-500/10 hover:bg-sky-500/15',
-    text: 'text-sky-200',
-    iconColor: 'text-sky-400',
-    shadow: 'shadow-[0_0_12px_rgba(14,165,233,0.18)]'
-  },
-  purple: {
-    border: 'border-l-purple-500',
-    bg: 'bg-purple-500/10 hover:bg-purple-500/15',
-    text: 'text-purple-200',
-    iconColor: 'text-purple-400',
-    shadow: 'shadow-[0_0_12px_rgba(168,85,247,0.18)]'
-  },
-  none: {
-    border: 'border-[var(--accent)]',
-    bg: 'bg-white/[0.035] hover:bg-white/[0.07]',
-    text: 'text-gray-200',
-    iconColor: '',
-    shadow: ''
-  }
+  rose:     { border: 'border-l-[#f472b6]', bg: 'bg-[#f472b6]/12', text: 'text-[#f472b6]', iconColor: 'text-[#f472b6]' }, 
+  orange:   { border: 'border-l-[#fb923c]', bg: 'bg-[#fb923c]/12', text: 'text-[#fb923c]', iconColor: 'text-[#fb923c]' }, 
+  cyan:     { border: 'border-l-[#89cff0]', bg: 'bg-[#89cff0]/12', text: 'text-[#89cff0]', iconColor: 'text-[#89cff0]' }, 
+  emerald:  { border: 'border-l-[#4ade80]', bg: 'bg-[#4ade80]/12', text: 'text-[#4ade80]', iconColor: 'text-[#4ade80]' }, 
+  sky:      { border: 'border-l-[#60a5fa]', bg: 'bg-[#60a5fa]/12', text: 'text-[#60a5fa]', iconColor: 'text-[#60a5fa]' }, 
+  purple:   { border: 'border-l-[#c084fc]', bg: 'bg-[#c084fc]/12', text: 'text-[#c084fc]', iconColor: 'text-[#c084fc]' }, 
+  magenta:  { border: 'border-l-[#f472b6]', bg: 'bg-[#f472b6]/12', text: 'text-[#f472b6]', iconColor: 'text-[#f472b6]' },
+  gold:     { border: 'border-l-[#fbbf24]', bg: 'bg-[#fbbf24]/12', text: 'text-[#fbbf24]', iconColor: 'text-[#fbbf24]' },
+  mint:     { border: 'border-l-[#2dd4bf]', bg: 'bg-[#2dd4bf]/12', text: 'text-[#2dd4bf]', iconColor: 'text-[#2dd4bf]' },
+  lavender: { border: 'border-l-[#a78bfa]', bg: 'bg-[#a78bfa]/12', text: 'text-[#a78bfa]', iconColor: 'text-[#a78bfa]' },
+  amber:    { border: 'border-l-[#fb923c]', bg: 'bg-[#fb923c]/12', text: 'text-[#fb923c]', iconColor: 'text-[#fb923c]' }, 
+  none:     { border: 'border-l-gray-600',  bg: 'bg-white/5',      text: 'text-gray-200',   iconColor: '' }
 };
+
+function getSemanticTaskStyle(taskText, category = '', explicitColor = 'none') {
+  if (explicitColor && explicitColor !== 'none' && TASK_COLOR_MAP[explicitColor]) {
+    return TASK_COLOR_MAP[explicitColor];
+  }
+  const raw = String(taskText || '').trim();
+  const norm = raw.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  // 1. Health / Meds / Doctor -> Cyber Rose
+  if (/medi|pill|tablett|vitam|pharm|arzt|doctor|therap|apothek|klinik|krank|gesund|comprim|docteur|medecin|sante|pastill|farmac|salud|pastigl|pillol|dottore|salute|φαρμακ|χαπι|γιατρ|υγει/.test(norm)) {
+    return TASK_COLOR_MAP.rose;
+  }
+  // 2. Sport / Fitness / Workout -> Leuchtendes Ampelgrün
+  if (/sport|gym|fit|train|workout|run|laufen|walk|gehen|jogging|dehn|stretch|beweg|yoga|schwimm|exercise|jog|move|swim|entrain|courir|march|etir|nag|deport|gimnas|entren|corr|camin|estir|nad|palestr|allen|cammin|nuot|σπορ|γυμναστ|προπον|τρεξ|περπατ|γιoγκ|κολυμβ/.test(norm)) {
+    return TASK_COLOR_MAP.emerald;
+  }
+  // 3. Teeth / Facial Hygiene -> Electric Cyan
+  if (/zahn|zahne|brush|teeth|tooth|dent|gesicht|face|mouth|bross|visage|dient|cepill|cara|spazzol|viso|faccia|δοντ|βουρτσ|προσωπ/.test(norm)) {
+    return TASK_COLOR_MAP.cyan;
+  }
+  // 4. Shower / Bath / Wellness -> Ice Sky Blue
+  if (/dusch|shower|bath|bad|waschbecken|sink|wash|douch|bain|lavab|duch|ban|docc|bagn|lavand|ντους|μπανι/.test(norm)) {
+    return TASK_COLOR_MAP.sky;
+  }
+  // 5. Food / Cooking / Kitchen / Meal -> Sunset Neon Orange
+  if (/koch|cook|essen|food|rezept|meal|dinner|lunch|breakfast|fruhstuck|herd|oven|fridge|kuehl|kuhl|geschirr|spul|dish|abwasch|plate|bread|egg|coffee|brot|eier|kaffee|cuisin|manger|repas|diner|dejeuner|four|frigo|vaissell|pain|oeuf|cafe|cocin|comer|comida|cena|almuerz|desayun|horno|never|plato|vajill|pan|huevo|caffe|cucin|mangia|pasto|colazion|piatt|stovigl|pane|uov|μαγειρ|φαγητ|γευμ|δειπν|πρωιν|πιατ|ψωμ|καφε/.test(norm)) {
+    return TASK_COLOR_MAP.orange;
+  }
+  // 6. Vacuuming / Mopping / Deep Clean -> Neon Magenta
+  if (/saugen|vacu|staubsaug|wisch|mop|clean|putz|klo|toilet|wc|vater|sweep|wipe|reinigen|nettoy|menag|propr|limpi|freg|aseo|puliz|pulir|σκουπ|καθαρισ|τουαλετ/.test(norm)) {
+    return TASK_COLOR_MAP.magenta;
+  }
+  // 7. Laundry / Washing Clothes -> Cyber Lavender
+  if (/wasche|wasch|laundry|aufhang|clothes|shirt|cloth|iron|hang|buegeln|kleidung|waesche|lessiv|ling|repass|vetement|colad|rop|planch|bucat|panni|vestit|stirar|μπουγαδ|πλυντ|ρουχ/.test(norm)) {
+    return TASK_COLOR_MAP.lavender;
+  }
+  // 8. Dusting / Tidy / Organization -> Cyan/Sky
+  if (/staub|dust|aufraum|tidy|organi|sortier|ranger|ordenar|riordinar|τακτοποι/.test(norm)) {
+    return TASK_COLOR_MAP.sky;
+  }
+  // 9. Trash / Bottles / Recycling -> Signal Coral / Rose
+  if (/mull|trash|pfand|bottle|recycle|abfall|entsorg|garbage|waste|bin|poub|dechet|bouteill|basur|desech|botell|recicl|spazzatur|rifiut|bottigl|ricicl|σκουπιδ|απορριμ|μπουκαλ|ανακυκλ/.test(norm)) {
+    return TASK_COLOR_MAP.rose;
+  }
+  // 10. Bed / Sheets / Sleep -> Cyber Gold
+  if (/bett|bed|schlaf|sleep|bettwasche|drap|sheet|mattress|lit|dormir|sommeil|cam|saban|suen|lett|lenzuol|sonno|κρεβατ|σεντον|υπν/.test(norm)) {
+    return TASK_COLOR_MAP.gold;
+  }
+  // 11. Air / Ventilation / Plants -> Mint Green
+  if (/luft|wind|luften|breath|pflanz|plant|bloom|garten|ventil|aerer|ventilar|ventilare|φυτ|αερισ/.test(norm)) {
+    return TASK_COLOR_MAP.mint;
+  }
+  // 12. Work / Code / Study / Exam -> Cyber Violet
+  if (/arbeit|work|job|code|programm|dev|stud|uni|lernen|learn|book|buch|les|klausur|exam|modul|project|task|write|schreib|boulot|etud|universit|apprendr|livr|lir|examen|projet|ecrir|trabaj|empleo|codig|estudi|universid|aprend|libr|leer|proyect|escrib|lavor|impieg|codic|impar|legg|esame|progett|scriv|εργασι|δουλει|κωδικ|σπουδ|μαθ|βιβλι|διαβασ|εξετασ|γραφ/.test(norm)) {
+    return TASK_COLOR_MAP.purple;
+  }
+  // 13. Shopping / Supermarket -> Sunset Orange
+  if (/einkauf|shop|buy|kauf|supermarkt|store|grocery|market|markt|cours|achet|supermarch|magasin|compr|supermercad|tiend|mercad|spes|acquist|supermercat|negozi|ψωνι|αγορ|σουπερμαρκετ|μαγαζ/.test(norm)) {
+    return TASK_COLOR_MAP.orange;
+  }
+
+  // Column defaults with diversity
+  if (category === 'daily' || category === 'work_focus') return TASK_COLOR_MAP.cyan;
+  if (category === 'weekly' || category === 'work_in_progress') return TASK_COLOR_MAP.magenta;
+  if (category === 'todo' || category === 'work_backlog') return TASK_COLOR_MAP.sky;
+  if (category === 'done' || category === 'work_done') return TASK_COLOR_MAP.emerald;
+  if (category === 'termine' || category === 'study_submissions') return TASK_COLOR_MAP.gold;
+  if (category === 'notes') return TASK_COLOR_MAP.purple;
+  if (category === 'occasionally') return TASK_COLOR_MAP.mint;
+
+  return TASK_COLOR_MAP.sky;
+}
+
+const NEON_SYNTAX_CYCLE = ['rose', 'sky', 'emerald', 'cyan', 'purple', 'orange'];
 
 function setTaskColor(columnId, index, color, e) {
   if (e) e.stopPropagation();
@@ -311,7 +414,7 @@ function submitNewListTop() {
   }
 
   showToast(tr({
-    de: `Neue Liste "${title}" erstellt! 📋`,
+    de: `Neue Karte "${title}" erstellt! 📋`,
     en: `New list "${title}" created! 📋`,
     es: `¡Nueva lista "${title}" creada! 📋`,
     fr: `Nouvelle liste "${title}" créée ! 📋`,
@@ -405,7 +508,7 @@ function openColumnOptionsMenu(colId, btnEl) {
         </button>
         <button onclick="clearColumnTasks('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-rose-500/15 text-rose-300 hover:text-rose-200 transition flex items-center gap-2 text-left cursor-pointer">
           <i data-lucide="eraser" class="w-3.5 h-3.5 text-rose-400 shrink-0"></i>
-          <span>${tr({ de: 'Spalte leeren', en: 'Clear column', fr: 'Vider la colonne', it: 'Svuota colonna', es: 'Vaciar columna', el: 'Άδειασμα στήλης' })}</span>
+          <span>${tr({ de: 'Karte leeren', en: 'Clear card', fr: 'Vider la carte', it: 'Svuota scheda', es: 'Vaciar tarjeta', el: 'Άδειασμα κάρτας' })}</span>
         </button>
       </div>
     `;
@@ -419,17 +522,17 @@ function openColumnOptionsMenu(colId, btnEl) {
         </button>
         <button onclick="clearColumnTasks('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-rose-500/15 text-rose-300 hover:text-rose-200 transition flex items-center gap-2 text-left cursor-pointer">
           <i data-lucide="eraser" class="w-3.5 h-3.5 text-rose-400 shrink-0"></i>
-          <span>${tr({ de: 'Spalte leeren', en: 'Clear column', fr: 'Vider la colonne', it: 'Svuota colonna', es: 'Vaciar columna', el: 'Άδειασμα στήλης' })}</span>
+          <span>${tr({ de: 'Karte leeren', en: 'Clear card', fr: 'Vider la carte', it: 'Svuota scheda', es: 'Vaciar tarjeta', el: 'Άδειασμα κάρτας' })}</span>
         </button>
       </div>
       <div class="py-0.5 space-y-0.5">
         <button onclick="renameColumn('${colId}', event); closeColumnOptionsMenu();" class="w-full px-2 py-1.5 rounded-xl hover:bg-white/10 hover:text-white transition flex items-center gap-2 text-left cursor-pointer">
-          <i data-lucide="edit-3" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
+          <i data-lucide="edit-3" class="w-3.5 h-3.5 text-[#c084fc] shrink-0"></i>
           <span>${tr({ de: 'Umbenennen', en: 'Rename', fr: 'Renommer', it: 'Rinomina', es: 'Renombrar', el: 'Μετονομασία' })}</span>
         </button>
         <button onclick="deleteColumn('${colId}', event); closeColumnOptionsMenu();" class="w-full px-2 py-1.5 rounded-xl hover:bg-rose-500/15 text-rose-300 hover:text-rose-200 transition flex items-center gap-2 text-left cursor-pointer">
           <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-400 shrink-0"></i>
-          <span>${tr({ de: 'Spalte entfernen', en: 'Remove column', fr: 'Supprimer la colonne', it: 'Rimuovi colonna', es: 'Eliminar columna', el: 'Αφαίρεση στήλης' })}</span>
+          <span>${tr({ de: 'Spalte entfernen', en: 'Remove column', fr: 'Supprimer la carte', it: 'Rimuovi colonna', es: 'Eliminar tarjeta', el: 'Αφαίρεση στήλης' })}</span>
         </button>
       </div>
     `;
@@ -486,7 +589,7 @@ async function clearColumnTasks(colId, e) {
   const taskList = isDone ? (getCurrentWorkspaceDone() || []) : (curItems[colId] || []);
   const taskCount = taskList.length;
   if (taskCount === 0) {
-    showToast(tr({ de: 'Die Liste ist bereits leer! ℹ️', en: 'List is already empty! ℹ️', fr: 'La liste est déjà vide ! ℹ️', it: 'La lista è già vuota! ℹ️', es: '¡La lista ya está vacía! ℹ️', el: 'Η λίστα είναι ήδη άδεια! ℹ️' }));
+    showToast(tr({ de: 'Die Karte ist bereits leer! ℹ️', en: 'List is already empty! ℹ️', fr: 'La liste est déjà vide ! ℹ️', it: 'La lista è già vuota! ℹ️', es: '¡La lista ya está vacía! ℹ️', el: 'Η λίστα είναι ήδη άδεια! ℹ️' }));
     return;
   }
   
@@ -749,7 +852,7 @@ function renderColumnsDropdownContent(dropdown) {
           <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
         </div>
         <div>
-          <h3 class="font-display font-bold text-xs text-white">${tr({ de: 'Spalten & Listen verwalten', en: 'Manage Columns & Lists' })}</h3>
+          <h3 class="font-display font-bold text-xs text-white">${tr({ de: 'Spalten & Karten verwalten', en: 'Manage Columns & Cards' })}</h3>
           <p class="text-[10px] text-gray-400">${wsName}</p>
         </div>
       </div>
@@ -761,13 +864,13 @@ function renderColumnsDropdownContent(dropdown) {
       <div class="flex items-center justify-between">
         <span class="text-[11px] font-bold text-purple-200 flex items-center gap-1.5">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-purple-400"></i>
-          <span>${tr({ de: 'Neue Liste hinzufügen', en: 'Add new list' })}</span>
+          <span>${tr({ de: 'Neue Karte hinzufügen', en: 'Add new card' })}</span>
         </span>
       </div>
       <div class="flex items-center gap-1.5">
-        <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der Liste...', en: 'List name...' })}" class="flex-1 px-2.5 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-purple-400" onkeydown="if(event.key==='Enter') submitAddListFromManager()">
+        <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der Karte...', en: 'Card name...' })}" class="flex-1 px-2.5 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-purple-400" onkeydown="if(event.key==='Enter') submitAddListFromManager()">
         <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-purple-200 focus:outline-none focus:border-purple-400 cursor-pointer">
-          <option value="layers">📑 Liste</option>
+          <option value="layers">📑 Karte</option>
           <option value="target">🎯 Fokus</option>
           <option value="zap">⚡ Sprint</option>
           <option value="book-open">📚 Studium</option>
@@ -822,9 +925,9 @@ function renderColumnsDropdownContent(dropdown) {
           <i data-lucide="rotate-ccw" class="w-3 h-3 text-amber-400"></i>
           <span>${tr({ de: 'Standard', en: 'Default' })}</span>
         </button>
-        <button onclick="handleClearAllLists(); closeColumnsDropdown();" class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 hover:border-rose-400/50 rounded-lg text-[10px] font-medium text-rose-300 hover:text-rose-200 transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Alle Aufgaben in den Spalten leeren', en: 'Clear all tasks in columns' })}">
+        <button onclick="handleClearAllLists(); closeColumnsDropdown();" class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 hover:border-rose-400/50 rounded-lg text-[10px] font-medium text-rose-300 hover:text-rose-200 transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Alle Aufgaben in den Karten leeren', en: 'Clear all tasks in cards' })}">
           <i data-lucide="eraser" class="w-3 h-3 text-rose-400"></i>
-          <span>${tr({ de: 'Spalten leeren', en: 'Clear columns' })}</span>
+          <span>${tr({ de: 'Karten leeren', en: 'Clear cards' })}</span>
         </button>
       </div>
       <button onclick="closeColumnsDropdown()" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] rounded-lg shadow transition cursor-pointer">
@@ -879,7 +982,7 @@ function submitAddListFromManager() {
   }
 
   showToast(tr({
-    de: `Neue Liste "${title}" erstellt! 📋`,
+    de: `Neue Karte "${title}" erstellt! 📋`,
     en: `New list "${title}" created! 📋`,
     es: `¡Nueva lista "${title}" creada! 📋`,
     fr: `Nouvelle liste "${title}" créée ! 📋`,
@@ -964,7 +1067,7 @@ function openColumnsManagerModal() {
             <i data-lucide="sliders" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="font-display font-black text-sm text-white">${tr({ de: 'Spalten verwalten & Liste hinzufügen', en: 'Manage Columns & Add List' })}</h3>
+            <h3 class="font-display font-black text-sm text-white">${tr({ de: 'Karten verwalten & Karte hinzufügen', en: 'Manage Columns & Add Card' })}</h3>
             <p class="text-[11px] text-gray-400">${wsName}</p>
           </div>
         </div>
@@ -976,11 +1079,11 @@ function openColumnsManagerModal() {
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold text-purple-200 flex items-center gap-1.5">
             <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-purple-400"></i>
-            <span>${tr({ de: 'Neue Liste anlegen', en: 'Create New List' })}</span>
+            <span>${tr({ de: 'Neue Karte anlegen', en: 'Create New Card' })}</span>
           </span>
         </div>
         <div class="flex items-center gap-2">
-          <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der neuen Liste...', en: 'New list name...' })}"
+          <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der neuen Karte...', en: 'New card name...' })}"
             class="flex-1 min-w-0 px-2.5 py-1.5 bg-black/50 border border-white/15 focus:border-purple-400 text-white text-xs rounded-xl focus:outline-none placeholder:text-gray-500 shadow-inner font-medium"
             onkeydown="if(event.key === 'Enter') submitAddListFromManager();" />
           <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/50 border border-white/15 text-xs text-gray-200 rounded-xl focus:outline-none focus:border-purple-400 cursor-pointer">
@@ -1028,7 +1131,7 @@ function openColumnsManagerModal() {
                   <span>${isActive ? tr({ de: 'Aktiv ✓', en: 'Active ✓' }) : tr({ de: 'Ausgeblendet', en: 'Hidden' })}</span>
                 </button>
                 ${isCustom ? `
-                  <button onclick="deleteColumn('${id}').then(() => openColumnsManagerModal())" class="p-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 transition cursor-pointer" title="${tr({ de: 'Liste löschen', en: 'Delete list' })}">
+                  <button onclick="deleteColumn('${id}').then(() => openColumnsManagerModal())" class="p-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 transition cursor-pointer" title="${tr({ de: 'Karte löschen', en: 'Delete card' })}">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                   </button>
                 ` : ''}
@@ -1120,8 +1223,8 @@ function resetColumnsToDefault() {
       ['study_submissions', 'clock'],
       ['study_deep', 'brain'],
       ['done', 'check-circle'],
-      ['termine', 'calendar'],
-      ['notes', 'file-text']
+      ['notes', 'file-text'],
+      ['termine', 'calendar']
     ];
     if (typeof window !== 'undefined') window.studyCategoriesOrder = studyCategoriesOrder;
   } else if (ws === 'work') {
@@ -1131,8 +1234,8 @@ function resetColumnsToDefault() {
       ['work_waiting', 'hourglass'],
       ['work_backlog', 'folder-kanban'],
       ['done', 'check-circle'],
-      ['termine', 'clock'],
-      ['notes', 'sticky-note']
+      ['notes', 'sticky-note'],
+      ['termine', 'clock']
     ];
     if (typeof window !== 'undefined') window.workCategoriesOrder = workCategoriesOrder;
   } else {
@@ -1141,8 +1244,8 @@ function resetColumnsToDefault() {
       ['weekly', 'home'],
       ['todo', 'list-todo'],
       ['done', 'check-circle-2'],
-      ['termine', 'calendar'],
       ['notes', 'file-text'],
+      ['termine', 'calendar'],
       ['occasionally', 'clock']
     ];
     if (typeof window !== 'undefined') window.categoriesOrder = categoriesOrder;
@@ -1182,7 +1285,7 @@ function renameColumn(colId, e) {
   const entry = activeOrder.find(([id]) => id === colId);
   if (!entry) return;
   const currentTitle = entry[2] || t(colId);
-  const newTitle = prompt(t('rename_column') || 'Liste umbenennen:', currentTitle);
+  const newTitle = prompt(t('rename_column') || 'Karte umbenennen:', currentTitle);
   if (newTitle && newTitle.trim()) {
     saveHistory();
     entry[2] = newTitle.trim();
@@ -1190,7 +1293,7 @@ function renameColumn(colId, e) {
     saveCategoriesOrder();
     saveState();
     renderApp();
-    showToast(tr({ de: 'Liste umbenannt ✏️', en: 'List renamed ✏️', es: 'Lista renombrada ✏️', el: 'Η λίστα μετονομάστηκε ✏️', fr: 'Liste renommée ✏️', it: 'Lista rinominata ✏️' }));
+    showToast(tr({ de: 'Karte umbenannt ✏️', en: 'Card renamed ✏️', es: 'Lista renombrada ✏️', el: 'Η λίστα μετονομάστηκε ✏️', fr: 'Liste renommée ✏️', it: 'Lista rinominata ✏️' }));
   }
 }
 
@@ -1211,7 +1314,7 @@ async function deleteColumn(colId, e) {
   const taskCount = isDone ? (getCurrentWorkspaceDone() || []).length : (curItems[colId] || []).length;
   
   const confirmMsg = tr({
-    de: `Möchtest du die Liste "${listTitle}" wirklich vom Board entfernen?${taskCount > 0 ? ` (${taskCount} Aufgaben)` : ''}`,
+    de: `Möchtest du die Karte "${listTitle}" wirklich vom Board entfernen?${taskCount > 0 ? ` (${taskCount} Aufgaben)` : ''}`,
     en: `Do you really want to remove list "${listTitle}"?${taskCount > 0 ? ` (${taskCount} tasks)` : ''}`,
     es: `¿Seguro que deseas eliminar la lista "${listTitle}"?`,
     fr: `Voulez-vous vraiment supprimer la liste "${listTitle}" ?`,
@@ -1220,7 +1323,7 @@ async function deleteColumn(colId, e) {
   });
 
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
-    title: typeof tr === 'function' ? tr({ de: 'Liste entfernen?', en: 'Remove list?' }) : 'Liste entfernen?',
+    title: typeof tr === 'function' ? tr({ de: 'Karte entfernen?', en: 'Remove card?' }) : 'Karte entfernen?',
     message: confirmMsg,
     confirmText: typeof tr === 'function' ? tr({ de: 'Entfernen', en: 'Remove' }) : 'Entfernen',
     isDanger: true,
@@ -1242,7 +1345,7 @@ async function deleteColumn(colId, e) {
     renderApp();
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
     showToast(tr({
-      de: `Liste "${listTitle}" vom Board entfernt 🗑️`,
+      de: `Karte "${listTitle}" vom Board entfernt 🗑️`,
       en: `List "${listTitle}" removed from board 🗑️`,
       es: `Lista "${listTitle}" eliminada 🗑️`,
       el: `Η λίστα "${listTitle}" αφαιρέθηκε 🗑️`,
@@ -1268,21 +1371,21 @@ function quickAddTaskTop(colId, e) {
 }
 
 const COLUMN_THEMES = {
-  daily: { color: 'text-amber-300', bg: 'bg-amber-500/15 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]' },
-  work_focus: { color: 'text-amber-300', bg: 'bg-amber-500/15 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]' },
-  study_focus: { color: 'text-amber-300', bg: 'bg-amber-500/15 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]' },
-  weekly: { color: 'text-purple-300', bg: 'bg-purple-500/15 border-purple-500/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]' },
-  work_in_progress: { color: 'text-purple-300', bg: 'bg-purple-500/15 border-purple-500/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]' },
-  study_modules: { color: 'text-blue-300', bg: 'bg-blue-500/15 border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.15)]' },
-  todo: { color: 'text-cyan-300', bg: 'bg-cyan-500/15 border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.15)]' },
-  work_backlog: { color: 'text-cyan-300', bg: 'bg-cyan-500/15 border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.15)]' },
-  study_submissions: { color: 'text-rose-300', bg: 'bg-rose-500/15 border-rose-500/30 shadow-[0_0_10px_rgba(244,63,94,0.15)]' },
-  occasionally: { color: 'text-indigo-300', bg: 'bg-indigo-500/15 border-indigo-500/30 shadow-[0_0_10px_rgba(99,102,241,0.15)]' },
-  work_waiting: { color: 'text-indigo-300', bg: 'bg-indigo-500/15 border-indigo-500/30 shadow-[0_0_10px_rgba(99,102,241,0.15)]' },
-  study_deep: { color: 'text-purple-300', bg: 'bg-purple-500/15 border-purple-500/30 shadow-[0_0_10px_rgba(168,85,247,0.15)]' },
-  done: { color: 'text-emerald-300', bg: 'bg-emerald-500/15 border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.15)]' },
-  termine: { color: 'text-orange-300', bg: 'bg-orange-500/15 border-orange-500/30 shadow-[0_0_10px_rgba(249,115,22,0.15)]' },
-  notes: { color: 'text-amber-300', bg: 'bg-amber-500/15 border-amber-500/30 shadow-[0_0_10px_rgba(245,158,11,0.15)]' }
+  daily: { color: 'text-[var(--accent)]', bg: 'bg-[var(--accent)]/15 border-[var(--accent)]/30 shadow-xs' },
+  work_focus: { color: 'text-[#00f2ff]', bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/30 shadow-xs' },
+  study_focus: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
+  weekly: { color: 'text-[#00f2ff]', bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/30 shadow-xs' },
+  work_in_progress: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
+  study_modules: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
+  todo: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
+  work_backlog: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
+  study_submissions: { color: 'text-[#ff3366]', bg: 'bg-[#ff3366]/15 border-[#ff3366]/30 shadow-xs' },
+  occasionally: { color: 'text-[#ff3366]', bg: 'bg-[#ff3366]/15 border-[#ff3366]/30 shadow-xs' },
+  work_waiting: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
+  study_deep: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
+  done: { color: 'text-[#00ff66]', bg: 'bg-[#00ff66]/15 border-[#00ff66]/30 shadow-xs' },
+  termine: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
+  notes: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' }
 };
 
 function getCurrentWorkspaceItems() {
@@ -1300,15 +1403,17 @@ function getCurrentWorkspaceItems() {
 
 function getCurrentWorkspaceDone() {
   const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
-  if (s && s.activeWorkspace === 'study') {
-    if (!s.studyDone) s.studyDone = [];
+  if (!s) return [];
+  if (s.activeWorkspace === 'study') {
+    if (!Array.isArray(s.studyDone)) s.studyDone = [];
     return s.studyDone;
   }
-  if (s && s.activeWorkspace === 'work') {
-    if (!s.workDone) s.workDone = [];
+  if (s.activeWorkspace === 'work') {
+    if (!Array.isArray(s.workDone)) s.workDone = [];
     return s.workDone;
   }
-  return s ? s.done : [];
+  if (!Array.isArray(s.done)) s.done = [];
+  return s.done;
 }
 
 function renderApp() {
@@ -1390,7 +1495,7 @@ function renderApp() {
     const article = document.createElement('article');
     article.dataset.category = id;
     article.dataset.columnType = isCustomCol ? 'custom' : 'system';
-    article.className = `group/col relative min-h-[380px] h-full flex flex-col p-2.5 sm:p-3 pt-3 rounded-2xl transition-all duration-300 cursor-default column-card-breathing overflow-hidden ${isCustomCol ? 'border border-dashed border-purple-500/25' : ''} ${isLastCol ? 'pb-16' : ''}`;
+    article.className = `group/col relative min-h-[380px] h-full flex flex-col p-2 sm:p-2.5 pt-2 sm:pt-2.5 rounded-2xl transition-all duration-300 cursor-default column-card-breathing overflow-hidden ${isCustomCol ? 'border border-dashed border-white/20' : ''} ${isLastCol ? 'pb-16' : ''}`;
 
     article.draggable = true;
     article.ondragstart = (e) => {
@@ -1461,7 +1566,7 @@ function renderApp() {
         </div>
       ` : ''}
       
-      <div class="flex items-center justify-between gap-1 mb-2 pb-1.5 border-b border-white/[0.04]">
+      <div class="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-white/[0.04]">
         <div class="flex items-center gap-1.5 select-none min-w-0 flex-1 cursor-grab active:cursor-grabbing" title="${tr({ de: 'Spalte durch Ziehen neu anordnen', en: 'Drag to reorder column', fr: 'Glisser pour réorganiser la colonne', it: 'Trascina per riordinare la colonna', es: 'Arrastrar para reordenar columna', el: 'Σύρετε για αναδιάταξη στήλης' })}">
           ${columnIconHTML}
           <h2 class="text-gray-200 hover:text-white font-bold font-display text-[10.5px] 2xl:text-xs tracking-tight uppercase transition whitespace-nowrap overflow-hidden text-ellipsis min-w-0" title="${catName}">
@@ -1470,7 +1575,7 @@ function renderApp() {
         </div>
         <div class="flex items-center gap-1 shrink-0">
           ${countBadgeHTML}
-          <button onmouseenter="cancelCloseColumnOptionsMenu(); openColumnOptionsMenu('${id}', this);" onmouseleave="scheduleCloseColumnOptionsMenu();" onclick="toggleColumnOptionsMenu('${id}', event)" aria-label="${tr({ de: 'Spalten-Aktionen & Aufräumen', en: 'Column actions & clear' })}" class="column-options-btn w-5 h-5 p-0 text-gray-400 hover:text-white hover:bg-white/10 rounded-md transition-all duration-150 cursor-pointer flex items-center justify-center opacity-70 hover:opacity-100 shrink-0" title="${tr({ de: 'Spalten-Aktionen & Aufräumen (Leeren, Archivieren, Löschen) ⚙️', en: 'Column actions & clear ⚙️' })}">
+          <button onmouseenter="cancelCloseColumnOptionsMenu(); openColumnOptionsMenu('${id}', this);" onmouseleave="scheduleCloseColumnOptionsMenu();" onclick="toggleColumnOptionsMenu('${id}', event)" aria-label="${tr({ de: 'Karten-Aktionen & Aufräumen', en: 'Column actions & clear' })}" class="column-options-btn w-5 h-5 p-0 text-gray-400 hover:text-white hover:bg-white/10 rounded-md transition-all duration-150 cursor-pointer flex items-center justify-center opacity-70 hover:opacity-100 shrink-0" title="${tr({ de: 'Karten-Aktionen & Aufräumen (Leeren, Archivieren, Löschen) ⚙️', en: 'Column actions & clear ⚙️' })}">
             ${svgFn('more-vertical', 'w-3 h-3')}
           </button>
         </div>
@@ -1491,11 +1596,15 @@ function renderApp() {
     `;
     const listEl = article.querySelector(`#list-${id}`);
     if (isDone) {
-      doneList.slice().reverse().forEach((item, idx) => {
+      const validDoneList = (doneList || []).filter(Boolean);
+      validDoneList.slice().reverse().forEach((item, idx) => {
         const itemDiv = document.createElement('div');
-        itemDiv.className = 'group p-1.5 px-2.5 text-[11px] min-h-[28px] text-gray-400 hover:text-white border border-dashed border-slate-700/80 hover:border-purple-500 rounded-lg bg-slate-800/25 hover:bg-purple-950/20 cursor-pointer font-medium transition flex items-center justify-between gap-1';
-        itemDiv.onclick = () => handleRestoreDoneTask(idx); itemDiv.title = "Zurück in den Plan verschieben";
-        itemDiv.innerHTML = `<span class="truncate leading-tight">${escapeHtml(item.task)} · ${escapeHtml(item.time)}</span><i data-lucide="undo" class="w-3 h-3 opacity-0 group-hover:opacity-100 text-purple-400 shrink-0"></i>`;
+        itemDiv.className = 'group p-1.5 px-2.5 text-[11px] min-h-[28px] text-gray-400 hover:text-white border border-dashed border-slate-700/80 hover:border-purple-500 rounded-lg bg-slate-800/25 hover:bg-purple-950/20 cursor-pointer font-medium transition flex items-center justify-between gap-1 animate-fade-in';
+        itemDiv.onclick = () => handleRestoreDoneTask(idx);
+        itemDiv.title = tr({ de: 'Zurück in die Karte verschieben', en: 'Restore task to board', fr: 'Restaurer la tâche', it: 'Ripristina attività', es: 'Restaurar tarea', el: 'Επαναφορά εργασίας' });
+        const itemTaskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
+        const itemTimeText = (typeof item === 'object' && item !== null && item.time) ? item.time : '';
+        itemDiv.innerHTML = `<span class="truncate leading-tight">${escapeHtml(itemTaskText)}${itemTimeText ? ` · ${escapeHtml(itemTimeText)}` : ''}</span><i data-lucide="undo" class="w-3 h-3 opacity-0 group-hover:opacity-100 text-purple-400 shrink-0"></i>`;
         listEl.appendChild(itemDiv);
       });
     } else if (isNotes) {
@@ -1510,13 +1619,13 @@ function renderApp() {
         itemDiv.ondragleave = (e) => handleDragLeave(e);
         itemDiv.ondragend = (e) => handleDragEnd(e);
         itemDiv.ondrop = (e) => handleItemDrop(e, 'notes', index);
-        itemDiv.className = `group relative w-full h-auto min-h-[32px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] border-amber-400 bg-amber-500/10 hover:bg-amber-500/20 text-gray-100 font-medium transition-all duration-150 ease-out rounded-xl shadow-xs cursor-pointer`;
+        itemDiv.className = `group relative w-full h-auto min-h-[32px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] border-[#c084fc] bg-[#c084fc]/10 hover:bg-[#c084fc]/20 text-[#c084fc] font-medium transition-all duration-150 ease-out rounded-xl shadow-xs cursor-pointer`;
         itemDiv.onclick = () => openNoteDetailModal(index);
         
         itemDiv.innerHTML = `
           <div class="flex items-center gap-1.5 flex-1 min-w-0 pr-2 pointer-events-none">
-            <i data-lucide="sticky-note" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
-            <span class="text-xs text-amber-100 font-normal leading-snug break-normal whitespace-normal flex-1 select-text" title="${safeNoteEscaped}">${safeNoteEscaped}</span>
+            <i data-lucide="sticky-note" class="w-3.5 h-3.5 text-[#c084fc] shrink-0"></i>
+            <span class="text-xs text-[var(--text-main)] font-normal leading-snug break-normal whitespace-normal flex-1 select-text" title="${safeNoteEscaped}">${safeNoteEscaped}</span>
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-0.5 rounded-lg shadow-md z-40 backdrop-blur-md" onclick="event.stopPropagation()">
             <button onclick="openNoteDetailModal(${index}, event)" aria-label="${tr({ de: 'Notiz öffnen & bearbeiten', en: 'Open & edit note', fr: 'Ouvrir et modifier la note', it: 'Apri e modifica nota', es: 'Abrir y editar nota', el: 'Άνοιγμα & επεξεργασία σημείωσης' })}" class="p-1 text-amber-400 hover:text-amber-300 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Notiz öffnen & bearbeiten', en: 'Open & edit note', fr: 'Ouvrir et modifier la note', it: 'Apri e modifica nota', es: 'Abrir y editar nota', el: 'Άνοιγμα & επεξεργασία σημείωσης' })}">
@@ -1535,8 +1644,8 @@ function renderApp() {
 
       const addBtn = document.createElement('button');
       addBtn.onclick = () => { openTaskAddColumns['notes'] = true; renderApp(); };
-      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-amber-500/30 bg-amber-500/5 hover:bg-amber-500/15 hover:border-amber-400/60 text-center text-xs text-amber-300/90 hover:text-amber-200 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
-      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-amber-400 group-hover/addbtn:scale-110 transition-transform')}<span>${tr({ de: 'Notiz hinzufügen', en: 'Add note', es: 'Añadir nota', el: 'Προσθήκη σημείωσης', fr: 'Ajouter une note', it: 'Aggiungi nota' })}</span>`;
+      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#c084fc]/30 bg-[#c084fc]/5 hover:bg-[#c084fc]/15 hover:border-[#c084fc]/60 text-center text-xs text-[#c084fc] hover:text-white font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-[#c084fc] group-hover/addbtn:scale-110 transition-transform')}<span>${tr({ de: 'Notiz hinzufügen', en: 'Add note', es: 'Añadir nota', el: 'Προσθήκη σημείωσης', fr: 'Ajouter une note', it: 'Aggiungi nota' })}</span>`;
 
       const addInput = document.createElement('textarea');
       addInput.rows = 2;
@@ -1590,22 +1699,22 @@ function renderApp() {
             console.warn('[Tasks] Date parsing warning:', e);
           }
         }
-        let locHTML = item.location ? `<span class="text-[9px] text-gray-400 truncate max-w-[85px] inline-flex items-center gap-0.5">${svgFn('map-pin', 'w-3 h-3 shrink-0 text-gray-500')}${escapeHtml(item.location)}</span>` : '';
+        let locHTML = item.location ? `<span class="text-[9px] text-[#D4D4D4] truncate max-w-[85px] inline-flex items-center gap-0.5">${svgFn('map-pin', 'w-3 h-3 shrink-0 text-[#D4D4D4]')}${escapeHtml(item.location)}</span>` : '';
 
         // Status Styling & Badges
-        let statusBorderBg = isToday ? 'border-amber-400 bg-amber-500/10' : 'border-amber-500/40 bg-white/[0.035]';
+        let statusBorderBg = isToday ? 'border-[#89cff0] bg-[#89cff0]/10' : 'border-[#89cff0]/40 bg-white/[0.035]';
         let statusBadgeHTML = '';
 
-        if (status === 'stattgefunden') {
-          statusBorderBg = 'border-emerald-500 bg-emerald-500/10 text-emerald-100 shadow-[0_0_12px_rgba(16,185,129,0.15)]';
-          statusBadgeHTML = `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shrink-0"><i data-lucide="check-check" class="w-3 h-3 text-emerald-400"></i><span>${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Effectué', it: 'Svolto', es: 'Realizado', el: 'Πραγματοποιήθηκε' })}</span></span>`;
+                if (status === 'stattgefunden') {
+          statusBorderBg = 'border-[#00ff66] bg-[#00ff66]/10 text-[#00ff66]';
+          statusBadgeHTML = `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]/40 shrink-0"><i data-lucide="check-check" class="w-3 h-3 text-[#00ff66]"></i><span>${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Effectué', it: 'Svolto', es: 'Realizado', el: 'Πραγματοποιήθηκε' })}</span></span>`;
         } else if (status === 'nicht_stattgefunden') {
-          statusBorderBg = 'border-rose-500 bg-rose-500/10 text-rose-200 opacity-85 shadow-[0_0_12px_rgba(244,63,94,0.15)]';
-          statusBadgeHTML = `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 shrink-0"><i data-lucide="x" class="w-3 h-3 text-rose-400"></i><span>${tr({ de: 'Nicht stattgefunden', en: 'Did not happen', fr: 'Non eu lieu', it: 'Non svolto', es: 'No realizado', el: 'Δεν έγινε' })}</span></span>`;
+          statusBorderBg = 'border-[#C586C0] bg-[#C586C0]/10 text-[#C586C0]';
+          statusBadgeHTML = `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-[#C586C0]/20 text-[#C586C0] border border-[#C586C0]/40 shrink-0"><i data-lucide="x" class="w-3 h-3 text-[#C586C0]"></i><span>${tr({ de: 'Nicht stattgefunden', en: 'Did not happen', fr: 'Non eu lieu', it: 'Non svolto', es: 'No realizado', el: 'Δεν έγινε' })}</span></span>`;
         } else if (status === 'verschoben') {
-          statusBorderBg = 'border-sky-400 bg-sky-500/10 text-sky-100 shadow-[0_0_12px_rgba(56,189,248,0.15)]';
+          statusBorderBg = 'border-[#C586C0] bg-[#C586C0]/10 text-[#C586C0]';
           const origNote = item.originalDate ? ` (von ${escapeHtml(item.originalDate)})` : '';
-          statusBadgeHTML = `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 shrink-0" title="${item.originalDate ? 'Ursprünglich: ' + escapeHtml(item.originalDate) : ''}"><i data-lucide="calendar-sync" class="w-3 h-3 text-sky-400"></i><span>${tr({ de: 'Verschoben', en: 'Postponed', fr: 'Reporté', it: 'Rinviato', es: 'Pospuesto', el: 'Αναβλήθηκε' })}${origNote}</span></span>`;
+          statusBadgeHTML = `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-[#C586C0]/20 text-[#C586C0] border border-[#C586C0]/40 shrink-0" title="${item.originalDate ? 'Ursprünglich: ' + escapeHtml(item.originalDate) : ''}"><i data-lucide="calendar-sync" class="w-3 h-3 text-[#C586C0]"></i><span>${tr({ de: 'Verschoben', en: 'Postponed', fr: 'Reporté', it: 'Rinviato', es: 'Pospuesto', el: 'Αναβλήθηκε' })}${origNote}</span></span>`;
         }
 
         const itemDiv = document.createElement('div');
@@ -1614,14 +1723,14 @@ function renderApp() {
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-14 select-none">
             <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open' })}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300' : (status === 'nicht_stattgefunden' ? 'border-rose-400 bg-rose-500/20 text-rose-300' : (status === 'verschoben' ? 'border-sky-400 bg-sky-500/20 text-sky-300' : 'border-orange-400/30 bg-orange-500/10 hover:border-emerald-400 hover:bg-emerald-500/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-[#00ff66] bg-[#00ff66]/20 text-[#00ff66]' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : 'border-[#89cff0]/40 bg-[#89cff0]/10 hover:border-[#00ff66] hover:bg-[#00ff66]/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${status === 'stattgefunden' 
-                  ? svgFn('check', 'w-3.5 h-3.5 text-emerald-400')
+                  ? svgFn('check', 'w-3.5 h-3.5 text-[#00ff66]')
                   : (status === 'nicht_stattgefunden' 
-                    ? svgFn('x', 'w-3.5 h-3.5 text-rose-400')
+                    ? svgFn('x', 'w-3.5 h-3.5 text-[#C586C0]')
                     : (status === 'verschoben'
-                      ? svgFn('calendar-sync', 'w-3.5 h-3.5 text-sky-300')
-                      : `${svgFn('clock', 'task-default-icon w-3.5 h-3.5 text-orange-400 transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50')}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-emerald-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
+                      ? svgFn('calendar-sync', 'w-3.5 h-3.5 text-[#C586C0]')
+                      : `${svgFn('clock', 'task-default-icon w-3.5 h-3.5 text-[#89cff0] transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50')}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-[#00ff66] opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
                     )
                   )
                 }
@@ -1629,12 +1738,12 @@ function renderApp() {
             </button>
             <div class="flex flex-col min-w-0 flex-1 cursor-pointer" onclick="editTermin(${originalIndex}, event)">
               <div class="flex items-center gap-1.5 min-w-0 flex-wrap">
-                <span class="text-xs leading-snug font-semibold ${status === 'stattgefunden' ? 'text-emerald-200 line-through opacity-90' : (status === 'nicht_stattgefunden' ? 'text-rose-200 line-through opacity-80' : (status === 'verschoben' ? 'text-sky-200' : 'text-amber-100'))} break-normal whitespace-normal">${escapeHtml(item.task || item.name || 'Termin')}</span>
-                ${item.time ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 shrink-0">${escapeHtml(item.time)}</span>` : ''}
+                <span class="text-xs leading-snug font-semibold ${status === 'stattgefunden' ? 'text-[#00ff66] line-through opacity-90' : (status === 'nicht_stattgefunden' ? 'text-[#C586C0] line-through opacity-80' : (status === 'verschoben' ? 'text-[#C586C0]' : 'text-[#569CD6]'))} break-normal whitespace-normal">${escapeHtml(item.task || item.name || 'Termin')}</span>
+                ${item.time ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-[#89cff0]/20 text-[#89cff0] border border-[#89cff0]/30 shrink-0">${escapeHtml(item.time)}</span>` : ''}
                 ${statusBadgeHTML}
               </div>
               <div class="flex items-center gap-1.5 mt-0.5">
-                <span class="text-[9px] font-mono text-gray-400">${escapeHtml(fullDateString)}</span>
+                <span class="text-[9px] font-mono text-[#89cff0]">${escapeHtml(fullDateString)}</span>
                 ${locHTML}
               </div>
             </div>
@@ -1652,9 +1761,9 @@ function renderApp() {
       const isFormOpen = (typeof isTerminFormOpen !== 'undefined') ? isTerminFormOpen : (window.isTerminFormOpen || false);
       if (!isFormOpen) {
         const btnEl = document.createElement('button'); btnEl.onclick = () => toggleTerminForm(true);
-        btnEl.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-orange-500/30 bg-orange-500/5 hover:bg-orange-500/15 hover:border-orange-400/60 text-center text-xs text-orange-300/90 hover:text-orange-200 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+        btnEl.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#89cff0]/30 bg-[#89cff0]/5 hover:bg-[#89cff0]/15 hover:border-[#89cff0]/60 text-center text-xs text-[#89cff0] hover:text-white font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
         const btnT = t('appointment_new_btn') || tr({ de: 'Neuer Termin', en: 'New appointment', es: 'Nueva cita', el: 'Νέο ραντεβού', fr: 'Nouveau rendez-vous', it: 'Nuovo appuntamento' });
-        btnEl.innerHTML = `${svgFn('calendar-plus', 'w-3.5 h-3.5 text-orange-400 group-hover/addbtn:scale-110 transition-transform')}<span>${btnT}</span>`;
+        btnEl.innerHTML = `${svgFn('calendar-plus', 'w-3.5 h-3.5 text-[#89cff0] group-hover/addbtn:scale-110 transition-transform')}<span>${btnT}</span>`;
         listEl.appendChild(btnEl);
       } else {
         const formDiv = document.createElement('div'); formDiv.className = 'mt-1 p-3 bg-[#0e0e14] border border-[var(--accent)]/40 rounded-xl flex flex-col gap-2 shadow-lg';
@@ -1709,11 +1818,13 @@ function renderApp() {
         listEl.appendChild(formDiv);
       }
     } else {
-      (currentItems[id] || []).forEach((task, index) => {
-        const taskObj = typeof task === 'object' ? task : { task: task };
-        const taskText = taskObj.task;
+      const validCategoryItems = (currentItems[id] || []).filter(Boolean);
+      validCategoryItems.forEach((task, index) => {
+        const taskObj = (typeof task === 'object' && task !== null) ? task : { task: String(task || '') };
+        const taskText = taskObj.task || '';
+        if (!taskText) return;
         const taskColor = taskObj.color || 'none';
-        const colorStyle = TASK_COLOR_MAP[taskColor] || TASK_COLOR_MAP.none;
+        const colorStyle = getSemanticTaskStyle(taskText, id, taskColor);
         const iconDetails = (typeof getTaskIconDetails === 'function') ? getTaskIconDetails(taskText, id) : { icon: 'check-circle', color: 'text-purple-400' };
         const isTaskActive = (typeof activeTimerTask !== 'undefined' && activeTimerTask && activeTimerTask.category === id && activeTimerTask.index === index);
         const itemDiv = document.createElement('div');
@@ -1725,7 +1836,7 @@ function renderApp() {
         itemDiv.ondrop = (e) => handleItemDrop(e, id, index);
         const borderBgClass = isTaskActive 
           ? 'border-amber-400 bg-amber-500/15 shadow-[0_0_18px_rgba(251,191,36,0.25)]' 
-          : (taskColor !== 'none' ? `${colorStyle.border} ${colorStyle.bg} ${colorStyle.shadow}` : 'border-[var(--accent)] bg-white/[0.035] hover:bg-white/[0.07]');
+          : `${colorStyle.border} ${colorStyle.bg} hover:brightness-125`;
         itemDiv.className = `group relative w-full h-auto min-h-[34px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] ${borderBgClass} text-gray-200 font-medium rounded-xl transition-colors`;
         const safeTaskEscaped = escapeHtml(taskText);
         const formattedTaskHtml = safeTaskEscaped.replace(/ &amp; /g, '&nbsp;&amp; ').replace(/ & /g, '&nbsp;& ');
@@ -1740,12 +1851,12 @@ function renderApp() {
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none">
             <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${tr({ de: 'Als erledigt markieren', en: 'Mark as completed', fr: 'Marquer comme terminé', it: 'Segna come completato', es: 'Marcar como completada', el: 'Σήμανση ως ολοκληρωμένο' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Als erledigt markieren', en: 'Mark as completed', fr: 'Marquer comme terminé', it: 'Segna come completato', es: 'Marcar como completada', el: 'Σήμανση ως ολοκληρωμένο' })}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-emerald-400 hover:bg-emerald-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
-                ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400 animate-pulse' : (taskColor !== 'none' ? colorStyle.iconColor : iconDetails.color)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
-                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-emerald-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-[#00ff66] hover:bg-[#00ff66]/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+                ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400 animate-pulse' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
+                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-[#00ff66] opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
               </span>
             </button>
-            <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium text-gray-200 hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-amber-200 font-bold' : (taskColor !== 'none' ? colorStyle.text : '')} ${pair.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
+            <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
             ${recurrenceBadge}
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
@@ -1849,9 +1960,9 @@ function renderMobileCategoryTabs() {
   }).join('');
 
   const addListBtnHtml = `
-    <button onclick="openAddListInline(true)" class="mobile-tab-btn opacity-85 hover:opacity-100 border border-dashed border-purple-500/40 bg-purple-500/10 text-purple-300 hover:text-white" title="${tr({ de: 'Neue Liste hinzufügen', en: 'Add new list', es: 'Añadir nueva lista', fr: 'Ajouter une nouvelle liste', it: 'Aggiungi nuova lista', el: 'Προσθήκη νέας λίστας' })}">
+    <button onclick="openAddListInline(true)" class="mobile-tab-btn opacity-85 hover:opacity-100 border border-dashed border-purple-500/40 bg-purple-500/10 text-purple-300 hover:text-white" title="${tr({ de: 'Neue Karte hinzufügen', en: 'Add new card', es: 'Añadir nueva lista', fr: 'Ajouter une nouvelle liste', it: 'Aggiungi nuova lista', el: 'Προσθήκη νέας λίστας' })}">
       <i data-lucide="plus" class="w-3.5 h-3.5 text-purple-400"></i>
-      <span>+ ${tr({ de: 'Liste', en: 'List', es: 'Lista', fr: 'Liste', it: 'Lista', el: 'Λίστα' })}</span>
+      <span>+ ${tr({ de: 'Karte', en: 'List', es: 'Lista', fr: 'Liste', it: 'Lista', el: 'Λίστα' })}</span>
     </button>
   `;
 
@@ -1921,66 +2032,103 @@ function animateTaskToDone(taskEl, targetSelector, onComplete) {
 
 function handleCompleteTask(category, index, event) {
   if (event) event.stopPropagation();
-  let taskEl = null; if (event && event.currentTarget) { taskEl = event.currentTarget.closest('div[draggable="true"]'); }
+  const curItems = getCurrentWorkspaceItems();
+  const curDone = getCurrentWorkspaceDone();
+  if (!curItems || !curItems[category]) return;
+
+  // Sanitize array & retrieve task
+  curItems[category] = (curItems[category] || []).filter(Boolean);
+  const rawTask = curItems[category][index];
+  if (!rawTask) return;
+
+  let taskEl = null;
+  if (event && event.currentTarget) {
+    taskEl = event.currentTarget.closest('div[draggable="true"]');
+  }
   const clientX = event?.clientX || (taskEl ? taskEl.getBoundingClientRect().left + 40 : null);
   const clientY = event?.clientY || (taskEl ? taskEl.getBoundingClientRect().top + 20 : null);
 
-  const onComplete = () => {
-    const curItems = getCurrentWorkspaceItems();
-    const curDone = getCurrentWorkspaceDone();
-    const rawTask = curItems[category]?.[index]; if (!rawTask) return;
-    saveHistory(); 
-    curItems[category].splice(index, 1); 
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); 
-    const todayStr = now.toISOString().split('T')[0];
-    let taskText = typeof rawTask === 'object' ? rawTask.task : rawTask;
-    if (typeof rawTask === 'object' && rawTask.date) {
-      let locInfo = rawTask.location ? ` @ ${rawTask.location}` : ''; taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
-    }
-    curDone.push({ task: taskText, origin: category, date: todayStr, time: timeStr });
-    if (state.completedSteps) delete state.completedSteps[taskText];
-    
-    setThemeSlow(getSimilarTheme(currentTheme)); 
-    saveState(); 
-    if (typeof CollabEngine !== 'undefined') {
-      CollabEngine.broadcastBoardEvent(`hat Aufgabe erledigt: "${taskText.substring(0, 32)}" ✅`);
-    }
-    showPraise(); 
-    renderApp(); 
-    updateZenView(); 
-    populateHelperTaskSelect();
+  saveHistory();
+  // Remove immediately to eliminate blank gaps
+  curItems[category].splice(index, 1);
+  curItems[category] = curItems[category].filter(Boolean);
 
-    // 100% Celebration Check: Wenn Heute/Fokus komplett erledigt ist -> Feierabend-Erlebnis
-    const isDailyCat = category === 'daily' || category === 'work_focus';
-    if (isDailyCat && (curItems[category] || []).length === 0) {
-      setTimeout(() => openFeierabendModal(), 450);
-    } else if ((curItems[category] || []).length === 0) {
-      // 100% Spalten-Badge Glow
-      showToast(tr({
-        de: `Spalte "${t(category)}" zu 100% erledigt! 🌟`,
-        en: `Column "${t(category)}" 100% completed! 🌟`,
-        fr: `Colonne "${t(category)}" terminée à 100% ! 🌟`,
-        it: `Colonna "${t(category)}" completata al 100%! 🌟`,
-        es: `¡Columna "${t(category)}" completada al 100%! 🌟`,
-        el: `Η στήλη "${t(category)}" ολοκληρώθηκε 100%! 🌟`
-      }));
-    }
+  const now = new Date();
+  const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const todayStr = now.toISOString().split('T')[0];
+  let taskText = (typeof rawTask === 'object' && rawTask !== null) ? (rawTask.task || rawTask.name || '') : String(rawTask || '');
+  if (typeof rawTask === 'object' && rawTask !== null && rawTask.date) {
+    let locInfo = rawTask.location ? ` @ ${rawTask.location}` : '';
+    taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
+  }
+
+  const doneEntry = {
+    id: (typeof rawTask === 'object' && rawTask !== null && rawTask.id) ? rawTask.id : ('done_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4)),
+    task: taskText,
+    origin: category,
+    date: todayStr,
+    time: timeStr
   };
 
-  // Taktiler Leica-Klick & Fröhlicher Dur-Akkord & wechselnde Celebration-Partikel & Haptik & Canvas Sparkles
+  curDone.push(doneEntry);
+
+  const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+  if (s) {
+    if (s.activeWorkspace === 'study') {
+      if (!Array.isArray(s.studyDone)) s.studyDone = [];
+      if (!s.studyDone.some(d => d === doneEntry || (typeof d === 'object' && d && d.task === doneEntry.task && d.time === doneEntry.time))) {
+        s.studyDone.push(doneEntry);
+      }
+    } else if (s.activeWorkspace === 'work') {
+      if (!Array.isArray(s.workDone)) s.workDone = [];
+      if (!s.workDone.some(d => d === doneEntry || (typeof d === 'object' && d && d.task === doneEntry.task && d.time === doneEntry.time))) {
+        s.workDone.push(doneEntry);
+      }
+    } else {
+      if (!Array.isArray(s.done)) s.done = [];
+      if (!s.done.some(d => d === doneEntry || (typeof d === 'object' && d && d.task === doneEntry.task && d.time === doneEntry.time))) {
+        s.done.push(doneEntry);
+      }
+    }
+  }
+
+  if (state && state.completedSteps) delete state.completedSteps[taskText];
+
+  if (typeof setThemeSlow === 'function' && typeof getSimilarTheme === 'function') {
+    setThemeSlow(getSimilarTheme(currentTheme));
+  }
+  saveState();
+
+  if (typeof CollabEngine !== 'undefined') {
+    CollabEngine.broadcastBoardEvent(`hat Aufgabe erledigt: "${taskText.substring(0, 32)}" ✅`);
+  }
+  if (typeof showPraise === 'function') showPraise();
+
+  // Instant sensory feedback
   if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback();
   if (typeof triggerSparkleEffect === 'function') triggerSparkleEffect(clientX, clientY);
   if (typeof playTactileClickSound === 'function') playTactileClickSound();
   if (typeof playCheerfulSuccessJingle === 'function') playCheerfulSuccessJingle();
   if (typeof triggerCelebrationParticles === 'function') triggerCelebrationParticles(clientX, clientY);
+  if (typeof spawnFloatingBubbles === 'function') spawnFloatingBubbles(event);
 
-  if (taskEl) { 
-    spawnFloatingBubbles(event);
-    animateTaskToDone(taskEl, '#list-done', onComplete); 
-  } else { 
-    spawnFloatingBubbles(event);
-    onComplete(); 
+  renderApp();
+  if (typeof updateZenView === 'function') updateZenView();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+
+  // 100% Celebration Check
+  const isDailyCat = category === 'daily' || category === 'work_focus';
+  if (isDailyCat && (curItems[category] || []).length === 0) {
+    setTimeout(() => openFeierabendModal(), 450);
+  } else if ((curItems[category] || []).length === 0) {
+    showToast(tr({
+      de: `Karte "${t(category)}" zu 100% erledigt! 🌟`,
+      en: `Card "${t(category)}" 100% completed! 🌟`,
+      fr: `Carte "${t(category)}" terminée à 100% ! 🌟`,
+      it: `Scheda "${t(category)}" completata al 100%! 🌟`,
+      es: `¡Tarjeta "${t(category)}" completada al 100%! 🌟`,
+      el: `Η κάρτα "${t(category)}" ολοκληρώθηκε 100%! 🌟`
+    }));
   }
 }
 
@@ -2047,10 +2195,15 @@ function handleRestoreDoneTask(doneIndex) {
   curDone.splice(reversedIndex, 1);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
   const fallbackCat = ws === 'study' ? 'study_focus' : (ws === 'work' ? 'work_focus' : 'daily');
-  const targetCat = curItems[item.origin] ? item.origin : fallbackCat;
+  const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
+  const targetCat = (item && item.origin && curItems[item.origin]) ? item.origin : fallbackCat;
   if (!curItems[targetCat]) curItems[targetCat] = [];
-  curItems[targetCat].push(item.task);
-  saveState(); showToast(t('toast_task_restored')); renderApp(); updateZenView(); populateHelperTaskSelect();
+  curItems[targetCat].push(taskText);
+  saveState();
+  showToast(t('toast_task_restored') || tr({ de: 'Aufgabe wiederhergestellt ↩️', en: 'Task restored ↩️', fr: 'Tâche restaurée ↩️', it: 'Attività ripristinata ↩️', es: 'Tarea restaurada ↩️', el: 'Εργασία επαναφέρθηκε ↩️' }));
+  renderApp();
+  if (typeof updateZenView === 'function') updateZenView();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
 }
 
 let draggedItemInfo = null;
@@ -2257,7 +2410,30 @@ var pinnedPanel = (typeof window !== 'undefined' && window.pinnedPanel) ? window
 let hoverPanelShowTimeout = null;
 let hoverPanelHideTimeout = null;
 
-function showPanelHover(panelName, delay = 160) {
+function syncHeaderToolsMenuState() {
+  const toolsBtn = document.getElementById('btn-header-tools');
+  const toolsWrapper = document.getElementById('header-tools-wrapper');
+  
+  const TOOL_PANEL_IDS = [
+    'panel-header-tools', 'panel-collab-chat', 'panel-radio', 'panel-news',
+    'panel-audio', 'panel-alarm', 'panel-daily', 'panel-inspiration',
+    'panel-impulse', 'panel-shopping', 'panel-cooking', 'panel-fitness',
+    'panel-cleaning-guide', 'panel-learning-hub', 'panel-clarity'
+  ];
+  
+  const isAnyToolOpen = TOOL_PANEL_IDS.some(id => {
+    const el = document.getElementById(id);
+    return el && !el.classList.contains('hidden');
+  });
+
+  if (toolsBtn) toolsBtn.classList.toggle('is-menu-open', !!isAnyToolOpen);
+  if (toolsWrapper) toolsWrapper.classList.toggle('is-menu-open', !!isAnyToolOpen);
+  if (typeof document !== 'undefined' && document.body) {
+    document.body.classList.toggle('has-tool-panel-open', !!isAnyToolOpen);
+  }
+}
+
+function showPanelHover(panelName, delay = 0) {
   if (hoverPanelHideTimeout) {
     clearTimeout(hoverPanelHideTimeout);
     hoverPanelHideTimeout = null;
@@ -2265,11 +2441,6 @@ function showPanelHover(panelName, delay = 160) {
   if (hoverPanelShowTimeout) {
     clearTimeout(hoverPanelShowTimeout);
     hoverPanelShowTimeout = null;
-  }
-
-  // Header-Tools Popover beim Logo sofort ohne Verzögerung anzeigen
-  if (panelName === 'header-tools') {
-    delay = 0;
   }
 
   const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat'];
@@ -2315,7 +2486,7 @@ function showPanelHover(panelName, delay = 160) {
       }
     });
 
-    el.classList.remove('hidden');
+    el.classList.remove('hidden'); syncHeaderToolsMenuState();
     if (typeof adjustPanelPosition === 'function') {
       adjustPanelPosition(el, panelName);
     } else if (typeof window !== 'undefined' && typeof window.adjustPanelPosition === 'function') {
@@ -2374,19 +2545,42 @@ function showPanelHover(panelName, delay = 160) {
 }
 window.showPanelHover = showPanelHover;
 
-function hidePanelHover(panelName, gracePeriod = 900) {
-  // Clear pending open triggers when moving away from a trigger
+function hidePanelHover(panelName, gracePeriod = 220) {
   if (hoverPanelShowTimeout) {
     clearTimeout(hoverPanelShowTimeout);
     hoverPanelShowTimeout = null;
   }
-  // UX Optimization: Popups, menus, and tool windows do NOT close accidentally
-  // merely because the mouse moves into blank page space.
-  // They stay comfortably open and close reliably via:
-  // - Top-right "✕" close button
-  // - Escape key (Esc)
-  // - Clicking outside / on something else (pointerdown listener)
-  // - Hovering or clicking on a different feature/menu trigger
+  if (hoverPanelHideTimeout) {
+    clearTimeout(hoverPanelHideTimeout);
+    hoverPanelHideTimeout = null;
+  }
+
+  if (pinnedPanel && pinnedPanel === panelName) return;
+
+  hoverPanelHideTimeout = setTimeout(() => {
+    if (pinnedPanel && pinnedPanel === panelName) return;
+
+    if (panelName === 'header-tools') {
+      const toolsWrapper = document.getElementById('header-tools-wrapper');
+      const toolsPanel = document.getElementById('panel-header-tools');
+      try {
+        if (toolsWrapper && toolsWrapper.matches(':hover')) return;
+        if (toolsPanel && toolsPanel.matches(':hover')) return;
+      } catch (e) {}
+    }
+
+    const el = document.getElementById(`panel-${panelName}`);
+    if (el) {
+      el.classList.add('hidden');
+    }
+    if (currentlyOpenPanel === panelName) {
+      currentlyOpenPanel = null;
+      if (typeof window !== 'undefined') window.currentlyOpenPanel = null;
+    }
+    if (typeof syncHeaderToolsMenuState === 'function') {
+      syncHeaderToolsMenuState();
+    }
+  }, gracePeriod);
 }
 window.hidePanelHover = hidePanelHover;
 
@@ -2408,9 +2602,6 @@ document.addEventListener('pointerdown', (e) => {
   if (openPanelEl.contains(e.target)) return;
 
   // Wenn der Trigger-Button geklickt wurde: togglePanel übernimmt die Umschaltung
-  // (BUGFIX: reine JS-String-Prüfung statt CSS-Attribut-Selektoren mit verschachtelten
-  // Anführungszeichen – die alte Version erzeugte bei Namen wie "audio" einen ungültigen
-  // CSS-Selektor `[onclick*="togglePanel("audio")"]` und crashte mit DOMException.)
   const triggerPatterns = [
     `togglePanel('${activeName}')`,
     `togglePanel("${activeName}")`,
@@ -2441,6 +2632,9 @@ document.addEventListener('pointerdown', (e) => {
   }
   const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
   if (dockContainer) dockContainer.classList.remove('is-active');
+  if (typeof syncHeaderToolsMenuState === 'function') {
+    syncHeaderToolsMenuState();
+  }
 });
 
 let currentImportTargetCat = 'todo';

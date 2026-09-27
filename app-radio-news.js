@@ -143,18 +143,22 @@
   // Curated Calm Fallback Database (Guaranteed instant load offline)
   const FALLBACK_NEWS_DATABASE = {
     de: [
-      { title: 'EU beschließt neues Digitalpaket für Verbraucherschutz', summary: 'Strengere Transparenzregeln für Algorithmen und vereinfachte Kündigungen von Online-Abos ab sofort wirksam.', source: 'Tagesschau', category: 'top', time: 'vor 12 Min', url: 'https://www.tagesschau.de' },
-      { title: 'Investitionen in erneuerbare Energien erreichen Höchststand', summary: 'Über 58 Prozent des bundesweiten Strombedarfs stammten im letzten Quartal aus Wind- und Solarkraft.', source: 'Spiegel', category: 'top', time: 'vor 25 Min', url: 'https://www.spiegel.de' },
-      { title: 'Bahn erweitert Schnellfahrstrecken & Pünktlichkeitsoffensive', summary: 'Neue ICE-Verbindungen verkürzen Reisezeiten zwischen Berlin, Frankfurt und München spürbar.', source: 'Zeit Online', category: 'top', time: 'vor 45 Min', url: 'https://www.zeit.de' },
-      { title: 'Neues Open-Source KI-Modell läuft direkt lokal im Browser', summary: 'WebGPU ermöglicht blitzschnelle Sprachmodelle ohne Datenübertragung an fremde Server.', source: 'Heise', category: 'tech', time: 'vor 18 Min', url: 'https://www.heise.de' },
-      { title: 'Durchbruch bei Festkörper-Akkus: 1000 km Reichweite & 10 Min Ladezeit', summary: 'Neue Silizium-Anoden-Technologie verspricht längere Haltbarkeit und doppelte Energiedichte.', source: 'Heise', category: 'tech', time: 'vor 35 Min', url: 'https://www.heise.de' },
-      { title: 'James Webb Teleskop entdeckt bisher älteste bekannte Galaxie', summary: 'Die Galaxie entstand nur 290 Millionen Jahre nach dem Urknall und überrascht mit hoher Leuchtkraft.', source: 'Spektrum', category: 'science', time: 'vor 30 Min', url: 'https://www.spektrum.de' },
-      { title: 'Tiefsee-Expedition entdeckt über 100 neue Tierarten vor Chile', summary: 'Korallengärten und fluoreszierende Tiefsee-Organismen in bis zu 4000 Metern Tiefe dokumentiert.', source: 'Spektrum', category: 'science', time: 'vor 1 Std', url: 'https://www.spektrum.de' },
-      { title: 'Globale Wiederaufforstung verzeichnet 1 Million Hektar neuen Wald', summary: 'Internationale Naturschutzprojekte regenerieren erfolgreich artenreiche Mischwälder.', source: 'Good News DE', category: 'goodnews', time: 'vor 20 Min', url: 'https://goodnews.eu' },
-      { title: 'Meeresreinigung entfernt Rekordmenge an Plastik aus dem Pazifik', summary: 'Autonome Barrieren sammeln über 250 Tonnen Zivilisationsmüll zur Wiederverwertung.', source: 'Good News DE', category: 'goodnews', time: 'vor 40 Min', url: 'https://goodnews.eu' },
-      { title: 'Europäische Zentralbank signalisiert stabile Zinsentwicklung', summary: 'Inflation sinkt kontinuierlich in Richtung des 2-Prozent-Ziels, Kaufkraft der Verbraucher stabilisiert sich.', source: 'Handelsblatt', category: 'business', time: 'vor 25 Min', url: 'https://www.handelsblatt.com' },
-      { title: 'Gründer-Boom in Europa: Starkes Wachstum bei nachhaltigen Start-ups', summary: 'Investitionen in Cleantech, Bildung und KI-Software steigen im laufenden Quartal um 24 Prozent.', source: 'Handelsblatt', category: 'business', time: 'vor 50 Min', url: 'https://www.handelsblatt.com' },
-      { title: 'Kuratierte Kunstausstellung begeistert 100.000 Besucher in 2 Wochen', summary: 'Verbindung von klassischer Malerei und immersiven Lichtinstallationen setzt neue Maßstäbe.', source: 'Zeit Online', category: 'culture', time: 'vor 40 Min', url: 'https://www.zeit.de' }
+      { title: 'EU beschließt neues Digitalpaket für Verbraucherschutz & faire Online-Märkte', summary: 'Strengere Transparenzregeln für Algorithmen und vereinfachte Kündigungen von Online-Abos ab sofort wirksam.', source: 'Tagesschau', category: 'top', time: 'vor 8 Min', url: 'https://www.tagesschau.de' },
+      { title: 'Investitionen in erneuerbare Energien erreichen Rekord: 58% des Strombedarfs aus Wind & Sonne', summary: 'Über 58 Prozent des bundesweiten Strombedarfs stammten im letzten Quartal aus Wind- und Solarkraft.', source: 'Spiegel', category: 'top', time: 'vor 15 Min', url: 'https://www.spiegel.de' },
+      { title: 'Bahn erweitert Schnellfahrstrecken & Pünktlichkeitsoffensive auf Hauptachsen', summary: 'Neue ICE-Verbindungen verkürzen Reisezeiten zwischen Berlin, Frankfurt und München spürbar.', source: 'Zeit Online', category: 'top', time: 'vor 25 Min', url: 'https://www.zeit.de' },
+      { title: 'Neues Open-Source KI-Modell läuft vollständig lokal im Browser ohne Cloud', summary: 'WebGPU ermöglicht blitzschnelle Sprachmodelle ohne Datenübertragung an fremde Server.', source: 'Heise Tech', category: 'tech', time: 'vor 12 Min', url: 'https://www.heise.de' },
+      { title: 'Durchbruch bei Festkörper-Akkus: 1000 km Reichweite & 10 Min Ladezeit', summary: 'Neue Silizium-Anoden-Technologie verspricht längere Haltbarkeit und doppelte Energiedichte.', source: 'Heise Tech', category: 'tech', time: 'vor 28 Min', url: 'https://www.heise.de' },
+      { title: 'James Webb Teleskop entdeckt bisher älteste bekannte Galaxie im fernen Kosmos', summary: 'Die Galaxie entstand nur 290 Millionen Jahre nach dem Urknall und überrascht mit hoher Leuchtkraft.', source: 'Spektrum', category: 'science', time: 'vor 30 Min', url: 'https://www.spektrum.de' },
+      { title: 'Tiefsee-Expedition entdeckt über 100 neue Tierarten vor der chilenischen Küste', summary: 'Korallengärten und fluoreszierende Tiefsee-Organismen in bis zu 4000 Metern Tiefe dokumentiert.', source: 'Spektrum', category: 'science', time: 'vor 45 Min', url: 'https://www.spektrum.de' },
+      { title: 'Globale Wiederaufforstung verzeichnet 1 Million Hektar gesunden neuen Mischwald', summary: 'Internationale Naturschutzprojekte regenerieren erfolgreich artenreiche Mischwälder.', source: 'Good News DE', category: 'goodnews', time: 'vor 18 Min', url: 'https://goodnews.eu' },
+      { title: 'Ozeanreinigung entfernt Rekordmenge von 250 Tonnen Plastikmüll aus dem Meer', summary: 'Autonome Barrieren sammeln Zivilisationsmüll zur Wiederverwertung.', source: 'Good News DE', category: 'goodnews', time: 'vor 35 Min', url: 'https://goodnews.eu' },
+      { title: 'Europäische Zentralbank signalisiert stabile Zinsentwicklung bei sinkender Inflation', summary: 'Inflation sinkt kontinuierlich in Richtung des 2-Prozent-Ziels, Kaufkraft der Verbraucher stabilisiert sich.', source: 'Handelsblatt', category: 'business', time: 'vor 22 Min', url: 'https://www.handelsblatt.com' },
+      { title: 'Gründer-Boom in Europa: Starkes Wachstum bei nachhaltigen Start-ups & Green-Tech', summary: 'Investitionen in Cleantech, Bildung und KI-Software steigen im laufenden Quartal um 24 Prozent.', source: 'Handelsblatt', category: 'business', time: 'vor 40 Min', url: 'https://www.handelsblatt.com' },
+      { title: 'Kuratierte Kunstausstellung begeistert 100.000 Besucher in 2 Wochen', summary: 'Verbindung von klassischer Malerei und immersiven Lichtinstallationen setzt neue Maßstäbe.', source: 'Zeit Online', category: 'culture', time: 'vor 50 Min', url: 'https://www.zeit.de' },
+      { title: 'Medizinischer Meilenstein: Personalisierte mRNA-Therapie zeigt hohe Wirksamkeit', summary: 'Klinische Studien bestätigen maßgeschneiderte Immunantworten bei minimalen Nebenwirkungen.', source: 'Spektrum', category: 'science', time: 'vor 1 Std', url: 'https://www.spektrum.de' },
+      { title: 'Städtische Grünflächen senken Sommertemperaturen in Großstädten um bis zu 4 Grad', summary: 'Forschungsprojekt belegt die herausragende Klimaresilienz von begrünten Dächern und Parks.', source: 'Good News DE', category: 'goodnews', time: 'vor 1 Std', url: 'https://goodnews.eu' },
+      { title: 'Europäisches Glasfasernetz erreicht 85% aller Haushalte für High-Speed Internet', summary: 'Flächendeckender Ausbau sichert zukunftssichere digitale Infrastruktur für Remote Work.', source: 'Heise Tech', category: 'tech', time: 'vor 1.5 Std', url: 'https://www.heise.de' },
+      { title: 'Philharmonie eröffnet internationale Saison mit gefeiertem Akustik-Konzert', summary: 'Musikerinnen und Musiker aus 20 Ländern setzen ein starkes Zeichen für kulturelle Vielfalt.', source: 'Tagesschau', category: 'culture', time: 'vor 2 Std', url: 'https://www.tagesschau.de' }
     ],
     at: [
       { title: 'Österreich investiert 3 Milliarden Euro in den Bahnausbau', summary: 'Koralmbahn und Brenner-Zulaufstrecken verkürzen Reisezeiten im Alpenraum drastisch.', source: 'ORF News', category: 'top', time: 'vor 20 Min', url: 'https://orf.at' },
@@ -294,6 +298,12 @@
   let currentNewsItems = [];
   let isLiveFetching = false;
   let cachedNewsByRegion = {};
+
+  // Ticker State
+  let currentTickerIndex = 0;
+  let tickerSpeedSec = parseInt(localStorage.getItem('flow_ticker_speed') || '7', 10);
+  let tickerIntervalTimer = null;
+  let isTickerHoverPaused = false;
 
   // ============================================================================
   // 3. RADIO PLAYER CORE
@@ -436,29 +446,82 @@
   // 4. NEWS AGGREGATOR & LIVE PROXY FETCHER
   // ============================================================================
 
+  function parseRssXml(xmlText, defaultSource = 'News') {
+    try {
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+      const items = xmlDoc.querySelectorAll('item');
+      if (!items || items.length === 0) return [];
+      
+      const results = [];
+      items.forEach((item, idx) => {
+        if (idx >= 15) return;
+        const title = item.querySelector('title')?.textContent?.trim() || '';
+        const link = item.querySelector('link')?.textContent?.trim() || '#';
+        const desc = item.querySelector('description')?.textContent?.trim() || '';
+        const pubDate = item.querySelector('pubDate')?.textContent?.trim() || '';
+        
+        if (!title) return;
+        const cleanDesc = desc
+          .replace(/<[^>]*>?/gm, '')
+          .replace(/&nbsp;/g, ' ')
+          .replace(/&amp;/g, '&')
+          .trim();
+        const shortSummary = cleanDesc;
+
+        let timeLabel = 'vorhin';
+        if (pubDate) {
+          const diffMins = Math.round((Date.now() - new Date(pubDate).getTime()) / 60000);
+          if (diffMins > 0 && diffMins < 60) timeLabel = `vor ${diffMins}m`;
+          else if (diffMins >= 60 && diffMins < 1440) timeLabel = `vor ${Math.round(diffMins/60)}h`;
+        }
+
+        results.push({
+          title,
+          summary: shortSummary || title,
+          source: defaultSource,
+          category: idx % 3 === 0 ? 'top' : (idx % 3 === 1 ? 'tech' : 'science'),
+          time: timeLabel,
+          url: link
+        });
+      });
+      return results;
+    } catch (e) {
+      return [];
+    }
+  }
+
   async function fetchNewsForRegion(region, forceRefresh = false) {
-    if (!forceRefresh && cachedNewsByRegion[region] && cachedNewsByRegion[region].length > 0) {
+    const reg = region || currentRegion || 'de';
+    
+    // 1. Instantly populate rich curated fallback items for instant display
+    const fallbackList = FALLBACK_NEWS_DATABASE[reg] || FALLBACK_NEWS_DATABASE.de || [];
+    if (!currentNewsItems || currentNewsItems.length === 0 || forceRefresh) {
+      currentNewsItems = [...fallbackList];
+    }
+    applyFilterAndRender();
+
+    if (!forceRefresh && cachedNewsByRegion[reg] && cachedNewsByRegion[reg].length > 0) {
+      currentNewsItems = [...cachedNewsByRegion[reg]];
       applyFilterAndRender();
       return;
     }
 
-    // Default to rich curated fallback
-    const fallbackList = FALLBACK_NEWS_DATABASE[region] || FALLBACK_NEWS_DATABASE.de || [];
-    currentNewsItems = [...fallbackList];
-    applyFilterAndRender();
-
-    // Try fetching live RSS for the region's main sources if online
-    if (typeof navigator !== 'undefined' && navigator.onLine && LOCAL_MEDIA_OUTLETS[region]) {
-      const outlets = LOCAL_MEDIA_OUTLETS[region].filter(o => o.rss);
+    // 2. Try live fetching across RSS sources if online
+    if (typeof navigator !== 'undefined' && navigator.onLine && LOCAL_MEDIA_OUTLETS[reg]) {
+      const outlets = LOCAL_MEDIA_OUTLETS[reg].filter(o => o.rss);
       if (outlets.length > 0) {
         isLiveFetching = true;
         updateNewsFetchIndicator(true);
 
+        const targetOutlet = outlets[0];
+        let fetchedItems = [];
+
+        // Attempt A: rss2json
         try {
-          const targetOutlet = outlets[0];
-          const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(targetOutlet.rss)}&api_key=`;
+          const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(targetOutlet.rss)}`;
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 4000);
+          const timeoutId = setTimeout(() => controller.abort(), 3500);
 
           const res = await fetch(proxyUrl, { signal: controller.signal });
           clearTimeout(timeoutId);
@@ -466,13 +529,13 @@
           if (res.ok) {
             const data = await res.json();
             if (data && data.items && data.items.length > 0) {
-              const parsed = data.items.slice(0, 14).map((item, idx) => {
+              fetchedItems = data.items.slice(0, 14).map((item, idx) => {
                 const cleanDesc = (item.description || item.content || '')
                   .replace(/<[^>]*>?/gm, '')
                   .replace(/&nbsp;/g, ' ')
                   .replace(/&amp;/g, '&')
                   .trim();
-                const shortSummary = cleanDesc.length > 170 ? cleanDesc.slice(0, 167) + '...' : cleanDesc;
+                const shortSummary = cleanDesc;
 
                 let timeLabel = 'vorhin';
                 if (item.pubDate) {
@@ -482,37 +545,57 @@
                 }
 
                 return {
-                  title: item.title.trim(),
-                  summary: shortSummary || item.title,
+                  title: item.title ? item.title.trim() : '',
+                  summary: shortSummary || item.title || '',
                   source: data.feed?.title?.split('-')[0]?.trim() || targetOutlet.name,
                   category: idx % 3 === 0 ? 'top' : (idx % 3 === 1 ? 'tech' : 'science'),
                   time: timeLabel,
                   url: item.link || '#'
                 };
-              });
-
-              if (parsed.length > 0) {
-                // Merge with fallback items to guarantee rich multi-category diversity
-                const combined = [...parsed, ...fallbackList];
-                const seenTitles = new Set();
-                const uniqueItems = combined.filter(it => {
-                  if (seenTitles.has(it.title.toLowerCase())) return false;
-                  seenTitles.add(it.title.toLowerCase());
-                  return true;
-                });
-
-                currentNewsItems = uniqueItems;
-                cachedNewsByRegion[region] = uniqueItems;
-                applyFilterAndRender();
-              }
+              }).filter(it => it.title);
             }
           }
-        } catch (err) {
-          // Keep rich curated fallback
-        } finally {
-          isLiveFetching = false;
-          updateNewsFetchIndicator(false);
+        } catch (e) {}
+
+        // Attempt B: allorigins proxy fallback if Attempt A was empty
+        if (fetchedItems.length === 0) {
+          try {
+            const allOriginsUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetOutlet.rss)}`;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3500);
+
+            const res = await fetch(allOriginsUrl, { signal: controller.signal });
+            clearTimeout(timeoutId);
+
+            if (res.ok) {
+              const data = await res.json();
+              if (data && data.contents) {
+                fetchedItems = parseRssXml(data.contents, targetOutlet.name);
+              }
+            }
+          } catch (e) {}
         }
+
+        if (fetchedItems.length > 0) {
+          // Merge live items with fallback items to guarantee rich multi-category diversity
+          const combined = [...fetchedItems, ...fallbackList];
+          const seenTitles = new Set();
+          const uniqueItems = combined.filter(it => {
+            const key = (it.title || '').toLowerCase().trim();
+            if (!key || seenTitles.has(key)) return false;
+            seenTitles.add(key);
+            return true;
+          });
+
+          if (uniqueItems.length > 0) {
+            currentNewsItems = uniqueItems;
+            cachedNewsByRegion[reg] = uniqueItems;
+            applyFilterAndRender();
+          }
+        }
+
+        isLiveFetching = false;
+        updateNewsFetchIndicator(false);
       }
     }
   }
@@ -562,11 +645,15 @@
   }
 
   function getFilteredNewsItems() {
-    let items = currentNewsItems.length > 0 ? currentNewsItems : (FALLBACK_NEWS_DATABASE[currentRegion] || FALLBACK_NEWS_DATABASE.de || []);
+    const baseFallback = FALLBACK_NEWS_DATABASE[currentRegion] || FALLBACK_NEWS_DATABASE.de || [];
+    let items = (currentNewsItems && currentNewsItems.length > 0) ? [...currentNewsItems] : [...baseFallback];
     
     // 1. Filter by category
     if (currentCategory && currentCategory !== 'all') {
-      items = items.filter(it => it.category === currentCategory);
+      const filtered = items.filter(it => it.category === currentCategory);
+      if (filtered.length > 0) {
+        items = filtered;
+      }
     }
 
     // 2. Filter by local media outlet
@@ -574,20 +661,30 @@
       const outlets = LOCAL_MEDIA_OUTLETS[currentRegion] || [];
       const outletObj = outlets.find(o => o.id === currentMedia);
       if (outletObj && outletObj.match) {
-        items = items.filter(it => {
+        const filtered = items.filter(it => {
           const srcLower = (it.source || '').toLowerCase();
           return outletObj.match.some(m => srcLower.includes(m));
         });
+        if (filtered.length > 0) {
+          items = filtered;
+        }
       }
     }
 
     // 3. Filter by search query
     if (searchQuery) {
-      items = items.filter(it => 
+      const filtered = items.filter(it => 
         (it.title || '').toLowerCase().includes(searchQuery) ||
         (it.summary || '').toLowerCase().includes(searchQuery) ||
         (it.source || '').toLowerCase().includes(searchQuery)
       );
+      if (filtered.length > 0) {
+        items = filtered;
+      }
+    }
+
+    if (!items || items.length === 0) {
+      items = baseFallback;
     }
 
     return items;
@@ -597,6 +694,7 @@
     const items = getFilteredNewsItems();
     renderNewsCards(items);
     renderTickerMarquee(items);
+    renderSubheaderTicker(items);
     updateItemsCount(items.length);
   }
 
@@ -681,7 +779,7 @@
     tickerContainer.innerHTML = items.slice(0, 10).map((it, idx) => `
       <span class="inline-flex items-center gap-1.5 mx-3.5 text-xs text-gray-300 hover:text-white transition cursor-pointer" onclick="RadioNewsEngine.startNewsReader(${idx})">
         <span class="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0"></span>
-        <span class="font-medium text-gray-200 hover:underline truncate max-w-[260px]">${it.title}</span>
+        <span class="font-medium text-gray-200 hover:underline">${it.title}</span>
         <span class="text-[9px] text-gray-500 font-mono">(${it.source})</span>
       </span>
     `).join('');
@@ -725,8 +823,8 @@
 
         <!-- Headline & Summary -->
         <div class="space-y-1">
-          <h4 class="text-xs font-bold text-white group-hover:text-purple-200 transition-colors leading-snug line-clamp-2">${item.title}</h4>
-          <p class="text-[11px] text-gray-400 group-hover:text-gray-300 leading-relaxed font-normal line-clamp-3">${item.summary}</p>
+          <h4 class="text-xs font-bold text-white group-hover:text-purple-200 transition-colors leading-snug">${item.title}</h4>
+          <p class="text-[11px] text-gray-300 group-hover:text-white leading-relaxed font-normal">${item.summary}</p>
         </div>
 
         <!-- Bottom Tag -->
@@ -789,6 +887,388 @@
   }
 
   // ============================================================================
+  
+  // ============================================================================
+  // 6.5 SUBHEADER LIVE TELETEXT NEWS TICKER ENGINE (Durchgängiges Band, Jede Nachricht andere Farbe, Live-Tausch)
+  // ============================================================================
+
+  const NEWS_VIBRANT_PALETTE = [
+    { name: 'crimson-red', hex: '#ff3b5c', glow: 'rgba(255, 59, 92, 0.6)', bg: 'rgba(255, 59, 92, 0.18)', border: 'rgba(255, 59, 92, 0.5)' },
+    { name: 'electric-cyan', hex: '#00e5ff', glow: 'rgba(0, 229, 255, 0.6)', bg: 'rgba(0, 229, 255, 0.18)', border: 'rgba(0, 229, 255, 0.5)' },
+    { name: 'sun-yellow', hex: '#facc15', glow: 'rgba(250, 204, 21, 0.6)', bg: 'rgba(250, 204, 21, 0.18)', border: 'rgba(250, 204, 21, 0.5)' },
+    { name: 'vivid-blue', hex: '#3b82f6', glow: 'rgba(59, 130, 246, 0.6)', bg: 'rgba(59, 130, 246, 0.18)', border: 'rgba(59, 130, 246, 0.5)' },
+    { name: 'neon-lime', hex: '#a3e635', glow: 'rgba(163, 230, 53, 0.6)', bg: 'rgba(163, 230, 53, 0.18)', border: 'rgba(163, 230, 53, 0.5)' },
+    { name: 'coral-orange', hex: '#ff7a00', glow: 'rgba(255, 122, 0, 0.6)', bg: 'rgba(255, 122, 0, 0.18)', border: 'rgba(255, 122, 0, 0.5)' },
+    { name: 'hot-magenta', hex: '#e879f9', glow: 'rgba(232, 121, 249, 0.6)', bg: 'rgba(232, 121, 249, 0.18)', border: 'rgba(232, 121, 249, 0.5)' },
+    { name: 'mint-teal', hex: '#14b8a6', glow: 'rgba(20, 184, 166, 0.6)', bg: 'rgba(20, 184, 166, 0.18)', border: 'rgba(20, 184, 166, 0.5)' }
+  ];
+
+  let tickerOptionsHoverTimeout = null;
+  let activeHoveredIndex = 0;
+  let tickerRotationOffset = 0;
+  let tickerAutoSwapInterval = null;
+
+  function showOptionsHover() {
+    if (tickerOptionsHoverTimeout) {
+      clearTimeout(tickerOptionsHoverTimeout);
+      tickerOptionsHoverTimeout = null;
+    }
+    const popover = document.getElementById('ticker-settings-popover');
+    if (popover) {
+      popover.classList.remove('hidden');
+      renderTickerSettingsGrids();
+    }
+  }
+
+  function hideOptionsHover() {
+    if (tickerOptionsHoverTimeout) clearTimeout(tickerOptionsHoverTimeout);
+    tickerOptionsHoverTimeout = setTimeout(() => {
+      closeTickerSettingsDropdown();
+    }, 320);
+  }
+
+  function renderSubheaderTicker(items) {
+    if (!items) items = getFilteredNewsItems();
+    renderCurrentTeletextHeadline(items, true);
+  }
+
+  // Erzeugt das HTML für ein einzelnes Nachrichten-Item im durchgängigen Band
+  function createNewsItemHtml(it, idx, color) {
+    // Vollständiger Titel ohne Kürzung, kein '+' oder '✦', dichter Abstand mit dezentem Leuchtpunkt
+    const fullTitle = it.title || '';
+    return `
+      <div class="news-ticker-item inline-flex items-center gap-1 px-1.5 py-0.5 rounded-lg cursor-pointer transition-all select-none shrink-0"
+           data-news-idx="${idx}"
+           onmouseenter="RadioNewsEngine.setHoveredNews(${idx})"
+           onclick="RadioNewsEngine.handleNewsClick(${idx})">
+        <span class="font-bold tracking-wide font-display text-[10.5px] sm:text-[11.5px] whitespace-nowrap hover:underline py-0.5" 
+              style="color: ${color.hex}; text-shadow: 0 0 10px ${color.glow};">
+          ${fullTitle}
+        </span>
+        <span class="w-1.5 h-1.5 rounded-full inline-block shrink-0 mx-2 opacity-70" style="background-color: ${color.hex}; box-shadow: 0 0 6px ${color.hex};"></span>
+      </div>
+    `;
+  }
+
+  
+  // Synchronisierte 5-Sekunden Animationen für News, Tools-Icon, Wecker & Zufalls-Aufgabe
+  function triggerSynchronizedVisualPulse() {
+    try {
+      // 1. Tools Icon Animation anstoßen
+      const toolsIcon = document.querySelector('.tools-icon-spin-anim');
+      if (toolsIcon) {
+        toolsIcon.classList.remove('animate-tools-pulse');
+        // Trigger DOM reflow
+        void toolsIcon.offsetWidth;
+        toolsIcon.classList.add('animate-tools-pulse');
+      }
+
+      // 2. Wecker Icon & Button Blink-Impuls anstoßen
+      const alarmBtn = document.getElementById('btn-header-alarm');
+      if (alarmBtn) {
+        alarmBtn.classList.remove('animate-alarm-sync-pulse');
+        void alarmBtn.offsetWidth;
+        alarmBtn.classList.add('animate-alarm-sync-pulse');
+      }
+
+      // 3. Eine zufällige sichtbare Aufgabe leuchten & sanft animieren lassen
+      const taskCards = document.querySelectorAll('main div.group[draggable="true"]');
+      if (taskCards && taskCards.length > 0) {
+        // Entferne vorheriges Leuchten von allen Karten
+        taskCards.forEach(card => card.classList.remove('animate-task-random-glow'));
+        // Wähle eine zufällige Karte
+        const randomCard = taskCards[Math.floor(Math.random() * taskCards.length)];
+        if (randomCard) {
+          void randomCard.offsetWidth;
+          randomCard.classList.add('animate-task-random-glow');
+        }
+      }
+    } catch (err) {
+      console.warn('[NewsEngine] Synchronized visual pulse warning:', err);
+    }
+  }
+
+  function renderCurrentTeletextHeadline(items, withAnimation = true) {
+    if (!items || items.length === 0) items = getFilteredNewsItems();
+    const container = document.getElementById('board-ticker-track') || document.getElementById('teletext-news-item');
+    const parent = document.getElementById('board-ticker-viewport') || document.getElementById('teletext-news-container');
+    if (!container) return;
+
+    if (!items || items.length === 0) {
+      container.innerHTML = `
+        <span class="text-xs text-gray-400 italic">Keine aktuellen Meldungen für diese Filterauswahl</span>
+      `;
+      const pill = document.getElementById('ticker-hover-action-pill');
+      if (pill) pill.innerHTML = '';
+      return;
+    }
+
+    // Stelle sicher, dass currentTickerIndex im gültigen Bereich liegt
+    if (currentTickerIndex < 0 || currentTickerIndex >= items.length) {
+      currentTickerIndex = 0;
+    }
+
+    const currentItem = items[currentTickerIndex];
+    const color = NEWS_VIBRANT_PALETTE[currentTickerIndex % NEWS_VIBRANT_PALETTE.length];
+    const fullTitle = currentItem.title || '';
+
+    // Zeige genau EINE Nachricht mit ihrer individuellen Kontrast-Farbe und sanfter Überblendung
+    container.innerHTML = `
+      <div class="inline-flex items-center gap-1.5 max-w-full overflow-hidden cursor-pointer ${withAnimation ? 'animate-headline-swap' : ''}"
+           onclick="RadioNewsEngine.handleNewsClick(${currentTickerIndex})"
+           title="${fullTitle} (${currentItem.source || ''})">
+        <span class="font-bold tracking-wide font-display text-[11px] sm:text-[12px] truncate hover:underline py-0.5" 
+              style="color: ${color.hex}; text-shadow: 0 0 8px ${color.glow};">
+          ${fullTitle}
+        </span>
+      </div>
+    `;
+
+    // Action-Pill mit Quelle & Zeit aktualisieren
+    updateHoverActionPill(currentItem, currentTickerIndex);
+    updateTickerDetailsInPopover(currentItem, currentTickerIndex);
+
+    // Zeitgleicher Puls: Tools-Icon dreht, Wecker blinkt, zufällige Aufgabe leuchtet auf
+    if (withAnimation) {
+      triggerSynchronizedVisualPulse();
+    }
+
+    // Alle 5 Sekunden (5000ms) automatisch zur nächsten Nachricht wechseln
+    if (tickerAutoSwapInterval) clearInterval(tickerAutoSwapInterval);
+    tickerAutoSwapInterval = setInterval(() => {
+      if (!isTickerHoverPaused) {
+        const freshItems = getFilteredNewsItems();
+        if (freshItems.length > 1) {
+          currentTickerIndex = (currentTickerIndex + 1) % freshItems.length;
+          renderCurrentTeletextHeadline(freshItems, true);
+        }
+      }
+    }, 5000);
+  }
+
+  
+  function updateTickerDetailsInPopover(currentItem, currentTickerIndex) {
+    const articleBox = document.getElementById('ticker-current-article-box');
+    if (!articleBox || !currentItem) return;
+    const color = NEWS_VIBRANT_PALETTE[currentTickerIndex % NEWS_VIBRANT_PALETTE.length];
+    const fullTitle = currentItem.title || '';
+    const fullSummary = currentItem.summary || '';
+    articleBox.innerHTML = `
+      <div class="flex items-center justify-between gap-2">
+        <span class="px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold shrink-0 shadow-xs" style="color: ${color.hex}; border: 1px solid ${color.border}; background-color: ${color.bg};">
+          ${currentItem.source || 'Live'}
+        </span>
+        <span class="text-[10px] font-mono text-gray-400 shrink-0">${currentItem.time || 'Jetzt'}</span>
+      </div>
+      <div class="text-xs font-bold text-white leading-snug">${fullTitle}</div>
+      ${fullSummary ? `<div class="text-[11px] text-gray-300 line-clamp-2 leading-relaxed">${fullSummary}</div>` : ''}
+      <div class="flex items-center justify-between pt-1 border-t border-white/5">
+        ${currentItem.url && currentItem.url !== '#' ? `
+          <a href="${currentItem.url}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1.5 transition border border-white/15" title="Vollständigen Artikel öffnen">
+            <span>Artikel im Browser lesen</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        ` : '<div></div>'}
+        <button onclick="RadioNewsEngine.toggleCurrentTickerTTS(event, ${currentTickerIndex})" class="px-2.5 py-1 rounded-xl bg-purple-500/25 hover:bg-purple-500/40 border border-purple-400/40 text-purple-200 hover:text-white text-[11px] font-bold transition flex items-center gap-1.5 cursor-pointer">
+          <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
+          <span>Vorlesen</span>
+        </button>
+      </div>
+    `;
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  }
+
+  function updateHoverActionPill(it, idx) {
+    const hoverPill = document.getElementById('ticker-hover-action-pill');
+    if (!hoverPill || !it) return;
+
+    const color = NEWS_VIBRANT_PALETTE[idx % NEWS_VIBRANT_PALETTE.length];
+    hoverPill.innerHTML = `
+      <span class="px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-mono font-bold shrink-0 shadow-xs" style="color: ${color.hex}; border: 1px solid ${color.border}; background-color: ${color.bg};">
+        ${it.source || 'Live'}
+      </span>
+      <span class="text-[10px] font-mono text-gray-300 shrink-0">
+        ${it.time || 'Jetzt'}
+      </span>
+      ${it.url && it.url !== '#' ? `
+        <a href="${it.url}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold flex items-center gap-1 transition cursor-pointer border border-white/15 shadow-xs" title="Artikel auf ${it.source} öffnen">
+          <span>Öffnen</span>
+          <i data-lucide="external-link" class="w-3 h-3"></i>
+        </a>
+      ` : ''}
+      <button onclick="RadioNewsEngine.toggleCurrentTickerTTS(event, ${idx})" class="p-1 px-1.5 rounded-lg bg-purple-500/20 hover:bg-purple-500/35 border border-purple-400/40 text-purple-200 hover:text-white text-[10px] font-bold transition flex items-center gap-1 cursor-pointer" title="Nachricht vorlesen">
+        <i data-lucide="volume-2" class="w-3 h-3"></i>
+      </button>
+    `;
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  function setHoveredNews(idx) {
+    activeHoveredIndex = idx;
+    currentTickerIndex = idx;
+    const items = getFilteredNewsItems();
+    if (items && items[idx]) {
+      updateHoverActionPill(items[idx], idx);
+    }
+  }
+
+  function handleNewsClick(idx) {
+    const items = getFilteredNewsItems();
+    if (!items || !items[idx]) return;
+    const it = items[idx];
+    if (it.url && it.url !== '#') {
+      window.open(it.url, '_blank', 'noopener,noreferrer');
+    } else {
+      RadioNewsEngine.startNewsReader(idx);
+    }
+  }
+
+  function rotateNewsStream(steps = 1, showToastMsg = false) {
+    const items = getFilteredNewsItems();
+    if (items.length === 0) return;
+    tickerRotationOffset = (tickerRotationOffset + steps + items.length) % items.length;
+    currentTickerIndex = tickerRotationOffset;
+    renderCurrentTeletextHeadline(items, true);
+
+    if (showToastMsg && typeof showToast === 'function' && items[currentTickerIndex]) {
+      showToast('📰 ' + items[currentTickerIndex].source + ': ' + items[currentTickerIndex].title);
+    }
+  }
+
+  function nextTickerHeadline(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    rotateNewsStream(1, true);
+  }
+
+  function prevTickerHeadline(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    rotateNewsStream(-1, true);
+  }
+
+  function pauseTickerOnHover() {
+    isTickerHoverPaused = true;
+  }
+
+  function resumeTickerOnHover() {
+    isTickerHoverPaused = false;
+  }
+
+  function setTickerSpeed(seconds) {
+    const spd = parseInt(seconds, 10) || 30;
+    tickerSpeedSec = spd;
+    try { localStorage.setItem('flow_ticker_speed', String(spd)); } catch(e){}
+    
+    // Re-trigger current headline with new speed
+    const items = getFilteredNewsItems();
+    renderCurrentTeletextHeadline(items, true);
+
+    document.querySelectorAll('.ticker-speed-btn').forEach(btn => {
+      const s = parseInt(btn.dataset.speed, 10);
+      const isCur = s === spd;
+      btn.className = isCur 
+        ? 'ticker-speed-btn px-2.5 py-1 rounded-lg bg-purple-500/30 border border-purple-500/50 text-xs font-mono font-bold text-purple-200 cursor-pointer'
+        : 'ticker-speed-btn px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-xs font-mono text-gray-200 cursor-pointer';
+    });
+  }
+
+  function toggleCurrentTickerTTS(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    if (isSpeakingQueue) {
+      stopNewsReader();
+    } else {
+      startNewsReader(currentTickerIndex >= 0 ? currentTickerIndex : 0);
+    }
+  }
+
+  function toggleTickerSettingsDropdown(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    const popover = document.getElementById('ticker-settings-popover');
+    if (popover) {
+      const isHidden = popover.classList.contains('hidden');
+      if (isHidden) {
+        popover.classList.remove('hidden');
+        renderTickerSettingsGrids();
+      } else {
+        popover.classList.add('hidden');
+      }
+    }
+  }
+
+  function closeTickerSettingsDropdown() {
+    const popover = document.getElementById('ticker-settings-popover');
+    if (popover) popover.classList.add('hidden');
+  }
+
+  function renderTickerSettingsGrids() {
+    const items = getFilteredNewsItems();
+    if (items && items[currentTickerIndex]) updateTickerDetailsInPopover(items[currentTickerIndex], currentTickerIndex);
+    // 1. Region Grid (Kompakter & lesbar)
+    const regGrid = document.getElementById('ticker-settings-region-grid');
+    if (regGrid) {
+      regGrid.innerHTML = REGIONS.map(reg => {
+        const isSelected = reg.id === currentRegion;
+        return `
+          <button onclick="RadioNewsEngine.selectRegion('${reg.id}')" class="p-1.5 rounded-xl text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all ${
+            isSelected 
+              ? 'bg-purple-500/35 text-white border border-purple-400/70 font-bold shadow-sm scale-102 ring-1 ring-purple-400/40' 
+              : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium hover:scale-102'
+          }" title="${reg.name}">
+            <span class="text-base leading-none">${reg.flag}</span>
+            <span class="text-[9px] font-mono font-bold uppercase tracking-wider">${reg.id}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // 2. Category Grid (Kompakte Chips)
+    const catGrid = document.getElementById('ticker-settings-category-grid');
+    if (catGrid) {
+      catGrid.innerHTML = CATEGORIES.map(cat => {
+        const isSelected = cat.id === currentCategory;
+        return `
+          <button onclick="RadioNewsEngine.selectCategory('${cat.id}')" class="p-1 px-1.5 rounded-xl text-center flex items-center justify-center gap-1 cursor-pointer select-none transition-all text-[10.5px] ${
+            isSelected 
+              ? 'bg-purple-500/35 text-white border border-purple-400/70 font-bold shadow-xs ring-1 ring-purple-400/40' 
+              : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
+          }">
+            <span class="text-xs">${cat.emoji}</span>
+            <span class="truncate font-semibold">${cat.name.replace(' & ', '/').replace('Themen', '').trim()}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // 3. Media Grid (Kompakte Quellen)
+    const medGrid = document.getElementById('ticker-settings-media-grid');
+    if (medGrid) {
+      const outlets = LOCAL_MEDIA_OUTLETS[currentRegion] || LOCAL_MEDIA_OUTLETS.de || [];
+      medGrid.innerHTML = outlets.map(outlet => {
+        const isSelected = outlet.id === currentMedia;
+        return `
+          <button onclick="RadioNewsEngine.selectMedia('${outlet.id}')" class="px-2 py-1 rounded-lg text-[10px] transition-all flex items-center gap-1 cursor-pointer select-none ${
+            isSelected 
+              ? 'bg-teal-500/30 text-teal-100 border border-teal-400/60 font-bold shadow-xs' 
+              : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10'
+          }">
+            ${outlet.icon ? `<span class="text-xs">${outlet.icon}</span>` : ''}
+            <span class="whitespace-nowrap font-medium">${outlet.name}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    const subtext = document.getElementById('ticker-options-subtext');
+    if (subtext) {
+      const regObj = REGIONS.find(r => r.id === currentRegion);
+      const catObj = CATEGORIES.find(c => c.id === currentCategory);
+      subtext.textContent = `${regObj ? regObj.id.toUpperCase() : 'DE'} · ${catObj ? catObj.name : 'Alle Themen'}`;
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  }
+
   // 7. TEXT-TO-SPEECH (TTS) AUDIO BRIEFING
   // ============================================================================
 
@@ -935,6 +1415,14 @@
         : 'news-speed-btn px-2 py-0.5 rounded-lg bg-white/5 text-gray-400 hover:text-white border border-white/10 text-[10px] font-mono font-bold cursor-pointer transition';
     });
 
+    document.querySelectorAll('.ticker-tts-rate-btn').forEach(btn => {
+      const txt = btn.textContent.trim().replace('x', '');
+      const isCur = Math.abs(parseFloat(txt) - speechRate) < 0.1;
+      btn.className = isCur
+        ? 'ticker-tts-rate-btn px-1.5 py-0.5 rounded bg-teal-500/25 border border-teal-500/50 text-[9px] font-mono font-bold text-teal-200 cursor-pointer'
+        : 'ticker-tts-rate-btn px-1.5 py-0.5 rounded bg-white/5 hover:bg-white/15 text-[9px] font-mono text-gray-300 cursor-pointer';
+    });
+
     if (isSpeakingQueue) {
       window.speechSynthesis.cancel();
       speakNextItemInQueue();
@@ -959,6 +1447,8 @@
   function updateTtsReaderUI() {
     const bottomPlayerBar = document.getElementById('news-tts-bottom-bar');
     const headerPlayBtn = document.getElementById('news-reader-play-btn');
+    const tickerTtsBtn = document.getElementById('ticker-tts-btn');
+    const tickerTtsIcon = document.getElementById('ticker-tts-icon');
     const items = getFilteredNewsItems();
     
     if (bottomPlayerBar) {
@@ -992,6 +1482,19 @@
         headerPlayBtn.className = 'px-2.5 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 border border-purple-500/30 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer';
       }
     }
+
+    if (tickerTtsBtn) {
+      if (isSpeakingQueue) {
+        tickerTtsBtn.className = 'p-1 px-1.5 rounded-lg bg-rose-500/25 text-rose-300 border border-rose-500/50 transition cursor-pointer flex items-center gap-1 active:scale-90 animate-pulse';
+        tickerTtsBtn.title = 'Audio-Vorlesen stoppen';
+        if (tickerTtsIcon) tickerTtsIcon.setAttribute('data-lucide', 'square');
+      } else {
+        tickerTtsBtn.className = 'p-1 px-1.5 rounded-lg bg-white/[0.04] hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/40 text-purple-300 hover:text-purple-200 transition cursor-pointer flex items-center gap-1 active:scale-90';
+        tickerTtsBtn.title = 'Nachricht vorlesen (Audio-Briefing)';
+        if (tickerTtsIcon) tickerTtsIcon.setAttribute('data-lucide', 'volume-2');
+      }
+    }
+
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 
@@ -1031,6 +1534,25 @@
   // 8. INITIALIZATION
   // ============================================================================
 
+  
+  function getCurrentRegion() {
+    return currentRegion || 'de';
+  }
+
+  function getCurrentCategory() {
+    return currentCategory || 'all';
+  }
+
+  function openFullNewsLounge() {
+    closeTickerSettingsDropdown();
+    if (typeof togglePanel === 'function') {
+      togglePanel('news');
+    } else {
+      const panel = document.getElementById('panel-news');
+      if (panel) panel.classList.remove('hidden');
+    }
+  }
+
   function initNewsPanel() {
     renderRegionFlags();
     renderMediaChips();
@@ -1069,8 +1591,42 @@
     prevNewsItem,
     setSpeechRate,
     duckRadio,
-    fetchNewsForRegion
+    fetchNewsForRegion,
+    // Subheader Ticker methods
+    renderSubheaderTicker,
+    renderCurrentTeletextHeadline,
+    setHoveredNews,
+    handleNewsClick,
+    rotateNewsStream,
+    showOptionsHover,
+    hideOptionsHover,
+    nextTickerHeadline,
+    prevTickerHeadline,
+    pauseTickerOnHover,
+    resumeTickerOnHover,
+    setTickerSpeed,
+    toggleCurrentTickerTTS,
+    toggleTickerSettingsDropdown,
+    closeTickerSettingsDropdown,
+    renderTickerSettingsGrids,
+    openFullNewsLounge,
+    getCurrentRegion,
+    getCurrentCategory
   };
+
+  // Close Ticker settings popover on click outside
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', (e) => {
+      const popover = document.getElementById('ticker-settings-popover');
+      const wrapper = document.getElementById('ticker-options-wrapper');
+      if (popover && !popover.classList.contains('hidden')) {
+        if (!popover.contains(e.target) && !wrapper?.contains(e.target)) {
+          popover.classList.add('hidden');
+        }
+      }
+    });
+  }
+
 
   if (typeof window !== 'undefined') {
     window.RadioNewsEngine = RadioNewsEngine;

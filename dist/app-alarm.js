@@ -77,6 +77,35 @@ function switchAlarmTab(tab) {
 }
 window.switchAlarmTab = switchAlarmTab;
 
+function toggleAlarmDropdown(event) {
+  if (event) event.stopPropagation();
+  const calEl = document.getElementById('panel-calendar-dropdown');
+  if (calEl) calEl.classList.add('hidden');
+  const weatherEl = document.getElementById('panel-weather');
+  if (weatherEl) weatherEl.classList.add('hidden');
+
+  const panel = document.getElementById('panel-alarm');
+  if (!panel) return;
+  const isHidden = panel.classList.contains('hidden');
+  if (isHidden) {
+    panel.classList.remove('hidden');
+    renderAlarmPanel();
+    if (typeof adjustPanelPosition === 'function') adjustPanelPosition(panel, 'alarm');
+    if (typeof window !== 'undefined') {
+      window.currentlyOpenPanel = 'alarm';
+      window.pinnedPanel = 'alarm';
+    }
+  } else {
+    panel.classList.add('hidden');
+    if (typeof window !== 'undefined') {
+      if (window.currentlyOpenPanel === 'alarm') window.currentlyOpenPanel = null;
+      if (window.pinnedPanel === 'alarm') window.pinnedPanel = null;
+    }
+  }
+}
+window.toggleAlarmDropdown = toggleAlarmDropdown;
+if (typeof globalThis !== 'undefined') globalThis.toggleAlarmDropdown = toggleAlarmDropdown;
+
 function openAlarmModal(tab = 'alarms') {
   currentAlarmTab = tab;
   if (typeof togglePanel === 'function') {
@@ -86,12 +115,36 @@ function openAlarmModal(tab = 'alarms') {
 }
 window.openAlarmModal = openAlarmModal;
 
+let alarmLiveTicker = null;
+function startAlarmLiveTicker() {
+  if (alarmLiveTicker) return;
+  alarmLiveTicker = setInterval(() => {
+    const timeEl = document.getElementById('alarm-panel-live-time');
+    const dateEl = document.getElementById('alarm-panel-live-date');
+    if (timeEl) {
+      const now = new Date();
+      timeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    if (dateEl) {
+      const now = new Date();
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+      dateEl.textContent = now.toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    }
+  }, 1000);
+}
+
 function renderAlarmPanel() {
   const panel = document.getElementById('panel-alarm');
   if (!panel) return;
   panel.style.width = "380px";
   panel.style.maxWidth = "95vw";
-  const nowStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const now = new Date();
+  const timeFormatted = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+  const dateFormatted = now.toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+  const nowStr = timeFormatted;
+
+  startAlarmLiveTicker();
 
   const safeEscape = typeof escapeHtml === 'function' ? escapeHtml : (str) => String(str || '');
   const hasNotif = 'Notification' in window;
@@ -126,27 +179,30 @@ function renderAlarmPanel() {
   const curTask = typeof activeTimerTask !== 'undefined' ? activeTimerTask : '';
 
   panel.innerHTML = `
-    <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-      <div class="flex items-center gap-2">
-        <div class="w-7 h-7 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300">
-          <i data-lucide="${currentAlarmTab === 'alarms' ? 'alarm-clock' : 'timer'}" class="w-4 h-4 text-cyan-400"></i>
+    <!-- 1. UHRZEIT & DATUM (Kompakt & dezent, ohne LIVE & ohne Sekunden) -->
+    <div class="p-2.5 px-3 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-rose-400">
+          <i data-lucide="clock" class="w-4 h-4 text-rose-400"></i>
         </div>
         <div>
-          <h4 class="font-bold text-xs font-display text-white">Wecker & Timer Hub</h4>
-          <div class="text-[8px] text-gray-400 font-mono">Präzise Zeit- & Fokus-Steuerung</div>
+          <div class="flex items-baseline gap-1.5">
+            <span id="alarm-panel-live-time" class="font-mono font-bold text-xs sm:text-sm text-gray-200 select-none">${timeFormatted}</span>
+          </div>
+          <div id="alarm-panel-live-date" class="text-[10px] text-gray-400 font-medium leading-tight">${dateFormatted}</div>
         </div>
       </div>
-      <button onclick="togglePanel('alarm')" aria-label="Wecker-Hub schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
+      <button onclick="togglePanel('alarm')" aria-label="Wecker-Hub schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 px-2 rounded-lg hover:bg-white/10 transition cursor-pointer">✕</button>
     </div>
 
     <!-- 2 Separate, Funktionale Tabs -->
     <div class="grid grid-cols-2 gap-1.5 p-1 bg-black/60 border border-white/10 rounded-2xl text-xs font-bold mt-1">
-      <button onclick="switchAlarmTab('alarms')" class="py-2 px-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 ${currentAlarmTab === 'alarms' ? 'bg-cyan-600 text-white shadow-md' : 'text-gray-400 hover:text-white'}">
-        <i data-lucide="alarm-clock" class="w-3.5 h-3.5 ${currentAlarmTab === 'alarms' ? 'text-white' : 'text-cyan-400'}"></i>
+      <button onclick="switchAlarmTab('alarms')" class="py-2 px-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 ${currentAlarmTab === 'alarms' ? 'bg-rose-500 text-white font-bold shadow-[0_0_12px_rgba(244,63,94,0.35)] shadow-md' : 'text-gray-400 hover:text-white'}">
+        <i data-lucide="alarm-clock" class="w-3.5 h-3.5 ${currentAlarmTab === 'alarms' ? 'text-white' : 'text-rose-400'}"></i>
         <span>⏰ Wecker</span>
         ${alarmCount > 0 ? `<span class="px-1.5 py-0.2 rounded-full text-[9px] bg-white/20 font-mono">${alarmCount}</span>` : ''}
       </button>
-      <button onclick="switchAlarmTab('timer')" class="py-2 px-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 ${currentAlarmTab === 'timer' ? 'bg-purple-600 text-white shadow-md' : 'text-gray-400 hover:text-white'}">
+      <button onclick="switchAlarmTab('timer')" class="py-2 px-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 ${currentAlarmTab === 'timer' ? 'bg-[#c084fc] text-black font-black shadow-[0_0_15px_rgba(192,132,252,0.4)] text-white shadow-md' : 'text-gray-400 hover:text-white'}">
         <i data-lucide="timer" class="w-3.5 h-3.5 ${currentAlarmTab === 'timer' ? 'text-white' : 'text-purple-400'}"></i>
         <span>⏱️ Fokus-Timer</span>
         ${tRunning ? `<span class="px-1.5 py-0.2 rounded-full text-[9px] bg-emerald-400 text-black font-mono font-bold animate-pulse">LÄUFT</span>` : ''}
@@ -156,16 +212,16 @@ function renderAlarmPanel() {
     <!-- TAB 1: WECKER & ERINNERUNGEN -->
     <div id="alarm-subpane-alarms" class="${currentAlarmTab === 'alarms' ? 'block' : 'hidden'} space-y-3 pt-2">
       <!-- Info & Benachrichtigungen -->
-      <div class="p-2 bg-cyan-950/20 border border-cyan-500/20 rounded-xl text-[10px] text-cyan-200/90 flex flex-col gap-1.5">
+      <div class="p-2 bg-white/[0.03] border border-white/10 rounded-xl text-[10px] text-gray-300 flex flex-col gap-1.5">
         <div class="flex items-center justify-between">
           <span class="flex items-center gap-1 font-semibold">
-            <i data-lucide="info" class="w-3 h-3 text-cyan-400 shrink-0"></i>
+            <i data-lucide="info" class="w-3 h-3 text-rose-400 shrink-0"></i>
             <span>Akustische Wecksignale</span>
           </span>
           ${notifPerm === 'granted' ? `
             <span class="text-emerald-400 font-mono text-[9px] font-bold">🔔 Erlaubt</span>
           ` : (hasNotif ? `
-            <button onclick="requestAlarmNotificationPermission()" class="px-2 py-0.5 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-400/30 rounded text-[9px] font-bold cursor-pointer transition">Benachrichtigung erlauben</button>
+            <button onclick="requestAlarmNotificationPermission()" class="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded text-[9px] font-bold cursor-pointer transition">Benachrichtigung erlauben</button>
           ` : '')}
         </div>
       </div>
@@ -173,13 +229,13 @@ function renderAlarmPanel() {
       <!-- Neuer Wecker anlegen -->
       <div class="space-y-1.5">
         <div class="flex items-center justify-between">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400">⏰ Neuer Wecker</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">⏰ Neuer Wecker</span>
           <span class="text-[9px] text-gray-400 font-mono">Aktuell: <b class="text-white">${nowStr}</b></span>
         </div>
         <div class="flex gap-2 bg-black/40 p-2 rounded-2xl border border-white/5">
-          <input type="time" id="new-alarm-time" value="09:00" class="p-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-cyan-500 font-semibold cursor-pointer" />
-          <input type="text" id="new-alarm-label" placeholder="Bezeichnung (z.B. Aufstehen, Meeting)..." class="flex-1 p-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-cyan-500 font-semibold placeholder:text-gray-500" />
-          <button onclick="handleAddAlarm()" aria-label="Wecker hinzufügen" class="px-3 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-sm">
+          <input type="time" id="new-alarm-time" value="09:00" class="p-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-rose-500 font-semibold cursor-pointer" />
+          <input type="text" id="new-alarm-label" placeholder="Bezeichnung (z.B. Aufstehen, Meeting)..." class="flex-1 p-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-rose-500 font-semibold placeholder:text-gray-500" />
+          <button onclick="handleAddAlarm()" aria-label="Wecker hinzufügen" class="px-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-[0_0_12px_rgba(244,63,94,0.35)]">
             <i data-lucide="plus" class="w-4 h-4"></i>
           </button>
         </div>
@@ -190,9 +246,9 @@ function renderAlarmPanel() {
         ${(!alarmState.alarms || alarmState.alarms.length === 0) ? `
           <div class="text-center py-4 text-gray-500 text-xs font-medium">Keine Wecker gestellt</div>
         ` : (alarmState.alarms || []).map(a => `
-          <div class="flex items-center justify-between p-2 bg-white/[0.02] border border-white/5 rounded-xl hover:border-cyan-500/30 transition">
+          <div class="flex items-center justify-between p-2 bg-white/[0.02] border border-white/5 rounded-xl hover:border-rose-500/30 transition">
             <div class="flex items-center gap-2.5">
-              <input type="checkbox" ${a.active ? 'checked' : ''} onchange="handleToggleAlarm('${a.id}')" class="w-4 h-4 accent-cyan-500 cursor-pointer rounded" />
+              <input type="checkbox" ${a.active ? 'checked' : ''} onchange="handleToggleAlarm('${a.id}')" class="w-4 h-4 accent-rose-500 cursor-pointer rounded" />
               <div>
                 <div class="text-xs font-bold text-white font-mono leading-none mb-0.5">${safeEscape(a.time)}</div>
                 <div class="text-[10px] text-gray-400 leading-none">${safeEscape(a.label || 'Wecker')}</div>
@@ -208,12 +264,12 @@ function renderAlarmPanel() {
       <!-- Schnelle Reminder / Countdown-Erinnerung -->
       <div class="pt-2 border-t border-white/10 space-y-1.5">
         <div class="flex items-center justify-between">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400">🔔 Schnelle Erinnerung</span>
+          <span class="text-[10px] font-bold uppercase tracking-wider text-[#ff7a00]">🔔 Schnelle Erinnerung</span>
           <span class="text-[9px] text-gray-400">Timer-Check-In</span>
         </div>
         <div class="flex gap-1.5 bg-black/40 p-1.5 rounded-2xl border border-white/5">
-          <input type="text" id="new-reminder-text" placeholder="Erinnerung (z.B. Wasser trinken 💧)..." class="flex-1 p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-amber-500 font-semibold placeholder:text-gray-500" />
-          <select id="new-reminder-mins" class="p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-amber-300 font-bold outline-none cursor-pointer">
+          <input type="text" id="new-reminder-text" placeholder="Erinnerung (z.B. Wasser trinken 💧)..." class="flex-1 p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-[#ff7a00] font-semibold placeholder:text-gray-500" />
+          <select id="new-reminder-mins" class="p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-[#ff7a00] font-bold outline-none cursor-pointer">
             <option value="5">in 5m</option>
             <option value="10" selected>in 10m</option>
             <option value="15">in 15m</option>
@@ -239,7 +295,7 @@ function renderAlarmPanel() {
                   <span class="text-xs font-semibold text-gray-200 truncate">${safeEscape(r.text)}</span>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
-                  <span class="text-[9px] font-mono text-amber-400 font-bold">${r.completed ? 'Erledigt' : `${leftMin}m`}</span>
+                  <span class="text-[9px] font-mono text-[#ff7a00] font-bold">${r.completed ? 'Erledigt' : `${leftMin}m`}</span>
                   <button onclick="handleDeleteReminder('${r.id}')" aria-label="Erinnerung löschen" class="text-gray-500 hover:text-rose-400 p-0.5 transition cursor-pointer" title="Löschen">
                     <i data-lucide="trash-2" class="w-3 h-3"></i>
                   </button>
@@ -298,7 +354,7 @@ function renderAlarmPanel() {
             <span>Pausieren</span>
           </button>
         ` : `
-          <button onclick="if(typeof startTimer==='function') startTimer(); renderAlarmPanel();" class="flex-1 py-2.5 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-2xl transition cursor-pointer flex items-center justify-center gap-2 text-xs shadow-md active:scale-95">
+          <button onclick="if(typeof startTimer==='function') startTimer(); renderAlarmPanel();" class="flex-1 py-2.5 bg-[#c084fc] text-black font-black shadow-[0_0_15px_rgba(192,132,252,0.4)] hover:bg-purple-500 text-white font-bold rounded-2xl transition cursor-pointer flex items-center justify-center gap-2 text-xs shadow-md active:scale-95">
             <i data-lucide="play" class="w-4 h-4"></i>
             <span>Timer starten</span>
           </button>
@@ -414,17 +470,17 @@ function triggerAlarmModal(title, time) {
   d.id = 'alarm-modal';
   d.className = 'fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4';
   d.innerHTML = `
-    <div class="w-full max-w-sm bg-[#161622] border-2 border-cyan-500 rounded-3xl p-6 shadow-2xl flex flex-col items-center text-center gap-4">
-      <div class="w-16 h-16 rounded-2xl bg-cyan-500/25 border border-cyan-500/40 flex items-center justify-center text-cyan-400 animate-bounce">
+    <div class="w-full max-w-sm bg-[#161622] border-2 border-rose-500 rounded-3xl p-6 shadow-2xl flex flex-col items-center text-center gap-4">
+      <div class="w-16 h-16 rounded-2xl bg-rose-500/25 border border-rose-500/40 flex items-center justify-center text-rose-400 animate-bounce">
         <i data-lucide="alarm-clock" class="w-8 h-8"></i>
       </div>
       <div>
-        <div class="text-[10px] uppercase font-bold tracking-widest text-cyan-400 mb-1">Wecker (${safeEscape(time)})</div>
+        <div class="text-[10px] uppercase font-bold tracking-widest text-rose-400 mb-1">Wecker (${safeEscape(time)})</div>
         <h3 class="text-xl font-bold text-white">${safeEscape(title)}</h3>
       </div>
       <div class="flex gap-2 w-full mt-2">
         <button onclick="document.getElementById('alarm-modal').remove(); snoozeAlarm();" class="flex-1 py-2.5 bg-white/10 hover:bg-white/15 text-gray-200 font-bold text-xs rounded-xl cursor-pointer">Snooze 💤</button>
-        <button onclick="document.getElementById('alarm-modal').remove();" class="flex-1 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs rounded-xl cursor-pointer">Stoppen 🔕</button>
+        <button onclick="document.getElementById('alarm-modal').remove();" class="flex-1 py-2.5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl cursor-pointer shadow-[0_0_12px_rgba(244,63,94,0.4)]">Stoppen 🔕</button>
       </div>
     </div>
   `;

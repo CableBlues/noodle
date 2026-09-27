@@ -805,6 +805,89 @@ async function searchWeatherCityInstant(cityName) {
   selectWeatherCity(clean, 'Lokal', 52.52, 13.41);
 }
 
+
+const LANGUAGE_WEATHER_PRESETS = {
+  de: {
+    primary: { name: 'Berlin', country: 'Deutschland', lat: 52.52, lon: 13.41 },
+    pinned: [
+      { name: 'Berlin', country: 'Deutschland', lat: 52.52, lon: 13.41, defaultTemp: 20, defaultCode: 1 },
+      { name: 'München', country: 'Deutschland', lat: 48.14, lon: 11.58, defaultTemp: 19, defaultCode: 1 },
+      { name: 'Wien', country: 'Österreich', lat: 48.21, lon: 16.37, defaultTemp: 21, defaultCode: 0 },
+      { name: 'Zürich', country: 'Schweiz', lat: 47.37, lon: 8.54, defaultTemp: 18, defaultCode: 2 }
+    ]
+  },
+  en: {
+    primary: { name: 'London', country: 'UK', lat: 51.5074, lon: -0.1278 },
+    pinned: [
+      { name: 'London', country: 'UK', lat: 51.5074, lon: -0.1278, defaultTemp: 18, defaultCode: 2 },
+      { name: 'New York', country: 'USA', lat: 40.7128, lon: -74.0060, defaultTemp: 22, defaultCode: 1 },
+      { name: 'Edinburgh', country: 'UK', lat: 55.9533, lon: -3.1883, defaultTemp: 16, defaultCode: 3 },
+      { name: 'Manchester', country: 'UK', lat: 53.4808, lon: -2.2426, defaultTemp: 17, defaultCode: 2 }
+    ]
+  },
+  fr: {
+    primary: { name: 'Paris', country: 'France', lat: 48.8566, lon: 2.3522 },
+    pinned: [
+      { name: 'Paris', country: 'France', lat: 48.8566, lon: 2.3522, defaultTemp: 21, defaultCode: 1 },
+      { name: 'Lyon', country: 'France', lat: 45.7640, lon: 4.8357, defaultTemp: 22, defaultCode: 0 },
+      { name: 'Marseille', country: 'France', lat: 43.2965, lon: 5.3698, defaultTemp: 24, defaultCode: 0 },
+      { name: 'Bordeaux', country: 'France', lat: 44.8378, lon: -0.5792, defaultTemp: 23, defaultCode: 1 }
+    ]
+  },
+  it: {
+    primary: { name: 'Rom', country: 'Italia', lat: 41.9028, lon: 12.4964 },
+    pinned: [
+      { name: 'Rom', country: 'Italia', lat: 41.9028, lon: 12.4964, defaultTemp: 24, defaultCode: 0 },
+      { name: 'Mailand', country: 'Italia', lat: 45.4642, lon: 9.1900, defaultTemp: 22, defaultCode: 1 },
+      { name: 'Florenz', country: 'Italia', lat: 43.7696, lon: 11.2558, defaultTemp: 23, defaultCode: 0 },
+      { name: 'Neapel', country: 'Italia', lat: 40.8518, lon: 14.2681, defaultTemp: 25, defaultCode: 0 }
+    ]
+  },
+  es: {
+    primary: { name: 'Madrid', country: 'España', lat: 40.4168, lon: -3.7038 },
+    pinned: [
+      { name: 'Madrid', country: 'España', lat: 40.4168, lon: -3.7038, defaultTemp: 25, defaultCode: 0 },
+      { name: 'Barcelona', country: 'España', lat: 41.3879, lon: 2.1699, defaultTemp: 23, defaultCode: 1 },
+      { name: 'Valencia', country: 'España', lat: 39.4699, lon: -0.3763, defaultTemp: 24, defaultCode: 0 },
+      { name: 'Sevilla', country: 'España', lat: 37.3891, lon: -5.9845, defaultTemp: 27, defaultCode: 0 }
+    ]
+  },
+  el: {
+    primary: { name: 'Athen', country: 'Ελλάδα', lat: 37.9838, lon: 23.7275 },
+    pinned: [
+      { name: 'Athen', country: 'Ελλάδα', lat: 37.9838, lon: 23.7275, defaultTemp: 26, defaultCode: 0 },
+      { name: 'Thessaloniki', country: 'Ελλάδα', lat: 40.6401, lon: 22.9444, defaultTemp: 24, defaultCode: 0 },
+      { name: 'Patras', country: 'Ελλάδα', lat: 38.2466, lon: 21.7346, defaultTemp: 25, defaultCode: 1 },
+      { name: 'Heraklion', country: 'Ελλάδα', lat: 35.3387, lon: 25.1442, defaultTemp: 25, defaultCode: 0 }
+    ]
+  }
+};
+
+function localizeWeatherForLanguage(lang) {
+  const targetLang = (lang && LANGUAGE_WEATHER_PRESETS[lang]) ? lang : 'de';
+  const preset = LANGUAGE_WEATHER_PRESETS[targetLang] || LANGUAGE_WEATHER_PRESETS.de;
+  if (!preset) return;
+
+  currentWeatherLocation = { ...preset.primary };
+  pinnedWeatherCities = preset.pinned ? [...preset.pinned] : [];
+  
+  try {
+    localStorage.setItem('flow_weather_loc', JSON.stringify(currentWeatherLocation));
+    if (typeof AppStorage !== 'undefined') AppStorage.set('flow_weather_loc', currentWeatherLocation);
+    localStorage.setItem('flow_weather_pinned_cities', JSON.stringify(pinnedWeatherCities));
+  } catch (e) {}
+
+  const searchInput = document.getElementById('weather-city-input');
+  if (searchInput) searchInput.value = `${currentWeatherLocation.name}${currentWeatherLocation.country ? ' (' + currentWeatherLocation.country + ')' : ''}`;
+
+  const locDisplay = document.getElementById('weather-location-display');
+  if (locDisplay) locDisplay.innerText = `${currentWeatherLocation.name}${currentWeatherLocation.country ? ' · ' + currentWeatherLocation.country : ''}`;
+
+  renderPinnedCitiesUI();
+  fetchPinnedCitiesWeather();
+  fetchLocalWeather(true);
+}
+
 function selectWeatherCity(name, country, lat, lon) {
   currentWeatherLocation = { name, country: country || '', lat: Number(lat) || 52.52, lon: Number(lon) || 13.41 };
   try {
@@ -903,7 +986,7 @@ async function useDeviceLocationWeather(silent = false) {
     return false;
   };
 
-  if (!silent && typeof navigator !== 'undefined' && navigator.geolocation) {
+  if (typeof navigator !== 'undefined' && navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const lat = pos.coords.latitude;
@@ -1002,6 +1085,7 @@ if (typeof window !== 'undefined') {
   window.searchWeatherCity = searchWeatherCity;
   window.searchWeatherCityInstant = searchWeatherCityInstant;
   window.selectWeatherCity = selectWeatherCity;
+  window.localizeWeatherForLanguage = localizeWeatherForLanguage;
   window.updateDateWeatherWidget = updateDateWeatherWidget;
 
   if (document.readyState === 'loading') {
@@ -1026,6 +1110,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.searchWeatherCity = searchWeatherCity;
   globalThis.searchWeatherCityInstant = searchWeatherCityInstant;
   globalThis.selectWeatherCity = selectWeatherCity;
+  globalThis.localizeWeatherForLanguage = localizeWeatherForLanguage;
   globalThis.updateDateWeatherWidget = updateDateWeatherWidget;
 }
 

@@ -93,7 +93,38 @@ if (typeof window !== 'undefined') {
   }, { passive: true });
 }
 
+function syncHeaderToolsMenuState() {
+  const toolsBtn = document.getElementById('btn-header-tools');
+  const toolsWrapper = document.getElementById('header-tools-wrapper');
+  
+  const TOOL_PANEL_IDS = [
+    'panel-header-tools', 'panel-collab-chat', 'panel-radio', 'panel-news',
+    'panel-audio', 'panel-alarm', 'panel-daily', 'panel-inspiration',
+    'panel-impulse', 'panel-shopping', 'panel-cooking', 'panel-fitness',
+    'panel-cleaning-guide', 'panel-learning-hub', 'panel-clarity'
+  ];
+  
+  const isAnyToolOpen = TOOL_PANEL_IDS.some(id => {
+    const el = document.getElementById(id);
+    return el && !el.classList.contains('hidden');
+  });
+
+  if (toolsBtn) toolsBtn.classList.toggle('is-menu-open', !!isAnyToolOpen);
+  if (toolsWrapper) toolsWrapper.classList.toggle('is-menu-open', !!isAnyToolOpen);
+  if (typeof document !== 'undefined' && document.body) {
+    document.body.classList.toggle('has-tool-panel-open', !!isAnyToolOpen);
+  }
+}
+
 function togglePanel(panelName) {
+  if (panelName === 'header-tools' && typeof window !== 'undefined' && window.innerWidth <= 768) {
+    if (typeof switchMobileNavTab === 'function') {
+      switchMobileNavTab('planer');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
+      return;
+    }
+  }
   if (typeof window !== 'undefined' && window.hoverPanelTimeout) {
     clearTimeout(window.hoverPanelTimeout);
     window.hoverPanelTimeout = null;
@@ -166,6 +197,7 @@ function togglePanel(panelName) {
       if (typeof CollabEngine.renderPresenceUI === 'function') CollabEngine.renderPresenceUI();
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
+    syncHeaderToolsMenuState();
   } else {
     el.classList.add('hidden');
     if (typeof window !== 'undefined') {
@@ -179,6 +211,7 @@ function togglePanel(panelName) {
       pinnedPanel = null;
     }
     if (dockContainer) dockContainer.classList.remove('is-active');
+    syncHeaderToolsMenuState();
   }
 }
 
@@ -190,7 +223,7 @@ function setReportTimeframe(tf) {
   ['today', 'week', 'month'].forEach(t => {
     const btn = document.getElementById(`report-tab-${t}`);
     if (btn) {
-      if (t === tf) btn.className = 'px-2.5 py-1 rounded text-purple-300 bg-purple-500/25 cursor-pointer transition font-bold';
+      if (t === tf) btn.className = 'px-2.5 py-1 rounded text-purple-300 bg-[#00f2ff]/25 cursor-pointer transition font-bold';
       else btn.className = 'px-2.5 py-1 rounded text-gray-400 hover:text-white cursor-pointer transition';
     }
   });
@@ -266,7 +299,7 @@ function calculateCategoryDistribution(doneItems = []) {
 
   const total = doneItems.length;
   const palette = {
-    daily: { bg: 'bg-amber-400', text: 'text-amber-300' },
+    daily: { bg: 'bg-amber-400', text: 'text-[#ff7a00]' },
     weekly: { bg: 'bg-emerald-400', text: 'text-emerald-300' },
     todo: { bg: 'bg-purple-400', text: 'text-purple-300' },
     termine: { bg: 'bg-sky-400', text: 'text-sky-300' },
@@ -320,16 +353,16 @@ function renderWeeklyChart(targetElementId = 'report-weekly-chart', totalElement
   last7Days.forEach(day => {
     const pct = Math.max(8, (day.count / maxCount) * 100);
     const isToday = day.date === now.toISOString().split('T')[0];
-    const barCol = isToday ? 'bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.5)]' : 'bg-purple-500 hover:bg-purple-400';
+    const barCol = isToday ? 'bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.5)]' : 'bg-[#00f2ff] hover:bg-purple-400';
     const barBg = isToday ? 'bg-amber-500/15 border-amber-400/30' : 'bg-white/[0.04] border-white/10';
     const barWrapper = document.createElement('div');
     barWrapper.className = `flex flex-col items-center justify-end gap-1 flex-1 ${isDashboard ? 'max-w-[54px]' : 'max-w-[40px]'}`;
     barWrapper.innerHTML = `
-      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-amber-300' : 'text-white') : 'text-gray-500'}">${day.count}</span>
+      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-[#ff7a00]' : 'text-white') : 'text-gray-500'}">${day.count}</span>
       <div class="${isDashboard ? 'w-7 h-20' : 'w-5 h-11'} ${barBg} border rounded-xl relative flex items-end overflow-hidden cursor-pointer transition-transform hover:scale-105" title="${day.date}: ${day.count} erledigt">
         <div class="w-full ${barCol} transition-all duration-500 rounded-t" style="height: ${pct}%"></div>
       </div>
-      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-amber-300 font-extrabold' : 'text-gray-400'}">${day.label}</span>
+      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-[#ff7a00] font-extrabold' : 'text-gray-400'}">${day.label}</span>
     `;
     chartEl.appendChild(barWrapper);
   });
@@ -343,7 +376,7 @@ function updateReportPanel() {
       <div class="grid grid-cols-3 gap-2">
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="completed_stat">Erledigt</div>
-          <div id="report-today-count" class="text-lg font-black font-display text-emerald-400">0</div>
+          <div id="report-today-count" class="text-lg font-black font-display text-[#00ff66]">0</div>
         </div>
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="focus_time">Fokus</div>
@@ -351,7 +384,7 @@ function updateReportPanel() {
         </div>
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="peak_hours">Peak</div>
-          <div id="report-peak-hour" class="text-xs font-bold font-display text-amber-300 mt-1 truncate">Morgens</div>
+          <div id="report-peak-hour" class="text-xs font-bold font-display text-[#ff7a00] mt-1 truncate">Morgens</div>
         </div>
       </div>
 
@@ -359,13 +392,13 @@ function updateReportPanel() {
       <div class="p-3 bg-black/40 border border-white/10 rounded-xl space-y-2.5">
         <div class="flex items-center justify-between text-[11px] font-bold border-b border-white/5 pb-1.5">
           <span class="text-gray-300">Aktivität (7 Tage)</span>
-          <span id="report-total-week-tasks" class="font-mono text-purple-300">0 Tasks</span>
+          <span id="report-total-week-tasks" class="font-mono text-[#00f2ff]">0 Tasks</span>
         </div>
         <div id="report-weekly-chart" class="flex items-end justify-between min-h-[82px] pt-1.5 pb-0.5"></div>
       </div>
 
       <!-- Motivations-Insight -->
-      <div class="p-2.5 rounded-xl bg-purple-500/10 border border-purple-500/20 text-xs text-purple-200 leading-snug flex items-start gap-2">
+      <div class="p-2.5 rounded-xl bg-[#00f2ff]/10 border border-purple-500/20 text-xs text-purple-200 leading-snug flex items-start gap-2">
         <span class="text-base leading-none">💡</span>
         <span id="report-insight-text">Lade Produktivitäts-Insights...</span>
       </div>
@@ -457,13 +490,13 @@ function switchDashboardMainTab(tab) {
     if (learnSec) learnSec.classList.remove('hidden');
     if (timeframeWrap) timeframeWrap.classList.add('hidden');
     if (tabStats) tabStats.className = 'px-3 py-1.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer flex items-center gap-1.5';
-    if (tabLearn) tabLearn.className = 'px-3 py-1.5 rounded-xl text-amber-300 bg-amber-500/20 font-bold border border-amber-500/30 transition cursor-pointer flex items-center gap-1.5 shadow-sm';
+    if (tabLearn) tabLearn.className = 'px-3 py-1.5 rounded-xl text-[#ff7a00] bg-amber-500/20 font-bold border border-amber-500/30 transition cursor-pointer flex items-center gap-1.5 shadow-sm';
     if (typeof renderLearningHub === 'function') renderLearningHub();
   } else {
     if (statsSec) statsSec.classList.remove('hidden');
     if (learnSec) learnSec.classList.add('hidden');
     if (timeframeWrap) timeframeWrap.classList.remove('hidden');
-    if (tabStats) tabStats.className = 'px-3 py-1.5 rounded-xl text-purple-300 bg-purple-500/20 font-bold border border-purple-500/30 transition cursor-pointer flex items-center gap-1.5 shadow-sm';
+    if (tabStats) tabStats.className = 'px-3 py-1.5 rounded-xl text-purple-300 bg-[#00f2ff]/20 font-bold border border-purple-500/30 transition cursor-pointer flex items-center gap-1.5 shadow-sm';
     if (tabLearn) tabLearn.className = 'px-3 py-1.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer flex items-center gap-1.5';
     renderDashboardView();
   }
@@ -475,7 +508,7 @@ function setDashboardTimeframe(tf) {
   ['today', 'week', 'month'].forEach(t => {
     const btn = document.getElementById(`dash-tab-${t}`);
     if (btn) {
-      if (t === tf) btn.className = 'px-3 py-1.5 rounded-lg text-purple-300 bg-purple-500/20 font-bold transition cursor-pointer';
+      if (t === tf) btn.className = 'px-3 py-1.5 rounded-lg text-purple-300 bg-[#00f2ff]/20 font-bold transition cursor-pointer';
       else btn.className = 'px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer';
     }
   });
@@ -594,7 +627,7 @@ function renderDashboardHistoryList() {
     div.innerHTML = `
       <div class="flex items-center gap-2 overflow-hidden min-w-0">
         <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-400 shrink-0"></i>
-        <span class="text-[10px] px-2 py-0.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-500/30 shrink-0 font-medium">${escapeHtml(catLabel)}</span>
+        <span class="text-[10px] px-2 py-0.5 rounded-lg bg-[#00f2ff]/20 text-purple-300 border border-purple-500/30 shrink-0 font-medium">${escapeHtml(catLabel)}</span>
         <span class="truncate font-semibold text-xs text-white">${escapeHtml(item.task || item.name || 'Task')}</span>
       </div>
       <span class="text-gray-400 font-mono text-[10px] shrink-0">${escapeHtml(item.time || item.date || '')}</span>
@@ -1053,3 +1086,15 @@ if (typeof window !== 'undefined') {
   window.triggerManualReportDownload = triggerManualReportDownload;
   window.generateComprehensiveReportText = generateComprehensiveReportText;
 } 
+
+
+function openReportModal() { togglePanel('report'); }
+window.openReportModal = openReportModal;
+if (typeof globalThis !== 'undefined') globalThis.openReportModal = openReportModal;
+
+function openCookingModal() {
+  if (typeof openRecipeModal === 'function') openRecipeModal();
+  else togglePanel('cooking');
+}
+window.openCookingModal = openCookingModal;
+if (typeof globalThis !== 'undefined') globalThis.openCookingModal = openCookingModal;

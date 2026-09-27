@@ -11,7 +11,7 @@ import '../app-core.js';
 
 describe('Distinct & Unique Human Themes (Production Code)', () => {
   it('applies all distinct themes including signature botanical with unique character and contrast', () => {
-    const distinctThemes = ['botanical', 'honey', 'sage', 'aurora', 'peach', 'ocean', 'terracotta'];
+    const distinctThemes = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night'];
     distinctThemes.forEach(theme => {
       setTheme(theme);
       expect(document.body.classList.contains(`theme-${theme}`)).toBe(true);
@@ -30,10 +30,10 @@ describe('Distinct & Unique Human Themes (Production Code)', () => {
     expect(document.body.classList.contains('theme-botanical')).toBe(true);
 
     setTheme('honey-chamomile');
-    expect(document.body.classList.contains('theme-honey')).toBe(true);
+    expect(document.body.classList.contains('theme-latte')).toBe(true);
 
     setTheme('sage-breeze');
-    expect(document.body.classList.contains('theme-sage')).toBe(true);
+    expect(document.body.classList.contains('theme-botanical')).toBe(true);
 
     setTheme('aurora-violet');
     expect(document.body.classList.contains('theme-aurora')).toBe(true);
@@ -45,7 +45,7 @@ describe('Distinct & Unique Human Themes (Production Code)', () => {
     expect(document.body.classList.contains('theme-ocean')).toBe(true);
 
     setTheme('terracotta-sun');
-    expect(document.body.classList.contains('theme-terracotta')).toBe(true);
+    expect(document.body.classList.contains('theme-latte')).toBe(true);
   });
 });
 

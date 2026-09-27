@@ -101,6 +101,26 @@ function getCommandPaletteActions() {
       }
     },
     {
+      id: 'cmd-open-social',
+      title: tr({ de: 'Social Media Launch & Community Hub (Teilen)', en: 'Social Media Launch & Community Hub (Share)' }),
+      category: tr({ de: 'Community & Social', en: 'Community & Social' }),
+      icon: 'rocket',
+      color: 'text-pink-400',
+      action: () => {
+        if (typeof openSocialLaunchModal === 'function') openSocialLaunchModal();
+      }
+    },
+    {
+      id: 'cmd-social-card',
+      title: tr({ de: 'Visual Social Card Generator (Story / Post erstellen)', en: 'Visual Social Card Generator (Create Story / Post)' }),
+      category: tr({ de: 'Community & Social', en: 'Community & Social' }),
+      icon: 'image',
+      color: 'text-purple-400',
+      action: () => {
+        if (typeof openSocialLaunchModal === 'function') openSocialLaunchModal('card');
+      }
+    },
+    {
       id: 'cmd-open-news',
       title: tr({ de: 'Nachrichten & Audio-Ticker öffnen', en: 'Open News & TTS' }),
       category: tr({ de: 'Audio & Medien', en: 'Audio & Media' }),
@@ -203,84 +223,36 @@ function getCommandPaletteActions() {
       }
     },
     {
-      id: 'cmd-theme-botanical',
-      title: tr({ de: 'Theme: 🌿 Botanik & Handschrift (Menschlich & Ökologisch)', en: 'Theme: 🌿 Botanical & Handschrift (Organic Warmth)' }),
+      id: 'cmd-theme-code-night',
+      title: tr({ de: 'Theme: Code Night (Tokyo Night & Neon Violett)', en: 'Theme: Code Night (Tokyo Night & Violet)' }),
       category: tr({ de: 'Design', en: 'Design' }),
       icon: 'palette',
-      color: 'text-emerald-400',
-      action: () => { if (typeof setTheme === 'function') setTheme('botanical'); }
+      color: 'text-[#bb9af7]',
+      action: () => { if (typeof setTheme === 'function') setTheme('code-night'); }
     },
     {
-      id: 'cmd-theme-aurora',
-      title: tr({ de: 'Theme: Aurora (Signature Violett)', en: 'Theme: Aurora (Violet)' }),
+      id: 'cmd-theme-matrix',
+      title: tr({ de: 'Theme: Matrix Protocol (Classic Hacker Green)', en: 'Theme: Matrix Protocol (Hacker Green)' }),
       category: tr({ de: 'Design', en: 'Design' }),
       icon: 'palette',
-      color: 'text-purple-400',
-      action: () => { if (typeof setTheme === 'function') setTheme('aurora'); }
+      color: 'text-[#00ff41]',
+      action: () => { if (typeof setTheme === 'function') setTheme('matrix'); }
     },
     {
-      id: 'cmd-theme-obsidian',
-      title: tr({ de: 'Theme: Obsidian (OLED Tiefschwarz)', en: 'Theme: Obsidian (OLED Black)' }),
+      id: 'cmd-theme-ruby',
+      title: tr({ de: 'Theme: Cyber Ruby (Red/Graphite)', en: 'Theme: Cyber Ruby (Red/Graphite)' }),
       category: tr({ de: 'Design', en: 'Design' }),
       icon: 'palette',
-      color: 'text-slate-300',
-      action: () => { if (typeof setTheme === 'function') setTheme('obsidian'); }
+      color: 'text-[#ff003c]',
+      action: () => { if (typeof setTheme === 'function') setTheme('ruby'); }
     },
     {
-      id: 'cmd-theme-ocean',
-      title: tr({ de: 'Theme: Ocean (Meeres-Cyan & Ice)', en: 'Theme: Ocean (Cyan & Ice)' }),
+      id: 'cmd-theme-cobalt',
+      title: tr({ de: 'Theme: Cobalt Drive (Deep Space Blue)', en: 'Theme: Cobalt Drive (Deep Space Blue)' }),
       category: tr({ de: 'Design', en: 'Design' }),
       icon: 'palette',
-      color: 'text-cyan-400',
-      action: () => { if (typeof setTheme === 'function') setTheme('ocean'); }
-    },
-    {
-      id: 'cmd-theme-sage',
-      title: tr({ de: 'Theme: Sage & Matcha (Milder Salbei)', en: 'Theme: Sage & Matcha' }),
-      category: tr({ de: 'Design', en: 'Design' }),
-      icon: 'palette',
-      color: 'text-emerald-400',
-      action: () => { if (typeof setTheme === 'function') setTheme('sage'); }
-    },
-    {
-      id: 'cmd-theme-latte',
-      title: tr({ de: 'Theme: Oat & Latte (Milchkaffee)', en: 'Theme: Oat & Latte' }),
-      category: tr({ de: 'Design', en: 'Design' }),
-      icon: 'palette',
-      color: 'text-amber-300',
-      action: () => { if (typeof setTheme === 'function') setTheme('latte'); }
-    },
-    {
-      id: 'cmd-theme-sunset',
-      title: tr({ de: 'Theme: Warm Sunset (Abendsonne)', en: 'Theme: Warm Sunset' }),
-      category: tr({ de: 'Design', en: 'Design' }),
-      icon: 'palette',
-      color: 'text-orange-400',
-      action: () => { if (typeof setTheme === 'function') setTheme('sunset'); }
-    },
-    {
-      id: 'cmd-theme-peach',
-      title: tr({ de: 'Theme: Sakura Blossom (Blüten-Rosé)', en: 'Theme: Sakura Blossom' }),
-      category: tr({ de: 'Design', en: 'Design' }),
-      icon: 'palette',
-      color: 'text-rose-400',
-      action: () => { if (typeof setTheme === 'function') setTheme('peach'); }
-    },
-    {
-      id: 'cmd-theme-crimson',
-      title: tr({ de: 'Theme: Crimson Ruby (Deep-Focus)', en: 'Theme: Crimson Ruby' }),
-      category: tr({ de: 'Design', en: 'Design' }),
-      icon: 'palette',
-      color: 'text-red-400',
-      action: () => { if (typeof setTheme === 'function') setTheme('crimson'); }
-    },
-    {
-      id: 'cmd-theme-honey',
-      title: tr({ de: 'Theme: Honey Chamomile (Warmer Bernstein)', en: 'Theme: Honey Chamomile' }),
-      category: tr({ de: 'Design', en: 'Design' }),
-      icon: 'palette',
-      color: 'text-amber-400',
-      action: () => { if (typeof setTheme === 'function') setTheme('honey'); }
+      color: 'text-[#00f2ff]',
+      action: () => { if (typeof setTheme === 'function') setTheme('cobalt'); }
     },
     {
       id: 'cmd-open-onboarding',

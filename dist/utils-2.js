@@ -37,8 +37,8 @@ function triggerPraiseAnimation(idx) {
         const size = Math.random() * 45 + 15;
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
-        bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(168, 85, 247, 0.15) 40%, rgba(56, 189, 248, 0.45) 80%, rgba(255, 255, 255, 0) 100%)`;
-        bubble.style.boxShadow = 'inset 0 0 12px rgba(255, 255, 255, 0.65), 0 4px 15px rgba(56, 189, 248, 0.25)';
+        bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(168, 85, 247, 0.15) 40%, rgba(137, 207, 240, 0.45) 80%, rgba(255, 255, 255, 0) 100%)`;
+        bubble.style.boxShadow = 'inset 0 0 12px rgba(255, 255, 255, 0.65), 0 4px 15px rgba(137, 207, 240, 0.25)';
         bubble.style.left = `${Math.random() * 100}vw`;
         bubble.style.bottom = `-60px`;
         
@@ -348,6 +348,14 @@ if (typeof document !== 'undefined') {
         settingsEl.classList.add('hidden');
       }
     }
+    // 6. Wecker Dropdown
+    const alarmEl = document.getElementById('panel-alarm');
+    const alarmBtn = document.getElementById('header-btn-alarm-container');
+    if (alarmEl && !alarmEl.classList.contains('hidden')) {
+      if (!alarmEl.contains(e.target) && (!alarmBtn || !alarmBtn.contains(e.target))) {
+        alarmEl.classList.add('hidden');
+      }
+    }
   });
 }
 
@@ -361,7 +369,7 @@ function updateDateAndStreak() {
     const dayMonthLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
     const displayEl = document.getElementById('date-display');
     if (displayEl) {
-      displayEl.innerHTML = `<span class="text-zinc-400 font-medium text-xs md:text-sm tracking-normal"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="text-zinc-100 font-semibold text-xs md:text-sm tracking-normal"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
+      displayEl.innerHTML = `<span class="text-purple-300 font-bold text-xs md:text-sm tracking-normal"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="text-gray-100 font-bold text-xs md:text-sm tracking-normal"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
     }
   } catch (e) {
     const displayEl = document.getElementById('date-display');
@@ -417,7 +425,7 @@ function spawnFloatingBubbles(e) {
     bubble.style.animationDelay = `${delay}s`;
     
     // Zufällige Farbe aus dem Brand-Spektrum
-    const colors = ['#38bdf8', '#10b981', '#8b5cf6', '#f472b6'];
+    const colors = ['#89cff0', '#10b981', '#8b5cf6', '#f472b6'];
     bubble.style.background = `radial-gradient(circle at 30% 30%, #fff 0%, ${colors[Math.floor(Math.random() * colors.length)]} 70%)`;
     
     document.body.appendChild(bubble);
@@ -647,7 +655,7 @@ function startSafeSpaceBreathCycle() {
         text.innerText = tr({ de: "2. Nochmal nachatmen!", en: "2. Top-up Inhale!", fr: "2. Complétez !", it: "2. Riempi ancora!", es: "2. ¡Inhala más!", el: "2. Συμπληρώστε!" });
         if (countEl) countEl.innerText = "1s";
         circle.style.transform = "scale(1.45)";
-        circle.style.borderColor = "rgba(56, 189, 248, 0.9)";
+        circle.style.borderColor = "rgba(137, 207, 240, 0.9)";
 
         safeSpaceBreathTimeout = setTimeout(() => {
           text.innerText = tr({ de: "Langer beruhigender Seufzer...", en: "Long Calming Sigh...", fr: "Long soupir apaisant...", it: "Lungo sospiro calmante...", es: "Largo suspiro calmante...", el: "Μεγάλος αναστεναγμός..." });

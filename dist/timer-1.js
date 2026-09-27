@@ -64,7 +64,7 @@ if (typeof globalThis !== 'undefined') {
 }
 
 // Konstante Liste aller integrierten sanften Ambient-Sounds & Melodien zum Durchmischen
-const TIMER_AMBIENTS = ['piano', 'lofi', 'chimes', 'space', 'guitar', 'singingbowl', 'musicbox', 'breeze', 'campfire', 'birds', 'cafe', 'clock', 'lofi_sunshine', 'summer_meadow', 'bossa_nova'];
+const TIMER_AMBIENTS = ['piano', 'lofi', 'chimes', 'space', 'guitar', 'singingbowl', 'musicbox', 'breeze', 'campfire', 'birds', 'cafe', 'clock', 'lofi_sunshine', 'summer_meadow', 'synthwave'];
 
 // VIELFÄLTIGE NATÜRLICHE STIMMPROFILE: Warm, freundlich, empathisch, nicht roboterhaft
 const VOICE_PROFILES = [
@@ -449,6 +449,142 @@ const SESSION_START_PHRASES = {
   ]
 };
 
+// Spezifische Begrüßung mit der verknüpften Aufgabe
+const SESSION_START_TASK_PHRASES = {
+  de: [
+    "Fokuszeit gestartet, {mins} Minuten für: {task}. Ganz in Ruhe anfangen.",
+    "{mins} Minuten Fokus für deine Aufgabe: {task}. Finde deinen eigenen Takt.",
+    "Timer läuft, {mins} Minuten. Dein Ziel ist: {task}. Schritt für Schritt.",
+    "Auf geht's. {mins} Minuten voll konzentriert auf: {task}.",
+    "Fokusblock gestartet für: {task}. Durchatmen und entspannt loslegen."
+  ],
+  en: [
+    "Focus session started, {mins} minutes for: {task}. Begin in your own time.",
+    "{mins} minutes of focus for: {task}. Find your gentle pace.",
+    "Timer running, {mins} minutes on: {task}. Step by step.",
+    "Here we go. {mins} minutes dedicated to: {task}.",
+    "Focus block started on: {task}. Take a breath and ease into it."
+  ],
+  fr: [
+    "Session démarrée, {mins} minutes pour : {task}. Commence tout en douceur.",
+    "{mins} minutes de concentration sur : {task}. Trouve ton propre tempo.",
+    "Minuteur lancé, {mins} minutes pour : {task}. Pas à pas.",
+    "C'est parti pour : {task}. {mins} minutes de travail serein."
+  ],
+  it: [
+    "Sessione avviata, {mins} minuti per: {task}. Comincia con tutta calma.",
+    "{mins} minuti di concentrazione su: {task}. Trova il tuo ritmo naturale.",
+    "Timer avviato, {mins} minuti su: {task}. Un passo alla volta."
+  ],
+  es: [
+    "Sesión iniciada, {mins} minutos para: {task}. Comienza a tu ritmo.",
+    "{mins} minutos de enfoque en: {task}. Encuentra tu compás.",
+    "Temporizador en marcha, {mins} minutos para: {task}. Paso a paso."
+  ],
+  el: [
+    "Η συνεδρία ξεκίνησε, {mins} λεπτά για: {task}. Ξεκίνα με ηρεμία.",
+    "{mins} λεπτά εστίασης στο: {task}. Βρες τον δικό σου ρυθμό.",
+    "Το χρονόμετρο τρέχει για: {task}. Βήμα προς βήμα."
+  ]
+};
+
+// Motivationssprüche, die bei Bedarf die aktive Aufgabe harmonisch einbinden
+const TASK_AWARE_MOTIVATIONS = {
+  de: {
+    start: [
+      "Bleib ganz ruhig bei '{task}'. Nimm dir diesen ersten Schritt vor.",
+      "Guter Einstieg in '{task}'. Lass dich nicht hetzen.",
+      "Komm entspannt in '{task}' an. Du hast die Zeit.",
+      "Konzentrier dich auf den nächsten Schritt von '{task}'.",
+      "Schritt für Schritt an '{task}'. Dein Fokus trägt dich ruhig voran."
+    ],
+    halfway: [
+      "Sehr schöner Rhythmus bei '{task}'. Bleib im Fluss.",
+      "Halbzeit geschafft bei '{task}'. Guter, stetiger Fortschritt.",
+      "Du bist voll drin in '{task}'. Lass es einfach ruhig fließen.",
+      "Schultern kurz lockern und mit klarem Kopf an '{task}' weiterarbeiten.",
+      "Konzentration auf '{task}' läuft gleichmäßig. Sehr schön."
+    ],
+    end: [
+      "Fast geschafft mit '{task}'. Bring diesen Gedanken in Ruhe zu Ende.",
+      "Der Endspurt für '{task}'. Bleib noch kurz aufmerksam.",
+      "Gleich am Ziel mit '{task}'. Sauber zu Ende führen.",
+      "Nur noch ein kleiner Moment für '{task}'. Sehr schön durchgezogen.",
+      "Gleich hast du '{task}' gemeistert."
+    ]
+  },
+  en: {
+    start: [
+      "Gently ease into '{task}'. One small step at a time.",
+      "Good start on '{task}'. You have all the time you need.",
+      "Stay centered on '{task}'. Proceed at your own tempo."
+    ],
+    halfway: [
+      "Great steady rhythm on '{task}'. Keep going with ease.",
+      "Halfway through '{task}'. You are in a wonderful groove.",
+      "Smooth progress on '{task}'. Breathe and keep going."
+    ],
+    end: [
+      "Almost done with '{task}'. Wrap up this thought peacefully.",
+      "Final stretch for '{task}'. Bring it to a clean close.",
+      "Near the finish line with '{task}'. Great focus."
+    ]
+  },
+  fr: {
+    start: [
+      "Aborde '{task}' tout en douceur. Un pas après l'autre.",
+      "Bienvenue dans '{task}'. Avance à ton rythme."
+    ],
+    halfway: [
+      "Beau travail sur '{task}'. La concentration est fluide.",
+      "Mi-parcours pour '{task}'. Continue avec cette belle constance."
+    ],
+    end: [
+      "Presque terminé pour '{task}'. Conclus cette étape sereinement.",
+      "Dernière ligne droite sur '{task}'. Bravo pour ton attention."
+    ]
+  },
+  it: {
+    start: [
+      "Affronta '{task}' con calma. Un passo alla volta.",
+      "Ottima partenza per '{task}'. Procedi sereno."
+    ],
+    halfway: [
+      "Ottimo ritmo su '{task}'. Sei ben immerso nel lavoro.",
+      "Metà percorso per '{task}'. Continua così con naturalezza."
+    ],
+    end: [
+      "Quasi completato '{task}'. Concludi con tranquillità.",
+      "Ultimo tratto per '{task}'. Ottima concentrazione."
+    ]
+  },
+  es: {
+    start: [
+      "Entra en '{task}' con calma. Paso a paso.",
+      "Buen comienzo en '{task}'. Tienes todo el tiempo."
+    ],
+    halfway: [
+      "Gran progreso en '{task}'. Mantén este ritmo sereno.",
+      "Mitad del camino en '{task}'. Vas muy bien."
+    ],
+    end: [
+      "Casi listo '{task}'. Remata esta idea con serenidad.",
+      "Recta final para '{task}'. Gran trabajo."
+    ]
+  },
+  el: {
+    start: [
+      "Ξεκίνα το '{task}' με ηρεμία. Ένα βήμα τη φορά."
+    ],
+    halfway: [
+      "Όμορφη ροή στο '{task}'. Συνέχισε αβίαστα."
+    ],
+    end: [
+      "Σχεδόν τελείωσες το '{task}'. Ολοκλήρωσε με φροντίδα."
+    ]
+  }
+};
+
 // Ansagen beim Erreichen von 00:00
 const TIME_UP_PHRASES = {
   de: "Die Zeit ist abgelaufen!",
@@ -634,10 +770,19 @@ if (typeof window !== 'undefined') window.duckAllAudioForSpeech = duckAllAudioFo
 if (typeof globalThis !== 'undefined') globalThis.duckAllAudioForSpeech = duckAllAudioForSpeech;
 
 // Globale, hochqualitative Sprach-Synthese mit organischen, menschlich-warmen Stimmen
-function speakWithProfile(text, profileIndex = null) {
-  if (!timerSoundEnabled || timerVoiceEnabled === false) return;
-  if (!('speechSynthesis' in window)) return;
-  if (!text || typeof text !== 'string') return;
+function speakWithProfile(text, profileIndex = null, onComplete = null) {
+  if (!timerSoundEnabled || timerVoiceEnabled === false) {
+    if (typeof onComplete === 'function') setTimeout(onComplete, 50);
+    return;
+  }
+  if (!('speechSynthesis' in window)) {
+    if (typeof onComplete === 'function') setTimeout(onComplete, 50);
+    return;
+  }
+  if (!text || typeof text !== 'string') {
+    if (typeof onComplete === 'function') setTimeout(onComplete, 50);
+    return;
+  }
 
   try {
     if (window.speechSynthesis.paused) {
@@ -658,6 +803,9 @@ function speakWithProfile(text, profileIndex = null) {
     if (!naturalText) naturalText = text;
 
     const utterance = new SpeechSynthesisUtterance(naturalText);
+    if (typeof window !== 'undefined') {
+      window._activeSpeechUtterance = utterance; // Prevent Chrome garbage collection bug
+    }
     const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
     const langMap = { en: 'en-US', de: 'de-DE', es: 'es-ES', el: 'el-GR', fr: 'fr-FR', it: 'it-IT' };
     const targetLang = langMap[lang] || 'en-US';
@@ -679,7 +827,6 @@ function speakWithProfile(text, profileIndex = null) {
     const langPrefix = targetLang.split('-')[0].toLowerCase();
     const matchingVoices = allVoices.filter(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith(langPrefix));
 
-    // Höchste Priorität für Neural / Natural / Online / Wavenet / Siri / Enhanced / Freundliche Stimmen
     function getVoiceScore(voice) {
       const name = (voice.name || '').toLowerCase();
       let score = 0;
@@ -734,24 +881,30 @@ function speakWithProfile(text, profileIndex = null) {
       utterance.voice = selectedVoice;
     }
 
-    // 4. Harmonisches Ducking: Hintergrundsounds/Radio sanft abdämpfen und nach Sprache wieder anheben
+    // 4. Harmonisches Ducking: Hintergrundsounds sanft abdämpfen und nach Sprache wieder anheben
     duckAllAudioForSpeech(true);
 
     utterance.onstart = () => {
       duckAllAudioForSpeech(true);
     };
 
-    const cleanupDucking = () => {
+    let hasCompleted = false;
+    const finishHandler = () => {
+      if (hasCompleted) return;
+      hasCompleted = true;
       duckAllAudioForSpeech(false);
+      if (typeof onComplete === 'function') {
+        try { onComplete(); } catch (e) { console.warn('onComplete callback error:', e); }
+      }
     };
 
-    utterance.onend = cleanupDucking;
-    utterance.onerror = cleanupDucking;
+    utterance.onend = finishHandler;
+    utterance.onerror = finishHandler;
 
     const speakSessionToken = currentSpeechSessionId;
     const speakTimeout = setTimeout(() => {
       if (currentSpeechSessionId !== speakSessionToken) {
-        cleanupDucking();
+        finishHandler();
         return;
       }
       try {
@@ -761,7 +914,7 @@ function speakWithProfile(text, profileIndex = null) {
         window.speechSynthesis.speak(utterance);
       } catch (err) {
         console.warn("speechSynthesis.speak error:", err);
-        cleanupDucking();
+        finishHandler();
       }
     }, 50);
     if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
@@ -770,25 +923,41 @@ function speakWithProfile(text, profileIndex = null) {
   } catch (e) {
     console.error("Fehler bei der speakWithProfile Ausführung:", e);
     duckAllAudioForSpeech(false);
+    if (typeof onComplete === 'function') {
+      try { onComplete(); } catch (err) {}
+    }
   }
 }
 
-// Jede Minute und jede Ansage wechselnde Stimmenprofile (Frauen, Männer, Kinder)
-function speakSoftlyDynamic(text, remSec, totSec) {
+// Jede 2 Minuten und bei Ansagen wechselnde Stimmenprofile
+function speakSoftlyDynamic(text, remSec, totSec, onComplete = null) {
   const voiceTurn = globalVoiceTurnIndex++;
-  speakWithProfile(text, voiceTurn);
+  speakWithProfile(text, voiceTurn, onComplete);
 }
 
-// Liefert kontextbezogene, stufenweise angepasste Motivationen (Start: ruhig, Mitte: im Fluss, Ende: Endspurt)
-function getContextMotivation(remSec, totSec) {
+function getContextMotivation(remSec, totSec, taskName = '') {
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
-  const list = MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS['de'];
   const pct = totSec > 0 ? (remSec / totSec) * 100 : 0;
   
   let tier = 'end';
   if (pct > 70) tier = 'start';
   else if (pct > 25) tier = 'halfway';
   
+  // Wenn eine Aufgabe aktiv ist, binden wir sie mit 50-60% Wahrscheinlichkeit natürlich ein
+  if (taskName && typeof taskName === 'string' && taskName.trim() && Math.random() < 0.6) {
+    const taskListObj = (typeof TASK_AWARE_MOTIVATIONS !== 'undefined' && TASK_AWARE_MOTIVATIONS[lang]) 
+      ? TASK_AWARE_MOTIVATIONS[lang] 
+      : (typeof TASK_AWARE_MOTIVATIONS !== 'undefined' ? TASK_AWARE_MOTIVATIONS.de : null);
+    const taskTierList = taskListObj ? taskListObj[tier] : null;
+    if (taskTierList && taskTierList.length > 0) {
+      const template = pickWithoutImmediateRepeat(taskTierList, lastMotivationByTier[tier + '_task']);
+      lastMotivationByTier[tier + '_task'] = template;
+      const cleanTask = taskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
+      return template.replace('{task}', cleanTask);
+    }
+  }
+
+  const list = MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS['de'];
   const chosen = pickWithoutImmediateRepeat(list[tier], lastMotivationByTier[tier]);
   lastMotivationByTier[tier] = chosen;
   return chosen;

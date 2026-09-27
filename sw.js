@@ -1,4 +1,4 @@
-const CACHE_NAME = 'noodle-cache-v158';
+const CACHE_NAME = 'noodle-cache-v263';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -56,6 +56,7 @@ const ASSETS_TO_CACHE = [
   './helper-cleaning.js',
   './helper-learning.js',
   './sport.js',
+  './app-social.js',
   './app-core.js',
   './app-tasks.js',
   './app-shopping.js',
@@ -120,11 +121,24 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // HTML & Navigation: Network-First für sofortige Updates bei Änderungen
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('index.html') || url.pathname.endsWith('/')) {
+    event.respondWith(
+      fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const responseClone = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
+        }
+        return networkResponse;
+      }).catch(() => caches.match('./index.html') || caches.match(event.request))
+    );
+    return;
+  }
+
   // Statische Assets & App-Code: Cache-First für 0ms Ladezeit & Offline-Betrieb
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
-        // Optional im Hintergrund aktualisieren (Stale-While-Revalidate)
         fetch(event.request).then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));

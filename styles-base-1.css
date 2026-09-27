@@ -1,108 +1,264 @@
-/* styles-base-1.css: CSS-Variablen & Themes (siehe auch styles-base-2.css) */
+/* styles-base-1.css: Noodle Calm & Aesthetic PAL-Pastel Visual Engine */
 
-/* --- GLOBALE CSS-VARIABLEN FÜR DYNAMISCHE HINTERGRÜNDE & KONTRASTE --- */
 :root {
-  --accent: #8b5cf6;
-  --accent-light: #c084fc;
-  --accent-border: rgba(139, 92, 246, 0.35);
-  --bg-app: #090714;
-  --bg-header: rgba(18, 14, 38, 0.85);
-  --bg-card: rgba(18, 12, 34, 0.75);
-  --bg-card-hover: rgba(28, 20, 52, 0.9);
-  --bg-dock: rgba(18, 14, 38, 0.95);
-  --bg-panel: #100a22;
-  --bg-modal: #100a22;
-  --text-main: #faf5ff;
-  --text-muted: #c084fc;
+  --accent: #89cff0;
+  --accent-light: #bfe8ff;
+  --accent-border: rgba(137, 207, 240, 0.35);
+  --accent-glow: rgba(137, 207, 240, 0.45);
+  --bg-app: #060c18;
+  --bg-header: rgba(12, 22, 40, 0.96);
+  --bg-card: rgba(16, 30, 52, 0.92);
+  --bg-card-hover: rgba(22, 40, 70, 0.98);
+  --bg-dock: rgba(12, 22, 40, 0.96);
+  --bg-panel: #0a1222;
+  --bg-modal: #0a1222;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
   --text-header: #ffffff;
   --text-dock: #ffffff;
-  --border-main: rgba(139, 92, 246, 0.2);
-  --font-family: "Plus Jakarta Sans", sans-serif;
+  --border-main: rgba(137, 207, 240, 0.22);
+  --font-family: "Space Grotesk", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-body {
+/* ========================================================================== */
+/* RUHIGE & HARMONISCHE PAL-PASTELL FARBSCHEMATA                              */
+/* ========================================================================== */
+
+/* THEME 1: 🌌 AURORA (Zen Cyan & Sternenhimmel / Celestial Sky PAL) */
+body.theme-aurora,
+body:not([class*="theme-"]) {
+  --accent: #89cff0;
+  --accent-light: #bfe8ff;
+  --accent-border: rgba(137, 207, 240, 0.35);
+  --accent-glow: rgba(137, 207, 240, 0.45);
+  --bg-app: #060c18;
+  --bg-header: rgba(12, 22, 40, 0.96);
+  --bg-card: rgba(16, 30, 52, 0.92);
+  --bg-card-hover: rgba(22, 40, 70, 0.98);
+  --bg-panel: #0a1222;
+  --bg-modal: #0a1222;
+  --text-main: #f8fafc;
+  --text-muted: #93c5fd;
+  --border-main: rgba(137, 207, 240, 0.22);
+}
+
+/* THEME 2: 🪻 OBSIDIAN (Nordischer Lavendel / Twilight Lilac PAL) */
+body.theme-obsidian,
+body.theme-lavender {
+  --accent: #a594f9;
+  --accent-light: #c4bbf0;
+  --accent-border: rgba(165, 148, 249, 0.35);
+  --accent-glow: rgba(165, 148, 249, 0.45);
+  --bg-app: #0e0d18;
+  --bg-header: rgba(22, 19, 36, 0.96);
+  --bg-card: rgba(27, 24, 46, 0.92);
+  --bg-card-hover: rgba(36, 31, 62, 0.98);
+  --bg-panel: #12101e;
+  --bg-modal: #12101e;
+  --text-main: #f8f7ff;
+  --text-muted: #c4b5fd;
+  --border-main: rgba(165, 148, 249, 0.22);
+}
+
+/* THEME 3: 🌿 BOTANICAL (Salbei & Eukalyptus / Muted Sage PAL) */
+body.theme-botanical,
+body.theme-sage,
+body.theme-matrix {
+  --accent: #7aba78;
+  --accent-light: #a7d7c5;
+  --accent-border: rgba(122, 186, 120, 0.35);
+  --accent-glow: rgba(122, 186, 120, 0.45);
+  --bg-app: #0a120e;
+  --bg-header: rgba(14, 26, 19, 0.96);
+  --bg-card: rgba(17, 32, 24, 0.92);
+  --bg-card-hover: rgba(22, 42, 31, 0.98);
+  --bg-panel: #0d1712;
+  --bg-modal: #0d1712;
+  --text-main: #f0fdf4;
+  --text-muted: #86efac;
+  --border-main: rgba(122, 186, 120, 0.22);
+}
+
+/* THEME 4: 🌾 LATTE (Hafermilch & Sanddüne / Cashmere Amber PAL) */
+body.theme-latte,
+body.theme-sand,
+body.theme-sunset,
+body.theme-honey,
+body.theme-candlelight {
+  --accent: #e7cba9;
+  --accent-light: #f5ebe0;
+  --accent-border: rgba(231, 203, 169, 0.35);
+  --accent-glow: rgba(231, 203, 169, 0.45);
+  --bg-app: #140f0c;
+  --bg-header: rgba(28, 20, 16, 0.96);
+  --bg-card: rgba(36, 26, 21, 0.92);
+  --bg-card-hover: rgba(48, 35, 28, 0.98);
+  --bg-panel: #17120e;
+  --bg-modal: #17120e;
+  --text-main: #fffcf2;
+  --text-muted: #e9d8a6;
+  --border-main: rgba(231, 203, 169, 0.22);
+}
+
+/* THEME 5: 🌸 PEACH (Pastell-Pfirsich & Sakura / Blush Rose PAL) */
+body.theme-peach,
+body.theme-sakura,
+body.theme-ruby,
+body.theme-cyberpunk {
+  --accent: #f4acb7;
+  --accent-light: #ffcad4;
+  --accent-border: rgba(244, 172, 183, 0.35);
+  --accent-glow: rgba(244, 172, 183, 0.45);
+  --bg-app: #140a12;
+  --bg-header: rgba(28, 14, 25, 0.96);
+  --bg-card: rgba(38, 18, 33, 0.92);
+  --bg-card-hover: rgba(50, 24, 44, 0.98);
+  --bg-panel: #180d16;
+  --bg-modal: #180d16;
+  --text-main: #fff5f7;
+  --text-muted: #fbcfe8;
+  --border-main: rgba(244, 172, 183, 0.22);
+}
+
+/* THEME 6: 🌊 OCEAN (Nordic Fjord & Eisnebel / Muted Glacier PAL) */
+body.theme-ocean,
+body.theme-fjord,
+body.theme-cobalt,
+body.theme-syntax {
+  --accent: #73b9bc;
+  --accent-light: #98ded9;
+  --accent-border: rgba(115, 185, 188, 0.35);
+  --accent-glow: rgba(115, 185, 188, 0.45);
+  --bg-app: #081018;
+  --bg-header: rgba(14, 26, 38, 0.96);
+  --bg-card: rgba(18, 34, 48, 0.92);
+  --bg-card-hover: rgba(24, 46, 66, 0.98);
+  --bg-panel: #0c1520;
+  --bg-modal: #0c1520;
+  --text-main: #f0fdfa;
+  --text-muted: #7dd3fc;
+  --border-main: rgba(115, 185, 188, 0.22);
+}
+
+/* THEME 7: 🌑 CODE NIGHT / ZEN (Minimalist Slate & Platinum PAL) */
+body.theme-code-night,
+body.theme-zen {
+  --accent: #94a3b8;
+  --accent-light: #cbd5e1;
+  --accent-border: rgba(148, 163, 184, 0.35);
+  --accent-glow: rgba(148, 163, 184, 0.45);
+  --bg-app: #0c0f14;
+  --bg-header: rgba(18, 22, 28, 0.96);
+  --bg-card: rgba(24, 30, 38, 0.92);
+  --bg-card-hover: rgba(32, 40, 50, 0.98);
+  --bg-panel: #11141a;
+  --bg-modal: #11141a;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-main: rgba(148, 163, 184, 0.22);
+}
+
+body, html {
   background-color: var(--bg-app) !important;
   color: var(--text-main) !important;
   font-family: var(--font-family) !important;
-  transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s ease;
-  position: relative;
+  transition: background-color 0.3s ease, color 0.3s ease;
   min-height: 100vh;
-}
-
-/* Subtiler Ambient Mesh-Hintergrund für räumliche Harmonie & Tiefe */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: 
-    radial-gradient(circle at 15% 15%, var(--accent-light, rgba(168, 85, 247, 0.12)) 0%, transparent 50%),
-    radial-gradient(circle at 85% 85%, var(--accent, rgba(139, 92, 246, 0.1)) 0%, transparent 50%),
-    radial-gradient(circle at 50% 35%, var(--accent-border, rgba(16, 185, 129, 0.05)) 0%, transparent 65%);
-  pointer-events: none;
-  z-index: -1;
-  opacity: 0.9;
-  transition: background 0.4s ease;
-}
-
-/* Modals, Overlays & Dialoge liegen IMMER über dem Floating-Dock (z-40) */
-[id$="-modal"],
-[id$="-overlay"],
-.fixed.inset-0:not(.pointer-events-none) {
-  z-index: 10000 !important;
-}
-
-/* Sanfter Farbwechsel nur auf Hauptcontainern statt extrem teurem Wildcard-Selektor (*) */
-body.theme-fade-slow,
-body.theme-fade-slow main,
-body.theme-fade-slow article,
-body.theme-fade-slow header,
-body.theme-fade-slow .mac-dock {
-  transition: background-color 0.8s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.8s ease, color 0.8s ease !important;
-}
-
-/* GPU-Beschleunigung & Layout-Containment für butterweiche 120 FPS */
-main article {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  contain: layout style;
-  will-change: transform;
-  background-color: var(--bg-card) !important;
-  border: 1px solid var(--border-main) !important;
-  border-top: 1.5px solid color-mix(in srgb, var(--accent-light, #c084fc) 40%, rgba(255, 255, 255, 0.2)) !important;
-  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.55), 0 0 15px -4px var(--accent-border, rgba(168, 85, 247, 0.15)), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-  backdrop-filter: blur(28px) saturate(190%) !important;
-  -webkit-backdrop-filter: blur(28px) saturate(190%) !important;
-  transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
-}
-
-main article:hover {
-  border-color: color-mix(in srgb, var(--accent, #8b5cf6) 50%, var(--border-main)) !important;
-  box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.65), 0 0 24px -4px var(--accent-border, rgba(168, 85, 247, 0.3)), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
 }
 
 header {
   background-color: var(--bg-header) !important;
   border: 1px solid var(--border-main) !important;
-  border-top: 1.5px solid color-mix(in srgb, var(--accent-light, #c084fc) 45%, rgba(255, 255, 255, 0.25)) !important;
-  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.55), 0 0 25px -4px var(--accent-border, rgba(168, 85, 247, 0.2)) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
-  transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.6), 0 0 12px var(--accent-border) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
 }
 
-.font-mono, #timer-display, .timer-digit, [data-tabular="true"] {
-  font-variant-numeric: tabular-nums !important;
+main article {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-main) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.6), 0 0 10px var(--accent-border) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  transition: all 0.25s ease !important;
 }
 
-/* Taktile Kanten an Modalen & Dialogen */
+main article:hover {
+  background-color: var(--bg-card-hover) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.75), 0 0 18px var(--accent-border) !important;
+}
+
 .dock-popover-panel,
-[id$="-modal"] > div {
-  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
-  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+.mobile-modal-card,
+[id$="-modal"] > div,
+#panel-header-tools,
+#panel-settings-dropdown,
+#panel-pause-dropdown,
+#panel-audio,
+#panel-daily,
+#panel-weather,
+#panel-report,
+#panel-feedback,
+#panel-search {
+  background-color: var(--bg-modal) !important;
+  border: 1px solid var(--border-main) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.85), 0 0 20px var(--accent-border) !important;
+  color: var(--text-main) !important;
+  backdrop-filter: blur(24px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
 }
 
-body, body #app, body #app * {
-  font-family: var(--font-family) !important;
+#timer-display {
+  color: var(--accent) !important;
+  text-shadow: 0 0 8px var(--accent-glow);
+}
+#timer-container {
+  border-color: var(--accent-border) !important;
+  box-shadow: 0 0 12px var(--accent-border) !important;
+}
+#timer-container:hover {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 16px var(--accent-border) !important;
+}
+#timer-progress-bar {
+  background-color: var(--accent) !important;
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+main article h2 {
+  color: var(--text-main) !important;
+  letter-spacing: 0.03em;
+}
+main article .cat-count-badge {
+  border-color: var(--accent-border) !important;
+  color: var(--accent-light) !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+i[data-lucide="timer"],
+i[data-lucide="search"],
+i[data-lucide="sliders"],
+i[data-lucide="undo-2"],
+i[data-lucide="sparkles"] {
+  color: var(--accent-light) !important;
+  filter: drop-shadow(0 0 3px var(--accent-glow));
+}
+
+#btn-board-columns:hover,
+#btn-board-undo:hover,
+#btn-board-clear:hover,
+#btn-board-reset:hover {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 12px var(--accent-border) !important;
+  color: var(--text-main) !important;
+}
+
+.font-mono, #timer-display, .timer-digit, [data-tabular="true"], span.font-mono, div.font-mono {
+  font-variant-numeric: tabular-nums !important;
 }
 
 ::-webkit-scrollbar {
@@ -115,1276 +271,7 @@ body, body #app, body #app * {
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 9999px;
-  border: 1px solid transparent;
-  background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
-}
-
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  word-break: break-word;
-}
-
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  word-break: break-word;
-}
-/* ========================================================================== */
-/* 12 CHARAKTERSTARKE TECH-, GAMER- & ERGONOMISCHE FARBSCHEMATA             */
-/* ========================================================================== */
-
-/* 1. 🌌 Cyber Neon / Synthwave (Neon Pink & Cyber Violett) */
-body.theme-cyberpunk,
-body.theme-neon-cyber,
-body.theme-synthwave {
-  --accent: #f43f5e;
-  --accent-light: #fb7185;
-  --accent-border: rgba(244, 63, 94, 0.35);
-  --bg-app: #0d0716;
-  --bg-header: rgba(24, 12, 38, 0.88);
-  --bg-card: rgba(22, 10, 36, 0.78);
-  --bg-card-hover: rgba(36, 16, 58, 0.9);
-  --bg-dock: rgba(24, 12, 38, 0.95);
-  --bg-panel: #12071d;
-  --bg-modal: #12071d;
-  --text-main: #fdf2f8;
-  --text-muted: #f472b6;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(244, 63, 94, 0.2);
-}
-
-/* 2. 🔮 Aurora Borealis (Tiefes Nacht-Violett & Stardust) */
-body.theme-aurora,
-body.theme-aurora-violet,
-body.theme-lavender-cloud {
-  --accent: #8b5cf6;
-  --accent-light: #c084fc;
-  --accent-border: rgba(139, 92, 246, 0.35);
-  --bg-app: #090714;
-  --bg-header: rgba(18, 14, 38, 0.88);
-  --bg-card: rgba(18, 12, 34, 0.78);
-  --bg-card-hover: rgba(30, 18, 62, 0.9);
-  --bg-dock: rgba(18, 14, 38, 0.95);
-  --bg-panel: #0e091e;
-  --bg-modal: #0e091e;
-  --text-main: #faf5ff;
-  --text-muted: #c084fc;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(139, 92, 246, 0.2);
-}
-
-/* 3. ⚡ Emerald Matrix (Cyber-Grün & Mint Glow) */
-body.theme-matrix,
-body.theme-forest,
-body.theme-matcha {
-  --accent: #10b981;
-  --accent-light: #34d399;
-  --accent-border: rgba(16, 185, 129, 0.35);
-  --bg-app: #040d08;
-  --bg-header: rgba(10, 26, 18, 0.88);
-  --bg-card: rgba(8, 22, 15, 0.78);
-  --bg-card-hover: rgba(16, 44, 30, 0.9);
-  --bg-dock: rgba(10, 26, 18, 0.95);
-  --bg-panel: #06140d;
-  --bg-modal: #06140d;
-  --text-main: #f0fdf4;
-  --text-muted: #6ee7b7;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(16, 185, 129, 0.2);
-}
-
-/* 4. 🌊 Oceanic Abyss (Laser-Cyan & Tiefsee) */
-body.theme-ocean,
-body.theme-lagoon,
-body.theme-glacier,
-body.theme-glacier-frost,
-body.theme-holo-chrome,
-body.theme-architect {
-  --accent: #06b6d4;
-  --accent-light: #38bdf8;
-  --accent-border: rgba(6, 182, 212, 0.35);
-  --bg-app: #040c16;
-  --bg-header: rgba(10, 24, 42, 0.88);
-  --bg-card: rgba(8, 20, 36, 0.78);
-  --bg-card-hover: rgba(16, 42, 66, 0.9);
-  --bg-dock: rgba(10, 24, 42, 0.95);
-  --bg-panel: #06131f;
-  --bg-modal: #06131f;
-  --text-main: #ecfeff;
-  --text-muted: #22d3ee;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(6, 182, 212, 0.2);
-}
-
-/* 5. ☀️ Solar Gold / Cyber Amber (Warmes Gold & Laser-Bernstein) */
-body.theme-honey,
-body.theme-amber,
-body.theme-honey-chamomile,
-body.theme-cozy-amber,
-body.theme-cozy,
-body.theme-citrus {
-  --accent: #f59e0b;
-  --accent-light: #fbbf24;
-  --accent-border: rgba(245, 158, 11, 0.35);
-  --bg-app: #0d0904;
-  --bg-header: rgba(28, 20, 10, 0.88);
-  --bg-card: rgba(24, 16, 8, 0.78);
-  --bg-card-hover: rgba(48, 34, 16, 0.9);
-  --bg-dock: rgba(28, 20, 10, 0.95);
-  --bg-panel: #181108;
-  --bg-modal: #181108;
-  --text-main: #fffbeb;
-  --text-muted: #fbbf24;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(245, 158, 11, 0.2);
-}
-
-/* 6. 🩸 Crimson Protocol (Gamer-Rot & Dark Ruby) */
-body.theme-crimson {
-  --accent: #ef4444;
-  --accent-light: #f87171;
-  --accent-border: rgba(239, 68, 68, 0.35);
-  --bg-app: #0f0507;
-  --bg-header: rgba(32, 12, 16, 0.88);
-  --bg-card: rgba(26, 10, 14, 0.78);
-  --bg-card-hover: rgba(52, 18, 26, 0.9);
-  --bg-dock: rgba(32, 12, 16, 0.95);
-  --bg-panel: #1a080d;
-  --bg-modal: #1a080d;
-  --text-main: #fff1f2;
-  --text-muted: #fb7185;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(239, 68, 68, 0.2);
-}
-
-/* 7. 🖤 Obsidian Stealth / OLED (Monochrom & Titan-Silber) */
-body.theme-obsidian,
-body.theme-carbon,
-body.theme-charcoal,
-body.theme-executive {
-  --accent: #94a3b8;
-  --accent-light: #cbd5e1;
-  --accent-border: rgba(255, 255, 255, 0.25);
-  --bg-app: #060709;
-  --bg-header: rgba(15, 18, 24, 0.88);
-  --bg-card: rgba(12, 14, 20, 0.78);
-  --bg-card-hover: rgba(24, 28, 38, 0.9);
-  --bg-dock: rgba(15, 18, 24, 0.95);
-  --bg-panel: #08080a;
-  --bg-modal: #08080a;
-  --text-main: #fafafa;
-  --text-muted: #a1a1aa;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(255, 255, 255, 0.12);
-}
-
-/* 8. 🌌 Cosmic Nebula (Deep Space Indigo & Laser-Blau) */
-body.theme-nebula {
-  --accent: #6366f1;
-  --accent-light: #818cf8;
-  --accent-border: rgba(99, 102, 241, 0.35);
-  --bg-app: #060714;
-  --bg-header: rgba(14, 16, 38, 0.88);
-  --bg-card: rgba(12, 14, 32, 0.78);
-  --bg-card-hover: rgba(24, 28, 64, 0.9);
-  --bg-dock: rgba(14, 16, 38, 0.95);
-  --bg-panel: #090a1c;
-  --bg-modal: #090a1c;
-  --text-main: #eef2ff;
-  --text-muted: #818cf8;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(99, 102, 241, 0.2);
-}
-
-/* 9. 🌸 Tokyo Sakura (Sanftes Japanisches Blüten-Rosé) */
-body.theme-peach,
-body.theme-sakura,
-body.theme-sakura-blossom,
-body.theme-peach-cashmere {
-  --accent: #f472b6;
-  --accent-light: #fbcfe8;
-  --accent-border: rgba(244, 114, 182, 0.35);
-  --bg-app: #10060e;
-  --bg-header: rgba(28, 12, 24, 0.88);
-  --bg-card: rgba(24, 10, 20, 0.78);
-  --bg-card-hover: rgba(48, 20, 40, 0.9);
-  --bg-dock: rgba(28, 12, 24, 0.95);
-  --bg-panel: #180a11;
-  --bg-modal: #180a11;
-  --text-main: #fff1f2;
-  --text-muted: #fda4af;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(244, 114, 182, 0.2);
-}
-
-/* 10. 🌿 Botanical Sage (Beruhigendes Wald-Teal) */
-body.theme-sage,
-body.theme-sage-breeze,
-body.theme-eucalyptus-dew,
-body.theme-matcha-latte {
-  --accent: #14b8a6;
-  --accent-light: #5eead4;
-  --accent-border: rgba(20, 184, 166, 0.35);
-  --bg-app: #050e0d;
-  --bg-header: rgba(12, 28, 26, 0.88);
-  --bg-card: rgba(10, 24, 22, 0.78);
-  --bg-card-hover: rgba(20, 48, 44, 0.9);
-  --bg-dock: rgba(12, 28, 26, 0.95);
-  --bg-panel: #081413;
-  --bg-modal: #081413;
-  --text-main: #f0fdfa;
-  --text-muted: #2dd4bf;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(20, 184, 166, 0.2);
-}
-
-/* 11. 🏺 Sunset Terracotta (Warme Ton-Erde & Orange) */
-body.theme-terracotta,
-body.theme-terracotta-sun {
-  --accent: #f97316;
-  --accent-light: #fdba74;
-  --accent-border: rgba(249, 115, 22, 0.35);
-  --bg-app: #0f0703;
-  --bg-header: rgba(32, 16, 8, 0.88);
-  --bg-card: rgba(26, 12, 6, 0.78);
-  --bg-card-hover: rgba(52, 24, 12, 0.9);
-  --bg-dock: rgba(32, 16, 8, 0.95);
-  --bg-panel: #1a0b05;
-  --bg-modal: #1a0b05;
-  --text-main: #fff7ed;
-  --text-muted: #fdba74;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(249, 115, 22, 0.2);
-}
-
-/* 12. 👑 Royal Velvet (Edles Purpur-Pflaume & Luxus) */
-body.theme-royal {
-  --accent: #d946ef;
-  --accent-light: #f0abfc;
-  --accent-border: rgba(217, 70, 239, 0.35);
-  --bg-app: #0d0414;
-  --bg-header: rgba(26, 10, 38, 0.88);
-  --bg-card: rgba(22, 8, 32, 0.78);
-  --bg-card-hover: rgba(44, 16, 64, 0.9);
-  --bg-dock: rgba(26, 10, 38, 0.95);
-  --bg-panel: #17071c;
-  --bg-modal: #17071c;
-  --text-main: #fdf4ff;
-  --text-muted: #e879f9;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(217, 70, 239, 0.2);
-}
-
-/* 13. ☕ Oat & Latte (Cozy Hafermilch, Mocca & warmer Crema-Glow) */
-body.theme-latte,
-body.theme-oat-latte,
-body.theme-coffee {
-  --accent: #d97706;
-  --accent-light: #fde68a;
-  --accent-border: rgba(217, 119, 6, 0.35);
-  --bg-app: #120e0b;
-  --bg-header: rgba(36, 26, 20, 0.9);
-  --bg-card: rgba(28, 20, 15, 0.85);
-  --bg-card-hover: rgba(48, 35, 26, 0.95);
-  --bg-dock: rgba(36, 26, 20, 0.95);
-  --bg-panel: #1e1510;
-  --bg-modal: #1e1510;
-  --text-main: #fef3c7;
-  --text-muted: #fde68a;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(217, 119, 6, 0.22);
-}
-
-/* 14. 🌅 Warm Sunset (Goldener Abendhimmel, Pfirsich & milder Amber-Glow) */
-body.theme-sunset,
-body.theme-warm-sunset,
-body.theme-apricot {
-  --accent: #fb923c;
-  --accent-light: #fed7aa;
-  --accent-border: rgba(251, 146, 60, 0.35);
-  --bg-app: #140909;
-  --bg-header: rgba(38, 18, 18, 0.9);
-  --bg-card: rgba(30, 14, 14, 0.85);
-  --bg-card-hover: rgba(52, 24, 24, 0.95);
-  --bg-dock: rgba(38, 18, 18, 0.95);
-  --bg-panel: #200d0d;
-  --bg-modal: #200d0d;
-  --text-main: #fff7ed;
-  --text-muted: #fdba74;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(251, 146, 60, 0.22);
-}
-
-/* 15. 🍵 Matcha & Salbei (Milde Naturfrische & sanftes Kräuter-Teal) */
-body.theme-matcha,
-body.theme-matcha-sage,
-body.theme-sage-latte {
-  --accent: #10b981;
-  --accent-light: #6ee7b7;
-  --accent-border: rgba(16, 185, 129, 0.35);
-  --bg-app: #08110c;
-  --bg-header: rgba(18, 34, 24, 0.9);
-  --bg-card: rgba(14, 28, 20, 0.85);
-  --bg-card-hover: rgba(24, 48, 34, 0.95);
-  --bg-dock: rgba(18, 34, 24, 0.95);
-  --bg-panel: #0d1e15;
-  --bg-modal: #0d1e15;
-  --text-main: #ecfdf5;
-  --text-muted: #a7f3d0;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(16, 185, 129, 0.22);
-}
-
-/* 16. 🕯️ Cozy Candlelight (Sanfter Kerzenschein, Kaminfeuer & Holz-Nuancen) */
-body.theme-candlelight,
-body.theme-cozy-candlelight,
-body.theme-fireplace {
-  --accent: #ea580c;
-  --accent-light: #ffedd5;
-  --accent-border: rgba(234, 88, 12, 0.35);
-  --bg-app: #120904;
-  --bg-header: rgba(34, 16, 8, 0.9);
-  --bg-card: rgba(26, 12, 6, 0.85);
-  --bg-card-hover: rgba(48, 22, 10, 0.95);
-  --bg-dock: rgba(34, 16, 8, 0.95);
-  --bg-panel: #1c0d05;
-  --bg-modal: #1c0d05;
-  --text-main: #fffbeb;
-  --text-muted: #fed7aa;
-  --text-header: #ffffff;
-  --text-dock: #ffffff;
-  --border-main: rgba(234, 88, 12, 0.22);
-}
-
-/* 0. 🌿 Botanical Journal & Handschrift (Menschlich, zärtlich, harmonisch & ökologisch) */
-body.theme-botanical,
-body.theme-botanic,
-body.theme-eco,
-body.theme-nature,
-body.theme-journal {
-  --accent: #4ade80;
-  --accent-light: #86efac;
-  --accent-border: rgba(74, 222, 128, 0.40);
-  --bg-app: #111915;
-  --bg-header: rgba(18, 28, 22, 0.90);
-  --bg-card: rgba(22, 34, 27, 0.85);
-  --bg-card-hover: rgba(28, 46, 36, 0.95);
-  --bg-dock: rgba(18, 28, 22, 0.95);
-  --bg-panel: #15241b;
-  --bg-modal: #15241b;
-  --text-main: #f4fbf6;
-  --text-muted: #a3c9b4;
-  --text-header: #f4fbf6;
-  --text-dock: #f4fbf6;
-  --border-main: rgba(74, 222, 128, 0.22);
-}
-
-/* Handschrift & organische Ästhetik im Botanical Theme */
-body.theme-botanical,
-body.theme-botanical * {
-  font-family: 'Caveat', 'Plus Jakarta Sans', cursive, sans-serif !important;
-}
-
-body.theme-botanical .font-mono,
-body.theme-botanical [data-tabular="true"],
-body.theme-botanical input,
-body.theme-botanical textarea,
-body.theme-botanical select {
-  font-family: 'Space Grotesk', monospace !important;
-}
-
-body.theme-botanical #timer-display,
-body.theme-botanical #mobile-timer-display {
-  font-family: 'Space Grotesk', 'Caveat', monospace !important;
-  letter-spacing: 0.05em !important;
-}
-
-body.theme-botanical .task-item {
-  font-size: 1.18rem !important;
-  line-height: 1.35 !important;
-  border-radius: 14px !important;
-  border: 1px solid rgba(74, 222, 128, 0.20) !important;
-  background: rgba(22, 36, 28, 0.70) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
-}
-
-body.theme-botanical .task-item:hover {
-  background: rgba(30, 50, 39, 0.90) !important;
-  border-color: rgba(134, 239, 172, 0.50) !important;
-  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.55), 0 0 16px rgba(74, 222, 128, 0.18) !important;
-}
-
-body.theme-botanical main article {
-  border-radius: 20px !important;
-  border: 1.5px solid rgba(74, 222, 128, 0.22) !important;
-  border-top: 2px solid rgba(134, 239, 172, 0.45) !important;
-  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.65), 0 0 22px rgba(74, 222, 128, 0.10) !important;
-}
-
-body.theme-botanical header {
-  border-color: rgba(74, 222, 128, 0.28) !important;
-  border-top: 1.5px solid rgba(134, 239, 172, 0.45) !important;
-  box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.60), 0 0 25px -4px rgba(74, 222, 128, 0.22) !important;
-}
-
-body.theme-botanical [id$="-modal"] > div,
-body.theme-botanical .dock-popover-panel {
-  border-color: rgba(74, 222, 128, 0.30) !important;
-  border-top: 1.5px solid rgba(134, 239, 172, 0.45) !important;
-  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85), 0 0 30px rgba(74, 222, 128, 0.15) !important;
-}
-
-body.theme-botanical h1,
-body.theme-botanical h2,
-body.theme-botanical h3,
-body.theme-botanical h4,
-body.theme-botanical .column-title,
-body.theme-botanical .tools-sidebar-btn span,
-body.theme-botanical .noodle-studio-badge {
-  letter-spacing: 0.03em !important;
-}
-
-/* ========================================================================== */
-/* UNIFIED DESIGN SYSTEM ENGINE (App-weite Konsistenz aller Fenster & Tools)   */
-/* ========================================================================== */
-
-/* Einheitliche Modale, Dialoge, Floating Panels & Popovers */
-.dock-popover-panel,
-.mobile-modal-card,
-[id$="-modal"] > div,
-#panel-feedback,
-#panel-search,
-#panel-logo-guide,
-#panel-calendar-dropdown,
-#panel-report,
-#panel-pause-dropdown,
-#panel-settings-dropdown,
-#panel-audio,
-#panel-daily,
-#panel-alarm,
-#panel-weather,
-#panel-impulse,
-#modal-mobile-quick-menu > div,
-#modal-settings > div,
-#modal-privacy > div,
-#pwa-install-banner,
-#zen-chill-view > div {
-  background-color: var(--bg-modal, #14121a) !important;
-  border: 1px solid var(--border-main, rgba(255, 255, 255, 0.12)) !important;
-  border-top: 1.5px solid color-mix(in srgb, var(--accent-light, #c084fc) 45%, rgba(255, 255, 255, 0.3)) !important;
-  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.8), 0 0 25px -5px var(--accent-border, rgba(168, 85, 247, 0.18)) !important;
-  color: var(--text-main, #f4f4f5) !important;
-  backdrop-filter: blur(24px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
-}
-
-/* Einheitliche Form-Elemente in allen Fenstern (Inputs, Selects, Textareas) */
-.dock-popover-panel input:not([type="checkbox"]):not([type="radio"]),
-.dock-popover-panel select,
-.dock-popover-panel textarea,
-[id$="-modal"] input:not([type="checkbox"]):not([type="radio"]),
-[id$="-modal"] select,
-[id$="-modal"] textarea,
-.mobile-modal-card input:not([type="checkbox"]):not([type="radio"]),
-.mobile-modal-card select,
-.mobile-modal-card textarea {
-  background-color: rgba(0, 0, 0, 0.35) !important;
-  border: 1px solid var(--border-main, rgba(255, 255, 255, 0.15)) !important;
-  color: var(--text-main, #f4f4f5) !important;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
-}
-
-.dock-popover-panel input:focus,
-.dock-popover-panel select:focus,
-.dock-popover-panel textarea:focus,
-[id$="-modal"] input:focus,
-[id$="-modal"] select:focus,
-[id$="-modal"] textarea:focus,
-.mobile-modal-card input:focus,
-.mobile-modal-card select:focus,
-.mobile-modal-card textarea:focus {
-  border-color: var(--accent) !important;
-  box-shadow: 0 0 0 2px var(--accent-border, rgba(168, 85, 247, 0.25)) !important;
-  outline: none !important;
-}
-
-/* 3D Würfel Animationen & Glow-Effekte */
-@keyframes diceSpin3D {
-  0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1); }
-  50% { transform: rotateX(180deg) rotateY(360deg) rotateZ(90deg) scale(1.15); }
-  100% { transform: rotateX(360deg) rotateY(720deg) rotateZ(360deg) scale(1); }
-}
-
-@keyframes noodleDiceRoll {
-  0% { transform: perspective(300px) rotateY(0deg) rotateX(0deg) scale(1); }
-  50% { transform: perspective(300px) rotateY(180deg) rotateX(90deg) scale(1.18); }
-  100% { transform: perspective(300px) rotateY(360deg) rotateX(360deg) scale(1); }
-}
-
-@keyframes noodleDiceIdle {
-  0%, 100% { transform: perspective(300px) rotateY(-6deg) rotateX(6deg); }
-  50% { transform: perspective(300px) rotateY(6deg) rotateX(-6deg); }
-}
-
-.dice-3d-svg {
-  animation: noodleDiceIdle 3.5s ease-in-out infinite;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.group\/dice:hover .dice-3d-svg,
-button:hover .dice-3d-svg {
-  animation: noodleDiceRoll 0.85s cubic-bezier(0.2, 0.8, 0.3, 1) infinite !important;
-}
-
-@keyframes diceWinnerPulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
-  50% { transform: scale(1.12); box-shadow: 0 0 35px rgba(245, 158, 11, 0.8), 0 0 15px rgba(251, 191, 36, 0.6); }
-}
-
-.dice-spinning-fast {
-  animation: diceSpin3D 0.6s linear infinite !important;
-}
-
-.dice-winner-pulse {
-  animation: diceWinnerPulse 1.8s ease-in-out infinite !important;
-}
-
-/* --- ANIMIERTE DAMPF-TASSE (PAUSE ICON) --- */
-@keyframes steamRise1 {
-  0% { transform: translateY(0) scaleY(1); opacity: 0.2; }
-  50% { transform: translateY(-3px) scaleY(1.3) skewX(-3deg); opacity: 1; }
-  100% { transform: translateY(-6px) scaleY(0.7) skewX(4deg); opacity: 0; }
-}
-
-@keyframes steamRise2 {
-  0% { transform: translateY(0) scaleY(1); opacity: 0.3; }
-  50% { transform: translateY(-4px) scaleY(1.4) skewX(3deg); opacity: 1; }
-  100% { transform: translateY(-7px) scaleY(0.6) skewX(-3deg); opacity: 0; }
-}
-
-@keyframes steamRise3 {
-  0% { transform: translateY(0) scaleY(1); opacity: 0.2; }
-  50% { transform: translateY(-3px) scaleY(1.3) skewX(-4deg); opacity: 1; }
-  100% { transform: translateY(-6px) scaleY(0.7) skewX(3deg); opacity: 0; }
-}
-
-.steam-cup-icon .steam-line-1 {
-  animation: steamRise1 2.2s ease-in-out infinite;
-  transform-origin: center bottom;
-}
-
-.steam-cup-icon .steam-line-2 {
-  animation: steamRise2 2.5s ease-in-out infinite 0.4s;
-  transform-origin: center bottom;
-}
-
-.steam-cup-icon .steam-line-3 {
-  animation: steamRise3 2.1s ease-in-out infinite 0.8s;
-  transform-origin: center bottom;
-}
-
-button:hover .steam-cup-icon .steam-line-1 {
-  animation-duration: 1.1s;
-  stroke: #2dd4bf !important;
-}
-button:hover .steam-cup-icon .steam-line-2 {
-  animation-duration: 1.2s;
-  stroke: #5eead4 !important;
-}
-button:hover .steam-cup-icon .steam-line-3 {
-  animation-duration: 1.0s;
-  stroke: #2dd4bf !important;
-}
-
-/* ========================================================================== */
-/* 🌟 HOCHWERTIGE & WECHSELNDE NOODLE STUDIO LOGO ANIMATIONEN (4 MODI)        */
-/* Langsam, luxuriös, modern und abwechslungsreich (Aurora, Prism, Velvet, HiFi) */
-/* ========================================================================== */
-
-.flow-logo-container {
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  perspective: 700px;
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-}
-
-.flow-logo-container:hover {
-  transform: translateY(-1.5px);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.flow-logo-container:active {
-  transform: scale(0.96);
-}
-
-#header-noodle-logo {
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, filter;
-}
-
-.logo-ambient-aura {
-  transition: background 1.2s ease-in-out, opacity 1.2s ease-in-out;
-  will-change: transform, opacity;
-  max-width: 100%;
-  max-height: 100%;
-}
-
-.logo-light-sweep {
-  transform: translateX(-160%);
-  will-change: transform, opacity;
-  pointer-events: none;
-  overflow: hidden;
-  max-width: 100%;
-}
-
-.noodle-studio-badge {
-  display: block;
-  font-family: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
-  letter-spacing: 0.32em;
-  font-weight: 700;
-  transition: color 0.8s ease, text-shadow 0.8s ease, letter-spacing 0.8s ease;
-  will-change: transform, opacity, letter-spacing;
-}
-
-/* -------------------------------------------------------------------------- */
-/* 🌌 MODUS 1: COSMIC AURORA FLOW (Eisblau, Violett, Sanftes Schweben)       */
-/* -------------------------------------------------------------------------- */
-.anim-mode-aurora #header-noodle-logo,
-.flow-logo-container:not([class*="anim-mode-"]) #header-noodle-logo {
-  animation: logoAnimAurora 8.5s ease-in-out infinite;
-}
-
-.anim-mode-aurora .logo-ambient-aura,
-.flow-logo-container:not([class*="anim-mode-"]) .logo-ambient-aura {
-  background: radial-gradient(circle at 50% 50%, rgba(168, 85, 247, 0.4), rgba(56, 189, 248, 0.25) 50%, transparent 75%);
-  animation: auraAnimAurora 8.5s ease-in-out infinite;
-}
-
-.anim-mode-aurora .logo-light-sweep,
-.flow-logo-container:not([class*="anim-mode-"]) .logo-light-sweep {
-  background: linear-gradient(
-    110deg,
-    transparent 25%,
-    rgba(192, 132, 252, 0.35) 45%,
-    rgba(255, 255, 255, 0.65) 50%,
-    rgba(56, 189, 248, 0.35) 55%,
-    transparent 75%
-  );
-  animation: sweepAnimAurora 8.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-.anim-mode-aurora .noodle-studio-badge,
-.flow-logo-container:not([class*="anim-mode-"]) .noodle-studio-badge {
-  animation: badgeAnimAurora 8.5s ease-in-out infinite;
-}
-
-@keyframes logoAnimAurora {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-    filter: drop-shadow(0 2px 8px rgba(168, 85, 247, 0.25)) brightness(1);
-  }
-  50% {
-    transform: translateY(-2.5px) scale(1.025);
-    filter: drop-shadow(0 6px 18px rgba(168, 85, 247, 0.55)) drop-shadow(0 0 10px rgba(56, 189, 248, 0.4)) brightness(1.06);
-  }
-}
-
-@keyframes auraAnimAurora {
-  0%, 100% {
-    transform: scale(0.92);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.8;
-  }
-}
-
-@keyframes sweepAnimAurora {
-  0%, 55% {
-    transform: translateX(-160%);
-  }
-  75%, 100% {
-    transform: translateX(160%);
-  }
-}
-
-@keyframes badgeAnimAurora {
-  0%, 100% {
-    opacity: 0.85;
-    letter-spacing: 0.34em;
-    transform: translateY(0);
-    color: #d8b4fe;
-    text-shadow: 0 0 8px rgba(168, 85, 247, 0.3);
-  }
-  50% {
-    opacity: 1;
-    letter-spacing: 0.40em;
-    transform: translateY(-0.6px);
-    color: #ffffff;
-    text-shadow: 0 0 16px rgba(192, 132, 252, 0.85), 0 0 28px rgba(56, 189, 248, 0.45);
-  }
-}
-
-/* -------------------------------------------------------------------------- */
-/* 💎 MODUS 2: PRISMATIC DIAMOND SHEEN (Prisma, Gold, Cyan, 3D-Kippung)      */
-/* -------------------------------------------------------------------------- */
-.anim-mode-prism #header-noodle-logo {
-  animation: logoAnimPrism 9s ease-in-out infinite;
-}
-
-.anim-mode-prism .logo-ambient-aura {
-  background: radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.38), rgba(6, 182, 212, 0.28) 50%, transparent 75%);
-  animation: auraAnimPrism 9s ease-in-out infinite;
-}
-
-.anim-mode-prism .logo-light-sweep {
-  background: linear-gradient(
-    115deg,
-    transparent 20%,
-    rgba(251, 191, 36, 0.4) 40%,
-    rgba(255, 255, 255, 0.85) 50%,
-    rgba(6, 182, 212, 0.45) 60%,
-    transparent 80%
-  );
-  animation: sweepAnimPrism 9s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-}
-
-.anim-mode-prism .noodle-studio-badge {
-  animation: badgeAnimPrism 9s ease-in-out infinite;
-}
-
-@keyframes logoAnimPrism {
-  0%, 100% {
-    transform: translateY(0px) rotateX(0deg) rotateY(0deg) scale(1);
-    filter: drop-shadow(0 2px 8px rgba(251, 191, 36, 0.2)) brightness(1);
-  }
-  35% {
-    transform: translateY(-2px) rotateX(3deg) rotateY(3deg) scale(1.03);
-    filter: drop-shadow(0 6px 18px rgba(251, 191, 36, 0.5)) drop-shadow(0 0 12px rgba(6, 182, 212, 0.4)) brightness(1.08);
-  }
-  70% {
-    transform: translateY(-1.5px) rotateX(-2deg) rotateY(-2deg) scale(1.02);
-    filter: drop-shadow(0 4px 14px rgba(6, 182, 212, 0.45)) drop-shadow(0 0 10px rgba(251, 191, 36, 0.35)) brightness(1.05);
-  }
-}
-
-@keyframes auraAnimPrism {
-  0%, 100% {
-    transform: scale(0.9);
-    opacity: 0.25;
-  }
-  50% {
-    transform: scale(1.22);
-    opacity: 0.75;
-  }
-}
-
-@keyframes sweepAnimPrism {
-  0%, 50% {
-    transform: translateX(-160%);
-  }
-  72%, 100% {
-    transform: translateX(160%);
-  }
-}
-
-@keyframes badgeAnimPrism {
-  0%, 100% {
-    opacity: 0.85;
-    letter-spacing: 0.33em;
-    color: #fef08a;
-    text-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
-  }
-  50% {
-    opacity: 1;
-    letter-spacing: 0.42em;
-    transform: translateY(-0.8px);
-    color: #ffffff;
-    text-shadow: 0 0 18px rgba(251, 191, 36, 0.85), 0 0 30px rgba(6, 182, 212, 0.5);
-  }
-}
-
-/* -------------------------------------------------------------------------- */
-/* 🍑 MODUS 3: LIVING CLAY & VELVET HARMONY (Organische Welle, Sunset & Rose) */
-/* -------------------------------------------------------------------------- */
-.anim-mode-velvet #header-noodle-logo {
-  animation: logoAnimVelvet 9.5s ease-in-out infinite;
-}
-
-.anim-mode-velvet .logo-ambient-aura {
-  background: radial-gradient(circle at 50% 50%, rgba(249, 115, 22, 0.38), rgba(236, 72, 153, 0.28) 50%, transparent 75%);
-  animation: auraAnimVelvet 9.5s ease-in-out infinite;
-}
-
-.anim-mode-velvet .logo-light-sweep {
-  background: linear-gradient(
-    105deg,
-    transparent 25%,
-    rgba(251, 146, 60, 0.35) 45%,
-    rgba(255, 255, 255, 0.7) 50%,
-    rgba(244, 114, 182, 0.35) 55%,
-    transparent 75%
-  );
-  animation: sweepAnimVelvet 9.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-.anim-mode-velvet .noodle-studio-badge {
-  animation: badgeAnimVelvet 9.5s ease-in-out infinite;
-}
-
-@keyframes logoAnimVelvet {
-  0%, 100% {
-    transform: scale(1, 1) translateY(0);
-    filter: drop-shadow(0 2px 8px rgba(249, 115, 22, 0.2));
-  }
-  30% {
-    transform: scale(1.035, 0.975) translateY(-2px);
-    filter: drop-shadow(0 6px 20px rgba(249, 115, 22, 0.55)) drop-shadow(0 0 10px rgba(236, 72, 153, 0.4)) brightness(1.07);
-  }
-  60% {
-    transform: scale(0.98, 1.025) translateY(-1px);
-    filter: drop-shadow(0 5px 16px rgba(236, 72, 153, 0.5)) drop-shadow(0 0 10px rgba(249, 115, 22, 0.35)) brightness(1.05);
-  }
-}
-
-@keyframes auraAnimVelvet {
-  0%, 100% {
-    transform: scale(0.93);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.18);
-    opacity: 0.8;
-  }
-}
-
-@keyframes sweepAnimVelvet {
-  0%, 55% {
-    transform: translateX(-160%);
-  }
-  78%, 100% {
-    transform: translateX(160%);
-  }
-}
-
-@keyframes badgeAnimVelvet {
-  0%, 100% {
-    opacity: 0.85;
-    letter-spacing: 0.34em;
-    color: #fed7aa;
-    text-shadow: 0 0 8px rgba(249, 115, 22, 0.3);
-  }
-  50% {
-    opacity: 1;
-    letter-spacing: 0.39em;
-    transform: translateY(-0.6px);
-    color: #ffffff;
-    text-shadow: 0 0 16px rgba(249, 115, 22, 0.8), 0 0 28px rgba(236, 72, 153, 0.5);
-  }
-}
-
-/* -------------------------------------------------------------------------- */
-/* 🎛️ MODUS 4: HIFI STUDIO DESK & CYBER PULSE (Emerald, Indigo, Laser-Sweep)   */
-/* -------------------------------------------------------------------------- */
-.anim-mode-studio #header-noodle-logo {
-  animation: logoAnimStudio 8s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-}
-
-.anim-mode-studio .logo-ambient-aura {
-  background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.38), rgba(99, 102, 241, 0.28) 50%, transparent 75%);
-  animation: auraAnimStudio 8s ease-in-out infinite;
-}
-
-.anim-mode-studio .logo-light-sweep {
-  background: linear-gradient(
-    120deg,
-    transparent 20%,
-    rgba(52, 211, 153, 0.45) 45%,
-    rgba(255, 255, 255, 0.8) 50%,
-    rgba(129, 140, 248, 0.45) 55%,
-    transparent 80%
-  );
-  animation: sweepAnimStudio 8s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
-}
-
-.anim-mode-studio .noodle-studio-badge {
-  animation: badgeAnimStudio 8s ease-in-out infinite;
-}
-
-@keyframes logoAnimStudio {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-    filter: drop-shadow(0 2px 8px rgba(16, 185, 129, 0.2)) brightness(1);
-  }
-  40% {
-    transform: translateY(-2.2px) scale(1.035);
-    filter: drop-shadow(0 6px 18px rgba(16, 185, 129, 0.55)) drop-shadow(0 0 12px rgba(99, 102, 241, 0.45)) brightness(1.09);
-  }
-  70% {
-    transform: translateY(-1.2px) scale(1.015);
-    filter: drop-shadow(0 4px 14px rgba(99, 102, 241, 0.45)) brightness(1.04);
-  }
-}
-
-@keyframes auraAnimStudio {
-  0%, 100% {
-    transform: scale(0.9);
-    opacity: 0.25;
-  }
-  50% {
-    transform: scale(1.22);
-    opacity: 0.8;
-  }
-}
-
-@keyframes sweepAnimStudio {
-  0%, 50% {
-    transform: translateX(-160%);
-  }
-  70%, 100% {
-    transform: translateX(160%);
-  }
-}
-
-@keyframes badgeAnimStudio {
-  0%, 100% {
-    opacity: 0.85;
-    letter-spacing: 0.35em;
-    color: #6ee7b7;
-    text-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
-  }
-  50% {
-    opacity: 1;
-    letter-spacing: 0.44em;
-    transform: translateY(-0.8px);
-    color: #ffffff;
-    text-shadow: 0 0 18px rgba(52, 211, 153, 0.9), 0 0 32px rgba(99, 102, 241, 0.55);
-  }
-}
-
-/* -------------------------------------------------------------------------- */
-/* HOVER-ACCELERATOR & INTERAKTIVE HIGHLIGHTS                                 */
-/* -------------------------------------------------------------------------- */
-.flow-logo-container:hover #header-noodle-logo {
-  animation-duration: 4s !important;
-  transform: translateY(-2.5px) scale(1.04);
-}
-
-.flow-logo-container:hover .logo-ambient-aura {
-  opacity: 0.9 !important;
-  transform: scale(1.25) !important;
-}
-
-.flow-logo-container:hover .logo-light-sweep {
-  animation-duration: 3.5s !important;
-}
-
-.flow-logo-container:hover .noodle-studio-badge {
-  animation-duration: 3.5s !important;
-  color: #ffffff !important;
-}
-
-/* ========================================================================== */
-/* WAS NUN? — DYNAMISCHE IDEEN-FUNKEN & AMBIENT AURA ANIMATION               */
-/* ========================================================================== */
-@keyframes whatNowAuraGlow {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(245, 158, 11, 0.2), inset 0 0 4px rgba(245, 158, 11, 0.1);
-    border-color: rgba(245, 158, 11, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 16px rgba(245, 158, 11, 0.45), 0 0 30px rgba(251, 191, 36, 0.2), inset 0 0 8px rgba(245, 158, 11, 0.25);
-    border-color: rgba(251, 191, 36, 0.6);
-  }
-}
-
-@keyframes whatNowBulbSpark {
-  0%, 100% {
-    transform: scale(1) rotate(0deg);
-    filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.4));
-  }
-  25% {
-    transform: scale(1.15) rotate(-6deg);
-    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.9)) drop-shadow(0 0 14px rgba(245, 158, 11, 0.7));
-  }
-  50% {
-    transform: scale(1.05) rotate(4deg);
-    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.6));
-  }
-  75% {
-    transform: scale(1.18) rotate(-3deg);
-    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 1)) drop-shadow(0 0 18px rgba(245, 158, 11, 0.8));
-  }
-}
-
-.whatnow-animated-btn {
-  animation: whatNowAuraGlow 3.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  will-change: box-shadow, border-color;
-}
-
-.whatnow-animated-bulb {
-  animation: whatNowBulbSpark 4s ease-in-out infinite;
-  will-change: transform, filter;
-}
-
-.whatnow-animated-btn:hover {
-  animation-duration: 1.5s;
-}
-
-.whatnow-animated-btn:hover .whatnow-animated-bulb {
-  animation-duration: 1.2s;
-}
-
-/* ==========================================================================
-   STABILE HOVER-BRÜCKEN (Verhindert nervöses/plötzliches Schließen bei Mausbewegung)
-   ========================================================================== */
-#panel-feedback::before,
-#panel-search::before,
-#panel-report::before,
-#panel-settings-dropdown::before,
-#panel-weather::before,
-#panel-calendar-dropdown::before,
-#panel-pause-dropdown::before,
-#panel-timer-presets::before,
-#panel-logo-guide::before,
-#header-sound-volume-popover::before,
-#task-context-dropdown::before,
-.clean-hover-dropdown::before,
-.dock-popover-panel::after,
-.context-menu::before {
-  content: '';
-  position: absolute;
-  left: -16px;
-  right: -16px;
-  bottom: 100%;
-  height: 24px;
-  background: transparent;
-  pointer-events: auto;
-}
-
-#header-sound-volume-popover::after,
-#task-context-dropdown::after {
-  content: '';
-  position: absolute;
-  inset: -8px;
-  z-index: -1;
-  pointer-events: auto;
-}
-
-/* ==========================================================================
-   GLÜCKSWÜRFEL ANIMATION & STYLING (+12% Größe, harmonisches 20s Intervall)
-   ========================================================================== */
-.lucky-dice-icon {
-  width: 17px;
-  height: 17px;
-  display: inline-block;
-  vertical-align: middle;
-  transform-origin: center center;
-  will-change: transform, filter;
-}
-
-@keyframes luckyDiceHarmonicRoll {
-  0%, 100% {
-    transform: scale(1) rotate(0deg) translateY(0);
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
-  }
-  1.5% {
-    transform: scale(1.12) rotate(-22deg) translateY(-3px);
-    filter: drop-shadow(0 4px 8px rgba(245, 158, 11, 0.45));
-  }
-  3.5% {
-    transform: scale(1.18) rotate(26deg) translateY(-4.5px);
-    filter: drop-shadow(0 6px 14px rgba(251, 191, 36, 0.65));
-  }
-  5.5% {
-    transform: scale(1.08) rotate(-12deg) translateY(-2px);
-    filter: drop-shadow(0 3px 6px rgba(245, 158, 11, 0.4));
-  }
-  7% {
-    transform: scale(1.14) rotate(8deg) translateY(-2.5px);
-    filter: drop-shadow(0 4px 8px rgba(245, 158, 11, 0.5));
-  }
-  8.5% {
-    transform: scale(1) rotate(-3deg) translateY(0);
-    filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.3));
-  }
-  10% {
-    transform: scale(1) rotate(0deg) translateY(0);
-    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.25));
-  }
-}
-
-.lucky-dice-animated {
-  animation: luckyDiceHarmonicRoll 20s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-  transform-origin: center center;
-}
-
-/* ==========================================================================
-   TOOLS BUTTON 3D-ROTATION & LOGO-FARBEN (10s Intervall)
-   ========================================================================== */
-.tools-btn-logo-themed {
-  position: relative;
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.35) 0%, rgba(56, 189, 248, 0.28) 50%, rgba(236, 72, 153, 0.3) 100%);
-  border: 1px solid rgba(168, 85, 247, 0.55);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), 0 0 16px rgba(168, 85, 247, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-  transform-style: preserve-3d;
-  perspective: 600px;
-}
-
-.tools-btn-logo-themed:hover {
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.5) 0%, rgba(56, 189, 248, 0.4) 50%, rgba(236, 72, 153, 0.45) 100%);
-  border-color: rgba(56, 189, 248, 0.8);
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5), 0 0 25px rgba(168, 85, 247, 0.6), 0 0 15px rgba(56, 189, 248, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.5);
-}
-
-@keyframes toolsIcon3DRotate {
-  0%, 82%, 100% {
-    transform: perspective(500px) rotateY(0deg) rotateX(0deg) scale(1);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-  }
-  86% {
-    transform: perspective(500px) rotateY(110deg) rotateX(-12deg) scale(1.12);
-    filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.8));
-  }
-  90% {
-    transform: perspective(500px) rotateY(230deg) rotateX(15deg) scale(1.18);
-    filter: drop-shadow(0 0 16px rgba(236, 72, 153, 0.85));
-  }
-  94% {
-    transform: perspective(500px) rotateY(330deg) rotateX(-8deg) scale(1.06);
-    filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.8));
-  }
-  97% {
-    transform: perspective(500px) rotateY(365deg) rotateX(2deg) scale(1.02);
-  }
-}
-
-.tools-icon-animated {
-  animation: toolsIcon3DRotate 10s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
-  transform-origin: center center;
-  will-change: transform, filter;
-}
-
-@keyframes toolsAuraPulse {
-  0%, 80%, 100% {
-    opacity: 0.35;
-    transform: scale(0.95);
-  }
-  88% {
-    opacity: 0.85;
-    transform: scale(1.18);
-    filter: blur(10px);
-  }
-  94% {
-    opacity: 0.5;
-    transform: scale(1.05);
-  }
-}
-
-.tools-aura-animated {
-  animation: toolsAuraPulse 10s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-/* ==========================================================================
-   NOODLE ULTRA-SCHNELLE & ÄSTHETISCHE HOVER-TOOLTIPS (Glassmorphism & Neon)
-   ========================================================================== */
-.noodle-custom-tooltip {
-  position: fixed;
-  z-index: 200000;
-  pointer-events: none;
-  background: rgba(13, 11, 24, 0.96);
-  color: #f5f3ff;
-  border: 1px solid rgba(168, 85, 247, 0.38);
-  border-radius: 10px;
-  padding: 5px 9px;
-  font-family: var(--font-family, 'Plus Jakarta Sans', sans-serif);
-  font-size: 11px;
-  font-weight: 600;
-  line-height: 1.35;
-  letter-spacing: 0.01em;
-  box-shadow: 
-    0 10px 30px rgba(0, 0, 0, 0.75), 
-    0 0 16px rgba(168, 85, 247, 0.22),
-    inset 0 1px 1px rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  max-width: 380px;
-  width: max-content;
-  word-wrap: break-word;
-  opacity: 0;
-  transform: scale(0.95) translateY(2px);
-  transition: opacity 0.12s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform, left, top;
-  display: none;
-}
-
-.noodle-custom-tooltip.noodle-tooltip-visible {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-}
-
-.noodle-tooltip-shortcut-wrap {
-  display: inline-block;
-  white-space: nowrap;
-}
-
-.noodle-tooltip-kbd {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(168, 85, 247, 0.25);
-  color: #f3e8ff;
-  border: 1px solid rgba(168, 85, 247, 0.45);
-  border-radius: 4px;
-  padding: 0.5px 4px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 9px;
-  font-weight: 700;
-  margin-left: 2px;
-  vertical-align: middle;
-  line-height: 1.1;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-}
-
-.noodle-tooltip-bullet {
-  color: rgba(168, 85, 247, 0.7);
-  font-weight: bold;
-}
-
-/* Hide native up/down number spin buttons on custom timer input */
-input[type="number"].timer-no-spinners::-webkit-inner-spin-button,
-input[type="number"].timer-no-spinners::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type="number"].timer-no-spinners {
-  -moz-appearance: textfield;
-  appearance: textfield;
+  background: rgba(255, 255, 255, 0.3);
 }

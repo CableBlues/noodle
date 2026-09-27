@@ -1,3 +1,55 @@
+
+/* ==========================================================================
+   ULTRA-RESPONSIVE HARDWARE ACCELERATION & ZERO-LATENCY INTERACTION PIPELINE
+   ========================================================================== */
+
+/* 1. Global Touch & Click Zero-Latency */
+html, body {
+  touch-action: pan-x pan-y;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button, [role="button"], a, input, select, textarea, .cursor-pointer {
+  touch-action: manipulation;
+  cursor: pointer;
+}
+
+/* 2. Hardware Composite Layer Isolation for Main Board Columns & Cards */
+main article, .column-card-breathing {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  contain: layout style;
+  will-change: transform;
+}
+
+/* 3. Smooth GPU Accelerated Task Cards */
+main article .group {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  contain: layout style paint;
+}
+
+/* 4. Instant Feedback Active States */
+button:active:not(:disabled), .cursor-pointer:active {
+  transform: scale(0.97) translateZ(0);
+  transition: transform 0.05s ease-out !important;
+}
+
+/* 5. Accelerated Ticker & Header Elements */
+#board-top-bar, #board-news-ticker-bar, #board-ticker-viewport, #board-ticker-track {
+  transform: translateZ(0);
+  will-change: transform, opacity;
+}
+
+/* 6. High-Performance Glass / Modals Isolation */
+.backdrop-blur-xl, .backdrop-blur-2xl, .backdrop-blur-md {
+  transform: translateZ(0);
+  will-change: opacity, transform;
+}
+
 /* Performance & Touch Responsiveness Overhaul */
 *, *::before, *::after {
   -webkit-tap-highlight-color: transparent;
@@ -35,15 +87,10 @@ article.column-card-breathing, #trello-add-list-card {
 body::before {
   content: '';
   position: fixed;
-  inset: -40px;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-  background: 
-    radial-gradient(circle at 25% 25%, rgba(139, 92, 246, 0.05) 0%, transparent 55%),
-    radial-gradient(circle at 75% 75%, rgba(6, 182, 212, 0.045) 0%, transparent 55%);
-  background-size: 130% 130%;
-  animation: ambientFlowWave 24s ease-in-out infinite;
-  will-change: transform;
+  background: var(--bg-app);
 }
 
 /* 1. TASK COMPLETE SWEEP (Sanftes Gleiten beim Abhaken) */
@@ -458,10 +505,10 @@ html body .animate-party-swing {
   pointer-events: none;
   width: 14px;
   height: 14px;
-  background: radial-gradient(circle at 30% 30%, #38bdf8 0%, #10b981 60%, #8b5cf6 100%);
+  background: radial-gradient(circle at 30% 30%, #89cff0 0%, #10b981 60%, #8b5cf6 100%);
   border: 1.5px solid rgba(255, 255, 255, 0.8);
   border-radius: 50%;
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.8);
+  box-shadow: 0 0 12px rgba(137, 207, 240, 0.8);
   animation: bubbleRiseUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -568,6 +615,28 @@ main article .group:hover {
   box-shadow: 0 0 20px rgba(251, 191, 36, 0.25) !important;
 }
 
+.lucky-dice-icon {
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  display: inline-block !important;
+}
+
+@keyframes luckyDiceWiggle {
+  0%, 82%, 100% { transform: rotate(0deg) scale(1); }
+  85% { transform: rotate(-12deg) scale(1.15); }
+  89% { transform: rotate(12deg) scale(1.15); }
+  93% { transform: rotate(-6deg) scale(1.08); }
+  97% { transform: rotate(0deg) scale(1); }
+}
+
+.lucky-dice-animated {
+  animation: luckyDiceWiggle 6s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+
 /* ===== ULTRA-MODERN KINETIC FLOW LOGO & INFINITY RIBBON ===== */
 @keyframes flowRibbonPulse {
   0%, 100% {
@@ -600,21 +669,7 @@ main article .group:hover {
   }
 }
 
-.flow-logo-container {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  perspective: 600px;
-}
-
-.flow-logo-container:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.2), 0 0 0 1px rgba(168, 85, 247, 0.35);
-}
-
-.flow-logo-container:hover #header-noodle-logo {
-  transform: translateY(-2px) scale(1.05);
-  filter: drop-shadow(0 6px 20px rgba(168, 85, 247, 0.55)) brightness(1.08);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
+/* Subtle flow logo hover */
 
 /* ===== NOODLE MODERN CALM & IMPRESSIVE ANIMATION SUITE ===== */
 
@@ -650,7 +705,7 @@ main article .group:hover {
   }
   30% {
     transform: scale(1.03) translateY(-2px);
-    filter: drop-shadow(0 4px 16px rgba(56, 189, 248, 0.55)) brightness(1.12);
+    filter: drop-shadow(0 4px 16px rgba(137, 207, 240, 0.55)) brightness(1.12);
   }
   60% {
     transform: scale(1.04) translateY(-3px);
@@ -686,7 +741,7 @@ main article .group:hover {
   }
   50% {
     transform: translateY(-6px) scale(1.08);
-    filter: drop-shadow(0 10px 30px rgba(168, 85, 247, 0.75)) drop-shadow(0 0 16px rgba(56, 189, 248, 0.6)) brightness(1.18);
+    filter: drop-shadow(0 10px 30px rgba(168, 85, 247, 0.75)) drop-shadow(0 0 16px rgba(137, 207, 240, 0.6)) brightness(1.18);
   }
   75% {
     transform: translateY(-3px) scale(1.04);
@@ -758,234 +813,14 @@ main article .group:hover {
 }
 
 .ambient-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  pointer-events: none;
-  will-change: transform, opacity;
+  display: none !important;
 }
 
-.ambient-orb-1 {
-  width: 550px;
-  height: 550px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(56, 189, 248, 0.2) 45%, transparent 70%);
-  top: -120px;
-  left: -80px;
-  animation: ambientOrbDrift1 24s ease-in-out infinite alternate;
-}
+.ambient-orb-1, .ambient-orb-2, .ambient-orb-3 { display: none !important; }
 
-.ambient-orb-2 {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(192, 132, 252, 0.2) 45%, transparent 70%);
-  bottom: -140px;
-  right: -100px;
-  animation: ambientOrbDrift2 28s ease-in-out infinite alternate;
-}
+.ambient-orb-1, .ambient-orb-2, .ambient-orb-3 { display: none !important; }
 
-.ambient-orb-3 {
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.28) 0%, rgba(244, 63, 94, 0.15) 45%, transparent 70%);
-  top: 35%;
-  left: 30%;
-  animation: ambientOrbDrift3 32s ease-in-out infinite alternate;
-}
-
-/* Subtle Idle Breathing on Board Columns & Headers */
-@keyframes columnGlowBreathing {
-  0%, 100% {
-    border-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-  }
-  50% {
-    border-color: rgba(139, 92, 246, 0.25);
-    box-shadow: 0 4px 35px rgba(6, 182, 212, 0.08);
-  }
-}
-
-.column-card-breathing {
-  animation: columnGlowBreathing 8s ease-in-out infinite;
-}
-
-/* Subtle Floating Animation for Badges & Icons */
-@keyframes idleGentleFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-3px); }
-}
-
-.idle-float {
-  animation: idleGentleFloat 4s ease-in-out infinite;
-}
-
-/* Live Wave Motion in Header */
-@keyframes waterWaveFlow {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(-25%); }
-  100% { transform: translateX(-50%); }
-}
-
-.water-wave-element {
-  animation: waterWaveFlow 16s linear infinite;
-  will-change: transform;
-}
-
-/* 7. GRUNDREINIGUNG ANIMIERTES ICON & SPRÜHNEBEL */
-@keyframes cleanMistPulse {
-  0%, 100% {
-    opacity: 0.35;
-    transform: scale(0.85);
-  }
-  50% {
-    opacity: 1;
-@keyframes noodleShimmer {
-  0%, 100% {
-    transform: scale(1);
-    filter: drop-shadow(0 0 0 rgba(168, 85, 247, 0)) brightness(1);
-  }
-  30% {
-    transform: scale(1.03) translateY(-2px);
-    filter: drop-shadow(0 4px 16px rgba(56, 189, 248, 0.55)) brightness(1.12);
-  }
-  60% {
-    transform: scale(1.04) translateY(-3px);
-    filter: drop-shadow(0 6px 20px rgba(217, 70, 239, 0.55)) brightness(1.15);
-  }
-}
-
-/* 4. Aurora Wave (Sanfte Farbwellen-Levitation) */
-@keyframes noodleAuroraWave {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-    filter: drop-shadow(0 0 0 rgba(168, 85, 247, 0));
-  }
-  35% {
-    transform: translateY(-3px) scale(1.03);
-    filter: drop-shadow(0 4px 16px rgba(16, 185, 129, 0.45)) drop-shadow(0 0 10px rgba(6, 182, 212, 0.4));
-  }
-  70% {
-    transform: translateY(-2px) scale(1.04);
-    filter: drop-shadow(0 6px 20px rgba(168, 85, 247, 0.55));
-  }
-}
-
-/* 5. Grand Celebration Bloom (Feierliche, prachtvolle Ausstrahlung) */
-@keyframes noodleCelebrate {
-  0%, 100% {
-    transform: translateY(0px) scale(1);
-    filter: drop-shadow(0 0 0 rgba(168, 85, 247, 0));
-  }
-  25% {
-    transform: translateY(-5px) scale(1.06);
-    filter: drop-shadow(0 8px 24px rgba(245, 158, 11, 0.65)) drop-shadow(0 0 12px rgba(249, 115, 22, 0.5)) brightness(1.12);
-  }
-  50% {
-    transform: translateY(-6px) scale(1.08);
-    filter: drop-shadow(0 10px 30px rgba(168, 85, 247, 0.75)) drop-shadow(0 0 16px rgba(56, 189, 248, 0.6)) brightness(1.18);
-  }
-  75% {
-    transform: translateY(-3px) scale(1.04);
-    filter: drop-shadow(0 4px 16px rgba(16, 185, 129, 0.5)) brightness(1.08);
-  }
-}
-
-.noodle-anim-float {
-  animation: noodleFloatGlow 2.8s cubic-bezier(0.25, 1, 0.5, 1) both;
-  will-change: transform, filter;
-}
-
-.noodle-anim-breathe {
-  animation: noodleBreathe 3.0s cubic-bezier(0.25, 1, 0.5, 1) both;
-  will-change: transform, filter;
-}
-
-.noodle-anim-shimmer {
-  animation: noodleShimmer 2.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-  will-change: transform, filter;
-}
-
-.noodle-anim-aurora {
-  animation: noodleAuroraWave 3.2s cubic-bezier(0.25, 1, 0.5, 1) both;
-  will-change: transform, filter;
-}
-
-.noodle-anim-celebrate {
-  animation: noodleCelebrate 3.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  will-change: transform, filter;
-}
-
-/* Fallback mappings for smooth compatibility */
-.noodle-anim-wobble,
-.noodle-anim-dance,
-.noodle-anim-sway {
-  animation: noodleBreathe 3.0s cubic-bezier(0.25, 1, 0.5, 1) both;
-}
-
-.noodle-anim-spin,
-.noodle-anim-flip3d {
-  animation: noodleShimmer 2.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.noodle-anim-bounce,
-.noodle-anim-wave {
-  animation: noodleFloatGlow 2.8s cubic-bezier(0.25, 1, 0.5, 1) both;
-}
-
-/* ===== IDLE AMBIENT AURORA & STANDARD VIEW MOTION ===== */
-@keyframes ambientOrbDrift1 {
-  0% { transform: translate(0px, 0px) scale(1); opacity: 0.18; }
-  33% { transform: translate(60px, 40px) scale(1.15); opacity: 0.28; }
-  66% { transform: translate(-40px, 70px) scale(0.95); opacity: 0.22; }
-  100% { transform: translate(30px, -30px) scale(1.08); opacity: 0.25; }
-}
-
-@keyframes ambientOrbDrift2 {
-  0% { transform: translate(0px, 0px) scale(1); opacity: 0.15; }
-  33% { transform: translate(-70px, -50px) scale(1.12); opacity: 0.26; }
-  66% { transform: translate(50px, -30px) scale(0.92); opacity: 0.20; }
-  100% { transform: translate(-30px, 40px) scale(1.05); opacity: 0.24; }
-}
-
-@keyframes ambientOrbDrift3 {
-  0% { transform: translate(0px, 0px) scale(1); opacity: 0.12; }
-  50% { transform: translate(50px, -40px) scale(1.2); opacity: 0.22; }
-  100% { transform: translate(-50px, 30px) scale(0.9); opacity: 0.14; }
-}
-
-.ambient-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  pointer-events: none;
-  will-change: transform, opacity;
-}
-
-.ambient-orb-1 {
-  width: 550px;
-  height: 550px;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.4) 0%, rgba(56, 189, 248, 0.2) 45%, transparent 70%);
-  top: -120px;
-  left: -80px;
-  animation: ambientOrbDrift1 24s ease-in-out infinite alternate;
-}
-
-.ambient-orb-2 {
-  width: 600px;
-  height: 600px;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(192, 132, 252, 0.2) 45%, transparent 70%);
-  bottom: -140px;
-  right: -100px;
-  animation: ambientOrbDrift2 28s ease-in-out infinite alternate;
-}
-
-.ambient-orb-3 {
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.28) 0%, rgba(244, 63, 94, 0.15) 45%, transparent 70%);
-  top: 35%;
-  left: 30%;
-  animation: ambientOrbDrift3 32s ease-in-out infinite alternate;
-}
+.ambient-orb-1, .ambient-orb-2, .ambient-orb-3 { display: none !important; }
 
 /* Subtle Idle Breathing on Board Columns & Headers */
 @keyframes columnGlowBreathing {
@@ -1159,31 +994,575 @@ main article .group:hover {
 }
 
 
-/* --- LEBENDIGES, GEWICHTETES NOODLE LOGO (EMPHASIS & ANIMATION) --- */
+/* --- EINHEITLICHER, HARMONISCH LEUCHTENDER NOODLE & TOOLS BUTTON --- */
 .flow-logo-container {
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.16), rgba(56, 189, 248, 0.1)) !important;
-  border: 1px solid rgba(168, 85, 247, 0.35) !important;
-  box-shadow: 0 0 16px rgba(168, 85, 247, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  background: rgba(18, 16, 28, 0.82) !important;
+  border: 1px solid rgba(192, 132, 252, 0.35) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45), 0 0 14px rgba(168, 85, 247, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.flow-logo-container:hover {
-  transform: translateY(-1.5px) scale(1.03) !important;
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(56, 189, 248, 0.2)) !important;
-  border-color: rgba(192, 132, 252, 0.65) !important;
-  box-shadow: 0 0 24px rgba(168, 85, 247, 0.45), 0 6px 18px rgba(0, 0, 0, 0.4) !important;
+.flow-logo-container:hover,
+.flow-logo-container.is-menu-open,
+#header-tools-wrapper:hover .flow-logo-container,
+#header-tools-wrapper.is-menu-open .flow-logo-container,
+#header-tools-wrapper:has(#panel-header-tools:not(.hidden)) .flow-logo-container {
+  transform: translateY(-1px) !important;
+  background: rgba(26, 22, 42, 0.95) !important;
+  border-color: rgba(192, 132, 252, 0.8) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6), 0 0 22px rgba(168, 85, 247, 0.6), 0 0 38px rgba(192, 132, 252, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
 }
 
 @keyframes noodle-clay-float {
   0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+    transform: translateY(0px);
   }
   50% {
-    transform: translateY(-1.5px) rotate(0.8deg);
+    transform: translateY(-1px);
   }
 }
 
 .noodle-logo-animated {
-  animation: noodle-clay-float 4s ease-in-out infinite !important;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+  animation: noodle-clay-float 6s ease-in-out infinite !important;
+  filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.35)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5)) !important;
+  transition: filter 0.3s ease;
+}
+
+.flow-logo-container:hover .noodle-logo-animated,
+.flow-logo-container.is-menu-open .noodle-logo-animated,
+#header-tools-wrapper:hover .noodle-logo-animated,
+#header-tools-wrapper.is-menu-open .noodle-logo-animated,
+#header-tools-wrapper:has(#panel-header-tools:not(.hidden)) .noodle-logo-animated {
+  filter: drop-shadow(0 0 12px rgba(192, 132, 252, 0.65)) drop-shadow(0 0 22px rgba(168, 85, 247, 0.45)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6)) !important;
+}
+
+#header-noodle-logo {
+  height: 23.5px !important;
+  mix-blend-mode: screen !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4)) !important;
+}
+
+.tools-morph-stage {
+  perspective: 600px;
+}
+
+.tools-morph-stage svg,
+.tools-icon-spin-anim {
+  width: 21px !important;
+  height: 21px !important;
+}
+
+/* Seltener & ruhiger rotierendes Tools-Icon (alle 12s ein sanfter Spin) */
+@keyframes tools-icon-spin {
+  0%, 65% {
+    transform: rotate(0deg);
+  }
+  82.5% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.tools-icon-spin-anim {
+  animation: tools-icon-spin 12s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+  transform-origin: center center !important;
+  transform-box: fill-box !important;
+  display: inline-block !important;
+  will-change: transform;
+}
+
+.group\/logo:hover .tools-icon-spin-anim,
+.is-menu-open .tools-icon-spin-anim {
+  animation: tools-icon-spin 8s ease-in-out infinite !important;
+}
+
+/* Subline Badge: STUDIO vs TOOLS
+   Standard (Ruhezustand): Immer 'STUDIO'!
+   'TOOLS' erscheint NUR bei Hover ODER wenn das Menü/ein Tool geöffnet ist! */
+.noodle-studio-badge {
+  transition: opacity 0.22s ease, transform 0.22s ease !important;
+  pointer-events: none !important;
+}
+
+.badge-studio {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  color: rgba(216, 180, 254, 0.95) !important;
+  text-shadow: 0 0 4px rgba(192, 132, 252, 0.4) !important;
+}
+
+.badge-tools {
+  opacity: 0 !important;
+  transform: translateY(4px) !important;
+  color: rgba(233, 213, 255, 0.95) !important;
+  text-shadow: 0 0 5px rgba(192, 132, 252, 0.5) !important;
+}
+
+/* 1. HOVER AUF DAS LOGO / WRAPPER: STUDIO fadet aus, TOOLS fadet ein */
+#header-tools-wrapper:hover .badge-studio,
+.flow-logo-container:hover .badge-studio,
+#btn-header-tools:hover .badge-studio {
+  opacity: 0 !important;
+  transform: translateY(-4px) !important;
+}
+
+#header-tools-wrapper:hover .badge-tools,
+.flow-logo-container:hover .badge-tools,
+#btn-header-tools:hover .badge-tools {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* 2. WÄHREND DAS TOOLS-MENÜ ODER EIN TOOL GEÖFFNET IST: STUDIO fadet aus, TOOLS fadet ein */
+#header-tools-wrapper.is-menu-open .badge-studio,
+.flow-logo-container.is-menu-open .badge-studio,
+#btn-header-tools.is-menu-open .badge-studio,
+body.has-tool-panel-open .badge-studio {
+  opacity: 0 !important;
+  transform: translateY(-4px) !important;
+}
+
+#header-tools-wrapper.is-menu-open .badge-tools,
+.flow-logo-container.is-menu-open .badge-tools,
+#btn-header-tools.is-menu-open .badge-tools,
+body.has-tool-panel-open .badge-tools {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Tools Popover Spheres & Icons +10% */
+#panel-header-tools .group\/orb .rounded-2xl {
+  width: 52px !important;
+  height: 52px !important;
+}
+
+#panel-header-tools .group\/orb i[data-lucide],
+#panel-header-tools .group\/orb svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+/* ==========================================================================
+   WECKER LIVE BLINKEN ANIMATION (ALLE 4 SEKUNDEN)
+   ========================================================================== */
+
+@keyframes alarm-second-pulse {
+  0%, 75%, 100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: drop-shadow(0 0 5px rgba(0, 242, 255, 0.8));
+  }
+  87.5% {
+    transform: scale(0.85);
+    opacity: 0.25;
+    filter: drop-shadow(0 0 1px rgba(0, 242, 255, 0.2));
+  }
+}
+
+.alarm-second-dot {
+  animation: alarm-second-pulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+}
+
+@keyframes alarm-btn-breathe {
+  0%, 75%, 100% {
+    border-color: rgba(0, 242, 255, 0.45);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.2), inset 0 0 6px rgba(0, 242, 255, 0.1);
+  }
+  87.5% {
+    border-color: rgba(0, 242, 255, 0.15);
+    box-shadow: 0 0 3px rgba(0, 242, 255, 0.05), inset 0 0 1px rgba(0, 242, 255, 0.02);
+  }
+}
+
+.alarm-btn-live-pulse {
+  animation: alarm-btn-breathe 4s ease-in-out infinite !important;
+}
+
+
+
+
+/* ============================================================================
+   PRO DJ WORKSTATION CONSOLE (PIONEER / TRAKTOR HIGH-END STYLE)
+   ============================================================================ */
+
+#panel-audio {
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#panel-audio.is-dj-mode {
+  width: min(880px, 96vw) !important;
+  max-width: 96vw !important;
+  max-height: min(88vh, 620px) !important;
+}
+
+@media (max-width: 768px) {
+  #panel-audio.is-dj-mode {
+    width: calc(100vw - 16px) !important;
+  }
+}
+
+/* Vinyl Platter Realistic Grooves & Spindle */
+.dj-vinyl-pro {
+  background: radial-gradient(circle at center,
+    #181822 0%, #181822 14%,
+    #2c2d3d 15%, #12131b 24%,
+    #242533 25%, #0f1016 36%,
+    #2c2d3d 37%, #0c0d12 50%,
+    #222330 51%, #08080c 68%,
+    #1c1d27 69%, #050508 85%,
+    #14151e 86%, #020204 100%
+  );
+  box-shadow: inset 0 0 25px rgba(0,0,0,0.95), 0 8px 25px rgba(0,0,0,0.7), 0 0 0 1.5px rgba(255,255,255,0.08);
+}
+
+.dj-vinyl-spinning {
+  animation: vinylSpin 6s linear infinite;
+  transform-origin: center center;
+}
+
+.dj-vinyl-paused {
+  animation-play-state: paused !important;
+}
+
+/* ==========================================================================
+   VERTICAL VOLUME FADERS & HEADER SLIDERS
+   ========================================================================== */
+
+.vertical-header-volume-slider,
+.vertical-volume-fader {
+  writing-mode: vertical-lr !important;
+  direction: rtl !important;
+  -webkit-appearance: slider-vertical !important;
+  appearance: slider-vertical !important;
+  width: 6px !important;
+  max-width: 6px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: rgba(255, 255, 255, 0.18) !important;
+  border-radius: 9999px !important;
+  outline: none !important;
+  accent-color: #c084fc !important;
+  cursor: pointer !important;
+}
+
+.vertical-header-volume-slider {
+  height: 80px !important;
+  max-height: 80px !important;
+}
+
+.vertical-volume-fader {
+  height: 120px !important;
+  max-height: 120px !important;
+}
+
+.vertical-header-volume-slider::-webkit-slider-thumb,
+.vertical-volume-fader::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  background: #c084fc !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6) !important;
+  cursor: pointer !important;
+}
+
+.vertical-header-volume-slider::-moz-range-thumb,
+.vertical-volume-fader::-moz-range-thumb {
+  width: 14px !important;
+  height: 14px !important;
+  border-radius: 50% !important;
+  background: #c084fc !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 0 8px rgba(168, 85, 247, 0.6) !important;
+  cursor: pointer !important;
+}
+
+/* Custom DJ Sliders */
+input[type="range"].dj-slider-vert {
+  -webkit-appearance: slider-vertical;
+  appearance: slider-vertical;
+  width: 14px;
+  height: 52px;
+  background: #09090f;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"].dj-eq-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type="range"].dj-eq-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 8px currentColor;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+input[type="range"].dj-eq-slider:active::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
+
+/* Crossfader Handle */
+#dj-crossfader-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: #090910;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 9999px;
+  outline: none;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+}
+
+#dj-crossfader-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 22px;
+  border-radius: 5px;
+  background: linear-gradient(to bottom, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+  border: 1px solid #ffffff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.8), 0 0 12px rgba(255,255,255,0.4);
+  cursor: ew-resize;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+#dj-crossfader-slider::-webkit-slider-thumb:active {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 18px rgba(168,85,247,0.8);
+}
+
+/* DJ Performance FX Pads */
+.dj-fx-pad-pro {
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  backdrop-filter: blur(8px);
+}
+
+.dj-fx-pad-pro:active {
+  transform: scale(0.92);
+  filter: brightness(1.3);
+  box-shadow: 0 0 15px currentColor;
+}
+
+/* Alarm Clock Second Rhythm Pulse Animation */
+@keyframes alarmSecondBlink {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.45);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.94);
+    box-shadow: 0 0 2px rgba(251, 191, 36, 0.1);
+  }
+}
+
+.animate-alarm-second {
+  animation: alarmSecondBlink 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes alarmSecondDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.15;
+    transform: scale(0.65);
+  }
+}
+
+@keyframes alarmIconBlink4s {
+  0%, 75%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.8));
+  }
+  87.5% {
+    opacity: 0.2;
+    transform: scale(0.88);
+    filter: drop-shadow(0 0 0px transparent);
+  }
+}
+
+.animate-alarm-icon-blink,
+#btn-header-alarm i,
+#btn-header-alarm svg,
+#btn-header-alarm .animate-alarm-icon-blink {
+  animation: alarmIconBlink4s 4s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+  transform-origin: center center !important;
+  transform-box: fill-box !important;
+  display: inline-block !important;
+  will-change: opacity, transform, filter !important;
+}
+
+@keyframes alarmBtnBorderPulse4s {
+  0%, 75%, 100% {
+    border-color: rgba(244, 63, 94, 0.45);
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.25);
+  }
+  87.5% {
+    border-color: rgba(244, 63, 94, 0.15);
+    box-shadow: 0 0 3px rgba(244, 63, 94, 0.05);
+  }
+}
+
+#btn-header-alarm {
+  animation: alarmBtnBorderPulse4s 4s ease-in-out infinite !important;
+}
+
+
+
+/* Live News Single Headline Swap Animation (Ultra-sanfte Überblendung) */
+@keyframes tickerHeadlineSmoothFade {
+  0% {
+    opacity: 0;
+    transform: translateY(3px) scale(0.985);
+    filter: blur(4px);
+  }
+  30% {
+    opacity: 0.5;
+    filter: blur(1.5px);
+  }
+  70% {
+    opacity: 0.9;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+.animate-headline-swap {
+  animation: tickerHeadlineSmoothFade 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards !important;
+}
+
+#board-ticker-track,
+#teletext-news-item {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+.news-ticker-item:hover {
+  transform: scale(1.03);
+  filter: brightness(1.3);
+}
+
+.teletext-page-badge {
+  font-family: 'Space Grotesk', monospace, sans-serif;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 6px rgba(0, 242, 255, 0.4);
+}
+
+/* ============================================================================
+   5-SEKUNDEN SYNCHRONISIERTE PULSE-ANIMATIONEN (NEWS, TOOLS, WECKER & TASK)
+   ============================================================================ */
+
+/* 1. Tools Icon Rotation Impuls beim 5s Takt */
+@keyframes toolsPulseSpin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  30% {
+    transform: rotate(180deg) scale(1.18);
+    filter: drop-shadow(0 0 10px rgba(192, 132, 252, 0.8));
+  }
+  70% {
+    transform: rotate(360deg) scale(1.05);
+    filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.4));
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    filter: none;
+  }
+}
+
+.animate-tools-pulse {
+  animation: toolsPulseSpin 1.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  transform-origin: center center !important;
+}
+
+/* 2. Wecker Synchroner Blink- & Glow-Impuls beim 5s Takt */
+@keyframes alarmSyncPulseAnim {
+  0% {
+    transform: scale(1);
+    border-color: rgba(244, 63, 94, 0.4);
+    box-shadow: 0 0 8px rgba(244, 63, 94, 0.2);
+  }
+  25% {
+    transform: scale(1.12) rotate(-6deg);
+    border-color: rgba(244, 63, 94, 0.95);
+    box-shadow: 0 0 20px rgba(244, 63, 94, 0.65), inset 0 0 10px rgba(244, 63, 94, 0.3);
+    filter: drop-shadow(0 0 8px #f43f5e);
+  }
+  50% {
+    transform: scale(1.08) rotate(6deg);
+    border-color: rgba(244, 63, 94, 0.8);
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.45);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    border-color: rgba(244, 63, 94, 0.4);
+    box-shadow: 0 0 8px rgba(244, 63, 94, 0.2);
+    filter: none;
+  }
+}
+
+.animate-alarm-sync-pulse {
+  animation: alarmSyncPulseAnim 1.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* 3. Zufällige Aufgaben-Karte Leuchten & Sanfte Schwebung beim 5s Takt */
+@keyframes taskRandomGlowPulse {
+  0% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 0px transparent;
+    filter: brightness(1);
+  }
+  30% {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 22px rgba(192, 132, 252, 0.45), inset 0 0 12px rgba(255, 255, 255, 0.15);
+    border-color: rgba(192, 132, 252, 0.9) !important;
+    filter: brightness(1.25);
+  }
+  60% {
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: 0 0 14px rgba(192, 132, 252, 0.25);
+    filter: brightness(1.1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 0px transparent;
+    filter: brightness(1);
+  }
+}
+
+.animate-task-random-glow {
+  animation: taskRandomGlowPulse 1.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  z-index: 15 !important;
 }

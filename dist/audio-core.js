@@ -374,7 +374,13 @@ var pendingCrossfadeNodes = [];
 var pendingCrossfadeGains = [];
 
 // Playlist-Zustände für eigene Tracks
-var playlistTracks = [];
+var DEFAULT_PRELOADED_TRACKS = [
+  { id: 'track_lofi', name: '☕ Deep Focus Lofi', url: 'music/deep_focus_lofi.mp3', bpm: 85, presetKey: 'lofi_chill', duration: 180, isPreloaded: true },
+  { id: 'track_deep_house', name: '🪩 Deep House Sunset', url: 'music/deep_house_sunset.mp3', bpm: 126, presetKey: 'deep_house', duration: 210, isPreloaded: true },
+  { id: 'track_synthwave', name: '🌆 Synthwave Neon Drive', url: 'music/synthwave_neon_drive.mp3', bpm: 128, presetKey: 'cyber_wave', duration: 195, isPreloaded: true },
+  { id: 'track_zen', name: '🍃 Zen Meditation Flow', url: 'music/zen_meditation_flow.mp3', bpm: 118, presetKey: 'ambient_flow', duration: 240, isPreloaded: true }
+];
+var playlistTracks = [...DEFAULT_PRELOADED_TRACKS];
 var currentTrackIndex = 0;
 var isPlayerShuffleEnabled = true; // standardmäßig aktiv (zufällige Wiedergabe)
 var playerRepeatMode = 'all'; // 'off' | 'all' | 'one'
@@ -648,6 +654,405 @@ function playCheerfulSuccessJingle() {
     console.warn('[Audio] playCheerfulSuccessJingle warning:', e);
   }
 }
+
+// ============================================================================
+// NOODLE INTERACTIVE UI SOUNDS (Pleasant Short Nature & Game Sound Effects)
+// ============================================================================
+
+let lastUiSoundTime = 0;
+let uiSoundIndex = 0;
+
+// Master Nature Sound Synthesizers (Water drops, bamboo clicks, pebbles, birds, leaf rustle, rain chimes)
+function playNatureSound(type) {
+  initAudioContext();
+  if (!audioCtx || isPlayerMuted) return;
+  const now = audioCtx.currentTime;
+  const dest = (typeof getMasterAudioDestination === 'function') ? (getMasterAudioDestination() || audioCtx.destination) : audioCtx.destination;
+  const masterVol = (soundMasterVolume || 0.5) * 0.35;
+
+  const natureTypes = ['waterdrop', 'bamboo', 'pebble', 'bird_chirp', 'leaf_rustle', 'rain_chime'];
+  const soundType = type || natureTypes[Math.floor(Math.random() * natureTypes.length)];
+
+  try {
+    if (soundType === 'waterdrop' || soundType === 'droplet') {
+      // Warm, crystalline resonant waterdrop
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(620, now);
+      osc.frequency.exponentialRampToValueAtTime(1480, now + 0.025);
+      osc.frequency.exponentialRampToValueAtTime(1050, now + 0.08);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(masterVol * 0.6, now + 0.008);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.085);
+
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.09);
+      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+
+    } else if (soundType === 'bamboo' || soundType === 'woodblock') {
+      // Snappy, organic woodblock/marimba tap
+      const osc = audioCtx.createOscillator();
+      const filter = audioCtx.createBiquadFilter();
+      const gain = audioCtx.createGain();
+
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(580, now);
+      osc.frequency.exponentialRampToValueAtTime(240, now + 0.045);
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(750, now);
+      filter.Q.setValueAtTime(3.5, now);
+
+      gain.gain.setValueAtTime(masterVol * 0.75, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.055);
+      osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
+
+    } else if (soundType === 'pebble' || soundType === 'zen_stone') {
+      // Smooth tactile stone click (dual resonant frequencies)
+      [1950, 2680].forEach((freq, idx) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, now + idx * 0.005);
+        gain.gain.setValueAtTime(masterVol * 0.35, now + idx * 0.005);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04 + idx * 0.005);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now + idx * 0.005);
+        osc.stop(now + 0.05);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+      });
+
+    } else if (soundType === 'bird_chirp') {
+      // Zartes, fröhliches Vogelzwitschern
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(2750, now);
+      osc.frequency.linearRampToValueAtTime(3350, now + 0.03);
+      osc.frequency.exponentialRampToValueAtTime(2900, now + 0.075);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(masterVol * 0.35, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.085);
+      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+
+    } else if (soundType === 'leaf_rustle' || soundType === 'wind_puff') {
+      // Soft gentle breeze / leaf puff (bandpass filtered noise)
+      const bufferSize = Math.floor(audioCtx.sampleRate * 0.1);
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+      }
+      const noiseSource = audioCtx.createBufferSource();
+      noiseSource.buffer = buffer;
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(1100, now);
+      filter.Q.setValueAtTime(2.0, now);
+
+      const gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(masterVol * 0.5, now + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+
+      noiseSource.connect(filter);
+      filter.connect(gain);
+      gain.connect(dest);
+      noiseSource.start(now);
+      noiseSource.stop(now + 0.1);
+      noiseSource.onended = () => { try { noiseSource.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
+
+    } else if (soundType === 'rain_chime') {
+      // Pentatonic crystalline raindrop bell
+      const bellPitches = [1046.50, 1174.66, 1318.51, 1567.98];
+      const pitch = bellPitches[Math.floor(Math.random() * bellPitches.length)];
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(pitch, now);
+
+      gain.gain.setValueAtTime(masterVol * 0.45, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.2);
+      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+    }
+  } catch (err) {
+    console.warn('[Audio] playNatureSound error:', err);
+  }
+}
+
+// Master Game Sound Synthesizers (Coins, powerups, menu bubbles, blips, sparkles, lasers)
+function playGameSound(type) {
+  initAudioContext();
+  if (!audioCtx || isPlayerMuted) return;
+  const now = audioCtx.currentTime;
+  const dest = (typeof getMasterAudioDestination === 'function') ? (getMasterAudioDestination() || audioCtx.destination) : audioCtx.destination;
+  const masterVol = (soundMasterVolume || 0.5) * 0.35;
+
+  const gameTypes = ['coin', 'powerup', 'menu_pop', 'menu_close', 'switch_tap', 'jump_blip', 'sparkle', 'laser_blip'];
+  const soundType = type || gameTypes[Math.floor(Math.random() * gameTypes.length)];
+
+  try {
+    if (soundType === 'coin' || soundType === 'gem') {
+      // Crisp 2-tone arcade coin ping (B5 -> E6)
+      const notes = [987.77, 1318.51];
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const startTime = now + (i * 0.04);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+        gain.gain.setValueAtTime(masterVol * 0.5, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.12);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(startTime);
+        osc.stop(startTime + 0.13);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+      });
+
+    } else if (soundType === 'powerup' || soundType === 'pip_up') {
+      // 3-note ascending level-up pip (C5 -> E5 -> G5)
+      const notes = [523.25, 659.25, 783.99];
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const startTime = now + (i * 0.035);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, startTime);
+        gain.gain.setValueAtTime(masterVol * 0.45, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.09);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(startTime);
+        osc.stop(startTime + 0.1);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+      });
+
+    } else if (soundType === 'menu_pop' || soundType === 'bubble_open') {
+      // Soft warm bubble sweep for opening menus
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(860, now + 0.065);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(masterVol * 0.5, now + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.085);
+      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+
+    } else if (soundType === 'menu_close' || soundType === 'bubble_close') {
+      // Gentle downward resolving tone for closing menus
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(760, now);
+      osc.frequency.exponentialRampToValueAtTime(260, now + 0.065);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(masterVol * 0.4, now + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.08);
+      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+
+    } else if (soundType === 'switch_tap' || soundType === 'tactile_click') {
+      // Super clean tactile mechanical click
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(1100, now);
+      osc.frequency.exponentialRampToValueAtTime(280, now + 0.02);
+
+      gain.gain.setValueAtTime(masterVol * 0.6, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
+
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.03);
+      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+
+    } else if (soundType === 'jump_blip') {
+      // Cute classic 8-bit blip
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(240, now);
+      osc.frequency.exponentialRampToValueAtTime(680, now + 0.05);
+
+      const filter = audioCtx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(1400, now);
+
+      gain.gain.setValueAtTime(masterVol * 0.28, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.06);
+      osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
+
+    } else if (soundType === 'sparkle' || soundType === 'star') {
+      // 4-note sparkling glitzer cascade
+      const notes = [783.99, 1046.50, 1318.51, 1567.98];
+      notes.forEach((freq, i) => {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const startTime = now + (i * 0.022);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, startTime);
+        gain.gain.setValueAtTime(masterVol * 0.35, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.09);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(startTime);
+        osc.stop(startTime + 0.1);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+      });
+
+    } else if (soundType === 'laser_blip' || soundType === 'zap_pip') {
+      // Soft mini arcade blip
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(1600, now);
+      osc.frequency.exponentialRampToValueAtTime(420, now + 0.035);
+
+      gain.gain.setValueAtTime(masterVol * 0.4, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+
+      osc.connect(gain);
+      gain.connect(dest);
+      osc.start(now);
+      osc.stop(now + 0.045);
+      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+    }
+  } catch (err) {
+    console.warn('[Audio] playGameSound error:', err);
+  }
+}
+
+// Master UI sound dispatcher: plays alternating or designated nature & game sounds
+function playUiSound(category = 'click', specificType = null) {
+  const currentTime = Date.now();
+  if (currentTime - lastUiSoundTime < 35) return; // Debounce
+  lastUiSoundTime = currentTime;
+
+  if (category === 'menu_open') {
+    const openSounds = ['menu_pop', 'bamboo', 'waterdrop', 'pip_up'];
+    const pick = specificType || openSounds[Math.floor(Math.random() * openSounds.length)];
+    if (pick === 'bamboo' || pick === 'waterdrop') playNatureSound(pick);
+    else playGameSound(pick);
+    return;
+  }
+
+  if (category === 'menu_close') {
+    const closeSounds = ['menu_close', 'droplet', 'pebble'];
+    const pick = specificType || closeSounds[Math.floor(Math.random() * closeSounds.length)];
+    if (pick === 'droplet' || pick === 'pebble') playNatureSound(pick);
+    else playGameSound(pick);
+    return;
+  }
+
+  if (category === 'nature') {
+    playNatureSound(specificType);
+    return;
+  }
+
+  if (category === 'game') {
+    playGameSound(specificType);
+    return;
+  }
+
+  // Alternating between Nature and Game sounds on button clicks
+  uiSoundIndex++;
+  if (uiSoundIndex % 2 === 0) {
+    playNatureSound(specificType);
+  } else {
+    playGameSound(specificType);
+  }
+}
+
+// Helper alias for opening / closing menus
+function playMenuSound(isOpen = true) {
+  playUiSound(isOpen ? 'menu_open' : 'menu_close');
+}
+
+// Global Automated UI Sound Listener for all buttons & interactive controls
+function initGlobalUiSounds() {
+  if (typeof document === 'undefined') return;
+  if (window._uiSoundsInitialized) return;
+  window._uiSoundsInitialized = true;
+
+  document.addEventListener('pointerdown', (e) => {
+    const target = e.target;
+    if (!target) return;
+
+    // Check if target or ancestor is interactive
+    const interactiveEl = target.closest('button, a, [role="button"], input[type="button"], input[type="submit"], input[type="checkbox"], input[type="radio"], select, .cursor-pointer, .tab-btn, .pill-btn, .modal-close-btn, .column-options-btn, .task-check-btn, [data-sound-trigger]');
+    
+    if (interactiveEl) {
+      // Don't play if element has custom sound override (e.g. DJ pads, piano keys)
+      if (interactiveEl.dataset && interactiveEl.dataset.noUiSound) return;
+      if (interactiveEl.closest('#dj-sampler-pad-grid, #audio-piano-keyboard')) return;
+
+      // If it's a modal or menu open trigger
+      const isCloseTrigger = interactiveEl.matches('[id*="close"], [aria-label*="schließen"], [aria-label*="close"], [onclick*="close"], [onclick*="toggleTerminForm(false)"], .modal-close-btn');
+      const isMenuTrigger = !isCloseTrigger && interactiveEl.matches('[id*="menu"], [id*="popover"], [id*="dropdown"], [onclick*="toggle"], [onclick*="open"], [onclick*="Menu"], [onclick*="Modal"], [onclick*="Popover"], [onclick*="Dropdown"]');
+
+      if (isCloseTrigger) {
+        playUiSound('menu_close');
+      } else if (isMenuTrigger) {
+        playUiSound('menu_open');
+      } else {
+        playUiSound('click');
+      }
+    }
+  }, { passive: true });
+}
+
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGlobalUiSounds);
+  } else {
+    initGlobalUiSounds();
+  }
+}
+
 window.playCheerfulSuccessJingle = playCheerfulSuccessJingle;
 
 function triggerHapticFeedback(pattern = [15, 30, 15]) {
@@ -887,7 +1292,7 @@ function updateSoundscapeUI() {
   const sounds = [
     'piano', 'lofi', 'chimes', 'space', 'guitar', 'singingbowl', 'musicbox',
     'breeze', 'campfire', 'birds', 'cafe', 'clock', 'lofi_sunshine', 'summer_meadow',
-    'bossa_nova', 'techno', 'dnb', 'afrobeats', 'swing', 'boombap', 'jazz_piano', 'rhodes', 'hypnotic_riff'
+    'bossa_nova', 'techno', 'dnb', 'afrobeats', 'swing', 'boombap', 'synthwave', 'house', 'trap', 'chillstep', 'phonk', 'jazz_piano', 'rhodes', 'hypnotic_riff'
   ];
   sounds.forEach(st => {
     const btn = document.getElementById("sound-btn-" + st);
@@ -981,6 +1386,7 @@ if (typeof document !== 'undefined') {
 
 if (typeof window !== 'undefined') {
   window.audioCtx = audioCtx;
+  window.DEFAULT_PRELOADED_TRACKS = DEFAULT_PRELOADED_TRACKS;
   window.playlistTracks = playlistTracks;
   window.currentTrackIndex = currentTrackIndex;
   window.activeUserAudio = activeUserAudio;
@@ -1012,9 +1418,14 @@ if (typeof window !== 'undefined') {
   window.toggleMasterSound = toggleMasterSound;
   window.isAnyAudioPlaying = isAnyAudioPlaying;
   window.updateHeaderSoundBtnUI = updateHeaderSoundBtnUI;
+  window.playNatureSound = playNatureSound;
+  window.playGameSound = playGameSound;
+  window.playUiSound = playUiSound;
+  window.playMenuSound = playMenuSound;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.audioCtx = audioCtx;
+  globalThis.DEFAULT_PRELOADED_TRACKS = DEFAULT_PRELOADED_TRACKS;
   globalThis.playlistTracks = playlistTracks;
   globalThis.currentTrackIndex = currentTrackIndex;
   globalThis.activeUserAudio = activeUserAudio;
@@ -1046,5 +1457,9 @@ if (typeof globalThis !== 'undefined') {
   globalThis.toggleMasterSound = toggleMasterSound;
   globalThis.isAnyAudioPlaying = isAnyAudioPlaying;
   globalThis.updateHeaderSoundBtnUI = updateHeaderSoundBtnUI;
+  globalThis.playNatureSound = playNatureSound;
+  globalThis.playGameSound = playGameSound;
+  globalThis.playUiSound = playUiSound;
+  globalThis.playMenuSound = playMenuSound;
 }
 

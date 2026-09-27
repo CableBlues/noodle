@@ -402,14 +402,19 @@ function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
   ctx.fill();
 }
 
+let activeCelebrationParticles = [];
+let celebrationAnimFrameId = null;
+
 function triggerCelebrationParticles(customX, customY) {
   const canvas = document.getElementById('confetti-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  if (canvas.width !== window.innerWidth || canvas.height !== window.innerHeight) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
 
   const effectType = celebrationParticleIndex % 5;
   celebrationParticleIndex++;
@@ -417,25 +422,24 @@ function triggerCelebrationParticles(customX, customY) {
   const startX = (typeof customX === 'number' && customX > 0) ? customX : canvas.width / 2;
   const startY = (typeof customY === 'number' && customY > 0) ? customY : (effectType === 3 ? canvas.height * 0.85 : canvas.height * 0.45);
 
-  const particles = [];
-  const particleCount = effectType === 3 ? 45 : 85; // Ballons etwas weniger, sonst zu voll
+  const particleCount = effectType === 3 ? 35 : 65; // Optimized count for 60-120fps
 
   const colorPalettes = {
-    0: ['#8b5cf6', '#38bdf8', '#10b981', '#ec4899', '#f59e0b', '#fb7185', '#facc15'], // Konfetti
-    1: ['#f472b6', '#fbcfe8', '#fb7185', '#fda4af', '#f43f5e', '#fff1f2', '#e879f9'], // Sakura-Blüten
-    2: ['#facc15', '#fde047', '#fef08a', '#fbbf24', '#f59e0b', '#ffffff', '#e2e8f0'], // Goldene Sterne
-    3: ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'], // Bunte Ballons
-    4: ['#38bdf8', '#818cf8', '#c084fc', '#f472b6', '#67e8f9', '#a7f3d0', '#fde047']  // Schillernde Seifenblasen
+    0: ['#8b5cf6', '#89cff0', '#10b981', '#ec4899', '#f59e0b', '#fb7185', '#facc15'],
+    1: ['#f472b6', '#fbcfe8', '#fb7185', '#fda4af', '#f43f5e', '#fff1f2', '#e879f9'],
+    2: ['#facc15', '#fde047', '#fef08a', '#fbbf24', '#f59e0b', '#ffffff', '#e2e8f0'],
+    3: ['#ef4444', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'],
+    4: ['#89cff0', '#818cf8', '#c084fc', '#f472b6', '#67e8f9', '#a7f3d0', '#fde047']
   };
   const colors = colorPalettes[effectType];
 
   for (let i = 0; i < particleCount; i++) {
     let vx = (Math.random() - 0.5) * (effectType === 3 ? 10 : 22);
     let vy = effectType === 3 
-      ? -(Math.random() * 8 + 6) // Ballons steigen nach oben
+      ? -(Math.random() * 8 + 6)
       : ((Math.random() - 0.5) * 20 - 10);
 
-    particles.push({
+    activeCelebrationParticles.push({
       x: startX + (Math.random() - 0.5) * 60,
       y: startY + (Math.random() - 0.5) * 40,
       vx: vx,
@@ -448,86 +452,91 @@ function triggerCelebrationParticles(customX, customY) {
       rotationSpeed: (Math.random() - 0.5) * (effectType === 3 ? 2 : 10),
       opacity: 1,
       sway: Math.random() * 10,
-      swaySpeed: Math.random() * 0.08 + 0.03
+      swaySpeed: Math.random() * 0.08 + 0.03,
+      effectType: effectType
     });
   }
 
-  function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let active = false;
+  // Cap total concurrent particles to prevent lag
+  if (activeCelebrationParticles.length > 200) {
+    activeCelebrationParticles = activeCelebrationParticles.slice(-150);
+  }
 
-    particles.forEach(p => {
-      if (p.opacity > 0 && p.y > -80 && p.y < canvas.height + 80) {
-        p.sway += p.swaySpeed;
-        p.x += p.vx + Math.sin(p.sway) * (effectType === 1 ? 1.5 : 0.6);
-        p.y += p.vy;
-        p.vy += p.gravity;
-        p.vx *= p.friction;
-        p.opacity -= (effectType === 3 ? 0.007 : 0.011);
-        p.rotation += p.rotationSpeed;
-
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate((p.rotation * Math.PI) / 180);
-        ctx.globalAlpha = Math.max(0, p.opacity);
-
-        if (effectType === 0) {
-          // 1. Konfetti (Rechteckig)
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
-        } else if (effectType === 1) {
-          // 2. Sakura-Blütenblatt (Geschwungene Blüte)
-          ctx.fillStyle = p.color;
-          ctx.beginPath();
-          ctx.moveTo(0, -p.size);
-          ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.5, p.size * 0.8, p.size * 0.5, 0, p.size);
-          ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.8, -p.size * 0.5, 0, -p.size);
-          ctx.fill();
-        } else if (effectType === 2) {
-          // 3. Sterne (Gold/Funkeln)
-          ctx.fillStyle = p.color;
-          drawStar(ctx, 0, 0, 5, p.size, p.size * 0.5);
-        } else if (effectType === 3) {
-          // 4. Bunte Mini-Ballons
-          ctx.fillStyle = p.color;
-          ctx.beginPath();
-          ctx.ellipse(0, 0, p.size * 0.75, p.size, 0, 0, Math.PI * 2);
-          ctx.fill();
-          // Schnur
-          ctx.strokeStyle = 'rgba(255,255,255,0.4)';
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(0, p.size);
-          ctx.lineTo(Math.sin(p.sway) * 4, p.size + 14);
-          ctx.stroke();
-        } else if (effectType === 4) {
-          // 5. Schillernde Seifenblasen
-          ctx.strokeStyle = p.color;
-          ctx.lineWidth = 1.5;
-          ctx.fillStyle = 'rgba(255,255,255,0.06)';
-          ctx.beginPath();
-          ctx.arc(0, 0, p.size, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.stroke();
-          // Lichtglanz
-          ctx.fillStyle = 'rgba(255,255,255,0.6)';
-          ctx.beginPath();
-          ctx.arc(-p.size * 0.35, -p.size * 0.35, p.size * 0.25, 0, Math.PI * 2);
-          ctx.fill();
-        }
-
-        ctx.restore();
-        active = true;
-      }
-    });
-
-    if (active) {
-      requestAnimationFrame(animate);
-    } else {
+  if (!celebrationAnimFrameId) {
+    function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const remaining = [];
+
+      for (let i = 0; i < activeCelebrationParticles.length; i++) {
+        const p = activeCelebrationParticles[i];
+        if (p.opacity > 0 && p.y > -80 && p.y < canvas.height + 80) {
+          p.sway += p.swaySpeed;
+          p.x += p.vx + Math.sin(p.sway) * (p.effectType === 1 ? 1.5 : 0.6);
+          p.y += p.vy;
+          p.vy += p.gravity;
+          p.vx *= p.friction;
+          p.opacity -= (p.effectType === 3 ? 0.007 : 0.012);
+          p.rotation += p.rotationSpeed;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.globalAlpha = Math.max(0, p.opacity);
+
+          if (p.effectType === 0) {
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+          } else if (p.effectType === 1) {
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.moveTo(0, -p.size);
+            ctx.bezierCurveTo(p.size * 0.8, -p.size * 0.5, p.size * 0.8, p.size * 0.5, 0, p.size);
+            ctx.bezierCurveTo(-p.size * 0.8, p.size * 0.5, -p.size * 0.8, -p.size * 0.5, 0, -p.size);
+            ctx.fill();
+          } else if (p.effectType === 2) {
+            ctx.fillStyle = p.color;
+            drawStar(ctx, 0, 0, 5, p.size, p.size * 0.5);
+          } else if (p.effectType === 3) {
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.ellipse(0, 0, p.size * 0.75, p.size, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, p.size);
+            ctx.lineTo(Math.sin(p.sway) * 4, p.size + 14);
+            ctx.stroke();
+          } else if (p.effectType === 4) {
+            ctx.strokeStyle = p.color;
+            ctx.lineWidth = 1.5;
+            ctx.fillStyle = 'rgba(255,255,255,0.06)';
+            ctx.beginPath();
+            ctx.arc(0, 0, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = 'rgba(255,255,255,0.6)';
+            ctx.beginPath();
+            ctx.arc(-p.size * 0.35, -p.size * 0.35, p.size * 0.25, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          ctx.restore();
+          remaining.push(p);
+        }
+      }
+
+      activeCelebrationParticles = remaining;
+
+      if (activeCelebrationParticles.length > 0) {
+        celebrationAnimFrameId = requestAnimationFrame(animate);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        celebrationAnimFrameId = null;
+      }
     }
+    celebrationAnimFrameId = requestAnimationFrame(animate);
   }
-  animate();
 }
 
 // ===== NOODLE MODERN CALM & LUXURY ANIMATION ENGINE =====

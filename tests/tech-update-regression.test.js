@@ -254,7 +254,7 @@ describe('Noodle Technical Update Regression Suite', () => {
       const swPath = path.resolve(__dirname, '../sw.js');
       const swContent = fs.readFileSync(swPath, 'utf8');
 
-      expect(swContent).toContain("const CACHE_NAME = 'noodle-cache-v158'");
+      expect(swContent).toMatch(/const CACHE_NAME = 'noodle-cache-v\d+'/);
       expect(swContent).toContain("'./monetization.js'");
     });
 

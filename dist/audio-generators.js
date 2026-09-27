@@ -111,17 +111,37 @@ function startAmbientGeneratorForType(type) {
     // 174 BPM Drum & Bass (Breakbeat, Snare Rolls & Sub Bass)
     startBeatLookaheadLoop('dnb', 174);
 
+  } else if (type === 'synthwave') {
+    // 110 BPM Synthwave / Retrowave (Gated 80s Kick, Snare, Pad Swells & Rolling Bass)
+    startBeatLookaheadLoop('synthwave', 110);
+
+  } else if (type === 'house') {
+    // 124 BPM Deep House Groove (4-on-the-floor, 909 Clap, Offbeat Hat & Organ Bass)
+    startBeatLookaheadLoop('house', 124);
+
   } else if (type === 'afrobeats') {
     // 102 BPM Afrobeats (Syncopated Log-Drum, Shaker & Rimshots)
     startBeatLookaheadLoop('afrobeats', 102);
 
-  } else if (type === 'swing') {
-    // 116 BPM Swing & Jazz (Triplet Ride, Snare Ghosting & Walking Bass)
-    startBeatLookaheadLoop('swing', 116);
-
   } else if (type === 'boombap') {
     // 92 BPM Boom-Bap Hip Hop (Punchy Kick, Snare & Dusty Hats)
     startBeatLookaheadLoop('boombap', 92);
+
+  } else if (type === 'trap') {
+    // 140 BPM Chill Trap (808 Sub Kick, Snappy Snare, Fast Hi-Hat Rolls & Bells)
+    startBeatLookaheadLoop('trap', 140);
+
+  } else if (type === 'chillstep') {
+    // 90 BPM Chillstep / Downtempo (Atmospheric Pads, Heavy Slow Beat & Ambient FX)
+    startBeatLookaheadLoop('chillstep', 90);
+
+  } else if (type === 'phonk') {
+    // 135 BPM Drift Phonk (Distorted 808s, Memphis Cowbell Melody & Crunchy Claps)
+    startBeatLookaheadLoop('phonk', 135);
+
+  } else if (type === 'swing') {
+    // 116 BPM Swing & Jazz (Triplet Ride, Snare Ghosting & Walking Bass)
+    startBeatLookaheadLoop('swing', 116);
 
   } else if (type === 'jazz_piano') {
     // 80 BPM Jazz Piano Akkorde (Lush 9th/11th/13th Voicings & Progressions)
@@ -258,3 +278,111 @@ function playRhodesChime() {
 
 window.playTactileClickSound = playTactileClickSound;
 window.playRhodesChime = playRhodesChime;
+
+// -------------------------------------------------------------
+// 11. PREMIUM NATUR-SOUNDSCAPES: OZEAN, REGEN & WALDBACH
+// -------------------------------------------------------------
+
+function startOceanWavesSound() {
+  if (!audioCtx || currentSoundType !== 'ocean') return;
+  const now = audioCtx.currentTime;
+
+  const source = audioCtx.createBufferSource();
+  source.buffer = getNoiseBuffer('pink');
+  source.loop = true;
+
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(320, now);
+  filter.Q.setValueAtTime(2.2, now);
+
+  const lfo = audioCtx.createOscillator();
+  const lfoGain = audioCtx.createGain();
+  lfo.frequency.setValueAtTime(0.1, now);
+  lfoGain.gain.setValueAtTime(220, now);
+  lfo.connect(lfoGain);
+  lfoGain.connect(filter.frequency);
+
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(0.38, now + 2.0);
+
+  source.connect(filter);
+  filter.connect(gain);
+  gain.connect(soundGainNode);
+
+  lfo.start(now);
+  source.start(now);
+  activeNodes.push(lfo, source);
+
+  scheduleOceanSpray();
+}
+
+function startRainSound() {
+  if (!audioCtx || currentSoundType !== 'rain') return;
+  const now = audioCtx.currentTime;
+
+  const source = audioCtx.createBufferSource();
+  source.buffer = getNoiseBuffer('pink');
+  source.loop = true;
+
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'lowpass';
+  filter.frequency.setValueAtTime(950, now);
+  filter.Q.setValueAtTime(0.7, now);
+
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(0.32, now + 2.0);
+
+  source.connect(filter);
+  filter.connect(gain);
+  gain.connect(soundGainNode);
+
+  source.start(now);
+  activeNodes.push(source);
+
+  scheduleRainDroplets();
+}
+
+function startStreamWaterSound() {
+  if (!audioCtx || currentSoundType !== 'stream') return;
+  const now = audioCtx.currentTime;
+
+  const source = audioCtx.createBufferSource();
+  source.buffer = getNoiseBuffer('pink');
+  source.loop = true;
+
+  const filter1 = audioCtx.createBiquadFilter();
+  filter1.type = 'bandpass';
+  filter1.frequency.setValueAtTime(450, now);
+  filter1.Q.setValueAtTime(1.8, now);
+
+  const filter2 = audioCtx.createBiquadFilter();
+  filter2.type = 'bandpass';
+  filter2.frequency.setValueAtTime(1100, now);
+  filter2.Q.setValueAtTime(2.5, now);
+
+  const lfo = audioCtx.createOscillator();
+  const lfoGain = audioCtx.createGain();
+  lfo.frequency.setValueAtTime(0.4, now);
+  lfoGain.gain.setValueAtTime(120, now);
+  lfo.connect(lfoGain);
+  lfoGain.connect(filter1.frequency);
+
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(0.35, now + 2.0);
+
+  source.connect(filter1);
+  source.connect(filter2);
+  filter1.connect(gain);
+  filter2.connect(gain);
+  gain.connect(soundGainNode);
+
+  lfo.start(now);
+  source.start(now);
+  activeNodes.push(lfo, source);
+
+  scheduleStreamBubbles();
+}

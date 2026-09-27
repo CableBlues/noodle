@@ -1,0 +1,62 @@
+{
+  "success": true,
+  "count": 8,
+  "tracks": [
+    {
+      "id": "folder_43696e65",
+      "name": "🎵 Cinematic Orchestra – Evolution",
+      "fullName": "Cinematic Orchestra -  Evolution.mp3",
+      "url": "music/Cinematic%20Orchestra%20-%20%20Evolution.mp3",
+      "isLocalFolder": true
+    },
+    {
+      "id": "folder_44656174",
+      "name": "🎵 Death In Vegas – All That Glitters",
+      "fullName": "Death In Vegas - All That Glitters.mp3",
+      "url": "music/Death%20In%20Vegas%20-%20All%20That%20Glitters.mp3",
+      "isLocalFolder": true
+    },
+    {
+      "id": "folder_444a2043",
+      "name": "🎵 DJ Cam – Lost Kingdom",
+      "fullName": "DJ Cam - Lost Kingdom.mp3",
+      "url": "music/DJ%20Cam%20-%20Lost%20Kingdom.mp3",
+      "isLocalFolder": true
+    },
+    {
+      "id": "folder_496e6469",
+      "name": "🎵 Indian Rope Man 66 Meters",
+      "fullName": "Indian Rope Man 66 Meters.mp3",
+      "url": "music/Indian%20Rope%20Man%2066%20Meters.mp3",
+      "isLocalFolder": true
+    },
+    {
+      "id": "folder_4c657669",
+      "name": "🎵 Levitation – More Than Ever People",
+      "fullName": "Levitation - More Than Ever People.mp3",
+      "url": "music/Levitation%20-%20More%20Than%20Ever%20People.mp3",
+      "isLocalFolder": true
+    },
+    {
+      "id": "folder_506f7274",
+      "name": "🎵 Portishead – Numb",
+      "fullName": "Portishead - Numb.mp3",
+      "url": "music/Portishead%20-%20Numb.mp3",
+      "isLocalFolder": true
+    },
+    {
+      "id": "folder_54686520",
+      "name": "🎵 The Cinematic Orchestra – Channel 1 Suite (Zero 7 – Late Night Tales)",
+      "fullName": "The Cinematic Orchestra - Channel 1 Suite (Zero 7 - Late Night Tales).mp3",
+      "url": "music/The%20Cinematic%20Orchestra%20-%20Channel%201%20Suite%20(Zero%207%20-%20Late%20Night%20Tales).mp3",
+      "isLocalFolder": true
+    },
+    {
+      "id": "folder_54726963",
+      "name": "🎵 Tricky Hell Is Around The Corner",
+      "fullName": "Tricky Hell Is Around The Corner.mp3",
+      "url": "music/Tricky%20Hell%20Is%20Around%20The%20Corner.mp3",
+      "isLocalFolder": true
+    }
+  ]
+}

@@ -323,6 +323,17 @@ function setTimerPreset(mins) {
   if (typeof showToast === 'function') showToast(`⏱️ ${mins}m`);
 }
 
+function adjustTimerMinutes(delta) {
+  let currentMins = Math.round((typeof timerInitialSeconds !== 'undefined' && timerInitialSeconds ? timerInitialSeconds : 180) / 60);
+  if (isNaN(currentMins) || currentMins < 1) currentMins = 1;
+  let newMins = currentMins + delta;
+  if (newMins < 1) newMins = 1;
+  if (newMins > 180) newMins = 180;
+  setTimerPreset(newMins);
+}
+window.adjustTimerMinutes = adjustTimerMinutes;
+if (typeof globalThis !== 'undefined') globalThis.adjustTimerMinutes = adjustTimerMinutes;
+
 function renderTimerCockpitContent() {
   const panel = document.getElementById('panel-timer-presets');
   if (!panel) return;
@@ -376,7 +387,7 @@ function renderTimerCockpitContent() {
           <div class="flex items-center justify-center w-5 h-5 rounded-lg bg-purple-500/15 border border-purple-500/30 shadow-xs">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
               <rect x="3" y="3" width="7.5" height="7.5" rx="2.2" fill="#c084fc" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
-              <rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2" fill="#38bdf8" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
+              <rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2" fill="#89cff0" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
               <rect x="3" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#f472b6" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
               <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#34d399" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
             </svg>
@@ -401,17 +412,17 @@ function renderTimerCockpitContent() {
     </div>
 
     <!-- 2. AUFGABE VERKNÜPFEN (Mit feiner Amber-Trennlinie) -->
-    <div class="space-y-1.5 py-1 pb-3 border-b border-amber-500/20">
-      <div class="text-[9.5px] font-bold uppercase tracking-wider text-amber-300/90 font-mono flex items-center justify-between px-0.5">
+    <div class="space-y-1.5 py-1 pb-3 border-b border-[#ff7a00]/20">
+      <div class="text-[9.5px] font-bold uppercase tracking-wider text-[#ff7a00] font-mono flex items-center justify-between px-0.5">
         <span class="flex items-center gap-1.5">
           <i data-lucide="target" class="w-3.5 h-3.5 text-amber-400"></i>
           <span>Aufgabe verknüpfen</span>
         </span>
-        ${taskTitle ? `<span class="text-[8.5px] text-amber-400 font-semibold px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-amber-500/30">Aktiv</span>` : ''}
+        ${taskTitle ? `<span class="text-[8.5px] text-amber-400 font-semibold px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-[#ff7a00]/30">Aktiv</span>` : ''}
       </div>
 
       ${taskTitle ? `
-        <div class="p-2 px-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between gap-2 shadow-xs">
+        <div class="p-2 px-2.5 rounded-xl bg-amber-500/10 border border-[#ff7a00]/30 flex items-center justify-between gap-2 shadow-xs">
           <div class="flex items-center gap-2 min-w-0">
             <span class="text-xs shrink-0">🎯</span>
             <span class="text-xs font-bold text-amber-100 truncate">${(typeof escapeHtml === 'function') ? escapeHtml(taskTitle) : taskTitle}</span>
@@ -427,7 +438,7 @@ function renderTimerCockpitContent() {
         </div>
       ` : `
         <div class="space-y-1.5">
-          <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-[#12111a] border border-amber-500/30 hover:border-amber-400/60 focus:border-amber-400 rounded-xl text-xs text-amber-100 outline-none cursor-pointer font-medium shadow-inner">
+          <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-[#12111a] border border-[#ff7a00]/30 hover:border-amber-400/60 focus:border-[#ff7a00] rounded-xl text-xs text-amber-100 outline-none cursor-pointer font-medium shadow-inner">
             <option value="" class="bg-[#12111a] text-gray-400">-- Aufgabe aus Board verknüpfen --</option>
             ${(() => {
               const groups = {};
@@ -448,8 +459,8 @@ function renderTimerCockpitContent() {
             })()}
           </select>
           <div class="flex gap-1.5">
-            <input type="text" id="timer-quick-task-input" placeholder="Oder Sofort-Ziel eingeben..." onkeydown="if(event.key==='Enter'&&this.value.trim()){linkTaskToTimer(this.value.trim());this.value='';}" class="flex-1 bg-[#12111a] border border-white/10 hover:border-amber-500/30 focus:border-amber-400 rounded-xl px-2.5 py-1 text-xs text-gray-200 placeholder-gray-500 outline-none">
-            <button onclick="const inp=document.getElementById('timer-quick-task-input'); if(inp&&inp.value.trim()){linkTaskToTimer(inp.value.trim());inp.value='';}" class="px-3 py-1 bg-amber-500/20 hover:bg-amber-500/35 text-amber-200 hover:text-white border border-amber-500/30 rounded-xl text-xs font-bold transition cursor-pointer active:scale-95 shadow-xs">Fokus</button>
+            <input type="text" id="timer-quick-task-input" placeholder="Oder Sofort-Ziel eingeben..." onkeydown="if(event.key==='Enter'&&this.value.trim()){linkTaskToTimer(this.value.trim());this.value='';}" class="flex-1 bg-[#12111a] border border-white/10 hover:border-[#ff7a00]/30 focus:border-[#ff7a00] rounded-xl px-2.5 py-1 text-xs text-gray-200 placeholder-gray-500 outline-none">
+            <button onclick="const inp=document.getElementById('timer-quick-task-input'); if(inp&&inp.value.trim()){linkTaskToTimer(inp.value.trim());inp.value='';}" class="px-3 py-1 bg-[#ff7a00]/20 hover:bg-[#ff7a00]/35 text-[#ff7a00] hover:text-white border border-[#ff7a00]/30 rounded-xl text-xs font-bold transition cursor-pointer active:scale-95 shadow-xs">Fokus</button>
           </div>
         </div>
       `}
@@ -581,7 +592,7 @@ function openTimerPresetMenu() {
   if (!panel) return;
   
   // Andere Popovers schließen
-  document.querySelectorAll('#panel-calendar-dropdown, #panel-weather, #panel-pause-dropdown, #panel-settings-dropdown').forEach(el => el.classList.add('hidden'));
+  document.querySelectorAll('#panel-calendar-dropdown, #panel-weather, #panel-pause-dropdown, #panel-settings-dropdown, #panel-header-tools, #panel-alarm, #panel-report').forEach(el => el.classList.add('hidden'));
 
   renderTimerCockpitContent();
   panel.classList.remove('hidden');
@@ -598,7 +609,7 @@ function closeTimerPresetMenu() {
     if (panel && !isOverPanel && !isOverTrigger) {
       panel.classList.add('hidden');
     }
-  }, 250);
+  }, 180);
 }
 window.closeTimerPresetMenu = closeTimerPresetMenu;
 
@@ -715,10 +726,26 @@ function startTimer() {
     try {
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
       const startMins = Math.round(timerInitialSeconds / 60);
-      const phraseList = SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de;
-      const phrase = pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase);
-      lastSessionStartPhrase = phrase;
-      let startText = phrase.replace('{mins}', startMins);
+      const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
+      
+      let startText = "";
+      if (activeTaskName && typeof activeTaskName === 'string' && activeTaskName.trim()) {
+        const cleanTask = activeTaskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
+        const phraseList = (typeof SESSION_START_TASK_PHRASES !== 'undefined' && SESSION_START_TASK_PHRASES[lang]) 
+          ? SESSION_START_TASK_PHRASES[lang] 
+          : (typeof SESSION_START_TASK_PHRASES !== 'undefined' ? SESSION_START_TASK_PHRASES.de : null);
+        const phrase = (phraseList && phraseList.length > 0)
+          ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase)
+          : (SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de)[0];
+        lastSessionStartPhrase = phrase;
+        startText = phrase.replace('{mins}', startMins).replace('{task}', cleanTask);
+      } else {
+        const phraseList = SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de;
+        const phrase = pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase);
+        lastSessionStartPhrase = phrase;
+        startText = phrase.replace('{mins}', startMins);
+      }
+
       if (startMins === 1) {
         startText = startText.replace('Minuten', 'Minute').replace('minutes', 'minute').replace('minutos', 'minuto').replace('λεπτά', 'λεπτό');
       }
@@ -733,6 +760,9 @@ function startTimer() {
     } catch(e) {}
   }
   
+    let lastAnnouncedElapsedMinute = 0;
+  let lastSoundSwitchedElapsedMinute = 0;
+
   if (timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(() => {
     if (!timerRunning || !timerTargetEndTime) return;
@@ -769,41 +799,66 @@ function startTimer() {
     }
     
     // Countdown-Phase (positive Restzeit)
-    if (timerSeconds > 0 && timerSeconds % 60 === 0 && timerSeconds !== prevSecs && timerSeconds !== timerInitialSeconds) {
-      const minsLeft = timerSeconds / 60;
-      const shouldSpeak = (minsLeft % 2 === 1); // jede zweite Minute wird gesprochen
+    if (timerSeconds > 0 && timerSeconds < timerInitialSeconds) {
+      const elapsedSec = timerInitialSeconds - timerSeconds;
+      const elapsedMins = Math.floor(elapsedSec / 60);
+      const minsLeft = Math.ceil(timerSeconds / 60);
+      const prevElapsedMins = Math.floor((timerInitialSeconds - prevSecs) / 60);
 
-      if (shouldSpeak) {
-        let speechText = "";
-        const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
-        
-        if (minsLeft === 1) {
-          if (lang === 'de') speechText = "Noch eine Minute";
-          else if (lang === 'es') speechText = "Queda un minuto";
-          else if (lang === 'el') speechText = "Απομένει ένα λεπτό";
-          else if (lang === 'fr') speechText = "Il reste une minute";
-          else if (lang === 'it') speechText = "Resta un minuto";
-          else speechText = "One minute remaining";
+      // Jede neue Minute präzise erfassen
+      if (elapsedMins > prevElapsedMins && elapsedMins !== lastAnnouncedElapsedMinute) {
+        lastAnnouncedElapsedMinute = elapsedMins;
+
+        // Alle 2 Minuten (z.B. nach 2 Min, 4 Min, 6 Min) sowie bei 2m und 1m Restzeit sprechen
+        const isTwoMinMark = (elapsedMins % 2 === 0);
+        const isFinalStretch = (minsLeft === 2 || minsLeft === 1);
+        const shouldSpeak = isTwoMinMark || isFinalStretch || (timerInitialSeconds <= 180);
+
+        if (shouldSpeak) {
+          let speechText = "";
+          const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+          
+          if (minsLeft === 1) {
+            if (lang === 'de') speechText = "Noch 1 Minute verbleibend";
+            else if (lang === 'es') speechText = "Queda 1 minuto";
+            else if (lang === 'el') speechText = "Απομένει 1 λεπτό";
+            else if (lang === 'fr') speechText = "Il reste 1 minute";
+            else if (lang === 'it') speechText = "Resta 1 minuto";
+            else speechText = "1 minute remaining";
+          } else {
+            if (lang === 'de') speechText = `Noch ${minsLeft} Minuten verbleibend`;
+            else if (lang === 'es') speechText = `Quedan ${minsLeft} minutos`;
+            else if (lang === 'el') speechText = `Απομένουν ${minsLeft} λεπτά`;
+            else if (lang === 'fr') speechText = `Il reste ${minsLeft} minutes`;
+            else if (lang === 'it') speechText = `Restano ${minsLeft} minuti`;
+            else speechText = `${minsLeft} minutes remaining`;
+          }
+          
+          // Motivationsspruch harmonisch einbinden
+          const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
+          const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
+          if (motiv) {
+            speechText += `. ${motiv}`;
+          }
+          
+          // Nach der Zeitansage: Sound alle 2 Minuten wechseln!
+          speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds, () => {
+            if (isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
+              lastSoundSwitchedElapsedMinute = elapsedMins;
+              try { playRandomTimerAmbient(true); } catch(e) {}
+            }
+          });
+
+          // Falls Sprachbegleitung aus ist, Sound trotzdem alle 2 Minuten nach der Zeitgrenze wechseln
+          if (!timerVoiceEnabled && isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
+            lastSoundSwitchedElapsedMinute = elapsedMins;
+            try { playRandomTimerAmbient(true); } catch(e) {}
+          }
         } else {
-          if (lang === 'de') speechText = `Noch ${minsLeft} Minuten`;
-          else if (lang === 'es') speechText = `Quedan ${minsLeft} minutos`;
-          else if (lang === 'el') speechText = `Απομένουν ${minsLeft} λεπτά`;
-          else if (lang === 'fr') speechText = `Il reste ${minsLeft} minutes`;
-          else if (lang === 'it') speechText = `Restano ${minsLeft} minuti`;
-          else speechText = `${minsLeft} minutes remaining`;
+          // Ungerade Zwischen-Minuten: Nur sanfter Glockenton, KEIN Sound-Wechsel
+          playMinuteChime();
         }
-        
-        if (Math.random() < 0.55) {
-          const motiv = getContextMotivation(timerSeconds, timerInitialSeconds);
-          speechText += `. ${motiv}`;
-        }
-        
-        speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds);
-      } else {
-        playMinuteChime();
       }
-      
-      try { playRandomTimerAmbient(true); } catch(e) {}
     }
 
     // Überzeit-Phase (negative Zeit läuft nahtlos weiter: -1, -2, -3, -30, -60, -120...)
@@ -984,7 +1039,7 @@ function updateTimerUI() {
   if (playPauseBtn && playPauseIcon) {
     if (timerRunning) {
       playPauseIcon.setAttribute('data-lucide', 'pause');
-      playPauseBtn.className = 'w-6 h-6 rounded-lg bg-amber-500/25 hover:bg-amber-500/40 border border-amber-400/50 text-amber-200 hover:text-white flex items-center justify-center transition cursor-pointer active:scale-95 shadow-[0_0_10px_rgba(245,158,11,0.3)] animate-pulse';
+      playPauseBtn.className = 'w-6 h-6 rounded-lg bg-amber-500/25 hover:bg-amber-500/40 border border-amber-400/50 text-[#ff7a00] hover:text-white flex items-center justify-center transition cursor-pointer active:scale-95 shadow-[0_0_10px_rgba(245,158,11,0.3)] animate-pulse';
       playPauseBtn.title = 'Fokus pausieren [T]';
     } else {
       playPauseIcon.setAttribute('data-lucide', 'play');

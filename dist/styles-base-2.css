@@ -7,7 +7,7 @@
 
 
 #timer-display {
-  color: var(--accent-light) !important;
+  color: var(--accent-light, #7dcfff) !important;
 }
 
 html body #app #timer-trigger-container button i {
@@ -15,38 +15,38 @@ html body #app #timer-trigger-container button i {
 }
 
 html body #app #timer-trigger-container button#timer-play-btn i {
-  color: #10b981 !important;
+  color: var(--accent, #bb9af7) !important;
 }
 
 html body #app #timer-trigger-container button#timer-pause-btn i {
-  color: var(--accent) !important;
+  color: var(--accent, #bb9af7) !important;
 }
 
 html body #app #timer-trigger-container button#timer-stop-btn {
   background-color: transparent !important;
-  border: 1px solid transparent !important;
-  color: rgba(244, 63, 94, 0.8) !important;
+  border: 1px solid rgba(239, 68, 68, 0.6) !important;
+  color: #D4D4D4 !important;
   border-radius: 0.5rem !important;
 }
 
 html body #app #timer-trigger-container button#timer-stop-btn i {
-  color: rgba(244, 63, 94, 0.8) !important;
+  color: #D4D4D4 !important;
   fill: none !important;
 }
 
 html body #app #timer-trigger-container button#timer-stop-btn:hover {
-  background-color: rgba(244, 63, 94, 0.15) !important;
-  border-color: rgba(244, 63, 94, 0.3) !important;
-  color: #fb7185 !important;
+  background-color: rgba(239, 68, 68, 0.15) !important;
+  border-color: rgba(239, 68, 68, 0.9) !important;
+  color: #f87171 !important;
 }
 
 html body #app #timer-trigger-container button#timer-stop-btn:hover i {
-  color: #fb7185 !important;
+  color: #f87171 !important;
   fill: none !important;
 }
 
 html body #app #timer-trigger-container button#timer-mute-btn i {
-  color: #64748b !important;
+  color: #D4D4D4 !important;
 }
 
 *, button, span, label, h1, h2, h3, h4, header, footer {

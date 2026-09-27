@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import esbuild from 'esbuild';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,8 +17,32 @@ if (!fs.existsSync(distDir)) {
   fs.mkdirSync(distDir, { recursive: true });
 }
 
-// 2. Copy static files & vendor/fonts/.well-known directory
-const staticDirs = ['vendor', 'fonts', '.well-known'];
+// 2. Scan music directory and write music/manifest.json
+const musicDirPath = path.join(rootDir, 'music');
+if (fs.existsSync(musicDirPath)) {
+  const audioExts = ['.mp3', '.wav', '.ogg', '.m4a', '.flac', '.aac'];
+  const musicFiles = fs.readdirSync(musicDirPath).filter(f => audioExts.includes(path.extname(f).toLowerCase()));
+  const tracks = musicFiles.map(f => {
+    const ext = path.extname(f);
+    let cleanName = path.basename(f, ext)
+      .replace(/\s*-\s*/g, ' – ')
+      .replace(/[_]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return {
+      id: 'folder_' + Buffer.from(f).toString('hex').slice(0, 8),
+      name: '🎵 ' + cleanName,
+      fullName: f,
+      url: 'music/' + encodeURIComponent(f),
+      isLocalFolder: true
+    };
+  });
+  fs.writeFileSync(path.join(musicDirPath, 'manifest.json'), JSON.stringify({ success: true, count: tracks.length, tracks }, null, 2), 'utf8');
+  console.log(`✓ music/manifest.json generiert (${tracks.length} Tracks gefunden)`);
+}
+
+// 3. Copy static files & vendor/fonts/.well-known/music directory
+const staticDirs = ['vendor', 'fonts', '.well-known', 'music'];
 staticDirs.forEach(dir => {
   const src = path.join(rootDir, dir);
   const dest = path.join(distDir, dir);
@@ -70,22 +93,76 @@ allJsFiles.forEach(jsFile => {
 });
 console.log(`✓ ${allJsFiles.length} JavaScript-Module nach dist/ kopiert`);
 
-// 3. Bundle JS application with esbuild
+// 3. Bundle JS application
 try {
-  const result = esbuild.buildSync({
-    entryPoints: [path.join(rootDir, 'main.js')],
-    bundle: true,
-    minify: true,
-    format: 'iife',
-    write: false
-  });
-  if (result.outputFiles && result.outputFiles.length > 0) {
-    const bundlePath = path.join(distDir, 'app.bundle.js');
-    fs.writeFileSync(bundlePath, result.outputFiles[0].contents);
-    console.log('✓ app.bundle.js mit esbuild erfolgreich erzeugt');
-  }
+  const moduleList = [
+    'data-tasks-steps-1.js',
+    'data-tasks-steps-2.js',
+    'data-tasks-steps-3.js',
+    'data-tasks.js',
+    'data-translations-1.js',
+    'data-translations-2.js',
+    'data-translations.js',
+    'data-custom-translations.js',
+    'data-extras.js',
+    'config.js',
+    'auth-engine.js',
+    'storage.js',
+    'state.js',
+    'sync-engine.js',
+    'collab-engine.js',
+    'utils-data.js',
+    'utils.js',
+    'utils-2.js',
+    'audio-core.js',
+    'audio-generators.js',
+    'audio-scheduler-1.js',
+    'audio-scheduler-2.js',
+    'audio-scheduler-3.js',
+    'audio-player.js',
+    'timer-1.js',
+    'timer-2.js',
+    'timer-3.js',
+    'sport.js',
+    'helper-core-data.js',
+    'helper-core.js',
+    'helper-core-2.js',
+    'helper-clarity.js',
+    'helper-brainstorm.js',
+    'helper-cleaning.js',
+    'helper-learning.js',
+    'app-regulation.js',
+    'app-shopping.js',
+    'app-cooking.js',
+    'app-alarm.js',
+    'app-tasks.js',
+    'app-reports.js',
+    'app-weather-news.js',
+    'app-radio-news.js',
+    'app-dice.js',
+    'app-command-palette.js',
+    'app-routine-presets.js',
+    'onboarding.js',
+    'monetization.js',
+    'app-feedback.js',
+    'app-tooltip.js',
+    'app-social.js',
+    'app-core.js'
+  ];
+
+  let bundledCode = moduleList.map(mod => {
+    const filePath = path.join(rootDir, mod);
+    if (fs.existsSync(filePath)) {
+      return `/* --- ${mod} --- */\n` + fs.readFileSync(filePath, 'utf8');
+    }
+    return '';
+  }).join('\n\n');
+
+  const bundlePath = path.join(distDir, 'app.bundle.js');
+  fs.writeFileSync(bundlePath, bundledCode, 'utf8');
+  console.log(`✓ app.bundle.js erfolgreich aus ${moduleList.length} Modulen erzeugt`);
 } catch (e) {
-  console.warn('esbuild bundling warning:', e.message);
+  console.warn('Bundling warning:', e.message);
 }
 
 // 4. Generate dist/index.html (wires single bundled app.bundle.js)

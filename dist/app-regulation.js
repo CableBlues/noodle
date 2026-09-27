@@ -491,8 +491,8 @@
         if (timer) timer.innerText = "1.0s";
         if (circle) {
           circle.style.transform = "scale(1.55)";
-          circle.style.borderColor = "rgba(56, 189, 248, 1)";
-          circle.style.backgroundColor = "rgba(56, 189, 248, 0.25)";
+          circle.style.borderColor = "rgba(137, 207, 240, 1)";
+          circle.style.backgroundColor = "rgba(137, 207, 240, 0.25)";
         }
 
         breathTimer = setTimeout(() => {

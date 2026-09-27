@@ -13,10 +13,10 @@ function getColumnFortuneMode(columnId) {
 function renderColumnFortuneIconHTML(columnId, colIndex = 0) {
   const staggerDelay = (Number(colIndex || 0) % 7) * 2.85;
   return `
-    <button onclick="rollTaskDice('${columnId}', event)" aria-label="${typeof tr === 'function' ? tr({ de: 'Glückswürfel 🎲', en: 'Lucky Dice 🎲' }) : 'Glückswürfel 🎲'}" class="p-0 bg-transparent hover:bg-white/10 rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-120 active:scale-95 group/fortune shrink-0" title="${typeof tr === 'function' ? tr({ de: 'Glückswürfel 🎲 (Aufgabe zufällig auslosen)', en: 'Lucky Dice 🎲 (Pick random task)' }) : 'Glückswürfel 🎲'}">
-      <svg class="lucky-dice-icon lucky-dice-animated text-slate-950 group-hover/fortune:rotate-12 transition-transform duration-300 shrink-0 drop-shadow-sm" style="animation-delay: ${staggerDelay.toFixed(2)}s;" viewBox="0 0 24 24" fill="none">
+    <button onclick="rollTaskDice('${columnId}', event)" aria-label="${typeof tr === 'function' ? tr({ de: 'Glückswürfel 🎲', en: 'Lucky Dice 🎲' }) : 'Glückswürfel 🎲'}" class="p-0.5 bg-amber-500/10 hover:bg-amber-500/25 border border-amber-500/30 hover:border-amber-400 rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-115 active:scale-95 group/fortune shrink-0 shadow-[0_0_8px_rgba(251,191,36,0.25)]" title="${typeof tr === 'function' ? tr({ de: 'Glückswürfel 🎲 (Aufgabe zufällig auslosen)', en: 'Lucky Dice 🎲 (Pick random task)' }) : 'Glückswürfel 🎲'}">
+      <svg width="16" height="16" class="w-4 h-4 lucky-dice-icon lucky-dice-animated group-hover/fortune:rotate-12 transition-transform duration-300 shrink-0 drop-shadow-[0_0_4px_rgba(251,191,36,0.6)]" style="animation-delay: ${staggerDelay.toFixed(2)}s;" viewBox="0 0 24 24" fill="none">
         <!-- Isometric 3D Cube Faces -->
-        <path d="M12 2.5L20.5 7.4V7.5L12 12.5L3.5 7.5V7.4L12 2.5Z" fill="#fef3c7" stroke="#78350f" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M12 2.5L20.5 7.4V7.5L12 12.5L3.5 7.5V7.4L12 2.5Z" fill="#fef08a" stroke="#78350f" stroke-width="1.2" stroke-linejoin="round"/>
         <path d="M3.5 7.5L12 12.5V21.5L3.5 16.5V7.5Z" fill="#fbbf24" stroke="#78350f" stroke-width="1.2" stroke-linejoin="round"/>
         <path d="M12 12.5L20.5 7.5V16.5L12 21.5V12.5Z" fill="#f59e0b" stroke="#78350f" stroke-width="1.2" stroke-linejoin="round"/>
         <!-- Top Pip (1 pip in center) -->
@@ -60,7 +60,7 @@ function startFortuneRoll(columnId, event, mode = 'dice') {
 
   if (tasks.length === 0) {
     const emptyMsg = {
-      de: 'Keine Aufgaben in dieser Liste zum Auslosen 🎯',
+      de: 'Keine Aufgaben in dieser Karte zum Auslosen 🎯',
       en: 'No tasks in this list to choose from 🎯',
       es: 'No hay tareas en esta lista 🎯',
       fr: 'Aucune tâche dans cette liste 🎯',
