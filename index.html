@@ -1886,15 +1886,15 @@
           </div>
         </div>
 
-        <!-- 1.2 SPALTEN ANPASSEN (Customize Cards) -->
+        <!-- 1.2 KARTEN ANPASSEN (Customize Cards) -->
         <div id="columns-menu-wrapper" class="relative" onmouseenter="cancelCloseColumnsDropdown()" onmouseleave="scheduleCloseColumnsDropdown()">
           <button id="btn-board-columns" onclick="toggleColumnsDropdown(event)" onmouseenter="openColumnsDropdown(this)" class="px-2.5 py-1.5 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1.5 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/cols shrink-0" title="Karten anpassen & Karte hinzufügen (Reihenfolge, Ein-/Ausblenden, Neue Karte) ⚙️">
             <i data-lucide="sliders" class="w-3.5 h-3.5 text-[#c084fc] group-hover/cols:rotate-90 transition-transform"></i>
-            <span class="text-[10px] sm:text-[11px] hidden lg:inline" data-i18n="board_columns">Spalten</span>
+            <span class="text-[10px] sm:text-[11px] hidden lg:inline" data-i18n="board_columns">Karten</span>
           </button>
 
-          <!-- HOVER DROPDOWN FOR SPALTEN ANPASSEN -->
-          <div id="dropdown-manage-columns" class="hidden absolute left-0 top-[calc(100%+6px)] z-[250] w-[320px] sm:w-[350px] p-3.5 bg-[#12111e]/98 border border-[#c084fc]/35 rounded-2xl shadow-[0_15px_45px_rgba(0,0,0,0.8),0_0_25px_rgba(192,132,252,0.25)] backdrop-blur-2xl text-white space-y-3 animate-fade-in" onclick="event.stopPropagation()">
+          <!-- HOVER DROPDOWN FOR KARTEN ANPASSEN -->
+          <div id="dropdown-manage-columns" class="hidden absolute left-0 top-[calc(100%+6px)] z-[250] w-[320px] sm:w-[350px] p-3.5 bg-[#12101e] border border-[#c084fc]/35 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(192,132,252,0.25)] backdrop-blur-2xl text-white space-y-3 animate-fade-in" onclick="event.stopPropagation()">
             <!-- Dynamisch befüllt via renderColumnsDropdownContent() -->
           </div>
         </div>
@@ -1910,104 +1910,104 @@
       <div class="flex-1 flex items-center justify-center min-w-0 px-2 sm:px-4">
         <div id="board-news-ticker-bar" class="flex items-center justify-center gap-1.5 sm:gap-2 min-w-0 max-w-[340px] sm:max-w-[480px] md:max-w-[620px] relative group select-none" onmouseenter="RadioNewsEngine.pauseTickerOnHover()" onmouseleave="RadioNewsEngine.resumeTickerOnHover()">
           
-          <!-- 1. Headline Text Viewport (Sehr sanft überblendend, zentral zentriert) -->
-          <div id="board-ticker-viewport" class="min-w-0 overflow-hidden relative flex items-center justify-center cursor-pointer flex-1" onclick="RadioNewsEngine.toggleTickerSettingsDropdown(event)" title="Klicken für Nachrichten-Einstellungen">
-            <div id="board-ticker-track" class="inline-flex items-center justify-center whitespace-nowrap will-change-transform text-center max-w-full">
-              <span class="text-cyan-300 font-bold tracking-wide font-display drop-shadow-sm whitespace-nowrap hover:underline">Lädt Live-Nachrichten...</span>
-            </div>
-          </div>
-
-          <!-- 2. Einstellungs-Button (Beim Hover nach der Nachricht sichtbar, sonst keine Buttons) -->
+          <!-- 1. Einstellungs-Button (LINKS vor den Nachrichten) -->
           <div id="ticker-options-wrapper" class="shrink-0 flex items-center max-w-0 group-hover:max-w-[36px] opacity-0 group-hover:opacity-100 overflow-hidden group-hover:overflow-visible transition-all duration-200 relative z-30 select-none">
             <button id="ticker-options-btn" onclick="RadioNewsEngine.toggleTickerSettingsDropdown(event)" class="h-6 w-6 rounded-lg bg-purple-500/25 hover:bg-purple-500/40 border border-purple-400/50 hover:border-purple-300 text-purple-200 hover:text-white transition-all duration-200 cursor-pointer flex items-center justify-center shadow-sm select-none shrink-0 group/opt text-[10px] font-bold" title="Nachrichten-Einstellungen">
               <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5 text-purple-200 group-hover/opt:rotate-90 transition-transform duration-300 shrink-0"></i>
             </button>
 
-            <!-- OPTIONS & FULL DETAILS DROPDOWN POPOVER (Öffnet per Klick) -->
-            <div id="ticker-settings-popover" class="hidden absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 z-[260] w-[380px] sm:w-[460px] md:w-[520px] max-w-[95vw] p-4 sm:p-5 bg-[#0c0d16]/98 border border-purple-500/50 rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.98),0_0_35px_rgba(168,85,247,0.35)] backdrop-blur-2xl text-white space-y-3.5 animate-fade-in cursor-default" onclick="event.stopPropagation()">
+            <!-- OPTIONS & FULL DETAILS DROPDOWN POPOVER (Öffnet LINKS per Klick) -->
+            <div id="ticker-settings-popover" class="hidden absolute top-[calc(100%+8px)] left-0 z-[260] w-[320px] sm:w-[380px] md:w-[420px] max-w-[95vw] p-3 sm:p-3.5 bg-[#0c0d16] border border-purple-500/50 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.98),0_0_35px_rgba(168,85,247,0.35)] backdrop-blur-2xl text-white space-y-2.5 animate-fade-in cursor-default" onclick="event.stopPropagation()">
               
               <!-- Popover Header: Aktuelle Nachricht mit Quelle, Link & Schnell-Aktionen -->
-              <div class="border-b border-white/10 pb-3 px-0.5 space-y-2.5">
+              <div class="border-b border-white/10 pb-2.5 px-0.5 space-y-2">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-xl bg-purple-500/25 border border-purple-500/50 flex items-center justify-center text-purple-300 shadow-sm">
-                      <i data-lucide="newspaper" class="w-4 h-4"></i>
+                    <div class="w-7 h-7 rounded-xl bg-purple-500/25 border border-purple-500/50 flex items-center justify-center text-purple-300 shadow-sm">
+                      <i data-lucide="newspaper" class="w-3.5 h-3.5"></i>
                     </div>
                     <div>
-                      <h4 class="font-bold text-sm font-display text-white">Live-Nachrichten Hub</h4>
-                      <p class="text-[11px] text-gray-300 font-mono" id="ticker-options-subtext">DE · Alle Themen</p>
+                      <h4 class="font-bold text-xs sm:text-sm font-display text-white">Live-Nachrichten Hub</h4>
+                      <p class="text-[10px] text-gray-300 font-mono" id="ticker-options-subtext">DE · Alle Themen</p>
                     </div>
                   </div>
-                  <div class="flex items-center gap-1.5">
-                    <button onclick="RadioNewsEngine.prevTickerHeadline(event)" class="p-1.5 px-2 rounded-xl bg-white/5 hover:bg-white/15 text-gray-200 hover:text-white transition cursor-pointer flex items-center justify-center" title="Vorherige Nachricht">
-                      <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                  <div class="flex items-center gap-1">
+                    <button onclick="RadioNewsEngine.prevTickerHeadline(event)" class="p-1 px-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-gray-200 hover:text-white transition cursor-pointer flex items-center justify-center" title="Vorherige Nachricht">
+                      <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
                     </button>
-                    <button onclick="RadioNewsEngine.nextTickerHeadline(event)" class="p-1.5 px-2 rounded-xl bg-white/5 hover:bg-white/15 text-gray-200 hover:text-white transition cursor-pointer flex items-center justify-center" title="Nächste Nachricht">
-                      <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    <button onclick="RadioNewsEngine.nextTickerHeadline(event)" class="p-1 px-1.5 rounded-lg bg-white/5 hover:bg-white/15 text-gray-200 hover:text-white transition cursor-pointer flex items-center justify-center" title="Nächste Nachricht">
+                      <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
                     </button>
-                    <button id="ticker-tts-btn" onclick="RadioNewsEngine.toggleCurrentTickerTTS(event)" class="p-1.5 px-2.5 rounded-xl bg-purple-500/25 hover:bg-purple-500/40 border border-purple-500/50 text-purple-200 hover:text-white transition cursor-pointer flex items-center gap-1.5 text-xs font-bold" title="Nachricht vorlesen">
-                      <i data-lucide="volume-2" id="ticker-tts-icon" class="w-4 h-4"></i>
-                      <span id="ticker-tts-label" class="hidden sm:inline font-mono">Vorlesen</span>
+                    <button id="ticker-tts-btn" onclick="RadioNewsEngine.toggleCurrentTickerTTS(event)" class="p-1 px-2 rounded-lg bg-purple-500/25 hover:bg-purple-500/40 border border-purple-500/50 text-purple-200 hover:text-white transition cursor-pointer flex items-center gap-1 text-[11px] font-bold" title="Nachricht vorlesen">
+                      <i data-lucide="volume-2" id="ticker-tts-icon" class="w-3.5 h-3.5"></i>
+                      <span id="ticker-tts-label" class="hidden sm:inline font-mono text-[10px]">Vorlesen</span>
                     </button>
-                    <button onclick="RadioNewsEngine.refreshTickerNews(true)" class="p-1.5 px-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white transition cursor-pointer flex items-center justify-center" title="Nachrichten neu laden">
-                      <i data-lucide="rotate-cw" class="w-4 h-4"></i>
+                    <button onclick="RadioNewsEngine.refreshTickerNews(true)" class="p-1 px-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-200 hover:text-white transition cursor-pointer flex items-center justify-center" title="Nachrichten neu laden">
+                      <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
                     </button>
                   </div>
                 </div>
 
                 <!-- Aktuelle Artikel-Vorschau mit Direkt-Link -->
-                <div id="ticker-current-article-box" class="p-2.5 rounded-2xl bg-white/[0.04] border border-white/10 space-y-1.5">
+                <div id="ticker-current-article-box" class="p-2 rounded-xl bg-white/[0.04] border border-white/10 space-y-1">
                   <!-- Dynamisch befüllt durch updateTickerDetailsInPopover() -->
                 </div>
               </div>
 
               <!-- 1. REGION / LAND -->
-              <div class="space-y-1.5">
-                <div class="text-[10px] font-bold text-gray-300 uppercase tracking-wider font-mono">1. Region & Sprache</div>
-                <div id="ticker-settings-region-grid" class="grid grid-cols-5 gap-1.5">
+              <div class="space-y-1">
+                <div class="text-[9px] font-bold text-gray-300 uppercase tracking-wider font-mono">1. Region & Sprache</div>
+                <div id="ticker-settings-region-grid" class="grid grid-cols-4 sm:grid-cols-8 gap-1 text-[10px]">
                   <!-- Dynamisch befüllt durch renderTickerSettingsGrids() -->
                 </div>
               </div>
 
               <!-- 2. KATEGORIE / THEMA -->
-              <div class="space-y-1.5">
-                <div class="text-[10px] font-bold text-gray-300 uppercase tracking-wider font-mono">2. Kategorie / Thema</div>
-                <div id="ticker-settings-category-grid" class="grid grid-cols-4 gap-1.5">
+              <div class="space-y-1">
+                <div class="text-[9px] font-bold text-gray-300 uppercase tracking-wider font-mono">2. Kategorie / Thema</div>
+                <div id="ticker-settings-category-grid" class="grid grid-cols-3 sm:grid-cols-5 gap-1 text-[10px]">
                   <!-- Dynamisch befüllt durch renderTickerSettingsGrids() -->
                 </div>
               </div>
 
               <!-- 3. QUELLEN / MEDIEN AUSWAHL -->
-              <div class="space-y-1.5">
-                <div class="text-[10px] font-bold text-gray-300 uppercase tracking-wider font-mono flex items-center justify-between">
+              <div class="space-y-1">
+                <div class="text-[9px] font-bold text-gray-300 uppercase tracking-wider font-mono flex items-center justify-between">
                   <span>3. Quellen / Medien</span>
-                  <span class="text-[9px] text-purple-300 cursor-pointer hover:underline" onclick="RadioNewsEngine.resetTickerSourcesToDefault()">Alle aktivieren</span>
+                  <span class="text-[8.5px] text-purple-300 cursor-pointer hover:underline" onclick="RadioNewsEngine.resetTickerSourcesToDefault()">Alle aktivieren</span>
                 </div>
-                <div id="ticker-settings-media-grid" class="flex flex-wrap gap-1.5 max-h-[70px] overflow-y-auto pr-0.5 custom-scrollbar">
+                <div id="ticker-settings-media-grid" class="flex flex-wrap gap-1 max-h-[60px] overflow-y-auto pr-0.5 custom-scrollbar text-[10px]">
                   <!-- Dynamisch befüllt durch renderTickerSettingsGrids() -->
                 </div>
               </div>
 
               <!-- 4. TICKER-GESCHWINDIGKEIT & VORLESE-TEMPO -->
-              <div class="pt-1.5 border-t border-white/10 flex flex-col gap-2.5">
+              <div class="pt-1.5 border-t border-white/10 flex flex-col gap-1.5">
                 <div class="flex items-center justify-between">
-                  <span class="text-[11px] text-gray-300 font-mono">Lauf-Geschwindigkeit:</span>
-                  <div class="flex gap-1.5" id="ticker-speed-buttons">
-                    <button onclick="RadioNewsEngine.setTickerSpeed(22)" data-speed="22" class="ticker-speed-btn px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-xs font-mono text-gray-200 cursor-pointer">Etwas zügiger (22s)</button>
-                    <button onclick="RadioNewsEngine.setTickerSpeed(30)" data-speed="30" class="ticker-speed-btn px-2.5 py-1 rounded-lg bg-purple-500/30 border border-purple-500/50 text-xs font-mono font-bold text-purple-200 cursor-pointer">Normal & Gut lesbar (30s)</button>
-                    <button onclick="RadioNewsEngine.setTickerSpeed(42)" data-speed="42" class="ticker-speed-btn px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-xs font-mono text-gray-200 cursor-pointer">Sehr ruhig (42s)</button>
+                  <span class="text-[10px] text-gray-300 font-mono">Lauf-Tempo:</span>
+                  <div class="flex gap-1" id="ticker-speed-buttons">
+                    <button onclick="RadioNewsEngine.setTickerSpeed(22)" data-speed="22" class="ticker-speed-btn px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/15 text-[10px] font-mono text-gray-200 cursor-pointer">Zügig (22s)</button>
+                    <button onclick="RadioNewsEngine.setTickerSpeed(30)" data-speed="30" class="ticker-speed-btn px-2 py-0.5 rounded-lg bg-purple-500/30 border border-purple-500/50 text-[10px] font-mono font-bold text-purple-200 cursor-pointer">Normal (30s)</button>
+                    <button onclick="RadioNewsEngine.setTickerSpeed(42)" data-speed="42" class="ticker-speed-btn px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/15 text-[10px] font-mono text-gray-200 cursor-pointer">Ruhig (42s)</button>
                   </div>
                 </div>
                 <div class="flex items-center justify-between">
-                  <span class="text-[11px] text-gray-300 font-mono">Vorlese-Geschwindigkeit:</span>
-                  <div class="flex gap-1.5" id="ticker-tts-speed-buttons">
-                    <button onclick="RadioNewsEngine.setSpeechRate(0.9)" class="ticker-tts-rate-btn px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-xs font-mono text-gray-200 cursor-pointer">0.9x</button>
-                    <button onclick="RadioNewsEngine.setSpeechRate(1.15)" class="ticker-tts-rate-btn px-2.5 py-1 rounded-lg bg-teal-500/30 border border-teal-500/50 text-xs font-mono font-bold text-teal-200 cursor-pointer">1.1x</button>
-                    <button onclick="RadioNewsEngine.setSpeechRate(1.4)" class="ticker-tts-rate-btn px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-xs font-mono text-gray-200 cursor-pointer">1.4x</button>
+                  <span class="text-[10px] text-gray-300 font-mono">Vorlese-Tempo:</span>
+                  <div class="flex gap-1" id="ticker-tts-speed-buttons">
+                    <button onclick="RadioNewsEngine.setSpeechRate(0.9)" class="ticker-tts-rate-btn px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/15 text-[10px] font-mono text-gray-200 cursor-pointer">0.9x</button>
+                    <button onclick="RadioNewsEngine.setSpeechRate(1.15)" class="ticker-tts-rate-btn px-2 py-0.5 rounded-lg bg-teal-500/30 border border-teal-500/50 text-[10px] font-mono font-bold text-teal-200 cursor-pointer">1.1x</button>
+                    <button onclick="RadioNewsEngine.setSpeechRate(1.4)" class="ticker-tts-rate-btn px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/15 text-[10px] font-mono text-gray-200 cursor-pointer">1.4x</button>
                   </div>
                 </div>
               </div>
 
+            </div>
+          </div>
+
+          <!-- 2. Headline Text Viewport (Sehr sanft überblendend, zentral zentriert) -->
+          <div id="board-ticker-viewport" class="min-w-0 overflow-hidden relative flex items-center justify-center cursor-pointer flex-1" onclick="RadioNewsEngine.toggleTickerSettingsDropdown(event)" title="Klicken für Nachrichten-Einstellungen">
+            <div id="board-ticker-track" class="inline-flex items-center justify-center whitespace-nowrap will-change-transform text-center max-w-full">
+              <span class="text-cyan-300 font-bold tracking-wide font-display drop-shadow-sm whitespace-nowrap hover:underline">Lädt Live-Nachrichten...</span>
             </div>
           </div>
 

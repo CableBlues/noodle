@@ -194,19 +194,37 @@ main article:hover {
 .dock-popover-panel,
 .mobile-modal-card,
 [id$="-modal"] > div,
+[id^="modal-"] > div,
+[id*="modal"] > div,
+#dropdown-manage-columns,
+#modal-manage-columns > div,
+#dropdown-header-workspace,
+#ticker-settings-popover,
 #panel-header-tools,
+#panel-collab-chat,
 #panel-settings-dropdown,
 #panel-pause-dropdown,
 #panel-audio,
+#panel-radio,
+#panel-news,
+#panel-shopping,
+#panel-cooking,
+#panel-alarm,
+#panel-timer-presets,
 #panel-daily,
 #panel-weather,
+#panel-calendar-dropdown,
 #panel-report,
 #panel-feedback,
-#panel-search {
-  background-color: var(--bg-modal) !important;
-  border: 1px solid var(--border-main) !important;
+#panel-search,
+#popover-add-list,
+#column-options-dropdown,
+#custom-options-dropdown {
+  background-color: var(--bg-modal, #12101e) !important;
+  background: #12101e !important;
+  border: 1px solid var(--border-main, rgba(192, 132, 252, 0.3)) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.85), 0 0 20px var(--accent-border) !important;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.95), 0 0 20px var(--accent-border, rgba(192, 132, 252, 0.25)) !important;
   color: var(--text-main) !important;
   backdrop-filter: blur(24px) saturate(160%) !important;
   -webkit-backdrop-filter: blur(24px) saturate(160%) !important;

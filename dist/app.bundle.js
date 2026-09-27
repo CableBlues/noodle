@@ -32354,7 +32354,7 @@ function renderColumnsDropdownContent(dropdown) {
           <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
         </div>
         <div>
-          <h3 class="font-display font-bold text-xs text-white">${tr({ de: 'Spalten & Karten verwalten', en: 'Manage Columns & Cards' })}</h3>
+          <h3 class="font-display font-bold text-xs text-white">${tr({ de: 'Karten verwalten', en: 'Manage Cards', es: 'Gestionar tarjetas', fr: 'Gérer les cartes', it: 'Gestisci schede', el: 'Διαχείριση καρτών' })}</h3>
           <p class="text-[10px] text-gray-400">${wsName}</p>
         </div>
       </div>
@@ -32423,7 +32423,7 @@ function renderColumnsDropdownContent(dropdown) {
     <!-- FOOTER ACTIONS -->
     <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
       <div class="flex items-center gap-1.5">
-        <button onclick="resetColumnsToDefault()" class="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-medium text-gray-300 hover:text-white transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Standard-Spalten wiederherstellen', en: 'Restore default columns' })}">
+        <button onclick="resetColumnsToDefault()" class="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-medium text-gray-300 hover:text-white transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Standard-Karten wiederherstellen', en: 'Restore default cards', es: 'Restaurar tarjetas predeterminadas', fr: 'Restaurer les cartes par défaut', it: 'Ripristina schede predefinite', el: 'Επαναφορά προεπιλεγμένων καρτών' })}">
           <i data-lucide="rotate-ccw" class="w-3 h-3 text-amber-400"></i>
           <span>${tr({ de: 'Standard', en: 'Default' })}</span>
         </button>
@@ -32569,7 +32569,7 @@ function openColumnsManagerModal() {
             <i data-lucide="sliders" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="font-display font-black text-sm text-white">${tr({ de: 'Karten verwalten & Karte hinzufügen', en: 'Manage Columns & Add Card' })}</h3>
+            <h3 class="font-display font-black text-sm text-white">${tr({ de: 'Karten verwalten & Karte hinzufügen', en: 'Manage Cards & Add Card', es: 'Gestionar tarjetas y añadir tarjeta', fr: 'Gérer les cartes et ajouter une carte', it: 'Gestisci schede e aggiungi scheda', el: 'Διαχείριση καρτών & προσθήκη κάρτας' })}</h3>
             <p class="text-[11px] text-gray-400">${wsName}</p>
           </div>
         </div>
@@ -32712,7 +32712,7 @@ function toggleColumnVisibility(colId) {
   if (modal && !modal.classList.contains('hidden')) {
     openColumnsManagerModal();
   }
-  showToast(tr({ de: 'Spalten-Ansicht aktualisiert ✨', en: 'Columns updated ✨' }), { undo: true });
+  showToast(tr({ de: 'Karten-Ansicht aktualisiert ✨', en: 'Cards view updated ✨', es: 'Vista de tarjetas actualizada ✨', fr: 'Vue des cartes mise à jour ✨', it: 'Vista schede aggiornata ✨', el: 'Η προβολή καρτών ενημερώθηκε ✨' }), { undo: true });
 }
 
 function resetColumnsToDefault() {
@@ -32766,7 +32766,7 @@ function resetColumnsToDefault() {
   if (modal && !modal.classList.contains('hidden')) {
     openColumnsManagerModal();
   }
-  showToast(tr({ de: 'Standard-Spalten wiederhergestellt 🔄', en: 'Default columns restored 🔄' }), { undo: true });
+  showToast(tr({ de: 'Standard-Karten wiederhergestellt 🔄', en: 'Default cards restored 🔄', es: 'Tarjetas predeterminadas restauradas 🔄', fr: 'Cartes par défaut restaurées 🔄', it: 'Schede predefinite ripristinate 🔄', el: 'Προεπιλεγμένες κάρτες αποκαταστάθηκαν 🔄' }), { undo: true });
 }
 
 if (typeof document !== 'undefined') {
@@ -33023,7 +33023,7 @@ function renderApp() {
             targetList.splice(targetIdx, 0, removed);
             saveCategoriesOrder();
             renderApp();
-            showToast(tr({ de: 'Spalten-Reihenfolge aktualisiert ↕️', en: 'Column order updated ↕️', es: 'Orden de columnas actualizado ↕️', el: 'Η σειρά στηλών ενημερώθηκε ↕️', fr: 'Ordre des colonnes mis à jour ↕️', it: 'Ordine delle colonne aggiornato ↕️' }));
+            showToast(tr({ de: 'Karten-Reihenfolge aktualisiert ↕️', en: 'Card order updated ↕️', es: 'Orden de tarjetas actualizado ↕️', el: 'Η σειρά καρτών ενημερώθηκε ↕️', fr: 'Ordre des cartes mis à jour ↕️', it: 'Ordine delle schede aggiornato ↕️' }));
           }
         }
         draggedColumnId = null;
