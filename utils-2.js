@@ -369,7 +369,7 @@ function updateDateAndStreak() {
     const dayMonthLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
     const displayEl = document.getElementById('date-display');
     if (displayEl) {
-      displayEl.innerHTML = `<span class="text-purple-300 font-bold text-xs md:text-sm tracking-normal"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="text-gray-100 font-bold text-xs md:text-sm tracking-normal"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
+      displayEl.innerHTML = `<span class="text-purple-300 font-bold text-xs md:text-sm tracking-normal"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="text-purple-300 font-bold text-xs md:text-sm tracking-normal"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
     }
   } catch (e) {
     const displayEl = document.getElementById('date-display');
@@ -496,7 +496,7 @@ let eyeRestRunning = false;
 let dopamineDetoxInterval = null;
 let dopamineDetoxSeconds = 60;
 
-function openBreakModal(type, pattern) {
+window.openBreakModal = function(type, pattern) {
   if (type === 'stretch') {
     if (typeof openSportModal === 'function') {
       openSportModal();
@@ -518,8 +518,7 @@ function openBreakModal(type, pattern) {
   } else {
     switchSafeSpaceTab('breath');
   }
-}
-window.openBreakModal = openBreakModal;
+};
 
 function openSafeSpaceModal() {
   const modal = document.getElementById('helper-safespace-modal');

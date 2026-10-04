@@ -1,69 +1,4 @@
 
-const _taskIconCache = new Map();
-
-function getTaskIconDetails(taskText, category = '') {
-  if (typeof window !== 'undefined' && typeof window.getTaskIconDetails === 'function' && window.getTaskIconDetails !== getTaskIconDetails) {
-    return window.getTaskIconDetails(taskText, category);
-  }
-  if (!taskText) return { icon: 'check-circle', color: 'text-[#00f2ff]' };
-  
-  const cacheKey = category + ':::' + taskText;
-  if (_taskIconCache.has(cacheKey)) {
-    return _taskIconCache.get(cacheKey);
-  }
-
-  const rawTrimmed = String(taskText).trim();
-  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-
-  const rules = [
-    { rx: /medi|pill|tablett|vitam|pharm|arzt|doctor|therap|apothek|klinik|krank|gesund|comprim|docteur|medecin|sante|pastill|farmac|salud|pastigl|pillol|dottore|salute|φαρμακ|χαπι|γιατρ|υγει/, ic: 'pill', col: 'text-[#f472b6]' },
-    { rx: /zahn|zahne|brush|teeth|tooth|dent|gesicht|face|mouth|bross|visage|dient|cepill|cara|spazzol|viso|faccia|δοντ|βουρτσ|προσωπ/, ic: 'smile', col: 'text-[#89cff0]' },
-    { rx: /dusch|shower|bath|bad|waschbecken|sink|wash|douch|bain|lavab|duch|ban|docc|bagn|lavand|ντους|μπανι/, ic: 'bath', col: 'text-[#60a5fa]' },
-    { rx: /koch|cook|food|essen|rezept|meal|dinner|lunch|breakfast|fruhstuck|herd|oven|fridge|kuehl|kuhl|geschirr|spul|dish|abwasch|plate|bread|egg|coffee|brot|eier|kaffee|cuisin|manger|repas|diner|dejeuner|four|frigo|vaissell|pain|oeuf|cafe|cocin|comer|comida|cena|almuerz|desayun|horno|never|plato|vajill|pan|huevo|caffe|cucin|mangia|pasto|colazion|piatt|stovigl|pane|uov|μαγειρ|φαγητ|γευμ|δειπν|πρωιν|πιατ|ψωμ|καφε/, ic: 'cooking-pot', col: 'text-[#fb923c]' },
-    { rx: /saugen|vacu|staubsaug|aspir/, ic: 'tornado', col: 'text-[#f472b6]' },
-    { rx: /wisch|mop|clean|putz|klo|toilet|wc|sweep|wipe|reinigen|nettoy|menag|propr|limpi|freg|aseo|puliz|pulir|σκουπ|καθαρισ|τουαλετ/, ic: 'sparkles', col: 'text-[#f472b6]' },
-    { rx: /wasche|wasch|laundry|aufhang|clothes|shirt|cloth|iron|hang|buegeln|kleidung|waesche|lessiv|ling|repass|vetement|colad|rop|planch|bucat|panni|vestit|stirar|μπουγαδ|πλυντ|ρουχ/, ic: 'shirt', col: 'text-[#a78bfa]' },
-    { rx: /mull|trash|pfand|bottle|recycle|abfall|entsorg|garbage|waste|bin|poub|dechet|bouteill|basur|desech|botell|recicl|spazzatur|rifiut|bottigl|ricicl|σκουπιδ|απορριμ|μπουκαλ|ανακυκλ/, ic: 'trash-2', col: 'text-[#f472b6]' },
-    { rx: /bett|bed|schlaf|sleep|bettwasche|drap|sheet|mattress|lit|dormir|sommeil|cam|saban|suen|lett|lenzuol|sonno|κρεβατ|σεντον|υπν/, ic: 'bed', col: 'text-[#fbbf24]' },
-    { rx: /luft|wind|luften|breath|ventil|plant|pflanz|bloom|garten/, ic: 'wind', col: 'text-[#2dd4bf]' },
-    { rx: /arbeit|work|job|code|programm|dev|stud|uni|lernen|learn|book|buch|les|klausur|exam|modul|project|task|write|schreib|boulot|etud|universit|apprendr|livr|lir|examen|projet|ecrir|trabaj|empleo|codig|estudi|universid|aprend|libr|leer|proyect|escrib|lavor|impieg|codic|impar|legg|esame|progett|scriv|εργασι|δουλει|κωδικ|σπουδ|μαθ|βιβλι|διαβασ|εξετασ|γραφ/, ic: 'briefcase', col: 'text-[#c084fc]' },
-    { rx: /sport|gym|fit|train|workout|run|laufen|walk|gehen|jogging|dehn|stretch|beweg|yoga|schwimm|exercise|jog|move|swim|entrain|courir|march|etir|nag|deport|gimnas|entren|corr|camin|estir|nad|palestr|allen|cammin|nuot|σπορ|γυμναστ|προπον|τρεξ|περπατ|γιoγκ|κολυμβ/, ic: 'activity', col: 'text-[#4ade80]' },
-    { rx: /einkauf|shop|buy|kauf|supermarkt|grocery|store|market|markt|cours|achet|supermarch|magasin|compr|supermercad|tiend|mercad|spes|acquist|supermercat|negozi|ψωνι|αγορ|σουπερμαρκετ|μαγαζ/, ic: 'shopping-cart', col: 'text-[#fb923c]' },
-    { rx: /haar|hair|nagel|nail|scissors|cheveux|pelo|capell|μαλλι/, ic: 'scissors', col: 'text-[#f472b6]' },
-    { rx: /trink|wasser|water|hydrat|drink|boire|eau|beber|agua|bere|acqua|νερο|πιν/, ic: 'glass-water', col: 'text-[#89cff0]' }
-  ];
-
-  for (const r of rules) {
-    if (r.rx.test(norm)) {
-      const res = { icon: r.ic, color: r.col };
-      if (_taskIconCache.size > 2500) _taskIconCache.clear();
-      _taskIconCache.set(cacheKey, res);
-      return res;
-    }
-  }
-
-  const defaults = {
-    daily: { icon: 'sun', color: 'text-[#ffb703]' },
-    weekly: { icon: 'home', color: 'text-[#ff00aa]' },
-    todo: { icon: 'list-todo', color: 'text-[#89cff0]' },
-    done: { icon: 'check-circle', color: 'text-[#00ff66]' },
-    termine: { icon: 'calendar', color: 'text-[#00f2ff]' },
-    occasionally: { icon: 'calendar-range', color: 'text-[#2dd4bf]' },
-    notes: { icon: 'sticky-note', color: 'text-[#c084fc]' },
-    work_focus: { icon: 'target', color: 'text-[#ff7a00]' },
-    work_in_progress: { icon: 'zap', color: 'text-[#00f2ff]' },
-    work_waiting: { icon: 'hourglass', color: 'text-[#c084fc]' },
-    work_backlog: { icon: 'folder-kanban', color: 'text-[#89cff0]' },
-    study_focus: { icon: 'target', color: 'text-[#ffb703]' },
-    study_modules: { icon: 'book-open', color: 'text-[#89cff0]' },
-    study_submissions: { icon: 'clock', color: 'text-[#ff3366]' },
-    study_deep: { icon: 'brain', color: 'text-[#c084fc]' }
-  };
-  const res = defaults[category] || { icon: 'check-circle', color: 'text-[#00f2ff]' };
-  if (_taskIconCache.size > 2500) _taskIconCache.clear();
-  _taskIconCache.set(cacheKey, res);
-  return res;
-}
 /**
  * ============================================================================
  * Noodle - Aufgaben- & Board-Management (app-tasks.js)
@@ -91,7 +26,7 @@ if (typeof globalThis !== 'undefined' && !globalThis.openTaskAddColumns) {
 /**
  * Plant das automatische Schließen des Aufgaben-Kontextmenüs nach einer kurzen Verzögerung.
  */
-function scheduleCloseTaskMenu(delay = 180) {
+function scheduleCloseTaskMenu(delay = 240) {
   if (taskMenuCloseTimer) clearTimeout(taskMenuCloseTimer);
   taskMenuCloseTimer = setTimeout(() => {
     closeTaskOptionsMenu();
@@ -112,16 +47,22 @@ function toggleTaskOptionsMenu(colId, index, event) {
   }
   const existing = document.getElementById('task-context-dropdown');
   if (openTaskMenuMeta && openTaskMenuMeta.colId === colId && openTaskMenuMeta.index === index && existing && !existing.classList.contains('hidden')) {
-    closeTaskOptionsMenu();
+    closeTaskOptionsMenu(true);
     return;
   }
   openTaskOptionsMenu(colId, index, event ? event.currentTarget : null);
 }
 
-function closeTaskOptionsMenu() {
+function closeTaskOptionsMenu(force = false) {
   cancelCloseTaskMenu();
   const el = document.getElementById('task-context-dropdown');
-  if (el) el.classList.add('hidden'); syncHeaderToolsMenuState();
+  if (!force && el) {
+    try {
+      if (el.matches(':hover')) return;
+    } catch (e) {}
+  }
+  if (el) el.classList.add('hidden');
+  syncHeaderToolsMenuState();
   openTaskMenuMeta = null;
 }
 
@@ -329,26 +270,7 @@ function setTaskColor(columnId, index, color, e) {
   renderApp();
 }
 
-function saveCategoriesOrder() {
-  try {
-    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
-    if (ws === 'study') {
-      if (typeof studyCategoriesOrder !== 'undefined' && Array.isArray(studyCategoriesOrder)) {
-        localStorage.setItem('flow_study_categories_order', JSON.stringify(studyCategoriesOrder));
-      }
-    } else if (ws === 'work') {
-      if (typeof workCategoriesOrder !== 'undefined' && Array.isArray(workCategoriesOrder)) {
-        localStorage.setItem('flow_work_categories_order', JSON.stringify(workCategoriesOrder));
-      }
-    } else {
-      if (typeof categoriesOrder !== 'undefined' && Array.isArray(categoriesOrder)) {
-        localStorage.setItem('flow_categories_order', JSON.stringify(categoriesOrder));
-      }
-    }
-  } catch (err) {
-    console.warn('[Categories] Error saving categories order:', err);
-  }
-}
+// saveCategoriesOrder handled by state.js
 
 function getActiveCategoriesOrder() {
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
@@ -444,16 +366,21 @@ function cancelCloseColumnOptionsMenu() {
   }
 }
 
-function scheduleCloseColumnOptionsMenu(delay = 220) {
+function scheduleCloseColumnOptionsMenu(delay = 250) {
   cancelCloseColumnOptionsMenu();
   columnMenuCloseTimer = setTimeout(() => {
     closeColumnOptionsMenu();
   }, delay);
 }
 
-function closeColumnOptionsMenu() {
+function closeColumnOptionsMenu(force = false) {
   cancelCloseColumnOptionsMenu();
   const existing = document.getElementById('column-options-dropdown');
+  if (!force && existing) {
+    try {
+      if (existing.matches(':hover')) return;
+    } catch (e) {}
+  }
   if (existing) existing.remove();
   openColumnOptionsMenuId = null;
 }
@@ -772,6 +699,11 @@ function toggleColumnsDropdown(e) {
 
 function closeColumnsDropdown() {
   const dropdown = document.getElementById('dropdown-manage-columns');
+  const btn = document.getElementById('btn-board-columns');
+  try {
+    if (dropdown && dropdown.matches(':hover')) return;
+    if (btn && btn.matches(':hover')) return;
+  } catch (e) {}
   if (dropdown) dropdown.classList.add('hidden');
 }
 
@@ -1848,9 +1780,10 @@ function renderApp() {
           ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30 shrink-0 ml-auto mr-1">🔁 ${t('recurrence_' + taskObj.recurrence) || taskObj.recurrence}</span>`
           : '';
         const editTooltip = tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' });
+        const completeTooltip = tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' });
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none">
-            <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${tr({ de: 'Als erledigt markieren', en: 'Mark as completed', fr: 'Marquer comme terminé', it: 'Segna come completato', es: 'Marcar como completada', el: 'Σήμανση ως ολοκληρωμένο' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Als erledigt markieren', en: 'Mark as completed', fr: 'Marquer comme terminé', it: 'Segna come completato', es: 'Marcar como completada', el: 'Σήμανση ως ολοκληρωμένο' })}">
+            <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
               <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-[#00ff66] hover:bg-[#00ff66]/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400 animate-pulse' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
                 ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-[#00ff66] opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
@@ -2281,6 +2214,12 @@ function rebindListDragHandlers(colId) {
     const checkBtn = itemDiv.querySelector('.task-check-btn');
     if (checkBtn) {
       checkBtn.onclick = (e) => handleCompleteTask(colId, idx, e);
+      const completeTooltip = (typeof tr === 'function')
+        ? tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' })
+        : 'Klicke zum Erledigt-Markieren ✔️';
+      checkBtn.setAttribute('data-noodle-tooltip', completeTooltip);
+      checkBtn.setAttribute('aria-label', completeTooltip);
+      checkBtn.setAttribute('title', completeTooltip);
     }
     const optBtn = itemDiv.querySelector('button[onclick*="toggleTaskOptionsMenu"]');
     if (optBtn) {
@@ -2410,28 +2349,7 @@ var pinnedPanel = (typeof window !== 'undefined' && window.pinnedPanel) ? window
 let hoverPanelShowTimeout = null;
 let hoverPanelHideTimeout = null;
 
-function syncHeaderToolsMenuState() {
-  const toolsBtn = document.getElementById('btn-header-tools');
-  const toolsWrapper = document.getElementById('header-tools-wrapper');
-  
-  const TOOL_PANEL_IDS = [
-    'panel-header-tools', 'panel-collab-chat', 'panel-radio', 'panel-news',
-    'panel-audio', 'panel-alarm', 'panel-daily', 'panel-inspiration',
-    'panel-impulse', 'panel-shopping', 'panel-cooking', 'panel-fitness',
-    'panel-cleaning-guide', 'panel-learning-hub', 'panel-clarity'
-  ];
-  
-  const isAnyToolOpen = TOOL_PANEL_IDS.some(id => {
-    const el = document.getElementById(id);
-    return el && !el.classList.contains('hidden');
-  });
-
-  if (toolsBtn) toolsBtn.classList.toggle('is-menu-open', !!isAnyToolOpen);
-  if (toolsWrapper) toolsWrapper.classList.toggle('is-menu-open', !!isAnyToolOpen);
-  if (typeof document !== 'undefined' && document.body) {
-    document.body.classList.toggle('has-tool-panel-open', !!isAnyToolOpen);
-  }
-}
+// syncHeaderToolsMenuState handled by app-reports.js
 
 function showPanelHover(panelName, delay = 0) {
   if (hoverPanelHideTimeout) {
@@ -2443,7 +2361,7 @@ function showPanelHover(panelName, delay = 0) {
     hoverPanelShowTimeout = null;
   }
 
-  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat'];
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'health', 'humor-lab'];
   // Wenn ein anderes Panel fest angeklickt (gepinnt) ist, nicht durch reines Drüberfahren schließen
   if (pinnedPanel && pinnedPanel !== panelName) {
     if (!(pinnedPanel === 'header-tools' && TOOL_SUBPANELS.includes(panelName))) {
@@ -2472,7 +2390,7 @@ function showPanelHover(panelName, delay = 0) {
       'header-tools', 'feedback', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language',
       'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse',
       'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'timer-presets',
-      'audio', 'daily', 'logo-guide', 'collab-chat', 'radio-news'
+      'audio', 'daily', 'logo-guide', 'collab-chat', 'radio-news', 'health', 'humor-lab'
     ];
     const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
 
@@ -2496,7 +2414,7 @@ function showPanelHover(panelName, delay = 0) {
     if (typeof window !== 'undefined') window.currentlyOpenPanel = panelName;
 
     const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
-    if (dockContainer && ['audio', 'daily', 'alarm', 'radio-news', 'shopping', 'cooking', 'radio', 'news'].includes(panelName)) {
+    if (dockContainer && ['audio', 'daily', 'alarm', 'radio-news', 'shopping', 'cooking', 'radio', 'news', 'health', 'humor-lab'].includes(panelName)) {
       dockContainer.classList.add('is-active');
     }
 
@@ -2535,6 +2453,15 @@ function showPanelHover(panelName, delay = 0) {
       if (typeof CollabEngine.renderChatMessages === 'function') CollabEngine.renderChatMessages();
       if (typeof CollabEngine.renderPresenceUI === 'function') CollabEngine.renderPresenceUI();
     }
+    if (panelName === 'timer-presets' && typeof renderTimerCockpitContent === 'function') {
+      renderTimerCockpitContent();
+    }
+    if (panelName === 'health' && typeof HealthEngine !== 'undefined') {
+      if (typeof HealthEngine.renderPanel === 'function') HealthEngine.renderPanel();
+    }
+    if (panelName === 'humor-lab' && typeof HumorEngine !== 'undefined') {
+      if (typeof HumorEngine.renderHumorPanel === 'function') HumorEngine.renderHumorPanel();
+    }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
   if (delay <= 0) {
@@ -2545,7 +2472,7 @@ function showPanelHover(panelName, delay = 0) {
 }
 window.showPanelHover = showPanelHover;
 
-function hidePanelHover(panelName, gracePeriod = 220) {
+function hidePanelHover(panelName, gracePeriod = 260) {
   if (hoverPanelShowTimeout) {
     clearTimeout(hoverPanelShowTimeout);
     hoverPanelShowTimeout = null;
@@ -2560,6 +2487,13 @@ function hidePanelHover(panelName, gracePeriod = 220) {
   hoverPanelHideTimeout = setTimeout(() => {
     if (pinnedPanel && pinnedPanel === panelName) return;
 
+    const el = document.getElementById(`panel-${panelName}`);
+    if (el) {
+      try {
+        if (el.matches(':hover')) return;
+      } catch (e) {}
+    }
+
     if (panelName === 'header-tools') {
       const toolsWrapper = document.getElementById('header-tools-wrapper');
       const toolsPanel = document.getElementById('panel-header-tools');
@@ -2569,7 +2503,6 @@ function hidePanelHover(panelName, gracePeriod = 220) {
       } catch (e) {}
     }
 
-    const el = document.getElementById(`panel-${panelName}`);
     if (el) {
       el.classList.add('hidden');
     }
@@ -3459,6 +3392,7 @@ if (typeof document !== 'undefined') {
   }
 }
 
+
 if (typeof window !== 'undefined') {
   window.renderApp = renderApp;
   window.getCurrentWorkspaceItems = getCurrentWorkspaceItems;
@@ -3498,6 +3432,10 @@ if (typeof window !== 'undefined') {
   window.closeColumnOptionsMenu = closeColumnOptionsMenu;
   window.cancelCloseColumnOptionsMenu = cancelCloseColumnOptionsMenu;
   window.scheduleCloseColumnOptionsMenu = scheduleCloseColumnOptionsMenu;
+function stopTaskSpotlight() {}
+function triggerRandomTaskSpotlight() {}
+function initTaskSpotlightEngine() {}
+
   window.clearColumnTasks = clearColumnTasks;
   window.clearCompletedInColumn = clearCompletedInColumn;
   window.archiveColumnTasks = archiveColumnTasks;
@@ -3512,7 +3450,11 @@ if (typeof window !== 'undefined') {
   window.closeColumnsManagerModal = closeColumnsManagerModal;
   window.toggleColumnVisibility = toggleColumnVisibility;
   window.resetColumnsToDefault = resetColumnsToDefault;
+  window.stopTaskSpotlight = stopTaskSpotlight;
+  window.triggerRandomTaskSpotlight = triggerRandomTaskSpotlight;
+  window.initTaskSpotlightEngine = initTaskSpotlightEngine;
 }
+
 if (typeof globalThis !== 'undefined') {
   globalThis.renderApp = renderApp;
   globalThis.getCurrentWorkspaceItems = getCurrentWorkspaceItems;
@@ -3567,5 +3509,9 @@ if (typeof globalThis !== 'undefined') {
   globalThis.closeColumnsManagerModal = closeColumnsManagerModal;
   globalThis.toggleColumnVisibility = toggleColumnVisibility;
   globalThis.resetColumnsToDefault = resetColumnsToDefault;
+  globalThis.stopTaskSpotlight = stopTaskSpotlight;
+  globalThis.triggerRandomTaskSpotlight = triggerRandomTaskSpotlight;
+  globalThis.initTaskSpotlightEngine = initTaskSpotlightEngine;
 }
+
  

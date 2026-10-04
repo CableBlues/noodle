@@ -1,4 +1,4 @@
-const CACHE_NAME = 'noodle-cache-v265';
+const CACHE_NAME = 'noodle-cache-v270';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

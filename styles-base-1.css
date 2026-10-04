@@ -217,6 +217,12 @@ main article:hover {
 #panel-report,
 #panel-feedback,
 #panel-search,
+#panel-health,
+#panel-regulation,
+#panel-clarity,
+#panel-sport,
+#panel-learning-hub,
+#panel-cleaning-guide,
 #popover-add-list,
 #column-options-dropdown,
 #custom-options-dropdown {
@@ -231,8 +237,8 @@ main article:hover {
 }
 
 #timer-display {
-  color: var(--accent) !important;
-  text-shadow: 0 0 8px var(--accent-glow);
+  color: #89cff0 !important;
+  text-shadow: 0 0 10px rgba(137, 207, 240, 0.45) !important;
 }
 #timer-container {
   border-color: var(--accent-border) !important;
@@ -243,8 +249,8 @@ main article:hover {
   box-shadow: 0 0 16px var(--accent-border) !important;
 }
 #timer-progress-bar {
-  background-color: var(--accent) !important;
-  box-shadow: 0 0 6px var(--accent-glow);
+  background-color: #89cff0 !important;
+  box-shadow: 0 0 8px rgba(137, 207, 240, 0.5) !important;
 }
 
 main article h2 {

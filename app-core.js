@@ -113,27 +113,43 @@ function switchImpulseTab(tabName) {
 }
 window.switchImpulseTab = switchImpulseTab;
 
-function handleSoundsMainClick() { togglePanel('audio'); switchAudioTab('ambient'); }
-function handleMusicMainClick() { togglePanel('audio'); switchAudioTab('music'); }
+function handleSoundsMainClick() { openAudioStudioMode('ambient'); }
+function handleMusicMainClick() { openAudioStudioMode('music'); }
+
+function openAudioStudioMode(mode) {
+  if (typeof togglePanel !== 'function') return;
+  const panel = document.getElementById('panel-audio');
+  const isHidden = !panel || panel.classList.contains('hidden');
+  const currentTab = (typeof window !== 'undefined' && window._lastActiveAudioTab) ? window._lastActiveAudioTab : 'ambient';
+
+  if (isHidden) {
+    togglePanel('audio');
+    if (typeof switchAudioTab === 'function') switchAudioTab(mode);
+  } else {
+    if (currentTab === mode) {
+      togglePanel('audio');
+    } else {
+      if (typeof switchAudioTab === 'function') switchAudioTab(mode);
+    }
+  }
+}
+window.openAudioStudioMode = openAudioStudioMode;
 
 function switchAudioTab(tabName) {
+  if (tabName === 'beats') tabName = 'ambient';
   if (typeof window !== 'undefined') window._lastActiveAudioTab = tabName;
   const tabConfigs = {
     ambient: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition font-medium'
-    },
-    beats: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-purple-100 bg-gradient-to-r from-purple-600/40 via-violet-600/35 to-purple-600/40 border border-purple-400/80 shadow-[0_0_15px_rgba(168,85,247,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-purple-300 hover:bg-purple-500/10 border border-transparent transition font-medium'
+      activeClass: 'flex-1 py-1.5 px-1 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] font-bold',
+      inactiveClass: 'flex-1 py-1.5 px-1 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition font-medium'
     },
     music: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-cyan-100 bg-gradient-to-r from-cyan-600/40 via-sky-600/35 to-cyan-600/40 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 border border-transparent transition font-medium'
+      activeClass: 'flex-1 py-1.5 px-1 rounded-xl text-cyan-100 bg-gradient-to-r from-cyan-600/40 via-sky-600/35 to-cyan-600/40 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] font-bold',
+      inactiveClass: 'flex-1 py-1.5 px-1 rounded-xl text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 border border-transparent transition font-medium'
     },
     dj: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-amber-100 bg-gradient-to-r from-amber-600/40 via-orange-600/35 to-amber-600/40 border border-amber-400/80 shadow-[0_0_15px_rgba(245,158,11,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent transition font-medium'
+      activeClass: 'flex-1 py-1.5 px-1 rounded-xl text-amber-100 bg-gradient-to-r from-amber-600/40 via-orange-600/35 to-amber-600/40 border border-amber-400/80 shadow-[0_0_15px_rgba(245,158,11,0.35)] font-bold',
+      inactiveClass: 'flex-1 py-1.5 px-1 rounded-xl text-gray-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent transition font-medium'
     }
   };
 
@@ -168,6 +184,7 @@ function switchAudioTab(tabName) {
       rightMasterFader.classList.toggle('hidden', tabName === 'dj');
     }
   }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 
   if (tabName === 'music' && typeof renderMusicPlaylist === 'function') {
     renderMusicPlaylist();
@@ -550,352 +567,7 @@ function triggerSparkleEffect(x, y) {
 }
 window.triggerSparkleEffect = triggerSparkleEffect;
 
-// COMMAND PALETTE (STRG+K / CMD+K) CONTROLLER
-let commandPaletteActiveIndex = 0;
-let commandPaletteItems = [];
-
-function openCommandPalette() {
-  const modal = document.getElementById('modal-command-palette');
-  const input = document.getElementById('cmd-palette-input');
-  if (!modal || !input) return;
-  modal.classList.remove('hidden');
-  input.value = '';
-  commandPaletteActiveIndex = 0;
-  filterCommandPalette('');
-  setTimeout(() => input.focus(), 30);
-  if (typeof renderLucideIcons === 'function') renderLucideIcons();
-}
-
-function closeCommandPalette() {
-  const modal = document.getElementById('modal-command-palette');
-  if (modal) modal.classList.add('hidden');
-}
-
-function getAvailableCommands() {
-  return [
-    {
-      id: 'timer_25',
-      title: tr({
-        de: '⏱️ Fokus-Timer: 25 Minuten starten',
-        en: '⏱️ Focus Timer: Start 25 minutes',
-        fr: '⏱️ Minuteur Focus : Démarrer 25 minutes',
-        it: '⏱️ Timer Focus: Avvia 25 minuti',
-        es: '⏱️ Temporizador Focus: Iniciar 25 minutos',
-        el: '⏱️ Χρονόμετρο Εστίασης: Έναρξη 25 λεπτά'
-      }),
-      action: () => { if (typeof setTimerMinutes === 'function') setTimerMinutes(25); if (typeof startTimer === 'function') startTimer(); }
-    },
-    {
-      id: 'timer_15',
-      title: tr({
-        de: '⏱️ Fokus-Timer: 15 Minuten Kurz-Sprint',
-        en: '⏱️ Focus Timer: 15-minute quick sprint',
-        fr: '⏱️ Minuteur Focus : Sprint rapide de 15 minutes',
-        it: '⏱️ Timer Focus: Sprint rapido di 15 minuti',
-        es: '⏱️ Temporizador Focus: Sprint rápido de 15 minutos',
-        el: '⏱️ Χρονόμετρο Εστίασης: Γρήγορο σπριντ 15 λεπτών'
-      }),
-      action: () => { if (typeof setTimerMinutes === 'function') setTimerMinutes(15); if (typeof startTimer === 'function') startTimer(); }
-    },
-    {
-      id: 'whatnow',
-      title: tr({
-        de: '💡 Was nun? – Nächste beste Aufgabe wählen',
-        en: '💡 What now? – Pick next best task',
-        fr: '💡 Et maintenant ? – Choisir la meilleure tâche',
-        it: '💡 E adesso? – Scegli la migliore attività',
-        es: '💡 ¿Y ahora qué? – Elegir la mejor tarea',
-        el: '💡 Τι να κάνω; – Επιλογή επόμενης εργασίας'
-      }),
-      action: () => { if (typeof openHelperModal === 'function') openHelperModal('pick'); }
-    },
-    {
-      id: 'brainstorm',
-      title: tr({
-        de: '🧠 Brainstorming Studio – Ideen & Gedanken erfassen',
-        en: '🧠 Brainstorming Studio – Capture ideas & thoughts',
-        fr: '🧠 Brainstorming Studio – Capturer des idées et pensées',
-        it: '🧠 Brainstorming Studio – Cattura idee e pensieri',
-        es: '🧠 Brainstorming Studio – Capturar ideas y pensamientos',
-        el: '🧠 Brainstorming Studio – Καταγραφή ιδεών και σκέψεων'
-      }),
-      action: () => { if (typeof openBrainstormModal === 'function') openBrainstormModal(); }
-    },
-    {
-      id: 'zen',
-      title: tr({
-        de: '👁️ Fokus-Modus (Zen) an / aus',
-        en: '👁️ Focus Mode (Zen) on / off',
-        fr: '👁️ Mode Focus (Zen) activer / désactiver',
-        it: '👁️ Modalità Focus (Zen) attiva / disattiva',
-        es: '👁️ Modo Focus (Zen) activar / desactivar',
-        el: '👁️ Λειτουργία Εστίασης (Zen) ενεργοποίηση'
-      }),
-      action: () => { if (typeof toggleMinimalist === 'function') toggleMinimalist(); }
-    },
-    {
-      id: 'pause_breath',
-      title: tr({
-        de: '🧘 4-4-4 Atem-Fokus (Nervensystem beruhigen)',
-        en: '🧘 4-4-4 Box Breathing (Calm nervous system)',
-        fr: '🧘 Respiration 4-4-4 (Calmer le système nerveux)',
-        it: '🧘 Respirazione 4-4-4 (Calma il sistema nervoso)',
-        es: '🧘 Respiración 4-4-4 (Calmar sistema nervioso)',
-        el: '🧘 Αναπνοή 4-4-4 (Ηρεμία νευρικού συστήματος)'
-      }),
-      action: () => { if (typeof openBreakModal === 'function') openBreakModal('breath'); }
-    },
-    {
-      id: 'regulation',
-      title: tr({
-        de: '🌿 Innere Ruhe & Somatische Regulation (Nervensystem beruhigen)',
-        en: '🌿 Inner Peace & Somatic Regulation (Calm nervous system)',
-        fr: '🌿 Paix Intérieure & Régulation Somatique',
-        it: '🌿 Pace Interiore & Regolazione Somatica',
-        es: '🌿 Paz Interior & Regulación Somática',
-        el: '🌿 Εσωτερική Γαλήνη & Σωματική Ρύθμιση'
-      }),
-      action: () => { if (typeof openRegulationModal === 'function') openRegulationModal('reset'); }
-    },
-    {
-      id: 'dashboard',
-      title: tr({
-        de: '📊 Produktivitäts- & Analyse-Dashboard',
-        en: '📊 Productivity & Analytics Dashboard',
-        fr: '📊 Tableau de bord Productivité & Analyse',
-        it: '📊 Dashboard Produttività & Analisi',
-        es: '📊 Panel de Productividad y Análisis',
-        el: '📊 Πίνακας Παραγωγικότητας & Αναλύσεων'
-      }),
-      action: () => { if (typeof openReportDashboard === 'function') openReportDashboard(); }
-    },
-    {
-      id: 'undo',
-      title: tr({
-        de: '↩️ Letzte Aktion rückgängig machen (Ctrl+Z)',
-        en: '↩️ Undo last action (Ctrl+Z)',
-        fr: '↩️ Annuler la dernière action (Ctrl+Z)',
-        it: '↩️ Annulla ultima azione (Ctrl+Z)',
-        es: '↩️ Deshacer última acción (Ctrl+Z)',
-        el: '↩️ Αναίρεση τελευταίας ενέργειας (Ctrl+Z)'
-      }),
-      action: () => { if (typeof handleUndo === 'function') handleUndo(); }
-    },
-    {
-      id: 'clear_columns',
-      title: tr({
-        de: '🧹 Karten leeren (Alle Aufgaben im Bereich leeren)',
-        en: '🧹 Clear cards (Clear all tasks in workspace)',
-        fr: '🧹 Vider les cartes (Vider toutes les tâches)',
-        it: '🧹 Svuota schede (Svuota tutte le attività)',
-        es: '🧹 Vaciar tarjetas (Vaciar todas las tareas)',
-        el: '🧹 Άδειασμα καρτών (Άδειασμα όλων των εργασιών)'
-      }),
-      action: () => { if (typeof handleClearAllLists === 'function') handleClearAllLists(); }
-    },
-    {
-      id: 'reset',
-      title: tr({
-        de: '🔄 Board zurücksetzen (Reset)',
-        en: '🔄 Reset board',
-        fr: '🔄 Réinitialiser le tableau',
-        it: '🔄 Ripristina lavagna',
-        es: '🔄 Restablecer tablero',
-        el: '🔄 Επαναφορά πίνακα'
-      }),
-      action: () => { if (typeof handleReset === 'function') handleReset(); }
-    },
-    {
-      id: 'theme_latte',
-      title: '☕ Theme: Oat & Latte (Cozy Milchkaffee & Hafer)',
-      action: () => { setTheme('latte'); }
-    },
-    {
-      id: 'theme_sunset',
-      title: '🌅 Theme: Warm Sunset (Abendsonne & Pfirsich)',
-      action: () => { setTheme('sunset'); }
-    },
-    {
-      id: 'theme_matcha',
-      title: '🍵 Theme: Matcha (Creme & Kräuter-Salbei)',
-      action: () => { setTheme('matcha'); }
-    },
-    {
-      id: 'theme_candlelight',
-      title: '🕯️ Theme: Candlelight (Kerzenschein & Kaminfeuer)',
-      action: () => { setTheme('candlelight'); }
-    },
-    {
-      id: 'theme_honey',
-      title: '🍯 Theme: Honig (Warmes Gold)',
-      action: () => { setTheme('honey'); }
-    },
-    {
-      id: 'theme_sage',
-      title: '🌿 Theme: Salbei (Botanisch Grün)',
-      action: () => { setTheme('sage'); }
-    },
-    {
-      id: 'theme_aurora',
-      title: '🌌 Theme: Aurora (Nacht-Violett)',
-      action: () => { setTheme('aurora'); }
-    },
-    {
-      id: 'theme_ocean',
-      title: '🌊 Theme: Ozean (Meeres-Cyan)',
-      action: () => { setTheme('ocean'); }
-    },
-    {
-      id: 'settings',
-      title: tr({
-        de: '⚙️ Einstellungen, Impressum & Datenschutz',
-        en: '⚙️ Settings, Legal & Privacy',
-        fr: '⚙️ Paramètres, Mentions légales & Confidentialité',
-        it: '⚙️ Impostazioni, Note legali & Privacy',
-        es: '⚙️ Ajustes, Legal y Privacidad',
-        el: '⚙️ Ρυθμίσεις, Νομικά & Απόρρητο'
-      }),
-      action: () => { openSettingsModal('general'); }
-    }
-  ];
-}
-
-function filterCommandPalette(query = '') {
-  const resultsContainer = document.getElementById('cmd-palette-results');
-  if (!resultsContainer) return;
-  resultsContainer.innerHTML = '';
-  const q = (query || '').toLowerCase().trim();
-
-  // 1. Matched Commands
-  const allCommands = getAvailableCommands();
-  const matchedCommands = allCommands.filter(c => c.title.toLowerCase().includes(q));
-
-  // 2. Open Tasks matching query
-  const curItems = typeof getCurrentWorkspaceItems === 'function' ? getCurrentWorkspaceItems() : (typeof state !== 'undefined' ? state.items : {});
-  const matchedTasks = [];
-  if (curItems && typeof curItems === 'object') {
-    Object.keys(curItems).forEach(col => {
-      const items = curItems[col] || [];
-      items.forEach((item, idx) => {
-        const text = typeof item === 'object' ? item.task : item;
-        if (text && (!q || text.toLowerCase().includes(q))) {
-          matchedTasks.push({
-            title: `📌 [${typeof t === 'function' ? t(col) : col}] ${text}`,
-            action: () => {
-              if (typeof startTaskTimerByIndex === 'function') startTaskTimerByIndex(col, idx);
-              else { if (typeof setTimerMinutes === 'function') setTimerMinutes(25); if (typeof startTimer === 'function') startTimer(); }
-            }
-          });
-        }
-      });
-    });
-  }
-
-  const combined = [];
-  if (matchedCommands.length > 0) {
-    combined.push({ isHeader: true, label: typeof t === 'function' ? t('cmd_actions') : 'Schnell-Aktionen' });
-    matchedCommands.slice(0, 7).forEach(c => combined.push({ ...c, isAction: true }));
-  }
-
-  if (matchedTasks.length > 0) {
-    combined.push({ isHeader: true, label: typeof t === 'function' ? t('cmd_tasks') : 'Gefundene Aufgaben' });
-    matchedTasks.slice(0, 8).forEach(t => combined.push({ ...t, isAction: true }));
-  }
-
-  commandPaletteItems = combined.filter(c => c.isAction);
-
-  if (commandPaletteItems.length === 0) {
-    resultsContainer.innerHTML = `
-      <div class="p-6 text-center text-gray-500 text-xs">
-        <i data-lucide="search-x" class="w-6 h-6 mx-auto mb-1 opacity-50"></i>
-        <span>${tr({
-          de: 'Keine passenden Befehle oder Aufgaben gefunden',
-          en: 'No matching commands or tasks found',
-          fr: 'Aucune commande ou tâche correspondante trouvée',
-          it: 'Nessun comando o attività corrispondente trovato',
-          es: 'No se encontraron comandos o tareas coincidentes',
-          el: 'Δεν βρέθηκαν εντολές ή εργασίες'
-        })}</span>
-      </div>
-    `;
-    if (typeof renderLucideIcons === 'function') renderLucideIcons();
-    return;
-  }
-
-  let actionIdx = 0;
-  combined.forEach(item => {
-    if (item.isHeader) {
-      const h = document.createElement('div');
-      h.className = 'px-3 py-1 text-[10px] font-bold text-gray-500 uppercase tracking-wider font-mono';
-      h.innerText = item.label;
-      resultsContainer.appendChild(h);
-    } else {
-      const thisIdx = actionIdx++;
-      const btn = document.createElement('button');
-      btn.id = `cmd-item-${thisIdx}`;
-      btn.className = `w-full px-3 py-2 text-left rounded-xl flex items-center justify-between text-xs transition cursor-pointer ${
-        thisIdx === commandPaletteActiveIndex ? 'bg-purple-600/30 border border-purple-500/40 text-white font-semibold' : 'text-gray-300 hover:bg-white/5 hover:text-white'
-      }`;
-      btn.setAttribute('data-cmd-idx', thisIdx);
-      btn.innerHTML = `
-        <span class="truncate">${escapeHtml(item.title)}</span>
-        <i data-lucide="arrow-right" class="w-3.5 h-3.5 opacity-40 shrink-0"></i>
-      `;
-      btn.onclick = () => {
-        closeCommandPalette();
-        item.action();
-      };
-      resultsContainer.appendChild(btn);
-    }
-  });
-
-  if (typeof renderLucideIcons === 'function') renderLucideIcons();
-}
-
-function handleCommandPaletteKeyDown(e) {
-  if (e.key === 'Escape') {
-    e.preventDefault();
-    closeCommandPalette();
-    return;
-  }
-  if (!commandPaletteItems || commandPaletteItems.length === 0) return;
-
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    commandPaletteActiveIndex = (commandPaletteActiveIndex + 1) % commandPaletteItems.length;
-    updateCommandPaletteHighlight();
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    commandPaletteActiveIndex = (commandPaletteActiveIndex - 1 + commandPaletteItems.length) % commandPaletteItems.length;
-    updateCommandPaletteHighlight();
-  } else if (e.key === 'Enter') {
-    e.preventDefault();
-    const activeItem = commandPaletteItems[commandPaletteActiveIndex];
-    if (activeItem && typeof activeItem.action === 'function') {
-      closeCommandPalette();
-      activeItem.action();
-    }
-  }
-}
-
-function updateCommandPaletteHighlight() {
-  commandPaletteItems.forEach((_, idx) => {
-    const el = document.getElementById(`cmd-item-${idx}`);
-    if (el) {
-      if (idx === commandPaletteActiveIndex) {
-        el.className = 'w-full px-3 py-2 text-left rounded-xl flex items-center justify-between text-xs transition cursor-pointer bg-purple-600/30 border border-purple-500/40 text-white font-semibold';
-        el.scrollIntoView({ block: 'nearest' });
-      } else {
-        el.className = 'w-full px-3 py-2 text-left rounded-xl flex items-center justify-between text-xs transition cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white';
-      }
-    }
-  });
-}
-
-window.openCommandPalette = openCommandPalette;
-window.closeCommandPalette = closeCommandPalette;
-window.filterCommandPalette = filterCommandPalette;
-window.handleCommandPaletteKeyDown = handleCommandPaletteKeyDown;
+// COMMAND PALETTE (STRG+K / CMD+K) CONTROLLER handled by app-command-palette.js
 
 function openSettingsModal(tab = 'general') {
   const modal = document.getElementById('modal-settings');
@@ -1623,100 +1295,7 @@ function handleAddTermin() {
   populateHelperTaskSelect();
 }
 
-function getTaskIconDetails(taskText, category = '') {
-  if (!taskText) return { icon: 'check-circle', color: 'text-purple-400' };
-  const rawTrimmed = String(taskText).trim();
-  if (typeof TASK_ICONS !== 'undefined' && TASK_ICONS[rawTrimmed]) {
-    return { icon: TASK_ICONS[rawTrimmed], color: 'text-purple-300' };
-  }
-  
-  // Unicode-Normalisierung: Entfernt Akzente/Diakritika (z. B. é -> e, ά -> α, ñ -> n) für 100% verlässliche Spracherkennung
-  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-
-  const rules = [
-    // 1. Medikamente / Gesundheit / Arzt
-    { rx: /medi|pill|tablett|vitam|pharmak|arzt|doctor|docteur|dottore|medico|therap|apothek|ordonnan|farmac|φαρμακ|γιατρ|ασθεν/, ic: 'pill', col: 'text-rose-400' },
-    // 2. Zähne / Mundhygiene
-    { rx: /zahn|zahne|dient|tooth|teeth|dent|dond|brush|bross|spazzol|δοντ|βουρτσ/, ic: 'smile', col: 'text-cyan-400' },
-    // 3. Gesicht waschen / Hautpflege
-    { rx: /gesicht|face|visage|viso|προσωπ/, ic: 'smile', col: 'text-cyan-400' },
-    // 4. Herd / Kühlschrank / Ofen / Küche Geräte
-    { rx: /herd|kuhl|fridge|frigo|stov|four|horno|nevera|fornell|refrig|kuehl|backofen|oven|κουζιν|ψυγει/, ic: 'cooking-pot', col: 'text-orange-400' },
-    // 5. Waschbecken / Spiegel / Bad-Armaturen
-    { rx: /waschbeck|sink|lavabo|specch|miroir|espejo|spiegel|νιπτηρ|καθρεφτ/, ic: 'droplets', col: 'text-sky-400' },
-    // 6. Geschirr spülen / Küche / Abwasch
-    { rx: /spul|dish|vaissel|piat|plato|geschirr|spuel|πιατ|abwasch/, ic: 'utensils', col: 'text-emerald-400' },
-    // 7. Wäsche waschen / Waschmaschine
-    { rx: /laund|colad|lessiv|bucat|clothes|linge|roux|ρουχ|πλυντηρ|wasch.*wasch|wasche/, ic: 'washing-machine', col: 'text-indigo-400' },
-    // 8. Wäsche aufhängen / Trocknen
-    { rx: /aufhang|hang|colg|etend|stend|aplon|dry|sech|asciug|απλωμ/, ic: 'shirt', col: 'text-violet-400' },
-    // 9. Duschen / Baden
-    { rx: /dusch|shower|baign|doccia|duch|ντους|μπανι|bath/, ic: 'bath', col: 'text-sky-400' },
-    // 10. Haare / Frisur / Schneiden
-    { rx: /haare|haar|hair|pelo|cabell|cheveux|capell|fris|kour|coiff|tagli|μαλλι|κουρεμ|λουσιμ/, ic: 'scissors', col: 'text-pink-400' },
-    // 11. Nägel / Maniküre
-    { rx: /nagel|nail|ungl|un|ungh|nych|pedicur|manicur|νυχ/, ic: 'scissors', col: 'text-indigo-400' },
-    // 12. Trinken / Wasser / Hydration
-    { rx: /trink|wat|agu|eau|ner|glass|hydrat|bever|bere|boire|νερο|πινω|ποτηρ/, ic: 'glass-water', col: 'text-blue-400' },
-    // 13. Bett / Schlafen / Bettwäsche
-    { rx: /bett|bed|cama|lit|lett|krevat|schlaf|sleep|sommeil|dorm|drap|sabana|lenzuol|κρεβατ|σεντον|υπν/, ic: 'bed', col: 'text-amber-400' },
-    // 14. Aufräumen / Ordnung / Putzen
-    { rx: /aufraum|tidy|orden|rang|riordin|clean|putz|organi|nettoy|limp|puliz|τακτοπ|καθαρισ|οργαν/, ic: 'sparkles', col: 'text-yellow-400' },
-    // 15. Staub wischen / Abstauben
-    { rx: /staub|dust|polv|poussi|spolver|epousset|xesk|ξεσκον/, ic: 'feather', col: 'text-amber-300' },
-    // 16. Staubsaugen / Saugen
-    { rx: /saugen|staubsaug|vacu|aspir|skoupi|σκουπ/, ic: 'tornado', col: 'text-cyan-500' },
-    // 17. Boden wischen / Feuchtwischen
-    { rx: /wisch|mop|freg|sfoug|paviment|sol|σφουγγαρ/, ic: 'droplets', col: 'text-sky-500' },
-    // 18. Bad / WC / Sanitär / Fliesen
-    { rx: /klo|wc|toil|vater|lekan|bad|fliesen|λεκαν/, ic: 'sparkles', col: 'text-teal-500' },
-    // 19. Müll wegbringen / Entsorgung
-    { rx: /mull|trash|basur|poubelle|spazzatur|waste|abfall|skoupid|σκουπιδ|πεταμ/, ic: 'trash-2', col: 'text-rose-500' },
-    // 20. Pfandflaschen / Recycling
-    { rx: /pfand|bottle|bouteill|bottigl|envase|boukal|recycle|recyc|μπουκαλ|ανακυκλ/, ic: 'recycle', col: 'text-emerald-500' },
-    // 21. Kochen / Mahlzeiten / Rezepte
-    { rx: /koch|food|cook|comid|cena|recept|recet|cuisin|cucin|magir|essen|lunch|dinner|breakfast|dejeun|pranz|past|mahlzeit|φαγητ|μαγειρ|γευμα/, ic: 'cooking-pot', col: 'text-orange-400' },
-    // 19. Einkauf / Supermarkt / Laden
-    { rx: /einkauf|shop|compr|achat|spesa|supermarkt|market|store|kauf|epicerie|agor|αγορ|σουπερ/, ic: 'shopping-cart', col: 'text-emerald-400' },
-    // 20. Arbeit / Job / Büro / Termine / Meetings
-    { rx: /arbeit|work|trabaj|travail|lavor|doul|job|office|schreib|mail|call|anruf|meeting|appuntament|rendez|cita|termin|geschaft|δουλει|γραφει/, ic: 'briefcase', col: 'text-amber-500' },
-    // 21. Lesen / Buch / Lernen / Studium / Uni / Vorlesung
-    { rx: /les|book|libr|livr|vivl|lernen|study|etud|stud|buch|diavas|διαβασ|βιβλι|vorlesung|lecture|skript|klausur|exam|abgabe|deadline|seminar|modul|bachelor|master|prof|tutor|ubung|uebung/, ic: 'book-open', col: 'text-violet-400' },
-    // 22. Sport / Fitness / Training / Laufen / Spazieren
-    { rx: /sport|gym|fit|train|gymn|workout|run|laufen|gehen|walk|course|correre|caminar|marcher|exerc|ασκησ|γυμναστ|τρεξιμ/, ic: 'activity', col: 'text-green-400' },
-    // 23. Pause / Ausruhen / Erholen / Meditation
-    { rx: /paus|rest|desc|relax|chill|medit|mindful|repos|ripos|diahleim|διαλειμμ|χαλαρω/, ic: 'moon', col: 'text-indigo-300' },
-    // 24. Lüften / Frische Luft / Durchatmen
-    { rx: /luft|wind|vent|aer|luften|breath|resp|fresch|frisch|αερισμ|αερ/, ic: 'wind', col: 'text-cyan-300' }
-  ];
-
-  for (const r of rules) {
-    if (r.rx.test(norm)) return { icon: r.ic, color: r.col };
-  }
-
-  const defaults = {
-    daily: { icon: 'sun', color: 'text-amber-400' },
-    weekly: { icon: 'calendar-days', color: 'text-purple-400' },
-    todo: { icon: 'list-todo', color: 'text-blue-400' },
-    done: { icon: 'check-circle', color: 'text-emerald-400' },
-    termine: { icon: 'clock', color: 'text-amber-400' },
-    occasionally: { icon: 'calendar-range', color: 'text-pink-400' },
-    notes: { icon: 'sticky-note', color: 'text-yellow-400' },
-    work_focus: { icon: 'target', color: 'text-amber-400' },
-    work_in_progress: { icon: 'zap', color: 'text-blue-400' },
-    work_waiting: { icon: 'hourglass', color: 'text-purple-400' },
-    work_backlog: { icon: 'folder-kanban', color: 'text-indigo-400' },
-    study_focus: { icon: 'target', color: 'text-amber-400' },
-    study_modules: { icon: 'book-open', color: 'text-blue-400' },
-    study_submissions: { icon: 'clock', color: 'text-rose-400' },
-    study_deep: { icon: 'brain', color: 'text-purple-400' }
-  };
-  return defaults[category] || { icon: 'check-circle', color: 'text-purple-400' };
-}
-
-function getTaskIcon(taskText, category = '') { return getTaskIconDetails(taskText, category).icon; }
-window.getTaskIconDetails = getTaskIconDetails;
-window.getTaskIcon = getTaskIcon;
+// Task icon detection handled by data-tasks.js
 
 // ===== KEYBOARD SHORTCUTS MODAL (?) =====
 function openKeyboardShortcuts() {
@@ -2076,34 +1655,7 @@ function initAmbientFlowCanvas() {
 // NATIVE MOBILE NAVIGATION CONTROLLER (5 TABS & FAB)
 // ============================================================================
 
-function switchMobileNavTab(tabName) {
-  document.body.dataset.mobileNav = tabName;
-  localStorage.setItem('flow_active_mobile_tab', tabName);
-
-  // Update Nav-Bar Buttons
-  const navTabs = ['planer', 'focus', 'audio', 'tools'];
-  navTabs.forEach(t => {
-    const btn = document.getElementById(`mob-nav-${t}`);
-    if (btn) {
-      btn.classList.toggle('active', t === tabName);
-    }
-  });
-
-  // Tab-spezifische Initialisierungen
-  if (tabName === 'planer') {
-    const activeCat = document.body.dataset.mobileCat || localStorage.getItem('flowPlannerMobileCategory') || 'daily';
-    if (typeof setMobileCategory === 'function') setMobileCategory(activeCat);
-  } else if (tabName === 'focus') {
-    if (typeof updateTimerDisplay === 'function') updateTimerDisplay();
-  }
-
-  // Scroll nach oben
-  window.scrollTo({ top: 0, behavior: 'instant' });
-
-  if (typeof renderLucideIcons === 'function') renderLucideIcons();
-  else if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-}
-window.switchMobileNavTab = switchMobileNavTab;
+// switchMobileNavTab handled by app-tasks.js
 
 let selectedMobileQuickAddCat = 'daily';
 let selectedMobileQuickAddPrio = 'normal';

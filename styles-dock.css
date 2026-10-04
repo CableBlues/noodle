@@ -3,8 +3,8 @@
    ========================================================================== */
 
 #panel-header-tools {
-  max-height: calc(100vh - 65px);
-  max-height: calc(100dvh - 65px);
+  max-height: calc(100vh - 60px);
+  max-height: calc(100dvh - 60px);
   overflow: visible !important;
 }
 
@@ -14,13 +14,13 @@
 
 #panel-header-tools .dock-popover-panel {
   position: absolute !important;
-  left: calc(100% + 14px) !important;
+  left: calc(100% + 10px) !important;
   right: auto !important;
   top: 0 !important;
   margin-left: 0 !important;
-  max-height: calc(100vh - 24px) !important;
-  max-height: calc(100dvh - 24px) !important;
-  max-width: calc(100vw - 340px) !important;
+  max-height: calc(100vh - 60px) !important;
+  max-height: calc(100dvh - 60px) !important;
+  max-width: calc(100vw - 360px) !important;
   overflow-y: auto !important;
   z-index: 160 !important;
   pointer-events: auto !important;
@@ -63,7 +63,7 @@
     right: 8px !important;
     bottom: auto !important;
     width: calc(100vw - 16px) !important;
-    max-width: 360px !important;
+    max-width: 410px !important;
     margin-left: auto !important;
     margin-right: auto !important;
     max-height: calc(100dvh - 110px - env(safe-area-inset-bottom, 0px)) !important;
@@ -96,3 +96,160 @@
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   INDIVIDUAL TOOL ACCENT COLORS & ICONS (TASK PALETTE HARMONIZED)
+   ========================================================================== */
+/* 1. Sound & Medien */
+.tool-orb-sound, .tool-orb-sounds { --orb-col: #c084fc !important; --orb-glow: rgba(192, 132, 252, 0.45) !important; }
+.tool-orb-dj { --orb-col: #f59e0b !important; --orb-glow: rgba(245, 158, 11, 0.45) !important; }
+.tool-orb-player, .tool-orb-music { --orb-col: #38bdf8 !important; --orb-glow: rgba(56, 189, 248, 0.45) !important; }
+.tool-orb-radio { --orb-col: #fb7185 !important; --orb-glow: rgba(251, 113, 133, 0.45) !important; }
+.tool-orb-news { --orb-col: #f43f5e !important; --orb-glow: rgba(244, 63, 94, 0.45) !important; }
+
+/* 2. Social & Vernetzung */
+.tool-orb-chat { --orb-col: #a78bfa !important; --orb-glow: rgba(167, 139, 250, 0.45) !important; }
+.tool-orb-social { --orb-col: #ec4899 !important; --orb-glow: rgba(236, 72, 153, 0.45) !important; }
+
+/* 3. Haushalt & Alltag */
+.tool-orb-shopping { --orb-col: #34d399 !important; --orb-glow: rgba(52, 211, 153, 0.45) !important; }
+.tool-orb-cooking { --orb-col: #fb923c !important; --orb-glow: rgba(251, 146, 60, 0.45) !important; }
+.tool-orb-clean { --orb-col: #2dd4bf !important; --orb-glow: rgba(45, 212, 191, 0.45) !important; }
+.tool-orb-alarm { --orb-col: #facc15 !important; --orb-glow: rgba(250, 204, 21, 0.45) !important; }
+
+/* 4. Körper & Geist */
+.tool-orb-sport { --orb-col: #a3e635 !important; --orb-glow: rgba(163, 230, 53, 0.45) !important; }
+.tool-orb-health { --orb-col: #f43f5e !important; --orb-glow: rgba(244, 63, 94, 0.45) !important; }
+.tool-orb-calm { --orb-col: #14b8a6 !important; --orb-glow: rgba(20, 184, 166, 0.45) !important; }
+.tool-orb-clarity { --orb-col: #818cf8 !important; --orb-glow: rgba(129, 140, 248, 0.45) !important; }
+
+/* 5. Wissen & Unterhaltung */
+.tool-orb-learning { --orb-col: #fbbf24 !important; --orb-glow: rgba(251, 191, 36, 0.45) !important; }
+.tool-orb-brainstorm { --orb-col: #2dd4bf !important; --orb-glow: rgba(45, 212, 191, 0.45) !important; }
+.tool-orb-humor { --orb-col: #f472b6 !important; --orb-glow: rgba(244, 114, 182, 0.45) !important; }
+
+/* Force tool icon colors & sizing */
+.tool-orb .tool-orb-sphere i,
+.tool-orb .tool-orb-sphere svg,
+.tool-orb .tool-orb-sphere [data-lucide],
+.tool-orb i,
+.tool-orb svg {
+  color: var(--orb-col, #f43f5e) !important;
+  stroke: var(--orb-col, #f43f5e) !important;
+  width: 22px !important;
+  height: 22px !important;
+  stroke-width: 2.2px !important;
+}
+
+/* Force tool label colors & typography */
+.tool-orb .tool-orb-label,
+.tool-orb > span:not([id]) {
+  color: var(--orb-col, #f43f5e) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  margin-top: 4px !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  max-width: 100% !important;
+  letter-spacing: 0.01em !important;
+  transition: all 0.2s ease !important;
+}
+
+.tool-orb:hover .tool-orb-label,
+.tool-orb:hover > span:not([id]) {
+  filter: brightness(1.25) !important;
+  text-shadow: 0 0 10px var(--orb-glow, rgba(244, 63, 94, 0.55)) !important;
+}
+
+/* Spheres Styling - Prominent, Clear & Modern */
+.tool-orb .tool-orb-sphere {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 15px !important;
+  border-width: 1.5px !important;
+  border-color: var(--orb-col, #f43f5e) !important;
+  color: var(--orb-col, #f43f5e) !important;
+  box-shadow: 0 0 14px var(--orb-glow, rgba(244, 63, 94, 0.35)) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.tool-orb:hover .tool-orb-sphere {
+  box-shadow: 0 0 22px var(--orb-glow, rgba(244, 63, 94, 0.6)), inset 0 0 12px var(--orb-glow, rgba(244, 63, 94, 0.4)) !important;
+  transform: scale(1.08) translateY(-2px) !important;
+}
+
+/* ==========================================================================
+   HEADER ACTIONS: PAUSE (BABYBLAU #38bdf8) & STATISTIK (LILA #c084fc)
+   ========================================================================== */
+#header-btn-pause-container button {
+  background-color: rgba(56, 189, 248, 0.15) !important;
+  border: 1px solid rgba(56, 189, 248, 0.5) !important;
+  color: #7dd3fc !important;
+  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important;
+}
+
+#header-btn-pause-container button:hover {
+  background-color: rgba(56, 189, 248, 0.28) !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.45) !important;
+}
+
+#header-btn-pause-container button svg,
+#header-btn-pause-container button svg path,
+#header-btn-pause-container button svg line,
+#header-btn-pause-container .steam-cup-icon,
+#header-btn-pause-container .steam-line {
+  color: #38bdf8 !important;
+  stroke: #38bdf8 !important;
+}
+
+#header-btn-pause-container button span {
+  color: #7dd3fc !important;
+  display: inline-block !important;
+  font-weight: 700 !important;
+}
+
+#header-btn-pause-container button:hover span {
+  color: #ffffff !important;
+}
+
+#header-btn-report-container button {
+  background-color: rgba(168, 85, 247, 0.15) !important;
+  border: 1px solid rgba(168, 85, 247, 0.5) !important;
+  color: #d8b4fe !important;
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.25) !important;
+}
+
+#header-btn-report-container button:hover {
+  background-color: rgba(168, 85, 247, 0.28) !important;
+  border-color: #a855f7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.45) !important;
+}
+
+#header-btn-report-container button i,
+#header-btn-report-container button svg,
+#header-btn-report-container button [data-lucide] {
+  color: #c084fc !important;
+  stroke: #c084fc !important;
+}
+
+#header-btn-report-container button span,
+#header-btn-report-container #btn-label-report {
+  color: #d8b4fe !important;
+  display: inline-block !important;
+  font-weight: 700 !important;
+}
+
+#header-btn-report-container button:hover span,
+#header-btn-report-container button:hover #btn-label-report {
+  color: #ffffff !important;
+}
+
+
+

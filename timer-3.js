@@ -184,20 +184,68 @@ function setTimerAudioMode(mode) {
 }
 window.setTimerAudioMode = setTimerAudioMode;
 
+function toggleTimerVoiceFeature(feature) {
+  if (feature === 'time') {
+    timerVoiceTimeAnnounce = !(typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true);
+    if (typeof window !== 'undefined') window.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+    if (typeof globalThis !== 'undefined') globalThis.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('flowTimerVoiceTimeAnnounce', String(timerVoiceTimeAnnounce));
+    }
+  } else if (feature === 'motivation') {
+    timerVoiceMotivation = !(typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true);
+    if (typeof window !== 'undefined') window.timerVoiceMotivation = timerVoiceMotivation;
+    if (typeof globalThis !== 'undefined') globalThis.timerVoiceMotivation = timerVoiceMotivation;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('flowTimerVoiceMotivation', String(timerVoiceMotivation));
+    }
+  }
+
+  timerVoiceEnabled = !!(timerVoiceTimeAnnounce || timerVoiceMotivation);
+  if (typeof window !== 'undefined') window.timerVoiceEnabled = timerVoiceEnabled;
+  if (typeof globalThis !== 'undefined') globalThis.timerVoiceEnabled = timerVoiceEnabled;
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('flowTimerVoiceEnabled', String(timerVoiceEnabled));
+  }
+
+  renderTimerCockpitContent();
+  if (typeof showToast === 'function') {
+    if (feature === 'time') {
+      showToast(timerVoiceTimeAnnounce ? '⏱️ Zeitansagen: An' : '⏱️ Zeitansagen: Aus');
+    } else if (feature === 'motivation') {
+      showToast(timerVoiceMotivation ? '💡 Motivationssprüche: An' : '💡 Motivationssprüche: Aus');
+    }
+  }
+}
+window.toggleTimerVoiceFeature = toggleTimerVoiceFeature;
+if (typeof globalThis !== 'undefined') globalThis.toggleTimerVoiceFeature = toggleTimerVoiceFeature;
+
 function toggleTimerVoice(force) {
   if (typeof force === 'boolean') {
     timerVoiceEnabled = force;
   } else {
     timerVoiceEnabled = !timerVoiceEnabled;
   }
-  if (typeof window !== 'undefined') window.timerVoiceEnabled = timerVoiceEnabled;
-  if (typeof globalThis !== 'undefined') globalThis.timerVoiceEnabled = timerVoiceEnabled;
+  timerVoiceTimeAnnounce = timerVoiceEnabled;
+  timerVoiceMotivation = timerVoiceEnabled;
+  if (typeof window !== 'undefined') {
+    window.timerVoiceEnabled = timerVoiceEnabled;
+    window.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+    window.timerVoiceMotivation = timerVoiceMotivation;
+  }
+  if (typeof globalThis !== 'undefined') {
+    globalThis.timerVoiceEnabled = timerVoiceEnabled;
+    globalThis.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+    globalThis.timerVoiceMotivation = timerVoiceMotivation;
+  }
   if (typeof localStorage !== 'undefined') {
     localStorage.setItem('flowTimerVoiceEnabled', timerVoiceEnabled ? 'true' : 'false');
+    localStorage.setItem('flowTimerVoiceTimeAnnounce', timerVoiceTimeAnnounce ? 'true' : 'false');
+    localStorage.setItem('flowTimerVoiceMotivation', timerVoiceMotivation ? 'true' : 'false');
   }
   renderTimerCockpitContent();
   if (typeof showToast === 'function') {
-    showToast(timerVoiceEnabled ? '🎙️ Sprachbegleitung aktiviert' : '🔇 Sprachbegleitung stumm');
+    showToast(timerVoiceEnabled ? '🎙️ Sprachbegleitung: An' : '🔇 Sprachbegleitung: Aus');
   }
 }
 window.toggleTimerVoice = toggleTimerVoice;
@@ -206,14 +254,67 @@ function cycleTimerPreset(direction = 1) {
   const current = Math.round(timerInitialSeconds / 60) || 1;
   const next = Math.max(1, Math.min(240, current + direction));
   setTimerPreset(next);
+  if (typeof renderTimerCockpitContent === 'function') {
+    const panel = document.getElementById('panel-timer-presets');
+    if (panel && !panel.classList.contains('hidden')) {
+      renderTimerCockpitContent();
+    }
+  }
 }
 window.cycleTimerPreset = cycleTimerPreset;
 if (typeof globalThis !== 'undefined') {
   globalThis.cycleTimerPreset = cycleTimerPreset;
 }
 
+function handleCustomTimerDirectInput(val) {
+  const mins = parseInt(val, 10);
+  if (mins && mins >= 1 && mins <= 240) {
+    setTimerPreset(mins);
+    const slider = document.querySelector('#panel-timer-presets input[type="range"]');
+    if (slider) slider.value = Math.min(120, mins);
+    const sliderVal = document.getElementById('timer-custom-slider-val');
+    if (sliderVal) sliderVal.innerText = `Dauer: ${mins} Minuten`;
+    document.querySelectorAll('.timer-preset-btn').forEach(btn => {
+      const bMins = parseInt(btn.dataset.mins, 10);
+      if (bMins === mins) {
+        btn.className = 'timer-preset-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_10px_rgba(168,85,247,0.35)] border text-[10px] font-mono transition text-center cursor-pointer truncate active:scale-95';
+      } else {
+        btn.className = 'timer-preset-btn px-2.5 py-1 rounded-xl bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white border border-white/10 text-[10px] font-mono transition text-center cursor-pointer truncate active:scale-95';
+      }
+    });
+  }
+}
+window.handleCustomTimerDirectInput = handleCustomTimerDirectInput;
+if (typeof globalThis !== 'undefined') globalThis.handleCustomTimerDirectInput = handleCustomTimerDirectInput;
+
+function handleCustomSliderInput(val) {
+  const mins = parseInt(val, 10) || 1;
+  setTimerPreset(mins);
+  const numInput = document.getElementById('timer-custom-number-input');
+  if (numInput) numInput.value = mins;
+  const sliderVal = document.getElementById('timer-custom-slider-val');
+  if (sliderVal) sliderVal.innerText = `Dauer: ${mins} Minuten`;
+  document.querySelectorAll('.timer-preset-btn').forEach(btn => {
+    const bMins = parseInt(btn.dataset.mins, 10);
+    if (bMins === mins) {
+      btn.className = 'timer-preset-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_10px_rgba(168,85,247,0.35)] border text-[10px] font-mono transition text-center cursor-pointer truncate active:scale-95';
+    } else {
+      btn.className = 'timer-preset-btn px-2.5 py-1 rounded-xl bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white border border-white/10 text-[10px] font-mono transition text-center cursor-pointer truncate active:scale-95';
+    }
+  });
+}
+window.handleCustomSliderInput = handleCustomSliderInput;
+if (typeof globalThis !== 'undefined') globalThis.handleCustomSliderInput = handleCustomSliderInput;
+
+function setCustomTimerDirect(mins) {
+  setTimerPreset(mins);
+  renderTimerCockpitContent();
+}
+window.setCustomTimerDirect = setCustomTimerDirect;
+if (typeof globalThis !== 'undefined') globalThis.setCustomTimerDirect = setCustomTimerDirect;
+
 function stepCustomTimerMinutes(delta) {
-  const inp = document.getElementById('timer-custom-mins-input');
+  const inp = document.getElementById('timer-custom-number-input') || document.getElementById('timer-custom-mins-input');
   let current = parseInt(inp ? inp.value : '1', 10) || Math.round(timerInitialSeconds / 60) || 1;
   let next = Math.max(1, Math.min(240, current + delta));
   if (inp) inp.value = next;
@@ -237,7 +338,7 @@ if (typeof globalThis !== 'undefined') {
 }
 
 function applyCustomTimerMinutes() {
-  const inp = document.getElementById('timer-custom-mins-input');
+  const inp = document.getElementById('timer-custom-number-input') || document.getElementById('timer-custom-mins-input');
   if (!inp) return;
   const mins = parseInt(inp.value, 10);
   if (mins && mins > 0) {
@@ -328,7 +429,7 @@ function adjustTimerMinutes(delta) {
   if (isNaN(currentMins) || currentMins < 1) currentMins = 1;
   let newMins = currentMins + delta;
   if (newMins < 1) newMins = 1;
-  if (newMins > 180) newMins = 180;
+  if (newMins > 240) newMins = 240;
   setTimerPreset(newMins);
 }
 window.adjustTimerMinutes = adjustTimerMinutes;
@@ -341,215 +442,204 @@ function renderTimerCockpitContent() {
   const currentMins = Math.round(timerInitialSeconds / 60) || 3;
   const taskTitle = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
   const openTasks = getAllOpenBoardTasks();
-  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
-  const isVoiceOn = (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
-  const isSoundOn = (typeof timerSoundEnabled !== 'undefined' ? timerSoundEnabled : true);
+  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'silent');
+  const isTimeAnnounce = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isMotivation = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isVoiceActive = isTimeAnnounce || isMotivation;
 
   const presets = [
     { mins: 1, label: '1m' },
-    { mins: 2, label: '2m' },
-    { mins: 3, label: '🌱 3m Basic' },
+    { mins: 3, label: '3m' },
     { mins: 5, label: '5m' },
-    { mins: 10, label: '🚀 10m Sprint' },
+    { mins: 10, label: '10m' },
     { mins: 15, label: '15m' },
-    { mins: 20, label: '20m' },
-    { mins: 25, label: '🍅 25m Pomo' },
-    { mins: 45, label: '⚡ 45m Deep' }
+    { mins: 25, label: '25m 🍅' },
+    { mins: 45, label: '45m' },
+    { mins: 60, label: '60m 🎯' }
   ];
 
   const masterVol = typeof soundMasterVolume !== 'undefined' ? soundMasterVolume : 0.5;
   const isMuted = (typeof isPlayerMuted !== 'undefined' && isPlayerMuted) || (typeof isTimerSoundActive === 'function' && !isTimerSoundActive());
   const currentVolPct = isMuted ? 0 : Math.round(masterVol * 100);
+  const isRunning = typeof timerRunning !== 'undefined' ? timerRunning : (typeof window !== 'undefined' ? window.timerRunning : false);
 
   panel.innerHTML = `
-    <!-- 1. ZEIT-STEUERUNG (Übersichtlich & großzügig gegliedert) -->
-    <div class="space-y-2 pb-3 border-b border-purple-500/20">
-      <!-- Obere Leiste: Lautsprecher-Hover links, Schönes buntes Noodle Timer Logo, Close rechts -->
-      <div class="flex items-center gap-2 justify-between">
-        <!-- Lautsprecher Icon (Hover für vertikalen Master-Regler) -->
-        <div class="relative group/cockpit-vol flex items-center shrink-0 select-none">
-          <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="w-7 h-7 rounded-xl bg-black/50 hover:bg-purple-500/20 border border-purple-500/30 flex items-center justify-center ${!isMuted ? 'text-purple-300' : 'text-gray-500'} transition cursor-pointer active:scale-95 shadow-inner" title="Sound stummschalten / aktivieren (Hovern für Lautstärkeregler)">
-            <i data-lucide="${!isMuted ? 'volume-2' : 'volume-x'}" class="w-4 h-4"></i>
-          </button>
-          
-          <!-- Hover-Flyout für den vertikalen Lautstärkeregler -->
-          <div class="hidden group-hover/cockpit-vol:flex absolute left-0 top-full mt-2 z-40 w-8 py-2.5 bg-[#0c0b12]/98 border border-purple-500/40 rounded-2xl shadow-2xl flex-col items-center justify-between gap-1.5 backdrop-blur-xl animate-fade-in pointer-events-auto">
-            <span class="text-[8.5px] font-mono font-bold text-purple-200" id="timer-cockpit-volume-percent">${currentVolPct}%</span>
-            <div class="h-[70px] flex items-center justify-center my-0.5">
-              <input type="range" orient="vertical" min="0" max="1" step="0.01" value="${isMuted ? 0 : masterVol}" oninput="handleHeaderVolumeInput(this.value); const pct=document.getElementById('timer-cockpit-volume-percent'); if(pct) pct.innerText = Math.round(this.value*100)+'%';" style="writing-mode: vertical-lr; direction: rtl; -webkit-appearance: slider-vertical; height: 70px; width: 6px;" class="master-volume-slider cursor-pointer accent-purple-400" title="Lautstärke">
-            </div>
+    <!-- 1. KOPFZEILE: NOODLE LOGO + TIMER UNTERSCHRIFT (LINKS) | LAUTSTÄRKE & CLOSE (RECHTS) -->
+    <div class="flex items-center justify-between pb-2 border-b border-white/10 select-none">
+      
+      <!-- Noodle Logo & TIMER Subtext (wie bei den Tools) -->
+      <div class="flex items-center gap-2">
+        <div class="relative flex flex-col items-center justify-center shrink-0">
+          <div class="relative overflow-hidden flex items-center justify-center">
+            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+          </div>
+          <div class="relative h-[8px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+            <span class="text-[7.5px] font-black font-display tracking-[0.3em] text-purple-300 uppercase leading-none select-none">TIMER</span>
           </div>
         </div>
+        <span class="w-1.5 h-1.5 rounded-full ${isRunning ? 'bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]' : 'bg-purple-500/50'}"></span>
+      </div>
 
-        <!-- Buntes Noodle Timer Branding Logo (Perfekt abgestimmt auf das Noodle Logo) -->
-        <div class="flex items-center gap-1.5 select-none">
-          <!-- 4-Farben Noodle Quad-Icon (wie im Haupt-Logo) -->
-          <div class="flex items-center justify-center w-5 h-5 rounded-lg bg-purple-500/15 border border-purple-500/30 shadow-xs">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="3" width="7.5" height="7.5" rx="2.2" fill="#c084fc" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
-              <rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2" fill="#89cff0" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
-              <rect x="3" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#f472b6" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
-              <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#34d399" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
-            </svg>
+      <!-- Rechts: Vertikale Lautstärke & Schließen -->
+      <div class="flex items-center gap-2">
+        
+        <!-- Vertikaler Lautstärke-Controller Popover -->
+        <div class="relative group/vol flex items-center">
+          <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="h-7 px-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-purple-300 hover:text-white transition cursor-pointer flex items-center gap-1.5 shadow-sm" title="Lautstärke anpassen">
+            <i data-lucide="${!isMuted ? 'volume-2' : 'volume-x'}" class="w-3.5 h-3.5 ${!isMuted ? 'text-purple-300' : 'text-gray-500'}"></i>
+            <span class="text-[9.5px] font-mono text-purple-200/90 font-bold">${currentVolPct}%</span>
+          </button>
+
+          <!-- Vertikaler Slider (Hover/Active Popover) -->
+          <div class="hidden group-hover/vol:flex absolute right-0 top-full mt-2 z-[300] bg-[#0c0918]/98 border border-purple-500/40 p-2.5 rounded-2xl shadow-2xl backdrop-blur-2xl flex-col items-center gap-2 animate-fade-in ring-1 ring-purple-500/30">
+            <span class="text-[9px] font-mono font-bold text-purple-200">${currentVolPct}%</span>
+            <div class="h-24 flex items-center justify-center py-1">
+              <input type="range" min="0" max="1" step="0.02" value="${isMuted ? 0 : masterVol}" 
+                     oninput="handleHeaderVolumeInput(this.value)" 
+                     class="h-20 w-1.5 accent-purple-400 cursor-pointer [writing-mode:bt-lr] [-webkit-appearance:slider-vertical]" 
+                     style="-webkit-appearance: slider-vertical; writing-mode: bt-lr;">
+            </div>
+            <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="text-[8.5px] font-mono font-bold px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition cursor-pointer">
+              ${isMuted ? 'Unmute' : 'Mute'}
+            </button>
           </div>
-          <span class="font-display font-extrabold text-xs tracking-wide bg-gradient-to-r from-purple-300 via-pink-300 to-sky-300 bg-clip-text text-transparent drop-shadow-sm">
-            Noodle Timer
-          </span>
         </div>
 
         <!-- Schließen Button -->
-        <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" class="text-gray-400 hover:text-white text-xs font-bold p-1 rounded-lg hover:bg-white/10 transition cursor-pointer shrink-0" aria-label="Schließen" title="Schließen">✕</button>
+        <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" class="w-7 h-7 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white text-xs font-bold flex items-center justify-center transition cursor-pointer" title="Schließen">✕</button>
+      </div>
+    </div>
+
+    <!-- 2. ZEIT-SCHNELLWAHL (KOMPAKT & MINIMAL) -->
+    <div class="p-2 rounded-2xl bg-purple-950/20 border border-purple-500/25 shadow-inner flex flex-col gap-1.5">
+      <div class="flex items-center justify-between px-0.5">
+        <span class="text-[10.5px] font-bold text-purple-200 font-display flex items-center gap-1.5">
+          <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-400"></i>
+          <span>Dauer wählen</span>
+        </span>
+        <span class="text-[9.5px] font-mono font-bold text-purple-300/90 bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/30">${currentMins} Min.</span>
       </div>
 
-      <!-- Presets Grid (9 Vorangebotene Presets, 3x3 Grid) -->
-      <div class="grid grid-cols-3 gap-1.5 pt-0.5">
+      <!-- Kompakte Presets (8 klare Tasten in 2 Reihen) -->
+      <div class="grid grid-cols-4 gap-1">
         ${presets.map(p => `
-          <button onclick="selectTimerPreset(${p.mins})" data-mins="${p.mins}" class="timer-preset-btn py-1.5 px-1 rounded-xl ${p.mins === currentMins ? 'bg-purple-600/40 border-purple-400 text-white shadow-xs font-bold ring-1 ring-purple-400/40' : 'bg-white/5 hover:bg-purple-600/20 hover:border-purple-400/50 border-white/10 text-gray-300 hover:text-white font-medium'} border text-[11px] font-mono transition text-center cursor-pointer truncate h-8 flex items-center justify-center">
+          <button onclick="setCustomTimerDirect(${p.mins});" data-mins="${p.mins}" class="timer-preset-btn py-1 px-1 rounded-xl ${p.mins === currentMins ? 'bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_8px_rgba(168,85,247,0.35)]' : 'bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white'} border border-white/10 text-[10.5px] font-mono transition text-center cursor-pointer truncate active:scale-95">
             ${p.label}
           </button>
         `).join('')}
       </div>
     </div>
 
-    <!-- 2. AUFGABE VERKNÜPFEN (Mit feiner Amber-Trennlinie) -->
-    <div class="space-y-1.5 py-1 pb-3 border-b border-[#ff7a00]/20">
-      <div class="text-[9.5px] font-bold uppercase tracking-wider text-[#ff7a00] font-mono flex items-center justify-between px-0.5">
-        <span class="flex items-center gap-1.5">
-          <i data-lucide="target" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span>Aufgabe verknüpfen</span>
+    <!-- 3. SPRACHBEGLEITUNG (ZEITANSAGEN & MOTIVATION) -->
+    <div class="p-2 rounded-2xl bg-indigo-950/25 border border-indigo-500/30 shadow-inner flex flex-col gap-1.5">
+      <div class="flex items-center justify-between px-0.5">
+        <span class="text-[10.5px] font-bold text-indigo-300 font-display flex items-center gap-1.5">
+          <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span>Sprachbegleitung</span>
         </span>
-        ${taskTitle ? `<span class="text-[8.5px] text-amber-400 font-semibold px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-[#ff7a00]/30">Aktiv</span>` : ''}
+        <span class="text-[9px] font-mono font-bold ${isVoiceActive ? 'text-emerald-300' : 'text-gray-500'}">
+          ${isVoiceActive ? '● Aktiv' : '○ Aus'}
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-1.5">
+        <!-- Zeitansagen Toggle -->
+        <button onclick="toggleTimerVoiceFeature('time');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isTimeAnnounce ? 'bg-gradient-to-r from-indigo-600/40 to-purple-600/40 border-indigo-400/70 text-white shadow-[0_0_10px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
+          <span class="flex items-center gap-1 truncate">
+            <span>⏱️</span>
+            <span class="truncate">Zeitansagen</span>
+          </span>
+          <span class="text-[9px] font-mono font-bold ${isTimeAnnounce ? 'text-indigo-200' : 'text-gray-500'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
+        </button>
+
+        <!-- Motivationssprüche Toggle -->
+        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isMotivation ? 'bg-gradient-to-r from-purple-600/40 to-pink-600/40 border-pink-400/70 text-white shadow-[0_0_10px_rgba(236,72,153,0.25)] ring-1 ring-pink-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
+          <span class="flex items-center gap-1 truncate">
+            <span>💡</span>
+            <span class="truncate">Motivation</span>
+          </span>
+          <span class="text-[9px] font-mono font-bold ${isMotivation ? 'text-pink-200' : 'text-gray-500'}">${isMotivation ? 'AN' : 'AUS'}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. SOUNDS, MUSIK & RADIO -->
+    <div class="p-2 rounded-2xl bg-teal-950/20 border border-teal-500/30 shadow-inner flex flex-col gap-1.5">
+      <div class="flex items-center justify-between px-0.5">
+        <span class="text-[10.5px] font-bold text-teal-300 font-display flex items-center gap-1.5">
+          <i data-lucide="music-2" class="w-3.5 h-3.5 text-teal-400"></i>
+          <span>Klang & Musik</span>
+        </span>
+        <span class="text-[9px] font-mono text-teal-400/80 font-bold uppercase tracking-wider">
+          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : (currentAudioMode === 'radio' ? '📻 Radio' : '🔇 Aus'))}
+        </span>
+      </div>
+
+      <!-- 4 Buttons: Sounds, Musik, Radio, Stille -->
+      <div class="grid grid-cols-4 gap-1">
+        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'ambient' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
+          🌿 Sounds
+        </button>
+        <button onclick="setTimerAudioMode('soundmachine');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
+          🎵 Musik
+        </button>
+        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'radio' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
+          📻 Radio
+        </button>
+        <button onclick="setTimerAudioMode('silent');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'silent' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
+          🔇 Stille
+        </button>
+      </div>
+    </div>
+
+    <!-- 5. FOKUS-ZIEL (AUFGABE AUS DEM BOARD) -->
+    <div class="p-2 rounded-2xl bg-amber-950/20 border border-amber-500/30 shadow-inner flex flex-col gap-1.5">
+      <div class="flex items-center justify-between px-0.5">
+        <span class="text-[10.5px] font-bold text-amber-300 font-display flex items-center gap-1.5">
+          <i data-lucide="target" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>Fokus-Ziel (Aufgabe)</span>
+        </span>
+        ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">Verknüpft</span>` : ''}
       </div>
 
       ${taskTitle ? `
-        <div class="p-2 px-2.5 rounded-xl bg-amber-500/10 border border-[#ff7a00]/30 flex items-center justify-between gap-2 shadow-xs">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="text-xs shrink-0">🎯</span>
-            <span class="text-xs font-bold text-amber-100 truncate">${(typeof escapeHtml === 'function') ? escapeHtml(taskTitle) : taskTitle}</span>
-          </div>
-          <div class="flex items-center gap-1.5 shrink-0">
-            <button onclick="completeActiveTimerTask(event)" class="py-1 px-2.5 bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 text-emerald-300 hover:text-white rounded-lg text-[10px] font-bold transition cursor-pointer active:scale-95 shadow-xs" title="Aufgabe als erledigt markieren">
-              Fertig
-            </button>
-            <button onclick="unlinkTimerTask(event)" class="p-1 hover:bg-white/10 text-gray-400 hover:text-rose-400 rounded-lg text-xs transition cursor-pointer" title="Trennen">
-              ✕
-            </button>
+        <div class="flex items-center justify-between gap-1.5 p-1.5 bg-amber-500/15 border border-amber-500/35 rounded-xl text-[11px] text-amber-100 min-w-0 shadow-inner">
+          <span class="truncate font-medium">${(typeof escapeHtml === 'function') ? escapeHtml(taskTitle) : taskTitle}</span>
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="completeActiveTimerTask(event)" class="px-2 py-0.5 bg-emerald-500/30 hover:bg-emerald-500/50 text-emerald-300 rounded-lg text-[9.5px] font-bold cursor-pointer transition" title="Aufgabe als erledigt markieren">✓ Erledigt</button>
+            <button onclick="unlinkTimerTask(event)" class="text-gray-400 hover:text-rose-400 text-xs px-1 cursor-pointer transition" title="Verknüpfung lösen">✕</button>
           </div>
         </div>
       ` : `
-        <div class="space-y-1.5">
-          <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-[#12111a] border border-[#ff7a00]/30 hover:border-amber-400/60 focus:border-[#ff7a00] rounded-xl text-xs text-amber-100 outline-none cursor-pointer font-medium shadow-inner">
-            <option value="" class="bg-[#12111a] text-gray-400">-- Aufgabe aus Board verknüpfen --</option>
-            ${(() => {
-              const groups = {};
-              openTasks.forEach(t => {
-                const grp = t.colLabel || t.colId;
-                if (!groups[grp]) groups[grp] = [];
-                groups[grp].push(t);
-              });
-              return Object.keys(groups).map(grpName => `
-                <optgroup label="${(typeof escapeHtml === 'function') ? escapeHtml(grpName) : grpName}" class="bg-[#161522] text-amber-300 font-bold">
-                  ${groups[grpName].map(t => `
-                    <option value="${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}" class="bg-[#12111a] text-white font-normal">
-                      ${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}
-                    </option>
-                  `).join('')}
-                </optgroup>
-              `).join('');
-            })()}
-          </select>
-          <div class="flex gap-1.5">
-            <input type="text" id="timer-quick-task-input" placeholder="Oder Sofort-Ziel eingeben..." onkeydown="if(event.key==='Enter'&&this.value.trim()){linkTaskToTimer(this.value.trim());this.value='';}" class="flex-1 bg-[#12111a] border border-white/10 hover:border-[#ff7a00]/30 focus:border-[#ff7a00] rounded-xl px-2.5 py-1 text-xs text-gray-200 placeholder-gray-500 outline-none">
-            <button onclick="const inp=document.getElementById('timer-quick-task-input'); if(inp&&inp.value.trim()){linkTaskToTimer(inp.value.trim());inp.value='';}" class="px-3 py-1 bg-[#ff7a00]/20 hover:bg-[#ff7a00]/35 text-[#ff7a00] hover:text-white border border-[#ff7a00]/30 rounded-xl text-xs font-bold transition cursor-pointer active:scale-95 shadow-xs">Fokus</button>
-          </div>
-        </div>
+        <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-black/60 border border-white/10 hover:border-amber-400/40 rounded-xl text-[10.5px] text-gray-200 outline-none cursor-pointer truncate transition">
+          <option value="" class="text-gray-500">-- Aufgabe aus Board verknüpfen --</option>
+          ${(() => {
+            const groups = {};
+            openTasks.forEach(t => {
+              const grp = t.colLabel || t.colId;
+              if (!groups[grp]) groups[grp] = [];
+              groups[grp].push(t);
+            });
+            return Object.keys(groups).map(grpName => `
+              <optgroup label="${(typeof escapeHtml === 'function') ? escapeHtml(grpName) : grpName}" class="bg-[#161522] text-amber-300 font-bold">
+                ${groups[grpName].map(t => `
+                  <option value="${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}" class="bg-[#12111a] text-white font-normal">
+                    ${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}
+                  </option>
+                `).join('')}
+              </optgroup>
+            `).join('');
+          })()}
+        </select>
       `}
     </div>
 
-    <!-- 3. AUDIO-MODI (Mit feiner Teal-Trennlinie) -->
-    <div class="space-y-1.5 py-1 pb-3 border-b border-teal-500/20">
-      <div class="text-[9.5px] font-bold uppercase tracking-wider text-teal-300/90 font-mono px-0.5 flex items-center gap-1.5">
-        <i data-lucide="headphones" class="w-3.5 h-3.5 text-teal-400"></i>
-        <span>Audio-Begleitung</span>
-      </div>
-
-      <div class="grid grid-cols-2 gap-1.5 text-[10px] font-bold">
-        <button onclick="setTimerAudioMode('ambient')" class="py-1.5 px-2 rounded-xl border text-left flex items-center gap-2 transition cursor-pointer ${currentAudioMode === 'ambient' ? 'bg-teal-500/20 border-teal-400/60 text-teal-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="text-sm shrink-0">🌿</span>
-          <div class="truncate">
-            <div class="leading-none text-[10px]">Ambient Flow</div>
-            <span class="text-[8px] font-normal text-gray-400">Naturklänge</span>
-          </div>
-        </button>
-
-        <button onclick="setTimerAudioMode('soundmachine')" class="py-1.5 px-2 rounded-xl border text-left flex items-center gap-2 transition cursor-pointer ${currentAudioMode === 'soundmachine' ? 'bg-purple-500/20 border-purple-400/60 text-purple-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="text-sm shrink-0">🎵</span>
-          <div class="truncate">
-            <div class="leading-none text-[10px]">Sound Machine</div>
-            <span class="text-[8px] font-normal text-gray-400">Lo-Fi & Beats</span>
-          </div>
-        </button>
-
-        <button onclick="setTimerAudioMode('radio')" class="py-1.5 px-2 rounded-xl border text-left flex items-center gap-2 transition cursor-pointer ${currentAudioMode === 'radio' ? 'bg-rose-500/20 border-rose-400/60 text-rose-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="text-sm shrink-0">📻</span>
-          <div class="truncate">
-            <div class="leading-none text-[10px]">Live-Radio</div>
-            <span class="text-[8px] font-normal text-gray-400">Jazz & Chill</span>
-          </div>
-        </button>
-
-        <button onclick="setTimerAudioMode('silent')" class="py-1.5 px-2 rounded-xl border text-left flex items-center gap-2 transition cursor-pointer ${currentAudioMode === 'silent' ? 'bg-sky-500/20 border-sky-400/60 text-sky-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="text-sm shrink-0">🔇</span>
-          <div class="truncate">
-            <div class="leading-none text-[10px]">Stille</div>
-            <span class="text-[8px] font-normal text-gray-400">Nur End-Gong</span>
-          </div>
-        </button>
-      </div>
-    </div>
-
-    <!-- 4. SPRACHBEGLEITUNG (Mit feiner Purple-Trennlinie) -->
-    <div class="py-1 pb-3 border-b border-purple-500/20">
-      <div class="p-2 px-2.5 rounded-xl bg-black/40 border border-white/5 flex items-center justify-between gap-2 select-none shadow-xs">
-        <div class="flex items-center gap-2 min-w-0">
-          <span class="text-sm shrink-0">🎙️</span>
-          <div class="truncate">
-            <div class="text-[10.5px] font-bold text-gray-200 leading-tight">Sprachbegleitung</div>
-            <div class="text-[8.5px] text-gray-400 truncate">Sanfte Impulse zu Start, Pause & Ziel</div>
-          </div>
-        </div>
-        <button onclick="toggleTimerVoice()" class="px-2.5 py-1 rounded-lg border text-[10px] font-bold transition cursor-pointer shrink-0 ${isVoiceOn ? 'bg-purple-500/30 border-purple-400 text-purple-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400'}">
-          ${isVoiceOn ? 'Aktiv' : 'Stumm'}
-        </button>
-      </div>
-    </div>
-
-    <!-- 5. WECKER & REMINDER INTEGRATION (Abgerundeter Abschlussbereich) -->
-    <div class="pt-1 space-y-1.5">
-      <div class="flex items-center justify-between text-[9.5px] font-bold uppercase tracking-wider text-cyan-300/90 font-mono px-0.5">
-        <span class="flex items-center gap-1.5">
-          <i data-lucide="bell" class="w-3.5 h-3.5 text-cyan-400"></i>
-          <span>Wecker & Erinnerungen</span>
-        </span>
-        <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); openAlarmModal('alarms');" class="text-[9.5px] text-cyan-400 hover:text-cyan-200 underline font-sans font-semibold cursor-pointer">
-          Wecker-Hub ↗
-        </button>
-      </div>
-
-      <!-- Schnelle Erinnerung -->
-      <div class="flex gap-1.5 bg-black/40 p-1.5 rounded-xl border border-cyan-500/20 shadow-xs">
-        <input type="text" id="timer-cockpit-reminder-input" placeholder="Schnell-Erinnerung..." onkeydown="if(event.key==='Enter') addReminderFromTimerCockpit();" class="flex-1 bg-transparent px-2 py-0.5 text-xs text-white placeholder-gray-500 outline-none">
-        <select id="timer-cockpit-reminder-mins" class="bg-black/60 border border-white/10 rounded-lg text-[10px] text-cyan-300 font-bold px-1.5 outline-none cursor-pointer">
-          <option value="5">5m</option>
-          <option value="10" selected>10m</option>
-          <option value="15">15m</option>
-          <option value="25">25m</option>
-          <option value="45">45m</option>
-        </select>
-        <button onclick="addReminderFromTimerCockpit()" class="px-2 py-0.5 bg-cyan-500/25 hover:bg-cyan-500/40 border border-cyan-400/40 text-cyan-200 hover:text-white rounded-lg text-[10px] font-bold transition cursor-pointer active:scale-95 shadow-xs">
-          + Setzen
-        </button>
-      </div>
+    <!-- 6. WECKER & ERINNERUNGEN FOOTER -->
+    <div class="pt-0.5 border-t border-white/10 flex items-center justify-between">
+      <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); openAlarmModal('alarms');" class="w-full py-1 px-3 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center gap-1.5 transition cursor-pointer text-[10.5px]" title="Wecker & Erinnerungen öffnen">
+        <i data-lucide="bell" class="w-3 h-3"></i>
+        <span>Wecker & Erinnerungen öffnen ↗</span>
+      </button>
     </div>
   `;
 
@@ -721,46 +811,57 @@ function startTimer() {
     console.warn("Timer Audio routing notice:", e);
   }
 
-  // Zeitansage zu Beginn einer frischen Sitzung (nicht beim Fortsetzen nach Pause), je nach Sound-Einstellung
-  if (isFreshStart && isTimerSoundActive()) {
+  const isTimeAnnounceActive = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isMotivationActive = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isVoiceActiveNow = (isTimeAnnounceActive || isMotivationActive) && isTimerSoundActive();
+
+  // Zeitansage / Begrüßung zu Beginn einer frischen Sitzung (nicht beim Fortsetzen nach Pause)
+  if (isFreshStart && isVoiceActiveNow) {
     try {
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
       const startMins = Math.round(timerInitialSeconds / 60);
       const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
       
       let startText = "";
-      if (activeTaskName && typeof activeTaskName === 'string' && activeTaskName.trim()) {
-        const cleanTask = activeTaskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
-        const phraseList = (typeof SESSION_START_TASK_PHRASES !== 'undefined' && SESSION_START_TASK_PHRASES[lang]) 
-          ? SESSION_START_TASK_PHRASES[lang] 
-          : (typeof SESSION_START_TASK_PHRASES !== 'undefined' ? SESSION_START_TASK_PHRASES.de : null);
-        const phrase = (phraseList && phraseList.length > 0)
-          ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase)
-          : (SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de)[0];
-        lastSessionStartPhrase = phrase;
-        startText = phrase.replace('{mins}', startMins).replace('{task}', cleanTask);
-      } else {
-        const phraseList = SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de;
-        const phrase = pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase);
-        lastSessionStartPhrase = phrase;
-        startText = phrase.replace('{mins}', startMins);
+      if (isTimeAnnounceActive) {
+        if (activeTaskName && typeof activeTaskName === 'string' && activeTaskName.trim()) {
+          const cleanTask = activeTaskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
+          const phraseList = (typeof SESSION_START_TASK_PHRASES !== 'undefined' && SESSION_START_TASK_PHRASES[lang]) 
+            ? SESSION_START_TASK_PHRASES[lang] 
+            : (typeof SESSION_START_TASK_PHRASES !== 'undefined' ? SESSION_START_TASK_PHRASES.de : null);
+          const phrase = (phraseList && phraseList.length > 0)
+            ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase)
+            : (SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de)[0];
+          lastSessionStartPhrase = phrase;
+          startText = phrase.replace('{mins}', startMins).replace('{task}', cleanTask);
+        } else {
+          const phraseList = SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de;
+          const phrase = pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase);
+          lastSessionStartPhrase = phrase;
+          startText = phrase.replace('{mins}', startMins);
+        }
+      } else if (isMotivationActive) {
+        const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
+        startText = motiv || "Fokuszeit gestartet. Schritt für Schritt.";
       }
 
-      if (startMins === 1) {
+      if (startMins === 1 && startText) {
         startText = startText.replace('Minuten', 'Minute').replace('minutes', 'minute').replace('minutos', 'minuto').replace('λεπτά', 'λεπτό');
       }
-      const startSessionToken = currentSpeechSessionId;
-      const startTimeout = setTimeout(() => {
-        if (!timerRunning || currentSpeechSessionId !== startSessionToken) return;
-        speakSoftlyDynamic(startText, timerSeconds, timerInitialSeconds);
-      }, 400);
-      if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
-        activeTimeouts.push(startTimeout);
+      if (startText) {
+        const startSessionToken = currentSpeechSessionId;
+        const startTimeout = setTimeout(() => {
+          if (!timerRunning || currentSpeechSessionId !== startSessionToken) return;
+          speakSoftlyDynamic(startText, timerSeconds, timerInitialSeconds);
+        }, 400);
+        if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
+          activeTimeouts.push(startTimeout);
+        }
       }
     } catch(e) {}
   }
   
-    let lastAnnouncedElapsedMinute = 0;
+  let lastAnnouncedElapsedMinute = 0;
   let lastSoundSwitchedElapsedMinute = 0;
 
   if (timerInterval) clearInterval(timerInterval);
@@ -782,7 +883,7 @@ function startTimer() {
         stopAmbientSound(true);
       }
 
-      if (isTimerSoundActive()) {
+      if (isTimerSoundActive() && (isTimeAnnounceActive || isMotivationActive)) {
         const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
         const timeUp = (typeof TIME_UP_PHRASES !== 'undefined' && TIME_UP_PHRASES[lang]) 
           ? TIME_UP_PHRASES[lang] 
@@ -814,43 +915,52 @@ function startTimer() {
         const isFinalStretch = (minsLeft === 2 || minsLeft === 1);
         const shouldSpeak = isTwoMinMark || isFinalStretch || (timerInitialSeconds <= 180);
 
-        if (shouldSpeak) {
+        if (shouldSpeak && isVoiceActiveNow) {
           let speechText = "";
           const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
           
-          if (minsLeft === 1) {
-            if (lang === 'de') speechText = "Noch 1 Minute verbleibend";
-            else if (lang === 'es') speechText = "Queda 1 minuto";
-            else if (lang === 'el') speechText = "Απομένει 1 λεπτό";
-            else if (lang === 'fr') speechText = "Il reste 1 minute";
-            else if (lang === 'it') speechText = "Resta 1 minuto";
-            else speechText = "1 minute remaining";
-          } else {
-            if (lang === 'de') speechText = `Noch ${minsLeft} Minuten verbleibend`;
-            else if (lang === 'es') speechText = `Quedan ${minsLeft} minutos`;
-            else if (lang === 'el') speechText = `Απομένουν ${minsLeft} λεπτά`;
-            else if (lang === 'fr') speechText = `Il reste ${minsLeft} minutes`;
-            else if (lang === 'it') speechText = `Restano ${minsLeft} minuti`;
-            else speechText = `${minsLeft} minutes remaining`;
+          if (isTimeAnnounceActive) {
+            if (minsLeft === 1) {
+              if (lang === 'de') speechText = "Noch 1 Minute verbleibend";
+              else if (lang === 'es') speechText = "Queda 1 minuto";
+              else if (lang === 'el') speechText = "Απομένει 1 λεπτό";
+              else if (lang === 'fr') speechText = "Il reste 1 minute";
+              else if (lang === 'it') speechText = "Resta 1 minuto";
+              else speechText = "1 minute remaining";
+            } else {
+              if (lang === 'de') speechText = `Noch ${minsLeft} Minuten verbleibend`;
+              else if (lang === 'es') speechText = `Quedan ${minsLeft} minutos`;
+              else if (lang === 'el') speechText = `Απομένουν ${minsLeft} λεπτά`;
+              else if (lang === 'fr') speechText = `Il reste ${minsLeft} minutes`;
+              else if (lang === 'it') speechText = `Restano ${minsLeft} minuti`;
+              else speechText = `${minsLeft} minutes remaining`;
+            }
           }
           
           // Motivationsspruch harmonisch einbinden
-          const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
-          const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
-          if (motiv) {
-            speechText += `. ${motiv}`;
+          if (isMotivationActive) {
+            const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
+            const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
+            if (motiv) {
+              if (speechText) speechText += `. ${motiv}`;
+              else speechText = motiv;
+            }
           }
           
-          // Nach der Zeitansage: Sound alle 2 Minuten wechseln!
-          speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds, () => {
-            if (isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
-              lastSoundSwitchedElapsedMinute = elapsedMins;
-              try { playRandomTimerAmbient(true); } catch(e) {}
-            }
-          });
+          if (speechText) {
+            // Nach der Zeitansage: Sound alle 2 Minuten wechseln!
+            speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds, () => {
+              if (isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
+                lastSoundSwitchedElapsedMinute = elapsedMins;
+                try { playRandomTimerAmbient(true); } catch(e) {}
+              }
+            });
+          } else {
+            playMinuteChime();
+          }
 
           // Falls Sprachbegleitung aus ist, Sound trotzdem alle 2 Minuten nach der Zeitgrenze wechseln
-          if (!timerVoiceEnabled && isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
+          if (!isVoiceActiveNow && isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
             lastSoundSwitchedElapsedMinute = elapsedMins;
             try { playRandomTimerAmbient(true); } catch(e) {}
           }
@@ -867,28 +977,46 @@ function startTimer() {
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
 
       // Erste Ansage nach 30 Sekunden Überzeit
-      if (absSec === 30) {
-        const text30 = (typeof OVERDUE_30S_LABELS !== 'undefined' && OVERDUE_30S_LABELS[lang]) 
-          ? OVERDUE_30S_LABELS[lang] 
-          : "30 Sekunden über der Zeit.";
-        speakSoftlyDynamic(text30, timerSeconds, timerInitialSeconds);
+      if (absSec === 30 && isVoiceActiveNow) {
+        let text30 = "";
+        if (isTimeAnnounceActive) {
+          text30 = (typeof OVERDUE_30S_LABELS !== 'undefined' && OVERDUE_30S_LABELS[lang]) 
+            ? OVERDUE_30S_LABELS[lang] 
+            : "30 Sekunden über der Zeit.";
+        }
+        if (isMotivationActive) {
+          const overdueList = (typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de)) 
+            ? (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue 
+            : [];
+          if (overdueList && overdueList.length > 0) {
+            const motiv = pickWithoutImmediateRepeat(overdueList, lastMotivationByTier['overdue']);
+            lastMotivationByTier['overdue'] = motiv;
+            if (motiv) text30 = text30 ? `${text30} ${motiv}` : motiv;
+          }
+        }
+        if (text30) speakSoftlyDynamic(text30, timerSeconds, timerInitialSeconds);
       }
       // Jede volle Minute Überzeit (-60s, -120s, -180s...)
-      else if (absSec % 60 === 0) {
+      else if (absSec % 60 === 0 && isVoiceActiveNow) {
         const overdueMins = absSec / 60;
-        const labelFn = (typeof OVERDUE_MINUTE_LABELS !== 'undefined' && OVERDUE_MINUTE_LABELS[lang]) 
-          ? OVERDUE_MINUTE_LABELS[lang] 
-          : ((n) => `${n} Minuten überzogen`);
-        let speechText = labelFn(overdueMins);
-        const overdueList = (typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de)) 
-          ? (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue 
-          : [];
-        if (overdueList && overdueList.length > 0) {
-          const motiv = pickWithoutImmediateRepeat(overdueList, lastMotivationByTier['overdue']);
-          lastMotivationByTier['overdue'] = motiv;
-          if (motiv) speechText += `. ${motiv}`;
+        let speechText = "";
+        if (isTimeAnnounceActive) {
+          const labelFn = (typeof OVERDUE_MINUTE_LABELS !== 'undefined' && OVERDUE_MINUTE_LABELS[lang]) 
+            ? OVERDUE_MINUTE_LABELS[lang] 
+            : ((n) => `${n} Minuten überzogen`);
+          speechText = labelFn(overdueMins);
         }
-        speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds);
+        if (isMotivationActive) {
+          const overdueList = (typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de)) 
+            ? (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue 
+            : [];
+          if (overdueList && overdueList.length > 0) {
+            const motiv = pickWithoutImmediateRepeat(overdueList, lastMotivationByTier['overdue']);
+            lastMotivationByTier['overdue'] = motiv;
+            if (motiv) speechText = speechText ? `${speechText}. ${motiv}` : motiv;
+          }
+        }
+        if (speechText) speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds);
       }
       // Zwischen-Signalton alle 30s bei halben Minuten (-90s, -150s, -210s...)
       else if (absSec % 30 === 0) {
@@ -1103,6 +1231,17 @@ function updateTimerDisplay() {
       el.classList.toggle('animate-pulse', isNegative);
     }
   });
+
+  const totalSecs = (typeof timerInitialSeconds !== 'undefined' && timerInitialSeconds > 0) ? timerInitialSeconds : 120;
+  const progressPct = Math.max(0, Math.min(100, ((typeof timerSeconds !== 'undefined' ? timerSeconds : 120) / totalSecs) * 100));
+  const cockpitProg = document.getElementById('timer-cockpit-progress-bar');
+  if (cockpitProg) {
+    cockpitProg.style.width = `${progressPct}%`;
+  }
+  const headerProg = document.getElementById('timer-progress-bar');
+  if (headerProg) {
+    headerProg.style.width = `${progressPct}%`;
+  }
   
   // Zen & Mobile Timer Status Labels
   const zenStatus = document.getElementById('zen-timer-status');

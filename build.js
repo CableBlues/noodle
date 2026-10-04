@@ -41,8 +41,8 @@ if (fs.existsSync(musicDirPath)) {
   console.log(`✓ music/manifest.json generiert (${tracks.length} Tracks gefunden)`);
 }
 
-// 3. Copy static files & vendor/fonts/.well-known/music directory
-const staticDirs = ['vendor', 'fonts', '.well-known', 'music'];
+// 3. Copy static files & vendor/fonts/.well-known/music/api directory
+const staticDirs = ['vendor', 'fonts', '.well-known', 'music', 'api'];
 staticDirs.forEach(dir => {
   const src = path.join(rootDir, dir);
   const dest = path.join(distDir, dir);
@@ -77,10 +77,23 @@ staticFiles.forEach(file => {
 
 // Copy all CSS files
 const allCssFiles = fs.readdirSync(rootDir).filter(f => f.endsWith('.css'));
+function safeCopyFile(src, dest) {
+  try {
+    fs.copyFileSync(src, dest);
+  } catch (err) {
+    try {
+      const data = fs.readFileSync(src);
+      fs.writeFileSync(dest, data);
+    } catch (e) {
+      console.warn(`[Build] Warning copying ${src} to ${dest}:`, e.message);
+    }
+  }
+}
+
 allCssFiles.forEach(cssFile => {
   const src = path.join(rootDir, cssFile);
   const dest = path.join(distDir, cssFile);
-  fs.copyFileSync(src, dest);
+  safeCopyFile(src, dest);
 });
 console.log(`✓ ${allCssFiles.length} CSS-Dateien nach dist/ kopiert`);
 
@@ -89,7 +102,7 @@ const allJsFiles = fs.readdirSync(rootDir).filter(f => f.endsWith('.js') && f !=
 allJsFiles.forEach(jsFile => {
   const src = path.join(rootDir, jsFile);
   const dest = path.join(distDir, jsFile);
-  fs.copyFileSync(src, dest);
+  safeCopyFile(src, dest);
 });
 console.log(`✓ ${allJsFiles.length} JavaScript-Module nach dist/ kopiert`);
 
@@ -132,6 +145,8 @@ try {
     'helper-cleaning.js',
     'helper-learning.js',
     'app-regulation.js',
+    'app-health.js',
+    'app-humor.js',
     'app-shopping.js',
     'app-cooking.js',
     'app-alarm.js',

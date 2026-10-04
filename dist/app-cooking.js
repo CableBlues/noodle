@@ -502,6 +502,12 @@ function addRecipeMissingIngredientsToShopping() {
 }
 
 if (typeof window !== 'undefined') {
+  window.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
+  window.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
+  window.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;
+  window.handleCookingSuggest = typeof handleCookingSuggest !== 'undefined' ? handleCookingSuggest : undefined;
+  window.toggleCookingStepCheckbox = typeof toggleCookingStepCheckbox !== 'undefined' ? toggleCookingStepCheckbox : undefined;
+  window.resetCookingPantry = typeof resetCookingPantry !== 'undefined' ? resetCookingPantry : undefined;
   window.openPantryModal = typeof openPantryModal !== 'undefined' ? openPantryModal : undefined;
   window.closePantryModal = typeof closePantryModal !== 'undefined' ? closePantryModal : undefined;
   window.openRecipeModal = typeof openRecipeModal !== 'undefined' ? openRecipeModal : undefined;
@@ -511,9 +517,16 @@ if (typeof window !== 'undefined') {
   window.suggestCookingRecipe = typeof suggestCookingRecipe !== 'undefined' ? suggestCookingRecipe : undefined;
   window.clearCookingPantry = typeof clearCookingPantry !== 'undefined' ? clearCookingPantry : undefined;
   window.addRecipeMissingIngredientsToShopping = addRecipeMissingIngredientsToShopping;
+  window.getCookingState = typeof getCookingState !== 'undefined' ? getCookingState : undefined;
 }
 
 if (typeof globalThis !== 'undefined') {
+  globalThis.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
+  globalThis.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
+  globalThis.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;
+  globalThis.handleCookingSuggest = typeof handleCookingSuggest !== 'undefined' ? handleCookingSuggest : undefined;
+  globalThis.toggleCookingStepCheckbox = typeof toggleCookingStepCheckbox !== 'undefined' ? toggleCookingStepCheckbox : undefined;
+  globalThis.resetCookingPantry = typeof resetCookingPantry !== 'undefined' ? resetCookingPantry : undefined;
   globalThis.openPantryModal = typeof openPantryModal !== 'undefined' ? openPantryModal : undefined;
   globalThis.closePantryModal = typeof closePantryModal !== 'undefined' ? closePantryModal : undefined;
   globalThis.openRecipeModal = typeof openRecipeModal !== 'undefined' ? openRecipeModal : undefined;
@@ -523,4 +536,5 @@ if (typeof globalThis !== 'undefined') {
   globalThis.suggestCookingRecipe = typeof suggestCookingRecipe !== 'undefined' ? suggestCookingRecipe : undefined;
   globalThis.clearCookingPantry = typeof clearCookingPantry !== 'undefined' ? clearCookingPantry : undefined;
   globalThis.addRecipeMissingIngredientsToShopping = addRecipeMissingIngredientsToShopping;
+  globalThis.getCookingState = typeof getCookingState !== 'undefined' ? getCookingState : undefined;
 }

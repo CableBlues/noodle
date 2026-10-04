@@ -91,6 +91,36 @@ function getCommandPaletteActions() {
       }
     },
     {
+      id: 'cmd-open-music',
+      title: tr({ de: 'Musik & Medien Player öffnen', en: 'Open Music & Media Player' }),
+      category: tr({ de: 'Audio & Medien', en: 'Audio & Media' }),
+      icon: 'disc-3',
+      color: 'text-sky-400',
+      action: () => {
+        if (typeof openAudioStudioMode === 'function') openAudioStudioMode('music');
+      }
+    },
+    {
+      id: 'cmd-open-dj',
+      title: tr({ de: 'Noodle DJ (2-Deck Mixer & FX)', en: 'Open Noodle DJ Mixer' }),
+      category: tr({ de: 'Audio & Medien', en: 'Audio & Media' }),
+      icon: 'sliders',
+      color: 'text-amber-400',
+      action: () => {
+        if (typeof openAudioStudioMode === 'function') openAudioStudioMode('dj');
+      }
+    },
+    {
+      id: 'cmd-open-health',
+      title: tr({ de: 'Gesundheit & Vorsorge-Radar', en: 'Health & Vitality Radar' }),
+      category: tr({ de: 'Werkzeuge', en: 'Tools' }),
+      icon: 'shield',
+      color: 'text-rose-400',
+      action: () => {
+        if (typeof togglePanel === 'function') togglePanel('health');
+      }
+    },
+    {
       id: 'cmd-open-radio',
       title: tr({ de: 'Live-Radio & Focus Streams öffnen', en: 'Open Live Radio' }),
       category: tr({ de: 'Audio & Medien', en: 'Audio & Media' }),
@@ -102,12 +132,12 @@ function getCommandPaletteActions() {
     },
     {
       id: 'cmd-open-social',
-      title: tr({ de: 'Social Media Launch & Community Hub (Teilen)', en: 'Social Media Launch & Community Hub (Share)' }),
-      category: tr({ de: 'Community & Social', en: 'Community & Social' }),
-      icon: 'rocket',
+      title: tr({ de: 'Social Media Hub (Instagram, Facebook & Co)', en: 'Social Media Hub (Instagram, Facebook & Co)' }),
+      category: tr({ de: 'Audio & Medien', en: 'Audio & Media' }),
+      icon: 'share-2',
       color: 'text-pink-400',
       action: () => {
-        if (typeof openSocialLaunchModal === 'function') openSocialLaunchModal();
+        if (typeof togglePanel === 'function') togglePanel('social');
       }
     },
     {

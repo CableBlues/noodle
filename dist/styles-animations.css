@@ -1046,38 +1046,81 @@ main article .group:hover {
 
 .tools-morph-stage {
   perspective: 600px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .tools-morph-stage svg,
 .tools-icon-spin-anim {
-  width: 21px !important;
-  height: 21px !important;
-}
-
-/* Seltener & ruhiger rotierendes Tools-Icon (alle 12s ein sanfter Spin) */
-@keyframes tools-icon-spin {
-  0%, 65% {
-    transform: rotate(0deg);
-  }
-  82.5% {
-    transform: rotate(180deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.tools-icon-spin-anim {
-  animation: tools-icon-spin 12s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+  width: 23px !important;
+  height: 23px !important;
+  animation: tools-icon-spin-6s 6s cubic-bezier(0.45, 0.05, 0.25, 1) infinite !important;
   transform-origin: center center !important;
   transform-box: fill-box !important;
   display: inline-block !important;
   will-change: transform;
 }
 
+/* 6-Sekunden-Takt: 
+   0% bis 75% (4.5s): Ruhe
+   75% bis 100% (1.5s): Sanfte 360°-Drehung */
+@keyframes tools-icon-spin-6s {
+  0%, 75% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Synchrones Blinken/Glühen von STUDIO während der 1.5s-Drehung (75%-100%) */
+@keyframes studio-badge-blink-6s {
+  0%, 75% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
+    transform: scale(1) translateY(0);
+    color: #38bdf8;
+    -webkit-text-fill-color: #38bdf8;
+  }
+  79% {
+    opacity: 0.25;
+    filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.2));
+    transform: scale(0.96) translateY(0);
+  }
+  84% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 1)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.9));
+    transform: scale(1.08) translateY(0);
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+  }
+  89% {
+    opacity: 0.3;
+    filter: drop-shadow(0 0 2px rgba(56, 189, 248, 0.2));
+    transform: scale(0.96) translateY(0);
+    color: #38bdf8;
+    -webkit-text-fill-color: #38bdf8;
+  }
+  94% {
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 1)) drop-shadow(0 0 20px rgba(168, 85, 247, 0.9));
+    transform: scale(1.08) translateY(0);
+    color: #ffffff;
+    -webkit-text-fill-color: #ffffff;
+  }
+  98%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 12px rgba(56, 189, 248, 0.5));
+    transform: scale(1) translateY(0);
+    color: #38bdf8;
+    -webkit-text-fill-color: #38bdf8;
+  }
+}
+
 .group\/logo:hover .tools-icon-spin-anim,
 .is-menu-open .tools-icon-spin-anim {
-  animation: tools-icon-spin 8s ease-in-out infinite !important;
+  animation: tools-icon-spin-6s 3s ease-in-out infinite !important;
 }
 
 /* Subline Badge: STUDIO vs TOOLS
@@ -1091,21 +1134,27 @@ main article .group:hover {
 .badge-studio {
   opacity: 1 !important;
   transform: translateY(0) !important;
-  color: rgba(216, 180, 254, 0.95) !important;
-  text-shadow: 0 0 4px rgba(192, 132, 252, 0.4) !important;
+  color: #38bdf8 !important;
+  -webkit-text-fill-color: #38bdf8 !important;
+  background: none !important;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.9)) drop-shadow(0 0 12px rgba(56, 189, 248, 0.5)) !important;
+  animation: studio-badge-blink-6s 6s cubic-bezier(0.45, 0.05, 0.25, 1) infinite !important;
 }
 
 .badge-tools {
   opacity: 0 !important;
   transform: translateY(4px) !important;
-  color: rgba(233, 213, 255, 0.95) !important;
-  text-shadow: 0 0 5px rgba(192, 132, 252, 0.5) !important;
+  color: #38bdf8 !important;
+  -webkit-text-fill-color: #38bdf8 !important;
+  background: none !important;
+  filter: drop-shadow(0 0 6px rgba(56, 189, 248, 0.95)) drop-shadow(0 0 12px rgba(56, 189, 248, 0.55)) !important;
 }
 
 /* 1. HOVER AUF DAS LOGO / WRAPPER: STUDIO fadet aus, TOOLS fadet ein */
 #header-tools-wrapper:hover .badge-studio,
 .flow-logo-container:hover .badge-studio,
 #btn-header-tools:hover .badge-studio {
+  animation: none !important;
   opacity: 0 !important;
   transform: translateY(-4px) !important;
 }
@@ -1122,6 +1171,7 @@ main article .group:hover {
 .flow-logo-container.is-menu-open .badge-studio,
 #btn-header-tools.is-menu-open .badge-studio,
 body.has-tool-panel-open .badge-studio {
+  animation: none !important;
   opacity: 0 !important;
   transform: translateY(-4px) !important;
 }
@@ -1134,37 +1184,22 @@ body.has-tool-panel-open .badge-tools {
   transform: translateY(0) !important;
 }
 
-/* Tools Popover Spheres & Icons +10% */
+/* Tools Popover Spheres & Icons (Compact & Crisp Screen Fit) */
 #panel-header-tools .group\/orb .rounded-2xl {
-  width: 52px !important;
-  height: 52px !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 14px !important;
 }
 
 #panel-header-tools .group\/orb i[data-lucide],
 #panel-header-tools .group\/orb svg {
-  width: 22px !important;
-  height: 22px !important;
+  width: 19px !important;
+  height: 19px !important;
 }
 
-/* ==========================================================================
-   WECKER LIVE BLINKEN ANIMATION (ALLE 4 SEKUNDEN)
-   ========================================================================== */
-
-@keyframes alarm-second-pulse {
-  0%, 75%, 100% {
-    transform: scale(1);
-    opacity: 1;
-    filter: drop-shadow(0 0 5px rgba(0, 242, 255, 0.8));
-  }
-  87.5% {
-    transform: scale(0.85);
-    opacity: 0.25;
-    filter: drop-shadow(0 0 1px rgba(0, 242, 255, 0.2));
-  }
-}
-
+/* Wecker (Clean & Steady) */
 .alarm-second-dot {
-  animation: alarm-second-pulse 4s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+  display: none !important;
 }
 
 @keyframes alarm-btn-breathe {
@@ -1194,14 +1229,19 @@ body.has-tool-panel-open .badge-tools {
 }
 
 #panel-audio.is-dj-mode {
-  width: min(880px, 96vw) !important;
-  max-width: 96vw !important;
-  max-height: min(88vh, 620px) !important;
+  width: min(860px, calc(100vw - 390px)) !important;
+  max-width: calc(100vw - 370px) !important;
+  max-height: calc(100dvh - 72px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   #panel-audio.is-dj-mode {
     width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    max-height: calc(100dvh - 85px) !important;
   }
 }
 
@@ -1392,43 +1432,11 @@ input[type="range"].dj-eq-slider:active::-webkit-slider-thumb {
   }
 }
 
-@keyframes alarmIconBlink4s {
-  0%, 75%, 100% {
-    opacity: 1;
-    transform: scale(1);
-    filter: drop-shadow(0 0 6px rgba(244, 63, 94, 0.8));
-  }
-  87.5% {
-    opacity: 0.2;
-    transform: scale(0.88);
-    filter: drop-shadow(0 0 0px transparent);
-  }
-}
-
-.animate-alarm-icon-blink,
+/* Alarm Clock Clean & Steady Styling (No blinking) */
 #btn-header-alarm i,
-#btn-header-alarm svg,
-#btn-header-alarm .animate-alarm-icon-blink {
-  animation: alarmIconBlink4s 4s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
-  transform-origin: center center !important;
-  transform-box: fill-box !important;
+#btn-header-alarm svg {
   display: inline-block !important;
-  will-change: opacity, transform, filter !important;
-}
-
-@keyframes alarmBtnBorderPulse4s {
-  0%, 75%, 100% {
-    border-color: rgba(244, 63, 94, 0.45);
-    box-shadow: 0 0 10px rgba(244, 63, 94, 0.25);
-  }
-  87.5% {
-    border-color: rgba(244, 63, 94, 0.15);
-    box-shadow: 0 0 3px rgba(244, 63, 94, 0.05);
-  }
-}
-
-#btn-header-alarm {
-  animation: alarmBtnBorderPulse4s 4s ease-in-out infinite !important;
+  transition: transform 0.2s ease, color 0.2s ease !important;
 }
 
 
@@ -1507,34 +1515,9 @@ input[type="range"].dj-eq-slider:active::-webkit-slider-thumb {
   transform-origin: center center !important;
 }
 
-/* 2. Wecker Synchroner Blink- & Glow-Impuls beim 5s Takt */
-@keyframes alarmSyncPulseAnim {
-  0% {
-    transform: scale(1);
-    border-color: rgba(244, 63, 94, 0.4);
-    box-shadow: 0 0 8px rgba(244, 63, 94, 0.2);
-  }
-  25% {
-    transform: scale(1.12) rotate(-6deg);
-    border-color: rgba(244, 63, 94, 0.95);
-    box-shadow: 0 0 20px rgba(244, 63, 94, 0.65), inset 0 0 10px rgba(244, 63, 94, 0.3);
-    filter: drop-shadow(0 0 8px #f43f5e);
-  }
-  50% {
-    transform: scale(1.08) rotate(6deg);
-    border-color: rgba(244, 63, 94, 0.8);
-    box-shadow: 0 0 15px rgba(244, 63, 94, 0.45);
-  }
-  100% {
-    transform: scale(1) rotate(0deg);
-    border-color: rgba(244, 63, 94, 0.4);
-    box-shadow: 0 0 8px rgba(244, 63, 94, 0.2);
-    filter: none;
-  }
-}
-
+/* 2. Wecker (Ruhig und ohne periodischen Impuls) */
 .animate-alarm-sync-pulse {
-  animation: alarmSyncPulseAnim 1.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  animation: none !important;
 }
 
 /* 3. Zufällige Aufgaben-Karte Leuchten & Sanfte Schwebung beim 5s Takt */
@@ -1566,3 +1549,58 @@ input[type="range"].dj-eq-slider:active::-webkit-slider-thumb {
   animation: taskRandomGlowPulse 1.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
   z-index: 15 !important;
 }
+
+/* ==========================================================================
+   HUMOR-LAB DYNAMIC FX & ANIMATIONS
+   ========================================================================== */
+
+/* 1. Jello Wobble Mode */
+@keyframes humorJelloAnim {
+  0% { transform: scale3d(1, 1, 1); }
+  30% { transform: scale3d(1.25, 0.75, 1); }
+  40% { transform: scale3d(0.75, 1.25, 1); }
+  50% { transform: scale3d(1.15, 0.85, 1); }
+  65% { transform: scale3d(0.95, 1.05, 1); }
+  75% { transform: scale3d(1.05, 0.95, 1); }
+  100% { transform: scale3d(1, 1, 1); }
+}
+
+.humor-jello-active button:hover,
+.humor-jello-active .task-card-modern:hover,
+.humor-jello-active article.column-card-breathing:hover,
+.humor-jello-active [id^="task-item-"]:hover {
+  animation: humorJelloAnim 0.85s both !important;
+}
+
+/* 2. Screen Shake FX */
+@keyframes humorScreenShakeAnim {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  10%, 30%, 50%, 70%, 90% { transform: translate(-3px, 2px) rotate(-0.5deg); }
+  20%, 40%, 60%, 80% { transform: translate(3px, -2px) rotate(0.5deg); }
+}
+
+.humor-screen-shake {
+  animation: humorScreenShakeAnim 0.55s ease-in-out !important;
+}
+
+/* 3. Noodli Gentle Bounce */
+@keyframes humorNoodliBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-bounce-gentle {
+  animation: humorNoodliBounce 2.5s ease-in-out infinite;
+}
+
+/* 4. Multi-color Humor Badge */
+.noodle-badge-humor {
+  background: rgba(250, 204, 21, 0.08);
+  border-color: rgba(250, 204, 21, 0.3);
+}
+
+.noodle-badge-humor:hover {
+  border-color: rgba(250, 204, 21, 0.6);
+  box-shadow: 0 0 16px rgba(250, 204, 21, 0.25);
+}
+

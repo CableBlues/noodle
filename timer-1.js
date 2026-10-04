@@ -9,7 +9,9 @@ var timerTargetEndTime = null;
 
 var timerSoundEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerSoundEnabled') : null) !== 'false';
 var timerVoiceEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceEnabled') : null) !== 'false';
-var timerAudioMode = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerAudioMode') : null) || 'ambient';
+var timerVoiceTimeAnnounce = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceTimeAnnounce') : null) !== 'false';
+var timerVoiceMotivation = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceMotivation') : null) !== 'false';
+var timerAudioMode = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerAudioMode') : null) || 'silent';
 var timerVoiceRotationIndex = 0;
 var lastSelectedTimerAmbient = null;
 var currentSpeechSessionId = 0;
@@ -24,6 +26,8 @@ if (typeof window !== 'undefined') {
   window.currentSpeechSessionId = currentSpeechSessionId;
   window.timerSoundEnabled = timerSoundEnabled;
   window.timerVoiceEnabled = timerVoiceEnabled;
+  window.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+  window.timerVoiceMotivation = timerVoiceMotivation;
   window.timerAudioMode = timerAudioMode;
 }
 if (typeof globalThis !== 'undefined') {
@@ -36,6 +40,8 @@ if (typeof globalThis !== 'undefined') {
   globalThis.currentSpeechSessionId = currentSpeechSessionId;
   globalThis.timerSoundEnabled = timerSoundEnabled;
   globalThis.timerVoiceEnabled = timerVoiceEnabled;
+  globalThis.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+  globalThis.timerVoiceMotivation = timerVoiceMotivation;
   globalThis.timerAudioMode = timerAudioMode;
 }
 

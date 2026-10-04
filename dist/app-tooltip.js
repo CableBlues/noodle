@@ -7,14 +7,70 @@
   let tooltipEl = null;
   let showTimer = null;
   let hideTimer = null;
-  let warmTimer = null;
-  let isWarm = false;
   let currentTarget = null;
 
-  const DELAY_SHOW = 25; // Ultraschnelle Reaktionszeit in ms (sofortiges Einblenden)
-  const WARM_TIMEOUT = 450; // Schneller Wechsel zwischen Buttons ohne Verzögerung
+  // Eingebetteter Style für ultraschnelle, flackerfreie & ästhetische Darstellung
+  function ensureTooltipStyles() {
+    if (document.getElementById('noodle-tooltip-base-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'noodle-tooltip-base-styles';
+    style.textContent = `
+      .noodle-custom-tooltip {
+        position: fixed !important;
+        z-index: 9999999 !important;
+        pointer-events: none !important;
+        user-select: none !important;
+        max-width: 320px;
+        background: rgba(13, 13, 22, 0.96) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 14px rgba(139, 92, 246, 0.25) !important;
+        backdrop-filter: blur(16px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+        border-radius: 9px !important;
+        padding: 4.5px 8.5px !important;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+        color: #f3f4f6 !important;
+        white-space: nowrap !important;
+        line-height: 1.35 !important;
+        opacity: 0;
+        transform: scale(0.96) translateY(2px);
+        transition: opacity 0.07s cubic-bezier(0.16, 1, 0.3, 1), transform 0.07s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        will-change: transform, opacity;
+      }
+      .noodle-custom-tooltip.noodle-tooltip-visible {
+        opacity: 1 !important;
+        transform: scale(1) translateY(0) !important;
+      }
+      .noodle-tooltip-shortcut-wrap {
+        display: inline-flex;
+        align-items: center;
+      }
+      .noodle-tooltip-kbd {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 4px;
+        padding: 0.5px 4.5px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 9.5px;
+        font-weight: 600;
+        color: #c4b5fd;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+        letter-spacing: 0.2px;
+      }
+      .noodle-tooltip-bullet {
+        color: #a78bfa;
+        margin: 0 2px;
+        opacity: 0.9;
+      }
+    `;
+    document.head.appendChild(style);
+  }
 
   function getOrCreateTooltip() {
+    ensureTooltipStyles();
     if (tooltipEl && document.body.contains(tooltipEl)) return tooltipEl;
     
     tooltipEl = document.getElementById('noodle-global-tooltip');
@@ -32,7 +88,6 @@
   function formatTooltipContent(text) {
     if (!text) return '';
     
-    // HTML-Escaping zur Sicherheit
     let safe = text
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -40,13 +95,11 @@
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
 
-    // Tastenkürzel wie [T], [Ctrl+Z], [S], (Ctrl+Z) immer unzerbrechlich in der gleichen Zeile halten
     safe = safe.replace(/(\s*)(?:\[([A-Z0-9\+\-\s]{1,10})\]|\((Ctrl\+[A-Za-z0-9]|Strg\+[A-Za-z0-9]|Alt\+[A-Za-z0-9]|Shift\+[A-Za-z0-9]|Cmd\+[A-Za-z0-9])\))/gi, (match, space, kbd1, kbd2) => {
       const key = kbd1 || kbd2;
       return `<span class="noodle-tooltip-shortcut-wrap">&nbsp;<kbd class="noodle-tooltip-kbd">${key}</kbd></span>`;
     });
 
-    // Optionaler Bullet / Info-Trenner
     safe = safe.replace(/(\s[•·]\s)/g, '<span class="noodle-tooltip-bullet">$1</span>');
 
     return safe;
@@ -64,7 +117,6 @@
     let top = rect.top - tooltipRect.height - gap;
     let placement = 'top';
 
-    // Oben kein Platz? Dann unter dem Element platzieren
     if (top < margin) {
       top = rect.bottom + gap;
       placement = 'bottom';
@@ -73,7 +125,6 @@
       }
     }
 
-    // Links/Rechts im sichtbaren Fenster begrenzen
     left = Math.max(margin, Math.min(window.innerWidth - tooltipRect.width - margin, left));
 
     el.style.left = Math.round(left) + 'px';
@@ -87,23 +138,19 @@
     const text = target.getAttribute('data-noodle-tooltip') || target.getAttribute('data-tooltip') || target.getAttribute('data-title');
     if (!text || !text.trim()) return;
 
+    if (hideTimer) {
+      clearTimeout(hideTimer);
+      hideTimer = null;
+    }
+
     tooltip.innerHTML = formatTooltipContent(text.trim());
     tooltip.classList.remove('noodle-tooltip-visible');
-    tooltip.style.visibility = 'hidden';
     tooltip.style.display = 'block';
 
-    // Position berechnen
     positionTooltip(target, tooltip);
 
-    // Sichtbar machen mit sanfter Animation
-    tooltip.style.visibility = 'visible';
-    requestAnimationFrame(() => {
-      tooltip.classList.add('noodle-tooltip-visible');
-      tooltip.setAttribute('aria-hidden', 'false');
-    });
-
-    isWarm = true;
-    if (warmTimer) clearTimeout(warmTimer);
+    tooltip.classList.add('noodle-tooltip-visible');
+    tooltip.setAttribute('aria-hidden', 'false');
   }
 
   function hideTooltip(immediate = false) {
@@ -111,11 +158,6 @@
       clearTimeout(showTimer);
       showTimer = null;
     }
-
-    if (warmTimer) clearTimeout(warmTimer);
-    warmTimer = setTimeout(() => {
-      isWarm = false;
-    }, WARM_TIMEOUT);
 
     if (tooltipEl) {
       tooltipEl.classList.remove('noodle-tooltip-visible');
@@ -125,10 +167,10 @@
       } else {
         if (hideTimer) clearTimeout(hideTimer);
         hideTimer = setTimeout(() => {
-          if (!tooltipEl.classList.contains('noodle-tooltip-visible')) {
+          if (tooltipEl && !tooltipEl.classList.contains('noodle-tooltip-visible')) {
             tooltipEl.style.display = 'none';
           }
-        }, 120);
+        }, 80);
       }
     }
     currentTarget = null;
@@ -143,7 +185,7 @@
       if (curr.hasAttribute('title') && curr.getAttribute('title').trim()) {
         const titleText = curr.getAttribute('title').trim();
         curr.setAttribute('data-noodle-tooltip', titleText);
-        curr.removeAttribute('title'); // Verhindert den Standard-Browser-Tooltip
+        curr.removeAttribute('title');
         return curr;
       }
       if (curr.hasAttribute('data-noodle-tooltip') && curr.getAttribute('data-noodle-tooltip').trim()) {
@@ -160,7 +202,7 @@
     return null;
   }
 
-  // Globales Event-Delegation für alle aktuellen und künftigen UI-Elemente
+  // Globales Event-Delegation: Reagiert SOFORT (0ms Verzögerung)
   document.addEventListener('pointerover', function(e) {
     if (e.pointerType === 'touch') return;
 
@@ -174,11 +216,8 @@
     currentTarget = target;
 
     if (showTimer) clearTimeout(showTimer);
-
-    const delay = isWarm ? 20 : DELAY_SHOW;
-    showTimer = setTimeout(() => {
-      showTooltip(target);
-    }, delay);
+    // Sofort anzeigen ohne künstliche Verzögerung
+    showTooltip(target);
   }, { passive: true });
 
   document.addEventListener('pointerout', function(e) {
@@ -192,6 +231,7 @@
 
   document.addEventListener('pointerdown', () => hideTooltip(true), { passive: true });
   document.addEventListener('scroll', () => hideTooltip(true), { passive: true, capture: true });
+  document.addEventListener('dragstart', () => hideTooltip(true), { passive: true });
   window.addEventListener('blur', () => hideTooltip(true));
 
   document.addEventListener('focusin', function(e) {
@@ -214,5 +254,11 @@
         if (currentTarget) positionTooltip(currentTarget, tooltipEl);
       }
     };
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureTooltipStyles);
+  } else {
+    ensureTooltipStyles();
   }
 })();

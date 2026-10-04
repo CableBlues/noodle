@@ -39,19 +39,31 @@ function reorderNotesBeforeTermine(arr) {
   return arr;
 }
 
+// Helper to ensure 'todo' is positioned before 'daily' (Heute)
+function reorderTodoBeforeDaily(arr) {
+  if (!Array.isArray(arr)) return arr;
+  const dailyIdx = arr.findIndex(([id]) => id === 'daily');
+  const todoIdx = arr.findIndex(([id]) => id === 'todo');
+  if (dailyIdx !== -1 && todoIdx !== -1 && todoIdx > dailyIdx) {
+    const [todoItem] = arr.splice(todoIdx, 1);
+    arr.splice(dailyIdx, 0, todoItem);
+  }
+  return arr;
+}
+
 function loadCategoriesOrder() {
   try {
     const saved = localStorage.getItem('flowPlannerCategoriesOrder') || localStorage.getItem('flow_categories_order');
-    if (saved) return reorderNotesBeforeTermine(JSON.parse(saved));
+    if (saved) return reorderTodoBeforeDaily(reorderNotesBeforeTermine(JSON.parse(saved)));
   } catch (e) {
     console.warn('[State] loadCategoriesOrder warning:', e);
   }
   
-  // Standard-Layout (Heute nach Haushalt)
+  // Standard-Layout (To Do vor Heute)
   return [
     ['weekly', 'home'],
-    ['daily', 'sun'],
     ['todo', 'list-todo'],
+    ['daily', 'sun'],
     ['done', 'check-circle-2'],
     ['notes', 'file-text'],
     ['termine', 'calendar'],
@@ -667,14 +679,28 @@ function loadState() {
 }
 
 function setWorkspace(mode) {
-  if (mode !== 'private' && mode !== 'work' && mode !== 'study') return;
+  if (mode !== 'private' && mode !== 'work' && mode !== 'study' && mode !== 'shared') return;
+  
+  if (mode === 'shared' && (!state.workspaces || !state.workspaces.shared)) {
+    if (!state.workspaces) state.workspaces = {};
+    const baseItems = (state.workspaces && state.workspaces.private && state.workspaces.private.items) || state.items || {};
+    state.workspaces.shared = {
+      items: JSON.parse(JSON.stringify(baseItems)),
+      done: [],
+      history: []
+    };
+  }
+
   state.activeWorkspace = mode;
   saveState();
   updateWorkspaceSwitchUI();
   if (typeof renderApp === 'function') renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof showToast === 'function') {
-    if (mode === 'study') {
+    if (mode === 'shared') {
+      const roomName = (typeof CollabEngine !== 'undefined' && CollabEngine.getRoom) ? CollabEngine.getRoom() : 'team-space';
+      showToast(`👥 Gemeinsames Team-Dashboard (#${roomName}) aktiv! Live synchronisiert ⚡`);
+    } else if (mode === 'study') {
       showToast(tr({
         de: '🎓 Studium-Modus aktiviert!',
         en: '🎓 Study Mode activated!',
@@ -709,7 +735,7 @@ window.switchWorkspace = setWorkspace;
 
 function toggleWorkspace() {
   const current = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
-  const nextMode = (current === 'private') ? 'work' : ((current === 'work') ? 'study' : 'private');
+  const nextMode = (current === 'private') ? 'work' : ((current === 'work') ? 'study' : ((current === 'study') ? 'shared' : 'private'));
   setWorkspace(nextMode);
 }
 window.toggleWorkspace = toggleWorkspace;
@@ -738,8 +764,13 @@ function closeHeaderWorkspaceDropdown() {
   if (headerWsDropdownTimer) clearTimeout(headerWsDropdownTimer);
   headerWsDropdownTimer = setTimeout(() => {
     const el = document.getElementById('dropdown-header-workspace');
+    const btn = document.getElementById('header-workspace-wrapper');
+    try {
+      if (el && el.matches(':hover')) return;
+      if (btn && btn.matches(':hover')) return;
+    } catch (e) {}
     if (el) el.classList.add('hidden');
-  }, 220);
+  }, 260);
 }
 window.closeHeaderWorkspaceDropdown = closeHeaderWorkspaceDropdown;
 
@@ -764,26 +795,35 @@ function updateWorkspaceSwitchUI() {
   const headerLabel = document.getElementById('header-ws-label');
 
   if (headerBtn && headerIcon && headerLabel) {
-    if (currentWs === 'study') {
+    if (currentWs === 'shared') {
+      const roomName = (typeof CollabEngine !== 'undefined' && CollabEngine.getRoom) ? CollabEngine.getRoom() : 'team';
+      headerIcon.textContent = '👥';
+      headerLabel.textContent = `Team (#${roomName})`;
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-violet-600/30 hover:bg-violet-600/40 border border-violet-400/80 text-violet-100 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_15px_rgba(139,92,246,0.4)] group/ws shrink-0';
+    } else if (currentWs === 'study') {
       headerIcon.textContent = '🎓';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_study') : 'Studium';
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
     } else if (currentWs === 'work') {
       headerIcon.textContent = '💼';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
     } else {
       headerIcon.textContent = '🏠';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_private') : 'Privat';
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
     }
-    headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
   }
 
   // Active option highlight inside Header Dropdown (Solid backgrounds to avoid overlap artifacts)
   const optPriv = document.getElementById('header-ws-opt-private');
   const optWork = document.getElementById('header-ws-opt-work');
   const optStudy = document.getElementById('header-ws-opt-study');
+  const optShared = document.getElementById('header-ws-opt-shared');
   if (optPriv) optPriv.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'private' ? 'bg-purple-500/20 border-purple-400/50 text-purple-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
   if (optWork) optWork.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'work' ? 'bg-blue-500/20 border-blue-400/50 text-blue-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
   if (optStudy) optStudy.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'study' ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
+  if (optShared) optShared.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'shared' ? 'bg-violet-600/30 border-violet-400/70 text-violet-100 shadow-[0_0_12px_rgba(139,92,246,0.3)]' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
 
   // 2. SETTINGS / MOBILE TOGGLE FALLBACKS
   const toggleBtn = document.getElementById('btn-workspace-toggle');
@@ -796,7 +836,10 @@ function updateWorkspaceSwitchUI() {
 
   let currentIcon = '🏠';
   let currentLabel = typeof t === 'function' ? t('workspace_private') : 'Privat';
-  if (currentWs === 'work') {
+  if (currentWs === 'shared') {
+    currentIcon = '👥';
+    currentLabel = 'Team-Board';
+  } else if (currentWs === 'work') {
     currentIcon = '💼';
     currentLabel = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
   } else if (currentWs === 'study') {
@@ -807,7 +850,7 @@ function updateWorkspaceSwitchUI() {
   if (iconEl) iconEl.textContent = currentIcon;
   if (textEl) {
     textEl.textContent = currentLabel;
-    textEl.className = currentWs === 'work' ? 'truncate text-blue-300' : (currentWs === 'study' ? 'truncate text-emerald-300' : 'truncate text-purple-300');
+    textEl.className = currentWs === 'shared' ? 'truncate text-violet-300 font-bold' : (currentWs === 'work' ? 'truncate text-blue-300' : (currentWs === 'study' ? 'truncate text-emerald-300' : 'truncate text-purple-300'));
   }
   if (toggleBtn) {
     toggleBtn.title = currentLabel;
@@ -816,7 +859,7 @@ function updateWorkspaceSwitchUI() {
   if (mobileIconEl) mobileIconEl.textContent = currentIcon;
   if (mobileTextEl) {
     mobileTextEl.textContent = currentLabel;
-    mobileTextEl.className = currentWs === 'work' ? 'text-xs font-bold text-blue-300 hidden sm:inline' : (currentWs === 'study' ? 'text-xs font-bold text-emerald-300 hidden sm:inline' : 'text-xs font-bold text-purple-300 hidden sm:inline');
+    mobileTextEl.className = currentWs === 'shared' ? 'text-xs font-bold text-violet-300 hidden sm:inline' : (currentWs === 'work' ? 'text-xs font-bold text-blue-300 hidden sm:inline' : (currentWs === 'study' ? 'text-xs font-bold text-emerald-300 hidden sm:inline' : 'text-xs font-bold text-purple-300 hidden sm:inline'));
   }
   if (mobileToggleBtn) {
     mobileToggleBtn.title = currentLabel;
@@ -1465,23 +1508,23 @@ function checkAutoRollovers() {
 
   let stateModified = false;
 
-  // 1. Täglicher Rollover für Heute (daily / work_focus)
+  // 1. Täglicher Rollover für Heute (daily / work_focus) - Keine täglichen Auto-Downloads mehr
   if (currentState.lastDate && currentState.lastDate !== todayISO) {
-    const prevDate = currentState.lastDate;
-    if (typeof generateReportContent === 'function' && typeof triggerAutomaticDownload === 'function') {
-      try {
-        const { reportText, filename } = generateReportContent('daily', prevDate);
-        triggerAutomaticDownload(reportText, filename);
-      } catch (e) {
-        console.warn('[Rollover] Auto-report warning:', e);
-      }
-    }
     reloadDailyTasks(true);
     stateModified = true;
   }
 
-  // 2. Wöchentlicher Rollover für Haushalt (weekly)
+  // 2. Wöchentlicher Rollover für Haushalt (weekly) & Wöchentlicher automatischer Bericht
   if (currentState.lastWeeklyResetWeek && currentState.lastWeeklyResetWeek !== currentWeekStr) {
+    if (typeof generateReportContent === 'function' && typeof triggerAutomaticDownload === 'function') {
+      try {
+        const lastWeek = currentState.lastWeeklyResetWeek;
+        const { reportText, filename } = generateReportContent('weekly', lastWeek);
+        triggerAutomaticDownload(reportText, filename);
+      } catch (e) {
+        console.warn('[Rollover] Weekly auto-report warning:', e);
+      }
+    }
     reloadWeeklyHouseholdTasks(true);
     stateModified = true;
   }

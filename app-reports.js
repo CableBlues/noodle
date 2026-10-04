@@ -98,10 +98,11 @@ function syncHeaderToolsMenuState() {
   const toolsWrapper = document.getElementById('header-tools-wrapper');
   
   const TOOL_PANEL_IDS = [
-    'panel-header-tools', 'panel-collab-chat', 'panel-radio', 'panel-news',
+    'panel-header-tools', 'panel-collab-chat', 'panel-social', 'panel-radio', 'panel-news',
     'panel-audio', 'panel-alarm', 'panel-daily', 'panel-inspiration',
     'panel-impulse', 'panel-shopping', 'panel-cooking', 'panel-fitness',
-    'panel-cleaning-guide', 'panel-learning-hub', 'panel-clarity'
+    'panel-cleaning-guide', 'panel-learning-hub', 'panel-clarity',
+    'panel-health', 'panel-humor-lab'
   ];
   
   const isAnyToolOpen = TOOL_PANEL_IDS.some(id => {
@@ -133,11 +134,11 @@ function togglePanel(panelName) {
   if (!el) return;
   const isCurrentlyHidden = el.classList.contains('hidden');
 
-  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat'];
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab'];
   const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
 
   // Andere Popover-Panels schließen
-  ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'radio-news', 'timer-presets'].forEach(p => {
+  ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'social', 'radio-news', 'timer-presets', 'health', 'humor-lab'].forEach(p => {
     if (isSubpanelOfTools && p === 'header-tools') return;
     if (p !== panelName) {
       const other = document.getElementById(`panel-${p}`);
@@ -157,13 +158,13 @@ function togglePanel(panelName) {
     if (typeof currentlyOpenPanel !== 'undefined') currentlyOpenPanel = panelName;
     if (typeof pinnedPanel !== 'undefined') pinnedPanel = panelName;
 
-    if (dockContainer && ['audio', 'daily', 'alarm', 'radio-news', 'shopping', 'cooking', 'radio', 'news'].includes(panelName)) {
+    if (dockContainer && ['audio', 'daily', 'alarm', 'radio-news', 'shopping', 'cooking', 'radio', 'news', 'social', 'health', 'humor-lab', 'collab-chat'].includes(panelName)) {
       dockContainer.classList.add('is-active');
     }
 
     if (panelName === 'report') updateReportPanel(); 
     if (panelName === 'shopping' && typeof renderShoppingList === 'function') renderShoppingList();
-    if (panelName === 'cooking' && typeof renderCookingPanel === 'function') renderCookingPanel(true); 
+    if (panelName === 'cooking' && typeof renderCookingPanel === 'function') renderCookingPanel(false); 
     if (panelName === 'alarm' && typeof renderAlarmPanel === 'function') renderAlarmPanel();
     if (panelName === 'weather' && typeof fetchLocalWeather === 'function') fetchLocalWeather();
     if (panelName === 'news') {
@@ -195,6 +196,15 @@ function togglePanel(panelName) {
     if (panelName === 'collab-chat' && typeof CollabEngine !== 'undefined') {
       if (typeof CollabEngine.renderChatMessages === 'function') CollabEngine.renderChatMessages();
       if (typeof CollabEngine.renderPresenceUI === 'function') CollabEngine.renderPresenceUI();
+    }
+    if (panelName === 'social' && typeof SocialHubEngine !== 'undefined') {
+      if (typeof SocialHubEngine.render === 'function') SocialHubEngine.render();
+    }
+    if (panelName === 'health' && typeof HealthEngine !== 'undefined') {
+      if (typeof HealthEngine.renderPanel === 'function') HealthEngine.renderPanel();
+    }
+    if (panelName === 'humor-lab' && typeof HumorEngine !== 'undefined') {
+      if (typeof HumorEngine.renderHumorPanel === 'function') HumorEngine.renderHumorPanel();
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     syncHeaderToolsMenuState();
@@ -1004,14 +1014,7 @@ function triggerAutomaticDownload(reportText, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-function getYearAndWeek(date) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const dayNum = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
-}
+// getYearAndWeek handled by state.js
 
 function generateReportContent(timeframe = 'comprehensive', targetDate = '') {
   const reportText = typeof generateComprehensiveReportText === 'function' ? generateComprehensiveReportText() : '';
@@ -1029,9 +1032,9 @@ if (typeof globalThis !== 'undefined') {
 
 function checkAndGenerateAutomaticReports() {
   const now = new Date(); const todayISO = now.toISOString().split('T')[0]; const lang = currentLang || 'en';
+  // Tageswechsel aktualisieren ohne automatischen Download
   if (state.lastDate && state.lastDate !== todayISO) {
-    const prevDate = state.lastDate; const { reportText, filename } = generateReportContent('daily', prevDate);
-    triggerAutomaticDownload(reportText, filename); state.lastDate = todayISO; saveState();
+    state.lastDate = todayISO; saveState();
   }
   const currentWeekStr = getYearAndWeek(now); const lastWeeklyReport = localStorage.getItem('flow_last_weekly_report_week');
   const isSundayEvening = now.getDay() === 0 && now.getHours() >= 18;

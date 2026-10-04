@@ -78,6 +78,62 @@ function formatAudioTime(secs) {
 }
 window.formatAudioTime = formatAudioTime;
 
+function getDjCurrentPlayingTrack() {
+  if (djDecks.a && djDecks.a.isPlaying && djDecks.a.track) {
+    return { ...djDecks.a.track, deck: 'a', bpm: djDecks.a.bpm, currentTime: (djDecks.a.audio ? djDecks.a.audio.currentTime : 0) };
+  }
+  if (djDecks.b && djDecks.b.isPlaying && djDecks.b.track) {
+    return { ...djDecks.b.track, deck: 'b', bpm: djDecks.b.bpm, currentTime: (djDecks.b.audio ? djDecks.b.audio.currentTime : 0) };
+  }
+  if (typeof currentPlaylistIndex !== 'undefined' && playlistTracks && playlistTracks[currentPlaylistIndex]) {
+    const t = playlistTracks[currentPlaylistIndex];
+    return { id: t.id, name: t.name || t.fullName, url: t.url, bpm: t.bpm || 120, isPlaying: (typeof isMusicPlaying !== 'undefined' ? isMusicPlaying : false) };
+  }
+  if (BUILTIN_DJ_STEMS && BUILTIN_DJ_STEMS.length > 0) {
+    const s = BUILTIN_DJ_STEMS[0];
+    return { id: s.id, name: s.name, bpm: s.bpm, file: s.file, url: s.file };
+  }
+  return null;
+}
+window.getDjCurrentPlayingTrack = getDjCurrentPlayingTrack;
+
+function playDjSharedTrack(trackData) {
+  if (!trackData) return;
+  const stem = BUILTIN_DJ_STEMS.find(s => s.id === trackData.id || s.name === trackData.name || (trackData.file && s.file === trackData.file));
+  if (stem) {
+    loadDjBuiltinTrack('a', stem.id, true);
+    if (trackData.startedAt && djDecks.a.audio) {
+      const elapsed = (Date.now() - trackData.startedAt) / 1000;
+      if (elapsed > 0 && elapsed < (djDecks.a.audio.duration || 300)) {
+        try { djDecks.a.audio.currentTime = elapsed % (djDecks.a.audio.duration || 180); } catch(e) {}
+      }
+    }
+    return;
+  }
+
+  if (trackData.url || trackData.file) {
+    const targetUrl = trackData.url || trackData.file;
+    const deck = djDecks.a;
+    if (!deck.audio) deck.audio = new Audio();
+    deck.audio.src = targetUrl;
+    deck.track = { id: trackData.id || 'shared_track', name: trackData.name || 'DJ Stream', bpm: trackData.bpm || 120, url: targetUrl };
+    deck.bpm = trackData.bpm || 120;
+    
+    deck.audio.play().then(() => {
+      deck.isPlaying = true;
+      if (trackData.startedAt && deck.audio.duration) {
+        const elapsed = (Date.now() - trackData.startedAt) / 1000;
+        if (elapsed > 0 && elapsed < deck.audio.duration) {
+          try { deck.audio.currentTime = elapsed; } catch(e) {}
+        }
+      }
+      updateDjDeckPlayButtonUI('a');
+      startDjJogAnimation('a');
+    }).catch(e => console.warn('[AudioPlayer] Shared playback note:', e));
+  }
+}
+window.playDjSharedTrack = playDjSharedTrack;
+
 // ============================================================================
 // 2. TAB 3: EIGENE TRACKS / PLAYLIST PLAYER & INDEXEDDB AUDIO VAULT
 // ============================================================================
@@ -171,6 +227,11 @@ async function loadSavedUserAudioTracks() {
 }
 
 async function scanMusicFolderTracks() {
+  if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
+    // Auf file:// Protokoll blockieren Browser CORS-Fetches auf lokale Verzeichnisse/Dateien.
+    // Built-in Stems und DEFAULT_PRELOADED_TRACKS werden sauber genutzt.
+    return;
+  }
   try {
     let res = await fetch('music/list.php').catch(() => null);
     if (!res || !res.ok) {
@@ -1050,7 +1111,7 @@ function bindDjAudioEvents(deckId) {
     }
 
     deck.jogRotation = (deck.jogRotation + 3) % 360;
-    const jog = document.getElementById(`dj-vinyl-disc-${deckId}`);
+    const jog = document.getElementById(`dj-jog-${deckId}`) || document.getElementById(`dj-vinyl-disc-${deckId}`);
     if (jog && deck.isPlaying) {
       jog.style.transform = `rotate(${deck.jogRotation}deg)`;
     }
@@ -1097,10 +1158,20 @@ function updateDjDeckUI(deckId) {
 function updateDjPlayBtnUI(deckId, isPlaying) {
   const btn = document.getElementById(`dj-play-btn-${deckId}`);
   if (btn) {
-    btn.innerHTML = isPlaying ? `<i data-lucide="pause" class="w-3.5 h-3.5"></i>` : `<i data-lucide="play" class="w-3.5 h-3.5"></i>`;
-    btn.classList.toggle('ring-2', isPlaying);
-    btn.classList.toggle('ring-white/50', isPlaying);
+    const isDeckA = deckId === 'a';
+    if (isPlaying) {
+      btn.innerHTML = `<i data-lucide="pause" class="w-4 h-4 fill-black"></i><span class="font-black">PAUSE</span>`;
+      btn.className = isDeckA
+        ? 'flex-1 py-2 bg-cyan-400 hover:bg-cyan-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(6,182,212,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-cyan-300'
+        : 'flex-1 py-2 bg-amber-400 hover:bg-amber-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(245,158,11,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-amber-300';
+    } else {
+      btn.innerHTML = `<i data-lucide="play" class="w-4 h-4 fill-black"></i><span class="font-black">PLAY</span>`;
+      btn.className = isDeckA
+        ? 'flex-1 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(6,182,212,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95'
+        : 'flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(245,158,11,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95';
+    }
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 }
 
@@ -1236,10 +1307,18 @@ window.setDjCrossfader = setDjCrossfader;
 function toggleDjAutomix() {
   djAutomix.enabled = !djAutomix.enabled;
   const btn = document.getElementById('dj-automix-toggle-btn');
+  const led = document.getElementById('dj-automix-led');
+  const txt = document.getElementById('dj-automix-status-text');
   if (btn) {
     btn.className = djAutomix.enabled
-      ? 'px-2.5 py-1 bg-emerald-500/25 border border-emerald-400/80 text-emerald-200 rounded-xl text-[10px] font-bold transition flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.35)] cursor-pointer'
-      : 'px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 rounded-xl text-[10px] font-medium transition flex items-center gap-1.5 cursor-pointer';
+      ? 'px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 transition cursor-pointer flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+      : 'px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-zinc-800/80 text-zinc-300 hover:text-white border border-zinc-700 transition cursor-pointer flex items-center gap-1.5 shadow-xs';
+  }
+  if (led) {
+    led.className = djAutomix.enabled ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse' : 'w-2 h-2 rounded-full bg-zinc-600';
+  }
+  if (txt) {
+    txt.textContent = djAutomix.enabled ? 'ACTIVE' : 'OFF';
   }
   showToast(djAutomix.enabled ? 'Automix Aktiviert! 🎛️⚡ Nahtloser Übergang' : 'Automix Deaktiviert');
 }

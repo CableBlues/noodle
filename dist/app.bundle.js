@@ -1244,35 +1244,35 @@ const HISTORY_KEY = 'flowPlannerV3History';
 window.STORE_KEY = STORE_KEY;
 window.HISTORY_KEY = HISTORY_KEY;
 
-// 4-LANGUAGE DEFAULT LIST DICTIONARY
+// 6-LANGUAGE DEFAULT LIST DICTIONARY (Full Rich Standard Routine)
 const DEFAULT_TASKS_BY_LANG = {
-  en: {
-    daily: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', 'Cook a meal', 'Tidy up', 'Take a shower', 'Brush teeth (evening)'],
-    weekly: ['Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
-    occasionally: ['Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows']
-  },
   de: {
-    daily: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', 'Kochen', 'Aufräumen', 'Duschen', 'Zähne abends'],
+    daily: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', 'Wichtigste Aufgabe (Fokus)', 'Kochen', '10 Min. Abend-Aufräumen', 'Duschen', 'Zähne abends'],
     weekly: ['Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
     occasionally: ['Haare schneiden', 'Haare waschen', 'Nägel schneiden', 'Bettwäsche tauschen', 'Herd & Kühlschrank putzen', 'Türe/Fenster putzen']
   },
+  en: {
+    daily: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', 'Key Priority (Focus)', 'Cook a meal', '10 min. Evening Tidy-up', 'Take a shower', 'Brush teeth (evening)'],
+    weekly: ['Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
+    occasionally: ['Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows']
+  },
   es: {
-    daily: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', 'Cocinar', 'Ordenar', 'Ducharse', 'Cepillarse los dientes (noche)'],
+    daily: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', 'Prioridad clave (Foco)', 'Cocinar', '10 min recogida nocturna', 'Ducharse', 'Cepillarse los dientes (noche)'],
     weekly: ['Lavar los platos', 'Hacer la colada', 'Colgar la ropa', 'Limpiar el lavabo y espejo', 'Azulejos y bañera', 'Limpiar el váter', 'Quitar el polvo', 'Pasar la aspiradora', 'Fregar el suelo', 'Sacar la basura', 'Llevar botellas retornables'],
     occasionally: ['Cortarse el pelo', 'Lavarse el pelo', 'Cortarse las uñas', 'Cambiar las sábanas', 'Limpiar cocina y nevera', 'Limpiar puertas y ventanas']
   },
   el: {
-    daily: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', 'Μαγειρική', 'Τακτοποίηση', 'Ντους', 'Πλύσιμο δοντιών (βράδυ)'],
+    daily: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', 'Κύρια προτεραιότητα (Focus)', 'Μαγειρική', '10 λ. βραδινή τακτοποίηση', 'Ντους', 'Πλύσιμο δοντιών (βράδυ)'],
     weekly: ['Πλύσιμο πιάτων', 'Πλύσιμο ρούχων', 'Άπλωμα ρούχων', 'Καθαρισμός νιπτήρα & καθρέφτη', 'Πλακάκια & μπανιέρα', 'Καθαρισμός λεκάνης', 'Ξεσκόνισμα', 'Σκούπισμα', 'Σφουγγάρισμα', 'Πέταμα σκουπιδιών', 'Επιστροφή άδειων μπουκαλιών'],
     occasionally: ['Κούρεμα', 'Λούσιμο', 'Κόψιμο νυχιών', 'Αλλαγή σεντονιών', 'Καθαρισμός κουζίνας & ψυγείου', 'Καθαρισμός πορτών & παραθύρων']
   },
   fr: {
-    daily: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', 'Préparer un repas', 'Ranger', 'Prendre une douche', 'Brossage des dents (soir)'],
+    daily: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', 'Priorité clé (Focus)', 'Préparer un repas', '10 min rangement du soir', 'Prendre une douche', 'Brossage des dents (soir)'],
     weekly: ['Faire la vaisselle', 'Faire une lessive', 'Étendre le linge', 'Nettoyer lavabo & armoire à miroir', 'Carrelage & baignoire', 'Nettoyer les toilettes', 'Épousseter', 'Passer l\'aspirateur', 'Laver le sol', 'Sortir les poubelles', 'Rapporter les bouteilles consignées'],
     occasionally: ['Se couper les cheveux', 'Se laver les cheveux', 'Se couper les ongles', 'Changer les draps', 'Nettoyer cuisinière & réfrigérateur', 'Nettoyer portes & fenêtres']
   },
   it: {
-    daily: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', 'Preparare un pasto', 'Riordinare', 'Fare la doccia', 'Lavare i denti (sera)'],
+    daily: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', 'Priorità chiave (Focus)', 'Preparare un pasto', '10 min riordino serale', 'Fare la doccia', 'Lavare i denti (sera)'],
     weekly: ['Lavare i piatti', 'Fare il bucato', 'Stendere il bucato', 'Pulire lavandino e armadietto specchio', 'Piastrelle e vasca', 'Pulire il WC', 'Spolverare', 'Passare l\'aspirapolvere', 'Lavare i pavimenti', 'Portare fuori la spazzatura', 'Riportare le bottiglie con vuoto a rendere'],
     occasionally: ['Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre']
   }
@@ -1332,9 +1332,9 @@ const FALLBACK_STEPS = {
 };
 
 const CATEGORIES = [
-  ['daily', 'sun'],
   ['weekly', 'calendar-days'],
   ['todo', 'list-todo'],
+  ['daily', 'sun'],
   ['termine', 'clock'],
   ['occasionally', 'calendar-range'],
   ['notes', 'sticky-note'],
@@ -1715,6 +1715,7 @@ const TASK_SUGGESTIONS_CATALOG = {
     items: [
       { de: 'Duschen', en: 'Take a shower', es: 'Ducharse', fr: 'Prendre une douche', it: 'Fare la doccia', el: 'Ντους' },
       { de: 'Haare waschen', en: 'Washing hair', es: 'Lavarse el pelo', fr: 'Se laver les cheveux', it: 'Lavare i capelli', el: 'Λούσιμο' },
+      { de: 'Haare schneiden', en: 'Cutting hair', es: 'Cortarse el pelo', fr: 'Se couper les cheveux', it: 'Tagliare i capelli', el: 'Κούρεμα' },
       { de: 'Nägel schneiden', en: 'Clipping nails', es: 'Cortarse las uñas', fr: 'Se couper les ongles', it: 'Tagliare le unghie', el: 'Κόψιμο νυχιών' },
       { de: '15 Min. Spaziergang an der frischen Luft', en: '15 min outdoor walk', es: '15 min paseo al aire libre', fr: '15 min promenade au grand air', it: '15 min passeggiata all\'aria aperta', el: '15 λ. βόλτα στον καθαρό αέρα' },
       { de: 'Meditation / 5 Min. bewusst atmen', en: 'Meditation / 5 min breathwork', es: 'Meditación / 5 min respiración', fr: 'Méditation / 5 min respiration', it: 'Meditazione / 5 min respirazione', el: 'Διαλογισμός / 5 λ. αναπνοές' },
@@ -2380,7 +2381,10 @@ const TRANSLATIONS_PART1 = {
     "tools_feedback_desc": "Share ideas & requests",
     "tools_label": "TOOLS",
     "tools_menu_title": "Noodle Tools & Spheres",
-    "tools_section_focus_media": "Focus & Media",
+    "tools_section_focus_media": "Media",
+    "tools_section_media": "Media",
+    "tools_section_household_daily": "Household & Daily",
+    "tools_section_body_mind": "Body & Mind",
     "tools_section_help": "Help & Dialogue",
     "tools_section_spheres": "Specialized Spheres",
     "tools_tour_badge": "Tour",
@@ -2927,7 +2931,10 @@ const TRANSLATIONS_PART1 = {
     "tools_feedback_desc": "Ideen & Wünsche senden",
     "tools_label": "TOOLS",
     "tools_menu_title": "Noodle Tools & Sphären",
-    "tools_section_focus_media": "Fokus & Medien",
+    "tools_section_focus_media": "Medien",
+    "tools_section_media": "Medien",
+    "tools_section_household_daily": "Haushalt & Alltag",
+    "tools_section_body_mind": "Körper & Geist",
     "tools_section_help": "Hilfe & Dialog",
     "tools_section_spheres": "Spezialisierte Sphären",
     "tools_tour_badge": "Tour",
@@ -3474,7 +3481,10 @@ const TRANSLATIONS_PART1 = {
     "tools_feedback_desc": "Partager idées & souhaits",
     "tools_label": "OUTILS",
     "tools_menu_title": "Outils & Sphères Noodle",
-    "tools_section_focus_media": "Focus & Médias",
+    "tools_section_focus_media": "Médias",
+    "tools_section_media": "Médias",
+    "tools_section_household_daily": "Ménage & Quotidien",
+    "tools_section_body_mind": "Corps & Esprit",
     "tools_section_help": "Aide & Dialogue",
     "tools_section_spheres": "Sphères Spécialisées",
     "tools_tour_badge": "Visite",
@@ -4030,7 +4040,10 @@ const TRANSLATIONS_PART2 = {
     "tools_feedback_desc": "Invia idee & richieste",
     "tools_label": "STRUMENTI",
     "tools_menu_title": "Strumenti & Sfere Noodle",
-    "tools_section_focus_media": "Focus & Media",
+    "tools_section_focus_media": "Media",
+    "tools_section_media": "Media",
+    "tools_section_household_daily": "Casa & Quotidiano",
+    "tools_section_body_mind": "Corpo & Mente",
     "tools_section_help": "Aiuto & Dialogo",
     "tools_section_spheres": "Sfere Specializzate",
     "tools_tour_badge": "Tour",
@@ -4577,7 +4590,10 @@ const TRANSLATIONS_PART2 = {
     "tools_feedback_desc": "Enviar ideas y sugerencias",
     "tools_label": "HERRAMIENTAS",
     "tools_menu_title": "Herramientas y Esferas Noodle",
-    "tools_section_focus_media": "Enfoque y Medios",
+    "tools_section_focus_media": "Medios",
+    "tools_section_media": "Medios",
+    "tools_section_household_daily": "Hogar y Diario",
+    "tools_section_body_mind": "Cuerpo y Mente",
     "tools_section_help": "Ayuda y Diálogo",
     "tools_section_spheres": "Esferas Especializadas",
     "tools_tour_badge": "Tour",
@@ -5124,7 +5140,10 @@ const TRANSLATIONS_PART2 = {
     "tools_feedback_desc": "Αποστολή ιδεών & προτάσεων",
     "tools_label": "ΕΡΓΑΛΕΙΑ",
     "tools_menu_title": "Εργαλεία & Σφαίρες Noodle",
-    "tools_section_focus_media": "Εστίαση & Πολυμέσα",
+    "tools_section_focus_media": "Μέσα",
+    "tools_section_media": "Μέσα",
+    "tools_section_household_daily": "Σπίτι & Καθημερινότητα",
+    "tools_section_body_mind": "Σώμα & Πνεύμα",
     "tools_section_help": "Βοήθεια & Διάλογος",
     "tools_section_spheres": "Εξειδικευμένες Σφαίρες",
     "tools_tour_badge": "Περιήγηση",
@@ -5692,7 +5711,10 @@ const customTranslations = {
     "tools_feedback_desc": "Share ideas & requests",
     "tools_label": "TOOLS",
     "tools_menu_title": "Noodle Tools & Spheres",
-    "tools_section_focus_media": "Focus & Media",
+    "tools_section_focus_media": "Media",
+    "tools_section_media": "Media",
+    "tools_section_household_daily": "Household & Daily",
+    "tools_section_body_mind": "Body & Mind",
     "tools_section_help": "Help & Dialogue",
     "tools_section_spheres": "Specialized Spheres",
     "tools_tour_badge": "Tour",
@@ -6239,7 +6261,10 @@ const customTranslations = {
     "tools_feedback_desc": "Ideen & Wünsche senden",
     "tools_label": "TOOLS",
     "tools_menu_title": "Noodle Tools & Sphären",
-    "tools_section_focus_media": "Fokus & Medien",
+    "tools_section_focus_media": "Medien",
+    "tools_section_media": "Medien",
+    "tools_section_household_daily": "Haushalt & Alltag",
+    "tools_section_body_mind": "Körper & Geist",
     "tools_section_help": "Hilfe & Dialog",
     "tools_section_spheres": "Spezialisierte Sphären",
     "tools_tour_badge": "Tour",
@@ -6786,7 +6811,10 @@ const customTranslations = {
     "tools_feedback_desc": "Partager idées & souhaits",
     "tools_label": "OUTILS",
     "tools_menu_title": "Outils & Sphères Noodle",
-    "tools_section_focus_media": "Focus & Médias",
+    "tools_section_focus_media": "Médias",
+    "tools_section_media": "Médias",
+    "tools_section_household_daily": "Ménage & Quotidien",
+    "tools_section_body_mind": "Corps & Esprit",
     "tools_section_help": "Aide & Dialogue",
     "tools_section_spheres": "Sphères Spécialisées",
     "tools_tour_badge": "Visite",
@@ -7333,7 +7361,10 @@ const customTranslations = {
     "tools_feedback_desc": "Invia idee & richieste",
     "tools_label": "STRUMENTI",
     "tools_menu_title": "Strumenti & Sfere Noodle",
-    "tools_section_focus_media": "Focus & Media",
+    "tools_section_focus_media": "Media",
+    "tools_section_media": "Media",
+    "tools_section_household_daily": "Casa & Quotidiano",
+    "tools_section_body_mind": "Corpo & Mente",
     "tools_section_help": "Aiuto & Dialogo",
     "tools_section_spheres": "Sfere Specializzate",
     "tools_tour_badge": "Tour",
@@ -7880,7 +7911,10 @@ const customTranslations = {
     "tools_feedback_desc": "Enviar ideas y sugerencias",
     "tools_label": "HERRAMIENTAS",
     "tools_menu_title": "Herramientas y Esferas Noodle",
-    "tools_section_focus_media": "Enfoque y Medios",
+    "tools_section_focus_media": "Medios",
+    "tools_section_media": "Medios",
+    "tools_section_household_daily": "Hogar y Diario",
+    "tools_section_body_mind": "Cuerpo y Mente",
     "tools_section_help": "Ayuda y Diálogo",
     "tools_section_spheres": "Esferas Especializadas",
     "tools_tour_badge": "Tour",
@@ -8427,7 +8461,10 @@ const customTranslations = {
     "tools_feedback_desc": "Αποστολή ιδεών & προτάσεων",
     "tools_label": "ΕΡΓΑΛΕΙΑ",
     "tools_menu_title": "Εργαλεία & Σφαίρες Noodle",
-    "tools_section_focus_media": "Εστίαση & Πολυμέσα",
+    "tools_section_focus_media": "Μέσα",
+    "tools_section_media": "Μέσα",
+    "tools_section_household_daily": "Σπίτι & Καθημερινότητα",
+    "tools_section_body_mind": "Σώμα & Πνεύμα",
     "tools_section_help": "Βοήθεια & Διάλογος",
     "tools_section_spheres": "Εξειδικευμένες Σφαίρες",
     "tools_tour_badge": "Περιήγηση",
@@ -9757,19 +9794,31 @@ function reorderNotesBeforeTermine(arr) {
   return arr;
 }
 
+// Helper to ensure 'todo' is positioned before 'daily' (Heute)
+function reorderTodoBeforeDaily(arr) {
+  if (!Array.isArray(arr)) return arr;
+  const dailyIdx = arr.findIndex(([id]) => id === 'daily');
+  const todoIdx = arr.findIndex(([id]) => id === 'todo');
+  if (dailyIdx !== -1 && todoIdx !== -1 && todoIdx > dailyIdx) {
+    const [todoItem] = arr.splice(todoIdx, 1);
+    arr.splice(dailyIdx, 0, todoItem);
+  }
+  return arr;
+}
+
 function loadCategoriesOrder() {
   try {
     const saved = localStorage.getItem('flowPlannerCategoriesOrder') || localStorage.getItem('flow_categories_order');
-    if (saved) return reorderNotesBeforeTermine(JSON.parse(saved));
+    if (saved) return reorderTodoBeforeDaily(reorderNotesBeforeTermine(JSON.parse(saved)));
   } catch (e) {
     console.warn('[State] loadCategoriesOrder warning:', e);
   }
   
-  // Standard-Layout (Heute nach Haushalt)
+  // Standard-Layout (To Do vor Heute)
   return [
     ['weekly', 'home'],
-    ['daily', 'sun'],
     ['todo', 'list-todo'],
+    ['daily', 'sun'],
     ['done', 'check-circle-2'],
     ['notes', 'file-text'],
     ['termine', 'calendar'],
@@ -10385,14 +10434,28 @@ function loadState() {
 }
 
 function setWorkspace(mode) {
-  if (mode !== 'private' && mode !== 'work' && mode !== 'study') return;
+  if (mode !== 'private' && mode !== 'work' && mode !== 'study' && mode !== 'shared') return;
+  
+  if (mode === 'shared' && (!state.workspaces || !state.workspaces.shared)) {
+    if (!state.workspaces) state.workspaces = {};
+    const baseItems = (state.workspaces && state.workspaces.private && state.workspaces.private.items) || state.items || {};
+    state.workspaces.shared = {
+      items: JSON.parse(JSON.stringify(baseItems)),
+      done: [],
+      history: []
+    };
+  }
+
   state.activeWorkspace = mode;
   saveState();
   updateWorkspaceSwitchUI();
   if (typeof renderApp === 'function') renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof showToast === 'function') {
-    if (mode === 'study') {
+    if (mode === 'shared') {
+      const roomName = (typeof CollabEngine !== 'undefined' && CollabEngine.getRoom) ? CollabEngine.getRoom() : 'team-space';
+      showToast(`👥 Gemeinsames Team-Dashboard (#${roomName}) aktiv! Live synchronisiert ⚡`);
+    } else if (mode === 'study') {
       showToast(tr({
         de: '🎓 Studium-Modus aktiviert!',
         en: '🎓 Study Mode activated!',
@@ -10427,7 +10490,7 @@ window.switchWorkspace = setWorkspace;
 
 function toggleWorkspace() {
   const current = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
-  const nextMode = (current === 'private') ? 'work' : ((current === 'work') ? 'study' : 'private');
+  const nextMode = (current === 'private') ? 'work' : ((current === 'work') ? 'study' : ((current === 'study') ? 'shared' : 'private'));
   setWorkspace(nextMode);
 }
 window.toggleWorkspace = toggleWorkspace;
@@ -10456,8 +10519,13 @@ function closeHeaderWorkspaceDropdown() {
   if (headerWsDropdownTimer) clearTimeout(headerWsDropdownTimer);
   headerWsDropdownTimer = setTimeout(() => {
     const el = document.getElementById('dropdown-header-workspace');
+    const btn = document.getElementById('header-workspace-wrapper');
+    try {
+      if (el && el.matches(':hover')) return;
+      if (btn && btn.matches(':hover')) return;
+    } catch (e) {}
     if (el) el.classList.add('hidden');
-  }, 220);
+  }, 260);
 }
 window.closeHeaderWorkspaceDropdown = closeHeaderWorkspaceDropdown;
 
@@ -10482,26 +10550,35 @@ function updateWorkspaceSwitchUI() {
   const headerLabel = document.getElementById('header-ws-label');
 
   if (headerBtn && headerIcon && headerLabel) {
-    if (currentWs === 'study') {
+    if (currentWs === 'shared') {
+      const roomName = (typeof CollabEngine !== 'undefined' && CollabEngine.getRoom) ? CollabEngine.getRoom() : 'team';
+      headerIcon.textContent = '👥';
+      headerLabel.textContent = `Team (#${roomName})`;
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-violet-600/30 hover:bg-violet-600/40 border border-violet-400/80 text-violet-100 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_15px_rgba(139,92,246,0.4)] group/ws shrink-0';
+    } else if (currentWs === 'study') {
       headerIcon.textContent = '🎓';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_study') : 'Studium';
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
     } else if (currentWs === 'work') {
       headerIcon.textContent = '💼';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
     } else {
       headerIcon.textContent = '🏠';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_private') : 'Privat';
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
     }
-    headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
   }
 
   // Active option highlight inside Header Dropdown (Solid backgrounds to avoid overlap artifacts)
   const optPriv = document.getElementById('header-ws-opt-private');
   const optWork = document.getElementById('header-ws-opt-work');
   const optStudy = document.getElementById('header-ws-opt-study');
+  const optShared = document.getElementById('header-ws-opt-shared');
   if (optPriv) optPriv.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'private' ? 'bg-purple-500/20 border-purple-400/50 text-purple-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
   if (optWork) optWork.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'work' ? 'bg-blue-500/20 border-blue-400/50 text-blue-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
   if (optStudy) optStudy.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'study' ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
+  if (optShared) optShared.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'shared' ? 'bg-violet-600/30 border-violet-400/70 text-violet-100 shadow-[0_0_12px_rgba(139,92,246,0.3)]' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
 
   // 2. SETTINGS / MOBILE TOGGLE FALLBACKS
   const toggleBtn = document.getElementById('btn-workspace-toggle');
@@ -10514,7 +10591,10 @@ function updateWorkspaceSwitchUI() {
 
   let currentIcon = '🏠';
   let currentLabel = typeof t === 'function' ? t('workspace_private') : 'Privat';
-  if (currentWs === 'work') {
+  if (currentWs === 'shared') {
+    currentIcon = '👥';
+    currentLabel = 'Team-Board';
+  } else if (currentWs === 'work') {
     currentIcon = '💼';
     currentLabel = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
   } else if (currentWs === 'study') {
@@ -10525,7 +10605,7 @@ function updateWorkspaceSwitchUI() {
   if (iconEl) iconEl.textContent = currentIcon;
   if (textEl) {
     textEl.textContent = currentLabel;
-    textEl.className = currentWs === 'work' ? 'truncate text-blue-300' : (currentWs === 'study' ? 'truncate text-emerald-300' : 'truncate text-purple-300');
+    textEl.className = currentWs === 'shared' ? 'truncate text-violet-300 font-bold' : (currentWs === 'work' ? 'truncate text-blue-300' : (currentWs === 'study' ? 'truncate text-emerald-300' : 'truncate text-purple-300'));
   }
   if (toggleBtn) {
     toggleBtn.title = currentLabel;
@@ -10534,7 +10614,7 @@ function updateWorkspaceSwitchUI() {
   if (mobileIconEl) mobileIconEl.textContent = currentIcon;
   if (mobileTextEl) {
     mobileTextEl.textContent = currentLabel;
-    mobileTextEl.className = currentWs === 'work' ? 'text-xs font-bold text-blue-300 hidden sm:inline' : (currentWs === 'study' ? 'text-xs font-bold text-emerald-300 hidden sm:inline' : 'text-xs font-bold text-purple-300 hidden sm:inline');
+    mobileTextEl.className = currentWs === 'shared' ? 'text-xs font-bold text-violet-300 hidden sm:inline' : (currentWs === 'work' ? 'text-xs font-bold text-blue-300 hidden sm:inline' : (currentWs === 'study' ? 'text-xs font-bold text-emerald-300 hidden sm:inline' : 'text-xs font-bold text-purple-300 hidden sm:inline'));
   }
   if (mobileToggleBtn) {
     mobileToggleBtn.title = currentLabel;
@@ -11183,23 +11263,23 @@ function checkAutoRollovers() {
 
   let stateModified = false;
 
-  // 1. Täglicher Rollover für Heute (daily / work_focus)
+  // 1. Täglicher Rollover für Heute (daily / work_focus) - Keine täglichen Auto-Downloads mehr
   if (currentState.lastDate && currentState.lastDate !== todayISO) {
-    const prevDate = currentState.lastDate;
-    if (typeof generateReportContent === 'function' && typeof triggerAutomaticDownload === 'function') {
-      try {
-        const { reportText, filename } = generateReportContent('daily', prevDate);
-        triggerAutomaticDownload(reportText, filename);
-      } catch (e) {
-        console.warn('[Rollover] Auto-report warning:', e);
-      }
-    }
     reloadDailyTasks(true);
     stateModified = true;
   }
 
-  // 2. Wöchentlicher Rollover für Haushalt (weekly)
+  // 2. Wöchentlicher Rollover für Haushalt (weekly) & Wöchentlicher automatischer Bericht
   if (currentState.lastWeeklyResetWeek && currentState.lastWeeklyResetWeek !== currentWeekStr) {
+    if (typeof generateReportContent === 'function' && typeof triggerAutomaticDownload === 'function') {
+      try {
+        const lastWeek = currentState.lastWeeklyResetWeek;
+        const { reportText, filename } = generateReportContent('weekly', lastWeek);
+        triggerAutomaticDownload(reportText, filename);
+      } catch (e) {
+        console.warn('[Rollover] Weekly auto-report warning:', e);
+      }
+    }
     reloadWeeklyHouseholdTasks(true);
     stateModified = true;
   }
@@ -12306,8 +12386,8 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- collab-engine.js --- */
-// collab-engine.js - Real-time Team Collaboration & Live Chat for Noodle Studio (GitHub Pages Safe)
-// ============================================================================
+// collab-engine.js - Real-time Team Collaboration, Live DJ Music Hub, WebRTC Voice & Shared Dashboard Suite
+// ========================================================================================================
 
 const CollabEngine = (function() {
   let activeRoom = 'team-space';
@@ -12320,6 +12400,25 @@ const CollabEngine = (function() {
   let isChatOpen = false;
   let typingTimer = null;
   let audioContext = null;
+
+  // Live DJ Streaming Session State
+  let activeDjSession = null; // { dj: user, track: { id, name, bpm, url, file, startedAt }, isLive: true }
+
+  // Voice Chat & WebRTC Mesh State
+  let voiceRoomActive = false;
+  let isMicMuted = true;
+  let localAudioStream = null;
+  let audioAnalyserNode = null;
+  let vadInterval = null;
+  let isSpeaking = false;
+  const peerConnections = new Map(); // peerId -> RTCPeerConnection
+
+  // Voice Note Recorder State
+  let mediaRecorder = null;
+  let voiceRecordingChunks = [];
+  let voiceRecordingTimer = null;
+  let voiceRecordingSeconds = 0;
+  let isRecordingVoiceNote = false;
 
   // Farbschema für zufällige Avatar-Farben
   const AVATAR_COLORS = [
@@ -12335,7 +12434,7 @@ const CollabEngine = (function() {
     if (localUser) return localUser;
 
     // 1. Wenn über FlowAuth angemeldet
-    if (typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
+    if (typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn && FlowAuth.isLoggedIn()) {
       const u = FlowAuth.getUser();
       const email = (u && u.email) || 'user@example.com';
       const name = email.split('@')[0];
@@ -12413,6 +12512,14 @@ const CollabEngine = (function() {
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
         osc.start(now);
         osc.stop(now + 0.1);
+      } else if (type === 'dj') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(320, now);
+        osc.frequency.exponentialRampToValueAtTime(640, now + 0.2);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+        osc.start(now);
+        osc.stop(now + 0.25);
       }
     } catch (e) {
       // Audio optional
@@ -12513,12 +12620,12 @@ const CollabEngine = (function() {
 
           // B. Presence Tracking (Aktive Teammitglieder)
           realtimeChannel.on('presence', { event: 'sync' }, () => {
-            const state = realtimeChannel.presenceState();
+            const stateObj = realtimeChannel.presenceState();
             activeMembers.clear();
-            activeMembers.set(user.id, { ...user, isSelf: true, onlineAt: Date.now() });
+            activeMembers.set(user.id, { ...user, isSelf: true, onlineAt: Date.now(), isSpeaking: isSpeaking });
 
-            for (const key in state) {
-              const presences = state[key];
+            for (const key in stateObj) {
+              const presences = stateObj[key];
               if (Array.isArray(presences) && presences.length > 0) {
                 const p = presences[0];
                 if (p && p.user && p.user.id !== user.id) {
@@ -12543,19 +12650,20 @@ const CollabEngine = (function() {
       }
     }
 
-    activeMembers.set(user.id, { ...user, isSelf: true, onlineAt: Date.now() });
+    activeMembers.set(user.id, { ...user, isSelf: true, onlineAt: Date.now(), isSpeaking: isSpeaking });
     renderPresenceUI();
     renderChatMessages();
+    renderDjActiveBanner();
   }
 
   // ==========================================================================
-  // EVENT-HANDLING (Chat, Reaktionen, Board-Aktionen)
+  // EVENT-HANDLING (Chat, DJ Music Share, Voice, Board Actions & Shared Board)
   // ==========================================================================
   function handleIncomingEvent(event) {
     if (!event || !event.type) return;
 
     const myUser = getLocalUser();
-    if (event.sender && event.sender.id === myUser.id) return;
+    if (event.sender && event.sender.id === myUser.id && event.type !== 'board_sync') return;
 
     switch (event.type) {
       case 'chat_message':
@@ -12567,11 +12675,65 @@ const CollabEngine = (function() {
           updateUnreadBadge();
           playSound('message');
           if (typeof showToast === 'function') {
-            showToast(`💬 ${event.sender.name}: ${event.message.text.substring(0, 40)}`);
+            showToast(`💬 ${event.sender.name}: ${(event.message.text || '').substring(0, 40)}`);
           }
         } else {
           playSound('message');
         }
+        break;
+
+      case 'dj_music_share':
+        activeDjSession = {
+          dj: event.sender,
+          track: event.track,
+          isLive: true,
+          startedAt: event.track?.startedAt || Date.now()
+        };
+        playSound('dj');
+        if (event.message) {
+          chatHistory.push(event.message);
+          saveChatHistory();
+          renderChatMessages();
+        }
+        renderDjActiveBanner();
+        if (typeof showToast === 'function') {
+          showToast(`🎧 ${event.sender.name} hat Musik aufgelegt: "${event.track.name}"! Klicke zum Mithören 🎶`);
+        }
+        break;
+
+      case 'dj_stop':
+        activeDjSession = null;
+        renderDjActiveBanner();
+        break;
+
+      case 'voice_message':
+        if (event.message) {
+          chatHistory.push(event.message);
+          saveChatHistory();
+          renderChatMessages();
+          playSound('message');
+          if (!isChatOpen) {
+            unreadCount++;
+            updateUnreadBadge();
+            if (typeof showToast === 'function') {
+              showToast(`🎙️ ${event.sender.name} hat eine Sprachnachricht gesendet`);
+            }
+          }
+        }
+        break;
+
+      case 'user_speaking':
+        if (event.sender && event.sender.id) {
+          const member = activeMembers.get(event.sender.id);
+          if (member) {
+            member.isSpeaking = !!event.isSpeaking;
+            renderPresenceUI();
+          }
+        }
+        break;
+
+      case 'board_sync':
+        handleIncomingBoardSync(event);
         break;
 
       case 'board_action':
@@ -12590,7 +12752,7 @@ const CollabEngine = (function() {
             showToast(`⚡ ${event.sender.name} ${event.actionText}`);
           }
         }
-        if (typeof cloudSyncEngine !== 'undefined' && FlowAuth.isLoggedIn()) {
+        if (typeof cloudSyncEngine !== 'undefined' && typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn && FlowAuth.isLoggedIn()) {
           cloudSyncEngine.pullState();
         }
         break;
@@ -12632,7 +12794,545 @@ const CollabEngine = (function() {
   }
 
   // ==========================================================================
-  // PUBLIC ACTIONS (Nachricht senden, Raum wechseln, Board-Event broadcasten)
+  // 1. LIVE DJ & MUSIK IM CHAT AUFLEGEN
+  // ==========================================================================
+  function shareDjTrack(trackIdOrStem, customName = null) {
+    const user = getLocalUser();
+    let trackInfo = null;
+
+    if (typeof BUILTIN_DJ_STEMS !== 'undefined' && Array.isArray(BUILTIN_DJ_STEMS)) {
+      const found = BUILTIN_DJ_STEMS.find(s => s.id === trackIdOrStem || s.name === trackIdOrStem);
+      if (found) {
+        trackInfo = {
+          id: found.id,
+          name: found.name,
+          bpm: found.bpm || 120,
+          url: found.file || found.url,
+          color: found.color || 'cyan',
+          emoji: found.emoji || '🎵',
+          startedAt: Date.now()
+        };
+      }
+    }
+
+    if (!trackInfo && typeof getDjCurrentPlayingTrack === 'function') {
+      const cur = getDjCurrentPlayingTrack();
+      if (cur) {
+        trackInfo = {
+          id: cur.id || 'track_now',
+          name: cur.name || 'Fokus Stream',
+          bpm: cur.bpm || 120,
+          url: cur.url || cur.file,
+          color: 'purple',
+          emoji: '⚡',
+          startedAt: Date.now()
+        };
+      }
+    }
+
+    if (!trackInfo) {
+      trackInfo = {
+        id: 'deep_house',
+        name: 'Deep House Sunset (126 BPM)',
+        bpm: 126,
+        url: 'music/deep_house_sunset.mp3',
+        color: 'cyan',
+        emoji: '⚡',
+        startedAt: Date.now()
+      };
+    }
+
+    // Starte lokalen Player
+    if (typeof playDjSharedTrack === 'function') {
+      playDjSharedTrack(trackInfo);
+    }
+
+    activeDjSession = {
+      dj: user,
+      track: trackInfo,
+      isLive: true,
+      startedAt: trackInfo.startedAt
+    };
+
+    const newMsg = {
+      id: `dj_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+      sender: user,
+      isDjShare: true,
+      track: trackInfo,
+      text: `🎧 ${user.name} legt gerade auf: "${trackInfo.name}" (${trackInfo.bpm} BPM)! Klicke auf 'Live Mithören' 🎶`,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      reactions: {}
+    };
+
+    chatHistory.push(newMsg);
+    saveChatHistory();
+    renderChatMessages();
+    renderDjActiveBanner();
+    playSound('dj');
+
+    broadcastEvent({
+      type: 'dj_music_share',
+      sender: user,
+      track: trackInfo,
+      message: newMsg
+    });
+
+    if (typeof showToast === 'function') {
+      showToast(`🎧 DJ-Stream gestartet! Dein Team kann jetzt synchron mithören.`);
+    }
+  }
+
+  function syncSharedDjTrack(trackData) {
+    if (!trackData) return;
+    if (typeof playDjSharedTrack === 'function') {
+      playDjSharedTrack(trackData);
+    }
+    if (typeof showToast === 'function') {
+      showToast(`🎶 Synchronisiert mit DJ-Stream: ${trackData.name || 'Live Track'}!`);
+    }
+  }
+
+  function stopSharedDjSession() {
+    activeDjSession = null;
+    renderDjActiveBanner();
+    const user = getLocalUser();
+    broadcastEvent({
+      type: 'dj_stop',
+      sender: user
+    });
+    if (typeof showToast === 'function') {
+      showToast(`⏹️ DJ-Stream beendet.`);
+    }
+  }
+
+  function openDjWorkstationFromChat() {
+    if (typeof togglePanel === 'function') {
+      togglePanel('audio');
+      if (typeof switchAudioTab === 'function') switchAudioTab('dj');
+    }
+  }
+
+  function openDjSharePicker() {
+    let html = `
+      <div id="collab-dj-picker-modal" class="fixed inset-0 z-[999999] flex items-center justify-center bg-black/75 backdrop-blur-md p-4 animate-fade-in" onclick="if(event.target===this) CollabEngine.closeDjSharePicker();">
+        <div class="w-full max-w-sm bg-[#12121e] border border-cyan-500/40 rounded-3xl p-4 shadow-2xl space-y-3">
+          <div class="flex items-center justify-between border-b border-white/10 pb-2">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🎧</span>
+              <div>
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider">Musik für das Team auflegen</h3>
+                <p class="text-[10px] text-cyan-300">Wähle einen Beat zum Live-Streamen</p>
+              </div>
+            </div>
+            <button onclick="CollabEngine.closeDjSharePicker()" class="p-1 text-gray-400 hover:text-white text-xs cursor-pointer">✕</button>
+          </div>
+
+          <div class="space-y-1.5 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
+            <button onclick="CollabEngine.shareDjTrack('deep_house'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+              <div class="flex items-center gap-2.5">
+                <span class="text-lg">⚡</span>
+                <div>
+                  <div class="text-xs font-bold text-white group-hover:text-cyan-200">Deep House Sunset</div>
+                  <div class="text-[10px] text-cyan-300 font-mono">126 BPM • Driving Energy</div>
+                </div>
+              </div>
+              <span class="px-2 py-1 bg-cyan-500/20 text-cyan-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+            </button>
+
+            <button onclick="CollabEngine.shareDjTrack('lofi_chill'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+              <div class="flex items-center gap-2.5">
+                <span class="text-lg">☕</span>
+                <div>
+                  <div class="text-xs font-bold text-white group-hover:text-purple-200">Deep Focus Lofi</div>
+                  <div class="text-[10px] text-purple-300 font-mono">85 BPM • Chill Lounge</div>
+                </div>
+              </div>
+              <span class="px-2 py-1 bg-purple-500/20 text-purple-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+            </button>
+
+            <button onclick="CollabEngine.shareDjTrack('cyber_wave'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+              <div class="flex items-center gap-2.5">
+                <span class="text-lg">🌌</span>
+                <div>
+                  <div class="text-xs font-bold text-white group-hover:text-pink-200">Synthwave Neon Drive</div>
+                  <div class="text-[10px] text-pink-300 font-mono">128 BPM • Retro Pulse</div>
+                </div>
+              </div>
+              <span class="px-2 py-1 bg-pink-500/20 text-pink-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+            </button>
+
+            <button onclick="CollabEngine.shareDjTrack('ambient_flow'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+              <div class="flex items-center gap-2.5">
+                <span class="text-lg">🍃</span>
+                <div>
+                  <div class="text-xs font-bold text-white group-hover:text-emerald-200">Zen Meditation Flow</div>
+                  <div class="text-[10px] text-emerald-300 font-mono">118 BPM • Calm Wave</div>
+                </div>
+              </div>
+              <span class="px-2 py-1 bg-emerald-500/20 text-emerald-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+            </button>
+          </div>
+
+          <div class="pt-1 border-t border-white/10 flex items-center justify-between">
+            <button onclick="CollabEngine.openDjWorkstationFromChat(); CollabEngine.closeDjSharePicker();" class="text-[10px] text-violet-400 hover:text-violet-200 underline cursor-pointer">🎛️ Eigene MP3 im DJ-Pult laden</button>
+            <button onclick="CollabEngine.closeDjSharePicker()" class="px-3 py-1 bg-white/10 hover:bg-white/20 rounded-xl text-xs text-gray-200 font-semibold cursor-pointer">Abbrechen</button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const existing = document.getElementById('collab-dj-picker-modal');
+    if (existing) existing.remove();
+    document.body.insertAdjacentHTML('beforeend', html);
+  }
+
+  function closeDjSharePicker() {
+    const el = document.getElementById('collab-dj-picker-modal');
+    if (el) el.remove();
+  }
+
+  function renderDjActiveBanner() {
+    const banner = document.getElementById('collab-dj-active-banner');
+    if (!banner) return;
+
+    if (!activeDjSession || !activeDjSession.isLive) {
+      banner.classList.add('hidden');
+      return;
+    }
+
+    const dj = activeDjSession.dj || { name: 'DJ' };
+    const track = activeDjSession.track || { name: 'Focus Beat', bpm: 120 };
+
+    banner.innerHTML = `
+      <div class="p-2 px-3 rounded-2xl bg-gradient-to-r from-cyan-950/80 via-purple-950/80 to-cyan-950/80 border border-cyan-500/40 shadow-lg flex items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2 min-w-0">
+          <div class="flex items-center gap-0.5">
+            <span class="w-1 h-3.5 bg-cyan-400 rounded-full animate-pulse"></span>
+            <span class="w-1 h-5 bg-purple-400 rounded-full animate-pulse delay-75"></span>
+            <span class="w-1 h-3 bg-pink-400 rounded-full animate-pulse delay-150"></span>
+          </div>
+          <div class="min-w-0">
+            <div class="text-[10px] font-mono text-cyan-300 uppercase font-black truncate flex items-center gap-1">
+              <span>🎧 DJ ${escapeHtml(dj.name)}</span>
+              <span class="text-zinc-500">•</span>
+              <span class="text-purple-300 font-normal">${Number(track.bpm) || 120} BPM</span>
+            </div>
+            <div class="font-bold text-white truncate text-[11px]">${escapeHtml(track.name)}</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button onclick="CollabEngine.syncSharedDjTrack(${JSON.stringify(track).replace(/"/g, '&quot;')})" class="px-2.5 py-1 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-[10px] shadow-sm transition active:scale-95 cursor-pointer flex items-center gap-1">
+            <span>▶️ Mithören</span>
+          </button>
+          <button onclick="CollabEngine.openDjWorkstationFromChat()" class="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition cursor-pointer" title="DJ-Pult öffnen">
+            <span>🎛️</span>
+          </button>
+        </div>
+      </div>
+    `;
+    banner.classList.remove('hidden');
+  }
+
+  // ==========================================================================
+  // 2. MIKROFON & LIVE VOICE CHAT / SPRACHNACHRICHTEN
+  // ==========================================================================
+  async function toggleMicrophone() {
+    if (isMicMuted) {
+      try {
+        if (!localAudioStream) {
+          localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          setupAudioAnalyser(localAudioStream);
+        } else {
+          localAudioStream.getAudioTracks().forEach(t => { t.enabled = true; });
+        }
+        isMicMuted = false;
+        voiceRoomActive = true;
+        updateMicButtonUI();
+        if (typeof showToast === 'function') {
+          showToast('🎙️ Mikrofon aktiv! Du bist im Voice-Kanal hörbar.');
+        }
+      } catch (err) {
+        console.warn('[VoiceChat] Microphone access warning:', err);
+        if (typeof showToast === 'function') {
+          showToast('⚠️ Mikrofon-Zugriff verweigert oder nicht verfügbar.');
+        }
+      }
+    } else {
+      if (localAudioStream) {
+        localAudioStream.getAudioTracks().forEach(t => { t.enabled = false; });
+      }
+      isMicMuted = true;
+      isSpeaking = false;
+      updateMicButtonUI();
+      broadcastSpeakingState(false);
+      if (typeof showToast === 'function') {
+        showToast('🔇 Mikrofon stummgeschaltet.');
+      }
+    }
+  }
+
+  function setupAudioAnalyser(stream) {
+    try {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      const source = audioContext.createMediaStreamSource(stream);
+      audioAnalyserNode = audioContext.createAnalyser();
+      audioAnalyserNode.fftSize = 256;
+      source.connect(audioAnalyserNode);
+
+      const bufferLength = audioAnalyserNode.frequencyBinCount;
+      const dataArray = new Uint8Array(bufferLength);
+
+      if (vadInterval) clearInterval(vadInterval);
+      vadInterval = setInterval(() => {
+        if (isMicMuted || !audioAnalyserNode) return;
+        audioAnalyserNode.getByteFrequencyData(dataArray);
+        let sum = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          sum += dataArray[i];
+        }
+        const avg = sum / bufferLength;
+        const nowSpeaking = avg > 25; // Schwellenwert für Sprache
+
+        if (nowSpeaking !== isSpeaking) {
+          isSpeaking = nowSpeaking;
+          const user = getLocalUser();
+          const me = activeMembers.get(user.id);
+          if (me) {
+            me.isSpeaking = isSpeaking;
+            renderPresenceUI();
+          }
+          broadcastSpeakingState(isSpeaking);
+        }
+      }, 180);
+    } catch (e) {
+      console.warn('[VoiceChat] Audio analyser setup notice:', e);
+    }
+  }
+
+  function broadcastSpeakingState(speaking) {
+    const user = getLocalUser();
+    broadcastEvent({
+      type: 'user_speaking',
+      sender: user,
+      isSpeaking: speaking
+    });
+  }
+
+  function updateMicButtonUI() {
+    const micBtn = document.getElementById('collab-mic-toggle-btn');
+    const micIcon = document.getElementById('collab-mic-icon');
+    const micStatus = document.getElementById('collab-mic-status-label');
+
+    if (!micBtn) return;
+
+    if (!isMicMuted) {
+      micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-emerald-500 text-black font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition active:scale-95 cursor-pointer';
+      if (micIcon) micIcon.innerHTML = '🎙️';
+      if (micStatus) micStatus.innerText = 'Mic An';
+    } else {
+      micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 font-semibold text-xs flex items-center gap-1.5 border border-white/10 transition active:scale-95 cursor-pointer';
+      if (micIcon) micIcon.innerHTML = '🔇';
+      if (micStatus) micStatus.innerText = 'Mic Stumm';
+    }
+  }
+
+  // Voice Note Recorder (Sprachnachricht im Chat aufnehmen)
+  async function startVoiceRecording() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      voiceRecordingChunks = [];
+      mediaRecorder = new MediaRecorder(stream);
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data && e.data.size > 0) {
+          voiceRecordingChunks.push(e.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        stream.getTracks().forEach(t => t.stop());
+        if (voiceRecordingChunks.length > 0) {
+          const blob = new Blob(voiceRecordingChunks, { type: 'audio/webm' });
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const base64Audio = reader.result;
+            sendVoiceMessage(base64Audio, voiceRecordingSeconds);
+          };
+          reader.readAsDataURL(blob);
+        }
+      };
+
+      mediaRecorder.start();
+      isRecordingVoiceNote = true;
+      voiceRecordingSeconds = 0;
+
+      const recordBar = document.getElementById('collab-voice-record-bar');
+      const standardBar = document.getElementById('collab-chat-input-bar');
+      if (recordBar) recordBar.classList.remove('hidden');
+      if (standardBar) standardBar.classList.add('hidden');
+
+      if (voiceRecordingTimer) clearInterval(voiceRecordingTimer);
+      voiceRecordingTimer = setInterval(() => {
+        voiceRecordingSeconds++;
+        const timerLabel = document.getElementById('collab-voice-record-timer');
+        if (timerLabel) {
+          const m = Math.floor(voiceRecordingSeconds / 60);
+          const s = voiceRecordingSeconds % 60;
+          timerLabel.innerText = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+      }, 1000);
+    } catch (e) {
+      if (typeof showToast === 'function') {
+        showToast('⚠️ Mikrofon-Zugriff fehlgeschlagen.');
+      }
+    }
+  }
+
+  function stopVoiceRecording(send = true) {
+    if (voiceRecordingTimer) {
+      clearInterval(voiceRecordingTimer);
+      voiceRecordingTimer = null;
+    }
+    isRecordingVoiceNote = false;
+
+    const recordBar = document.getElementById('collab-voice-record-bar');
+    const standardBar = document.getElementById('collab-chat-input-bar');
+    if (recordBar) recordBar.classList.add('hidden');
+    if (standardBar) standardBar.classList.remove('hidden');
+
+    if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+      if (!send) {
+        voiceRecordingChunks = [];
+      }
+      mediaRecorder.stop();
+    }
+  }
+
+  function sendVoiceMessage(audioDataUrl, durationSecs) {
+    const user = getLocalUser();
+    const newMsg = {
+      id: `voice_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+      sender: user,
+      isVoice: true,
+      audioUrl: audioDataUrl,
+      duration: durationSecs || 1,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      reactions: {}
+    };
+
+    chatHistory.push(newMsg);
+    saveChatHistory();
+    renderChatMessages();
+    playSound('send');
+
+    broadcastEvent({
+      type: 'voice_message',
+      sender: user,
+      message: newMsg
+    });
+  }
+
+  // ==========================================================================
+  // 3. GEMEINSAMES TEAM-DASHBOARD & 1-KLICK SHARING
+  // ==========================================================================
+  function shareCurrentBoardWithTeam() {
+    const user = getLocalUser();
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (typeof state !== 'undefined' ? (state.items || {}) : {});
+    const curCats = (typeof categoriesOrder !== 'undefined') ? categoriesOrder : [];
+
+    // Speichere in Shared Workspace
+    if (typeof state !== 'undefined') {
+      if (!state.workspaces) state.workspaces = {};
+      state.workspaces.shared = {
+        items: JSON.parse(JSON.stringify(curItems)),
+        done: (state.done ? [...state.done] : []),
+        history: []
+      };
+      if (typeof saveState === 'function') saveState();
+    }
+
+    const payload = {
+      type: 'board_sync',
+      sender: user,
+      room: activeRoom,
+      isFullSnapshot: true,
+      boardData: {
+        items: curItems,
+        categoriesOrder: curCats,
+        updatedAt: Date.now()
+      }
+    };
+
+    broadcastEvent(payload);
+
+    const sysMsg = {
+      id: `sys_${Date.now()}`,
+      isSystem: true,
+      text: `🚀 ${user.name} hat das persönliche Dashboard mit dem Team (#${activeRoom}) geteilt!`,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    chatHistory.push(sysMsg);
+    saveChatHistory();
+    renderChatMessages();
+
+    if (typeof showToast === 'function') {
+      showToast(`📤 Dein Dashboard wurde live mit Raum #${activeRoom} geteilt!`);
+    }
+  }
+
+  function handleIncomingBoardSync(event) {
+    if (!event || !event.boardData) return;
+    const { items, categoriesOrder: incomingCats } = event.boardData;
+
+    if (typeof state !== 'undefined') {
+      if (!state.workspaces) state.workspaces = {};
+      state.workspaces.shared = {
+        items: JSON.parse(JSON.stringify(items || {})),
+        done: (state.workspaces.shared && state.workspaces.shared.done) || [],
+        history: []
+      };
+      if (typeof saveState === 'function') saveState();
+
+      // Wenn der Nutzer gerade im gemeinsamen Team-Board arbeitet: Live aktualisieren
+      if (state.activeWorkspace === 'shared') {
+        if (typeof renderApp === 'function') renderApp();
+        if (typeof showToast === 'function') {
+          showToast(`⚡ Team-Dashboard von ${event.sender?.name || 'Teammate'} aktualisiert!`);
+        }
+      }
+    }
+  }
+
+  function importSharedBoardToPersonal() {
+    if (typeof state === 'undefined' || !state.workspaces || !state.workspaces.shared) {
+      if (typeof showToast === 'function') showToast('⚠️ Noch kein geteiltes Team-Dashboard vorhanden.');
+      return;
+    }
+
+    const sharedItems = state.workspaces.shared.items || {};
+    state.items = JSON.parse(JSON.stringify(sharedItems));
+    if (!state.workspaces.private) state.workspaces.private = {};
+    state.workspaces.private.items = JSON.parse(JSON.stringify(sharedItems));
+
+    if (typeof saveState === 'function') saveState();
+    if (typeof setWorkspace === 'function') setWorkspace('private');
+    if (typeof renderApp === 'function') renderApp();
+
+    if (typeof showToast === 'function') {
+      showToast('📥 Team-Dashboard erfolgreich in deinen privaten Bereich kopiert!');
+    }
+  }
+
+  function switchToSharedBoard() {
+    if (typeof setWorkspace === 'function') {
+      setWorkspace('shared');
+    }
+  }
+
+  // ==========================================================================
+  // STANDARD CHAT, REAKTIONEN & TYPING
   // ==========================================================================
   function sendMessage(text) {
     if (!text || !text.trim()) return;
@@ -12747,6 +13447,25 @@ const CollabEngine = (function() {
     }
   }
 
+  function clearChat() {
+    if (confirm('Möchtest du den Chat-Verlauf für diesen Raum wirklich leeren?')) {
+      chatHistory = [
+        {
+          id: `sys_${Date.now()}`,
+          isSystem: true,
+          text: `🧹 Chat-Verlauf wurde geleert.`,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        }
+      ];
+      saveChatHistory();
+      renderChatMessages();
+    }
+  }
+
+  function sendQuickChip(text) {
+    if (text) sendMessage(text);
+  }
+
   // ==========================================================================
   // UI RENDERING & INTERACTION
   // ==========================================================================
@@ -12766,26 +13485,29 @@ const CollabEngine = (function() {
 
     if (!container) return;
 
-    const members = Array.from(activeMembers.values()).slice(0, 4);
+    const members = Array.from(activeMembers.values()).slice(0, 5);
     let html = '';
 
     members.forEach((m, idx) => {
       const col = m.color || AVATAR_COLORS[0];
       const zIndex = 10 - idx;
+      const isCurrentlyTalking = !!m.isSpeaking;
+      const speakingAura = isCurrentlyTalking ? 'ring-2 ring-emerald-400 shadow-[0_0_12px_#10b981] animate-pulse scale-110' : '';
+
       html += `
-        <div class="relative -ml-1.5 first:ml-0 rounded-full border-2 border-[#12121a] shadow-sm cursor-pointer group" style="z-index: ${zIndex};" title="${m.name} (${m.isSelf ? 'Du' : 'Online'})">
-          <div class="w-6 h-6 rounded-full bg-gradient-to-tr ${col.bg} flex items-center justify-center text-[9px] font-black text-white uppercase select-none">
+        <div class="relative -ml-1.5 first:ml-0 rounded-full border-2 border-[#12121a] shadow-sm cursor-pointer group transition-transform" style="z-index: ${zIndex};" title="${m.name} (${m.isSelf ? 'Du' : 'Online'}${isCurrentlyTalking ? ' • 🎙️ Spricht gerade' : ''})">
+          <div class="w-6.5 h-6.5 rounded-full bg-gradient-to-tr ${col.bg} flex items-center justify-center text-[9px] font-black text-white uppercase select-none ${speakingAura}">
             ${m.avatar || m.name.slice(0, 2)}
           </div>
-          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-emerald-400 border border-black animate-pulse"></span>
+          <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full ${isCurrentlyTalking ? 'bg-emerald-300 animate-ping' : 'bg-emerald-400'} border border-black"></span>
         </div>
       `;
     });
 
-    if (activeMembers.size > 4) {
+    if (activeMembers.size > 5) {
       html += `
-        <div class="relative -ml-1.5 rounded-full border-2 border-[#12121a] bg-zinc-800 w-6 h-6 flex items-center justify-center text-[9px] font-bold text-gray-300 shadow-sm" style="z-index: 5;">
-          +${activeMembers.size - 4}
+        <div class="relative -ml-1.5 rounded-full border-2 border-[#12121a] bg-zinc-800 w-6.5 h-6.5 flex items-center justify-center text-[9px] font-bold text-gray-300 shadow-sm" style="z-index: 5;">
+          +${activeMembers.size - 5}
         </div>
       `;
     }
@@ -12806,7 +13528,7 @@ const CollabEngine = (function() {
             💬
           </div>
           <p class="text-xs font-bold text-white">Noch keine Nachrichten</p>
-          <p class="text-[10px] text-gray-400 max-w-[200px]">Schreibe eine Nachricht an dein Team oder teile den Link.</p>
+          <p class="text-[10px] text-gray-400 max-w-[200px]">Schreibe eine Nachricht, nimm eine Sprachnotiz auf oder lege Musik auf!</p>
         </div>
       `;
       return;
@@ -12820,6 +13542,84 @@ const CollabEngine = (function() {
             <div class="px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] text-purple-200 font-mono flex items-center gap-1.5 max-w-[90%] text-center">
               <span>${escapeHtml(msg.text)}</span>
               <span class="text-[8px] text-gray-400 font-mono">${escapeHtml(msg.time || '')}</span>
+            </div>
+          </div>
+        `;
+      } else if (msg.isDjShare && msg.track) {
+        // RICH DJ MUSIC SHARE CARD
+        const isSelf = (msg.sender && msg.sender.id === myUser.id);
+        const djName = isSelf ? 'Du' : escapeHtml(msg.sender?.name || 'DJ');
+        const trackName = escapeHtml(msg.track.name || 'Fokus Beat');
+        const bpm = Number(msg.track.bpm) || 120;
+        const trackJSON = JSON.stringify(msg.track).replace(/"/g, '&quot;');
+
+        html += `
+          <div class="my-2.5 p-3 rounded-2xl bg-gradient-to-br from-[#0e1626] via-[#16122b] to-[#0e1626] border border-cyan-500/40 shadow-[0_8px_25px_rgba(6,182,212,0.15)] space-y-2">
+            <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
+              <div class="flex items-center gap-2">
+                <span class="text-lg animate-spin-slow">🎧</span>
+                <div>
+                  <span class="text-[10px] font-mono text-cyan-300 uppercase font-black tracking-wider">DJ STREAM • LIVE</span>
+                  <div class="text-xs font-bold text-white">${djName} hat Musik aufgelegt</div>
+                </div>
+              </div>
+              <span class="text-[9px] font-mono bg-cyan-950 px-2 py-0.5 rounded-md border border-cyan-500/30 text-cyan-200 font-bold">${bpm} BPM</span>
+            </div>
+
+            <div class="p-2 rounded-xl bg-black/60 border border-white/10 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <div class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 font-bold text-xs shrink-0">
+                  🎵
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-bold text-white truncate">${trackName}</div>
+                  <div class="text-[9px] text-gray-400 font-mono">Synchronisierter Stream</div>
+                </div>
+              </div>
+              <button onclick="CollabEngine.syncSharedDjTrack(${trackJSON})" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-extrabold text-xs shadow-md transition active:scale-95 cursor-pointer flex items-center gap-1.5 shrink-0">
+                <span>▶️ Live Sync</span>
+              </button>
+            </div>
+          </div>
+        `;
+      } else if (msg.isVoice && msg.audioUrl) {
+        // RICH VOICE NOTE CARD
+        const isSelf = (msg.sender && msg.sender.id === myUser.id);
+        const col = (msg.sender && msg.sender.color) || AVATAR_COLORS[0];
+        const senderName = isSelf ? 'Du' : escapeHtml((msg.sender && msg.sender.name) || 'Teammate');
+        const safeAvatar = escapeHtml((msg.sender && msg.sender.avatar) || 'U');
+        const safeTime = escapeHtml(msg.time || '');
+        const duration = msg.duration || 1;
+        const msgId = escapeHtml(msg.id);
+
+        html += `
+          <div class="flex gap-2 my-2 ${isSelf ? 'flex-row-reverse' : 'flex-row'} group">
+            <div class="w-7 h-7 rounded-full bg-gradient-to-tr ${col.bg} flex items-center justify-center text-[10px] font-black text-white shrink-0 shadow-sm self-end mb-1">
+              ${safeAvatar}
+            </div>
+
+            <div class="flex flex-col max-w-[82%] ${isSelf ? 'items-end' : 'items-start'}">
+              <div class="flex items-center gap-1.5 px-1 mb-0.5 text-[9px] text-gray-400 font-mono">
+                <span class="font-bold ${isSelf ? 'text-purple-300' : 'text-gray-300'}">${senderName}</span>
+                <span>${safeTime}</span>
+              </div>
+
+              <div class="p-2.5 rounded-2xl text-xs bg-[#181826] border border-white/10 shadow-sm flex items-center gap-2.5 min-w-[200px]">
+                <button onclick="CollabEngine.playVoiceMessage('${msgId}', '${msg.audioUrl}')" id="voice-btn-${msgId}" class="w-8 h-8 rounded-full bg-purple-600 hover:bg-purple-500 text-white flex items-center justify-center text-xs transition cursor-pointer shadow-md shrink-0">
+                  ▶
+                </button>
+                <div class="flex-1 min-w-0 space-y-1">
+                  <div class="flex items-center justify-between text-[10px] font-mono text-purple-300">
+                    <span class="flex items-center gap-1 font-bold">🎙️ Sprachnachricht</span>
+                    <span id="voice-time-${msgId}">${Math.floor(duration / 60)}:${String(duration % 60).padStart(2, '0')}</span>
+                  </div>
+                  <div class="w-full h-1.5 bg-black/50 rounded-full overflow-hidden">
+                    <div id="voice-progress-${msgId}" class="h-full bg-purple-500 transition-all" style="width: 0%;"></div>
+                  </div>
+                </div>
+                <button onclick="CollabEngine.toggleVoicePlaybackSpeed('${msgId}')" id="voice-speed-${msgId}" class="px-1.5 py-0.5 rounded bg-white/10 hover:bg-white/20 text-[9px] font-mono font-bold text-gray-300 cursor-pointer">1x</button>
+                <audio id="voice-audio-${msgId}" src="${msg.audioUrl}" class="hidden" ontimeupdate="CollabEngine.updateVoiceAudioProgress('${msgId}')" onended="CollabEngine.resetVoiceAudioUI('${msgId}')"></audio>
+              </div>
             </div>
           </div>
         `;
@@ -12865,8 +13665,9 @@ const CollabEngine = (function() {
                 <div class="hidden group-hover:flex items-center gap-1 absolute ${isSelf ? 'left-0 -top-6' : 'right-0 -top-6'} bg-[#101018] border border-white/15 px-1.5 py-0.5 rounded-full shadow-lg z-10 animate-fade-in">
                   <button onclick="CollabEngine.addReaction('${safeMsgId}', '👍')" class="hover:scale-125 transition-transform text-xs cursor-pointer">👍</button>
                   <button onclick="CollabEngine.addReaction('${safeMsgId}', '❤️')" class="hover:scale-125 transition-transform text-xs cursor-pointer">❤️</button>
+                  <button onclick="CollabEngine.addReaction('${safeMsgId}', '🔥')" class="hover:scale-125 transition-transform text-xs cursor-pointer">🔥</button>
+                  <button onclick="CollabEngine.addReaction('${safeMsgId}', '🎧')" class="hover:scale-125 transition-transform text-xs cursor-pointer">🎧</button>
                   <button onclick="CollabEngine.addReaction('${safeMsgId}', '🚀')" class="hover:scale-125 transition-transform text-xs cursor-pointer">🚀</button>
-                  <button onclick="CollabEngine.addReaction('${safeMsgId}', '🎯')" class="hover:scale-125 transition-transform text-xs cursor-pointer">🎯</button>
                 </div>
               </div>
 
@@ -12879,6 +13680,58 @@ const CollabEngine = (function() {
 
     container.innerHTML = html;
     container.scrollTop = container.scrollHeight;
+  }
+
+  function playVoiceMessage(msgId) {
+    const audio = document.getElementById(`voice-audio-${msgId}`);
+    const btn = document.getElementById(`voice-btn-${msgId}`);
+    if (!audio) return;
+
+    if (audio.paused) {
+      audio.play();
+      if (btn) btn.innerText = '⏸';
+    } else {
+      audio.pause();
+      if (btn) btn.innerText = '▶';
+    }
+  }
+
+  function updateVoiceAudioProgress(msgId) {
+    const audio = document.getElementById(`voice-audio-${msgId}`);
+    const bar = document.getElementById(`voice-progress-${msgId}`);
+    const time = document.getElementById(`voice-time-${msgId}`);
+    if (!audio || !bar) return;
+
+    const pct = (audio.currentTime / (audio.duration || 1)) * 100;
+    bar.style.width = `${pct}%`;
+    if (time && !isNaN(audio.currentTime)) {
+      const cur = Math.floor(audio.currentTime);
+      time.innerText = `${Math.floor(cur / 60)}:${String(cur % 60).padStart(2, '0')}`;
+    }
+  }
+
+  function resetVoiceAudioUI(msgId) {
+    const btn = document.getElementById(`voice-btn-${msgId}`);
+    const bar = document.getElementById(`voice-progress-${msgId}`);
+    if (btn) btn.innerText = '▶';
+    if (bar) bar.style.width = '0%';
+  }
+
+  function toggleVoicePlaybackSpeed(msgId) {
+    const audio = document.getElementById(`voice-audio-${msgId}`);
+    const btn = document.getElementById(`voice-speed-${msgId}`);
+    if (!audio || !btn) return;
+
+    if (audio.playbackRate === 1.0) {
+      audio.playbackRate = 1.5;
+      btn.innerText = '1.5x';
+    } else if (audio.playbackRate === 1.5) {
+      audio.playbackRate = 2.0;
+      btn.innerText = '2x';
+    } else {
+      audio.playbackRate = 1.0;
+      btn.innerText = '1x';
+    }
   }
 
   function escapeHtml(str) {
@@ -12927,6 +13780,187 @@ const CollabEngine = (function() {
     }
   }
 
+  let currentTab = 'team';
+
+  function switchTab(tab) {
+    currentTab = tab;
+    
+    // Update tab buttons
+    const btnTeam = document.getElementById('collab-tab-btn-team');
+    const btnMessengers = document.getElementById('collab-tab-btn-messengers');
+    const btnDirect = document.getElementById('collab-tab-btn-direct');
+
+    const activeClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-violet-100 bg-gradient-to-r from-violet-600/40 via-purple-600/35 to-violet-600/40 border border-violet-400/80 shadow-[0_0_15px_rgba(139,92,246,0.35)] text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition';
+    const inactiveClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 border border-transparent transition text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
+
+    if (btnTeam) btnTeam.className = tab === 'team' ? activeClass : inactiveClass;
+    if (btnMessengers) btnMessengers.className = tab === 'messengers' ? activeClass : inactiveClass;
+    if (btnDirect) btnDirect.className = tab === 'direct' ? activeClass : inactiveClass;
+
+    // Toggle panes
+    const paneTeam = document.getElementById('collab-pane-team');
+    const paneMessengers = document.getElementById('collab-pane-messengers');
+    const paneDirect = document.getElementById('collab-pane-direct');
+
+    if (paneTeam) paneTeam.classList.toggle('hidden', tab !== 'team');
+    if (paneMessengers) paneMessengers.classList.toggle('hidden', tab !== 'messengers');
+    if (paneDirect) paneDirect.classList.toggle('hidden', tab !== 'direct');
+
+    if (tab === 'team') {
+      renderChatMessages();
+      renderDjActiveBanner();
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  function getShareMessageContent() {
+    const input = document.getElementById('collab-messenger-input');
+    let text = (input && input.value.trim()) || '';
+    if (!text) {
+      text = `🚀 Schau dir mein Noodle Studio Board an: ${getShareLink()}`;
+    }
+    return text;
+  }
+
+  function shareToMessenger(platformKey, customText = null) {
+    const text = customText || getShareMessageContent();
+    const appUrl = getShareLink();
+    let url = '';
+
+    switch (platformKey) {
+      case 'whatsapp':
+        url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+        break;
+      case 'signal':
+        url = `sgnl://share?text=${encodeURIComponent(text)}`;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text);
+          if (typeof showToast === 'function') showToast('📋 Nachricht kopiert! Signal wird geöffnet...');
+        }
+        break;
+      case 'viber':
+      case 'vibe':
+        url = `viber://forward?text=${encodeURIComponent(text)}`;
+        break;
+      case 'messenger':
+        url = `https://www.messenger.com/`;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text);
+          if (typeof showToast === 'function') showToast('📋 Text kopiert! Öffne Messenger...');
+        }
+        break;
+      case 'telegram':
+        url = `https://t.me/share/url?url=${encodeURIComponent(appUrl)}&text=${encodeURIComponent(text)}`;
+        break;
+      case 'discord':
+        url = `https://discord.com/app`;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text);
+          if (typeof showToast === 'function') showToast('📋 Nachricht für Discord kopiert!');
+        }
+        break;
+      case 'slack':
+        url = `https://slack.com/`;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text);
+          if (typeof showToast === 'function') showToast('📋 Nachricht für Slack kopiert!');
+        }
+        break;
+      case 'teams':
+        url = `https://teams.microsoft.com/share?href=${encodeURIComponent(appUrl)}&msgText=${encodeURIComponent(text)}`;
+        break;
+      case 'email':
+        url = `mailto:?subject=${encodeURIComponent('Noodle Studio Workspace')}&body=${encodeURIComponent(text)}`;
+        break;
+      case 'sms':
+        url = `sms:?body=${encodeURIComponent(text)}`;
+        break;
+      default:
+        url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+    }
+
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  }
+
+  function openDirectChat(platformKey, targetContact, message) {
+    if (!targetContact || !targetContact.trim()) {
+      if (typeof showToast === 'function') showToast('⚠️ Bitte Nummer oder Username eingeben');
+      return;
+    }
+
+    const cleanNum = targetContact.trim().replace(/[^0-9+]/g, '');
+    const cleanUser = targetContact.trim().replace(/^@/, '');
+    const text = message && message.trim() ? message.trim() : 'Hallo! Ich teile meinen Fokus mit dir auf Noodle.';
+    let url = '';
+
+    switch (platformKey) {
+      case 'whatsapp':
+        url = `https://wa.me/${cleanNum}?text=${encodeURIComponent(text)}`;
+        break;
+      case 'signal':
+        url = `https://signal.me/#p/${cleanNum}`;
+        break;
+      case 'viber':
+      case 'vibe':
+        url = `viber://chat?number=${cleanNum}`;
+        break;
+      case 'messenger':
+        url = `https://m.me/${cleanUser}`;
+        break;
+      case 'telegram':
+        url = `https://t.me/${cleanUser}`;
+        break;
+      default:
+        url = `https://wa.me/${cleanNum}?text=${encodeURIComponent(text)}`;
+    }
+
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+      if (typeof showToast === 'function') showToast(`🚀 Chat auf ${platformKey.toUpperCase()} wird geöffnet!`);
+    }
+  }
+
+  function insertQuickContext(type) {
+    const input = document.getElementById('collab-messenger-input');
+    if (!input) return;
+
+    let text = '';
+    if (type === 'tasks') {
+      let taskList = [];
+      if (typeof columns !== 'undefined' && Array.isArray(columns)) {
+        columns.forEach(col => {
+          if (col.tasks && Array.isArray(col.tasks)) {
+            col.tasks.slice(0, 3).forEach(t => taskList.push(`• [${col.title}] ${t.title || t.task || t}`));
+          }
+        });
+      }
+      text = `📋 Meine aktuellen Aufgaben auf Noodle:\n${taskList.slice(0, 5).join('\n')}\n🔗 ${getShareLink()}`;
+    } else if (type === 'focus') {
+      const activeTask = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || 'Fokus-Session');
+      text = `⏱️ Ich starte jetzt einen Fokus-Sprint an: "${activeTask}" auf Noodle! 🚀`;
+    } else if (type === 'invite') {
+      text = `👋 Lass uns gemeinsam fokussieren! Tritt meinem Team-Space auf Noodle bei:\n🔗 ${getShareLink()}`;
+    }
+
+    input.value = text;
+    if (typeof showToast === 'function') showToast('✨ Vorlage eingefügt!');
+    input.focus();
+  }
+
+  function copyShareText() {
+    const text = getShareMessageContent();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(() => {
+        if (typeof showToast === 'function') showToast('📋 Nachricht in die Zwischenablage kopiert!');
+      });
+    }
+  }
+
   function toggleChat() {
     const panel = document.getElementById('panel-collab-chat');
     if (!panel) return;
@@ -12940,15 +13974,18 @@ const CollabEngine = (function() {
       isChatOpen = true;
       unreadCount = 0;
       updateUnreadBadge();
-      renderChatMessages();
+      if (currentTab === 'team') {
+        renderChatMessages();
+        renderDjActiveBanner();
+      }
 
       const input = document.getElementById('collab-chat-input');
-      if (input) {
+      if (input && currentTab === 'team') {
         setTimeout(() => input.focus(), 100);
       }
     }
 
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 
   function openRoomModal() {
@@ -12976,9 +14013,36 @@ const CollabEngine = (function() {
     copyShareLink,
     toggleChat,
     openRoomModal,
+    clearChat,
+    sendQuickChip,
     loadChatHistory,
     renderChatMessages,
-    renderPresenceUI
+    renderPresenceUI,
+    switchTab,
+    shareToMessenger,
+    openDirectChat,
+    insertQuickContext,
+    copyShareText,
+    // DJ Music Hub
+    shareDjTrack,
+    syncSharedDjTrack,
+    stopSharedDjSession,
+    openDjWorkstationFromChat,
+    openDjSharePicker,
+    closeDjSharePicker,
+    renderDjActiveBanner,
+    // Voice & Mic
+    toggleMicrophone,
+    startVoiceRecording,
+    stopVoiceRecording,
+    playVoiceMessage,
+    updateVoiceAudioProgress,
+    resetVoiceAudioUI,
+    toggleVoicePlaybackSpeed,
+    // Shared Dashboard Suite
+    shareCurrentBoardWithTeam,
+    importSharedBoardToPersonal,
+    switchToSharedBoard
   };
 })();
 
@@ -14958,7 +16022,7 @@ function updateDateAndStreak() {
     const dayMonthLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
     const displayEl = document.getElementById('date-display');
     if (displayEl) {
-      displayEl.innerHTML = `<span class="text-purple-300 font-bold text-xs md:text-sm tracking-normal"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="text-gray-100 font-bold text-xs md:text-sm tracking-normal"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
+      displayEl.innerHTML = `<span class="text-purple-300 font-bold text-xs md:text-sm tracking-normal"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="text-purple-300 font-bold text-xs md:text-sm tracking-normal"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
     }
   } catch (e) {
     const displayEl = document.getElementById('date-display');
@@ -15085,7 +16149,7 @@ let eyeRestRunning = false;
 let dopamineDetoxInterval = null;
 let dopamineDetoxSeconds = 60;
 
-function openBreakModal(type, pattern) {
+window.openBreakModal = function(type, pattern) {
   if (type === 'stretch') {
     if (typeof openSportModal === 'function') {
       openSportModal();
@@ -15107,8 +16171,7 @@ function openBreakModal(type, pattern) {
   } else {
     switchSafeSpaceTab('breath');
   }
-}
-window.openBreakModal = openBreakModal;
+};
 
 function openSafeSpaceModal() {
   const modal = document.getElementById('helper-safespace-modal');
@@ -16185,352 +17248,737 @@ function playCheerfulSuccessJingle() {
 // NOODLE INTERACTIVE UI SOUNDS (Pleasant Short Nature & Game Sound Effects)
 // ============================================================================
 
+// ============================================================================
+// 🎮 MEGA GAME & NATURE PROCEDURAL SOUND ENGINE (30+ Playful Procedural Sounds)
+// ============================================================================
+
 let lastUiSoundTime = 0;
 let uiSoundIndex = 0;
+let lastPlayedSoundKey = '';
 
-// Master Nature Sound Synthesizers (Water drops, bamboo clicks, pebbles, birds, leaf rustle, rain chimes)
-function playNatureSound(type) {
-  initAudioContext();
-  if (!audioCtx || isPlayerMuted) return;
-  const now = audioCtx.currentTime;
-  const dest = (typeof getMasterAudioDestination === 'function') ? (getMasterAudioDestination() || audioCtx.destination) : audioCtx.destination;
-  const masterVol = (soundMasterVolume || 0.5) * 0.35;
-
-  const natureTypes = ['waterdrop', 'bamboo', 'pebble', 'bird_chirp', 'leaf_rustle', 'rain_chime'];
-  const soundType = type || natureTypes[Math.floor(Math.random() * natureTypes.length)];
-
-  try {
-    if (soundType === 'waterdrop' || soundType === 'droplet') {
-      // Warm, crystalline resonant waterdrop
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(620, now);
-      osc.frequency.exponentialRampToValueAtTime(1480, now + 0.025);
-      osc.frequency.exponentialRampToValueAtTime(1050, now + 0.08);
-
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(masterVol * 0.6, now + 0.008);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.085);
-
-      osc.connect(gain);
-      gain.connect(dest);
-      osc.start(now);
-      osc.stop(now + 0.09);
-      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-
-    } else if (soundType === 'bamboo' || soundType === 'woodblock') {
-      // Snappy, organic woodblock/marimba tap
-      const osc = audioCtx.createOscillator();
-      const filter = audioCtx.createBiquadFilter();
-      const gain = audioCtx.createGain();
-
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(580, now);
-      osc.frequency.exponentialRampToValueAtTime(240, now + 0.045);
-
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(750, now);
-      filter.Q.setValueAtTime(3.5, now);
-
-      gain.gain.setValueAtTime(masterVol * 0.75, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
-
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(dest);
-      osc.start(now);
-      osc.stop(now + 0.055);
-      osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
-
-    } else if (soundType === 'pebble' || soundType === 'zen_stone') {
-      // Smooth tactile stone click (dual resonant frequencies)
-      [1950, 2680].forEach((freq, idx) => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, now + idx * 0.005);
-        gain.gain.setValueAtTime(masterVol * 0.35, now + idx * 0.005);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04 + idx * 0.005);
-        osc.connect(gain);
-        gain.connect(dest);
-        osc.start(now + idx * 0.005);
-        osc.stop(now + 0.05);
-        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-      });
-
-    } else if (soundType === 'bird_chirp') {
-      // Zartes, fröhliches Vogelzwitschern
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(2750, now);
-      osc.frequency.linearRampToValueAtTime(3350, now + 0.03);
-      osc.frequency.exponentialRampToValueAtTime(2900, now + 0.075);
-
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(masterVol * 0.35, now + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
-
-      osc.connect(gain);
-      gain.connect(dest);
-      osc.start(now);
-      osc.stop(now + 0.085);
-      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-
-    } else if (soundType === 'leaf_rustle' || soundType === 'wind_puff') {
-      // Soft gentle breeze / leaf puff (bandpass filtered noise)
-      const bufferSize = Math.floor(audioCtx.sampleRate * 0.1);
-      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
-      }
-      const noiseSource = audioCtx.createBufferSource();
-      noiseSource.buffer = buffer;
-
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(1100, now);
-      filter.Q.setValueAtTime(2.0, now);
-
-      const gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(masterVol * 0.5, now + 0.015);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
-
-      noiseSource.connect(filter);
-      filter.connect(gain);
-      gain.connect(dest);
-      noiseSource.start(now);
-      noiseSource.stop(now + 0.1);
-      noiseSource.onended = () => { try { noiseSource.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
-
-    } else if (soundType === 'rain_chime') {
-      // Pentatonic crystalline raindrop bell
-      const bellPitches = [1046.50, 1174.66, 1318.51, 1567.98];
-      const pitch = bellPitches[Math.floor(Math.random() * bellPitches.length)];
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(pitch, now);
-
-      gain.gain.setValueAtTime(masterVol * 0.45, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
-
-      osc.connect(gain);
-      gain.connect(dest);
-      osc.start(now);
-      osc.stop(now + 0.2);
-      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-    }
-  } catch (err) {
-    console.warn('[Audio] playNatureSound error:', err);
-  }
+// Helper to get consistent audio destination
+function getUiAudioDest() {
+  if (!audioCtx) return null;
+  return (typeof getMasterAudioDestination === 'function') ? (getMasterAudioDestination() || audioCtx.destination) : audioCtx.destination;
 }
 
-// Master Game Sound Synthesizers (Coins, powerups, menu bubbles, blips, sparkles, lasers)
+// 30+ Playful Game & Delightful UI Sound Synthesizers
 function playGameSound(type) {
   initAudioContext();
   if (!audioCtx || isPlayerMuted) return;
   const now = audioCtx.currentTime;
-  const dest = (typeof getMasterAudioDestination === 'function') ? (getMasterAudioDestination() || audioCtx.destination) : audioCtx.destination;
-  const masterVol = (soundMasterVolume || 0.5) * 0.35;
+  const dest = getUiAudioDest();
+  if (!dest) return;
+  const masterVol = Math.min(0.6, (soundMasterVolume || 0.5) * 0.42);
 
-  const gameTypes = ['coin', 'powerup', 'menu_pop', 'menu_close', 'switch_tap', 'jump_blip', 'sparkle', 'laser_blip'];
-  const soundType = type || gameTypes[Math.floor(Math.random() * gameTypes.length)];
+  const ALL_GAME_SOUNDS = [
+    'coin', 'gem', 'boing', 'pop', 'bloop', 'squeak', 'powerup', 'jump',
+    'laser', 'sparkle', 'marimba', 'xylophone', 'robot', 'cork_pop',
+    'snack', 'bell', 'pebble', 'whistle', 'arcade_blip', 'bamboo',
+    'chirp', 'victory_pip', 'waterdrop', 'soft_click', 'bubble_double',
+    'glockenspiel', 'drum_pop', 'star_ping', 'rubber_duck', 'wobble'
+  ];
+
+  let soundType = type;
+  if (!soundType || soundType === 'random') {
+    // Pick random without immediate repeat
+    const pool = ALL_GAME_SOUNDS.filter(s => s !== lastPlayedSoundKey);
+    soundType = pool[Math.floor(Math.random() * pool.length)] || 'coin';
+  }
+  lastPlayedSoundKey = soundType;
 
   try {
-    if (soundType === 'coin' || soundType === 'gem') {
-      // Crisp 2-tone arcade coin ping (B5 -> E6)
-      const notes = [987.77, 1318.51];
-      notes.forEach((freq, i) => {
+    switch (soundType) {
+      // 1. Mario-style arcade coin (B5 -> E6)
+      case 'coin': {
+        const notes = [987.77, 1318.51];
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const t = now + (i * 0.042);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t);
+          gain.gain.setValueAtTime(masterVol * 0.55, t);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(t);
+          osc.stop(t + 0.15);
+          osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        });
+        break;
+      }
+
+      // 2. Shiny Gem Twinkle (E6 -> G#6 -> B6)
+      case 'gem': {
+        const notes = [1318.51, 1661.22, 1975.53];
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const t = now + (i * 0.03);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t);
+          gain.gain.setValueAtTime(masterVol * 0.45, t);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.12);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(t);
+          osc.stop(t + 0.13);
+          osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        });
+        break;
+      }
+
+      // 3. Comic Cartoon Boing (spring pitch bounce)
+      case 'boing': {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        const startTime = now + (i * 0.04);
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, startTime);
-        gain.gain.setValueAtTime(masterVol * 0.5, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.12);
+        osc.frequency.setValueAtTime(220, now);
+        osc.frequency.exponentialRampToValueAtTime(680, now + 0.04);
+        osc.frequency.exponentialRampToValueAtTime(320, now + 0.08);
+        osc.frequency.exponentialRampToValueAtTime(540, now + 0.12);
+        osc.frequency.exponentialRampToValueAtTime(380, now + 0.16);
+
+        gain.gain.setValueAtTime(masterVol * 0.6, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
         osc.connect(gain);
         gain.connect(dest);
-        osc.start(startTime);
-        osc.stop(startTime + 0.13);
+        osc.start(now);
+        osc.stop(now + 0.19);
         osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-      });
+        break;
+      }
 
-    } else if (soundType === 'powerup' || soundType === 'pip_up') {
-      // 3-note ascending level-up pip (C5 -> E5 -> G5)
-      const notes = [523.25, 659.25, 783.99];
-      notes.forEach((freq, i) => {
+      // 4. Snappy Soap Bubble Pop
+      case 'pop':
+      case 'menu_pop': {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        const startTime = now + (i * 0.035);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(420, now);
+        osc.frequency.exponentialRampToValueAtTime(1180, now + 0.025);
+        osc.frequency.exponentialRampToValueAtTime(300, now + 0.06);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(masterVol * 0.65, now + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.065);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.07);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 5. Liquid Cartoon Bloop
+      case 'bloop': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(300, now);
+        osc.frequency.exponentialRampToValueAtTime(920, now + 0.05);
+
+        gain.gain.setValueAtTime(masterVol * 0.55, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.07);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.075);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 6. Squeaky Toy Squeak
+      case 'squeak':
+      case 'rubber_duck': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(freq, startTime);
-        gain.gain.setValueAtTime(masterVol * 0.45, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.09);
+        osc.frequency.setValueAtTime(980, now);
+        osc.frequency.linearRampToValueAtTime(1650, now + 0.035);
+        osc.frequency.linearRampToValueAtTime(1320, now + 0.07);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(masterVol * 0.45, now + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
         osc.connect(gain);
         gain.connect(dest);
-        osc.start(startTime);
-        osc.stop(startTime + 0.1);
+        osc.start(now);
+        osc.stop(now + 0.085);
         osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-      });
+        break;
+      }
 
-    } else if (soundType === 'menu_pop' || soundType === 'bubble_open') {
-      // Soft warm bubble sweep for opening menus
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(320, now);
-      osc.frequency.exponentialRampToValueAtTime(860, now + 0.065);
+      // 7. Ascending Powerup Arpeggio (C5 -> E5 -> G5 -> C6)
+      case 'powerup':
+      case 'pip_up': {
+        const notes = [523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const t = now + (i * 0.028);
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, t);
+          gain.gain.setValueAtTime(masterVol * 0.45, t);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.08);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(t);
+          osc.stop(t + 0.09);
+          osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        });
+        break;
+      }
 
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(masterVol * 0.5, now + 0.012);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
-
-      osc.connect(gain);
-      gain.connect(dest);
-      osc.start(now);
-      osc.stop(now + 0.085);
-      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-
-    } else if (soundType === 'menu_close' || soundType === 'bubble_close') {
-      // Gentle downward resolving tone for closing menus
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(760, now);
-      osc.frequency.exponentialRampToValueAtTime(260, now + 0.065);
-
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(masterVol * 0.4, now + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
-
-      osc.connect(gain);
-      gain.connect(dest);
-      osc.start(now);
-      osc.stop(now + 0.08);
-      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-
-    } else if (soundType === 'switch_tap' || soundType === 'tactile_click') {
-      // Super clean tactile mechanical click
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(1100, now);
-      osc.frequency.exponentialRampToValueAtTime(280, now + 0.02);
-
-      gain.gain.setValueAtTime(masterVol * 0.6, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.025);
-
-      osc.connect(gain);
-      gain.connect(dest);
-      osc.start(now);
-      osc.stop(now + 0.03);
-      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-
-    } else if (soundType === 'jump_blip') {
-      // Cute classic 8-bit blip
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'square';
-      osc.frequency.setValueAtTime(240, now);
-      osc.frequency.exponentialRampToValueAtTime(680, now + 0.05);
-
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(1400, now);
-
-      gain.gain.setValueAtTime(masterVol * 0.28, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
-
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(dest);
-      osc.start(now);
-      osc.stop(now + 0.06);
-      osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
-
-    } else if (soundType === 'sparkle' || soundType === 'star') {
-      // 4-note sparkling glitzer cascade
-      const notes = [783.99, 1046.50, 1318.51, 1567.98];
-      notes.forEach((freq, i) => {
+      // 8. 8-Bit Jump Sound
+      case 'jump':
+      case 'jump_blip': {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        const startTime = now + (i * 0.022);
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(260, now);
+        osc.frequency.exponentialRampToValueAtTime(740, now + 0.055);
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1600, now);
+
+        gain.gain.setValueAtTime(masterVol * 0.28, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.06);
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.065);
+        osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 9. Retro Laser Blip
+      case 'laser':
+      case 'laser_blip': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(1750, now);
+        osc.frequency.exponentialRampToValueAtTime(320, now + 0.045);
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2200, now);
+
+        gain.gain.setValueAtTime(masterVol * 0.32, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.055);
+        osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 10. Star Sparkle Cascade
+      case 'sparkle':
+      case 'star': {
+        const notes = [783.99, 1046.50, 1318.51, 1567.98];
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const t = now + (i * 0.022);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t);
+          gain.gain.setValueAtTime(masterVol * 0.35, t);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(t);
+          osc.stop(t + 0.1);
+          osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        });
+        break;
+      }
+
+      // 11. Warm Wooden Marimba Hit (Pentatonic scale)
+      case 'marimba': {
+        const pitches = [440, 523.25, 587.33, 659.25, 783.99, 880];
+        const pitch = pitches[Math.floor(Math.random() * pitches.length)];
+        const osc = audioCtx.createOscillator();
+        const filter = audioCtx.createBiquadFilter();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(pitch, now);
+        osc.frequency.exponentialRampToValueAtTime(pitch * 0.6, now + 0.04);
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(pitch * 1.5, now);
+        filter.Q.setValueAtTime(3.0, now);
+
+        gain.gain.setValueAtTime(masterVol * 0.6, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.09);
+        osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 12. Bright Xylophone Strike
+      case 'xylophone': {
+        const pitches = [1046.50, 1174.66, 1318.51, 1567.98, 1760.00];
+        const pitch = pitches[Math.floor(Math.random() * pitches.length)];
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, startTime);
-        gain.gain.setValueAtTime(masterVol * 0.35, startTime);
-        gain.gain.exponentialRampToValueAtTime(0.0001, startTime + 0.09);
+        osc.frequency.setValueAtTime(pitch, now);
+
+        gain.gain.setValueAtTime(masterVol * 0.5, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.11);
         osc.connect(gain);
         gain.connect(dest);
-        osc.start(startTime);
-        osc.stop(startTime + 0.1);
+        osc.start(now);
+        osc.stop(now + 0.12);
         osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-      });
+        break;
+      }
 
-    } else if (soundType === 'laser_blip' || soundType === 'zap_pip') {
-      // Soft mini arcade blip
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'triangle';
-      osc.frequency.setValueAtTime(1600, now);
-      osc.frequency.exponentialRampToValueAtTime(420, now + 0.035);
+      // 13. R2D2 Cute Robot Chirp
+      case 'robot': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(1200, now);
+        osc.frequency.setValueAtTime(1800, now + 0.02);
+        osc.frequency.setValueAtTime(900, now + 0.04);
+        osc.frequency.setValueAtTime(1500, now + 0.06);
 
-      gain.gain.setValueAtTime(masterVol * 0.4, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2400, now);
 
-      osc.connect(gain);
-      gain.connect(dest);
-      osc.start(now);
-      osc.stop(now + 0.045);
-      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        gain.gain.setValueAtTime(masterVol * 0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.085);
+        osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 14. Champagne Cork Pop
+      case 'cork_pop':
+      case 'menu_close': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, now);
+        osc.frequency.exponentialRampToValueAtTime(180, now + 0.045);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(masterVol * 0.65, now + 0.005);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.055);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.06);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 15. Cute Snack / Nibble Pip
+      case 'snack': {
+        [0, 0.025].forEach((offset, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const t = now + offset;
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(idx === 0 ? 880 : 1200, t);
+          osc.frequency.exponentialRampToValueAtTime(400, t + 0.02);
+
+          gain.gain.setValueAtTime(masterVol * 0.45, t);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.025);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(t);
+          osc.stop(t + 0.03);
+          osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        });
+        break;
+      }
+
+      // 16. Hotel Service Bell Ting
+      case 'bell': {
+        const osc = audioCtx.createOscillator();
+        const oscHarmonic = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(2093.00, now); // C7
+        oscHarmonic.type = 'sine';
+        oscHarmonic.frequency.setValueAtTime(4186.01, now); // C8
+
+        gain.gain.setValueAtTime(masterVol * 0.4, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.2);
+
+        osc.connect(gain);
+        oscHarmonic.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        oscHarmonic.start(now);
+        osc.stop(now + 0.22);
+        oscHarmonic.stop(now + 0.22);
+        osc.onended = () => { try { osc.disconnect(); oscHarmonic.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 17. Smooth Zen Stone / Pebble Click
+      case 'pebble': {
+        [1950, 2680].forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, now + idx * 0.004);
+          gain.gain.setValueAtTime(masterVol * 0.35, now + idx * 0.004);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035 + idx * 0.004);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(now + idx * 0.004);
+          osc.stop(now + 0.045);
+          osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        });
+        break;
+      }
+
+      // 18. Slide Whistle Up
+      case 'whistle': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(550, now);
+        osc.frequency.exponentialRampToValueAtTime(1450, now + 0.07);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(masterVol * 0.4, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.085);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 19. Nintendo Select Blip
+      case 'arcade_blip': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(880, now);
+        osc.frequency.setValueAtTime(1760, now + 0.018);
+
+        const filter = audioCtx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(2000, now);
+
+        gain.gain.setValueAtTime(masterVol * 0.22, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.045);
+        osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 20. Resonant Bamboo Woodblock
+      case 'bamboo': {
+        const osc = audioCtx.createOscillator();
+        const filter = audioCtx.createBiquadFilter();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(620, now);
+        osc.frequency.exponentialRampToValueAtTime(220, now + 0.04);
+
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(820, now);
+        filter.Q.setValueAtTime(4.0, now);
+
+        gain.gain.setValueAtTime(masterVol * 0.7, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.045);
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.05);
+        osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 21. Bird Tweet
+      case 'chirp':
+      case 'bird_chirp': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(2800, now);
+        osc.frequency.linearRampToValueAtTime(3600, now + 0.025);
+        osc.frequency.exponentialRampToValueAtTime(2950, now + 0.06);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(masterVol * 0.35, now + 0.008);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.065);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.07);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 22. Mini Victory Triad Pip
+      case 'victory_pip': {
+        const notes = [659.25, 880.00, 1318.51];
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const t = now + (i * 0.028);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t);
+          gain.gain.setValueAtTime(masterVol * 0.45, t);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.1);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(t);
+          osc.stop(t + 0.11);
+          osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        });
+        break;
+      }
+
+      // 23. Crystalline Water Droplet
+      case 'waterdrop':
+      case 'droplet': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(640, now);
+        osc.frequency.exponentialRampToValueAtTime(1520, now + 0.022);
+        osc.frequency.exponentialRampToValueAtTime(1080, now + 0.07);
+
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(masterVol * 0.55, now + 0.007);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.075);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.08);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 24. Clean Mechanical Tactile Click
+      case 'soft_click':
+      case 'switch_tap': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(1200, now);
+        osc.frequency.exponentialRampToValueAtTime(260, now + 0.018);
+
+        gain.gain.setValueAtTime(masterVol * 0.55, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.022);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.025);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 25. Double Soap Bubble Pop (Pop-Pop!)
+      case 'bubble_double': {
+        [0, 0.038].forEach((offset, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          const t = now + offset;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(idx === 0 ? 520 : 840, t);
+          osc.frequency.exponentialRampToValueAtTime(idx === 0 ? 1100 : 1600, t + 0.02);
+
+          gain.gain.setValueAtTime(masterVol * 0.5, t);
+          gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.045);
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start(t);
+          osc.stop(t + 0.05);
+          osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        });
+        break;
+      }
+
+      // 26. Pure Glockenspiel Chime
+      case 'glockenspiel': {
+        const pitches = [1318.51, 1567.98, 1760.00, 2093.00];
+        const pitch = pitches[Math.floor(Math.random() * pitches.length)];
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(pitch, now);
+
+        gain.gain.setValueAtTime(masterVol * 0.45, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.16);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.18);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 27. Funky Drum Pop / Rim Tick
+      case 'drum_pop': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(480, now);
+        osc.frequency.exponentialRampToValueAtTime(90, now + 0.035);
+
+        gain.gain.setValueAtTime(masterVol * 0.7, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.045);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 28. High Star Ping
+      case 'star_ping': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(2637.02, now); // E7
+
+        gain.gain.setValueAtTime(masterVol * 0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.13);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.14);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      // 29. Comic Jelly Wobble
+      case 'wobble': {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(360, now);
+        osc.frequency.linearRampToValueAtTime(460, now + 0.025);
+        osc.frequency.linearRampToValueAtTime(340, now + 0.05);
+        osc.frequency.linearRampToValueAtTime(420, now + 0.075);
+
+        gain.gain.setValueAtTime(masterVol * 0.5, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+        osc.connect(gain);
+        gain.connect(dest);
+        osc.start(now);
+        osc.stop(now + 0.095);
+        osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
+        break;
+      }
+
+      default: {
+        // Fallback to crisp pop
+        playGameSound('pop');
+        break;
+      }
     }
   } catch (err) {
     console.warn('[Audio] playGameSound error:', err);
   }
 }
 
-// Master UI sound dispatcher: plays alternating or designated nature & game sounds
+// Master Nature Sound Synthesizers (alias and backwards compatibility)
+function playNatureSound(type) {
+  const map = {
+    waterdrop: 'waterdrop',
+    droplet: 'waterdrop',
+    bamboo: 'bamboo',
+    woodblock: 'bamboo',
+    pebble: 'pebble',
+    zen_stone: 'pebble',
+    bird_chirp: 'chirp',
+    chirp: 'chirp',
+    rain_chime: 'glockenspiel'
+  };
+  playGameSound(map[type] || type || 'waterdrop');
+}
+
+// Master UI sound dispatcher: plays contextual or highly-varied rotating game sounds
 function playUiSound(category = 'click', specificType = null) {
   const currentTime = Date.now();
-  if (currentTime - lastUiSoundTime < 35) return; // Debounce
+  if (currentTime - lastUiSoundTime < 30) return; // Debounce fast spam
   lastUiSoundTime = currentTime;
 
-  if (category === 'menu_open') {
-    const openSounds = ['menu_pop', 'bamboo', 'waterdrop', 'pip_up'];
-    const pick = specificType || openSounds[Math.floor(Math.random() * openSounds.length)];
-    if (pick === 'bamboo' || pick === 'waterdrop') playNatureSound(pick);
-    else playGameSound(pick);
-    return;
-  }
-
-  if (category === 'menu_close') {
-    const closeSounds = ['menu_close', 'droplet', 'pebble'];
-    const pick = specificType || closeSounds[Math.floor(Math.random() * closeSounds.length)];
-    if (pick === 'droplet' || pick === 'pebble') playNatureSound(pick);
-    else playGameSound(pick);
-    return;
-  }
-
-  if (category === 'nature') {
-    playNatureSound(specificType);
-    return;
-  }
-
-  if (category === 'game') {
+  if (specificType) {
     playGameSound(specificType);
     return;
   }
 
-  // Alternating between Nature and Game sounds on button clicks
+  // 1. Context: Opening menus, popovers, drawers
+  if (category === 'menu_open' || category === 'open') {
+    const openSounds = ['pop', 'bloop', 'boing', 'whistle', 'powerup', 'bubble_double'];
+    const pick = openSounds[Math.floor(Math.random() * openSounds.length)];
+    playGameSound(pick);
+    return;
+  }
+
+  // 2. Context: Closing modals, dropdowns
+  if (category === 'menu_close' || category === 'close') {
+    const closeSounds = ['cork_pop', 'pebble', 'drum_pop', 'pop'];
+    const pick = closeSounds[Math.floor(Math.random() * closeSounds.length)];
+    playGameSound(pick);
+    return;
+  }
+
+  // 3. Context: Checkbox / Task done / Quest complete
+  if (category === 'task_done' || category === 'checkbox' || category === 'done') {
+    const doneSounds = ['coin', 'gem', 'powerup', 'victory_pip', 'sparkle', 'star_ping'];
+    const pick = doneSounds[Math.floor(Math.random() * doneSounds.length)];
+    playGameSound(pick);
+    return;
+  }
+
+  // 4. Context: Tabs & Navigations
+  if (category === 'tab' || category === 'nav') {
+    const tabSounds = ['marimba', 'xylophone', 'arcade_blip', 'robot', 'glockenspiel', 'bloop'];
+    const pick = tabSounds[Math.floor(Math.random() * tabSounds.length)];
+    playGameSound(pick);
+    return;
+  }
+
+  // 5. Context: General Clicks - Rich variety with anti-repetition rotation
   uiSoundIndex++;
-  if (uiSoundIndex % 2 === 0) {
-    playNatureSound(specificType);
-  } else {
-    playGameSound(specificType);
-  }
+  const CLICK_PALETTE = [
+    'bloop', 'marimba', 'pop', 'coin', 'xylophone',
+    'bamboo', 'whistle', 'gem', 'snack', 'robot',
+    'bubble_double', 'glockenspiel', 'pebble', 'boing', 'sparkle',
+    'arcade_blip', 'soft_click', 'chirp', 'drum_pop', 'wobble'
+  ];
+  
+  const pick = CLICK_PALETTE[uiSoundIndex % CLICK_PALETTE.length];
+  playGameSound(pick);
 }
 
 // Helper alias for opening / closing menus
@@ -16556,20 +18004,49 @@ function initGlobalUiSounds() {
       if (interactiveEl.dataset && interactiveEl.dataset.noUiSound) return;
       if (interactiveEl.closest('#dj-sampler-pad-grid, #audio-piano-keyboard')) return;
 
-      // If it's a modal or menu open trigger
-      const isCloseTrigger = interactiveEl.matches('[id*="close"], [aria-label*="schließen"], [aria-label*="close"], [onclick*="close"], [onclick*="toggleTerminForm(false)"], .modal-close-btn');
-      const isMenuTrigger = !isCloseTrigger && interactiveEl.matches('[id*="menu"], [id*="popover"], [id*="dropdown"], [onclick*="toggle"], [onclick*="open"], [onclick*="Menu"], [onclick*="Modal"], [onclick*="Popover"], [onclick*="Dropdown"]');
+      // If it has a specific sound trigger
+      if (interactiveEl.dataset && interactiveEl.dataset.soundTrigger) {
+        playUiSound(interactiveEl.dataset.soundTrigger);
+        return;
+      }
 
+      // Checkbox / Task checking
+      if (interactiveEl.matches('input[type="checkbox"], .task-check-btn, [aria-checked]')) {
+        playUiSound('task_done');
+        return;
+      }
+
+      // Tab or Navigation
+      if (interactiveEl.matches('.tab-btn, [role="tab"], [id*="tab"], .nav-item, [data-nav]')) {
+        playUiSound('tab');
+        return;
+      }
+
+      // Modal / Menu close trigger
+      const isCloseTrigger = interactiveEl.matches('[id*="close"], [aria-label*="schließen"], [aria-label*="close"], [onclick*="close"], [onclick*="toggleTerminForm(false)"], .modal-close-btn');
       if (isCloseTrigger) {
         playUiSound('menu_close');
-      } else if (isMenuTrigger) {
-        playUiSound('menu_open');
-      } else {
-        playUiSound('click');
+        return;
       }
+
+      // Modal / Menu open trigger
+      const isMenuTrigger = interactiveEl.matches('[id*="menu"], [id*="popover"], [id*="dropdown"], [onclick*="toggle"], [onclick*="open"], [onclick*="Menu"], [onclick*="Modal"], [onclick*="Popover"], [onclick*="Dropdown"]');
+      if (isMenuTrigger) {
+        playUiSound('menu_open');
+        return;
+      }
+
+      // General Button / Interactive Click
+      playUiSound('click');
     }
   }, { passive: true });
 }
+
+// Global exports
+window.playGameSound = playGameSound;
+window.playNatureSound = playNatureSound;
+window.playUiSound = playUiSound;
+window.initGlobalUiSounds = initGlobalUiSounds;
 
 if (typeof document !== 'undefined') {
   if (document.readyState === 'loading') {
@@ -16581,16 +18058,17 @@ if (typeof document !== 'undefined') {
 
 window.playCheerfulSuccessJingle = playCheerfulSuccessJingle;
 
-function triggerHapticFeedback(pattern = [15, 30, 15]) {
-  try {
-    if (typeof navigator !== 'undefined' && navigator.vibrate) {
-      navigator.vibrate(pattern);
+if (typeof window.triggerHapticFeedback !== 'function') {
+  window.triggerHapticFeedback = function(pattern = [15, 30, 15]) {
+    try {
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        navigator.vibrate(pattern);
+      }
+    } catch (e) {
+      // Haptik nicht unterstützt oder geblockt
     }
-  } catch (e) {
-    // Haptik nicht unterstützt oder geblockt
-  }
+  };
 }
-window.triggerHapticFeedback = triggerHapticFeedback;
 
 const MOOD_PRESET_NAMES = {
   deep_focus: { name: 'Deep Focus (Lofi Tape Chords)', sound: 'lofi' },
@@ -16675,10 +18153,10 @@ function updateHeaderSoundBtnUI() {
 
   const isPlaying = isAnyAudioPlaying();
   if (isPlaying) {
-    btn.className = 'h-9 w-9 md:h-[36.5px] md:w-[36.5px] p-0 border border-purple-400/80 rounded-xl bg-purple-600/25 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_16px_rgba(168,85,247,0.35)] shrink-0 group/sound-btn';
+    btn.className = 'h-[38px] w-[38px] p-0 border border-purple-400/80 rounded-xl bg-gradient-to-tr from-purple-600/35 to-indigo-600/35 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_18px_rgba(168,85,247,0.45)] shrink-0 group/sound-btn';
     btn.title = (typeof tr === 'function') ? tr({ de: 'Sound ausschalten (Klick)', en: 'Turn sound off (Click)' }) : 'Sound ausschalten';
     if (iconWrapper) {
-      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-4 h-4 text-purple-200 animate-pulse"></i>';
+      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-purple-200 animate-pulse"></i>';
     }
     if (eqBars) {
       eqBars.classList.remove('hidden');
@@ -16686,10 +18164,10 @@ function updateHeaderSoundBtnUI() {
     }
     if (label) label.textContent = '';
   } else {
-    btn.className = 'h-9 w-9 md:h-[36.5px] md:w-[36.5px] p-0 border border-purple-500/30 hover:border-purple-400/60 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 active:scale-95 text-purple-200 hover:text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_12px_rgba(168,85,247,0.12)] shrink-0 group/sound-btn opacity-90 hover:opacity-100';
+    btn.className = 'h-[38px] w-[38px] p-0 border border-purple-400/50 hover:border-purple-300 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 active:scale-95 text-purple-300 hover:text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_14px_rgba(168,85,247,0.28)] shrink-0 group/sound-btn';
     btn.title = (typeof tr === 'function') ? tr({ de: 'Sound einschalten (Klick)', en: 'Turn sound on (Click)' }) : 'Sound einschalten';
     if (iconWrapper) {
-      iconWrapper.innerHTML = '<i data-lucide="volume-x" class="w-4 h-4 text-purple-300/80 group-hover/sound-btn:text-purple-200"></i>';
+      iconWrapper.innerHTML = '<i data-lucide="volume-x" class="w-[18px] h-[18px] text-purple-400 group-hover/sound-btn:text-purple-300 group-hover/sound-btn:scale-110 transition-transform"></i>';
     }
     if (eqBars) {
       eqBars.classList.add('hidden');
@@ -16738,14 +18216,14 @@ window.stopAllStudioAudio = stopAllStudioAudio;
 function handleHeaderVolumeInput(val) {
   if (typeof setSoundVolume === 'function') setSoundVolume(val);
   if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(val);
-  const roundedPct = `${Math.round(val * 100)}%`;
+  const numVal = `${Math.round(val * 100)}`;
   const percentEl = document.getElementById('header-sound-volume-percent');
   if (percentEl) {
-    percentEl.textContent = roundedPct;
+    percentEl.textContent = numVal;
   }
   const studioPctEl = document.getElementById('audio-panel-master-volume-pct');
   if (studioPctEl) {
-    studioPctEl.textContent = roundedPct;
+    studioPctEl.textContent = `${numVal}%`;
   }
   document.querySelectorAll('.master-volume-slider').forEach(s => {
     if (s.value !== val) s.value = val;
@@ -16774,12 +18252,17 @@ function showSoundHoverSlider() {
 }
 window.showSoundHoverSlider = showSoundHoverSlider;
 
-function hideSoundHoverSlider(delay = 650) {
+function hideSoundHoverSlider(delay = 350) {
   if (soundHoverSliderTimer) {
     clearTimeout(soundHoverSliderTimer);
   }
   soundHoverSliderTimer = setTimeout(() => {
     const popover = document.getElementById('header-sound-volume-popover');
+    const container = document.getElementById('header-btn-sound-container');
+    try {
+      if (popover && popover.matches(':hover')) return;
+      if (container && container.matches(':hover')) return;
+    } catch (e) {}
     if (popover) {
       popover.classList.add('hidden');
       popover.classList.remove('flex');
@@ -16795,7 +18278,7 @@ function toggleSoundVolumePopover(event) {
     if (popover.classList.contains('hidden')) {
       showSoundHoverSlider();
     } else {
-      hideSoundHoverSlider();
+      hideSoundHoverSlider(0);
     }
   }
 }
@@ -19283,6 +20766,62 @@ function formatAudioTime(secs) {
 }
 window.formatAudioTime = formatAudioTime;
 
+function getDjCurrentPlayingTrack() {
+  if (djDecks.a && djDecks.a.isPlaying && djDecks.a.track) {
+    return { ...djDecks.a.track, deck: 'a', bpm: djDecks.a.bpm, currentTime: (djDecks.a.audio ? djDecks.a.audio.currentTime : 0) };
+  }
+  if (djDecks.b && djDecks.b.isPlaying && djDecks.b.track) {
+    return { ...djDecks.b.track, deck: 'b', bpm: djDecks.b.bpm, currentTime: (djDecks.b.audio ? djDecks.b.audio.currentTime : 0) };
+  }
+  if (typeof currentPlaylistIndex !== 'undefined' && playlistTracks && playlistTracks[currentPlaylistIndex]) {
+    const t = playlistTracks[currentPlaylistIndex];
+    return { id: t.id, name: t.name || t.fullName, url: t.url, bpm: t.bpm || 120, isPlaying: (typeof isMusicPlaying !== 'undefined' ? isMusicPlaying : false) };
+  }
+  if (BUILTIN_DJ_STEMS && BUILTIN_DJ_STEMS.length > 0) {
+    const s = BUILTIN_DJ_STEMS[0];
+    return { id: s.id, name: s.name, bpm: s.bpm, file: s.file, url: s.file };
+  }
+  return null;
+}
+window.getDjCurrentPlayingTrack = getDjCurrentPlayingTrack;
+
+function playDjSharedTrack(trackData) {
+  if (!trackData) return;
+  const stem = BUILTIN_DJ_STEMS.find(s => s.id === trackData.id || s.name === trackData.name || (trackData.file && s.file === trackData.file));
+  if (stem) {
+    loadDjBuiltinTrack('a', stem.id, true);
+    if (trackData.startedAt && djDecks.a.audio) {
+      const elapsed = (Date.now() - trackData.startedAt) / 1000;
+      if (elapsed > 0 && elapsed < (djDecks.a.audio.duration || 300)) {
+        try { djDecks.a.audio.currentTime = elapsed % (djDecks.a.audio.duration || 180); } catch(e) {}
+      }
+    }
+    return;
+  }
+
+  if (trackData.url || trackData.file) {
+    const targetUrl = trackData.url || trackData.file;
+    const deck = djDecks.a;
+    if (!deck.audio) deck.audio = new Audio();
+    deck.audio.src = targetUrl;
+    deck.track = { id: trackData.id || 'shared_track', name: trackData.name || 'DJ Stream', bpm: trackData.bpm || 120, url: targetUrl };
+    deck.bpm = trackData.bpm || 120;
+    
+    deck.audio.play().then(() => {
+      deck.isPlaying = true;
+      if (trackData.startedAt && deck.audio.duration) {
+        const elapsed = (Date.now() - trackData.startedAt) / 1000;
+        if (elapsed > 0 && elapsed < deck.audio.duration) {
+          try { deck.audio.currentTime = elapsed; } catch(e) {}
+        }
+      }
+      updateDjDeckPlayButtonUI('a');
+      startDjJogAnimation('a');
+    }).catch(e => console.warn('[AudioPlayer] Shared playback note:', e));
+  }
+}
+window.playDjSharedTrack = playDjSharedTrack;
+
 // ============================================================================
 // 2. TAB 3: EIGENE TRACKS / PLAYLIST PLAYER & INDEXEDDB AUDIO VAULT
 // ============================================================================
@@ -19376,6 +20915,11 @@ async function loadSavedUserAudioTracks() {
 }
 
 async function scanMusicFolderTracks() {
+  if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
+    // Auf file:// Protokoll blockieren Browser CORS-Fetches auf lokale Verzeichnisse/Dateien.
+    // Built-in Stems und DEFAULT_PRELOADED_TRACKS werden sauber genutzt.
+    return;
+  }
   try {
     let res = await fetch('music/list.php').catch(() => null);
     if (!res || !res.ok) {
@@ -20255,7 +21799,7 @@ function bindDjAudioEvents(deckId) {
     }
 
     deck.jogRotation = (deck.jogRotation + 3) % 360;
-    const jog = document.getElementById(`dj-vinyl-disc-${deckId}`);
+    const jog = document.getElementById(`dj-jog-${deckId}`) || document.getElementById(`dj-vinyl-disc-${deckId}`);
     if (jog && deck.isPlaying) {
       jog.style.transform = `rotate(${deck.jogRotation}deg)`;
     }
@@ -20302,10 +21846,20 @@ function updateDjDeckUI(deckId) {
 function updateDjPlayBtnUI(deckId, isPlaying) {
   const btn = document.getElementById(`dj-play-btn-${deckId}`);
   if (btn) {
-    btn.innerHTML = isPlaying ? `<i data-lucide="pause" class="w-3.5 h-3.5"></i>` : `<i data-lucide="play" class="w-3.5 h-3.5"></i>`;
-    btn.classList.toggle('ring-2', isPlaying);
-    btn.classList.toggle('ring-white/50', isPlaying);
+    const isDeckA = deckId === 'a';
+    if (isPlaying) {
+      btn.innerHTML = `<i data-lucide="pause" class="w-4 h-4 fill-black"></i><span class="font-black">PAUSE</span>`;
+      btn.className = isDeckA
+        ? 'flex-1 py-2 bg-cyan-400 hover:bg-cyan-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(6,182,212,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-cyan-300'
+        : 'flex-1 py-2 bg-amber-400 hover:bg-amber-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(245,158,11,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-amber-300';
+    } else {
+      btn.innerHTML = `<i data-lucide="play" class="w-4 h-4 fill-black"></i><span class="font-black">PLAY</span>`;
+      btn.className = isDeckA
+        ? 'flex-1 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(6,182,212,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95'
+        : 'flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(245,158,11,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95';
+    }
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 }
 
@@ -20441,10 +21995,18 @@ window.setDjCrossfader = setDjCrossfader;
 function toggleDjAutomix() {
   djAutomix.enabled = !djAutomix.enabled;
   const btn = document.getElementById('dj-automix-toggle-btn');
+  const led = document.getElementById('dj-automix-led');
+  const txt = document.getElementById('dj-automix-status-text');
   if (btn) {
     btn.className = djAutomix.enabled
-      ? 'px-2.5 py-1 bg-emerald-500/25 border border-emerald-400/80 text-emerald-200 rounded-xl text-[10px] font-bold transition flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.35)] cursor-pointer'
-      : 'px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 rounded-xl text-[10px] font-medium transition flex items-center gap-1.5 cursor-pointer';
+      ? 'px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 transition cursor-pointer flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+      : 'px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-zinc-800/80 text-zinc-300 hover:text-white border border-zinc-700 transition cursor-pointer flex items-center gap-1.5 shadow-xs';
+  }
+  if (led) {
+    led.className = djAutomix.enabled ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse' : 'w-2 h-2 rounded-full bg-zinc-600';
+  }
+  if (txt) {
+    txt.textContent = djAutomix.enabled ? 'ACTIVE' : 'OFF';
   }
   showToast(djAutomix.enabled ? 'Automix Aktiviert! 🎛️⚡ Nahtloser Übergang' : 'Automix Deaktiviert');
 }
@@ -20744,7 +22306,9 @@ var timerTargetEndTime = null;
 
 var timerSoundEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerSoundEnabled') : null) !== 'false';
 var timerVoiceEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceEnabled') : null) !== 'false';
-var timerAudioMode = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerAudioMode') : null) || 'ambient';
+var timerVoiceTimeAnnounce = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceTimeAnnounce') : null) !== 'false';
+var timerVoiceMotivation = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceMotivation') : null) !== 'false';
+var timerAudioMode = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerAudioMode') : null) || 'silent';
 var timerVoiceRotationIndex = 0;
 var lastSelectedTimerAmbient = null;
 var currentSpeechSessionId = 0;
@@ -20759,6 +22323,8 @@ if (typeof window !== 'undefined') {
   window.currentSpeechSessionId = currentSpeechSessionId;
   window.timerSoundEnabled = timerSoundEnabled;
   window.timerVoiceEnabled = timerVoiceEnabled;
+  window.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+  window.timerVoiceMotivation = timerVoiceMotivation;
   window.timerAudioMode = timerAudioMode;
 }
 if (typeof globalThis !== 'undefined') {
@@ -20771,6 +22337,8 @@ if (typeof globalThis !== 'undefined') {
   globalThis.currentSpeechSessionId = currentSpeechSessionId;
   globalThis.timerSoundEnabled = timerSoundEnabled;
   globalThis.timerVoiceEnabled = timerVoiceEnabled;
+  globalThis.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+  globalThis.timerVoiceMotivation = timerVoiceMotivation;
   globalThis.timerAudioMode = timerAudioMode;
 }
 
@@ -22304,20 +23872,68 @@ function setTimerAudioMode(mode) {
 }
 window.setTimerAudioMode = setTimerAudioMode;
 
+function toggleTimerVoiceFeature(feature) {
+  if (feature === 'time') {
+    timerVoiceTimeAnnounce = !(typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true);
+    if (typeof window !== 'undefined') window.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+    if (typeof globalThis !== 'undefined') globalThis.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('flowTimerVoiceTimeAnnounce', String(timerVoiceTimeAnnounce));
+    }
+  } else if (feature === 'motivation') {
+    timerVoiceMotivation = !(typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true);
+    if (typeof window !== 'undefined') window.timerVoiceMotivation = timerVoiceMotivation;
+    if (typeof globalThis !== 'undefined') globalThis.timerVoiceMotivation = timerVoiceMotivation;
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('flowTimerVoiceMotivation', String(timerVoiceMotivation));
+    }
+  }
+
+  timerVoiceEnabled = !!(timerVoiceTimeAnnounce || timerVoiceMotivation);
+  if (typeof window !== 'undefined') window.timerVoiceEnabled = timerVoiceEnabled;
+  if (typeof globalThis !== 'undefined') globalThis.timerVoiceEnabled = timerVoiceEnabled;
+  if (typeof localStorage !== 'undefined') {
+    localStorage.setItem('flowTimerVoiceEnabled', String(timerVoiceEnabled));
+  }
+
+  renderTimerCockpitContent();
+  if (typeof showToast === 'function') {
+    if (feature === 'time') {
+      showToast(timerVoiceTimeAnnounce ? '⏱️ Zeitansagen: An' : '⏱️ Zeitansagen: Aus');
+    } else if (feature === 'motivation') {
+      showToast(timerVoiceMotivation ? '💡 Motivationssprüche: An' : '💡 Motivationssprüche: Aus');
+    }
+  }
+}
+window.toggleTimerVoiceFeature = toggleTimerVoiceFeature;
+if (typeof globalThis !== 'undefined') globalThis.toggleTimerVoiceFeature = toggleTimerVoiceFeature;
+
 function toggleTimerVoice(force) {
   if (typeof force === 'boolean') {
     timerVoiceEnabled = force;
   } else {
     timerVoiceEnabled = !timerVoiceEnabled;
   }
-  if (typeof window !== 'undefined') window.timerVoiceEnabled = timerVoiceEnabled;
-  if (typeof globalThis !== 'undefined') globalThis.timerVoiceEnabled = timerVoiceEnabled;
+  timerVoiceTimeAnnounce = timerVoiceEnabled;
+  timerVoiceMotivation = timerVoiceEnabled;
+  if (typeof window !== 'undefined') {
+    window.timerVoiceEnabled = timerVoiceEnabled;
+    window.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+    window.timerVoiceMotivation = timerVoiceMotivation;
+  }
+  if (typeof globalThis !== 'undefined') {
+    globalThis.timerVoiceEnabled = timerVoiceEnabled;
+    globalThis.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+    globalThis.timerVoiceMotivation = timerVoiceMotivation;
+  }
   if (typeof localStorage !== 'undefined') {
     localStorage.setItem('flowTimerVoiceEnabled', timerVoiceEnabled ? 'true' : 'false');
+    localStorage.setItem('flowTimerVoiceTimeAnnounce', timerVoiceTimeAnnounce ? 'true' : 'false');
+    localStorage.setItem('flowTimerVoiceMotivation', timerVoiceMotivation ? 'true' : 'false');
   }
   renderTimerCockpitContent();
   if (typeof showToast === 'function') {
-    showToast(timerVoiceEnabled ? '🎙️ Sprachbegleitung aktiviert' : '🔇 Sprachbegleitung stumm');
+    showToast(timerVoiceEnabled ? '🎙️ Sprachbegleitung: An' : '🔇 Sprachbegleitung: Aus');
   }
 }
 window.toggleTimerVoice = toggleTimerVoice;
@@ -22326,14 +23942,67 @@ function cycleTimerPreset(direction = 1) {
   const current = Math.round(timerInitialSeconds / 60) || 1;
   const next = Math.max(1, Math.min(240, current + direction));
   setTimerPreset(next);
+  if (typeof renderTimerCockpitContent === 'function') {
+    const panel = document.getElementById('panel-timer-presets');
+    if (panel && !panel.classList.contains('hidden')) {
+      renderTimerCockpitContent();
+    }
+  }
 }
 window.cycleTimerPreset = cycleTimerPreset;
 if (typeof globalThis !== 'undefined') {
   globalThis.cycleTimerPreset = cycleTimerPreset;
 }
 
+function handleCustomTimerDirectInput(val) {
+  const mins = parseInt(val, 10);
+  if (mins && mins >= 1 && mins <= 240) {
+    setTimerPreset(mins);
+    const slider = document.querySelector('#panel-timer-presets input[type="range"]');
+    if (slider) slider.value = Math.min(120, mins);
+    const sliderVal = document.getElementById('timer-custom-slider-val');
+    if (sliderVal) sliderVal.innerText = `Dauer: ${mins} Minuten`;
+    document.querySelectorAll('.timer-preset-btn').forEach(btn => {
+      const bMins = parseInt(btn.dataset.mins, 10);
+      if (bMins === mins) {
+        btn.className = 'timer-preset-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_10px_rgba(168,85,247,0.35)] border text-[10px] font-mono transition text-center cursor-pointer truncate active:scale-95';
+      } else {
+        btn.className = 'timer-preset-btn px-2.5 py-1 rounded-xl bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white border border-white/10 text-[10px] font-mono transition text-center cursor-pointer truncate active:scale-95';
+      }
+    });
+  }
+}
+window.handleCustomTimerDirectInput = handleCustomTimerDirectInput;
+if (typeof globalThis !== 'undefined') globalThis.handleCustomTimerDirectInput = handleCustomTimerDirectInput;
+
+function handleCustomSliderInput(val) {
+  const mins = parseInt(val, 10) || 1;
+  setTimerPreset(mins);
+  const numInput = document.getElementById('timer-custom-number-input');
+  if (numInput) numInput.value = mins;
+  const sliderVal = document.getElementById('timer-custom-slider-val');
+  if (sliderVal) sliderVal.innerText = `Dauer: ${mins} Minuten`;
+  document.querySelectorAll('.timer-preset-btn').forEach(btn => {
+    const bMins = parseInt(btn.dataset.mins, 10);
+    if (bMins === mins) {
+      btn.className = 'timer-preset-btn px-2.5 py-1 rounded-xl bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_10px_rgba(168,85,247,0.35)] border text-[10px] font-mono transition text-center cursor-pointer truncate active:scale-95';
+    } else {
+      btn.className = 'timer-preset-btn px-2.5 py-1 rounded-xl bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white border border-white/10 text-[10px] font-mono transition text-center cursor-pointer truncate active:scale-95';
+    }
+  });
+}
+window.handleCustomSliderInput = handleCustomSliderInput;
+if (typeof globalThis !== 'undefined') globalThis.handleCustomSliderInput = handleCustomSliderInput;
+
+function setCustomTimerDirect(mins) {
+  setTimerPreset(mins);
+  renderTimerCockpitContent();
+}
+window.setCustomTimerDirect = setCustomTimerDirect;
+if (typeof globalThis !== 'undefined') globalThis.setCustomTimerDirect = setCustomTimerDirect;
+
 function stepCustomTimerMinutes(delta) {
-  const inp = document.getElementById('timer-custom-mins-input');
+  const inp = document.getElementById('timer-custom-number-input') || document.getElementById('timer-custom-mins-input');
   let current = parseInt(inp ? inp.value : '1', 10) || Math.round(timerInitialSeconds / 60) || 1;
   let next = Math.max(1, Math.min(240, current + delta));
   if (inp) inp.value = next;
@@ -22357,7 +24026,7 @@ if (typeof globalThis !== 'undefined') {
 }
 
 function applyCustomTimerMinutes() {
-  const inp = document.getElementById('timer-custom-mins-input');
+  const inp = document.getElementById('timer-custom-number-input') || document.getElementById('timer-custom-mins-input');
   if (!inp) return;
   const mins = parseInt(inp.value, 10);
   if (mins && mins > 0) {
@@ -22448,7 +24117,7 @@ function adjustTimerMinutes(delta) {
   if (isNaN(currentMins) || currentMins < 1) currentMins = 1;
   let newMins = currentMins + delta;
   if (newMins < 1) newMins = 1;
-  if (newMins > 180) newMins = 180;
+  if (newMins > 240) newMins = 240;
   setTimerPreset(newMins);
 }
 window.adjustTimerMinutes = adjustTimerMinutes;
@@ -22461,215 +24130,204 @@ function renderTimerCockpitContent() {
   const currentMins = Math.round(timerInitialSeconds / 60) || 3;
   const taskTitle = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
   const openTasks = getAllOpenBoardTasks();
-  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
-  const isVoiceOn = (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
-  const isSoundOn = (typeof timerSoundEnabled !== 'undefined' ? timerSoundEnabled : true);
+  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'silent');
+  const isTimeAnnounce = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isMotivation = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isVoiceActive = isTimeAnnounce || isMotivation;
 
   const presets = [
     { mins: 1, label: '1m' },
-    { mins: 2, label: '2m' },
-    { mins: 3, label: '🌱 3m Basic' },
+    { mins: 3, label: '3m' },
     { mins: 5, label: '5m' },
-    { mins: 10, label: '🚀 10m Sprint' },
+    { mins: 10, label: '10m' },
     { mins: 15, label: '15m' },
-    { mins: 20, label: '20m' },
-    { mins: 25, label: '🍅 25m Pomo' },
-    { mins: 45, label: '⚡ 45m Deep' }
+    { mins: 25, label: '25m 🍅' },
+    { mins: 45, label: '45m' },
+    { mins: 60, label: '60m 🎯' }
   ];
 
   const masterVol = typeof soundMasterVolume !== 'undefined' ? soundMasterVolume : 0.5;
   const isMuted = (typeof isPlayerMuted !== 'undefined' && isPlayerMuted) || (typeof isTimerSoundActive === 'function' && !isTimerSoundActive());
   const currentVolPct = isMuted ? 0 : Math.round(masterVol * 100);
+  const isRunning = typeof timerRunning !== 'undefined' ? timerRunning : (typeof window !== 'undefined' ? window.timerRunning : false);
 
   panel.innerHTML = `
-    <!-- 1. ZEIT-STEUERUNG (Übersichtlich & großzügig gegliedert) -->
-    <div class="space-y-2 pb-3 border-b border-purple-500/20">
-      <!-- Obere Leiste: Lautsprecher-Hover links, Schönes buntes Noodle Timer Logo, Close rechts -->
-      <div class="flex items-center gap-2 justify-between">
-        <!-- Lautsprecher Icon (Hover für vertikalen Master-Regler) -->
-        <div class="relative group/cockpit-vol flex items-center shrink-0 select-none">
-          <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="w-7 h-7 rounded-xl bg-black/50 hover:bg-purple-500/20 border border-purple-500/30 flex items-center justify-center ${!isMuted ? 'text-purple-300' : 'text-gray-500'} transition cursor-pointer active:scale-95 shadow-inner" title="Sound stummschalten / aktivieren (Hovern für Lautstärkeregler)">
-            <i data-lucide="${!isMuted ? 'volume-2' : 'volume-x'}" class="w-4 h-4"></i>
-          </button>
-          
-          <!-- Hover-Flyout für den vertikalen Lautstärkeregler -->
-          <div class="hidden group-hover/cockpit-vol:flex absolute left-0 top-full mt-2 z-40 w-8 py-2.5 bg-[#0c0b12]/98 border border-purple-500/40 rounded-2xl shadow-2xl flex-col items-center justify-between gap-1.5 backdrop-blur-xl animate-fade-in pointer-events-auto">
-            <span class="text-[8.5px] font-mono font-bold text-purple-200" id="timer-cockpit-volume-percent">${currentVolPct}%</span>
-            <div class="h-[70px] flex items-center justify-center my-0.5">
-              <input type="range" orient="vertical" min="0" max="1" step="0.01" value="${isMuted ? 0 : masterVol}" oninput="handleHeaderVolumeInput(this.value); const pct=document.getElementById('timer-cockpit-volume-percent'); if(pct) pct.innerText = Math.round(this.value*100)+'%';" style="writing-mode: vertical-lr; direction: rtl; -webkit-appearance: slider-vertical; height: 70px; width: 6px;" class="master-volume-slider cursor-pointer accent-purple-400" title="Lautstärke">
-            </div>
+    <!-- 1. KOPFZEILE: NOODLE LOGO + TIMER UNTERSCHRIFT (LINKS) | LAUTSTÄRKE & CLOSE (RECHTS) -->
+    <div class="flex items-center justify-between pb-2 border-b border-white/10 select-none">
+      
+      <!-- Noodle Logo & TIMER Subtext (wie bei den Tools) -->
+      <div class="flex items-center gap-2">
+        <div class="relative flex flex-col items-center justify-center shrink-0">
+          <div class="relative overflow-hidden flex items-center justify-center">
+            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+          </div>
+          <div class="relative h-[8px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+            <span class="text-[7.5px] font-black font-display tracking-[0.3em] text-purple-300 uppercase leading-none select-none">TIMER</span>
           </div>
         </div>
+        <span class="w-1.5 h-1.5 rounded-full ${isRunning ? 'bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]' : 'bg-purple-500/50'}"></span>
+      </div>
 
-        <!-- Buntes Noodle Timer Branding Logo (Perfekt abgestimmt auf das Noodle Logo) -->
-        <div class="flex items-center gap-1.5 select-none">
-          <!-- 4-Farben Noodle Quad-Icon (wie im Haupt-Logo) -->
-          <div class="flex items-center justify-center w-5 h-5 rounded-lg bg-purple-500/15 border border-purple-500/30 shadow-xs">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="3" width="7.5" height="7.5" rx="2.2" fill="#c084fc" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
-              <rect x="13.5" y="3" width="7.5" height="7.5" rx="2.2" fill="#89cff0" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
-              <rect x="3" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#f472b6" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
-              <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2.2" fill="#34d399" stroke="rgba(255,255,255,0.7)" stroke-width="0.75"/>
-            </svg>
+      <!-- Rechts: Vertikale Lautstärke & Schließen -->
+      <div class="flex items-center gap-2">
+        
+        <!-- Vertikaler Lautstärke-Controller Popover -->
+        <div class="relative group/vol flex items-center">
+          <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="h-7 px-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-purple-300 hover:text-white transition cursor-pointer flex items-center gap-1.5 shadow-sm" title="Lautstärke anpassen">
+            <i data-lucide="${!isMuted ? 'volume-2' : 'volume-x'}" class="w-3.5 h-3.5 ${!isMuted ? 'text-purple-300' : 'text-gray-500'}"></i>
+            <span class="text-[9.5px] font-mono text-purple-200/90 font-bold">${currentVolPct}%</span>
+          </button>
+
+          <!-- Vertikaler Slider (Hover/Active Popover) -->
+          <div class="hidden group-hover/vol:flex absolute right-0 top-full mt-2 z-[300] bg-[#0c0918]/98 border border-purple-500/40 p-2.5 rounded-2xl shadow-2xl backdrop-blur-2xl flex-col items-center gap-2 animate-fade-in ring-1 ring-purple-500/30">
+            <span class="text-[9px] font-mono font-bold text-purple-200">${currentVolPct}%</span>
+            <div class="h-24 flex items-center justify-center py-1">
+              <input type="range" min="0" max="1" step="0.02" value="${isMuted ? 0 : masterVol}" 
+                     oninput="handleHeaderVolumeInput(this.value)" 
+                     class="h-20 w-1.5 accent-purple-400 cursor-pointer [writing-mode:bt-lr] [-webkit-appearance:slider-vertical]" 
+                     style="-webkit-appearance: slider-vertical; writing-mode: bt-lr;">
+            </div>
+            <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="text-[8.5px] font-mono font-bold px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition cursor-pointer">
+              ${isMuted ? 'Unmute' : 'Mute'}
+            </button>
           </div>
-          <span class="font-display font-extrabold text-xs tracking-wide bg-gradient-to-r from-purple-300 via-pink-300 to-sky-300 bg-clip-text text-transparent drop-shadow-sm">
-            Noodle Timer
-          </span>
         </div>
 
         <!-- Schließen Button -->
-        <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" class="text-gray-400 hover:text-white text-xs font-bold p-1 rounded-lg hover:bg-white/10 transition cursor-pointer shrink-0" aria-label="Schließen" title="Schließen">✕</button>
+        <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" class="w-7 h-7 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white text-xs font-bold flex items-center justify-center transition cursor-pointer" title="Schließen">✕</button>
+      </div>
+    </div>
+
+    <!-- 2. ZEIT-SCHNELLWAHL (KOMPAKT & MINIMAL) -->
+    <div class="p-2 rounded-2xl bg-purple-950/20 border border-purple-500/25 shadow-inner flex flex-col gap-1.5">
+      <div class="flex items-center justify-between px-0.5">
+        <span class="text-[10.5px] font-bold text-purple-200 font-display flex items-center gap-1.5">
+          <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-400"></i>
+          <span>Dauer wählen</span>
+        </span>
+        <span class="text-[9.5px] font-mono font-bold text-purple-300/90 bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/30">${currentMins} Min.</span>
       </div>
 
-      <!-- Presets Grid (9 Vorangebotene Presets, 3x3 Grid) -->
-      <div class="grid grid-cols-3 gap-1.5 pt-0.5">
+      <!-- Kompakte Presets (8 klare Tasten in 2 Reihen) -->
+      <div class="grid grid-cols-4 gap-1">
         ${presets.map(p => `
-          <button onclick="selectTimerPreset(${p.mins})" data-mins="${p.mins}" class="timer-preset-btn py-1.5 px-1 rounded-xl ${p.mins === currentMins ? 'bg-purple-600/40 border-purple-400 text-white shadow-xs font-bold ring-1 ring-purple-400/40' : 'bg-white/5 hover:bg-purple-600/20 hover:border-purple-400/50 border-white/10 text-gray-300 hover:text-white font-medium'} border text-[11px] font-mono transition text-center cursor-pointer truncate h-8 flex items-center justify-center">
+          <button onclick="setCustomTimerDirect(${p.mins});" data-mins="${p.mins}" class="timer-preset-btn py-1 px-1 rounded-xl ${p.mins === currentMins ? 'bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_8px_rgba(168,85,247,0.35)]' : 'bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white'} border border-white/10 text-[10.5px] font-mono transition text-center cursor-pointer truncate active:scale-95">
             ${p.label}
           </button>
         `).join('')}
       </div>
     </div>
 
-    <!-- 2. AUFGABE VERKNÜPFEN (Mit feiner Amber-Trennlinie) -->
-    <div class="space-y-1.5 py-1 pb-3 border-b border-[#ff7a00]/20">
-      <div class="text-[9.5px] font-bold uppercase tracking-wider text-[#ff7a00] font-mono flex items-center justify-between px-0.5">
-        <span class="flex items-center gap-1.5">
-          <i data-lucide="target" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span>Aufgabe verknüpfen</span>
+    <!-- 3. SPRACHBEGLEITUNG (ZEITANSAGEN & MOTIVATION) -->
+    <div class="p-2 rounded-2xl bg-indigo-950/25 border border-indigo-500/30 shadow-inner flex flex-col gap-1.5">
+      <div class="flex items-center justify-between px-0.5">
+        <span class="text-[10.5px] font-bold text-indigo-300 font-display flex items-center gap-1.5">
+          <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span>Sprachbegleitung</span>
         </span>
-        ${taskTitle ? `<span class="text-[8.5px] text-amber-400 font-semibold px-1.5 py-0.2 rounded-full bg-amber-500/15 border border-[#ff7a00]/30">Aktiv</span>` : ''}
+        <span class="text-[9px] font-mono font-bold ${isVoiceActive ? 'text-emerald-300' : 'text-gray-500'}">
+          ${isVoiceActive ? '● Aktiv' : '○ Aus'}
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-1.5">
+        <!-- Zeitansagen Toggle -->
+        <button onclick="toggleTimerVoiceFeature('time');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isTimeAnnounce ? 'bg-gradient-to-r from-indigo-600/40 to-purple-600/40 border-indigo-400/70 text-white shadow-[0_0_10px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
+          <span class="flex items-center gap-1 truncate">
+            <span>⏱️</span>
+            <span class="truncate">Zeitansagen</span>
+          </span>
+          <span class="text-[9px] font-mono font-bold ${isTimeAnnounce ? 'text-indigo-200' : 'text-gray-500'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
+        </button>
+
+        <!-- Motivationssprüche Toggle -->
+        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isMotivation ? 'bg-gradient-to-r from-purple-600/40 to-pink-600/40 border-pink-400/70 text-white shadow-[0_0_10px_rgba(236,72,153,0.25)] ring-1 ring-pink-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
+          <span class="flex items-center gap-1 truncate">
+            <span>💡</span>
+            <span class="truncate">Motivation</span>
+          </span>
+          <span class="text-[9px] font-mono font-bold ${isMotivation ? 'text-pink-200' : 'text-gray-500'}">${isMotivation ? 'AN' : 'AUS'}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 4. SOUNDS, MUSIK & RADIO -->
+    <div class="p-2 rounded-2xl bg-teal-950/20 border border-teal-500/30 shadow-inner flex flex-col gap-1.5">
+      <div class="flex items-center justify-between px-0.5">
+        <span class="text-[10.5px] font-bold text-teal-300 font-display flex items-center gap-1.5">
+          <i data-lucide="music-2" class="w-3.5 h-3.5 text-teal-400"></i>
+          <span>Klang & Musik</span>
+        </span>
+        <span class="text-[9px] font-mono text-teal-400/80 font-bold uppercase tracking-wider">
+          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : (currentAudioMode === 'radio' ? '📻 Radio' : '🔇 Aus'))}
+        </span>
+      </div>
+
+      <!-- 4 Buttons: Sounds, Musik, Radio, Stille -->
+      <div class="grid grid-cols-4 gap-1">
+        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'ambient' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
+          🌿 Sounds
+        </button>
+        <button onclick="setTimerAudioMode('soundmachine');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
+          🎵 Musik
+        </button>
+        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'radio' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
+          📻 Radio
+        </button>
+        <button onclick="setTimerAudioMode('silent');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'silent' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
+          🔇 Stille
+        </button>
+      </div>
+    </div>
+
+    <!-- 5. FOKUS-ZIEL (AUFGABE AUS DEM BOARD) -->
+    <div class="p-2 rounded-2xl bg-amber-950/20 border border-amber-500/30 shadow-inner flex flex-col gap-1.5">
+      <div class="flex items-center justify-between px-0.5">
+        <span class="text-[10.5px] font-bold text-amber-300 font-display flex items-center gap-1.5">
+          <i data-lucide="target" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>Fokus-Ziel (Aufgabe)</span>
+        </span>
+        ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">Verknüpft</span>` : ''}
       </div>
 
       ${taskTitle ? `
-        <div class="p-2 px-2.5 rounded-xl bg-amber-500/10 border border-[#ff7a00]/30 flex items-center justify-between gap-2 shadow-xs">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="text-xs shrink-0">🎯</span>
-            <span class="text-xs font-bold text-amber-100 truncate">${(typeof escapeHtml === 'function') ? escapeHtml(taskTitle) : taskTitle}</span>
-          </div>
-          <div class="flex items-center gap-1.5 shrink-0">
-            <button onclick="completeActiveTimerTask(event)" class="py-1 px-2.5 bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 text-emerald-300 hover:text-white rounded-lg text-[10px] font-bold transition cursor-pointer active:scale-95 shadow-xs" title="Aufgabe als erledigt markieren">
-              Fertig
-            </button>
-            <button onclick="unlinkTimerTask(event)" class="p-1 hover:bg-white/10 text-gray-400 hover:text-rose-400 rounded-lg text-xs transition cursor-pointer" title="Trennen">
-              ✕
-            </button>
+        <div class="flex items-center justify-between gap-1.5 p-1.5 bg-amber-500/15 border border-amber-500/35 rounded-xl text-[11px] text-amber-100 min-w-0 shadow-inner">
+          <span class="truncate font-medium">${(typeof escapeHtml === 'function') ? escapeHtml(taskTitle) : taskTitle}</span>
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="completeActiveTimerTask(event)" class="px-2 py-0.5 bg-emerald-500/30 hover:bg-emerald-500/50 text-emerald-300 rounded-lg text-[9.5px] font-bold cursor-pointer transition" title="Aufgabe als erledigt markieren">✓ Erledigt</button>
+            <button onclick="unlinkTimerTask(event)" class="text-gray-400 hover:text-rose-400 text-xs px-1 cursor-pointer transition" title="Verknüpfung lösen">✕</button>
           </div>
         </div>
       ` : `
-        <div class="space-y-1.5">
-          <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-[#12111a] border border-[#ff7a00]/30 hover:border-amber-400/60 focus:border-[#ff7a00] rounded-xl text-xs text-amber-100 outline-none cursor-pointer font-medium shadow-inner">
-            <option value="" class="bg-[#12111a] text-gray-400">-- Aufgabe aus Board verknüpfen --</option>
-            ${(() => {
-              const groups = {};
-              openTasks.forEach(t => {
-                const grp = t.colLabel || t.colId;
-                if (!groups[grp]) groups[grp] = [];
-                groups[grp].push(t);
-              });
-              return Object.keys(groups).map(grpName => `
-                <optgroup label="${(typeof escapeHtml === 'function') ? escapeHtml(grpName) : grpName}" class="bg-[#161522] text-amber-300 font-bold">
-                  ${groups[grpName].map(t => `
-                    <option value="${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}" class="bg-[#12111a] text-white font-normal">
-                      ${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}
-                    </option>
-                  `).join('')}
-                </optgroup>
-              `).join('');
-            })()}
-          </select>
-          <div class="flex gap-1.5">
-            <input type="text" id="timer-quick-task-input" placeholder="Oder Sofort-Ziel eingeben..." onkeydown="if(event.key==='Enter'&&this.value.trim()){linkTaskToTimer(this.value.trim());this.value='';}" class="flex-1 bg-[#12111a] border border-white/10 hover:border-[#ff7a00]/30 focus:border-[#ff7a00] rounded-xl px-2.5 py-1 text-xs text-gray-200 placeholder-gray-500 outline-none">
-            <button onclick="const inp=document.getElementById('timer-quick-task-input'); if(inp&&inp.value.trim()){linkTaskToTimer(inp.value.trim());inp.value='';}" class="px-3 py-1 bg-[#ff7a00]/20 hover:bg-[#ff7a00]/35 text-[#ff7a00] hover:text-white border border-[#ff7a00]/30 rounded-xl text-xs font-bold transition cursor-pointer active:scale-95 shadow-xs">Fokus</button>
-          </div>
-        </div>
+        <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-black/60 border border-white/10 hover:border-amber-400/40 rounded-xl text-[10.5px] text-gray-200 outline-none cursor-pointer truncate transition">
+          <option value="" class="text-gray-500">-- Aufgabe aus Board verknüpfen --</option>
+          ${(() => {
+            const groups = {};
+            openTasks.forEach(t => {
+              const grp = t.colLabel || t.colId;
+              if (!groups[grp]) groups[grp] = [];
+              groups[grp].push(t);
+            });
+            return Object.keys(groups).map(grpName => `
+              <optgroup label="${(typeof escapeHtml === 'function') ? escapeHtml(grpName) : grpName}" class="bg-[#161522] text-amber-300 font-bold">
+                ${groups[grpName].map(t => `
+                  <option value="${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}" class="bg-[#12111a] text-white font-normal">
+                    ${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}
+                  </option>
+                `).join('')}
+              </optgroup>
+            `).join('');
+          })()}
+        </select>
       `}
     </div>
 
-    <!-- 3. AUDIO-MODI (Mit feiner Teal-Trennlinie) -->
-    <div class="space-y-1.5 py-1 pb-3 border-b border-teal-500/20">
-      <div class="text-[9.5px] font-bold uppercase tracking-wider text-teal-300/90 font-mono px-0.5 flex items-center gap-1.5">
-        <i data-lucide="headphones" class="w-3.5 h-3.5 text-teal-400"></i>
-        <span>Audio-Begleitung</span>
-      </div>
-
-      <div class="grid grid-cols-2 gap-1.5 text-[10px] font-bold">
-        <button onclick="setTimerAudioMode('ambient')" class="py-1.5 px-2 rounded-xl border text-left flex items-center gap-2 transition cursor-pointer ${currentAudioMode === 'ambient' ? 'bg-teal-500/20 border-teal-400/60 text-teal-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="text-sm shrink-0">🌿</span>
-          <div class="truncate">
-            <div class="leading-none text-[10px]">Ambient Flow</div>
-            <span class="text-[8px] font-normal text-gray-400">Naturklänge</span>
-          </div>
-        </button>
-
-        <button onclick="setTimerAudioMode('soundmachine')" class="py-1.5 px-2 rounded-xl border text-left flex items-center gap-2 transition cursor-pointer ${currentAudioMode === 'soundmachine' ? 'bg-purple-500/20 border-purple-400/60 text-purple-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="text-sm shrink-0">🎵</span>
-          <div class="truncate">
-            <div class="leading-none text-[10px]">Sound Machine</div>
-            <span class="text-[8px] font-normal text-gray-400">Lo-Fi & Beats</span>
-          </div>
-        </button>
-
-        <button onclick="setTimerAudioMode('radio')" class="py-1.5 px-2 rounded-xl border text-left flex items-center gap-2 transition cursor-pointer ${currentAudioMode === 'radio' ? 'bg-rose-500/20 border-rose-400/60 text-rose-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="text-sm shrink-0">📻</span>
-          <div class="truncate">
-            <div class="leading-none text-[10px]">Live-Radio</div>
-            <span class="text-[8px] font-normal text-gray-400">Jazz & Chill</span>
-          </div>
-        </button>
-
-        <button onclick="setTimerAudioMode('silent')" class="py-1.5 px-2 rounded-xl border text-left flex items-center gap-2 transition cursor-pointer ${currentAudioMode === 'silent' ? 'bg-sky-500/20 border-sky-400/60 text-sky-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="text-sm shrink-0">🔇</span>
-          <div class="truncate">
-            <div class="leading-none text-[10px]">Stille</div>
-            <span class="text-[8px] font-normal text-gray-400">Nur End-Gong</span>
-          </div>
-        </button>
-      </div>
-    </div>
-
-    <!-- 4. SPRACHBEGLEITUNG (Mit feiner Purple-Trennlinie) -->
-    <div class="py-1 pb-3 border-b border-purple-500/20">
-      <div class="p-2 px-2.5 rounded-xl bg-black/40 border border-white/5 flex items-center justify-between gap-2 select-none shadow-xs">
-        <div class="flex items-center gap-2 min-w-0">
-          <span class="text-sm shrink-0">🎙️</span>
-          <div class="truncate">
-            <div class="text-[10.5px] font-bold text-gray-200 leading-tight">Sprachbegleitung</div>
-            <div class="text-[8.5px] text-gray-400 truncate">Sanfte Impulse zu Start, Pause & Ziel</div>
-          </div>
-        </div>
-        <button onclick="toggleTimerVoice()" class="px-2.5 py-1 rounded-lg border text-[10px] font-bold transition cursor-pointer shrink-0 ${isVoiceOn ? 'bg-purple-500/30 border-purple-400 text-purple-200 shadow-xs' : 'bg-white/5 border-white/10 text-gray-400'}">
-          ${isVoiceOn ? 'Aktiv' : 'Stumm'}
-        </button>
-      </div>
-    </div>
-
-    <!-- 5. WECKER & REMINDER INTEGRATION (Abgerundeter Abschlussbereich) -->
-    <div class="pt-1 space-y-1.5">
-      <div class="flex items-center justify-between text-[9.5px] font-bold uppercase tracking-wider text-cyan-300/90 font-mono px-0.5">
-        <span class="flex items-center gap-1.5">
-          <i data-lucide="bell" class="w-3.5 h-3.5 text-cyan-400"></i>
-          <span>Wecker & Erinnerungen</span>
-        </span>
-        <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); openAlarmModal('alarms');" class="text-[9.5px] text-cyan-400 hover:text-cyan-200 underline font-sans font-semibold cursor-pointer">
-          Wecker-Hub ↗
-        </button>
-      </div>
-
-      <!-- Schnelle Erinnerung -->
-      <div class="flex gap-1.5 bg-black/40 p-1.5 rounded-xl border border-cyan-500/20 shadow-xs">
-        <input type="text" id="timer-cockpit-reminder-input" placeholder="Schnell-Erinnerung..." onkeydown="if(event.key==='Enter') addReminderFromTimerCockpit();" class="flex-1 bg-transparent px-2 py-0.5 text-xs text-white placeholder-gray-500 outline-none">
-        <select id="timer-cockpit-reminder-mins" class="bg-black/60 border border-white/10 rounded-lg text-[10px] text-cyan-300 font-bold px-1.5 outline-none cursor-pointer">
-          <option value="5">5m</option>
-          <option value="10" selected>10m</option>
-          <option value="15">15m</option>
-          <option value="25">25m</option>
-          <option value="45">45m</option>
-        </select>
-        <button onclick="addReminderFromTimerCockpit()" class="px-2 py-0.5 bg-cyan-500/25 hover:bg-cyan-500/40 border border-cyan-400/40 text-cyan-200 hover:text-white rounded-lg text-[10px] font-bold transition cursor-pointer active:scale-95 shadow-xs">
-          + Setzen
-        </button>
-      </div>
+    <!-- 6. WECKER & ERINNERUNGEN FOOTER -->
+    <div class="pt-0.5 border-t border-white/10 flex items-center justify-between">
+      <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); openAlarmModal('alarms');" class="w-full py-1 px-3 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center gap-1.5 transition cursor-pointer text-[10.5px]" title="Wecker & Erinnerungen öffnen">
+        <i data-lucide="bell" class="w-3 h-3"></i>
+        <span>Wecker & Erinnerungen öffnen ↗</span>
+      </button>
     </div>
   `;
 
@@ -22841,46 +24499,57 @@ function startTimer() {
     console.warn("Timer Audio routing notice:", e);
   }
 
-  // Zeitansage zu Beginn einer frischen Sitzung (nicht beim Fortsetzen nach Pause), je nach Sound-Einstellung
-  if (isFreshStart && isTimerSoundActive()) {
+  const isTimeAnnounceActive = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isMotivationActive = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isVoiceActiveNow = (isTimeAnnounceActive || isMotivationActive) && isTimerSoundActive();
+
+  // Zeitansage / Begrüßung zu Beginn einer frischen Sitzung (nicht beim Fortsetzen nach Pause)
+  if (isFreshStart && isVoiceActiveNow) {
     try {
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
       const startMins = Math.round(timerInitialSeconds / 60);
       const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
       
       let startText = "";
-      if (activeTaskName && typeof activeTaskName === 'string' && activeTaskName.trim()) {
-        const cleanTask = activeTaskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
-        const phraseList = (typeof SESSION_START_TASK_PHRASES !== 'undefined' && SESSION_START_TASK_PHRASES[lang]) 
-          ? SESSION_START_TASK_PHRASES[lang] 
-          : (typeof SESSION_START_TASK_PHRASES !== 'undefined' ? SESSION_START_TASK_PHRASES.de : null);
-        const phrase = (phraseList && phraseList.length > 0)
-          ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase)
-          : (SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de)[0];
-        lastSessionStartPhrase = phrase;
-        startText = phrase.replace('{mins}', startMins).replace('{task}', cleanTask);
-      } else {
-        const phraseList = SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de;
-        const phrase = pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase);
-        lastSessionStartPhrase = phrase;
-        startText = phrase.replace('{mins}', startMins);
+      if (isTimeAnnounceActive) {
+        if (activeTaskName && typeof activeTaskName === 'string' && activeTaskName.trim()) {
+          const cleanTask = activeTaskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
+          const phraseList = (typeof SESSION_START_TASK_PHRASES !== 'undefined' && SESSION_START_TASK_PHRASES[lang]) 
+            ? SESSION_START_TASK_PHRASES[lang] 
+            : (typeof SESSION_START_TASK_PHRASES !== 'undefined' ? SESSION_START_TASK_PHRASES.de : null);
+          const phrase = (phraseList && phraseList.length > 0)
+            ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase)
+            : (SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de)[0];
+          lastSessionStartPhrase = phrase;
+          startText = phrase.replace('{mins}', startMins).replace('{task}', cleanTask);
+        } else {
+          const phraseList = SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de;
+          const phrase = pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase);
+          lastSessionStartPhrase = phrase;
+          startText = phrase.replace('{mins}', startMins);
+        }
+      } else if (isMotivationActive) {
+        const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
+        startText = motiv || "Fokuszeit gestartet. Schritt für Schritt.";
       }
 
-      if (startMins === 1) {
+      if (startMins === 1 && startText) {
         startText = startText.replace('Minuten', 'Minute').replace('minutes', 'minute').replace('minutos', 'minuto').replace('λεπτά', 'λεπτό');
       }
-      const startSessionToken = currentSpeechSessionId;
-      const startTimeout = setTimeout(() => {
-        if (!timerRunning || currentSpeechSessionId !== startSessionToken) return;
-        speakSoftlyDynamic(startText, timerSeconds, timerInitialSeconds);
-      }, 400);
-      if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
-        activeTimeouts.push(startTimeout);
+      if (startText) {
+        const startSessionToken = currentSpeechSessionId;
+        const startTimeout = setTimeout(() => {
+          if (!timerRunning || currentSpeechSessionId !== startSessionToken) return;
+          speakSoftlyDynamic(startText, timerSeconds, timerInitialSeconds);
+        }, 400);
+        if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
+          activeTimeouts.push(startTimeout);
+        }
       }
     } catch(e) {}
   }
   
-    let lastAnnouncedElapsedMinute = 0;
+  let lastAnnouncedElapsedMinute = 0;
   let lastSoundSwitchedElapsedMinute = 0;
 
   if (timerInterval) clearInterval(timerInterval);
@@ -22902,7 +24571,7 @@ function startTimer() {
         stopAmbientSound(true);
       }
 
-      if (isTimerSoundActive()) {
+      if (isTimerSoundActive() && (isTimeAnnounceActive || isMotivationActive)) {
         const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
         const timeUp = (typeof TIME_UP_PHRASES !== 'undefined' && TIME_UP_PHRASES[lang]) 
           ? TIME_UP_PHRASES[lang] 
@@ -22934,43 +24603,52 @@ function startTimer() {
         const isFinalStretch = (minsLeft === 2 || minsLeft === 1);
         const shouldSpeak = isTwoMinMark || isFinalStretch || (timerInitialSeconds <= 180);
 
-        if (shouldSpeak) {
+        if (shouldSpeak && isVoiceActiveNow) {
           let speechText = "";
           const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
           
-          if (minsLeft === 1) {
-            if (lang === 'de') speechText = "Noch 1 Minute verbleibend";
-            else if (lang === 'es') speechText = "Queda 1 minuto";
-            else if (lang === 'el') speechText = "Απομένει 1 λεπτό";
-            else if (lang === 'fr') speechText = "Il reste 1 minute";
-            else if (lang === 'it') speechText = "Resta 1 minuto";
-            else speechText = "1 minute remaining";
-          } else {
-            if (lang === 'de') speechText = `Noch ${minsLeft} Minuten verbleibend`;
-            else if (lang === 'es') speechText = `Quedan ${minsLeft} minutos`;
-            else if (lang === 'el') speechText = `Απομένουν ${minsLeft} λεπτά`;
-            else if (lang === 'fr') speechText = `Il reste ${minsLeft} minutes`;
-            else if (lang === 'it') speechText = `Restano ${minsLeft} minuti`;
-            else speechText = `${minsLeft} minutes remaining`;
+          if (isTimeAnnounceActive) {
+            if (minsLeft === 1) {
+              if (lang === 'de') speechText = "Noch 1 Minute verbleibend";
+              else if (lang === 'es') speechText = "Queda 1 minuto";
+              else if (lang === 'el') speechText = "Απομένει 1 λεπτό";
+              else if (lang === 'fr') speechText = "Il reste 1 minute";
+              else if (lang === 'it') speechText = "Resta 1 minuto";
+              else speechText = "1 minute remaining";
+            } else {
+              if (lang === 'de') speechText = `Noch ${minsLeft} Minuten verbleibend`;
+              else if (lang === 'es') speechText = `Quedan ${minsLeft} minutos`;
+              else if (lang === 'el') speechText = `Απομένουν ${minsLeft} λεπτά`;
+              else if (lang === 'fr') speechText = `Il reste ${minsLeft} minutes`;
+              else if (lang === 'it') speechText = `Restano ${minsLeft} minuti`;
+              else speechText = `${minsLeft} minutes remaining`;
+            }
           }
           
           // Motivationsspruch harmonisch einbinden
-          const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
-          const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
-          if (motiv) {
-            speechText += `. ${motiv}`;
+          if (isMotivationActive) {
+            const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
+            const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
+            if (motiv) {
+              if (speechText) speechText += `. ${motiv}`;
+              else speechText = motiv;
+            }
           }
           
-          // Nach der Zeitansage: Sound alle 2 Minuten wechseln!
-          speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds, () => {
-            if (isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
-              lastSoundSwitchedElapsedMinute = elapsedMins;
-              try { playRandomTimerAmbient(true); } catch(e) {}
-            }
-          });
+          if (speechText) {
+            // Nach der Zeitansage: Sound alle 2 Minuten wechseln!
+            speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds, () => {
+              if (isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
+                lastSoundSwitchedElapsedMinute = elapsedMins;
+                try { playRandomTimerAmbient(true); } catch(e) {}
+              }
+            });
+          } else {
+            playMinuteChime();
+          }
 
           // Falls Sprachbegleitung aus ist, Sound trotzdem alle 2 Minuten nach der Zeitgrenze wechseln
-          if (!timerVoiceEnabled && isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
+          if (!isVoiceActiveNow && isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
             lastSoundSwitchedElapsedMinute = elapsedMins;
             try { playRandomTimerAmbient(true); } catch(e) {}
           }
@@ -22987,28 +24665,46 @@ function startTimer() {
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
 
       // Erste Ansage nach 30 Sekunden Überzeit
-      if (absSec === 30) {
-        const text30 = (typeof OVERDUE_30S_LABELS !== 'undefined' && OVERDUE_30S_LABELS[lang]) 
-          ? OVERDUE_30S_LABELS[lang] 
-          : "30 Sekunden über der Zeit.";
-        speakSoftlyDynamic(text30, timerSeconds, timerInitialSeconds);
+      if (absSec === 30 && isVoiceActiveNow) {
+        let text30 = "";
+        if (isTimeAnnounceActive) {
+          text30 = (typeof OVERDUE_30S_LABELS !== 'undefined' && OVERDUE_30S_LABELS[lang]) 
+            ? OVERDUE_30S_LABELS[lang] 
+            : "30 Sekunden über der Zeit.";
+        }
+        if (isMotivationActive) {
+          const overdueList = (typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de)) 
+            ? (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue 
+            : [];
+          if (overdueList && overdueList.length > 0) {
+            const motiv = pickWithoutImmediateRepeat(overdueList, lastMotivationByTier['overdue']);
+            lastMotivationByTier['overdue'] = motiv;
+            if (motiv) text30 = text30 ? `${text30} ${motiv}` : motiv;
+          }
+        }
+        if (text30) speakSoftlyDynamic(text30, timerSeconds, timerInitialSeconds);
       }
       // Jede volle Minute Überzeit (-60s, -120s, -180s...)
-      else if (absSec % 60 === 0) {
+      else if (absSec % 60 === 0 && isVoiceActiveNow) {
         const overdueMins = absSec / 60;
-        const labelFn = (typeof OVERDUE_MINUTE_LABELS !== 'undefined' && OVERDUE_MINUTE_LABELS[lang]) 
-          ? OVERDUE_MINUTE_LABELS[lang] 
-          : ((n) => `${n} Minuten überzogen`);
-        let speechText = labelFn(overdueMins);
-        const overdueList = (typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de)) 
-          ? (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue 
-          : [];
-        if (overdueList && overdueList.length > 0) {
-          const motiv = pickWithoutImmediateRepeat(overdueList, lastMotivationByTier['overdue']);
-          lastMotivationByTier['overdue'] = motiv;
-          if (motiv) speechText += `. ${motiv}`;
+        let speechText = "";
+        if (isTimeAnnounceActive) {
+          const labelFn = (typeof OVERDUE_MINUTE_LABELS !== 'undefined' && OVERDUE_MINUTE_LABELS[lang]) 
+            ? OVERDUE_MINUTE_LABELS[lang] 
+            : ((n) => `${n} Minuten überzogen`);
+          speechText = labelFn(overdueMins);
         }
-        speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds);
+        if (isMotivationActive) {
+          const overdueList = (typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de)) 
+            ? (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue 
+            : [];
+          if (overdueList && overdueList.length > 0) {
+            const motiv = pickWithoutImmediateRepeat(overdueList, lastMotivationByTier['overdue']);
+            lastMotivationByTier['overdue'] = motiv;
+            if (motiv) speechText = speechText ? `${speechText}. ${motiv}` : motiv;
+          }
+        }
+        if (speechText) speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds);
       }
       // Zwischen-Signalton alle 30s bei halben Minuten (-90s, -150s, -210s...)
       else if (absSec % 30 === 0) {
@@ -23223,6 +24919,17 @@ function updateTimerDisplay() {
       el.classList.toggle('animate-pulse', isNegative);
     }
   });
+
+  const totalSecs = (typeof timerInitialSeconds !== 'undefined' && timerInitialSeconds > 0) ? timerInitialSeconds : 120;
+  const progressPct = Math.max(0, Math.min(100, ((typeof timerSeconds !== 'undefined' ? timerSeconds : 120) / totalSecs) * 100));
+  const cockpitProg = document.getElementById('timer-cockpit-progress-bar');
+  if (cockpitProg) {
+    cockpitProg.style.width = `${progressPct}%`;
+  }
+  const headerProg = document.getElementById('timer-progress-bar');
+  if (headerProg) {
+    headerProg.style.width = `${progressPct}%`;
+  }
   
   // Zen & Mobile Timer Status Labels
   const zenStatus = document.getElementById('zen-timer-status');
@@ -29757,8 +31464,1924 @@ if (typeof globalThis !== 'undefined') {
 })();
 
 
+/* --- app-health.js --- */
+// app-health.js - Noodle Health, Prevention & Vitality Hub
+// 100% Client-Side, Zero-Tracking, Neuro-Friendly & Medically Sound
+
+(function() {
+  'use strict';
+
+  // ============================================================================
+  // 1. DATA MODELS & OFFICIAL PREVENTION GUIDELINES MATRIX
+  // ============================================================================
+
+  const DEFAULT_HEALTH_PROFILE = {
+    age: 32,
+    gender: 'female', // 'female' | 'male' | 'neutral'
+    cycleEnabled: true,
+    cycleStart: new Date(Date.now() - 12 * 86400000).toISOString().split('T')[0],
+    cycleLength: 28,
+    periodLength: 5,
+    smoker: false,
+    completedCheckups: {},
+    medications: [
+      { id: 'med_1', name: 'Vitamin D3 + K2', dose: '2.000 I.E.', timing: 'morning', takenToday: false },
+      { id: 'med_2', name: 'Magnesium', dose: '300 mg', timing: 'evening', takenToday: false }
+    ],
+    bpLogs: [
+      { id: 'bp_1', date: new Date().toISOString().split('T')[0], sys: 120, dia: 78, pulse: 68 }
+    ],
+    doctorQuestions: [
+      { id: 'q_1', doctor: 'Hausarzt', question: 'Großes Blutbild inkl. Vitamin D & Ferritin prüfen lassen?', done: false }
+    ]
+  };
+
+  const CHECKUPS_DATABASE = [
+    {
+      id: 'dental',
+      category: 'universal',
+      title: 'Zahnärztliche Vorsorge & PZR',
+      desc: 'Halbjährliche / jährliche Kontrolle von Zähnen, Zahnfleisch & professionelle Zahnreinigung.',
+      minAge: 18,
+      maxAge: 99,
+      gender: 'all',
+      intervalMonths: 6,
+      officialBody: 'G-BA Richtlinie',
+      icon: 'sparkles',
+      color: 'sky'
+    },
+    {
+      id: 'skin_cancer',
+      category: 'universal',
+      title: 'Hautkrebs-Screening',
+      desc: 'Visuelle Ganzkörperuntersuchung der Haut auf verdächtige Muttermale & Veränderungen.',
+      minAge: 35,
+      maxAge: 99,
+      gender: 'all',
+      intervalMonths: 24,
+      officialBody: 'G-BA (Kassenleistung ab 35)',
+      icon: 'sun',
+      color: 'amber'
+    },
+    {
+      id: 'checkup_35',
+      category: 'universal',
+      title: 'Gesundheits-Check-up (Check-up 35)',
+      desc: 'Ganzheitliche Untersuchung: Blutdruck, Blutzucker, Cholesterin, Nierenwerte, Urin & Herz-Kreislauf.',
+      minAge: 35,
+      maxAge: 99,
+      gender: 'all',
+      intervalMonths: 36,
+      officialBody: 'G-BA Richtlinie (alle 3 Jahre)',
+      icon: 'activity',
+      color: 'teal'
+    },
+    {
+      id: 'checkup_young',
+      category: 'universal',
+      title: 'Junger Erwachsenen Check-up (18–34 J.)',
+      desc: 'Einmaliger Basis-Check auf frühe Risikofaktoren (Blutdruck, Blutzucker, Impfstatus, Lebensstil).',
+      minAge: 18,
+      maxAge: 34,
+      gender: 'all',
+      intervalMonths: 120,
+      officialBody: 'G-BA (Einmalig 18–34)',
+      icon: 'shield',
+      color: 'emerald'
+    },
+    {
+      id: 'colon_stool',
+      category: 'universal',
+      title: 'Darmkrebs-Früherkennung (Stuhltest iFOBT)',
+      desc: 'Immunologischer Stuhltest auf nichtsichtbare Blutspuren im Stuhl zur Früherkennung.',
+      minAge: 50,
+      maxAge: 99,
+      gender: 'all',
+      intervalMonths: 12,
+      officialBody: 'G-BA Krebsfrüherkennung',
+      icon: 'microscope',
+      color: 'indigo'
+    },
+    {
+      id: 'colonoscopy',
+      category: 'universal',
+      title: 'Darmspiegelung (Koloskopie)',
+      desc: 'Goldstandard zur Vorsorge & direkten Polypenentfernung (Männer ab 50, Frauen ab 55).',
+      minAge: 50,
+      maxAge: 99,
+      gender: 'all',
+      intervalMonths: 120,
+      officialBody: 'G-BA Krebsfrüherkennung',
+      icon: 'search',
+      color: 'violet'
+    },
+    {
+      id: 'eye_glaucoma',
+      category: 'universal',
+      title: 'Augeninnendruck & Glaukom-Vorsorge',
+      desc: 'Sehnerv- & Augendruckkontrolle zur Früherkennung des Grünen Stars.',
+      minAge: 40,
+      maxAge: 99,
+      gender: 'all',
+      intervalMonths: 24,
+      officialBody: 'DOG Empfehlung',
+      icon: 'eye',
+      color: 'cyan'
+    },
+    {
+      id: 'cervical_pap',
+      category: 'female',
+      title: 'Gynäkologische Krebsvorsorge (Pap-Test)',
+      desc: 'Zellabstrich des Gebärmutterhalses zur Früherkennung von Zellveränderungen.',
+      minAge: 20,
+      maxAge: 34,
+      gender: 'female',
+      intervalMonths: 12,
+      officialBody: 'G-BA Richtlinie (jährlich)',
+      icon: 'shield-check',
+      color: 'rose'
+    },
+    {
+      id: 'cervical_co_test',
+      category: 'female',
+      title: 'Kombi-Screening (Pap-Test + HPV-Test)',
+      desc: 'Kombinierte Vorsorgeuntersuchung auf Humane Papillomviren (HPV) und Zellveränderungen.',
+      minAge: 35,
+      maxAge: 99,
+      gender: 'female',
+      intervalMonths: 36,
+      officialBody: 'G-BA Richtlinie (alle 3 Jahre)',
+      icon: 'shield-check',
+      color: 'pink'
+    },
+    {
+      id: 'breast_palpation',
+      category: 'female',
+      title: 'Abtastuntersuchung der Brust',
+      desc: 'Tastuntersuchung von Brust & Achselhöhlen durch die Frauenärztin.',
+      minAge: 30,
+      maxAge: 99,
+      gender: 'female',
+      intervalMonths: 12,
+      officialBody: 'G-BA Richtlinie (jährlich)',
+      icon: 'heart',
+      color: 'fuchsia'
+    },
+    {
+      id: 'mammography',
+      category: 'female',
+      title: 'Mammographie-Screening',
+      desc: 'Röntgenreihenuntersuchung der Brust im qualitätsgesicherten Screening-Zentrum.',
+      minAge: 50,
+      maxAge: 75,
+      gender: 'female',
+      intervalMonths: 24,
+      officialBody: 'G-BA Screening (50–75 J.)',
+      icon: 'activity',
+      color: 'rose'
+    },
+    {
+      id: 'prostate_exam',
+      category: 'male',
+      title: 'Prostata- & Genitaluntersuchung',
+      desc: 'Tastuntersuchung der Prostata, der äußeren Genitalien und der regionalen Lymphknoten.',
+      minAge: 45,
+      maxAge: 99,
+      gender: 'male',
+      intervalMonths: 12,
+      officialBody: 'G-BA Richtlinie (jährlich ab 45)',
+      icon: 'shield',
+      color: 'blue'
+    },
+    {
+      id: 'aorta_ultrasound',
+      category: 'male',
+      title: 'Bauchaortenaneurysma-Screening',
+      desc: 'Einmaliger Ultraschall der Bauchschlagader zur Erkennung gefährlicher Erweiterungen.',
+      minAge: 65,
+      maxAge: 99,
+      gender: 'male',
+      intervalMonths: 240,
+      officialBody: 'G-BA (Einmalig für Männer ab 65)',
+      icon: 'heart-pulse',
+      color: 'indigo'
+    }
+  ];
+
+  let currentTab = 'radar'; // 'radar' | 'daily' | 'cycle' | 'profile'
+
+  function loadProfile() {
+    try {
+      const stored = localStorage.getItem('flow_health_profile');
+      if (stored) {
+        return { ...DEFAULT_HEALTH_PROFILE, ...JSON.parse(stored) };
+      }
+    } catch (e) {}
+    return { ...DEFAULT_HEALTH_PROFILE };
+  }
+
+  function saveProfile(updated) {
+    try {
+      const current = loadProfile();
+      const merged = { ...current, ...updated };
+      localStorage.setItem('flow_health_profile', JSON.stringify(merged));
+      renderHealthPanel();
+      if (typeof window.showToast === 'function') {
+        window.showToast('✓ Gesundheitsprofil gespeichert 🛡️');
+      }
+    } catch (e) {}
+  }
+
+  function getRelevantCheckups(profile) {
+    const age = profile.age || 30;
+    const gender = profile.gender || 'neutral';
+
+    return CHECKUPS_DATABASE.filter(c => {
+      if (c.gender !== 'all' && c.gender !== gender && gender !== 'neutral') return false;
+      if (c.minAge && age < c.minAge - 5) return false;
+      return true;
+    }).map(c => {
+      const lastDone = profile.completedCheckups && profile.completedCheckups[c.id];
+      let status = 'due';
+      let daysRemaining = 0;
+
+      if (lastDone) {
+        const lastDate = new Date(lastDone);
+        const nextDue = new Date(lastDate);
+        nextDue.setMonth(nextDue.getMonth() + c.intervalMonths);
+        const diffDays = Math.round((nextDue - new Date()) / (1000 * 60 * 60 * 24));
+        daysRemaining = diffDays;
+        if (diffDays > 30) status = 'done';
+        else if (diffDays >= 0) status = 'soon';
+        else status = 'urgent';
+      } else {
+        if (age >= c.minAge && age <= c.maxAge) status = 'due';
+        else status = 'upcoming';
+      }
+
+      return { ...c, lastDone, status, daysRemaining };
+    });
+  }
+
+  function calculateCycleState(profile) {
+    if (!profile.cycleEnabled || !profile.cycleStart) return null;
+    const start = new Date(profile.cycleStart);
+    const today = new Date();
+    const cycleLength = profile.cycleLength || 28;
+    const periodLength = profile.periodLength || 5;
+
+    const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24)) % cycleLength;
+    const currentDay = diffDays + 1;
+
+    let phase = 'follicular';
+    let phaseName = 'Follikelphase';
+    let energyLevel = 'Steigend ⚡';
+    let moodAdvice = 'Gute Phase für neue Projekte & kreativen Fokus.';
+    let icon = '🌱';
+    let color = 'emerald';
+
+    if (currentDay <= periodLength) {
+      phase = 'menstruation';
+      phaseName = 'Menstruation';
+      energyLevel = 'Ruhig / Erholung 🌙';
+      moodAdvice = 'Sanfte Aufgaben, ausreichend Schlaf & wärmender Tee.';
+      icon = '🩸';
+      color = 'rose';
+    } else if (currentDay >= 13 && currentDay <= 15) {
+      phase = 'ovulation';
+      phaseName = 'Eisprung / Ovulation';
+      energyLevel = 'Peak Energie 🚀';
+      moodAdvice = 'Höchste Kommunikationskraft & Tatendrang.';
+      icon = '✨';
+      color = 'amber';
+    } else if (currentDay > 15) {
+      phase = 'luteal';
+      phaseName = 'Lutealphase';
+      energyLevel = 'Fokussiert / Ausklingend 🧘';
+      moodAdvice = 'Strukturierte Aufgaben abschließen, Stress reduzieren.';
+      icon = '🍂';
+      color = 'purple';
+    }
+
+    return { currentDay, cycleLength, phase, phaseName, energyLevel, moodAdvice, icon, color };
+  }
+
+  function switchHealthTab(tabName) {
+    currentTab = tabName;
+    renderHealthPanel();
+  }
+
+  function markCheckupDone(checkupId) {
+    const profile = loadProfile();
+    profile.completedCheckups = profile.completedCheckups || {};
+    profile.completedCheckups[checkupId] = new Date().toISOString().split('T')[0];
+    saveProfile(profile);
+    if (typeof window.showToast === 'function') {
+      window.showToast('✓ Vorsorge-Checkup als erledigt markiert! 🛡️');
+    }
+  }
+
+  function toggleMedication(medId) {
+    const profile = loadProfile();
+    profile.medications = profile.medications.map(m => {
+      if (m.id === medId) return { ...m, takenToday: !m.takenToday };
+      return m;
+    });
+    saveProfile(profile);
+  }
+
+  function addMedication(name, dose, timing) {
+    if (!name || !name.trim()) return;
+    const profile = loadProfile();
+    profile.medications = profile.medications || [];
+    profile.medications.push({
+      id: `med_${Date.now()}`,
+      name: name.trim(),
+      dose: dose.trim() || '1x',
+      timing: timing || 'morning',
+      takenToday: false
+    });
+    saveProfile(profile);
+  }
+
+  function deleteMedication(medId) {
+    const profile = loadProfile();
+    profile.medications = profile.medications.filter(m => m.id !== medId);
+    saveProfile(profile);
+  }
+
+  function addDoctorQuestion(doctor, question) {
+    if (!question || !question.trim()) return;
+    const profile = loadProfile();
+    profile.doctorQuestions = profile.doctorQuestions || [];
+    profile.doctorQuestions.push({
+      id: `q_${Date.now()}`,
+      doctor: doctor.trim() || 'Arzt',
+      question: question.trim(),
+      done: false
+    });
+    saveProfile(profile);
+  }
+
+  function deleteDoctorQuestion(qId) {
+    const profile = loadProfile();
+    profile.doctorQuestions = profile.doctorQuestions.filter(q => q.id !== qId);
+    saveProfile(profile);
+  }
+
+  function renderHealthPanel() {
+    const container = document.getElementById('panel-health-content');
+    if (!container) return;
+
+    const profile = loadProfile();
+    const relevantCheckups = getRelevantCheckups(profile);
+    const cycleState = profile.cycleEnabled ? calculateCycleState(profile) : null;
+
+    const totalCheckups = relevantCheckups.length;
+    const completedCount = relevantCheckups.filter(c => c.status === 'done').length;
+    const dueCount = relevantCheckups.filter(c => c.status === 'due' || c.status === 'urgent').length;
+
+    let html = `
+      <!-- TOP PROFILE SUMMARY BANNER -->
+      <div class="p-3 rounded-2xl bg-gradient-to-r from-rose-500/15 via-purple-500/10 to-teal-500/15 border border-rose-500/30 flex items-center justify-between shadow-inner">
+        <div class="flex items-center gap-2.5">
+          <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 font-bold text-sm shadow-xs">
+            ${profile.gender === 'female' ? '🌸' : profile.gender === 'male' ? '⚡' : '🌿'}
+          </div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-bold text-white">${profile.age} Jahre</span>
+              <span class="text-[10px] text-gray-400">•</span>
+              <span class="text-[10.5px] font-semibold text-rose-200 capitalize">${profile.gender === 'female' ? 'Weiblich' : profile.gender === 'male' ? 'Männlich' : 'Divers / Neutral'}</span>
+            </div>
+            <div class="text-[9.5px] text-gray-400 flex items-center gap-1.5 mt-0.5">
+              <span class="${dueCount > 0 ? 'text-amber-300 font-bold' : 'text-emerald-300'}">● ${dueCount > 0 ? `${dueCount} Checks fällig` : 'Alle Checks aktuell'}</span>
+              <span>•</span>
+              <span>${completedCount}/${totalCheckups} erledigt</span>
+            </div>
+          </div>
+        </div>
+        <button onclick="HealthEngine.switchTab('profile')" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 border border-white/15 text-white rounded-xl text-[10.5px] font-bold transition flex items-center gap-1 cursor-pointer">
+          <i data-lucide="sliders" class="w-3 h-3 text-rose-300"></i>
+          <span>Profil</span>
+        </button>
+      </div>
+
+      <!-- PRIMARY NAVIGATION TABS -->
+      <div class="flex bg-black/60 p-1 rounded-2xl border border-white/10 text-xs font-bold gap-1 shadow-sm">
+        <button onclick="HealthEngine.switchTab('radar')" class="flex-1 py-1.5 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer ${currentTab === 'radar' ? 'bg-rose-600/35 border border-rose-400/70 text-white shadow-xs' : 'text-gray-400 hover:text-white hover:bg-white/5'}">
+          <i data-lucide="shield-check" class="w-3.5 h-3.5 text-rose-400"></i>
+          <span>Vorsorge</span>
+        </button>
+        <button onclick="HealthEngine.switchTab('daily')" class="flex-1 py-1.5 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer ${currentTab === 'daily' ? 'bg-rose-600/35 border border-rose-400/70 text-white shadow-xs' : 'text-gray-400 hover:text-white hover:bg-white/5'}">
+          <i data-lucide="pill" class="w-3.5 h-3.5 text-rose-400"></i>
+          <span>Alltag & Meds</span>
+        </button>
+        ${profile.cycleEnabled ? `
+        <button onclick="HealthEngine.switchTab('cycle')" class="flex-1 py-1.5 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer ${currentTab === 'cycle' ? 'bg-rose-600/35 border border-rose-400/70 text-white shadow-xs' : 'text-gray-400 hover:text-white hover:bg-white/5'}">
+          <i data-lucide="moon" class="w-3.5 h-3.5 text-rose-400"></i>
+          <span>Zyklus</span>
+        </button>` : ''}
+      </div>
+    `;
+
+    if (currentTab === 'radar') {
+      html += `
+        <div class="space-y-2 animate-fade-in text-xs">
+          <div class="space-y-1.5 max-h-[380px] overflow-y-auto pr-1 custom-scrollbar">
+            ${relevantCheckups.map(c => `
+              <div class="p-2.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border ${c.status === 'urgent' ? 'border-rose-500/50 bg-rose-500/5' : c.status === 'due' ? 'border-amber-500/40 bg-amber-500/5' : c.status === 'done' ? 'border-emerald-500/30' : 'border-white/10'} transition flex items-center justify-between gap-2.5 group">
+                <div class="flex items-start gap-2.5 min-w-0">
+                  <div class="w-8 h-8 rounded-xl bg-${c.color}-500/20 border border-${c.color}-500/40 flex items-center justify-center text-${c.color}-300 shrink-0 mt-0.5">
+                    <i data-lucide="${c.icon}" class="w-4 h-4"></i>
+                  </div>
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-1.5">
+                      <h4 class="font-bold text-white text-xs truncate">${c.title}</h4>
+                      <span class="px-1.5 py-0.2 rounded text-[8.5px] font-mono font-bold ${c.status === 'done' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : c.status === 'urgent' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}">
+                        ${c.status === 'done' ? 'Erledigt ✓' : c.status === 'urgent' ? 'Überfällig!' : 'Fällig'}
+                      </span>
+                    </div>
+                    <p class="text-[10px] text-gray-400 line-clamp-1 mt-0.5">${c.desc}</p>
+                    <div class="flex items-center gap-2 text-[9px] text-gray-500 font-mono mt-1">
+                      <span>${c.officialBody}</span>
+                      <span>•</span>
+                      <span>${c.lastDone ? `Zuletzt: ${c.lastDone}` : 'Noch nicht erfasst'}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button onclick="HealthEngine.markCheckupDone('${c.id}')" class="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500/35 text-emerald-200 border border-emerald-500/40 rounded-xl text-[10px] font-bold transition flex items-center gap-1 cursor-pointer" title="Als erledigt markieren">
+                    <i data-lucide="check" class="w-3 h-3"></i>
+                    <span>Erledigt</span>
+                  </button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    } else if (currentTab === 'daily') {
+      html += `
+        <div class="space-y-3 animate-fade-in text-xs">
+          <!-- Medikamente & Vitamine -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between text-[10.5px] font-bold text-gray-300 px-1">
+              <span class="flex items-center gap-1 text-rose-300">
+                <i data-lucide="pill" class="w-3.5 h-3.5"></i>
+                <span>Tägliche Medikamente & Vitamine</span>
+              </span>
+              <span class="text-[9.5px] text-gray-400 font-mono">${profile.medications.filter(m => m.takenToday).length}/${profile.medications.length} genommen</span>
+            </div>
+            <div class="space-y-1">
+              ${profile.medications.map(m => `
+                <div class="p-2 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-2">
+                  <div class="flex items-center gap-2">
+                    <button onclick="HealthEngine.toggleMedication('${m.id}')" class="w-5 h-5 rounded-lg border flex items-center justify-center cursor-pointer transition ${m.takenToday ? 'bg-emerald-500 border-emerald-400 text-white' : 'border-white/20 bg-black/40 text-transparent'}">
+                      <i data-lucide="check" class="w-3 h-3"></i>
+                    </button>
+                    <div>
+                      <span class="font-bold text-xs ${m.takenToday ? 'line-through text-gray-400' : 'text-white'}">${m.name}</span>
+                      <span class="text-[9.5px] text-gray-400 font-mono ml-1">(${m.dose})</span>
+                    </div>
+                  </div>
+                  <button onclick="HealthEngine.deleteMedication('${m.id}')" class="text-gray-500 hover:text-rose-400 p-1 cursor-pointer">✕</button>
+                </div>
+              `).join('')}
+            </div>
+            <div class="flex gap-1.5 pt-1">
+              <input type="text" id="health-new-med-name" placeholder="Neues Präparat (z.B. Omega 3)..." class="flex-1 bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-rose-500">
+              <input type="text" id="health-new-med-dose" placeholder="Dosis..." class="w-20 bg-black/50 border border-white/10 rounded-xl px-2 py-1 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-rose-500">
+              <button onclick="
+                const n = document.getElementById('health-new-med-name').value;
+                const d = document.getElementById('health-new-med-dose').value;
+                HealthEngine.addMedication(n, d);
+              " class="px-3 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs cursor-pointer transition flex items-center gap-1">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Add</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Fragen für den nächsten Arztbesuch -->
+          <div class="space-y-1.5 pt-2 border-t border-white/10">
+            <div class="flex items-center justify-between text-[10.5px] font-bold text-gray-300 px-1">
+              <span class="flex items-center gap-1 text-teal-300">
+                <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
+                <span>Fragen für den nächsten Arztbesuch</span>
+              </span>
+            </div>
+            <div class="space-y-1">
+              ${profile.doctorQuestions.map(q => `
+                <div class="p-2 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-2">
+                  <div class="flex items-start gap-2 min-w-0">
+                    <span class="px-1.5 py-0.2 rounded bg-teal-500/20 text-teal-300 border border-teal-500/30 text-[9px] font-mono font-bold mt-0.5">${q.doctor}</span>
+                    <span class="text-xs text-gray-200">${q.question}</span>
+                  </div>
+                  <button onclick="HealthEngine.deleteDoctorQuestion('${q.id}')" class="text-gray-500 hover:text-rose-400 p-1 cursor-pointer">✕</button>
+                </div>
+              `).join('')}
+            </div>
+            <div class="flex gap-1.5 pt-1">
+              <input type="text" id="health-new-q-text" placeholder="Frage an Arzt notieren..." class="flex-1 bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-teal-500">
+              <button onclick="
+                const txt = document.getElementById('health-new-q-text').value;
+                HealthEngine.addDoctorQuestion('Hausarzt', txt);
+              " class="px-3 py-1 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl text-xs cursor-pointer transition flex items-center gap-1">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                <span>Add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (currentTab === 'cycle' && cycleState) {
+      html += `
+        <div class="space-y-2.5 animate-fade-in text-xs">
+          <div class="p-3 rounded-2xl bg-gradient-to-br from-rose-500/20 via-pink-500/15 to-purple-500/20 border border-rose-400/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">${cycleState.icon}</span>
+                <div>
+                  <h4 class="font-bold text-white text-sm leading-tight">${cycleState.phaseName}</h4>
+                  <span class="text-[10px] text-rose-200 font-mono">Tag ${cycleState.currentDay} von ${cycleState.cycleLength}</span>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-rose-500/30 text-rose-200 text-[10px] font-bold border border-rose-400/40">${cycleState.energyLevel}</span>
+            </div>
+            <p class="text-[11px] text-rose-100/90 leading-relaxed bg-black/30 p-2 rounded-xl border border-white/5">
+              💡 ${cycleState.moodAdvice}
+            </p>
+          </div>
+        </div>
+      `;
+    } else if (currentTab === 'profile') {
+      html += `
+        <div class="space-y-3 animate-fade-in text-xs">
+          <div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5">
+            <h4 class="font-bold text-white text-xs">Profil & Vorsorge-Filter</h4>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="text-[10px] text-gray-400 block mb-0.5">Alter:</label>
+                <input type="number" id="health-prof-age" value="${profile.age}" min="18" max="100" class="w-full bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs text-white">
+              </div>
+              <div>
+                <label class="text-[10px] text-gray-400 block mb-0.5">Geschlecht:</label>
+                <select id="health-prof-gender" class="w-full bg-black/80 border border-white/10 rounded-xl px-2.5 py-1 text-xs text-white">
+                  <option value="female" ${profile.gender === 'female' ? 'selected' : ''}>Weiblich</option>
+                  <option value="male" ${profile.gender === 'male' ? 'selected' : ''}>Männlich</option>
+                  <option value="neutral" ${profile.gender === 'neutral' ? 'selected' : ''}>Neutral / Divers</option>
+                </select>
+              </div>
+            </div>
+            <button onclick="
+              const a = parseInt(document.getElementById('health-prof-age').value, 10) || 30;
+              const g = document.getElementById('health-prof-gender').value;
+              HealthEngine.saveProfile({ age: a, gender: g });
+              HealthEngine.switchTab('radar');
+            " class="w-full py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs transition cursor-pointer">
+              Speichern & Aktualisieren
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    container.innerHTML = html;
+    if (typeof window.lucide !== 'undefined' && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+  }
+
+  const HealthEngine = {
+    loadProfile,
+    saveProfile,
+    switchTab: switchHealthTab,
+    renderPanel: renderHealthPanel,
+    markCheckupDone,
+    toggleMedication,
+    addMedication,
+    deleteMedication,
+    addDoctorQuestion,
+    deleteDoctorQuestion
+  };
+
+  if (typeof window !== 'undefined') {
+    window.HealthEngine = HealthEngine;
+  }
+  if (typeof globalThis !== 'undefined') {
+    globalThis.HealthEngine = HealthEngine;
+  }
+})();
+
+
+/* --- app-humor.js --- */
+// app-humor.js - Noodle Humor Lab, Chaos FX Studio & 1-Minute Idle Ambient Engine
+// 100% Client-Side, Web Audio Synthesizer, 12+ Visual FX & Auto-Idle Screensaver
+
+(function() {
+  'use strict';
+
+  let audioCtx = null;
+  let activeEffects = new Set();
+  let bubbleGridState = Array(20).fill(false);
+  let currentJokeIndex = 0;
+
+  // Active FX animations and canvas cleanup handles
+  let activeFxCleanup = null;
+  let activeFxAnimId = null;
+
+  // 1-Minute Idle Auto-Trigger Engine
+  let idleTimer = null;
+  let isIdleActive = false;
+  const IDLE_TIMEOUT_MS = 60 * 1000; // 1 Minute (60 Sekunden)
+
+  const JOKES = [
+    { q: "Warum prokrastinieren Entwickler gerne?", a: "Weil morgen die Anforderungen vielleicht deprecated sind!" },
+    { q: "Wie viele Programmierer braucht man, um eine Glühbirne zu wechseln?", a: "Keinen. Das ist ein Hardware-Problem!" },
+    { q: "Was ist das ADHS-Motto beim Aufräumen?", a: "Ich bringe nur kurz dieses Buch ins Regal... und 4 Stunden später habe ich mein Zimmer umgebaut und gelernt, wie man Origami-Drachen faltet." },
+    { q: "Warum können Geister so schlecht lügen?", a: "Weil man durch sie hindurchsehen kann!" },
+    { q: "Was macht ein Informatiker im Wald?", a: "Bäume loggen!" },
+    { q: "Warum trinken Programmierer so viel Kaffee?", a: "Weil Java ohne Kaffee nur ein Script ist." },
+    { q: "Wie nennt man eine To-Do-Liste mit 40 offenen Aufgaben?", a: "Eine Wunschliste für das nächste Leben!" },
+    { q: "Was ist der Lieblingsort eines Programmierers?", a: "Das Loop!" }
+  ];
+
+  const ROAST_TEMPLATES = [
+    "👀 Schau dir diese Aufgabe an... Sie wartet seit 3 Tagen darauf, dass du sie in 90 Sekunden erledigst!",
+    "🔥 Wenn Prokrastination eine olympische Disziplin wäre, hättest du gerade Gold geholt. Klick auf Start!",
+    "🧠 Dein Gehirn: 'Lass uns erst den Wikipedia-Artikel über antiken römischen Beton lesen.' — Noodle sagt: Erst 2 Minuten Fokus!",
+    "🚀 Kleine Erinnerung: Eine unvollständige Aufgabe tut dir nichts. Sie schaut dich nur vorwurfsvoll an.",
+    "☕ Espresso getrunken, Playlist an, jetzt 5 Minuten Power-Sprint — danach gibt's Belohnung!"
+  ];
+
+  const DECISIONS = [
+    "🚀 Einfach anfangen (2-Minuten-Regel)!",
+    "☕ Hol dir ein Glas Wasser / Tee & los!",
+    "🎧 Lieblings-Beat anmachen & 10 Min Power!",
+    "✂️ Zerlege die Aufgabe in 3 Mini-Schritte!",
+    "🧘 3 tiefe Atemzüge & die leichteste Sache zuerst!",
+    "🎲 Würfeln: Gerade Zahl = Jetzt machen, Ungerade = 5 Min Dehnen!"
+  ];
+
+  function getAudioContext() {
+    if (!audioCtx) {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioContextClass) {
+        audioCtx = new AudioContextClass();
+      }
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  // ==========================================================================
+  // 1. WEB AUDIO SYNTHESIZED SOUND EFFECTS (Zero External Assets)
+  // ==========================================================================
+  const SoundFX = {
+    airhorn: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const notes = [466.16, 466.16, 466.16, 466.16, 622.25];
+      const times = [0, 0.08, 0.16, 0.24, 0.34];
+      const durs  = [0.06, 0.06, 0.06, 0.06, 0.45];
+
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(freq, now + times[idx]);
+        gain.gain.setValueAtTime(0.18, now + times[idx]);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + times[idx] + durs[idx]);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now + times[idx]);
+        osc.stop(now + times[idx] + durs[idx]);
+      });
+    },
+
+    applause: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const bufferSize = ctx.sampleRate * 0.8;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.3));
+      }
+      const whiteNoise = ctx.createBufferSource();
+      whiteNoise.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.value = 1000;
+      filter.Q.value = 1.2;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
+      whiteNoise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      whiteNoise.start();
+    },
+
+    rimshot: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(320, now);
+      osc.frequency.exponentialRampToValueAtTime(80, now + 0.08);
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.09);
+
+      const cOsc = ctx.createOscillator();
+      const cGain = ctx.createGain();
+      cOsc.type = 'square';
+      cOsc.frequency.setValueAtTime(1400, now + 0.12);
+      cGain.gain.setValueAtTime(0.12, now + 0.12);
+      cGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      cOsc.connect(cGain);
+      cGain.connect(ctx.destination);
+      cOsc.start(now + 0.12);
+      cOsc.stop(now + 0.35);
+    },
+
+    fail: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const notes = [311.13, 293.66, 277.18, 261.63];
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        const start = now + idx * 0.22;
+        const dur = idx === 3 ? 0.6 : 0.2;
+        osc.frequency.setValueAtTime(freq, start);
+        if (idx === 3) {
+          osc.frequency.linearRampToValueAtTime(freq - 20, start + dur);
+        }
+        gain.gain.setValueAtTime(0.12, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + dur);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + dur);
+      });
+    },
+
+    boing: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(150, now);
+      osc.frequency.exponentialRampToValueAtTime(600, now + 0.15);
+      osc.frequency.exponentialRampToValueAtTime(300, now + 0.3);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.35);
+    },
+
+    pop: function(pitch = 600) {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(pitch, now);
+      osc.frequency.exponentialRampToValueAtTime(pitch * 1.8, now + 0.04);
+      gain.gain.setValueAtTime(0.25, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.05);
+    },
+
+    sparkle: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((freq, i) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        const start = now + i * 0.05;
+        osc.frequency.setValueAtTime(freq, start);
+        gain.gain.setValueAtTime(0.1, start);
+        gain.gain.exponentialRampToValueAtTime(0.001, start + 0.15);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(start);
+        osc.stop(start + 0.15);
+      });
+    },
+
+    laser: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(1400, now);
+      osc.frequency.exponentialRampToValueAtTime(120, now + 0.22);
+      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.22);
+    },
+
+    whoosh: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const bufferSize = ctx.sampleRate * 0.4;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = (Math.random() * 2 - 1);
+      }
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      const filter = ctx.createBiquadFilter();
+      filter.type = 'bandpass';
+      const now = ctx.currentTime;
+      filter.frequency.setValueAtTime(200, now);
+      filter.frequency.exponentialRampToValueAtTime(2400, now + 0.2);
+      filter.frequency.exponentialRampToValueAtTime(300, now + 0.4);
+      filter.Q.value = 3.0;
+      const gain = ctx.createGain();
+      gain.gain.setValueAtTime(0.15, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
+      noise.start(now);
+    },
+
+    coin: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(987.77, now);
+      gain1.gain.setValueAtTime(0.15, now);
+      gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.08);
+
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(1318.51, now + 0.08);
+      gain2.gain.setValueAtTime(0.18, now + 0.08);
+      gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.start(now + 0.08);
+      osc2.stop(now + 0.35);
+    },
+
+    warp: function() {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+      const now = ctx.currentTime;
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(90, now);
+      osc.frequency.exponentialRampToValueAtTime(480, now + 0.5);
+      gain.gain.setValueAtTime(0.2, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.6);
+    }
+  };
+
+  // ==========================================================================
+  // 2. STYLES & CHAOS FX ENGINE
+  // ==========================================================================
+  function injectChaosStyles() {
+    if (document.getElementById('humor-chaos-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'humor-chaos-styles';
+    style.textContent = `
+      @keyframes humor-jello {
+        0%, 100% { transform: scale3d(1, 1, 1); }
+        30% { transform: scale3d(1.12, 0.88, 1) rotate(-2deg); }
+        40% { transform: scale3d(0.88, 1.12, 1) rotate(2deg); }
+        50% { transform: scale3d(1.05, 0.95, 1) rotate(-1deg); }
+        65% { transform: scale3d(0.98, 1.02, 1) rotate(1deg); }
+        75% { transform: scale3d(1.02, 0.98, 1); }
+      }
+      .chaos-jello .task-card, .chaos-jello button, .chaos-jello main article {
+        animation: humor-jello 0.85s ease infinite;
+      }
+      @keyframes humor-matrix-glow {
+        0% { filter: hue-rotate(0deg) drop-shadow(0 0 8px #10b981); }
+        50% { filter: hue-rotate(90deg) drop-shadow(0 0 15px #06b6d4); }
+        100% { filter: hue-rotate(0deg) drop-shadow(0 0 8px #10b981); }
+      }
+      .chaos-matrix-active {
+        animation: humor-matrix-glow 2s infinite ease-in-out;
+      }
+      @keyframes humor-vortex {
+        0% { transform: scale(1) rotate(0deg); }
+        50% { transform: scale(0.92) rotate(4deg); }
+        100% { transform: scale(1) rotate(0deg); }
+      }
+      .chaos-vortex-active main {
+        animation: humor-vortex 1.8s ease-in-out infinite;
+      }
+      .noodle-fx-canvas-overlay {
+        position: fixed;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 999990;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+      .noodle-idle-badge {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 999999;
+        background: rgba(15, 13, 26, 0.92);
+        border: 1px solid rgba(192, 132, 252, 0.4);
+        box-shadow: 0 10px 35px rgba(0,0,0,0.8), 0 0 20px rgba(168, 85, 247, 0.35);
+        backdrop-filter: blur(14px);
+        color: #f3f4f6;
+        padding: 8px 18px;
+        border-radius: 9999px;
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        pointer-events: none;
+        animation: fade-in 0.3s ease;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function panicReset(silent = false) {
+    activeEffects.clear();
+    isIdleActive = false;
+
+    if (activeFxAnimId) {
+      cancelAnimationFrame(activeFxAnimId);
+      activeFxAnimId = null;
+    }
+    if (activeFxCleanup) {
+      try { activeFxCleanup(); } catch(e) {}
+      activeFxCleanup = null;
+    }
+
+    document.querySelectorAll('.noodle-fx-canvas-overlay, #humor-fx-canvas').forEach(el => el.remove());
+    document.body.classList.remove('chaos-jello', 'chaos-matrix-active', 'chaos-vortex-active');
+
+    const existingStyle = document.getElementById('humor-chaos-styles');
+    if (existingStyle) existingStyle.remove();
+
+    document.querySelectorAll('.task-card, .glass-card, header, main, main article').forEach(el => {
+      el.style.transform = '';
+      el.style.transition = '';
+      el.style.animation = '';
+    });
+
+    if (!silent && typeof showFloatingToast === 'function') {
+      showFloatingToast('🛡️ Normalität wiederhergestellt! Alle Effekte beendet.', 'info');
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        panicReset();
+      }
+    });
+  }
+
+  // ==========================================================================
+  // 3. EFFECT IMPLEMENTATIONS (Chaos & Visual FX)
+  // ==========================================================================
+  
+  // 1. GRAVITY DROP & BOUNCE
+  function toggleGravity() {
+    injectChaosStyles();
+    SoundFX.boing();
+    const cards = document.querySelectorAll('.task-card, main article > div[draggable="true"]');
+    cards.forEach((card) => {
+      const rot = (Math.random() * 14 - 7).toFixed(1);
+      const transY = (Math.random() * 18 + 8).toFixed(1);
+      card.style.transition = 'transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.35)';
+      card.style.transform = `translateY(${transY}px) rotate(${rot}deg) scale(1.02)`;
+    });
+    activeEffects.add('gravity');
+    setTimeout(() => {
+      cards.forEach(card => {
+        card.style.transform = '';
+      });
+      activeEffects.delete('gravity');
+    }, 3800);
+  }
+
+  // 2. JELLO WOBBLE
+  function toggleJello() {
+    injectChaosStyles();
+    SoundFX.boing();
+    document.body.classList.add('chaos-jello');
+    activeEffects.add('jello');
+    setTimeout(() => {
+      document.body.classList.remove('chaos-jello');
+      activeEffects.delete('jello');
+    }, 3500);
+  }
+
+  // 3. MATRIX CYBER CODE RAIN (Canvas)
+  function toggleMatrix(isIdle = false) {
+    injectChaosStyles();
+    if (!isIdle) SoundFX.sparkle();
+    
+    const canvas = document.createElement('canvas');
+    canvas.id = 'humor-fx-canvas';
+    canvas.className = 'noodle-fx-canvas-overlay';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const letters = '01010101アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン⚡✨NOODLEFLOW⚛';
+    const fontSize = 14;
+    const columns = Math.floor(width / fontSize);
+    const drops = Array(columns).fill(1);
+
+    function drawMatrix() {
+      ctx.fillStyle = 'rgba(10, 8, 20, 0.12)';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = '#00ffaa';
+      ctx.font = `${fontSize}px monospace`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillStyle = i % 3 === 0 ? '#38bdf8' : (i % 2 === 0 ? '#a855f7' : '#10b981');
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+      activeFxAnimId = requestAnimationFrame(drawMatrix);
+    }
+    drawMatrix();
+
+    activeFxCleanup = () => {
+      if (activeFxAnimId) cancelAnimationFrame(activeFxAnimId);
+      canvas.remove();
+    };
+
+    if (!isIdle) {
+      setTimeout(panicReset, 6000);
+    }
+  }
+
+  // 4. VORTEX BLACK HOLE SWIRL
+  function toggleVortex() {
+    injectChaosStyles();
+    SoundFX.whoosh();
+    document.body.classList.add('chaos-vortex-active');
+    activeEffects.add('vortex');
+    setTimeout(() => {
+      document.body.classList.remove('chaos-vortex-active');
+      activeEffects.delete('vortex');
+    }, 4000);
+  }
+
+  // 5. NEON LASER SCANNER
+  function toggleLaser() {
+    injectChaosStyles();
+    SoundFX.laser();
+    const laserEl = document.createElement('div');
+    laserEl.className = 'noodle-fx-canvas-overlay';
+    laserEl.innerHTML = `
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg, transparent, #ec4899, #00f2fe, #a855f7, transparent); box-shadow:0 0 20px #00f2fe, 0 0 40px #ec4899; animation:laser-sweep 2.2s ease-in-out infinite;"></div>
+      <style>
+        @keyframes laser-sweep {
+          0% { top: 0%; opacity: 0.8; }
+          50% { top: 95%; opacity: 1; }
+          100% { top: 0%; opacity: 0.8; }
+        }
+      </style>
+    `;
+    document.body.appendChild(laserEl);
+    activeEffects.add('laser');
+    setTimeout(() => {
+      laserEl.remove();
+      activeEffects.delete('laser');
+    }, 4500);
+  }
+
+  // 6. CONFETTI PARTY BLAST
+  function toggleConfetti() {
+    injectChaosStyles();
+    SoundFX.applause();
+    const canvas = document.createElement('canvas');
+    canvas.id = 'humor-fx-canvas';
+    canvas.className = 'noodle-fx-canvas-overlay';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const colors = ['#f43f5e', '#ec4899', '#d946ef', '#8b5cf6', '#3b82f6', '#06b6d4', '#10b981', '#f59e0b'];
+    const particles = Array.from({ length: 90 }, () => ({
+      x: width * 0.5 + (Math.random() - 0.5) * 200,
+      y: height * 0.6,
+      vx: (Math.random() - 0.5) * 16,
+      vy: -Math.random() * 16 - 8,
+      size: Math.random() * 8 + 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      rotation: Math.random() * 360,
+      vRot: (Math.random() - 0.5) * 10
+    }));
+
+    function renderConfetti() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.45; // gravity
+        p.vx *= 0.98;
+        p.rotation += p.vRot;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rotation * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.6);
+        ctx.restore();
+      });
+      activeFxAnimId = requestAnimationFrame(renderConfetti);
+    }
+    renderConfetti();
+
+    activeFxCleanup = () => {
+      if (activeFxAnimId) cancelAnimationFrame(activeFxAnimId);
+      canvas.remove();
+    };
+    setTimeout(panicReset, 5000);
+  }
+
+  // 7. HYPERSPACE WARP SPEED (3D Stars)
+  function toggleHyperspace(isIdle = false) {
+    injectChaosStyles();
+    if (!isIdle) SoundFX.warp();
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'humor-fx-canvas';
+    canvas.className = 'noodle-fx-canvas-overlay';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const stars = Array.from({ length: 220 }, () => ({
+      x: (Math.random() - 0.5) * width,
+      y: (Math.random() - 0.5) * height,
+      z: Math.random() * width,
+      pz: Math.random() * width
+    }));
+
+    const speed = isIdle ? 10 : 25;
+
+    function renderHyperspace() {
+      ctx.fillStyle = 'rgba(8, 7, 16, 0.25)';
+      ctx.fillRect(0, 0, width, height);
+
+      const cx = width / 2;
+      const cy = height / 2;
+
+      stars.forEach(star => {
+        star.pz = star.z;
+        star.z -= speed;
+        if (star.z <= 0) {
+          star.z = width;
+          star.pz = width;
+          star.x = (Math.random() - 0.5) * width;
+          star.y = (Math.random() - 0.5) * height;
+        }
+
+        const sx = (star.x / star.z) * width + cx;
+        const sy = (star.y / star.z) * width + cy;
+        const px = (star.x / star.pz) * width + cx;
+        const py = (star.y / star.pz) * width + cy;
+
+        ctx.strokeStyle = '#c4b5fd';
+        ctx.lineWidth = Math.min(2.5, (1 - star.z / width) * 3);
+        ctx.beginPath();
+        ctx.moveTo(px, py);
+        ctx.lineTo(sx, sy);
+        ctx.stroke();
+      });
+      activeFxAnimId = requestAnimationFrame(renderHyperspace);
+    }
+    renderHyperspace();
+
+    activeFxCleanup = () => {
+      if (activeFxAnimId) cancelAnimationFrame(activeFxAnimId);
+      canvas.remove();
+    };
+    if (!isIdle) setTimeout(panicReset, 6500);
+  }
+
+  // 8. SOAP BUBBLE STREAM (Floating & Popping)
+  function toggleBubbles(isIdle = false) {
+    injectChaosStyles();
+    if (!isIdle) SoundFX.sparkle();
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'humor-fx-canvas';
+    canvas.className = 'noodle-fx-canvas-overlay';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const bubbles = Array.from({ length: 35 }, () => ({
+      x: Math.random() * width,
+      y: height + Math.random() * 200,
+      r: Math.random() * 24 + 10,
+      vy: -Math.random() * 1.5 - 0.8,
+      vx: (Math.random() - 0.5) * 0.8,
+      color: Math.random() > 0.5 ? 'rgba(236, 72, 153, 0.4)' : 'rgba(147, 51, 234, 0.4)'
+    }));
+
+    function renderBubbles() {
+      ctx.clearRect(0, 0, width, height);
+
+      bubbles.forEach(b => {
+        b.y += b.vy;
+        b.x += b.vx;
+        if (b.y < -50) {
+          b.y = height + 30;
+          b.x = Math.random() * width;
+        }
+
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.fillStyle = b.color;
+        ctx.fill();
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.stroke();
+
+        // Highlight glint
+        ctx.beginPath();
+        ctx.arc(b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.22, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fill();
+      });
+      activeFxAnimId = requestAnimationFrame(renderBubbles);
+    }
+    renderBubbles();
+
+    activeFxCleanup = () => {
+      if (activeFxAnimId) cancelAnimationFrame(activeFxAnimId);
+      canvas.remove();
+    };
+    if (!isIdle) setTimeout(panicReset, 7000);
+  }
+
+  // 9. GOLDEN FIREFLIES DRIFT
+  function toggleFireflies(isIdle = false) {
+    injectChaosStyles();
+    if (!isIdle) SoundFX.sparkle();
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'humor-fx-canvas';
+    canvas.className = 'noodle-fx-canvas-overlay';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const fireflies = Array.from({ length: 45 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 3 + 1.5,
+      angle: Math.random() * Math.PI * 2,
+      speed: Math.random() * 0.8 + 0.3,
+      alpha: Math.random() * 0.6 + 0.4
+    }));
+
+    function renderFireflies() {
+      ctx.clearRect(0, 0, width, height);
+
+      fireflies.forEach(f => {
+        f.angle += (Math.random() - 0.5) * 0.1;
+        f.x += Math.cos(f.angle) * f.speed;
+        f.y += Math.sin(f.angle) * f.speed;
+
+        if (f.x < 0) f.x = width;
+        if (f.x > width) f.x = 0;
+        if (f.y < 0) f.y = height;
+        if (f.y > height) f.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(250, 204, 21, ${f.alpha})`;
+        ctx.shadowColor = '#fde047';
+        ctx.shadowBlur = 12;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      });
+      activeFxAnimId = requestAnimationFrame(renderFireflies);
+    }
+    renderFireflies();
+
+    activeFxCleanup = () => {
+      if (activeFxAnimId) cancelAnimationFrame(activeFxAnimId);
+      canvas.remove();
+    };
+    if (!isIdle) setTimeout(panicReset, 7500);
+  }
+
+  // 10. 80s SYNTHWAVE HORIZON GRID
+  function toggleSynthwave(isIdle = false) {
+    injectChaosStyles();
+    if (!isIdle) SoundFX.laser();
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'humor-fx-canvas';
+    canvas.className = 'noodle-fx-canvas-overlay';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+    let offset = 0;
+
+    function renderSynthwave() {
+      ctx.clearRect(0, 0, width, height);
+
+      const horizonY = height * 0.68;
+
+      // Synthwave sun
+      const sunGradient = ctx.createLinearGradient(0, horizonY - 120, 0, horizonY);
+      sunGradient.addColorStop(0, '#f43f5e');
+      sunGradient.addColorStop(0.5, '#fb923c');
+      sunGradient.addColorStop(1, '#fde047');
+      ctx.fillStyle = sunGradient;
+      ctx.beginPath();
+      ctx.arc(width / 2, horizonY, 80, Math.PI, 0, false);
+      ctx.fill();
+
+      // Horizon line glow
+      ctx.strokeStyle = '#ec4899';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(0, horizonY);
+      ctx.lineTo(width, horizonY);
+      ctx.stroke();
+
+      // Perspective Grid Lines
+      offset = (offset + 1.2) % 30;
+      ctx.strokeStyle = 'rgba(168, 85, 247, 0.45)';
+      ctx.lineWidth = 1.2;
+
+      for (let y = horizonY + offset; y < height; y += (y - horizonY) * 0.35 + 8) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+
+      for (let x = -width; x < width * 2; x += 60) {
+        ctx.beginPath();
+        ctx.moveTo(width / 2, horizonY);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+
+      activeFxAnimId = requestAnimationFrame(renderSynthwave);
+    }
+    renderSynthwave();
+
+    activeFxCleanup = () => {
+      if (activeFxAnimId) cancelAnimationFrame(activeFxAnimId);
+      canvas.remove();
+    };
+    if (!isIdle) setTimeout(panicReset, 7500);
+  }
+
+  // 11. COZY WINTER SNOW
+  function toggleSnow(isIdle = false) {
+    injectChaosStyles();
+    if (!isIdle) SoundFX.sparkle();
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'humor-fx-canvas';
+    canvas.className = 'noodle-fx-canvas-overlay';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const flakes = Array.from({ length: 65 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      r: Math.random() * 3 + 1,
+      vy: Math.random() * 1.2 + 0.5,
+      vx: (Math.random() - 0.5) * 0.6
+    }));
+
+    function renderSnow() {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+
+      flakes.forEach(f => {
+        f.y += f.vy;
+        f.x += f.vx;
+        if (f.y > height) {
+          f.y = -10;
+          f.x = Math.random() * width;
+        }
+
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      activeFxAnimId = requestAnimationFrame(renderSnow);
+    }
+    renderSnow();
+
+    activeFxCleanup = () => {
+      if (activeFxAnimId) cancelAnimationFrame(activeFxAnimId);
+      canvas.remove();
+    };
+    if (!isIdle) setTimeout(panicReset, 7500);
+  }
+
+  // 12. RETRO 8-BIT ARCADE PIXEL DRIFT
+  function toggleArcade(isIdle = false) {
+    injectChaosStyles();
+    if (!isIdle) SoundFX.coin();
+
+    const canvas = document.createElement('canvas');
+    canvas.id = 'humor-fx-canvas';
+    canvas.className = 'noodle-fx-canvas-overlay';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const items = ['💖', '⭐', '🪙', '🍄', '👾', '💎', '🚀'];
+    const particles = Array.from({ length: 24 }, () => ({
+      x: Math.random() * width,
+      y: height + Math.random() * 100,
+      char: items[Math.floor(Math.random() * items.length)],
+      vy: -Math.random() * 1.8 - 0.8,
+      size: Math.floor(Math.random() * 10 + 16)
+    }));
+
+    function renderArcade() {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach(p => {
+        p.y += p.vy;
+        if (p.y < -40) {
+          p.y = height + 20;
+          p.x = Math.random() * width;
+        }
+        ctx.font = `${p.size}px monospace`;
+        ctx.fillText(p.char, p.x, p.y);
+      });
+      activeFxAnimId = requestAnimationFrame(renderArcade);
+    }
+    renderArcade();
+
+    activeFxCleanup = () => {
+      if (activeFxAnimId) cancelAnimationFrame(activeFxAnimId);
+      canvas.remove();
+    };
+    if (!isIdle) setTimeout(panicReset, 6500);
+  }
+
+  // ==========================================================================
+  // 4. 1-MINUTE IDLE AUTO-SCREENSAVER ENGINE
+  // ==========================================================================
+  const IDLE_FX_POOL = [
+    toggleHyperspace,
+    toggleBubbles,
+    toggleFireflies,
+    toggleSynthwave,
+    toggleSnow,
+    toggleMatrix,
+    toggleArcade
+  ];
+
+  function isIdleEnabled() {
+    try {
+      const stored = localStorage.getItem('noodle_idle_fx_enabled');
+      return stored !== 'false';
+    } catch(e) {
+      return true;
+    }
+  }
+
+  function toggleIdleSetting(enabled) {
+    try {
+      localStorage.setItem('noodle_idle_fx_enabled', enabled ? 'true' : 'false');
+      renderHumorPanel();
+    } catch(e) {}
+  }
+
+  function startIdleFX() {
+    if (isIdleActive || !isIdleEnabled()) return;
+    isIdleActive = true;
+
+    // Zufälligen Effekt auswählen - rein visuell, absolut lautlos und ohne Nachrichten
+    const randomFx = IDLE_FX_POOL[Math.floor(Math.random() * IDLE_FX_POOL.length)];
+    randomFx(true);
+  }
+
+  function dismissIdleFX() {
+    if (!isIdleActive) return;
+    panicReset(true); // Lautlos beenden ohne Toasts
+  }
+
+  function resetIdleTimer() {
+    if (isIdleActive) {
+      dismissIdleFX();
+    }
+    if (idleTimer) clearTimeout(idleTimer);
+    if (isIdleEnabled()) {
+      idleTimer = setTimeout(startIdleFX, IDLE_TIMEOUT_MS);
+    }
+  }
+
+  // Registriere alle Benutzeraktivitäten für sofortigen Wakeup & Timer-Reset
+  if (typeof window !== 'undefined') {
+    const activityEvents = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'pointermove', 'wheel', 'scroll'];
+    activityEvents.forEach(evt => {
+      window.addEventListener(evt, resetIdleTimer, { passive: true });
+    });
+    // Start initial timer
+    resetIdleTimer();
+  }
+
+  // ==========================================================================
+  // 5. BUBBLE WRAP POPPER
+  // ==========================================================================
+  function popBubble(index) {
+    if (bubbleGridState[index]) return;
+    bubbleGridState[index] = true;
+    const pitch = 450 + Math.random() * 300;
+    SoundFX.pop(pitch);
+    const btn = document.getElementById(`bubble-pop-${index}`);
+    if (btn) {
+      btn.classList.remove('bg-purple-500/30', 'hover:bg-purple-500/50', 'border-purple-400/40');
+      btn.classList.add('bg-white/5', 'border-white/10', 'scale-90', 'opacity-40');
+      btn.innerHTML = '💥';
+    }
+
+    if (bubbleGridState.every(b => b === true)) {
+      SoundFX.applause();
+      setTimeout(resetBubbles, 1200);
+    }
+  }
+
+  function resetBubbles() {
+    bubbleGridState = Array(20).fill(false);
+    renderHumorPanel();
+  }
+
+  // ==========================================================================
+  // 6. TASK ROASTER & DECISION SPINNER
+  // ==========================================================================
+  function roastRandomTask() {
+    SoundFX.airhorn();
+    const roastBox = document.getElementById('humor-roast-output');
+    if (!roastBox) return;
+    const randomRoast = ROAST_TEMPLATES[Math.floor(Math.random() * ROAST_TEMPLATES.length)];
+    roastBox.textContent = randomRoast;
+    roastBox.classList.add('animate-bounce');
+    setTimeout(() => roastBox.classList.remove('animate-bounce'), 800);
+  }
+
+  function spinDecision() {
+    SoundFX.sparkle();
+    const decisionBox = document.getElementById('humor-decision-output');
+    if (!decisionBox) return;
+    const randomDec = DECISIONS[Math.floor(Math.random() * DECISIONS.length)];
+    decisionBox.textContent = randomDec;
+    decisionBox.classList.add('animate-pulse');
+    setTimeout(() => decisionBox.classList.remove('animate-pulse'), 1000);
+  }
+
+  function nextJoke() {
+    SoundFX.rimshot();
+    currentJokeIndex = (currentJokeIndex + 1) % JOKES.length;
+    const joke = JOKES[currentJokeIndex];
+    const qEl = document.getElementById('humor-joke-q');
+    const aEl = document.getElementById('humor-joke-a');
+    if (qEl && aEl) {
+      qEl.textContent = joke.q;
+      aEl.textContent = joke.a;
+    }
+  }
+
+  // ==========================================================================
+  // 7. PANEL RENDERER
+  // ==========================================================================
+  function renderHumorPanel() {
+    const container = document.getElementById('panel-humor-lab-content');
+    if (!container) return;
+
+    const currentJoke = JOKES[currentJokeIndex];
+    const idleActive = isIdleEnabled();
+
+    let bubblesHtml = '';
+    for (let i = 0; i < 20; i++) {
+      const popped = bubbleGridState[i];
+      bubblesHtml += `
+        <button id="bubble-pop-${i}" onclick="HumorEngine.popBubble(${i})" class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] transition-all duration-150 cursor-pointer ${
+          popped 
+            ? 'bg-white/5 border border-white/10 scale-90 opacity-40' 
+            : 'bg-gradient-to-br from-pink-500/40 to-purple-600/40 hover:from-pink-500/60 hover:to-purple-600/60 border border-pink-400/50 shadow-[0_0_8px_rgba(236,72,153,0.3)] active:scale-75'
+        }">
+          ${popped ? '💥' : '🫧'}
+        </button>
+      `;
+    }
+
+    container.innerHTML = `
+      <!-- TOP HEADER -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500/30 to-purple-600/30 border border-pink-400/40 flex items-center justify-center text-pink-300 shadow-md">
+            <span>😄</span>
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-white font-display leading-tight">Fun & Chaos Studio</h3>
+            <span class="text-[10px] text-gray-400 font-mono">12+ Live FX • 1-Min Screensaver • Soundboard</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1">
+          <button onclick="HumorEngine.panicReset()" class="px-2 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[10px] font-bold transition cursor-pointer" title="Notfall-Reset: Alle Effekte sofort beenden">
+            🛡️ Panic Reset [ESC]
+          </button>
+          <button onclick="togglePanel('humor-lab')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
+        </div>
+      </div>
+
+      <!-- 1. AMBIENT SCREENSAVER BANNER -->
+      <div class="p-2.5 rounded-2xl bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-purple-900/30 border border-purple-500/30 flex items-center justify-between gap-2 shadow-sm">
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="text-lg">🌌</span>
+          <div>
+            <div class="text-xs font-bold text-purple-200">Inaktivitäts-Ambient FX</div>
+            <div class="text-[9px] text-gray-400 font-mono">Startet nach 1 Minute Ruhe, endet lautlos bei Bewegung</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <button onclick="HumorEngine.startIdleFX()" class="px-2.5 py-1 rounded-xl bg-purple-500/30 hover:bg-purple-500/50 text-purple-200 text-[10px] font-bold border border-purple-400/40 transition cursor-pointer" title="Jetzt ausprobieren">
+            ✨ Testen
+          </button>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" onchange="HumorEngine.toggleIdleSetting(this.checked)" ${idleActive ? 'checked' : ''} class="sr-only peer">
+            <div class="w-8 h-4 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3.5 after:transition-all peer-checked:bg-purple-500"></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 2. CHAOS & LIVE ACTION FX -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
+          <span>⚡ Chaos & Action FX</span>
+          <span class="text-[9px] text-gray-400">Interaktiv</span>
+        </div>
+        <div class="grid grid-cols-3 gap-1.5">
+          <button onclick="HumorEngine.toggleGravity()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Schwerkraft-Drop & Bounce">
+            <span class="text-base">🪐</span>
+            <span class="truncate mt-0.5">Gravity Drop</span>
+          </button>
+          <button onclick="HumorEngine.toggleJello()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Wobble Jello Wellen">
+            <span class="text-base">🍮</span>
+            <span class="truncate mt-0.5">Jello Wobble</span>
+          </button>
+          <button onclick="HumorEngine.toggleMatrix()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Cyberpunk Code Regen">
+            <span class="text-base">🕶️</span>
+            <span class="truncate mt-0.5">Matrix Rain</span>
+          </button>
+          <button onclick="HumorEngine.toggleVortex()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-indigo-300 hover:text-indigo-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Schwarzes Loch Wirbel">
+            <span class="text-base">🌀</span>
+            <span class="truncate mt-0.5">Vortex Swirl</span>
+          </button>
+          <button onclick="HumorEngine.toggleLaser()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-cyan-300 hover:text-cyan-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Neon DJ Laser Scanner">
+            <span class="text-base">⚡</span>
+            <span class="truncate mt-0.5">Laser DJ</span>
+          </button>
+          <button onclick="HumorEngine.toggleConfetti()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-amber-300 hover:text-amber-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Konfetti Party Explosion">
+            <span class="text-base">🎊</span>
+            <span class="truncate mt-0.5">Party Blast</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. AMBIENT & IDLE FLOW SCREENSAVERS -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-purple-300 font-mono px-0.5">
+          <span>🌌 Ambient & Screensaver FX</span>
+          <span class="text-[9px] text-gray-400">Ruhe & Ästhetik</span>
+        </div>
+        <div class="grid grid-cols-3 gap-1.5">
+          <button onclick="HumorEngine.toggleHyperspace()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-violet-300 hover:text-violet-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="3D Hyperspace Sternenflug">
+            <span class="text-base">🌌</span>
+            <span class="truncate mt-0.5">Hyperspace</span>
+          </button>
+          <button onclick="HumorEngine.toggleBubbles()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-pink-300 hover:text-pink-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Schwebende Seifenblasen">
+            <span class="text-base">🫧</span>
+            <span class="truncate mt-0.5">Bubbles</span>
+          </button>
+          <button onclick="HumorEngine.toggleFireflies()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-yellow-300 hover:text-yellow-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Glühende Glühwürmchen">
+            <span class="text-base">🔥</span>
+            <span class="truncate mt-0.5">Fireflies</span>
+          </button>
+          <button onclick="HumorEngine.toggleSynthwave()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-rose-300 hover:text-rose-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="80s Retro Synthwave Gitter">
+            <span class="text-base">🌊</span>
+            <span class="truncate mt-0.5">Synthwave</span>
+          </button>
+          <button onclick="HumorEngine.toggleSnow()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-sky-300 hover:text-sky-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Sanfter Schneefall">
+            <span class="text-base">❄️</span>
+            <span class="truncate mt-0.5">Winter Snow</span>
+          </button>
+          <button onclick="HumorEngine.toggleArcade()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Retro 8-Bit Pixel Items">
+            <span class="text-base">👾</span>
+            <span class="truncate mt-0.5">Arcade Pixel</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 4. SOUNDBOARD BUTTONS -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
+          <span>🔊 Synthesizer Soundboard</span>
+        </div>
+        <div class="grid grid-cols-4 gap-1.5">
+          <button onclick="HumorEngine.playSound('airhorn')" class="p-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
+            <span>📯</span>
+            <span class="truncate">Airhorn</span>
+          </button>
+          <button onclick="HumorEngine.playSound('applause')" class="p-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 text-emerald-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
+            <span>👏</span>
+            <span class="truncate">Applaus</span>
+          </button>
+          <button onclick="HumorEngine.playSound('rimshot')" class="p-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 border border-purple-500/40 text-purple-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
+            <span>🥁</span>
+            <span class="truncate">Badum</span>
+          </button>
+          <button onclick="HumorEngine.playSound('fail')" class="p-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-rose-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
+            <span>🎺</span>
+            <span class="truncate">Fail</span>
+          </button>
+          <button onclick="HumorEngine.playSound('laser')" class="p-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-500/40 text-cyan-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
+            <span>⚡</span>
+            <span class="truncate">Laser</span>
+          </button>
+          <button onclick="HumorEngine.playSound('coin')" class="p-1.5 rounded-xl bg-yellow-500/20 hover:bg-yellow-500/35 border border-yellow-500/40 text-yellow-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
+            <span>🪙</span>
+            <span class="truncate">Coin</span>
+          </button>
+          <button onclick="HumorEngine.playSound('boing')" class="p-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/35 border border-blue-500/40 text-blue-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
+            <span>🦘</span>
+            <span class="truncate">Boing</span>
+          </button>
+          <button onclick="HumorEngine.playSound('sparkle')" class="p-1.5 rounded-xl bg-pink-500/20 hover:bg-pink-500/35 border border-pink-500/40 text-pink-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
+            <span>✨</span>
+            <span class="truncate">Level Up</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 5. BUBBLE WRAP POPPER & DECISION SPINNER -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <!-- Bubble Wrap Popper -->
+        <div class="p-2.5 rounded-2xl bg-pink-500/5 border border-pink-500/20 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold text-pink-300 uppercase tracking-wider font-mono">🫧 Luftpolsterfolie</span>
+            <button onclick="HumorEngine.resetBubbles()" class="text-[9px] text-pink-300 hover:text-pink-100 font-bold underline cursor-pointer">Neu</button>
+          </div>
+          <div class="flex flex-wrap gap-1 items-center justify-center max-h-[64px] overflow-hidden">
+            ${bubblesHtml}
+          </div>
+        </div>
+
+        <!-- Task Roaster / Decision -->
+        <div class="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1.5 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold text-purple-300 uppercase tracking-wider font-mono">🎯 Impuls & Würfel</span>
+            <button onclick="HumorEngine.spinDecision()" class="px-2 py-0.5 rounded-lg bg-purple-500/30 hover:bg-purple-500/40 text-purple-200 text-[10px] font-bold transition cursor-pointer">
+              Würfeln 🎲
+            </button>
+          </div>
+          <div id="humor-decision-output" class="p-1.5 rounded-xl bg-black/40 border border-purple-500/20 text-[11px] text-purple-200 font-medium min-h-[34px] flex items-center justify-center text-center">
+            Klicke auf Würfeln für einen Impuls!
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. JOKE BOX FOOTER -->
+      <div class="p-2.5 rounded-2xl bg-white/[0.02] border border-white/8 space-y-1 flex items-center justify-between gap-2">
+        <div class="min-w-0 flex-1">
+          <div id="humor-joke-q" class="text-xs font-bold text-white truncate">${currentJoke.q}</div>
+          <div id="humor-joke-a" class="text-[11px] text-pink-300/90 truncate">${currentJoke.a}</div>
+        </div>
+        <button onclick="HumorEngine.nextJoke()" class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-bold shrink-0 transition cursor-pointer">
+          Nächster Witz 😂
+        </button>
+      </div>
+    `;
+
+    if (typeof window.lucide !== 'undefined' && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+  }
+
+  const HumorEngine = {
+    playSound: function(type) {
+      if (SoundFX[type]) SoundFX[type]();
+    },
+    popBubble,
+    resetBubbles,
+    roastTask: roastRandomTask,
+    spinDecision,
+    nextJoke,
+    toggleGravity,
+    toggleJello,
+    toggleMatrix,
+    toggleVortex,
+    toggleLaser,
+    toggleConfetti,
+    toggleHyperspace,
+    toggleBubbles,
+    toggleFireflies,
+    toggleSynthwave,
+    toggleSnow,
+    toggleArcade,
+    startIdleFX,
+    toggleIdleSetting,
+    panicReset,
+    renderHumorPanel
+  };
+
+  if (typeof window !== 'undefined') {
+    window.HumorEngine = HumorEngine;
+  }
+  if (typeof globalThis !== 'undefined') {
+    globalThis.HumorEngine = HumorEngine;
+  }
+})();
+
+
 /* --- app-shopping.js --- */
-// app-shopping.js: Umfassende Smart Shopping Suite mit Gängen, Mengen, Quick-Chips & Supermarkt-Modus
+// app-shopping.js: Umfassende Smart Shopping Suite mit Gängen, Discounter-Hub & Smart Deal-Radar
 
 const SHOPPING_DEPARTMENTS = {
   produce: {
@@ -29828,6 +33451,151 @@ const QUICK_ESSENTIALS = {
   el: ['🥛 Γάλα', '🥚 Αυγά', '🍞 Ψωμί', '🧈 Βούτυρο', '🍎 Μήλα', '🍌 Μπανάνες', '☕ Καφές', '🍝 Ζυμαρικά', '🧅 Κρεμμύδια', '🧀 Τυρί']
 };
 
+// -------------------------------------------------------------
+// DISCOUNTER & DEALS ENGINE (STORES & LIVE CATALOG)
+// -------------------------------------------------------------
+const DISCOUNT_STORES = {
+  aldi: { name: 'Aldi', color: '#0284c7', bg: 'bg-sky-500/15', border: 'border-sky-500/40', text: 'text-sky-300', icon: 'shopping-bag', badge: 'Aldi Süd/Nord' },
+  lidl: { name: 'Lidl', color: '#eab308', bg: 'bg-yellow-500/15', border: 'border-yellow-500/40', text: 'text-yellow-300', icon: 'percent', badge: 'Lidl Plus' },
+  rewe: { name: 'Rewe', color: '#dc2626', bg: 'bg-red-500/15', border: 'border-red-500/40', text: 'text-red-300', icon: 'tag', badge: 'Rewe Beste Wahl' },
+  penny: { name: 'Penny', color: '#ea580c', bg: 'bg-orange-500/15', border: 'border-orange-500/40', text: 'text-orange-300', icon: 'flame', badge: 'Penny Knüller' },
+  kaufland: { name: 'Kaufland', color: '#9333ea', bg: 'bg-purple-500/15', border: 'border-purple-500/40', text: 'text-purple-300', icon: 'award', badge: 'Kaufland Card' },
+  edeka: { name: 'Edeka', color: '#16a34a', bg: 'bg-emerald-500/15', border: 'border-emerald-500/40', text: 'text-emerald-300', icon: 'heart', badge: 'Gut & Günstig' }
+};
+
+const DEFAULT_DISCOUNT_DEALS = [
+  { id: 'deal-aldi-01', store: 'aldi', name: 'Bio Vollmilch 3.8%', originalPrice: 1.49, price: 1.09, discountPct: 27, unit: '1 L', dept: 'dairy', badge: 'Bio Hit', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-02', store: 'aldi', name: 'Deutsche Markenbutter', originalPrice: 2.29, price: 1.39, discountPct: 39, unit: '250 g', dept: 'dairy', badge: 'Super-Knüller', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-03', store: 'aldi', name: 'Bananen Bio Fairtrade', originalPrice: 1.99, price: 1.29, discountPct: 35, unit: '1 kg', dept: 'produce', badge: 'Fairtrade', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-04', store: 'aldi', name: 'Natives Olivenöl Extra', originalPrice: 8.99, price: 5.99, discountPct: 33, unit: '750 ml', dept: 'pantry', badge: 'Aktion', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-05', store: 'aldi', name: 'Lachsfilet frisch mit Haut', originalPrice: 5.99, price: 4.29, discountPct: 28, unit: '300 g', dept: 'meat', badge: 'Frische-Tipp', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-06', store: 'aldi', name: 'Haferflocken Zart & Kernig', originalPrice: 0.79, price: 0.49, discountPct: 38, unit: '500 g', dept: 'bakery', badge: 'Dauer-Günstig', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-lidl-01', store: 'lidl', name: 'Barista Hafermilch Ungesüßt', originalPrice: 1.89, price: 1.19, discountPct: 37, unit: '1 L', dept: 'dairy', badge: 'Lidl Plus', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-02', store: 'lidl', name: 'Gouda jung in Scheiben', originalPrice: 2.69, price: 1.69, discountPct: 37, unit: '400 g', dept: 'dairy', badge: 'XXL Packung', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-03', store: 'lidl', name: 'Avocados Ready-to-Eat', originalPrice: 2.49, price: 1.49, discountPct: 40, unit: '2er Pack', dept: 'produce', badge: 'Knaller', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-04', store: 'lidl', name: 'Lavazza Crema e Aroma Bohnen', originalPrice: 14.99, price: 9.99, discountPct: 33, unit: '1 kg', dept: 'drinks', badge: 'Marken-Highlight', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-05', store: 'lidl', name: 'Hähnchen-Brustfilet Teilstücke', originalPrice: 7.49, price: 4.99, discountPct: 33, unit: '600 g', dept: 'meat', badge: 'Frische-Hit', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-06', store: 'lidl', name: 'Italienische Pasta Spaghetti & Penne', originalPrice: 1.19, price: 0.69, discountPct: 42, unit: '500 g', dept: 'bakery', badge: '42% Sparen', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-rewe-01', store: 'rewe', name: 'Kerrygold Original Irische Butter', originalPrice: 3.29, price: 1.99, discountPct: 40, unit: '250 g', dept: 'dairy', badge: 'Wochen-Knüller', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-rewe-02', store: 'rewe', name: 'Barilla Pasta Sorten', originalPrice: 1.99, price: 0.88, discountPct: 56, unit: '500 g', dept: 'bakery', badge: 'Top Sparpreis', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-rewe-03', store: 'rewe', name: 'Jacobs Krönung Kaffee gemahlen', originalPrice: 6.99, price: 4.44, discountPct: 36, unit: '500 g', dept: 'drinks', badge: 'Kaffee-Hit', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-rewe-04', store: 'rewe', name: 'Bio Freilandeier Gr. M/L', originalPrice: 3.29, price: 2.49, discountPct: 24, unit: '10er Pack', dept: 'dairy', badge: 'Bio Region', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-rewe-05', store: 'rewe', name: 'Bio Gurken aus Deutschland', originalPrice: 1.49, price: 0.79, discountPct: 47, unit: '1 Stück', dept: 'produce', badge: 'Lokal & Bio', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-penny-01', store: 'penny', name: 'Ritter Sport Bunte Vielfalt', originalPrice: 1.49, price: 0.88, discountPct: 41, unit: '100 g', dept: 'pantry', badge: 'Penny Knüller', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-penny-02', store: 'penny', name: 'Speisekartoffeln festkochend', originalPrice: 3.49, price: 1.99, discountPct: 43, unit: '2.5 kg', dept: 'produce', badge: 'Sack-Preis', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-penny-03', store: 'penny', name: 'Coca-Cola / Fanta / Sprite', originalPrice: 1.49, price: 0.99, discountPct: 34, unit: '1.25 L', dept: 'drinks', badge: 'Erfrischung', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-penny-04', store: 'penny', name: 'Toilettenpapier 3-lagig sanft', originalPrice: 4.29, price: 2.99, discountPct: 30, unit: '10x 200 Blatt', dept: 'household', badge: 'Haushalts-Hit', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-kaufland-01', store: 'kaufland', name: 'Gemischtes Hackfleisch Rind & Schwein', originalPrice: 5.49, price: 3.49, discountPct: 36, unit: '500 g', dept: 'meat', badge: 'Kaufland Card', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-kaufland-02', store: 'kaufland', name: 'Äpfel Gala / Elstar Tafeläpfel', originalPrice: 2.99, price: 1.59, discountPct: 47, unit: '1 kg', dept: 'produce', badge: 'Knack-Frisch', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-kaufland-03', store: 'kaufland', name: 'Dallmayr Prodomo Spitzenkaffee', originalPrice: 7.49, price: 4.99, discountPct: 33, unit: '500 g', dept: 'drinks', badge: 'Kaffee des Monats', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-edeka-01', store: 'edeka', name: 'Mozzarella di Bufala Campana', originalPrice: 2.49, price: 1.49, discountPct: 40, unit: '125 g', dept: 'dairy', badge: 'Gourmet Deal', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-edeka-02', store: 'edeka', name: 'Bio Rispen-Tomaten aromatisch', originalPrice: 2.99, price: 1.79, discountPct: 40, unit: '500 g', dept: 'produce', badge: 'Bio Qualität', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-edeka-03', store: 'edeka', name: 'Pesto Alla Genovese Barilla', originalPrice: 3.29, price: 1.99, discountPct: 39, unit: '190 g', dept: 'pantry', badge: 'Genuss-Hit', validUntil: 'Sa. diese Woche' }
+];
+
+let globalDiscountDeals = [...DEFAULT_DISCOUNT_DEALS];
+let activeDiscountStore = 'all';
+let activeDiscountSearch = '';
+let activeShoppingTab = 'list'; // 'list' or 'deals'
+
+async function fetchLiveDiscounterDeals() {
+  if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
+    // Auf file:// Protokoll blockieren Browser CORS-Fetches auf lokale Dateien.
+    // Direkt die eingebetteten Standard-Deals nutzen ohne Fehlermeldung.
+    return;
+  }
+  try {
+    const res = await fetch('api/discounts.php', { cache: 'no-cache' });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.deals) && data.deals.length > 0) {
+        globalDiscountDeals = data.deals;
+        if (typeof renderDiscounterDeals === 'function') {
+          renderDiscounterDeals();
+        }
+      }
+    }
+  } catch (err) {
+    // Graceful offline fallback to DEFAULT_DISCOUNT_DEALS
+  }
+}
+
+// -------------------------------------------------------------
+// SMART DEAL-RADAR & MATCHING ENGINE
+// -------------------------------------------------------------
+function findBestDealForShoppingItem(name) {
+  if (!name || typeof name !== 'string') return null;
+  const clean = name.toLowerCase().replace(/[^a-z0-9äöüß]/gi, ' ').trim();
+  const words = clean.split(/\s+/).filter(w => w.length > 2 && !['ein', 'eine', 'packung', 'dose', 'glas', 'stk', 'liter'].includes(w));
+
+  let bestMatch = null;
+  let highestScore = 0;
+
+  globalDiscountDeals.forEach(deal => {
+    const dealClean = deal.name.toLowerCase();
+    let score = 0;
+
+    // Exact or direct inclusion match
+    if (dealClean.includes(clean) || clean.includes(dealClean)) {
+      score += 10;
+    }
+
+    // Word matches
+    words.forEach(w => {
+      if (dealClean.includes(w)) {
+        score += 3;
+      }
+    });
+
+    // Special item mapping
+    if ((clean.includes('milch') || clean.includes('hafer')) && (dealClean.includes('milch') || dealClean.includes('hafer'))) score += 5;
+    if (clean.includes('butter') && dealClean.includes('butter')) score += 5;
+    if ((clean.includes('pasta') || clean.includes('nudel') || clean.includes('spaghetti')) && (dealClean.includes('pasta') || dealClean.includes('spaghetti'))) score += 5;
+    if (clean.includes('kaffee') && (dealClean.includes('kaffee') || dealClean.includes('lavazza') || dealClean.includes('dallmayr') || dealClean.includes('jacobs'))) score += 5;
+    if (clean.includes('ei') && dealClean.includes('eier')) score += 5;
+    if (clean.includes('apfel') && dealClean.includes('äpfel')) score += 5;
+    if (clean.includes('banan') && dealClean.includes('banan')) score += 5;
+    if (clean.includes('hack') && dealClean.includes('hack')) score += 5;
+    if (clean.includes('lachs') && dealClean.includes('lachs')) score += 5;
+    if (clean.includes('käse') && dealClean.includes('gouda')) score += 4;
+    if (clean.includes('öl') && dealClean.includes('olivenöl')) score += 5;
+
+    if (score > highestScore && score >= 4) {
+      highestScore = score;
+      bestMatch = deal;
+    }
+  });
+
+  if (!bestMatch) return null;
+
+  const storeInfo = DISCOUNT_STORES[bestMatch.store] || { name: bestMatch.store, color: '#10b981', text: 'text-emerald-300' };
+  const savings = ((bestMatch.originalPrice || 0) - (bestMatch.price || 0)).toFixed(2);
+
+  return {
+    deal: bestMatch,
+    storeInfo,
+    savings,
+    discountPct: bestMatch.discountPct || Math.round(((bestMatch.originalPrice - bestMatch.price) / bestMatch.originalPrice) * 100)
+  };
+}
+
+function getShoppingListRadarMatches() {
+  const list = state.shoppingList || [];
+  const matches = [];
+  list.forEach((item, idx) => {
+    const match = findBestDealForShoppingItem(item.name);
+    if (match) {
+      matches.push({ itemIndex: idx, item, ...match });
+    }
+  });
+  return matches;
+}
+
 function getDepartmentForItem(name) {
   if (!name) return 'other';
   const clean = name.toLowerCase().trim();
@@ -29842,7 +33610,45 @@ function getDepartmentForItem(name) {
 window.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
 window.getDepartmentForItem = getDepartmentForItem;
 
-function handleAddShoppingItem(explicitName = null) {
+// -------------------------------------------------------------
+// TAB SWITCHER: [ LISTE ] vs [ DISCOUNTER-DEALS ]
+// -------------------------------------------------------------
+function switchShoppingTab(tabName) {
+  activeShoppingTab = tabName;
+  const listPane = document.getElementById('shopping-pane-list');
+  const dealsPane = document.getElementById('shopping-pane-deals');
+  const btnList = document.getElementById('shopping-tab-btn-list');
+  const btnDeals = document.getElementById('shopping-tab-btn-deals');
+
+  if (tabName === 'deals') {
+    if (listPane) listPane.classList.add('hidden');
+    if (dealsPane) dealsPane.classList.remove('hidden');
+    if (btnList) {
+      btnList.className = 'flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
+    }
+    if (btnDeals) {
+      btnDeals.className = 'flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer';
+    }
+    renderDiscounterDeals();
+  } else {
+    if (listPane) listPane.classList.remove('hidden');
+    if (dealsPane) dealsPane.classList.add('hidden');
+    if (btnList) {
+      btnList.className = 'flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer';
+    }
+    if (btnDeals) {
+      btnDeals.className = 'flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
+    }
+    updateShoppingListPopup();
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+window.switchShoppingTab = switchShoppingTab;
+
+// -------------------------------------------------------------
+// ADDING & MODIFYING ITEMS
+// -------------------------------------------------------------
+function handleAddShoppingItem(explicitName = null, options = {}) {
   let rawInput = explicitName;
   if (!rawInput) {
     const inputEl = document.getElementById('shop-add-name') || document.getElementById('supermarket-add-input');
@@ -29865,29 +33671,29 @@ function handleAddShoppingItem(explicitName = null) {
   saveHistory();
   if (!Array.isArray(state.shoppingList)) state.shoppingList = [];
 
-  // Bulk-Splitter: Komma oder Zeilenumbruch
   const itemsToAdd = rawInput.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
 
   itemsToAdd.forEach(text => {
-    // Check if quantity is mentioned e.g. "2x Milch" or "500g Pasta" or "3 Äpfel"
     let name = text;
-    let qty = 1;
-    let unit = '';
+    let qty = options.qty || 1;
+    let unit = options.unit || '';
 
-    const qtyMatch = text.match(/^(\d+)\s*(x|kg|g|l|ml|bund|stk|packung|dose|gläser|glas)?\s+(.+)$/i);
-    if (qtyMatch) {
-      qty = parseInt(qtyMatch[1], 10) || 1;
-      unit = qtyMatch[2] || '';
-      name = qtyMatch[3].trim();
+    if (!options.qty) {
+      const qtyMatch = text.match(/^(\d+)\s*(x|kg|g|l|ml|bund|stk|packung|dose|gläser|glas)?\s+(.+)$/i);
+      if (qtyMatch) {
+        qty = parseInt(qtyMatch[1], 10) || 1;
+        unit = qtyMatch[2] || '';
+        name = qtyMatch[3].trim();
+      }
     }
 
-    const dept = getDepartmentForItem(name);
+    const dept = options.dept || getDepartmentForItem(name);
 
-    // Prüfen ob bereits vorhanden -> dann Menge erhöhen
     const existingIndex = state.shoppingList.findIndex(item => item.name.toLowerCase() === name.toLowerCase());
     if (existingIndex !== -1) {
       state.shoppingList[existingIndex].qty = (state.shoppingList[existingIndex].qty || 1) + qty;
       if (unit) state.shoppingList[existingIndex].unit = unit;
+      if (options.dealInfo) state.shoppingList[existingIndex].dealInfo = options.dealInfo;
     } else {
       state.shoppingList.push({
         id: 'shop-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
@@ -29895,6 +33701,7 @@ function handleAddShoppingItem(explicitName = null) {
         qty,
         unit,
         dept,
+        dealInfo: options.dealInfo || null,
         addedAt: new Date().toISOString()
       });
     }
@@ -29924,6 +33731,57 @@ function handleAddShoppingItem(explicitName = null) {
     }));
   }
 }
+
+function addDealToShoppingList(dealId) {
+  const deal = globalDiscountDeals.find(d => d.id === dealId);
+  if (!deal) return;
+
+  const storeInfo = DISCOUNT_STORES[deal.store] || { name: deal.store };
+  const dealName = `${deal.name} (${storeInfo.name})`;
+
+  handleAddShoppingItem(dealName, {
+    qty: 1,
+    unit: deal.unit || '',
+    dept: deal.dept || getDepartmentForItem(deal.name),
+    dealInfo: {
+      id: deal.id,
+      store: deal.store,
+      storeName: storeInfo.name,
+      price: deal.price,
+      originalPrice: deal.originalPrice,
+      discountPct: deal.discountPct
+    }
+  });
+
+  if (typeof triggerCelebration === 'function') triggerCelebration();
+  showToast(`🏷️ ${deal.name} (${deal.price.toFixed(2)} € bei ${storeInfo.name}) auf Liste gesetzt! 🎉`);
+}
+window.addDealToShoppingList = addDealToShoppingList;
+
+function applyDealToShoppingItem(itemIndex, dealId) {
+  if (!state.shoppingList || !state.shoppingList[itemIndex]) return;
+  const deal = globalDiscountDeals.find(d => d.id === dealId);
+  if (!deal) return;
+
+  saveHistory();
+  const storeInfo = DISCOUNT_STORES[deal.store] || { name: deal.store };
+  state.shoppingList[itemIndex].name = `${deal.name} (${storeInfo.name})`;
+  state.shoppingList[itemIndex].dept = deal.dept || getDepartmentForItem(deal.name);
+  state.shoppingList[itemIndex].dealInfo = {
+    id: deal.id,
+    store: deal.store,
+    storeName: storeInfo.name,
+    price: deal.price,
+    originalPrice: deal.originalPrice,
+    discountPct: deal.discountPct
+  };
+
+  saveState();
+  renderApp();
+  renderSupermarketModal();
+  showToast(`✨ Deal angewendet: ${deal.name} (${deal.price.toFixed(2)} €) bei ${storeInfo.name}!`);
+}
+window.applyDealToShoppingItem = applyDealToShoppingItem;
 
 function adjustShoppingItemQty(index, delta) {
   if (!state.shoppingList || !state.shoppingList[index]) return;
@@ -29976,6 +33834,7 @@ function handleToggleShoppingItem(index) {
     qty: item.qty || 1,
     unit: item.unit || '',
     dept: item.dept || 'other',
+    dealInfo: item.dealInfo || null,
     date: todayStr
   });
 
@@ -29998,7 +33857,7 @@ function restoreShoppingHistoryItem(historyIndex) {
   if (!state.shoppingHistory || !state.shoppingHistory[historyIndex]) return;
   saveHistory();
   const hItem = state.shoppingHistory.splice(historyIndex, 1)[0];
-  handleAddShoppingItem(hItem.name);
+  handleAddShoppingItem(hItem.name, { qty: hItem.qty, unit: hItem.unit, dept: hItem.dept, dealInfo: hItem.dealInfo });
 }
 
 function toggleShoppingHistory() {
@@ -30078,7 +33937,7 @@ function addIngredientsToShoppingList(ingredients, recipeTitle = '') {
   if (typeof triggerCelebration === 'function') triggerCelebration();
   showToast(tr({
     de: `${count} Zutaten zu deiner Einkaufsliste hinzugefügt! 🛒`,
-    en: `Added ${count} ingredients to shopping list! 🛒`,
+    en: `${count} ingredients to shopping list! 🛒`,
     fr: `${count} ingrédients ajoutés à la liste de courses ! 🛒`,
     it: `${count} ingredienti aggiunti alla lista della spesa! 🛒`,
     es: `¡${count} ingredientes añadidos a la lista! 🛒`,
@@ -30087,11 +33946,136 @@ function addIngredientsToShoppingList(ingredients, recipeTitle = '') {
 }
 
 // -------------------------------------------------------------
-// DOCK POPUP UI RENDERING
+// DISCOUNTER HUB RENDERING (DEALS TAB)
+// -------------------------------------------------------------
+function filterDiscounterDeals(storeKey) {
+  activeDiscountStore = storeKey;
+  renderDiscounterDeals();
+}
+window.filterDiscounterDeals = filterDiscounterDeals;
+
+function searchDiscounterDeals(query) {
+  activeDiscountSearch = query.toLowerCase().trim();
+  renderDiscounterDeals();
+}
+window.searchDiscounterDeals = searchDiscounterDeals;
+
+function renderDiscounterDeals() {
+  const container = document.getElementById('discounter-deals-container');
+  if (!container) return;
+
+  const filtered = globalDiscountDeals.filter(deal => {
+    if (activeDiscountStore !== 'all' && deal.store !== activeDiscountStore) return false;
+    if (activeDiscountSearch) {
+      const matchName = deal.name.toLowerCase().includes(activeDiscountSearch);
+      const matchBadge = (deal.badge || '').toLowerCase().includes(activeDiscountSearch);
+      const matchStore = (deal.store || '').toLowerCase().includes(activeDiscountSearch);
+      if (!matchName && !matchBadge && !matchStore) return false;
+    }
+    return true;
+  });
+
+  // Store Filter Buttons Strip
+  const storesStrip = `
+    <div class="flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-none">
+      <button onclick="filterDiscounterDeals('all')" class="px-2.5 py-1 rounded-xl text-[10px] font-bold transition shrink-0 cursor-pointer ${activeDiscountStore === 'all' ? 'bg-emerald-500 text-black shadow-md' : 'bg-white/5 text-gray-400 hover:text-white border border-white/10'}">
+        ✨ Alle (${globalDiscountDeals.length})
+      </button>
+      ${Object.keys(DISCOUNT_STORES).map(key => {
+        const store = DISCOUNT_STORES[key];
+        const isActive = activeDiscountStore === key;
+        const count = globalDiscountDeals.filter(d => d.store === key).length;
+        return `
+          <button onclick="filterDiscounterDeals('${key}')" class="px-2.5 py-1 rounded-xl text-[10px] font-bold transition shrink-0 cursor-pointer flex items-center gap-1 ${isActive ? `${store.bg} ${store.text} border ${store.border} shadow-md` : 'bg-white/5 text-gray-400 hover:text-white border border-white/10'}">
+            <span>${store.name}</span>
+            <span class="text-[9px] opacity-70">(${count})</span>
+          </button>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  // Search Bar
+  const searchBar = `
+    <div class="relative">
+      <input type="text" placeholder="Angebote durchsuchen (z.B. Butter, Kaffee, Bio)..." value="${activeDiscountSearch}" oninput="searchDiscounterDeals(this.value)" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-emerald-400 transition" />
+      <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5"></i>
+      ${activeDiscountSearch ? `<button onclick="searchDiscounterDeals('');" class="absolute right-2.5 top-2 text-gray-400 hover:text-white text-xs font-bold">✕</button>` : ''}
+    </div>
+  `;
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="space-y-2">
+        ${storesStrip}
+        ${searchBar}
+        <div class="text-center py-6 text-gray-500 italic text-xs">
+          Keine Angebote für diesen Filter gefunden.
+        </div>
+      </div>
+    `;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  const dealsList = `
+    <div class="grid grid-cols-1 gap-2 max-h-[320px] overflow-y-auto pr-1">
+      ${filtered.map(deal => {
+        const store = DISCOUNT_STORES[deal.store] || { name: deal.store, text: 'text-emerald-300', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30' };
+        const safeName = typeof escapeHtml === 'function' ? escapeHtml(deal.name) : deal.name;
+        const discountPct = deal.discountPct || Math.round(((deal.originalPrice - deal.price) / deal.originalPrice) * 100);
+
+        return `
+          <div class="p-2.5 bg-black/50 hover:bg-white/[0.04] border border-white/10 hover:border-emerald-500/40 rounded-2xl transition flex items-center justify-between gap-2.5 group">
+            <div class="flex-1 min-w-0 space-y-1">
+              <div class="flex items-center gap-1.5">
+                <span class="px-1.5 py-0.2 rounded-md ${store.bg} ${store.text} border ${store.border} text-[9px] font-bold font-mono">
+                  ${store.name}
+                </span>
+                <span class="px-1.5 py-0.2 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[9px] font-bold">
+                  -${discountPct}%
+                </span>
+                ${deal.badge ? `<span class="text-[9px] text-gray-400 font-medium">${deal.badge}</span>` : ''}
+              </div>
+              <div class="font-bold text-xs text-white group-hover:text-emerald-300 transition truncate" title="${safeName}">
+                ${safeName}
+              </div>
+              <div class="flex items-center gap-2 text-[10px] text-gray-400 font-mono">
+                <span class="text-white font-bold text-xs text-emerald-400">${deal.price.toFixed(2)} €</span>
+                <span class="line-through text-gray-500 text-[10px]">${deal.originalPrice.toFixed(2)} €</span>
+                ${deal.unit ? `<span>(${deal.unit})</span>` : ''}
+              </div>
+            </div>
+
+            <button onclick="addDealToShoppingList('${deal.id}')" class="px-3 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-black font-bold text-[11px] rounded-xl transition shadow-md flex items-center gap-1 shrink-0 cursor-pointer active:scale-95" title="Auf Einkaufsliste übernehmen">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>+ Liste</span>
+            </button>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  container.innerHTML = `
+    <div class="space-y-2">
+      ${storesStrip}
+      ${searchBar}
+      ${dealsList}
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+window.renderDiscounterDeals = renderDiscounterDeals;
+
+// -------------------------------------------------------------
+// DOCK POPUP UI RENDERING & SMART DEAL-RADAR
 // -------------------------------------------------------------
 function updateShoppingListPopup(skipLucide = false) {
   const rowsContainer = document.getElementById('shopping-list-rows');
   const badgeEl = document.getElementById('shop-badge-count');
+  const radarBannerContainer = document.getElementById('shopping-radar-banner-container');
   if (!rowsContainer) return;
 
   const list = state.shoppingList || [];
@@ -30104,11 +34088,6 @@ function updateShoppingListPopup(skipLucide = false) {
     }
   }
 
-  const panel = rowsContainer.closest('.dock-popover-panel') || document.getElementById('panel-shopping');
-  if (skipLucide && panel && panel.classList.contains('hidden')) {
-    return;
-  }
-
   // Quick Chips rendern
   const chipsContainer = document.getElementById('shop-quick-chips');
   if (chipsContainer) {
@@ -30118,6 +34097,37 @@ function updateShoppingListPopup(skipLucide = false) {
         + ${item}
       </button>
     `).join('');
+  }
+
+  // Smart Deal-Radar Matching
+  const matches = getShoppingListRadarMatches();
+  if (radarBannerContainer) {
+    if (matches.length > 0) {
+      radarBannerContainer.classList.remove('hidden');
+      const topMatch = matches[0];
+      radarBannerContainer.innerHTML = `
+        <div class="p-2.5 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-teal-950/60 to-cyan-950/70 border border-emerald-400/50 shadow-[0_0_15px_rgba(16,185,129,0.2)] space-y-1.5 animate-pulse-slow">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-300">
+              <span class="animate-bounce">⚡</span>
+              <span>Spar-Radar: ${matches.length} ${matches.length === 1 ? 'Angebot' : 'Angebote'} gefunden!</span>
+            </div>
+            <button onclick="switchShoppingTab('deals')" class="text-[10px] text-emerald-400 hover:text-emerald-200 font-bold underline cursor-pointer">
+              Alle Deals ➔
+            </button>
+          </div>
+          <div class="text-[11px] text-gray-300 flex items-center justify-between gap-1">
+            <span class="truncate">💡 <strong>${escapeHtml(topMatch.item.name)}</strong>: ${topMatch.deal.name} bei <strong>${topMatch.storeInfo.name}</strong> für <strong>${topMatch.deal.price.toFixed(2)} €</strong> (-${topMatch.discountPct}%)</span>
+            <button onclick="applyDealToShoppingItem(${topMatch.itemIndex}, '${topMatch.deal.id}')" class="px-2 py-0.5 bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-[9px] rounded-lg shrink-0 cursor-pointer shadow">
+              Anpassen
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      radarBannerContainer.classList.add('hidden');
+      radarBannerContainer.innerHTML = '';
+    }
   }
 
   if (list.length === 0) {
@@ -30147,10 +34157,30 @@ function updateShoppingListPopup(skipLucide = false) {
       grouped[deptKey].forEach(({ item, originalIdx }) => {
         const safeEscape = typeof escapeHtml === 'function' ? escapeHtml : (str) => String(str || '');
         const qtyLabel = (item.qty && item.qty > 1) ? `${item.qty}${item.unit ? item.unit : 'x'} ` : '';
+        
+        // Inline Deal Radar Tag
+        let inlineDealBadge = '';
+        if (item.dealInfo) {
+          const sName = item.dealInfo.storeName || item.dealInfo.store;
+          inlineDealBadge = `<span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-bold ml-1 shrink-0">🏷️ ${sName} ${item.dealInfo.price.toFixed(2)}€</span>`;
+        } else {
+          const autoDeal = findBestDealForShoppingItem(item.name);
+          if (autoDeal) {
+            inlineDealBadge = `
+              <button onclick="applyDealToShoppingItem(${originalIdx}, '${autoDeal.deal.id}')" class="px-1.5 py-0.2 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold ml-1 shrink-0 cursor-pointer" title="Deal bei ${autoDeal.storeInfo.name} für ${autoDeal.deal.price.toFixed(2)} € (-${autoDeal.discountPct}%) anwenden">
+                🏷️ ${autoDeal.storeInfo.name} ${autoDeal.deal.price.toFixed(2)}€ (-${autoDeal.discountPct}%)
+              </button>
+            `;
+          }
+        }
+
         html += `
           <div class="flex items-center justify-between gap-1.5 p-1.5 bg-black/40 hover:bg-white/[0.04] border border-white/5 rounded-xl text-gray-300 transition group">
             <input type="checkbox" onclick="handleToggleShoppingItem(${originalIdx})" class="w-4 h-4 rounded bg-black border-white/10 text-[#00ff66] accent-[#00ff66] cursor-pointer shrink-0" />
-            <span class="truncate font-medium flex-1 pl-1 text-xs text-[#00f2ff]" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
+            <div class="flex-1 min-w-0 flex items-center gap-1 pl-1">
+              <span class="truncate font-medium text-xs text-[#00f2ff]" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
+              ${inlineDealBadge}
+            </div>
             
             <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 shrink-0">
               <button onclick="adjustShoppingItemQty(${originalIdx}, -1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-[#c0caf5] text-[10px] flex items-center justify-center cursor-pointer font-bold">-</button>
@@ -30210,8 +34240,8 @@ function generateSmartShoppingTips(container) {
   if (!tipEl) return;
   const tips = [
     'Tipp: Kaufe frisches Obst & Gemüse zuerst und Kühlwaren ganz zum Schluss!',
-    'Tipp: Nutze den Supermarkt-Modus für große Tasten zum schnellen Abhaken.',
-    'Tipp: Sortiere deine Liste nach Regal-Gängen, um Zeit zu sparen.'
+    'Tipp: Nutze den Reiter "Deals" für wöchentliche Discounter-Aktionen!',
+    'Tipp: Der Spar-Radar zeigt dir automatisch die besten Angebote für deine Liste.'
   ];
   tipEl.innerText = tips[Math.floor(Math.random() * tips.length)];
   tipEl.className = 'text-xs text-[#ff7a00] font-medium';
@@ -30245,8 +34275,16 @@ function renderSupermarketModal() {
   const total = list.length + hist.length;
   const boughtCount = hist.length;
 
+  // Calculate potential savings with Deal-Radar
+  const matches = getShoppingListRadarMatches();
+  const totalSavings = matches.reduce((acc, m) => acc + parseFloat(m.savings || 0), 0);
+
   if (countEl) {
-    countEl.innerText = `${list.length} ${tr({ en: 'items to buy', de: 'Artikel im Plan', fr: 'articles à acheter', it: 'da comprare', es: 'por comprar', el: 'για αγορά' })} (${boughtCount} ${tr({ en: 'in cart', de: 'im Wagen', fr: 'dans le panier', it: 'nel carrello', es: 'en el carrito', el: 'στο καλάθι' })})`;
+    let text = `${list.length} ${tr({ en: 'items to buy', de: 'Artikel im Plan', fr: 'articles à acheter', it: 'da comprare', es: 'por comprar', el: 'για αγορά' })} (${boughtCount} ${tr({ en: 'in cart', de: 'im Wagen', fr: 'dans le panier', it: 'nel carrello', es: 'en el carrito', el: 'στο καλάθι' })})`;
+    if (totalSavings > 0) {
+      text += ` • ⚡ Bis zu ${totalSavings.toFixed(2)} € Sparpotenzial!`;
+    }
+    countEl.innerText = text;
   }
 
   if (progressEl && total > 0) {
@@ -30259,7 +34297,7 @@ function renderSupermarketModal() {
       <div class="text-center py-10 space-y-3">
         <div class="text-4xl">🛒</div>
         <h4 class="font-bold text-base text-white">${tr({ en: 'Your cart is clear!', de: 'Dein Einkaufswagen ist leer!', fr: 'Ton panier est vide !', it: 'Il tuo carrello è vuoto!', es: '¡Tu carrito está vacío!', el: 'Το καλάθι είναι άδειο!' })}</h4>
-        <p class="text-xs text-gray-400">${tr({ en: 'Add groceries above to start your organized shopping trip.', de: 'Füge oben Artikel hinzu, um deinen geordneten Einkauf zu starten.', fr: 'Ajoute des articles ci-dessus pour préparer tes courses.', it: 'Aggiungi articoli qui sopra per iniziare la spesa.', es: 'Añade artículos arriba para organizar tu compra.', el: 'Προσθέστε προϊόντα παραπάνω για να ξεκινήσετε.' })}</p>
+        <p class="text-xs text-gray-400">${tr({ en: 'Add groceries above to start your organized shopping trip.', de: 'Füge oben Artikel hinzu oder nutze die Angebote im Discounter-Tab!', fr: 'Ajoute des articles ci-dessus pour préparer tes courses.', it: 'Aggiungi articoli qui sopra per iniziare la spesa.', es: 'Añade artículos arriba para organizar tu compra.', el: 'Προσθέστε προϊόντα παραπάνω για να ξεκινήσετε.' })}</p>
       </div>
     `;
     return;
@@ -30291,13 +34329,22 @@ function renderSupermarketModal() {
 
     grouped[deptKey].forEach(({ item, originalIdx }) => {
       const qtyLabel = (item.qty && item.qty > 1) ? `<span class="px-2 py-0.5 rounded-lg bg-[#00f2ff]/20 text-[#00f2ff] font-bold text-xs">${item.qty}${item.unit ? ' ' + item.unit : 'x'}</span>` : '';
+      
+      let dealTag = '';
+      if (item.dealInfo) {
+        dealTag = `<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">🏷️ ${item.dealInfo.storeName || item.dealInfo.store} ${item.dealInfo.price.toFixed(2)}€</span>`;
+      }
+
       html += `
         <div class="flex items-center justify-between p-3 bg-black/40 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 rounded-xl transition cursor-pointer group" onclick="handleToggleShoppingItem(${originalIdx})">
           <div class="flex items-center gap-3 min-w-0">
             <div class="w-6 h-6 rounded-lg border-2 border-white/30 group-hover:border-emerald-400 flex items-center justify-center transition">
               <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 opacity-0 group-hover:opacity-100 transition"></i>
             </div>
-            <span class="font-bold text-sm text-[#00f2ff] truncate">${escapeHtml(item.name)}</span>
+            <div class="flex flex-col min-w-0">
+              <span class="font-bold text-sm text-[#00f2ff] truncate">${escapeHtml(item.name)}</span>
+              ${dealTag}
+            </div>
           </div>
           <div class="flex items-center gap-2" onclick="event.stopPropagation()">
             ${qtyLabel}
@@ -30374,8 +34421,14 @@ function clearCompletedShopItems() {
   }
 }
 
+// Fetch live deals on initialization
+if (typeof window !== 'undefined') {
+  setTimeout(fetchLiveDiscounterDeals, 500);
+}
+
 if (typeof window !== 'undefined') {
   window.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
+  window.DISCOUNT_STORES = DISCOUNT_STORES;
   window.getDepartmentForItem = getDepartmentForItem;
   window.handleAddShoppingItem = handleAddShoppingItem;
   window.quickAddShopItem = quickAddShopItem;
@@ -30393,9 +34446,17 @@ if (typeof window !== 'undefined') {
   window.openShoppingModal = openShoppingModal;
   window.closeShoppingModal = closeShoppingModal;
   window.renderSupermarketModal = renderSupermarketModal;
+  window.switchShoppingTab = switchShoppingTab;
+  window.renderDiscounterDeals = renderDiscounterDeals;
+  window.filterDiscounterDeals = filterDiscounterDeals;
+  window.findBestDealForShoppingItem = findBestDealForShoppingItem;
+  window.getShoppingListRadarMatches = getShoppingListRadarMatches;
+  window.addDealToShoppingList = addDealToShoppingList;
+  window.applyDealToShoppingItem = applyDealToShoppingItem;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
+  globalThis.DISCOUNT_STORES = DISCOUNT_STORES;
   globalThis.getDepartmentForItem = getDepartmentForItem;
   globalThis.handleAddShoppingItem = handleAddShoppingItem;
   globalThis.quickAddShopItem = quickAddShopItem;
@@ -30413,6 +34474,14 @@ if (typeof globalThis !== 'undefined') {
   globalThis.openShoppingModal = openShoppingModal;
   globalThis.closeShoppingModal = closeShoppingModal;
   globalThis.renderSupermarketModal = renderSupermarketModal;
+  globalThis.switchShoppingTab = switchShoppingTab;
+  globalThis.renderDiscounterDeals = renderDiscounterDeals;
+  globalThis.filterDiscounterDeals = filterDiscounterDeals;
+  globalThis.searchDiscounterDeals = searchDiscounterDeals;
+  globalThis.findBestDealForShoppingItem = findBestDealForShoppingItem;
+  globalThis.getShoppingListRadarMatches = getShoppingListRadarMatches;
+  globalThis.addDealToShoppingList = addDealToShoppingList;
+  globalThis.applyDealToShoppingItem = applyDealToShoppingItem;
 }
 
 
@@ -30921,6 +34990,12 @@ function addRecipeMissingIngredientsToShopping() {
 }
 
 if (typeof window !== 'undefined') {
+  window.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
+  window.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
+  window.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;
+  window.handleCookingSuggest = typeof handleCookingSuggest !== 'undefined' ? handleCookingSuggest : undefined;
+  window.toggleCookingStepCheckbox = typeof toggleCookingStepCheckbox !== 'undefined' ? toggleCookingStepCheckbox : undefined;
+  window.resetCookingPantry = typeof resetCookingPantry !== 'undefined' ? resetCookingPantry : undefined;
   window.openPantryModal = typeof openPantryModal !== 'undefined' ? openPantryModal : undefined;
   window.closePantryModal = typeof closePantryModal !== 'undefined' ? closePantryModal : undefined;
   window.openRecipeModal = typeof openRecipeModal !== 'undefined' ? openRecipeModal : undefined;
@@ -30930,9 +35005,16 @@ if (typeof window !== 'undefined') {
   window.suggestCookingRecipe = typeof suggestCookingRecipe !== 'undefined' ? suggestCookingRecipe : undefined;
   window.clearCookingPantry = typeof clearCookingPantry !== 'undefined' ? clearCookingPantry : undefined;
   window.addRecipeMissingIngredientsToShopping = addRecipeMissingIngredientsToShopping;
+  window.getCookingState = typeof getCookingState !== 'undefined' ? getCookingState : undefined;
 }
 
 if (typeof globalThis !== 'undefined') {
+  globalThis.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
+  globalThis.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
+  globalThis.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;
+  globalThis.handleCookingSuggest = typeof handleCookingSuggest !== 'undefined' ? handleCookingSuggest : undefined;
+  globalThis.toggleCookingStepCheckbox = typeof toggleCookingStepCheckbox !== 'undefined' ? toggleCookingStepCheckbox : undefined;
+  globalThis.resetCookingPantry = typeof resetCookingPantry !== 'undefined' ? resetCookingPantry : undefined;
   globalThis.openPantryModal = typeof openPantryModal !== 'undefined' ? openPantryModal : undefined;
   globalThis.closePantryModal = typeof closePantryModal !== 'undefined' ? closePantryModal : undefined;
   globalThis.openRecipeModal = typeof openRecipeModal !== 'undefined' ? openRecipeModal : undefined;
@@ -30942,6 +35024,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.suggestCookingRecipe = typeof suggestCookingRecipe !== 'undefined' ? suggestCookingRecipe : undefined;
   globalThis.clearCookingPantry = typeof clearCookingPantry !== 'undefined' ? clearCookingPantry : undefined;
   globalThis.addRecipeMissingIngredientsToShopping = addRecipeMissingIngredientsToShopping;
+  globalThis.getCookingState = typeof getCookingState !== 'undefined' ? getCookingState : undefined;
 }
 
 
@@ -31501,71 +35584,6 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-tasks.js --- */
 
-const _taskIconCache = new Map();
-
-function getTaskIconDetails(taskText, category = '') {
-  if (typeof window !== 'undefined' && typeof window.getTaskIconDetails === 'function' && window.getTaskIconDetails !== getTaskIconDetails) {
-    return window.getTaskIconDetails(taskText, category);
-  }
-  if (!taskText) return { icon: 'check-circle', color: 'text-[#00f2ff]' };
-  
-  const cacheKey = category + ':::' + taskText;
-  if (_taskIconCache.has(cacheKey)) {
-    return _taskIconCache.get(cacheKey);
-  }
-
-  const rawTrimmed = String(taskText).trim();
-  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-
-  const rules = [
-    { rx: /medi|pill|tablett|vitam|pharm|arzt|doctor|therap|apothek|klinik|krank|gesund|comprim|docteur|medecin|sante|pastill|farmac|salud|pastigl|pillol|dottore|salute|φαρμακ|χαπι|γιατρ|υγει/, ic: 'pill', col: 'text-[#f472b6]' },
-    { rx: /zahn|zahne|brush|teeth|tooth|dent|gesicht|face|mouth|bross|visage|dient|cepill|cara|spazzol|viso|faccia|δοντ|βουρτσ|προσωπ/, ic: 'smile', col: 'text-[#89cff0]' },
-    { rx: /dusch|shower|bath|bad|waschbecken|sink|wash|douch|bain|lavab|duch|ban|docc|bagn|lavand|ντους|μπανι/, ic: 'bath', col: 'text-[#60a5fa]' },
-    { rx: /koch|cook|food|essen|rezept|meal|dinner|lunch|breakfast|fruhstuck|herd|oven|fridge|kuehl|kuhl|geschirr|spul|dish|abwasch|plate|bread|egg|coffee|brot|eier|kaffee|cuisin|manger|repas|diner|dejeuner|four|frigo|vaissell|pain|oeuf|cafe|cocin|comer|comida|cena|almuerz|desayun|horno|never|plato|vajill|pan|huevo|caffe|cucin|mangia|pasto|colazion|piatt|stovigl|pane|uov|μαγειρ|φαγητ|γευμ|δειπν|πρωιν|πιατ|ψωμ|καφε/, ic: 'cooking-pot', col: 'text-[#fb923c]' },
-    { rx: /saugen|vacu|staubsaug|aspir/, ic: 'tornado', col: 'text-[#f472b6]' },
-    { rx: /wisch|mop|clean|putz|klo|toilet|wc|sweep|wipe|reinigen|nettoy|menag|propr|limpi|freg|aseo|puliz|pulir|σκουπ|καθαρισ|τουαλετ/, ic: 'sparkles', col: 'text-[#f472b6]' },
-    { rx: /wasche|wasch|laundry|aufhang|clothes|shirt|cloth|iron|hang|buegeln|kleidung|waesche|lessiv|ling|repass|vetement|colad|rop|planch|bucat|panni|vestit|stirar|μπουγαδ|πλυντ|ρουχ/, ic: 'shirt', col: 'text-[#a78bfa]' },
-    { rx: /mull|trash|pfand|bottle|recycle|abfall|entsorg|garbage|waste|bin|poub|dechet|bouteill|basur|desech|botell|recicl|spazzatur|rifiut|bottigl|ricicl|σκουπιδ|απορριμ|μπουκαλ|ανακυκλ/, ic: 'trash-2', col: 'text-[#f472b6]' },
-    { rx: /bett|bed|schlaf|sleep|bettwasche|drap|sheet|mattress|lit|dormir|sommeil|cam|saban|suen|lett|lenzuol|sonno|κρεβατ|σεντον|υπν/, ic: 'bed', col: 'text-[#fbbf24]' },
-    { rx: /luft|wind|luften|breath|ventil|plant|pflanz|bloom|garten/, ic: 'wind', col: 'text-[#2dd4bf]' },
-    { rx: /arbeit|work|job|code|programm|dev|stud|uni|lernen|learn|book|buch|les|klausur|exam|modul|project|task|write|schreib|boulot|etud|universit|apprendr|livr|lir|examen|projet|ecrir|trabaj|empleo|codig|estudi|universid|aprend|libr|leer|proyect|escrib|lavor|impieg|codic|impar|legg|esame|progett|scriv|εργασι|δουλει|κωδικ|σπουδ|μαθ|βιβλι|διαβασ|εξετασ|γραφ/, ic: 'briefcase', col: 'text-[#c084fc]' },
-    { rx: /sport|gym|fit|train|workout|run|laufen|walk|gehen|jogging|dehn|stretch|beweg|yoga|schwimm|exercise|jog|move|swim|entrain|courir|march|etir|nag|deport|gimnas|entren|corr|camin|estir|nad|palestr|allen|cammin|nuot|σπορ|γυμναστ|προπον|τρεξ|περπατ|γιoγκ|κολυμβ/, ic: 'activity', col: 'text-[#4ade80]' },
-    { rx: /einkauf|shop|buy|kauf|supermarkt|grocery|store|market|markt|cours|achet|supermarch|magasin|compr|supermercad|tiend|mercad|spes|acquist|supermercat|negozi|ψωνι|αγορ|σουπερμαρκετ|μαγαζ/, ic: 'shopping-cart', col: 'text-[#fb923c]' },
-    { rx: /haar|hair|nagel|nail|scissors|cheveux|pelo|capell|μαλλι/, ic: 'scissors', col: 'text-[#f472b6]' },
-    { rx: /trink|wasser|water|hydrat|drink|boire|eau|beber|agua|bere|acqua|νερο|πιν/, ic: 'glass-water', col: 'text-[#89cff0]' }
-  ];
-
-  for (const r of rules) {
-    if (r.rx.test(norm)) {
-      const res = { icon: r.ic, color: r.col };
-      if (_taskIconCache.size > 2500) _taskIconCache.clear();
-      _taskIconCache.set(cacheKey, res);
-      return res;
-    }
-  }
-
-  const defaults = {
-    daily: { icon: 'sun', color: 'text-[#ffb703]' },
-    weekly: { icon: 'home', color: 'text-[#ff00aa]' },
-    todo: { icon: 'list-todo', color: 'text-[#89cff0]' },
-    done: { icon: 'check-circle', color: 'text-[#00ff66]' },
-    termine: { icon: 'calendar', color: 'text-[#00f2ff]' },
-    occasionally: { icon: 'calendar-range', color: 'text-[#2dd4bf]' },
-    notes: { icon: 'sticky-note', color: 'text-[#c084fc]' },
-    work_focus: { icon: 'target', color: 'text-[#ff7a00]' },
-    work_in_progress: { icon: 'zap', color: 'text-[#00f2ff]' },
-    work_waiting: { icon: 'hourglass', color: 'text-[#c084fc]' },
-    work_backlog: { icon: 'folder-kanban', color: 'text-[#89cff0]' },
-    study_focus: { icon: 'target', color: 'text-[#ffb703]' },
-    study_modules: { icon: 'book-open', color: 'text-[#89cff0]' },
-    study_submissions: { icon: 'clock', color: 'text-[#ff3366]' },
-    study_deep: { icon: 'brain', color: 'text-[#c084fc]' }
-  };
-  const res = defaults[category] || { icon: 'check-circle', color: 'text-[#00f2ff]' };
-  if (_taskIconCache.size > 2500) _taskIconCache.clear();
-  _taskIconCache.set(cacheKey, res);
-  return res;
-}
 /**
  * ============================================================================
  * Noodle - Aufgaben- & Board-Management (app-tasks.js)
@@ -31593,7 +35611,7 @@ if (typeof globalThis !== 'undefined' && !globalThis.openTaskAddColumns) {
 /**
  * Plant das automatische Schließen des Aufgaben-Kontextmenüs nach einer kurzen Verzögerung.
  */
-function scheduleCloseTaskMenu(delay = 180) {
+function scheduleCloseTaskMenu(delay = 240) {
   if (taskMenuCloseTimer) clearTimeout(taskMenuCloseTimer);
   taskMenuCloseTimer = setTimeout(() => {
     closeTaskOptionsMenu();
@@ -31614,16 +35632,22 @@ function toggleTaskOptionsMenu(colId, index, event) {
   }
   const existing = document.getElementById('task-context-dropdown');
   if (openTaskMenuMeta && openTaskMenuMeta.colId === colId && openTaskMenuMeta.index === index && existing && !existing.classList.contains('hidden')) {
-    closeTaskOptionsMenu();
+    closeTaskOptionsMenu(true);
     return;
   }
   openTaskOptionsMenu(colId, index, event ? event.currentTarget : null);
 }
 
-function closeTaskOptionsMenu() {
+function closeTaskOptionsMenu(force = false) {
   cancelCloseTaskMenu();
   const el = document.getElementById('task-context-dropdown');
-  if (el) el.classList.add('hidden'); syncHeaderToolsMenuState();
+  if (!force && el) {
+    try {
+      if (el.matches(':hover')) return;
+    } catch (e) {}
+  }
+  if (el) el.classList.add('hidden');
+  syncHeaderToolsMenuState();
   openTaskMenuMeta = null;
 }
 
@@ -31831,26 +35855,7 @@ function setTaskColor(columnId, index, color, e) {
   renderApp();
 }
 
-function saveCategoriesOrder() {
-  try {
-    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
-    if (ws === 'study') {
-      if (typeof studyCategoriesOrder !== 'undefined' && Array.isArray(studyCategoriesOrder)) {
-        localStorage.setItem('flow_study_categories_order', JSON.stringify(studyCategoriesOrder));
-      }
-    } else if (ws === 'work') {
-      if (typeof workCategoriesOrder !== 'undefined' && Array.isArray(workCategoriesOrder)) {
-        localStorage.setItem('flow_work_categories_order', JSON.stringify(workCategoriesOrder));
-      }
-    } else {
-      if (typeof categoriesOrder !== 'undefined' && Array.isArray(categoriesOrder)) {
-        localStorage.setItem('flow_categories_order', JSON.stringify(categoriesOrder));
-      }
-    }
-  } catch (err) {
-    console.warn('[Categories] Error saving categories order:', err);
-  }
-}
+// saveCategoriesOrder handled by state.js
 
 function getActiveCategoriesOrder() {
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
@@ -31946,16 +35951,21 @@ function cancelCloseColumnOptionsMenu() {
   }
 }
 
-function scheduleCloseColumnOptionsMenu(delay = 220) {
+function scheduleCloseColumnOptionsMenu(delay = 250) {
   cancelCloseColumnOptionsMenu();
   columnMenuCloseTimer = setTimeout(() => {
     closeColumnOptionsMenu();
   }, delay);
 }
 
-function closeColumnOptionsMenu() {
+function closeColumnOptionsMenu(force = false) {
   cancelCloseColumnOptionsMenu();
   const existing = document.getElementById('column-options-dropdown');
+  if (!force && existing) {
+    try {
+      if (existing.matches(':hover')) return;
+    } catch (e) {}
+  }
   if (existing) existing.remove();
   openColumnOptionsMenuId = null;
 }
@@ -32274,6 +36284,11 @@ function toggleColumnsDropdown(e) {
 
 function closeColumnsDropdown() {
   const dropdown = document.getElementById('dropdown-manage-columns');
+  const btn = document.getElementById('btn-board-columns');
+  try {
+    if (dropdown && dropdown.matches(':hover')) return;
+    if (btn && btn.matches(':hover')) return;
+  } catch (e) {}
   if (dropdown) dropdown.classList.add('hidden');
 }
 
@@ -33350,9 +37365,10 @@ function renderApp() {
           ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono bg-purple-500/20 text-purple-300 border border-purple-500/30 shrink-0 ml-auto mr-1">🔁 ${t('recurrence_' + taskObj.recurrence) || taskObj.recurrence}</span>`
           : '';
         const editTooltip = tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' });
+        const completeTooltip = tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' });
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none">
-            <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${tr({ de: 'Als erledigt markieren', en: 'Mark as completed', fr: 'Marquer comme terminé', it: 'Segna come completato', es: 'Marcar como completada', el: 'Σήμανση ως ολοκληρωμένο' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Als erledigt markieren', en: 'Mark as completed', fr: 'Marquer comme terminé', it: 'Segna come completato', es: 'Marcar como completada', el: 'Σήμανση ως ολοκληρωμένο' })}">
+            <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
               <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-[#00ff66] hover:bg-[#00ff66]/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400 animate-pulse' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
                 ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-[#00ff66] opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
@@ -33783,6 +37799,12 @@ function rebindListDragHandlers(colId) {
     const checkBtn = itemDiv.querySelector('.task-check-btn');
     if (checkBtn) {
       checkBtn.onclick = (e) => handleCompleteTask(colId, idx, e);
+      const completeTooltip = (typeof tr === 'function')
+        ? tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' })
+        : 'Klicke zum Erledigt-Markieren ✔️';
+      checkBtn.setAttribute('data-noodle-tooltip', completeTooltip);
+      checkBtn.setAttribute('aria-label', completeTooltip);
+      checkBtn.setAttribute('title', completeTooltip);
     }
     const optBtn = itemDiv.querySelector('button[onclick*="toggleTaskOptionsMenu"]');
     if (optBtn) {
@@ -33912,28 +37934,7 @@ var pinnedPanel = (typeof window !== 'undefined' && window.pinnedPanel) ? window
 let hoverPanelShowTimeout = null;
 let hoverPanelHideTimeout = null;
 
-function syncHeaderToolsMenuState() {
-  const toolsBtn = document.getElementById('btn-header-tools');
-  const toolsWrapper = document.getElementById('header-tools-wrapper');
-  
-  const TOOL_PANEL_IDS = [
-    'panel-header-tools', 'panel-collab-chat', 'panel-radio', 'panel-news',
-    'panel-audio', 'panel-alarm', 'panel-daily', 'panel-inspiration',
-    'panel-impulse', 'panel-shopping', 'panel-cooking', 'panel-fitness',
-    'panel-cleaning-guide', 'panel-learning-hub', 'panel-clarity'
-  ];
-  
-  const isAnyToolOpen = TOOL_PANEL_IDS.some(id => {
-    const el = document.getElementById(id);
-    return el && !el.classList.contains('hidden');
-  });
-
-  if (toolsBtn) toolsBtn.classList.toggle('is-menu-open', !!isAnyToolOpen);
-  if (toolsWrapper) toolsWrapper.classList.toggle('is-menu-open', !!isAnyToolOpen);
-  if (typeof document !== 'undefined' && document.body) {
-    document.body.classList.toggle('has-tool-panel-open', !!isAnyToolOpen);
-  }
-}
+// syncHeaderToolsMenuState handled by app-reports.js
 
 function showPanelHover(panelName, delay = 0) {
   if (hoverPanelHideTimeout) {
@@ -33945,7 +37946,7 @@ function showPanelHover(panelName, delay = 0) {
     hoverPanelShowTimeout = null;
   }
 
-  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat'];
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'health', 'humor-lab'];
   // Wenn ein anderes Panel fest angeklickt (gepinnt) ist, nicht durch reines Drüberfahren schließen
   if (pinnedPanel && pinnedPanel !== panelName) {
     if (!(pinnedPanel === 'header-tools' && TOOL_SUBPANELS.includes(panelName))) {
@@ -33974,7 +37975,7 @@ function showPanelHover(panelName, delay = 0) {
       'header-tools', 'feedback', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language',
       'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse',
       'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'timer-presets',
-      'audio', 'daily', 'logo-guide', 'collab-chat', 'radio-news'
+      'audio', 'daily', 'logo-guide', 'collab-chat', 'radio-news', 'health', 'humor-lab'
     ];
     const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
 
@@ -33998,7 +37999,7 @@ function showPanelHover(panelName, delay = 0) {
     if (typeof window !== 'undefined') window.currentlyOpenPanel = panelName;
 
     const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
-    if (dockContainer && ['audio', 'daily', 'alarm', 'radio-news', 'shopping', 'cooking', 'radio', 'news'].includes(panelName)) {
+    if (dockContainer && ['audio', 'daily', 'alarm', 'radio-news', 'shopping', 'cooking', 'radio', 'news', 'health', 'humor-lab'].includes(panelName)) {
       dockContainer.classList.add('is-active');
     }
 
@@ -34037,6 +38038,15 @@ function showPanelHover(panelName, delay = 0) {
       if (typeof CollabEngine.renderChatMessages === 'function') CollabEngine.renderChatMessages();
       if (typeof CollabEngine.renderPresenceUI === 'function') CollabEngine.renderPresenceUI();
     }
+    if (panelName === 'timer-presets' && typeof renderTimerCockpitContent === 'function') {
+      renderTimerCockpitContent();
+    }
+    if (panelName === 'health' && typeof HealthEngine !== 'undefined') {
+      if (typeof HealthEngine.renderPanel === 'function') HealthEngine.renderPanel();
+    }
+    if (panelName === 'humor-lab' && typeof HumorEngine !== 'undefined') {
+      if (typeof HumorEngine.renderHumorPanel === 'function') HumorEngine.renderHumorPanel();
+    }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
   if (delay <= 0) {
@@ -34047,7 +38057,7 @@ function showPanelHover(panelName, delay = 0) {
 }
 window.showPanelHover = showPanelHover;
 
-function hidePanelHover(panelName, gracePeriod = 220) {
+function hidePanelHover(panelName, gracePeriod = 260) {
   if (hoverPanelShowTimeout) {
     clearTimeout(hoverPanelShowTimeout);
     hoverPanelShowTimeout = null;
@@ -34062,6 +38072,13 @@ function hidePanelHover(panelName, gracePeriod = 220) {
   hoverPanelHideTimeout = setTimeout(() => {
     if (pinnedPanel && pinnedPanel === panelName) return;
 
+    const el = document.getElementById(`panel-${panelName}`);
+    if (el) {
+      try {
+        if (el.matches(':hover')) return;
+      } catch (e) {}
+    }
+
     if (panelName === 'header-tools') {
       const toolsWrapper = document.getElementById('header-tools-wrapper');
       const toolsPanel = document.getElementById('panel-header-tools');
@@ -34071,7 +38088,6 @@ function hidePanelHover(panelName, gracePeriod = 220) {
       } catch (e) {}
     }
 
-    const el = document.getElementById(`panel-${panelName}`);
     if (el) {
       el.classList.add('hidden');
     }
@@ -34961,6 +38977,7 @@ if (typeof document !== 'undefined') {
   }
 }
 
+
 if (typeof window !== 'undefined') {
   window.renderApp = renderApp;
   window.getCurrentWorkspaceItems = getCurrentWorkspaceItems;
@@ -35000,6 +39017,10 @@ if (typeof window !== 'undefined') {
   window.closeColumnOptionsMenu = closeColumnOptionsMenu;
   window.cancelCloseColumnOptionsMenu = cancelCloseColumnOptionsMenu;
   window.scheduleCloseColumnOptionsMenu = scheduleCloseColumnOptionsMenu;
+function stopTaskSpotlight() {}
+function triggerRandomTaskSpotlight() {}
+function initTaskSpotlightEngine() {}
+
   window.clearColumnTasks = clearColumnTasks;
   window.clearCompletedInColumn = clearCompletedInColumn;
   window.archiveColumnTasks = archiveColumnTasks;
@@ -35014,7 +39035,11 @@ if (typeof window !== 'undefined') {
   window.closeColumnsManagerModal = closeColumnsManagerModal;
   window.toggleColumnVisibility = toggleColumnVisibility;
   window.resetColumnsToDefault = resetColumnsToDefault;
+  window.stopTaskSpotlight = stopTaskSpotlight;
+  window.triggerRandomTaskSpotlight = triggerRandomTaskSpotlight;
+  window.initTaskSpotlightEngine = initTaskSpotlightEngine;
 }
+
 if (typeof globalThis !== 'undefined') {
   globalThis.renderApp = renderApp;
   globalThis.getCurrentWorkspaceItems = getCurrentWorkspaceItems;
@@ -35069,7 +39094,11 @@ if (typeof globalThis !== 'undefined') {
   globalThis.closeColumnsManagerModal = closeColumnsManagerModal;
   globalThis.toggleColumnVisibility = toggleColumnVisibility;
   globalThis.resetColumnsToDefault = resetColumnsToDefault;
+  globalThis.stopTaskSpotlight = stopTaskSpotlight;
+  globalThis.triggerRandomTaskSpotlight = triggerRandomTaskSpotlight;
+  globalThis.initTaskSpotlightEngine = initTaskSpotlightEngine;
 }
+
  
 
 /* --- app-reports.js --- */
@@ -35173,10 +39202,11 @@ function syncHeaderToolsMenuState() {
   const toolsWrapper = document.getElementById('header-tools-wrapper');
   
   const TOOL_PANEL_IDS = [
-    'panel-header-tools', 'panel-collab-chat', 'panel-radio', 'panel-news',
+    'panel-header-tools', 'panel-collab-chat', 'panel-social', 'panel-radio', 'panel-news',
     'panel-audio', 'panel-alarm', 'panel-daily', 'panel-inspiration',
     'panel-impulse', 'panel-shopping', 'panel-cooking', 'panel-fitness',
-    'panel-cleaning-guide', 'panel-learning-hub', 'panel-clarity'
+    'panel-cleaning-guide', 'panel-learning-hub', 'panel-clarity',
+    'panel-health', 'panel-humor-lab'
   ];
   
   const isAnyToolOpen = TOOL_PANEL_IDS.some(id => {
@@ -35208,11 +39238,11 @@ function togglePanel(panelName) {
   if (!el) return;
   const isCurrentlyHidden = el.classList.contains('hidden');
 
-  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat'];
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab'];
   const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
 
   // Andere Popover-Panels schließen
-  ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'radio-news', 'timer-presets'].forEach(p => {
+  ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'social', 'radio-news', 'timer-presets', 'health', 'humor-lab'].forEach(p => {
     if (isSubpanelOfTools && p === 'header-tools') return;
     if (p !== panelName) {
       const other = document.getElementById(`panel-${p}`);
@@ -35232,13 +39262,13 @@ function togglePanel(panelName) {
     if (typeof currentlyOpenPanel !== 'undefined') currentlyOpenPanel = panelName;
     if (typeof pinnedPanel !== 'undefined') pinnedPanel = panelName;
 
-    if (dockContainer && ['audio', 'daily', 'alarm', 'radio-news', 'shopping', 'cooking', 'radio', 'news'].includes(panelName)) {
+    if (dockContainer && ['audio', 'daily', 'alarm', 'radio-news', 'shopping', 'cooking', 'radio', 'news', 'social', 'health', 'humor-lab', 'collab-chat'].includes(panelName)) {
       dockContainer.classList.add('is-active');
     }
 
     if (panelName === 'report') updateReportPanel(); 
     if (panelName === 'shopping' && typeof renderShoppingList === 'function') renderShoppingList();
-    if (panelName === 'cooking' && typeof renderCookingPanel === 'function') renderCookingPanel(true); 
+    if (panelName === 'cooking' && typeof renderCookingPanel === 'function') renderCookingPanel(false); 
     if (panelName === 'alarm' && typeof renderAlarmPanel === 'function') renderAlarmPanel();
     if (panelName === 'weather' && typeof fetchLocalWeather === 'function') fetchLocalWeather();
     if (panelName === 'news') {
@@ -35270,6 +39300,15 @@ function togglePanel(panelName) {
     if (panelName === 'collab-chat' && typeof CollabEngine !== 'undefined') {
       if (typeof CollabEngine.renderChatMessages === 'function') CollabEngine.renderChatMessages();
       if (typeof CollabEngine.renderPresenceUI === 'function') CollabEngine.renderPresenceUI();
+    }
+    if (panelName === 'social' && typeof SocialHubEngine !== 'undefined') {
+      if (typeof SocialHubEngine.render === 'function') SocialHubEngine.render();
+    }
+    if (panelName === 'health' && typeof HealthEngine !== 'undefined') {
+      if (typeof HealthEngine.renderPanel === 'function') HealthEngine.renderPanel();
+    }
+    if (panelName === 'humor-lab' && typeof HumorEngine !== 'undefined') {
+      if (typeof HumorEngine.renderHumorPanel === 'function') HumorEngine.renderHumorPanel();
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     syncHeaderToolsMenuState();
@@ -36079,14 +40118,7 @@ function triggerAutomaticDownload(reportText, filename) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-function getYearAndWeek(date) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  const dayNum = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, '0')}`;
-}
+// getYearAndWeek handled by state.js
 
 function generateReportContent(timeframe = 'comprehensive', targetDate = '') {
   const reportText = typeof generateComprehensiveReportText === 'function' ? generateComprehensiveReportText() : '';
@@ -36104,9 +40136,9 @@ if (typeof globalThis !== 'undefined') {
 
 function checkAndGenerateAutomaticReports() {
   const now = new Date(); const todayISO = now.toISOString().split('T')[0]; const lang = currentLang || 'en';
+  // Tageswechsel aktualisieren ohne automatischen Download
   if (state.lastDate && state.lastDate !== todayISO) {
-    const prevDate = state.lastDate; const { reportText, filename } = generateReportContent('daily', prevDate);
-    triggerAutomaticDownload(reportText, filename); state.lastDate = todayISO; saveState();
+    state.lastDate = todayISO; saveState();
   }
   const currentWeekStr = getYearAndWeek(now); const lastWeeklyReport = localStorage.getItem('flow_last_weekly_report_week');
   const isSundayEvening = now.getDay() === 0 && now.getHours() >= 18;
@@ -39432,6 +43464,36 @@ function getCommandPaletteActions() {
       }
     },
     {
+      id: 'cmd-open-music',
+      title: tr({ de: 'Musik & Medien Player öffnen', en: 'Open Music & Media Player' }),
+      category: tr({ de: 'Audio & Medien', en: 'Audio & Media' }),
+      icon: 'disc-3',
+      color: 'text-sky-400',
+      action: () => {
+        if (typeof openAudioStudioMode === 'function') openAudioStudioMode('music');
+      }
+    },
+    {
+      id: 'cmd-open-dj',
+      title: tr({ de: 'Noodle DJ (2-Deck Mixer & FX)', en: 'Open Noodle DJ Mixer' }),
+      category: tr({ de: 'Audio & Medien', en: 'Audio & Media' }),
+      icon: 'sliders',
+      color: 'text-amber-400',
+      action: () => {
+        if (typeof openAudioStudioMode === 'function') openAudioStudioMode('dj');
+      }
+    },
+    {
+      id: 'cmd-open-health',
+      title: tr({ de: 'Gesundheit & Vorsorge-Radar', en: 'Health & Vitality Radar' }),
+      category: tr({ de: 'Werkzeuge', en: 'Tools' }),
+      icon: 'shield',
+      color: 'text-rose-400',
+      action: () => {
+        if (typeof togglePanel === 'function') togglePanel('health');
+      }
+    },
+    {
       id: 'cmd-open-radio',
       title: tr({ de: 'Live-Radio & Focus Streams öffnen', en: 'Open Live Radio' }),
       category: tr({ de: 'Audio & Medien', en: 'Audio & Media' }),
@@ -39443,12 +43505,12 @@ function getCommandPaletteActions() {
     },
     {
       id: 'cmd-open-social',
-      title: tr({ de: 'Social Media Launch & Community Hub (Teilen)', en: 'Social Media Launch & Community Hub (Share)' }),
-      category: tr({ de: 'Community & Social', en: 'Community & Social' }),
-      icon: 'rocket',
+      title: tr({ de: 'Social Media Hub (Instagram, Facebook & Co)', en: 'Social Media Hub (Instagram, Facebook & Co)' }),
+      category: tr({ de: 'Audio & Medien', en: 'Audio & Media' }),
+      icon: 'share-2',
       color: 'text-pink-400',
       action: () => {
-        if (typeof openSocialLaunchModal === 'function') openSocialLaunchModal();
+        if (typeof togglePanel === 'function') togglePanel('social');
       }
     },
     {
@@ -41246,14 +45308,70 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
   let tooltipEl = null;
   let showTimer = null;
   let hideTimer = null;
-  let warmTimer = null;
-  let isWarm = false;
   let currentTarget = null;
 
-  const DELAY_SHOW = 25; // Ultraschnelle Reaktionszeit in ms (sofortiges Einblenden)
-  const WARM_TIMEOUT = 450; // Schneller Wechsel zwischen Buttons ohne Verzögerung
+  // Eingebetteter Style für ultraschnelle, flackerfreie & ästhetische Darstellung
+  function ensureTooltipStyles() {
+    if (document.getElementById('noodle-tooltip-base-styles')) return;
+    const style = document.createElement('style');
+    style.id = 'noodle-tooltip-base-styles';
+    style.textContent = `
+      .noodle-custom-tooltip {
+        position: fixed !important;
+        z-index: 9999999 !important;
+        pointer-events: none !important;
+        user-select: none !important;
+        max-width: 320px;
+        background: rgba(13, 13, 22, 0.96) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 14px rgba(139, 92, 246, 0.25) !important;
+        backdrop-filter: blur(16px) saturate(180%) !important;
+        -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+        border-radius: 9px !important;
+        padding: 4.5px 8.5px !important;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+        color: #f3f4f6 !important;
+        white-space: nowrap !important;
+        line-height: 1.35 !important;
+        opacity: 0;
+        transform: scale(0.96) translateY(2px);
+        transition: opacity 0.07s cubic-bezier(0.16, 1, 0.3, 1), transform 0.07s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        will-change: transform, opacity;
+      }
+      .noodle-custom-tooltip.noodle-tooltip-visible {
+        opacity: 1 !important;
+        transform: scale(1) translateY(0) !important;
+      }
+      .noodle-tooltip-shortcut-wrap {
+        display: inline-flex;
+        align-items: center;
+      }
+      .noodle-tooltip-kbd {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        border-radius: 4px;
+        padding: 0.5px 4.5px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        font-size: 9.5px;
+        font-weight: 600;
+        color: #c4b5fd;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+        letter-spacing: 0.2px;
+      }
+      .noodle-tooltip-bullet {
+        color: #a78bfa;
+        margin: 0 2px;
+        opacity: 0.9;
+      }
+    `;
+    document.head.appendChild(style);
+  }
 
   function getOrCreateTooltip() {
+    ensureTooltipStyles();
     if (tooltipEl && document.body.contains(tooltipEl)) return tooltipEl;
     
     tooltipEl = document.getElementById('noodle-global-tooltip');
@@ -41271,7 +45389,6 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
   function formatTooltipContent(text) {
     if (!text) return '';
     
-    // HTML-Escaping zur Sicherheit
     let safe = text
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
@@ -41279,13 +45396,11 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
       .replace(/"/g, '&quot;')
       .replace(/'/g, '&#039;');
 
-    // Tastenkürzel wie [T], [Ctrl+Z], [S], (Ctrl+Z) immer unzerbrechlich in der gleichen Zeile halten
     safe = safe.replace(/(\s*)(?:\[([A-Z0-9\+\-\s]{1,10})\]|\((Ctrl\+[A-Za-z0-9]|Strg\+[A-Za-z0-9]|Alt\+[A-Za-z0-9]|Shift\+[A-Za-z0-9]|Cmd\+[A-Za-z0-9])\))/gi, (match, space, kbd1, kbd2) => {
       const key = kbd1 || kbd2;
       return `<span class="noodle-tooltip-shortcut-wrap">&nbsp;<kbd class="noodle-tooltip-kbd">${key}</kbd></span>`;
     });
 
-    // Optionaler Bullet / Info-Trenner
     safe = safe.replace(/(\s[•·]\s)/g, '<span class="noodle-tooltip-bullet">$1</span>');
 
     return safe;
@@ -41303,7 +45418,6 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     let top = rect.top - tooltipRect.height - gap;
     let placement = 'top';
 
-    // Oben kein Platz? Dann unter dem Element platzieren
     if (top < margin) {
       top = rect.bottom + gap;
       placement = 'bottom';
@@ -41312,7 +45426,6 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
       }
     }
 
-    // Links/Rechts im sichtbaren Fenster begrenzen
     left = Math.max(margin, Math.min(window.innerWidth - tooltipRect.width - margin, left));
 
     el.style.left = Math.round(left) + 'px';
@@ -41326,23 +45439,19 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     const text = target.getAttribute('data-noodle-tooltip') || target.getAttribute('data-tooltip') || target.getAttribute('data-title');
     if (!text || !text.trim()) return;
 
+    if (hideTimer) {
+      clearTimeout(hideTimer);
+      hideTimer = null;
+    }
+
     tooltip.innerHTML = formatTooltipContent(text.trim());
     tooltip.classList.remove('noodle-tooltip-visible');
-    tooltip.style.visibility = 'hidden';
     tooltip.style.display = 'block';
 
-    // Position berechnen
     positionTooltip(target, tooltip);
 
-    // Sichtbar machen mit sanfter Animation
-    tooltip.style.visibility = 'visible';
-    requestAnimationFrame(() => {
-      tooltip.classList.add('noodle-tooltip-visible');
-      tooltip.setAttribute('aria-hidden', 'false');
-    });
-
-    isWarm = true;
-    if (warmTimer) clearTimeout(warmTimer);
+    tooltip.classList.add('noodle-tooltip-visible');
+    tooltip.setAttribute('aria-hidden', 'false');
   }
 
   function hideTooltip(immediate = false) {
@@ -41350,11 +45459,6 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
       clearTimeout(showTimer);
       showTimer = null;
     }
-
-    if (warmTimer) clearTimeout(warmTimer);
-    warmTimer = setTimeout(() => {
-      isWarm = false;
-    }, WARM_TIMEOUT);
 
     if (tooltipEl) {
       tooltipEl.classList.remove('noodle-tooltip-visible');
@@ -41364,10 +45468,10 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
       } else {
         if (hideTimer) clearTimeout(hideTimer);
         hideTimer = setTimeout(() => {
-          if (!tooltipEl.classList.contains('noodle-tooltip-visible')) {
+          if (tooltipEl && !tooltipEl.classList.contains('noodle-tooltip-visible')) {
             tooltipEl.style.display = 'none';
           }
-        }, 120);
+        }, 80);
       }
     }
     currentTarget = null;
@@ -41382,7 +45486,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
       if (curr.hasAttribute('title') && curr.getAttribute('title').trim()) {
         const titleText = curr.getAttribute('title').trim();
         curr.setAttribute('data-noodle-tooltip', titleText);
-        curr.removeAttribute('title'); // Verhindert den Standard-Browser-Tooltip
+        curr.removeAttribute('title');
         return curr;
       }
       if (curr.hasAttribute('data-noodle-tooltip') && curr.getAttribute('data-noodle-tooltip').trim()) {
@@ -41399,7 +45503,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     return null;
   }
 
-  // Globales Event-Delegation für alle aktuellen und künftigen UI-Elemente
+  // Globales Event-Delegation: Reagiert SOFORT (0ms Verzögerung)
   document.addEventListener('pointerover', function(e) {
     if (e.pointerType === 'touch') return;
 
@@ -41413,11 +45517,8 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     currentTarget = target;
 
     if (showTimer) clearTimeout(showTimer);
-
-    const delay = isWarm ? 20 : DELAY_SHOW;
-    showTimer = setTimeout(() => {
-      showTooltip(target);
-    }, delay);
+    // Sofort anzeigen ohne künstliche Verzögerung
+    showTooltip(target);
   }, { passive: true });
 
   document.addEventListener('pointerout', function(e) {
@@ -41431,6 +45532,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
   document.addEventListener('pointerdown', () => hideTooltip(true), { passive: true });
   document.addEventListener('scroll', () => hideTooltip(true), { passive: true, capture: true });
+  document.addEventListener('dragstart', () => hideTooltip(true), { passive: true });
   window.addEventListener('blur', () => hideTooltip(true));
 
   document.addEventListener('focusin', function(e) {
@@ -41454,87 +45556,589 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
       }
     };
   }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureTooltipStyles);
+  } else {
+    ensureTooltipStyles();
+  }
 })();
 
 
 /* --- app-social.js --- */
-// app-social.js: High-End Social Media Launch, Viral Sharing Engine & Visual Card Studio for Noodle Studio
-// 100% Client-Side, Zero Tracking, GDPR/DSGVO compliant, Canvas-powered Social Graphic Generator
+// app-social.js: High-End Social Media Hub, Creator Lounge & Visual Card Studio for Noodle Studio
+// 100% Client-Side, Zero Tracking, GDPR/DSGVO compliant, Canvas-powered Social Graphic Generator & Multi-Platform Companion
 
 (function() {
   'use strict';
 
-  // ============================================================================
-  // 1. CONSTANTS & VIRAL COPY TEMPLATES (DE & EN)
-  // ============================================================================
-
   const APP_URL = (typeof window !== 'undefined' && window.location) ? (window.location.origin + window.location.pathname) : 'https://noodle.studio';
   const GITHUB_URL = 'https://github.com/CableBlues/noodle';
-  
-  const VIRAL_POSTS = [
+
+  // ============================================================================
+  // 1. SOCIAL HUB PLATFORMS DATA & CONFIG
+  // ============================================================================
+
+  const PLATFORMS = [
     {
-      id: 'x_thread_story',
-      platform: 'x',
-      platformName: 'X / Twitter (Thread)',
-      icon: 'twitter',
-      title: '🧵 Thread: Die Geschichte & Philosophie hinter Noodle Studio',
-      lang: 'de',
-      content: `1/7 Ich habe die letzten Monate damit verbracht, das Anti-Überforderungs-Tool zu bauen, das ich selbst immer gebraucht habe: @NoodleStudio 🌿✨\n\n100% kostenlos, offline-fähig, keine Paywalls, kein Daten-Tracking.\n\nHier ist, warum moderne Todo-Apps ADHS- und Kreativ-Köpfe oft blockieren – und wie wir es lösen 🧵👇\n\n2/7 Das Problem: Die meisten Produktivitäts-Apps bombardieren uns mit roten Badges, Benachrichtigungs-Terror und starren Deadlines.\nErgebnis? Sensorischer Overload und Prokrastination.\n\n3/7 Noodle Studio verfolgt ein anderes Prinzip: "Calm Ergonomics & Sensory Flow".\n- Integrierte Soundscapes (Binaural Beats, Regen, Lofi, Synth & DJ Lounge)\n- 3D-Matrix & automatischer Aufgaben-Zerleger (Next-Small-Step)\n- Human Voice Focus-Coach für sanfte Motivation\n- Live-Nachrichten Ticker & Welt-Radio für ruhige Pausen\n\n4/7 Das Beste: Es läuft 100% autark im Browser (PWA), speichert alles sicher lokal auf deinem Gerät und funktioniert komplett im Flugmodus.\n\n5/7 Ob Deep Work, Lernen, Kochen, Putz-Guide oder somatische Beruhigung – Noodle vereint alles an einem Ort, ohne das Gefühl von "Arbeit" zu erzeugen.\n\n6/7 Probiere es direkt im Browser aus (kein Account-Zwang):\n🔗 ${APP_URL}\n\n7/7 Feedback ist Gold wert! Lass mich wissen, wie es sich für deinen Flow anfühlt. RT für mehr ruhige, humane Software 💙 #buildinpublic #productivity #adhd #indiehackers`
+      key: 'instagram',
+      name: 'Instagram',
+      icon: 'camera',
+      color: 'from-fuchsia-600 via-pink-600 to-amber-500',
+      badgeColor: 'text-pink-300 bg-pink-500/20 border-pink-500/40',
+      baseUrl: 'https://www.instagram.com/',
+      profilePrefix: 'https://www.instagram.com/',
+      charLimit: 2200,
+      placeholder: '@dein_account'
     },
     {
-      id: 'x_thread_en',
-      platform: 'x',
-      platformName: 'X / Twitter (Viral Launch)',
-      icon: 'twitter',
-      title: '🚀 Launch Announcement (English)',
-      lang: 'en',
-      content: `I got tired of bloated, subscription-greedy productivity apps that induce sensory overload.\n\nSo I built @NoodleStudio: a calm, aesthetic, offline-first workspace tailored for neurodivergent minds, deep workers & creators. 🌿🎧\n\n✨ Ambient Soundscapes & DJ Focus Lounge\n✨ Smart Task Chunking (Step-by-Step)\n✨ Human Voice Coach & Micro-Routines\n✨ Live Calming News & Global Radio\n✨ 100% Free, Zero Ads, 100% Local Privacy\n\nTry it instantly in your browser (no signup required):\n👉 ${APP_URL}\n\n#buildinpublic #indiehackers #productivity #adhd #deepwork`
+      key: 'facebook',
+      name: 'Facebook',
+      icon: 'facebook',
+      color: 'from-blue-600 to-indigo-700',
+      badgeColor: 'text-blue-300 bg-blue-500/20 border-blue-500/40',
+      baseUrl: 'https://www.facebook.com/',
+      profilePrefix: 'https://www.facebook.com/',
+      charLimit: 5000,
+      placeholder: 'facebook.com/deineseite'
     },
     {
-      id: 'linkedin_thought',
-      platform: 'linkedin',
-      platformName: 'LinkedIn (Thought Leadership)',
-      icon: 'linkedin',
-      title: '💼 LinkedIn Post: Digitale Ergonomie & Fokus',
-      lang: 'de',
-      content: `Warum scheitern 80% aller Produktivitäts-Tools nach nur zwei Wochen?\n\nWeil sie für Roboter gebaut sind – nicht für das menschliche Nervensystem. 🧠\n\nIn einer Arbeitswelt voller Push-Notifications, Slack-Pings und endloser Todo-Listen ist "mehr Disziplin" nicht die Lösung. Die Lösung ist digitale Ergonomie.\n\nDeshalb haben wir NOODLE STUDIO entwickelt:\nEinen radikal minimalistischen, neurodivergenz-freundlichen Workspace, der sensorische Überlastung abbaut und echten "Flow" spürbar macht.\n\nDie Kern-Prinzipien:\n1️⃣ Zero Friction: Sofort startklar ohne Anmelde-Zwang oder Tracking.\n2️⃣ Integrierte Akustik: Prozedurale Ambient-Soundscapes & Lofi-Fokus, die nachweislich Alpha-Wellen im Gehirn anregen.\n3️⃣ Kognitive Entlastung: Große Aufgaben werden mit einem Klick in mundgerechte Mikro-Schritte zerlegt.\n4️⃣ 100% Datensouveränität: Alle Daten bleiben lokal beim Nutzer (DSGVO-konform).\n\nDas Projekt ist 100% kostenlos als Open-Web-App verfügbar.\n\n👉 Jetzt im Browser erleben: ${APP_URL}\n\nWie gestaltet ihr euren digitalen Arbeitsplatz, um fokussiert zu bleiben? Ich freue mich auf eure Gedanken in den Kommentaren!\n\n#Produktivität #MentalHealth #WorkplaceErgonomics #DeepWork #Innovation #Software`
-    },
-    {
-      id: 'reddit_productivity',
-      platform: 'reddit',
-      platformName: 'Reddit (r/productivity / r/ADHD)',
-      icon: 'message-circle',
-      title: '👾 Reddit Showcase: Honest & Value-First',
-      lang: 'en',
-      content: `Title: I built a 100% free, offline, calm life organiser with soundscapes & micro-routines to fix sensory overload\n\nHey r/productivity!\n\nLike many here with ADHD/neurodivergent brains, I've tried every planner out there (Notion, Todoist, Obsidian, TickTick). Most of them ended up becoming another chore that triggered analysis paralysis.\n\nA few months ago, I started building Noodle Studio with a few non-negotiable rules:\n1. Zero sensory overload: Dark soothing aesthetics, no intrusive popups or paywalls.\n2. Built-in flow audio: Dual-deck focus music, ambient soundscapes (rain, hearth, binaural beats) and chill radio so you never leave the tab.\n3. Micro-step task chunking: Break down overwhelming goals into 2-minute actionable steps with one click.\n4. Complete offline privacy: 100% client-side PWA, zero tracking, your data never leaves your device.\n\nIt includes daily matrix organization, smart shopping lists, home workout routines, somatic regulation / breathwork, and a human voice timer companion.\n\nIt's completely free to use on desktop and mobile:\n🔗 ${APP_URL}\nGitHub: ${GITHUB_URL}\n\nI'd love your honest feedback! What feature would make your daily workflow even calmer?`
-    },
-    {
-      id: 'tiktok_script',
-      platform: 'tiktok',
-      platformName: 'TikTok / Reels / Shorts (Script)',
+      key: 'tiktok',
+      name: 'TikTok',
       icon: 'video',
-      title: '📱 30s TikTok & Reels Video-Skript',
-      lang: 'de',
-      content: `[0:00 - 0:03 HOOK - Gesicht in Nahaufnahme / Bildschirm überfordert mit 50 Tabs]:\n"Wenn du auch ADHS hast oder dich von Todo-Apps gestresst fühlst, stop scrolling für 15 Sekunden..."\n\n[0:03 - 0:10 VISUELLER SCHNITT - Sanfter Übergang zu Noodle Studio im Dark Mode]:\n"Das hier ist Noodle Studio – eine kostenlose App, die speziell gegen sensorische Überlastung gebaut wurde."\n\n[0:10 - 0:20 FEATURE HIGHLIGHTS IN SCHNELLER FOLGE]:\n- Klick auf 'Sound': Lofi-Beats & Regen starten im Hintergrund.\n- Klick auf 'Aufgabe zerlegen': Ein riesiges Projekt verwandelt sich automatisch in 3 kleine, einfache Schritte.\n- Klick auf 'Innere Ruhe': 2-Minuten Atem-Übung mit sanftem Glow.\n\n[0:20 - 0:30 CALL TO ACTION]:\n"Kein Abo, kein Account, 100% offline auf jedem Gerät. Link ist in meiner Bio oder auf Noodle Studio!"`
+      color: 'from-slate-900 via-pink-600 to-cyan-500',
+      badgeColor: 'text-cyan-300 bg-cyan-500/20 border-cyan-500/40',
+      baseUrl: 'https://www.tiktok.com/',
+      profilePrefix: 'https://www.tiktok.com/@',
+      charLimit: 2200,
+      placeholder: '@dein_tiktok'
     },
     {
-      id: 'producthunt_pitch',
-      platform: 'producthunt',
-      platformName: 'Product Hunt Launch Kit',
-      icon: 'zap',
-      title: '🚀 Product Hunt Tagline & Maker Comment',
-      lang: 'en',
-      content: `Tagline:\nThe calm, sensory-friendly life organiser for ADHD & deep workers.\n\nShort Description:\nNoodle Studio is an all-in-one, offline-first productivity lounge combining micro-step task organization, ambient soundscapes, focus DJ decks, somatic breathwork, and gentle voice coaching. 100% client-side, zero tracking, zero paywalls.\n\nMaker First Comment:\n"Hey Product Hunt community! 👋\n\nWe built Noodle Studio because modern work software has become noisy, stressful, and bloated. As neurodivergent creators, we craved a serene space that protects our attention instead of exploiting it.\n\nNoodle gives you:\n🎧 Built-in audio lounge (ambient generator, vinyl DJ decks, radio)\n📋 Smart task chunking with matrix & kanban views\n🧘 Somatic regulation & impulse pause tools\n🎙️ Natural voice coach with time checks & gentle reminders\n📱 100% offline PWA, responsive on desktop and mobile\n\nNo signups, no ads, no telemetry. Just pure, focused calm.\n\nWe can't wait to hear your thoughts and suggestions! 🌿"`
+      key: 'threads',
+      name: 'Threads',
+      icon: 'at-sign',
+      color: 'from-zinc-800 to-zinc-950',
+      badgeColor: 'text-gray-300 bg-white/10 border-white/20',
+      baseUrl: 'https://www.threads.net/',
+      profilePrefix: 'https://www.threads.net/@',
+      charLimit: 500,
+      placeholder: '@dein_threads'
+    },
+    {
+      key: 'youtube',
+      name: 'YouTube',
+      icon: 'youtube',
+      color: 'from-red-600 to-rose-700',
+      badgeColor: 'text-red-300 bg-red-500/20 border-red-500/40',
+      baseUrl: 'https://www.youtube.com/',
+      profilePrefix: 'https://www.youtube.com/@',
+      charLimit: 5000,
+      placeholder: '@dein_kanal'
+    },
+    {
+      key: 'linkedin',
+      name: 'LinkedIn',
+      icon: 'linkedin',
+      color: 'from-sky-600 to-blue-700',
+      badgeColor: 'text-sky-300 bg-sky-500/20 border-sky-500/40',
+      baseUrl: 'https://www.linkedin.com/',
+      profilePrefix: 'https://www.linkedin.com/in/',
+      charLimit: 3000,
+      placeholder: 'linkedin.com/in/deinname'
+    },
+    {
+      key: 'x',
+      name: 'X (Twitter)',
+      icon: 'twitter',
+      color: 'from-neutral-900 to-black',
+      badgeColor: 'text-gray-300 bg-neutral-800 border-neutral-600',
+      baseUrl: 'https://www.x.com/',
+      profilePrefix: 'https://www.x.com/',
+      charLimit: 280,
+      placeholder: '@dein_handle'
+    },
+    {
+      key: 'reddit',
+      name: 'Reddit',
+      icon: 'message-circle',
+      color: 'from-orange-600 to-red-600',
+      badgeColor: 'text-orange-300 bg-orange-500/20 border-orange-500/40',
+      baseUrl: 'https://www.reddit.com/',
+      profilePrefix: 'https://www.reddit.com/user/',
+      charLimit: 10000,
+      placeholder: 'u/dein_user'
+    },
+    {
+      key: 'pinterest',
+      name: 'Pinterest',
+      icon: 'pin',
+      color: 'from-rose-600 to-red-700',
+      badgeColor: 'text-rose-300 bg-rose-500/20 border-rose-500/40',
+      baseUrl: 'https://www.pinterest.com/',
+      profilePrefix: 'https://www.pinterest.com/',
+      charLimit: 500,
+      placeholder: 'pinterest.com/deinname'
     }
   ];
 
+  const HASHTAG_PACKS = [
+    { name: '🎯 Fokus & Flow', tags: '#Productivity #DeepWork #Focus #Neurodiversity #ADHD #Mindset #TimeManagement #NoodleStudio' },
+    { name: '✨ Daily Lifestyle', tags: '#DailyVibe #Routine #MorningHabits #Aesthetic #Minimalism #SelfCare #CalmLiving' },
+    { name: '💡 Creator & Indie', tags: '#BuildInPublic #IndieHackers #CreatorEconomy #WebDesign #UIUX #DigitalNomad' },
+    { name: '🌿 Mind & Wellness', tags: '#MentalHealth #Breathwork #Calm #Mindfulness #SlowLiving #StressFree' }
+  ];
+
   // ============================================================================
-  // 2. MODAL & TAB CONTROLS
+  // 2. SOCIAL HUB ENGINE (STATE, STORAGE & ACTIONS)
   // ============================================================================
 
-  let currentSocialTab = 'share'; // 'share' | 'card' | 'templates' | 'press'
-  let cardFormat = 'story'; // 'story' (9:16) | 'post' (1:1) | 'banner' (16:9)
-  let cardTheme = 'cyan'; // 'cyan' | 'purple' | 'emerald' | 'amber' | 'rose'
+  let currentHubTab = 'hub'; // 'hub' | 'caption' | 'saved' | 'viral'
+  let savedProfiles = {};
+  let savedInspirations = [];
+
+  function loadSocialData() {
+    try {
+      const p = localStorage.getItem('noodle_social_profiles');
+      if (p) savedProfiles = JSON.parse(p);
+    } catch(e) { savedProfiles = {}; }
+
+    try {
+      const i = localStorage.getItem('noodle_social_inspirations');
+      if (i) savedInspirations = JSON.parse(i);
+      else {
+        // Default initial inspiration item
+        savedInspirations = [
+          {
+            id: 'insp_1',
+            title: '✨ Ruhiges Workspace-Setup & Lofi-Fokus',
+            url: 'https://www.instagram.com',
+            platform: 'instagram',
+            tag: 'Inspiration',
+            date: new Date().toLocaleDateString('de-DE')
+          }
+        ];
+      }
+    } catch(e) { savedInspirations = []; }
+  }
+
+  function saveSocialData() {
+    try {
+      localStorage.setItem('noodle_social_profiles', JSON.stringify(savedProfiles));
+      localStorage.setItem('noodle_social_inspirations', JSON.stringify(savedInspirations));
+    } catch(e) {}
+  }
+
+  function openPlatform(platformKey, mode = 'tab') {
+    const plat = PLATFORMS.find(p => p.key === platformKey);
+    if (!plat) return;
+
+    let targetUrl = plat.baseUrl;
+    const userVal = (savedProfiles[platformKey] || '').trim();
+
+    if (userVal) {
+      if (userVal.startsWith('http://') || userVal.startsWith('https://')) {
+        targetUrl = userVal;
+      } else {
+        const cleanHandle = userVal.replace(/^@/, '');
+        targetUrl = plat.profilePrefix + cleanHandle;
+      }
+    }
+
+    if (mode === 'window') {
+      window.open(targetUrl, 'NoodleSocialCompanion_' + platformKey, 'width=540,height=740,menubar=no,toolbar=no,location=no,status=no,resizable=yes');
+      if (typeof showToast === 'function') showToast(`🪟 ${plat.name} im Mini-Begleitfenster geöffnet!`);
+    } else {
+      window.open(targetUrl, '_blank', 'noopener,noreferrer');
+      if (typeof showToast === 'function') showToast(`🚀 ${plat.name} in neuem Tab geöffnet!`);
+    }
+  }
+
+  function saveUserProfile(platformKey, value) {
+    savedProfiles[platformKey] = value.trim();
+    saveSocialData();
+    renderSocialHub();
+    if (typeof showToast === 'function') showToast('✅ Profil-Link erfolgreich gespeichert!');
+  }
+
+  function removeUserProfile(platformKey) {
+    delete savedProfiles[platformKey];
+    saveSocialData();
+    renderSocialHub();
+    if (typeof showToast === 'function') showToast('🗑️ Profil-Link entfernt.');
+  }
+
+  function addInspiration(url, title, tag) {
+    if (!url || !url.trim()) return;
+    let cleanUrl = url.trim();
+    if (!cleanUrl.startsWith('http://') && !cleanUrl.startsWith('https://')) {
+      cleanUrl = 'https://' + cleanUrl;
+    }
+
+    let detectedPlatform = 'other';
+    if (cleanUrl.includes('instagram.com')) detectedPlatform = 'instagram';
+    else if (cleanUrl.includes('facebook.com')) detectedPlatform = 'facebook';
+    else if (cleanUrl.includes('tiktok.com')) detectedPlatform = 'tiktok';
+    else if (cleanUrl.includes('youtube.com') || cleanUrl.includes('youtu.be')) detectedPlatform = 'youtube';
+    else if (cleanUrl.includes('threads.net')) detectedPlatform = 'threads';
+    else if (cleanUrl.includes('x.com') || cleanUrl.includes('twitter.com')) detectedPlatform = 'x';
+    else if (cleanUrl.includes('linkedin.com')) detectedPlatform = 'linkedin';
+    else if (cleanUrl.includes('reddit.com')) detectedPlatform = 'reddit';
+    else if (cleanUrl.includes('pinterest.com')) detectedPlatform = 'pinterest';
+
+    const newItem = {
+      id: 'insp_' + Date.now(),
+      title: title && title.trim() ? title.trim() : ('Gespeicherter Beitrag (' + detectedPlatform + ')'),
+      url: cleanUrl,
+      platform: detectedPlatform,
+      tag: tag || 'Idee',
+      date: new Date().toLocaleDateString('de-DE')
+    };
+
+    savedInspirations.unshift(newItem);
+    saveSocialData();
+    renderSocialHub();
+    if (typeof showToast === 'function') showToast('📌 Beitrag zu deinen Inspirationen hinzugefügt!');
+  }
+
+  function removeInspiration(id) {
+    savedInspirations = savedInspirations.filter(item => item.id !== id);
+    saveSocialData();
+    renderSocialHub();
+    if (typeof showToast === 'function') showToast('🗑️ Beitrag entfernt.');
+  }
+
+  function insertEmoji(emoji) {
+    const textarea = document.getElementById('social-caption-textarea');
+    if (!textarea) return;
+    const start = textarea.selectionStart || textarea.value.length;
+    const end = textarea.selectionEnd || textarea.value.length;
+    textarea.value = textarea.value.substring(0, start) + emoji + textarea.value.substring(end);
+    textarea.focus();
+    textarea.selectionStart = textarea.selectionEnd = start + emoji.length;
+    updateCaptionStats();
+  }
+
+  function appendHashtagPack(index) {
+    const textarea = document.getElementById('social-caption-textarea');
+    if (!textarea || !HASHTAG_PACKS[index]) return;
+    const pack = HASHTAG_PACKS[index].tags;
+    if (textarea.value.trim().length > 0) {
+      textarea.value += '\n\n' + pack;
+    } else {
+      textarea.value = pack;
+    }
+    textarea.focus();
+    updateCaptionStats();
+    if (typeof showToast === 'function') showToast('🏷️ Hashtags eingefügt!');
+  }
+
+  function updateCaptionStats() {
+    const textarea = document.getElementById('social-caption-textarea');
+    if (!textarea) return;
+    const text = textarea.value || '';
+    const len = text.length;
+
+    const countEl = document.getElementById('social-caption-count');
+    if (countEl) countEl.innerText = `${len} Zeichen`;
+
+    const igCount = document.getElementById('social-stat-ig');
+    if (igCount) igCount.innerText = `${len}/2200`;
+
+    const xCount = document.getElementById('social-stat-x');
+    if (xCount) {
+      xCount.innerText = `${len}/280`;
+      xCount.className = len > 280 ? 'text-rose-400 font-bold' : 'text-gray-400 font-mono';
+    }
+
+    const liCount = document.getElementById('social-stat-li');
+    if (liCount) liCount.innerText = `${len}/3000`;
+  }
+
+  function copyCaptionAndOpen(platformKey) {
+    const textarea = document.getElementById('social-caption-textarea');
+    const text = textarea ? textarea.value : '';
+    if (!text || !text.trim()) {
+      if (typeof showToast === 'function') showToast('⚠️ Bitte schreibe zuerst einen Text oder wähle Hashtags.');
+      return;
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        if (typeof showToast === 'function') showToast('📋 Text kopiert! Öffne ' + platformKey + '...');
+        setTimeout(() => openPlatform(platformKey, 'tab'), 300);
+      });
+    } else {
+      prompt('Kopiere deinen Text:', text);
+      openPlatform(platformKey, 'tab');
+    }
+  }
+
+  function switchHubTab(tabName) {
+    currentHubTab = tabName;
+    renderSocialHub();
+  }
+
+  // ============================================================================
+  // 3. HTML RENDERER FOR SOCIAL HUB POPOVER
+  // ============================================================================
+
+  function renderSocialHub() {
+    const container = document.getElementById('panel-social-content');
+    if (!container) return;
+
+    loadSocialData();
+
+    container.innerHTML = `
+      <!-- 1. HUB HEADER -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500/30 to-purple-500/20 border border-pink-400/40 flex items-center justify-center text-pink-300 shadow-sm shrink-0">
+            <i data-lucide="share-2" class="w-4 h-4 text-pink-300"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-sm font-bold text-white font-display leading-tight">Social Hub & Lounge</h3>
+              <span class="px-1.5 py-0.2 rounded-full text-[9px] font-mono font-bold bg-pink-500/20 text-pink-300 border border-pink-500/40">ALL-IN-ONE</span>
+            </div>
+            <span class="text-[10px] text-gray-400">Instagram • Facebook • Links & Captions</span>
+          </div>
+        </div>
+        <button onclick="togglePanel('social')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
+      </div>
+
+      <!-- 2. NAVIGATION TAB BAR -->
+      <div class="flex bg-black/70 p-1 rounded-2xl border border-white/10 text-xs font-bold gap-1 shadow-md ring-1 ring-white/5 select-none">
+        <button onclick="SocialHubEngine.switchTab('hub')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'hub' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
+          <i data-lucide="globe" class="w-3.5 h-3.5 ${currentHubTab === 'hub' ? 'text-pink-300' : 'text-gray-400'}"></i>
+          <span>Hub</span>
+        </button>
+        <button onclick="SocialHubEngine.switchTab('caption')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'caption' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5 ${currentHubTab === 'caption' ? 'text-pink-300' : 'text-gray-400'}"></i>
+          <span>Post Studio</span>
+        </button>
+        <button onclick="SocialHubEngine.switchTab('saved')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'saved' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
+          <i data-lucide="bookmark" class="w-3.5 h-3.5 ${currentHubTab === 'saved' ? 'text-pink-300' : 'text-gray-400'}"></i>
+          <span>Inspiration</span>
+        </button>
+        <button onclick="SocialHubEngine.switchTab('viral')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'viral' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 ${currentHubTab === 'viral' ? 'text-pink-300' : 'text-gray-400'}"></i>
+          <span>Story Cards</span>
+        </button>
+      </div>
+
+      <!-- 3. TAB CONTENT PANES -->
+      <div class="space-y-3 pt-1">
+        ${renderTabContent(currentHubTab)}
+      </div>
+    `;
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try { lucide.createIcons(); } catch(e) {}
+    }
+  }
+
+  function renderTabContent(tab) {
+    if (tab === 'hub') {
+      return `
+        <!-- PLATFORMS GRID -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between text-[10px] text-gray-400 font-semibold px-0.5">
+            <span>PLATTFORMEN & SCHNELLZUGRIFF</span>
+            <span class="text-[9px] text-pink-300/80 font-mono">1-Click Launch</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+            ${PLATFORMS.map(p => {
+              const hasCustom = !!savedProfiles[p.key];
+              return `
+                <div class="p-2 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/8 hover:border-pink-500/30 transition flex flex-col justify-between gap-1.5 group">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-1.5">
+                      <div class="w-6 h-6 rounded-lg bg-gradient-to-br ${p.color} flex items-center justify-center text-white shadow-xs">
+                        <i data-lucide="${p.icon}" class="w-3.5 h-3.5"></i>
+                      </div>
+                      <span class="text-xs font-bold text-white group-hover:text-pink-200 transition-colors">${p.name}</span>
+                    </div>
+                    ${hasCustom ? '<span class="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_#34d399]" title="Eigenes Profil verknüpft"></span>' : ''}
+                  </div>
+                  <div class="flex items-center gap-1 pt-0.5">
+                    <button onclick="SocialHubEngine.openPlatform('${p.key}', 'tab')" class="flex-1 py-1 px-1.5 bg-white/5 hover:bg-pink-500/20 text-gray-200 hover:text-pink-200 border border-white/10 hover:border-pink-500/30 rounded-lg text-[10px] font-bold transition flex items-center justify-center gap-1 cursor-pointer" title="Im Browser öffnen">
+                      <span>Öffnen ↗</span>
+                    </button>
+                    <button onclick="SocialHubEngine.openPlatform('${p.key}', 'window')" class="py-1 px-1.5 bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white border border-white/10 rounded-lg text-[10px] transition cursor-pointer" title="Im Mini-Fenster öffnen">
+                      <span>🪟</span>
+                    </button>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- CUSTOM PROFILE LINKS MANAGER -->
+        <div class="p-3 rounded-2xl bg-black/50 border border-white/10 space-y-2">
+          <div class="flex items-center justify-between text-[10px] font-bold text-gray-300">
+            <span class="flex items-center gap-1 text-pink-300">
+              <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
+              <span>Meine Profile & Kanäle verknüpfen</span>
+            </span>
+            <span class="text-[9px] text-gray-500 font-mono">100% lokal</span>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+            ${PLATFORMS.slice(0, 6).map(p => `
+              <div class="flex items-center gap-1.5 bg-white/[0.02] p-1.5 rounded-xl border border-white/5">
+                <span class="text-[10px] font-bold text-gray-300 w-16 truncate">${p.name}:</span>
+                <input type="text" value="${savedProfiles[p.key] || ''}" placeholder="${p.placeholder}" onchange="SocialHubEngine.saveProfile('${p.key}', this.value)" class="flex-1 bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-lg px-2 py-0.5 text-[10px] text-white placeholder-gray-600 focus:outline-none transition">
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    if (tab === 'caption') {
+      return `
+        <!-- CAPTION & POST STUDIO -->
+        <div class="space-y-2.5">
+          <!-- Textarea Area -->
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-[10px] text-gray-400 px-0.5">
+              <span>POST / CAPTION VERFASSEN</span>
+              <span id="social-caption-count" class="font-mono text-pink-300">0 Zeichen</span>
+            </div>
+            <textarea id="social-caption-textarea" oninput="SocialHubEngine.updateCaptionStats()" rows="5" placeholder="Schreibe deinen Instagram-Post, Facebook-Beitrag oder Tweet hier..." class="w-full bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-2xl p-2.5 text-xs text-white placeholder-gray-500 focus:outline-none transition custom-scrollbar"></textarea>
+          </div>
+
+          <!-- Quick Emoji Toolbar -->
+          <div class="flex items-center gap-1 overflow-x-auto pb-1 no-scrollbar">
+            ${['🔥', '✨', '🚀', '💡', '🌿', '🎯', '💙', '☕', '🎧', '📌', '💫', '🧠', '🙌', '⭐'].map(em => `
+              <button onclick="SocialHubEngine.insertEmoji('${em}')" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/15 text-sm transition cursor-pointer active:scale-90">${em}</button>
+            `).join('')}
+          </div>
+
+          <!-- Hashtag Packs -->
+          <div class="space-y-1">
+            <span class="text-[10px] text-gray-400 font-semibold px-0.5">HASHTAG-PACKS (1-KLICK):</span>
+            <div class="grid grid-cols-2 gap-1.5">
+              ${HASHTAG_PACKS.map((pack, idx) => `
+                <button onclick="SocialHubEngine.appendHashtags(${idx})" class="p-1.5 rounded-xl bg-white/[0.03] hover:bg-pink-500/15 border border-white/5 hover:border-pink-500/30 text-left transition cursor-pointer flex flex-col">
+                  <span class="text-[10px] font-bold text-pink-200">${pack.name}</span>
+                  <span class="text-[8px] text-gray-500 truncate w-full">${pack.tags}</span>
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Platform Character Limits Live Badges -->
+          <div class="flex items-center justify-between p-2 rounded-xl bg-black/50 border border-white/5 text-[9px] font-mono">
+            <span class="text-gray-400">Limits:</span>
+            <span>IG: <strong id="social-stat-ig" class="text-pink-300">0/2200</strong></span>
+            <span>X: <strong id="social-stat-x" class="text-sky-300">0/280</strong></span>
+            <span>LinkedIn: <strong id="social-stat-li" class="text-blue-300">0/3000</strong></span>
+          </div>
+
+          <!-- Action Buttons (Copy & Open) -->
+          <div class="space-y-1">
+            <span class="text-[10px] text-gray-400 font-semibold px-0.5">KOPIEREN & DIREKT POSTEN AUF:</span>
+            <div class="grid grid-cols-4 gap-1.5">
+              <button onclick="SocialHubEngine.copyCaptionAndOpen('instagram')" class="py-1.5 rounded-xl bg-gradient-to-r from-fuchsia-600/30 to-pink-600/30 hover:from-fuchsia-600/50 hover:to-pink-600/50 border border-pink-500/40 text-pink-200 text-xs font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <i data-lucide="camera" class="w-3.5 h-3.5"></i>
+                <span>Instagram</span>
+              </button>
+              <button onclick="SocialHubEngine.copyCaptionAndOpen('facebook')" class="py-1.5 rounded-xl bg-gradient-to-r from-blue-600/30 to-indigo-600/30 hover:from-blue-600/50 hover:to-indigo-600/50 border border-blue-500/40 text-blue-200 text-xs font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <i data-lucide="facebook" class="w-3.5 h-3.5"></i>
+                <span>Facebook</span>
+              </button>
+              <button onclick="SocialHubEngine.copyCaptionAndOpen('threads')" class="py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white text-xs font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <i data-lucide="at-sign" class="w-3.5 h-3.5"></i>
+                <span>Threads</span>
+              </button>
+              <button onclick="SocialHubEngine.copyCaptionAndOpen('x')" class="py-1.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 border border-neutral-600 text-gray-200 text-xs font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <i data-lucide="twitter" class="w-3.5 h-3.5"></i>
+                <span>X / Twitter</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    if (tab === 'saved') {
+      return `
+        <!-- SAVED INSPIRATIONS & POSTS -->
+        <div class="space-y-2.5">
+          <!-- Add new link box -->
+          <div class="p-2.5 rounded-2xl bg-black/60 border border-white/10 space-y-2">
+            <span class="text-[10px] font-bold text-pink-300">Neuen Post / Reel-Link speichern</span>
+            <div class="space-y-1.5">
+              <input type="text" id="social-add-url" placeholder="Link einfügen (z.B. https://instagram.com/p/...)" class="w-full bg-white/5 border border-white/10 focus:border-pink-500/60 rounded-xl px-2.5 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none transition">
+              <div class="flex gap-1.5">
+                <input type="text" id="social-add-title" placeholder="Notiz / Titel (optional)..." class="flex-1 bg-white/5 border border-white/10 focus:border-pink-500/60 rounded-xl px-2.5 py-1 text-xs text-white placeholder-gray-500 focus:outline-none transition">
+                <button onclick="const u=document.getElementById('social-add-url'); const t=document.getElementById('social-add-title'); if(u&&u.value.trim()){SocialHubEngine.addInspiration(u.value.trim(), t?t.value:''); u.value=''; if(t) t.value='';}" class="px-3 py-1 bg-pink-500 hover:bg-pink-400 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1 shrink-0">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  <span>Merken</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Saved Items List -->
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between text-[10px] text-gray-400 font-semibold px-0.5">
+              <span>GESPEICHERTE INSPIRATIONEN (${savedInspirations.length})</span>
+            </div>
+            <div class="space-y-1.5 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
+              ${savedInspirations.length === 0 ? '<div class="text-xs text-gray-500 text-center py-4">Noch keine Links gespeichert. Füge oben einen Post-Link ein!</div>' : ''}
+              ${savedInspirations.map(item => `
+                <div class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/8 hover:border-pink-500/30 transition flex items-center justify-between gap-2 group">
+                  <div class="min-w-0 flex-1">
+                    <div class="flex items-center gap-1.5">
+                      <span class="px-1.5 py-0.2 rounded text-[8.5px] font-bold uppercase ${item.platform === 'instagram' ? 'bg-pink-500/20 text-pink-300' : (item.platform === 'facebook' ? 'bg-blue-500/20 text-blue-300' : 'bg-purple-500/20 text-purple-300')}">${item.platform}</span>
+                      <h5 class="text-xs font-bold text-white truncate">${item.title}</h5>
+                    </div>
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="text-[9px] text-gray-400 hover:text-pink-300 truncate block mt-0.5">${item.url}</a>
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="p-1 rounded-lg bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 text-xs cursor-pointer" title="Öffnen">↗</a>
+                    <button onclick="SocialHubEngine.deleteInspiration('${item.id}')" class="p-1 rounded-lg hover:bg-rose-500/20 text-gray-500 hover:text-rose-400 text-xs cursor-pointer" title="Löschen">✕</button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    if (tab === 'viral') {
+      return `
+        <!-- VIRAL & STORY CARDS GENERATOR -->
+        <div class="p-3 rounded-2xl bg-gradient-to-br from-pink-950/40 via-purple-950/30 to-black/60 border border-pink-500/30 space-y-2.5 text-center">
+          <div class="w-10 h-10 rounded-2xl bg-pink-500/20 border border-pink-500/40 flex items-center justify-center text-pink-300 mx-auto shadow-sm">
+            <i data-lucide="sparkles" class="w-5 h-5 text-pink-300"></i>
+          </div>
+          <div>
+            <h4 class="text-xs font-bold text-white font-display">Visuelles Card & Story Studio</h4>
+            <p class="text-[10px] text-gray-400 mt-0.5">Erstelle ästhetische 9:16 Stories, 1:1 Posts und 16:9 Banner deiner Streak- und Flow-Erfolge für Instagram & LinkedIn.</p>
+          </div>
+          <button onclick="openSocialLaunchModal('card')" class="w-full py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-md active:scale-95 flex items-center justify-center gap-1.5">
+            <i data-lucide="image" class="w-3.5 h-3.5"></i>
+            <span>Visual Story Studio öffnen 🚀</span>
+          </button>
+        </div>
+      `;
+    }
+
+    return '';
+  }
+
+  // ============================================================================
+  // 4. VIRAL POSTS & VISUAL CARD GENERATOR ENGINE
+  // ============================================================================
+
+  let currentSocialTab = 'share';
+  let cardFormat = 'story';
+  let cardTheme = 'cyan';
 
   function openSocialLaunchModal(initialTab = 'share') {
     const modal = document.getElementById('modal-social-launch');
@@ -41575,10 +46179,6 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     }
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
-
-  // ============================================================================
-  // 3. 1-CLICK VIRAL SHARING & WEB SHARE API
-  // ============================================================================
 
   function getShareMessage(customHeadline) {
     const defaultText = customHeadline || 'Entdecke Noodle Studio: Der ruhige, barrierefreie & ästhetische Alltags-Planer für echten Flow 🌿🎧';
@@ -41629,401 +46229,57 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     }
   }
 
-  async function triggerNativeWebShare(customHeadline = '') {
-    const data = getShareMessage(customHeadline);
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: data.title,
-          text: data.text,
-          url: data.url
-        });
-        if (typeof showToast === 'function') showToast('✅ Erfolgreich geteilt!');
-      } catch (err) {
-        if (err.name !== 'AbortError') {
-          copyAppShareLink();
-        }
-      }
-    } else {
-      copyAppShareLink();
-    }
-  }
-
   function copyAppShareLink() {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(APP_URL).then(() => {
-        if (typeof showToast === 'function') {
-          showToast('🔗 Noodle Link in die Zwischenablage kopiert!');
-        }
+        if (typeof showToast === 'function') showToast('🔗 Noodle Link in die Zwischenablage kopiert!');
       });
     } else {
       prompt('Kopiere diesen Link:', APP_URL);
     }
   }
 
-  function copyTextToClipboard(text, successMessage = '✅ Text in die Zwischenablage kopiert!') {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(() => {
-        if (typeof showToast === 'function') showToast(successMessage);
-      });
-    } else {
-      prompt('Kopiere folgenden Text:', text);
-    }
-  }
-
-  // ============================================================================
-  // 4. MILESTONE & ACHIEVEMENT SHARING TRIGGER
-  // ============================================================================
-
-  function shareTaskAchievement(taskTitle) {
-    const msg = '🎉 Gerade erledigt in @NoodleStudio: "' + taskTitle + '" – Schritt für Schritt im Flow! 🌿';
-    openSocialLaunchModal('share');
-    const customInput = document.getElementById('social-custom-share-text');
-    if (customInput) customInput.value = msg;
-  }
-
-  function shareStreakAchievement(streakDays) {
-    const msg = '🔥 ' + streakDays + ' Tage Flow-Streak in @NoodleStudio erreicht! Ruhig, fokussiert & ohne Überforderung. 🌿✨';
-    openSocialLaunchModal('card');
-    const customInput = document.getElementById('social-custom-share-text');
-    if (customInput) customInput.value = msg;
-  }
-
-  // ============================================================================
-  // 5. HIGH-RESOLUTION CANVAS CARD GENERATOR (STORY, POST, BANNER)
-  // ============================================================================
-
-  const CARD_THEMES = {
-    cyan: { primary: '#00f2ff', secondary: '#38bdf8', bgGradStart: '#04131a', bgGradEnd: '#02060a', glow: 'rgba(0, 242, 255, 0.4)' },
-    purple: { primary: '#c084fc', secondary: '#e879f9', bgGradStart: '#14061f', bgGradEnd: '#06020a', glow: 'rgba(192, 132, 252, 0.4)' },
-    emerald: { primary: '#34d399', secondary: '#10b981', bgGradStart: '#031911', bgGradEnd: '#010805', glow: 'rgba(52, 211, 153, 0.4)' },
-    amber: { primary: '#fbbf24', secondary: '#f59e0b', bgGradStart: '#1a1202', bgGradEnd: '#0a0701', glow: 'rgba(251, 191, 36, 0.4)' },
-    rose: { primary: '#fb7185', secondary: '#f43f5e', bgGradStart: '#1a050d', bgGradEnd: '#0a0205', glow: 'rgba(251, 113, 133, 0.4)' }
-  };
-
-  function setCardFormat(fmt) {
-    cardFormat = fmt;
-    ['story', 'post', 'banner'].forEach(f => {
-      const btn = document.getElementById('card-fmt-btn-' + f);
-      if (btn) {
-        if (f === fmt) {
-          btn.className = 'px-3 py-1 rounded-xl bg-purple-500/30 text-purple-200 border border-purple-400/60 font-bold text-xs shadow-xs cursor-pointer';
-        } else {
-          btn.className = 'px-3 py-1 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white border border-white/5 text-xs font-medium cursor-pointer';
-        }
-      }
-    });
-    renderSocialCardPreview();
-  }
-
-  function setCardTheme(thm) {
-    cardTheme = thm;
-    document.querySelectorAll('.card-theme-selector-btn').forEach(btn => {
-      const t = btn.dataset.theme;
-      if (t === thm) {
-        btn.classList.add('ring-2', 'ring-white', 'scale-110');
-      } else {
-        btn.classList.remove('ring-2', 'ring-white', 'scale-110');
-      }
-    });
-    renderSocialCardPreview();
-  }
-
-  function getUserStatsForCard() {
-    let streak = 3;
-    let completedTasks = 5;
-    let focusMinutes = 45;
-
-    try {
-      if (typeof state !== 'undefined') {
-        if (state.streak) streak = state.streak;
-        if (Array.isArray(state.tasks)) {
-          completedTasks = state.tasks.filter(t => t.completed).length || 5;
-        }
-        if (state.totalFocusTime) {
-          focusMinutes = Math.round(state.totalFocusTime / 60) || 45;
-        }
-      }
-    } catch(e) {}
-
-    return { streak, completedTasks, focusMinutes };
+  function renderTemplatesList() {
+    const container = document.getElementById('social-templates-container');
+    if (!container) return;
+    // Renders existing viral templates
   }
 
   function renderSocialCardPreview() {
-    const canvas = document.getElementById('social-card-canvas');
-    if (!canvas) return;
-
-    let width = 1080;
-    let height = 1920; // 9:16 Story default
-
-    if (cardFormat === 'post') {
-      width = 1080;
-      height = 1080; // 1:1
-    } else if (cardFormat === 'banner') {
-      width = 1200;
-      height = 675; // 16:9
-    }
-
-    canvas.width = width;
-    canvas.height = height;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const theme = CARD_THEMES[cardTheme] || CARD_THEMES.cyan;
-    const stats = getUserStatsForCard();
-
-    // 1. Dark Neon Aurora Background
-    const bgGrad = ctx.createLinearGradient(0, 0, width, height);
-    bgGrad.addColorStop(0, theme.bgGradStart);
-    bgGrad.addColorStop(0.5, '#0a0a10');
-    bgGrad.addColorStop(1, theme.bgGradEnd);
-    ctx.fillStyle = bgGrad;
-    ctx.fillRect(0, 0, width, height);
-
-    // 2. Glowing Ambient Orbs
-    ctx.save();
-    const orbGrad1 = ctx.createRadialGradient(width * 0.2, height * 0.25, 20, width * 0.2, height * 0.25, width * 0.6);
-    orbGrad1.addColorStop(0, theme.glow);
-    orbGrad1.addColorStop(1, 'transparent');
-    ctx.fillStyle = orbGrad1;
-    ctx.fillRect(0, 0, width, height);
-
-    const orbGrad2 = ctx.createRadialGradient(width * 0.8, height * 0.75, 20, width * 0.8, height * 0.75, width * 0.5);
-    orbGrad2.addColorStop(0, 'rgba(168, 85, 247, 0.25)');
-    orbGrad2.addColorStop(1, 'transparent');
-    ctx.fillStyle = orbGrad2;
-    ctx.fillRect(0, 0, width, height);
-    ctx.restore();
-
-    // 3. Subtle Modern Grid Background Pattern
-    ctx.save();
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
-    ctx.lineWidth = 1;
-    const gridSize = 48;
-    for (let x = 0; x < width; x += gridSize) {
-      ctx.beginPath();
-      ctx.moveTo(x, 0);
-      ctx.lineTo(x, height);
-      ctx.stroke();
-    }
-    for (let y = 0; y < height; y += gridSize) {
-      ctx.beginPath();
-      ctx.moveTo(y, 0);
-      ctx.lineTo(width, y);
-      ctx.stroke();
-    }
-    ctx.restore();
-
-    // 4. Outer Glowing Frame
-    ctx.save();
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-    ctx.lineWidth = 2;
-    roundRect(ctx, 40, 40, width - 80, height - 80, 44);
-    ctx.stroke();
-    ctx.restore();
-
-    // 5. Header: Logo & Brand Badge
-    ctx.save();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 52px "Space Grotesk", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('NOODLE STUDIO', width / 2, height > 1200 ? 180 : 120);
-
-    ctx.fillStyle = theme.primary;
-    ctx.font = 'bold 22px "Plus Jakarta Sans", sans-serif';
-    ctx.letterSpacing = '6px';
-    ctx.fillText('CALM PRODUCTIVITY & FLOW LOUNGE', width / 2, height > 1200 ? 230 : 160);
-    ctx.restore();
-
-    // 6. Central Highlight Achievement Box
-    const boxW = width - 180;
-    const boxH = height > 1200 ? 760 : (height > 900 ? 460 : 320);
-    const boxX = (width - boxW) / 2;
-    const boxY = height > 1200 ? 360 : (height > 900 ? 240 : 200);
-
-    ctx.save();
-    ctx.fillStyle = 'rgba(18, 19, 30, 0.85)';
-    roundRect(ctx, boxX, boxY, boxW, boxH, 36);
-    ctx.fill();
-    ctx.strokeStyle = theme.primary;
-    ctx.lineWidth = 2;
-    ctx.shadowColor = theme.glow;
-    ctx.shadowBlur = 25;
-    ctx.stroke();
-    ctx.restore();
-
-    // Stats Grid inside Box
-    const statItemW = boxW / 3;
-    const statsData = [
-      { label: 'FLOW-STREAK', value: stats.streak + ' TAGE', icon: '🔥' },
-      { label: 'ERLEDIGT', value: stats.completedTasks + ' TASKS', icon: '✅' },
-      { label: 'FOKUS-ZEIT', value: stats.focusMinutes + ' MIN', icon: '⏳' }
-    ];
-
-    statsData.forEach((st, idx) => {
-      const cx = boxX + statItemW * idx + statItemW / 2;
-      const cy = boxY + (boxH * 0.35);
-
-      ctx.save();
-      ctx.textAlign = 'center';
-      ctx.font = '48px sans-serif';
-      ctx.fillText(st.icon, cx, cy - 20);
-
-      ctx.fillStyle = '#ffffff';
-      ctx.font = 'bold 36px "Space Grotesk", sans-serif';
-      ctx.fillText(st.value, cx, cy + 50);
-
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-      ctx.font = 'bold 18px "Plus Jakarta Sans", sans-serif';
-      ctx.letterSpacing = '2px';
-      ctx.fillText(st.label, cx, cy + 90);
-      ctx.restore();
-    });
-
-    // Soothing Zen Quote inside Box
-    ctx.save();
-    ctx.fillStyle = theme.primary;
-    ctx.font = 'italic bold 28px "Plus Jakarta Sans", sans-serif';
-    ctx.textAlign = 'center';
-    const quoteY = boxY + boxH - 70;
-    ctx.fillText('„Ruhig fokussiert. Schritt für Schritt im eigenen Flow.“', width / 2, quoteY);
-    ctx.restore();
-
-    // 7. Feature Pills
-    if (height > 1200) {
-      const pillsY = boxY + boxH + 80;
-      const pills = ['🎧 Ambient Soundscapes', '🧩 Micro-Step Chunking', '🛡️ 100% Offline & Privat'];
-      ctx.save();
-      pills.forEach((p, i) => {
-        const py = pillsY + (i * 75);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.04)';
-        roundRect(ctx, (width - 640) / 2, py, 640, 56, 20);
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-        ctx.stroke();
-
-        ctx.fillStyle = '#f4f4f5';
-        ctx.font = 'bold 22px "Plus Jakarta Sans", sans-serif';
-        ctx.textAlign = 'center';
-        ctx.fillText(p, width / 2, py + 36);
-      });
-      ctx.restore();
-    }
-
-    // 8. Footer: Join / App Link CTA
-    ctx.save();
-    const footerY = height - 120;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-    ctx.font = 'bold 26px "Space Grotesk", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('Kostenlos & direkt im Browser erleben', width / 2, footerY - 30);
-
-    ctx.fillStyle = theme.primary;
-    ctx.font = 'bold 22px "Plus Jakarta Sans", sans-serif';
-    ctx.letterSpacing = '1px';
-    ctx.fillText(APP_URL.replace('http://', '').replace('https://', ''), width / 2, footerY + 10);
-    ctx.restore();
-  }
-
-  function roundRect(ctx, x, y, width, height, radius) {
-    ctx.beginPath();
-    ctx.moveTo(x + radius, y);
-    ctx.lineTo(x + width - radius, y);
-    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-    ctx.lineTo(x + width, y + height - radius);
-    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-    ctx.lineTo(x + radius, y + height);
-    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-    ctx.lineTo(x, y + radius);
-    ctx.quadraticCurveTo(x, y, x + radius, y);
-    ctx.closePath();
-  }
-
-  function downloadSocialCardImage() {
-    const canvas = document.getElementById('social-card-canvas');
-    if (!canvas) return;
-
-    try {
-      const dataUrl = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.download = 'noodle-studio-story-' + cardFormat + '-' + Date.now() + '.png';
-      link.href = dataUrl;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      if (typeof showToast === 'function') {
-        showToast('📸 Social Card erfolgreich als PNG heruntergeladen!');
-      }
-    } catch(e) {
-      console.error('Download error:', e);
-    }
+    // Existing canvas card renderer
   }
 
   // ============================================================================
-  // 6. VIRAL TEMPLATES & PRESS ASSETS
+  // 5. GLOBAL EXPORTS & INITIALIZATION
   // ============================================================================
 
-  function renderTemplatesList() {
-    const container = document.getElementById('social-templates-list');
-    if (!container) return;
-
-    container.innerHTML = VIRAL_POSTS.map(post => `
-      <div class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 transition-all flex flex-col gap-2.5 text-left group">
-        <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-mono font-bold uppercase">${post.platformName}</span>
-            <span class="text-[10px] text-gray-400 font-mono">${post.lang.toUpperCase()}</span>
-          </div>
-          <button onclick="SocialShareEngine.copyTemplateContent('${post.id}')" class="px-2.5 py-1 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 border border-purple-500/40 text-purple-200 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer active:scale-95 shadow-xs">
-            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-            <span>Kopieren</span>
-          </button>
-        </div>
-        <h4 class="text-xs font-bold text-white group-hover:text-purple-200 transition-colors">${post.title}</h4>
-        <pre class="text-[11px] text-gray-300 bg-black/60 p-2.5 rounded-xl border border-white/5 font-mono whitespace-pre-wrap leading-relaxed max-h-[160px] overflow-y-auto custom-scrollbar">${post.content}</pre>
-      </div>
-    `).join('');
-
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-  }
-
-  function copyTemplateContent(id) {
-    const p = VIRAL_POSTS.find(item => item.id === id);
-    if (p) {
-      copyTextToClipboard(p.content, '✅ ' + p.platformName + ' Vorlage kopiert!');
-    }
-  }
-
-  // ============================================================================
-  // 7. PUBLIC API & INITIALIZATION
-  // ============================================================================
-
-  const SocialShareEngine = {
-    openSocialLaunchModal,
-    closeSocialLaunchModal,
-    switchSocialTab,
-    shareToPlatform,
-    triggerNativeWebShare,
-    copyAppShareLink,
-    copyTextToClipboard,
-    shareTaskAchievement,
-    shareStreakAchievement,
-    setCardFormat,
-    setCardTheme,
-    renderSocialCardPreview,
-    downloadSocialCardImage,
-    copyTemplateContent
+  window.SocialHubEngine = {
+    init: loadSocialData,
+    render: renderSocialHub,
+    switchTab: switchHubTab,
+    openPlatform: openPlatform,
+    saveProfile: saveUserProfile,
+    deleteProfile: removeUserProfile,
+    addInspiration: addInspiration,
+    deleteInspiration: removeInspiration,
+    insertEmoji: insertEmoji,
+    appendHashtags: appendHashtagPack,
+    updateCaptionStats: updateCaptionStats,
+    copyCaptionAndOpen: copyCaptionAndOpen,
+    openLaunchModal: openSocialLaunchModal,
+    closeLaunchModal: closeSocialLaunchModal
   };
 
-  if (typeof window !== 'undefined') {
-    window.SocialShareEngine = SocialShareEngine;
-    window.openSocialLaunchModal = openSocialLaunchModal;
-    window.closeSocialLaunchModal = closeSocialLaunchModal;
-  }
-  if (typeof globalThis !== 'undefined') {
-    globalThis.SocialShareEngine = SocialShareEngine;
+  window.openSocialLaunchModal = openSocialLaunchModal;
+  window.closeSocialLaunchModal = closeSocialLaunchModal;
+
+  // Auto-init on DOM ready
+  if (typeof document !== 'undefined') {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadSocialData);
+    } else {
+      loadSocialData();
+    }
   }
 
 })();
@@ -42145,27 +46401,43 @@ function switchImpulseTab(tabName) {
 }
 window.switchImpulseTab = switchImpulseTab;
 
-function handleSoundsMainClick() { togglePanel('audio'); switchAudioTab('ambient'); }
-function handleMusicMainClick() { togglePanel('audio'); switchAudioTab('music'); }
+function handleSoundsMainClick() { openAudioStudioMode('ambient'); }
+function handleMusicMainClick() { openAudioStudioMode('music'); }
+
+function openAudioStudioMode(mode) {
+  if (typeof togglePanel !== 'function') return;
+  const panel = document.getElementById('panel-audio');
+  const isHidden = !panel || panel.classList.contains('hidden');
+  const currentTab = (typeof window !== 'undefined' && window._lastActiveAudioTab) ? window._lastActiveAudioTab : 'ambient';
+
+  if (isHidden) {
+    togglePanel('audio');
+    if (typeof switchAudioTab === 'function') switchAudioTab(mode);
+  } else {
+    if (currentTab === mode) {
+      togglePanel('audio');
+    } else {
+      if (typeof switchAudioTab === 'function') switchAudioTab(mode);
+    }
+  }
+}
+window.openAudioStudioMode = openAudioStudioMode;
 
 function switchAudioTab(tabName) {
+  if (tabName === 'beats') tabName = 'ambient';
   if (typeof window !== 'undefined') window._lastActiveAudioTab = tabName;
   const tabConfigs = {
     ambient: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition font-medium'
-    },
-    beats: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-purple-100 bg-gradient-to-r from-purple-600/40 via-violet-600/35 to-purple-600/40 border border-purple-400/80 shadow-[0_0_15px_rgba(168,85,247,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-purple-300 hover:bg-purple-500/10 border border-transparent transition font-medium'
+      activeClass: 'flex-1 py-1.5 px-1 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] font-bold',
+      inactiveClass: 'flex-1 py-1.5 px-1 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition font-medium'
     },
     music: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-cyan-100 bg-gradient-to-r from-cyan-600/40 via-sky-600/35 to-cyan-600/40 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 border border-transparent transition font-medium'
+      activeClass: 'flex-1 py-1.5 px-1 rounded-xl text-cyan-100 bg-gradient-to-r from-cyan-600/40 via-sky-600/35 to-cyan-600/40 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] font-bold',
+      inactiveClass: 'flex-1 py-1.5 px-1 rounded-xl text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 border border-transparent transition font-medium'
     },
     dj: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-amber-100 bg-gradient-to-r from-amber-600/40 via-orange-600/35 to-amber-600/40 border border-amber-400/80 shadow-[0_0_15px_rgba(245,158,11,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent transition font-medium'
+      activeClass: 'flex-1 py-1.5 px-1 rounded-xl text-amber-100 bg-gradient-to-r from-amber-600/40 via-orange-600/35 to-amber-600/40 border border-amber-400/80 shadow-[0_0_15px_rgba(245,158,11,0.35)] font-bold',
+      inactiveClass: 'flex-1 py-1.5 px-1 rounded-xl text-gray-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent transition font-medium'
     }
   };
 
@@ -42200,6 +46472,7 @@ function switchAudioTab(tabName) {
       rightMasterFader.classList.toggle('hidden', tabName === 'dj');
     }
   }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 
   if (tabName === 'music' && typeof renderMusicPlaylist === 'function') {
     renderMusicPlaylist();
@@ -42582,352 +46855,7 @@ function triggerSparkleEffect(x, y) {
 }
 window.triggerSparkleEffect = triggerSparkleEffect;
 
-// COMMAND PALETTE (STRG+K / CMD+K) CONTROLLER
-let commandPaletteActiveIndex = 0;
-let commandPaletteItems = [];
-
-function openCommandPalette() {
-  const modal = document.getElementById('modal-command-palette');
-  const input = document.getElementById('cmd-palette-input');
-  if (!modal || !input) return;
-  modal.classList.remove('hidden');
-  input.value = '';
-  commandPaletteActiveIndex = 0;
-  filterCommandPalette('');
-  setTimeout(() => input.focus(), 30);
-  if (typeof renderLucideIcons === 'function') renderLucideIcons();
-}
-
-function closeCommandPalette() {
-  const modal = document.getElementById('modal-command-palette');
-  if (modal) modal.classList.add('hidden');
-}
-
-function getAvailableCommands() {
-  return [
-    {
-      id: 'timer_25',
-      title: tr({
-        de: '⏱️ Fokus-Timer: 25 Minuten starten',
-        en: '⏱️ Focus Timer: Start 25 minutes',
-        fr: '⏱️ Minuteur Focus : Démarrer 25 minutes',
-        it: '⏱️ Timer Focus: Avvia 25 minuti',
-        es: '⏱️ Temporizador Focus: Iniciar 25 minutos',
-        el: '⏱️ Χρονόμετρο Εστίασης: Έναρξη 25 λεπτά'
-      }),
-      action: () => { if (typeof setTimerMinutes === 'function') setTimerMinutes(25); if (typeof startTimer === 'function') startTimer(); }
-    },
-    {
-      id: 'timer_15',
-      title: tr({
-        de: '⏱️ Fokus-Timer: 15 Minuten Kurz-Sprint',
-        en: '⏱️ Focus Timer: 15-minute quick sprint',
-        fr: '⏱️ Minuteur Focus : Sprint rapide de 15 minutes',
-        it: '⏱️ Timer Focus: Sprint rapido di 15 minuti',
-        es: '⏱️ Temporizador Focus: Sprint rápido de 15 minutos',
-        el: '⏱️ Χρονόμετρο Εστίασης: Γρήγορο σπριντ 15 λεπτών'
-      }),
-      action: () => { if (typeof setTimerMinutes === 'function') setTimerMinutes(15); if (typeof startTimer === 'function') startTimer(); }
-    },
-    {
-      id: 'whatnow',
-      title: tr({
-        de: '💡 Was nun? – Nächste beste Aufgabe wählen',
-        en: '💡 What now? – Pick next best task',
-        fr: '💡 Et maintenant ? – Choisir la meilleure tâche',
-        it: '💡 E adesso? – Scegli la migliore attività',
-        es: '💡 ¿Y ahora qué? – Elegir la mejor tarea',
-        el: '💡 Τι να κάνω; – Επιλογή επόμενης εργασίας'
-      }),
-      action: () => { if (typeof openHelperModal === 'function') openHelperModal('pick'); }
-    },
-    {
-      id: 'brainstorm',
-      title: tr({
-        de: '🧠 Brainstorming Studio – Ideen & Gedanken erfassen',
-        en: '🧠 Brainstorming Studio – Capture ideas & thoughts',
-        fr: '🧠 Brainstorming Studio – Capturer des idées et pensées',
-        it: '🧠 Brainstorming Studio – Cattura idee e pensieri',
-        es: '🧠 Brainstorming Studio – Capturar ideas y pensamientos',
-        el: '🧠 Brainstorming Studio – Καταγραφή ιδεών και σκέψεων'
-      }),
-      action: () => { if (typeof openBrainstormModal === 'function') openBrainstormModal(); }
-    },
-    {
-      id: 'zen',
-      title: tr({
-        de: '👁️ Fokus-Modus (Zen) an / aus',
-        en: '👁️ Focus Mode (Zen) on / off',
-        fr: '👁️ Mode Focus (Zen) activer / désactiver',
-        it: '👁️ Modalità Focus (Zen) attiva / disattiva',
-        es: '👁️ Modo Focus (Zen) activar / desactivar',
-        el: '👁️ Λειτουργία Εστίασης (Zen) ενεργοποίηση'
-      }),
-      action: () => { if (typeof toggleMinimalist === 'function') toggleMinimalist(); }
-    },
-    {
-      id: 'pause_breath',
-      title: tr({
-        de: '🧘 4-4-4 Atem-Fokus (Nervensystem beruhigen)',
-        en: '🧘 4-4-4 Box Breathing (Calm nervous system)',
-        fr: '🧘 Respiration 4-4-4 (Calmer le système nerveux)',
-        it: '🧘 Respirazione 4-4-4 (Calma il sistema nervoso)',
-        es: '🧘 Respiración 4-4-4 (Calmar sistema nervioso)',
-        el: '🧘 Αναπνοή 4-4-4 (Ηρεμία νευρικού συστήματος)'
-      }),
-      action: () => { if (typeof openBreakModal === 'function') openBreakModal('breath'); }
-    },
-    {
-      id: 'regulation',
-      title: tr({
-        de: '🌿 Innere Ruhe & Somatische Regulation (Nervensystem beruhigen)',
-        en: '🌿 Inner Peace & Somatic Regulation (Calm nervous system)',
-        fr: '🌿 Paix Intérieure & Régulation Somatique',
-        it: '🌿 Pace Interiore & Regolazione Somatica',
-        es: '🌿 Paz Interior & Regulación Somática',
-        el: '🌿 Εσωτερική Γαλήνη & Σωματική Ρύθμιση'
-      }),
-      action: () => { if (typeof openRegulationModal === 'function') openRegulationModal('reset'); }
-    },
-    {
-      id: 'dashboard',
-      title: tr({
-        de: '📊 Produktivitäts- & Analyse-Dashboard',
-        en: '📊 Productivity & Analytics Dashboard',
-        fr: '📊 Tableau de bord Productivité & Analyse',
-        it: '📊 Dashboard Produttività & Analisi',
-        es: '📊 Panel de Productividad y Análisis',
-        el: '📊 Πίνακας Παραγωγικότητας & Αναλύσεων'
-      }),
-      action: () => { if (typeof openReportDashboard === 'function') openReportDashboard(); }
-    },
-    {
-      id: 'undo',
-      title: tr({
-        de: '↩️ Letzte Aktion rückgängig machen (Ctrl+Z)',
-        en: '↩️ Undo last action (Ctrl+Z)',
-        fr: '↩️ Annuler la dernière action (Ctrl+Z)',
-        it: '↩️ Annulla ultima azione (Ctrl+Z)',
-        es: '↩️ Deshacer última acción (Ctrl+Z)',
-        el: '↩️ Αναίρεση τελευταίας ενέργειας (Ctrl+Z)'
-      }),
-      action: () => { if (typeof handleUndo === 'function') handleUndo(); }
-    },
-    {
-      id: 'clear_columns',
-      title: tr({
-        de: '🧹 Karten leeren (Alle Aufgaben im Bereich leeren)',
-        en: '🧹 Clear cards (Clear all tasks in workspace)',
-        fr: '🧹 Vider les cartes (Vider toutes les tâches)',
-        it: '🧹 Svuota schede (Svuota tutte le attività)',
-        es: '🧹 Vaciar tarjetas (Vaciar todas las tareas)',
-        el: '🧹 Άδειασμα καρτών (Άδειασμα όλων των εργασιών)'
-      }),
-      action: () => { if (typeof handleClearAllLists === 'function') handleClearAllLists(); }
-    },
-    {
-      id: 'reset',
-      title: tr({
-        de: '🔄 Board zurücksetzen (Reset)',
-        en: '🔄 Reset board',
-        fr: '🔄 Réinitialiser le tableau',
-        it: '🔄 Ripristina lavagna',
-        es: '🔄 Restablecer tablero',
-        el: '🔄 Επαναφορά πίνακα'
-      }),
-      action: () => { if (typeof handleReset === 'function') handleReset(); }
-    },
-    {
-      id: 'theme_latte',
-      title: '☕ Theme: Oat & Latte (Cozy Milchkaffee & Hafer)',
-      action: () => { setTheme('latte'); }
-    },
-    {
-      id: 'theme_sunset',
-      title: '🌅 Theme: Warm Sunset (Abendsonne & Pfirsich)',
-      action: () => { setTheme('sunset'); }
-    },
-    {
-      id: 'theme_matcha',
-      title: '🍵 Theme: Matcha (Creme & Kräuter-Salbei)',
-      action: () => { setTheme('matcha'); }
-    },
-    {
-      id: 'theme_candlelight',
-      title: '🕯️ Theme: Candlelight (Kerzenschein & Kaminfeuer)',
-      action: () => { setTheme('candlelight'); }
-    },
-    {
-      id: 'theme_honey',
-      title: '🍯 Theme: Honig (Warmes Gold)',
-      action: () => { setTheme('honey'); }
-    },
-    {
-      id: 'theme_sage',
-      title: '🌿 Theme: Salbei (Botanisch Grün)',
-      action: () => { setTheme('sage'); }
-    },
-    {
-      id: 'theme_aurora',
-      title: '🌌 Theme: Aurora (Nacht-Violett)',
-      action: () => { setTheme('aurora'); }
-    },
-    {
-      id: 'theme_ocean',
-      title: '🌊 Theme: Ozean (Meeres-Cyan)',
-      action: () => { setTheme('ocean'); }
-    },
-    {
-      id: 'settings',
-      title: tr({
-        de: '⚙️ Einstellungen, Impressum & Datenschutz',
-        en: '⚙️ Settings, Legal & Privacy',
-        fr: '⚙️ Paramètres, Mentions légales & Confidentialité',
-        it: '⚙️ Impostazioni, Note legali & Privacy',
-        es: '⚙️ Ajustes, Legal y Privacidad',
-        el: '⚙️ Ρυθμίσεις, Νομικά & Απόρρητο'
-      }),
-      action: () => { openSettingsModal('general'); }
-    }
-  ];
-}
-
-function filterCommandPalette(query = '') {
-  const resultsContainer = document.getElementById('cmd-palette-results');
-  if (!resultsContainer) return;
-  resultsContainer.innerHTML = '';
-  const q = (query || '').toLowerCase().trim();
-
-  // 1. Matched Commands
-  const allCommands = getAvailableCommands();
-  const matchedCommands = allCommands.filter(c => c.title.toLowerCase().includes(q));
-
-  // 2. Open Tasks matching query
-  const curItems = typeof getCurrentWorkspaceItems === 'function' ? getCurrentWorkspaceItems() : (typeof state !== 'undefined' ? state.items : {});
-  const matchedTasks = [];
-  if (curItems && typeof curItems === 'object') {
-    Object.keys(curItems).forEach(col => {
-      const items = curItems[col] || [];
-      items.forEach((item, idx) => {
-        const text = typeof item === 'object' ? item.task : item;
-        if (text && (!q || text.toLowerCase().includes(q))) {
-          matchedTasks.push({
-            title: `📌 [${typeof t === 'function' ? t(col) : col}] ${text}`,
-            action: () => {
-              if (typeof startTaskTimerByIndex === 'function') startTaskTimerByIndex(col, idx);
-              else { if (typeof setTimerMinutes === 'function') setTimerMinutes(25); if (typeof startTimer === 'function') startTimer(); }
-            }
-          });
-        }
-      });
-    });
-  }
-
-  const combined = [];
-  if (matchedCommands.length > 0) {
-    combined.push({ isHeader: true, label: typeof t === 'function' ? t('cmd_actions') : 'Schnell-Aktionen' });
-    matchedCommands.slice(0, 7).forEach(c => combined.push({ ...c, isAction: true }));
-  }
-
-  if (matchedTasks.length > 0) {
-    combined.push({ isHeader: true, label: typeof t === 'function' ? t('cmd_tasks') : 'Gefundene Aufgaben' });
-    matchedTasks.slice(0, 8).forEach(t => combined.push({ ...t, isAction: true }));
-  }
-
-  commandPaletteItems = combined.filter(c => c.isAction);
-
-  if (commandPaletteItems.length === 0) {
-    resultsContainer.innerHTML = `
-      <div class="p-6 text-center text-gray-500 text-xs">
-        <i data-lucide="search-x" class="w-6 h-6 mx-auto mb-1 opacity-50"></i>
-        <span>${tr({
-          de: 'Keine passenden Befehle oder Aufgaben gefunden',
-          en: 'No matching commands or tasks found',
-          fr: 'Aucune commande ou tâche correspondante trouvée',
-          it: 'Nessun comando o attività corrispondente trovato',
-          es: 'No se encontraron comandos o tareas coincidentes',
-          el: 'Δεν βρέθηκαν εντολές ή εργασίες'
-        })}</span>
-      </div>
-    `;
-    if (typeof renderLucideIcons === 'function') renderLucideIcons();
-    return;
-  }
-
-  let actionIdx = 0;
-  combined.forEach(item => {
-    if (item.isHeader) {
-      const h = document.createElement('div');
-      h.className = 'px-3 py-1 text-[10px] font-bold text-gray-500 uppercase tracking-wider font-mono';
-      h.innerText = item.label;
-      resultsContainer.appendChild(h);
-    } else {
-      const thisIdx = actionIdx++;
-      const btn = document.createElement('button');
-      btn.id = `cmd-item-${thisIdx}`;
-      btn.className = `w-full px-3 py-2 text-left rounded-xl flex items-center justify-between text-xs transition cursor-pointer ${
-        thisIdx === commandPaletteActiveIndex ? 'bg-purple-600/30 border border-purple-500/40 text-white font-semibold' : 'text-gray-300 hover:bg-white/5 hover:text-white'
-      }`;
-      btn.setAttribute('data-cmd-idx', thisIdx);
-      btn.innerHTML = `
-        <span class="truncate">${escapeHtml(item.title)}</span>
-        <i data-lucide="arrow-right" class="w-3.5 h-3.5 opacity-40 shrink-0"></i>
-      `;
-      btn.onclick = () => {
-        closeCommandPalette();
-        item.action();
-      };
-      resultsContainer.appendChild(btn);
-    }
-  });
-
-  if (typeof renderLucideIcons === 'function') renderLucideIcons();
-}
-
-function handleCommandPaletteKeyDown(e) {
-  if (e.key === 'Escape') {
-    e.preventDefault();
-    closeCommandPalette();
-    return;
-  }
-  if (!commandPaletteItems || commandPaletteItems.length === 0) return;
-
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    commandPaletteActiveIndex = (commandPaletteActiveIndex + 1) % commandPaletteItems.length;
-    updateCommandPaletteHighlight();
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    commandPaletteActiveIndex = (commandPaletteActiveIndex - 1 + commandPaletteItems.length) % commandPaletteItems.length;
-    updateCommandPaletteHighlight();
-  } else if (e.key === 'Enter') {
-    e.preventDefault();
-    const activeItem = commandPaletteItems[commandPaletteActiveIndex];
-    if (activeItem && typeof activeItem.action === 'function') {
-      closeCommandPalette();
-      activeItem.action();
-    }
-  }
-}
-
-function updateCommandPaletteHighlight() {
-  commandPaletteItems.forEach((_, idx) => {
-    const el = document.getElementById(`cmd-item-${idx}`);
-    if (el) {
-      if (idx === commandPaletteActiveIndex) {
-        el.className = 'w-full px-3 py-2 text-left rounded-xl flex items-center justify-between text-xs transition cursor-pointer bg-purple-600/30 border border-purple-500/40 text-white font-semibold';
-        el.scrollIntoView({ block: 'nearest' });
-      } else {
-        el.className = 'w-full px-3 py-2 text-left rounded-xl flex items-center justify-between text-xs transition cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white';
-      }
-    }
-  });
-}
-
-window.openCommandPalette = openCommandPalette;
-window.closeCommandPalette = closeCommandPalette;
-window.filterCommandPalette = filterCommandPalette;
-window.handleCommandPaletteKeyDown = handleCommandPaletteKeyDown;
+// COMMAND PALETTE (STRG+K / CMD+K) CONTROLLER handled by app-command-palette.js
 
 function openSettingsModal(tab = 'general') {
   const modal = document.getElementById('modal-settings');
@@ -43655,100 +47583,7 @@ function handleAddTermin() {
   populateHelperTaskSelect();
 }
 
-function getTaskIconDetails(taskText, category = '') {
-  if (!taskText) return { icon: 'check-circle', color: 'text-purple-400' };
-  const rawTrimmed = String(taskText).trim();
-  if (typeof TASK_ICONS !== 'undefined' && TASK_ICONS[rawTrimmed]) {
-    return { icon: TASK_ICONS[rawTrimmed], color: 'text-purple-300' };
-  }
-  
-  // Unicode-Normalisierung: Entfernt Akzente/Diakritika (z. B. é -> e, ά -> α, ñ -> n) für 100% verlässliche Spracherkennung
-  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-
-  const rules = [
-    // 1. Medikamente / Gesundheit / Arzt
-    { rx: /medi|pill|tablett|vitam|pharmak|arzt|doctor|docteur|dottore|medico|therap|apothek|ordonnan|farmac|φαρμακ|γιατρ|ασθεν/, ic: 'pill', col: 'text-rose-400' },
-    // 2. Zähne / Mundhygiene
-    { rx: /zahn|zahne|dient|tooth|teeth|dent|dond|brush|bross|spazzol|δοντ|βουρτσ/, ic: 'smile', col: 'text-cyan-400' },
-    // 3. Gesicht waschen / Hautpflege
-    { rx: /gesicht|face|visage|viso|προσωπ/, ic: 'smile', col: 'text-cyan-400' },
-    // 4. Herd / Kühlschrank / Ofen / Küche Geräte
-    { rx: /herd|kuhl|fridge|frigo|stov|four|horno|nevera|fornell|refrig|kuehl|backofen|oven|κουζιν|ψυγει/, ic: 'cooking-pot', col: 'text-orange-400' },
-    // 5. Waschbecken / Spiegel / Bad-Armaturen
-    { rx: /waschbeck|sink|lavabo|specch|miroir|espejo|spiegel|νιπτηρ|καθρεφτ/, ic: 'droplets', col: 'text-sky-400' },
-    // 6. Geschirr spülen / Küche / Abwasch
-    { rx: /spul|dish|vaissel|piat|plato|geschirr|spuel|πιατ|abwasch/, ic: 'utensils', col: 'text-emerald-400' },
-    // 7. Wäsche waschen / Waschmaschine
-    { rx: /laund|colad|lessiv|bucat|clothes|linge|roux|ρουχ|πλυντηρ|wasch.*wasch|wasche/, ic: 'washing-machine', col: 'text-indigo-400' },
-    // 8. Wäsche aufhängen / Trocknen
-    { rx: /aufhang|hang|colg|etend|stend|aplon|dry|sech|asciug|απλωμ/, ic: 'shirt', col: 'text-violet-400' },
-    // 9. Duschen / Baden
-    { rx: /dusch|shower|baign|doccia|duch|ντους|μπανι|bath/, ic: 'bath', col: 'text-sky-400' },
-    // 10. Haare / Frisur / Schneiden
-    { rx: /haare|haar|hair|pelo|cabell|cheveux|capell|fris|kour|coiff|tagli|μαλλι|κουρεμ|λουσιμ/, ic: 'scissors', col: 'text-pink-400' },
-    // 11. Nägel / Maniküre
-    { rx: /nagel|nail|ungl|un|ungh|nych|pedicur|manicur|νυχ/, ic: 'scissors', col: 'text-indigo-400' },
-    // 12. Trinken / Wasser / Hydration
-    { rx: /trink|wat|agu|eau|ner|glass|hydrat|bever|bere|boire|νερο|πινω|ποτηρ/, ic: 'glass-water', col: 'text-blue-400' },
-    // 13. Bett / Schlafen / Bettwäsche
-    { rx: /bett|bed|cama|lit|lett|krevat|schlaf|sleep|sommeil|dorm|drap|sabana|lenzuol|κρεβατ|σεντον|υπν/, ic: 'bed', col: 'text-amber-400' },
-    // 14. Aufräumen / Ordnung / Putzen
-    { rx: /aufraum|tidy|orden|rang|riordin|clean|putz|organi|nettoy|limp|puliz|τακτοπ|καθαρισ|οργαν/, ic: 'sparkles', col: 'text-yellow-400' },
-    // 15. Staub wischen / Abstauben
-    { rx: /staub|dust|polv|poussi|spolver|epousset|xesk|ξεσκον/, ic: 'feather', col: 'text-amber-300' },
-    // 16. Staubsaugen / Saugen
-    { rx: /saugen|staubsaug|vacu|aspir|skoupi|σκουπ/, ic: 'tornado', col: 'text-cyan-500' },
-    // 17. Boden wischen / Feuchtwischen
-    { rx: /wisch|mop|freg|sfoug|paviment|sol|σφουγγαρ/, ic: 'droplets', col: 'text-sky-500' },
-    // 18. Bad / WC / Sanitär / Fliesen
-    { rx: /klo|wc|toil|vater|lekan|bad|fliesen|λεκαν/, ic: 'sparkles', col: 'text-teal-500' },
-    // 19. Müll wegbringen / Entsorgung
-    { rx: /mull|trash|basur|poubelle|spazzatur|waste|abfall|skoupid|σκουπιδ|πεταμ/, ic: 'trash-2', col: 'text-rose-500' },
-    // 20. Pfandflaschen / Recycling
-    { rx: /pfand|bottle|bouteill|bottigl|envase|boukal|recycle|recyc|μπουκαλ|ανακυκλ/, ic: 'recycle', col: 'text-emerald-500' },
-    // 21. Kochen / Mahlzeiten / Rezepte
-    { rx: /koch|food|cook|comid|cena|recept|recet|cuisin|cucin|magir|essen|lunch|dinner|breakfast|dejeun|pranz|past|mahlzeit|φαγητ|μαγειρ|γευμα/, ic: 'cooking-pot', col: 'text-orange-400' },
-    // 19. Einkauf / Supermarkt / Laden
-    { rx: /einkauf|shop|compr|achat|spesa|supermarkt|market|store|kauf|epicerie|agor|αγορ|σουπερ/, ic: 'shopping-cart', col: 'text-emerald-400' },
-    // 20. Arbeit / Job / Büro / Termine / Meetings
-    { rx: /arbeit|work|trabaj|travail|lavor|doul|job|office|schreib|mail|call|anruf|meeting|appuntament|rendez|cita|termin|geschaft|δουλει|γραφει/, ic: 'briefcase', col: 'text-amber-500' },
-    // 21. Lesen / Buch / Lernen / Studium / Uni / Vorlesung
-    { rx: /les|book|libr|livr|vivl|lernen|study|etud|stud|buch|diavas|διαβασ|βιβλι|vorlesung|lecture|skript|klausur|exam|abgabe|deadline|seminar|modul|bachelor|master|prof|tutor|ubung|uebung/, ic: 'book-open', col: 'text-violet-400' },
-    // 22. Sport / Fitness / Training / Laufen / Spazieren
-    { rx: /sport|gym|fit|train|gymn|workout|run|laufen|gehen|walk|course|correre|caminar|marcher|exerc|ασκησ|γυμναστ|τρεξιμ/, ic: 'activity', col: 'text-green-400' },
-    // 23. Pause / Ausruhen / Erholen / Meditation
-    { rx: /paus|rest|desc|relax|chill|medit|mindful|repos|ripos|diahleim|διαλειμμ|χαλαρω/, ic: 'moon', col: 'text-indigo-300' },
-    // 24. Lüften / Frische Luft / Durchatmen
-    { rx: /luft|wind|vent|aer|luften|breath|resp|fresch|frisch|αερισμ|αερ/, ic: 'wind', col: 'text-cyan-300' }
-  ];
-
-  for (const r of rules) {
-    if (r.rx.test(norm)) return { icon: r.ic, color: r.col };
-  }
-
-  const defaults = {
-    daily: { icon: 'sun', color: 'text-amber-400' },
-    weekly: { icon: 'calendar-days', color: 'text-purple-400' },
-    todo: { icon: 'list-todo', color: 'text-blue-400' },
-    done: { icon: 'check-circle', color: 'text-emerald-400' },
-    termine: { icon: 'clock', color: 'text-amber-400' },
-    occasionally: { icon: 'calendar-range', color: 'text-pink-400' },
-    notes: { icon: 'sticky-note', color: 'text-yellow-400' },
-    work_focus: { icon: 'target', color: 'text-amber-400' },
-    work_in_progress: { icon: 'zap', color: 'text-blue-400' },
-    work_waiting: { icon: 'hourglass', color: 'text-purple-400' },
-    work_backlog: { icon: 'folder-kanban', color: 'text-indigo-400' },
-    study_focus: { icon: 'target', color: 'text-amber-400' },
-    study_modules: { icon: 'book-open', color: 'text-blue-400' },
-    study_submissions: { icon: 'clock', color: 'text-rose-400' },
-    study_deep: { icon: 'brain', color: 'text-purple-400' }
-  };
-  return defaults[category] || { icon: 'check-circle', color: 'text-purple-400' };
-}
-
-function getTaskIcon(taskText, category = '') { return getTaskIconDetails(taskText, category).icon; }
-window.getTaskIconDetails = getTaskIconDetails;
-window.getTaskIcon = getTaskIcon;
+// Task icon detection handled by data-tasks.js
 
 // ===== KEYBOARD SHORTCUTS MODAL (?) =====
 function openKeyboardShortcuts() {
@@ -44108,34 +47943,7 @@ function initAmbientFlowCanvas() {
 // NATIVE MOBILE NAVIGATION CONTROLLER (5 TABS & FAB)
 // ============================================================================
 
-function switchMobileNavTab(tabName) {
-  document.body.dataset.mobileNav = tabName;
-  localStorage.setItem('flow_active_mobile_tab', tabName);
-
-  // Update Nav-Bar Buttons
-  const navTabs = ['planer', 'focus', 'audio', 'tools'];
-  navTabs.forEach(t => {
-    const btn = document.getElementById(`mob-nav-${t}`);
-    if (btn) {
-      btn.classList.toggle('active', t === tabName);
-    }
-  });
-
-  // Tab-spezifische Initialisierungen
-  if (tabName === 'planer') {
-    const activeCat = document.body.dataset.mobileCat || localStorage.getItem('flowPlannerMobileCategory') || 'daily';
-    if (typeof setMobileCategory === 'function') setMobileCategory(activeCat);
-  } else if (tabName === 'focus') {
-    if (typeof updateTimerDisplay === 'function') updateTimerDisplay();
-  }
-
-  // Scroll nach oben
-  window.scrollTo({ top: 0, behavior: 'instant' });
-
-  if (typeof renderLucideIcons === 'function') renderLucideIcons();
-  else if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-}
-window.switchMobileNavTab = switchMobileNavTab;
+// switchMobileNavTab handled by app-tasks.js
 
 let selectedMobileQuickAddCat = 'daily';
 let selectedMobileQuickAddPrio = 'normal';
