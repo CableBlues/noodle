@@ -128,7 +128,13 @@ function startAlarmLiveTicker() {
     if (dateEl) {
       const now = new Date();
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
-      dateEl.textContent = now.toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+      const formatted = now.toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+      const palette = typeof getDayColorPalette === 'function' ? getDayColorPalette(now) : null;
+      if (palette) {
+        dateEl.innerHTML = `<span class="${palette.dayClass} font-semibold">${formatted}</span>`;
+      } else {
+        dateEl.textContent = formatted;
+      }
     }
   }, 1000);
 }
@@ -142,6 +148,8 @@ function renderAlarmPanel() {
   const timeFormatted = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
   const dateFormatted = now.toLocaleDateString(lang === 'de' ? 'de-DE' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+  const palette = typeof getDayColorPalette === 'function' ? getDayColorPalette(now) : null;
+  const dateHtml = palette ? `<span class="${palette.dayClass} font-semibold">${dateFormatted}</span>` : dateFormatted;
   const nowStr = timeFormatted;
 
   startAlarmLiveTicker();
@@ -189,7 +197,7 @@ function renderAlarmPanel() {
           <div class="flex items-baseline gap-1.5">
             <span id="alarm-panel-live-time" class="font-mono font-bold text-xs sm:text-sm text-gray-200 select-none">${timeFormatted}</span>
           </div>
-          <div id="alarm-panel-live-date" class="text-[10px] text-gray-400 font-medium leading-tight">${dateFormatted}</div>
+          <div id="alarm-panel-live-date" class="text-[10px] text-gray-400 font-medium leading-tight">${dateHtml}</div>
         </div>
       </div>
       <button onclick="togglePanel('alarm')" aria-label="Wecker-Hub schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 px-2 rounded-lg hover:bg-white/10 transition cursor-pointer">✕</button>

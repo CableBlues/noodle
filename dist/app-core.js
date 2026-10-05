@@ -945,9 +945,13 @@ function setLanguage(lang) {
     }
   }
 
-  // 2. Weather: Keep user's real location, update translated texts/UI
-  if (typeof updateWeatherDisplay === 'function') {
+  // 2. Weather: Keep user's real location if detected/custom, or update to language capital if fallback
+  if (typeof localizeWeatherForLanguage === 'function') {
+    localizeWeatherForLanguage(lang);
+  } else if (typeof updateWeatherDisplay === 'function') {
     updateWeatherDisplay();
+  } else if (typeof window !== 'undefined' && typeof window.localizeWeatherForLanguage === 'function') {
+    window.localizeWeatherForLanguage(lang);
   } else if (typeof window !== 'undefined' && typeof window.updateWeatherDisplay === 'function') {
     window.updateWeatherDisplay();
   }

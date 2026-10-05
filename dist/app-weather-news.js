@@ -4,22 +4,57 @@
 // 1. LOKALES WETTER (WEATHER ENGINE)
 // ============================================================================
 
+const LANGUAGE_CAPITALS = {
+  de: { name: 'Berlin', country: 'Deutschland', lat: 52.52, lon: 13.41, defaultTemp: 20, defaultCode: 1, flag: '🇩🇪' },
+  en: { name: 'London', country: 'Großbritannien', lat: 51.5074, lon: -0.1278, defaultTemp: 18, defaultCode: 2, flag: '🇬🇧' },
+  fr: { name: 'Paris', country: 'Frankreich', lat: 48.8566, lon: 2.3522, defaultTemp: 21, defaultCode: 1, flag: '🇫🇷' },
+  it: { name: 'Rom', country: 'Italien', lat: 41.9028, lon: 12.4964, defaultTemp: 24, defaultCode: 0, flag: '🇮🇹' },
+  es: { name: 'Madrid', country: 'Spanien', lat: 40.4168, lon: -3.7038, defaultTemp: 25, defaultCode: 0, flag: '🇪🇸' },
+  el: { name: 'Athen', country: 'Griechenland', lat: 37.9838, lon: 23.7275, defaultTemp: 26, defaultCode: 0, flag: '🇬🇷' }
+};
+
+function getLanguageCapital(lang) {
+  const l = (lang && LANGUAGE_CAPITALS[lang]) ? lang : (typeof currentLang !== 'undefined' && LANGUAGE_CAPITALS[currentLang] ? currentLang : 'de');
+  return LANGUAGE_CAPITALS[l] || LANGUAGE_CAPITALS.de;
+}
+window.LANGUAGE_CAPITALS = LANGUAGE_CAPITALS;
+window.getLanguageCapital = getLanguageCapital;
+
 const DEFAULT_PINNED_CITIES = [
-  { name: 'Berlin', country: 'Deutschland', lat: 52.52, lon: 13.41, defaultTemp: 20, defaultCode: 1 },
-  { name: 'München', country: 'Deutschland', lat: 48.14, lon: 11.58, defaultTemp: 19, defaultCode: 1 },
-  { name: 'Wien', country: 'Österreich', lat: 48.21, lon: 16.37, defaultTemp: 21, defaultCode: 0 },
-  { name: 'Zürich', country: 'Schweiz', lat: 47.37, lon: 8.54, defaultTemp: 18, defaultCode: 2 }
+  LANGUAGE_CAPITALS.de,
+  LANGUAGE_CAPITALS.en,
+  LANGUAGE_CAPITALS.fr,
+  LANGUAGE_CAPITALS.it,
+  LANGUAGE_CAPITALS.es,
+  LANGUAGE_CAPITALS.el
 ];
 
 let pinnedWeatherCities = [];
 try {
   const savedPinned = localStorage.getItem('flow_weather_pinned_cities');
-  pinnedWeatherCities = savedPinned ? JSON.parse(savedPinned) : DEFAULT_PINNED_CITIES;
-  if (!Array.isArray(pinnedWeatherCities) || pinnedWeatherCities.length === 0) {
-    pinnedWeatherCities = DEFAULT_PINNED_CITIES;
+  if (savedPinned) {
+    const parsed = JSON.parse(savedPinned);
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      // Legacy Check: Falls vorher nur die alten deutschen Städte gespeichert waren, ersetzen wir sie durch die Sprach-Hauptstädte
+      const legacyNames = ['münchen', 'munchen', 'wien', 'zürich', 'zurich', 'hamburg', 'köln', 'koln', 'frankfurt', 'stuttgart', 'düsseldorf', 'dusseldorf'];
+      const hasOtherCapitals = parsed.some(c => ['london', 'paris', 'madrid', 'rom', 'athen'].includes(c.name.toLowerCase()));
+      
+      if (!hasOtherCapitals && parsed.every(c => legacyNames.includes(c.name.toLowerCase()) || c.name.toLowerCase() === 'berlin')) {
+        pinnedWeatherCities = [...DEFAULT_PINNED_CITIES];
+      } else {
+        // Bestehende Hauptstädte beibehalten + benutzerdefinierte Orte anhängen
+        const capitalNames = new Set(DEFAULT_PINNED_CITIES.map(c => c.name.toLowerCase()));
+        const customUserCities = parsed.filter(c => !capitalNames.has(c.name.toLowerCase()) && !legacyNames.includes(c.name.toLowerCase()));
+        pinnedWeatherCities = [...DEFAULT_PINNED_CITIES, ...customUserCities];
+      }
+    } else {
+      pinnedWeatherCities = [...DEFAULT_PINNED_CITIES];
+    }
+  } else {
+    pinnedWeatherCities = [...DEFAULT_PINNED_CITIES];
   }
 } catch (e) {
-  pinnedWeatherCities = DEFAULT_PINNED_CITIES;
+  pinnedWeatherCities = [...DEFAULT_PINNED_CITIES];
 }
 
 let cachedPinnedCitiesWeather = {};
@@ -28,12 +63,7 @@ try {
   if (savedPinnedCache) cachedPinnedCitiesWeather = JSON.parse(savedPinnedCache);
 } catch (e) {}
 
-let currentWeatherLocation = {
-  name: 'Berlin',
-  country: 'Deutschland',
-  lat: 52.52,
-  lon: 13.41
-};
+let currentWeatherLocation = { ...getLanguageCapital(typeof currentLang !== 'undefined' ? currentLang : 'de') };
 
 try {
   const savedLoc = localStorage.getItem('flow_weather_loc');
@@ -91,6 +121,60 @@ const WEATHER_CODES = {
   95: { label: { de: 'Gewitter', en: 'Thunderstorm', fr: 'Orage', it: 'Temporale', es: 'Tormenta', el: 'Καταιγίδα' }, icon: 'cloud-lightning', emoji: '⚡' }
 };
 
+const WEATHER_ICON_BASE = 'https://cdn.jsdelivr.net/gh/basmilius/weather-icons@dev/production/fill/svg/';
+
+function getWeatherIconUrl(wmoCode, isDay = 1) {
+  const isNight = isDay === 0;
+  const code = typeof wmoCode === 'number' ? wmoCode : 1;
+  switch (code) {
+    case 0: // Clear sky
+      return `${WEATHER_ICON_BASE}${isNight ? 'clear-night' : 'clear-day'}.svg`;
+    case 1: // Mainly clear
+      return `${WEATHER_ICON_BASE}${isNight ? 'clear-night' : 'clear-day'}.svg`;
+    case 2: // Partly cloudy
+      return `${WEATHER_ICON_BASE}${isNight ? 'partly-cloudy-night' : 'partly-cloudy-day'}.svg`;
+    case 3: // Overcast
+      return `${WEATHER_ICON_BASE}${isNight ? 'overcast-night' : 'overcast-day'}.svg`;
+    case 45: // Fog
+    case 48: // Depositing rime fog
+      return `${WEATHER_ICON_BASE}${isNight ? 'fog-night' : 'fog-day'}.svg`;
+    case 51: // Light drizzle
+    case 53: // Moderate drizzle
+    case 55: // Dense drizzle
+      return `${WEATHER_ICON_BASE}drizzle.svg`;
+    case 56: // Light freezing drizzle
+    case 57: // Dense freezing drizzle
+    case 66: // Light freezing rain
+    case 67: // Heavy freezing rain
+      return `${WEATHER_ICON_BASE}sleet.svg`;
+    case 61: // Slight rain
+    case 63: // Moderate rain
+      return `${WEATHER_ICON_BASE}rain.svg`;
+    case 65: // Heavy rain
+      return `${WEATHER_ICON_BASE}extreme-rain.svg`;
+    case 71: // Slight snow
+    case 73: // Moderate snow
+    case 75: // Heavy snow
+    case 77: // Snow grains
+    case 85: // Slight snow showers
+    case 86: // Heavy snow showers
+      return `${WEATHER_ICON_BASE}snow.svg`;
+    case 80: // Slight rain showers
+    case 81: // Moderate rain showers
+      return `${WEATHER_ICON_BASE}${isNight ? 'partly-cloudy-night-rain' : 'partly-cloudy-day-rain'}.svg`;
+    case 82: // Violent rain showers
+      return `${WEATHER_ICON_BASE}extreme-rain.svg`;
+    case 95: // Thunderstorm
+      return `${WEATHER_ICON_BASE}thunderstorms.svg`;
+    case 96: // Thunderstorm with slight hail
+    case 99: // Thunderstorm with heavy hail
+      return `${WEATHER_ICON_BASE}thunderstorms-rain.svg`;
+    default:
+      return `${WEATHER_ICON_BASE}${isNight ? 'clear-night' : 'clear-day'}.svg`;
+  }
+}
+window.getWeatherIconUrl = getWeatherIconUrl;
+
 function getWeatherInfo(code) {
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
   const item = WEATHER_CODES[code] || {
@@ -112,10 +196,12 @@ function generateFallbackWeatherData(loc = currentWeatherLocation) {
   const baseTemp = (month >= 4 && month <= 8) ? 21 : (month >= 9 && month <= 10 || month >= 2 && month <= 3) ? 15 : 8;
   const hourOffset = (currentHour >= 12 && currentHour <= 17) ? 3 : (currentHour >= 0 && currentHour <= 6) ? -4 : 0;
   const currentTemp = baseTemp + hourOffset;
+  const isDay = (currentHour >= 6 && currentHour < 20) ? 1 : 0;
   
   const hourlyTimes = [];
   const hourlyTemps = [];
   const hourlyCodes = [];
+  const hourlyIsDay = [];
   for (let i = 0; i < 24; i++) {
     const hDate = new Date(now);
     hDate.setHours(i, 0, 0, 0);
@@ -123,6 +209,7 @@ function generateFallbackWeatherData(loc = currentWeatherLocation) {
     const hDiff = (i >= 12 && i <= 17) ? 3 : (i >= 0 && i <= 6) ? -4 : 0;
     hourlyTemps.push(baseTemp + hDiff);
     hourlyCodes.push(i % 4 === 0 ? 1 : (i % 2 === 0 ? 2 : 0));
+    hourlyIsDay.push((i >= 6 && i < 20) ? 1 : 0);
   }
 
   const dailyTimes = [];
@@ -147,12 +234,14 @@ function generateFallbackWeatherData(loc = currentWeatherLocation) {
       apparent_temperature: currentTemp - 1,
       precipitation: 0,
       weather_code: 1,
+      is_day: isDay,
       wind_speed_10m: 12
     },
     hourly: {
       time: hourlyTimes,
       temperature_2m: hourlyTemps,
-      weather_code: hourlyCodes
+      weather_code: hourlyCodes,
+      is_day: hourlyIsDay
     },
     daily: {
       time: dailyTimes,
@@ -218,7 +307,7 @@ async function fetchLocalWeather(force = false) {
   try {
     const lat = currentWeatherLocation.lat || 52.52;
     const lon = currentWeatherLocation.lon || 13.41;
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,is_day,wind_speed_10m&hourly=temperature_2m,weather_code,is_day&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto`;
 
     let data = null;
     try {
@@ -265,10 +354,14 @@ async function fetchLocalWeather(force = false) {
 
 function renderImmediateFallbackBadge() {
   const badgeEl = document.getElementById('date-weather-badge');
-  const emojiEl = document.getElementById('date-weather-emoji');
+  const imgEl = document.getElementById('date-weather-icon-img');
   const tempEl = document.getElementById('date-weather-temp');
-  if (badgeEl && emojiEl && tempEl) {
-    emojiEl.innerText = '🌤️';
+  if (badgeEl && tempEl) {
+    const currentHour = new Date().getHours();
+    const isDay = (currentHour >= 6 && currentHour < 20) ? 1 : 0;
+    if (imgEl) {
+      imgEl.src = getWeatherIconUrl(1, isDay);
+    }
     tempEl.innerText = weatherUnit === 'f' ? '68°F' : '20°';
     badgeEl.title = `${currentWeatherLocation.name}: 20° • ${tr({ de: 'Heiter', en: 'Fair' })}`;
     badgeEl.classList.remove('hidden');
@@ -283,7 +376,7 @@ async function fetchPinnedCitiesWeather() {
   try {
     const promises = pinnedWeatherCities.map(async (city) => {
       try {
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,weather_code&timezone=auto`;
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,weather_code,is_day&timezone=auto`;
         const res = await fetch(url);
         if (res.ok) {
           const data = await res.json();
@@ -291,6 +384,7 @@ async function fetchPinnedCitiesWeather() {
             cachedPinnedCitiesWeather[city.name] = {
               temp: data.current.temperature_2m,
               code: data.current.weather_code,
+              isDay: typeof data.current.is_day === 'number' ? data.current.is_day : 1,
               time: Date.now()
             };
           }
@@ -300,6 +394,7 @@ async function fetchPinnedCitiesWeather() {
           cachedPinnedCitiesWeather[city.name] = {
             temp: city.defaultTemp,
             code: city.defaultCode || 1,
+            isDay: 1,
             time: Date.now()
           };
         }
@@ -320,30 +415,38 @@ function renderPinnedCitiesUI() {
   if (!container) return;
 
   const isCurrentPinned = pinnedWeatherCities.some(c => c.name.toLowerCase() === currentWeatherLocation.name.toLowerCase());
+  const capitalNames = new Set(DEFAULT_PINNED_CITIES.map(c => c.name.toLowerCase()));
 
   const pillsHtml = pinnedWeatherCities.map((city, idx) => {
     const isSelected = city.name.toLowerCase() === currentWeatherLocation.name.toLowerCase();
     const cityData = cachedPinnedCitiesWeather[city.name];
+    const isCapital = capitalNames.has(city.name.toLowerCase());
+    const matchedCapitalKey = Object.keys(LANGUAGE_CAPITALS).find(k => LANGUAGE_CAPITALS[k].name.toLowerCase() === city.name.toLowerCase());
+    const flag = city.flag || (matchedCapitalKey ? LANGUAGE_CAPITALS[matchedCapitalKey].flag : '');
+
     let tempStr = '20°';
-    let emoji = '🌤️';
+    let code = city.defaultCode || 1;
+    let isDay = 1;
     if (cityData && typeof cityData.temp !== 'undefined') {
       let t = Math.round(cityData.temp);
       if (weatherUnit === 'f') t = Math.round((t * 9/5) + 32);
       tempStr = `${t}°`;
-      emoji = getWeatherInfo(cityData.code).emoji || '🌤️';
+      code = cityData.code;
+      if (typeof cityData.isDay === 'number') isDay = cityData.isDay;
     } else if (typeof city.defaultTemp === 'number') {
       let t = city.defaultTemp;
       if (weatherUnit === 'f') t = Math.round((t * 9/5) + 32);
       tempStr = `${t}°`;
-      emoji = getWeatherInfo(city.defaultCode || 1).emoji || '🌤️';
     }
+
+    const iconUrl = getWeatherIconUrl(code, isDay);
 
     return `
       <div onclick="selectWeatherCity('${city.name.replace(/'/g, "\\'")}', '${(city.country || '').replace(/'/g, "\\'")}', ${city.lat}, ${city.lon})" class="group/pin flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs transition cursor-pointer select-none ${isSelected ? 'bg-sky-500/25 border border-sky-400/80 text-sky-200 font-bold shadow-sm shadow-sky-500/20' : 'bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white'}">
-        <span class="text-xs shrink-0">${emoji}</span>
+        <span class="text-xs shrink-0 flex items-center gap-1">${flag ? `<span class="text-[11px]">${flag}</span>` : ''}<img src="${iconUrl}" class="w-3.5 h-3.5 object-contain shrink-0" alt="Weather" loading="lazy" /></span>
         <span class="truncate font-semibold max-w-[90px]">${city.name}</span>
         <span class="font-mono text-[11px] font-bold ${isSelected ? 'text-sky-300' : 'text-gray-400 group-hover/pin:text-gray-200'}">${tempStr}</span>
-        ${pinnedWeatherCities.length > 1 ? `
+        ${!isCapital && pinnedWeatherCities.length > 1 ? `
           <button onclick="event.stopPropagation(); removePinnedCity(${idx})" class="text-gray-500 hover:text-rose-400 text-[10px] ml-0.5 opacity-60 hover:opacity-100 p-0.5 cursor-pointer" title="${tr({ de: 'Ort entfernen', en: 'Remove city' })}">✕</button>
         ` : ''}
       </div>
@@ -354,8 +457,8 @@ function renderPinnedCitiesUI() {
     <div class="space-y-1.5 pt-1 pb-1">
       <div class="flex items-center justify-between text-[9.5px] font-bold text-gray-400 uppercase font-mono tracking-wider">
         <span class="flex items-center gap-1">
-          <i data-lucide="pin" class="w-3 h-3 text-sky-400"></i>
-          <span>${tr({ de: 'Vorausgewählte Orte', en: 'Pinned Cities', fr: 'Lieux enregistrés', it: 'Città salvate', es: 'Lugares guardados', el: 'Αποθηκευμένες πόλεις' })}</span>
+          <i data-lucide="globe" class="w-3 h-3 text-sky-400"></i>
+          <span>${tr({ de: 'Hauptstädte & Eigene Orte', en: 'Language Capitals & Cities', fr: 'Capitales & Villes', it: 'Capitali & Città', es: 'Capitales & Ciudades', el: 'Πρωτεύουσες & Πόλεις' })}</span>
         </span>
         <button onclick="togglePinCurrentCity()" class="text-sky-400 hover:text-sky-300 text-[9.5px] font-semibold flex items-center gap-1 transition cursor-pointer">
           <i data-lucide="${isCurrentPinned ? 'check' : 'plus'}" class="w-3 h-3"></i>
@@ -405,29 +508,39 @@ window.removePinnedCity = removePinnedCity;
 
 function updateDateWeatherWidget(data) {
   const badgeEl = document.getElementById('date-weather-badge');
-  const emojiEl = document.getElementById('date-weather-emoji');
+  const imgEl = document.getElementById('date-weather-icon-img');
   const tempEl = document.getElementById('date-weather-temp');
-  if (!badgeEl || !emojiEl || !tempEl) return;
+  if (!badgeEl || !tempEl) return;
 
   let currentTemp = 20;
-  let info = { emoji: '☀️', text: 'Clear' };
+  let code = 1;
+  let isDay = (new Date().getHours() >= 6 && new Date().getHours() < 20) ? 1 : 0;
 
   if (data && data.current && typeof data.current.temperature_2m === 'number') {
     currentTemp = Math.round(data.current.temperature_2m);
     if (weatherUnit === 'f') {
       currentTemp = Math.round((currentTemp * 9/5) + 32);
     }
-    info = getWeatherInfo(typeof data.current.weather_code === 'number' ? data.current.weather_code : 1);
+    code = typeof data.current.weather_code === 'number' ? data.current.weather_code : 1;
+    if (typeof data.current.is_day === 'number') isDay = data.current.is_day;
   } else if (cachedPinnedCitiesWeather[currentWeatherLocation.name] && typeof cachedPinnedCitiesWeather[currentWeatherLocation.name].temp !== 'undefined') {
     const cData = cachedPinnedCitiesWeather[currentWeatherLocation.name];
     currentTemp = Math.round(cData.temp);
     if (weatherUnit === 'f') currentTemp = Math.round((currentTemp * 9/5) + 32);
-    info = getWeatherInfo(cData.code || 1);
+    code = cData.code || 1;
+    if (typeof cData.isDay === 'number') isDay = cData.isDay;
   }
 
+  const info = getWeatherInfo(code);
+  const iconUrl = getWeatherIconUrl(code, isDay);
+
   const unitSymbol = weatherUnit === 'f' ? '°F' : '°';
-  emojiEl.innerText = info.emoji || '☀️';
   tempEl.innerText = `${currentTemp}${unitSymbol}`;
+
+  if (imgEl) {
+    imgEl.src = iconUrl;
+    imgEl.alt = info.text;
+  }
 
   // Multi-City Übersicht im Tooltip zusammenfassen
   let multiSummary = `${currentWeatherLocation.name}: ${currentTemp}${unitSymbol} • ${info.text}`;
@@ -471,6 +584,7 @@ function renderWeatherData(data) {
   let feels = typeof current.apparent_temperature === 'number' ? current.apparent_temperature : temp;
   let maxTemp = (daily.temperature_2m_max && typeof daily.temperature_2m_max[0] === 'number') ? daily.temperature_2m_max[0] : temp + 3;
   let minTemp = (daily.temperature_2m_min && typeof daily.temperature_2m_min[0] === 'number') ? daily.temperature_2m_min[0] : temp - 4;
+  let isDay = (typeof current.is_day === 'number') ? current.is_day : ((new Date().getHours() >= 6 && new Date().getHours() < 20) ? 1 : 0);
 
   if (weatherUnit === 'f') {
     temp = (temp * 9/5) + 32;
@@ -480,7 +594,9 @@ function renderWeatherData(data) {
   }
 
   const unitSymbol = weatherUnit === 'f' ? '°F' : '°C';
-  const info = getWeatherInfo(typeof current.weather_code === 'number' ? current.weather_code : 1);
+  const code = typeof current.weather_code === 'number' ? current.weather_code : 1;
+  const info = getWeatherInfo(code);
+  const mainIconUrl = getWeatherIconUrl(code, isDay);
   const windSpeed = typeof current.wind_speed_10m === 'number' ? Math.round(current.wind_speed_10m) : 12;
   const humidity = typeof current.relative_humidity_2m === 'number' ? current.relative_humidity_2m : 60;
 
@@ -493,11 +609,12 @@ function renderWeatherData(data) {
       let hTemp = hourly.temperature_2m[i] ?? temp;
       if (weatherUnit === 'f') hTemp = (hTemp * 9/5) + 32;
       const hCode = (hourly.weather_code && typeof hourly.weather_code[i] === 'number') ? hourly.weather_code[i] : 1;
-      const hInfo = getWeatherInfo(hCode);
+      const hIsDay = (hourly.is_day && typeof hourly.is_day[i] === 'number') ? hourly.is_day[i] : ((i % 24 >= 6 && i % 24 < 20) ? 1 : 0);
+      const hIconUrl = getWeatherIconUrl(hCode, hIsDay);
       hourlyPills += `
-        <div class="flex flex-col items-center gap-1 p-2 bg-white/5 rounded-xl min-w-[52px] border border-white/5 shrink-0">
+        <div class="flex flex-col items-center gap-1 p-2 bg-white/5 rounded-xl min-w-[54px] border border-white/5 shrink-0">
           <span class="text-[9px] text-gray-400 font-mono">${timeStr}</span>
-          <span class="text-sm">${hInfo.emoji}</span>
+          <img src="${hIconUrl}" class="w-5 h-5 object-contain my-0.5" alt="Forecast" loading="lazy" />
           <span class="text-[10px] font-bold text-white">${Math.round(hTemp)}°</span>
         </div>
       `;
@@ -523,11 +640,12 @@ function renderWeatherData(data) {
       }
       const dCode = (daily.weather_code && typeof daily.weather_code[i] === 'number') ? daily.weather_code[i] : 1;
       const dInfo = getWeatherInfo(dCode);
+      const dIconUrl = getWeatherIconUrl(dCode, 1);
       dailyCards += `
         <div class="flex items-center justify-between p-2 bg-black/30 rounded-xl border border-white/5 text-xs">
           <span class="font-bold text-gray-300 w-8 font-mono">${dName}</span>
-          <div class="flex items-center gap-1.5 text-gray-200">
-            <span>${dInfo.emoji}</span>
+          <div class="flex items-center gap-2 text-gray-200">
+            <img src="${dIconUrl}" class="w-4 h-4 object-contain shrink-0" alt="Day forecast" loading="lazy" />
             <span class="text-[10px] text-gray-400 truncate max-w-[90px]">${dInfo.text}</span>
           </div>
           <div class="font-mono text-[10px] space-x-1">
@@ -539,18 +657,21 @@ function renderWeatherData(data) {
     }
   }
 
+  const flag = currentWeatherLocation.flag || (LANGUAGE_CAPITALS[currentLang] ? LANGUAGE_CAPITALS[currentLang].flag : '');
+
   container.innerHTML = `
     <!-- Haupt-Wetterkarte -->
     <div class="bg-gradient-to-br from-sky-500/20 via-indigo-950/40 to-black/60 border border-sky-500/30 rounded-2xl p-3.5 flex flex-col gap-3 shadow-lg">
       <div class="flex items-start justify-between">
         <div>
           <div class="flex items-center gap-1.5 text-white font-bold text-sm">
+            ${flag ? `<span class="text-sm shrink-0">${flag}</span>` : ''}
             <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-400"></i>
             <span>${currentWeatherLocation.name}</span>
             <span class="text-[10px] text-gray-400 font-normal">(${currentWeatherLocation.country || ''})</span>
           </div>
-          <div class="text-[11px] text-sky-300 font-medium mt-0.5 flex items-center gap-1">
-            <span>${info.emoji}</span>
+          <div class="text-[11px] text-sky-300 font-medium mt-1 flex items-center gap-2">
+            <img src="${mainIconUrl}" class="w-7 h-7 object-contain drop-shadow-sm shrink-0" alt="${info.text}" />
             <span>${info.text}</span>
           </div>
         </div>
@@ -807,91 +928,52 @@ async function searchWeatherCityInstant(cityName) {
 
 
 const LANGUAGE_WEATHER_PRESETS = {
-  de: {
-    primary: { name: 'Berlin', country: 'Deutschland', lat: 52.52, lon: 13.41 },
-    pinned: [
-      { name: 'Berlin', country: 'Deutschland', lat: 52.52, lon: 13.41, defaultTemp: 20, defaultCode: 1 },
-      { name: 'München', country: 'Deutschland', lat: 48.14, lon: 11.58, defaultTemp: 19, defaultCode: 1 },
-      { name: 'Wien', country: 'Österreich', lat: 48.21, lon: 16.37, defaultTemp: 21, defaultCode: 0 },
-      { name: 'Zürich', country: 'Schweiz', lat: 47.37, lon: 8.54, defaultTemp: 18, defaultCode: 2 }
-    ]
-  },
-  en: {
-    primary: { name: 'London', country: 'UK', lat: 51.5074, lon: -0.1278 },
-    pinned: [
-      { name: 'London', country: 'UK', lat: 51.5074, lon: -0.1278, defaultTemp: 18, defaultCode: 2 },
-      { name: 'New York', country: 'USA', lat: 40.7128, lon: -74.0060, defaultTemp: 22, defaultCode: 1 },
-      { name: 'Edinburgh', country: 'UK', lat: 55.9533, lon: -3.1883, defaultTemp: 16, defaultCode: 3 },
-      { name: 'Manchester', country: 'UK', lat: 53.4808, lon: -2.2426, defaultTemp: 17, defaultCode: 2 }
-    ]
-  },
-  fr: {
-    primary: { name: 'Paris', country: 'France', lat: 48.8566, lon: 2.3522 },
-    pinned: [
-      { name: 'Paris', country: 'France', lat: 48.8566, lon: 2.3522, defaultTemp: 21, defaultCode: 1 },
-      { name: 'Lyon', country: 'France', lat: 45.7640, lon: 4.8357, defaultTemp: 22, defaultCode: 0 },
-      { name: 'Marseille', country: 'France', lat: 43.2965, lon: 5.3698, defaultTemp: 24, defaultCode: 0 },
-      { name: 'Bordeaux', country: 'France', lat: 44.8378, lon: -0.5792, defaultTemp: 23, defaultCode: 1 }
-    ]
-  },
-  it: {
-    primary: { name: 'Rom', country: 'Italia', lat: 41.9028, lon: 12.4964 },
-    pinned: [
-      { name: 'Rom', country: 'Italia', lat: 41.9028, lon: 12.4964, defaultTemp: 24, defaultCode: 0 },
-      { name: 'Mailand', country: 'Italia', lat: 45.4642, lon: 9.1900, defaultTemp: 22, defaultCode: 1 },
-      { name: 'Florenz', country: 'Italia', lat: 43.7696, lon: 11.2558, defaultTemp: 23, defaultCode: 0 },
-      { name: 'Neapel', country: 'Italia', lat: 40.8518, lon: 14.2681, defaultTemp: 25, defaultCode: 0 }
-    ]
-  },
-  es: {
-    primary: { name: 'Madrid', country: 'España', lat: 40.4168, lon: -3.7038 },
-    pinned: [
-      { name: 'Madrid', country: 'España', lat: 40.4168, lon: -3.7038, defaultTemp: 25, defaultCode: 0 },
-      { name: 'Barcelona', country: 'España', lat: 41.3879, lon: 2.1699, defaultTemp: 23, defaultCode: 1 },
-      { name: 'Valencia', country: 'España', lat: 39.4699, lon: -0.3763, defaultTemp: 24, defaultCode: 0 },
-      { name: 'Sevilla', country: 'España', lat: 37.3891, lon: -5.9845, defaultTemp: 27, defaultCode: 0 }
-    ]
-  },
-  el: {
-    primary: { name: 'Athen', country: 'Ελλάδα', lat: 37.9838, lon: 23.7275 },
-    pinned: [
-      { name: 'Athen', country: 'Ελλάδα', lat: 37.9838, lon: 23.7275, defaultTemp: 26, defaultCode: 0 },
-      { name: 'Thessaloniki', country: 'Ελλάδα', lat: 40.6401, lon: 22.9444, defaultTemp: 24, defaultCode: 0 },
-      { name: 'Patras', country: 'Ελλάδα', lat: 38.2466, lon: 21.7346, defaultTemp: 25, defaultCode: 1 },
-      { name: 'Heraklion', country: 'Ελλάδα', lat: 35.3387, lon: 25.1442, defaultTemp: 25, defaultCode: 0 }
-    ]
-  }
+  de: { primary: LANGUAGE_CAPITALS.de, pinned: DEFAULT_PINNED_CITIES },
+  en: { primary: LANGUAGE_CAPITALS.en, pinned: DEFAULT_PINNED_CITIES },
+  fr: { primary: LANGUAGE_CAPITALS.fr, pinned: DEFAULT_PINNED_CITIES },
+  it: { primary: LANGUAGE_CAPITALS.it, pinned: DEFAULT_PINNED_CITIES },
+  es: { primary: LANGUAGE_CAPITALS.es, pinned: DEFAULT_PINNED_CITIES },
+  el: { primary: LANGUAGE_CAPITALS.el, pinned: DEFAULT_PINNED_CITIES }
 };
 
 function localizeWeatherForLanguage(lang) {
-  const targetLang = (lang && LANGUAGE_WEATHER_PRESETS[lang]) ? lang : 'de';
-  const preset = LANGUAGE_WEATHER_PRESETS[targetLang] || LANGUAGE_WEATHER_PRESETS.de;
-  if (!preset) return;
+  const targetLang = (lang && LANGUAGE_CAPITALS[lang]) ? lang : 'de';
+  const capital = LANGUAGE_CAPITALS[targetLang] || LANGUAGE_CAPITALS.de;
+  if (!capital) return;
 
-  currentWeatherLocation = { ...preset.primary };
-  pinnedWeatherCities = preset.pinned ? [...preset.pinned] : [];
-  
-  try {
-    localStorage.setItem('flow_weather_loc', JSON.stringify(currentWeatherLocation));
-    if (typeof AppStorage !== 'undefined') AppStorage.set('flow_weather_loc', currentWeatherLocation);
-    localStorage.setItem('flow_weather_pinned_cities', JSON.stringify(pinnedWeatherCities));
-  } catch (e) {}
+  const isDetected = localStorage.getItem('flow_weather_is_detected') === 'true';
+  const hasUserCustom = localStorage.getItem('flow_weather_user_selected') === 'true';
 
-  const searchInput = document.getElementById('weather-city-input');
-  if (searchInput) searchInput.value = `${currentWeatherLocation.name}${currentWeatherLocation.country ? ' (' + currentWeatherLocation.country + ')' : ''}`;
+  // Wenn der Nutzer keinen festen manuellen Wunschort gewählt hat und keine Live-Ortung aktiv ist:
+  // Aktualisiere den Fallback-Standort auf die Hauptstadt der gewählten Sprache
+  if (!hasUserCustom && !isDetected) {
+    currentWeatherLocation = { ...capital };
+    try {
+      localStorage.setItem('flow_weather_loc', JSON.stringify(currentWeatherLocation));
+      if (typeof AppStorage !== 'undefined') AppStorage.set('flow_weather_loc', currentWeatherLocation);
+    } catch (e) {}
 
-  const locDisplay = document.getElementById('weather-location-display');
-  if (locDisplay) locDisplay.innerText = `${currentWeatherLocation.name}${currentWeatherLocation.country ? ' · ' + currentWeatherLocation.country : ''}`;
+    const searchInput = document.getElementById('weather-city-input');
+    if (searchInput) searchInput.value = `${currentWeatherLocation.name}${currentWeatherLocation.country ? ' (' + currentWeatherLocation.country + ')' : ''}`;
+
+    const locDisplay = document.getElementById('weather-location-display');
+    if (locDisplay) locDisplay.innerText = `${currentWeatherLocation.name}${currentWeatherLocation.country ? ' · ' + currentWeatherLocation.country : ''}`;
+
+    fetchLocalWeather(true);
+  }
 
   renderPinnedCitiesUI();
   fetchPinnedCitiesWeather();
-  fetchLocalWeather(true);
 }
 
-function selectWeatherCity(name, country, lat, lon) {
+function selectWeatherCity(name, country, lat, lon, isUserExplicit = true) {
   currentWeatherLocation = { name, country: country || '', lat: Number(lat) || 52.52, lon: Number(lon) || 13.41 };
   try {
     localStorage.setItem('flow_weather_loc', JSON.stringify(currentWeatherLocation));
+    if (isUserExplicit) {
+      localStorage.setItem('flow_weather_user_selected', 'true');
+      localStorage.removeItem('flow_weather_is_detected');
+    }
     if (typeof AppStorage !== 'undefined') AppStorage.set('flow_weather_loc', currentWeatherLocation);
   } catch (e) {}
 
@@ -906,14 +988,14 @@ function selectWeatherCity(name, country, lat, lon) {
 
   renderPinnedCitiesUI();
   fetchLocalWeather(true);
-  if (typeof showToast === 'function') {
+  if (isUserExplicit && typeof showToast === 'function') {
     showToast(tr({ de: `📍 Wetter aktualisiert für ${name}`, en: `📍 Weather updated for ${name}` }));
   }
 }
 
 async function useDeviceLocationWeather(silent = false) {
   if (!silent && typeof showToast === 'function') {
-    showToast(tr({ de: 'Ermittle deinen Standort... 📍', en: 'Detecting your location... 📍' }));
+    showToast(tr({ de: 'Ermittle deinen lokalen Standort... 📍', en: 'Detecting your local location... 📍' }));
   }
 
   const applyDetectedLocation = async (lat, lon, fallbackCity = 'Mein Standort', fallbackCountry = 'Lokal') => {
@@ -924,7 +1006,7 @@ async function useDeviceLocationWeather(silent = false) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3500);
-      const revRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=de`, { signal: controller.signal });
+      const revRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${typeof currentLang !== 'undefined' ? currentLang : 'de'}`, { signal: controller.signal });
       clearTimeout(timeoutId);
       if (revRes.ok) {
         const revData = await revRes.json();
@@ -935,9 +1017,25 @@ async function useDeviceLocationWeather(silent = false) {
       }
     } catch(e) {}
 
-    selectWeatherCity(detectedCity, detectedCountry, lat, lon);
+    currentWeatherLocation = { name: detectedCity, country: detectedCountry, lat: Number(lat), lon: Number(lon) };
+    try {
+      localStorage.setItem('flow_weather_loc', JSON.stringify(currentWeatherLocation));
+      localStorage.setItem('flow_weather_is_detected', 'true');
+      localStorage.removeItem('flow_weather_user_selected');
+      if (typeof AppStorage !== 'undefined') AppStorage.set('flow_weather_loc', currentWeatherLocation);
+    } catch (e) {}
+
+    const searchInput = document.getElementById('weather-city-input');
+    if (searchInput) searchInput.value = `${detectedCity}${detectedCountry ? ' (' + detectedCountry + ')' : ''}`;
+
+    const locDisplay = document.getElementById('weather-location-display');
+    if (locDisplay) locDisplay.innerText = `${detectedCity}${detectedCountry ? ' · ' + detectedCountry : ''}`;
+
+    renderPinnedCitiesUI();
+    fetchLocalWeather(true);
+
     if (!silent && typeof showToast === 'function') {
-      showToast(tr({ de: `📍 Standort erkannt: ${detectedCity}! ☀️`, en: `📍 Location detected: ${detectedCity}! ☀️` }));
+      showToast(tr({ de: `📍 Lokaler Standort: ${detectedCity}! ☀️`, en: `📍 Local location: ${detectedCity}! ☀️` }));
     }
   };
 
@@ -952,11 +1050,8 @@ async function useDeviceLocationWeather(silent = false) {
         const ipData = await res.json();
         if (ipData && ipData.success !== false && typeof ipData.latitude === 'number' && typeof ipData.longitude === 'number') {
           const city = ipData.city || 'Mein Standort';
-          const country = ipData.country || 'Deutschland';
-          selectWeatherCity(city, country, ipData.latitude, ipData.longitude);
-          if (!silent && typeof showToast === 'function') {
-            showToast(tr({ de: `📍 Standort erkannt: ${city}! ☀️`, en: `📍 Location detected: ${city}! ☀️` }));
-          }
+          const country = ipData.country || '';
+          await applyDetectedLocation(ipData.latitude, ipData.longitude, city, country);
           return true;
         }
       }
@@ -972,11 +1067,8 @@ async function useDeviceLocationWeather(silent = false) {
         const ipData = await res.json();
         if (ipData && typeof ipData.latitude === 'number' && typeof ipData.longitude === 'number') {
           const city = ipData.cityName || 'Mein Standort';
-          const country = ipData.countryName || 'Deutschland';
-          selectWeatherCity(city, country, ipData.latitude, ipData.longitude);
-          if (!silent && typeof showToast === 'function') {
-            showToast(tr({ de: `📍 Standort erkannt: ${city}! ☀️`, en: `📍 Location detected: ${city}! ☀️` }));
-          }
+          const country = ipData.countryName || '';
+          await applyDetectedLocation(ipData.latitude, ipData.longitude, city, country);
           return true;
         }
       }
@@ -984,6 +1076,14 @@ async function useDeviceLocationWeather(silent = false) {
       console.warn("IP Geolocation fallback error:", e.message);
     }
     return false;
+  };
+
+  const fallbackToLanguageCapital = () => {
+    const hasCustomLoc = localStorage.getItem('flow_weather_user_selected') === 'true';
+    if (!hasCustomLoc) {
+      const capital = getLanguageCapital(typeof currentLang !== 'undefined' ? currentLang : 'de');
+      selectWeatherCity(capital.name, capital.country, capital.lat, capital.lon, false);
+    }
   };
 
   if (typeof navigator !== 'undefined' && navigator.geolocation) {
@@ -996,8 +1096,11 @@ async function useDeviceLocationWeather(silent = false) {
       async (err) => {
         console.warn("HTML5 Geolocation nicht verfügbar oder verweigert, versuche IP-Ortung:", err.message);
         const ipSuccess = await tryIpLocation();
-        if (!ipSuccess && !silent && typeof showToast === 'function') {
-          showToast(tr({ de: 'Standort konnte nicht ermittelt werden. Bitte Stadt manuell suchen.', en: 'Location could not be detected. Please search city manually.' }));
+        if (!ipSuccess) {
+          fallbackToLanguageCapital();
+          if (!silent && typeof showToast === 'function') {
+            showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.' }));
+          }
         }
       },
       {
@@ -1008,8 +1111,11 @@ async function useDeviceLocationWeather(silent = false) {
     );
   } else {
     const ipSuccess = await tryIpLocation();
-    if (!ipSuccess && !silent && typeof showToast === 'function') {
-      showToast(tr({ de: 'Standort konnte nicht ermittelt werden. Bitte Stadt manuell suchen.', en: 'Location could not be detected. Please search city manually.' }));
+    if (!ipSuccess) {
+      fallbackToLanguageCapital();
+      if (!silent && typeof showToast === 'function') {
+        showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.' }));
+      }
     }
   }
 }
@@ -1025,6 +1131,13 @@ function toggleWeatherUnit() {
 // Initialer Auto-Start beim Laden & Regelmäßige Hintergrund-Aktualisierung
 function initWeatherSystem() {
   const hasSavedLoc = !!localStorage.getItem('flow_weather_loc');
+  const isDetected = localStorage.getItem('flow_weather_is_detected') === 'true';
+  const hasUserSelected = localStorage.getItem('flow_weather_user_selected') === 'true';
+
+  // Fallback auf Sprache-Hauptstadt, wenn noch kein benutzerdefinierter Ort da ist
+  if (!hasSavedLoc) {
+    currentWeatherLocation = { ...getLanguageCapital(typeof currentLang !== 'undefined' ? currentLang : 'de') };
+  }
 
   if (cachedWeatherData) {
     updateDateWeatherWidget(cachedWeatherData);
@@ -1032,12 +1145,11 @@ function initWeatherSystem() {
     renderImmediateFallbackBadge();
   }
   renderPinnedCitiesUI();
-  // Sofort frisches Wetter abrufen
   fetchLocalWeather(false);
   fetchPinnedCitiesWeather();
 
-  // Falls noch kein individueller Standort gespeichert ist: Automatische, unaufdringliche IP-Standorterkennung im Hintergrund
-  if (!hasSavedLoc) {
+  // Automatisch möglichst den lokalen Standort ermitteln (sofern der Nutzer nicht manuell einen festen Ort gewählt hat)
+  if (!hasUserSelected || isDetected) {
     useDeviceLocationWeather(true);
   }
 

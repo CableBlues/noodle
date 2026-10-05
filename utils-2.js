@@ -154,7 +154,11 @@ function renderMiniCalendar(force = false) {
     
     const isToday = day === todayDate && month === todayMonth && year === todayYear;
     if (isToday) {
-      daySpan.className = 'flex items-center justify-center h-5 w-5 bg-[var(--accent)] text-white font-bold rounded-lg shadow-[0_0_8px_rgba(139,92,246,0.5)] border border-[var(--accent-light)]/20 animate-pulse';
+      const palette = typeof getDayColorPalette === 'function' ? getDayColorPalette(now) : null;
+      const accentColor = palette ? palette.accentHex : 'var(--accent)';
+      daySpan.className = 'flex items-center justify-center h-5 w-5 text-white font-bold rounded-lg border border-white/30 animate-pulse transition-all duration-200';
+      daySpan.style.backgroundColor = accentColor;
+      daySpan.style.boxShadow = `0 0 10px ${accentColor}99`;
     } else {
       daySpan.className = 'flex items-center justify-center h-5 w-5 text-gray-400 hover:text-white hover:bg-white/5 rounded transition-all duration-150';
     }
@@ -359,9 +363,91 @@ if (typeof document !== 'undefined') {
   });
 }
 
+// 7 harmonische, leuchtende Farbpaletten für jeden Wochentag (0 = Sonntag bis 6 = Samstag)
+const DAY_COLOR_PALETTES = [
+  // 0: Sonntag (Sunday) - Warm Sun / Amber & Golden Orange
+  {
+    day: 0,
+    name: 'Sonntag',
+    dayClass: 'text-amber-300',
+    dateClass: 'text-orange-200',
+    accentHex: '#f59e0b',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(245,158,11,0.35)]',
+    badgeClass: 'bg-amber-500/15 border-amber-500/30 text-amber-300'
+  },
+  // 1: Montag (Monday) - Frisches Cyan & Electric Sky
+  {
+    day: 1,
+    name: 'Montag',
+    dayClass: 'text-cyan-300',
+    dateClass: 'text-sky-200',
+    accentHex: '#06b6d4',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(6,182,212,0.35)]',
+    badgeClass: 'bg-cyan-500/15 border-cyan-500/30 text-cyan-300'
+  },
+  // 2: Dienstag (Tuesday) - Frisches Smaragdgrün & Mint
+  {
+    day: 2,
+    name: 'Dienstag',
+    dayClass: 'text-emerald-300',
+    dateClass: 'text-teal-200',
+    accentHex: '#10b981',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(16,185,129,0.35)]',
+    badgeClass: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300'
+  },
+  // 3: Mittwoch (Wednesday) - Sonniges Gelb & Frisches Lime
+  {
+    day: 3,
+    name: 'Mittwoch',
+    dayClass: 'text-yellow-300',
+    dateClass: 'text-lime-200',
+    accentHex: '#eab308',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(234,179,8,0.35)]',
+    badgeClass: 'bg-yellow-500/15 border-yellow-500/30 text-yellow-300'
+  },
+  // 4: Donnerstag (Thursday) - Strahlendes Violett & Royal Purple
+  {
+    day: 4,
+    name: 'Donnerstag',
+    dayClass: 'text-purple-300',
+    dateClass: 'text-indigo-200',
+    accentHex: '#a855f7',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(168,85,247,0.35)]',
+    badgeClass: 'bg-purple-500/15 border-purple-500/30 text-purple-300'
+  },
+  // 5: Freitag (Friday) - Wochenend-Auftakt Koralle & Neon-Rose
+  {
+    day: 5,
+    name: 'Freitag',
+    dayClass: 'text-rose-300',
+    dateClass: 'text-pink-200',
+    accentHex: '#f43f5e',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(244,63,94,0.35)]',
+    badgeClass: 'bg-rose-500/15 border-rose-500/30 text-rose-300'
+  },
+  // 6: Samstag (Saturday) - Leuchtendes Fuchsia & Pink-Magenta
+  {
+    day: 6,
+    name: 'Samstag',
+    dayClass: 'text-fuchsia-300',
+    dateClass: 'text-fuchsia-200',
+    accentHex: '#d946ef',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(217,70,239,0.35)]',
+    badgeClass: 'bg-fuchsia-500/15 border-fuchsia-500/30 text-fuchsia-300'
+  }
+];
+
+function getDayColorPalette(date = new Date()) {
+  const dayIndex = (date instanceof Date && !isNaN(date)) ? date.getDay() : 0;
+  return DAY_COLOR_PALETTES[dayIndex] || DAY_COLOR_PALETTES[0];
+}
+window.DAY_COLOR_PALETTES = DAY_COLOR_PALETTES;
+window.getDayColorPalette = getDayColorPalette;
+
 function updateDateAndStreak() {
   const now = new Date();
   const locales = { de: 'de-DE', en: 'en-GB', el: 'el-GR', es: 'es-ES', fr: 'fr-FR', it: 'it-IT' };
+  const palette = getDayColorPalette(now);
   try {
     const weekdayLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { weekday: 'long' }).format(now);
     const weekdayShort = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { weekday: 'short' }).format(now);
@@ -369,11 +455,13 @@ function updateDateAndStreak() {
     const dayMonthLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
     const displayEl = document.getElementById('date-display');
     if (displayEl) {
-      displayEl.innerHTML = `<span class="text-purple-300 font-bold text-xs md:text-sm tracking-normal"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="text-purple-300 font-bold text-xs md:text-sm tracking-normal"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
+      displayEl.innerHTML = `<span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal transition-colors duration-300 ${palette.glowClass}"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="${palette.dateClass} font-bold text-xs md:text-sm tracking-normal transition-colors duration-300"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
     }
   } catch (e) {
     const displayEl = document.getElementById('date-display');
-    if (displayEl) displayEl.innerText = now.toLocaleDateString();
+    if (displayEl) {
+      displayEl.innerHTML = `<span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal">${now.toLocaleDateString()}</span>`;
+    }
   }
 
   // Ganz dezente Live-Uhrzeit (Null Speicher-Overhead)

@@ -23,29 +23,33 @@ html body #app #timer-trigger-container button#timer-pause-btn i {
 }
 
 html body #app #timer-trigger-container button#timer-stop-btn {
-  background-color: transparent !important;
-  border: 1px solid transparent !important;
-  color: rgba(255, 255, 255, 0.45) !important;
+  background-color: rgba(239, 68, 68, 0.08) !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+  color: #ef4444 !important;
   border-radius: 0.5rem !important;
-  opacity: 0.75;
+  opacity: 0.95 !important;
   transition: all 0.2s ease !important;
 }
 
-html body #app #timer-trigger-container button#timer-stop-btn i {
-  color: rgba(255, 255, 255, 0.55) !important;
+html body #app #timer-trigger-container button#timer-stop-btn i,
+html body #app #timer-trigger-container button#timer-stop-btn svg {
+  color: #ef4444 !important;
+  stroke: #ef4444 !important;
   fill: none !important;
   transition: all 0.2s ease !important;
 }
 
 html body #app #timer-trigger-container button#timer-stop-btn:hover {
-  background-color: rgba(244, 63, 94, 0.12) !important;
-  border-color: rgba(244, 63, 94, 0.25) !important;
-  color: #fb7185 !important;
-  opacity: 1;
+  background-color: rgba(239, 68, 68, 0.22) !important;
+  border-color: #ef4444 !important;
+  color: #f87171 !important;
+  opacity: 1 !important;
 }
 
-html body #app #timer-trigger-container button#timer-stop-btn:hover i {
-  color: #fb7185 !important;
+html body #app #timer-trigger-container button#timer-stop-btn:hover i,
+html body #app #timer-trigger-container button#timer-stop-btn:hover svg {
+  color: #f87171 !important;
+  stroke: #f87171 !important;
   fill: none !important;
 }
 

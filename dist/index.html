@@ -1610,8 +1610,8 @@
               <button id="timer-pause-btn" onclick="pauseTimer()" class="p-1 hover:bg-white/10 text-[var(--accent-light)] rounded-lg transition cursor-pointer hidden" title="Pause timer [T]" data-i18n-title="timer_pause_btn_tooltip" aria-label="Pause">
                 <i data-lucide="pause" class="w-3.5 h-3.5 animate-pulse"></i>
               </button>
-              <button id="timer-stop-btn" onclick="stopTimer()" class="p-1 bg-transparent hover:bg-red-500/15 text-gray-300 hover:text-red-400 border border-red-500/40 hover:border-red-500 rounded-lg transition cursor-pointer" title="Reset timer [S]" data-i18n-title="timer_stop_btn_tooltip" aria-label="Stop">
-                <i data-lucide="square" class="w-3.5 h-3.5"></i>
+              <button id="timer-stop-btn" onclick="stopTimer()" class="p-1 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/40 hover:border-red-500 rounded-lg transition cursor-pointer" title="Reset timer [S]" data-i18n-title="timer_stop_btn_tooltip" aria-label="Stop">
+                <i data-lucide="square" class="w-3.5 h-3.5 text-red-400"></i>
               </button>
             </div>
             <span id="active-timer-badge" class="hidden text-[10px] text-[var(--accent-light)] font-semibold border-l border-white/15 pl-2 truncate max-w-[70px]"></span>
@@ -1646,7 +1646,7 @@
           <div class="flex items-center gap-1 sm:gap-1.5 px-0.5">
             <!-- Wetter & Temperatur Pill -->
             <div id="date-weather-badge" onclick="toggleWeatherDropdown(event)" onmouseenter="showPanelHover('weather')" onmouseleave="hidePanelHover('weather')" class="flex items-center gap-1 h-[24px] px-1.5 rounded-lg bg-sky-500/15 border border-sky-500/30 hover:bg-sky-500/25 hover:border-sky-400/60 text-[9.5px] font-bold text-sky-300 transition cursor-pointer relative select-none shadow-sm group/weather" title="Local Weather" data-i18n-title="weather_title">
-              <span id="date-weather-emoji" class="text-xs shrink-0 group-hover/weather:scale-110 transition-transform">☀️</span>
+              <img id="date-weather-icon-img" src="https://cdn.jsdelivr.net/gh/basmilius/weather-icons@dev/production/fill/svg/clear-day.svg" alt="Weather condition" class="w-4 h-4 object-contain shrink-0 group-hover/weather:scale-110 transition-transform" />
               <span id="date-weather-temp" class="font-mono font-bold text-sky-200 text-[10.5px]">20°</span>
 
               <!-- VOLLER WETTER- & NEWS-BRIEFING POPOVER (Links-bündig am Button-Anfang) -->
@@ -1676,53 +1676,13 @@
                     <input type="text" id="weather-city-input" list="weather-preset-cities" placeholder="Enter or choose city..." data-i18n-placeholder="weather_placeholder" oninput="handleWeatherSearchInput(this.value)" onchange="if(this.value) searchWeatherCityInstant(this.value)" onkeydown="if(event.key==='Enter') searchWeatherCityInstant(this.value)" class="flex-1 p-1.5 bg-black/50 border border-white/10 rounded-xl text-xs text-white outline-none focus:border-sky-500 font-semibold" />
                     <datalist id="weather-preset-cities">
                       <option value="Berlin">
-                      <option value="München">
-                      <option value="Hamburg">
-                      <option value="Köln">
-                      <option value="Frankfurt">
-                      <option value="Stuttgart">
-                      <option value="Düsseldorf">
-                      <option value="Dortmund">
-                      <option value="Essen">
-                      <option value="Leipzig">
-                      <option value="Bremen">
-                      <option value="Dresden">
-                      <option value="Hannover">
-                      <option value="Nürnberg">
-                      <option value="Potsdam">
-                      <option value="Kiel">
-                      <option value="Erfurt">
-                      <option value="Magdeburg">
-                      <option value="Mainz">
-                      <option value="Wiesbaden">
-                      <option value="Saarbrücken">
-                      <option value="Schwerin">
-                      <option value="Augsburg">
-                      <option value="Freiburg">
-                      <option value="Heidelberg">
-                      <option value="Karlsruhe">
-                      <option value="Mannheim">
-                      <option value="Bonn">
-                      <option value="Münster">
-                      <option value="Wien">
-                      <option value="Graz">
-                      <option value="Salzburg">
-                      <option value="Innsbruck">
-                      <option value="Linz">
-                      <option value="Zürich">
-                      <option value="Basel">
-                      <option value="Bern">
-                      <option value="Genf">
-                      <option value="Luzern">
                       <option value="London">
                       <option value="Paris">
                       <option value="Rom">
                       <option value="Madrid">
-                      <option value="Barcelona">
                       <option value="Athen">
-                      <option value="Amsterdam">
-                      <option value="New York">
-                      <option value="Tokio">
+                      <option value="Wien">
+                      <option value="Bern">
                     </datalist>
                     <button onclick="searchWeatherCityInstant(document.getElementById('weather-city-input').value)" class="p-1 px-2 bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 rounded-lg text-[10px] font-bold transition cursor-pointer" title="Search" data-i18n-title="cmd_tasks">
                       <i data-lucide="search" class="w-3 h-3"></i>
@@ -2095,7 +2055,7 @@
                 </div>
               </div>
 
-              <!-- SECTION 3: WORKSPACE, ROUTINES & SYNC (Volle Breite & gut lesbarer Text) -->
+              <!-- SECTION 3: ROUTINES & SYNC (Volle Breite & gut lesbarer Text) -->
               <div class="space-y-1.5 pt-1 border-t border-white/10">
                 <button onclick="openRoutinePresetsModal(); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="w-full p-2.5 bg-gradient-to-r from-purple-500/15 to-indigo-500/15 hover:from-purple-500/25 hover:to-indigo-500/25 border border-purple-500/30 hover:border-purple-400 rounded-xl text-purple-200 text-left text-xs font-bold flex items-center justify-between transition cursor-pointer">
                   <div class="flex items-center gap-2 min-w-0">
@@ -2103,13 +2063,6 @@
                     <span class="whitespace-nowrap font-bold">Routinen & Standards anpassen</span>
                   </div>
                   <i data-lucide="sliders" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
-                </button>
-                <button id="btn-workspace-toggle" onclick="toggleWorkspace();" class="w-full p-2.5 bg-purple-500/15 hover:bg-purple-500/25 border border-purple-500/30 rounded-xl text-purple-200 text-left text-xs font-bold flex items-center justify-between transition cursor-pointer" data-i18n-title="workspace_private">
-                  <div class="flex items-center gap-2 min-w-0">
-                    <span id="ws-toggle-icon" class="text-sm shrink-0">🏠</span>
-                    <span id="ws-toggle-text" class="whitespace-nowrap font-bold" data-i18n="workspace_private">Arbeitsbereich umschalten</span>
-                  </div>
-                  <i data-lucide="repeat" class="w-3.5 h-3.5 text-purple-400 shrink-0"></i>
                 </button>
                 <button onclick="openP2PSyncModal(); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="w-full p-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 rounded-xl text-emerald-300 text-left text-xs font-bold flex items-center justify-between transition cursor-pointer">
                   <div class="flex items-center gap-2 min-w-0">
@@ -3939,15 +3892,6 @@
           </div>
         </div>
 
-        <!-- Standard Workspace -->
-        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
-          <label class="font-bold text-gray-200 block text-xs" data-i18n="setting_default_workspace">Standard-Bereich beim Start</label>
-          <p class="text-[11px] text-gray-400">Wähle, ob die App beim Öffnen standardmäßig den privaten oder beruflichen Bereich anzeigt.</p>
-          <div class="flex gap-2">
-            <button onclick="saveGeneralSetting('defaultWorkspace', 'private')" id="setting-ws-private" class="flex-1 py-2 px-3 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 font-bold transition cursor-pointer">🏠 Privat</button>
-            <button onclick="saveGeneralSetting('defaultWorkspace', 'work')" id="setting-ws-work" class="flex-1 py-2 px-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white font-bold transition cursor-pointer">💼 Arbeit</button>
-          </div>
-        </div>
 
         <!-- Standard Timer-Dauer -->
         <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
