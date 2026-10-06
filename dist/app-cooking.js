@@ -361,10 +361,14 @@ function renderCookingPanel(skipLucide = false) {
 
   panel.innerHTML = `
     <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-      <h4 class="font-bold text-sm font-display text-white flex items-center gap-2">
-        <i data-lucide="cooking-pot" class="w-4 h-4 text-[#ff7a00]"></i>
-        <span data-i18n="cooking">Kochen</span>
-      </h4>
+      <div class="relative flex flex-col items-center justify-center shrink-0">
+        <div class="relative overflow-hidden flex items-center justify-center">
+          <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+        </div>
+        <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+          <span class="badge-tool-subtext select-none">COOK</span>
+        </div>
+      </div>
       <button onclick="togglePanel('cooking')" aria-label="Koch-Panel schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
     </div>
 

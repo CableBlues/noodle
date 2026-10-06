@@ -283,13 +283,13 @@ function showRingingModal() {
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
   
   const title = {
-    de: 'Fokus-Sitzung beendet! 🎉',
-    en: 'Focus Session Finished! 🎉',
-    es: '¡Sesión de enfoque terminada! 🎉',
-    el: 'Η συνεδρία εστίασης ολοκληρώθηκε! 🎉',
-    fr: 'Session de focus terminée ! 🎉',
-    it: 'Sessione di focus terminata! 🎉'
-  }[lang] || 'Session Finished! 🎉';
+    de: 'Fokuszeit gemeistert! ✨',
+    en: 'Focus Session Conquered! ✨',
+    es: '¡Sesión de enfoque dominada! ✨',
+    el: 'Η συνεδρία εστίασης στέφθηκε με επιτυχία! ✨',
+    fr: 'Session de focus accomplie ! ✨',
+    it: 'Sessione di focus completata con successo! ✨'
+  }[lang] || 'Focus Session Conquered! ✨';
 
   const initialMins = Math.floor(timerInitialSeconds / 60);
   const initialSecs = timerInitialSeconds % 60;
@@ -305,35 +305,35 @@ function showRingingModal() {
   }[lang] || `Focus: ${totalDurationStr}`;
 
   const overdueHint = {
-    de: 'Timer läuft im Minus weiter',
-    en: 'Timer counting in overtime',
-    es: 'Temporizador en tiempo extra',
-    el: 'Χρονόμετρο σε καθυστέρηση',
-    fr: 'Minuteur en dépassement',
-    it: 'Timer in straordinario'
-  }[lang] || 'Timer counting in overtime';
+    de: 'Im Flow weiterarbeiten 🚀',
+    en: 'Keep going in the flow 🚀',
+    es: 'Sigue en el flujo 🚀',
+    el: 'Συνέχισε στη ροή σου 🚀',
+    fr: 'Continue dans le flow 🚀',
+    it: 'Continua nel flusso 🚀'
+  }[lang] || 'Keep going in the flow 🚀';
 
   const keepWorkingText = {
-    de: 'Weiterarbeiten ⏳',
-    en: 'Keep working ⏳',
-    es: 'Seguir trabajando ⏳',
-    el: 'Συνέχιση εργασίας ⏳',
-    fr: 'Continuer ⏳',
-    it: 'Continua ⏳'
-  }[lang] || 'Keep working ⏳';
+    de: 'Im Flow bleiben 🚀',
+    en: 'Stay in the flow 🚀',
+    es: 'Quedarse en el flujo 🚀',
+    el: 'Μείνε στη ροή 🚀',
+    fr: 'Rester dans le flow 🚀',
+    it: 'Rimani nel flusso 🚀'
+  }[lang] || 'Stay in the flow 🚀';
 
   const stopBtnText = {
-    de: 'Stoppen & Reset 🔕',
-    en: 'Stop & Reset 🔕',
-    es: 'Detener y reiniciar 🔕',
-    el: 'Διακοπή & Επαναφορά 🔕',
-    fr: 'Arrêter 🔕',
-    it: 'Ferma 🔕'
-  }[lang] || 'Stop & Reset 🔕';
+    de: 'Pause machen / Beenden ☕',
+    en: 'Take a break / Finish ☕',
+    es: 'Tomar descanso / Finalizar ☕',
+    el: 'Διάλειμμα / Ολοκλήρωση ☕',
+    fr: 'Faire une pause / Terminer ☕',
+    it: 'Fai una pausa / Concludi ☕'
+  }[lang] || 'Take a break / Finish ☕';
 
   modal.innerHTML = `
     <div class="relative w-full bg-[#111116]/95 border border-purple-500/50 p-4 rounded-2xl shadow-[0_10px_40px_rgba(139,92,246,0.35)] backdrop-blur-xl text-center text-white flex flex-col items-center gap-3">
-      <button onclick="dismissRingingModalOnly()" aria-label="Schließen (Timer läuft im Minus weiter)" class="absolute top-2.5 right-2.5 text-gray-400 hover:text-white text-sm font-bold p-1 cursor-pointer transition" title="Schließen (Timer läuft im Minus weiter)">✕</button>
+      <button onclick="dismissRingingModalOnly()" aria-label="Schließen (Timer läuft im Flow weiter)" class="absolute top-2.5 right-2.5 text-gray-400 hover:text-white text-sm font-bold p-1 cursor-pointer transition" title="Schließen (Timer läuft im Flow weiter)">✕</button>
       
       <div class="flex items-center gap-3 w-full pr-6 text-left">
         <div class="h-10 w-10 shrink-0 bg-purple-500/20 border border-purple-500/40 rounded-xl flex items-center justify-center text-xl animate-pulse">
@@ -345,19 +345,19 @@ function showRingingModal() {
         </div>
       </div>
       
-      <div class="w-full flex items-center justify-between px-3 py-1.5 rounded-xl bg-rose-500/15 border border-rose-500/30">
+      <div class="w-full flex items-center justify-between px-3 py-1.5 rounded-xl bg-purple-500/15 border border-purple-500/30">
         <div class="flex items-center gap-2">
-          <span class="h-2 w-2 rounded-full bg-rose-400 animate-ping"></span>
-          <span class="text-[10px] text-rose-300 font-medium">${overdueHint}</span>
+          <span class="h-2 w-2 rounded-full bg-purple-400 animate-ping"></span>
+          <span class="text-[10px] text-purple-200 font-medium">${overdueHint}</span>
         </div>
-        <p id="ringing-live-counter" class="text-xs text-rose-300 font-black font-mono tracking-widest">-00:00</p>
+        <p id="ringing-live-counter" class="text-xs text-purple-200 font-black font-mono tracking-widest">-00:00</p>
       </div>
 
       <div class="w-full grid grid-cols-2 gap-2 pt-0.5">
         <button onclick="dismissRingingModalOnly()" class="w-full py-1.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white text-[11px] font-bold rounded-xl shadow-md transition duration-150 transform active:scale-95 cursor-pointer">
           ${keepWorkingText}
         </button>
-        <button onclick="stopTimer()" class="w-full py-1.5 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-rose-300 border border-white/10 text-[11px] font-semibold rounded-xl transition cursor-pointer">
+        <button onclick="stopTimer()" class="w-full py-1.5 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-purple-300 border border-white/10 text-[11px] font-semibold rounded-xl transition cursor-pointer">
           ${stopBtnText}
         </button>
       </div>

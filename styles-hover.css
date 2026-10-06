@@ -191,5 +191,112 @@ main article.drag-over {
   opacity: 0.9;
 }
 
+/* 7. INTERACTION ENGINE: PEEK & PIN VS. CLICK-ONLY SYSTEM */
 
+/* PEEKING STATE (Temporäre Hover-Vorschau) */
+.dock-popover-panel.noodle-panel-peeking,
+[id^="panel-"].noodle-panel-peeking {
+  border-style: dashed !important;
+  border-color: var(--accent, #a855f7) !important;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.92), 0 0 25px rgba(168, 85, 247, 0.28) !important;
+  animation: noodle-peek-glow 2.5s infinite ease-in-out;
+}
 
+@keyframes noodle-peek-glow {
+  0%, 100% {
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.92), 0 0 18px rgba(168, 85, 247, 0.2);
+  }
+  50% {
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.96), 0 0 32px rgba(168, 85, 247, 0.45);
+  }
+}
+
+/* PINNED STATE (Fest eingerastet / Fixiert per Klick) */
+.dock-popover-panel.noodle-panel-pinned,
+[id^="panel-"].noodle-panel-pinned {
+  border-style: solid !important;
+  border-width: 1.5px !important;
+  border-color: var(--accent, #a855f7) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.98), 0 0 38px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* UNIFIED PIN BADGE BUTTON IN ALL PANEL HEADERS */
+.noodle-pin-badge-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #d1d5db;
+  line-height: 1;
+  margin-right: 4px;
+}
+
+.noodle-pin-badge-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  transform: translateY(-0.5px);
+}
+
+.noodle-pin-badge-btn:active {
+  transform: scale(0.94);
+}
+
+.noodle-pin-badge-btn .noodle-pin-icon {
+  font-size: 11px;
+  display: inline-block;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.noodle-pin-badge-btn:hover .noodle-pin-icon {
+  transform: rotate(-15deg) scale(1.15);
+}
+
+/* Pin-Button im PEEK-Zustand */
+.noodle-panel-peeking .noodle-pin-badge-btn {
+  background: rgba(168, 85, 247, 0.15) !important;
+  border: 1px dashed rgba(168, 85, 247, 0.55) !important;
+  color: #e9d5ff !important;
+}
+.noodle-panel-peeking .noodle-pin-badge-btn:hover {
+  background: rgba(168, 85, 247, 0.3) !important;
+  border-style: solid !important;
+  border-color: #c084fc !important;
+  color: #ffffff !important;
+}
+
+/* Pin-Button im PINNED-Zustand */
+.noodle-panel-pinned .noodle-pin-badge-btn {
+  background: #a855f7 !important;
+  border: 1px solid #d8b4fe !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 14px rgba(168, 85, 247, 0.65) !important;
+}
+.noodle-panel-pinned .noodle-pin-badge-btn:hover {
+  background: #9333ea !important;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.85) !important;
+}
+
+/* CLICK-ONLY MODE SPEZIFISCH:
+   Macht Card-Actions für Touch & Klick-Nutzer sofort sichtbar ohne Hover */
+body.mode-click-only main article div[draggable="true"] .group-hover\:opacity-100,
+@media (hover: none) and (pointer: coarse) main article div[draggable="true"] .group-hover\:opacity-100 {
+  opacity: 0.85 !important;
+  pointer-events: auto !important;
+}
+
+/* NEWS TICKER SETTINGS BUTTON & POPOVER ENGINE */
+.ticker-popover-open {
+  max-width: 36px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important;
+}

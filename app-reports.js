@@ -148,8 +148,20 @@ function togglePanel(panelName) {
 
   const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
 
+  const isCurrentlyPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
+
   if (isCurrentlyHidden) { 
+    if (isSubpanelOfTools) {
+      const headerTools = document.getElementById('panel-header-tools');
+      if (headerTools && headerTools.classList.contains('hidden')) {
+        headerTools.classList.remove('hidden');
+        headerTools.classList.add('noodle-panel-pinned');
+        adjustPanelPosition(headerTools, 'header-tools');
+      }
+    }
     el.classList.remove('hidden'); 
+    el.classList.remove('noodle-panel-peeking');
+    el.classList.add('noodle-panel-pinned');
     adjustPanelPosition(el, panelName);
     if (typeof window !== 'undefined') {
       window.currentlyOpenPanel = panelName;
@@ -207,9 +219,27 @@ function togglePanel(panelName) {
       if (typeof HumorEngine.renderHumorPanel === 'function') HumorEngine.renderHumorPanel();
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
+    if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.decoratePanel === 'function') {
+      window.NoodleInteractionMode.decoratePanel(el, panelName);
+    }
     syncHeaderToolsMenuState();
+  } else if (!isCurrentlyPinned) {
+    // Es war nur eine flüchtige Hover-Vorschau (Peeking):
+    // Der Klick schließt das Panel NICHT, sondern PINNT es jetzt fest!
+    if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.pinPanel === 'function') {
+      window.NoodleInteractionMode.pinPanel(panelName);
+    } else {
+      el.classList.remove('noodle-panel-peeking');
+      el.classList.add('noodle-panel-pinned');
+      if (typeof window !== 'undefined') window.pinnedPanel = panelName;
+      if (typeof pinnedPanel !== 'undefined') pinnedPanel = panelName;
+    }
+    syncHeaderToolsMenuState();
+    return;
   } else {
+    // Das Panel war bereits fest gepinnt: Jetzt schließen
     el.classList.add('hidden');
+    el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
     if (typeof window !== 'undefined') {
       if (window.currentlyOpenPanel === panelName) window.currentlyOpenPanel = null;
       if (window.pinnedPanel === panelName) window.pinnedPanel = null;
@@ -363,16 +393,16 @@ function renderWeeklyChart(targetElementId = 'report-weekly-chart', totalElement
   last7Days.forEach(day => {
     const pct = Math.max(8, (day.count / maxCount) * 100);
     const isToday = day.date === now.toISOString().split('T')[0];
-    const barCol = isToday ? 'bg-amber-400 shadow-[0_0_12px_rgba(251,191,36,0.5)]' : 'bg-[#00f2ff] hover:bg-purple-400';
-    const barBg = isToday ? 'bg-amber-500/15 border-amber-400/30' : 'bg-white/[0.04] border-white/10';
+    const barCol = isToday ? 'bg-lime-400 shadow-[0_0_12px_rgba(132,204,22,0.6)]' : 'bg-[#00f2ff] hover:bg-lime-400';
+    const barBg = isToday ? 'bg-lime-500/20 border-lime-400/40' : 'bg-white/[0.04] border-white/10';
     const barWrapper = document.createElement('div');
     barWrapper.className = `flex flex-col items-center justify-end gap-1 flex-1 ${isDashboard ? 'max-w-[54px]' : 'max-w-[40px]'}`;
     barWrapper.innerHTML = `
-      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-[#ff7a00]' : 'text-white') : 'text-gray-500'}">${day.count}</span>
+      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-lime-300' : 'text-white') : 'text-gray-500'}">${day.count}</span>
       <div class="${isDashboard ? 'w-7 h-20' : 'w-5 h-11'} ${barBg} border rounded-xl relative flex items-end overflow-hidden cursor-pointer transition-transform hover:scale-105" title="${day.date}: ${day.count} erledigt">
         <div class="w-full ${barCol} transition-all duration-500 rounded-t" style="height: ${pct}%"></div>
       </div>
-      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-[#ff7a00] font-extrabold' : 'text-gray-400'}">${day.label}</span>
+      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-lime-300 font-extrabold' : 'text-gray-400'}">${day.label}</span>
     `;
     chartEl.appendChild(barWrapper);
   });
@@ -386,7 +416,7 @@ function updateReportPanel() {
       <div class="grid grid-cols-3 gap-2">
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="completed_stat">Erledigt</div>
-          <div id="report-today-count" class="text-lg font-black font-display text-[#00ff66]">0</div>
+          <div id="report-today-count" class="text-lg font-black font-display text-lime-300">0</div>
         </div>
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="focus_time">Fokus</div>

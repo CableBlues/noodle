@@ -1394,8 +1394,8 @@ function renderApp() {
     const svgFn = (typeof getLucideSvg === 'function') ? getLucideSvg : ((name, cls) => `<i data-lucide="${name}" class="${cls}"></i>`);
     if (isDone) {
       countBadgeHTML = `
-        <div class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-xs flex items-center gap-1 shrink-0" title="${doneList.length} erledigte Aufgaben">
-          ${svgFn('check', 'w-3 h-3 text-emerald-400')}
+        <div class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-lime-500/15 text-lime-300 border border-lime-500/30 shadow-xs flex items-center gap-1 shrink-0" title="${doneList.length} erledigte Aufgaben">
+          ${svgFn('check', 'w-3 h-3 text-lime-400')}
           <span>${doneList.length}</span>
         </div>
       `;
@@ -1410,7 +1410,7 @@ function renderApp() {
       let badgeStyle = 'bg-white/5 text-gray-400 border-white/10';
       let checkSuffix = '';
       if (isComplete) {
-        badgeStyle = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.25)]';
+        badgeStyle = 'bg-lime-500/20 text-lime-300 border-lime-500/40 shadow-[0_0_10px_rgba(132,204,22,0.25)]';
         checkSuffix = ' ✓';
       } else if (doneInCat > 0) {
         badgeStyle = 'bg-[var(--accent)]/15 text-[var(--accent-light)] border-[var(--accent)]/30';
@@ -1494,7 +1494,7 @@ function renderApp() {
     article.innerHTML = `
       ${(!isDone && !isNotes) ? `
         <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-white/[0.04] overflow-hidden pointer-events-none">
-          <div class="h-full bg-gradient-to-r from-[var(--accent)] via-cyan-400 to-emerald-400 transition-all duration-500 ${isComplete ? 'shadow-[0_0_12px_rgba(16,185,129,0.8)]' : ''}" style="width: ${pct}%"></div>
+          <div class="h-full bg-gradient-to-r from-[var(--accent)] via-cyan-400 to-lime-400 transition-all duration-500 ${isComplete ? 'shadow-[0_0_12px_rgba(132,204,22,0.8)]' : ''}" style="width: ${pct}%"></div>
         </div>
       ` : ''}
       
@@ -1655,14 +1655,14 @@ function renderApp() {
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-14 select-none">
             <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open' })}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-[#00ff66] bg-[#00ff66]/20 text-[#00ff66]' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : 'border-[#89cff0]/40 bg-[#89cff0]/10 hover:border-[#00ff66] hover:bg-[#00ff66]/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-lime-400 bg-lime-500/20 text-lime-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : 'border-[#89cff0]/40 bg-[#89cff0]/10 hover:border-lime-400 hover:bg-lime-500/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${status === 'stattgefunden' 
-                  ? svgFn('check', 'w-3.5 h-3.5 text-[#00ff66]')
+                  ? svgFn('check', 'w-3.5 h-3.5 text-lime-400')
                   : (status === 'nicht_stattgefunden' 
                     ? svgFn('x', 'w-3.5 h-3.5 text-[#C586C0]')
-                    : (status === 'verschoben'
+                    : (status === 'verschoben' 
                       ? svgFn('calendar-sync', 'w-3.5 h-3.5 text-[#C586C0]')
-                      : `${svgFn('clock', 'task-default-icon w-3.5 h-3.5 text-[#89cff0] transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50')}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-[#00ff66] opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
+                      : `${svgFn('clock', 'task-default-icon w-3.5 h-3.5 text-[#89cff0] transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50')}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
                     )
                   )
                 }
@@ -1784,9 +1784,9 @@ function renderApp() {
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none">
             <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-[#00ff66] hover:bg-[#00ff66]/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-lime-400 hover:bg-lime-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400 animate-pulse' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
-                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-[#00ff66] opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
+                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
               </span>
             </button>
             <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
@@ -1801,12 +1801,12 @@ function renderApp() {
         listEl.appendChild(itemDiv);
       });
       const addBtn = document.createElement('button'); addBtn.onclick = () => { openTaskAddColumns[id] = true; renderApp(); };
-      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-white/15 bg-white/[0.02] hover:bg-white/[0.06] hover:border-[var(--accent)]/40 text-center text-xs text-gray-400 hover:text-white font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
-      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-[var(--accent-light)] group-hover/addbtn:scale-110 transition-transform')}<span>${t('add')}</span>`;
+      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-white/15 bg-white/[0.02] hover:bg-white/[0.06] hover:border-lime-400/50 hover:text-lime-300 text-center text-xs text-gray-400 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-400 group-hover/addbtn:scale-110 group-hover/addbtn:text-lime-300 transition-transform')}<span>${t('add')}</span>`;
 
       const addInput = document.createElement('input'); addInput.type = 'text';
       addInput.placeholder = t('add');
-      addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-[var(--accent)]/60 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-[var(--accent)] transition cursor-text font-semibold text-white shadow-inner mt-1';
+      addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-lime-500/50 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-lime-400 focus:shadow-[0_0_12px_rgba(132,204,22,0.25)] transition cursor-text font-semibold text-white shadow-inner';
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && addInput.value.trim()) {
           saveHistory();
@@ -1827,6 +1827,28 @@ function renderApp() {
         const inputWrap = document.createElement('div');
         inputWrap.className = 'w-full flex items-center gap-1.5 mt-1';
         inputWrap.appendChild(addInput);
+
+        const submitAddBtn = document.createElement('button');
+        submitAddBtn.type = 'button';
+        submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-lime-500/20 hover:bg-lime-500/35 text-lime-300 border border-lime-500/40 hover:border-lime-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
+        submitAddBtn.title = tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)' });
+        submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-300')}`;
+        submitAddBtn.onclick = () => {
+          if (addInput.value.trim()) {
+            saveHistory();
+            const taskText = addInput.value.trim();
+            const taskObj = (typeof ensureItemIdentity === 'function') 
+              ? ensureItemIdentity(taskText, `task_${id}`)
+              : { task: taskText };
+            const curItems = getCurrentWorkspaceItems();
+            if (!curItems[id]) curItems[id] = [];
+            curItems[id].push(taskObj);
+            addInput.value = '';
+            openTaskAddColumns[id] = false;
+            saveState(); renderApp(); populateHelperTaskSelect();
+          }
+        };
+        inputWrap.appendChild(submitAddBtn);
 
         const suggestBtn = document.createElement('button');
         suggestBtn.type = 'button';
@@ -2352,6 +2374,11 @@ let hoverPanelHideTimeout = null;
 // syncHeaderToolsMenuState handled by app-reports.js
 
 function showPanelHover(panelName, delay = 0) {
+  // Wenn im Click-Only Modus: keine automatische Hover-Vorschau öffnen!
+  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
+    if (window.NoodleInteractionMode.getMode() === 'click-only') return;
+  }
+
   if (hoverPanelHideTimeout) {
     clearTimeout(hoverPanelHideTimeout);
     hoverPanelHideTimeout = null;
@@ -2404,7 +2431,23 @@ function showPanelHover(panelName, delay = 0) {
       }
     });
 
-    el.classList.remove('hidden'); syncHeaderToolsMenuState();
+    el.classList.remove('hidden'); 
+    
+    // Peek-Status & Pin-Badge Dekoration
+    const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
+    if (isPinned) {
+      el.classList.add('noodle-panel-pinned');
+      el.classList.remove('noodle-panel-peeking');
+    } else {
+      el.classList.add('noodle-panel-peeking');
+      el.classList.remove('noodle-panel-pinned');
+    }
+
+    if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.decoratePanel === 'function') {
+      window.NoodleInteractionMode.decoratePanel(el, panelName);
+    }
+
+    syncHeaderToolsMenuState();
     if (typeof adjustPanelPosition === 'function') {
       adjustPanelPosition(el, panelName);
     } else if (typeof window !== 'undefined' && typeof window.adjustPanelPosition === 'function') {
@@ -2482,10 +2525,12 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     hoverPanelHideTimeout = null;
   }
 
-  if (pinnedPanel && pinnedPanel === panelName) return;
+  const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
+  if (isPinned) return;
 
   hoverPanelHideTimeout = setTimeout(() => {
-    if (pinnedPanel && pinnedPanel === panelName) return;
+    const isStillPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
+    if (isStillPinned) return;
 
     const el = document.getElementById(`panel-${panelName}`);
     if (el) {
@@ -2505,6 +2550,7 @@ function hidePanelHover(panelName, gracePeriod = 260) {
 
     if (el) {
       el.classList.add('hidden');
+      el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
     }
     if (currentlyOpenPanel === panelName) {
       currentlyOpenPanel = null;
@@ -2525,7 +2571,7 @@ document.addEventListener('pointerdown', (e) => {
   if (toolsPanel && toolsPanel.contains(e.target)) return;
   if (toolsWrapper && toolsWrapper.contains(e.target)) return;
 
-  const activeName = pinnedPanel || currentlyOpenPanel;
+  const activeName = (typeof window !== 'undefined' && window.pinnedPanel) || pinnedPanel || currentlyOpenPanel;
   if (!activeName) return;
 
   const openPanelEl = document.getElementById(`panel-${activeName}`);
@@ -2557,6 +2603,7 @@ document.addEventListener('pointerdown', (e) => {
 
   // Andernfalls: Panel stabil schließen & Pin aufheben
   openPanelEl.classList.add('hidden');
+  openPanelEl.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
   currentlyOpenPanel = null;
   pinnedPanel = null;
   if (typeof window !== 'undefined') {
@@ -3494,7 +3541,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.scheduleCloseColumnsDropdown = scheduleCloseColumnsDropdown;
   globalThis.cancelCloseColumnsDropdown = cancelCloseColumnsDropdown;
   globalThis.renderColumnsDropdownContent = renderColumnsDropdownContent;
-  globalThis.saveCategoriesOrder = saveCategoriesOrder;
+  if (typeof saveCategoriesOrder !== 'undefined') globalThis.saveCategoriesOrder = saveCategoriesOrder;
   globalThis.renameColumn = renameColumn;
   globalThis.deleteColumn = deleteColumn;
   globalThis.toggleColumnOptionsMenu = toggleColumnOptionsMenu;

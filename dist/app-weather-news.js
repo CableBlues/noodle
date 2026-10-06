@@ -657,7 +657,8 @@ function renderWeatherData(data) {
     }
   }
 
-  const flag = currentWeatherLocation.flag || (LANGUAGE_CAPITALS[currentLang] ? LANGUAGE_CAPITALS[currentLang].flag : '');
+  const curLang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+  const flag = currentWeatherLocation.flag || (LANGUAGE_CAPITALS[curLang] ? LANGUAGE_CAPITALS[curLang].flag : '');
 
   container.innerHTML = `
     <!-- Haupt-Wetterkarte -->

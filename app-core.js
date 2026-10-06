@@ -934,12 +934,10 @@ function setLanguage(lang) {
   translateUI(); const textEl = document.getElementById('minimal-mode-btn-text');
   if (textEl) { textEl.innerText = isMinimalist ? t('standard_mode') : t('minimal_mode'); }
   updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
-  // 1. Localize News Region
-  const langToNewsRegion = { de: 'de', en: 'uk', fr: 'fr', it: 'it', es: 'es', el: 'gr' };
-  const targetNewsRegion = langToNewsRegion[lang] || 'de';
+  // 1. Localize News Language independently from Region
   if (typeof RadioNewsEngine !== 'undefined') {
-    if (typeof RadioNewsEngine.selectRegion === 'function') {
-      RadioNewsEngine.selectRegion(targetNewsRegion);
+    if (typeof RadioNewsEngine.syncAppLanguage === 'function') {
+      RadioNewsEngine.syncAppLanguage(lang);
     } else if (typeof RadioNewsEngine.initNewsPanel === 'function') {
       RadioNewsEngine.initNewsPanel();
     }
@@ -1878,9 +1876,9 @@ if (typeof window !== 'undefined') {
   window.closeAllPanelsAndModals = closeAllPanelsAndModals;
   window.getTaskIconDetails = getTaskIconDetails;
   window.getTaskIcon = getTaskIcon;
-  window.openCommandPalette = openCommandPalette;
-  window.closeCommandPalette = closeCommandPalette;
-  window.switchMobileNavTab = switchMobileNavTab;
+  if (typeof openCommandPalette !== 'undefined') window.openCommandPalette = openCommandPalette;
+  if (typeof closeCommandPalette !== 'undefined') window.closeCommandPalette = closeCommandPalette;
+  if (typeof switchMobileNavTab !== 'undefined') window.switchMobileNavTab = switchMobileNavTab;
   window.openMobileQuickAddModal = openMobileQuickAddModal;
   window.closeMobileQuickAddModal = closeMobileQuickAddModal;
   window.selectMobileQuickAddCategory = selectMobileQuickAddCategory;
@@ -1896,9 +1894,9 @@ if (typeof globalThis !== 'undefined') {
   globalThis.closeAllPanelsAndModals = closeAllPanelsAndModals;
   globalThis.getTaskIconDetails = getTaskIconDetails;
   globalThis.getTaskIcon = getTaskIcon;
-  globalThis.openCommandPalette = openCommandPalette;
-  globalThis.closeCommandPalette = closeCommandPalette;
-  globalThis.switchMobileNavTab = switchMobileNavTab;
+  if (typeof openCommandPalette !== 'undefined') globalThis.openCommandPalette = openCommandPalette;
+  if (typeof closeCommandPalette !== 'undefined') globalThis.closeCommandPalette = closeCommandPalette;
+  if (typeof switchMobileNavTab !== 'undefined') globalThis.switchMobileNavTab = switchMobileNavTab;
   globalThis.openMobileQuickAddModal = openMobileQuickAddModal;
   globalThis.closeMobileQuickAddModal = closeMobileQuickAddModal;
   globalThis.selectMobileQuickAddCategory = selectMobileQuickAddCategory;

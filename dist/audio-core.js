@@ -1564,10 +1564,10 @@ function updateHeaderSoundBtnUI() {
 
   const isPlaying = isAnyAudioPlaying();
   if (isPlaying) {
-    btn.className = 'h-[38px] w-[38px] p-0 border border-purple-400/80 rounded-xl bg-gradient-to-tr from-purple-600/35 to-indigo-600/35 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_18px_rgba(168,85,247,0.45)] shrink-0 group/sound-btn';
+    btn.className = 'h-[38px] w-[38px] p-0 border border-lime-400/80 rounded-xl bg-gradient-to-tr from-lime-600/35 to-emerald-600/35 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_18px_rgba(132,204,22,0.45)] shrink-0 group/sound-btn';
     btn.title = (typeof tr === 'function') ? tr({ de: 'Sound ausschalten (Klick)', en: 'Turn sound off (Click)' }) : 'Sound ausschalten';
     if (iconWrapper) {
-      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-purple-200 animate-pulse"></i>';
+      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-lime-300 animate-pulse"></i>';
     }
     if (eqBars) {
       eqBars.classList.remove('hidden');
@@ -1648,8 +1648,12 @@ window.handleHeaderVolumeInput = handleHeaderVolumeInput;
 window.handleStudioMasterVolume = handleHeaderVolumeInput;
 
 let soundHoverSliderTimer = null;
+let soundVolumePinned = false;
 
 function showSoundHoverSlider() {
+  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
+    if (window.NoodleInteractionMode.getMode() === 'click-only') return;
+  }
   if (soundHoverSliderTimer) {
     clearTimeout(soundHoverSliderTimer);
     soundHoverSliderTimer = null;
@@ -1658,16 +1662,22 @@ function showSoundHoverSlider() {
   if (popover) {
     popover.classList.remove('hidden');
     popover.classList.add('flex');
+    if (!soundVolumePinned) {
+      popover.classList.add('noodle-panel-peeking');
+      popover.classList.remove('noodle-panel-pinned');
+    }
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 }
 window.showSoundHoverSlider = showSoundHoverSlider;
 
 function hideSoundHoverSlider(delay = 350) {
+  if (soundVolumePinned) return;
   if (soundHoverSliderTimer) {
     clearTimeout(soundHoverSliderTimer);
   }
   soundHoverSliderTimer = setTimeout(() => {
+    if (soundVolumePinned) return;
     const popover = document.getElementById('header-sound-volume-popover');
     const container = document.getElementById('header-btn-sound-container');
     try {
@@ -1676,7 +1686,7 @@ function hideSoundHoverSlider(delay = 350) {
     } catch (e) {}
     if (popover) {
       popover.classList.add('hidden');
-      popover.classList.remove('flex');
+      popover.classList.remove('flex', 'noodle-panel-peeking', 'noodle-panel-pinned');
     }
   }, delay);
 }
@@ -1685,15 +1695,40 @@ window.hideSoundHoverSlider = hideSoundHoverSlider;
 function toggleSoundVolumePopover(event) {
   if (event) event.stopPropagation();
   const popover = document.getElementById('header-sound-volume-popover');
-  if (popover) {
-    if (popover.classList.contains('hidden')) {
-      showSoundHoverSlider();
-    } else {
-      hideSoundHoverSlider(0);
-    }
+  if (!popover) return;
+
+  if (popover.classList.contains('hidden')) {
+    soundVolumePinned = true;
+    popover.classList.remove('hidden', 'noodle-panel-peeking');
+    popover.classList.add('flex', 'noodle-panel-pinned');
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  } else if (!soundVolumePinned) {
+    soundVolumePinned = true;
+    popover.classList.remove('noodle-panel-peeking');
+    popover.classList.add('noodle-panel-pinned');
+  } else {
+    soundVolumePinned = false;
+    popover.classList.add('hidden');
+    popover.classList.remove('flex', 'noodle-panel-peeking', 'noodle-panel-pinned');
   }
 }
 window.toggleSoundVolumePopover = toggleSoundVolumePopover;
+
+document.addEventListener('pointerdown', (e) => {
+  const popover = document.getElementById('header-sound-volume-popover');
+  const container = document.getElementById('header-btn-sound-container');
+  if (popover && !popover.classList.contains('hidden')) {
+    if (popover.contains(e.target) || (container && container.contains(e.target))) {
+      soundVolumePinned = true;
+      popover.classList.remove('noodle-panel-peeking');
+      popover.classList.add('noodle-panel-pinned');
+      return;
+    }
+    soundVolumePinned = false;
+    popover.classList.add('hidden');
+    popover.classList.remove('flex', 'noodle-panel-peeking', 'noodle-panel-pinned');
+  }
+}, { passive: true });
 
 function toggleAudioTimerSync(enabled) {
   try {

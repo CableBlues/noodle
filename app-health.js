@@ -375,6 +375,19 @@
     const dueCount = relevantCheckups.filter(c => c.status === 'due' || c.status === 'urgent').length;
 
     let html = `
+      <!-- 1. KOPFZEILE: NOODLE HEALTH BRANDING -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-2">
+        <div class="relative flex flex-col items-center justify-center shrink-0">
+          <div class="relative overflow-hidden flex items-center justify-center">
+            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+          </div>
+          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+            <span class="badge-tool-subtext select-none">HEALTH</span>
+          </div>
+        </div>
+        <button onclick="togglePanel('health')" aria-label="Gesundheits-Panel schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
+      </div>
+
       <!-- TOP PROFILE SUMMARY BANNER -->
       <div class="p-3 rounded-2xl bg-gradient-to-r from-rose-500/15 via-purple-500/10 to-teal-500/15 border border-rose-500/30 flex items-center justify-between shadow-inner">
         <div class="flex items-center gap-2.5">

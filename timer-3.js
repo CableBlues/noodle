@@ -467,14 +467,14 @@ function renderTimerCockpitContent() {
     <!-- 1. KOPFZEILE: NOODLE LOGO + TIMER UNTERSCHRIFT (LINKS) | LAUTSTÄRKE & CLOSE (RECHTS) -->
     <div class="flex items-center justify-between pb-2 border-b border-white/10 select-none">
       
-      <!-- Noodle Logo & TIMER Subtext (wie bei den Tools) -->
+      <!-- Noodle Logo & TIMER Subtext -->
       <div class="flex items-center gap-2">
         <div class="relative flex flex-col items-center justify-center shrink-0">
           <div class="relative overflow-hidden flex items-center justify-center">
             <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
           </div>
-          <div class="relative h-[8px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-            <span class="text-[7.5px] font-black font-display tracking-[0.3em] text-purple-300 uppercase leading-none select-none">TIMER</span>
+          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+            <span class="badge-tool-subtext select-none">TIMER</span>
           </div>
         </div>
         <span class="w-1.5 h-1.5 rounded-full ${isRunning ? 'bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]' : 'bg-purple-500/50'}"></span>
@@ -560,6 +560,33 @@ function renderTimerCockpitContent() {
           </span>
           <span class="text-[9px] font-mono font-bold ${isMotivation ? 'text-pink-200' : 'text-gray-500'}">${isMotivation ? 'AN' : 'AUS'}</span>
         </button>
+      </div>
+
+      <!-- Stimmen-Vielfalt (Wechselnd: Frau, Mann, Kind) mit Hörproben -->
+      <div class="pt-1 border-t border-indigo-500/20 flex flex-col gap-1">
+        <div class="flex items-center justify-between px-0.5">
+          <span class="text-[9px] font-semibold text-indigo-300 flex items-center gap-1">
+            <span>🎭</span>
+            <span>Wechselnde Stimmen</span>
+          </span>
+          <span class="text-[8.5px] font-mono text-indigo-200/90 bg-indigo-500/20 px-1.5 py-0.2 rounded border border-indigo-500/30">
+            Frau · Mann · Kind
+          </span>
+        </div>
+        <div class="grid grid-cols-3 gap-1">
+          <button onclick="previewVoiceCategory('female');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Frauenstimmen (warm & freundlich)">
+            <span>👩</span>
+            <span class="truncate">Frauen</span>
+          </button>
+          <button onclick="previewVoiceCategory('male');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Männerstimmen (tief-warm & gelassen)">
+            <span>👨</span>
+            <span class="truncate">Männer</span>
+          </button>
+          <button onclick="previewVoiceCategory('child');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Kinderstimmen (jung, hell & fröhlich)">
+            <span>🧒</span>
+            <span class="truncate">Kinder</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -822,8 +849,9 @@ function startTimer() {
       const startMins = Math.round(timerInitialSeconds / 60);
       const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
       
-      let startText = "";
+      const speechItems = [];
       if (isTimeAnnounceActive) {
+        let timeText = "";
         if (activeTaskName && typeof activeTaskName === 'string' && activeTaskName.trim()) {
           const cleanTask = activeTaskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
           const phraseList = (typeof SESSION_START_TASK_PHRASES !== 'undefined' && SESSION_START_TASK_PHRASES[lang]) 
@@ -833,26 +861,33 @@ function startTimer() {
             ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase)
             : (SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de)[0];
           lastSessionStartPhrase = phrase;
-          startText = phrase.replace('{mins}', startMins).replace('{task}', cleanTask);
+          timeText = phrase.replace('{mins}', startMins).replace('{task}', cleanTask);
         } else {
           const phraseList = SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de;
           const phrase = pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase);
           lastSessionStartPhrase = phrase;
-          startText = phrase.replace('{mins}', startMins);
+          timeText = phrase.replace('{mins}', startMins);
         }
-      } else if (isMotivationActive) {
-        const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
-        startText = motiv || "Fokuszeit gestartet. Schritt für Schritt.";
+        if (startMins === 1 && timeText) {
+          timeText = timeText.replace('Minuten', 'Minute').replace('minutes', 'minute').replace('minutos', 'minuto').replace('λεπτά', 'λεπτό');
+        }
+        if (timeText) speechItems.push({ text: timeText });
       }
 
-      if (startMins === 1 && startText) {
-        startText = startText.replace('Minuten', 'Minute').replace('minutes', 'minute').replace('minutos', 'minuto').replace('λεπτά', 'λεπτό');
+      if (isMotivationActive) {
+        const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
+        if (motiv) speechItems.push({ text: motiv });
       }
-      if (startText) {
+
+      if (speechItems.length > 0) {
         const startSessionToken = currentSpeechSessionId;
         const startTimeout = setTimeout(() => {
           if (!timerRunning || currentSpeechSessionId !== startSessionToken) return;
-          speakSoftlyDynamic(startText, timerSeconds, timerInitialSeconds);
+          if (typeof speakVoiceSequence === 'function') {
+            speakVoiceSequence(speechItems);
+          } else {
+            speakSoftlyDynamic(speechItems.map(s => s.text).join('. '), timerSeconds, timerInitialSeconds);
+          }
         }, 400);
         if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
           activeTimeouts.push(startTimeout);
@@ -885,9 +920,13 @@ function startTimer() {
 
       if (isTimerSoundActive() && (isTimeAnnounceActive || isMotivationActive)) {
         const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
-        const timeUp = (typeof TIME_UP_PHRASES !== 'undefined' && TIME_UP_PHRASES[lang]) 
-          ? TIME_UP_PHRASES[lang] 
-          : "Die Zeit ist abgelaufen!";
+        let timeUp = "Fokuszeit gemeistert! Zieh ruhig weiter durch, wenn du im Flow bist.";
+        if (typeof getTimeUpPhrase === 'function') {
+          timeUp = getTimeUpPhrase(lang);
+        } else if (typeof TIME_UP_PHRASES !== 'undefined' && TIME_UP_PHRASES[lang]) {
+          const raw = TIME_UP_PHRASES[lang];
+          timeUp = Array.isArray(raw) ? (typeof pickWithoutImmediateRepeat === 'function' ? pickWithoutImmediateRepeat(raw, lastMotivationByTier?.['time_up']) : raw[0]) : raw;
+        }
         const timeUpSessionToken = currentSpeechSessionId;
         const timeUpTimeout = setTimeout(() => {
           if (!timerRunning || currentSpeechSessionId !== timeUpSessionToken) return;
@@ -916,45 +955,58 @@ function startTimer() {
         const shouldSpeak = isTwoMinMark || isFinalStretch || (timerInitialSeconds <= 180);
 
         if (shouldSpeak && isVoiceActiveNow) {
-          let speechText = "";
+          let timeText = "";
           const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
           
           if (isTimeAnnounceActive) {
             if (minsLeft === 1) {
-              if (lang === 'de') speechText = "Noch 1 Minute verbleibend";
-              else if (lang === 'es') speechText = "Queda 1 minuto";
-              else if (lang === 'el') speechText = "Απομένει 1 λεπτό";
-              else if (lang === 'fr') speechText = "Il reste 1 minute";
-              else if (lang === 'it') speechText = "Resta 1 minuto";
-              else speechText = "1 minute remaining";
+              if (lang === 'de') timeText = "Noch 1 Minute verbleibend";
+              else if (lang === 'es') timeText = "Queda 1 minuto";
+              else if (lang === 'el') timeText = "Απομένει 1 λεπτό";
+              else if (lang === 'fr') timeText = "Il reste 1 minute";
+              else if (lang === 'it') timeText = "Resta 1 minuto";
+              else timeText = "1 minute remaining";
             } else {
-              if (lang === 'de') speechText = `Noch ${minsLeft} Minuten verbleibend`;
-              else if (lang === 'es') speechText = `Quedan ${minsLeft} minutos`;
-              else if (lang === 'el') speechText = `Απομένουν ${minsLeft} λεπτά`;
-              else if (lang === 'fr') speechText = `Il reste ${minsLeft} minutes`;
-              else if (lang === 'it') speechText = `Restano ${minsLeft} minuti`;
-              else speechText = `${minsLeft} minutes remaining`;
+              if (lang === 'de') timeText = `Noch ${minsLeft} Minuten verbleibend`;
+              else if (lang === 'es') timeText = `Quedan ${minsLeft} minutos`;
+              else if (lang === 'el') timeText = `Απομένουν ${minsLeft} λεπτά`;
+              else if (lang === 'fr') timeText = `Il reste ${minsLeft} minutes`;
+              else if (lang === 'it') timeText = `Restano ${minsLeft} minuti`;
+              else timeText = `${minsLeft} minutes remaining`;
             }
           }
           
           // Motivationsspruch harmonisch einbinden
+          let motivText = "";
           if (isMotivationActive) {
             const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
             const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
             if (motiv) {
-              if (speechText) speechText += `. ${motiv}`;
-              else speechText = motiv;
+              motivText = motiv;
             }
           }
+
+          const speechItems = [];
+          if (timeText) speechItems.push({ text: timeText });
+          if (motivText) speechItems.push({ text: motivText });
           
-          if (speechText) {
+          if (speechItems.length > 0) {
             // Nach der Zeitansage: Sound alle 2 Minuten wechseln!
-            speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds, () => {
-              if (isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
-                lastSoundSwitchedElapsedMinute = elapsedMins;
-                try { playRandomTimerAmbient(true); } catch(e) {}
-              }
-            });
+            if (typeof speakVoiceSequence === 'function') {
+              speakVoiceSequence(speechItems, () => {
+                if (isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
+                  lastSoundSwitchedElapsedMinute = elapsedMins;
+                  try { playRandomTimerAmbient(true); } catch(e) {}
+                }
+              });
+            } else {
+              speakSoftlyDynamic(speechItems.map(s => s.text).join('. '), timerSeconds, timerInitialSeconds, () => {
+                if (isTwoMinMark && lastSoundSwitchedElapsedMinute !== elapsedMins) {
+                  lastSoundSwitchedElapsedMinute = elapsedMins;
+                  try { playRandomTimerAmbient(true); } catch(e) {}
+                }
+              });
+            }
           } else {
             playMinuteChime();
           }
@@ -971,52 +1023,57 @@ function startTimer() {
       }
     }
 
-    // Überzeit-Phase (negative Zeit läuft nahtlos weiter: -1, -2, -3, -30, -60, -120...)
+    // Flow-Verlängerungs-Phase (negative Zeit läuft nahtlos weiter: -1, -2, -3, -30, -60, -120...)
     if (timerSeconds < 0 && timerSeconds !== prevSecs) {
       const absSec = Math.abs(timerSeconds);
       const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+      const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
 
-      // Erste Ansage nach 30 Sekunden Überzeit
+      // Erste Ansage nach 30 Sekunden Verlängerung
       if (absSec === 30 && isVoiceActiveNow) {
-        let text30 = "";
+        const speechItems = [];
         if (isTimeAnnounceActive) {
-          text30 = (typeof OVERDUE_30S_LABELS !== 'undefined' && OVERDUE_30S_LABELS[lang]) 
+          const text30 = (typeof OVERDUE_30S_LABELS !== 'undefined' && OVERDUE_30S_LABELS[lang]) 
             ? OVERDUE_30S_LABELS[lang] 
-            : "30 Sekunden über der Zeit.";
+            : "30 Sekunden im Flow.";
+          if (text30) speechItems.push({ text: text30 });
         }
         if (isMotivationActive) {
-          const overdueList = (typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de)) 
-            ? (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue 
-            : [];
-          if (overdueList && overdueList.length > 0) {
-            const motiv = pickWithoutImmediateRepeat(overdueList, lastMotivationByTier['overdue']);
-            lastMotivationByTier['overdue'] = motiv;
-            if (motiv) text30 = text30 ? `${text30} ${motiv}` : motiv;
-          }
+          const motiv = (typeof getOverdueMotivation === 'function')
+            ? getOverdueMotivation(lang, activeTaskName, 0.5)
+            : ((typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de))
+                ? pickWithoutImmediateRepeat((MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue, lastMotivationByTier?.['overdue'])
+                : "");
+          if (motiv) speechItems.push({ text: motiv });
         }
-        if (text30) speakSoftlyDynamic(text30, timerSeconds, timerInitialSeconds);
+        if (speechItems.length > 0) {
+          if (typeof speakVoiceSequence === 'function') speakVoiceSequence(speechItems);
+          else speakSoftlyDynamic(speechItems.map(s => s.text).join(' '), timerSeconds, timerInitialSeconds);
+        }
       }
-      // Jede volle Minute Überzeit (-60s, -120s, -180s...)
+      // Jede volle Minute Flow-Verlängerung (-60s, -120s, -180s...)
       else if (absSec % 60 === 0 && isVoiceActiveNow) {
         const overdueMins = absSec / 60;
-        let speechText = "";
+        const speechItems = [];
         if (isTimeAnnounceActive) {
           const labelFn = (typeof OVERDUE_MINUTE_LABELS !== 'undefined' && OVERDUE_MINUTE_LABELS[lang]) 
             ? OVERDUE_MINUTE_LABELS[lang] 
-            : ((n) => `${n} Minuten überzogen`);
-          speechText = labelFn(overdueMins);
+            : ((n) => n === 1 ? "1 Minute Flow-Verlängerung" : `${n} Minuten Flow-Verlängerung`);
+          const label = labelFn(overdueMins);
+          if (label) speechItems.push({ text: label });
         }
         if (isMotivationActive) {
-          const overdueList = (typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de)) 
-            ? (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue 
-            : [];
-          if (overdueList && overdueList.length > 0) {
-            const motiv = pickWithoutImmediateRepeat(overdueList, lastMotivationByTier['overdue']);
-            lastMotivationByTier['overdue'] = motiv;
-            if (motiv) speechText = speechText ? `${speechText}. ${motiv}` : motiv;
-          }
+          const motiv = (typeof getOverdueMotivation === 'function')
+            ? getOverdueMotivation(lang, activeTaskName, overdueMins)
+            : ((typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de))
+                ? pickWithoutImmediateRepeat((MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS.de).overdue, lastMotivationByTier?.['overdue'])
+                : "");
+          if (motiv) speechItems.push({ text: motiv });
         }
-        if (speechText) speakSoftlyDynamic(speechText, timerSeconds, timerInitialSeconds);
+        if (speechItems.length > 0) {
+          if (typeof speakVoiceSequence === 'function') speakVoiceSequence(speechItems);
+          else speakSoftlyDynamic(speechItems.map(s => s.text).join('. '), timerSeconds, timerInitialSeconds);
+        }
       }
       // Zwischen-Signalton alle 30s bei halben Minuten (-90s, -150s, -210s...)
       else if (absSec % 30 === 0) {
@@ -1220,14 +1277,14 @@ function updateTimerDisplay() {
   const sign = isNegative ? '-' : '';
   const str = `${sign}${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   
-  // Überzeit in allen Displays farblich und animiert hervorheben (querySelectorAll für Duplikate & mobile Ansichten)
+  // Flow-Verlängerung in allen Displays farblich und animiert hervorheben (querySelectorAll für Duplikate & mobile Ansichten)
   const displayElements = document.querySelectorAll(
     '#timer-display, #helper-pick-timer-display, #helper-steps-timer-display, #zen-timer-display, #game-hud-timer-display, #mobile-timer-display, #alarm-timer-display, .timer-display-live'
   );
   displayElements.forEach(el => {
     if (el) {
       el.innerText = str;
-      el.classList.toggle('text-rose-400', isNegative);
+      el.classList.toggle('text-purple-300', isNegative);
       el.classList.toggle('animate-pulse', isNegative);
     }
   });
@@ -1249,8 +1306,8 @@ function updateTimerDisplay() {
   [zenStatus, mobStatus].forEach(st => {
     if (st) {
       if (timerRunning) {
-        st.innerText = isNegative ? '⚠️ Überzeit' : 'Fokus aktiv';
-        st.className = isNegative ? 'text-[10px] text-rose-400 font-bold uppercase tracking-wider animate-pulse' : 'text-[10px] text-emerald-400 font-bold uppercase tracking-wider';
+        st.innerText = isNegative ? '🚀 Flow-Verlängerung' : 'Fokus aktiv';
+        st.className = isNegative ? 'text-[10px] text-purple-300 font-bold uppercase tracking-wider animate-pulse' : 'text-[10px] text-emerald-400 font-bold uppercase tracking-wider';
       } else {
         st.innerText = 'Bereit';
         st.className = 'text-[10px] text-gray-400 font-bold uppercase tracking-wider';
@@ -1271,10 +1328,10 @@ function updateTimerDisplay() {
     }
   }
 
-  // Browser-Tab-Titel bei laufendem Timer & Überzeit aktualisieren
+  // Browser-Tab-Titel bei laufendem Timer & Flow-Verlängerung aktualisieren
   if (timerRunning) {
     if (isNegative) {
-      document.title = `(${str}) ⚠️ Overtime — Noodle Studio`;
+      document.title = `(${str}) 🚀 Flow — Noodle Studio`;
     } else {
       document.title = `(${str}) Noodle Studio`;
     }
@@ -1289,7 +1346,7 @@ function updateTimerDisplay() {
   progressBars.forEach(el => {
     if (el) {
       el.style.width = isNegative ? '100%' : `${pct}%`;
-      el.classList.toggle('bg-rose-500', isNegative);
+      el.classList.toggle('bg-purple-500', isNegative);
     }
   });
 

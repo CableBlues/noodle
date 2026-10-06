@@ -323,16 +323,12 @@
     container.innerHTML = `
       <!-- 1. HUB HEADER -->
       <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-        <div class="flex items-center gap-2">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-pink-500/30 to-purple-500/20 border border-pink-400/40 flex items-center justify-center text-pink-300 shadow-sm shrink-0">
-            <i data-lucide="share-2" class="w-4 h-4 text-pink-300"></i>
+        <div class="relative flex flex-col items-center justify-center shrink-0">
+          <div class="relative overflow-hidden flex items-center justify-center">
+            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
           </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h3 class="text-sm font-bold text-white font-display leading-tight">Social Hub & Lounge</h3>
-              <span class="px-1.5 py-0.2 rounded-full text-[9px] font-mono font-bold bg-pink-500/20 text-pink-300 border border-pink-500/40">ALL-IN-ONE</span>
-            </div>
-            <span class="text-[10px] text-gray-400">Instagram • Facebook • Links & Captions</span>
+          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+            <span class="badge-tool-subtext select-none">SOCIAL</span>
           </div>
         </div>
         <button onclick="togglePanel('social')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>

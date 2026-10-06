@@ -207,6 +207,11 @@ let weatherHoverTimeout = null;
 
 function toggleCalendarDropdown(event) {
   if (event) event.stopPropagation();
+  if (typeof togglePanel === 'function') {
+    togglePanel('calendar-dropdown');
+    if (typeof renderMiniCalendar === 'function') renderMiniCalendar();
+    return;
+  }
   const weatherEl = document.getElementById('panel-weather');
   if (weatherEl) weatherEl.classList.add('hidden');
   
@@ -225,6 +230,11 @@ window.toggleCalendarDropdown = toggleCalendarDropdown;
 
 function toggleWeatherDropdown(event) {
   if (event) event.stopPropagation();
+  if (typeof togglePanel === 'function') {
+    togglePanel('weather');
+    if (typeof updateWeatherDisplay === 'function') updateWeatherDisplay();
+    return;
+  }
   const calEl = document.getElementById('panel-calendar-dropdown');
   if (calEl) calEl.classList.add('hidden');
   
@@ -242,6 +252,11 @@ function toggleWeatherDropdown(event) {
 window.toggleWeatherDropdown = toggleWeatherDropdown;
 
 function openWeatherHover() {
+  if (typeof showPanelHover === 'function') {
+    showPanelHover('weather');
+    if (typeof updateWeatherDisplay === 'function') updateWeatherDisplay();
+    return;
+  }
   if (weatherHoverTimeout) {
     clearTimeout(weatherHoverTimeout);
     weatherHoverTimeout = null;
@@ -262,6 +277,10 @@ function openWeatherHover() {
 window.openWeatherHover = openWeatherHover;
 
 function closeWeatherHover() {
+  if (typeof hidePanelHover === 'function') {
+    hidePanelHover('weather');
+    return;
+  }
   if (weatherHoverTimeout) clearTimeout(weatherHoverTimeout);
   weatherHoverTimeout = setTimeout(() => {
     const el = document.getElementById('panel-weather');
@@ -276,6 +295,11 @@ function closeWeatherHover() {
 window.closeWeatherHover = closeWeatherHover;
 
 function openCalendarHover() {
+  if (typeof showPanelHover === 'function') {
+    showPanelHover('calendar-dropdown');
+    if (typeof renderMiniCalendar === 'function') renderMiniCalendar();
+    return;
+  }
   if (calendarHoverTimeout) {
     clearTimeout(calendarHoverTimeout);
     calendarHoverTimeout = null;
@@ -296,6 +320,10 @@ function openCalendarHover() {
 window.openCalendarHover = openCalendarHover;
 
 function closeCalendarHover() {
+  if (typeof hidePanelHover === 'function') {
+    hidePanelHover('calendar-dropdown');
+    return;
+  }
   if (calendarHoverTimeout) clearTimeout(calendarHoverTimeout);
   calendarHoverTimeout = setTimeout(() => {
     const el = document.getElementById('panel-calendar-dropdown');
