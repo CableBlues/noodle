@@ -232,6 +232,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "Weiter geht's! 💪",
     workout_completed: "Fantastisch! Workout erfolgreich beendet! 🏆",
     rest_title: "Kurze Verschnaufpause",
+    rest_desc: "Tief durchatmen, Schultern kreisen und kurz lockern. Gleich geht's weiter!",
+    rest_focus: "🌿 Erholung & Atmung",
     next_up: "Als Nächstes:",
     ready_set_go: "Los geht's!"
   },
@@ -244,10 +246,12 @@ const SPORT_TRANSLATIONS = {
     energy_label: "Required level: Spoons",
     next_suggestion: "Another Suggestion 🔄",
     workout_started: "Workout started! Let's go 🚀",
-    workout_paused: "Workout paused. ⏸️",
+    workout_paused: "Exercise paused. ⏸️",
     workout_resumed: "Resuming workout! 💪",
     workout_completed: "Fantastic! Workout successfully completed! 🏆",
     rest_title: "Short Rest Interval",
+    rest_desc: "Breathe deeply, roll shoulders gently and relax. Ready for next step!",
+    rest_focus: "🌿 Recovery & Breath",
     next_up: "Next up:",
     ready_set_go: "Get ready!"
   },
@@ -264,6 +268,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "¡Continuamos! 💪",
     workout_completed: "¡Fantástico! ¡Entrenamiento completado! 🏆",
     rest_title: "Descanso breve",
+    rest_desc: "Respira profundo, relaja los hombros y suelta tensión. ¡Ya seguimos!",
+    rest_focus: "🌿 Recuperación y Respiración",
     next_up: "A continuación:",
     ready_set_go: "¡Listos!"
   },
@@ -280,6 +286,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "Συνεχίζουμε! 💪",
     workout_completed: "Υπέροχα! Η προπόνηση ολοκληρώθηκε! 🏆",
     rest_title: "Σύντομο διάλειμμα",
+    rest_desc: "Πάρε βαθιά ανάσα, χαλάρωσε τους ώμους. Συνεχίζουμε σε λίγο!",
+    rest_focus: "🌿 Ανάκτηση & Αναπνοή",
     next_up: "Επόμενη άσκηση:",
     ready_set_go: "Ετοιμάσου!"
   },
@@ -296,6 +304,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "C'est reparti ! 💪",
     workout_completed: "Fantastique ! Entraînement terminé ! 🏆",
     rest_title: "Courte pause",
+    rest_desc: "Respire profondément, détends les épaules. C'est reparti dans un instant !",
+    rest_focus: "🌿 Récupération & Respiration",
     next_up: "À suivre :",
     ready_set_go: "Prêt !"
   },
@@ -312,6 +322,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "Si riprende! 💪",
     workout_completed: "Fantastico! Allenamento completato! 🏆",
     rest_title: "Breve pausa",
+    rest_desc: "Respira profondamente, rilassa le spalle. Si riprende tra poco!",
+    rest_focus: "🌿 Recupero & Respirazione",
     next_up: "Prossimo:",
     ready_set_go: "Pronti!"
   }
@@ -973,8 +985,14 @@ function startCustomGeneratedWorkout() {
     else if (intervalSelect?.value === '50_10') { workSec = 50; restSec = 10; }
     else if (intervalSelect?.value === '60_20') { workSec = 60; restSec = 20; }
 
-    const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
-    const title = lang === 'de' ? '🧩 Individuelles Wohnungs-Workout' : '🧩 Custom Home Workout';
+    const title = tr({
+      de: '🧩 Individuelles Wohnungs-Workout',
+      en: '🧩 Custom Home Workout',
+      fr: '🧩 Entraînement Personnalisé Maison',
+      it: '🧩 Allenamento Personalizzato a Casa',
+      es: '🧩 Entrenamiento Personalizado en Casa',
+      el: '🧩 Προσαρμοσμένη Προπόνηση στο Σπίτι'
+    });
 
     startWorkoutRoutine(exercises, title, workSec, restSec);
   } catch (e) {
@@ -1007,7 +1025,15 @@ function renderExerciseLibrary() {
   });
 
   if (filtered.length === 0) {
-    container.innerHTML = `<div class="p-4 text-center text-gray-400 text-xs font-semibold">Keine Übungen für diesen Filter gefunden.</div>`;
+    const emptyMsg = tr({
+      de: 'Keine Übungen für diesen Filter gefunden.',
+      en: 'No exercises found for this filter.',
+      fr: 'Aucun exercice trouvé pour ce filtre.',
+      it: 'Nessun esercizio trovato per questo filtro.',
+      es: 'No se encontraron ejercicios para este filtro.',
+      el: 'Δεν βρέθηκαν ασκήσεις για αυτό το φίλτρο.'
+    });
+    container.innerHTML = `<div class="p-4 text-center text-gray-400 text-xs font-semibold">${emptyMsg}</div>`;
     return;
   }
 
@@ -1015,7 +1041,11 @@ function renderExerciseLibrary() {
     const name = ex.name[lang] || ex.name['de'];
     const desc = ex.desc[lang] || ex.desc['de'];
     const muscle = ex.muscle[lang] || ex.muscle['de'];
-    const equipLabel = ex.equipment === 'wall' ? '🧱 Wand' : ex.equipment === 'chair' ? '🪑 Stuhl' : '⚡ Körpergewicht';
+    const equipLabel = ex.equipment === 'wall'
+      ? tr({ de: '🧱 Wand', en: '🧱 Wall', fr: '🧱 Mur', it: '🧱 Muro', es: '🧱 Pared', el: '🧱 Τοίχος' })
+      : ex.equipment === 'chair'
+      ? tr({ de: '🪑 Stuhl', en: '🪑 Chair', fr: '🪑 Chaise', it: '🪑 Sedia', es: '🪑 Silla', el: '🪑 Καρέκλα' })
+      : tr({ de: '⚡ Körpergewicht', en: '⚡ Bodyweight', fr: '⚡ Poids du corps', it: '⚡ Corpo libero', es: '⚡ Peso corporal', el: '⚡ Σωματικό βάρος' });
 
     return `
       <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.06] border border-white/10 hover:border-lime-500/40 transition flex items-center justify-between gap-3">
@@ -1159,8 +1189,8 @@ function updateWorkoutPlayerUI() {
       stateBadgeEl.innerText = `☕ ${getSportT('rest_title')} (${activeRoutineRemainingSec}s)`;
     }
     if (exNameEl) exNameEl.innerText = `☕ ${getSportT('rest_title')}`;
-    if (exDescEl) exDescEl.innerText = "Tief durchatmen, Schultern kreisen und kurz lockern. Gleich geht's weiter!";
-    if (exMuscleEl) exMuscleEl.innerText = "🌿 Erholung & Atmung";
+    if (exDescEl) exDescEl.innerText = getSportT('rest_desc');
+    if (exMuscleEl) exMuscleEl.innerText = getSportT('rest_focus');
   }
 
   if (nextUpBoxEl) {

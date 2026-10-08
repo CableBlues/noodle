@@ -4,6 +4,12 @@
 (function() {
   'use strict';
 
+  function tr(obj) {
+    const l = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' && window.currentLang) || 'de');
+    if (!obj || typeof obj !== 'object') return obj || '';
+    return obj[l] || obj['en'] || obj['de'] || Object.values(obj)[0] || '';
+  }
+
   let audioCtx = null;
   let activeEffects = new Set();
   let bubbleGridState = Array(20).fill(false);
@@ -23,33 +29,152 @@
   // Configurable Idle Auto-Trigger Engine (Default 3 Minuten, seltener & radikaler)
   let idleTimer = null;
   let isIdleActive = false;
+  let isScreensaverActive = false;
+  let justDismissedScreensaver = false;
 
-  const JOKES = [
-    { q: "Warum prokrastinieren Entwickler gerne?", a: "Weil morgen die Anforderungen vielleicht deprecated sind!" },
-    { q: "Wie viele Programmierer braucht man, um eine Glühbirne zu wechseln?", a: "Keinen. Das ist ein Hardware-Problem!" },
-    { q: "Was ist das ADHS-Motto beim Aufräumen?", a: "Ich bringe nur kurz dieses Buch ins Regal... und 4 Stunden später habe ich mein Zimmer umgebaut und gelernt, wie man Origami-Drachen faltet." },
-    { q: "Warum können Geister so schlecht lügen?", a: "Weil man durch sie hindurchsehen kann!" },
-    { q: "Was macht ein Informatiker im Wald?", a: "Bäume loggen!" },
-    { q: "Warum trinken Programmierer so viel Kaffee?", a: "Weil Java ohne Kaffee nur ein Script ist." },
-    { q: "Wie nennt man eine To-Do-Liste mit 40 offenen Aufgaben?", a: "Eine Wunschliste für das nächste Leben!" },
-    { q: "Was ist der Lieblingsort eines Programmierers?", a: "Das Loop!" }
+    const JOKES = [
+    {
+      q: {
+        de: "Warum prokrastinieren Entwickler gerne?",
+        en: "Why do developers like to procrastinate?",
+        fr: "Pourquoi les développeurs aiment-ils procrastiner ?",
+        it: "Perché gli sviluppatori amano procrastinare?",
+        es: "¿Por qué a los desarrolladores les gusta procrastinar?",
+        el: "Γιατί αρέσει στους προγραμματιστές να χρονοτριβούν;"
+      },
+      a: {
+        de: "Weil morgen die Anforderungen vielleicht deprecated sind!",
+        en: "Because tomorrow the requirements might be deprecated!",
+        fr: "Parce que demain les exigences seront peut-être obsolètes !",
+        it: "Perché domani i requisiti potrebbero essere deprecati!",
+        es: "¡Porque mañana los requisitos podrían estar obsoletos!",
+        el: "Επειδή αύριο οι απαιτήσεις μπορεί να είναι παρωχημένες!"
+      }
+    },
+    {
+      q: {
+        de: "Wie viele Programmierer braucht man, um eine Glühbirne zu wechseln?",
+        en: "How many programmers does it take to change a light bulb?",
+        fr: "Combien de programmeurs faut-il pour changer une ampoule ?",
+        it: "Quanti programmatori servono per cambiare una lampadina?",
+        es: "¿Cuántos programadores se necesitan para cambiar una bombilla?",
+        el: "Πόσοι προγραμματιστές χρειάζονται για να αλλάξουν μια λάμπα;"
+      },
+      a: {
+        de: "Keinen. Das ist ein Hardware-Problem!",
+        en: "None. That's a hardware problem!",
+        fr: "Aucun. C'est un problème matériel !",
+        it: "Nessuno. È un problema hardware!",
+        es: "¡Ninguno. Ese es un problema de hardware!",
+        el: "Κανένας. Αυτό είναι πρόβλημα υλικού!"
+      }
+    },
+    {
+      q: {
+        de: "Was ist das ADHS-Motto beim Aufräumen?",
+        en: "What is the ADHD motto when tidying up?",
+        fr: "Quelle est la devise TDAH pour ranger ?",
+        it: "Qual è il motto ADHD per riordinare?",
+        es: "¿Cuál es el lema del TDAH al ordenar?",
+        el: "Ποιο είναι το μότο της ΔΕΠΥ στο συμμάζεμα;"
+      },
+      a: {
+        de: "Ich bringe nur kurz dieses Buch ins Regal... und 4 Stunden später habe ich Origami gelernt.",
+        en: "I'll just put this book back... and 4 hours later I mastered origami dragons.",
+        fr: "Je range juste ce livre... et 4 heures plus tard j'ai appris l'origami.",
+        it: "Metto solo questo libro a posto... e 4 ore dopo so fare origami.",
+        es: "Solo voy a poner este libro en la estantería... y 4 horas después hago origami.",
+        el: "Απλώς θα βάλω αυτό το βιβλίο στο ράφι... και 4 ώρες μετά έμαθα οριγκάμι."
+      }
+    },
+    {
+      q: {
+        de: "Warum trinken Programmierer so viel Kaffee?",
+        en: "Why do programmers drink so much coffee?",
+        fr: "Pourquoi les développeurs boivent-ils autant de café ?",
+        it: "Perché i programmatori bevono così tanto caffè?",
+        es: "¿Por qué los programadores beben tanto café?",
+        el: "Γιατί οι προγραμματιστές πίνουν τόσο καφέ;"
+      },
+      a: {
+        de: "Weil Java ohne Kaffee nur ein Script ist.",
+        en: "Because Java without coffee is just a script.",
+        fr: "Parce que Java sans café n'est qu'un script.",
+        it: "Perché Java senza caffè è solo uno script.",
+        es: "Porque Java sin café es solo un script.",
+        el: "Επειδή η Java χωρίς καφέ είναι απλώς ένα script."
+      }
+    }
   ];
 
   const ROAST_TEMPLATES = [
-    "👀 Schau dir diese Aufgabe an... Sie wartet seit 3 Tagen darauf, dass du sie in 90 Sekunden erledigst!",
-    "🔥 Wenn Prokrastination eine olympische Disziplin wäre, hättest du gerade Gold geholt. Klick auf Start!",
-    "🧠 Dein Gehirn: 'Lass uns erst den Wikipedia-Artikel über antiken römischen Beton lesen.' — Noodle sagt: Erst 2 Minuten Fokus!",
-    "🚀 Kleine Erinnerung: Eine unvollständige Aufgabe tut dir nichts. Sie schaut dich nur vorwurfsvoll an.",
-    "☕ Espresso getrunken, Playlist an, jetzt 5 Minuten Power-Sprint — danach gibt's Belohnung!"
+    {
+      de: "👀 Schau dir diese Aufgabe an... Sie wartet seit 3 Tagen darauf, dass du sie in 90 Sekunden erledigst!",
+      en: "👀 Look at this task... It has been waiting 3 days for you to finish it in 90 seconds!",
+      fr: "👀 Regarde cette tâche... Elle t'attend depuis 3 jours pour la boucler en 90 secondes !",
+      it: "👀 Guarda questo compito... Ti aspetta da 3 giorni per finirlo in 90 secondi!",
+      es: "👀 Mira esta tarea... ¡Lleva 3 días esperando a que la termines en 90 segundos!",
+      el: "👀 Κοίτα αυτή την εργασία... Σε περιμένει 3 μέρες να την τελειώσεις σε 90 δευτερόλεπτα!"
+    },
+    {
+      de: "🔥 Wenn Prokrastination eine olympische Disziplin wäre, hättest du Gold. Klick auf Start!",
+      en: "🔥 If procrastination were an Olympic sport, you'd take gold. Click Start!",
+      fr: "🔥 Si la procrastination était un sport olympique, tu aurais l'or. Clique sur Démarrer !",
+      it: "🔥 Se la procrastinazione fosse disciplina olimpica, vinceresti l'oro. Clicca Inizia!",
+      es: "🔥 Si procrastinar fuera deporte olímpico, tendrías oro. ¡Haz clic en Iniciar!",
+      el: "🔥 Αν η αναβλητικότητα ήταν ολυμπιακό άθλημα, θα έπαιρνες χρυσό. Πάτα Έναρξη!"
+    }
   ];
 
   const DECISIONS = [
-    "🚀 Einfach anfangen (2-Minuten-Regel)!",
-    "☕ Hol dir ein Glas Wasser / Tee & los!",
-    "🎧 Lieblings-Beat anmachen & 10 Min Power!",
-    "✂️ Zerlege die Aufgabe in 3 Mini-Schritte!",
-    "🧘 3 tiefe Atemzüge & die leichteste Sache zuerst!",
-    "🎲 Würfeln: Gerade Zahl = Jetzt machen, Ungerade = 5 Min Dehnen!"
+    {
+      de: "🚀 Einfach anfangen (2-Minuten-Regel)!",
+      en: "🚀 Just start (2-minute rule)!",
+      fr: "🚀 Commencez simplement (règle des 2 minutes) !",
+      it: "🚀 Inizia e basta (regola dei 2 minuti)!",
+      es: "🚀 ¡Solo empieza (regla de los 2 minutos)!",
+      el: "🚀 Απλώς ξεκίνα (κανόνας των 2 λεπτών)!"
+    },
+    {
+      de: "☕ Hol dir ein Glas Wasser / Tee & los!",
+      en: "☕ Grab a glass of water / tea & go!",
+      fr: "☕ Prenez un verre d'eau / thé et c'est parti !",
+      it: "☕ Prendi un bicchiere d'acqua / tè e vai!",
+      es: "☕ ¡Toma un vaso de agua / té y listo!",
+      el: "☕ Πάρε ένα ποτήρι νερό / τσάι και ξεκίνα!"
+    },
+    {
+      de: "🎧 Lieblings-Beat anmachen & 10 Min Power!",
+      en: "🎧 Put on your favorite beat & 10 min power!",
+      fr: "🎧 Mettez votre musique préférée & 10 min de boost !",
+      it: "🎧 Metti il tuo brano preferito & 10 min di energia!",
+      es: "🎧 ¡Pon tu música favorita y 10 min de energía!",
+      el: "🎧 Βάλε το αγαπημένο σου κομμάτι & 10 λεπτά δυναμικά!"
+    },
+    {
+      de: "✂️ Zerlege die Aufgabe in 3 Mini-Schritte!",
+      en: "✂️ Break the task down into 3 mini steps!",
+      fr: "✂️ Découpez la tâche en 3 mini-étapes !",
+      it: "✂️ Dividi il compito in 3 mini-passaggi!",
+      es: "✂️ ¡Divide la tarea en 3 mini pasos!",
+      el: "✂️ Σπάσε την εργασία σε 3 μικρά βήματα!"
+    },
+    {
+      de: "🧘 3 tiefe Atemzüge & die leichteste Sache zuerst!",
+      en: "🧘 3 deep breaths & easiest thing first!",
+      fr: "🧘 3 respirations profondes & la chose la plus facile en premier !",
+      it: "🧘 3 respiri profondi e la cosa più facile per prima!",
+      es: "🧘 ¡3 respiraciones profundas y lo más fácil primero!",
+      el: "🧘 3 βαθιές αναπνοές & το πιο εύκολο πρώτο!"
+    },
+    {
+      de: "🎲 Würfeln: Gerade Zahl = Jetzt machen, Ungerade = 5 Min Dehnen!",
+      en: "🎲 Roll dice: Even = Do now, Odd = 5 min stretch!",
+      fr: "🎲 Lancez les dés : Pair = Faire maintenant, Impair = 5 min d'étirements !",
+      it: "🎲 Lancia il dado: Pari = Fai ora, Dispari = 5 min stretching!",
+      es: "🎲 Tira los dados: Par = Hazlo ya, Impar = ¡5 min de estiramiento!",
+      el: "🎲 Ρίξε ζάρι: Ζυγός = Κάν' το τώρα, Μονός = 5 λεπτά τέντωμα!"
+    }
   ];
 
   function getAudioContext() {
@@ -483,6 +608,7 @@
   // 2. STYLES & CHAOS FX ENGINE
   // ==========================================================================
   function injectChaosStyles() {
+    isScreensaverActive = true;
     if (document.getElementById('humor-chaos-styles')) return;
     const style = document.createElement('style');
     style.id = 'humor-chaos-styles';
@@ -658,6 +784,7 @@
   function panicReset(silent = false) {
     activeEffects.clear();
     isIdleActive = false;
+    isScreensaverActive = false;
 
     if (activeFxAnimId) {
       cancelAnimationFrame(activeFxAnimId);
@@ -693,12 +820,95 @@
     }
   }
 
-  if (typeof window !== 'undefined') {
-    window.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        panicReset();
+  function isScreensaverRunning() {
+    if (isIdleActive || isScreensaverActive) return true;
+    if (activeEffects && activeEffects.size > 0) return true;
+    if (activeFxAnimId !== null) return true;
+    if (activeFxCleanup !== null) return true;
+    if (activeCleanups && activeCleanups.length > 0) return true;
+    const overlay = document.querySelector(
+      '.noodle-fx-canvas-overlay, #humor-fx-canvas, #humor-melting-svg, .humor-crt-screen, .noodle-idle-badge, .chaos-vhs-screen, .chaos-ransomware-screen, #humor-dvd-logo, #humor-glass-canvas, #humor-pixel-canvas, #humor-timewarp-overlay'
+    );
+    if (overlay) return true;
+    if (document.body && (
+        document.body.classList.contains('chaos-jello') ||
+        document.body.classList.contains('chaos-matrix-active') ||
+        document.body.classList.contains('chaos-vortex-active') ||
+        document.body.classList.contains('chaos-earthquake') ||
+        document.body.classList.contains('chaos-upside-down') ||
+        document.body.classList.contains('chaos-nervous-twitch') ||
+        document.body.classList.contains('chaos-time-warp-active')
+    )) {
+      return true;
+    }
+    return false;
+  }
+
+  function handleScreensaverKeydown(e) {
+    if (isScreensaverRunning()) {
+      justDismissedScreensaver = true;
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
       }
-    });
+      panicReset(true);
+      if (typeof resetIdleTimer === 'function') {
+        resetIdleTimer();
+      }
+      setTimeout(() => {
+        justDismissedScreensaver = false;
+      }, 200);
+      return false;
+    }
+  }
+
+  function handleScreensaverKeyup(e) {
+    if (justDismissedScreensaver || isScreensaverRunning()) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
+      return false;
+    }
+  }
+
+  function handleScreensaverKeypress(e) {
+    if (justDismissedScreensaver || isScreensaverRunning()) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
+      return false;
+    }
+  }
+
+  function handleScreensaverPointer(e) {
+    if (isScreensaverRunning()) {
+      const target = e.target;
+      if (target && target.closest && target.closest('#panel-humor-lab')) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
+      panicReset(true);
+      if (typeof resetIdleTimer === 'function') {
+        resetIdleTimer();
+      }
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', handleScreensaverKeydown, { capture: true });
+    window.addEventListener('keyup', handleScreensaverKeyup, { capture: true });
+    window.addEventListener('keypress', handleScreensaverKeypress, { capture: true });
+    window.addEventListener('pointerdown', handleScreensaverPointer, { capture: true });
+    window.addEventListener('click', handleScreensaverPointer, { capture: true });
   }
 
   // ==========================================================================
@@ -2422,7 +2632,7 @@
     const roastBox = document.getElementById('humor-roast-output');
     if (!roastBox) return;
     const randomRoast = ROAST_TEMPLATES[Math.floor(Math.random() * ROAST_TEMPLATES.length)];
-    roastBox.textContent = randomRoast;
+    roastBox.textContent = typeof randomRoast === "object" ? tr(randomRoast) : randomRoast;
     roastBox.classList.add('animate-bounce');
     setTimeout(() => roastBox.classList.remove('animate-bounce'), 800);
   }
@@ -2432,7 +2642,7 @@
     const decisionBox = document.getElementById('humor-decision-output');
     if (!decisionBox) return;
     const randomDec = DECISIONS[Math.floor(Math.random() * DECISIONS.length)];
-    decisionBox.textContent = randomDec;
+    decisionBox.textContent = typeof randomDec === "object" ? tr(randomDec) : randomDec;
     decisionBox.classList.add('animate-pulse');
     setTimeout(() => decisionBox.classList.remove('animate-pulse'), 1000);
   }
@@ -2444,8 +2654,8 @@
     const qEl = document.getElementById('humor-joke-q');
     const aEl = document.getElementById('humor-joke-a');
     if (qEl && aEl) {
-      qEl.textContent = joke.q;
-      aEl.textContent = joke.a;
+      qEl.textContent = typeof joke.q === "object" ? tr(joke.q) : joke.q;
+      aEl.textContent = typeof joke.a === "object" ? tr(joke.a) : joke.a;
     }
   }
 
@@ -2493,8 +2703,8 @@
         <!-- TAB 1: 17 RADIKALE APP-BREAKING CHAOS FX (4-COL COMPACT GRID) -->
         <div class="space-y-1.5 animate-fade-in">
           <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-rose-300 font-mono px-0.5">
-            <span class="flex items-center gap-1">💥 17 Radikale Glitches</span>
-            <span class="text-[8.5px] text-rose-300/90 bg-rose-500/20 px-1.5 py-0.5 rounded-md border border-rose-500/30 font-mono">100% Sicher • [ESC] heilt</span>
+            <span class="flex items-center gap-1">${tr({ de: "💥 17 Radikale Glitches", en: "💥 17 Radical Glitches", fr: "💥 17 Glitches Radicaux", it: "💥 17 Glitch Radicali", es: "💥 17 Glitches Radicales", el: "💥 17 Ριζοσπαστικά Glitches" })}</span>
+            <span class="text-[8.5px] text-rose-300/90 bg-rose-500/20 px-1.5 py-0.5 rounded-md border border-rose-500/30 font-mono">${tr({ de: "100% Sicher • [ESC] heilt", en: "100% Safe • [ESC] heals", fr: "100% Sûr • [Échap] guérit", it: "100% Sicuro • [ESC] ripristina", es: "100% Seguro • [ESC] restaura", el: "100% Ασφαλές • [ESC] επαναφέρει" })}</span>
           </div>
           <div class="grid grid-cols-4 gap-1.5">
             <button onclick="HumorEngine.toggleGravityCollapse()" class="p-1.5 rounded-xl bg-amber-600/15 hover:bg-amber-600/30 border border-amber-500/30 text-xs font-bold text-amber-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Karten stürzen in die Tiefe">
@@ -2576,8 +2786,8 @@
           <!-- Visuelle Live Action FX -->
           <div class="space-y-1">
             <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
-              <span>⚡ Live Action & Party FX</span>
-              <span class="text-[9px] text-gray-400">Interaktiv</span>
+              <span>${tr({ de: "⚡ Live Action & Party FX", en: "⚡ Live Action & Party FX", fr: "⚡ Action & Fête FX", it: "⚡ Azione Live & FX", es: "⚡ Acción en vivo y FX", el: "⚡ Δράση & Εφέ" })}</span>
+              <span class="text-[9px] text-gray-400">${tr({ de: "Interaktiv", en: "Interactive", fr: "Interactif", it: "Interattivo", es: "Interactivo", el: "Διαδραστικό" })}</span>
             </div>
             <div class="grid grid-cols-3 gap-1.5">
               <button onclick="HumorEngine.toggleGravity()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
@@ -2610,8 +2820,8 @@
           <!-- Ambient & Screensaver FX -->
           <div class="space-y-1 pt-1 border-t border-white/5">
             <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-purple-300 font-mono px-0.5">
-              <span>🌌 Ambient Flow & Screensaver</span>
-              <span class="text-[9px] text-gray-400">Ästhetik & Ruhe</span>
+              <span>${tr({ de: "🌌 Ambient Flow & Screensaver", en: "🌌 Ambient Flow & Screensaver", fr: "🌌 Ambiance & Économiseur", it: "🌌 Flusso & Salvaschermo", es: "🌌 Flujo & Salvapantallas", el: "🌌 Χαλαρή ροή & Προφύλαξη" })}</span>
+              <span class="text-[9px] text-gray-400">${tr({ de: "Ästhetik & Ruhe", en: "Aesthetics & Calm", fr: "Esthétique & Calme", it: "Estetica & Calma", es: "Estética y Calma", el: "Αισθητική & Ηρεμία" })}</span>
             </div>
             <div class="grid grid-cols-3 gap-1.5">
               <button onclick="HumorEngine.toggleHyperspace()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-violet-300 hover:text-violet-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
@@ -2648,8 +2858,8 @@
         <div class="space-y-2.5 animate-fade-in">
           <div class="space-y-1">
             <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
-              <span>🔊 12 Soundboard FX (Web Audio)</span>
-              <span class="text-[9px] text-gray-400">100% autark</span>
+              <span>${tr({ de: "🔊 12 Soundboard FX", en: "🔊 12 Soundboard FX", fr: "🔊 12 Effets sonores", it: "🔊 12 Effetti sonori", es: "🔊 12 Efectos de sonido", el: "🔊 12 Ηχητικά εφέ" })}</span>
+              <span class="text-[9px] text-gray-400">${tr({ de: "100% autark", en: "100% offline", fr: "100% autonome", it: "100% autonomo", es: "100% autónomo", el: "100% αυτόνομο" })}</span>
             </div>
             <div class="grid grid-cols-4 gap-1.5">
               <button onclick="HumorEngine.playSound('airhorn')" class="p-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
@@ -2706,11 +2916,11 @@
           <!-- Joke Box Footer -->
           <div class="p-2.5 rounded-2xl bg-white/[0.02] border border-white/8 space-y-1 flex items-center justify-between gap-2 shadow-xs">
             <div class="min-w-0 flex-1">
-              <div id="humor-joke-q" class="text-xs font-bold text-white truncate">${currentJoke.q}</div>
-              <div id="humor-joke-a" class="text-[11px] text-pink-300/90 truncate">${currentJoke.a}</div>
+              <div id="humor-joke-q" class="text-xs font-bold text-white truncate">${typeof currentJoke.q === "object" ? tr(currentJoke.q) : currentJoke.q}</div>
+              <div id="humor-joke-a" class="text-[11px] text-pink-300/90 truncate">${typeof currentJoke.a === "object" ? tr(currentJoke.a) : currentJoke.a}</div>
             </div>
             <button onclick="HumorEngine.nextJoke()" class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-bold shrink-0 transition cursor-pointer">
-              Nächster Witz 😂
+              ${tr({ de: "Nächster Witz 😂", en: "Next Joke 😂", fr: "Blague suivante 😂", it: "Prossima barzelletta 😂", es: "Siguiente chiste 😂", el: "Επόμενο αστείο 😂" })}
             </button>
           </div>
         </div>
@@ -2725,13 +2935,13 @@
               <div class="flex items-center gap-1.5 min-w-0">
                 <span class="text-base">🌌</span>
                 <div>
-                  <div class="text-[11px] font-bold text-purple-200">Screensaver bei Inaktivität</div>
-                  <div class="text-[8.5px] text-gray-400 font-mono">Endet lautlos bei Mausbewegung oder [ESC]</div>
+                  <div class="text-[11px] font-bold text-purple-200">${tr({ de: "Screensaver bei Inaktivität", en: "Screensaver on Inactivity", fr: "Économiseur en cas d’inactivité", it: "Salvaschermo su inattività", es: "Salvapantallas por inactividad", el: "Προφύλαξη οθόνης σε αδράνεια" })}</div>
+                  <div class="text-[8.5px] text-gray-400 font-mono">${tr({ de: "Endet lautlos bei Mausbewegung oder [ESC]", en: "Ends silently on mouse move or [ESC]", fr: "S’arrête au mouvement de la souris ou [Échap]", it: "Termina muovendo il mouse o con [ESC]", es: "Termina al mover el ratón o con [ESC]", el: "Τερματίζει με κίνηση ποντικιού ή [ESC]" })}</div>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
                 <button onclick="HumorEngine.startIdleFX()" class="px-2 py-0.5 rounded-lg bg-purple-500/30 hover:bg-purple-500/50 text-purple-200 text-[9.5px] font-bold border border-purple-400/40 transition cursor-pointer" title="Jetzt Screensaver testen">
-                  ✨ Testen
+                  ${tr({ de: "✨ Testen", en: "✨ Test", fr: "✨ Tester", it: "✨ Prova", es: "✨ Probar", el: "✨ Δοκιμή" })}
                 </button>
                 <label class="relative inline-flex items-center cursor-pointer">
                   <input type="checkbox" onchange="HumorEngine.toggleIdleSetting(this.checked)" ${idleActive ? 'checked' : ''} class="sr-only peer">
@@ -2742,14 +2952,14 @@
 
             <div class="flex items-center justify-between gap-1 flex-wrap pt-0.5 border-t border-white/5 text-[9px]">
               <div class="flex items-center gap-1">
-                <span class="text-gray-400 font-mono">Ruhezeit:</span>
+                <span class="text-gray-400 font-mono">${tr({ de: "Ruhezeit:", en: "Idle Time:", fr: "Inactivité :", it: "Tempo attesa:", es: "Inactividad:", el: "Χρόνος ηρεμίας:" })}</span>
                 <button onclick="HumorEngine.setIdleTimeoutMinutes(2)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 2 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">2m</button>
                 <button onclick="HumorEngine.setIdleTimeoutMinutes(3)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 3 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">3m</button>
                 <button onclick="HumorEngine.setIdleTimeoutMinutes(5)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 5 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">5m</button>
                 <button onclick="HumorEngine.setIdleTimeoutMinutes(10)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 10 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">10m</button>
               </div>
               <div class="flex items-center gap-1">
-                <span class="text-gray-400 font-mono">Modus:</span>
+                <span class="text-gray-400 font-mono">${tr({ de: "Modus:", en: "Mode:", fr: "Mode :", it: "Modalità:", es: "Modo:", el: "Λειτουργία:" })}</span>
                 <button onclick="HumorEngine.setIdleMode('mixed')" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMode === 'mixed' ? 'bg-indigo-600 text-white' : 'bg-white/5 text-gray-300'}">🎲 Mix</button>
                 <button onclick="HumorEngine.setIdleMode('radical')" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMode === 'radical' ? 'bg-rose-600 text-white' : 'bg-white/5 text-gray-300'}">💥 Glitch</button>
                 <button onclick="HumorEngine.setIdleMode('ambient')" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMode === 'ambient' ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">🌌 Sanft</button>
@@ -2762,8 +2972,8 @@
             <!-- Bubble Wrap Popper -->
             <div class="p-2 rounded-2xl bg-pink-500/5 border border-pink-500/20 space-y-1">
               <div class="flex items-center justify-between">
-                <span class="text-[9.5px] font-bold text-pink-300 uppercase tracking-wider font-mono">🫧 Luftpolsterfolie</span>
-                <button onclick="HumorEngine.resetBubbles()" class="text-[8.5px] text-pink-300 hover:text-pink-100 font-bold underline cursor-pointer">Neu</button>
+                <span class="text-[9.5px] font-bold text-pink-300 uppercase tracking-wider font-mono">${tr({ de: "🫧 Luftpolsterfolie", en: "🫧 Bubble Wrap", fr: "🫧 Papier bulle", it: "🫧 Pluriball", es: "🫧 Plástico de burbujas", el: "🫧 Φυσαλίδες περιτυλίγματος" })}</span>
+                <button onclick="HumorEngine.resetBubbles()" class="text-[8.5px] text-pink-300 hover:text-pink-100 font-bold underline cursor-pointer">${tr({ de: "Neu", en: "Reset", fr: "Réinitialiser", it: "Nuovo", es: "Nuevo", el: "Νέο" })}</button>
               </div>
               <div class="flex flex-wrap gap-1 items-center justify-center max-h-[52px] overflow-hidden">
                 ${bubblesHtml}
@@ -2773,13 +2983,13 @@
             <!-- Impuls & Würfel -->
             <div class="p-2 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1 flex flex-col justify-between">
               <div class="flex items-center justify-between">
-                <span class="text-[9.5px] font-bold text-purple-300 uppercase tracking-wider font-mono">🎯 Impuls & Würfel</span>
+                <span class="text-[9.5px] font-bold text-purple-300 uppercase tracking-wider font-mono">${tr({ de: "🎯 Impuls & Würfel", en: "🎯 Impulse & Dice", fr: "🎯 Impulsion & Dé", it: "🎯 Impulso & Dadi", es: "🎯 Impulso y Dados", el: "🎯 Παρόρμηση & Ζάρι" })}</span>
                 <button onclick="HumorEngine.spinDecision()" class="px-1.5 py-0.5 rounded-lg bg-purple-500/30 hover:bg-purple-500/40 text-purple-200 text-[9.5px] font-bold transition cursor-pointer">
-                  Würfeln 🎲
+                  ${tr({ de: "Würfeln 🎲", en: "Roll 🎲", fr: "Lancer 🎲", it: "Lancia 🎲", es: "Tirar 🎲", el: "Ζάρι 🎲" })}
                 </button>
               </div>
               <div id="humor-decision-output" class="p-1 rounded-xl bg-black/40 border border-purple-500/20 text-[10.5px] text-purple-200 font-medium min-h-[38px] flex items-center justify-center text-center">
-                Klicke auf Würfeln für einen Impuls!
+                ${tr({ de: "Klicke auf Würfeln für einen Impuls!", en: "Click roll for a quick nudge!", fr: "Cliquez sur lancer pour une impulsion !", it: "Clicca per lanciare un impulso!", es: "¡Haz clic para obtener un impulso!", el: "Κάνε κλικ στο ζάρι για ώθηση!" })}
               </div>
             </div>
           </div>
@@ -2790,17 +3000,22 @@
     container.innerHTML = `
       <!-- TOP HEADER -->
       <div class="flex items-center justify-between border-b border-white/10 pb-2">
-        <div class="relative flex flex-col items-center justify-center shrink-0">
-          <div class="relative overflow-hidden flex items-center justify-center">
-            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-xl bg-fuchsia-500/20 border border-fuchsia-400/40 flex items-center justify-center text-fuchsia-300 shadow-sm shrink-0">
+            <i data-lucide="smile" class="w-4 h-4"></i>
           </div>
-          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-            <span class="badge-tool-subtext select-none">HUMOR</span>
+          <div class="relative flex flex-col items-center justify-center shrink-0">
+            <div class="relative overflow-hidden flex items-center justify-center">
+              <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+            </div>
+            <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+              <span class="badge-tool-subtext select-none">HUMOR</span>
+            </div>
           </div>
         </div>
         <div class="flex items-center gap-1">
           <button onclick="HumorEngine.panicReset()" class="px-2 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[10px] font-bold transition cursor-pointer" title="Notfall-Reset: Alle Effekte sofort beenden">
-            🛡️ Panic Reset [ESC]
+            ${tr({ de: "🛡️ Panic Reset [ESC]", en: "🛡️ Panic Reset [ESC]", fr: "🛡️ Reset Panique [Échap]", it: "🛡️ Reset Panico [ESC]", es: "🛡️ Reinicio Pánico [ESC]", el: "🛡️ Επαναφορά Πανικού [ESC]" })}
           </button>
           <button onclick="togglePanel('humor-lab')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
         </div>
@@ -2809,18 +3024,18 @@
       <!-- 4-TAB SUB-NAVIGATION BAR (ZERO-SCROLL VIEWPORT FITTING) -->
       <div class="flex items-center bg-black/60 p-1 rounded-2xl border border-white/10 text-xs gap-1 shadow-sm select-none">
         <button onclick="HumorEngine.switchTab('chaos')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'chaos' ? activeTabClasses : inactiveTabClasses}" title="17 Radikale App-Breaking Glitches">
-          <span>💥 Glitches</span>
+          <span>${tr({ de: "💥 Glitches", en: "💥 Glitches", fr: "💥 Glitches", it: "💥 Glitch", es: "💥 Glitches", el: "💥 Glitches" })}</span>
           <span class="text-[8.5px] opacity-80 font-mono">17</span>
         </button>
         <button onclick="HumorEngine.switchTab('party')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'party' ? activeTabClasses : inactiveTabClasses}" title="Live Action & Ambient FX">
-          <span>⚡ Action & FX</span>
+          <span>${tr({ de: "⚡ Action & FX", en: "⚡ Action & FX", fr: "⚡ Action & FX", it: "⚡ Azione & FX", es: "⚡ Acción y FX", el: "⚡ Δράση & FX" })}</span>
           <span class="text-[8.5px] opacity-80 font-mono">12</span>
         </button>
         <button onclick="HumorEngine.switchTab('sounds')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'sounds' ? activeTabClasses : inactiveTabClasses}" title="Soundboard & Witze">
-          <span>🔊 Sound & Witz</span>
+          <span>${tr({ de: "🔊 Sound & Witz", en: "🔊 Sound & Jokes", fr: "🔊 Sons & Blagues", it: "🔊 Suoni & Scherzi", es: "🔊 Sonidos y Bromas", el: "🔊 Ήχος & Αστεία" })}</span>
         </button>
         <button onclick="HumorEngine.switchTab('stress')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'stress' ? activeTabClasses : inactiveTabClasses}" title="Luftpolsterfolie, Würfel & Screensaver">
-          <span>🫧 Stress & Idle</span>
+          <span>${tr({ de: "🫧 Stress & Idle", en: "🫧 Stress & Idle", fr: "🫧 Stress & Veille", it: "🫧 Stress & Inattività", es: "🫧 Estrés y Reposo", el: "🫧 Στρες & Αδράνεια" })}</span>
         </button>
       </div>
 

@@ -59,18 +59,31 @@ const ONBOARDING_STEPS = [
   {
     title: {
       de: "100% Offline & Datenhoheit 🛡️",
-      en: "100% Offline & Data Privacy 🛡️"
+      en: "100% Offline & Data Privacy 🛡️",
+      fr: "100% Hors-ligne & Souveraineté des données 🛡️",
+      it: "100% Offline & Sovranità dei dati 🛡️",
+      es: "100% Offline & Privacidad de datos 🛡️",
+      el: "100% Εκτός σύνδεσης & Προστασία δεδομένων 🛡️"
     },
     subtitle: {
       de: "Deine Daten gehören dir — jederzeit sicher",
-      en: "Your data stays yours — always safe and resilient"
+      en: "Your data stays yours — always safe and resilient",
+      fr: "Vos données vous appartiennent — toujours en sécurité",
+      it: "I tuoi dati appartengono a te — sempre al sicuro",
+      es: "Tus datos te pertenecen — siempre seguros",
+      el: "Τα δεδομένα σας ανήκουν σε εσάς — πάντα ασφαλή"
     },
     icon: "shield-check",
     color: "from-emerald-500 to-teal-500",
     badge: "4 / 4",
+    installButton: true,
     description: {
-      de: "Alle Daten bleiben lokal auf deinem Gerät gespeichert (mit automatischer IndexedDB-Sicherung). Nutze optional den Multi-Device Cloud-Sync, um nahtlos zwischen Handy und PC zu wechseln.",
-      en: "All data stays local on your device with automatic IndexedDB resilience. Optionally enable multi-device sync to switch smoothly between mobile and desktop."
+      de: "Alle Daten bleiben lokal auf deinem Gerät gespeichert. Installiere Noodle als App auf deinem Desktop oder Smartphone für blitzschnellen Schnellzugriff ohne Adressleiste!",
+      en: "All data stays stored locally on your device. Install Noodle as an app on your desktop or smartphone for lightning-fast access without address bars!",
+      fr: "Toutes les données restent stockées localement sur votre appareil. Installez Noodle comme application sur votre ordinateur ou smartphone pour un accès ultra-rapide !",
+      it: "Tutti i dati rimangono salvati localmente sul tuo dispositivo. Installa Noodle come app su desktop o smartphone per un accesso immediato!",
+      es: "Todos los datos se guardan localmente en tu dispositivo. ¡Instala Noodle como aplicación en tu PC o smartphone para un acceso ultra rápido!",
+      el: "Όλα τα δεδομένα παραμένουν τοπικά αποθηκευμένα στη συσκευή σας. Εγκαταστήστε το Noodle ως εφαρμογή στον υπολογιστή ή το κινητό σας για άμεση πρόσβαση!"
     }
   }
 ];
@@ -114,6 +127,27 @@ function renderOnboardingStep() {
       actionWrap.classList.remove('hidden');
     } else {
       actionWrap.classList.add('hidden');
+    }
+  }
+
+  const installWrap = modal.querySelector('#onboarding-install-wrap');
+  if (installWrap) {
+    if (step.installButton) {
+      installWrap.classList.remove('hidden');
+      const installBtnText = installWrap.querySelector('#onboarding-install-btn-text');
+      if (installBtnText) {
+        const installLabels = {
+          de: "App jetzt installieren 📲",
+          en: "Install App now 📲",
+          fr: "Installer l'application 📲",
+          it: "Installa l'app ora 📲",
+          es: "Instalar aplicación 📲",
+          el: "Εγκατάσταση εφαρμογής 📲"
+        };
+        installBtnText.innerText = installLabels[lang] || installLabels.de;
+      }
+    } else {
+      installWrap.classList.add('hidden');
     }
   }
 
@@ -177,6 +211,14 @@ function startOnboardingTour() {
           <button onclick="openRoutinePresetsModal(); closeOnboardingTour();" class="w-full py-2.5 px-3 bg-gradient-to-r from-amber-500/20 to-purple-500/20 hover:from-amber-500/30 hover:to-purple-500/30 text-amber-200 border border-amber-500/40 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md cursor-pointer active:scale-95">
             <i data-lucide="sliders" class="w-3.5 h-3.5 text-amber-300"></i>
             <span>Routine-Presets & Standards wählen ✨</span>
+          </button>
+        </div>
+
+        <!-- Optional Action Trigger for PWA Install -->
+        <div id="onboarding-install-wrap" class="hidden mb-5 w-full max-w-xs">
+          <button onclick="triggerPwaInstall();" class="w-full py-2.5 px-3 bg-gradient-to-r from-emerald-500/25 to-teal-500/25 hover:from-emerald-500/40 hover:to-teal-500/40 text-emerald-200 border border-emerald-400/50 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md cursor-pointer active:scale-95">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-300"></i>
+            <span id="onboarding-install-btn-text">App jetzt installieren 📲</span>
           </button>
         </div>
 

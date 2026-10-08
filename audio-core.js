@@ -373,12 +373,16 @@ var noiseBuffers = {};
 var pendingCrossfadeNodes = [];
 var pendingCrossfadeGains = [];
 
-// Playlist-Zustände für eigene Tracks
+// Playlist-Zustände für eigene Tracks (Vollwertige Audio-Tracks aus dem Musik-Ordner statt Synthesizer-Tracks)
 var DEFAULT_PRELOADED_TRACKS = [
-  { id: 'track_lofi', name: '☕ Deep Focus Lofi', url: 'music/deep_focus_lofi.mp3', bpm: 85, presetKey: 'lofi_chill', duration: 180, isPreloaded: true },
-  { id: 'track_deep_house', name: '🪩 Deep House Sunset', url: 'music/deep_house_sunset.mp3', bpm: 126, presetKey: 'deep_house', duration: 210, isPreloaded: true },
-  { id: 'track_synthwave', name: '🌆 Synthwave Neon Drive', url: 'music/synthwave_neon_drive.mp3', bpm: 128, presetKey: 'cyber_wave', duration: 195, isPreloaded: true },
-  { id: 'track_zen', name: '🍃 Zen Meditation Flow', url: 'music/zen_meditation_flow.mp3', bpm: 118, presetKey: 'ambient_flow', duration: 240, isPreloaded: true }
+  { id: 'folder_43696e65', name: 'The Cinematic Orchestra – Evolution', fullName: 'Cinematic Orchestra - Evolution.mp3', url: 'music/Cinematic%20Orchestra%20-%20%20Evolution.mp3', bpm: 95, duration: 388, isPreloaded: true },
+  { id: 'folder_44656174', name: 'Death In Vegas – All That Glitters', fullName: 'Death In Vegas - All That Glitters.mp3', url: 'music/Death%20In%20Vegas%20-%20All%20That%20Glitters.mp3', bpm: 110, duration: 395, isPreloaded: true },
+  { id: 'folder_444a2043', name: 'DJ Cam – Lost Kingdom', fullName: 'DJ Cam - Lost Kingdom.mp3', url: 'music/DJ%20Cam%20-%20Lost%20Kingdom.mp3', bpm: 88, duration: 254, isPreloaded: true },
+  { id: 'folder_496e6469', name: 'Indian Rope Man – 66 Meters', fullName: 'Indian Rope Man 66 Meters.mp3', url: 'music/Indian%20Rope%20Man%2066%20Meters.mp3', bpm: 118, duration: 270, isPreloaded: true },
+  { id: 'folder_4c657669', name: 'Levitation – More Than Ever People', fullName: 'Levitation - More Than Ever People.mp3', url: 'music/Levitation%20-%20More%20Than%20Ever%20People.mp3', bpm: 100, duration: 320, isPreloaded: true },
+  { id: 'folder_506f7274', name: 'Portishead – Numb', fullName: 'Portishead - Numb.mp3', url: 'music/Portishead%20-%20Numb.mp3', bpm: 78, duration: 236, isPreloaded: true },
+  { id: 'folder_54686520', name: 'The Cinematic Orchestra – Channel 1 Suite (Zero 7)', fullName: 'The Cinematic Orchestra - Channel 1 Suite (Zero 7 - Late Night Tales).mp3', url: 'music/The%20Cinematic%20Orchestra%20-%20Channel%201%20Suite%20(Zero%207%20-%20Late%20Night%20Tales).mp3', bpm: 92, duration: 345, isPreloaded: true },
+  { id: 'folder_54726963', name: 'Tricky – Hell Is Around The Corner', fullName: 'Tricky Hell Is Around The Corner.mp3', url: 'music/Tricky%20Hell%20Is%20Around%20The%20Corner.mp3', bpm: 82, duration: 226, isPreloaded: true }
 ];
 var playlistTracks = [...DEFAULT_PRELOADED_TRACKS];
 var currentTrackIndex = 0;
@@ -1625,24 +1629,70 @@ function stopAllStudioAudio() {
 window.stopAllStudioAudio = stopAllStudioAudio;
 
 function handleHeaderVolumeInput(val) {
-  if (typeof setSoundVolume === 'function') setSoundVolume(val);
-  if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(val);
-  const numVal = `${Math.round(val * 100)}`;
+  const num = parseFloat(val);
+  soundMasterVolume = Math.max(0, Math.min(1, num));
+  try { localStorage.setItem('flow_master_vol', soundMasterVolume.toString()); } catch(e) {}
+
+  // 1. Ambient & Natur-Soundscape Pegel aktualisieren
+  if (typeof setSoundVolume === 'function') setSoundVolume(soundMasterVolume);
+  if (soundGainNode && audioCtx) {
+    try {
+      soundGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      soundGainNode.gain.setValueAtTime(soundMasterVolume, audioCtx.currentTime);
+    } catch(e) {}
+  }
+
+  // 2. Media Player Pegel synchronisieren
+  if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(soundMasterVolume);
+  if (activeUserAudio) {
+    try { activeUserAudio.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75); } catch(e) {}
+  }
+
+  // 3. Radio Engine synchronisieren
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.setRadioVolume === 'function') {
+    RadioNewsEngine.setRadioVolume(soundMasterVolume);
+  } else if (typeof window !== 'undefined' && window.radioAudioEl) {
+    try { window.radioAudioEl.volume = soundMasterVolume; } catch(e) {}
+  }
+
+  // 4. Multi-Layer Ambient Mixer Pegel anpassen
+  if (typeof activeAmbientLayers !== 'undefined' && activeAmbientLayers) {
+    Object.keys(activeAmbientLayers).forEach(layerKey => {
+      const layer = activeAmbientLayers[layerKey];
+      if (layer && layer.gainNode && audioCtx) {
+        try {
+          const lVol = layer.volume || 0.5;
+          layer.gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+          layer.gainNode.gain.setValueAtTime(lVol * soundMasterVolume, audioCtx.currentTime);
+        } catch(e) {}
+      }
+    });
+  }
+
+  // 5. Binaural Beats Pegel anpassen
+  if (typeof binauralAudioNodes !== 'undefined' && binauralAudioNodes && binauralAudioNodes.masterGain && audioCtx) {
+    try {
+      binauralAudioNodes.masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+      binauralAudioNodes.masterGain.gain.setValueAtTime((binauralVolume || 0.4) * soundMasterVolume * 0.4, audioCtx.currentTime);
+    } catch(e) {}
+  }
+
+  // 6. UI-Slider & Prozentanzeigen an allen Stellen synchron halten
+  const numVal = `${Math.round(soundMasterVolume * 100)}`;
   const percentEl = document.getElementById('header-sound-volume-percent');
-  if (percentEl) {
-    percentEl.textContent = numVal;
-  }
+  if (percentEl) percentEl.textContent = numVal;
   const studioPctEl = document.getElementById('audio-panel-master-volume-pct');
-  if (studioPctEl) {
-    studioPctEl.textContent = `${numVal}%`;
-  }
+  if (studioPctEl) studioPctEl.textContent = `${numVal}%`;
+
   document.querySelectorAll('.master-volume-slider').forEach(s => {
-    if (s.value !== val) s.value = val;
+    if (parseFloat(s.value) !== soundMasterVolume) s.value = soundMasterVolume;
   });
   const headerSlider = document.getElementById('header-sound-volume-slider');
-  if (headerSlider && headerSlider.value !== val) headerSlider.value = val;
+  if (headerSlider && parseFloat(headerSlider.value) !== soundMasterVolume) headerSlider.value = soundMasterVolume;
   const studioSlider = document.getElementById('audio-panel-master-volume-slider');
-  if (studioSlider && studioSlider.value !== val) studioSlider.value = val;
+  if (studioSlider && parseFloat(studioSlider.value) !== soundMasterVolume) studioSlider.value = soundMasterVolume;
+  const radioSlider = document.getElementById('radio-volume-slider');
+  if (radioSlider && parseFloat(radioSlider.value) !== soundMasterVolume) radioSlider.value = soundMasterVolume;
 }
 window.handleHeaderVolumeInput = handleHeaderVolumeInput;
 window.handleStudioMasterVolume = handleHeaderVolumeInput;

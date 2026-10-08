@@ -4,6 +4,12 @@
 (function() {
   'use strict';
 
+  function tr(obj) {
+    const l = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' && window.currentLang) || 'de');
+    if (!obj || typeof obj !== 'object') return obj || '';
+    return obj[l] || obj['en'] || obj['de'] || Object.values(obj)[0] || '';
+  }
+
   const APP_URL = (typeof window !== 'undefined' && window.location) ? (window.location.origin + window.location.pathname) : 'https://noodle.studio';
   const GITHUB_URL = 'https://github.com/CableBlues/noodle';
 
@@ -290,13 +296,13 @@
     const textarea = document.getElementById('social-caption-textarea');
     const text = textarea ? textarea.value : '';
     if (!text || !text.trim()) {
-      if (typeof showToast === 'function') showToast('⚠️ Bitte schreibe zuerst einen Text oder wähle Hashtags.');
+      if (typeof showToast === 'function') showToast(tr({ de: '⚠️ Bitte schreibe zuerst einen Text oder wähle Hashtags.', en: '⚠️ Please write a text or select hashtags first.', fr: '⚠️ Veuillez d’abord écrire un texte ou choisir des hashtags.', it: '⚠️ Scrivi prima un testo o scegli gli hashtag.', es: '⚠️ Por favor, escribe un texto o selecciona hashtags primero.', el: '⚠️ Γράψε πρώτα κείμενο ή επίλεξε hashtags.' }));
       return;
     }
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
-        if (typeof showToast === 'function') showToast('📋 Text kopiert! Öffne ' + platformKey + '...');
+        if (typeof showToast === 'function') showToast(tr({ de: '📋 Text kopiert! Öffne ' + platformKey + '...', en: '📋 Text copied! Opening ' + platformKey + '...', fr: '📋 Texte copié ! Ouverture de ' + platformKey + '...', it: '📋 Testo copiato! Apertura di ' + platformKey + '...', es: '📋 ¡Texto copiado! Abriendo ' + platformKey + '...', el: '📋 Το κείμενο αντιγράφηκε! Άνοιγμα ' + platformKey + '...' }));
         setTimeout(() => openPlatform(platformKey, 'tab'), 300);
       });
     } else {
@@ -323,12 +329,17 @@
     container.innerHTML = `
       <!-- 1. HUB HEADER -->
       <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-        <div class="relative flex flex-col items-center justify-center shrink-0">
-          <div class="relative overflow-hidden flex items-center justify-center">
-            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-xl bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-300 shadow-sm shrink-0">
+            <i data-lucide="share-2" class="w-4 h-4"></i>
           </div>
-          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-            <span class="badge-tool-subtext select-none">SOCIAL</span>
+          <div class="relative flex flex-col items-center justify-center shrink-0">
+            <div class="relative overflow-hidden flex items-center justify-center">
+              <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+            </div>
+            <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+              <span class="badge-tool-subtext select-none">SOCIAL</span>
+            </div>
           </div>
         </div>
         <button onclick="togglePanel('social')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
@@ -342,15 +353,15 @@
         </button>
         <button onclick="SocialHubEngine.switchTab('caption')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'caption' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
           <i data-lucide="edit-3" class="w-3.5 h-3.5 ${currentHubTab === 'caption' ? 'text-pink-300' : 'text-gray-400'}"></i>
-          <span>Post Studio</span>
+          <span>${tr({ de: "Post Studio", en: "Post Studio", fr: "Studio de Posts", it: "Studio Post", es: "Estudio de Publicaciones", el: "Εργαστήριο Αναρτήσεων" })}</span>
         </button>
         <button onclick="SocialHubEngine.switchTab('saved')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'saved' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
           <i data-lucide="bookmark" class="w-3.5 h-3.5 ${currentHubTab === 'saved' ? 'text-pink-300' : 'text-gray-400'}"></i>
-          <span>Inspiration</span>
+          <span>${tr({ de: "Inspiration", en: "Inspiration", fr: "Inspiration", it: "Ispirazione", es: "Inspiración", el: "Έμπνευση" })}</span>
         </button>
         <button onclick="SocialHubEngine.switchTab('viral')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'viral' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 ${currentHubTab === 'viral' ? 'text-pink-300' : 'text-gray-400'}"></i>
-          <span>Story Cards</span>
+          <span>${tr({ de: "Story Cards", en: "Story Cards", fr: "Cartes Stories", it: "Card Storie", es: "Tarjetas de Historias", el: "Κάρτες Ιστοριών" })}</span>
         </button>
       </div>
 
@@ -371,10 +382,10 @@
         <!-- PLATFORMS GRID -->
         <div class="space-y-1.5">
           <div class="flex items-center justify-between text-[10px] text-gray-400 font-semibold px-0.5">
-            <span>PLATTFORMEN & SCHNELLZUGRIFF</span>
+            <span>${tr({ de: "PLATTFORMEN & SCHNELLZUGRIFF", en: "PLATFORMS & QUICK ACCESS", fr: "PLATEFORMES & ACCÈS RAPIDE", it: "PIATTAFORME & ACCESSO RAPIDO", es: "PLATAFORMAS Y ACCESO RÁPIDO", el: "ΠΛΑΤΦΟΡΜΕΣ & ΓΡΗΓΟΡΗ ΠΡΟΣΒΑΣΗ" })}</span>
             <span class="text-[9px] text-pink-300/80 font-mono">1-Click Launch</span>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-h-[175px] overflow-y-auto pr-1">
             ${PLATFORMS.map(p => {
               const hasCustom = !!savedProfiles[p.key];
               return `
@@ -390,7 +401,7 @@
                   </div>
                   <div class="flex items-center gap-1 pt-0.5">
                     <button onclick="SocialHubEngine.openPlatform('${p.key}', 'tab')" class="flex-1 py-1 px-1.5 bg-white/5 hover:bg-pink-500/20 text-gray-200 hover:text-pink-200 border border-white/10 hover:border-pink-500/30 rounded-lg text-[10px] font-bold transition flex items-center justify-center gap-1 cursor-pointer" title="Im Browser öffnen">
-                      <span>Öffnen ↗</span>
+                      <span>${tr({ de: "Öffnen ↗", en: "Open ↗", fr: "Ouvrir ↗", it: "Apri ↗", es: "Abrir ↗", el: "Άνοιγμα ↗" })}</span>
                     </button>
                     <button onclick="SocialHubEngine.openPlatform('${p.key}', 'window')" class="py-1 px-1.5 bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white border border-white/10 rounded-lg text-[10px] transition cursor-pointer" title="Im Mini-Fenster öffnen">
                       <span>🪟</span>
@@ -403,17 +414,17 @@
         </div>
 
         <!-- CUSTOM PROFILE LINKS MANAGER -->
-        <div class="p-3 rounded-2xl bg-black/50 border border-white/10 space-y-2">
+        <div class="p-2.5 rounded-2xl bg-black/50 border border-white/10 space-y-1.5">
           <div class="flex items-center justify-between text-[10px] font-bold text-gray-300">
             <span class="flex items-center gap-1 text-pink-300">
               <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
-              <span>Meine Profile & Kanäle verknüpfen</span>
+              <span>${tr({ de: "Meine Profile & Kanäle verknüpfen", en: "Link My Profiles & Channels", fr: "Lier mes profils & chaînes", it: "Collega i miei profili & canali", es: "Vincular mis perfiles y canales", el: "Σύνδεση των προφίλ & καναλιών μου" })}</span>
             </span>
-            <span class="text-[9px] text-gray-500 font-mono">100% lokal</span>
+            <span class="text-[9px] text-gray-500 font-mono">${tr({ de: "100% lokal", en: "100% local", fr: "100% local", it: "100% locale", es: "100% local", el: "100% τοπικό" })}</span>
           </div>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-            ${PLATFORMS.slice(0, 6).map(p => `
+            ${PLATFORMS.slice(0, 4).map(p => `
               <div class="flex items-center gap-1.5 bg-white/[0.02] p-1.5 rounded-xl border border-white/5">
                 <span class="text-[10px] font-bold text-gray-300 w-16 truncate">${p.name}:</span>
                 <input type="text" value="${savedProfiles[p.key] || ''}" placeholder="${p.placeholder}" onchange="SocialHubEngine.saveProfile('${p.key}', this.value)" class="flex-1 bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-lg px-2 py-0.5 text-[10px] text-white placeholder-gray-600 focus:outline-none transition">
@@ -427,14 +438,14 @@
     if (tab === 'caption') {
       return `
         <!-- CAPTION & POST STUDIO -->
-        <div class="space-y-2.5">
+        <div class="space-y-2">
           <!-- Textarea Area -->
           <div class="space-y-1">
             <div class="flex items-center justify-between text-[10px] text-gray-400 px-0.5">
-              <span>POST / CAPTION VERFASSEN</span>
+              <span>${tr({ de: "POST / CAPTION VERFASSEN", en: "WRITE POST / CAPTION", fr: "RÉDIGER POST / LÉGENDE", it: "SCRIVI POST / DIDASCALIA", es: "ESCRIBIR PUBLICACIÓN / TEXTO", el: "ΣΥΝΤΑΞΗ ΑΝΑΡΤΗΣΗΣ / ΛΕΖΑΝΤΑΣ" })}</span>
               <span id="social-caption-count" class="font-mono text-pink-300">0 Zeichen</span>
             </div>
-            <textarea id="social-caption-textarea" oninput="SocialHubEngine.updateCaptionStats()" rows="5" placeholder="Schreibe deinen Instagram-Post, Facebook-Beitrag oder Tweet hier..." class="w-full bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-2xl p-2.5 text-xs text-white placeholder-gray-500 focus:outline-none transition custom-scrollbar"></textarea>
+            <textarea id="social-caption-textarea" oninput="SocialHubEngine.updateCaptionStats()" rows="3" placeholder="${tr({ de: 'Schreibe deinen Instagram-Post, Facebook-Beitrag oder Tweet hier...', en: 'Write your Instagram post, Facebook update or tweet here...', fr: 'Écrivez votre post Instagram, message Facebook ou tweet ici...', it: 'Scrivi qui il tuo post Instagram, post Facebook o tweet...', es: 'Escribe tu publicación de Instagram, Facebook o tweet aquí...', el: 'Γράψε την ανάρτηση Instagram, Facebook ή tweet εδώ...' })}" class="w-full bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-2xl p-2 text-xs text-white placeholder-gray-500 focus:outline-none transition custom-scrollbar"></textarea>
           </div>
 
           <!-- Quick Emoji Toolbar -->
@@ -446,7 +457,7 @@
 
           <!-- Hashtag Packs -->
           <div class="space-y-1">
-            <span class="text-[10px] text-gray-400 font-semibold px-0.5">HASHTAG-PACKS (1-KLICK):</span>
+            <span class="text-[10px] text-gray-400 font-semibold px-0.5">${tr({ de: "HASHTAG-PACKS (1-KLICK):", en: "HASHTAG PACKS (1-CLICK):", fr: "PACKS DE HASHTAGS (1-CLIC) :", it: "PACCHETTI HASHTAG (1-CLIC):", es: "PACKS DE HASHTAGS (1-CLIC):", el: "ΠΑΚΕΤΑ HASHTAG (1-ΚΛΙΚ):" })}</span>
             <div class="grid grid-cols-2 gap-1.5">
               ${HASHTAG_PACKS.map((pack, idx) => `
                 <button onclick="SocialHubEngine.appendHashtags(${idx})" class="p-1.5 rounded-xl bg-white/[0.03] hover:bg-pink-500/15 border border-white/5 hover:border-pink-500/30 text-left transition cursor-pointer flex flex-col">
@@ -467,7 +478,7 @@
 
           <!-- Action Buttons (Copy & Open) -->
           <div class="space-y-1">
-            <span class="text-[10px] text-gray-400 font-semibold px-0.5">KOPIEREN & DIREKT POSTEN AUF:</span>
+            <span class="text-[10px] text-gray-400 font-semibold px-0.5">${tr({ de: "KOPIEREN & DIREKT POSTEN AUF:", en: "COPY & POST DIRECTLY TO:", fr: "COPIER & PUBLIER DIRECTEMENT SUR :", it: "COPIA & PUBBLICA DIRETTAMENTE SU:", es: "COPIAR Y PUBLICAR DIRECTAMENTE EN:", el: "ΑΝΤΙΓΡΑΦΗ & ΑΠΕΥΘΕΙΑΣ ΑΝΑΡΤΗΣΗ ΣΕ:" })}</span>
             <div class="grid grid-cols-4 gap-1.5">
               <button onclick="SocialHubEngine.copyCaptionAndOpen('instagram')" class="py-1.5 rounded-xl bg-gradient-to-r from-fuchsia-600/30 to-pink-600/30 hover:from-fuchsia-600/50 hover:to-pink-600/50 border border-pink-500/40 text-pink-200 text-xs font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
                 <i data-lucide="camera" class="w-3.5 h-3.5"></i>
@@ -497,14 +508,14 @@
         <div class="space-y-2.5">
           <!-- Add new link box -->
           <div class="p-2.5 rounded-2xl bg-black/60 border border-white/10 space-y-2">
-            <span class="text-[10px] font-bold text-pink-300">Neuen Post / Reel-Link speichern</span>
+            <span class="text-[10px] font-bold text-pink-300">${tr({ de: "Neuen Post / Reel-Link speichern", en: "Save New Post / Reel Link", fr: "Enregistrer un nouveau lien de post / reel", it: "Salva nuovo link post / reel", es: "Guardar nuevo enlace de post / reel", el: "Αποθήκευση νέου συνδέσμου ανάρτησης / reel" })}</span>
             <div class="space-y-1.5">
               <input type="text" id="social-add-url" placeholder="Link einfügen (z.B. https://instagram.com/p/...)" class="w-full bg-white/5 border border-white/10 focus:border-pink-500/60 rounded-xl px-2.5 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none transition">
               <div class="flex gap-1.5">
                 <input type="text" id="social-add-title" placeholder="Notiz / Titel (optional)..." class="flex-1 bg-white/5 border border-white/10 focus:border-pink-500/60 rounded-xl px-2.5 py-1 text-xs text-white placeholder-gray-500 focus:outline-none transition">
                 <button onclick="const u=document.getElementById('social-add-url'); const t=document.getElementById('social-add-title'); if(u&&u.value.trim()){SocialHubEngine.addInspiration(u.value.trim(), t?t.value:''); u.value=''; if(t) t.value='';}" class="px-3 py-1 bg-pink-500 hover:bg-pink-400 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1 shrink-0">
                   <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                  <span>Merken</span>
+                  <span>${tr({ de: "Merken", en: "Save", fr: "Enregistrer", it: "Salva", es: "Guardar", el: "Αποθήκευση" })}</span>
                 </button>
               </div>
             </div>
@@ -513,7 +524,7 @@
           <!-- Saved Items List -->
           <div class="space-y-1.5">
             <div class="flex items-center justify-between text-[10px] text-gray-400 font-semibold px-0.5">
-              <span>GESPEICHERTE INSPIRATIONEN (${savedInspirations.length})</span>
+              <span>${tr({ de: "GESPEICHERTE INSPIRATIONEN", en: "SAVED INSPIRATIONS", fr: "INSPIRATIONS ENREGISTRÉES", it: "ISPIRAZIONI SALVATE", es: "INSPIRACIONES GUARDADAS", el: "ΑΠΟΘΗΚΕΥΜΕΝΕΣ ΕΜΠΝΕΥΣΕΙΣ" })} (${savedInspirations.length})</span>
             </div>
             <div class="space-y-1.5 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
               ${savedInspirations.length === 0 ? '<div class="text-xs text-gray-500 text-center py-4">Noch keine Links gespeichert. Füge oben einen Post-Link ein!</div>' : ''}
@@ -546,12 +557,12 @@
             <i data-lucide="sparkles" class="w-5 h-5 text-pink-300"></i>
           </div>
           <div>
-            <h4 class="text-xs font-bold text-white font-display">Visuelles Card & Story Studio</h4>
-            <p class="text-[10px] text-gray-400 mt-0.5">Erstelle ästhetische 9:16 Stories, 1:1 Posts und 16:9 Banner deiner Streak- und Flow-Erfolge für Instagram & LinkedIn.</p>
+            <h4 class="text-xs font-bold text-white font-display">${tr({ de: "Visuelles Card & Story Studio", en: "Visual Card & Story Studio", fr: "Studio de cartes visuelles & stories", it: "Studio grafico per card & storie", es: "Estudio de tarjetas visuales e historias", el: "Εργαστήριο οπτικών καρτών & ιστοριών" })}</h4>
+            <p class="text-[10px] text-gray-400 mt-0.5">${tr({ de: "Erstelle ästhetische 9:16 Stories, 1:1 Posts und 16:9 Banner deiner Streak- und Flow-Erfolge für Instagram & LinkedIn.", en: "Create aesthetic 9:16 stories, 1:1 posts and 16:9 banners of your streak & flow achievements.", fr: "Créez des stories 9:16 esthétiques, posts 1:1 et bannières 16:9 de vos réussites.", it: "Crea storie 9:16 estetiche, post 1:1 e banner 16:9 dei tuoi successi di streak e flow.", es: "Crea historias 9:16 estéticas, posts 1:1 y banners 16:9 de tus logros de racha y flow.", el: "Δημιούργησε αισθητικές ιστορίες 9:16, αναρτήσεις 1:1 και banner 16:9 των επιτευγμάτων σου." })}</p>
           </div>
           <button onclick="openSocialLaunchModal('card')" class="w-full py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-md active:scale-95 flex items-center justify-center gap-1.5">
             <i data-lucide="image" class="w-3.5 h-3.5"></i>
-            <span>Visual Story Studio öffnen 🚀</span>
+            <span>${tr({ de: "Visual Story Studio öffnen 🚀", en: "Open Visual Story Studio 🚀", fr: "Ouvrir le studio de stories 🚀", it: "Apri lo studio di storie 🚀", es: "Abrir estudio de historias visuales 🚀", el: "Άνοιγμα εργαστηρίου οπτικών ιστοριών 🚀" })}</span>
           </button>
         </div>
       `;

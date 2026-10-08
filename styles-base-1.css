@@ -158,6 +158,44 @@ body.theme-zen {
   --border-main: rgba(148, 163, 184, 0.22);
 }
 
+/* THEME 8: 🎹 FRUITY CLASSIC (Vintage FruityLoops 3/4/5 - Vintage Charcoal, Step-Sequencer Lime & Beat Orange) */
+body.theme-fruity-classic {
+  --accent: #99e224;
+  --accent-light: #c2f567;
+  --accent-border: rgba(153, 226, 36, 0.5);
+  --accent-glow: rgba(153, 226, 36, 0.55);
+  --bg-app: #181b20;
+  --bg-header: rgba(26, 30, 37, 0.98);
+  --bg-card: rgba(30, 35, 43, 0.95);
+  --bg-card-hover: rgba(38, 45, 55, 0.98);
+  --bg-panel: #1e232b;
+  --bg-modal: #1e232b;
+  --text-main: #f3f6f9;
+  --text-muted: #ff9800;
+  --border-main: rgba(153, 226, 36, 0.35);
+  --fruity-step-active: #99e224;
+  --fruity-beat-accent: #ff8800;
+}
+
+/* THEME 9: 🎛️ FRUITY STUDIO (Vintage FL Studio 8/9 - Dark Brushed Carbon, Electric Cyan & Peak Amber) */
+body.theme-fruity-studio {
+  --accent: #00e5ff;
+  --accent-light: #76ffff;
+  --accent-border: rgba(0, 229, 255, 0.5);
+  --accent-glow: rgba(0, 229, 255, 0.55);
+  --bg-app: #10141a;
+  --bg-header: rgba(18, 24, 32, 0.98);
+  --bg-card: rgba(22, 29, 39, 0.95);
+  --bg-card-hover: rgba(29, 38, 51, 0.98);
+  --bg-panel: #161f2b;
+  --bg-modal: #161f2b;
+  --text-main: #f0f7ff;
+  --text-muted: #00bcd4;
+  --border-main: rgba(0, 229, 255, 0.35);
+  --fruity-step-active: #00e5ff;
+  --fruity-beat-accent: #ffaa00;
+}
+
 body, html {
   background-color: var(--bg-app) !important;
   color: var(--text-main) !important;
@@ -227,7 +265,7 @@ main article:hover {
 #column-options-dropdown,
 #custom-options-dropdown {
   background-color: var(--bg-modal, #12101e) !important;
-  background: #12101e !important;
+  background: var(--bg-modal, #12101e) !important;
   border: 1px solid var(--border-main, rgba(192, 132, 252, 0.3)) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.15) !important;
   box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.95), 0 0 20px var(--accent-border, rgba(192, 132, 252, 0.25)) !important;
@@ -299,3 +337,264 @@ i[data-lucide="sparkles"] {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* ==========================================================================
+   🎹 DEEP THEME CUSTOMIZATIONS: FRUITY CLASSIC & FRUITY STUDIO
+   Transforms tasks, step-LED checkboxes, menus, tools, and popovers
+   into an authentic digital audio workstation experience.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. FRUITY CLASSIC (Vintage FL 3/4/5: Charcoal DAW, Step-Sequencer Lime, Beat Orange)
+   -------------------------------------------------------------------------- */
+body.theme-fruity-classic main article {
+  background: #20252d !important;
+  border: 1px solid rgba(153, 226, 36, 0.35) !important;
+  border-top: 2px solid #99e224 !important;
+  box-shadow: 0 10px 28px -5px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+body.theme-fruity-classic main article:hover {
+  border-color: #99e224 !important;
+  box-shadow: 0 14px 34px -5px rgba(0, 0, 0, 0.85), 0 0 18px rgba(153, 226, 36, 0.35) !important;
+}
+
+/* Tasks: Step-Sequencer Channel Strips */
+body.theme-fruity-classic main article div[draggable="true"] {
+  background: #262c36 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-left: 4px solid #99e224 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  transition: all 0.18s ease-in-out !important;
+}
+
+/* Every 4th task card gets Fruity 4-beat orange bar accent */
+body.theme-fruity-classic main article div[draggable="true"]:nth-child(4n) {
+  border-left-color: #ff8800 !important;
+  background: #2a2c34 !important;
+}
+
+body.theme-fruity-classic main article div[draggable="true"]:hover {
+  background: #303744 !important;
+  border-color: rgba(153, 226, 36, 0.5) !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.6), 0 0 12px rgba(153, 226, 36, 0.25) !important;
+}
+
+/* Checkbox Button: Vintage FL Step-Sequencer LED Button */
+body.theme-fruity-classic .task-check-circle {
+  border-radius: 6px !important;
+  background: #171b21 !important;
+  border: 1px solid rgba(153, 226, 36, 0.45) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(255, 255, 255, 0.05) !important;
+  transition: all 0.15s ease !important;
+}
+
+body.theme-fruity-classic .task-check-btn:hover .task-check-circle {
+  background: #99e224 !important;
+  border-color: #c2f567 !important;
+  box-shadow: 0 0 10px #99e224, inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+body.theme-fruity-classic .task-check-btn:hover .task-check-circle svg {
+  color: #111417 !important;
+}
+
+/* Task Typography */
+body.theme-fruity-classic .task-text-span {
+  color: #e5edf5 !important;
+  font-family: inherit;
+  font-weight: 500 !important;
+}
+body.theme-fruity-classic .task-text-span:hover {
+  color: #c2f567 !important;
+  text-shadow: 0 0 6px rgba(153, 226, 36, 0.4) !important;
+}
+
+/* Active Timer Task: Fruity Step Glow */
+body.theme-fruity-classic div[draggable="true"].border-amber-400,
+body.theme-fruity-classic div[draggable="true"][class*="bg-amber-500"] {
+  border-left-color: #ff9800 !important;
+  background: #33261a !important;
+  box-shadow: 0 0 18px rgba(255, 152, 0, 0.45), inset 0 0 10px rgba(255, 152, 0, 0.2) !important;
+}
+
+/* Add Task & Notes Add Button */
+body.theme-fruity-classic main article button.cursor-pointer[class*="border-dashed"] {
+  border-color: rgba(153, 226, 36, 0.35) !important;
+  background: rgba(153, 226, 36, 0.06) !important;
+  color: #99e224 !important;
+  border-radius: 8px !important;
+}
+body.theme-fruity-classic main article button.cursor-pointer[class*="border-dashed"]:hover {
+  background: rgba(153, 226, 36, 0.16) !important;
+  border-color: #99e224 !important;
+  box-shadow: 0 0 12px rgba(153, 226, 36, 0.25) !important;
+  color: #ffffff !important;
+}
+
+/* Menus & Tools Popovers */
+body.theme-fruity-classic #panel-header-tools,
+body.theme-fruity-classic .dock-popover-panel,
+body.theme-fruity-classic #task-context-dropdown {
+  background: #191d24 !important;
+  border: 1px solid rgba(153, 226, 36, 0.4) !important;
+  border-top: 2px solid #99e224 !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95), 0 0 30px rgba(153, 226, 36, 0.2) !important;
+}
+
+/* Tool Sections inside Tools Dropdown */
+body.theme-fruity-classic #panel-header-tools > div {
+  background: #202630 !important;
+  border: 1px solid rgba(153, 226, 36, 0.25) !important;
+  border-radius: 14px !important;
+}
+body.theme-fruity-classic #panel-header-tools > div:hover {
+  border-color: rgba(153, 226, 36, 0.45) !important;
+}
+
+/* Tool Orbs: Hardware DAW Potentiometer look */
+body.theme-fruity-classic .tool-orb-sphere {
+  background: linear-gradient(135deg, #2b333e 0%, #1e242c 100%) !important;
+  border: 1px solid rgba(153, 226, 36, 0.4) !important;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.08), 0 3px 8px rgba(0, 0, 0, 0.5) !important;
+}
+body.theme-fruity-classic .tool-orb:hover .tool-orb-sphere {
+  border-color: #99e224 !important;
+  box-shadow: 0 0 14px rgba(153, 226, 36, 0.45), inset 0 0 8px rgba(153, 226, 36, 0.2) !important;
+}
+
+/* Category header count badges */
+body.theme-fruity-classic main article .cat-count-badge {
+  background: #181b21 !important;
+  border: 1px solid rgba(153, 226, 36, 0.4) !important;
+  color: #99e224 !important;
+}
+
+/* --------------------------------------------------------------------------
+   2. FRUITY STUDIO (Vintage FL Studio 8/9: Brushed Carbon, Electric Cyan & Peak Amber)
+   -------------------------------------------------------------------------- */
+body.theme-fruity-studio main article {
+  background: #151b24 !important;
+  border: 1px solid rgba(0, 229, 255, 0.35) !important;
+  border-top: 2px solid #00e5ff !important;
+  box-shadow: 0 10px 28px -5px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+body.theme-fruity-studio main article:hover {
+  border-color: #00e5ff !important;
+  box-shadow: 0 14px 34px -5px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 229, 255, 0.35) !important;
+}
+
+/* Tasks: Modern FL Studio 8/9 Mixer Track Strips */
+body.theme-fruity-studio main article div[draggable="true"] {
+  background: #1b2330 !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-left: 4px solid #00e5ff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+  transition: all 0.18s ease-in-out !important;
+}
+
+/* Every 4th task card gets peak-meter amber accent */
+body.theme-fruity-studio main article div[draggable="true"]:nth-child(4n) {
+  border-left-color: #ffaa00 !important;
+  background: #20242e !important;
+}
+
+body.theme-fruity-studio main article div[draggable="true"]:hover {
+  background: #242f40 !important;
+  border-color: rgba(0, 229, 255, 0.5) !important;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.65), 0 0 12px rgba(0, 229, 255, 0.25) !important;
+}
+
+/* Checkbox Button: FL Studio Transport Glow */
+body.theme-fruity-studio .task-check-circle {
+  border-radius: 6px !important;
+  background: #10151e !important;
+  border: 1px solid rgba(0, 229, 255, 0.45) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7), 0 1px 2px rgba(255, 255, 255, 0.05) !important;
+  transition: all 0.15s ease !important;
+}
+
+body.theme-fruity-studio .task-check-btn:hover .task-check-circle {
+  background: #00e5ff !important;
+  border-color: #76ffff !important;
+  box-shadow: 0 0 12px #00e5ff, inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+body.theme-fruity-studio .task-check-btn:hover .task-check-circle svg {
+  color: #0b1118 !important;
+}
+
+/* Task Typography */
+body.theme-fruity-studio .task-text-span {
+  color: #e2eeff !important;
+  font-family: inherit;
+  font-weight: 500 !important;
+}
+body.theme-fruity-studio .task-text-span:hover {
+  color: #76ffff !important;
+  text-shadow: 0 0 6px rgba(0, 229, 255, 0.45) !important;
+}
+
+/* Active Timer Task: Peak Amber Glow */
+body.theme-fruity-studio div[draggable="true"].border-amber-400,
+body.theme-fruity-studio div[draggable="true"][class*="bg-amber-500"] {
+  border-left-color: #ffaa00 !important;
+  background: #2c2419 !important;
+  box-shadow: 0 0 18px rgba(255, 170, 0, 0.5), inset 0 0 10px rgba(255, 170, 0, 0.2) !important;
+}
+
+/* Add Task & Notes Add Button */
+body.theme-fruity-studio main article button.cursor-pointer[class*="border-dashed"] {
+  border-color: rgba(0, 229, 255, 0.35) !important;
+  background: rgba(0, 229, 255, 0.06) !important;
+  color: #00e5ff !important;
+  border-radius: 8px !important;
+}
+body.theme-fruity-studio main article button.cursor-pointer[class*="border-dashed"]:hover {
+  background: rgba(0, 229, 255, 0.16) !important;
+  border-color: #00e5ff !important;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.28) !important;
+  color: #ffffff !important;
+}
+
+/* Menus & Tools Popovers */
+body.theme-fruity-studio #panel-header-tools,
+body.theme-fruity-studio .dock-popover-panel,
+body.theme-fruity-studio #task-context-dropdown {
+  background: #131922 !important;
+  border: 1px solid rgba(0, 229, 255, 0.4) !important;
+  border-top: 2px solid #00e5ff !important;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.95), 0 0 30px rgba(0, 229, 255, 0.2) !important;
+}
+
+/* Tool Sections inside Tools Dropdown */
+body.theme-fruity-studio #panel-header-tools > div {
+  background: #18202c !important;
+  border: 1px solid rgba(0, 229, 255, 0.25) !important;
+  border-radius: 14px !important;
+}
+body.theme-fruity-studio #panel-header-tools > div:hover {
+  border-color: rgba(0, 229, 255, 0.45) !important;
+}
+
+/* Tool Orbs: Sleek Modern FL Studio Knobs */
+body.theme-fruity-studio .tool-orb-sphere {
+  background: linear-gradient(135deg, #1f2a3a 0%, #151c27 100%) !important;
+  border: 1px solid rgba(0, 229, 255, 0.4) !important;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.08), 0 3px 8px rgba(0, 0, 0, 0.5) !important;
+}
+body.theme-fruity-studio .tool-orb:hover .tool-orb-sphere {
+  border-color: #00e5ff !important;
+  box-shadow: 0 0 14px rgba(0, 229, 255, 0.5), inset 0 0 8px rgba(0, 229, 255, 0.2) !important;
+}
+
+/* Category header count badges */
+body.theme-fruity-studio main article .cat-count-badge {
+  background: #10151e !important;
+  border: 1px solid rgba(0, 229, 255, 0.4) !important;
+  color: #00e5ff !important;
+}
+

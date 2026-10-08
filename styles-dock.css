@@ -32,6 +32,23 @@
   top: 0 !important;
 }
 
+/* Zero-scroll guarantee for all compact popover tools */
+#panel-humor-lab,
+#panel-cooking,
+#panel-alarm {
+  overflow: hidden !important;
+  max-height: calc(100vh - 40px) !important;
+  max-height: calc(100dvh - 40px) !important;
+}
+
+@media (max-height: 520px) {
+  #panel-humor-lab,
+  #panel-cooking,
+  #panel-alarm {
+    overflow-y: auto !important;
+  }
+}
+
 /* Unzerbrechliche Hover-Brücken, damit die Maus nicht im Abstand zwischen Trigger und Popover verloren geht */
 #panel-header-tools::before {
   content: '';
@@ -100,33 +117,31 @@
 /* ==========================================================================
    INDIVIDUAL TOOL ACCENT COLORS & ICONS (TASK PALETTE HARMONIZED)
    ========================================================================== */
-/* 1. Sound & Medien */
-.tool-orb-sound, .tool-orb-sounds { --orb-col: #c084fc !important; --orb-glow: rgba(192, 132, 252, 0.45) !important; }
-.tool-orb-dj { --orb-col: #f59e0b !important; --orb-glow: rgba(245, 158, 11, 0.45) !important; }
-.tool-orb-player, .tool-orb-music { --orb-col: #38bdf8 !important; --orb-glow: rgba(56, 189, 248, 0.45) !important; }
-.tool-orb-radio { --orb-col: #fb7185 !important; --orb-glow: rgba(251, 113, 133, 0.45) !important; }
-.tool-orb-news { --orb-col: #f43f5e !important; --orb-glow: rgba(244, 63, 94, 0.45) !important; }
+/* 1. Alltag & Lifestyle */
+.tool-orb-clean { --orb-col: #14b8a6 !important; --orb-glow: rgba(20, 184, 166, 0.45) !important; }
+.tool-orb-shopping { --orb-col: #10b981 !important; --orb-glow: rgba(16, 185, 129, 0.45) !important; }
+.tool-orb-cooking { --orb-col: #f97316 !important; --orb-glow: rgba(249, 115, 22, 0.45) !important; }
+.tool-orb-news { --orb-col: #ef4444 !important; --orb-glow: rgba(239, 68, 68, 0.45) !important; }
+.tool-orb-alarm { --orb-col: #f59e0b !important; --orb-glow: rgba(245, 158, 11, 0.45) !important; }
 
-/* 2. Social & Vernetzung */
-.tool-orb-chat { --orb-col: #a78bfa !important; --orb-glow: rgba(167, 139, 250, 0.45) !important; }
-.tool-orb-social { --orb-col: #ec4899 !important; --orb-glow: rgba(236, 72, 153, 0.45) !important; }
+/* 2. Sound & Musik */
+.tool-orb-sound, .tool-orb-sounds { --orb-col: #06b6d4 !important; --orb-glow: rgba(6, 182, 212, 0.45) !important; }
+.tool-orb-player, .tool-orb-music { --orb-col: #0ea5e9 !important; --orb-glow: rgba(14, 165, 233, 0.45) !important; }
+.tool-orb-dj { --orb-col: #eab308 !important; --orb-glow: rgba(234, 179, 8, 0.45) !important; }
+.tool-orb-radio { --orb-col: #8b5cf6 !important; --orb-glow: rgba(139, 92, 246, 0.45) !important; }
 
-/* 3. Haushalt & Alltag */
-.tool-orb-shopping { --orb-col: #34d399 !important; --orb-glow: rgba(52, 211, 153, 0.45) !important; }
-.tool-orb-cooking { --orb-col: #fb923c !important; --orb-glow: rgba(251, 146, 60, 0.45) !important; }
-.tool-orb-clean { --orb-col: #2dd4bf !important; --orb-glow: rgba(45, 212, 191, 0.45) !important; }
-.tool-orb-alarm { --orb-col: #facc15 !important; --orb-glow: rgba(250, 204, 21, 0.45) !important; }
-
-/* 4. Körper & Geist */
-.tool-orb-sport { --orb-col: #a3e635 !important; --orb-glow: rgba(163, 230, 53, 0.45) !important; }
+/* 3. Körper & Geist (Gesundheit vor Bewegung) */
 .tool-orb-health { --orb-col: #f43f5e !important; --orb-glow: rgba(244, 63, 94, 0.45) !important; }
-.tool-orb-calm { --orb-col: #14b8a6 !important; --orb-glow: rgba(20, 184, 166, 0.45) !important; }
-.tool-orb-clarity { --orb-col: #818cf8 !important; --orb-glow: rgba(129, 140, 248, 0.45) !important; }
+.tool-orb-calm { --orb-col: #6366f1 !important; --orb-glow: rgba(99, 102, 241, 0.45) !important; }
+.tool-orb-clarity { --orb-col: #38bdf8 !important; --orb-glow: rgba(56, 189, 248, 0.45) !important; }
+.tool-orb-sport { --orb-col: #84cc16 !important; --orb-glow: rgba(132, 204, 22, 0.45) !important; }
 
-/* 5. Wissen & Unterhaltung */
-.tool-orb-learning { --orb-col: #fbbf24 !important; --orb-glow: rgba(251, 191, 36, 0.45) !important; }
-.tool-orb-brainstorm { --orb-col: #2dd4bf !important; --orb-glow: rgba(45, 212, 191, 0.45) !important; }
-.tool-orb-humor { --orb-col: #f472b6 !important; --orb-glow: rgba(244, 114, 182, 0.45) !important; }
+/* 4. Wissen, Chat & Social */
+.tool-orb-learning { --orb-col: #3b82f6 !important; --orb-glow: rgba(59, 130, 246, 0.45) !important; }
+.tool-orb-humor { --orb-col: #d946ef !important; --orb-glow: rgba(217, 70, 239, 0.45) !important; }
+.tool-orb-social { --orb-col: #fb7185 !important; --orb-glow: rgba(251, 113, 133, 0.45) !important; }
+.tool-orb-chat { --orb-col: #a855f7 !important; --orb-glow: rgba(168, 85, 247, 0.45) !important; }
+.tool-orb-brainstorm { --orb-col: #14b8a6 !important; --orb-glow: rgba(20, 184, 166, 0.45) !important; }
 
 /* Force tool icon colors & sizing */
 .tool-orb .tool-orb-sphere i,

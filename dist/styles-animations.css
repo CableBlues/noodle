@@ -1668,21 +1668,21 @@ input[type="range"].dj-eq-slider:active::-webkit-slider-thumb {
   box-shadow: 0 0 16px rgba(250, 204, 21, 0.25);
 }
 
-/* 5. Instruction Ticker Glowing Blinking Action Icon */
+/* 5. Instruction Ticker Gentle Calming Action Icon (ruhiges, sanftes Atmen statt nervösem Blinken) */
 @keyframes instructionIconGlowBlink {
   0%, 100% {
     transform: scale(1);
-    box-shadow: 0 0 8px currentColor, inset 0 0 4px currentColor;
-    opacity: 0.95;
+    box-shadow: 0 0 6px currentColor, inset 0 0 2px currentColor;
+    opacity: 0.9;
   }
   50% {
-    transform: scale(1.18);
-    box-shadow: 0 0 20px currentColor, 0 0 35px currentColor, inset 0 0 8px currentColor;
+    transform: scale(1.04);
+    box-shadow: 0 0 12px currentColor, inset 0 0 4px currentColor;
     opacity: 1;
   }
 }
 
 .instruction-action-btn-glow {
-  animation: instructionIconGlowBlink 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+  animation: instructionIconGlowBlink 5.5s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
 }
 

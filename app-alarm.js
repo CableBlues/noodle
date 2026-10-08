@@ -210,6 +210,9 @@ function renderAlarmPanel() {
     <!-- 1. KOPFZEILE: NOODLE ALARM BRANDING | UHRZEIT & CLOSE -->
     <div class="flex items-center justify-between pb-2 border-b border-white/10 select-none">
       <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shadow-sm shrink-0">
+          <i data-lucide="bell" class="w-4 h-4"></i>
+        </div>
         <div class="relative flex flex-col items-center justify-center shrink-0">
           <div class="relative overflow-hidden flex items-center justify-center">
             <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
@@ -226,54 +229,50 @@ function renderAlarmPanel() {
       </div>
     </div>
 
-    <!-- 2 Separate, Funktionale Tabs -->
-    <div class="grid grid-cols-2 gap-1.5 p-1 bg-black/60 border border-white/10 rounded-2xl text-xs font-bold mt-1">
-      <button onclick="switchAlarmTab('alarms')" class="py-2 px-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 ${currentAlarmTab === 'alarms' ? 'bg-rose-500 text-white font-bold shadow-[0_0_12px_rgba(244,63,94,0.35)] shadow-md' : 'text-gray-400 hover:text-white'}">
+    <!-- 3 Separate, Funktionale Tabs -->
+    <div class="grid grid-cols-3 gap-1 p-1 bg-black/60 border border-white/10 rounded-2xl text-xs font-bold mt-1">
+      <button onclick="switchAlarmTab('alarms')" class="py-1.5 px-1.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1 ${currentAlarmTab === 'alarms' ? 'bg-rose-500 text-white font-bold shadow-[0_0_12px_rgba(244,63,94,0.35)] shadow-md' : 'text-gray-400 hover:text-white'} text-[11px]">
         <i data-lucide="alarm-clock" class="w-3.5 h-3.5 ${currentAlarmTab === 'alarms' ? 'text-white' : 'text-rose-400'}"></i>
         <span>⏰ Wecker</span>
-        ${alarmCount > 0 ? `<span class="px-1.5 py-0.2 rounded-full text-[9px] bg-white/20 font-mono">${alarmCount}</span>` : ''}
+        ${alarmCount > 0 ? `<span class="px-1 py-0.2 rounded-full text-[8.5px] bg-white/20 font-mono">${alarmCount}</span>` : ''}
       </button>
-      <button onclick="switchAlarmTab('timer')" class="py-2 px-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 ${currentAlarmTab === 'timer' ? 'bg-[#c084fc] text-black font-black shadow-[0_0_15px_rgba(192,132,252,0.4)] text-white shadow-md' : 'text-gray-400 hover:text-white'}">
+      <button onclick="switchAlarmTab('reminders')" class="py-1.5 px-1.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1 ${currentAlarmTab === 'reminders' ? 'bg-[#ff7a00] text-white font-bold shadow-[0_0_12px_rgba(255,122,0,0.35)] shadow-md' : 'text-gray-400 hover:text-white'} text-[11px]">
+        <i data-lucide="bell" class="w-3.5 h-3.5 ${currentAlarmTab === 'reminders' ? 'text-white' : 'text-amber-400'}"></i>
+        <span>🔔 Reminder</span>
+        ${((alarmState.reminders || []).filter(r => !r.completed).length > 0) ? `<span class="px-1 py-0.2 rounded-full text-[8.5px] bg-white/20 font-mono">${(alarmState.reminders || []).filter(r => !r.completed).length}</span>` : ''}
+      </button>
+      <button onclick="switchAlarmTab('timer')" class="py-1.5 px-1.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1 ${currentAlarmTab === 'timer' ? 'bg-[#c084fc] text-black font-black shadow-[0_0_15px_rgba(192,132,252,0.4)] text-white shadow-md' : 'text-gray-400 hover:text-white'} text-[11px]">
         <i data-lucide="timer" class="w-3.5 h-3.5 ${currentAlarmTab === 'timer' ? 'text-white' : 'text-purple-400'}"></i>
-        <span>⏱️ Fokus-Timer</span>
-        ${tRunning ? `<span class="px-1.5 py-0.2 rounded-full text-[9px] bg-emerald-400 text-black font-mono font-bold animate-pulse">LÄUFT</span>` : ''}
+        <span>⏱️ Fokus</span>
+        ${tRunning ? `<span class="px-1 py-0.2 rounded-full text-[8.5px] bg-emerald-400 text-black font-mono font-bold animate-pulse">ON</span>` : ''}
       </button>
     </div>
 
-    <!-- TAB 1: WECKER & ERINNERUNGEN -->
-    <div id="alarm-subpane-alarms" class="${currentAlarmTab === 'alarms' ? 'block' : 'hidden'} space-y-3 pt-2">
-      <!-- Info & Benachrichtigungen -->
-      <div class="p-2 bg-white/[0.03] border border-white/10 rounded-xl text-[10px] text-gray-300 flex flex-col gap-1.5">
-        <div class="flex items-center justify-between">
-          <span class="flex items-center gap-1 font-semibold">
-            <i data-lucide="info" class="w-3 h-3 text-rose-400 shrink-0"></i>
-            <span>Akustische Wecksignale</span>
-          </span>
-          ${notifPerm === 'granted' ? `
-            <span class="text-emerald-400 font-mono text-[9px] font-bold">🔔 Erlaubt</span>
-          ` : (hasNotif ? `
-            <button onclick="requestAlarmNotificationPermission()" class="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded text-[9px] font-bold cursor-pointer transition">Benachrichtigung erlauben</button>
-          ` : '')}
-        </div>
-      </div>
-
+    <!-- TAB 1: WECKER & SIGNAL -->
+    <div id="alarm-subpane-alarms" class="${currentAlarmTab === 'alarms' ? 'block' : 'hidden'} space-y-2 pt-1.5">
       <!-- Wecksignal, Lautstärke & Smartphone-Optionen -->
-      <div class="p-2.5 bg-black/40 border border-white/10 rounded-2xl space-y-2">
+      <div class="p-2 bg-black/40 border border-white/10 rounded-2xl space-y-1.5">
         <div class="flex items-center justify-between">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
-            <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
-            <span>Signal & Lautstärke</span>
+          <span class="text-[9.5px] font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1">
+            <i data-lucide="volume-2" class="w-3 h-3"></i>
+            <span>Signal & Sound</span>
           </span>
-          <button onclick="testAlarmSound()" class="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded-lg text-[9px] font-bold cursor-pointer transition flex items-center gap-1 shadow-sm" title="Signal jetzt probehören">
-            <i data-lucide="play" class="w-2.5 h-2.5"></i>
-            <span>Testen</span>
-          </button>
+          <div class="flex items-center gap-1.5">
+            ${notifPerm === 'granted' ? `
+              <span class="text-emerald-400 font-mono text-[8.5px] font-bold">🔔 Erlaubt</span>
+            ` : (hasNotif ? `
+              <button onclick="requestAlarmNotificationPermission()" class="px-1.5 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded text-[8.5px] font-bold cursor-pointer transition">🔔 Push</button>
+            ` : '')}
+            <button onclick="testAlarmSound()" class="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded-lg text-[9px] font-bold cursor-pointer transition flex items-center gap-1 shadow-sm" title="Signal jetzt probehören">
+              <i data-lucide="play" class="w-2.5 h-2.5"></i>
+              <span>Test</span>
+            </button>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="text-[9px] text-gray-400 block mb-0.5 font-medium">Klingelton</label>
-            <select id="alarm-setting-sound" onchange="handleUpdateAlarmSetting('sound', this.value)" class="w-full p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none cursor-pointer">
+            <select id="alarm-setting-sound" onchange="handleUpdateAlarmSetting('sound', this.value)" class="w-full p-1 bg-[#12121c] border border-white/10 rounded-lg text-[11px] text-white outline-none cursor-pointer">
               <option value="digital" ${(alarmState.settings?.sound || 'digital') === 'digital' ? 'selected' : ''}>📟 Digital (Laut)</option>
               <option value="bell" ${alarmState.settings?.sound === 'bell' ? 'selected' : ''}>🔔 Glocken-Chime</option>
               <option value="radar" ${alarmState.settings?.sound === 'radar' ? 'selected' : ''}>📡 Radar-Sweep</option>
@@ -282,117 +281,107 @@ function renderAlarmPanel() {
           </div>
           <div>
             <div class="flex justify-between items-center mb-0.5">
-              <label class="text-[9px] text-gray-400 font-medium">Lautstärke</label>
-              <span id="alarm-vol-label" class="text-[9px] font-mono font-bold text-rose-400">${Math.round((alarmState.settings?.volume ?? 0.9) * 100)}%</span>
+              <label class="text-[8.5px] text-gray-400 font-medium">Lautstärke</label>
+              <span id="alarm-vol-label" class="text-[8.5px] font-mono font-bold text-rose-400">${Math.round((alarmState.settings?.volume ?? 0.9) * 100)}%</span>
             </div>
-            <input type="range" id="alarm-setting-volume" min="0.2" max="1.0" step="0.05" value="${alarmState.settings?.volume ?? 0.9}" oninput="handleUpdateAlarmVolume(this.value)" class="w-full accent-rose-500 cursor-pointer h-1.5 bg-white/10 rounded-lg mt-1" />
+            <input type="range" id="alarm-setting-volume" min="0.2" max="1.0" step="0.05" value="${alarmState.settings?.volume ?? 0.9}" oninput="handleUpdateAlarmVolume(this.value)" class="w-full accent-rose-500 cursor-pointer h-1 bg-white/10 rounded-lg" />
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/5 text-[9px] text-gray-300">
-          <label class="flex items-center gap-1.5 cursor-pointer hover:text-white select-none" title="Handy vibriert synchron im Rhythmus des Alarms">
-            <input type="checkbox" ${alarmState.settings?.vibrate !== false ? 'checked' : ''} onchange="handleUpdateAlarmSetting('vibrate', this.checked)" class="w-3.5 h-3.5 accent-rose-500 rounded cursor-pointer" />
-            <span>📳 Handy-Vibration</span>
+        <div class="flex items-center justify-between pt-1 border-t border-white/5 text-[9px] text-gray-300">
+          <label class="flex items-center gap-1 cursor-pointer hover:text-white select-none" title="Handy vibriert synchron im Rhythmus des Alarms">
+            <input type="checkbox" ${alarmState.settings?.vibrate !== false ? 'checked' : ''} onchange="handleUpdateAlarmSetting('vibrate', this.checked)" class="w-3 h-3 accent-rose-500 rounded cursor-pointer" />
+            <span>📳 Vibration</span>
           </label>
-          <label class="flex items-center gap-1.5 cursor-pointer hover:text-white select-none" title="Erinnerungen läuten ebenfalls als persistenter Dauerwecker">
-            <input type="checkbox" ${alarmState.settings?.remindersAsAlarm !== false ? 'checked' : ''} onchange="handleUpdateAlarmSetting('remindersAsAlarm', this.checked)" class="w-3.5 h-3.5 accent-amber-500 rounded cursor-pointer" />
-            <span>⚡ Dauer-Erinnerung</span>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-white select-none" title="Erinnerungen läuten ebenfalls als persistenter Dauerwecker">
+            <input type="checkbox" ${alarmState.settings?.remindersAsAlarm !== false ? 'checked' : ''} onchange="handleUpdateAlarmSetting('remindersAsAlarm', this.checked)" class="w-3 h-3 accent-amber-500 rounded cursor-pointer" />
+            <span>⚡ Dauer-Reminder</span>
           </label>
         </div>
       </div>
 
       <!-- Neuer Wecker anlegen -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">⏰ Neuer Wecker</span>
-          <span class="text-[9px] text-gray-400 font-mono">Aktuell: <b class="text-white">${nowStr}</b></span>
-        </div>
-        <div class="flex gap-2 bg-black/40 p-2 rounded-2xl border border-white/5">
-          <input type="time" id="new-alarm-time" value="09:00" class="p-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-rose-500 font-semibold cursor-pointer" />
-          <input type="text" id="new-alarm-label" placeholder="Bezeichnung (z.B. Aufstehen, Meeting)..." class="flex-1 p-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-rose-500 font-semibold placeholder:text-gray-500" />
-          <button onclick="handleAddAlarm()" aria-label="Wecker hinzufügen" class="px-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-[0_0_12px_rgba(244,63,94,0.35)]">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-          </button>
-        </div>
+      <div class="flex gap-1.5 bg-black/40 p-1.5 rounded-2xl border border-white/5">
+        <input type="time" id="new-alarm-time" value="09:00" class="p-1 bg-[#12121c] border border-white/10 rounded-lg text-xs text-white outline-none focus:border-rose-500 font-semibold cursor-pointer" />
+        <input type="text" id="new-alarm-label" placeholder="Bezeichnung..." class="flex-1 p-1 px-2 bg-[#12121c] border border-white/10 rounded-lg text-xs text-white outline-none focus:border-rose-500 font-semibold placeholder:text-gray-500" />
+        <button onclick="handleAddAlarm()" aria-label="Wecker hinzufügen" class="px-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-sm">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+        </button>
       </div>
 
       <!-- Wecker-Liste -->
-      <div class="space-y-1.5 max-h-[160px] overflow-y-auto pr-1">
+      <div class="space-y-1 max-h-[140px] overflow-y-auto pr-1">
         ${(!alarmState.alarms || alarmState.alarms.length === 0) ? `
-          <div class="text-center py-4 text-gray-500 text-xs font-medium">Keine Wecker gestellt</div>
+          <div class="text-center py-2 text-gray-500 text-[11px] font-medium italic">Noch keine Wecker aktiv</div>
         ` : (alarmState.alarms || []).map(a => `
-          <div class="flex items-center justify-between p-2 bg-white/[0.02] border border-white/5 rounded-xl hover:border-rose-500/30 transition">
-            <div class="flex items-center gap-2.5">
-              <input type="checkbox" ${a.active ? 'checked' : ''} onchange="handleToggleAlarm('${a.id}')" class="w-4 h-4 accent-rose-500 cursor-pointer rounded" />
+          <div class="flex items-center justify-between p-1.5 px-2 bg-white/[0.02] border border-white/5 rounded-xl hover:border-rose-500/30 transition">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" ${a.active ? 'checked' : ''} onchange="handleToggleAlarm('${a.id}')" class="w-3.5 h-3.5 accent-rose-500 cursor-pointer rounded" />
               <div>
-                <div class="text-xs font-bold text-white font-mono leading-none mb-0.5">${safeEscape(a.time)}</div>
-                <div class="text-[10px] text-gray-400 leading-none">${safeEscape(a.label || 'Wecker')}</div>
+                <div class="text-xs font-bold text-white font-mono leading-none">${safeEscape(a.time)}</div>
+                <div class="text-[9.5px] text-gray-400 leading-none mt-0.5">${safeEscape(a.label || 'Wecker')}</div>
               </div>
             </div>
-            <button onclick="handleDeleteAlarm('${a.id}')" aria-label="Wecker löschen" class="text-gray-500 hover:text-rose-400 p-1 transition cursor-pointer" title="Löschen">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <button onclick="handleDeleteAlarm('${a.id}')" aria-label="Wecker löschen" class="text-gray-500 hover:text-rose-400 p-0.5 transition cursor-pointer" title="Löschen">
+              <i data-lucide="trash-2" class="w-3 h-3"></i>
             </button>
           </div>
         `).join('')}
       </div>
+    </div>
 
-      <!-- Schnelle Reminder / Countdown-Erinnerung -->
-      <div class="pt-2 border-t border-white/10 space-y-1.5">
-        <div class="flex items-center justify-between">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-[#ff7a00]">🔔 Schnelle Erinnerung</span>
-          <span class="text-[9px] text-gray-400">Timer-Check-In</span>
+    <!-- TAB 2: REMINDER & COUNTDOWN -->
+    <div id="alarm-subpane-reminders" class="${currentAlarmTab === 'reminders' ? 'block' : 'hidden'} space-y-2 pt-1.5">
+      <div class="flex flex-col gap-1.5 bg-black/40 p-2 rounded-2xl border border-white/5">
+        <div class="flex gap-1.5">
+          <input type="text" id="new-reminder-text" placeholder="Erinnerung (z.B. Wasser trinken 💧)..." class="flex-1 p-1.5 px-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-[#ff7a00] font-semibold placeholder:text-gray-500" />
+          <select id="new-reminder-mins" class="p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-[#ff7a00] font-bold outline-none cursor-pointer">
+            <option value="5">in 5m</option>
+            <option value="10" selected>in 10m</option>
+            <option value="15">in 15m</option>
+            <option value="20">in 20m</option>
+            <option value="30">in 30m</option>
+            <option value="45">in 45m</option>
+            <option value="60">in 60m</option>
+          </select>
+          <button onclick="handleAddReminder()" aria-label="Erinnerung hinzufügen" class="px-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-sm">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+          </button>
         </div>
-        <div class="flex flex-col gap-1.5 bg-black/40 p-1.5 rounded-2xl border border-white/5">
-          <div class="flex gap-1.5">
-            <input type="text" id="new-reminder-text" placeholder="Erinnerung (z.B. Wasser trinken 💧)..." class="flex-1 p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-[#ff7a00] font-semibold placeholder:text-gray-500" />
-            <select id="new-reminder-mins" class="p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-[#ff7a00] font-bold outline-none cursor-pointer">
-              <option value="5">in 5m</option>
-              <option value="10" selected>in 10m</option>
-              <option value="15">in 15m</option>
-              <option value="20">in 20m</option>
-              <option value="30">in 30m</option>
-              <option value="45">in 45m</option>
-              <option value="60">in 60m</option>
-            </select>
-            <button onclick="handleAddReminder()" aria-label="Erinnerung hinzufügen" class="px-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-sm">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-          <div class="flex items-center justify-between px-1 text-[9px]">
-            <label class="flex items-center gap-1.5 text-gray-400 hover:text-amber-300 cursor-pointer select-none">
-              <input type="checkbox" id="new-reminder-urgent" ${alarmState.settings?.remindersAsAlarm !== false ? 'checked' : ''} class="w-3 h-3 accent-amber-500 rounded cursor-pointer" />
-              <span>⚡ Als lauten Dauer-Wecker auslösen</span>
-            </label>
-          </div>
+        <div class="flex items-center justify-between px-1 text-[9px]">
+          <label class="flex items-center gap-1.5 text-gray-400 hover:text-amber-300 cursor-pointer select-none">
+            <input type="checkbox" id="new-reminder-urgent" ${alarmState.settings?.remindersAsAlarm !== false ? 'checked' : ''} class="w-3 h-3 accent-amber-500 rounded cursor-pointer" />
+            <span>⚡ Als lauten Dauer-Wecker auslösen</span>
+          </label>
         </div>
+      </div>
 
-        <div class="space-y-1 max-h-[120px] overflow-y-auto pr-1">
-          ${(!alarmState.reminders || alarmState.reminders.length === 0) ? `
-            <div class="text-center py-2 text-gray-500 text-[10px]">Keine schnellen Erinnerungen aktiv</div>
-          ` : (alarmState.reminders || []).map(r => {
-            const leftMin = Math.max(0, Math.round((r.time - Date.now()) / 60000));
-            return `
-              <div class="flex items-center justify-between p-1.5 px-2 bg-white/[0.02] border border-white/5 rounded-lg ${r.completed ? 'opacity-40 line-through' : ''}">
-                <div class="flex items-center gap-2 min-w-0">
-                  <input type="checkbox" ${r.completed ? 'checked' : ''} onchange="handleToggleReminder('${r.id}')" class="w-3.5 h-3.5 accent-amber-500 cursor-pointer rounded" />
-                  <span class="text-xs font-semibold text-gray-200 truncate">${safeEscape(r.text)}</span>
-                  ${r.isUrgent !== false ? '<span class="text-[9px] text-amber-400 font-mono" title="Dauer-Alarm">⚡</span>' : ''}
-                </div>
-                <div class="flex items-center gap-2 shrink-0">
-                  <span class="text-[9px] font-mono text-[#ff7a00] font-bold">${r.completed ? 'Erledigt' : `${leftMin}m`}</span>
-                  <button onclick="handleDeleteReminder('${r.id}')" aria-label="Erinnerung löschen" class="text-gray-500 hover:text-rose-400 p-0.5 transition cursor-pointer" title="Löschen">
-                    <i data-lucide="trash-2" class="w-3 h-3"></i>
-                  </button>
-                </div>
+      <div class="space-y-1 max-h-[160px] overflow-y-auto pr-1">
+        ${(!alarmState.reminders || alarmState.reminders.length === 0) ? `
+          <div class="text-center py-4 text-gray-500 text-[11px] italic">Keine schnellen Erinnerungen aktiv</div>
+        ` : (alarmState.reminders || []).map(r => {
+          const leftMin = Math.max(0, Math.round((r.time - Date.now()) / 60000));
+          return `
+            <div class="flex items-center justify-between p-1.5 px-2 bg-white/[0.02] border border-white/5 rounded-xl ${r.completed ? 'opacity-40 line-through' : ''}">
+              <div class="flex items-center gap-2 min-w-0">
+                <input type="checkbox" ${r.completed ? 'checked' : ''} onchange="handleToggleReminder('${r.id}')" class="w-3.5 h-3.5 accent-amber-500 cursor-pointer rounded" />
+                <span class="text-xs font-semibold text-gray-200 truncate">${safeEscape(r.text)}</span>
+                ${r.isUrgent !== false ? '<span class="text-[9px] text-amber-400 font-mono" title="Dauer-Alarm">⚡</span>' : ''}
               </div>
-            `;
-          }).join('')}
-        </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <span class="text-[9px] font-mono text-[#ff7a00] font-bold">${r.completed ? 'Erledigt' : `${leftMin}m`}</span>
+                <button onclick="handleDeleteReminder('${r.id}')" aria-label="Erinnerung löschen" class="text-gray-500 hover:text-rose-400 p-0.5 transition cursor-pointer" title="Löschen">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
       </div>
     </div>
 
-    <!-- TAB 2: SMART FOKUS-TIMER (ANGENEHM & FUNKTIONELL) -->
-    <div id="alarm-subpane-timer" class="${currentAlarmTab === 'timer' ? 'block' : 'hidden'} space-y-3.5 pt-2">
+    <!-- TAB 3: SMART FOKUS-TIMER (ANGENEHM & FUNKTIONELL) -->
+    <div id="alarm-subpane-timer" class="${currentAlarmTab === 'timer' ? 'block' : 'hidden'} space-y-2.5 pt-1.5">
       
       <!-- Zentrales Großes Display mit animierter Fokus-Aura -->
       <div class="relative p-5 rounded-3xl bg-gradient-to-b from-purple-950/30 to-black/60 border border-purple-500/30 flex flex-col items-center justify-center text-center shadow-inner overflow-hidden">

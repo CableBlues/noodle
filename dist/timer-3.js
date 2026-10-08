@@ -619,14 +619,20 @@ function renderTimerCockpitContent() {
       </div>
     </div>
 
-    <!-- 5. FOKUS-ZIEL (AUFGABE AUS DEM BOARD) -->
+    <!-- 5. FOKUS-ZIEL (AUFGABE AUS DEM BOARD) & CHRONOMETER -->
     <div class="p-2 rounded-2xl bg-amber-950/20 border border-amber-500/30 shadow-inner flex flex-col gap-1.5">
       <div class="flex items-center justify-between px-0.5">
         <span class="text-[10.5px] font-bold text-amber-300 font-display flex items-center gap-1.5">
           <i data-lucide="target" class="w-3.5 h-3.5 text-amber-400"></i>
           <span>Fokus-Ziel (Aufgabe)</span>
         </span>
-        ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">Verknüpft</span>` : ''}
+        <div class="flex items-center gap-1">
+          <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); toggleChronometer();" class="px-2 py-0.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-mono text-[9px] font-bold flex items-center gap-1 transition cursor-pointer" title="Stoppuhr / Zeiterfassung starten">
+            <i data-lucide="watch" class="w-2.5 h-2.5"></i>
+            <span>Chrono</span>
+          </button>
+          ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">Verknüpft</span>` : ''}
+        </div>
       </div>
 
       ${taskTitle ? `
@@ -1356,6 +1362,185 @@ function updateTimerDisplay() {
   }
 }
 
+// =========================================================================
+// CHRONOMETER (OFFENE AUFGABEN-ZEITERFASSUNG / STOPPUHR & FLOW-LOGGER)
+// =========================================================================
+
+var chronometerActive = false;
+var chronometerSeconds = 0;
+var chronometerInterval = null;
+var activeChronometerTask = null;
+var chronometerStartTime = null;
+
+function formatChronometerTime(secs) {
+  const s = Math.max(0, Math.floor(secs));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const remSec = s % 60;
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, '0')}:${String(remSec).padStart(2, '0')}`;
+  }
+  return `${String(m).padStart(2, '0')}:${String(remSec).padStart(2, '0')}`;
+}
+
+function startTaskChronometer(colId, index, event) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  try {
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    const taskItem = curItems[colId]?.[index];
+    const taskTitle = typeof taskItem === 'object' && taskItem ? (taskItem.task || taskItem.title || taskItem.name || '') : String(taskItem || '');
+    
+    startChronometer(taskTitle || 'Fokus-Aufgabe', colId, index);
+  } catch (e) {
+    console.warn('[Chronometer] Error starting task chronometer:', e);
+  }
+}
+window.startTaskChronometer = startTaskChronometer;
+
+function startChronometer(taskTitle = null, colId = null, index = null) {
+  // Wenn schon ein Countdown-Timer läuft, pausieren
+  if (timerRunning) {
+    pauseTimer();
+  }
+
+  if (chronometerInterval) {
+    clearInterval(chronometerInterval);
+    chronometerInterval = null;
+  }
+
+  chronometerActive = true;
+  chronometerSeconds = 0;
+  chronometerStartTime = Date.now();
+  activeChronometerTask = taskTitle ? { title: taskTitle, colId, index } : null;
+
+  updateChronometerUI(true);
+
+  chronometerInterval = setInterval(() => {
+    if (!chronometerActive) return;
+    chronometerSeconds = Math.round((Date.now() - chronometerStartTime) / 1000);
+    updateChronometerDisplay();
+  }, 500);
+
+  updateChronometerDisplay();
+
+  const titleStr = taskTitle ? ` für "${taskTitle}"` : '';
+  if (typeof showToast === 'function') {
+    showToast(`⏱️ Chronometer gestartet${titleStr}`);
+  }
+}
+window.startChronometer = startChronometer;
+
+function stopChronometer(isCompleted = false) {
+  if (!chronometerActive && !chronometerInterval) return;
+
+  if (chronometerInterval) {
+    clearInterval(chronometerInterval);
+    chronometerInterval = null;
+  }
+
+  const durationSec = chronometerSeconds;
+  const timeFormatted = formatChronometerTime(durationSec);
+  const taskObj = activeChronometerTask;
+  chronometerActive = false;
+  chronometerStartTime = null;
+
+  updateChronometerUI(false);
+  updateTimerDisplay(); // Setzt Standardanzeige zurück
+
+  if (durationSec > 10 && taskObj && taskObj.title) {
+    // In Wochenbericht / Notizen vermerken
+    try {
+      if (typeof logFocusSessionToReport === 'function') {
+        logFocusSessionToReport(taskObj.title, durationSec);
+      }
+    } catch(e) {}
+
+    if (typeof showToast === 'function') {
+      showToast(`⏱️ Chronometer beendet: "${taskObj.title}" dauerte ${timeFormatted}`);
+    }
+  } else if (typeof showToast === 'function') {
+    showToast(`⏱️ Chronometer gestoppt (${timeFormatted})`);
+  }
+
+  activeChronometerTask = null;
+}
+window.stopChronometer = stopChronometer;
+
+function toggleChronometer() {
+  if (chronometerActive) {
+    stopChronometer(false);
+  } else {
+    startChronometer(activeTimerTask || null);
+  }
+}
+window.toggleChronometer = toggleChronometer;
+
+function updateChronometerDisplay() {
+  if (!chronometerActive) return;
+  const displayEl = document.getElementById('timer-display');
+  const str = formatChronometerTime(chronometerSeconds);
+  if (displayEl) {
+    displayEl.innerText = `⏱️ ${str}`;
+    displayEl.className = 'font-display font-black text-xs md:text-sm tracking-wider text-emerald-300 leading-none select-none animate-pulse';
+  }
+
+  const progressBar = document.getElementById('timer-progress-bar');
+  if (progressBar) {
+    progressBar.style.width = '100%';
+    progressBar.className = 'h-full bg-emerald-400 transition-all duration-300';
+  }
+
+  // Task-Badge im Header
+  const badge = document.getElementById('active-timer-badge');
+  if (badge) {
+    if (activeChronometerTask && activeChronometerTask.title) {
+      badge.textContent = `⏱️ ${activeChronometerTask.title}`;
+      badge.classList.remove('hidden');
+    } else {
+      badge.textContent = `⏱️ Chrono`;
+      badge.classList.remove('hidden');
+    }
+  }
+
+  document.title = `(${str}) ⏱️ Chrono — Noodle`;
+}
+
+function updateChronometerUI(isActive) {
+  const playBtn = document.getElementById('timer-play-btn');
+  const pauseBtn = document.getElementById('timer-pause-btn');
+  const stopBtn = document.getElementById('timer-stop-btn');
+
+  if (isActive) {
+    if (playBtn) playBtn.classList.add('hidden');
+    if (pauseBtn) {
+      pauseBtn.classList.remove('hidden');
+      pauseBtn.setAttribute('onclick', 'stopChronometer()');
+      pauseBtn.setAttribute('title', 'Chronometer stoppen');
+    }
+    if (stopBtn) {
+      stopBtn.setAttribute('onclick', 'stopChronometer()');
+      stopBtn.setAttribute('title', 'Chronometer beenden');
+    }
+  } else {
+    if (pauseBtn) {
+      pauseBtn.setAttribute('onclick', 'pauseTimer()');
+      pauseBtn.setAttribute('title', 'Pause timer [T]');
+      pauseBtn.classList.add('hidden');
+    }
+    if (playBtn) playBtn.classList.remove('hidden');
+    if (stopBtn) {
+      stopBtn.setAttribute('onclick', 'stopTimer()');
+      stopBtn.setAttribute('title', 'Reset timer [S]');
+    }
+    const badge = document.getElementById('active-timer-badge');
+    if (badge && !timerRunning) badge.classList.add('hidden');
+    document.title = 'Noodle Studio';
+  }
+}
+
 if (typeof window !== 'undefined') {
   window.startTaskTimer = startTaskTimer;
   window.updateActiveTimerLabels = updateActiveTimerLabels;
@@ -1373,6 +1558,10 @@ if (typeof window !== 'undefined') {
   window.resetTimer = resetTimer;
   window.updateTimerUI = updateTimerUI;
   window.updateTimerDisplay = updateTimerDisplay;
+  window.startTaskChronometer = startTaskChronometer;
+  window.startChronometer = startChronometer;
+  window.stopChronometer = stopChronometer;
+  window.toggleChronometer = toggleChronometer;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.startTaskTimer = startTaskTimer;
@@ -1391,4 +1580,8 @@ if (typeof globalThis !== 'undefined') {
   globalThis.resetTimer = resetTimer;
   globalThis.updateTimerUI = updateTimerUI;
   globalThis.updateTimerDisplay = updateTimerDisplay;
+  globalThis.startTaskChronometer = startTaskChronometer;
+  globalThis.startChronometer = startChronometer;
+  globalThis.stopChronometer = stopChronometer;
+  globalThis.toggleChronometer = toggleChronometer;
 }

@@ -363,7 +363,7 @@ function renderImmediateFallbackBadge() {
       imgEl.src = getWeatherIconUrl(1, isDay);
     }
     tempEl.innerText = weatherUnit === 'f' ? '68°F' : '20°';
-    badgeEl.title = `${currentWeatherLocation.name}: 20° • ${tr({ de: 'Heiter', en: 'Fair' })}`;
+    badgeEl.title = `${currentWeatherLocation.name}: 20° • ${tr({ de: 'Heiter', en: 'Fair', fr: 'Éclaircies', it: 'Sereno', es: 'Despejado', el: 'Αίθριος' })}`;
     badgeEl.classList.remove('hidden');
     badgeEl.classList.add('flex');
   }
@@ -447,7 +447,7 @@ function renderPinnedCitiesUI() {
         <span class="truncate font-semibold max-w-[90px]">${city.name}</span>
         <span class="font-mono text-[11px] font-bold ${isSelected ? 'text-sky-300' : 'text-gray-400 group-hover/pin:text-gray-200'}">${tempStr}</span>
         ${!isCapital && pinnedWeatherCities.length > 1 ? `
-          <button onclick="event.stopPropagation(); removePinnedCity(${idx})" class="text-gray-500 hover:text-rose-400 text-[10px] ml-0.5 opacity-60 hover:opacity-100 p-0.5 cursor-pointer" title="${tr({ de: 'Ort entfernen', en: 'Remove city' })}">✕</button>
+          <button onclick="event.stopPropagation(); removePinnedCity(${idx})" class="text-gray-500 hover:text-rose-400 text-[10px] ml-0.5 opacity-60 hover:opacity-100 p-0.5 cursor-pointer" title="${tr({ de: 'Ort entfernen', en: 'Remove city', fr: 'Supprimer la ville', it: 'Rimuovi città', es: 'Eliminar ciudad', el: 'Αφαίρεση πόλης' })}">✕</button>
         ` : ''}
       </div>
     `;
@@ -462,7 +462,7 @@ function renderPinnedCitiesUI() {
         </span>
         <button onclick="togglePinCurrentCity()" class="text-sky-400 hover:text-sky-300 text-[9.5px] font-semibold flex items-center gap-1 transition cursor-pointer">
           <i data-lucide="${isCurrentPinned ? 'check' : 'plus'}" class="w-3 h-3"></i>
-          <span>${isCurrentPinned ? tr({ de: 'Ort gespeichert', en: 'Saved' }) : tr({ de: '+ Ort anpinnen', en: '+ Pin city' })}</span>
+          <span>${isCurrentPinned ? tr({ de: 'Ort gespeichert', en: 'Saved', fr: 'Enregistré', it: 'Salvato', es: 'Guardado', el: 'Αποθηκεύτηκε' }) : tr({ de: '+ Ort anpinnen', en: '+ Pin city', fr: '+ Épingler la ville', it: '+ Fissa città', es: '+ Fijar ciudad', el: '+ Καρφίτσωμα πόλης' })}</span>
         </button>
       </div>
       <div class="flex flex-wrap gap-1.5 max-h-[85px] overflow-y-auto scrollbar-none py-0.5">
@@ -721,7 +721,7 @@ function renderWeatherData(data) {
   }
   const searchInput = document.getElementById('weather-city-input');
   if (searchInput && document.activeElement !== searchInput && !searchInput.value) {
-    searchInput.placeholder = `${currentWeatherLocation.name} (${tr({ de: 'oder Stadt suchen...', en: 'or search city...' })})`;
+    searchInput.placeholder = `${currentWeatherLocation.name} (${tr({ de: 'oder Stadt suchen...', en: 'or search city...', fr: 'ou rechercher une ville...', it: 'o cerca città...', es: 'o buscar ciudad...', el: 'ή αναζήτηση πόλης...' })})`;
   }
 
   if (typeof renderLucideIcons === 'function') {
@@ -996,7 +996,7 @@ function selectWeatherCity(name, country, lat, lon, isUserExplicit = true) {
 
 async function useDeviceLocationWeather(silent = false) {
   if (!silent && typeof showToast === 'function') {
-    showToast(tr({ de: 'Ermittle deinen lokalen Standort... 📍', en: 'Detecting your local location... 📍' }));
+    showToast(tr({ de: 'Ermittle deinen lokalen Standort... 📍', en: 'Detecting your local location... 📍', fr: 'Détection de votre position locale... 📍', it: 'Rilevamento della posizione locale... 📍', es: 'Detectando tu ubicación local... 📍', el: 'Εντοπισμός της τοποθεσίας σας... 📍' }));
   }
 
   const applyDetectedLocation = async (lat, lon, fallbackCity = 'Mein Standort', fallbackCountry = 'Lokal') => {
@@ -1100,7 +1100,7 @@ async function useDeviceLocationWeather(silent = false) {
         if (!ipSuccess) {
           fallbackToLanguageCapital();
           if (!silent && typeof showToast === 'function') {
-            showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.' }));
+            showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.', fr: 'Emplacement local non disponible. Affichage de la capitale de la langue.', it: 'Posizione locale non disponibile. Mostro la capitale della lingua.', es: 'Ubicación local no disponible. Mostrando la capital del idioma.', el: 'Η τοπική τοποθεσία δεν είναι διαθέσιμη. Εμφάνιση της πρωτεύουσας της γλώσσας.' }));
           }
         }
       },
@@ -1115,7 +1115,7 @@ async function useDeviceLocationWeather(silent = false) {
     if (!ipSuccess) {
       fallbackToLanguageCapital();
       if (!silent && typeof showToast === 'function') {
-        showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.' }));
+        showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.', fr: 'Emplacement local non disponible. Affichage de la capitale de la langue.', it: 'Posizione locale non disponibile. Mostro la capitale della lingua.', es: 'Ubicación local no disponible. Mostrando la capital del idioma.', el: 'Η τοπική τοποθεσία δεν είναι διαθέσιμη. Εμφάνιση της πρωτεύουσας της γλώσσας.' }));
       }
     }
   }

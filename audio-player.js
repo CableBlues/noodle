@@ -43,13 +43,16 @@ var djDecks = {
   }
 };
 
-// Demo Synthesized Focus Stems & Preloaded MP3s
+// Echte Audio-Tracks für DJ Workstation & Preloaded MP3s
 var BUILTIN_DJ_STEMS = [
-  { id: 'deep_house', name: 'Deep House 126 BPM', bpm: 126, file: 'music/deep_house_sunset.mp3', color: 'cyan', emoji: '⚡' },
-  { id: 'lofi_chill', name: 'Lofi Chill 85 BPM', bpm: 85, file: 'music/deep_focus_lofi.mp3', color: 'purple', emoji: '☕' },
-  { id: 'cyber_wave', name: 'Cyber Wave 128 BPM', bpm: 128, file: 'music/synthwave_neon_drive.mp3', color: 'cyan', emoji: '🌌' },
-  { id: 'tech_groove', name: 'Tech Groove 130 BPM', bpm: 130, color: 'purple', emoji: '🥁' },
-  { id: 'ambient_flow', name: 'Ambient Chill 118 BPM', bpm: 118, file: 'music/zen_meditation_flow.mp3', color: 'cyan', emoji: '🍃' }
+  { id: 'cinematic', name: 'Cinematic Orchestra – Evolution', bpm: 95, file: 'music/Cinematic%20Orchestra%20-%20%20Evolution.mp3', color: 'cyan', emoji: '🎻' },
+  { id: 'death_in_vegas', name: 'Death In Vegas – All That Glitters', bpm: 110, file: 'music/Death%20In%20Vegas%20-%20All%20That%20Glitters.mp3', color: 'purple', emoji: '🎸' },
+  { id: 'dj_cam', name: 'DJ Cam – Lost Kingdom', bpm: 88, file: 'music/DJ%20Cam%20-%20Lost%20Kingdom.mp3', color: 'cyan', emoji: '🎧' },
+  { id: 'indian_rope', name: 'Indian Rope Man – 66 Meters', bpm: 118, file: 'music/Indian%20Rope%20Man%2066%20Meters.mp3', color: 'purple', emoji: '🥁' },
+  { id: 'levitation', name: 'Levitation – More Than Ever People', bpm: 100, file: 'music/Levitation%20-%20More%20Than%20Ever%20People.mp3', color: 'cyan', emoji: '🌊' },
+  { id: 'portishead', name: 'Portishead – Numb', bpm: 78, file: 'music/Portishead%20-%20Numb.mp3', color: 'purple', emoji: '⚡' },
+  { id: 'channel_1', name: 'Cinematic Orch – Channel 1 Suite', bpm: 92, file: 'music/The%20Cinematic%20Orchestra%20-%20Channel%201%20Suite%20(Zero%207%20-%20Late%20Night%20Tales).mp3', color: 'cyan', emoji: '🎹' },
+  { id: 'tricky', name: 'Tricky – Hell Is Around The Corner', bpm: 82, file: 'music/Tricky%20Hell%20Is%20Around%20The%20Corner.mp3', color: 'purple', emoji: '🎤' }
 ];
 
 function updateDjPresetDropdowns() {
@@ -310,10 +313,14 @@ if (typeof window !== 'undefined') {
 var DEFAULT_PRELOADED_TRACKS = (typeof window !== 'undefined' && Array.isArray(window.DEFAULT_PRELOADED_TRACKS))
   ? window.DEFAULT_PRELOADED_TRACKS
   : [
-      { id: 'track_lofi', name: '☕ Deep Focus Lofi', url: 'music/deep_focus_lofi.mp3', bpm: 85, presetKey: 'lofi_chill', duration: 180, isPreloaded: true },
-      { id: 'track_deep_house', name: '🪩 Deep House Sunset', url: 'music/deep_house_sunset.mp3', bpm: 126, presetKey: 'deep_house', duration: 210, isPreloaded: true },
-      { id: 'track_synthwave', name: '🌆 Synthwave Neon Drive', url: 'music/synthwave_neon_drive.mp3', bpm: 128, presetKey: 'cyber_wave', duration: 195, isPreloaded: true },
-      { id: 'track_zen', name: '🍃 Zen Meditation Flow', url: 'music/zen_meditation_flow.mp3', bpm: 118, presetKey: 'ambient_flow', duration: 240, isPreloaded: true }
+      { id: 'folder_43696e65', name: 'The Cinematic Orchestra – Evolution', fullName: 'Cinematic Orchestra - Evolution.mp3', url: 'music/Cinematic%20Orchestra%20-%20%20Evolution.mp3', bpm: 95, duration: 388, isPreloaded: true },
+      { id: 'folder_44656174', name: 'Death In Vegas – All That Glitters', fullName: 'Death In Vegas - All That Glitters.mp3', url: 'music/Death%20In%20Vegas%20-%20All%20That%20Glitters.mp3', bpm: 110, duration: 395, isPreloaded: true },
+      { id: 'folder_444a2043', name: 'DJ Cam – Lost Kingdom', fullName: 'DJ Cam - Lost Kingdom.mp3', url: 'music/DJ%20Cam%20-%20Lost%20Kingdom.mp3', bpm: 88, duration: 254, isPreloaded: true },
+      { id: 'folder_496e6469', name: 'Indian Rope Man – 66 Meters', fullName: 'Indian Rope Man 66 Meters.mp3', url: 'music/Indian%20Rope%20Man%2066%20Meters.mp3', bpm: 118, duration: 270, isPreloaded: true },
+      { id: 'folder_4c657669', name: 'Levitation – More Than Ever People', fullName: 'Levitation - More Than Ever People.mp3', url: 'music/Levitation%20-%20More%20Than%20Ever%20People.mp3', bpm: 100, duration: 320, isPreloaded: true },
+      { id: 'folder_506f7274', name: 'Portishead – Numb', fullName: 'Portishead - Numb.mp3', url: 'music/Portishead%20-%20Numb.mp3', bpm: 78, duration: 236, isPreloaded: true },
+      { id: 'folder_54686520', name: 'The Cinematic Orchestra – Channel 1 Suite (Zero 7)', fullName: 'The Cinematic Orchestra - Channel 1 Suite (Zero 7 - Late Night Tales).mp3', url: 'music/The%20Cinematic%20Orchestra%20-%20Channel%201%20Suite%20(Zero%207%20-%20Late%20Night%20Tales).mp3', bpm: 92, duration: 345, isPreloaded: true },
+      { id: 'folder_54726963', name: 'Tricky – Hell Is Around The Corner', fullName: 'Tricky Hell Is Around The Corner.mp3', url: 'music/Tricky%20Hell%20Is%20Around%20The%20Corner.mp3', bpm: 82, duration: 226, isPreloaded: true }
     ];
 
 if (typeof playlistTracks === 'undefined' || !Array.isArray(playlistTracks) || playlistTracks.length === 0) {
@@ -416,12 +423,164 @@ function renderMusicPlaylist() {
 window.renderMusicPlaylist = renderMusicPlaylist;
 window.renderTrackList = renderMusicPlaylist;
 
+let mediaVisualizerAnimFrame = null;
+let mediaAudioSourceNode = null;
+let mediaAnalyserNode = null;
+
+function isVideoFileUrl(url, name) {
+  const testStr = `${url || ''} ${name || ''}`.toLowerCase();
+  return testStr.endsWith('.mp4') || testStr.endsWith('.webm') || testStr.endsWith('.ogg') || testStr.endsWith('.mov') || testStr.endsWith('.mkv') || testStr.includes('video/');
+}
+
+function updateMediaScreenDisplay(isVideo, mediaEl) {
+  const videoEl = document.getElementById('media-video-element');
+  const canvas = document.getElementById('media-audio-visualizer-canvas');
+  const typeBadge = document.getElementById('media-type-badge');
+  const pipBtn = document.getElementById('media-pip-btn');
+
+  if (isVideo && videoEl) {
+    videoEl.classList.remove('hidden');
+    if (canvas) canvas.classList.add('hidden');
+    if (typeBadge) {
+      typeBadge.textContent = 'VIDEO';
+      typeBadge.className = 'px-2 py-0.5 rounded-lg text-[9px] font-mono font-bold bg-black/60 text-emerald-300 border border-emerald-500/40 backdrop-blur-md';
+    }
+    if (pipBtn) pipBtn.classList.remove('hidden');
+  } else {
+    if (videoEl) {
+      videoEl.classList.add('hidden');
+      try { videoEl.pause(); } catch(e) {}
+    }
+    if (canvas) canvas.classList.remove('hidden');
+    if (typeBadge) {
+      typeBadge.textContent = 'AUDIO';
+      typeBadge.className = 'px-2 py-0.5 rounded-lg text-[9px] font-mono font-bold bg-black/60 text-purple-300 border border-purple-500/40 backdrop-blur-md';
+    }
+    startAudioVisualizerLoop();
+  }
+}
+
+function startAudioVisualizerLoop() {
+  const canvas = document.getElementById('media-audio-visualizer-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  if (mediaVisualizerAnimFrame) cancelAnimationFrame(mediaVisualizerAnimFrame);
+
+  let phase = 0;
+  function draw() {
+    if (canvas.classList.contains('hidden')) return;
+    const w = canvas.width = canvas.clientWidth || 300;
+    const h = canvas.height = canvas.clientHeight || 96;
+
+    ctx.fillStyle = '#0a0c12';
+    ctx.fillRect(0, 0, w, h);
+
+    const isPlaying = activeUserAudio && !activeUserAudio.paused;
+    const bars = 36;
+    const barWidth = (w - (bars * 2)) / bars;
+
+    for (let i = 0; i < bars; i++) {
+      const x = i * (barWidth + 2) + 2;
+      let barHeight = 6;
+      if (isPlaying) {
+        const wave = Math.sin(phase + i * 0.35) * 0.5 + 0.5;
+        const wave2 = Math.cos(phase * 1.5 + i * 0.2) * 0.5 + 0.5;
+        barHeight = Math.max(6, (wave * 0.6 + wave2 * 0.4) * (h * 0.72));
+      }
+
+      const grad = ctx.createLinearGradient(0, h, 0, h - barHeight);
+      grad.addColorStop(0, 'rgba(168, 85, 247, 0.2)');
+      grad.addColorStop(0.5, 'rgba(168, 85, 247, 0.85)');
+      grad.addColorStop(1, 'rgba(56, 189, 248, 0.95)');
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.roundRect ? ctx.roundRect(x, h - barHeight, barWidth, barHeight, [3, 3, 0, 0]) : ctx.fillRect(x, h - barHeight, barWidth, barHeight);
+      ctx.fill();
+    }
+
+    if (isPlaying) phase += 0.08;
+    mediaVisualizerAnimFrame = requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+function setMediaPlaybackRate(rate) {
+  const r = parseFloat(rate) || 1.0;
+  if (activeUserAudio) activeUserAudio.playbackRate = r;
+  const videoEl = document.getElementById('media-video-element');
+  if (videoEl) videoEl.playbackRate = r;
+}
+window.setMediaPlaybackRate = setMediaPlaybackRate;
+
+async function toggleMediaPip() {
+  const videoEl = document.getElementById('media-video-element');
+  if (!videoEl || videoEl.classList.contains('hidden')) {
+    if (typeof showToast === 'function') showToast('Picture-in-Picture ist nur bei Videos verfügbar 🎬');
+    return;
+  }
+  try {
+    if (document.pictureInPictureElement) {
+      await document.exitPictureInPicture();
+    } else if (videoEl.requestPictureInPicture) {
+      await videoEl.requestPictureInPicture();
+    }
+  } catch(e) {
+    console.warn('[Media] PiP Error:', e);
+  }
+}
+window.toggleMediaPip = toggleMediaPip;
+
+function toggleMediaFullscreen() {
+  const videoEl = document.getElementById('media-video-element');
+  const wrapper = document.getElementById('media-screen-wrapper');
+  const target = (!videoEl.classList.contains('hidden') ? videoEl : wrapper);
+  if (!target) return;
+  if (!document.fullscreenElement) {
+    target.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+window.toggleMediaFullscreen = toggleMediaFullscreen;
+
+function loadOnlineMediaUrl() {
+  const input = document.getElementById('media-stream-url-input');
+  if (!input || !input.value.trim()) return;
+  const url = input.value.trim();
+  const name = url.split('/').pop().split('?')[0] || 'Online Stream';
+  const isVideo = isVideoFileUrl(url, name);
+
+  const trackId = 'online_' + Date.now();
+  const newTrack = {
+    id: trackId,
+    name: '🌐 ' + decodeURIComponent(name),
+    fullName: decodeURIComponent(name),
+    url: url,
+    isVideo: isVideo,
+    duration: null,
+    isOnlineStream: true
+  };
+
+  playlistTracks.unshift(newTrack);
+  input.value = '';
+  renderMusicPlaylist();
+  playMusicTrack(0);
+  if (typeof showToast === 'function') {
+    showToast(`Stream geladen: ${newTrack.name} 🎬`);
+  }
+}
+window.loadOnlineMediaUrl = loadOnlineMediaUrl;
+
 function playMusicTrack(index) {
   if (playlistTracks.length === 0) return;
   if (index < 0 || index >= playlistTracks.length) index = 0;
   currentTrackIndex = index;
 
   const track = playlistTracks[currentTrackIndex];
+  const isVideo = track.isVideo || isVideoFileUrl(track.url, track.name || track.fullName);
 
   if (activeUserAudio) {
     try {
@@ -430,16 +589,32 @@ function playMusicTrack(index) {
     } catch(e) {}
   }
 
-  const audio = new Audio(track.url);
-  audio.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
-  activeUserAudio = audio;
+  let mediaEl;
+  const videoEl = document.getElementById('media-video-element');
 
-  audio.addEventListener('timeupdate', () => {
-    if (activeUserAudio !== audio) return;
-    updateMusicProgressUI(audio);
+  if (isVideo && videoEl) {
+    videoEl.src = track.url;
+    mediaEl = videoEl;
+  } else {
+    mediaEl = new Audio(track.url);
+  }
+
+  const speedSelect = document.getElementById('media-speed-select');
+  if (speedSelect && speedSelect.value) {
+    mediaEl.playbackRate = parseFloat(speedSelect.value) || 1.0;
+  }
+
+  mediaEl.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+  activeUserAudio = mediaEl;
+
+  updateMediaScreenDisplay(isVideo, mediaEl);
+
+  mediaEl.addEventListener('timeupdate', () => {
+    if (activeUserAudio !== mediaEl) return;
+    updateMusicProgressUI(mediaEl);
   });
 
-  audio.addEventListener('ended', () => {
+  mediaEl.addEventListener('ended', () => {
     if (playerRepeatMode === 'one') {
       playMusicTrack(currentTrackIndex);
     } else if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) {
@@ -449,30 +624,14 @@ function playMusicTrack(index) {
     }
   });
 
-  const triggerSyntheticFallback = () => {
-    if (track.presetKey && typeof createSyntheticBeatAudio === 'function') {
-      const fallbackUrl = createSyntheticBeatAudio(track.bpm || 120, track.presetKey);
-      if (fallbackUrl && audio.src !== fallbackUrl) {
-        console.log(`[AudioPlayer] Falling back to procedural audio for ${track.name}`);
-        audio.src = fallbackUrl;
-        audio.play().then(() => {
-          updateMusicPlayBtnUI(true);
-          updateMusicNowPlayingDisplay();
-          renderMusicPlaylist();
-        }).catch(e => console.warn('[AudioPlayer] Procedural fallback play error:', e));
-      }
-    }
-  };
-
-  audio.addEventListener('error', triggerSyntheticFallback);
-
-  audio.play().then(() => {
+  mediaEl.play().then(() => {
     updateMusicPlayBtnUI(true);
     updateMusicNowPlayingDisplay();
     renderMusicPlaylist();
+    startAudioVisualizerLoop();
   }).catch(err => {
-    console.warn('[AudioPlayer] Playback attempt notice:', err);
-    triggerSyntheticFallback();
+    console.warn('[AudioPlayer] Playback attempt error:', err);
+    updateMusicPlayBtnUI(false);
   });
 }
 window.playMusicTrack = playMusicTrack;

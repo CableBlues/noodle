@@ -1,0 +1,2 @@
+app-core.js:1462: window.addEventListener('beforeinstallprompt', (e) => {
+app-tasks.js:2106: // 100% Celebration Check (Daily Review Modal nicht mehr automatisch öffnen, nur manuell oder weekly)

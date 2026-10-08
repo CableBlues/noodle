@@ -40,6 +40,31 @@ function cancelCloseTaskMenu() {
   }
 }
 
+function startTaskTimerByIndex(colId, index, event) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  try {
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    const taskItem = curItems[colId]?.[index];
+    const taskTitle = typeof taskItem === 'object' && taskItem ? (taskItem.task || taskItem.title || taskItem.name || '') : String(taskItem || '');
+    
+    if (typeof linkTaskToTimer === 'function') {
+      linkTaskToTimer(taskTitle, colId, index);
+    }
+    if (typeof startTimer === 'function') {
+      startTimer();
+    }
+    if (typeof showToast === 'function') {
+      showToast(`⏱️ Timer gestartet: "${taskTitle || 'Aufgabe'}"`);
+    }
+  } catch (e) {
+    console.warn('[Tasks] Error starting task timer:', e);
+  }
+}
+window.startTaskTimerByIndex = startTaskTimerByIndex;
+
 function toggleTaskOptionsMenu(colId, index, event) {
   if (event) {
     event.stopPropagation();
@@ -88,12 +113,16 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
   menu.className = 'fixed z-[999999] w-[138px] p-1.5 bg-[#141422]/95 border border-white/20 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col gap-0.5 text-xs text-gray-200';
   
   menu.innerHTML = `
-    <!-- Focus & Steps ganz oben -->
-    <button onclick="startTaskTimerByIndex('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-amber-300 hover:text-amber-200 transition cursor-pointer text-left font-medium">
+    <!-- Timer, Chronometer & Steps ganz oben -->
+    <button onclick="startTaskTimerByIndex('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-amber-300 hover:text-amber-200 transition cursor-pointer text-left font-medium" title="Fokus-Timer für diese Aufgabe starten">
       <i data-lucide="timer" class="w-3.5 h-3.5 text-amber-400"></i>
-      <span>Focus</span>
+      <span>Timer</span>
     </button>
-    <button onclick="openTaskStepsModal('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-[var(--accent-light)] hover:text-white transition cursor-pointer text-left font-medium">
+    <button onclick="startTaskChronometer('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-emerald-400 hover:text-emerald-300 transition cursor-pointer text-left font-medium" title="Chronometer / Stoppuhr starten (offene Zeiterfassung)">
+      <i data-lucide="watch" class="w-3.5 h-3.5 text-emerald-400"></i>
+      <span>Chrono</span>
+    </button>
+    <button onclick="openTaskStepsModal('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-[var(--accent-light)] hover:text-white transition cursor-pointer text-left font-medium" title="Schritte & Unteraufgaben aufklappen">
       <i data-lucide="footprints" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>
       <span>Steps</span>
     </button>
@@ -647,7 +676,7 @@ function clearCompletedInColumn(colId, e) {
       }), { undo: true, duration: 5000 });
       return;
     }
-    showToast(tr({ de: 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️', en: 'No completed tasks found to clear ℹ️' }));
+    showToast(tr({ de: 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️', en: 'No completed tasks found to clear ℹ️', fr: 'Aucune tâche terminée trouvée à nettoyer ℹ️', it: 'Nessuna attività completata trovata da eliminare ℹ️', es: 'No se encontraron tareas completadas para limpiar ℹ️', el: 'Δεν βρέθηκαν ολοκληρωμένες εργασίες για εκκαθάριση ℹ️' }));
     return;
   }
 
@@ -773,9 +802,9 @@ function renderColumnsDropdownContent(dropdown) {
   });
 
   const curItems = getCurrentWorkspaceItems();
-  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠' });
-  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓' });
-  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼' });
+  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠', fr: 'Espace : Personnel 🏠', it: 'Spazio: Personale 🏠', es: 'Espacio: Personal 🏠', el: 'Χώρος: Προσωπικός 🏠' });
+  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓', fr: 'Espace : Études 🎓', it: 'Spazio: Studio 🎓', es: 'Espacio: Estudio 🎓', el: 'Χώρος: Σπουδές 🎓' });
+  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼', fr: 'Espace : Travail 💼', it: 'Spazio: Lavoro 💼', es: 'Espacio: Trabajo 💼', el: 'Χώρος: Εργασία 💼' });
 
   dropdown.innerHTML = `
     <div class="flex items-center justify-between pb-2 border-b border-white/10">
@@ -796,11 +825,11 @@ function renderColumnsDropdownContent(dropdown) {
       <div class="flex items-center justify-between">
         <span class="text-[11px] font-bold text-purple-200 flex items-center gap-1.5">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-purple-400"></i>
-          <span>${tr({ de: 'Neue Karte hinzufügen', en: 'Add new card' })}</span>
+          <span>${tr({ de: 'Neue Karte hinzufügen', en: 'Add new card', fr: 'Ajouter une nouvelle carte', it: 'Aggiungi nuova scheda', es: 'Añadir nueva tarjeta', el: 'Προσθήκη νέας κάρτας' })}</span>
         </span>
       </div>
       <div class="flex items-center gap-1.5">
-        <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der Karte...', en: 'Card name...' })}" class="flex-1 px-2.5 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-purple-400" onkeydown="if(event.key==='Enter') submitAddListFromManager()">
+        <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der Karte...', en: 'Card name...', fr: 'Nom de la carte...', it: 'Nome della scheda...', es: 'Nombre de la tarjeta...', el: 'Όνομα κάρτας...' })}" class="flex-1 px-2.5 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-purple-400" onkeydown="if(event.key==='Enter') submitAddListFromManager()">
         <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-purple-200 focus:outline-none focus:border-purple-400 cursor-pointer">
           <option value="layers">📑 Karte</option>
           <option value="target">🎯 Fokus</option>
@@ -837,10 +866,10 @@ function renderColumnsDropdownContent(dropdown) {
             </div>
             <div class="flex items-center gap-1">
               <button onclick="toggleColumnVisibility('${id}')" class="px-2 py-0.5 rounded text-[10px] font-bold transition cursor-pointer ${isVisible ? 'bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30' : 'bg-white/10 text-gray-400 hover:text-white'}">
-                ${isVisible ? tr({ de: 'Aktiv', en: 'Active' }) : tr({ de: 'Ausgeblendet', en: 'Hidden' })}
+                ${isVisible ? tr({ de: 'Aktiv', en: 'Active', fr: 'Actif', it: 'Attivo', es: 'Activo', el: 'Ενεργό' }) : tr({ de: 'Ausgeblendet', en: 'Hidden', fr: 'Masqué', it: 'Nascosto', es: 'Oculto', el: 'Κρυφό' })}
               </button>
               ${isCustom ? `
-                <button onclick="deleteColumn('${id}', event)" class="p-1 text-gray-400 hover:text-rose-400 transition" title="${tr({ de: 'Löschen', en: 'Delete' })}">
+                <button onclick="deleteColumn('${id}', event)" class="p-1 text-gray-400 hover:text-rose-400 transition" title="${tr({ de: 'Löschen', en: 'Delete', fr: 'Supprimer', it: 'Elimina', es: 'Eliminar', el: 'Διαγραφή' })}">
                   <i data-lucide="trash-2" class="w-3 h-3"></i>
                 </button>
               ` : ''}
@@ -855,15 +884,15 @@ function renderColumnsDropdownContent(dropdown) {
       <div class="flex items-center gap-1.5">
         <button onclick="resetColumnsToDefault()" class="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-medium text-gray-300 hover:text-white transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Standard-Karten wiederherstellen', en: 'Restore default cards', es: 'Restaurar tarjetas predeterminadas', fr: 'Restaurer les cartes par défaut', it: 'Ripristina schede predefinite', el: 'Επαναφορά προεπιλεγμένων καρτών' })}">
           <i data-lucide="rotate-ccw" class="w-3 h-3 text-amber-400"></i>
-          <span>${tr({ de: 'Standard', en: 'Default' })}</span>
+          <span>${tr({ de: 'Standard', en: 'Default', fr: 'Défaut', it: 'Predefinito', es: 'Predeterminado', el: 'Προεπιλογή' })}</span>
         </button>
-        <button onclick="handleClearAllLists(); closeColumnsDropdown();" class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 hover:border-rose-400/50 rounded-lg text-[10px] font-medium text-rose-300 hover:text-rose-200 transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Alle Aufgaben in den Karten leeren', en: 'Clear all tasks in cards' })}">
+        <button onclick="handleClearAllLists(); closeColumnsDropdown();" class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 hover:border-rose-400/50 rounded-lg text-[10px] font-medium text-rose-300 hover:text-rose-200 transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Alle Aufgaben in den Karten leeren', en: 'Clear all tasks in cards', fr: 'Vider toutes les tâches dans les cartes', it: 'Svuota tutte le attività nelle schede', es: 'Vaciar todas las tareas en las tarjetas', el: 'Εκκαθάριση όλων των εργασιών στις κάρτες' })}">
           <i data-lucide="eraser" class="w-3 h-3 text-rose-400"></i>
-          <span>${tr({ de: 'Karten leeren', en: 'Clear cards' })}</span>
+          <span>${tr({ de: 'Karten leeren', en: 'Clear cards', fr: 'Vider les cartes', it: 'Svuota schede', es: 'Vaciar tarjetas', el: 'Εκκαθάριση καρτών' })}</span>
         </button>
       </div>
       <button onclick="closeColumnsDropdown()" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] rounded-lg shadow transition cursor-pointer">
-        ${tr({ de: 'Fertig', en: 'Done' })}
+        ${tr({ de: 'Fertig', en: 'Done', fr: 'Terminé', it: 'Fatto', es: 'Listo', el: 'Τέλος' })}
       </button>
     </div>
   `;
@@ -987,9 +1016,9 @@ function openColumnsManagerModal() {
   });
 
   const curItems = getCurrentWorkspaceItems();
-  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠' });
-  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓' });
-  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼' });
+  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠', fr: 'Espace : Personnel 🏠', it: 'Spazio: Personale 🏠', es: 'Espacio: Personal 🏠', el: 'Χώρος: Προσωπικός 🏠' });
+  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓', fr: 'Espace : Études 🎓', it: 'Spazio: Studio 🎓', es: 'Espacio: Estudio 🎓', el: 'Χώρος: Σπουδές 🎓' });
+  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼', fr: 'Espace : Travail 💼', it: 'Spazio: Lavoro 💼', es: 'Espacio: Trabajo 💼', el: 'Χώρος: Εργασία 💼' });
 
   modal.innerHTML = `
     <div class="relative w-full max-w-md bg-[#121118]/95 border border-white/15 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-5 sm:p-6 text-white space-y-4">
@@ -1011,11 +1040,11 @@ function openColumnsManagerModal() {
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold text-purple-200 flex items-center gap-1.5">
             <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-purple-400"></i>
-            <span>${tr({ de: 'Neue Karte anlegen', en: 'Create New Card' })}</span>
+            <span>${tr({ de: 'Neue Karte anlegen', en: 'Create New Card', fr: 'Créer une nouvelle carte', it: 'Crea nuova scheda', es: 'Crear nueva tarjeta', el: 'Δημιουργία νέας κάρτας' })}</span>
           </span>
         </div>
         <div class="flex items-center gap-2">
-          <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der neuen Karte...', en: 'New card name...' })}"
+          <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der neuen Karte...', en: 'New card name...', fr: 'Nom de la nouvelle carte...', it: 'Nome della nuova scheda...', es: 'Nombre de la nueva tarjeta...', el: 'Όνομα νέας κάρτας...' })}"
             class="flex-1 min-w-0 px-2.5 py-1.5 bg-black/50 border border-white/15 focus:border-purple-400 text-white text-xs rounded-xl focus:outline-none placeholder:text-gray-500 shadow-inner font-medium"
             onkeydown="if(event.key === 'Enter') submitAddListFromManager();" />
           <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/50 border border-white/15 text-xs text-gray-200 rounded-xl focus:outline-none focus:border-purple-400 cursor-pointer">
@@ -1035,7 +1064,7 @@ function openColumnsManagerModal() {
           </select>
           <button onclick="submitAddListFromManager()" class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center gap-1 shrink-0">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-            <span>${tr({ de: 'Hinzufügen', en: 'Add' })}</span>
+            <span>${tr({ de: 'Hinzufügen', en: 'Add', fr: 'Ajouter', it: 'Aggiungi', es: 'Añadir', el: 'Προσθήκη' })}</span>
           </button>
         </div>
       </div>
@@ -1055,15 +1084,15 @@ function openColumnsManagerModal() {
                     <p class="text-xs font-bold text-gray-200 truncate">${escapeHtml(label)}</p>
                     ${isCustom ? `<span class="text-[9px] px-1.5 py-0.5 bg-purple-500/20 text-purple-300 rounded font-medium border border-purple-500/30">Custom</span>` : ''}
                   </div>
-                  <p class="text-[10px] text-gray-400 font-mono">${count} ${tr({ de: 'Aufgaben', en: 'tasks' })}</p>
+                  <p class="text-[10px] text-gray-400 font-mono">${count} ${tr({ de: 'Aufgaben', en: 'tasks', fr: 'tâches', it: 'attività', es: 'tareas', el: 'εργασίες' })}</p>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
                 <button onclick="toggleColumnVisibility('${id}')" class="px-2.5 py-1 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${isActive ? 'bg-purple-600/30 text-purple-200 border border-purple-400/40 shadow-sm' : 'bg-white/5 text-gray-400 border border-white/10 hover:text-white'}">
-                  <span>${isActive ? tr({ de: 'Aktiv ✓', en: 'Active ✓' }) : tr({ de: 'Ausgeblendet', en: 'Hidden' })}</span>
+                  <span>${isActive ? tr({ de: 'Aktiv ✓', en: 'Active ✓', fr: 'Actif ✓', it: 'Attivo ✓', es: 'Activo ✓', el: 'Ενεργό ✓' }) : tr({ de: 'Ausgeblendet', en: 'Hidden', fr: 'Masqué', it: 'Nascosto', es: 'Oculto', el: 'Κρυφό' })}</span>
                 </button>
                 ${isCustom ? `
-                  <button onclick="deleteColumn('${id}').then(() => openColumnsManagerModal())" class="p-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 transition cursor-pointer" title="${tr({ de: 'Karte löschen', en: 'Delete card' })}">
+                  <button onclick="deleteColumn('${id}').then(() => openColumnsManagerModal())" class="p-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 transition cursor-pointer" title="${tr({ de: 'Karte löschen', en: 'Delete card', fr: 'Supprimer la carte', it: 'Elimina scheda', es: 'Eliminar tarjeta', el: 'Διαγραφή κάρτας' })}">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                   </button>
                 ` : ''}
@@ -1076,10 +1105,10 @@ function openColumnsManagerModal() {
       <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
         <button onclick="resetColumnsToDefault()" class="px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-medium text-gray-300 hover:text-white transition cursor-pointer flex items-center gap-1.5">
           <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span>${tr({ de: 'Standard wiederherstellen', en: 'Reset to default' })}</span>
+          <span>${tr({ de: 'Standard wiederherstellen', en: 'Reset to default', fr: 'Rétablir par défaut', it: 'Ripristina predefiniti', es: 'Restablecer predeterminado', el: 'Επαναφορά προεπιλογών' })}</span>
         </button>
         <button onclick="closeColumnsManagerModal()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-lg transition cursor-pointer">
-          ${tr({ de: 'Fertig', en: 'Done' })}
+          ${tr({ de: 'Fertig', en: 'Done', fr: 'Terminé', it: 'Fatto', es: 'Listo', el: 'Τέλος' })}
         </button>
       </div>
     </div>
@@ -1101,7 +1130,7 @@ function toggleColumnVisibility(colId) {
   saveHistory();
   if (idx !== -1) {
     if (activeOrder.length <= 1) {
-      showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!' }));
+      showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!', fr: 'Au moins une colonne doit rester sur le tableau !', it: 'Almeno una colonna deve rimanere sulla lavagna!', es: '¡Al menos una columna debe permanecer en el tablero!', el: 'Τουλάχιστον μία στήλη πρέπει να παραμείνει στον πίνακα!' }));
       return;
     }
     activeOrder.splice(idx, 1);
@@ -1236,7 +1265,7 @@ async function deleteColumn(colId, e) {
   const idx = activeOrder.findIndex(([id]) => id === colId);
   if (idx === -1) return;
   if (activeOrder.length <= 1) {
-    showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!' }));
+    showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!', fr: 'Au moins une colonne doit rester sur le tableau !', it: 'Almeno una colonna deve rimanere sulla lavagna!', es: '¡Al menos una columna debe permanecer en el tablero!', el: 'Τουλάχιστον μία στήλη πρέπει να παραμείνει στον πίνακα!' }));
     return;
   }
   const entry = activeOrder[idx];
@@ -1255,9 +1284,9 @@ async function deleteColumn(colId, e) {
   });
 
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
-    title: typeof tr === 'function' ? tr({ de: 'Karte entfernen?', en: 'Remove card?' }) : 'Karte entfernen?',
+    title: typeof tr === 'function' ? tr({ de: 'Karte entfernen?', en: 'Remove card?', fr: 'Supprimer la carte ?', it: 'Rimuovere la scheda?', es: '¿Eliminar tarjeta?', el: 'Αφαίρεση κάρτας;' }) : 'Karte entfernen?',
     message: confirmMsg,
-    confirmText: typeof tr === 'function' ? tr({ de: 'Entfernen', en: 'Remove' }) : 'Entfernen',
+    confirmText: typeof tr === 'function' ? tr({ de: 'Entfernen', en: 'Remove', fr: 'Supprimer', it: 'Rimuovi', es: 'Eliminar', el: 'Αφαίρεση' }) : 'Entfernen',
     isDanger: true,
     icon: 'trash-2'
   }) : confirm(confirmMsg);
@@ -1507,7 +1536,7 @@ function renderApp() {
         </div>
         <div class="flex items-center gap-1 shrink-0">
           ${countBadgeHTML}
-          <button onmouseenter="cancelCloseColumnOptionsMenu(); openColumnOptionsMenu('${id}', this);" onmouseleave="scheduleCloseColumnOptionsMenu();" onclick="toggleColumnOptionsMenu('${id}', event)" aria-label="${tr({ de: 'Karten-Aktionen & Aufräumen', en: 'Column actions & clear' })}" class="column-options-btn w-5 h-5 p-0 text-gray-400 hover:text-white hover:bg-white/10 rounded-md transition-all duration-150 cursor-pointer flex items-center justify-center opacity-70 hover:opacity-100 shrink-0" title="${tr({ de: 'Karten-Aktionen & Aufräumen (Leeren, Archivieren, Löschen) ⚙️', en: 'Column actions & clear ⚙️' })}">
+          <button onmouseenter="cancelCloseColumnOptionsMenu(); openColumnOptionsMenu('${id}', this);" onmouseleave="scheduleCloseColumnOptionsMenu();" onclick="toggleColumnOptionsMenu('${id}', event)" aria-label="${tr({ de: 'Karten-Aktionen & Aufräumen', en: 'Column actions & clear', fr: 'Actions de carte & nettoyage', it: 'Azioni scheda e pulizia', es: 'Acciones de tarjetas y limpieza', el: 'Ενέργειες καρτών & εκκαθάριση' })}" class="column-options-btn w-5 h-5 p-0 text-gray-400 hover:text-white hover:bg-white/10 rounded-md transition-all duration-150 cursor-pointer flex items-center justify-center opacity-70 hover:opacity-100 shrink-0" title="${tr({ de: 'Karten-Aktionen & Aufräumen (Leeren, Archivieren, Löschen) ⚙️', en: 'Column actions & clear ⚙️', fr: 'Actions de carte & nettoyage (Vider, Archiver, Supprimer) ⚙️', it: 'Azioni scheda e pulizia (Svuota, Archivia, Elimina) ⚙️', es: 'Acciones de tarjetas y limpieza (Vaciar, Archivar, Eliminar) ⚙️', el: 'Ενέργειες καρτών & εκκαθάριση (Εκκαθάριση, Αρχειοθέτηση, Διαγραφή) ⚙️' })}">
             ${svgFn('more-vertical', 'w-3 h-3')}
           </button>
         </div>
@@ -1581,7 +1610,7 @@ function renderApp() {
 
       const addInput = document.createElement('textarea');
       addInput.rows = 2;
-      addInput.placeholder = t('notesPlaceholder') || tr({ de: 'Neue Notiz tippen (Enter zum Speichern)...', en: 'Type new note (Enter to save)...' });
+      addInput.placeholder = t('notesPlaceholder') || tr({ de: 'Neue Notiz tippen (Enter zum Speichern)...', en: 'Type new note (Enter to save)...', fr: 'Écrire une note (Entrée pour enregistrer)...', it: 'Scrivi nuova nota (Invio per salvare)...', es: 'Escribir nota (Enter para guardar)...', el: 'Πληκτρολογήστε νέα σημείωση (Enter για αποθήκευση)...' });
       addInput.className = 'w-full min-h-[44px] p-1.5 px-2.5 rounded-xl border border-amber-500/60 bg-[#0a0a0e] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-amber-400 transition cursor-text font-medium text-amber-100 shadow-inner resize-none mt-1';
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey && addInput.value.trim()) {
@@ -1654,7 +1683,7 @@ function renderApp() {
         itemDiv.onclick = () => editTermin(originalIndex);
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-14 select-none">
-            <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open' })}">
+            <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
               <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-lime-400 bg-lime-500/20 text-lime-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : 'border-[#89cff0]/40 bg-[#89cff0]/10 hover:border-lime-400 hover:bg-lime-500/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${status === 'stattgefunden' 
                   ? svgFn('check', 'w-3.5 h-3.5 text-lime-400')
@@ -1681,9 +1710,9 @@ function renderApp() {
             </div>
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-0.5 rounded-lg shadow-md z-40 backdrop-blur-md">
-            <button onclick="markTerminStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Stattgefunden', en: 'Attended' })}" class="p-1 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Stattgefunden ✅', en: 'Attended ✅' })}">${svgFn('check', 'w-3 h-3')}</button>
-            <button onclick="markTerminNichtStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Nicht stattgefunden', en: 'Did not happen' })}" class="p-1 text-rose-400 hover:text-rose-300 hover:bg-rose-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Nicht stattgefunden ❌', en: 'Did not happen ❌' })}">${svgFn('x', 'w-3 h-3')}</button>
-            <button onclick="openPostponeTerminModal(${originalIndex}, event)" aria-label="${tr({ de: 'Verschieben', en: 'Postpone' })}" class="p-1 text-sky-400 hover:text-sky-300 hover:bg-sky-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Verschieben & als verschoben markieren 🔄', en: 'Postpone & mark 🔄' })}">${svgFn('calendar-sync', 'w-3 h-3')}</button>
+            <button onclick="markTerminStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Eu lieu', it: 'Avvenuto', es: 'Asistido', el: 'Πραγματοποιήθηκε' })}" class="p-1 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Stattgefunden ✅', en: 'Attended ✅', fr: 'Eu lieu ✅', it: 'Avvenuto ✅', es: 'Asistido ✅', el: 'Πραγματοποιήθηκε ✅' })}">${svgFn('check', 'w-3 h-3')}</button>
+            <button onclick="markTerminNichtStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Nicht stattgefunden', en: 'Did not happen', fr: 'Pas eu lieu', it: 'Non avvenuto', es: 'No asistido', el: 'Δεν πραγματοποιήθηκε' })}" class="p-1 text-rose-400 hover:text-rose-300 hover:bg-rose-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Nicht stattgefunden ❌', en: 'Did not happen ❌', fr: 'Pas eu lieu ❌', it: 'Non avvenuto ❌', es: 'No asistido ❌', el: 'Δεν πραγματοποιήθηκε ❌' })}">${svgFn('x', 'w-3 h-3')}</button>
+            <button onclick="openPostponeTerminModal(${originalIndex}, event)" aria-label="${tr({ de: 'Verschieben', en: 'Postpone', fr: 'Reporter', it: 'Posticipa', es: 'Posponer', el: 'Αναβολή' })}" class="p-1 text-sky-400 hover:text-sky-300 hover:bg-sky-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Verschieben & als verschoben markieren 🔄', en: 'Postpone & mark 🔄', fr: 'Reporter & marquer 🔄', it: 'Posticipa e contrassegna 🔄', es: 'Posponer y marcar 🔄', el: 'Αναβολή & επισήμανση 🔄' })}">${svgFn('calendar-sync', 'w-3 h-3')}</button>
             <button onclick="editTermin(${originalIndex}, event)" aria-label="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}" class="p-1 text-amber-400 hover:text-amber-300 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}">${svgFn('edit-3', 'w-3 h-3')}</button>
             <button onclick="deleteTask('termine', ${originalIndex}, event)" aria-label="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}" class="p-1 text-gray-500 hover:text-red-400 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}">${svgFn('trash-2', 'w-3 h-3')}</button>
           </div>
@@ -1725,10 +1754,10 @@ function renderApp() {
           <div class="mb-2">
             <label class="text-[10px] text-gray-400 mb-0.5 block font-medium">Status:</label>
             <select id="add-termin-status" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer font-semibold">
-              <option value="open">⚪ ${tr({ de: 'Offen', en: 'Open' })}</option>
-              <option value="stattgefunden">🟢 ${tr({ de: 'Stattgefunden', en: 'Attended' })}</option>
-              <option value="nicht_stattgefunden">🔴 ${tr({ de: 'Nicht stattgefunden', en: 'Did not happen' })}</option>
-              <option value="verschoben">🔵 ${tr({ de: 'Verschoben', en: 'Postponed' })}</option>
+              <option value="open">⚪ ${tr({ de: 'Offen', en: 'Open', fr: 'Ouvert', it: 'Aperto', es: 'Abierto', el: 'Ανοιχτό' })}</option>
+              <option value="stattgefunden">🟢 ${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Eu lieu', it: 'Avvenuto', es: 'Asistido', el: 'Πραγματοποιήθηκε' })}</option>
+              <option value="nicht_stattgefunden">🔴 ${tr({ de: 'Nicht stattgefunden', en: 'Did not happen', fr: 'Pas eu lieu', it: 'Non avvenuto', es: 'No asistido', el: 'Δεν πραγματοποιήθηκε' })}</option>
+              <option value="verschoben">🔵 ${tr({ de: 'Verschoben', en: 'Postponed', fr: 'Reporté', it: 'Posticipato', es: 'Pospuesto', el: 'Αναβλήθηκε' })}</option>
             </select>
           </div>
           <div class="flex items-center gap-2 mt-1">
@@ -1792,8 +1821,11 @@ function renderApp() {
             <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
             ${recurrenceBadge}
           </div>
-          <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
-            <button onmouseenter="cancelCloseTaskMenu(); openTaskOptionsMenu('${id}', ${index}, this);" onmouseleave="scheduleCloseTaskMenu();" onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Steps, Focus, etc.)', en: 'Options (Steps, Focus, etc.)', fr: 'Options (Steps, Focus, etc.)', it: 'Opzioni (Steps, Focus, etc.)', es: 'Opciones (Steps, Focus, etc.)', el: 'Επιλογές (Steps, Focus, etc.)' })}">
+          <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
+            <button onclick="startTaskTimerByIndex('${id}', ${index}, event)" aria-label="${tr({ de: 'Timer für diese Aufgabe starten', en: 'Start timer for this task', fr: 'Lancer le minuteur', it: 'Avvia timer per questa attività', es: 'Iniciar temporizador', el: 'Εκκίνηση χρονοδιακόπτη' })}" class="p-1 px-1.5 text-amber-300 hover:text-white bg-[#1a1a28] hover:bg-amber-500/30 border border-white/20 hover:border-amber-400/50 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Fokus-Timer starten', en: 'Start focus timer', fr: 'Lancer le minuteur', it: 'Avvia timer', es: 'Iniciar temporizador', el: 'Εκκίνηση Timer' })}">
+              ${svgFn('timer', 'w-3.5 h-3.5 text-amber-400 hover:text-amber-200')}
+            </button>
+            <button onmouseenter="cancelCloseTaskMenu(); openTaskOptionsMenu('${id}', ${index}, this);" onmouseleave="scheduleCloseTaskMenu();" onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Timer, Chrono, Steps, etc.)', en: 'Options (Timer, Chrono, Steps, etc.)', fr: 'Options (Minuteur, Chrono, Steps, etc.)', it: 'Opzioni (Timer, Cronometro, Steps, etc.)', es: 'Opciones (Timer, Crono, Steps, etc.)', el: 'Επιλογές (Timer, Chrono, Steps)' })}">
               ${svgFn('more-horizontal', 'w-3.5 h-3.5 text-gray-200 hover:text-white')}
             </button>
           </div>
@@ -1831,7 +1863,7 @@ function renderApp() {
         const submitAddBtn = document.createElement('button');
         submitAddBtn.type = 'button';
         submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-lime-500/20 hover:bg-lime-500/35 text-lime-300 border border-lime-500/40 hover:border-lime-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
-        submitAddBtn.title = tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)' });
+        submitAddBtn.title = tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)', fr: 'Ajouter une tâche (Entrée)', it: 'Aggiungi attività (Invio)', es: 'Añadir tarea (Enter)', el: 'Προσθήκη εργασίας (Enter)' });
         submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-300')}`;
         submitAddBtn.onclick = () => {
           if (addInput.value.trim()) {
@@ -1853,7 +1885,7 @@ function renderApp() {
         const suggestBtn = document.createElement('button');
         suggestBtn.type = 'button';
         suggestBtn.className = 'p-1.5 px-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
-        suggestBtn.title = tr({ de: '💡 Aufgaben-Vorschläge & Inspiration', en: '💡 Task Suggestions & Inspiration' });
+        suggestBtn.title = tr({ de: '💡 Aufgaben-Vorschläge & Inspiration', en: '💡 Task Suggestions & Inspiration', fr: '💡 Suggestions de tâches & Inspiration', it: '💡 Suggerimenti per le attività & Ispirazione', es: '💡 Sugerencias de tareas e inspiración', el: '💡 Προτάσεις εργασιών & Έμπνευση' });
         suggestBtn.innerHTML = '<span>💡</span>';
         suggestBtn.onclick = (e) => {
           e.stopPropagation();
@@ -2071,11 +2103,8 @@ function handleCompleteTask(category, index, event) {
   if (typeof updateZenView === 'function') updateZenView();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
 
-  // 100% Celebration Check
-  const isDailyCat = category === 'daily' || category === 'work_focus';
-  if (isDailyCat && (curItems[category] || []).length === 0) {
-    setTimeout(() => openFeierabendModal(), 450);
-  } else if ((curItems[category] || []).length === 0) {
+  // 100% Celebration Check (Daily Review Modal nicht mehr automatisch öffnen, nur manuell oder weekly)
+  if ((curItems[category] || []).length === 0) {
     showToast(tr({
       de: `Karte "${t(category)}" zu 100% erledigt! 🌟`,
       en: `Card "${t(category)}" 100% completed! 🌟`,
@@ -2862,7 +2891,7 @@ function saveNoteDetailModal() {
       saveState();
       renderApp();
       closeNoteDetailModal();
-      showToast(tr({ de: 'Notiz gespeichert! 📝', en: 'Note saved! 📝' }));
+      showToast(tr({ de: 'Notiz gespeichert! 📝', en: 'Note saved! 📝', fr: 'Note enregistrée ! 📝', it: 'Nota salvata! 📝', es: '¡Nota guardada! 📝', el: 'Η σημείωση αποθηκεύτηκε! 📝' }));
     } else {
       deleteTask('notes', index);
       closeNoteDetailModal();
@@ -2884,7 +2913,7 @@ function copyCurrentNoteDetailText() {
   const val = textarea ? textarea.value : '';
   if (val) {
     navigator.clipboard?.writeText(val).then(() => {
-      showToast(tr({ de: 'Notiz in Zwischenablage kopiert! 📋', en: 'Note copied to clipboard! 📋' }));
+      showToast(tr({ de: 'Notiz in Zwischenablage kopiert! 📋', en: 'Note copied to clipboard! 📋', fr: 'Note copiée dans le presse-papiers ! 📋', it: 'Nota copiata negli appunti! 📋', es: '¡Nota copiada al portapapeles! 📋', el: 'Η σημείωση αντιγράφηκε στο πρόχειρο! 📋' }));
     }).catch(() => {});
   }
 }
@@ -3344,7 +3373,7 @@ function submitPostponeTermin() {
   
   if (!newDate) {
     if (typeof showToast === 'function') {
-      showToast(tr({ de: 'Bitte ein gültiges Datum wählen!', en: 'Please select a valid date!' }));
+      showToast(tr({ de: 'Bitte ein gültiges Datum wählen!', en: 'Please select a valid date!', fr: 'Veuillez sélectionner une date valide !', it: 'Seleziona una data valida!', es: '¡Seleccione una fecha válida!', el: 'Παρακαλούμε επιλέξτε έγκυρη ημερομηνία!' }));
     }
     return;
   }

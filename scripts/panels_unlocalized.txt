@@ -1,0 +1,499 @@
+
+=== panel-shopping (2 items) ===
+  L166: SHOP
+  L213: Add
+
+=== panel-news (4 items) ===
+  L281: NEWS
+  L359: Wird vorgelesen...
+  L377: 100% Client-Side • Zero-Tracking
+  L393: Sound & Musik
+
+=== panel-audio (65 items) ===
+  L418: SOUND
+  L443: Sounds
+  L447: Musik & Medien
+  L451: Noodle DJ
+  L467: Focus
+  L471: Café
+  L475: Forest
+  L479: Energy
+  L483: Cosmic
+  L577: 120 BPM
+  L609: TEMPO
+  L625: Spotify
+  L629: YouTube
+  L646: AUDIO
+  L647: HQ
+  L653: PiP
+  L760: NOODLE DJ
+  L761: | 2-Deck
+  L776: Automix:
+  L779: OFF
+  L801: DECK A
+  L802: 126 BPM
+  L806: + MP3
+  L822: Deep House Groove
+  L865: CUE
+  L868: PLAY
+  L870: SYNC
+  L876: Pitch Tempo
+  L877: ±0.0% (RESET)
+  L888: H1
+  L889: H2
+  L902: FX LAUNCHPAD
+  L903: 1-SHOT
+  L908: Riser
+  L912: Horn
+  L916: Laser
+  L920: Brake
+  L924: Echo
+  L928: Drop
+  L941: HI
+  L943: MID
+  L945: LOW
+  L951: COLOR
+  L952: OFF
+  L972: HI
+  L974: MID
+  L976: LOW
+  L982: COLOR
+  L983: OFF
+  L995: ◄ CH 1 (A)
+  L996: CROSSFADER
+  L997: CH 2 (B) ►
+  L1015: DECK B
+  L1016: 85 BPM
+  L1020: + MP3
+  L1036: Lofi Chill Lounge
+  L1079: CUE
+  L1082: PLAY
+  L1084: SYNC
+  L1090: Pitch Tempo
+  L1091: ±0.0% (RESET)
+  L1102: H1
+  L1103: H2
+  L1122: VOL
+  L1137: SYNC
+
+=== panel-radio (2 items) ===
+  L1186: RADIO
+  L1193: Play
+
+=== panel-collab-chat (36 items) ===
+  L1351: CHAT
+  L1360: Mic
+  L1403: 🎧 DJ Stream Live
+  L1411: 🔊 Sync
+  L1414: ⏹ Stop
+  L1444: 💬 WA
+  L1445: 🔒 Signal
+  L1446: 🟣 Viber
+  L1447: ⚡ FB
+  L1448: ✈️ TG
+  L1457: 🚀 Fokus-Sprint
+  L1458: ☕ Kaffeepause
+  L1459: 💡 Neue Idee
+  L1460: ✅ Erledigt
+  L1461: 🔥 Wichtig
+  L1471: Abbrechen
+  L1472: Senden
+  L1499: ⏱️ Fokus-Sprint
+  L1502: 📋 Aufgaben
+  L1505: 🔗 Einladung
+  L1514: Kopieren
+  L1525: WhatsApp
+  L1530: Signal
+  L1535: Viber
+  L1540: Messenger
+  L1545: Telegram
+  L1550: Discord
+  L1555: Slack
+  L1560: Teams
+  L1588: WhatsApp Chat
+  L1592: Signal Chat
+  L1596: Viber Chat
+  L1600: Messenger
+  L1604: Telegram Chat
+  L1622: Onboarding
+  L1626: Feedback
+
+=== panel-weather (1 items) ===
+  L1753: WEATHER
+
+=== panel-calendar-dropdown (1 items) ===
+  L1802: August 2026
+
+=== panel-pause-dropdown (2 items) ===
+  L1860: PAUSE
+  L2026: Vollbild Recovery Studio öffnen ↗
+
+=== panel-report (1 items) ===
+  L2046: STATS
+
+=== panel-settings-dropdown (32 items) ===
+  L2104: 🌐 Sprache wählen
+  L2160: Peek & Pin
+  L2164: 📌 Peek & Pin
+  L2167: 👆 Nur Klick
+  L2234: Privat
+  L2262: Aktuelles Board fürs Team teilen
+  L2306: Lädt Live-Nachrichten...
+  L2328: Live-Nachrichten Hub
+  L2329: DE · Alle Themen
+  L2341: Vorlesen
+  L2359: 1. Ausgabesprache (Übersetzung)
+  L2360: App-Standard
+  L2394: 5. Quellen / Medien
+  L2405: Lauf-Tempo:
+  L2413: Vorlese-Tempo:
+  L2451: Liste hinzufügen
+  L2459: Neue Liste anlegen
+  L2465: Symbol:
+  L2483: Erstellen
+  L2516: Schließen
+  L2536: Bereit
+  L2554: 1m Micro
+  L2555: 5m Pause
+  L2556: 15m Sprint
+  L2557: 25m Fokus
+  L2558: 50m Deep Work
+  L2569: 🐦 Vögel
+  L2570: 🔥 Feuer
+  L2571: 🧠 Alpha Beats
+  L2572: 📻 White Noise
+  L2584: Parken 📌
+  L2600: Weiter
+
+=== mobile-view-focus (1 items) ===
+  L2619: Deep Focus Timer
+
+=== mobile-timer-play-btn (1 items) ===
+  L2644: Starten
+
+=== mobile-timer-pause-btn (1 items) ===
+  L2648: Pause
+
+=== mobile-volume-pct (2 items) ===
+  L2722: Headphones
+  L2726: Alpha 10 Hz
+
+=== mobile-bpm-val (8 items) ===
+  L2805: 120 BPM
+  L2808: ⚡ Techno
+  L2809: 🚀 Drum'n'Bass
+  L2810: 🌴 Afrobeats
+  L2811: 🎷 Swing
+  L2812: 🎧 Boom Bap
+  L2813: 🏖️ Bossa Nova
+  L2822: Play / Pause
+
+=== mobile-view-tools (11 items) ===
+  L2876: Brainstorming
+  L2877: Voice & Board-Transfer
+  L2900: Impulskontrolle
+  L2901: Reflexion & Fragen
+  L2912: Safe Space
+  L2913: Atemübung & Ruhe
+  L2937: 4 Modi & Timer
+  L2948: Vorratskammer
+  L2949: Bestand & Ablauf
+  L2996: Wissens-Labor
+  L2997: Themen & Multiple-Choice
+
+=== helper-pick-card (12 items) ===
+  L3220: PICK
+  L3229: Fokus-Vorschlag
+  L3233: A vs. B Entscheider
+  L3237: Kopf leeren
+  L3249: 🔋 Quick Win
+  L3250: 2-5 Min
+  L3253: ⚡ Fokus
+  L3254: 15-25 Min
+  L3257: 🔥 Deep Work
+  L3258: 45+ Min
+  L3261: 🎲 Random
+  L3262: Zufall
+
+=== helper-pick-next-btn (6 items) ===
+  L3273: Anderer Vorschlag
+  L3276: [Space] = Starten
+  L3291: Option A:
+  L3295: Option B:
+  L3302: Münze werfen & entscheiden
+  L3322: Direkt im Fokus starten 🧘
+
+=== helper-sport-card (31 items) ===
+  L3352: SPORT
+  L3369: Programme
+  L3373: Baukasten
+  L3377: Lexikon
+  L3381: 1-3 Löffel
+  L3391: Wähle ein vorgefertigtes Workout:
+  L3392: Keine Geräte nötig
+  L3404: ⏱️ Dauer / Umfang
+  L3414: 🎯 Fokus-Zone
+  L3425: 🪑 Verfügbares Equipment
+  L3433: ⚡ Intervall-Taktung (Übung/Pause)
+  L3448: 🛋️ 100% Nachbarschafts-Freundlich
+  L3449: Flüsterleise
+  L3451: Kein Springen, kein Trittschall, geräuschlos auf Teppich oder Parkett.
+  L3459: Zusammengestellte Übungen:
+  L3461: Neu mischen
+  L3469: Individuelles Workout Starten 🚀
+  L3501: Dein aktuelles Energie-Level
+  L3519: Start
+  L3520: Pause
+  L3521: Anderer Impuls 🔄
+  L3526: Übung absolviert & belohnen
+  L3535: Workout
+  L3538: Los geht's!
+  L3552: Langsame Tief-Kniebeugen 🦵
+  L3554: 🎯 Fokus: Beine & Gesäß
+  L3559: Als Nächstes:
+  L3560: Beckenbrücke
+  L3570: Fortsetzen
+  L3573: Pausieren
+  L3579: Beenden
+
+=== helper-break-card (3 items) ===
+  L3599: BREAK
+  L3618: Bereit
+  L3630: Pause starten
+
+=== modal-p2p-sync (10 items) ===
+  L3656: Automatische Synchronisation ⚡
+  L3657: Alle Geräte & Offline-fähig
+  L3676: E-Mail-Adresse:
+  L3681: Passwort / PIN:
+  L3682: Passwort vergessen?
+  L3704: Angemeldet als:
+  L3705: Auto-Sync aktiv
+  L3712: ✓ Synchronisiert
+  L3719: Jetzt synchronisieren
+  L3732: ✓ Synchronisiert
+
+=== modal-learning-hub (1 items) ===
+  L3758: LEARN
+
+=== modal-report-dashboard (13 items) ===
+  L3783: STATS
+  L3791: Statistiken
+  L3795: Wissens-Labor
+  L3845: Balance-Index
+  L3860: Aktivitäts-Trend
+  L3862: 0 Tasks
+  L3871: Kategorie-Verteilung
+  L3882: Erledigte Aufgaben
+  L3901: Erweiterte Langzeit-Trends & PDF-Jahresbericht
+  L3902: Pro
+  L3904: Tiefenanalysen, Exportfunktionen und Monatsvergleiche.
+  L3909: Pro (bald verfügbar)
+  L3924: Alle Daten 100% lokal auf deinem Gerät gespeichert
+
+=== modal-settings (7 items) ===
+  L3994: PWA
+  L4027: Aktueller Status: Noodle Free
+  L4028: Kostenlos
+  L4030: Alle Kernfunktionen sind 100% lokal & dauerhaft kostenlos nutzbar.
+  L4035: Pro (bald verfügbar)
+  L4045: 🖱️ Interaktions-Steuerung (Hover vs. Klick)
+  L4047: Wähle, wie Tool-Panels, Wetter, Sounds und Popovers gesteuert werden.
+
+=== modal-radio-mode-peek (2 items) ===
+  L4055: 📌 Peek & Pin
+  L4056: Standard
+
+=== modal-radio-mode-click (35 items) ===
+  L4065: 👆 Nur Klick
+  L4066: Fokus / Touch
+  L4080: 🌐 Select Language
+  L4111: Voreingestellte Minuten für neue Timer-Sitzungen.
+  L4113: 15 Min
+  L4114: 25 Min
+  L4115: 45 Min
+  L4116: 60 Min
+  L4143: Shortcuts (?)
+  L4151: Gefahrenbereich: Lokale Datenbereinigung
+  L4152: Setzt den Browser-Speicher vollständig auf den Ursprungszustand zurück.
+  L4170: Screenshot- & Versions-Galerie
+  L4177: Screenshot hinzufügen 📷
+  L4188: Gespeicherte Screenshots
+  L4190: 0 Bilder
+  L4204: Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)
+  L4207: Noodle
+  L4208: Ein Projekt für barrierefreie, strukturierte Alltags- und Arbeitsorganisation.
+  L4210: Noodle Entwicklerteam
+  L4211: Musterstraße 12, 10115 Berlin, Deutschland
+  L4218: EU-Streitschlichtung & Verbraucherstreitbeilegung
+  L4232: Local-First Prinzip & Datenschutz by Design (Art. 25 DSGVO)
+  L4240: 1. Technische Speicherung & Cookies (TDDDG / TTDSG)
+  L4245: 2. Externe technische Schnittstellen (APIs)
+  L4251: 3. Deine Rechte (Art. 15–21 DSGVO)
+  L4266: Haftungsausschluss & Nutzungshinweis
+  L4277: Open-Source Danksagung & Third-Party Lizenzen
+  L4284: Tailwind CSS
+  L4285: © Tailwind Labs Inc. (MIT License)
+  L4288: Lucide Icons
+  L4289: © Lucide Contributors (ISC License)
+  L4292: Supabase Client
+  L4293: © Supabase Inc. (MIT License)
+  L4296: html2canvas
+  L4297: © Niklas von Hertzen (MIT License)
+
+=== modal-command-palette (5 items) ===
+  L4322: ESC
+  L4333: ↑↓ Navigieren
+  L4334: ↵ Ausführen
+  L4336: Tastaturkürzel (?)
+  L4337: Noodle Spotlight ⌘K
+
+=== helper-steps-modal (2 items) ===
+  L4444: STEPS
+  L4452: Aufgabe
+
+=== helper-new-step-input (2 items) ===
+  L4464: Schritt
+  L4470: Schritt-Fokus-Timer:
+
+=== helper-cleaning-modal (16 items) ===
+  L4505: CLEAN
+  L4533: 45-Minuten Standard-Grundreinigung
+  L4534: Alle Kernzonen frisch
+  L4543: Timer:
+  L4590: Profi-Spickzettel für Einsteiger (Farben & Regeln)
+  L4636: Notiz bearbeiten
+  L4648: In To-Do umwandeln
+  L4659: Abbrechen
+  L4662: Speichern
+  L4680: Sammel-Import
+  L4681: ➔ Ziel:
+  L4682: To-Do
+  L4695: Datei laden (.txt, .md, .csv, .json, .ics)
+  L4698: 0 Einträge
+  L4708: Abbrechen
+  L4711: Importieren
+
+=== modal-postpone-termin (16 items) ===
+  L4727: Termin verschieben
+  L4728: Aktuell: Unbekannt
+  L4737: Schnellauswahl:
+  L4739: +1 Tag (Morgen)
+  L4740: +2 Tage
+  L4741: +1 Woche
+  L4748: Neues Datum:
+  L4752: Neue Uhrzeit:
+  L4759: Notiz / Grund (optional):
+  L4765: Abbrechen
+  L4768: Verschieben & als verschoben markieren
+  L4783: Statistik- & Fortschrittsbericht
+  L4784: (Woche & Monat)
+  L4797: Text kopieren
+  L4801: Als .txt herunterladen
+  L4805: Drucken / PDF
+
+=== mobile-menu-drawer (3 items) ===
+  L4894: PWA
+  L4899: App-Tour & Onboarding starten ✨
+  L4915: Datenschutz & Impressum (100% Local-First)
+
+=== mobile-tools-sheet (3 items) ===
+  L4927: Werkzeuge & Noodle-Helfer
+  L4941: Audio & Atmosphere Studio
+  L4942: Pro Studio
+
+=== helper-safespace-modal (42 items) ===
+  L5099: Atem
+  L5103: Erdung
+  L5107: Augen
+  L5111: Körper
+  L5115: Sound
+  L5123: 4-4-4 Box
+  L5124: 4-7-8 Deep
+  L5125: 😮‍💨 Seufzer
+  L5130: Einatmen...
+  L5138: Bach-Sound ein
+  L5161: Weiter
+  L5172: 20-20-20 Regel & Hand-Palming
+  L5182: Augen ruhen
+  L5188: 20s Augen-Timer starten
+  L5196: 1️⃣ Nacken-Dehnung
+  L5204: 2️⃣ Schulterkreisen & Brustöffner
+  L5212: 3️⃣ Handgelenke & Finger lockern
+  L5283: CLARITY
+  L5296: 90s Welle
+  L5300: Bedürfnis
+  L5304: Brücke
+  L5308: Weitsicht
+  L5312: Freiheit
+  L5334: 90s Welle reiten 🌊
+  L5417: Kaltwasser-Reiz (Tauchreflex & Vagus-Reset)
+  L5427: Andere Sofort-Brücke vorschlagen 🔄
+  L5454: Deine persönlichen Anker (Warum lohnt es sich standhaft zu bleiben?):
+  L5457: 🧠 Klarer Kopf
+  L5458: 🌙 Tiefer Schlaf
+  L5459: 🕊️ Innere Ruhe
+  L5460: ❤️ Für meine Liebsten
+  L5461: 🌟 Selbstachtung
+  L5466: Sichern 💾
+  L5482: 🌱 Tag 1
+  L5483: Erster bewusster Sieg
+  L5486: ⚡ Tag 7
+  L5487: Neuroplastischer Neustart
+  L5490: 🏆 Tag 30
+  L5491: Tiefe, feste Freiheit
+  L5507: 📖 Sanftes Tagebuch der Klarheit
+  L5508: 100% lokal & privat
+  L5512: Eintragen
+
+=== modal-regulation (50 items) ===
+  L5539: CALM
+  L5554: Erdung
+  L5578: Physiologischer Seufzer (Stanford Neuroscience)
+  L5580: Die schnellste biologische Methode zur Senkung von Herzfrequenz und CO₂-Druck
+  L5582: 30 Sek.
+  L5587: 1. Tief Einatmen
+  L5588: Bereit
+  L5589: Start
+  L5595: Geführten Atem-Pacer starten
+  L5605: Bilaterale Stimulation / Schmetterlings-Umarmung
+  L5614: LINKS
+  L5618: RECHTS
+  L5624: Rhythmus starten
+  L5642: Schritt 1 von 5
+  L5643: Sensorische Verankerung
+  L5662: Weiter
+  L5675: Neurogenes Ausschütteln (60s Shake-Out)
+  L5677: Biologisches Entladen von Adrenalin aus Muskulatur und Faszien
+  L5683: Shake
+  L5685: Schüttle Hände, Schultern und Beine locker aus...
+  L5690: 60s Timer starten
+  L5711: Spannungsthermometer (SUD 1–10)
+  L5712: Level wählen
+  L5714: Klicke dein aktuelles Anspannungsniveau zur Selbsteinschätzung:
+  L5732: Validierende Notfall-Leitsätze:
+  L5747: 100% offline synthetisierte Frequenzen zur neuroakustischen Beruhigung:
+  L5757: Starten
+  L5768: Starten
+  L5779: Starten
+  L5793: Kostenfreie, vertrauliche und professionelle Ansprechpartner rund um die Uhr:
+  L5819: Noodle Suite · Somatic Science
+  L5841: BRAINSTORM
+  L5848: Export
+  L5880: Mic
+  L5889: Was wäre die radikalste 5-Minuten-Lösung?
+  L5899: Alle
+  L5900: ⭐ Favoriten
+  L5901: 💡 Ideen
+  L5902: ⚡ Quick Wins
+  L5903: 🚀 Projekte
+  L5904: ❓ Fragen
+  L5905: 🎯 Ziele
+  L5917: 100% Lautlos • Auto-Speicherung aktiv
+  L5960: 0 ausgewählt
+  L5991: MARKET
+  L6079: Datenschutz & Impressum
+  L6080: 100% Local-First · Zero Tracking
+  L6095: 1. Datenspeicherung & Offline-Betrieb
+  L6100: 2. Externe Dienste & Medien
+  L6105: 3. Angaben gemäß § 5 TMG / Impressum

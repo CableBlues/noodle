@@ -5192,6 +5192,334 @@ if (typeof window.TRANSLATIONS === 'undefined') { window.TRANSLATIONS = {}; }
 
 const customTranslations = {
   "en": {
+    "pick_tab_suggestion": "Focus Suggestion",
+    "pick_tab_dilemma": "A vs B Decider",
+    "pick_tab_braindump": "Clear Mind",
+    "pick_energy_low": "🔋 Quick Win",
+    "pick_energy_med": "⚡ Focus",
+    "pick_energy_high": "🔥 Deep Work",
+    "pick_energy_random": "🎲 Random",
+    "pick_next_btn": "Another Suggestion",
+    "pick_space_hint": "[Space] = Start",
+    "pick_coin_flip": "Flip coin & decide",
+    "pick_start_focus": "Start directly in focus 🧘",
+    "pick_save_task": "Save as task",
+    "pick_dilemma_hint": "Caught between two choices? Let the coin flip decide – your gut instinct will instantly tell if you agree!",
+    "pick_braindump_hint": "What's blocking you or on your mind? Type it briefly and start immediately without distraction.",
+    "sport_tab_presets": "Programs",
+    "sport_tab_builder": "Builder",
+    "sport_tab_library": "Library",
+    "sport_tab_spoons": "1-3 Spoons",
+    "sport_choose_workout": "Choose a pre-made workout:",
+    "sport_no_equipment": "No equipment needed",
+    "sport_duration_scope": "⏱️ Duration / Scope",
+    "sport_focus_zone": "🎯 Focus Zone",
+    "sport_available_equip": "🪑 Available Equipment",
+    "sport_interval_timing": "⚡ Interval Timing (Work/Rest)",
+    "sport_quiet_apartment": "🛋️ 100% Apartment Friendly",
+    "sport_whisper_quiet": "Whisper quiet",
+    "sport_quiet_desc": "No jumping, no impact noise, quiet on carpet or wood floor.",
+    "sport_start_custom": "Start Custom Workout 🚀",
+    "sport_current_energy": "Your current energy level",
+    "sport_exercise_reward": "Exercise completed & rewarded",
+    "sport_resume": "Resume",
+    "sport_pause": "Pause",
+    "sport_finish": "Finish",
+    "safespace_tab_breath": "Breath",
+    "safespace_tab_anchor": "Grounding",
+    "safespace_tab_eyes": "Eyes",
+    "safespace_tab_body": "Body",
+    "safespace_tab_sound": "Sound",
+    "safespace_breath_in": "Inhale...",
+    "safespace_creek_sound": "Brook sound on",
+    "safespace_eyes_rule": "20-20-20 Rule & Hand Palming",
+    "safespace_eyes_rest": "Resting eyes",
+    "safespace_eyes_start": "Start 20s eye timer",
+    "safespace_stretch_neck": "1️⃣ Neck Stretch",
+    "safespace_stretch_shoulders": "2️⃣ Shoulder Rolls & Chest Opener",
+    "safespace_stretch_wrists": "3️⃣ Wrist & Finger Release",
+    "safespace_wave_90s": "Ride 90s Wave 🌊",
+    "safespace_save_anchor": "Save 💾",
+    "safespace_journal_submit": "Record",
+    "calm_sigh_title": "Physiological Sigh (Stanford Neuroscience)",
+    "calm_sigh_desc": "The fastest biological method to reduce heart rate and CO₂ pressure",
+    "calm_start_pacer": "Start Guided Breath Pacer",
+    "calm_bilateral_title": "Bilateral Stimulation / Butterfly Hug",
+    "calm_left": "LEFT",
+    "calm_right": "RIGHT",
+    "calm_start_rhythm": "Start Rhythm",
+    "calm_shake_title": "Neurogenic Shake-Out (60s)",
+    "calm_shake_desc": "Biological release of adrenaline from muscles and fascia",
+    "calm_start_shake": "Start 60s Timer",
+    "calm_sud_title": "Distress Thermometer (SUD 1–10)",
+    "calm_emergency_phrases": "Validating Emergency Statements:",
+    "calm_helpline_title": "Free, confidential and professional support 24/7:",
+    "audio_sounds_tab": "Sounds",
+    "audio_media_tab": "Music & Media",
+    "audio_dj_tab": "Noodle DJ",
+    "report_stats_tab": "Statistics",
+    "report_learn_tab": "Learning Lab",
+    "report_balance_index": "Balance Index",
+    "report_activity_trend": "Activity Trend",
+    "report_cat_distribution": "Category Distribution",
+    "report_completed_tasks": "Completed Tasks",
+    "close": "Close",
+    "add": "Add",
+    "save": "Save",
+    "delete": "Delete",
+    "clear": "Clear",
+    "open": "Open",
+    "play": "Play",
+    "pause": "Pause",
+    "stop": "Stop",
+    "start": "Start",
+    "share": "Share",
+    "search_placeholder": "Search...",
+    "undo": "Undo",
+    "shop_supermarket": "Market",
+    "shop_tab_list": "My List",
+    "shop_tab_deals": "Store Deals",
+    "shop_sale_badge": "Sale",
+    "shop_add_placeholder": "Item (e.g. 2x Oat milk, tomatoes)...",
+    "shop_open_items": "To Buy",
+    "shop_clear": "Clear All",
+    "shop_log_hint": "Checked items are logged.",
+    "news_sec_lang": "🌐 1. Output Language",
+    "news_auto_translate": "(Auto-Translation)",
+    "news_app_standard": "App Default",
+    "news_sec_region": "📍 2. Region & Origin",
+    "news_region_desc": "Worldwide or local focus",
+    "news_sec_feed": "🔀 3. Feed Mode",
+    "news_sec_media": "📰 4. Media & Sources",
+    "news_sec_topics": "📑 5. Topics & Categories",
+    "news_speed_label": "Speech Speed:",
+    "news_listening": "Reading aloud...",
+    "radio_no_station": "No station selected",
+    "radio_available_stations": "Available Stations",
+    "audio_mood_quick": "Quick Moods (1-Click)",
+    "audio_ready": "Ready instantly",
+    "audio_mood_focus": "Focus",
+    "audio_mood_cafe": "Café",
+    "audio_mood_forest": "Forest",
+    "audio_mood_energy": "Energy",
+    "audio_mood_cosmic": "Cosmic",
+    "audio_harmonies": "Harmonies & Melodies",
+    "audio_nature": "Nature & Ambience",
+    "audio_beats": "Dynamic Genre Beats & Rhythms",
+    "audio_own_tracks": "Own Tracks",
+    "audio_load_file": "Load File",
+    "audio_url_placeholder": "Online Audio/Video URL (mp3, mp4, webm, stream)...",
+    "dj_shuffle": "Shuffle",
+    "dj_xfade": "X-Fade",
+    "collab_team_space": "Team Space",
+    "collab_messengers": "Messengers",
+    "collab_direct_chat": "Direct Chat",
+    "collab_team_dashboard": "Team Dashboard:",
+    "collab_team_board": "👥 Team Board",
+    "pause_tab_breath": "🌬️ Breath",
+    "pause_tab_sensory": "⚓ Reset",
+    "pause_tab_body": "🧘 Body",
+    "pause_tab_sound": "🎧 Sound",
+    "pause_444_title": "4-4-4 Box Breathing",
+    "pause_444_desc": "Navy SEAL focus & stress relief in 60s",
+    "pause_478_title": "4-7-8 Deep Calm",
+    "pause_478_desc": "Lowers heart rate & cortisol",
+    "pause_sigh_title": "Physiological Sigh",
+    "pause_sigh_desc": "Fastest biological nervous reset (30s)",
+    "pause_54321_title": "5-4-3-2-1 Grounding Anchor",
+    "pause_54321_desc": "Stops overthinking & grounds in reality",
+    "pause_eyes_title": "20-20-20 Eye Rest & Palming",
+    "pause_eyes_desc": "20s screen break & warm palms",
+    "pause_detox_title": "60s Dopamine Detox (Silence)",
+    "pause_detox_desc": "Stimulus-free mind break without screens",
+    "settings_select_lang": "🌐 Select Language",
+    "settings_mode_peek": "📌 Peek & Pin",
+    "settings_mode_click": "👆 Click Only",
+    "settings_status_free": "Current Status: Noodle Free",
+    "settings_free_badge": "Free",
+    "settings_free_desc": "All core features are 100% local & permanently free to use.",
+    "settings_pro_soon": "Pro (coming soon)",
+    "mobile_menu_title": "Menu & Settings",
+    "mobile_tools_title": "Tools & Helpers",
+    "mobile_backup_export_btn": "Export Backup",
+    "mobile_restore_btn": "Restore",
+    "mobile_stats_report": "Stats / Report",
+    "mobile_themes": "Themes",
+    "mobile_language": "Language",
+    "mobile_pause_relax": "Break & Rest",
+    "mobile_save_plan": "Save Plan",
+    "mobile_load_plan": "Load Plan",
+    "mobile_reset": "Reset",
+    "mobile_feedback": "Feedback",
+    "mobile_options": "Options",
+    "cook_pantry_tab": "Pantry & Ingredients",
+    "cook_recipe_tab": "Recipe & Cooking",
+    "cook_quick_select": "Quick Select",
+    "cook_clear_pantry": "Clear",
+    "cook_suggest_btn": "Suggest Recipe & Prepare",
+    "cook_ingredient_match": "Ingredient Match",
+    "cook_adjust_ingredients": "Adjust Ingredients",
+    "cook_missing_to_shop": "Missing to Shopping List 🛒",
+    "cook_no_recipe_title": "No recipe selected yet",
+    "cook_no_recipe_desc": "Enter your available ingredients and let us conjure up a quick recipe.",
+    "cook_to_pantry_btn": "To Ingredients 🥗",
+    "clean_tab_express": "15m Express",
+    "clean_tab_standard": "45m Standard",
+    "clean_tab_deep": "90m Deep",
+    "clean_lofi_btn": "LoFi Music",
+    "clean_transfer_board": "Add to Board",
+    "clean_ready_status": "Ready to start!",
+    "postpone_title": "Reschedule Appointment",
+    "postpone_quick": "Quick Selection:",
+    "postpone_plus_1d": "+1 Day (Tomorrow)",
+    "postpone_plus_2d": "+2 Days",
+    "postpone_plus_1w": "+1 Week",
+    "postpone_new_date": "New Date:",
+    "postpone_new_time": "New Time:",
+    "postpone_note": "Note / Reason (optional):",
+    "sync_auto_title": "Automatic Synchronization ⚡",
+    "sync_offline_guarantee": "All devices & offline capable",
+    "sync_email": "Email address:",
+    "sync_pin": "Password / PIN:",
+    "sync_forgot_pin": "Forgot password?",
+    "sync_login_btn": "Log In / Register",
+    "health_checkup_done": "Done ✓",
+    "health_checkup_urgent": "Overdue!",
+    "health_checkup_due": "Due",
+    "health_mark_done": "Done",
+    "health_daily_meds": "Daily Medications & Vitamins",
+    "health_taken_suffix": "taken",
+    "health_new_med_placeholder": "New supplement (e.g. Omega 3)...",
+    "health_dose_placeholder": "Dose...",
+    "health_doctor_questions": "Questions for next doctor visit",
+    "health_new_q_placeholder": "Note question for doctor...",
+    "mobile_timer_ready": "Ready",
+    "mobile_timer_start": "Start",
+    "mobile_timer_pause": "Pause",
+    "mobile_brainstorm_badge": "Ideas",
+    "mobile_brainstorm_title": "Brainstorming",
+    "mobile_brainstorm_sub": "Voice & Board Transfer",
+    "mobile_clarity_badge": "Clarity",
+    "mobile_clarity_title": "Impulse Control",
+    "mobile_clarity_sub": "Reflection & Prompts",
+    "mobile_zen_badge": "Zen",
+    "mobile_safespace_title": "Safe Space",
+    "mobile_safespace_sub": "Breathing & Calm",
+    "mobile_pantry_badge": "Pantry",
+    "mobile_pantry_title": "Pantry Inventory",
+    "mobile_pantry_sub": "Stock & Expiry",
+    "mobile_learning_badge": "Quiz & XP",
+    "mobile_learning_title": "Learning Lab",
+    "mobile_learning_sub": "Topics & Multiple Choice",
+    "mobile_chat_title": "Team Chat",
+    "mobile_chat_sub": "Live & Rooms",
+    "mobile_social_title": "Social Hub",
+    "mobile_social_sub": "Insta, FB, TikTok & Co",
+    "mobile_alpha_sub": "Easy Learning & Focus",
+    "mobile_theta_sub": "Deep Hyperfocus",
+    "mobile_delta_sub": "Regeneration & Sleep",
+    "mobile_gamma_sub": "Peak Mental Performance",
+    "mobile_ambient_guitar": "Guitar",
+    "mobile_ambient_campfire": "Campfire",
+    "mobile_ambient_forest": "Forest",
+    "mobile_ambient_windchime": "Windchime",
+    "mobile_ambient_bowl": "Singing Bowl",
+    "mobile_ambient_rain": "Rain",
+
+    "media_audio_video": "Audio & Video Media",
+    "media_load_file": "Load file",
+    "media_play": "Play",
+    "media_no_tracks": "No tracks loaded yet. Click 'Load file' to play your music.",
+    "media_no_track_active": "No active track",
+    "media_spotify_hint": "Paste Spotify playlist or track URL:",
+    "media_spotify_load": "Load 🎧",
+    "media_spotify_empty": "No Spotify URL loaded yet.",
+    "media_youtube_hint": "Paste YouTube video or livestream URL:",
+    "media_youtube_load": "Load ▶",
+    "media_youtube_empty": "No YouTube URL loaded yet.",
+    "radio_no_station": "No station selected",
+    "radio_available_stations": "Available stations",
+    "news_all_sources": "All sources",
+    "news_speed_fast": "Fast (22s)",
+    "news_speed_normal": "Normal (30s)",
+    "news_speed_calm": "Calm (42s)",
+    "collab_active_members": "Active members:",
+    "collab_team_dashboard": "Team Dashboard:",
+    "collab_share_board": "Share board",
+    "collab_team_board": "Team Board",
+    "collab_quick_share": "⚡ Quick share:",
+    "collab_chip_sprint": "🚀 Focus sprint",
+    "collab_chip_coffee": "☕ Coffee break",
+    "collab_chip_idea": "💡 New idea",
+    "collab_chip_done": "✅ Done",
+    "collab_chip_urgent": "🔥 Urgent",
+    "collab_quick_context": "⚡ Insert quick context:",
+    "collab_share_one_click": "Share with 1 click to:",
+    "collab_direct_contact_label": "Phone number or @username:",
+    "collab_direct_msg_label": "Message (optional):",
+    "collab_choose_app": "Select app to start:",
+    "shortcuts_desc": "Faster workflow without mouse",
+    "shortcuts_spotlight": "Spotlight command palette",
+    "shortcuts_new_task": "Create new task",
+    "shortcuts_toggle_timer": "Toggle focus timer",
+    "shortcuts_toggle_zen": "Toggle Zen mode",
+    "shortcuts_switch_ws": "Personal / Work workspace",
+    "shortcuts_open_overview": "Open this overview",
+    "shortcuts_close_modals": "Close modals & popups",
+    "shortcuts_understood": "Got it ✓",
+    "mobile_menu_title": "Menu & Settings",
+    "mobile_backup_export": "Backup & Export",
+    "mobile_backup_btn": "Backup Export",
+    "mobile_restore_btn": "Restore",
+    "mobile_view_report": "View & Reports",
+    "mobile_stats_btn": "Stats / Report",
+    "mobile_themes_btn": "Themes",
+    "mobile_lang_btn": "Language",
+    "mobile_pause_btn": "Break & Rest",
+    "mobile_actions_data": "Actions & Data",
+    "mobile_undo_btn": "Undo",
+    "mobile_save_plan_btn": "Save Plan",
+    "mobile_load_plan_btn": "Load Plan",
+    "mobile_reset_btn": "Reset",
+    "mobile_start_tour": "Start App Tour & Onboarding ✨",
+    "mobile_feedback": "Feedback",
+    "mobile_options": "Options",
+    "mobile_privacy_legal": "Privacy & Legal Notice (100% Local-First)",
+    "mobile_tools_title": "Tools & Helpers",
+    "mobile_tool_audio_title": "Audio & Atmosphere Studio",
+    "mobile_tool_audio_sub": "Nature sounds, beats, MP3, Spotify, DJ",
+    "mobile_tool_alarm_title": "Alarm",
+    "mobile_tool_alarm_sub": "Events & Alarms",
+    "mobile_tool_cooking_title": "Cooking",
+    "mobile_tool_cooking_sub": "Pantry & Recipes",
+    "mobile_tool_shopping_title": "Shopping",
+    "mobile_tool_shopping_sub": "Shopping list & Deals",
+    "mobile_tool_boost_title": "Momentum Spark",
+    "mobile_tool_boost_sub": "30s Action Boost",
+    "mobile_tool_brainstorm_title": "Brainstorming",
+    "mobile_tool_brainstorm_sub": "Ideas & Board Transfer",
+    "mobile_tool_learning_title": "Learning Lab",
+    "mobile_tool_learning_sub": "Quiz & Deep Learning",
+    "mobile_tool_health_title": "Health & Checkups",
+    "mobile_tool_health_sub": "Checkup Radar & Meds",
+    "mobile_tool_calm_title": "Inner Calm",
+    "mobile_tool_calm_sub": "Acute Reset & Grounding",
+    "mobile_tool_sport_title": "Sport & Body",
+    "mobile_tool_sport_sub": "1-Minute Workouts",
+    "mobile_tool_weather_title": "Weather",
+    "mobile_tool_weather_sub": "Live & 5-day forecast",
+    "chip_milk": "🥛 Milk",
+    "chip_eggs": "🥚 Eggs",
+    "chip_bread": "🍞 Bread",
+    "chip_butter": "🧈 Butter",
+    "chip_apples": "🍎 Apples",
+    "chip_bananas": "🍌 Bananas",
+    "chip_coffee": "☕ Coffee",
+    "chip_pasta": "🍝 Pasta",
+    "chip_cheese": "🧀 Cheese",
+    "chip_onions": "🧅 Onions",
+    "shop_log_hint": "Checking off items logs them to history.",
+
     "add": "Add task",
     "add_column": "Add card",
     "add_task": "Add task",
@@ -5545,7 +5873,7 @@ const customTranslations = {
     "settings_modal_title": "Settings & Legal Compliance",
     "settings_onboarding_desc": "Take a 3-step interactive tour to learn about Noodle's core features, focus timers, and shortcuts.",
     "settings_onboarding_title": "App Introduction & Tour",
-    "settings_p2p_sync": "Device Sync",
+    "settings_p2p_sync": "Synchronize devices",
     "settings_privacy_btn": "Privacy",
     "settings_section_lang": "🌐 Select Language",
     "settings_section_theme": "🎨 Farbschema",
@@ -5553,7 +5881,7 @@ const customTranslations = {
     "settings_tour": "Tour 🚀",
     "shop_add_btn": "Add",
     "shop_add_placeholder": "Add item (e.g. 2x oat milk, bread)...",
-    "shop_clear": "Clear",
+    "shop_clear": "Clear all",
     "shop_empty": "Your shopping list is clear!",
     "shop_history": "History",
     "shop_recent_bought": "Recently purchased",
@@ -5713,7 +6041,7 @@ const customTranslations = {
     "tools_menu_title": "Noodle Tools & Spheres",
     "tools_section_focus_media": "Media",
     "tools_section_media": "Media",
-    "tools_section_household_daily": "Household & Daily",
+    "tools_section_household_daily": "Daily Life & Routine",
     "tools_section_body_mind": "Body & Mind",
     "tools_section_help": "Help & Dialogue",
     "tools_section_spheres": "Specialized Spheres",
@@ -5739,9 +6067,425 @@ const customTranslations = {
     "workspace_private": "Personal & Daily",
     "workspace_study": "Study & Learning",
     "workspace_work": "Work & Projects",
-    "zen_title": "Zen Focus"
+    "zen_title": "Zen Focus",
+    "nav_shopping": "Shopping",
+    "shop_open_items": "To Buy",
+    "nav_cooking": "Cooking",
+    "sound_campfire": "Campfire",
+    "export": "Export",
+    "settings_section_interaction": "Interaction & Hover",
+    "undo_action": "Undo",
+    "mobile_audio_title": "Audio & Sounds",
+    "mobile_audio_subtitle": "Focus beats, radio & nature sounds",
+    "master_volume": "Master Volume",
+    "studio_pro": "Studio Pro",
+    "live_radio": "Live Radio",
+    "binaural_beats_title": "Binaural & Alpha Beats",
+    "ambient_nature_title": "Nature & Atmosphere",
+    "mobile_radio_title": "Live Radio",
+    "mobile_quick_audio_title": "Focus Sounds",
+    "mobile_quick_audio_sub": "Nature sounds & ambient music",
+    "mobile_quick_radio_title": "Live Radio",
+    "mobile_quick_radio_sub": "International & local streams",
+    "mobile_quick_alarm_title": "Alarm & Clock",
+    "mobile_quick_alarm_sub": "Reminders & focus bells",
+    "today": "Today",
+    "week": "Week",
+    "month": "Month",
+    "completed_stat": "Completed",
+    "backup_hub_title": "Backup & Data Management",
+    "backup_download_btn": "Download Backup (JSON)",
+    "backup_restore_btn": "Restore Backup",
+    "shortcuts_title": "Keyboard Shortcuts",
+    "pwa_install_title": "Install Noodle App",
+    "pwa_install_desc": "Use Noodle offline anytime directly from your desktop or home screen.",
+    "pwa_install_btn": "Install Now",
+    "settings_install_pwa": "Install App 📲",
+    "settings_install_pwa_title": "Install App (Desktop & Mobile)",
+    "settings_install_pwa_desc": "Install Noodle as a native app for instant desktop and home screen access — ultra-fast and offline-capable.",
+    "settings_install_pwa_btn": "Install Now 📲",
+    "mobile_install_app": "Install Noodle App 📲",
+    "mobile_quick_install_title": "Install App",
+    "mobile_quick_install_sub": "PWA Desktop & Mobile",
+    "later": "Later",
+    "cancel": "Cancel",
+    "celebration_title": "All Tasks Completed! 🎉",
+    "celebration_desc": "Incredible job! You cleared all your items for today. Time for a well-deserved break.",
+    "celebration_btn_chill": "Relax & Unwind ☕",
+    "celebration_btn_later": "Continue Later",
+    "cmd_search": "Search...",
+    "tool_clean": "Cleaning",
+    "tool_shopping": "Shopping",
+    "tool_cooking": "Cooking",
+    "tool_news": "News",
+    "tool_sounds": "Sounds",
+    "tool_media": "Music & Media",
+    "tool_dj": "Noodle DJ",
+    "tool_radio": "Radio",
+    "tool_health": "Health",
+    "tool_sport": "Movement",
+    "tool_calm": "Inner Calm",
+    "tool_clarity": "Clarity",
+    "tool_learning": "Learning",
+    "tool_humor": "Fun Lab",
+    "tool_social": "Social",
+    "tool_chat": "Chat",
+    "tools_section_knowledge_social": "Knowledge, Chat & Social",
+    "tools_section_audio_media": "Audio, Beats & Media",
+    "settings_routines_customize": "Customize routines & defaults",
+    "settings_language": "Language",
+    "settings_theme": "Color Scheme",
+    "settings_data_local_guarantee": "All data 100% locally stored on your device",
+    "settings_free_guarantee": "All core features are 100% local and permanently free.",
+    "settings_hover_title": "Hover & Mouse Behavior",
+    "settings_hover_desc": "Choose how tool panels, weather, sounds and popovers are controlled.",
+    "settings_hover_click_only": "Click only (Recommended)",
+    "settings_hover_click_desc": "No automatic popups on mouseover. All panels open strictly on click.",
+    "settings_hover_enabled": "Auto-Hover (Fast)",
+    "settings_hover_enabled_desc": "Panels and previews open smoothly upon hovering over spheres and buttons.",
+    "zen_loading_task": "Loading focus task...",
+    "break_5m": "5m Break",
+    "break_start": "Start Break",
+    "break_stop": "End Break",
+    "deep_focus_timer": "Deep Focus Timer",
+    "news_all_topics": "All Topics",
+    "news_all_sources": "All Sources",
+    "news_read_aloud": "Read Aloud",
+    "close": "Close",
+    "save_as_task": "Save as Task",
+    "all_devices_offline": "All devices & offline-ready",
+    "all_categories": "All categories",
+    "pause": "Pause"
   },
   "de": {
+    "pick_tab_suggestion": "Fokus-Vorschlag",
+    "pick_tab_dilemma": "A vs. B Entscheider",
+    "pick_tab_braindump": "Kopf leeren",
+    "pick_energy_low": "🔋 Quick Win",
+    "pick_energy_med": "⚡ Fokus",
+    "pick_energy_high": "🔥 Deep Work",
+    "pick_energy_random": "🎲 Random",
+    "pick_next_btn": "Anderer Vorschlag",
+    "pick_space_hint": "[Space] = Starten",
+    "pick_coin_flip": "Münze werfen & entscheiden",
+    "pick_start_focus": "Direkt im Fokus starten 🧘",
+    "pick_save_task": "Als Aufgabe speichern",
+    "pick_dilemma_hint": "Zwischen zwei Dingen gefangen? Lass den Münzwurf entscheiden – dein Bauchgefühl merkt sofort, ob du mit dem Ergebnis zufrieden bist!",
+    "pick_braindump_hint": "Was blockiert dich gerade oder liegt dir auf der Seele? Tippe es kurz ein und starte sofort ohne Ablenkung.",
+    "sport_tab_presets": "Programme",
+    "sport_tab_builder": "Baukasten",
+    "sport_tab_library": "Lexikon",
+    "sport_tab_spoons": "1-3 Löffel",
+    "sport_choose_workout": "Wähle ein vorgefertigtes Workout:",
+    "sport_no_equipment": "Keine Geräte nötig",
+    "sport_duration_scope": "⏱️ Dauer / Umfang",
+    "sport_focus_zone": "🎯 Fokus-Zone",
+    "sport_available_equip": "🪑 Verfügbares Equipment",
+    "sport_interval_timing": "⚡ Intervall-Taktung (Übung/Pause)",
+    "sport_quiet_apartment": "🛋️ 100% Nachbarschafts-Freundlich",
+    "sport_whisper_quiet": "Flüsterleise",
+    "sport_quiet_desc": "Kein Springen, kein Trittschall, geräuschlos auf Teppich oder Parkett.",
+    "sport_start_custom": "Individuelles Workout Starten 🚀",
+    "sport_current_energy": "Dein aktuelles Energie-Level",
+    "sport_exercise_reward": "Übung absolviert & belohnen",
+    "sport_resume": "Fortsetzen",
+    "sport_pause": "Pausieren",
+    "sport_finish": "Beenden",
+    "safespace_tab_breath": "Atem",
+    "safespace_tab_anchor": "Erdung",
+    "safespace_tab_eyes": "Augen",
+    "safespace_tab_body": "Körper",
+    "safespace_tab_sound": "Sound",
+    "safespace_breath_in": "Einatmen...",
+    "safespace_creek_sound": "Bach-Sound ein",
+    "safespace_eyes_rule": "20-20-20 Regel & Hand-Palming",
+    "safespace_eyes_rest": "Augen ruhen",
+    "safespace_eyes_start": "20s Augen-Timer starten",
+    "safespace_stretch_neck": "1️⃣ Nacken-Dehnung",
+    "safespace_stretch_shoulders": "2️⃣ Schulterkreisen & Brustöffner",
+    "safespace_stretch_wrists": "3️⃣ Handgelenke & Finger lockern",
+    "safespace_wave_90s": "90s Welle reiten 🌊",
+    "safespace_save_anchor": "Sichern 💾",
+    "safespace_journal_submit": "Eintragen",
+    "calm_sigh_title": "Physiologischer Seufzer (Stanford Neuroscience)",
+    "calm_sigh_desc": "Die schnellste biologische Methode zur Senkung von Herzfrequenz und CO₂-Druck",
+    "calm_start_pacer": "Geführten Atem-Pacer starten",
+    "calm_bilateral_title": "Bilaterale Stimulation / Schmetterlings-Umarmung",
+    "calm_left": "LINKS",
+    "calm_right": "RECHTS",
+    "calm_start_rhythm": "Rhythmus starten",
+    "calm_shake_title": "Neurogenes Ausschütteln (60s Shake-Out)",
+    "calm_shake_desc": "Biologisches Entladen von Adrenalin aus Muskulatur und Faszien",
+    "calm_start_shake": "60s Timer starten",
+    "calm_sud_title": "Spannungsthermometer (SUD 1–10)",
+    "calm_emergency_phrases": "Validierende Notfall-Leitsätze:",
+    "calm_helpline_title": "Kostenfreie, vertrauliche und professionelle Ansprechpartner rund um die Uhr:",
+    "audio_sounds_tab": "Sounds",
+    "audio_media_tab": "Musik & Medien",
+    "audio_dj_tab": "Noodle DJ",
+    "report_stats_tab": "Statistiken",
+    "report_learn_tab": "Wissens-Labor",
+    "report_balance_index": "Balance-Index",
+    "report_activity_trend": "Aktivitäts-Trend",
+    "report_cat_distribution": "Kategorie-Verteilung",
+    "report_completed_tasks": "Erledigte Aufgaben",
+    "close": "Schließen",
+    "add": "Hinzufügen",
+    "save": "Speichern",
+    "delete": "Löschen",
+    "clear": "Leeren",
+    "open": "Öffnen",
+    "play": "Abspielen",
+    "pause": "Pause",
+    "stop": "Stoppen",
+    "start": "Starten",
+    "share": "Teilen",
+    "search_placeholder": "Suche...",
+    "undo": "Rückgängig",
+    "shop_supermarket": "Markt",
+    "shop_tab_list": "Meine Liste",
+    "shop_tab_deals": "Discounter Deals",
+    "shop_sale_badge": "Angebot",
+    "shop_add_placeholder": "Artikel (z.B. 2x Hafermilch, Tomaten)...",
+    "shop_open_items": "Zu besorgen",
+    "shop_clear": "Alle löschen",
+    "shop_log_hint": "Einkäufe abhaken wandert ins Protokoll.",
+    "news_sec_lang": "🌐 1. Ausgabesprache",
+    "news_auto_translate": "(Auto-Übersetzung)",
+    "news_app_standard": "App-Standard",
+    "news_sec_region": "📍 2. Region & Herkunft",
+    "news_region_desc": "Weltweit oder lokaler Fokus",
+    "news_sec_feed": "🔀 3. Feed-Modus",
+    "news_sec_media": "📰 4. Medien & Quellen",
+    "news_sec_topics": "📑 5. Thematik & Ressorts",
+    "news_speed_label": "Sprach-Tempo:",
+    "news_listening": "Wird vorgelesen...",
+    "radio_no_station": "Kein Sender gewählt",
+    "radio_available_stations": "Verfügbare Sender",
+    "audio_mood_quick": "Schnell-Stimmungen (1-Click)",
+    "audio_ready": "Sofort startklar",
+    "audio_mood_focus": "Fokus",
+    "audio_mood_cafe": "Café",
+    "audio_mood_forest": "Wald",
+    "audio_mood_energy": "Energie",
+    "audio_mood_cosmic": "Kosmos",
+    "audio_harmonies": "Harmonien & Melodien",
+    "audio_nature": "Natur & Atmosphäre",
+    "audio_beats": "Dynamische Genre-Rhythmen & Beats",
+    "audio_own_tracks": "Eigene Tracks",
+    "audio_load_file": "Datei laden",
+    "audio_url_placeholder": "Online Audio/Video URL (mp3, mp4, webm, stream)...",
+    "dj_shuffle": "Zufall",
+    "dj_xfade": "X-Fade",
+    "collab_team_space": "Team Space",
+    "collab_messengers": "Messengers",
+    "collab_direct_chat": "Direkt-Chat",
+    "collab_team_dashboard": "Team-Dashboard:",
+    "collab_team_board": "👥 Team-Board",
+    "pause_tab_breath": "🌬️ Atem",
+    "pause_tab_sensory": "⚓ Reset",
+    "pause_tab_body": "🧘 Körper",
+    "pause_tab_sound": "🎧 Sound",
+    "pause_444_title": "4-4-4 Box-Atmung",
+    "pause_444_desc": "Navy SEAL Fokus & Stressabbau in 60s",
+    "pause_478_title": "4-7-8 Tiefenruhe",
+    "pause_478_desc": "Senkt Herzfrequenz & Cortisol",
+    "pause_sigh_title": "Physiologischer Seufzer",
+    "pause_sigh_desc": "Schnellster biologischer Nerven-Reset (30s)",
+    "pause_54321_title": "5-4-3-2-1 Erdungs-Anker",
+    "pause_54321_desc": "Stoppt Grübeln & holt in die Realität",
+    "pause_eyes_title": "20-20-20 Augen-Pause & Palming",
+    "pause_eyes_desc": "20s Bildschirm-Erholung & warme Handflächen",
+    "pause_detox_title": "60s Dopamin-Detox (Stille)",
+    "pause_detox_desc": "Reizfreie Gedankenpause ohne Bildschirm",
+    "settings_select_lang": "🌐 Sprache wählen",
+    "settings_mode_peek": "📌 Peek & Pin",
+    "settings_mode_click": "👆 Nur Klick",
+    "settings_status_free": "Aktueller Status: Noodle Free",
+    "settings_free_badge": "Kostenlos",
+    "settings_free_desc": "Alle Kernfunktionen sind 100% lokal & dauerhaft kostenlos nutzbar.",
+    "settings_pro_soon": "Pro (bald verfügbar)",
+    "mobile_menu_title": "Menü & Einstellungen",
+    "mobile_tools_title": "Werkzeuge & Noodle-Helfer",
+    "mobile_backup_export_btn": "Backup Export",
+    "mobile_restore_btn": "Wiederherstellen",
+    "mobile_stats_report": "Statistik / Bericht",
+    "mobile_themes": "Farbschemas",
+    "mobile_language": "Sprache",
+    "mobile_pause_relax": "Pause & Erholung",
+    "mobile_save_plan": "Plan sichern",
+    "mobile_load_plan": "Plan laden",
+    "mobile_reset": "Zurücksetzen",
+    "mobile_feedback": "Feedback",
+    "mobile_options": "Optionen",
+    "cook_pantry_tab": "Vorrat & Zutaten",
+    "cook_recipe_tab": "Rezept & Zubereitung",
+    "cook_quick_select": "Schnellauswahl",
+    "cook_clear_pantry": "Leeren",
+    "cook_suggest_btn": "Rezept vorschlagen & Zubereiten",
+    "cook_ingredient_match": "Zutaten-Abgleich",
+    "cook_adjust_ingredients": "Zutaten anpassen",
+    "cook_missing_to_shop": "Fehlendes auf Liste 🛒",
+    "cook_no_recipe_title": "Noch kein Rezept ausgewählt",
+    "cook_no_recipe_desc": "Trage deine verfügbaren Zutaten ein und lass dir ein schnelles Rezept zaubern.",
+    "cook_to_pantry_btn": "Zu den Zutaten 🥗",
+    "clean_tab_express": "15m Blitz",
+    "clean_tab_standard": "45m Standard",
+    "clean_tab_deep": "90m Deep",
+    "clean_lofi_btn": "LoFi-Musik",
+    "clean_transfer_board": "In Board übernehmen",
+    "clean_ready_status": "Bereit für den Start!",
+    "postpone_title": "Termin verschieben",
+    "postpone_quick": "Schnellauswahl:",
+    "postpone_plus_1d": "+1 Tag (Morgen)",
+    "postpone_plus_2d": "+2 Tage",
+    "postpone_plus_1w": "+1 Woche",
+    "postpone_new_date": "Neues Datum:",
+    "postpone_new_time": "Neue Uhrzeit:",
+    "postpone_note": "Notiz / Grund (optional):",
+    "sync_auto_title": "Automatische Synchronisation ⚡",
+    "sync_offline_guarantee": "Alle Geräte & Offline-fähig",
+    "sync_email": "E-Mail-Adresse:",
+    "sync_pin": "Passwort / PIN:",
+    "sync_forgot_pin": "Passwort vergessen?",
+    "sync_login_btn": "Anmelden / Registrieren",
+    "health_checkup_done": "Erledigt ✓",
+    "health_checkup_urgent": "Überfällig!",
+    "health_checkup_due": "Fällig",
+    "health_mark_done": "Erledigt",
+    "health_daily_meds": "Tägliche Medikamente & Vitamine",
+    "health_taken_suffix": "genommen",
+    "health_new_med_placeholder": "Neues Präparat (z.B. Omega 3)...",
+    "health_dose_placeholder": "Dosis...",
+    "health_doctor_questions": "Fragen für den nächsten Arztbesuch",
+    "health_new_q_placeholder": "Frage an Arzt notieren...",
+    "mobile_timer_ready": "Bereit",
+    "mobile_timer_start": "Starten",
+    "mobile_timer_pause": "Pause",
+    "mobile_brainstorm_badge": "Ideen",
+    "mobile_brainstorm_title": "Brainstorming",
+    "mobile_brainstorm_sub": "Voice & Board-Transfer",
+    "mobile_clarity_badge": "Klarheit",
+    "mobile_clarity_title": "Impulskontrolle",
+    "mobile_clarity_sub": "Reflexion & Fragen",
+    "mobile_zen_badge": "Zen",
+    "mobile_safespace_title": "Safe Space",
+    "mobile_safespace_sub": "Atemübung & Ruhe",
+    "mobile_pantry_badge": "Vorrat",
+    "mobile_pantry_title": "Vorratskammer",
+    "mobile_pantry_sub": "Bestand & Ablauf",
+    "mobile_learning_badge": "Quiz & XP",
+    "mobile_learning_title": "Wissens-Labor",
+    "mobile_learning_sub": "Themen & Multiple-Choice",
+    "mobile_chat_title": "Team Chat",
+    "mobile_chat_sub": "Live & Rooms",
+    "mobile_social_title": "Social Hub",
+    "mobile_social_sub": "Insta, FB, TikTok & Co",
+    "mobile_alpha_sub": "Leichtes Lernen & Fokus",
+    "mobile_theta_sub": "Tiefer Hyperfokus",
+    "mobile_delta_sub": "Regeneration & Schlaf",
+    "mobile_gamma_sub": "Maximale Denkleistung",
+    "mobile_ambient_guitar": "Gitarre",
+    "mobile_ambient_campfire": "Kamin",
+    "mobile_ambient_forest": "Wald",
+    "mobile_ambient_windchime": "Windspiel",
+    "mobile_ambient_bowl": "Klangschale",
+    "mobile_ambient_rain": "Regen",
+
+    "media_audio_video": "Audio & Video Medien",
+    "media_load_file": "Datei laden",
+    "media_play": "Abspielen",
+    "media_no_tracks": "Noch keine Tracks geladen. Klicke auf 'Datei laden', um deine Musik abzuspielen.",
+    "media_no_track_active": "Kein Track aktiv",
+    "media_spotify_hint": "Füge eine Spotify Playlist- oder Track-URL ein:",
+    "media_spotify_load": "Laden 🎧",
+    "media_spotify_empty": "Noch keine Spotify-URL geladen.",
+    "media_youtube_hint": "Füge eine YouTube Video- oder Live-Stream-URL ein:",
+    "media_youtube_load": "Laden ▶",
+    "media_youtube_empty": "Noch keine YouTube-URL geladen.",
+    "radio_no_station": "Kein Sender gewählt",
+    "radio_available_stations": "Verfügbare Sender",
+    "news_all_sources": "Alle Quellen",
+    "news_speed_fast": "Zügig (22s)",
+    "news_speed_normal": "Normal (30s)",
+    "news_speed_calm": "Ruhig (42s)",
+    "collab_active_members": "Aktive Mitglieder:",
+    "collab_team_dashboard": "Team-Dashboard:",
+    "collab_share_board": "Board teilen",
+    "collab_team_board": "Team-Board",
+    "collab_quick_share": "⚡ Schnell teilen:",
+    "collab_chip_sprint": "🚀 Fokus-Sprint",
+    "collab_chip_coffee": "☕ Kaffeepause",
+    "collab_chip_idea": "💡 Neue Idee",
+    "collab_chip_done": "✅ Erledigt",
+    "collab_chip_urgent": "🔥 Wichtig",
+    "collab_quick_context": "⚡ Schnell-Kontext einfügen:",
+    "collab_share_one_click": "Mit 1 Klick teilen an:",
+    "collab_direct_contact_label": "Telefonnummer oder @Username:",
+    "collab_direct_msg_label": "Nachricht (optional):",
+    "collab_choose_app": "App auswählen zum Starten:",
+    "shortcuts_desc": "Schnellere Bedienung ohne Maus",
+    "shortcuts_spotlight": "Spotlight Befehls-Palette",
+    "shortcuts_new_task": "Neue Aufgabe erstellen",
+    "shortcuts_toggle_timer": "Fokus-Timer umschalten",
+    "shortcuts_toggle_zen": "Zen-Fokusmodus an / aus",
+    "shortcuts_switch_ws": "Privat / Arbeit Workspace",
+    "shortcuts_open_overview": "Diese Übersicht öffnen",
+    "shortcuts_close_modals": "Modals & Popups schließen",
+    "shortcuts_understood": "Verstanden ✓",
+    "mobile_menu_title": "Menü & Einstellungen",
+    "mobile_backup_export": "Datensicherung & Export",
+    "mobile_backup_btn": "Backup Export",
+    "mobile_restore_btn": "Wiederherstellen",
+    "mobile_view_report": "Ansicht & Auswertung",
+    "mobile_stats_btn": "Statistik / Bericht",
+    "mobile_themes_btn": "Farbschemas",
+    "mobile_lang_btn": "Sprache",
+    "mobile_pause_btn": "Pause & Erholung",
+    "mobile_actions_data": "Aktionen & Daten",
+    "mobile_undo_btn": "Rückgängig",
+    "mobile_save_plan_btn": "Plan sichern",
+    "mobile_load_plan_btn": "Plan laden",
+    "mobile_reset_btn": "Zurücksetzen",
+    "mobile_start_tour": "App-Tour & Onboarding starten ✨",
+    "mobile_feedback": "Feedback",
+    "mobile_options": "Optionen",
+    "mobile_privacy_legal": "Datenschutz & Impressum (100% Local-First)",
+    "mobile_tools_title": "Werkzeuge & Noodle-Helfer",
+    "mobile_tool_audio_title": "Audio & Atmosphere Studio",
+    "mobile_tool_audio_sub": "Naturklänge, Genre-Beats, MP3, Spotify, DJ",
+    "mobile_tool_alarm_title": "Wecker",
+    "mobile_tool_alarm_sub": "Termine & Alarme",
+    "mobile_tool_cooking_title": "Kochen",
+    "mobile_tool_cooking_sub": "Vorrat & Rezepte",
+    "mobile_tool_shopping_title": "Einkauf",
+    "mobile_tool_shopping_sub": "Einkaufsliste & Deals",
+    "mobile_tool_boost_title": "Schwung-Impuls",
+    "mobile_tool_boost_sub": "30s Überwindung",
+    "mobile_tool_brainstorm_title": "Brainstorming",
+    "mobile_tool_brainstorm_sub": "Ideen & Board-Transfer",
+    "mobile_tool_learning_title": "Wissens-Labor",
+    "mobile_tool_learning_sub": "Quiz & Deep Learning",
+    "mobile_tool_health_title": "Gesundheit & Vorsorge",
+    "mobile_tool_health_sub": "Checkup-Radar & Meds",
+    "mobile_tool_calm_title": "Innere Ruhe",
+    "mobile_tool_calm_sub": "Akut-Reset & Erdung",
+    "mobile_tool_sport_title": "Sport & Körper",
+    "mobile_tool_sport_sub": "1-Minuten Workouts",
+    "mobile_tool_weather_title": "Wetter",
+    "mobile_tool_weather_sub": "Live & 5-Tage Trend",
+    "chip_milk": "🥛 Milch",
+    "chip_eggs": "🥚 Eier",
+    "chip_bread": "🍞 Brot",
+    "chip_butter": "🧈 Butter",
+    "chip_apples": "🍎 Äpfel",
+    "chip_bananas": "🍌 Bananen",
+    "chip_coffee": "☕ Kaffee",
+    "chip_pasta": "🍝 Nudeln",
+    "chip_cheese": "🧀 Käse",
+    "chip_onions": "🧅 Zwiebeln",
+    "shop_log_hint": "Einkäufe abhaken wandert ins Protokoll.",
+
     "add": "Aufgabe hinzufügen",
     "add_column": "Karte hinzufügen",
     "add_task": "Aufgabe hinzufügen",
@@ -6095,7 +6839,7 @@ const customTranslations = {
     "settings_modal_title": "Einstellungen & Rechtliches",
     "settings_onboarding_desc": "Starte die interaktive 3-Schritte-Einführung, um alle Kernfunktionen, Routinen und Tastaturkürzel kennenzulernen.",
     "settings_onboarding_title": "App-Einführung & Onboarding-Tour",
-    "settings_p2p_sync": "Geräte-Sync",
+    "settings_p2p_sync": "Geräte synchronisieren",
     "settings_privacy_btn": "Datenschutz",
     "settings_section_lang": "🌐 Sprache wählen",
     "settings_section_theme": "🎨 Farbschema",
@@ -6103,7 +6847,7 @@ const customTranslations = {
     "settings_tour": "Einführung 🚀",
     "shop_add_btn": "Hinzufügen",
     "shop_add_placeholder": "Artikel hinzufügen (z.B. 2x Hafermilch, Brot)...",
-    "shop_clear": "Leeren",
+    "shop_clear": "Alle löschen",
     "shop_empty": "Deine Einkaufsliste ist leer!",
     "shop_history": "Verlauf",
     "shop_recent_bought": "Zuletzt gekauft",
@@ -6263,7 +7007,7 @@ const customTranslations = {
     "tools_menu_title": "Noodle Tools & Sphären",
     "tools_section_focus_media": "Medien",
     "tools_section_media": "Medien",
-    "tools_section_household_daily": "Haushalt & Alltag",
+    "tools_section_household_daily": "Alltag & Lifestyle",
     "tools_section_body_mind": "Körper & Geist",
     "tools_section_help": "Hilfe & Dialog",
     "tools_section_spheres": "Spezialisierte Sphären",
@@ -6289,9 +7033,425 @@ const customTranslations = {
     "workspace_private": "Privat & Alltag",
     "workspace_study": "Studium & Weiterbildung",
     "workspace_work": "Arbeit & Projektaufgaben",
-    "zen_title": "Zen-Fokus"
+    "zen_title": "Zen-Fokus",
+    "nav_shopping": "Einkauf",
+    "shop_open_items": "Zu besorgen",
+    "nav_cooking": "Kochen",
+    "sound_campfire": "Lagerfeuer",
+    "export": "Exportieren",
+    "settings_section_interaction": "Interaktion & Hover",
+    "undo_action": "Rückgängig",
+    "mobile_audio_title": "Audio & Klänge",
+    "mobile_audio_subtitle": "Fokus-Beats, Radio & Naturgeräusche",
+    "master_volume": "Master-Lautstärke",
+    "studio_pro": "Studio Pro",
+    "live_radio": "Live-Radio",
+    "binaural_beats_title": "Binaural & Alpha-Beats",
+    "ambient_nature_title": "Natur & Atmosphäre",
+    "mobile_radio_title": "Live-Radio",
+    "mobile_quick_audio_title": "Fokus-Klänge",
+    "mobile_quick_audio_sub": "Naturklänge & Ambient",
+    "mobile_quick_radio_title": "Live-Radio",
+    "mobile_quick_radio_sub": "Internationale & lokale Sender",
+    "mobile_quick_alarm_title": "Wecker & Uhr",
+    "mobile_quick_alarm_sub": "Erinnerungen & Signalton",
+    "today": "Heute",
+    "week": "Woche",
+    "month": "Monat",
+    "completed_stat": "Erledigt",
+    "backup_hub_title": "Backup & Datenverwaltung",
+    "backup_download_btn": "Backup herunterladen (JSON)",
+    "backup_restore_btn": "Backup wiederherstellen",
+    "shortcuts_title": "Tastatur-Kurzbefehle",
+    "pwa_install_title": "Noodle App installieren",
+    "pwa_install_desc": "Nutze Noodle jederzeit offline direkt auf deinem Startbildschirm oder Desktop.",
+    "pwa_install_btn": "Jetzt installieren",
+    "settings_install_pwa": "App installieren 📲",
+    "settings_install_pwa_title": "App installieren (Desktop & Smartphone)",
+    "settings_install_pwa_desc": "Installiere Noodle als native App für schnellen Zugriff direkt vom Desktop oder Startbildschirm – blitzschnell und offlinefähig.",
+    "settings_install_pwa_btn": "Jetzt installieren 📲",
+    "mobile_install_app": "Noodle als App installieren 📲",
+    "mobile_quick_install_title": "App installieren",
+    "mobile_quick_install_sub": "PWA Desktop & Mobile",
+    "later": "Später",
+    "cancel": "Abbrechen",
+    "celebration_title": "Alle Aufgaben erledigt! 🎉",
+    "celebration_desc": "Großartige Leistung! Du hast für heute alle Punkte geschafft. Gönn dir eine Pause.",
+    "celebration_btn_chill": "Entspannen & Durchatmen ☕",
+    "celebration_btn_later": "Später weitermachen",
+    "cmd_search": "Suche...",
+    "tool_clean": "Putz-Guide",
+    "tool_shopping": "Einkauf",
+    "tool_cooking": "Kochen",
+    "tool_news": "News",
+    "tool_sounds": "Sounds",
+    "tool_media": "Musik & Medien",
+    "tool_dj": "Noodle DJ",
+    "tool_radio": "Radio",
+    "tool_health": "Gesundheit",
+    "tool_sport": "Bewegung",
+    "tool_calm": "Innere Ruhe",
+    "tool_clarity": "Klarheit",
+    "tool_learning": "Lernen",
+    "tool_humor": "Fun-Labor",
+    "tool_social": "Social",
+    "tool_chat": "Chat",
+    "tools_section_knowledge_social": "Wissen, Chat & Social",
+    "tools_section_audio_media": "Audio, Beats & Medien",
+    "settings_routines_customize": "Routinen & Standards anpassen",
+    "settings_language": "Sprache",
+    "settings_theme": "Farbschema",
+    "settings_data_local_guarantee": "Alle Daten 100% lokal auf deinem Gerät gespeichert",
+    "settings_free_guarantee": "Alle Kernfunktionen sind 100% lokal & dauerhaft kostenlos nutzbar.",
+    "settings_hover_title": "Hover- & Maus-Verhalten",
+    "settings_hover_desc": "Wähle, wie Tool-Panels, Wetter, Sounds und Popovers gesteuert werden.",
+    "settings_hover_click_only": "Nur per Klick (Empfohlen)",
+    "settings_hover_click_desc": "Keine automatischen Popups bei Mausbewegungen. Alle Panels öffnen ausschließlich per Klick.",
+    "settings_hover_enabled": "Auto-Hover (Schnell)",
+    "settings_hover_enabled_desc": "Panels und Vorschauen öffnen sofort beim Darüberfahren mit der Maus.",
+    "zen_loading_task": "Lade Fokus-Aufgabe...",
+    "break_5m": "5m Pause",
+    "break_start": "Pause starten",
+    "break_stop": "Pause beenden",
+    "deep_focus_timer": "Deep Focus Timer",
+    "news_all_topics": "Alle Themen",
+    "news_all_sources": "Alle Quellen",
+    "news_read_aloud": "Vorlesen",
+    "close": "Schließen",
+    "save_as_task": "Als Aufgabe speichern",
+    "all_devices_offline": "Alle Geräte & Offline-fähig",
+    "all_categories": "Alle Kategorien",
+    "pause": "Pause"
   },
   "fr": {
+    "pick_tab_suggestion": "Suggestion de focus",
+    "pick_tab_dilemma": "Décideur A vs B",
+    "pick_tab_braindump": "Vider l'esprit",
+    "pick_energy_low": "🔋 Gain rapide",
+    "pick_energy_med": "⚡ Focus",
+    "pick_energy_high": "🔥 Travail profond",
+    "pick_energy_random": "🎲 Aléatoire",
+    "pick_next_btn": "Autre suggestion",
+    "pick_space_hint": "[Espace] = Démarrer",
+    "pick_coin_flip": "Lancer la pièce & décider",
+    "pick_start_focus": "Démarrer directement en focus 🧘",
+    "pick_save_task": "Enregistrer comme tâche",
+    "pick_dilemma_hint": "Pris entre deux options ? Laissez la pièce décider : votre intuition saura immédiatement !",
+    "pick_braindump_hint": "Qu'est-ce qui vous bloque ou vous pèse ? Notez-le brièvement et démarrez sans distraction.",
+    "sport_tab_presets": "Programmes",
+    "sport_tab_builder": "Générateur",
+    "sport_tab_library": "Bibliothèque",
+    "sport_tab_spoons": "1-3 Cuillères",
+    "sport_choose_workout": "Choisissez un entraînement prêt :",
+    "sport_no_equipment": "Aucun équipement nécessaire",
+    "sport_duration_scope": "⏱️ Durée / Étendue",
+    "sport_focus_zone": "🎯 Zone ciblée",
+    "sport_available_equip": "🪑 Équipement disponible",
+    "sport_interval_timing": "⚡ Rythme d'intervalles (Exercice/Pause)",
+    "sport_quiet_apartment": "🛋️ 100% Adapté aux voisins",
+    "sport_whisper_quiet": "Silencieux",
+    "sport_quiet_desc": "Pas de sauts, aucun impact, silencieux sur tapis ou parquet.",
+    "sport_start_custom": "Démarrer l'entraînement personnalisé 🚀",
+    "sport_current_energy": "Votre niveau d'énergie actuel",
+    "sport_exercise_reward": "Exercice terminé & récompensé",
+    "sport_resume": "Reprendre",
+    "sport_pause": "Mettre en pause",
+    "sport_finish": "Terminer",
+    "safespace_tab_breath": "Respiration",
+    "safespace_tab_anchor": "Ancrage",
+    "safespace_tab_eyes": "Yeux",
+    "safespace_tab_body": "Corps",
+    "safespace_tab_sound": "Son",
+    "safespace_breath_in": "Inspirez...",
+    "safespace_creek_sound": "Son de ruisseau activé",
+    "safespace_eyes_rule": "Règle 20-20-20 & Palming",
+    "safespace_eyes_rest": "Reposer les yeux",
+    "safespace_eyes_start": "Démarrer le minuteur 20s",
+    "safespace_stretch_neck": "1️⃣ Étirement du cou",
+    "safespace_stretch_shoulders": "2️⃣ Roulements d'épaules",
+    "safespace_stretch_wrists": "3️⃣ Détente poignets & doigts",
+    "safespace_wave_90s": "Surfer sur la vague de 90s 🌊",
+    "safespace_save_anchor": "Enregistrer 💾",
+    "safespace_journal_submit": "Inscrire",
+    "calm_sigh_title": "Soupir physiologique (Neurosciences de Stanford)",
+    "calm_sigh_desc": "La méthode biologique la plus rapide pour réduire la fréquence cardiaque",
+    "calm_start_pacer": "Démarrer le guide respiratoire",
+    "calm_bilateral_title": "Stimulation bilatérale / Étreinte papillon",
+    "calm_left": "GAUCHE",
+    "calm_right": "DROITE",
+    "calm_start_rhythm": "Démarrer le rythme",
+    "calm_shake_title": "Secouement neurogénique (60s)",
+    "calm_shake_desc": "Libération biologique de l'adrénaline des muscles",
+    "calm_start_shake": "Démarrer le minuteur 60s",
+    "calm_sud_title": "Thermomètre de détresse (SUD 1–10)",
+    "calm_emergency_phrases": "Phrases d'urgence réconfortantes :",
+    "calm_helpline_title": "Interlocuteurs gratuits, confidentiels et professionnels 24/7 :",
+    "audio_sounds_tab": "Sons",
+    "audio_media_tab": "Musique & Médias",
+    "audio_dj_tab": "Noodle DJ",
+    "report_stats_tab": "Statistiques",
+    "report_learn_tab": "Lab Savoir",
+    "report_balance_index": "Indice d'équilibre",
+    "report_activity_trend": "Tendance d'activité",
+    "report_cat_distribution": "Répartition par catégorie",
+    "report_completed_tasks": "Tâches terminées",
+    "close": "Fermer",
+    "add": "Ajouter",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "clear": "Effacer",
+    "open": "Ouvrir",
+    "play": "Lecture",
+    "pause": "Pause",
+    "stop": "Arrêter",
+    "start": "Démarrer",
+    "share": "Partager",
+    "search_placeholder": "Recherche...",
+    "undo": "Annuler",
+    "shop_supermarket": "Marché",
+    "shop_tab_list": "Ma liste",
+    "shop_tab_deals": "Bons plans",
+    "shop_sale_badge": "Promo",
+    "shop_add_placeholder": "Article (ex. 2x lait d'avoine, tomates)...",
+    "shop_open_items": "À acheter",
+    "shop_clear": "Tout effacer",
+    "shop_log_hint": "Les articles cochés sont enregistrés.",
+    "news_sec_lang": "🌐 1. Langue de sortie",
+    "news_auto_translate": "(Traduction auto)",
+    "news_app_standard": "Défaut appli",
+    "news_sec_region": "📍 2. Région & Origine",
+    "news_region_desc": "Mondial ou local",
+    "news_sec_feed": "🔀 3. Mode de flux",
+    "news_sec_media": "📰 4. Médias & Sources",
+    "news_sec_topics": "📑 5. Thèmes & Rubriques",
+    "news_speed_label": "Vitesse vocale :",
+    "news_listening": "Lecture en cours...",
+    "radio_no_station": "Aucune station choisie",
+    "radio_available_stations": "Stations disponibles",
+    "audio_mood_quick": "Ambiances rapides (1-clic)",
+    "audio_ready": "Prêt instantanément",
+    "audio_mood_focus": "Focus",
+    "audio_mood_cafe": "Café",
+    "audio_mood_forest": "Forêt",
+    "audio_mood_energy": "Énergie",
+    "audio_mood_cosmic": "Cosmique",
+    "audio_harmonies": "Harmonies & Mélodies",
+    "audio_nature": "Nature & Ambiance",
+    "audio_beats": "Rythmes & Beats dynamiques",
+    "audio_own_tracks": "Mes pistes",
+    "audio_load_file": "Charger fichier",
+    "audio_url_placeholder": "URL Audio/Vidéo en ligne (mp3, mp4, webm, stream)...",
+    "dj_shuffle": "Mélanger",
+    "dj_xfade": "X-Fade",
+    "collab_team_space": "Espace équipe",
+    "collab_messengers": "Messageries",
+    "collab_direct_chat": "Chat direct",
+    "collab_team_dashboard": "Tableau de bord :",
+    "collab_team_board": "👥 Tableau d'équipe",
+    "pause_tab_breath": "🌬️ Respiration",
+    "pause_tab_sensory": "⚓ Réinitialiser",
+    "pause_tab_body": "🧘 Corps",
+    "pause_tab_sound": "🎧 Son",
+    "pause_444_title": "Respiration carrée 4-4-4",
+    "pause_444_desc": "Focus & anti-stress en 60s",
+    "pause_478_title": "Calme profond 4-7-8",
+    "pause_478_desc": "Baisse le rythme cardiaque & cortisol",
+    "pause_sigh_title": "Soupir physiologique",
+    "pause_sigh_desc": "Reset nerveux le plus rapide (30s)",
+    "pause_54321_title": "Ancrage 5-4-3-2-1",
+    "pause_54321_desc": "Arrête les ruminations et ancre",
+    "pause_eyes_title": "Pause visuelle 20-20-20",
+    "pause_eyes_desc": "20s de repos écran & paumes chaudes",
+    "pause_detox_title": "Détox dopamine 60s (Silence)",
+    "pause_detox_desc": "Pause sans écran ni stimuli",
+    "settings_select_lang": "🌐 Choisir la langue",
+    "settings_mode_peek": "📌 Aperçu & Épingler",
+    "settings_mode_click": "👆 Clic uniquement",
+    "settings_status_free": "Statut actuel : Noodle Gratuit",
+    "settings_free_badge": "Gratuit",
+    "settings_free_desc": "Toutes les fonctions sont 100% locales & gratuites pour toujours.",
+    "settings_pro_soon": "Pro (bientôt)",
+    "mobile_menu_title": "Menu & Paramètres",
+    "mobile_tools_title": "Outils & Assistants",
+    "mobile_backup_export_btn": "Exporter sauvegarde",
+    "mobile_restore_btn": "Restaurer",
+    "mobile_stats_report": "Statistiques / Rapport",
+    "mobile_themes": "Thèmes",
+    "mobile_language": "Langue",
+    "mobile_pause_relax": "Pause & Détente",
+    "mobile_save_plan": "Enregistrer le plan",
+    "mobile_load_plan": "Charger le plan",
+    "mobile_reset": "Réinitialiser",
+    "mobile_feedback": "Avis",
+    "mobile_options": "Options",
+    "cook_pantry_tab": "Garde-manger & Ingrédients",
+    "cook_recipe_tab": "Recette & Préparation",
+    "cook_quick_select": "Sélection rapide",
+    "cook_clear_pantry": "Vider",
+    "cook_suggest_btn": "Suggérer recette & Cuisiner",
+    "cook_ingredient_match": "Correspondance des ingrédients",
+    "cook_adjust_ingredients": "Ajuster ingrédients",
+    "cook_missing_to_shop": "Manquant à la liste 🛒",
+    "cook_no_recipe_title": "Aucune recette sélectionnée",
+    "cook_no_recipe_desc": "Entrez vos ingrédients disponibles pour découvrir une recette rapide.",
+    "cook_to_pantry_btn": "Aux ingrédients 🥗",
+    "clean_tab_express": "15m Express",
+    "clean_tab_standard": "45m Standard",
+    "clean_tab_deep": "90m En profondeur",
+    "clean_lofi_btn": "Musique LoFi",
+    "clean_transfer_board": "Ajouter au tableau",
+    "clean_ready_status": "Prêt à démarrer !",
+    "postpone_title": "Reporter le rendez-vous",
+    "postpone_quick": "Sélection rapide :",
+    "postpone_plus_1d": "+1 Jour (Demain)",
+    "postpone_plus_2d": "+2 Jours",
+    "postpone_plus_1w": "+1 Semaine",
+    "postpone_new_date": "Nouvelle date :",
+    "postpone_new_time": "Nouvelle heure :",
+    "postpone_note": "Note / Raison (optionnel) :",
+    "sync_auto_title": "Synchronisation automatique ⚡",
+    "sync_offline_guarantee": "Tous appareils & hors-ligne",
+    "sync_email": "Adresse e-mail :",
+    "sync_pin": "Mot de passe / PIN :",
+    "sync_forgot_pin": "Mot de passe oublié ?",
+    "sync_login_btn": "Connexion / Inscription",
+    "health_checkup_done": "Fait ✓",
+    "health_checkup_urgent": "En retard !",
+    "health_checkup_due": "Dû",
+    "health_mark_done": "Fait",
+    "health_daily_meds": "Médicaments & Vitamines du jour",
+    "health_taken_suffix": "pris",
+    "health_new_med_placeholder": "Nouveau produit (ex. Oméga 3)...",
+    "health_dose_placeholder": "Dose...",
+    "health_doctor_questions": "Questions pour le médecin",
+    "health_new_q_placeholder": "Noter question pour le médecin...",
+    "mobile_timer_ready": "Prêt",
+    "mobile_timer_start": "Démarrer",
+    "mobile_timer_pause": "Pause",
+    "mobile_brainstorm_badge": "Idées",
+    "mobile_brainstorm_title": "Brainstorming",
+    "mobile_brainstorm_sub": "Voix & Transfert",
+    "mobile_clarity_badge": "Clarté",
+    "mobile_clarity_title": "Contrôle des impulsions",
+    "mobile_clarity_sub": "Réflexion & Questions",
+    "mobile_zen_badge": "Zen",
+    "mobile_safespace_title": "Espace Serein",
+    "mobile_safespace_sub": "Respiration & Calme",
+    "mobile_pantry_badge": "Réserve",
+    "mobile_pantry_title": "Garde-manger",
+    "mobile_pantry_sub": "Stock & Dates",
+    "mobile_learning_badge": "Quiz & XP",
+    "mobile_learning_title": "Labo du Savoir",
+    "mobile_learning_sub": "Thèmes & Choix multiples",
+    "mobile_chat_title": "Chat d'Équipe",
+    "mobile_chat_sub": "En direct & Salons",
+    "mobile_social_title": "Social Hub",
+    "mobile_social_sub": "Insta, FB, TikTok & Co",
+    "mobile_alpha_sub": "Apprentissage & Focus",
+    "mobile_theta_sub": "Hyperfocus profond",
+    "mobile_delta_sub": "Régénération & Sommeil",
+    "mobile_gamma_sub": "Performance mentale max",
+    "mobile_ambient_guitar": "Guitare",
+    "mobile_ambient_campfire": "Feu de camp",
+    "mobile_ambient_forest": "Forêt",
+    "mobile_ambient_windchime": "Carillon",
+    "mobile_ambient_bowl": "Bol chantant",
+    "mobile_ambient_rain": "Pluie",
+
+    "media_audio_video": "Médias Audio & Vidéo",
+    "media_load_file": "Charger fichier",
+    "media_play": "Lire",
+    "media_no_tracks": "Aucune piste chargée. Cliquez sur 'Charger fichier' pour lire votre musique.",
+    "media_no_track_active": "Aucune piste active",
+    "media_spotify_hint": "Collez une URL de playlist ou titre Spotify :",
+    "media_spotify_load": "Charger 🎧",
+    "media_spotify_empty": "Aucune URL Spotify chargée pour l'instant.",
+    "media_youtube_hint": "Collez une URL vidéo ou direct YouTube :",
+    "media_youtube_load": "Charger ▶",
+    "media_youtube_empty": "Aucune URL YouTube chargée pour l'instant.",
+    "radio_no_station": "Aucune station sélectionnée",
+    "radio_available_stations": "Stations disponibles",
+    "news_all_sources": "Toutes les sources",
+    "news_speed_fast": "Rapide (22s)",
+    "news_speed_normal": "Normal (30s)",
+    "news_speed_calm": "Calme (42s)",
+    "collab_active_members": "Membres actifs :",
+    "collab_team_dashboard": "Tableau d'équipe :",
+    "collab_share_board": "Partager tableau",
+    "collab_team_board": "Tableau d'équipe",
+    "collab_quick_share": "⚡ Partage rapide :",
+    "collab_chip_sprint": "🚀 Sprint focus",
+    "collab_chip_coffee": "☕ Pause café",
+    "collab_chip_idea": "💡 Nouvelle idée",
+    "collab_chip_done": "✅ Terminé",
+    "collab_chip_urgent": "🔥 Urgent",
+    "collab_quick_context": "⚡ Insérer contexte rapide :",
+    "collab_share_one_click": "Partager en 1 clic vers :",
+    "collab_direct_contact_label": "Numéro ou @pseudo :",
+    "collab_direct_msg_label": "Message (optionnel) :",
+    "collab_choose_app": "Choisir application :",
+    "shortcuts_desc": "Navigation rapide sans souris",
+    "shortcuts_spotlight": "Palette de commandes Spotlight",
+    "shortcuts_new_task": "Créer une nouvelle tâche",
+    "shortcuts_toggle_timer": "Basculer minuteur focus",
+    "shortcuts_toggle_zen": "Activer / désactiver mode Zen",
+    "shortcuts_switch_ws": "Espace Personnel / Travail",
+    "shortcuts_open_overview": "Ouvrir cet aperçu",
+    "shortcuts_close_modals": "Fermer les fenêtres modales",
+    "shortcuts_understood": "Compris ✓",
+    "mobile_menu_title": "Menu & Paramètres",
+    "mobile_backup_export": "Sauvegarde & Export",
+    "mobile_backup_btn": "Exporter sauvegarde",
+    "mobile_restore_btn": "Restaurer",
+    "mobile_view_report": "Affichage & Rapports",
+    "mobile_stats_btn": "Statistiques / Rapport",
+    "mobile_themes_btn": "Thèmes",
+    "mobile_lang_btn": "Langue",
+    "mobile_pause_btn": "Pause & Repos",
+    "mobile_actions_data": "Actions & Données",
+    "mobile_undo_btn": "Annuler",
+    "mobile_save_plan_btn": "Enregistrer plan",
+    "mobile_load_plan_btn": "Charger plan",
+    "mobile_reset_btn": "Réinitialiser",
+    "mobile_start_tour": "Lancer visite & onboarding ✨",
+    "mobile_feedback": "Commentaires",
+    "mobile_options": "Options",
+    "mobile_privacy_legal": "Confidentialité & Mentions légales (100% Local-First)",
+    "mobile_tools_title": "Outils & Assistants",
+    "mobile_tool_audio_title": "Studio Audio & Ambiance",
+    "mobile_tool_audio_sub": "Sons naturels, beats, MP3, Spotify, DJ",
+    "mobile_tool_alarm_title": "Réveil",
+    "mobile_tool_alarm_sub": "Rendez-vous & Alarmes",
+    "mobile_tool_cooking_title": "Cuisine",
+    "mobile_tool_cooking_sub": "Placard & Recettes",
+    "mobile_tool_shopping_title": "Courses",
+    "mobile_tool_shopping_sub": "Liste de courses & Offres",
+    "mobile_tool_boost_title": "Élan immédiat",
+    "mobile_tool_boost_sub": "30s pour démarrer",
+    "mobile_tool_brainstorm_title": "Brainstorming",
+    "mobile_tool_brainstorm_sub": "Idées & Transfert tableau",
+    "mobile_tool_learning_title": "Labo du Savoir",
+    "mobile_tool_learning_sub": "Quiz & Apprentissage profond",
+    "mobile_tool_health_title": "Santé & Prévention",
+    "mobile_tool_health_sub": "Radar bilans & Médicaments",
+    "mobile_tool_calm_title": "Calme Intérieur",
+    "mobile_tool_calm_sub": "Reset aigu & Ancrage",
+    "mobile_tool_sport_title": "Sport & Corps",
+    "mobile_tool_sport_sub": "Séances d'1 minute",
+    "mobile_tool_weather_title": "Météo",
+    "mobile_tool_weather_sub": "En direct & 5 jours",
+    "chip_milk": "🥛 Lait",
+    "chip_eggs": "🥚 Œufs",
+    "chip_bread": "🍞 Pain",
+    "chip_butter": "🧈 Beurre",
+    "chip_apples": "🍎 Pommes",
+    "chip_bananas": "🍌 Bananes",
+    "chip_coffee": "☕ Café",
+    "chip_pasta": "🍝 Pâtes",
+    "chip_cheese": "🧀 Fromage",
+    "chip_onions": "🧅 Oignons",
+    "shop_log_hint": "Cocher les achats les archive dans l'historique.",
+
     "add": "Ajouter une tâche",
     "add_column": "Ajouter une carte",
     "add_task": "Ajouter une tâche",
@@ -6645,7 +7805,7 @@ const customTranslations = {
     "settings_modal_title": "Paramètres & Mentions Légales",
     "settings_onboarding_desc": "Découvrez en 3 étapes les fonctionnalités clés, minuteurs de concentration et raccourcis de Noodle.",
     "settings_onboarding_title": "Introduction & Visite guidée",
-    "settings_p2p_sync": "Sync Appareils",
+    "settings_p2p_sync": "Synchroniser appareils",
     "settings_privacy_btn": "Confidentialité",
     "settings_section_lang": "🌐 Choisir la Langue",
     "settings_section_theme": "🎨 Thème de Couleur",
@@ -6653,7 +7813,7 @@ const customTranslations = {
     "settings_tour": "Visite 🚀",
     "shop_add_btn": "Ajouter",
     "shop_add_placeholder": "Ajouter un article (ex. 2x lait d'avoine, pain)...",
-    "shop_clear": "Vider",
+    "shop_clear": "Tout effacer",
     "shop_empty": "Ta liste de courses est vide !",
     "shop_history": "Historique",
     "shop_recent_bought": "Acheté récemment",
@@ -6813,7 +7973,7 @@ const customTranslations = {
     "tools_menu_title": "Outils & Sphères Noodle",
     "tools_section_focus_media": "Médias",
     "tools_section_media": "Médias",
-    "tools_section_household_daily": "Ménage & Quotidien",
+    "tools_section_household_daily": "Quotidien & Maison",
     "tools_section_body_mind": "Corps & Esprit",
     "tools_section_help": "Aide & Dialogue",
     "tools_section_spheres": "Sphères Spécialisées",
@@ -6839,9 +7999,425 @@ const customTranslations = {
     "workspace_private": "Personnel & Quotidien",
     "workspace_study": "Études & Formation",
     "workspace_work": "Travail & Projets",
-    "zen_title": "Focus Zen"
+    "zen_title": "Focus Zen",
+    "nav_shopping": "Courses",
+    "shop_open_items": "À acheter",
+    "nav_cooking": "Cuisine",
+    "sound_campfire": "Feu de camp",
+    "export": "Exporter",
+    "settings_section_interaction": "Interaction & Survol",
+    "undo_action": "Annuler",
+    "mobile_audio_title": "Audio & Sons",
+    "mobile_audio_subtitle": "Beats de concentration, radio & nature",
+    "master_volume": "Volume général",
+    "studio_pro": "Studio Pro",
+    "live_radio": "Radio en direct",
+    "binaural_beats_title": "Battements binauraux & alpha",
+    "ambient_nature_title": "Nature & Atmosphère",
+    "mobile_radio_title": "Radio en direct",
+    "mobile_quick_audio_title": "Sons de concentration",
+    "mobile_quick_audio_sub": "Sons naturels & ambiance",
+    "mobile_quick_radio_title": "Radio en direct",
+    "mobile_quick_radio_sub": "Flux internationaux & locaux",
+    "mobile_quick_alarm_title": "Alarme & Horloge",
+    "mobile_quick_alarm_sub": "Rappels & sonneries de concentration",
+    "today": "Aujourd'hui",
+    "week": "Semaine",
+    "month": "Mois",
+    "completed_stat": "Terminé",
+    "backup_hub_title": "Sauvegarde & Données",
+    "backup_download_btn": "Télécharger sauvegarde (JSON)",
+    "backup_restore_btn": "Restaurer sauvegarde",
+    "shortcuts_title": "Raccourcis clavier",
+    "pwa_install_title": "Installer l'application Noodle",
+    "pwa_install_desc": "Utilisez Noodle hors-ligne à tout moment directement depuis votre écran d'accueil.",
+    "pwa_install_btn": "Installer maintenant",
+    "settings_install_pwa": "Installer l'application 📲",
+    "settings_install_pwa_title": "Installer l'application (Ordinateur & Mobile)",
+    "settings_install_pwa_desc": "Installez Noodle comme application native pour un accès rapide depuis votre bureau ou écran d'accueil — ultra rapide et hors-ligne.",
+    "settings_install_pwa_btn": "Installer maintenant 📲",
+    "mobile_install_app": "Installer l'application Noodle 📲",
+    "mobile_quick_install_title": "Installer l'application",
+    "mobile_quick_install_sub": "PWA Ordinateur & Mobile",
+    "later": "Plus tard",
+    "cancel": "Annuler",
+    "celebration_title": "Toutes les tâches terminées ! 🎉",
+    "celebration_desc": "Bravo ! Vous avez terminé toutes vos tâches pour aujourd'hui. Moment de détente mérité.",
+    "celebration_btn_chill": "Se détendre ☕",
+    "celebration_btn_later": "Continuer plus tard",
+    "cmd_search": "Recherche...",
+    "tool_clean": "Ménage",
+    "tool_shopping": "Courses",
+    "tool_cooking": "Cuisine",
+    "tool_news": "Actualités",
+    "tool_sounds": "Sons",
+    "tool_media": "Musique & Médias",
+    "tool_dj": "Noodle DJ",
+    "tool_radio": "Radio",
+    "tool_health": "Santé",
+    "tool_sport": "Mouvement",
+    "tool_calm": "Calme intérieur",
+    "tool_clarity": "Clarté",
+    "tool_learning": "Apprentissage",
+    "tool_humor": "Laboratoire Fun",
+    "tool_social": "Réseaux",
+    "tool_chat": "Discussion",
+    "tools_section_knowledge_social": "Savoir, Chat & Réseaux",
+    "tools_section_audio_media": "Audio, Beats & Médias",
+    "settings_routines_customize": "Personnaliser routines & valeurs",
+    "settings_language": "Langue",
+    "settings_theme": "Thème de couleur",
+    "settings_data_local_guarantee": "Toutes vos données sont stockées 100% localement sur votre appareil",
+    "settings_free_guarantee": "Toutes les fonctions clés sont 100% locales et toujours gratuites.",
+    "settings_hover_title": "Comportement du curseur et survol",
+    "settings_hover_desc": "Choisissez comment les panneaux et fenêtres s'ouvrent.",
+    "settings_hover_click_only": "Par clic uniquement (Recommandé)",
+    "settings_hover_click_desc": "Aucune ouverture involontaire au survol. Tout s'ouvre d'un clic net.",
+    "settings_hover_enabled": "Survol automatique (Rapide)",
+    "settings_hover_enabled_desc": "Les fenêtres et aperçus s'ouvrent instantanément au survol de la souris.",
+    "zen_loading_task": "Chargement de la tâche...",
+    "break_5m": "Pause 5 min",
+    "break_start": "Démarrer la pause",
+    "break_stop": "Fin de pause",
+    "deep_focus_timer": "Minuteur de concentration profonde",
+    "news_all_topics": "Tous les thèmes",
+    "news_all_sources": "Toutes les sources",
+    "news_read_aloud": "Lecture audio",
+    "close": "Fermer",
+    "save_as_task": "Enregistrer comme tâche",
+    "all_devices_offline": "Tous appareils & hors-ligne",
+    "all_categories": "Toutes les catégories",
+    "pause": "Pause"
   },
   "it": {
+    "pick_tab_suggestion": "Suggerimento focus",
+    "pick_tab_dilemma": "Decisore A vs B",
+    "pick_tab_braindump": "Svuota la mente",
+    "pick_energy_low": "🔋 Vittoria rapida",
+    "pick_energy_med": "⚡ Focus",
+    "pick_energy_high": "🔥 Lavoro profondo",
+    "pick_energy_random": "🎲 Casuale",
+    "pick_next_btn": "Altro suggerimento",
+    "pick_space_hint": "[Spazio] = Avvia",
+    "pick_coin_flip": "Lancia moneta & decidi",
+    "pick_start_focus": "Avvia direttamente in focus 🧘",
+    "pick_save_task": "Salva come compito",
+    "pick_dilemma_hint": "Indeciso tra due opzioni? Lascia decidere la moneta: il tuo istinto capirà subito se sei d'accordo!",
+    "pick_braindump_hint": "Cosa ti blocca o ti appesantisce? Scrivilo brevemente e inizia subito senza distrazioni.",
+    "sport_tab_presets": "Programmi",
+    "sport_tab_builder": "Costruttore",
+    "sport_tab_library": "Biblioteca",
+    "sport_tab_spoons": "1-3 Cucchiai",
+    "sport_choose_workout": "Scegli un allenamento pronto:",
+    "sport_no_equipment": "Nessun attrezzo necessario",
+    "sport_duration_scope": "⏱️ Durata / Volume",
+    "sport_focus_zone": "🎯 Zona focus",
+    "sport_available_equip": "🪑 Attrezzatura disponibile",
+    "sport_interval_timing": "⚡ Intervalli (Esercizio/Pausa)",
+    "sport_quiet_apartment": "🛋️ 100% Adatto ad appartamenti",
+    "sport_whisper_quiet": "Silenzioso",
+    "sport_quiet_desc": "Nessun salto, nessun impatto, silenzioso su tappeti o parquet.",
+    "sport_start_custom": "Avvia allenamento personalizzato 🚀",
+    "sport_current_energy": "Il tuo livello di energia attuale",
+    "sport_exercise_reward": "Esercizio completato & ricompensa",
+    "sport_resume": "Riprendi",
+    "sport_pause": "Pausa",
+    "sport_finish": "Termina",
+    "safespace_tab_breath": "Respiro",
+    "safespace_tab_anchor": "Radicamento",
+    "safespace_tab_eyes": "Occhi",
+    "safespace_tab_body": "Corpo",
+    "safespace_tab_sound": "Suono",
+    "safespace_breath_in": "Inspira...",
+    "safespace_creek_sound": "Suono torrente on",
+    "safespace_eyes_rule": "Regola 20-20-20 & Palming",
+    "safespace_eyes_rest": "Riposa gli occhi",
+    "safespace_eyes_start": "Avvia timer 20s occhi",
+    "safespace_stretch_neck": "1️⃣ Stretching del collo",
+    "safespace_stretch_shoulders": "2️⃣ Cerchi con le spalle",
+    "safespace_stretch_wrists": "3️⃣ Polsi & dita",
+    "safespace_wave_90s": "Cavalca l'onda dei 90s 🌊",
+    "safespace_save_anchor": "Salva 💾",
+    "safespace_journal_submit": "Registra",
+    "calm_sigh_title": "Sospiro fisiologico (Neuroscienze di Stanford)",
+    "calm_sigh_desc": "Il metodo biologico più rapido per ridurre la frequenza cardiaca",
+    "calm_start_pacer": "Avvia guida respiratoria",
+    "calm_bilateral_title": "Stimolazione bilaterale / Abbraccio a farfalla",
+    "calm_left": "SINISTRA",
+    "calm_right": "DESTRA",
+    "calm_start_rhythm": "Avvia ritmo",
+    "calm_shake_title": "Scuotimento neurogenico (60s)",
+    "calm_shake_desc": "Rilascio biologico di adrenalina dai muscoli",
+    "calm_start_shake": "Avvia timer 60s",
+    "calm_sud_title": "Termometro di tensione (SUD 1–10)",
+    "calm_emergency_phrases": "Frasi di emergenza convalidanti:",
+    "calm_helpline_title": "Contatti gratuiti, riservati e professionali h24:",
+    "audio_sounds_tab": "Suoni",
+    "audio_media_tab": "Musica & Media",
+    "audio_dj_tab": "Noodle DJ",
+    "report_stats_tab": "Statistiche",
+    "report_learn_tab": "Laboratorio Sapere",
+    "report_balance_index": "Indice di equilibrio",
+    "report_activity_trend": "Trend di attività",
+    "report_cat_distribution": "Distribuzione per categoria",
+    "report_completed_tasks": "Attività completate",
+    "close": "Chiudi",
+    "add": "Aggiungi",
+    "save": "Salva",
+    "delete": "Elimina",
+    "clear": "Cancella",
+    "open": "Apri",
+    "play": "Riproduci",
+    "pause": "Pausa",
+    "stop": "Ferma",
+    "start": "Avvia",
+    "share": "Condividi",
+    "search_placeholder": "Cerca...",
+    "undo": "Annulla",
+    "shop_supermarket": "Mercato",
+    "shop_tab_list": "La mia lista",
+    "shop_tab_deals": "Offerte",
+    "shop_sale_badge": "Saldi",
+    "shop_add_placeholder": "Articolo (es. 2x latte d'avena, pomodori)...",
+    "shop_open_items": "Da comprare",
+    "shop_clear": "Cancella tutto",
+    "shop_log_hint": "Gli articoli spuntati vengono registrati.",
+    "news_sec_lang": "🌐 1. Lingua di output",
+    "news_auto_translate": "(Traduzione auto)",
+    "news_app_standard": "Predefinito app",
+    "news_sec_region": "📍 2. Regione e origine",
+    "news_region_desc": "Focus globale o locale",
+    "news_sec_feed": "🔀 3. Modalità feed",
+    "news_sec_media": "📰 4. Media e fonti",
+    "news_sec_topics": "📑 5. Temi e categorie",
+    "news_speed_label": "Velocità voce:",
+    "news_listening": "In lettura...",
+    "radio_no_station": "Nessuna stazione scelta",
+    "radio_available_stations": "Stazioni disponibili",
+    "audio_mood_quick": "Atmosfere rapide (1-Click)",
+    "audio_ready": "Ready instantly",
+    "audio_mood_focus": "Focus",
+    "audio_mood_cafe": "Caffè",
+    "audio_mood_forest": "Foresta",
+    "audio_mood_energy": "Energia",
+    "audio_mood_cosmic": "Cosmico",
+    "audio_harmonies": "Armonie e melodie",
+    "audio_nature": "Natura e atmosfera",
+    "audio_beats": "Ritmi e beat dinamici",
+    "audio_own_tracks": "I miei brani",
+    "audio_load_file": "Carica file",
+    "audio_url_placeholder": "URL Audio/Video online (mp3, mp4, webm, stream)...",
+    "dj_shuffle": "Casuale",
+    "dj_xfade": "X-Fade",
+    "collab_team_space": "Spazio team",
+    "collab_messengers": "Messaggistica",
+    "collab_direct_chat": "Chat diretta",
+    "collab_team_dashboard": "Dashboard team:",
+    "collab_team_board": "👥 Bacheca team",
+    "pause_tab_breath": "🌬️ Respiro",
+    "pause_tab_sensory": "⚓ Reset",
+    "pause_tab_body": "🧘 Corpo",
+    "pause_tab_sound": "🎧 Suono",
+    "pause_444_title": "Respirazione quadrata 4-4-4",
+    "pause_444_desc": "Focus e anti-stress in 60s",
+    "pause_478_title": "Calma profonda 4-7-8",
+    "pause_478_desc": "Abbassa frequenza cardiaca e cortisolo",
+    "pause_sigh_title": "Sospiro fisiologico",
+    "pause_sigh_desc": "Reset nervoso più rapido (30s)",
+    "pause_54321_title": "Ancoraggio 5-4-3-2-1",
+    "pause_54321_desc": "Ferma i pensieri e ancora alla realtà",
+    "pause_eyes_title": "Pausa visiva 20-20-20",
+    "pause_eyes_desc": "20s di pausa schermo e palmi caldi",
+    "pause_detox_title": "Detox dopamina 60s (Silenzio)",
+    "pause_detox_desc": "Pausa mentale senza stimoli né schermi",
+    "settings_select_lang": "🌐 Seleziona lingua",
+    "settings_mode_peek": "📌 Anteprima & Fissa",
+    "settings_mode_click": "👆 Solo clic",
+    "settings_status_free": "Stato attuale: Noodle Gratuito",
+    "settings_free_badge": "Gratuito",
+    "settings_free_desc": "Tutte le funzioni sono 100% locali e gratuite per sempre.",
+    "settings_pro_soon": "Pro (presto disponibile)",
+    "mobile_menu_title": "Menu e impostazioni",
+    "mobile_tools_title": "Strumenti e assistenti",
+    "mobile_backup_export_btn": "Esporta backup",
+    "mobile_restore_btn": "Ripristina",
+    "mobile_stats_report": "Statistiche / Report",
+    "mobile_themes": "Temi",
+    "mobile_language": "Lingua",
+    "mobile_pause_relax": "Pausa e relax",
+    "mobile_save_plan": "Salva piano",
+    "mobile_load_plan": "Carica piano",
+    "mobile_reset": "Reimposta",
+    "mobile_feedback": "Feedback",
+    "mobile_options": "Opzioni",
+    "cook_pantry_tab": "Dispensa e ingredienti",
+    "cook_recipe_tab": "Ricetta e preparazione",
+    "cook_quick_select": "Scelta rapida",
+    "cook_clear_pantry": "Svuota",
+    "cook_suggest_btn": "Suggerisci ricetta e prepara",
+    "cook_ingredient_match": "Verifica ingredienti",
+    "cook_adjust_ingredients": "Modifica ingredienti",
+    "cook_missing_to_shop": "Mancanti alla spesa 🛒",
+    "cook_no_recipe_title": "Nessuna ricetta selezionata",
+    "cook_no_recipe_desc": "Inserisci gli ingredienti disponibili per creare una ricetta veloce.",
+    "cook_to_pantry_btn": "Agli ingredienti 🥗",
+    "clean_tab_express": "15m Express",
+    "clean_tab_standard": "45m Standard",
+    "clean_tab_deep": "90m Profondo",
+    "clean_lofi_btn": "Musica LoFi",
+    "clean_transfer_board": "Aggiungi alla bacheca",
+    "clean_ready_status": "Pronto a iniziare!",
+    "postpone_title": "Riprogramma appuntamento",
+    "postpone_quick": "Scelta rapida:",
+    "postpone_plus_1d": "+1 Giorno (Domani)",
+    "postpone_plus_2d": "+2 Giorni",
+    "postpone_plus_1w": "+1 Settimana",
+    "postpone_new_date": "Nuova data:",
+    "postpone_new_time": "Nuova ora:",
+    "postpone_note": "Nota / Motivo (opzionale):",
+    "sync_auto_title": "Sincronizzazione automatica ⚡",
+    "sync_offline_guarantee": "Tutti i dispositivi e offline",
+    "sync_email": "Indirizzo email:",
+    "sync_pin": "Password / PIN:",
+    "sync_forgot_pin": "Password dimenticata?",
+    "sync_login_btn": "Accedi / Registrati",
+    "health_checkup_done": "Fatto ✓",
+    "health_checkup_urgent": "Scaduto!",
+    "health_checkup_due": "In scadenza",
+    "health_mark_done": "Fatto",
+    "health_daily_meds": "Farmaci e vitamine giornalieri",
+    "health_taken_suffix": "assunti",
+    "health_new_med_placeholder": "Nuovo integratore (es. Omega 3)...",
+    "health_dose_placeholder": "Dose...",
+    "health_doctor_questions": "Domande per il prossimo medico",
+    "health_new_q_placeholder": "Scrivi domanda per il medico...",
+    "mobile_timer_ready": "Pronto",
+    "mobile_timer_start": "Avvia",
+    "mobile_timer_pause": "Pausa",
+    "mobile_brainstorm_badge": "Idee",
+    "mobile_brainstorm_title": "Brainstorming",
+    "mobile_brainstorm_sub": "Voce & Bacheca",
+    "mobile_clarity_badge": "Chiarezza",
+    "mobile_clarity_title": "Controllo impulsi",
+    "mobile_clarity_sub": "Riflessione & Domande",
+    "mobile_zen_badge": "Zen",
+    "mobile_safespace_title": "Spazio Sicuro",
+    "mobile_safespace_sub": "Respiro & Calma",
+    "mobile_pantry_badge": "Dispensa",
+    "mobile_pantry_title": "Dispensa",
+    "mobile_pantry_sub": "Scorte & Scadenze",
+    "mobile_learning_badge": "Quiz & XP",
+    "mobile_learning_title": "Laboratorio del Sapere",
+    "mobile_learning_sub": "Argomenti & Quiz",
+    "mobile_chat_title": "Chat di Squadra",
+    "mobile_chat_sub": "Live & Stanze",
+    "mobile_social_title": "Social Hub",
+    "mobile_social_sub": "Insta, FB, TikTok & Co",
+    "mobile_alpha_sub": "Apprendimento & Focus",
+    "mobile_theta_sub": "Iperfocalizzazione profonda",
+    "mobile_delta_sub": "Rigenerazione & Sonno",
+    "mobile_gamma_sub": "Massima resa mentale",
+    "mobile_ambient_guitar": "Chitarra",
+    "mobile_ambient_campfire": "Camino",
+    "mobile_ambient_forest": "Bosco",
+    "mobile_ambient_windchime": "Scacciapensieri",
+    "mobile_ambient_bowl": "Campana tibetana",
+    "mobile_ambient_rain": "Pioggia",
+
+    "media_audio_video": "Media Audio & Video",
+    "media_load_file": "Carica file",
+    "media_play": "Riproduci",
+    "media_no_tracks": "Nessun brano caricato. Clicca su 'Carica file' per ascoltare la tua musica.",
+    "media_no_track_active": "Nessun brano attivo",
+    "media_spotify_hint": "Incolla URL playlist o brano Spotify:",
+    "media_spotify_load": "Carica 🎧",
+    "media_spotify_empty": "Nessun URL Spotify caricato finora.",
+    "media_youtube_hint": "Incolla URL video o diretta YouTube:",
+    "media_youtube_load": "Carica ▶",
+    "media_youtube_empty": "Nessun URL YouTube caricato finora.",
+    "radio_no_station": "Nessuna stazione selezionata",
+    "radio_available_stations": "Stazioni disponibili",
+    "news_all_sources": "Tutte le fonti",
+    "news_speed_fast": "Rapido (22s)",
+    "news_speed_normal": "Normale (30s)",
+    "news_speed_calm": "Tranquillo (42s)",
+    "collab_active_members": "Membri attivi:",
+    "collab_team_dashboard": "Dashboard team:",
+    "collab_share_board": "Condividi bacheca",
+    "collab_team_board": "Bacheca team",
+    "collab_quick_share": "⚡ Condivisione rapida:",
+    "collab_chip_sprint": "🚀 Sprint focus",
+    "collab_chip_coffee": "☕ Pausa caffè",
+    "collab_chip_idea": "💡 Nuova idea",
+    "collab_chip_done": "✅ Fatto",
+    "collab_chip_urgent": "🔥 Importante",
+    "collab_quick_context": "⚡ Inserisci contesto rapido:",
+    "collab_share_one_click": "Condividi con 1 clic su:",
+    "collab_direct_contact_label": "Numero o @username:",
+    "collab_direct_msg_label": "Messaggio (opzionale):",
+    "collab_choose_app": "Scegli app per iniziare:",
+    "shortcuts_desc": "Uso rapido senza mouse",
+    "shortcuts_spotlight": "Tavolozza comandi Spotlight",
+    "shortcuts_new_task": "Crea nuova attività",
+    "shortcuts_toggle_timer": "Attiva/disattiva timer focus",
+    "shortcuts_toggle_zen": "Attiva/disattiva modalità Zen",
+    "shortcuts_switch_ws": "Spazio Personale / Lavoro",
+    "shortcuts_open_overview": "Apri questa panoramica",
+    "shortcuts_close_modals": "Chiudi popup e modali",
+    "shortcuts_understood": "Ho capito ✓",
+    "mobile_menu_title": "Menu & Impostazioni",
+    "mobile_backup_export": "Backup & Esportazione",
+    "mobile_backup_btn": "Esporta backup",
+    "mobile_restore_btn": "Ripristina",
+    "mobile_view_report": "Visualizzazione & Report",
+    "mobile_stats_btn": "Statistiche / Report",
+    "mobile_themes_btn": "Temi",
+    "mobile_lang_btn": "Lingua",
+    "mobile_pause_btn": "Pausa & Riposo",
+    "mobile_actions_data": "Azioni & Dati",
+    "mobile_undo_btn": "Annulla",
+    "mobile_save_plan_btn": "Salva piano",
+    "mobile_load_plan_btn": "Carica piano",
+    "mobile_reset_btn": "Ripristina",
+    "mobile_start_tour": "Avvia tour e onboarding ✨",
+    "mobile_feedback": "Feedback",
+    "mobile_options": "Opzioni",
+    "mobile_privacy_legal": "Privacy & Note legali (100% Local-First)",
+    "mobile_tools_title": "Strumenti & Aiutanti",
+    "mobile_tool_audio_title": "Studio Audio & Atmosfera",
+    "mobile_tool_audio_sub": "Suoni della natura, beat, MP3, Spotify, DJ",
+    "mobile_tool_alarm_title": "Sveglia",
+    "mobile_tool_alarm_sub": "Appuntamenti & Sveglie",
+    "mobile_tool_cooking_title": "Cucina",
+    "mobile_tool_cooking_sub": "Dispensa & Ricette",
+    "mobile_tool_shopping_title": "Spesa",
+    "mobile_tool_shopping_sub": "Lista spesa & Offerte",
+    "mobile_tool_boost_title": "Spinta Immediata",
+    "mobile_tool_boost_sub": "30s per iniziare",
+    "mobile_tool_brainstorm_title": "Brainstorming",
+    "mobile_tool_brainstorm_sub": "Idee & Trasferimento",
+    "mobile_tool_learning_title": "Laboratorio del Sapere",
+    "mobile_tool_learning_sub": "Quiz & Apprendimento",
+    "mobile_tool_health_title": "Salute & Prevenzione",
+    "mobile_tool_health_sub": "Radar controlli & Farmaci",
+    "mobile_tool_calm_title": "Calma Interiore",
+    "mobile_tool_calm_sub": "Reset acuto & Radicamento",
+    "mobile_tool_sport_title": "Sport & Corpo",
+    "mobile_tool_sport_sub": "Allenamenti da 1 minuto",
+    "mobile_tool_weather_title": "Meteo",
+    "mobile_tool_weather_sub": "In tempo reale & 5 giorni",
+    "chip_milk": "🥛 Latte",
+    "chip_eggs": "🥚 Uova",
+    "chip_bread": "🍞 Pane",
+    "chip_butter": "🧈 Burro",
+    "chip_apples": "🍎 Mele",
+    "chip_bananas": "🍌 Banane",
+    "chip_coffee": "☕ Caffè",
+    "chip_pasta": "🍝 Pasta",
+    "chip_cheese": "🧀 Formaggio",
+    "chip_onions": "🧅 Cipolle",
+    "shop_log_hint": "Spuntare gli acquisti li archivia nella cronologia.",
+
     "add": "Aggiungi attività",
     "add_column": "Aggiungi scheda",
     "add_task": "Aggiungi attività",
@@ -7195,7 +8771,7 @@ const customTranslations = {
     "settings_modal_title": "Impostazioni & Conformità",
     "settings_onboarding_desc": "Scopri in un tour interattivo di 3 passaggi tutte le funzionalità principali, timer di concentrazione e scorciatoie.",
     "settings_onboarding_title": "Introduzione & Tour dell'App",
-    "settings_p2p_sync": "Sync Dispositivi",
+    "settings_p2p_sync": "Sincronizza dispositivi",
     "settings_privacy_btn": "Privacy",
     "settings_section_lang": "🌐 Scegli Lingua",
     "settings_section_theme": "🎨 Tema Colore",
@@ -7203,7 +8779,7 @@ const customTranslations = {
     "settings_tour": "Guida 🚀",
     "shop_add_btn": "Aggiungi",
     "shop_add_placeholder": "Aggiungi articolo (es. 2x latte d'avena, pane)...",
-    "shop_clear": "Svuota",
+    "shop_clear": "Cancella tutto",
     "shop_empty": "La tua lista della spesa è pulita!",
     "shop_history": "Cronologia",
     "shop_recent_bought": "Acquistati di recente",
@@ -7363,7 +8939,7 @@ const customTranslations = {
     "tools_menu_title": "Strumenti & Sfere Noodle",
     "tools_section_focus_media": "Media",
     "tools_section_media": "Media",
-    "tools_section_household_daily": "Casa & Quotidiano",
+    "tools_section_household_daily": "Quotidianità & Casa",
     "tools_section_body_mind": "Corpo & Mente",
     "tools_section_help": "Aiuto & Dialogo",
     "tools_section_spheres": "Sfere Specializzate",
@@ -7389,9 +8965,425 @@ const customTranslations = {
     "workspace_private": "Personale & Quotidiano",
     "workspace_study": "Studio & Formazione",
     "workspace_work": "Lavoro & Progetti",
-    "zen_title": "Focus Zen"
+    "zen_title": "Focus Zen",
+    "nav_shopping": "Spesa",
+    "shop_open_items": "Da comprare",
+    "nav_cooking": "Cucina",
+    "sound_campfire": "Falò",
+    "export": "Esporta",
+    "settings_section_interaction": "Interazione & Cursore",
+    "undo_action": "Annulla",
+    "mobile_audio_title": "Audio & Suoni",
+    "mobile_audio_subtitle": "Ritmi di focus, radio & natura",
+    "master_volume": "Volume principale",
+    "studio_pro": "Studio Pro",
+    "live_radio": "Radio dal vivo",
+    "binaural_beats_title": "Onde binaurali & alfa",
+    "ambient_nature_title": "Natura & Atmosfera",
+    "mobile_radio_title": "Radio dal vivo",
+    "mobile_quick_audio_title": "Suoni di focus",
+    "mobile_quick_audio_sub": "Suoni naturali & ambient",
+    "mobile_quick_radio_title": "Radio dal vivo",
+    "mobile_quick_radio_sub": "Stazioni internazionali e locali",
+    "mobile_quick_alarm_title": "Sveglia & Orologio",
+    "mobile_quick_alarm_sub": "Promemoria & campane di concentrazione",
+    "today": "Oggi",
+    "week": "Settimana",
+    "month": "Mese",
+    "completed_stat": "Completato",
+    "backup_hub_title": "Backup & Gestione dati",
+    "backup_download_btn": "Scarica backup (JSON)",
+    "backup_restore_btn": "Ripristina backup",
+    "shortcuts_title": "Scorciatoie da tastiera",
+    "pwa_install_title": "Installa app Noodle",
+    "pwa_install_desc": "Usa Noodle offline in qualsiasi momento direttamente dalla schermata iniziale.",
+    "pwa_install_btn": "Installa ora",
+    "settings_install_pwa": "Installa app 📲",
+    "settings_install_pwa_title": "Installa app (Desktop & Smartphone)",
+    "settings_install_pwa_desc": "Installa Noodle come app nativa per un accesso rapido dal desktop o dalla schermata iniziale — ultra veloce e utilizzabile offline.",
+    "settings_install_pwa_btn": "Installa ora 📲",
+    "mobile_install_app": "Installa l'app Noodle 📲",
+    "mobile_quick_install_title": "Installa app",
+    "mobile_quick_install_sub": "PWA Desktop & Mobile",
+    "later": "Più tardi",
+    "cancel": "Annulla",
+    "celebration_title": "Tutte le attività completate! 🎉",
+    "celebration_desc": "Lavoro incredibile! Hai completato tutte le attività per oggi. Goditi una pausa meritata.",
+    "celebration_btn_chill": "Rilassati ☕",
+    "celebration_btn_later": "Continua più tardi",
+    "cmd_search": "Cerca...",
+    "tool_clean": "Pulizie",
+    "tool_shopping": "Spesa",
+    "tool_cooking": "Cucina",
+    "tool_news": "Notizie",
+    "tool_sounds": "Suoni",
+    "tool_media": "Musica & Media",
+    "tool_dj": "Noodle DJ",
+    "tool_radio": "Radio",
+    "tool_health": "Salute",
+    "tool_sport": "Movimento",
+    "tool_calm": "Calma interiore",
+    "tool_clarity": "Chiarezza",
+    "tool_learning": "Studio",
+    "tool_humor": "Laboratorio Fun",
+    "tool_social": "Social",
+    "tool_chat": "Chat",
+    "tools_section_knowledge_social": "Sapere, Chat & Social",
+    "tools_section_audio_media": "Audio, Ritmi & Media",
+    "settings_routines_customize": "Personalizza routine & standard",
+    "settings_language": "Lingua",
+    "settings_theme": "Schema colori",
+    "settings_data_local_guarantee": "Tutti i dati sono salvati al 100% in locale sul tuo dispositivo",
+    "settings_free_guarantee": "Tutte le funzioni principali sono 100% locali e sempre gratuite.",
+    "settings_hover_title": "Comportamento cursore & Hover",
+    "settings_hover_desc": "Scegli come si aprono i pannelli degli strumenti e i menu.",
+    "settings_hover_click_only": "Solo con clic (Consigliato)",
+    "settings_hover_click_desc": "Nessun popup automatico al passaggio del mouse. Apertura solo con clic.",
+    "settings_hover_enabled": "Hover automatico (Veloce)",
+    "settings_hover_enabled_desc": "I pannelli e le anteprime si aprono all'istante al passaggio del mouse.",
+    "zen_loading_task": "Caricamento attività di focus...",
+    "break_5m": "Pausa 5 min",
+    "break_start": "Avvia pausa",
+    "break_stop": "Termina pausa",
+    "deep_focus_timer": "Timer di concentrazione profonda",
+    "news_all_topics": "Tutti i temi",
+    "news_all_sources": "Tutte le fonti",
+    "news_read_aloud": "Lettura vocale",
+    "close": "Chiudi",
+    "save_as_task": "Salva come attività",
+    "all_devices_offline": "Tutti i dispositivi & offline",
+    "all_categories": "Tutte le categorie",
+    "pause": "Pausa"
   },
   "es": {
+    "pick_tab_suggestion": "Sugerencia de enfoque",
+    "pick_tab_dilemma": "Decisor A vs B",
+    "pick_tab_braindump": "Vaciar la mente",
+    "pick_energy_low": "🔋 Victoria rápida",
+    "pick_energy_med": "⚡ Enfoque",
+    "pick_energy_high": "🔥 Trabajo profundo",
+    "pick_energy_random": "🎲 Aleatorio",
+    "pick_next_btn": "Otra sugerencia",
+    "pick_space_hint": "[Espacio] = Iniciar",
+    "pick_coin_flip": "Lanzar moneda y decidir",
+    "pick_start_focus": "Iniciar directamente en enfoque 🧘",
+    "pick_save_task": "Guardar como tarea",
+    "pick_dilemma_hint": "¿Indeciso entre dos opciones? Deja que la moneda decida: ¡tu instinto sabrá al instante si estás conforme!",
+    "pick_braindump_hint": "¿Qué te bloquea o te preocupa? Escríbelo brevemente y empieza de inmediato sin distracciones.",
+    "sport_tab_presets": "Programas",
+    "sport_tab_builder": "Constructor",
+    "sport_tab_library": "Biblioteca",
+    "sport_tab_spoons": "1-3 Cucharas",
+    "sport_choose_workout": "Elige un entrenamiento preparado:",
+    "sport_no_equipment": "Sin equipo necesario",
+    "sport_duration_scope": "⏱️ Duración / Alcance",
+    "sport_focus_zone": "🎯 Zona objetivo",
+    "sport_available_equip": "🪑 Equipo disponible",
+    "sport_interval_timing": "⚡ Intervalos (Ejercicio/Descanso)",
+    "sport_quiet_apartment": "🛋️ 100% Silencioso para vecinos",
+    "sport_whisper_quiet": "Súper silencioso",
+    "sport_quiet_desc": "Sin saltos, sin ruidos de impacto, silencioso sobre alfombra.",
+    "sport_start_custom": "Iniciar entrenamiento personalizado 🚀",
+    "sport_current_energy": "Tu nivel de energía actual",
+    "sport_exercise_reward": "Ejercicio completado y recompensar",
+    "sport_resume": "Reanudar",
+    "sport_pause": "Pausar",
+    "sport_finish": "Finalizar",
+    "safespace_tab_breath": "Respiración",
+    "safespace_tab_anchor": "Conexión",
+    "safespace_tab_eyes": "Ojos",
+    "safespace_tab_body": "Cuerpo",
+    "safespace_tab_sound": "Sonido",
+    "safespace_breath_in": "Inhala...",
+    "safespace_creek_sound": "Sonido de arroyo activado",
+    "safespace_eyes_rule": "Regla 20-20-20 y Palming",
+    "safespace_eyes_rest": "Descansar ojos",
+    "safespace_eyes_start": "Iniciar temporizador de 20s",
+    "safespace_stretch_neck": "1️⃣ Estiramiento de cuello",
+    "safespace_stretch_shoulders": "2️⃣ Giros de hombros",
+    "safespace_stretch_wrists": "3️⃣ Relajar muñecas y dedos",
+    "safespace_wave_90s": "Montar la ola de 90s 🌊",
+    "safespace_save_anchor": "Guardar 💾",
+    "safespace_journal_submit": "Anotar",
+    "calm_sigh_title": "Suspiro fisiológico (Neurociencia de Stanford)",
+    "calm_sigh_desc": "El método biológico más rápido para reducir el ritmo cardíaco",
+    "calm_start_pacer": "Iniciar guía de respiración",
+    "calm_bilateral_title": "Estimulación bilateral / Abrazo de mariposa",
+    "calm_left": "IZQUIERDA",
+    "calm_right": "DERECHA",
+    "calm_start_rhythm": "Iniciar ritmo",
+    "calm_shake_title": "Sacudida neurogénica (60s)",
+    "calm_shake_desc": "Liberación biológica de adrenalina en músculos",
+    "calm_start_shake": "Iniciar temporizador 60s",
+    "calm_sud_title": "Termómetro de tensión (SUD 1–10)",
+    "calm_emergency_phrases": "Frases de emergencia reconfortantes:",
+    "calm_helpline_title": "Contactos gratuitos, confidenciales y profesionales 24/7:",
+    "audio_sounds_tab": "Sonidos",
+    "audio_media_tab": "Música y Medios",
+    "audio_dj_tab": "Noodle DJ",
+    "report_stats_tab": "Estadísticas",
+    "report_learn_tab": "Laboratorio Saber",
+    "report_balance_index": "Índice de equilibrio",
+    "report_activity_trend": "Tendencia de actividad",
+    "report_cat_distribution": "Distribución por categorías",
+    "report_completed_tasks": "Tareas completadas",
+    "close": "Cerrar",
+    "add": "Añadir",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "clear": "Limpiar",
+    "open": "Abrir",
+    "play": "Reproducir",
+    "pause": "Pausa",
+    "stop": "Detener",
+    "start": "Iniciar",
+    "share": "Compartir",
+    "search_placeholder": "Buscar...",
+    "undo": "Deshacer",
+    "shop_supermarket": "Súper",
+    "shop_tab_list": "Mi lista",
+    "shop_tab_deals": "Ofertas",
+    "shop_sale_badge": "Oferta",
+    "shop_add_placeholder": "Artículo (ej. 2x leche de avena, tomates)...",
+    "shop_open_items": "Por comprar",
+    "shop_clear": "Borrar todo",
+    "shop_log_hint": "Los artículos marcados se registran.",
+    "news_sec_lang": "🌐 1. Idioma de salida",
+    "news_auto_translate": "(Traducción auto)",
+    "news_app_standard": "Predeterminado app",
+    "news_sec_region": "📍 2. Región y origen",
+    "news_region_desc": "Global o local",
+    "news_sec_feed": "🔀 3. Modo de feed",
+    "news_sec_media": "📰 4. Medios y fuentes",
+    "news_sec_topics": "📑 5. Temas y secciones",
+    "news_speed_label": "Velocidad de voz:",
+    "news_listening": "Leyendo en voz alta...",
+    "radio_no_station": "Ninguna emisora elegida",
+    "radio_available_stations": "Emisoras disponibles",
+    "audio_mood_quick": "Ambientes rápidos (1-clic)",
+    "audio_ready": "Listo al instante",
+    "audio_mood_focus": "Foco",
+    "audio_mood_cafe": "Café",
+    "audio_mood_forest": "Bosque",
+    "audio_mood_energy": "Energía",
+    "audio_mood_cosmic": "Cósmico",
+    "audio_harmonies": "Armonías y melodías",
+    "audio_nature": "Naturaleza y ambiente",
+    "audio_beats": "Ritmos y beats dinámicos",
+    "audio_own_tracks": "Mis pistas",
+    "audio_load_file": "Cargar archivo",
+    "audio_url_placeholder": "URL Audio/Video online (mp3, mp4, webm, stream)...",
+    "dj_shuffle": "Aleatorio",
+    "dj_xfade": "X-Fade",
+    "collab_team_space": "Espacio de equipo",
+    "collab_messengers": "Mensajería",
+    "collab_direct_chat": "Chat directo",
+    "collab_team_dashboard": "Panel de equipo:",
+    "collab_team_board": "👥 Tablero de equipo",
+    "pause_tab_breath": "🌬️ Respiración",
+    "pause_tab_sensory": "⚓ Reiniciar",
+    "pause_tab_body": "🧘 Cuerpo",
+    "pause_tab_sound": "🎧 Sonido",
+    "pause_444_title": "Respiración cuadrada 4-4-4",
+    "pause_444_desc": "Foco y alivio del estrés en 60s",
+    "pause_478_title": "Calma profunda 4-7-8",
+    "pause_478_desc": "Reduce frecuencia cardíaca y cortisol",
+    "pause_sigh_title": "Suspiro fisiológico",
+    "pause_sigh_desc": "Reset nervioso más rápido (30s)",
+    "pause_54321_title": "Anclaje 5-4-3-2-1",
+    "pause_54321_desc": "Detiene rumiaciones y ancla al presente",
+    "pause_eyes_title": "Pausa visual 20-20-20",
+    "pause_eyes_desc": "20s de descanso de pantalla y palmas cálidas",
+    "pause_detox_title": "Desintoxicación de dopamina 60s (Silencio)",
+    "pause_detox_desc": "Pausa mental sin estímulos ni pantallas",
+    "settings_select_lang": "🌐 Seleccionar idioma",
+    "settings_mode_peek": "📌 Vista previa y fijar",
+    "settings_mode_click": "👆 Solo clic",
+    "settings_status_free": "Estado actual: Noodle Gratis",
+    "settings_free_badge": "Gratis",
+    "settings_free_desc": "Todas las funciones principales son 100% locales y siempre gratuitas.",
+    "settings_pro_soon": "Pro (próximamente)",
+    "mobile_menu_title": "Menú y ajustes",
+    "mobile_tools_title": "Herramientas y asistentes",
+    "mobile_backup_export_btn": "Exportar copia",
+    "mobile_restore_btn": "Restaurar",
+    "mobile_stats_report": "Estadísticas / Informe",
+    "mobile_themes": "Temas",
+    "mobile_language": "Idioma",
+    "mobile_pause_relax": "Pausa y descanso",
+    "mobile_save_plan": "Guardar plan",
+    "mobile_load_plan": "Cargar plan",
+    "mobile_reset": "Restablecer",
+    "mobile_feedback": "Comentarios",
+    "mobile_options": "Opciones",
+    "cook_pantry_tab": "Despensa e ingredientes",
+    "cook_recipe_tab": "Receta y preparación",
+    "cook_quick_select": "Selección rápida",
+    "cook_clear_pantry": "Vaciar",
+    "cook_suggest_btn": "Sugerir receta y cocinar",
+    "cook_ingredient_match": "Comprobación de ingredientes",
+    "cook_adjust_ingredients": "Ajustar ingredientes",
+    "cook_missing_to_shop": "Faltante a la lista 🛒",
+    "cook_no_recipe_title": "Ninguna receta seleccionada",
+    "cook_no_recipe_desc": "Introduce tus ingredientes disponibles para obtener una receta rápida.",
+    "cook_to_pantry_btn": "A los ingredientes 🥗",
+    "clean_tab_express": "15m Exprés",
+    "clean_tab_standard": "45m Estándar",
+    "clean_tab_deep": "90m Profundo",
+    "clean_lofi_btn": "Música LoFi",
+    "clean_transfer_board": "Añadir al tablero",
+    "clean_ready_status": "¡Listo para empezar!",
+    "postpone_title": "Reprogramar cita",
+    "postpone_quick": "Selección rápida:",
+    "postpone_plus_1d": "+1 Día (Mañana)",
+    "postpone_plus_2d": "+2 Días",
+    "postpone_plus_1w": "+1 Semana",
+    "postpone_new_date": "Nueva fecha:",
+    "postpone_new_time": "Nueva hora:",
+    "postpone_note": "Nota / Motivo (opcional):",
+    "sync_auto_title": "Sincronización automática ⚡",
+    "sync_offline_guarantee": "Todos los dispositivos y sin conexión",
+    "sync_email": "Correo electrónico:",
+    "sync_pin": "Contraseña / PIN:",
+    "sync_forgot_pin": "¿Olvidaste tu contraseña?",
+    "sync_login_btn": "Iniciar sesión / Registrarse",
+    "health_checkup_done": "Hecho ✓",
+    "health_checkup_urgent": "¡Atrasado!",
+    "health_checkup_due": "Pendiente",
+    "health_mark_done": "Hecho",
+    "health_daily_meds": "Medicamentos y vitaminas diarios",
+    "health_taken_suffix": "tomados",
+    "health_new_med_placeholder": "Nuevo suplemento (ej. Omega 3)...",
+    "health_dose_placeholder": "Dosis...",
+    "health_doctor_questions": "Preguntas para el médico",
+    "health_new_q_placeholder": "Anotar pregunta para el médico...",
+    "mobile_timer_ready": "Listo",
+    "mobile_timer_start": "Iniciar",
+    "mobile_timer_pause": "Pausa",
+    "mobile_brainstorm_badge": "Ideas",
+    "mobile_brainstorm_title": "Lluvia de ideas",
+    "mobile_brainstorm_sub": "Voz y Tablero",
+    "mobile_clarity_badge": "Claridad",
+    "mobile_clarity_title": "Control de impulsos",
+    "mobile_clarity_sub": "Reflexión y Preguntas",
+    "mobile_zen_badge": "Zen",
+    "mobile_safespace_title": "Espacio Seguro",
+    "mobile_safespace_sub": "Respiración y Calma",
+    "mobile_pantry_badge": "Despensa",
+    "mobile_pantry_title": "Despensa",
+    "mobile_pantry_sub": "Inventario y Caducidad",
+    "mobile_learning_badge": "Quiz y XP",
+    "mobile_learning_title": "Laboratorio del Saber",
+    "mobile_learning_sub": "Temas y Preguntas",
+    "mobile_chat_title": "Chat de Equipo",
+    "mobile_chat_sub": "En vivo y Salas",
+    "mobile_social_title": "Social Hub",
+    "mobile_social_sub": "Insta, FB, TikTok & Co",
+    "mobile_alpha_sub": "Aprendizaje y Enfoque",
+    "mobile_theta_sub": "Hiperenfoque profundo",
+    "mobile_delta_sub": "Regeneración y Sueño",
+    "mobile_gamma_sub": "Máximo rendimiento mental",
+    "mobile_ambient_guitar": "Guitarra",
+    "mobile_ambient_campfire": "Hoguera",
+    "mobile_ambient_forest": "Bosque",
+    "mobile_ambient_windchime": "Carillón",
+    "mobile_ambient_bowl": "Cuenco tibetano",
+    "mobile_ambient_rain": "Lluvia",
+
+    "media_audio_video": "Medios Audio & Video",
+    "media_load_file": "Cargar archivo",
+    "media_play": "Reproducir",
+    "media_no_tracks": "No hay pistas cargadas. Haz clic en 'Cargar archivo' para reproducir tu música.",
+    "media_no_track_active": "Ninguna pista activa",
+    "media_spotify_hint": "Pega una URL de playlist o pista de Spotify:",
+    "media_spotify_load": "Cargar 🎧",
+    "media_spotify_empty": "Aún no se ha cargado ninguna URL de Spotify.",
+    "media_youtube_hint": "Pega una URL de video o transmisión en vivo de YouTube:",
+    "media_youtube_load": "Cargar ▶",
+    "media_youtube_empty": "Aún no se ha cargado ninguna URL de YouTube.",
+    "radio_no_station": "Ninguna emisora seleccionada",
+    "radio_available_stations": "Emisoras disponibles",
+    "news_all_sources": "Todas las fuentes",
+    "news_speed_fast": "Rápido (22s)",
+    "news_speed_normal": "Normal (30s)",
+    "news_speed_calm": "Tranquilo (42s)",
+    "collab_active_members": "Miembros activos:",
+    "collab_team_dashboard": "Panel de equipo:",
+    "collab_share_board": "Compartir tablero",
+    "collab_team_board": "Tablero de equipo",
+    "collab_quick_share": "⚡ Compartir rápido:",
+    "collab_chip_sprint": "🚀 Sprint de foco",
+    "collab_chip_coffee": "☕ Pausa para café",
+    "collab_chip_idea": "💡 Nueva idea",
+    "collab_chip_done": "✅ Hecho",
+    "collab_chip_urgent": "🔥 Urgente",
+    "collab_quick_context": "⚡ Insertar contexto rápido:",
+    "collab_share_one_click": "Compartir con 1 clic en:",
+    "collab_direct_contact_label": "Número o @usuario:",
+    "collab_direct_msg_label": "Mensaje (opcional):",
+    "collab_choose_app": "Elegir aplicación para iniciar:",
+    "shortcuts_desc": "Manejo rápido sin ratón",
+    "shortcuts_spotlight": "Paleta de comandos Spotlight",
+    "shortcuts_new_task": "Crear nueva tarea",
+    "shortcuts_toggle_timer": "Alternar temporizador de foco",
+    "shortcuts_toggle_zen": "Alternar modo Zen",
+    "shortcuts_switch_ws": "Espacio Personal / Trabajo",
+    "shortcuts_open_overview": "Abrir este resumen",
+    "shortcuts_close_modals": "Cerrar modales y ventanas",
+    "shortcuts_understood": "Entendido ✓",
+    "mobile_menu_title": "Menú y Configuración",
+    "mobile_backup_export": "Copia de seguridad y Exportación",
+    "mobile_backup_btn": "Exportar copia",
+    "mobile_restore_btn": "Restaurar",
+    "mobile_view_report": "Vista y Reportes",
+    "mobile_stats_btn": "Estadísticas / Reporte",
+    "mobile_themes_btn": "Temas",
+    "mobile_lang_btn": "Idioma",
+    "mobile_pause_btn": "Pausa y Descanso",
+    "mobile_actions_data": "Acciones y Datos",
+    "mobile_undo_btn": "Deshacer",
+    "mobile_save_plan_btn": "Guardar plan",
+    "mobile_load_plan_btn": "Cargar plan",
+    "mobile_reset_btn": "Restablecer",
+    "mobile_start_tour": "Iniciar tour y bienvenida ✨",
+    "mobile_feedback": "Comentarios",
+    "mobile_options": "Opciones",
+    "mobile_privacy_legal": "Privacidad y Aviso legal (100% Local-First)",
+    "mobile_tools_title": "Herramientas y Ayudantes",
+    "mobile_tool_audio_title": "Estudio de Audio y Atmósfera",
+    "mobile_tool_audio_sub": "Sonidos de la naturaleza, beats, MP3, Spotify, DJ",
+    "mobile_tool_alarm_title": "Alarma",
+    "mobile_tool_alarm_sub": "Citas y Alarmas",
+    "mobile_tool_cooking_title": "Cocina",
+    "mobile_tool_cooking_sub": "Despensa y Recetas",
+    "mobile_tool_shopping_title": "Compras",
+    "mobile_tool_shopping_sub": "Lista de compras y Ofertas",
+    "mobile_tool_boost_title": "Impulso de Acción",
+    "mobile_tool_boost_sub": "30s para empezar",
+    "mobile_tool_brainstorm_title": "Lluvia de ideas",
+    "mobile_tool_brainstorm_sub": "Ideas y Transferencia",
+    "mobile_tool_learning_title": "Laboratorio del Saber",
+    "mobile_tool_learning_sub": "Quiz y Aprendizaje profundo",
+    "mobile_tool_health_title": "Salud y Prevención",
+    "mobile_tool_health_sub": "Radar de chequeos y Medicación",
+    "mobile_tool_calm_title": "Calma Interior",
+    "mobile_tool_calm_sub": "Reset agudo y Anclaje",
+    "mobile_tool_sport_title": "Deporte y Cuerpo",
+    "mobile_tool_sport_sub": "Entrenamientos de 1 minuto",
+    "mobile_tool_weather_title": "Tiempo",
+    "mobile_tool_weather_sub": "En directo y 5 días",
+    "chip_milk": "🥛 Leche",
+    "chip_eggs": "🥚 Huevos",
+    "chip_bread": "🍞 Pan",
+    "chip_butter": "🧈 Mantequilla",
+    "chip_apples": "🍎 Manzanas",
+    "chip_bananas": "🍌 Plátanos",
+    "chip_coffee": "☕ Café",
+    "chip_pasta": "🍝 Pasta",
+    "chip_cheese": "🧀 Queso",
+    "chip_onions": "🧅 Cebollas",
+    "shop_log_hint": "Marcar compras las archiva en el historial.",
+
     "add": "Añadir tarea",
     "add_column": "Añadir tarjeta",
     "add_task": "Añadir tarea",
@@ -7745,7 +9737,7 @@ const customTranslations = {
     "settings_modal_title": "Ajustes y Cumplimiento Legal",
     "settings_onboarding_desc": "Descubre en un tour interactivo de 3 pasos las funciones clave, temporizadores de enfoque y atajos de Noodle.",
     "settings_onboarding_title": "Introducción y Tour de la App",
-    "settings_p2p_sync": "Sync Dispositivos",
+    "settings_p2p_sync": "Sincronizar dispositivos",
     "settings_privacy_btn": "Privacidad",
     "settings_section_lang": "🌐 Elegir Idioma",
     "settings_section_theme": "🎨 Tema de Color",
@@ -7753,7 +9745,7 @@ const customTranslations = {
     "settings_tour": "Guía 🚀",
     "shop_add_btn": "Añadir",
     "shop_add_placeholder": "Añadir artículo (ej. 2x leche de avena, pan)...",
-    "shop_clear": "Vaciar",
+    "shop_clear": "Borrar todo",
     "shop_empty": "¡Tu lista de compras está limpia!",
     "shop_history": "Historial",
     "shop_recent_bought": "Comprado recientemente",
@@ -7913,7 +9905,7 @@ const customTranslations = {
     "tools_menu_title": "Herramientas y Esferas Noodle",
     "tools_section_focus_media": "Medios",
     "tools_section_media": "Medios",
-    "tools_section_household_daily": "Hogar y Diario",
+    "tools_section_household_daily": "Vida diaria y Hogar",
     "tools_section_body_mind": "Cuerpo y Mente",
     "tools_section_help": "Ayuda y Diálogo",
     "tools_section_spheres": "Esferas Especializadas",
@@ -7939,9 +9931,425 @@ const customTranslations = {
     "workspace_private": "Personal y Cotidiano",
     "workspace_study": "Estudio y Aprendizaje",
     "workspace_work": "Trabajo y Proyectos",
-    "zen_title": "Enfoque Zen"
+    "zen_title": "Enfoque Zen",
+    "nav_shopping": "Compras",
+    "shop_open_items": "Por comprar",
+    "nav_cooking": "Cocina",
+    "sound_campfire": "Hoguera",
+    "export": "Exportar",
+    "settings_section_interaction": "Interacción y Puntero",
+    "undo_action": "Deshacer",
+    "mobile_audio_title": "Audio y Sonidos",
+    "mobile_audio_subtitle": "Ritmos de concentración, radio y naturaleza",
+    "master_volume": "Volumen maestro",
+    "studio_pro": "Studio Pro",
+    "live_radio": "Radio en vivo",
+    "binaural_beats_title": "Ondas binaurales y alfa",
+    "ambient_nature_title": "Naturaleza y Atmósfera",
+    "mobile_radio_title": "Radio en vivo",
+    "mobile_quick_audio_title": "Sonidos de enfoque",
+    "mobile_quick_audio_sub": "Sonidos de la naturaleza y ambiente",
+    "mobile_quick_radio_title": "Radio en vivo",
+    "mobile_quick_radio_sub": "Emisoras internacionales y locales",
+    "mobile_quick_alarm_title": "Alarma y Reloj",
+    "mobile_quick_alarm_sub": "Recordatorios y señales de enfoque",
+    "today": "Hoy",
+    "week": "Semana",
+    "month": "Mes",
+    "completed_stat": "Completado",
+    "backup_hub_title": "Copia de seguridad y Datos",
+    "backup_download_btn": "Descargar copia (JSON)",
+    "backup_restore_btn": "Restaurar copia de seguridad",
+    "shortcuts_title": "Atajos de teclado",
+    "pwa_install_title": "Instalar aplicación Noodle",
+    "pwa_install_desc": "Usa Noodle sin conexión en cualquier momento directamente desde tu pantalla de inicio.",
+    "pwa_install_btn": "Instalar ahora",
+    "settings_install_pwa": "Instalar app 📲",
+    "settings_install_pwa_title": "Instalar aplicación (PC y Móvil)",
+    "settings_install_pwa_desc": "Instala Noodle como aplicación nativa para un acceso rápido desde el escritorio o la pantalla de inicio — ultrarrápida y sin conexión.",
+    "settings_install_pwa_btn": "Instalar ahora 📲",
+    "mobile_install_app": "Instalar Noodle como app 📲",
+    "mobile_quick_install_title": "Instalar app",
+    "mobile_quick_install_sub": "PWA PC y Móvil",
+    "later": "Más tarde",
+    "cancel": "Cancelar",
+    "celebration_title": "¡Todas las tareas completadas! 🎉",
+    "celebration_desc": "¡Excelente trabajo! Has terminado todos tus objetivos para hoy. Momento de descansar.",
+    "celebration_btn_chill": "Relajarse ☕",
+    "celebration_btn_later": "Continuar más tarde",
+    "cmd_search": "Buscar...",
+    "tool_clean": "Limpieza",
+    "tool_shopping": "Compras",
+    "tool_cooking": "Cocina",
+    "tool_news": "Noticias",
+    "tool_sounds": "Sonidos",
+    "tool_media": "Música y Medios",
+    "tool_dj": "Noodle DJ",
+    "tool_radio": "Radio",
+    "tool_health": "Salud",
+    "tool_sport": "Movimiento",
+    "tool_calm": "Calma interior",
+    "tool_clarity": "Claridad",
+    "tool_learning": "Estudio",
+    "tool_humor": "Laboratorio Fun",
+    "tool_social": "Redes",
+    "tool_chat": "Chat",
+    "tools_section_knowledge_social": "Conocimiento, Chat y Redes",
+    "tools_section_audio_media": "Audio, Ritmos y Medios",
+    "settings_routines_customize": "Personalizar rutinas y estándares",
+    "settings_language": "Idioma",
+    "settings_theme": "Esquema de color",
+    "settings_data_local_guarantee": "Todos los datos 100% guardados localmente en tu dispositivo",
+    "settings_free_guarantee": "Todas las funciones principales son 100% locales y siempre gratuitas.",
+    "settings_hover_title": "Comportamiento del puntero y cursor",
+    "settings_hover_desc": "Elige cómo se abren los paneles de herramientas y menús.",
+    "settings_hover_click_only": "Solo al hacer clic (Recomendado)",
+    "settings_hover_click_desc": "Sin ventanas emergentes automáticas. Todo se abre únicamente con un clic.",
+    "settings_hover_enabled": "Apertura al pasar el ratón (Rápido)",
+    "settings_hover_enabled_desc": "Los paneles y vistas previas se abren al instante al mover el cursor por encima.",
+    "zen_loading_task": "Cargando tarea de enfoque...",
+    "break_5m": "Pausa de 5 min",
+    "break_start": "Iniciar descanso",
+    "break_stop": "Terminar descanso",
+    "deep_focus_timer": "Temporizador de enfoque profundo",
+    "news_all_topics": "Todos los temas",
+    "news_all_sources": "Todas las fuentes",
+    "news_read_aloud": "Lectura en voz alta",
+    "close": "Cerrar",
+    "save_as_task": "Guardar como tarea",
+    "all_devices_offline": "Todos los dispositivos y sin conexión",
+    "all_categories": "Todas las categorías",
+    "pause": "Pausa"
   },
   "el": {
+    "pick_tab_suggestion": "Πρόταση εστίασης",
+    "pick_tab_dilemma": "Αποφασιστής A vs B",
+    "pick_tab_braindump": "Άδειασμα μυαλού",
+    "pick_energy_low": "🔋 Γρήγορη νίκη",
+    "pick_energy_med": "⚡ Εστίαση",
+    "pick_energy_high": "🔥 Βαθιά εργασία",
+    "pick_energy_random": "🎲 Τυχαίο",
+    "pick_next_btn": "Άλλη πρόταση",
+    "pick_space_hint": "[Space] = Έναρξη",
+    "pick_coin_flip": "Ρίξε νόμισμα & αποφάσισε",
+    "pick_start_focus": "Έναρξη απευθείας σε εστίαση 🧘",
+    "pick_save_task": "Αποθήκευση ως εργασία",
+    "pick_dilemma_hint": "Διχασμένος ανάμεσα σε δύο επιλογές; Άφησε το κέρμα να αποφασίσει – το ένστικτό σου θα καταλάβει αμέσως!",
+    "pick_braindump_hint": "Τι σε μπλοκάρει αυτή τη στιγμή; Γράψε το σύντομα και ξεκίνα αμέσως χωρίς περισπασμούς.",
+    "sport_tab_presets": "Προγράμματα",
+    "sport_tab_builder": "Δημιουργός",
+    "sport_tab_library": "Βιβλιοθήκη",
+    "sport_tab_spoons": "1-3 Κουτάλια",
+    "sport_choose_workout": "Επίλεξε έτοιμη προπόνηση:",
+    "sport_no_equipment": "Χωρίς εξοπλισμό",
+    "sport_duration_scope": "⏱️ Διάρκεια / Έκταση",
+    "sport_focus_zone": "🎯 Ζώνη εστίασης",
+    "sport_available_equip": "🪑 Διαθέσιμος εξοπλισμός",
+    "sport_interval_timing": "⚡ Διαστήματα (Άσκηση/Διάλειμμα)",
+    "sport_quiet_apartment": "🛋️ 100% Φιλικό προς γείτονες",
+    "sport_whisper_quiet": "Αθόρυβο",
+    "sport_quiet_desc": "Χωρίς άλματα, αθόρυβο σε χαλί ή παρκέ.",
+    "sport_start_custom": "Έναρξη προσαρμοσμένης προπόνησης 🚀",
+    "sport_current_energy": "Το τρέχον επίπεδο ενέργειάς σου",
+    "sport_exercise_reward": "Η άσκηση ολοκληρώθηκε & επιβράβευση",
+    "sport_resume": "Συνέχιση",
+    "sport_pause": "Παύση",
+    "sport_finish": "Τερματισμός",
+    "safespace_tab_breath": "Αναπνοή",
+    "safespace_tab_anchor": "Γείωση",
+    "safespace_tab_eyes": "Μάτια",
+    "safespace_tab_body": "Σώμα",
+    "safespace_tab_sound": "Ήχος",
+    "safespace_breath_in": "Εισπνοή...",
+    "safespace_creek_sound": "Ήχος ρυακιού ενεργός",
+    "safespace_eyes_rule": "Κανόνας 20-20-20 & Palming",
+    "safespace_eyes_rest": "Ξεκούραση ματιών",
+    "safespace_eyes_start": "Έναρξη χρονομέτρου 20δ για τα μάτια",
+    "safespace_stretch_neck": "1️⃣ Τέντωμα αυχένα",
+    "safespace_stretch_shoulders": "2️⃣ Κυκλικές κινήσεις ώμων",
+    "safespace_stretch_wrists": "3️⃣ Χαλάρωση καρπών & δακτύλων",
+    "safespace_wave_90s": "Κύμα 90δ 🌊",
+    "safespace_save_anchor": "Αποθήκευση 💾",
+    "safespace_journal_submit": "Καταχώριση",
+    "calm_sigh_title": "Φυσιολογικός Αναστεναγμός (Stanford Neuroscience)",
+    "calm_sigh_desc": "Η ταχύτερη βιολογική μέθοδος για μείωση καρδιακού ρυθμού και πίεσης CO₂",
+    "calm_start_pacer": "Έναρξη καθοδηγούμενης αναπνοής",
+    "calm_bilateral_title": "Διμερής διέγερση / Αγκαλιά πεταλούδας",
+    "calm_left": "ΑΡΙΣΤΕΡΑ",
+    "calm_right": "ΔΕΞΙΑ",
+    "calm_start_rhythm": "Έναρξη ρυθμού",
+    "calm_shake_title": "Νευρογενές τίναγμα (60δ)",
+    "calm_shake_desc": "Βιολογική αποφόρτιση αδρεναλίνης από μύες & περιτονία",
+    "calm_start_shake": "Έναρξη χρονομέτρου 60δ",
+    "calm_sud_title": "Θερμόμετρο έντασης (SUD 1–10)",
+    "calm_emergency_phrases": "Επιβεβαιωτικές φράσεις ανάγκης:",
+    "calm_helpline_title": "Δωρεάν, εμπιστευτικές και επαγγελματικές γραμμές υποστήριξης όλο το 24ωρο:",
+    "audio_sounds_tab": "Ήχοι",
+    "audio_media_tab": "Μουσική & Μέσα",
+    "audio_dj_tab": "Noodle DJ",
+    "report_stats_tab": "Στατιστικά",
+    "report_learn_tab": "Εργαστήριο Γνώσης",
+    "report_balance_index": "Δείκτης ισορροπίας",
+    "report_activity_trend": "Τάση δραστηριότητας",
+    "report_cat_distribution": "Κατανομή κατηγοριών",
+    "report_completed_tasks": "Ολοκληρωμένες εργασίες",
+    "close": "Κλείσιμο",
+    "add": "Προσθήκη",
+    "save": "Αποθήκευση",
+    "delete": "Διαγραφή",
+    "clear": "Εκκαθάριση",
+    "open": "Άνοιγμα",
+    "play": "Αναπαραγωγή",
+    "pause": "Παύση",
+    "stop": "Διακοπή",
+    "start": "Έναρξη",
+    "share": "Κοινοποίηση",
+    "search_placeholder": "Αναζήτηση...",
+    "undo": "Αναίρεση",
+    "shop_supermarket": "Αγορά",
+    "shop_tab_list": "Η λίστα μου",
+    "shop_tab_deals": "Προσφορές",
+    "shop_sale_badge": "Έκπτωση",
+    "shop_add_placeholder": "Προϊόν (π.χ. 2x γάλα βρώμης, ντομάτες)...",
+    "shop_open_items": "Για αγορά",
+    "shop_clear": "Διαγραφή όλων",
+    "shop_log_hint": "Τα επιλεγμένα καταγράφονται.",
+    "news_sec_lang": "🌐 1. Γλώσσα εξόδου",
+    "news_auto_translate": "(Αυτόματη μετάφραση)",
+    "news_app_standard": "Προεπιλογή εφαρμογής",
+    "news_sec_region": "📍 2. Περιοχή & Προέλευση",
+    "news_region_desc": "Παγκόσμια ή τοπική εστίαση",
+    "news_sec_feed": "🔀 3. Λειτουργία ροής",
+    "news_sec_media": "📰 4. Μέσα & Πηγές",
+    "news_sec_topics": "📑 5. Θέματα & Κατηγορίες",
+    "news_speed_label": "Ταχύτητα ομιλίας:",
+    "news_listening": "Ανάγνωση...",
+    "radio_no_station": "Δεν έχει επιλεγεί σταθμός",
+    "radio_available_stations": "Διαθέσιμοι σταθμοί",
+    "audio_mood_quick": "Γρήγορες διαθέσεις (1 κλικ)",
+    "audio_ready": "Άμεσα έτοιμο",
+    "audio_mood_focus": "Εστίαση",
+    "audio_mood_cafe": "Καφέ",
+    "audio_mood_forest": "Δάσος",
+    "audio_mood_energy": "Ενέργεια",
+    "audio_mood_cosmic": "Κοσμικό",
+    "audio_harmonies": "Αρμονίες & Μελωδίες",
+    "audio_nature": "Φύση & Ατμόσφαιρα",
+    "audio_beats": "Δυναμικοί ρυθμοί & Beats",
+    "audio_own_tracks": "Δικά μου κομμάτια",
+    "audio_load_file": "Φόρτωση αρχείου",
+    "audio_url_placeholder": "Online URL ήχου/βίντεο (mp3, mp4, webm, ροή)...",
+    "dj_shuffle": "Τυχαίο",
+    "dj_xfade": "X-Fade",
+    "collab_team_space": "Χώρος ομάδας",
+    "collab_messengers": "Εφαρμογές μηνυμάτων",
+    "collab_direct_chat": "Άμεση συνομιλία",
+    "collab_team_dashboard": "Ταμπλό ομάδας:",
+    "collab_team_board": "👥 Πίνακας ομάδας",
+    "pause_tab_breath": "🌬️ Αναπνοή",
+    "pause_tab_sensory": "⚓ Επαναφορά",
+    "pause_tab_body": "🧘 Σώμα",
+    "pause_tab_sound": "🎧 Ήχος",
+    "pause_444_title": "Αναπνοή κουτιού 4-4-4",
+    "pause_444_desc": "Εστίαση & μείωση άγχους σε 60 δευτ.",
+    "pause_478_title": "Βαθιά ηρεμία 4-7-8",
+    "pause_478_desc": "Μειώνει τους καρδιακούς παλμούς & την κορτιζόλη",
+    "pause_sigh_title": "Φυσιολογικός αναστεναγμός",
+    "pause_sigh_desc": "Ταχύτερη βιολογική επαναφορά (30 δευτ.)",
+    "pause_54321_title": "Γείωση 5-4-3-2-1",
+    "pause_54321_desc": "Σταματά τις σκέψεις & επαναφέρει στην πραγματικότητα",
+    "pause_eyes_title": "Διάλειμμα ματιών 20-20-20",
+    "pause_eyes_desc": "20 δευτ. ξεκούραση οθόνης & ζεστές παλάμες",
+    "pause_detox_title": "Αποτοξίνωση ντοπαμίνης 60 δευτ. (Σιωπή)",
+    "pause_detox_desc": "Διάλειμμα χωρίς οθόνη και ερεθίσματα",
+    "settings_select_lang": "🌐 Επιλογή γλώσσας",
+    "settings_mode_peek": "📌 Προεπισκόπηση & Καρφίτσωμα",
+    "settings_mode_click": "👆 Μόνο κλικ",
+    "settings_status_free": "Τρέχουσα κατάσταση: Noodle Free",
+    "settings_free_badge": "Δωρεάν",
+    "settings_free_desc": "Όλες οι βασικές λειτουργίες είναι 100% τοπικές & μόνιμα δωρεάν.",
+    "settings_pro_soon": "Pro (σύντομα)",
+    "mobile_menu_title": "Μενού & Ρυθμίσεις",
+    "mobile_tools_title": "Εργαλεία & Βοηθοί",
+    "mobile_backup_export_btn": "Εξαγωγή αντιγράφου",
+    "mobile_restore_btn": "Επαναφορά",
+    "mobile_stats_report": "Στατιστικά / Αναφορά",
+    "mobile_themes": "Θέματα",
+    "mobile_language": "Γλώσσα",
+    "mobile_pause_relax": "Διάλειμμα & Χαλάρωση",
+    "mobile_save_plan": "Αποθήκευση πλάνου",
+    "mobile_load_plan": "Φόρτωση πλάνου",
+    "mobile_reset": "Επαναφορά",
+    "mobile_feedback": "Σχόλια",
+    "mobile_options": "Επιλογές",
+    "cook_pantry_tab": "Αποθήκη & Υλικά",
+    "cook_recipe_tab": "Συνταγή & Παρασκευή",
+    "cook_quick_select": "Γρήγορη επιλογή",
+    "cook_clear_pantry": "Εκκαθάριση",
+    "cook_suggest_btn": "Πρόταση συνταγής & Μαγείρεμα",
+    "cook_ingredient_match": "Έλεγχος υλικών",
+    "cook_adjust_ingredients": "Προσαρμογή υλικών",
+    "cook_missing_to_shop": "Ελλείψεις στη λίστα 🛒",
+    "cook_no_recipe_title": "Δεν έχει επιλεγεί συνταγή ακόμα",
+    "cook_no_recipe_desc": "Εισαγάγετε τα διαθέσιμα υλικά σας για μια γρήγορη συνταγή.",
+    "cook_to_pantry_btn": "Στα υλικά 🥗",
+    "clean_tab_express": "15λ Εξπρές",
+    "clean_tab_standard": "45λ Βασικό",
+    "clean_tab_deep": "90λ Βαθύ",
+    "clean_lofi_btn": "Μουσική LoFi",
+    "clean_transfer_board": "Προσθήκη στον πίνακα",
+    "clean_ready_status": "Έτοιμοι για ξεκίνημα!",
+    "postpone_title": "Αναβολή ραντεβού",
+    "postpone_quick": "Γρήγορη επιλογή:",
+    "postpone_plus_1d": "+1 Ημέρα (Αύριο)",
+    "postpone_plus_2d": "+2 Ημέρες",
+    "postpone_plus_1w": "+1 Εβδομάδα",
+    "postpone_new_date": "Νέα ημερομηνία:",
+    "postpone_new_time": "Νέα ώρα:",
+    "postpone_note": "Σημείωση / Αιτία (προαιρετικό):",
+    "sync_auto_title": "Αυτόματος συγχρονισμός ⚡",
+    "sync_offline_guarantee": "Όλες οι συσκευές & εκτός σύνδεσης",
+    "sync_email": "Διεύθυνση email:",
+    "sync_pin": "Κωδικός / PIN:",
+    "sync_forgot_pin": "Ξεχάσατε τον κωδικό;",
+    "sync_login_btn": "Σύνδεση / Εγγραφή",
+    "health_checkup_done": "Ολοκληρώθηκε ✓",
+    "health_checkup_urgent": "Εκπρόθεσμο!",
+    "health_checkup_due": "Εκκρεμεί",
+    "health_mark_done": "Έγινε",
+    "health_daily_meds": "Καθημερινά φάρμακα & Βιταμίνες",
+    "health_taken_suffix": "ελήφθησαν",
+    "health_new_med_placeholder": "Νέο σκεύασμα (π.χ. Ωμέγα 3)...",
+    "health_dose_placeholder": "Δόση...",
+    "health_doctor_questions": "Ερωτήσεις για τον επόμενο γιατρό",
+    "health_new_q_placeholder": "Σημειώστε ερώτηση για τον γιατρό...",
+    "mobile_timer_ready": "Έτοιμο",
+    "mobile_timer_start": "Έναρξη",
+    "mobile_timer_pause": "Παύση",
+    "mobile_brainstorm_badge": "Ιδέες",
+    "mobile_brainstorm_title": "Καταιγισμός Ιδεών",
+    "mobile_brainstorm_sub": "Φωνή & Μεταφορά στον πίνακα",
+    "mobile_clarity_badge": "Διαύγεια",
+    "mobile_clarity_title": "Έλεγχος παρορμήσεων",
+    "mobile_clarity_sub": "Αναστοχασμός & Ερωτήσεις",
+    "mobile_zen_badge": "Ζεν",
+    "mobile_safespace_title": "Ασφαλής Χώρος",
+    "mobile_safespace_sub": "Αναπνοή & Ηρεμία",
+    "mobile_pantry_badge": "Προμήθειες",
+    "mobile_pantry_title": "Αποθήκη τροφίμων",
+    "mobile_pantry_sub": "Απόθεμα & Λήξη",
+    "mobile_learning_badge": "Κουίζ & XP",
+    "mobile_learning_title": "Εργαστήριο Γνώσης",
+    "mobile_learning_sub": "Θέματα & Πολλαπλή επιλογή",
+    "mobile_chat_title": "Συνομιλία Ομάδας",
+    "mobile_chat_sub": "Ζωντανά & Δωμάτια",
+    "mobile_social_title": "Κοινωνικά Δίκτυα",
+    "mobile_social_sub": "Insta, FB, TikTok & Co",
+    "mobile_alpha_sub": "Εύκολη μάθηση & Εστίαση",
+    "mobile_theta_sub": "Βαθιά υπερεστίαση",
+    "mobile_delta_sub": "Αναζωογόνηση & Ύπνος",
+    "mobile_gamma_sub": "Μέγιστη πνευματική απόδοση",
+    "mobile_ambient_guitar": "Κιθάρα",
+    "mobile_ambient_campfire": "Τζάκι",
+    "mobile_ambient_forest": "Δάσος",
+    "mobile_ambient_windchime": "Μενταγιόν ανέμου",
+    "mobile_ambient_bowl": "Θιβετιανό μπολ",
+    "mobile_ambient_rain": "Βροχή",
+
+    "media_audio_video": "Μέσα Ήχου & Βίντεο",
+    "media_load_file": "Φόρτωση αρχείου",
+    "media_play": "Αναπαραγωγή",
+    "media_no_tracks": "Δεν έχουν φορτωθεί κομμάτια. Κάντε κλικ στο 'Φόρτωση αρχείου' για να παίξετε τη μουσική σας.",
+    "media_no_track_active": "Κανένα ενεργό κομμάτι",
+    "media_spotify_hint": "Επικολλήστε URL λίστας αναπαραγωγής ή κομματιού Spotify:",
+    "media_spotify_load": "Φόρτωση 🎧",
+    "media_spotify_empty": "Δεν έχει φορτωθεί ακόμη URL Spotify.",
+    "media_youtube_hint": "Επικολλήστε URL βίντεο ή ζωντανής μετάδοσης YouTube:",
+    "media_youtube_load": "Φόρτωση ▶",
+    "media_youtube_empty": "Δεν έχει φορτωθεί ακόμη URL YouTube.",
+    "radio_no_station": "Δεν έχει επιλεγεί σταθμός",
+    "radio_available_stations": "Διαθέσιμοι σταθμοί",
+    "news_all_sources": "Όλες οι πηγές",
+    "news_speed_fast": "Γρήγορο (22δ)",
+    "news_speed_normal": "Κανονικό (30δ)",
+    "news_speed_calm": "Ήρεμο (42δ)",
+    "collab_active_members": "Ενεργά μέλη:",
+    "collab_team_dashboard": "Πίνακας ομάδας:",
+    "collab_share_board": "Κοινοποίηση πίνακα",
+    "collab_team_board": "Πίνακας ομάδας",
+    "collab_quick_share": "⚡ Γρήγορη κοινοποίηση:",
+    "collab_chip_sprint": "🚀 Σπριντ εστίασης",
+    "collab_chip_coffee": "☕ Διάλειμμα για καφέ",
+    "collab_chip_idea": "💡 Νέα ιδέα",
+    "collab_chip_done": "✅ Ολοκληρώθηκε",
+    "collab_chip_urgent": "🔥 Επείγον",
+    "collab_quick_context": "⚡ Εισαγωγή γρήγορου πλαισίου:",
+    "collab_share_one_click": "Κοινοποίηση με 1 κλικ σε:",
+    "collab_direct_contact_label": "Αριθμός τηλεφώνου ή @όνομα χρήστη:",
+    "collab_direct_msg_label": "Μήνυμα (προαιρετικό):",
+    "collab_choose_app": "Επιλογή εφαρμογής για έναρξη:",
+    "shortcuts_desc": "Γρήγορος χειρισμός χωρίς ποντίκι",
+    "shortcuts_spotlight": "Παλέτα εντολών Spotlight",
+    "shortcuts_new_task": "Δημιουργία νέας εργασίας",
+    "shortcuts_toggle_timer": "Εναλλαγή χρονοδιακόπτη εστίασης",
+    "shortcuts_toggle_zen": "Ενεργοποίηση / απενεργοποίηση λειτουργίας Zen",
+    "shortcuts_switch_ws": "Προσωπικός / Εργασιακός χώρος",
+    "shortcuts_open_overview": "Άνοιγμα αυτής της επισκόπησης",
+    "shortcuts_close_modals": "Κλείσιμο παραθύρων και αναδυόμενων",
+    "shortcuts_understood": "Κατάλαβα ✓",
+    "mobile_menu_title": "Μενού & Ρυθμίσεις",
+    "mobile_backup_export": "Αντίγραφα ασφαλείας & Εξαγωγή",
+    "mobile_backup_btn": "Εξαγωγή αντιγράφου",
+    "mobile_restore_btn": "Επαναφορά",
+    "mobile_view_report": "Προβολή & Αναφορές",
+    "mobile_stats_btn": "Στατιστικά / Αναφορά",
+    "mobile_themes_btn": "Θέματα εμφάνισης",
+    "mobile_lang_btn": "Γλώσσα",
+    "mobile_pause_btn": "Διάλειμμα & Χαλάρωση",
+    "mobile_actions_data": "Ενέργειες & Δεδομένα",
+    "mobile_undo_btn": "Αναίρεση",
+    "mobile_save_plan_btn": "Αποθήκευση πλάνου",
+    "mobile_load_plan_btn": "Φόρτωση πλάνου",
+    "mobile_reset_btn": "Επαναφορά",
+    "mobile_start_tour": "Έναρξη ξενάγησης & εισαγωγής ✨",
+    "mobile_feedback": "Σχόλια",
+    "mobile_options": "Επιλογές",
+    "mobile_privacy_legal": "Απόρρητο & Νομικές πληροφορίες (100% Local-First)",
+    "mobile_tools_title": "Εργαλεία & Βοηθοί",
+    "mobile_tool_audio_title": "Στούντιο Ήχου & Ατμόσφαιρας",
+    "mobile_tool_audio_sub": "Ήχοι φύσης, ρυθμοί, MP3, Spotify, DJ",
+    "mobile_tool_alarm_title": "Ξυπνητήρι",
+    "mobile_tool_alarm_sub": "Ραντεβού & Ειδοποιήσεις",
+    "mobile_tool_cooking_title": "Μαγειρική",
+    "mobile_tool_cooking_sub": "Προμήθειες & Συνταγές",
+    "mobile_tool_shopping_title": "Ψώνια",
+    "mobile_tool_shopping_sub": "Λίστα αγορών & Προσφορές",
+    "mobile_tool_boost_title": "Ώθηση Δράσης",
+    "mobile_tool_boost_sub": "30δ για να ξεκινήσετε",
+    "mobile_tool_brainstorm_title": "Καταιγισμός Ιδεών",
+    "mobile_tool_brainstorm_sub": "Ιδέες & Μεταφορά στον πίνακα",
+    "mobile_tool_learning_title": "Εργαστήριο Γνώσης",
+    "mobile_tool_learning_sub": "Κουίζ & Βαθιά μάθηση",
+    "mobile_tool_health_title": "Υγεία & Πρόληψη",
+    "mobile_tool_health_sub": "Ραντάρ ελέγχων & Φάρμακα",
+    "mobile_tool_calm_title": "Εσωτερική Γαλήνη",
+    "mobile_tool_calm_sub": "Άμεση επαναφορά & Γείωση",
+    "mobile_tool_sport_title": "Άσκηση & Σώμα",
+    "mobile_tool_sport_sub": "Προπονήσεις 1 λεπτού",
+    "mobile_tool_weather_title": "Καιρός",
+    "mobile_tool_weather_sub": "Ζωντανά & πρόγνωση 5 ημερών",
+    "chip_milk": "🥛 Γάλα",
+    "chip_eggs": "🥚 Αυγά",
+    "chip_bread": "🍞 Ψωμί",
+    "chip_butter": "🧈 Βούτυρο",
+    "chip_apples": "🍎 Μήλα",
+    "chip_bananas": "🍌 Μπανάνες",
+    "chip_coffee": "☕ Καφές",
+    "chip_pasta": "🍝 Ζυμαρικά",
+    "chip_cheese": "🧀 Τυρί",
+    "chip_onions": "🧅 Κρεμμύδια",
+    "shop_log_hint": "Η διαγραφή αγορών τις καταγράφει στο ιστορικό.",
+
     "add": "Προσθήκη εργασίας",
     "add_column": "Προσθήκη κάρτας",
     "add_task": "Προσθήκη εργασίας",
@@ -8295,7 +10703,7 @@ const customTranslations = {
     "settings_modal_title": "Ρυθμίσεις & Νομική Συμμόρφωση",
     "settings_onboarding_desc": "Ανακαλύψτε σε μια διαδραστική περιήγηση 3 βημάτων τις κύριες λειτουργίες, χρονόμετρα και συντομεύσεις του Noodle.",
     "settings_onboarding_title": "Εισαγωγή & Περιήγηση Εφαρμογής",
-    "settings_p2p_sync": "Συγχρονισμός Συσκευών",
+    "settings_p2p_sync": "Συγχρονισμός συσκευών",
     "settings_privacy_btn": "Προστασία Δεδομένων",
     "settings_section_lang": "🌐 Επιλογή Γλώσσας",
     "settings_section_theme": "🎨 Χρωματικό Θέμα",
@@ -8303,7 +10711,7 @@ const customTranslations = {
     "settings_tour": "Ξενάγηση 🚀",
     "shop_add_btn": "Προσθήκη",
     "shop_add_placeholder": "Προσθήκη προϊόντος (π.χ. 2x γάλα βρώμης, ψωμί)...",
-    "shop_clear": "Καθαρισμός",
+    "shop_clear": "Διαγραφή όλων",
     "shop_empty": "Η λίστα αγορών σου είναι καθαρή!",
     "shop_history": "Ιστορικό",
     "shop_recent_bought": "Πρόσφατα αγορασμένα",
@@ -8463,7 +10871,7 @@ const customTranslations = {
     "tools_menu_title": "Εργαλεία & Σφαίρες Noodle",
     "tools_section_focus_media": "Μέσα",
     "tools_section_media": "Μέσα",
-    "tools_section_household_daily": "Σπίτι & Καθημερινότητα",
+    "tools_section_household_daily": "Καθημερινότητα & Σπίτι",
     "tools_section_body_mind": "Σώμα & Πνεύμα",
     "tools_section_help": "Βοήθεια & Διάλογος",
     "tools_section_spheres": "Εξειδικευμένες Σφαίρες",
@@ -8489,7 +10897,95 @@ const customTranslations = {
     "workspace_private": "Προσωπικός & Καθημερινός",
     "workspace_study": "Σπουδές & Μάθηση",
     "workspace_work": "Εργασία & Έργα",
-    "zen_title": "Εστίαση Zen"
+    "zen_title": "Εστίαση Zen",
+    "nav_shopping": "Ψώνια",
+    "shop_open_items": "Προς αγορά",
+    "nav_cooking": "Μαγειρική",
+    "sound_campfire": "Φωτιά",
+    "export": "Εξαγωγή",
+    "settings_section_interaction": "Αλληλεπίδραση & Δείκτης",
+    "undo_action": "Αναίρεση",
+    "mobile_audio_title": "Ήχοι & Μουσική",
+    "mobile_audio_subtitle": "Ρυθμοί εστίασης, ραδιόφωνο & φύση",
+    "master_volume": "Κύρια ένταση",
+    "studio_pro": "Studio Pro",
+    "live_radio": "Ζωντανό Ραδιόφωνο",
+    "binaural_beats_title": "Διωτικά κύματα & άλφα ρυθμοί",
+    "ambient_nature_title": "Φύση & Ατμόσφαιρα",
+    "mobile_radio_title": "Ζωντανό Ραδιόφωνο",
+    "mobile_quick_audio_title": "Ήχοι Εστίασης",
+    "mobile_quick_audio_sub": "Φυσικοί ήχοι & ατμόσφαιρα",
+    "mobile_quick_radio_title": "Ζωντανό Ραδιόφωνο",
+    "mobile_quick_radio_sub": "Διεθνείς & τοπικοί σταθμοί",
+    "mobile_quick_alarm_title": "Αφύπνιση & Ρολόι",
+    "mobile_quick_alarm_sub": "Υπενθυμίσεις & κουδούνια εστίασης",
+    "today": "Σήμερα",
+    "week": "Εβδομάδα",
+    "month": "Μήνας",
+    "completed_stat": "Ολοκληρωμένα",
+    "backup_hub_title": "Αντίγραφα & Διαχείριση δεδομένων",
+    "backup_download_btn": "Λήψη αντιγράφου (JSON)",
+    "backup_restore_btn": "Επαναφορά αντιγράφου",
+    "shortcuts_title": "Συντομεύσεις πληκτρολογίου",
+    "pwa_install_title": "Εγκατάσταση εφαρμογής Noodle",
+    "pwa_install_desc": "Χρησιμοποιήστε το Noodle εκτός σύνδεσης οποιαδήποτε στιγμή απευθείας από την αρχική οθόνη.",
+    "pwa_install_btn": "Εγκατάσταση τώρα",
+    "settings_install_pwa": "Εγκατάσταση εφαρμογής 📲",
+    "settings_install_pwa_title": "Εγκατάσταση εφαρμογής (Υπολογιστής & Κινητό)",
+    "settings_install_pwa_desc": "Εγκαταστήστε το Noodle ως εγγενή εφαρμογή για άμεση πρόσβαση από την επιφάνεια εργασίας ή την αρχική οθόνη — ταχύτατη και εκτός σύνδεσης.",
+    "settings_install_pwa_btn": "Εγκατάσταση τώρα 📲",
+    "mobile_install_app": "Εγκατάσταση του Noodle 📲",
+    "mobile_quick_install_title": "Εγκατάσταση εφαρμογής",
+    "mobile_quick_install_sub": "PWA Υπολογιστής & Κινητό",
+    "later": "Αργότερα",
+    "cancel": "Ακύρωση",
+    "celebration_title": "Όλες οι εργασίες ολοκληρώθηκαν! 🎉",
+    "celebration_desc": "Καταπληκτική προσπάθεια! Ολοκλήρωσες όλες τις εργασίες σου για σήμερα. Ώρα για ένα διάλειμμα.",
+    "celebration_btn_chill": "Χαλάρωση & Ηρεμία ☕",
+    "celebration_btn_later": "Συνέχεια αργότερα",
+    "cmd_search": "Αναζήτηση...",
+    "tool_clean": "Καθαρισμός",
+    "tool_shopping": "Ψώνια",
+    "tool_cooking": "Μαγειρική",
+    "tool_news": "Ειδήσεις",
+    "tool_sounds": "Ήχοι",
+    "tool_media": "Μουσική & Μέσα",
+    "tool_dj": "Noodle DJ",
+    "tool_radio": "Ραδιόφωνο",
+    "tool_health": "Υγεία",
+    "tool_sport": "Κίνηση",
+    "tool_calm": "Εσωτερική Γαλήνη",
+    "tool_clarity": "Διαύγεια",
+    "tool_learning": "Μάθηση",
+    "tool_humor": "Fun Lab",
+    "tool_social": "Social Media",
+    "tool_chat": "Συνομιλία",
+    "tools_section_knowledge_social": "Γνώση, Chat & Social",
+    "tools_section_audio_media": "Ήχος, Beats & Media",
+    "settings_routines_customize": "Προσαρμογή ρουτινών & προτύπων",
+    "settings_language": "Γλώσσα",
+    "settings_theme": "Χρωματικό θέμα",
+    "settings_data_local_guarantee": "Όλα τα δεδομένα αποθηκεύονται 100% τοπικά στη συσκευή σας",
+    "settings_free_guarantee": "Όλες οι βασικές λειτουργίες είναι 100% τοπικές και πάντα δωρεάν.",
+    "settings_hover_title": "Συμπεριφορά δείκτη ποντικιού",
+    "settings_hover_desc": "Επιλέξτε πώς ανοίγουν τα παράθυρα εργαλείων και τα μενού.",
+    "settings_hover_click_only": "Μόνο με κλικ (Συνιστάται)",
+    "settings_hover_click_desc": "Χωρίς αυτόματα αναδυόμενα παράθυρα κατά την κίνηση του ποντικιού. Όλα ανοίγουν αποκλειστικά με κλικ.",
+    "settings_hover_enabled": "Αυτόματο άνοιγμα (Γρήγορο)",
+    "settings_hover_enabled_desc": "Τα παράθυρα και οι προεπισκοπήσεις ανοίγουν άμεσα όταν το ποντίκι περνά από πάνω.",
+    "zen_loading_task": "Φόρτωση εργασίας εστίασης...",
+    "break_5m": "5λ Διάλειμμα",
+    "break_start": "Έναρξη διαλείμματος",
+    "break_stop": "Τέλος διαλείμματος",
+    "deep_focus_timer": "Χρονόμετρο βαθιάς εστίασης",
+    "news_all_topics": "Όλα τα θέματα",
+    "news_all_sources": "Όλες οι πηγές",
+    "news_read_aloud": "Φωνητική ανάγνωση",
+    "close": "Κλείσιμο",
+    "save_as_task": "Αποθήκευση ως εργασία",
+    "all_devices_offline": "Όλες οι συσκευές & εκτός σύνδεσης",
+    "all_categories": "Όλες οι κατηγορίες",
+    "pause": "Παύση"
   }
 };
 
@@ -9767,7 +12263,7 @@ if (typeof globalThis !== 'undefined') {
  */
 
 // Grundlegende Konfiguration & globale State-Deklarationen
-var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt'];
+var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
 let currentLang = localStorage.getItem('flowPlannerLanguage') || 'en';
 let rawTheme = localStorage.getItem('flowPlannerTheme') || 'aurora';
 if (!ALL_VALID_THEMES.includes(rawTheme)) {
@@ -17080,12 +19576,16 @@ var noiseBuffers = {};
 var pendingCrossfadeNodes = [];
 var pendingCrossfadeGains = [];
 
-// Playlist-Zustände für eigene Tracks
+// Playlist-Zustände für eigene Tracks (Vollwertige Audio-Tracks aus dem Musik-Ordner statt Synthesizer-Tracks)
 var DEFAULT_PRELOADED_TRACKS = [
-  { id: 'track_lofi', name: '☕ Deep Focus Lofi', url: 'music/deep_focus_lofi.mp3', bpm: 85, presetKey: 'lofi_chill', duration: 180, isPreloaded: true },
-  { id: 'track_deep_house', name: '🪩 Deep House Sunset', url: 'music/deep_house_sunset.mp3', bpm: 126, presetKey: 'deep_house', duration: 210, isPreloaded: true },
-  { id: 'track_synthwave', name: '🌆 Synthwave Neon Drive', url: 'music/synthwave_neon_drive.mp3', bpm: 128, presetKey: 'cyber_wave', duration: 195, isPreloaded: true },
-  { id: 'track_zen', name: '🍃 Zen Meditation Flow', url: 'music/zen_meditation_flow.mp3', bpm: 118, presetKey: 'ambient_flow', duration: 240, isPreloaded: true }
+  { id: 'folder_43696e65', name: 'The Cinematic Orchestra – Evolution', fullName: 'Cinematic Orchestra - Evolution.mp3', url: 'music/Cinematic%20Orchestra%20-%20%20Evolution.mp3', bpm: 95, duration: 388, isPreloaded: true },
+  { id: 'folder_44656174', name: 'Death In Vegas – All That Glitters', fullName: 'Death In Vegas - All That Glitters.mp3', url: 'music/Death%20In%20Vegas%20-%20All%20That%20Glitters.mp3', bpm: 110, duration: 395, isPreloaded: true },
+  { id: 'folder_444a2043', name: 'DJ Cam – Lost Kingdom', fullName: 'DJ Cam - Lost Kingdom.mp3', url: 'music/DJ%20Cam%20-%20Lost%20Kingdom.mp3', bpm: 88, duration: 254, isPreloaded: true },
+  { id: 'folder_496e6469', name: 'Indian Rope Man – 66 Meters', fullName: 'Indian Rope Man 66 Meters.mp3', url: 'music/Indian%20Rope%20Man%2066%20Meters.mp3', bpm: 118, duration: 270, isPreloaded: true },
+  { id: 'folder_4c657669', name: 'Levitation – More Than Ever People', fullName: 'Levitation - More Than Ever People.mp3', url: 'music/Levitation%20-%20More%20Than%20Ever%20People.mp3', bpm: 100, duration: 320, isPreloaded: true },
+  { id: 'folder_506f7274', name: 'Portishead – Numb', fullName: 'Portishead - Numb.mp3', url: 'music/Portishead%20-%20Numb.mp3', bpm: 78, duration: 236, isPreloaded: true },
+  { id: 'folder_54686520', name: 'The Cinematic Orchestra – Channel 1 Suite (Zero 7)', fullName: 'The Cinematic Orchestra - Channel 1 Suite (Zero 7 - Late Night Tales).mp3', url: 'music/The%20Cinematic%20Orchestra%20-%20Channel%201%20Suite%20(Zero%207%20-%20Late%20Night%20Tales).mp3', bpm: 92, duration: 345, isPreloaded: true },
+  { id: 'folder_54726963', name: 'Tricky – Hell Is Around The Corner', fullName: 'Tricky Hell Is Around The Corner.mp3', url: 'music/Tricky%20Hell%20Is%20Around%20The%20Corner.mp3', bpm: 82, duration: 226, isPreloaded: true }
 ];
 var playlistTracks = [...DEFAULT_PRELOADED_TRACKS];
 var currentTrackIndex = 0;
@@ -18332,24 +20832,70 @@ function stopAllStudioAudio() {
 window.stopAllStudioAudio = stopAllStudioAudio;
 
 function handleHeaderVolumeInput(val) {
-  if (typeof setSoundVolume === 'function') setSoundVolume(val);
-  if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(val);
-  const numVal = `${Math.round(val * 100)}`;
+  const num = parseFloat(val);
+  soundMasterVolume = Math.max(0, Math.min(1, num));
+  try { localStorage.setItem('flow_master_vol', soundMasterVolume.toString()); } catch(e) {}
+
+  // 1. Ambient & Natur-Soundscape Pegel aktualisieren
+  if (typeof setSoundVolume === 'function') setSoundVolume(soundMasterVolume);
+  if (soundGainNode && audioCtx) {
+    try {
+      soundGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      soundGainNode.gain.setValueAtTime(soundMasterVolume, audioCtx.currentTime);
+    } catch(e) {}
+  }
+
+  // 2. Media Player Pegel synchronisieren
+  if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(soundMasterVolume);
+  if (activeUserAudio) {
+    try { activeUserAudio.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75); } catch(e) {}
+  }
+
+  // 3. Radio Engine synchronisieren
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.setRadioVolume === 'function') {
+    RadioNewsEngine.setRadioVolume(soundMasterVolume);
+  } else if (typeof window !== 'undefined' && window.radioAudioEl) {
+    try { window.radioAudioEl.volume = soundMasterVolume; } catch(e) {}
+  }
+
+  // 4. Multi-Layer Ambient Mixer Pegel anpassen
+  if (typeof activeAmbientLayers !== 'undefined' && activeAmbientLayers) {
+    Object.keys(activeAmbientLayers).forEach(layerKey => {
+      const layer = activeAmbientLayers[layerKey];
+      if (layer && layer.gainNode && audioCtx) {
+        try {
+          const lVol = layer.volume || 0.5;
+          layer.gainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+          layer.gainNode.gain.setValueAtTime(lVol * soundMasterVolume, audioCtx.currentTime);
+        } catch(e) {}
+      }
+    });
+  }
+
+  // 5. Binaural Beats Pegel anpassen
+  if (typeof binauralAudioNodes !== 'undefined' && binauralAudioNodes && binauralAudioNodes.masterGain && audioCtx) {
+    try {
+      binauralAudioNodes.masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+      binauralAudioNodes.masterGain.gain.setValueAtTime((binauralVolume || 0.4) * soundMasterVolume * 0.4, audioCtx.currentTime);
+    } catch(e) {}
+  }
+
+  // 6. UI-Slider & Prozentanzeigen an allen Stellen synchron halten
+  const numVal = `${Math.round(soundMasterVolume * 100)}`;
   const percentEl = document.getElementById('header-sound-volume-percent');
-  if (percentEl) {
-    percentEl.textContent = numVal;
-  }
+  if (percentEl) percentEl.textContent = numVal;
   const studioPctEl = document.getElementById('audio-panel-master-volume-pct');
-  if (studioPctEl) {
-    studioPctEl.textContent = `${numVal}%`;
-  }
+  if (studioPctEl) studioPctEl.textContent = `${numVal}%`;
+
   document.querySelectorAll('.master-volume-slider').forEach(s => {
-    if (s.value !== val) s.value = val;
+    if (parseFloat(s.value) !== soundMasterVolume) s.value = soundMasterVolume;
   });
   const headerSlider = document.getElementById('header-sound-volume-slider');
-  if (headerSlider && headerSlider.value !== val) headerSlider.value = val;
+  if (headerSlider && parseFloat(headerSlider.value) !== soundMasterVolume) headerSlider.value = soundMasterVolume;
   const studioSlider = document.getElementById('audio-panel-master-volume-slider');
-  if (studioSlider && studioSlider.value !== val) studioSlider.value = val;
+  if (studioSlider && parseFloat(studioSlider.value) !== soundMasterVolume) studioSlider.value = soundMasterVolume;
+  const radioSlider = document.getElementById('radio-volume-slider');
+  if (radioSlider && parseFloat(radioSlider.value) !== soundMasterVolume) radioSlider.value = soundMasterVolume;
 }
 window.handleHeaderVolumeInput = handleHeaderVolumeInput;
 window.handleStudioMasterVolume = handleHeaderVolumeInput;
@@ -20884,13 +23430,16 @@ var djDecks = {
   }
 };
 
-// Demo Synthesized Focus Stems & Preloaded MP3s
+// Echte Audio-Tracks für DJ Workstation & Preloaded MP3s
 var BUILTIN_DJ_STEMS = [
-  { id: 'deep_house', name: 'Deep House 126 BPM', bpm: 126, file: 'music/deep_house_sunset.mp3', color: 'cyan', emoji: '⚡' },
-  { id: 'lofi_chill', name: 'Lofi Chill 85 BPM', bpm: 85, file: 'music/deep_focus_lofi.mp3', color: 'purple', emoji: '☕' },
-  { id: 'cyber_wave', name: 'Cyber Wave 128 BPM', bpm: 128, file: 'music/synthwave_neon_drive.mp3', color: 'cyan', emoji: '🌌' },
-  { id: 'tech_groove', name: 'Tech Groove 130 BPM', bpm: 130, color: 'purple', emoji: '🥁' },
-  { id: 'ambient_flow', name: 'Ambient Chill 118 BPM', bpm: 118, file: 'music/zen_meditation_flow.mp3', color: 'cyan', emoji: '🍃' }
+  { id: 'cinematic', name: 'Cinematic Orchestra – Evolution', bpm: 95, file: 'music/Cinematic%20Orchestra%20-%20%20Evolution.mp3', color: 'cyan', emoji: '🎻' },
+  { id: 'death_in_vegas', name: 'Death In Vegas – All That Glitters', bpm: 110, file: 'music/Death%20In%20Vegas%20-%20All%20That%20Glitters.mp3', color: 'purple', emoji: '🎸' },
+  { id: 'dj_cam', name: 'DJ Cam – Lost Kingdom', bpm: 88, file: 'music/DJ%20Cam%20-%20Lost%20Kingdom.mp3', color: 'cyan', emoji: '🎧' },
+  { id: 'indian_rope', name: 'Indian Rope Man – 66 Meters', bpm: 118, file: 'music/Indian%20Rope%20Man%2066%20Meters.mp3', color: 'purple', emoji: '🥁' },
+  { id: 'levitation', name: 'Levitation – More Than Ever People', bpm: 100, file: 'music/Levitation%20-%20More%20Than%20Ever%20People.mp3', color: 'cyan', emoji: '🌊' },
+  { id: 'portishead', name: 'Portishead – Numb', bpm: 78, file: 'music/Portishead%20-%20Numb.mp3', color: 'purple', emoji: '⚡' },
+  { id: 'channel_1', name: 'Cinematic Orch – Channel 1 Suite', bpm: 92, file: 'music/The%20Cinematic%20Orchestra%20-%20Channel%201%20Suite%20(Zero%207%20-%20Late%20Night%20Tales).mp3', color: 'cyan', emoji: '🎹' },
+  { id: 'tricky', name: 'Tricky – Hell Is Around The Corner', bpm: 82, file: 'music/Tricky%20Hell%20Is%20Around%20The%20Corner.mp3', color: 'purple', emoji: '🎤' }
 ];
 
 function updateDjPresetDropdowns() {
@@ -21151,10 +23700,14 @@ if (typeof window !== 'undefined') {
 var DEFAULT_PRELOADED_TRACKS = (typeof window !== 'undefined' && Array.isArray(window.DEFAULT_PRELOADED_TRACKS))
   ? window.DEFAULT_PRELOADED_TRACKS
   : [
-      { id: 'track_lofi', name: '☕ Deep Focus Lofi', url: 'music/deep_focus_lofi.mp3', bpm: 85, presetKey: 'lofi_chill', duration: 180, isPreloaded: true },
-      { id: 'track_deep_house', name: '🪩 Deep House Sunset', url: 'music/deep_house_sunset.mp3', bpm: 126, presetKey: 'deep_house', duration: 210, isPreloaded: true },
-      { id: 'track_synthwave', name: '🌆 Synthwave Neon Drive', url: 'music/synthwave_neon_drive.mp3', bpm: 128, presetKey: 'cyber_wave', duration: 195, isPreloaded: true },
-      { id: 'track_zen', name: '🍃 Zen Meditation Flow', url: 'music/zen_meditation_flow.mp3', bpm: 118, presetKey: 'ambient_flow', duration: 240, isPreloaded: true }
+      { id: 'folder_43696e65', name: 'The Cinematic Orchestra – Evolution', fullName: 'Cinematic Orchestra - Evolution.mp3', url: 'music/Cinematic%20Orchestra%20-%20%20Evolution.mp3', bpm: 95, duration: 388, isPreloaded: true },
+      { id: 'folder_44656174', name: 'Death In Vegas – All That Glitters', fullName: 'Death In Vegas - All That Glitters.mp3', url: 'music/Death%20In%20Vegas%20-%20All%20That%20Glitters.mp3', bpm: 110, duration: 395, isPreloaded: true },
+      { id: 'folder_444a2043', name: 'DJ Cam – Lost Kingdom', fullName: 'DJ Cam - Lost Kingdom.mp3', url: 'music/DJ%20Cam%20-%20Lost%20Kingdom.mp3', bpm: 88, duration: 254, isPreloaded: true },
+      { id: 'folder_496e6469', name: 'Indian Rope Man – 66 Meters', fullName: 'Indian Rope Man 66 Meters.mp3', url: 'music/Indian%20Rope%20Man%2066%20Meters.mp3', bpm: 118, duration: 270, isPreloaded: true },
+      { id: 'folder_4c657669', name: 'Levitation – More Than Ever People', fullName: 'Levitation - More Than Ever People.mp3', url: 'music/Levitation%20-%20More%20Than%20Ever%20People.mp3', bpm: 100, duration: 320, isPreloaded: true },
+      { id: 'folder_506f7274', name: 'Portishead – Numb', fullName: 'Portishead - Numb.mp3', url: 'music/Portishead%20-%20Numb.mp3', bpm: 78, duration: 236, isPreloaded: true },
+      { id: 'folder_54686520', name: 'The Cinematic Orchestra – Channel 1 Suite (Zero 7)', fullName: 'The Cinematic Orchestra - Channel 1 Suite (Zero 7 - Late Night Tales).mp3', url: 'music/The%20Cinematic%20Orchestra%20-%20Channel%201%20Suite%20(Zero%207%20-%20Late%20Night%20Tales).mp3', bpm: 92, duration: 345, isPreloaded: true },
+      { id: 'folder_54726963', name: 'Tricky – Hell Is Around The Corner', fullName: 'Tricky Hell Is Around The Corner.mp3', url: 'music/Tricky%20Hell%20Is%20Around%20The%20Corner.mp3', bpm: 82, duration: 226, isPreloaded: true }
     ];
 
 if (typeof playlistTracks === 'undefined' || !Array.isArray(playlistTracks) || playlistTracks.length === 0) {
@@ -21257,12 +23810,164 @@ function renderMusicPlaylist() {
 window.renderMusicPlaylist = renderMusicPlaylist;
 window.renderTrackList = renderMusicPlaylist;
 
+let mediaVisualizerAnimFrame = null;
+let mediaAudioSourceNode = null;
+let mediaAnalyserNode = null;
+
+function isVideoFileUrl(url, name) {
+  const testStr = `${url || ''} ${name || ''}`.toLowerCase();
+  return testStr.endsWith('.mp4') || testStr.endsWith('.webm') || testStr.endsWith('.ogg') || testStr.endsWith('.mov') || testStr.endsWith('.mkv') || testStr.includes('video/');
+}
+
+function updateMediaScreenDisplay(isVideo, mediaEl) {
+  const videoEl = document.getElementById('media-video-element');
+  const canvas = document.getElementById('media-audio-visualizer-canvas');
+  const typeBadge = document.getElementById('media-type-badge');
+  const pipBtn = document.getElementById('media-pip-btn');
+
+  if (isVideo && videoEl) {
+    videoEl.classList.remove('hidden');
+    if (canvas) canvas.classList.add('hidden');
+    if (typeBadge) {
+      typeBadge.textContent = 'VIDEO';
+      typeBadge.className = 'px-2 py-0.5 rounded-lg text-[9px] font-mono font-bold bg-black/60 text-emerald-300 border border-emerald-500/40 backdrop-blur-md';
+    }
+    if (pipBtn) pipBtn.classList.remove('hidden');
+  } else {
+    if (videoEl) {
+      videoEl.classList.add('hidden');
+      try { videoEl.pause(); } catch(e) {}
+    }
+    if (canvas) canvas.classList.remove('hidden');
+    if (typeBadge) {
+      typeBadge.textContent = 'AUDIO';
+      typeBadge.className = 'px-2 py-0.5 rounded-lg text-[9px] font-mono font-bold bg-black/60 text-purple-300 border border-purple-500/40 backdrop-blur-md';
+    }
+    startAudioVisualizerLoop();
+  }
+}
+
+function startAudioVisualizerLoop() {
+  const canvas = document.getElementById('media-audio-visualizer-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  if (mediaVisualizerAnimFrame) cancelAnimationFrame(mediaVisualizerAnimFrame);
+
+  let phase = 0;
+  function draw() {
+    if (canvas.classList.contains('hidden')) return;
+    const w = canvas.width = canvas.clientWidth || 300;
+    const h = canvas.height = canvas.clientHeight || 96;
+
+    ctx.fillStyle = '#0a0c12';
+    ctx.fillRect(0, 0, w, h);
+
+    const isPlaying = activeUserAudio && !activeUserAudio.paused;
+    const bars = 36;
+    const barWidth = (w - (bars * 2)) / bars;
+
+    for (let i = 0; i < bars; i++) {
+      const x = i * (barWidth + 2) + 2;
+      let barHeight = 6;
+      if (isPlaying) {
+        const wave = Math.sin(phase + i * 0.35) * 0.5 + 0.5;
+        const wave2 = Math.cos(phase * 1.5 + i * 0.2) * 0.5 + 0.5;
+        barHeight = Math.max(6, (wave * 0.6 + wave2 * 0.4) * (h * 0.72));
+      }
+
+      const grad = ctx.createLinearGradient(0, h, 0, h - barHeight);
+      grad.addColorStop(0, 'rgba(168, 85, 247, 0.2)');
+      grad.addColorStop(0.5, 'rgba(168, 85, 247, 0.85)');
+      grad.addColorStop(1, 'rgba(56, 189, 248, 0.95)');
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.roundRect ? ctx.roundRect(x, h - barHeight, barWidth, barHeight, [3, 3, 0, 0]) : ctx.fillRect(x, h - barHeight, barWidth, barHeight);
+      ctx.fill();
+    }
+
+    if (isPlaying) phase += 0.08;
+    mediaVisualizerAnimFrame = requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+function setMediaPlaybackRate(rate) {
+  const r = parseFloat(rate) || 1.0;
+  if (activeUserAudio) activeUserAudio.playbackRate = r;
+  const videoEl = document.getElementById('media-video-element');
+  if (videoEl) videoEl.playbackRate = r;
+}
+window.setMediaPlaybackRate = setMediaPlaybackRate;
+
+async function toggleMediaPip() {
+  const videoEl = document.getElementById('media-video-element');
+  if (!videoEl || videoEl.classList.contains('hidden')) {
+    if (typeof showToast === 'function') showToast('Picture-in-Picture ist nur bei Videos verfügbar 🎬');
+    return;
+  }
+  try {
+    if (document.pictureInPictureElement) {
+      await document.exitPictureInPicture();
+    } else if (videoEl.requestPictureInPicture) {
+      await videoEl.requestPictureInPicture();
+    }
+  } catch(e) {
+    console.warn('[Media] PiP Error:', e);
+  }
+}
+window.toggleMediaPip = toggleMediaPip;
+
+function toggleMediaFullscreen() {
+  const videoEl = document.getElementById('media-video-element');
+  const wrapper = document.getElementById('media-screen-wrapper');
+  const target = (!videoEl.classList.contains('hidden') ? videoEl : wrapper);
+  if (!target) return;
+  if (!document.fullscreenElement) {
+    target.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+window.toggleMediaFullscreen = toggleMediaFullscreen;
+
+function loadOnlineMediaUrl() {
+  const input = document.getElementById('media-stream-url-input');
+  if (!input || !input.value.trim()) return;
+  const url = input.value.trim();
+  const name = url.split('/').pop().split('?')[0] || 'Online Stream';
+  const isVideo = isVideoFileUrl(url, name);
+
+  const trackId = 'online_' + Date.now();
+  const newTrack = {
+    id: trackId,
+    name: '🌐 ' + decodeURIComponent(name),
+    fullName: decodeURIComponent(name),
+    url: url,
+    isVideo: isVideo,
+    duration: null,
+    isOnlineStream: true
+  };
+
+  playlistTracks.unshift(newTrack);
+  input.value = '';
+  renderMusicPlaylist();
+  playMusicTrack(0);
+  if (typeof showToast === 'function') {
+    showToast(`Stream geladen: ${newTrack.name} 🎬`);
+  }
+}
+window.loadOnlineMediaUrl = loadOnlineMediaUrl;
+
 function playMusicTrack(index) {
   if (playlistTracks.length === 0) return;
   if (index < 0 || index >= playlistTracks.length) index = 0;
   currentTrackIndex = index;
 
   const track = playlistTracks[currentTrackIndex];
+  const isVideo = track.isVideo || isVideoFileUrl(track.url, track.name || track.fullName);
 
   if (activeUserAudio) {
     try {
@@ -21271,16 +23976,32 @@ function playMusicTrack(index) {
     } catch(e) {}
   }
 
-  const audio = new Audio(track.url);
-  audio.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
-  activeUserAudio = audio;
+  let mediaEl;
+  const videoEl = document.getElementById('media-video-element');
 
-  audio.addEventListener('timeupdate', () => {
-    if (activeUserAudio !== audio) return;
-    updateMusicProgressUI(audio);
+  if (isVideo && videoEl) {
+    videoEl.src = track.url;
+    mediaEl = videoEl;
+  } else {
+    mediaEl = new Audio(track.url);
+  }
+
+  const speedSelect = document.getElementById('media-speed-select');
+  if (speedSelect && speedSelect.value) {
+    mediaEl.playbackRate = parseFloat(speedSelect.value) || 1.0;
+  }
+
+  mediaEl.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+  activeUserAudio = mediaEl;
+
+  updateMediaScreenDisplay(isVideo, mediaEl);
+
+  mediaEl.addEventListener('timeupdate', () => {
+    if (activeUserAudio !== mediaEl) return;
+    updateMusicProgressUI(mediaEl);
   });
 
-  audio.addEventListener('ended', () => {
+  mediaEl.addEventListener('ended', () => {
     if (playerRepeatMode === 'one') {
       playMusicTrack(currentTrackIndex);
     } else if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) {
@@ -21290,30 +24011,14 @@ function playMusicTrack(index) {
     }
   });
 
-  const triggerSyntheticFallback = () => {
-    if (track.presetKey && typeof createSyntheticBeatAudio === 'function') {
-      const fallbackUrl = createSyntheticBeatAudio(track.bpm || 120, track.presetKey);
-      if (fallbackUrl && audio.src !== fallbackUrl) {
-        console.log(`[AudioPlayer] Falling back to procedural audio for ${track.name}`);
-        audio.src = fallbackUrl;
-        audio.play().then(() => {
-          updateMusicPlayBtnUI(true);
-          updateMusicNowPlayingDisplay();
-          renderMusicPlaylist();
-        }).catch(e => console.warn('[AudioPlayer] Procedural fallback play error:', e));
-      }
-    }
-  };
-
-  audio.addEventListener('error', triggerSyntheticFallback);
-
-  audio.play().then(() => {
+  mediaEl.play().then(() => {
     updateMusicPlayBtnUI(true);
     updateMusicNowPlayingDisplay();
     renderMusicPlaylist();
+    startAudioVisualizerLoop();
   }).catch(err => {
-    console.warn('[AudioPlayer] Playback attempt notice:', err);
-    triggerSyntheticFallback();
+    console.warn('[AudioPlayer] Playback attempt error:', err);
+    updateMusicPlayBtnUI(false);
   });
 }
 window.playMusicTrack = playMusicTrack;
@@ -24737,14 +27442,20 @@ function renderTimerCockpitContent() {
       </div>
     </div>
 
-    <!-- 5. FOKUS-ZIEL (AUFGABE AUS DEM BOARD) -->
+    <!-- 5. FOKUS-ZIEL (AUFGABE AUS DEM BOARD) & CHRONOMETER -->
     <div class="p-2 rounded-2xl bg-amber-950/20 border border-amber-500/30 shadow-inner flex flex-col gap-1.5">
       <div class="flex items-center justify-between px-0.5">
         <span class="text-[10.5px] font-bold text-amber-300 font-display flex items-center gap-1.5">
           <i data-lucide="target" class="w-3.5 h-3.5 text-amber-400"></i>
           <span>Fokus-Ziel (Aufgabe)</span>
         </span>
-        ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">Verknüpft</span>` : ''}
+        <div class="flex items-center gap-1">
+          <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); toggleChronometer();" class="px-2 py-0.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-mono text-[9px] font-bold flex items-center gap-1 transition cursor-pointer" title="Stoppuhr / Zeiterfassung starten">
+            <i data-lucide="watch" class="w-2.5 h-2.5"></i>
+            <span>Chrono</span>
+          </button>
+          ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">Verknüpft</span>` : ''}
+        </div>
       </div>
 
       ${taskTitle ? `
@@ -25474,6 +28185,185 @@ function updateTimerDisplay() {
   }
 }
 
+// =========================================================================
+// CHRONOMETER (OFFENE AUFGABEN-ZEITERFASSUNG / STOPPUHR & FLOW-LOGGER)
+// =========================================================================
+
+var chronometerActive = false;
+var chronometerSeconds = 0;
+var chronometerInterval = null;
+var activeChronometerTask = null;
+var chronometerStartTime = null;
+
+function formatChronometerTime(secs) {
+  const s = Math.max(0, Math.floor(secs));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const remSec = s % 60;
+  if (h > 0) {
+    return `${h}:${String(m).padStart(2, '0')}:${String(remSec).padStart(2, '0')}`;
+  }
+  return `${String(m).padStart(2, '0')}:${String(remSec).padStart(2, '0')}`;
+}
+
+function startTaskChronometer(colId, index, event) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  try {
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    const taskItem = curItems[colId]?.[index];
+    const taskTitle = typeof taskItem === 'object' && taskItem ? (taskItem.task || taskItem.title || taskItem.name || '') : String(taskItem || '');
+    
+    startChronometer(taskTitle || 'Fokus-Aufgabe', colId, index);
+  } catch (e) {
+    console.warn('[Chronometer] Error starting task chronometer:', e);
+  }
+}
+window.startTaskChronometer = startTaskChronometer;
+
+function startChronometer(taskTitle = null, colId = null, index = null) {
+  // Wenn schon ein Countdown-Timer läuft, pausieren
+  if (timerRunning) {
+    pauseTimer();
+  }
+
+  if (chronometerInterval) {
+    clearInterval(chronometerInterval);
+    chronometerInterval = null;
+  }
+
+  chronometerActive = true;
+  chronometerSeconds = 0;
+  chronometerStartTime = Date.now();
+  activeChronometerTask = taskTitle ? { title: taskTitle, colId, index } : null;
+
+  updateChronometerUI(true);
+
+  chronometerInterval = setInterval(() => {
+    if (!chronometerActive) return;
+    chronometerSeconds = Math.round((Date.now() - chronometerStartTime) / 1000);
+    updateChronometerDisplay();
+  }, 500);
+
+  updateChronometerDisplay();
+
+  const titleStr = taskTitle ? ` für "${taskTitle}"` : '';
+  if (typeof showToast === 'function') {
+    showToast(`⏱️ Chronometer gestartet${titleStr}`);
+  }
+}
+window.startChronometer = startChronometer;
+
+function stopChronometer(isCompleted = false) {
+  if (!chronometerActive && !chronometerInterval) return;
+
+  if (chronometerInterval) {
+    clearInterval(chronometerInterval);
+    chronometerInterval = null;
+  }
+
+  const durationSec = chronometerSeconds;
+  const timeFormatted = formatChronometerTime(durationSec);
+  const taskObj = activeChronometerTask;
+  chronometerActive = false;
+  chronometerStartTime = null;
+
+  updateChronometerUI(false);
+  updateTimerDisplay(); // Setzt Standardanzeige zurück
+
+  if (durationSec > 10 && taskObj && taskObj.title) {
+    // In Wochenbericht / Notizen vermerken
+    try {
+      if (typeof logFocusSessionToReport === 'function') {
+        logFocusSessionToReport(taskObj.title, durationSec);
+      }
+    } catch(e) {}
+
+    if (typeof showToast === 'function') {
+      showToast(`⏱️ Chronometer beendet: "${taskObj.title}" dauerte ${timeFormatted}`);
+    }
+  } else if (typeof showToast === 'function') {
+    showToast(`⏱️ Chronometer gestoppt (${timeFormatted})`);
+  }
+
+  activeChronometerTask = null;
+}
+window.stopChronometer = stopChronometer;
+
+function toggleChronometer() {
+  if (chronometerActive) {
+    stopChronometer(false);
+  } else {
+    startChronometer(activeTimerTask || null);
+  }
+}
+window.toggleChronometer = toggleChronometer;
+
+function updateChronometerDisplay() {
+  if (!chronometerActive) return;
+  const displayEl = document.getElementById('timer-display');
+  const str = formatChronometerTime(chronometerSeconds);
+  if (displayEl) {
+    displayEl.innerText = `⏱️ ${str}`;
+    displayEl.className = 'font-display font-black text-xs md:text-sm tracking-wider text-emerald-300 leading-none select-none animate-pulse';
+  }
+
+  const progressBar = document.getElementById('timer-progress-bar');
+  if (progressBar) {
+    progressBar.style.width = '100%';
+    progressBar.className = 'h-full bg-emerald-400 transition-all duration-300';
+  }
+
+  // Task-Badge im Header
+  const badge = document.getElementById('active-timer-badge');
+  if (badge) {
+    if (activeChronometerTask && activeChronometerTask.title) {
+      badge.textContent = `⏱️ ${activeChronometerTask.title}`;
+      badge.classList.remove('hidden');
+    } else {
+      badge.textContent = `⏱️ Chrono`;
+      badge.classList.remove('hidden');
+    }
+  }
+
+  document.title = `(${str}) ⏱️ Chrono — Noodle`;
+}
+
+function updateChronometerUI(isActive) {
+  const playBtn = document.getElementById('timer-play-btn');
+  const pauseBtn = document.getElementById('timer-pause-btn');
+  const stopBtn = document.getElementById('timer-stop-btn');
+
+  if (isActive) {
+    if (playBtn) playBtn.classList.add('hidden');
+    if (pauseBtn) {
+      pauseBtn.classList.remove('hidden');
+      pauseBtn.setAttribute('onclick', 'stopChronometer()');
+      pauseBtn.setAttribute('title', 'Chronometer stoppen');
+    }
+    if (stopBtn) {
+      stopBtn.setAttribute('onclick', 'stopChronometer()');
+      stopBtn.setAttribute('title', 'Chronometer beenden');
+    }
+  } else {
+    if (pauseBtn) {
+      pauseBtn.setAttribute('onclick', 'pauseTimer()');
+      pauseBtn.setAttribute('title', 'Pause timer [T]');
+      pauseBtn.classList.add('hidden');
+    }
+    if (playBtn) playBtn.classList.remove('hidden');
+    if (stopBtn) {
+      stopBtn.setAttribute('onclick', 'stopTimer()');
+      stopBtn.setAttribute('title', 'Reset timer [S]');
+    }
+    const badge = document.getElementById('active-timer-badge');
+    if (badge && !timerRunning) badge.classList.add('hidden');
+    document.title = 'Noodle Studio';
+  }
+}
+
 if (typeof window !== 'undefined') {
   window.startTaskTimer = startTaskTimer;
   window.updateActiveTimerLabels = updateActiveTimerLabels;
@@ -25491,6 +28381,10 @@ if (typeof window !== 'undefined') {
   window.resetTimer = resetTimer;
   window.updateTimerUI = updateTimerUI;
   window.updateTimerDisplay = updateTimerDisplay;
+  window.startTaskChronometer = startTaskChronometer;
+  window.startChronometer = startChronometer;
+  window.stopChronometer = stopChronometer;
+  window.toggleChronometer = toggleChronometer;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.startTaskTimer = startTaskTimer;
@@ -25509,6 +28403,10 @@ if (typeof globalThis !== 'undefined') {
   globalThis.resetTimer = resetTimer;
   globalThis.updateTimerUI = updateTimerUI;
   globalThis.updateTimerDisplay = updateTimerDisplay;
+  globalThis.startTaskChronometer = startTaskChronometer;
+  globalThis.startChronometer = startChronometer;
+  globalThis.stopChronometer = stopChronometer;
+  globalThis.toggleChronometer = toggleChronometer;
 }
 
 
@@ -25747,6 +28645,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "Weiter geht's! 💪",
     workout_completed: "Fantastisch! Workout erfolgreich beendet! 🏆",
     rest_title: "Kurze Verschnaufpause",
+    rest_desc: "Tief durchatmen, Schultern kreisen und kurz lockern. Gleich geht's weiter!",
+    rest_focus: "🌿 Erholung & Atmung",
     next_up: "Als Nächstes:",
     ready_set_go: "Los geht's!"
   },
@@ -25759,10 +28659,12 @@ const SPORT_TRANSLATIONS = {
     energy_label: "Required level: Spoons",
     next_suggestion: "Another Suggestion 🔄",
     workout_started: "Workout started! Let's go 🚀",
-    workout_paused: "Workout paused. ⏸️",
+    workout_paused: "Exercise paused. ⏸️",
     workout_resumed: "Resuming workout! 💪",
     workout_completed: "Fantastic! Workout successfully completed! 🏆",
     rest_title: "Short Rest Interval",
+    rest_desc: "Breathe deeply, roll shoulders gently and relax. Ready for next step!",
+    rest_focus: "🌿 Recovery & Breath",
     next_up: "Next up:",
     ready_set_go: "Get ready!"
   },
@@ -25779,6 +28681,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "¡Continuamos! 💪",
     workout_completed: "¡Fantástico! ¡Entrenamiento completado! 🏆",
     rest_title: "Descanso breve",
+    rest_desc: "Respira profundo, relaja los hombros y suelta tensión. ¡Ya seguimos!",
+    rest_focus: "🌿 Recuperación y Respiración",
     next_up: "A continuación:",
     ready_set_go: "¡Listos!"
   },
@@ -25795,6 +28699,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "Συνεχίζουμε! 💪",
     workout_completed: "Υπέροχα! Η προπόνηση ολοκληρώθηκε! 🏆",
     rest_title: "Σύντομο διάλειμμα",
+    rest_desc: "Πάρε βαθιά ανάσα, χαλάρωσε τους ώμους. Συνεχίζουμε σε λίγο!",
+    rest_focus: "🌿 Ανάκτηση & Αναπνοή",
     next_up: "Επόμενη άσκηση:",
     ready_set_go: "Ετοιμάσου!"
   },
@@ -25811,6 +28717,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "C'est reparti ! 💪",
     workout_completed: "Fantastique ! Entraînement terminé ! 🏆",
     rest_title: "Courte pause",
+    rest_desc: "Respire profondément, détends les épaules. C'est reparti dans un instant !",
+    rest_focus: "🌿 Récupération & Respiration",
     next_up: "À suivre :",
     ready_set_go: "Prêt !"
   },
@@ -25827,6 +28735,8 @@ const SPORT_TRANSLATIONS = {
     workout_resumed: "Si riprende! 💪",
     workout_completed: "Fantastico! Allenamento completato! 🏆",
     rest_title: "Breve pausa",
+    rest_desc: "Respira profondamente, rilassa le spalle. Si riprende tra poco!",
+    rest_focus: "🌿 Recupero & Respirazione",
     next_up: "Prossimo:",
     ready_set_go: "Pronti!"
   }
@@ -26488,8 +29398,14 @@ function startCustomGeneratedWorkout() {
     else if (intervalSelect?.value === '50_10') { workSec = 50; restSec = 10; }
     else if (intervalSelect?.value === '60_20') { workSec = 60; restSec = 20; }
 
-    const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
-    const title = lang === 'de' ? '🧩 Individuelles Wohnungs-Workout' : '🧩 Custom Home Workout';
+    const title = tr({
+      de: '🧩 Individuelles Wohnungs-Workout',
+      en: '🧩 Custom Home Workout',
+      fr: '🧩 Entraînement Personnalisé Maison',
+      it: '🧩 Allenamento Personalizzato a Casa',
+      es: '🧩 Entrenamiento Personalizado en Casa',
+      el: '🧩 Προσαρμοσμένη Προπόνηση στο Σπίτι'
+    });
 
     startWorkoutRoutine(exercises, title, workSec, restSec);
   } catch (e) {
@@ -26522,7 +29438,15 @@ function renderExerciseLibrary() {
   });
 
   if (filtered.length === 0) {
-    container.innerHTML = `<div class="p-4 text-center text-gray-400 text-xs font-semibold">Keine Übungen für diesen Filter gefunden.</div>`;
+    const emptyMsg = tr({
+      de: 'Keine Übungen für diesen Filter gefunden.',
+      en: 'No exercises found for this filter.',
+      fr: 'Aucun exercice trouvé pour ce filtre.',
+      it: 'Nessun esercizio trovato per questo filtro.',
+      es: 'No se encontraron ejercicios para este filtro.',
+      el: 'Δεν βρέθηκαν ασκήσεις για αυτό το φίλτρο.'
+    });
+    container.innerHTML = `<div class="p-4 text-center text-gray-400 text-xs font-semibold">${emptyMsg}</div>`;
     return;
   }
 
@@ -26530,7 +29454,11 @@ function renderExerciseLibrary() {
     const name = ex.name[lang] || ex.name['de'];
     const desc = ex.desc[lang] || ex.desc['de'];
     const muscle = ex.muscle[lang] || ex.muscle['de'];
-    const equipLabel = ex.equipment === 'wall' ? '🧱 Wand' : ex.equipment === 'chair' ? '🪑 Stuhl' : '⚡ Körpergewicht';
+    const equipLabel = ex.equipment === 'wall'
+      ? tr({ de: '🧱 Wand', en: '🧱 Wall', fr: '🧱 Mur', it: '🧱 Muro', es: '🧱 Pared', el: '🧱 Τοίχος' })
+      : ex.equipment === 'chair'
+      ? tr({ de: '🪑 Stuhl', en: '🪑 Chair', fr: '🪑 Chaise', it: '🪑 Sedia', es: '🪑 Silla', el: '🪑 Καρέκλα' })
+      : tr({ de: '⚡ Körpergewicht', en: '⚡ Bodyweight', fr: '⚡ Poids du corps', it: '⚡ Corpo libero', es: '⚡ Peso corporal', el: '⚡ Σωματικό βάρος' });
 
     return `
       <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.06] border border-white/10 hover:border-lime-500/40 transition flex items-center justify-between gap-3">
@@ -26674,8 +29602,8 @@ function updateWorkoutPlayerUI() {
       stateBadgeEl.innerText = `☕ ${getSportT('rest_title')} (${activeRoutineRemainingSec}s)`;
     }
     if (exNameEl) exNameEl.innerText = `☕ ${getSportT('rest_title')}`;
-    if (exDescEl) exDescEl.innerText = "Tief durchatmen, Schultern kreisen und kurz lockern. Gleich geht's weiter!";
-    if (exMuscleEl) exMuscleEl.innerText = "🌿 Erholung & Atmung";
+    if (exDescEl) exDescEl.innerText = getSportT('rest_desc');
+    if (exMuscleEl) exMuscleEl.innerText = getSportT('rest_focus');
   }
 
   if (nextUpBoxEl) {
@@ -31958,6 +34886,12 @@ if (typeof globalThis !== 'undefined') {
 (function() {
   'use strict';
 
+  function tr(obj) {
+    const l = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' && window.currentLang) || 'de');
+    if (!obj || typeof obj !== 'object') return obj || '';
+    return obj[l] || obj['en'] || obj['de'] || Object.values(obj)[0] || '';
+  }
+
   // ============================================================================
   // 1. DATA MODELS & OFFICIAL PREVENTION GUIDELINES MATRIX
   // ============================================================================
@@ -32331,64 +35265,69 @@ if (typeof globalThis !== 'undefined') {
     let html = `
       <!-- 1. KOPFZEILE: NOODLE HEALTH BRANDING -->
       <div class="flex items-center justify-between border-b border-white/10 pb-2">
-        <div class="relative flex flex-col items-center justify-center shrink-0">
-          <div class="relative overflow-hidden flex items-center justify-center">
-            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 shadow-sm shrink-0">
+            <i data-lucide="shield-plus" class="w-4 h-4"></i>
           </div>
-          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-            <span class="badge-tool-subtext select-none">HEALTH</span>
+          <div class="relative flex flex-col items-center justify-center shrink-0">
+            <div class="relative overflow-hidden flex items-center justify-center">
+              <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+            </div>
+            <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+              <span class="badge-tool-subtext select-none">HEALTH</span>
+            </div>
           </div>
         </div>
         <button onclick="togglePanel('health')" aria-label="Gesundheits-Panel schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
       </div>
 
       <!-- TOP PROFILE SUMMARY BANNER -->
-      <div class="p-3 rounded-2xl bg-gradient-to-r from-rose-500/15 via-purple-500/10 to-teal-500/15 border border-rose-500/30 flex items-center justify-between shadow-inner">
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 font-bold text-sm shadow-xs">
+      <div class="p-2 rounded-xl bg-gradient-to-r from-rose-500/15 via-purple-500/10 to-teal-500/15 border border-rose-500/30 flex items-center justify-between shadow-inner">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-lg bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 font-bold text-xs shadow-xs">
             ${profile.gender === 'female' ? '🌸' : profile.gender === 'male' ? '⚡' : '🌿'}
           </div>
           <div>
             <div class="flex items-center gap-1.5">
-              <span class="text-xs font-bold text-white">${profile.age} Jahre</span>
+              <span class="text-xs font-bold text-white">${profile.age} ${tr({ de: 'Jahre', en: 'years', fr: 'ans', it: 'anni', es: 'años', el: 'χρόνων' })}</span>
               <span class="text-[10px] text-gray-400">•</span>
-              <span class="text-[10.5px] font-semibold text-rose-200 capitalize">${profile.gender === 'female' ? 'Weiblich' : profile.gender === 'male' ? 'Männlich' : 'Divers / Neutral'}</span>
+              <span class="text-[10px] font-semibold text-rose-200 capitalize">${profile.gender === 'female' ? tr({ de: 'Weiblich', en: 'Female', fr: 'Femme', it: 'Femmina', es: 'Femenino', el: 'Γυναίκα' }) : profile.gender === 'male' ? tr({ de: 'Männlich', en: 'Male', fr: 'Homme', it: 'Maschio', es: 'Masculino', el: 'Άνδρας' }) : tr({ de: 'Divers', en: 'Diverse', fr: 'Neutre', it: 'Altro', es: 'Diverso', el: 'Άλλο' })}</span>
             </div>
-            <div class="text-[9.5px] text-gray-400 flex items-center gap-1.5 mt-0.5">
-              <span class="${dueCount > 0 ? 'text-amber-300 font-bold' : 'text-emerald-300'}">● ${dueCount > 0 ? `${dueCount} Checks fällig` : 'Alle Checks aktuell'}</span>
+            <div class="text-[9px] text-gray-400 flex items-center gap-1.5 mt-0.5">
+              <span class="${dueCount > 0 ? 'text-amber-300 font-bold' : 'text-emerald-300'}">● ${dueCount > 0 ? `${dueCount} ${tr({ de: 'fällig', en: 'due', fr: 'dû', it: 'scaduto', es: 'pendiente', el: 'εκκρεμεί' })}` : tr({ de: 'Aktuell', en: 'Up to date', fr: 'À jour', it: 'Aggiornato', es: 'Al día', el: 'Ενήμερο' })}</span>
               <span>•</span>
-              <span>${completedCount}/${totalCheckups} erledigt</span>
+              <span>${completedCount}/${totalCheckups} ${tr({ de: 'erledigt', en: 'done', fr: 'fait', it: 'fatto', es: 'hecho', el: 'ολοκληρωμένα' })}</span>
             </div>
           </div>
         </div>
-        <button onclick="HealthEngine.switchTab('profile')" class="px-2.5 py-1 bg-white/10 hover:bg-white/20 border border-white/15 text-white rounded-xl text-[10.5px] font-bold transition flex items-center gap-1 cursor-pointer">
+        <button onclick="HealthEngine.switchTab('profile')" class="px-2 py-0.5 bg-white/10 hover:bg-white/20 border border-white/15 text-white rounded-lg text-[10px] font-bold transition flex items-center gap-1 cursor-pointer">
           <i data-lucide="sliders" class="w-3 h-3 text-rose-300"></i>
-          <span>Profil</span>
+          <span>${tr({ de: 'Profil', en: 'Profile', fr: 'Profil', it: 'Profilo', es: 'Perfil', el: 'Προφίλ' })}</span>
         </button>
       </div>
 
       <!-- PRIMARY NAVIGATION TABS -->
       <div class="flex bg-black/60 p-1 rounded-2xl border border-white/10 text-xs font-bold gap-1 shadow-sm">
-        <button onclick="HealthEngine.switchTab('radar')" class="flex-1 py-1.5 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer ${currentTab === 'radar' ? 'bg-rose-600/35 border border-rose-400/70 text-white shadow-xs' : 'text-gray-400 hover:text-white hover:bg-white/5'}">
+        <button onclick="HealthEngine.switchTab('radar')" class="flex-1 py-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer ${currentTab === 'radar' ? 'bg-rose-600/35 border border-rose-400/70 text-white shadow-xs' : 'text-gray-400 hover:text-white hover:bg-white/5'}">
           <i data-lucide="shield-check" class="w-3.5 h-3.5 text-rose-400"></i>
-          <span>Vorsorge</span>
+          <span>${tr({ de: 'Vorsorge', en: 'Prevention', fr: 'Prévention', it: 'Prevenzione', es: 'Prevención', el: 'Πρόληψη' })}</span>
         </button>
-        <button onclick="HealthEngine.switchTab('daily')" class="flex-1 py-1.5 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer ${currentTab === 'daily' ? 'bg-rose-600/35 border border-rose-400/70 text-white shadow-xs' : 'text-gray-400 hover:text-white hover:bg-white/5'}">
+        <button onclick="HealthEngine.switchTab('daily')" class="flex-1 py-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer ${currentTab === 'daily' ? 'bg-rose-600/35 border border-rose-400/70 text-white shadow-xs' : 'text-gray-400 hover:text-white hover:bg-white/5'}">
           <i data-lucide="pill" class="w-3.5 h-3.5 text-rose-400"></i>
-          <span>Alltag & Meds</span>
+          <span>${tr({ de: 'Alltag & Meds', en: 'Daily & Meds', fr: 'Meds & Santé', it: 'Meds & Salute', es: 'Medicinas', el: 'Φάρμακα & Υγεία' })}</span>
         </button>
         ${profile.cycleEnabled ? `
-        <button onclick="HealthEngine.switchTab('cycle')" class="flex-1 py-1.5 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer ${currentTab === 'cycle' ? 'bg-rose-600/35 border border-rose-400/70 text-white shadow-xs' : 'text-gray-400 hover:text-white hover:bg-white/5'}">
+        <button onclick="HealthEngine.switchTab('cycle')" class="flex-1 py-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer ${currentTab === 'cycle' ? 'bg-rose-600/35 border border-rose-400/70 text-white shadow-xs' : 'text-gray-400 hover:text-white hover:bg-white/5'}">
           <i data-lucide="moon" class="w-3.5 h-3.5 text-rose-400"></i>
-          <span>Zyklus</span>
+          <span>${tr({ de: 'Zyklus', en: 'Cycle', fr: 'Cycle', it: 'Ciclo', es: 'Ciclo', el: 'Κύκλος' })}</span>
         </button>` : ''}
       </div>
     `;
 
     if (currentTab === 'radar') {
       html += `
-        <div class="space-y-2 animate-fade-in text-xs">
-          <div class="space-y-1.5 max-h-[380px] overflow-y-auto pr-1 custom-scrollbar">
+        <div class="space-y-1.5 animate-fade-in text-xs">
+          <div class="space-y-1 max-h-[200px] overflow-y-auto pr-1 custom-scrollbar">
             ${relevantCheckups.map(c => `
               <div class="p-2.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border ${c.status === 'urgent' ? 'border-rose-500/50 bg-rose-500/5' : c.status === 'due' ? 'border-amber-500/40 bg-amber-500/5' : c.status === 'done' ? 'border-emerald-500/30' : 'border-white/10'} transition flex items-center justify-between gap-2.5 group">
                 <div class="flex items-start gap-2.5 min-w-0">
@@ -32399,21 +35338,21 @@ if (typeof globalThis !== 'undefined') {
                     <div class="flex items-center gap-1.5">
                       <h4 class="font-bold text-white text-xs truncate">${c.title}</h4>
                       <span class="px-1.5 py-0.2 rounded text-[8.5px] font-mono font-bold ${c.status === 'done' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : c.status === 'urgent' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}">
-                        ${c.status === 'done' ? 'Erledigt ✓' : c.status === 'urgent' ? 'Überfällig!' : 'Fällig'}
+                        ${c.status === 'done' ? tr({de:'Erledigt ✓',en:'Done ✓',fr:'Fait ✓',it:'Fatto ✓',es:'Hecho ✓',el:'Ολοκληρώθηκε ✓'}) : c.status === 'urgent' ? tr({de:'Überfällig!',en:'Overdue!',fr:'En retard !',it:'Scaduto!',es:'¡Atrasado!',el:'Εκπρόθεσμο!'}) : tr({de:'Fällig',en:'Due',fr:'Dû',it:'In scadenza',es:'Pendiente',el:'Εκκρεμεί'})}
                       </span>
                     </div>
                     <p class="text-[10px] text-gray-400 line-clamp-1 mt-0.5">${c.desc}</p>
                     <div class="flex items-center gap-2 text-[9px] text-gray-500 font-mono mt-1">
                       <span>${c.officialBody}</span>
                       <span>•</span>
-                      <span>${c.lastDone ? `Zuletzt: ${c.lastDone}` : 'Noch nicht erfasst'}</span>
+                      <span>${c.lastDone ? `${tr({de:'Zuletzt',en:'Last',fr:'Dernier',it:'Ultimo',es:'Último',el:'Τελευταία'})}: ${c.lastDone}` : tr({de:'Noch nicht erfasst',en:'Not recorded yet',fr:'Pas encore enregistré',it:'Non ancora registrato',es:'Aún no registrado',el:'Δεν έχει καταγραφεί'})}</span>
                     </div>
                   </div>
                 </div>
                 <div class="flex items-center gap-1.5 shrink-0">
                   <button onclick="HealthEngine.markCheckupDone('${c.id}')" class="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500/35 text-emerald-200 border border-emerald-500/40 rounded-xl text-[10px] font-bold transition flex items-center gap-1 cursor-pointer" title="Als erledigt markieren">
                     <i data-lucide="check" class="w-3 h-3"></i>
-                    <span>Erledigt</span>
+                    <span>${tr({de:'Erledigt',en:'Done',fr:'Fait',it:'Fatto',es:'Hecho',el:'Έγινε'})}</span>
                   </button>
                 </div>
               </div>
@@ -32429,11 +35368,11 @@ if (typeof globalThis !== 'undefined') {
             <div class="flex items-center justify-between text-[10.5px] font-bold text-gray-300 px-1">
               <span class="flex items-center gap-1 text-rose-300">
                 <i data-lucide="pill" class="w-3.5 h-3.5"></i>
-                <span>Tägliche Medikamente & Vitamine</span>
+                <span>${tr({de:'Tägliche Medikamente & Vitamine',en:'Daily Medications & Vitamins',fr:'Médicaments & Vitamines du jour',it:'Farmaci e vitamine giornalieri',es:'Medicamentos y vitaminas diarios',el:'Καθημερινά φάρμακα & Βιταμίνες'})}</span>
               </span>
-              <span class="text-[9.5px] text-gray-400 font-mono">${profile.medications.filter(m => m.takenToday).length}/${profile.medications.length} genommen</span>
+              <span class="text-[9.5px] text-gray-400 font-mono">${profile.medications.filter(m => m.takenToday).length}/${profile.medications.length} ${tr({de:'genommen',en:'taken',fr:'pris',it:'assunti',es:'tomados',el:'ελήφθησαν'})}</span>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1 max-h-[110px] overflow-y-auto pr-1">
               ${profile.medications.map(m => `
                 <div class="p-2 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-2">
                   <div class="flex items-center gap-2">
@@ -32450,15 +35389,15 @@ if (typeof globalThis !== 'undefined') {
               `).join('')}
             </div>
             <div class="flex gap-1.5 pt-1">
-              <input type="text" id="health-new-med-name" placeholder="Neues Präparat (z.B. Omega 3)..." class="flex-1 bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-rose-500">
-              <input type="text" id="health-new-med-dose" placeholder="Dosis..." class="w-20 bg-black/50 border border-white/10 rounded-xl px-2 py-1 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-rose-500">
+              <input type="text" id="health-new-med-name" placeholder="${tr({de:'Neues Präparat (z.B. Omega 3)...',en:'New supplement (e.g. Omega 3)...',fr:'Nouveau produit (ex. Oméga 3)...',it:'Nuovo integratore (es. Omega 3)...',es:'Nuevo suplemento (ej. Omega 3)...',el:'Νέο σκεύασμα (π.χ. Ωμέγα 3)...'})}" class="flex-1 bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-rose-500">
+              <input type="text" id="health-new-med-dose" placeholder="${tr({de:'Dosis...',en:'Dose...',fr:'Dose...',it:'Dose...',es:'Dosis...',el:'Δόση...'})}" class="w-20 bg-black/50 border border-white/10 rounded-xl px-2 py-1 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-rose-500">
               <button onclick="
                 const n = document.getElementById('health-new-med-name').value;
                 const d = document.getElementById('health-new-med-dose').value;
                 HealthEngine.addMedication(n, d);
               " class="px-3 py-1 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl text-xs cursor-pointer transition flex items-center gap-1">
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                <span>Add</span>
+                <span>${tr({de:'Hinzufügen',en:'Add',fr:'Ajouter',it:'Aggiungi',es:'Añadir',el:'Προσθήκη'})}</span>
               </button>
             </div>
           </div>
@@ -32468,10 +35407,10 @@ if (typeof globalThis !== 'undefined') {
             <div class="flex items-center justify-between text-[10.5px] font-bold text-gray-300 px-1">
               <span class="flex items-center gap-1 text-teal-300">
                 <i data-lucide="help-circle" class="w-3.5 h-3.5"></i>
-                <span>Fragen für den nächsten Arztbesuch</span>
+                <span>${tr({de:'Fragen für den nächsten Arztbesuch',en:'Questions for next doctor visit',fr:'Questions pour le médecin',it:'Domande per il prossimo medico',es:'Preguntas para el médico',el:'Ερωτήσεις για τον επόμενο γιατρό'})}</span>
               </span>
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1 max-h-[100px] overflow-y-auto pr-1">
               ${profile.doctorQuestions.map(q => `
                 <div class="p-2 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-2">
                   <div class="flex items-start gap-2 min-w-0">
@@ -32483,13 +35422,13 @@ if (typeof globalThis !== 'undefined') {
               `).join('')}
             </div>
             <div class="flex gap-1.5 pt-1">
-              <input type="text" id="health-new-q-text" placeholder="Frage an Arzt notieren..." class="flex-1 bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-teal-500">
+              <input type="text" id="health-new-q-text" placeholder="${tr({de:'Frage an Arzt notieren...',en:'Note question for doctor...',fr:'Noter question pour le médecin...',it:'Scrivi domanda per il medico...',es:'Anotar pregunta para el médico...',el:'Σημειώστε ερώτηση για τον γιατρό...'})}" class="flex-1 bg-black/50 border border-white/10 rounded-xl px-2.5 py-1 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-teal-500">
               <button onclick="
                 const txt = document.getElementById('health-new-q-text').value;
                 HealthEngine.addDoctorQuestion('Hausarzt', txt);
               " class="px-3 py-1 bg-teal-600 hover:bg-teal-500 text-white font-bold rounded-xl text-xs cursor-pointer transition flex items-center gap-1">
                 <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                <span>Add</span>
+                <span>${tr({de:'Hinzufügen',en:'Add',fr:'Ajouter',it:'Aggiungi',es:'Añadir',el:'Προσθήκη'})}</span>
               </button>
             </div>
           </div>
@@ -32582,6 +35521,12 @@ if (typeof globalThis !== 'undefined') {
 (function() {
   'use strict';
 
+  function tr(obj) {
+    const l = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' && window.currentLang) || 'de');
+    if (!obj || typeof obj !== 'object') return obj || '';
+    return obj[l] || obj['en'] || obj['de'] || Object.values(obj)[0] || '';
+  }
+
   let audioCtx = null;
   let activeEffects = new Set();
   let bubbleGridState = Array(20).fill(false);
@@ -32601,33 +35546,152 @@ if (typeof globalThis !== 'undefined') {
   // Configurable Idle Auto-Trigger Engine (Default 3 Minuten, seltener & radikaler)
   let idleTimer = null;
   let isIdleActive = false;
+  let isScreensaverActive = false;
+  let justDismissedScreensaver = false;
 
-  const JOKES = [
-    { q: "Warum prokrastinieren Entwickler gerne?", a: "Weil morgen die Anforderungen vielleicht deprecated sind!" },
-    { q: "Wie viele Programmierer braucht man, um eine Glühbirne zu wechseln?", a: "Keinen. Das ist ein Hardware-Problem!" },
-    { q: "Was ist das ADHS-Motto beim Aufräumen?", a: "Ich bringe nur kurz dieses Buch ins Regal... und 4 Stunden später habe ich mein Zimmer umgebaut und gelernt, wie man Origami-Drachen faltet." },
-    { q: "Warum können Geister so schlecht lügen?", a: "Weil man durch sie hindurchsehen kann!" },
-    { q: "Was macht ein Informatiker im Wald?", a: "Bäume loggen!" },
-    { q: "Warum trinken Programmierer so viel Kaffee?", a: "Weil Java ohne Kaffee nur ein Script ist." },
-    { q: "Wie nennt man eine To-Do-Liste mit 40 offenen Aufgaben?", a: "Eine Wunschliste für das nächste Leben!" },
-    { q: "Was ist der Lieblingsort eines Programmierers?", a: "Das Loop!" }
+    const JOKES = [
+    {
+      q: {
+        de: "Warum prokrastinieren Entwickler gerne?",
+        en: "Why do developers like to procrastinate?",
+        fr: "Pourquoi les développeurs aiment-ils procrastiner ?",
+        it: "Perché gli sviluppatori amano procrastinare?",
+        es: "¿Por qué a los desarrolladores les gusta procrastinar?",
+        el: "Γιατί αρέσει στους προγραμματιστές να χρονοτριβούν;"
+      },
+      a: {
+        de: "Weil morgen die Anforderungen vielleicht deprecated sind!",
+        en: "Because tomorrow the requirements might be deprecated!",
+        fr: "Parce que demain les exigences seront peut-être obsolètes !",
+        it: "Perché domani i requisiti potrebbero essere deprecati!",
+        es: "¡Porque mañana los requisitos podrían estar obsoletos!",
+        el: "Επειδή αύριο οι απαιτήσεις μπορεί να είναι παρωχημένες!"
+      }
+    },
+    {
+      q: {
+        de: "Wie viele Programmierer braucht man, um eine Glühbirne zu wechseln?",
+        en: "How many programmers does it take to change a light bulb?",
+        fr: "Combien de programmeurs faut-il pour changer une ampoule ?",
+        it: "Quanti programmatori servono per cambiare una lampadina?",
+        es: "¿Cuántos programadores se necesitan para cambiar una bombilla?",
+        el: "Πόσοι προγραμματιστές χρειάζονται για να αλλάξουν μια λάμπα;"
+      },
+      a: {
+        de: "Keinen. Das ist ein Hardware-Problem!",
+        en: "None. That's a hardware problem!",
+        fr: "Aucun. C'est un problème matériel !",
+        it: "Nessuno. È un problema hardware!",
+        es: "¡Ninguno. Ese es un problema de hardware!",
+        el: "Κανένας. Αυτό είναι πρόβλημα υλικού!"
+      }
+    },
+    {
+      q: {
+        de: "Was ist das ADHS-Motto beim Aufräumen?",
+        en: "What is the ADHD motto when tidying up?",
+        fr: "Quelle est la devise TDAH pour ranger ?",
+        it: "Qual è il motto ADHD per riordinare?",
+        es: "¿Cuál es el lema del TDAH al ordenar?",
+        el: "Ποιο είναι το μότο της ΔΕΠΥ στο συμμάζεμα;"
+      },
+      a: {
+        de: "Ich bringe nur kurz dieses Buch ins Regal... und 4 Stunden später habe ich Origami gelernt.",
+        en: "I'll just put this book back... and 4 hours later I mastered origami dragons.",
+        fr: "Je range juste ce livre... et 4 heures plus tard j'ai appris l'origami.",
+        it: "Metto solo questo libro a posto... e 4 ore dopo so fare origami.",
+        es: "Solo voy a poner este libro en la estantería... y 4 horas después hago origami.",
+        el: "Απλώς θα βάλω αυτό το βιβλίο στο ράφι... και 4 ώρες μετά έμαθα οριγκάμι."
+      }
+    },
+    {
+      q: {
+        de: "Warum trinken Programmierer so viel Kaffee?",
+        en: "Why do programmers drink so much coffee?",
+        fr: "Pourquoi les développeurs boivent-ils autant de café ?",
+        it: "Perché i programmatori bevono così tanto caffè?",
+        es: "¿Por qué los programadores beben tanto café?",
+        el: "Γιατί οι προγραμματιστές πίνουν τόσο καφέ;"
+      },
+      a: {
+        de: "Weil Java ohne Kaffee nur ein Script ist.",
+        en: "Because Java without coffee is just a script.",
+        fr: "Parce que Java sans café n'est qu'un script.",
+        it: "Perché Java senza caffè è solo uno script.",
+        es: "Porque Java sin café es solo un script.",
+        el: "Επειδή η Java χωρίς καφέ είναι απλώς ένα script."
+      }
+    }
   ];
 
   const ROAST_TEMPLATES = [
-    "👀 Schau dir diese Aufgabe an... Sie wartet seit 3 Tagen darauf, dass du sie in 90 Sekunden erledigst!",
-    "🔥 Wenn Prokrastination eine olympische Disziplin wäre, hättest du gerade Gold geholt. Klick auf Start!",
-    "🧠 Dein Gehirn: 'Lass uns erst den Wikipedia-Artikel über antiken römischen Beton lesen.' — Noodle sagt: Erst 2 Minuten Fokus!",
-    "🚀 Kleine Erinnerung: Eine unvollständige Aufgabe tut dir nichts. Sie schaut dich nur vorwurfsvoll an.",
-    "☕ Espresso getrunken, Playlist an, jetzt 5 Minuten Power-Sprint — danach gibt's Belohnung!"
+    {
+      de: "👀 Schau dir diese Aufgabe an... Sie wartet seit 3 Tagen darauf, dass du sie in 90 Sekunden erledigst!",
+      en: "👀 Look at this task... It has been waiting 3 days for you to finish it in 90 seconds!",
+      fr: "👀 Regarde cette tâche... Elle t'attend depuis 3 jours pour la boucler en 90 secondes !",
+      it: "👀 Guarda questo compito... Ti aspetta da 3 giorni per finirlo in 90 secondi!",
+      es: "👀 Mira esta tarea... ¡Lleva 3 días esperando a que la termines en 90 segundos!",
+      el: "👀 Κοίτα αυτή την εργασία... Σε περιμένει 3 μέρες να την τελειώσεις σε 90 δευτερόλεπτα!"
+    },
+    {
+      de: "🔥 Wenn Prokrastination eine olympische Disziplin wäre, hättest du Gold. Klick auf Start!",
+      en: "🔥 If procrastination were an Olympic sport, you'd take gold. Click Start!",
+      fr: "🔥 Si la procrastination était un sport olympique, tu aurais l'or. Clique sur Démarrer !",
+      it: "🔥 Se la procrastinazione fosse disciplina olimpica, vinceresti l'oro. Clicca Inizia!",
+      es: "🔥 Si procrastinar fuera deporte olímpico, tendrías oro. ¡Haz clic en Iniciar!",
+      el: "🔥 Αν η αναβλητικότητα ήταν ολυμπιακό άθλημα, θα έπαιρνες χρυσό. Πάτα Έναρξη!"
+    }
   ];
 
   const DECISIONS = [
-    "🚀 Einfach anfangen (2-Minuten-Regel)!",
-    "☕ Hol dir ein Glas Wasser / Tee & los!",
-    "🎧 Lieblings-Beat anmachen & 10 Min Power!",
-    "✂️ Zerlege die Aufgabe in 3 Mini-Schritte!",
-    "🧘 3 tiefe Atemzüge & die leichteste Sache zuerst!",
-    "🎲 Würfeln: Gerade Zahl = Jetzt machen, Ungerade = 5 Min Dehnen!"
+    {
+      de: "🚀 Einfach anfangen (2-Minuten-Regel)!",
+      en: "🚀 Just start (2-minute rule)!",
+      fr: "🚀 Commencez simplement (règle des 2 minutes) !",
+      it: "🚀 Inizia e basta (regola dei 2 minuti)!",
+      es: "🚀 ¡Solo empieza (regla de los 2 minutos)!",
+      el: "🚀 Απλώς ξεκίνα (κανόνας των 2 λεπτών)!"
+    },
+    {
+      de: "☕ Hol dir ein Glas Wasser / Tee & los!",
+      en: "☕ Grab a glass of water / tea & go!",
+      fr: "☕ Prenez un verre d'eau / thé et c'est parti !",
+      it: "☕ Prendi un bicchiere d'acqua / tè e vai!",
+      es: "☕ ¡Toma un vaso de agua / té y listo!",
+      el: "☕ Πάρε ένα ποτήρι νερό / τσάι και ξεκίνα!"
+    },
+    {
+      de: "🎧 Lieblings-Beat anmachen & 10 Min Power!",
+      en: "🎧 Put on your favorite beat & 10 min power!",
+      fr: "🎧 Mettez votre musique préférée & 10 min de boost !",
+      it: "🎧 Metti il tuo brano preferito & 10 min di energia!",
+      es: "🎧 ¡Pon tu música favorita y 10 min de energía!",
+      el: "🎧 Βάλε το αγαπημένο σου κομμάτι & 10 λεπτά δυναμικά!"
+    },
+    {
+      de: "✂️ Zerlege die Aufgabe in 3 Mini-Schritte!",
+      en: "✂️ Break the task down into 3 mini steps!",
+      fr: "✂️ Découpez la tâche en 3 mini-étapes !",
+      it: "✂️ Dividi il compito in 3 mini-passaggi!",
+      es: "✂️ ¡Divide la tarea en 3 mini pasos!",
+      el: "✂️ Σπάσε την εργασία σε 3 μικρά βήματα!"
+    },
+    {
+      de: "🧘 3 tiefe Atemzüge & die leichteste Sache zuerst!",
+      en: "🧘 3 deep breaths & easiest thing first!",
+      fr: "🧘 3 respirations profondes & la chose la plus facile en premier !",
+      it: "🧘 3 respiri profondi e la cosa più facile per prima!",
+      es: "🧘 ¡3 respiraciones profundas y lo más fácil primero!",
+      el: "🧘 3 βαθιές αναπνοές & το πιο εύκολο πρώτο!"
+    },
+    {
+      de: "🎲 Würfeln: Gerade Zahl = Jetzt machen, Ungerade = 5 Min Dehnen!",
+      en: "🎲 Roll dice: Even = Do now, Odd = 5 min stretch!",
+      fr: "🎲 Lancez les dés : Pair = Faire maintenant, Impair = 5 min d'étirements !",
+      it: "🎲 Lancia il dado: Pari = Fai ora, Dispari = 5 min stretching!",
+      es: "🎲 Tira los dados: Par = Hazlo ya, Impar = ¡5 min de estiramiento!",
+      el: "🎲 Ρίξε ζάρι: Ζυγός = Κάν' το τώρα, Μονός = 5 λεπτά τέντωμα!"
+    }
   ];
 
   function getAudioContext() {
@@ -33061,6 +36125,7 @@ if (typeof globalThis !== 'undefined') {
   // 2. STYLES & CHAOS FX ENGINE
   // ==========================================================================
   function injectChaosStyles() {
+    isScreensaverActive = true;
     if (document.getElementById('humor-chaos-styles')) return;
     const style = document.createElement('style');
     style.id = 'humor-chaos-styles';
@@ -33236,6 +36301,7 @@ if (typeof globalThis !== 'undefined') {
   function panicReset(silent = false) {
     activeEffects.clear();
     isIdleActive = false;
+    isScreensaverActive = false;
 
     if (activeFxAnimId) {
       cancelAnimationFrame(activeFxAnimId);
@@ -33271,12 +36337,95 @@ if (typeof globalThis !== 'undefined') {
     }
   }
 
-  if (typeof window !== 'undefined') {
-    window.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        panicReset();
+  function isScreensaverRunning() {
+    if (isIdleActive || isScreensaverActive) return true;
+    if (activeEffects && activeEffects.size > 0) return true;
+    if (activeFxAnimId !== null) return true;
+    if (activeFxCleanup !== null) return true;
+    if (activeCleanups && activeCleanups.length > 0) return true;
+    const overlay = document.querySelector(
+      '.noodle-fx-canvas-overlay, #humor-fx-canvas, #humor-melting-svg, .humor-crt-screen, .noodle-idle-badge, .chaos-vhs-screen, .chaos-ransomware-screen, #humor-dvd-logo, #humor-glass-canvas, #humor-pixel-canvas, #humor-timewarp-overlay'
+    );
+    if (overlay) return true;
+    if (document.body && (
+        document.body.classList.contains('chaos-jello') ||
+        document.body.classList.contains('chaos-matrix-active') ||
+        document.body.classList.contains('chaos-vortex-active') ||
+        document.body.classList.contains('chaos-earthquake') ||
+        document.body.classList.contains('chaos-upside-down') ||
+        document.body.classList.contains('chaos-nervous-twitch') ||
+        document.body.classList.contains('chaos-time-warp-active')
+    )) {
+      return true;
+    }
+    return false;
+  }
+
+  function handleScreensaverKeydown(e) {
+    if (isScreensaverRunning()) {
+      justDismissedScreensaver = true;
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
       }
-    });
+      panicReset(true);
+      if (typeof resetIdleTimer === 'function') {
+        resetIdleTimer();
+      }
+      setTimeout(() => {
+        justDismissedScreensaver = false;
+      }, 200);
+      return false;
+    }
+  }
+
+  function handleScreensaverKeyup(e) {
+    if (justDismissedScreensaver || isScreensaverRunning()) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
+      return false;
+    }
+  }
+
+  function handleScreensaverKeypress(e) {
+    if (justDismissedScreensaver || isScreensaverRunning()) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
+      return false;
+    }
+  }
+
+  function handleScreensaverPointer(e) {
+    if (isScreensaverRunning()) {
+      const target = e.target;
+      if (target && target.closest && target.closest('#panel-humor-lab')) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
+      panicReset(true);
+      if (typeof resetIdleTimer === 'function') {
+        resetIdleTimer();
+      }
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', handleScreensaverKeydown, { capture: true });
+    window.addEventListener('keyup', handleScreensaverKeyup, { capture: true });
+    window.addEventListener('keypress', handleScreensaverKeypress, { capture: true });
+    window.addEventListener('pointerdown', handleScreensaverPointer, { capture: true });
+    window.addEventListener('click', handleScreensaverPointer, { capture: true });
   }
 
   // ==========================================================================
@@ -35000,7 +38149,7 @@ if (typeof globalThis !== 'undefined') {
     const roastBox = document.getElementById('humor-roast-output');
     if (!roastBox) return;
     const randomRoast = ROAST_TEMPLATES[Math.floor(Math.random() * ROAST_TEMPLATES.length)];
-    roastBox.textContent = randomRoast;
+    roastBox.textContent = typeof randomRoast === "object" ? tr(randomRoast) : randomRoast;
     roastBox.classList.add('animate-bounce');
     setTimeout(() => roastBox.classList.remove('animate-bounce'), 800);
   }
@@ -35010,7 +38159,7 @@ if (typeof globalThis !== 'undefined') {
     const decisionBox = document.getElementById('humor-decision-output');
     if (!decisionBox) return;
     const randomDec = DECISIONS[Math.floor(Math.random() * DECISIONS.length)];
-    decisionBox.textContent = randomDec;
+    decisionBox.textContent = typeof randomDec === "object" ? tr(randomDec) : randomDec;
     decisionBox.classList.add('animate-pulse');
     setTimeout(() => decisionBox.classList.remove('animate-pulse'), 1000);
   }
@@ -35022,13 +38171,20 @@ if (typeof globalThis !== 'undefined') {
     const qEl = document.getElementById('humor-joke-q');
     const aEl = document.getElementById('humor-joke-a');
     if (qEl && aEl) {
-      qEl.textContent = joke.q;
-      aEl.textContent = joke.a;
+      qEl.textContent = typeof joke.q === "object" ? tr(joke.q) : joke.q;
+      aEl.textContent = typeof joke.a === "object" ? tr(joke.a) : joke.a;
     }
   }
 
+  let currentHumorTab = 'chaos'; // 'chaos' | 'party' | 'sounds' | 'stress'
+
+  function switchHumorTab(tab) {
+    currentHumorTab = tab;
+    renderHumorPanel();
+  }
+
   // ==========================================================================
-  // 7. PANEL RENDERER
+  // 7. PANEL RENDERER (COMPACT & 100% VIEWPORT-FITTING WITHOUT SCROLLING)
   // ==========================================================================
   function renderHumorPanel() {
     const container = document.getElementById('panel-humor-lab-content');
@@ -35053,324 +38209,355 @@ if (typeof globalThis !== 'undefined') {
       `;
     }
 
+    // Dynamic Tab Navigation Active Classes
+    const activeTabClasses = 'bg-gradient-to-r from-pink-600/45 to-fuchsia-600/45 text-white border-pink-400/70 shadow-[0_0_12px_rgba(236,72,153,0.35)] font-bold';
+    const inactiveTabClasses = 'text-gray-400 hover:text-pink-200 border-transparent hover:bg-white/5 font-semibold';
+
+    let tabContentHtml = '';
+
+    if (currentHumorTab === 'chaos') {
+      tabContentHtml = `
+        <!-- TAB 1: 17 RADIKALE APP-BREAKING CHAOS FX (4-COL COMPACT GRID) -->
+        <div class="space-y-1.5 animate-fade-in">
+          <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-rose-300 font-mono px-0.5">
+            <span class="flex items-center gap-1">${tr({ de: "💥 17 Radikale Glitches", en: "💥 17 Radical Glitches", fr: "💥 17 Glitches Radicaux", it: "💥 17 Glitch Radicali", es: "💥 17 Glitches Radicales", el: "💥 17 Ριζοσπαστικά Glitches" })}</span>
+            <span class="text-[8.5px] text-rose-300/90 bg-rose-500/20 px-1.5 py-0.5 rounded-md border border-rose-500/30 font-mono">${tr({ de: "100% Sicher • [ESC] heilt", en: "100% Safe • [ESC] heals", fr: "100% Sûr • [Échap] guérit", it: "100% Sicuro • [ESC] ripristina", es: "100% Seguro • [ESC] restaura", el: "100% Ασφαλές • [ESC] επαναφέρει" })}</span>
+          </div>
+          <div class="grid grid-cols-4 gap-1.5">
+            <button onclick="HumorEngine.toggleGravityCollapse()" class="p-1.5 rounded-xl bg-amber-600/15 hover:bg-amber-600/30 border border-amber-500/30 text-xs font-bold text-amber-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Karten stürzen in die Tiefe">
+              <span class="text-base group-hover:scale-110 transition-transform">🪐</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Kollaps</span>
+            </button>
+            <button onclick="HumorEngine.toggleEarthquake()" class="p-1.5 rounded-xl bg-rose-600/15 hover:bg-rose-600/30 border border-rose-500/30 text-xs font-bold text-rose-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Erdbeben 10.0 mit tektonischen Rissen">
+              <span class="text-base group-hover:scale-110 transition-transform">🌋</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Erdbeben</span>
+            </button>
+            <button onclick="HumorEngine.toggleMeltingUI()" class="p-1.5 rounded-xl bg-orange-600/15 hover:bg-orange-600/30 border border-orange-500/30 text-xs font-bold text-orange-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Flüssiges Schmelzen wie heißes Wachs">
+              <span class="text-base group-hover:scale-110 transition-transform">🫠</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Melting</span>
+            </button>
+            <button onclick="HumorEngine.toggleHackerCorruption()" class="p-1.5 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/30 border border-emerald-500/30 text-xs font-bold text-emerald-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Matrix Glitch: Alle Board-Texte werden zu Alien-Code">
+              <span class="text-base group-hover:scale-110 transition-transform">👾</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Hacker FX</span>
+            </button>
+            <button onclick="HumorEngine.toggleFleeingUI()" class="p-1.5 rounded-xl bg-cyan-600/15 hover:bg-cyan-600/30 border border-cyan-500/30 text-xs font-bold text-cyan-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Die Buttons haben Angst und fliehen vor dem Cursor">
+              <span class="text-base group-hover:scale-110 transition-transform">🧲</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Flucht</span>
+            </button>
+            <button onclick="HumorEngine.toggleUpsideDown()" class="p-1.5 rounded-xl bg-fuchsia-600/15 hover:bg-fuchsia-600/30 border border-fuchsia-500/30 text-xs font-bold text-fuchsia-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="180° Kopfstand der Dimension">
+              <span class="text-base group-hover:scale-110 transition-transform">🙃</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Kopfstand</span>
+            </button>
+            <button onclick="HumorEngine.toggleCRTBreakdown()" class="p-1.5 rounded-xl bg-violet-600/15 hover:bg-violet-600/30 border border-violet-500/30 text-xs font-bold text-violet-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Retro Röhrenfernseher-Zusammenbruch">
+              <span class="text-base group-hover:scale-110 transition-transform">📺</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">CRT Röhre</span>
+            </button>
+            <button onclick="HumorEngine.toggleGlassShatter()" class="p-1.5 rounded-xl bg-sky-600/15 hover:bg-sky-600/30 border border-sky-500/30 text-xs font-bold text-sky-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Display-Bruch: Splitterndes Glas & Risse">
+              <span class="text-base group-hover:scale-110 transition-transform">🔨</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Glasbruch</span>
+            </button>
+            <button onclick="HumorEngine.toggleDvdBounce()" class="p-1.5 rounded-xl bg-pink-600/15 hover:bg-pink-600/30 border border-pink-500/30 text-xs font-bold text-pink-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Legendärer DVD-Screensaver">
+              <span class="text-base group-hover:scale-110 transition-transform">📀</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">DVD Bouncer</span>
+            </button>
+            <button onclick="HumorEngine.toggleVHSGlitch()" class="p-1.5 rounded-xl bg-purple-600/15 hover:bg-purple-600/30 border border-purple-500/30 text-xs font-bold text-purple-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="80s VHS Tracking-Störung">
+              <span class="text-base group-hover:scale-110 transition-transform">📼</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">VHS Band</span>
+            </button>
+            <button onclick="HumorEngine.toggleNervousTwitch()" class="p-1.5 rounded-xl bg-yellow-600/15 hover:bg-yellow-600/30 border border-yellow-500/30 text-xs font-bold text-yellow-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Koffein-Schock: ADHS-Zappel-Panik">
+              <span class="text-base group-hover:scale-110 transition-transform">⚡</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Hyper-Twitch</span>
+            </button>
+            <button onclick="HumorEngine.toggleAntiGravityFloat()" class="p-1.5 rounded-xl bg-indigo-600/15 hover:bg-indigo-600/30 border border-indigo-500/30 text-xs font-bold text-indigo-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Zero-G: Aufgaben schweben ins All">
+              <span class="text-base group-hover:scale-110 transition-transform">🛸</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Zero-G</span>
+            </button>
+            <button onclick="HumorEngine.toggleBlackHoleSingularity()" class="p-1.5 rounded-xl bg-slate-600/20 hover:bg-slate-600/35 border border-slate-500/40 text-xs font-bold text-slate-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Schwarzes Loch Singularität">
+              <span class="text-base group-hover:scale-110 transition-transform">🕳️</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Black Hole</span>
+            </button>
+            <button onclick="HumorEngine.toggleTornadoSpins()" class="p-1.5 rounded-xl bg-teal-600/15 hover:bg-teal-600/30 border border-teal-500/30 text-xs font-bold text-teal-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Kategorie-5 Aufgaben-Wirbelsturm">
+              <span class="text-base group-hover:scale-110 transition-transform">🌪️</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Tornado</span>
+            </button>
+            <button onclick="HumorEngine.toggleFakeRansomware()" class="p-1.5 rounded-xl bg-red-700/20 hover:bg-red-700/35 border border-red-500/40 text-xs font-bold text-red-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Geiselnahme (Lösegeld: 1 Kaffee)">
+              <span class="text-base group-hover:scale-110 transition-transform">☠️</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Lösegeld</span>
+            </button>
+            <button onclick="HumorEngine.togglePixelate()" class="p-1.5 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/30 border border-emerald-500/30 text-xs font-bold text-emerald-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="8-Bit GameBoy Pixel Mosaik">
+              <span class="text-base group-hover:scale-110 transition-transform">👾</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">8-Bit Pixel</span>
+            </button>
+            <button onclick="HumorEngine.toggleTimeWarp()" class="col-span-4 p-1.5 rounded-xl bg-amber-600/15 hover:bg-amber-600/30 border border-amber-500/30 text-xs font-bold text-amber-200 hover:text-white transition flex items-center justify-center gap-2 text-center cursor-pointer active:scale-95 shadow-xs group" title="Rückwärts-Zeitreise: Aufgaben werden ungeschehen">
+              <span class="text-base group-hover:scale-110 transition-transform">⏳</span>
+              <span class="text-[10.5px] font-bold">Time-Warp Rückwärts-Zeitreise</span>
+              <span class="text-[9px] text-amber-300/70 font-mono">(Tasks spulen zurück)</span>
+            </button>
+          </div>
+        </div>
+      `;
+    } else if (currentHumorTab === 'party') {
+      tabContentHtml = `
+        <!-- TAB 2: PARTY ACTION & AMBIENT SCREENSAVERS (2 x 3-COL GRIDS) -->
+        <div class="space-y-2.5 animate-fade-in">
+          <!-- Visuelle Live Action FX -->
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
+              <span>${tr({ de: "⚡ Live Action & Party FX", en: "⚡ Live Action & Party FX", fr: "⚡ Action & Fête FX", it: "⚡ Azione Live & FX", es: "⚡ Acción en vivo y FX", el: "⚡ Δράση & Εφέ" })}</span>
+              <span class="text-[9px] text-gray-400">${tr({ de: "Interaktiv", en: "Interactive", fr: "Interactif", it: "Interattivo", es: "Interactivo", el: "Διαδραστικό" })}</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="HumorEngine.toggleGravity()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🪐</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Gravity Drop</span>
+              </button>
+              <button onclick="HumorEngine.toggleJello()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🍮</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Jello Wobble</span>
+              </button>
+              <button onclick="HumorEngine.toggleMatrix()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🕶️</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Matrix Rain</span>
+              </button>
+              <button onclick="HumorEngine.toggleVortex()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-indigo-300 hover:text-indigo-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🌀</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Vortex Swirl</span>
+              </button>
+              <button onclick="HumorEngine.toggleLaser()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-cyan-300 hover:text-cyan-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">⚡</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Laser DJ</span>
+              </button>
+              <button onclick="HumorEngine.toggleConfetti()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-amber-300 hover:text-amber-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🎊</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Party Blast</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Ambient & Screensaver FX -->
+          <div class="space-y-1 pt-1 border-t border-white/5">
+            <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-purple-300 font-mono px-0.5">
+              <span>${tr({ de: "🌌 Ambient Flow & Screensaver", en: "🌌 Ambient Flow & Screensaver", fr: "🌌 Ambiance & Économiseur", it: "🌌 Flusso & Salvaschermo", es: "🌌 Flujo & Salvapantallas", el: "🌌 Χαλαρή ροή & Προφύλαξη" })}</span>
+              <span class="text-[9px] text-gray-400">${tr({ de: "Ästhetik & Ruhe", en: "Aesthetics & Calm", fr: "Esthétique & Calme", it: "Estetica & Calma", es: "Estética y Calma", el: "Αισθητική & Ηρεμία" })}</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="HumorEngine.toggleHyperspace()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-violet-300 hover:text-violet-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🌌</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Hyperspace</span>
+              </button>
+              <button onclick="HumorEngine.toggleBubbles()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-pink-300 hover:text-pink-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🫧</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Bubbles</span>
+              </button>
+              <button onclick="HumorEngine.toggleFireflies()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-yellow-300 hover:text-yellow-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🔥</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Fireflies</span>
+              </button>
+              <button onclick="HumorEngine.toggleSynthwave()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-rose-300 hover:text-rose-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🌊</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Synthwave</span>
+              </button>
+              <button onclick="HumorEngine.toggleSnow()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-sky-300 hover:text-sky-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">❄️</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Winter Snow</span>
+              </button>
+              <button onclick="HumorEngine.toggleArcade()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">👾</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Arcade Pixel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (currentHumorTab === 'sounds') {
+      tabContentHtml = `
+        <!-- TAB 3: SYNTHESIZER SOUNDBOARD & WITZE -->
+        <div class="space-y-2.5 animate-fade-in">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
+              <span>${tr({ de: "🔊 12 Soundboard FX", en: "🔊 12 Soundboard FX", fr: "🔊 12 Effets sonores", it: "🔊 12 Effetti sonori", es: "🔊 12 Efectos de sonido", el: "🔊 12 Ηχητικά εφέ" })}</span>
+              <span class="text-[9px] text-gray-400">${tr({ de: "100% autark", en: "100% offline", fr: "100% autonome", it: "100% autonomo", es: "100% autónomo", el: "100% αυτόνομο" })}</span>
+            </div>
+            <div class="grid grid-cols-4 gap-1.5">
+              <button onclick="HumorEngine.playSound('airhorn')" class="p-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>📯</span>
+                <span class="truncate">Airhorn</span>
+              </button>
+              <button onclick="HumorEngine.playSound('applause')" class="p-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 text-emerald-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>👏</span>
+                <span class="truncate">Applaus</span>
+              </button>
+              <button onclick="HumorEngine.playSound('rimshot')" class="p-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 border border-purple-500/40 text-purple-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🥁</span>
+                <span class="truncate">Badum</span>
+              </button>
+              <button onclick="HumorEngine.playSound('fail')" class="p-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-rose-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🎺</span>
+                <span class="truncate">Fail</span>
+              </button>
+              <button onclick="HumorEngine.playSound('laser')" class="p-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-500/40 text-cyan-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>⚡</span>
+                <span class="truncate">Laser</span>
+              </button>
+              <button onclick="HumorEngine.playSound('coin')" class="p-1.5 rounded-xl bg-yellow-500/20 hover:bg-yellow-500/35 border border-yellow-500/40 text-yellow-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🪙</span>
+                <span class="truncate">Coin</span>
+              </button>
+              <button onclick="HumorEngine.playSound('boing')" class="p-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/35 border border-blue-500/40 text-blue-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🦘</span>
+                <span class="truncate">Boing</span>
+              </button>
+              <button onclick="HumorEngine.playSound('sparkle')" class="p-1.5 rounded-xl bg-pink-500/20 hover:bg-pink-500/35 border border-pink-500/40 text-pink-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>✨</span>
+                <span class="truncate">Level Up</span>
+              </button>
+              <button onclick="HumorEngine.playSound('buzz')" class="p-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/35 border border-rose-600/40 text-rose-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🚨</span>
+                <span class="truncate">Buzz</span>
+              </button>
+              <button onclick="HumorEngine.playSound('thud')" class="p-1.5 rounded-xl bg-amber-700/20 hover:bg-amber-700/35 border border-amber-700/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>💥</span>
+                <span class="truncate">Thud</span>
+              </button>
+              <button onclick="HumorEngine.playSound('glitch')" class="p-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/35 border border-emerald-600/40 text-emerald-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>👾</span>
+                <span class="truncate">Glitch</span>
+              </button>
+              <button onclick="HumorEngine.playSound('reboot')" class="p-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/35 border border-sky-500/40 text-sky-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🔄</span>
+                <span class="truncate">Reboot</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Joke Box Footer -->
+          <div class="p-2.5 rounded-2xl bg-white/[0.02] border border-white/8 space-y-1 flex items-center justify-between gap-2 shadow-xs">
+            <div class="min-w-0 flex-1">
+              <div id="humor-joke-q" class="text-xs font-bold text-white truncate">${typeof currentJoke.q === "object" ? tr(currentJoke.q) : currentJoke.q}</div>
+              <div id="humor-joke-a" class="text-[11px] text-pink-300/90 truncate">${typeof currentJoke.a === "object" ? tr(currentJoke.a) : currentJoke.a}</div>
+            </div>
+            <button onclick="HumorEngine.nextJoke()" class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-bold shrink-0 transition cursor-pointer">
+              ${tr({ de: "Nächster Witz 😂", en: "Next Joke 😂", fr: "Blague suivante 😂", it: "Prossima barzelletta 😂", es: "Siguiente chiste 😂", el: "Επόμενο αστείο 😂" })}
+            </button>
+          </div>
+        </div>
+      `;
+    } else if (currentHumorTab === 'stress') {
+      tabContentHtml = `
+        <!-- TAB 4: ANTI-STRESS (BUBBLE POPPER, IMPULS & SCREENSAVER SETTINGS) -->
+        <div class="space-y-2.5 animate-fade-in">
+          <!-- Screensaver Inactivity Banner & Config -->
+          <div class="p-2.5 rounded-2xl bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-purple-900/30 border border-purple-500/30 space-y-1.5 shadow-xs">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="text-base">🌌</span>
+                <div>
+                  <div class="text-[11px] font-bold text-purple-200">${tr({ de: "Screensaver bei Inaktivität", en: "Screensaver on Inactivity", fr: "Économiseur en cas d’inactivité", it: "Salvaschermo su inattività", es: "Salvapantallas por inactividad", el: "Προφύλαξη οθόνης σε αδράνεια" })}</div>
+                  <div class="text-[8.5px] text-gray-400 font-mono">${tr({ de: "Endet lautlos bei Mausbewegung oder [ESC]", en: "Ends silently on mouse move or [ESC]", fr: "S’arrête au mouvement de la souris ou [Échap]", it: "Termina muovendo il mouse o con [ESC]", es: "Termina al mover el ratón o con [ESC]", el: "Τερματίζει με κίνηση ποντικιού ή [ESC]" })}</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button onclick="HumorEngine.startIdleFX()" class="px-2 py-0.5 rounded-lg bg-purple-500/30 hover:bg-purple-500/50 text-purple-200 text-[9.5px] font-bold border border-purple-400/40 transition cursor-pointer" title="Jetzt Screensaver testen">
+                  ${tr({ de: "✨ Testen", en: "✨ Test", fr: "✨ Tester", it: "✨ Prova", es: "✨ Probar", el: "✨ Δοκιμή" })}
+                </button>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" onchange="HumorEngine.toggleIdleSetting(this.checked)" ${idleActive ? 'checked' : ''} class="sr-only peer">
+                  <div class="w-7 h-3.5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1.5px] after:left-[1.5px] after:bg-white after:rounded-full after:h-2.5 after:w-3 after:transition-all peer-checked:bg-purple-500"></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-1 flex-wrap pt-0.5 border-t border-white/5 text-[9px]">
+              <div class="flex items-center gap-1">
+                <span class="text-gray-400 font-mono">${tr({ de: "Ruhezeit:", en: "Idle Time:", fr: "Inactivité :", it: "Tempo attesa:", es: "Inactividad:", el: "Χρόνος ηρεμίας:" })}</span>
+                <button onclick="HumorEngine.setIdleTimeoutMinutes(2)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 2 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">2m</button>
+                <button onclick="HumorEngine.setIdleTimeoutMinutes(3)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 3 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">3m</button>
+                <button onclick="HumorEngine.setIdleTimeoutMinutes(5)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 5 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">5m</button>
+                <button onclick="HumorEngine.setIdleTimeoutMinutes(10)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 10 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">10m</button>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="text-gray-400 font-mono">${tr({ de: "Modus:", en: "Mode:", fr: "Mode :", it: "Modalità:", es: "Modo:", el: "Λειτουργία:" })}</span>
+                <button onclick="HumorEngine.setIdleMode('mixed')" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMode === 'mixed' ? 'bg-indigo-600 text-white' : 'bg-white/5 text-gray-300'}">🎲 Mix</button>
+                <button onclick="HumorEngine.setIdleMode('radical')" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMode === 'radical' ? 'bg-rose-600 text-white' : 'bg-white/5 text-gray-300'}">💥 Glitch</button>
+                <button onclick="HumorEngine.setIdleMode('ambient')" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMode === 'ambient' ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">🌌 Sanft</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bubble Wrap Popper & Decision Spinner -->
+          <div class="grid grid-cols-2 gap-2">
+            <!-- Bubble Wrap Popper -->
+            <div class="p-2 rounded-2xl bg-pink-500/5 border border-pink-500/20 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-[9.5px] font-bold text-pink-300 uppercase tracking-wider font-mono">${tr({ de: "🫧 Luftpolsterfolie", en: "🫧 Bubble Wrap", fr: "🫧 Papier bulle", it: "🫧 Pluriball", es: "🫧 Plástico de burbujas", el: "🫧 Φυσαλίδες περιτυλίγματος" })}</span>
+                <button onclick="HumorEngine.resetBubbles()" class="text-[8.5px] text-pink-300 hover:text-pink-100 font-bold underline cursor-pointer">${tr({ de: "Neu", en: "Reset", fr: "Réinitialiser", it: "Nuovo", es: "Nuevo", el: "Νέο" })}</button>
+              </div>
+              <div class="flex flex-wrap gap-1 items-center justify-center max-h-[52px] overflow-hidden">
+                ${bubblesHtml}
+              </div>
+            </div>
+
+            <!-- Impuls & Würfel -->
+            <div class="p-2 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1 flex flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span class="text-[9.5px] font-bold text-purple-300 uppercase tracking-wider font-mono">${tr({ de: "🎯 Impuls & Würfel", en: "🎯 Impulse & Dice", fr: "🎯 Impulsion & Dé", it: "🎯 Impulso & Dadi", es: "🎯 Impulso y Dados", el: "🎯 Παρόρμηση & Ζάρι" })}</span>
+                <button onclick="HumorEngine.spinDecision()" class="px-1.5 py-0.5 rounded-lg bg-purple-500/30 hover:bg-purple-500/40 text-purple-200 text-[9.5px] font-bold transition cursor-pointer">
+                  ${tr({ de: "Würfeln 🎲", en: "Roll 🎲", fr: "Lancer 🎲", it: "Lancia 🎲", es: "Tirar 🎲", el: "Ζάρι 🎲" })}
+                </button>
+              </div>
+              <div id="humor-decision-output" class="p-1 rounded-xl bg-black/40 border border-purple-500/20 text-[10.5px] text-purple-200 font-medium min-h-[38px] flex items-center justify-center text-center">
+                ${tr({ de: "Klicke auf Würfeln für einen Impuls!", en: "Click roll for a quick nudge!", fr: "Cliquez sur lancer pour une impulsion !", it: "Clicca per lanciare un impulso!", es: "¡Haz clic para obtener un impulso!", el: "Κάνε κλικ στο ζάρι για ώθηση!" })}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     container.innerHTML = `
       <!-- TOP HEADER -->
-      <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-        <div class="relative flex flex-col items-center justify-center shrink-0">
-          <div class="relative overflow-hidden flex items-center justify-center">
-            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+      <div class="flex items-center justify-between border-b border-white/10 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-xl bg-fuchsia-500/20 border border-fuchsia-400/40 flex items-center justify-center text-fuchsia-300 shadow-sm shrink-0">
+            <i data-lucide="smile" class="w-4 h-4"></i>
           </div>
-          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-            <span class="badge-tool-subtext select-none">HUMOR</span>
+          <div class="relative flex flex-col items-center justify-center shrink-0">
+            <div class="relative overflow-hidden flex items-center justify-center">
+              <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+            </div>
+            <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+              <span class="badge-tool-subtext select-none">HUMOR</span>
+            </div>
           </div>
         </div>
         <div class="flex items-center gap-1">
           <button onclick="HumorEngine.panicReset()" class="px-2 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[10px] font-bold transition cursor-pointer" title="Notfall-Reset: Alle Effekte sofort beenden">
-            🛡️ Panic Reset [ESC]
+            ${tr({ de: "🛡️ Panic Reset [ESC]", en: "🛡️ Panic Reset [ESC]", fr: "🛡️ Reset Panique [Échap]", it: "🛡️ Reset Panico [ESC]", es: "🛡️ Reinicio Pánico [ESC]", el: "🛡️ Επαναφορά Πανικού [ESC]" })}
           </button>
           <button onclick="togglePanel('humor-lab')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
         </div>
       </div>
 
-      <!-- 1. CUSTOMIZABLE SCREENSAVER BANNER -->
-      <div class="p-2.5 rounded-2xl bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-purple-900/30 border border-purple-500/30 space-y-2 shadow-sm">
-        <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="text-lg">🌌</span>
-            <div>
-              <div class="text-xs font-bold text-purple-200">Inaktivitäts-Screensaver</div>
-              <div class="text-[9px] text-gray-400 font-mono">Endet sofort & lautlos bei jeder Bewegung oder [ESC]</div>
-            </div>
-          </div>
-          <div class="flex items-center gap-1.5 shrink-0">
-            <button onclick="HumorEngine.startIdleFX()" class="px-2.5 py-1 rounded-xl bg-purple-500/30 hover:bg-purple-500/50 text-purple-200 text-[10px] font-bold border border-purple-400/40 transition cursor-pointer" title="Jetzt Screensaver testen">
-              ✨ Testen
-            </button>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" onchange="HumorEngine.toggleIdleSetting(this.checked)" ${idleActive ? 'checked' : ''} class="sr-only peer">
-              <div class="w-8 h-4 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3.5 after:transition-all peer-checked:bg-purple-500"></div>
-            </label>
-          </div>
-        </div>
-
-        <!-- Timeout Pills: Seltener als 1 Minute (Standard 3 Min) -->
-        <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
-          <span class="text-[9.5px] text-gray-400 font-mono">Ruhezeit:</span>
-          <button onclick="HumorEngine.setIdleTimeoutMinutes(2)" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMin === 2 ? 'bg-purple-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">2 Min</button>
-          <button onclick="HumorEngine.setIdleTimeoutMinutes(3)" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMin === 3 ? 'bg-purple-600 text-white shadow-sm ring-1 ring-purple-400/60' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">3 Min (Std)</button>
-          <button onclick="HumorEngine.setIdleTimeoutMinutes(5)" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMin === 5 ? 'bg-purple-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">5 Min</button>
-          <button onclick="HumorEngine.setIdleTimeoutMinutes(10)" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMin === 10 ? 'bg-purple-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">10 Min</button>
-        </div>
-
-        <!-- Mode Pills: Radikal vs Ambient vs Gemischt -->
-        <div class="flex items-center gap-1.5 flex-wrap pt-1 border-t border-white/5">
-          <span class="text-[9.5px] text-gray-400 font-mono">Effekt-Pool:</span>
-          <button onclick="HumorEngine.setIdleMode('mixed')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMode === 'mixed' ? 'bg-indigo-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">🎲 Gemischt</button>
-          <button onclick="HumorEngine.setIdleMode('radical')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMode === 'radical' ? 'bg-rose-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">💥 Radikal</button>
-          <button onclick="HumorEngine.setIdleMode('ambient')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMode === 'ambient' ? 'bg-purple-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">🌌 Sanft</button>
-        </div>
-      </div>
-
-      <!-- 2. RADIKALE APP-BREAKING CHAOS FX SECTION -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-rose-300 font-mono px-0.5">
-          <span>💥 Radikale Glitches & Zerstörung</span>
-          <span class="text-[9px] text-rose-300/90 bg-rose-500/20 px-1.5 py-0.5 rounded-md border border-rose-500/30">100% Sicher • ESC heilt</span>
-        </div>
-        <p class="text-[9.5px] text-gray-400 px-0.5 leading-snug">
-          Lässt die App vorübergehend crashen, schmelzen oder kollabieren – sofortige Heilung bei Bewegung oder [ESC]!
-        </p>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-          <button onclick="HumorEngine.toggleGravityCollapse()" class="p-2 rounded-xl bg-amber-600/15 hover:bg-amber-600/30 border border-amber-500/30 text-xs font-bold text-amber-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Schwerkraft-Zusammenbruch: Karten fallen in die Tiefe">
-            <span class="text-base group-hover:scale-110 transition-transform">🪐</span>
-            <span class="truncate mt-0.5 font-bold">Kollaps</span>
-            <span class="text-[8.5px] text-amber-300/70 font-mono truncate">Karten stürzen ab</span>
-          </button>
-          <button onclick="HumorEngine.toggleEarthquake()" class="p-2 rounded-xl bg-rose-600/15 hover:bg-rose-600/30 border border-rose-500/30 text-xs font-bold text-rose-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Erdbeben 10.0 mit tektonischen Rissen">
-            <span class="text-base group-hover:scale-110 transition-transform">🌋</span>
-            <span class="truncate mt-0.5 font-bold">Erdbeben 10.0</span>
-            <span class="text-[8.5px] text-rose-300/70 font-mono truncate">Risse & Beben</span>
-          </button>
-          <button onclick="HumorEngine.toggleMeltingUI()" class="p-2 rounded-xl bg-orange-600/15 hover:bg-orange-600/30 border border-orange-500/30 text-xs font-bold text-orange-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Flüssiges Schmelzen wie heißes Wachs">
-            <span class="text-base group-hover:scale-110 transition-transform">🫠</span>
-            <span class="truncate mt-0.5 font-bold">Melting UI</span>
-            <span class="text-[8.5px] text-orange-300/70 font-mono truncate">Flüssig schmelzen</span>
-          </button>
-          <button onclick="HumorEngine.toggleHackerCorruption()" class="p-2 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/30 border border-emerald-500/30 text-xs font-bold text-emerald-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Matrix Glitch: Alle Board-Texte werden zu Alien-Code">
-            <span class="text-base group-hover:scale-110 transition-transform">👾</span>
-            <span class="truncate mt-0.5 font-bold">Hacker Glitch</span>
-            <span class="text-[8.5px] text-emerald-300/70 font-mono truncate">Code-Scramble</span>
-          </button>
-          <button onclick="HumorEngine.toggleFleeingUI()" class="p-2 rounded-xl bg-cyan-600/15 hover:bg-cyan-600/30 border border-cyan-500/30 text-xs font-bold text-cyan-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Die Buttons haben Angst und fliehen vor dem Cursor">
-            <span class="text-base group-hover:scale-110 transition-transform">🧲</span>
-            <span class="truncate mt-0.5 font-bold">Fliehende UI</span>
-            <span class="text-[8.5px] text-cyan-300/70 font-mono truncate">Flieht vor Maus</span>
-          </button>
-          <button onclick="HumorEngine.toggleUpsideDown()" class="p-2 rounded-xl bg-fuchsia-600/15 hover:bg-fuchsia-600/30 border border-fuchsia-500/30 text-xs font-bold text-fuchsia-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="180° Kopfstand der Dimension">
-            <span class="text-base group-hover:scale-110 transition-transform">🙃</span>
-            <span class="truncate mt-0.5 font-bold">Upside-Down</span>
-            <span class="text-[8.5px] text-fuchsia-300/70 font-mono truncate">180° Kopfstand</span>
-          </button>
-          <button onclick="HumorEngine.toggleCRTBreakdown()" class="p-2 rounded-xl bg-violet-600/15 hover:bg-violet-600/30 border border-violet-500/30 text-xs font-bold text-violet-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Retro Röhrenfernseher-Zusammenbruch">
-            <span class="text-base group-hover:scale-110 transition-transform">📺</span>
-            <span class="truncate mt-0.5 font-bold">CRT Breakdown</span>
-            <span class="text-[8.5px] text-violet-300/70 font-mono truncate">Röhren-Kollaps</span>
-          </button>
-          <button onclick="HumorEngine.toggleGlassShatter()" class="p-2 rounded-xl bg-sky-600/15 hover:bg-sky-600/30 border border-sky-500/30 text-xs font-bold text-sky-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Display-Bruch: Splitterndes Glas & Risse">
-            <span class="text-base group-hover:scale-110 transition-transform">🔨</span>
-            <span class="truncate mt-0.5 font-bold">Glasbruch</span>
-            <span class="text-[8.5px] text-sky-300/70 font-mono truncate">Display splittert</span>
-          </button>
-          <button onclick="HumorEngine.toggleDvdBounce()" class="p-2 rounded-xl bg-pink-600/15 hover:bg-pink-600/30 border border-pink-500/30 text-xs font-bold text-pink-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Legendärer DVD-Screensaver mit Noodle Logo">
-            <span class="text-base group-hover:scale-110 transition-transform">📀</span>
-            <span class="truncate mt-0.5 font-bold">DVD Bouncing</span>
-            <span class="text-[8.5px] text-pink-300/70 font-mono truncate">Trifft die Ecke?</span>
-          </button>
-          <button onclick="HumorEngine.toggleVHSGlitch()" class="p-2 rounded-xl bg-purple-600/15 hover:bg-purple-600/30 border border-purple-500/30 text-xs font-bold text-purple-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="80s VHS Tracking-Störung & Bandsalat">
-            <span class="text-base group-hover:scale-110 transition-transform">📼</span>
-            <span class="truncate mt-0.5 font-bold">VHS Glitch</span>
-            <span class="text-[8.5px] text-purple-300/70 font-mono truncate">Tracking-Salat</span>
-          </button>
-          <button onclick="HumorEngine.toggleNervousTwitch()" class="p-2 rounded-xl bg-yellow-600/15 hover:bg-yellow-600/30 border border-yellow-500/30 text-xs font-bold text-yellow-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Koffein-Schock: Die UI hat ADHS-Zappel-Panik">
-            <span class="text-base group-hover:scale-110 transition-transform">⚡</span>
-            <span class="truncate mt-0.5 font-bold">Hyper-Zappeln</span>
-            <span class="text-[8.5px] text-yellow-300/70 font-mono truncate">Koffein-Schock</span>
-          </button>
-          <button onclick="HumorEngine.toggleAntiGravityFloat()" class="p-2 rounded-xl bg-indigo-600/15 hover:bg-indigo-600/30 border border-indigo-500/30 text-xs font-bold text-indigo-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Zero-G: Aufgaben schweben schwerelos ins All">
-            <span class="text-base group-hover:scale-110 transition-transform">🛸</span>
-            <span class="truncate mt-0.5 font-bold">Anti-Gravity</span>
-            <span class="text-[8.5px] text-indigo-300/70 font-mono truncate">Schwebt ins All</span>
-          </button>
-          <button onclick="HumorEngine.toggleBlackHoleSingularity()" class="p-2 rounded-xl bg-slate-600/20 hover:bg-slate-600/35 border border-slate-500/40 text-xs font-bold text-slate-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Schwarzes Loch: Zieht das gesamte Board ins Zentrum">
-            <span class="text-base group-hover:scale-110 transition-transform">🕳️</span>
-            <span class="truncate mt-0.5 font-bold">Schwarzes Loch</span>
-            <span class="text-[8.5px] text-slate-300/70 font-mono truncate">Singularität</span>
-          </button>
-          <button onclick="HumorEngine.toggleTornadoSpins()" class="p-2 rounded-xl bg-teal-600/15 hover:bg-teal-600/30 border border-teal-500/30 text-xs font-bold text-teal-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Kategorie-5 Aufgaben-Tornado wirbelt alles herum">
-            <span class="text-base group-hover:scale-110 transition-transform">🌪️</span>
-            <span class="truncate mt-0.5 font-bold">To-Do Tornado</span>
-            <span class="text-[8.5px] text-teal-300/70 font-mono truncate">Wirbelsturm</span>
-          </button>
-          <button onclick="HumorEngine.toggleFakeRansomware()" class="p-2 rounded-xl bg-red-700/20 hover:bg-red-700/35 border border-red-500/40 text-xs font-bold text-red-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Geiselnahme deiner To-Dos (Lösegeld: 1 Kaffee)">
-            <span class="text-base group-hover:scale-110 transition-transform">☠️</span>
-            <span class="truncate mt-0.5 font-bold">Ransomware</span>
-            <span class="text-[8.5px] text-red-300/70 font-mono truncate">Kaffee-Lösegeld</span>
-          </button>
-          <button onclick="HumorEngine.togglePixelate()" class="p-2 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/30 border border-emerald-500/30 text-xs font-bold text-emerald-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="8-Bit GameBoy Pixelation & Mosaik-Kollaps">
-            <span class="text-base group-hover:scale-110 transition-transform">👾</span>
-            <span class="truncate mt-0.5 font-bold">8-Bit Mosaik</span>
-            <span class="text-[8.5px] text-emerald-300/70 font-mono truncate">GameBoy Pixel</span>
-          </button>
-          <button onclick="HumorEngine.toggleTimeWarp()" class="p-2 rounded-xl bg-amber-600/15 hover:bg-amber-600/30 border border-amber-500/30 text-xs font-bold text-amber-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Rückwärts-Zeitreise: Aufgaben werden ungeschehen">
-            <span class="text-base group-hover:scale-110 transition-transform">⏳</span>
-            <span class="truncate mt-0.5 font-bold">Time-Warp</span>
-            <span class="text-[8.5px] text-amber-300/70 font-mono truncate">Zeitreise zurück</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 3. CHAOS & LIVE ACTION FX -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
-          <span>⚡ Visuelle Action & Party FX</span>
-          <span class="text-[9px] text-gray-400">Interaktiv</span>
-        </div>
-        <div class="grid grid-cols-3 gap-1.5">
-          <button onclick="HumorEngine.toggleGravity()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Schwerkraft-Drop & Bounce">
-            <span class="text-base">🪐</span>
-            <span class="truncate mt-0.5">Gravity Drop</span>
-          </button>
-          <button onclick="HumorEngine.toggleJello()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Wobble Jello Wellen">
-            <span class="text-base">🍮</span>
-            <span class="truncate mt-0.5">Jello Wobble</span>
-          </button>
-          <button onclick="HumorEngine.toggleMatrix()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Cyberpunk Code Regen">
-            <span class="text-base">🕶️</span>
-            <span class="truncate mt-0.5">Matrix Rain</span>
-          </button>
-          <button onclick="HumorEngine.toggleVortex()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-indigo-300 hover:text-indigo-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Schwarzes Loch Wirbel">
-            <span class="text-base">🌀</span>
-            <span class="truncate mt-0.5">Vortex Swirl</span>
-          </button>
-          <button onclick="HumorEngine.toggleLaser()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-cyan-300 hover:text-cyan-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Neon DJ Laser Scanner">
-            <span class="text-base">⚡</span>
-            <span class="truncate mt-0.5">Laser DJ</span>
-          </button>
-          <button onclick="HumorEngine.toggleConfetti()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-amber-300 hover:text-amber-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Konfetti Party Explosion">
-            <span class="text-base">🎊</span>
-            <span class="truncate mt-0.5">Party Blast</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 4. AMBIENT & IDLE FLOW SCREENSAVERS -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-purple-300 font-mono px-0.5">
-          <span>🌌 Ambient & Screensaver FX</span>
-          <span class="text-[9px] text-gray-400">Ruhe & Ästhetik</span>
-        </div>
-        <div class="grid grid-cols-3 gap-1.5">
-          <button onclick="HumorEngine.toggleHyperspace()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-violet-300 hover:text-violet-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="3D Hyperspace Sternenflug">
-            <span class="text-base">🌌</span>
-            <span class="truncate mt-0.5">Hyperspace</span>
-          </button>
-          <button onclick="HumorEngine.toggleBubbles()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-pink-300 hover:text-pink-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Schwebende Seifenblasen">
-            <span class="text-base">🫧</span>
-            <span class="truncate mt-0.5">Bubbles</span>
-          </button>
-          <button onclick="HumorEngine.toggleFireflies()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-yellow-300 hover:text-yellow-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Glühende Glühwürmchen">
-            <span class="text-base">🔥</span>
-            <span class="truncate mt-0.5">Fireflies</span>
-          </button>
-          <button onclick="HumorEngine.toggleSynthwave()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-rose-300 hover:text-rose-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="80s Retro Synthwave Gitter">
-            <span class="text-base">🌊</span>
-            <span class="truncate mt-0.5">Synthwave</span>
-          </button>
-          <button onclick="HumorEngine.toggleSnow()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-sky-300 hover:text-sky-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Sanfter Schneefall">
-            <span class="text-base">❄️</span>
-            <span class="truncate mt-0.5">Winter Snow</span>
-          </button>
-          <button onclick="HumorEngine.toggleArcade()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Retro 8-Bit Pixel Items">
-            <span class="text-base">👾</span>
-            <span class="truncate mt-0.5">Arcade Pixel</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 5. SOUNDBOARD BUTTONS -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
-          <span>🔊 Synthesizer Soundboard</span>
-        </div>
-        <div class="grid grid-cols-4 gap-1.5">
-          <button onclick="HumorEngine.playSound('airhorn')" class="p-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>📯</span>
-            <span class="truncate">Airhorn</span>
-          </button>
-          <button onclick="HumorEngine.playSound('applause')" class="p-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 text-emerald-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>👏</span>
-            <span class="truncate">Applaus</span>
-          </button>
-          <button onclick="HumorEngine.playSound('rimshot')" class="p-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 border border-purple-500/40 text-purple-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🥁</span>
-            <span class="truncate">Badum</span>
-          </button>
-          <button onclick="HumorEngine.playSound('fail')" class="p-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-rose-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🎺</span>
-            <span class="truncate">Fail</span>
-          </button>
-          <button onclick="HumorEngine.playSound('laser')" class="p-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-500/40 text-cyan-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>⚡</span>
-            <span class="truncate">Laser</span>
-          </button>
-          <button onclick="HumorEngine.playSound('coin')" class="p-1.5 rounded-xl bg-yellow-500/20 hover:bg-yellow-500/35 border border-yellow-500/40 text-yellow-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🪙</span>
-            <span class="truncate">Coin</span>
-          </button>
-          <button onclick="HumorEngine.playSound('boing')" class="p-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/35 border border-blue-500/40 text-blue-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🦘</span>
-            <span class="truncate">Boing</span>
-          </button>
-          <button onclick="HumorEngine.playSound('sparkle')" class="p-1.5 rounded-xl bg-pink-500/20 hover:bg-pink-500/35 border border-pink-500/40 text-pink-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>✨</span>
-            <span class="truncate">Level Up</span>
-          </button>
-          <button onclick="HumorEngine.playSound('buzz')" class="p-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/35 border border-rose-600/40 text-rose-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🚨</span>
-            <span class="truncate">Buzz</span>
-          </button>
-          <button onclick="HumorEngine.playSound('thud')" class="p-1.5 rounded-xl bg-amber-700/20 hover:bg-amber-700/35 border border-amber-700/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>💥</span>
-            <span class="truncate">Thud</span>
-          </button>
-          <button onclick="HumorEngine.playSound('glitch')" class="p-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/35 border border-emerald-600/40 text-emerald-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>👾</span>
-            <span class="truncate">Glitch</span>
-          </button>
-          <button onclick="HumorEngine.playSound('reboot')" class="p-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/35 border border-sky-500/40 text-sky-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🔄</span>
-            <span class="truncate">Reboot</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 6. BUBBLE WRAP POPPER & DECISION SPINNER -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-        <!-- Bubble Wrap Popper -->
-        <div class="p-2.5 rounded-2xl bg-pink-500/5 border border-pink-500/20 space-y-1.5">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold text-pink-300 uppercase tracking-wider font-mono">🫧 Luftpolsterfolie</span>
-            <button onclick="HumorEngine.resetBubbles()" class="text-[9px] text-pink-300 hover:text-pink-100 font-bold underline cursor-pointer">Neu</button>
-          </div>
-          <div class="flex flex-wrap gap-1 items-center justify-center max-h-[64px] overflow-hidden">
-            ${bubblesHtml}
-          </div>
-        </div>
-
-        <!-- Task Roaster / Decision -->
-        <div class="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1.5 flex flex-col justify-between">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold text-purple-300 uppercase tracking-wider font-mono">🎯 Impuls & Würfel</span>
-            <button onclick="HumorEngine.spinDecision()" class="px-2 py-0.5 rounded-lg bg-purple-500/30 hover:bg-purple-500/40 text-purple-200 text-[10px] font-bold transition cursor-pointer">
-              Würfeln 🎲
-            </button>
-          </div>
-          <div id="humor-decision-output" class="p-1.5 rounded-xl bg-black/40 border border-purple-500/20 text-[11px] text-purple-200 font-medium min-h-[34px] flex items-center justify-center text-center">
-            Klicke auf Würfeln für einen Impuls!
-          </div>
-        </div>
-      </div>
-
-      <!-- 7. JOKE BOX FOOTER -->
-      <div class="p-2.5 rounded-2xl bg-white/[0.02] border border-white/8 space-y-1 flex items-center justify-between gap-2">
-        <div class="min-w-0 flex-1">
-          <div id="humor-joke-q" class="text-xs font-bold text-white truncate">${currentJoke.q}</div>
-          <div id="humor-joke-a" class="text-[11px] text-pink-300/90 truncate">${currentJoke.a}</div>
-        </div>
-        <button onclick="HumorEngine.nextJoke()" class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-bold shrink-0 transition cursor-pointer">
-          Nächster Witz 😂
+      <!-- 4-TAB SUB-NAVIGATION BAR (ZERO-SCROLL VIEWPORT FITTING) -->
+      <div class="flex items-center bg-black/60 p-1 rounded-2xl border border-white/10 text-xs gap-1 shadow-sm select-none">
+        <button onclick="HumorEngine.switchTab('chaos')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'chaos' ? activeTabClasses : inactiveTabClasses}" title="17 Radikale App-Breaking Glitches">
+          <span>${tr({ de: "💥 Glitches", en: "💥 Glitches", fr: "💥 Glitches", it: "💥 Glitch", es: "💥 Glitches", el: "💥 Glitches" })}</span>
+          <span class="text-[8.5px] opacity-80 font-mono">17</span>
+        </button>
+        <button onclick="HumorEngine.switchTab('party')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'party' ? activeTabClasses : inactiveTabClasses}" title="Live Action & Ambient FX">
+          <span>${tr({ de: "⚡ Action & FX", en: "⚡ Action & FX", fr: "⚡ Action & FX", it: "⚡ Azione & FX", es: "⚡ Acción y FX", el: "⚡ Δράση & FX" })}</span>
+          <span class="text-[8.5px] opacity-80 font-mono">12</span>
+        </button>
+        <button onclick="HumorEngine.switchTab('sounds')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'sounds' ? activeTabClasses : inactiveTabClasses}" title="Soundboard & Witze">
+          <span>${tr({ de: "🔊 Sound & Witz", en: "🔊 Sound & Jokes", fr: "🔊 Sons & Blagues", it: "🔊 Suoni & Scherzi", es: "🔊 Sonidos y Bromas", el: "🔊 Ήχος & Αστεία" })}</span>
+        </button>
+        <button onclick="HumorEngine.switchTab('stress')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'stress' ? activeTabClasses : inactiveTabClasses}" title="Luftpolsterfolie, Würfel & Screensaver">
+          <span>${tr({ de: "🫧 Stress & Idle", en: "🫧 Stress & Idle", fr: "🫧 Stress & Veille", it: "🫧 Stress & Inattività", es: "🫧 Estrés y Reposo", el: "🫧 Στρες & Αδράνεια" })}</span>
         </button>
       </div>
+
+      <!-- ACTIVE TAB CONTENT -->
+      ${tabContentHtml}
     `;
 
     if (typeof window.lucide !== 'undefined' && typeof window.lucide.createIcons === 'function') {
@@ -35425,6 +38612,8 @@ if (typeof globalThis !== 'undefined') {
     startIdleFX,
     toggleIdleSetting,
     panicReset,
+    switchTab: switchHumorTab,
+    getTab: () => currentHumorTab,
     renderHumorPanel
   };
 
@@ -36860,11 +40049,22 @@ function handleQuickAddStaple(name) {
   }
 }
 
+let currentCookingTab = 'pantry'; // 'pantry' | 'recipe'
+
+function switchCookingTab(tab) {
+  currentCookingTab = tab;
+  renderCookingPanel(true);
+}
+
 function handleCookingSuggest() {
   const recipe = suggestCookingRecipe();
   if (recipe) {
+    currentCookingTab = 'recipe';
     renderCookingPanel(true);
     if (typeof playProceduralSound === 'function') playProceduralSound(0);
+  } else {
+    currentCookingTab = 'pantry';
+    renderCookingPanel(true);
   }
 }
 
@@ -36904,113 +40104,155 @@ function renderCookingPanel(skipLucide = false) {
     { label: 'Gemüse 🥦', val: 'Gemüse' }
   ];
 
-  panel.innerHTML = `
-    <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-      <div class="relative flex flex-col items-center justify-center shrink-0">
-        <div class="relative overflow-hidden flex items-center justify-center">
-          <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+  const activeTabClasses = 'bg-gradient-to-r from-orange-600/40 via-amber-600/35 to-orange-600/40 text-white border-orange-400/80 shadow-[0_0_12px_rgba(249,115,22,0.35)] font-bold';
+  const inactiveTabClasses = 'text-gray-400 hover:text-orange-200 border-transparent hover:bg-white/5 font-semibold';
+
+  let contentHtml = '';
+
+  if (currentCookingTab === 'pantry') {
+    contentHtml = `
+      <!-- TAB 1: VORRATSKAMMER & ZUTATEN -->
+      <div class="space-y-2.5 animate-fade-in">
+        <div class="flex gap-1.5">
+          <input id="cooking-ingredient-input" type="text" placeholder="${t('cook_add_ingredient_placeholder')}" class="flex-1 min-h-[34px] rounded-xl border border-white/10 bg-[#0a0a0f] px-3 text-xs text-gray-200 placeholder:text-gray-500 outline-none focus:border-[#ff7a00] font-semibold" />
+          <button onclick="handleCookingAddIngredient()" class="min-h-[34px] rounded-xl bg-[#ff7a00] px-3.5 text-xs font-bold text-white transition hover:bg-[#ff8c1a] cursor-pointer shadow-md">${t('cook_add_ingredient')}</button>
         </div>
-        <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-          <span class="badge-tool-subtext select-none">COOK</span>
+
+        <div class="space-y-1">
+          <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">${t('cook_quick_select')}</div>
+          <div class="flex flex-wrap gap-1">
+            ${staples.map(s => `
+              <button onclick="handleQuickAddStaple('${s.val}')" class="px-2 py-0.5 bg-white/[0.03] hover:bg-[#ff8c1a]/15 border border-white/5 hover:border-orange-500/30 rounded-lg text-[10px] text-gray-300 transition cursor-pointer font-medium hover:scale-105 active:scale-95">
+                ${s.label}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-white/5 bg-[#0a0a0e]/40 p-2.5 shadow-inner">
+          <div class="mb-1.5 flex items-center justify-between text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">
+            <span>${t('cook_ingredients')} (${pantry.length})</span>
+            ${pantry.length > 0 ? `<button onclick="resetCookingPantry()" class="text-rose-400 hover:text-rose-300 cursor-pointer">${t('cook_clear_pantry')}</button>` : ''}
+          </div>
+          ${pantry.length ? `
+            <div class="flex flex-wrap gap-1 max-h-[70px] overflow-y-auto pr-1">
+              ${pantry.map((item, index) => `
+                <span class="inline-flex items-center gap-1 rounded-lg border border-[#00ff66]/30 bg-[#00ff66]/15 px-2 py-0.5 text-[10.5px] text-[#00ff66] font-semibold">
+                  ${escapeHtml(capitalize(item))}
+                  <button type="button" onclick="removeCookingIngredient(${index}); renderCookingPanel(true);" aria-label="Zutat entfernen" class="ml-1 text-[#ff7a00]/60 hover:text-red-400 font-bold transition cursor-pointer text-xs">×</button>
+                </span>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="text-[10.5px] text-gray-500 italic py-1 text-center">${t('cook_pantry_empty')}</div>
+          `}
+        </div>
+
+        <div class="pt-0.5">
+          <button onclick="handleCookingSuggest()" class="w-full min-h-[34px] rounded-xl bg-gradient-to-r from-[#ff7a00] to-[#ff3366] hover:from-[#ff8c1a] hover:to-[#ff4d7d] text-white font-bold text-xs shadow-md transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
+            <i data-lucide="cooking-pot" class="w-4 h-4"></i>
+            <span>🍳 ${t('cook_suggest_btn')}</span>
+          </button>
+        </div>
+      </div>
+    `;
+  } else {
+    contentHtml = `
+      <!-- TAB 2: REZEPT & ZUBEREITUNG -->
+      <div class="space-y-2 animate-fade-in">
+        ${activeRecipe ? `
+          <div class="rounded-2xl border border-orange-500/25 bg-orange-950/15 p-3 shadow-inner space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-[#c084fc] font-display truncate">${escapeHtml(activeRecipe.title)}</span>
+              <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#ff7a00]/15 text-[#ff7a00] font-bold border border-[#ff7a00]/30 shrink-0">${escapeHtml(activeRecipe.duration)}</span>
+            </div>
+            
+            <div class="space-y-1">
+              <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">${t('cook_ingredient_match')}</div>
+              <div class="flex flex-wrap gap-1 text-[9.5px]">
+                ${(activeRecipe.ingredients || []).map(ing => {
+                  const normalized = ing.toLowerCase();
+                  const matched = pantry.some(p => p.toLowerCase().includes(normalized) || normalized.includes(p.toLowerCase()));
+                  return `
+                    <span class="px-1.5 py-0.5 rounded-md ${matched ? 'bg-[#00ff66]/15 text-[#00ff66] border border-[#00ff66]/30' : 'bg-[#ff7a00]/15 text-[#ff7a00] border border-[#ff7a00]/30'} font-semibold">
+                      ${matched ? '✔️' : '❌'} ${escapeHtml(capitalize(ing))}
+                    </span>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <div class="space-y-1 border-t border-white/5 pt-2">
+              <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">${t('cook_steps')}</div>
+              <div class="space-y-1.5 max-h-[110px] overflow-y-auto pr-1">
+                ${(activeRecipe.steps || []).map((step, idx) => `
+                  <label class="flex items-start gap-2 cursor-pointer select-none group/step">
+                    <input type="checkbox" id="cook-step-${idx}" onchange="toggleCookingStepCheckbox(${idx})" class="w-3.5 h-3.5 rounded border-white/10 bg-[#0a0a0f] text-orange-500 focus:ring-0 accent-orange-500 shrink-0 mt-0.5 cursor-pointer" />
+                    <span id="cook-step-label-${idx}" class="text-[10.5px] text-[#00f2ff] group-hover/step:brightness-125 leading-tight font-medium transition duration-150">
+                      ${escapeHtml(step)}
+                    </span>
+                  </label>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button onclick="switchCookingTab('pantry')" class="flex-1 py-1.5 px-2 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-xl text-[10.5px] font-semibold transition cursor-pointer flex items-center justify-center gap-1">
+              <span>← ${t('cook_adjust_ingredients')}</span>
+            </button>
+            <button onclick="addRecipeMissingIngredientsToShopping()" class="flex-1 py-1.5 px-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 rounded-xl text-[10.5px] font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+              <i data-lucide="shopping-basket" class="w-3.5 h-3.5"></i>
+              <span>${t('cook_missing_to_shop')}</span>
+            </button>
+          </div>
+        ` : `
+          <div class="p-6 text-center rounded-2xl bg-white/[0.02] border border-white/5 space-y-2">
+            <span class="text-3xl block">🍳</span>
+            <div class="text-xs font-bold text-white">${t('cook_no_recipe_title')}</div>
+            <p class="text-[10px] text-gray-400">${t('cook_no_recipe_desc')}</p>
+            <button onclick="switchCookingTab('pantry')" class="px-4 py-1.5 bg-[#ff7a00] hover:bg-[#ff8c1a] text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-md inline-flex items-center gap-1">
+              <span>${t('cook_to_pantry_btn')}</span>
+            </button>
+          </div>
+        `}
+      </div>
+    `;
+  }
+
+  panel.innerHTML = `
+    <!-- KOPFZEILE -->
+    <div class="flex items-center justify-between border-b border-white/10 pb-2">
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-xl bg-orange-500/20 border border-orange-400/40 flex items-center justify-center text-orange-300 shadow-sm shrink-0">
+          <i data-lucide="chef-hat" class="w-4 h-4"></i>
+        </div>
+        <div class="relative flex flex-col items-center justify-center shrink-0">
+          <div class="relative overflow-hidden flex items-center justify-center">
+            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+          </div>
+          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+            <span class="badge-tool-subtext select-none">COOK</span>
+          </div>
         </div>
       </div>
       <button onclick="togglePanel('cooking')" aria-label="Koch-Panel schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
     </div>
 
-    <div class="space-y-4 pt-3 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin">
-      
-      <div class="flex gap-2">
-        <input id="cooking-ingredient-input" type="text" placeholder="${t('cook_add_ingredient_placeholder')}" class="flex-1 min-h-[36px] rounded-xl border border-white/10 bg-[#0a0a0f] px-3 text-xs text-gray-200 placeholder:text-gray-500 outline-none focus:border-[#ff7a00] focus:shadow-[0_0_12px_rgba(255,122,0,0.35)] font-semibold" />
-        <button onclick="handleCookingAddIngredient()" class="min-h-[36px] rounded-xl bg-[#ff7a00] px-4 text-xs font-bold text-white transition hover:bg-[#ff8c1a] cursor-pointer shadow-md">${t('cook_add_ingredient')}</button>
-      </div>
-
-      <div class="space-y-1">
-        <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">Schnellauswahl</div>
-        <div class="flex flex-wrap gap-1.5">
-          ${staples.map(s => `
-            <button onclick="handleQuickAddStaple('${s.val}')" class="px-2 py-1 bg-white/[0.03] hover:bg-[#ff8c1a]/10 border border-white/5 hover:border-orange-500/30 rounded-lg text-[10px] text-gray-300 transition cursor-pointer font-medium hover:scale-105 active:scale-95">
-              ${s.label}
-            </button>
-          `).join('')}
-        </div>
-      </div>
-
-      <div class="rounded-2xl border border-white/5 bg-[#0a0a0e]/40 p-3 shadow-inner">
-        <div class="mb-2 text-[9px] font-bold uppercase tracking-wider text-gray-400">${t('cook_ingredients')}</div>
-        ${pantry.length ? `
-          <div class="flex flex-wrap gap-1.5">
-            ${pantry.map((item, index) => `
-              <span class="inline-flex items-center gap-1.5 rounded-lg border border-[#00ff66]/30 bg-[#00ff66]/15 px-2.5 py-1 text-[11px] text-[#00ff66] font-semibold">
-                ${escapeHtml(capitalize(item))}
-                <button type="button" onclick="removeCookingIngredient(${index}); renderCookingPanel(true);" aria-label="Zutat entfernen" class="ml-1 text-[#ff7a00]/60 hover:text-red-400 font-bold transition cursor-pointer text-xs">×</button>
-              </span>
-            `).join('')}
-          </div>
-        ` : `
-          <div class="text-[11px] text-gray-500 italic py-1">${t('cook_pantry_empty')}</div>
-        `}
-      </div>
-
-      <div class="flex gap-2">
-        <button onclick="handleCookingSuggest()" class="flex-1 min-h-[36px] rounded-xl bg-gradient-to-r from-[#ff7a00] to-[#ff3366] hover:from-[#ff8c1a] hover:to-[#ff4d7d] text-white font-bold text-xs shadow-md transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
-          <i data-lucide="cooking-pot" class="w-4 h-4"></i>
-          <span>${t('cook_suggest')}</span>
-        </button>
-        <button onclick="resetCookingPantry()" class="px-3 rounded-xl border border-white/10 bg-white/[0.04] text-xs font-semibold text-gray-300 hover:text-white hover:bg-white/[0.08] transition cursor-pointer">
-          Leeren
-        </button>
-      </div>
-
-      <div class="rounded-2xl border border-orange-500/20 bg-orange-950/5 p-3.5 shadow-inner">
-        <div class="mb-2.5 flex items-center justify-between">
-          <span class="text-[9px] font-bold uppercase tracking-widest text-[#ff7a00]">${t('cook_suggestion_title')}</span>
-          ${activeRecipe ? `
-            <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#ff7a00]/15 text-[#ff7a00] font-bold border border-[#ff7a00]/30">${escapeHtml(activeRecipe.duration)}</span>
-          ` : ''}
-        </div>
-
-        ${activeRecipe ? `
-          <div class="text-sm font-black text-[#c084fc] leading-tight font-display mb-2">${escapeHtml(activeRecipe.title)}</div>
-          
-          <div class="mb-3 space-y-1">
-            <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">Rezept-Zutaten</div>
-            <div class="flex flex-wrap gap-1.5 text-[10px]">
-              ${(activeRecipe.ingredients || []).map(ing => {
-                const normalized = ing.toLowerCase();
-                const matched = pantry.some(p => p.toLowerCase().includes(normalized) || normalized.includes(p.toLowerCase()));
-                return `
-                  <span class="px-2 py-0.5 rounded-md ${matched ? 'bg-[#00ff66]/15 text-[#00ff66] border border-[#00ff66]/30' : 'bg-[#ff7a00]/15 text-[#ff7a00] border border-[#ff7a00]/30'} font-semibold">
-                    ${matched ? '✔️' : '❌'} ${escapeHtml(capitalize(ing))}
-                  </span>
-                `;
-              }).join('')}
-            </div>
-          </div>
-
-          <div class="space-y-1.5 border-t border-white/5 pt-3">
-            <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 mb-1">${t('cook_steps')}</div>
-            <div class="space-y-2">
-              ${(activeRecipe.steps || []).map((step, idx) => `
-                <label class="flex items-start gap-2.5 cursor-pointer select-none group/step">
-                  <input type="checkbox" id="cook-step-${idx}" onchange="toggleCookingStepCheckbox(${idx})" class="w-4 h-4 rounded border-white/10 bg-[#0a0a0f] text-orange-500 focus:ring-0 accent-orange-500 shrink-0 mt-0.5 cursor-pointer" />
-                  <span id="cook-step-label-${idx}" class="text-[11px] text-[#00f2ff] group-hover/step:brightness-125 leading-normal font-medium transition duration-150">
-                    ${escapeHtml(step)}
-                  </span>
-                </label>
-              `).join('')}
-            </div>
-            
-            <button onclick="addRecipeMissingIngredientsToShopping()" class="w-full mt-2.5 py-1.5 px-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i data-lucide="shopping-basket" class="w-3.5 h-3.5"></i>
-              <span data-i18n="cook_add_to_shop">Zutaten auf Einkaufsliste setzen 🛒</span>
-            </button>
-          </div>
-        ` : `
-          <div class="text-xs text-gray-400 italic text-center py-4">Gib deine Zutaten ein, um eine passende Anleitung zu erhalten.</div>
-        `}
-      </div>
-
+    <!-- 2-TAB SUB-NAVIGATION -->
+    <div class="flex items-center bg-black/60 p-1 rounded-2xl border border-white/10 text-xs gap-1 shadow-sm select-none">
+      <button onclick="switchCookingTab('pantry')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'pantry' ? activeTabClasses : inactiveTabClasses}">
+        <i data-lucide="utensils" class="w-3.5 h-3.5"></i>
+        <span>${t('cook_pantry_tab')}</span>
+      </button>
+      <button onclick="switchCookingTab('recipe')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'recipe' ? activeTabClasses : inactiveTabClasses}">
+        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+        <span>${t('cook_recipe_tab')}</span>
+      </button>
     </div>
+
+    <!-- TAB CONTENT -->
+    ${contentHtml}
   `;
 
   const input = panel.querySelector('#cooking-ingredient-input');
@@ -37054,6 +40296,7 @@ if (typeof window !== 'undefined') {
   window.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
   window.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
   window.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;
+  window.switchCookingTab = typeof switchCookingTab !== 'undefined' ? switchCookingTab : undefined;
   window.handleCookingSuggest = typeof handleCookingSuggest !== 'undefined' ? handleCookingSuggest : undefined;
   window.toggleCookingStepCheckbox = typeof toggleCookingStepCheckbox !== 'undefined' ? toggleCookingStepCheckbox : undefined;
   window.resetCookingPantry = typeof resetCookingPantry !== 'undefined' ? resetCookingPantry : undefined;
@@ -37070,6 +40313,7 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof globalThis !== 'undefined') {
+  globalThis.switchCookingTab = typeof switchCookingTab !== 'undefined' ? switchCookingTab : undefined;
   globalThis.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
   globalThis.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
   globalThis.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;
@@ -37302,6 +40546,9 @@ function renderAlarmPanel() {
     <!-- 1. KOPFZEILE: NOODLE ALARM BRANDING | UHRZEIT & CLOSE -->
     <div class="flex items-center justify-between pb-2 border-b border-white/10 select-none">
       <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shadow-sm shrink-0">
+          <i data-lucide="bell" class="w-4 h-4"></i>
+        </div>
         <div class="relative flex flex-col items-center justify-center shrink-0">
           <div class="relative overflow-hidden flex items-center justify-center">
             <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
@@ -37318,54 +40565,50 @@ function renderAlarmPanel() {
       </div>
     </div>
 
-    <!-- 2 Separate, Funktionale Tabs -->
-    <div class="grid grid-cols-2 gap-1.5 p-1 bg-black/60 border border-white/10 rounded-2xl text-xs font-bold mt-1">
-      <button onclick="switchAlarmTab('alarms')" class="py-2 px-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 ${currentAlarmTab === 'alarms' ? 'bg-rose-500 text-white font-bold shadow-[0_0_12px_rgba(244,63,94,0.35)] shadow-md' : 'text-gray-400 hover:text-white'}">
+    <!-- 3 Separate, Funktionale Tabs -->
+    <div class="grid grid-cols-3 gap-1 p-1 bg-black/60 border border-white/10 rounded-2xl text-xs font-bold mt-1">
+      <button onclick="switchAlarmTab('alarms')" class="py-1.5 px-1.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1 ${currentAlarmTab === 'alarms' ? 'bg-rose-500 text-white font-bold shadow-[0_0_12px_rgba(244,63,94,0.35)] shadow-md' : 'text-gray-400 hover:text-white'} text-[11px]">
         <i data-lucide="alarm-clock" class="w-3.5 h-3.5 ${currentAlarmTab === 'alarms' ? 'text-white' : 'text-rose-400'}"></i>
         <span>⏰ Wecker</span>
-        ${alarmCount > 0 ? `<span class="px-1.5 py-0.2 rounded-full text-[9px] bg-white/20 font-mono">${alarmCount}</span>` : ''}
+        ${alarmCount > 0 ? `<span class="px-1 py-0.2 rounded-full text-[8.5px] bg-white/20 font-mono">${alarmCount}</span>` : ''}
       </button>
-      <button onclick="switchAlarmTab('timer')" class="py-2 px-3 rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 ${currentAlarmTab === 'timer' ? 'bg-[#c084fc] text-black font-black shadow-[0_0_15px_rgba(192,132,252,0.4)] text-white shadow-md' : 'text-gray-400 hover:text-white'}">
+      <button onclick="switchAlarmTab('reminders')" class="py-1.5 px-1.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1 ${currentAlarmTab === 'reminders' ? 'bg-[#ff7a00] text-white font-bold shadow-[0_0_12px_rgba(255,122,0,0.35)] shadow-md' : 'text-gray-400 hover:text-white'} text-[11px]">
+        <i data-lucide="bell" class="w-3.5 h-3.5 ${currentAlarmTab === 'reminders' ? 'text-white' : 'text-amber-400'}"></i>
+        <span>🔔 Reminder</span>
+        ${((alarmState.reminders || []).filter(r => !r.completed).length > 0) ? `<span class="px-1 py-0.2 rounded-full text-[8.5px] bg-white/20 font-mono">${(alarmState.reminders || []).filter(r => !r.completed).length}</span>` : ''}
+      </button>
+      <button onclick="switchAlarmTab('timer')" class="py-1.5 px-1.5 rounded-xl transition cursor-pointer flex items-center justify-center gap-1 ${currentAlarmTab === 'timer' ? 'bg-[#c084fc] text-black font-black shadow-[0_0_15px_rgba(192,132,252,0.4)] text-white shadow-md' : 'text-gray-400 hover:text-white'} text-[11px]">
         <i data-lucide="timer" class="w-3.5 h-3.5 ${currentAlarmTab === 'timer' ? 'text-white' : 'text-purple-400'}"></i>
-        <span>⏱️ Fokus-Timer</span>
-        ${tRunning ? `<span class="px-1.5 py-0.2 rounded-full text-[9px] bg-emerald-400 text-black font-mono font-bold animate-pulse">LÄUFT</span>` : ''}
+        <span>⏱️ Fokus</span>
+        ${tRunning ? `<span class="px-1 py-0.2 rounded-full text-[8.5px] bg-emerald-400 text-black font-mono font-bold animate-pulse">ON</span>` : ''}
       </button>
     </div>
 
-    <!-- TAB 1: WECKER & ERINNERUNGEN -->
-    <div id="alarm-subpane-alarms" class="${currentAlarmTab === 'alarms' ? 'block' : 'hidden'} space-y-3 pt-2">
-      <!-- Info & Benachrichtigungen -->
-      <div class="p-2 bg-white/[0.03] border border-white/10 rounded-xl text-[10px] text-gray-300 flex flex-col gap-1.5">
-        <div class="flex items-center justify-between">
-          <span class="flex items-center gap-1 font-semibold">
-            <i data-lucide="info" class="w-3 h-3 text-rose-400 shrink-0"></i>
-            <span>Akustische Wecksignale</span>
-          </span>
-          ${notifPerm === 'granted' ? `
-            <span class="text-emerald-400 font-mono text-[9px] font-bold">🔔 Erlaubt</span>
-          ` : (hasNotif ? `
-            <button onclick="requestAlarmNotificationPermission()" class="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded text-[9px] font-bold cursor-pointer transition">Benachrichtigung erlauben</button>
-          ` : '')}
-        </div>
-      </div>
-
+    <!-- TAB 1: WECKER & SIGNAL -->
+    <div id="alarm-subpane-alarms" class="${currentAlarmTab === 'alarms' ? 'block' : 'hidden'} space-y-2 pt-1.5">
       <!-- Wecksignal, Lautstärke & Smartphone-Optionen -->
-      <div class="p-2.5 bg-black/40 border border-white/10 rounded-2xl space-y-2">
+      <div class="p-2 bg-black/40 border border-white/10 rounded-2xl space-y-1.5">
         <div class="flex items-center justify-between">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
-            <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
-            <span>Signal & Lautstärke</span>
+          <span class="text-[9.5px] font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1">
+            <i data-lucide="volume-2" class="w-3 h-3"></i>
+            <span>Signal & Sound</span>
           </span>
-          <button onclick="testAlarmSound()" class="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded-lg text-[9px] font-bold cursor-pointer transition flex items-center gap-1 shadow-sm" title="Signal jetzt probehören">
-            <i data-lucide="play" class="w-2.5 h-2.5"></i>
-            <span>Testen</span>
-          </button>
+          <div class="flex items-center gap-1.5">
+            ${notifPerm === 'granted' ? `
+              <span class="text-emerald-400 font-mono text-[8.5px] font-bold">🔔 Erlaubt</span>
+            ` : (hasNotif ? `
+              <button onclick="requestAlarmNotificationPermission()" class="px-1.5 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded text-[8.5px] font-bold cursor-pointer transition">🔔 Push</button>
+            ` : '')}
+            <button onclick="testAlarmSound()" class="px-2 py-0.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/30 rounded-lg text-[9px] font-bold cursor-pointer transition flex items-center gap-1 shadow-sm" title="Signal jetzt probehören">
+              <i data-lucide="play" class="w-2.5 h-2.5"></i>
+              <span>Test</span>
+            </button>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-2">
           <div>
-            <label class="text-[9px] text-gray-400 block mb-0.5 font-medium">Klingelton</label>
-            <select id="alarm-setting-sound" onchange="handleUpdateAlarmSetting('sound', this.value)" class="w-full p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none cursor-pointer">
+            <select id="alarm-setting-sound" onchange="handleUpdateAlarmSetting('sound', this.value)" class="w-full p-1 bg-[#12121c] border border-white/10 rounded-lg text-[11px] text-white outline-none cursor-pointer">
               <option value="digital" ${(alarmState.settings?.sound || 'digital') === 'digital' ? 'selected' : ''}>📟 Digital (Laut)</option>
               <option value="bell" ${alarmState.settings?.sound === 'bell' ? 'selected' : ''}>🔔 Glocken-Chime</option>
               <option value="radar" ${alarmState.settings?.sound === 'radar' ? 'selected' : ''}>📡 Radar-Sweep</option>
@@ -37374,117 +40617,107 @@ function renderAlarmPanel() {
           </div>
           <div>
             <div class="flex justify-between items-center mb-0.5">
-              <label class="text-[9px] text-gray-400 font-medium">Lautstärke</label>
-              <span id="alarm-vol-label" class="text-[9px] font-mono font-bold text-rose-400">${Math.round((alarmState.settings?.volume ?? 0.9) * 100)}%</span>
+              <label class="text-[8.5px] text-gray-400 font-medium">Lautstärke</label>
+              <span id="alarm-vol-label" class="text-[8.5px] font-mono font-bold text-rose-400">${Math.round((alarmState.settings?.volume ?? 0.9) * 100)}%</span>
             </div>
-            <input type="range" id="alarm-setting-volume" min="0.2" max="1.0" step="0.05" value="${alarmState.settings?.volume ?? 0.9}" oninput="handleUpdateAlarmVolume(this.value)" class="w-full accent-rose-500 cursor-pointer h-1.5 bg-white/10 rounded-lg mt-1" />
+            <input type="range" id="alarm-setting-volume" min="0.2" max="1.0" step="0.05" value="${alarmState.settings?.volume ?? 0.9}" oninput="handleUpdateAlarmVolume(this.value)" class="w-full accent-rose-500 cursor-pointer h-1 bg-white/10 rounded-lg" />
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/5 text-[9px] text-gray-300">
-          <label class="flex items-center gap-1.5 cursor-pointer hover:text-white select-none" title="Handy vibriert synchron im Rhythmus des Alarms">
-            <input type="checkbox" ${alarmState.settings?.vibrate !== false ? 'checked' : ''} onchange="handleUpdateAlarmSetting('vibrate', this.checked)" class="w-3.5 h-3.5 accent-rose-500 rounded cursor-pointer" />
-            <span>📳 Handy-Vibration</span>
+        <div class="flex items-center justify-between pt-1 border-t border-white/5 text-[9px] text-gray-300">
+          <label class="flex items-center gap-1 cursor-pointer hover:text-white select-none" title="Handy vibriert synchron im Rhythmus des Alarms">
+            <input type="checkbox" ${alarmState.settings?.vibrate !== false ? 'checked' : ''} onchange="handleUpdateAlarmSetting('vibrate', this.checked)" class="w-3 h-3 accent-rose-500 rounded cursor-pointer" />
+            <span>📳 Vibration</span>
           </label>
-          <label class="flex items-center gap-1.5 cursor-pointer hover:text-white select-none" title="Erinnerungen läuten ebenfalls als persistenter Dauerwecker">
-            <input type="checkbox" ${alarmState.settings?.remindersAsAlarm !== false ? 'checked' : ''} onchange="handleUpdateAlarmSetting('remindersAsAlarm', this.checked)" class="w-3.5 h-3.5 accent-amber-500 rounded cursor-pointer" />
-            <span>⚡ Dauer-Erinnerung</span>
+          <label class="flex items-center gap-1 cursor-pointer hover:text-white select-none" title="Erinnerungen läuten ebenfalls als persistenter Dauerwecker">
+            <input type="checkbox" ${alarmState.settings?.remindersAsAlarm !== false ? 'checked' : ''} onchange="handleUpdateAlarmSetting('remindersAsAlarm', this.checked)" class="w-3 h-3 accent-amber-500 rounded cursor-pointer" />
+            <span>⚡ Dauer-Reminder</span>
           </label>
         </div>
       </div>
 
       <!-- Neuer Wecker anlegen -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-rose-400">⏰ Neuer Wecker</span>
-          <span class="text-[9px] text-gray-400 font-mono">Aktuell: <b class="text-white">${nowStr}</b></span>
-        </div>
-        <div class="flex gap-2 bg-black/40 p-2 rounded-2xl border border-white/5">
-          <input type="time" id="new-alarm-time" value="09:00" class="p-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-rose-500 font-semibold cursor-pointer" />
-          <input type="text" id="new-alarm-label" placeholder="Bezeichnung (z.B. Aufstehen, Meeting)..." class="flex-1 p-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-rose-500 font-semibold placeholder:text-gray-500" />
-          <button onclick="handleAddAlarm()" aria-label="Wecker hinzufügen" class="px-3 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-[0_0_12px_rgba(244,63,94,0.35)]">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-          </button>
-        </div>
+      <div class="flex gap-1.5 bg-black/40 p-1.5 rounded-2xl border border-white/5">
+        <input type="time" id="new-alarm-time" value="09:00" class="p-1 bg-[#12121c] border border-white/10 rounded-lg text-xs text-white outline-none focus:border-rose-500 font-semibold cursor-pointer" />
+        <input type="text" id="new-alarm-label" placeholder="Bezeichnung..." class="flex-1 p-1 px-2 bg-[#12121c] border border-white/10 rounded-lg text-xs text-white outline-none focus:border-rose-500 font-semibold placeholder:text-gray-500" />
+        <button onclick="handleAddAlarm()" aria-label="Wecker hinzufügen" class="px-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-lg text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-sm">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+        </button>
       </div>
 
       <!-- Wecker-Liste -->
-      <div class="space-y-1.5 max-h-[160px] overflow-y-auto pr-1">
+      <div class="space-y-1 max-h-[140px] overflow-y-auto pr-1">
         ${(!alarmState.alarms || alarmState.alarms.length === 0) ? `
-          <div class="text-center py-4 text-gray-500 text-xs font-medium">Keine Wecker gestellt</div>
+          <div class="text-center py-2 text-gray-500 text-[11px] font-medium italic">Noch keine Wecker aktiv</div>
         ` : (alarmState.alarms || []).map(a => `
-          <div class="flex items-center justify-between p-2 bg-white/[0.02] border border-white/5 rounded-xl hover:border-rose-500/30 transition">
-            <div class="flex items-center gap-2.5">
-              <input type="checkbox" ${a.active ? 'checked' : ''} onchange="handleToggleAlarm('${a.id}')" class="w-4 h-4 accent-rose-500 cursor-pointer rounded" />
+          <div class="flex items-center justify-between p-1.5 px-2 bg-white/[0.02] border border-white/5 rounded-xl hover:border-rose-500/30 transition">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" ${a.active ? 'checked' : ''} onchange="handleToggleAlarm('${a.id}')" class="w-3.5 h-3.5 accent-rose-500 cursor-pointer rounded" />
               <div>
-                <div class="text-xs font-bold text-white font-mono leading-none mb-0.5">${safeEscape(a.time)}</div>
-                <div class="text-[10px] text-gray-400 leading-none">${safeEscape(a.label || 'Wecker')}</div>
+                <div class="text-xs font-bold text-white font-mono leading-none">${safeEscape(a.time)}</div>
+                <div class="text-[9.5px] text-gray-400 leading-none mt-0.5">${safeEscape(a.label || 'Wecker')}</div>
               </div>
             </div>
-            <button onclick="handleDeleteAlarm('${a.id}')" aria-label="Wecker löschen" class="text-gray-500 hover:text-rose-400 p-1 transition cursor-pointer" title="Löschen">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            <button onclick="handleDeleteAlarm('${a.id}')" aria-label="Wecker löschen" class="text-gray-500 hover:text-rose-400 p-0.5 transition cursor-pointer" title="Löschen">
+              <i data-lucide="trash-2" class="w-3 h-3"></i>
             </button>
           </div>
         `).join('')}
       </div>
+    </div>
 
-      <!-- Schnelle Reminder / Countdown-Erinnerung -->
-      <div class="pt-2 border-t border-white/10 space-y-1.5">
-        <div class="flex items-center justify-between">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-[#ff7a00]">🔔 Schnelle Erinnerung</span>
-          <span class="text-[9px] text-gray-400">Timer-Check-In</span>
+    <!-- TAB 2: REMINDER & COUNTDOWN -->
+    <div id="alarm-subpane-reminders" class="${currentAlarmTab === 'reminders' ? 'block' : 'hidden'} space-y-2 pt-1.5">
+      <div class="flex flex-col gap-1.5 bg-black/40 p-2 rounded-2xl border border-white/5">
+        <div class="flex gap-1.5">
+          <input type="text" id="new-reminder-text" placeholder="Erinnerung (z.B. Wasser trinken 💧)..." class="flex-1 p-1.5 px-2 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-[#ff7a00] font-semibold placeholder:text-gray-500" />
+          <select id="new-reminder-mins" class="p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-[#ff7a00] font-bold outline-none cursor-pointer">
+            <option value="5">in 5m</option>
+            <option value="10" selected>in 10m</option>
+            <option value="15">in 15m</option>
+            <option value="20">in 20m</option>
+            <option value="30">in 30m</option>
+            <option value="45">in 45m</option>
+            <option value="60">in 60m</option>
+          </select>
+          <button onclick="handleAddReminder()" aria-label="Erinnerung hinzufügen" class="px-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-sm">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+          </button>
         </div>
-        <div class="flex flex-col gap-1.5 bg-black/40 p-1.5 rounded-2xl border border-white/5">
-          <div class="flex gap-1.5">
-            <input type="text" id="new-reminder-text" placeholder="Erinnerung (z.B. Wasser trinken 💧)..." class="flex-1 p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-white outline-none focus:border-[#ff7a00] font-semibold placeholder:text-gray-500" />
-            <select id="new-reminder-mins" class="p-1.5 bg-[#12121c] border border-white/10 rounded-xl text-xs text-[#ff7a00] font-bold outline-none cursor-pointer">
-              <option value="5">in 5m</option>
-              <option value="10" selected>in 10m</option>
-              <option value="15">in 15m</option>
-              <option value="20">in 20m</option>
-              <option value="30">in 30m</option>
-              <option value="45">in 45m</option>
-              <option value="60">in 60m</option>
-            </select>
-            <button onclick="handleAddReminder()" aria-label="Erinnerung hinzufügen" class="px-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center justify-center shadow-sm">
-              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-          <div class="flex items-center justify-between px-1 text-[9px]">
-            <label class="flex items-center gap-1.5 text-gray-400 hover:text-amber-300 cursor-pointer select-none">
-              <input type="checkbox" id="new-reminder-urgent" ${alarmState.settings?.remindersAsAlarm !== false ? 'checked' : ''} class="w-3 h-3 accent-amber-500 rounded cursor-pointer" />
-              <span>⚡ Als lauten Dauer-Wecker auslösen</span>
-            </label>
-          </div>
+        <div class="flex items-center justify-between px-1 text-[9px]">
+          <label class="flex items-center gap-1.5 text-gray-400 hover:text-amber-300 cursor-pointer select-none">
+            <input type="checkbox" id="new-reminder-urgent" ${alarmState.settings?.remindersAsAlarm !== false ? 'checked' : ''} class="w-3 h-3 accent-amber-500 rounded cursor-pointer" />
+            <span>⚡ Als lauten Dauer-Wecker auslösen</span>
+          </label>
         </div>
+      </div>
 
-        <div class="space-y-1 max-h-[120px] overflow-y-auto pr-1">
-          ${(!alarmState.reminders || alarmState.reminders.length === 0) ? `
-            <div class="text-center py-2 text-gray-500 text-[10px]">Keine schnellen Erinnerungen aktiv</div>
-          ` : (alarmState.reminders || []).map(r => {
-            const leftMin = Math.max(0, Math.round((r.time - Date.now()) / 60000));
-            return `
-              <div class="flex items-center justify-between p-1.5 px-2 bg-white/[0.02] border border-white/5 rounded-lg ${r.completed ? 'opacity-40 line-through' : ''}">
-                <div class="flex items-center gap-2 min-w-0">
-                  <input type="checkbox" ${r.completed ? 'checked' : ''} onchange="handleToggleReminder('${r.id}')" class="w-3.5 h-3.5 accent-amber-500 cursor-pointer rounded" />
-                  <span class="text-xs font-semibold text-gray-200 truncate">${safeEscape(r.text)}</span>
-                  ${r.isUrgent !== false ? '<span class="text-[9px] text-amber-400 font-mono" title="Dauer-Alarm">⚡</span>' : ''}
-                </div>
-                <div class="flex items-center gap-2 shrink-0">
-                  <span class="text-[9px] font-mono text-[#ff7a00] font-bold">${r.completed ? 'Erledigt' : `${leftMin}m`}</span>
-                  <button onclick="handleDeleteReminder('${r.id}')" aria-label="Erinnerung löschen" class="text-gray-500 hover:text-rose-400 p-0.5 transition cursor-pointer" title="Löschen">
-                    <i data-lucide="trash-2" class="w-3 h-3"></i>
-                  </button>
-                </div>
+      <div class="space-y-1 max-h-[160px] overflow-y-auto pr-1">
+        ${(!alarmState.reminders || alarmState.reminders.length === 0) ? `
+          <div class="text-center py-4 text-gray-500 text-[11px] italic">Keine schnellen Erinnerungen aktiv</div>
+        ` : (alarmState.reminders || []).map(r => {
+          const leftMin = Math.max(0, Math.round((r.time - Date.now()) / 60000));
+          return `
+            <div class="flex items-center justify-between p-1.5 px-2 bg-white/[0.02] border border-white/5 rounded-xl ${r.completed ? 'opacity-40 line-through' : ''}">
+              <div class="flex items-center gap-2 min-w-0">
+                <input type="checkbox" ${r.completed ? 'checked' : ''} onchange="handleToggleReminder('${r.id}')" class="w-3.5 h-3.5 accent-amber-500 cursor-pointer rounded" />
+                <span class="text-xs font-semibold text-gray-200 truncate">${safeEscape(r.text)}</span>
+                ${r.isUrgent !== false ? '<span class="text-[9px] text-amber-400 font-mono" title="Dauer-Alarm">⚡</span>' : ''}
               </div>
-            `;
-          }).join('')}
-        </div>
+              <div class="flex items-center gap-2 shrink-0">
+                <span class="text-[9px] font-mono text-[#ff7a00] font-bold">${r.completed ? 'Erledigt' : `${leftMin}m`}</span>
+                <button onclick="handleDeleteReminder('${r.id}')" aria-label="Erinnerung löschen" class="text-gray-500 hover:text-rose-400 p-0.5 transition cursor-pointer" title="Löschen">
+                  <i data-lucide="trash-2" class="w-3 h-3"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('')}
       </div>
     </div>
 
-    <!-- TAB 2: SMART FOKUS-TIMER (ANGENEHM & FUNKTIONELL) -->
-    <div id="alarm-subpane-timer" class="${currentAlarmTab === 'timer' ? 'block' : 'hidden'} space-y-3.5 pt-2">
+    <!-- TAB 3: SMART FOKUS-TIMER (ANGENEHM & FUNKTIONELL) -->
+    <div id="alarm-subpane-timer" class="${currentAlarmTab === 'timer' ? 'block' : 'hidden'} space-y-2.5 pt-1.5">
       
       <!-- Zentrales Großes Display mit animierter Fokus-Aura -->
       <div class="relative p-5 rounded-3xl bg-gradient-to-b from-purple-950/30 to-black/60 border border-purple-500/30 flex flex-col items-center justify-center text-center shadow-inner overflow-hidden">
@@ -38113,6 +41346,31 @@ function cancelCloseTaskMenu() {
   }
 }
 
+function startTaskTimerByIndex(colId, index, event) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  try {
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    const taskItem = curItems[colId]?.[index];
+    const taskTitle = typeof taskItem === 'object' && taskItem ? (taskItem.task || taskItem.title || taskItem.name || '') : String(taskItem || '');
+    
+    if (typeof linkTaskToTimer === 'function') {
+      linkTaskToTimer(taskTitle, colId, index);
+    }
+    if (typeof startTimer === 'function') {
+      startTimer();
+    }
+    if (typeof showToast === 'function') {
+      showToast(`⏱️ Timer gestartet: "${taskTitle || 'Aufgabe'}"`);
+    }
+  } catch (e) {
+    console.warn('[Tasks] Error starting task timer:', e);
+  }
+}
+window.startTaskTimerByIndex = startTaskTimerByIndex;
+
 function toggleTaskOptionsMenu(colId, index, event) {
   if (event) {
     event.stopPropagation();
@@ -38161,12 +41419,16 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
   menu.className = 'fixed z-[999999] w-[138px] p-1.5 bg-[#141422]/95 border border-white/20 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col gap-0.5 text-xs text-gray-200';
   
   menu.innerHTML = `
-    <!-- Focus & Steps ganz oben -->
-    <button onclick="startTaskTimerByIndex('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-amber-300 hover:text-amber-200 transition cursor-pointer text-left font-medium">
+    <!-- Timer, Chronometer & Steps ganz oben -->
+    <button onclick="startTaskTimerByIndex('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-amber-300 hover:text-amber-200 transition cursor-pointer text-left font-medium" title="Fokus-Timer für diese Aufgabe starten">
       <i data-lucide="timer" class="w-3.5 h-3.5 text-amber-400"></i>
-      <span>Focus</span>
+      <span>Timer</span>
     </button>
-    <button onclick="openTaskStepsModal('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-[var(--accent-light)] hover:text-white transition cursor-pointer text-left font-medium">
+    <button onclick="startTaskChronometer('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-emerald-400 hover:text-emerald-300 transition cursor-pointer text-left font-medium" title="Chronometer / Stoppuhr starten (offene Zeiterfassung)">
+      <i data-lucide="watch" class="w-3.5 h-3.5 text-emerald-400"></i>
+      <span>Chrono</span>
+    </button>
+    <button onclick="openTaskStepsModal('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-[var(--accent-light)] hover:text-white transition cursor-pointer text-left font-medium" title="Schritte & Unteraufgaben aufklappen">
       <i data-lucide="footprints" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>
       <span>Steps</span>
     </button>
@@ -38720,7 +41982,7 @@ function clearCompletedInColumn(colId, e) {
       }), { undo: true, duration: 5000 });
       return;
     }
-    showToast(tr({ de: 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️', en: 'No completed tasks found to clear ℹ️' }));
+    showToast(tr({ de: 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️', en: 'No completed tasks found to clear ℹ️', fr: 'Aucune tâche terminée trouvée à nettoyer ℹ️', it: 'Nessuna attività completata trovata da eliminare ℹ️', es: 'No se encontraron tareas completadas para limpiar ℹ️', el: 'Δεν βρέθηκαν ολοκληρωμένες εργασίες για εκκαθάριση ℹ️' }));
     return;
   }
 
@@ -38846,9 +42108,9 @@ function renderColumnsDropdownContent(dropdown) {
   });
 
   const curItems = getCurrentWorkspaceItems();
-  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠' });
-  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓' });
-  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼' });
+  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠', fr: 'Espace : Personnel 🏠', it: 'Spazio: Personale 🏠', es: 'Espacio: Personal 🏠', el: 'Χώρος: Προσωπικός 🏠' });
+  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓', fr: 'Espace : Études 🎓', it: 'Spazio: Studio 🎓', es: 'Espacio: Estudio 🎓', el: 'Χώρος: Σπουδές 🎓' });
+  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼', fr: 'Espace : Travail 💼', it: 'Spazio: Lavoro 💼', es: 'Espacio: Trabajo 💼', el: 'Χώρος: Εργασία 💼' });
 
   dropdown.innerHTML = `
     <div class="flex items-center justify-between pb-2 border-b border-white/10">
@@ -38869,11 +42131,11 @@ function renderColumnsDropdownContent(dropdown) {
       <div class="flex items-center justify-between">
         <span class="text-[11px] font-bold text-purple-200 flex items-center gap-1.5">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-purple-400"></i>
-          <span>${tr({ de: 'Neue Karte hinzufügen', en: 'Add new card' })}</span>
+          <span>${tr({ de: 'Neue Karte hinzufügen', en: 'Add new card', fr: 'Ajouter une nouvelle carte', it: 'Aggiungi nuova scheda', es: 'Añadir nueva tarjeta', el: 'Προσθήκη νέας κάρτας' })}</span>
         </span>
       </div>
       <div class="flex items-center gap-1.5">
-        <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der Karte...', en: 'Card name...' })}" class="flex-1 px-2.5 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-purple-400" onkeydown="if(event.key==='Enter') submitAddListFromManager()">
+        <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der Karte...', en: 'Card name...', fr: 'Nom de la carte...', it: 'Nome della scheda...', es: 'Nombre de la tarjeta...', el: 'Όνομα κάρτας...' })}" class="flex-1 px-2.5 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-purple-400" onkeydown="if(event.key==='Enter') submitAddListFromManager()">
         <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/40 border border-purple-500/30 rounded-lg text-xs text-purple-200 focus:outline-none focus:border-purple-400 cursor-pointer">
           <option value="layers">📑 Karte</option>
           <option value="target">🎯 Fokus</option>
@@ -38910,10 +42172,10 @@ function renderColumnsDropdownContent(dropdown) {
             </div>
             <div class="flex items-center gap-1">
               <button onclick="toggleColumnVisibility('${id}')" class="px-2 py-0.5 rounded text-[10px] font-bold transition cursor-pointer ${isVisible ? 'bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30' : 'bg-white/10 text-gray-400 hover:text-white'}">
-                ${isVisible ? tr({ de: 'Aktiv', en: 'Active' }) : tr({ de: 'Ausgeblendet', en: 'Hidden' })}
+                ${isVisible ? tr({ de: 'Aktiv', en: 'Active', fr: 'Actif', it: 'Attivo', es: 'Activo', el: 'Ενεργό' }) : tr({ de: 'Ausgeblendet', en: 'Hidden', fr: 'Masqué', it: 'Nascosto', es: 'Oculto', el: 'Κρυφό' })}
               </button>
               ${isCustom ? `
-                <button onclick="deleteColumn('${id}', event)" class="p-1 text-gray-400 hover:text-rose-400 transition" title="${tr({ de: 'Löschen', en: 'Delete' })}">
+                <button onclick="deleteColumn('${id}', event)" class="p-1 text-gray-400 hover:text-rose-400 transition" title="${tr({ de: 'Löschen', en: 'Delete', fr: 'Supprimer', it: 'Elimina', es: 'Eliminar', el: 'Διαγραφή' })}">
                   <i data-lucide="trash-2" class="w-3 h-3"></i>
                 </button>
               ` : ''}
@@ -38928,15 +42190,15 @@ function renderColumnsDropdownContent(dropdown) {
       <div class="flex items-center gap-1.5">
         <button onclick="resetColumnsToDefault()" class="px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-[10px] font-medium text-gray-300 hover:text-white transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Standard-Karten wiederherstellen', en: 'Restore default cards', es: 'Restaurar tarjetas predeterminadas', fr: 'Restaurer les cartes par défaut', it: 'Ripristina schede predefinite', el: 'Επαναφορά προεπιλεγμένων καρτών' })}">
           <i data-lucide="rotate-ccw" class="w-3 h-3 text-amber-400"></i>
-          <span>${tr({ de: 'Standard', en: 'Default' })}</span>
+          <span>${tr({ de: 'Standard', en: 'Default', fr: 'Défaut', it: 'Predefinito', es: 'Predeterminado', el: 'Προεπιλογή' })}</span>
         </button>
-        <button onclick="handleClearAllLists(); closeColumnsDropdown();" class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 hover:border-rose-400/50 rounded-lg text-[10px] font-medium text-rose-300 hover:text-rose-200 transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Alle Aufgaben in den Karten leeren', en: 'Clear all tasks in cards' })}">
+        <button onclick="handleClearAllLists(); closeColumnsDropdown();" class="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 hover:border-rose-400/50 rounded-lg text-[10px] font-medium text-rose-300 hover:text-rose-200 transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'Alle Aufgaben in den Karten leeren', en: 'Clear all tasks in cards', fr: 'Vider toutes les tâches dans les cartes', it: 'Svuota tutte le attività nelle schede', es: 'Vaciar todas las tareas en las tarjetas', el: 'Εκκαθάριση όλων των εργασιών στις κάρτες' })}">
           <i data-lucide="eraser" class="w-3 h-3 text-rose-400"></i>
-          <span>${tr({ de: 'Karten leeren', en: 'Clear cards' })}</span>
+          <span>${tr({ de: 'Karten leeren', en: 'Clear cards', fr: 'Vider les cartes', it: 'Svuota schede', es: 'Vaciar tarjetas', el: 'Εκκαθάριση καρτών' })}</span>
         </button>
       </div>
       <button onclick="closeColumnsDropdown()" class="px-3 py-1 bg-purple-600 hover:bg-purple-500 text-white font-bold text-[10px] rounded-lg shadow transition cursor-pointer">
-        ${tr({ de: 'Fertig', en: 'Done' })}
+        ${tr({ de: 'Fertig', en: 'Done', fr: 'Terminé', it: 'Fatto', es: 'Listo', el: 'Τέλος' })}
       </button>
     </div>
   `;
@@ -39060,9 +42322,9 @@ function openColumnsManagerModal() {
   });
 
   const curItems = getCurrentWorkspaceItems();
-  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠' });
-  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓' });
-  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼' });
+  let wsName = tr({ de: 'Arbeitsbereich: Privat 🏠', en: 'Workspace: Personal 🏠', fr: 'Espace : Personnel 🏠', it: 'Spazio: Personale 🏠', es: 'Espacio: Personal 🏠', el: 'Χώρος: Προσωπικός 🏠' });
+  if (ws === 'study') wsName = tr({ de: 'Arbeitsbereich: Studium 🎓', en: 'Workspace: Study 🎓', fr: 'Espace : Études 🎓', it: 'Spazio: Studio 🎓', es: 'Espacio: Estudio 🎓', el: 'Χώρος: Σπουδές 🎓' });
+  else if (ws === 'work') wsName = tr({ de: 'Arbeitsbereich: Arbeit 💼', en: 'Workspace: Work 💼', fr: 'Espace : Travail 💼', it: 'Spazio: Lavoro 💼', es: 'Espacio: Trabajo 💼', el: 'Χώρος: Εργασία 💼' });
 
   modal.innerHTML = `
     <div class="relative w-full max-w-md bg-[#121118]/95 border border-white/15 rounded-3xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-5 sm:p-6 text-white space-y-4">
@@ -39084,11 +42346,11 @@ function openColumnsManagerModal() {
         <div class="flex items-center justify-between">
           <span class="text-xs font-bold text-purple-200 flex items-center gap-1.5">
             <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-purple-400"></i>
-            <span>${tr({ de: 'Neue Karte anlegen', en: 'Create New Card' })}</span>
+            <span>${tr({ de: 'Neue Karte anlegen', en: 'Create New Card', fr: 'Créer une nouvelle carte', it: 'Crea nuova scheda', es: 'Crear nueva tarjeta', el: 'Δημιουργία νέας κάρτας' })}</span>
           </span>
         </div>
         <div class="flex items-center gap-2">
-          <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der neuen Karte...', en: 'New card name...' })}"
+          <input id="manage-columns-new-title" type="text" placeholder="${tr({ de: 'Name der neuen Karte...', en: 'New card name...', fr: 'Nom de la nouvelle carte...', it: 'Nome della nuova scheda...', es: 'Nombre de la nueva tarjeta...', el: 'Όνομα νέας κάρτας...' })}"
             class="flex-1 min-w-0 px-2.5 py-1.5 bg-black/50 border border-white/15 focus:border-purple-400 text-white text-xs rounded-xl focus:outline-none placeholder:text-gray-500 shadow-inner font-medium"
             onkeydown="if(event.key === 'Enter') submitAddListFromManager();" />
           <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/50 border border-white/15 text-xs text-gray-200 rounded-xl focus:outline-none focus:border-purple-400 cursor-pointer">
@@ -39108,7 +42370,7 @@ function openColumnsManagerModal() {
           </select>
           <button onclick="submitAddListFromManager()" class="px-3 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center gap-1 shrink-0">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-            <span>${tr({ de: 'Hinzufügen', en: 'Add' })}</span>
+            <span>${tr({ de: 'Hinzufügen', en: 'Add', fr: 'Ajouter', it: 'Aggiungi', es: 'Añadir', el: 'Προσθήκη' })}</span>
           </button>
         </div>
       </div>
@@ -39128,15 +42390,15 @@ function openColumnsManagerModal() {
                     <p class="text-xs font-bold text-gray-200 truncate">${escapeHtml(label)}</p>
                     ${isCustom ? `<span class="text-[9px] px-1.5 py-0.5 bg-purple-500/20 text-purple-300 rounded font-medium border border-purple-500/30">Custom</span>` : ''}
                   </div>
-                  <p class="text-[10px] text-gray-400 font-mono">${count} ${tr({ de: 'Aufgaben', en: 'tasks' })}</p>
+                  <p class="text-[10px] text-gray-400 font-mono">${count} ${tr({ de: 'Aufgaben', en: 'tasks', fr: 'tâches', it: 'attività', es: 'tareas', el: 'εργασίες' })}</p>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
                 <button onclick="toggleColumnVisibility('${id}')" class="px-2.5 py-1 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 ${isActive ? 'bg-purple-600/30 text-purple-200 border border-purple-400/40 shadow-sm' : 'bg-white/5 text-gray-400 border border-white/10 hover:text-white'}">
-                  <span>${isActive ? tr({ de: 'Aktiv ✓', en: 'Active ✓' }) : tr({ de: 'Ausgeblendet', en: 'Hidden' })}</span>
+                  <span>${isActive ? tr({ de: 'Aktiv ✓', en: 'Active ✓', fr: 'Actif ✓', it: 'Attivo ✓', es: 'Activo ✓', el: 'Ενεργό ✓' }) : tr({ de: 'Ausgeblendet', en: 'Hidden', fr: 'Masqué', it: 'Nascosto', es: 'Oculto', el: 'Κρυφό' })}</span>
                 </button>
                 ${isCustom ? `
-                  <button onclick="deleteColumn('${id}').then(() => openColumnsManagerModal())" class="p-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 transition cursor-pointer" title="${tr({ de: 'Karte löschen', en: 'Delete card' })}">
+                  <button onclick="deleteColumn('${id}').then(() => openColumnsManagerModal())" class="p-1.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 transition cursor-pointer" title="${tr({ de: 'Karte löschen', en: 'Delete card', fr: 'Supprimer la carte', it: 'Elimina scheda', es: 'Eliminar tarjeta', el: 'Διαγραφή κάρτας' })}">
                     <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                   </button>
                 ` : ''}
@@ -39149,10 +42411,10 @@ function openColumnsManagerModal() {
       <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
         <button onclick="resetColumnsToDefault()" class="px-3 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-medium text-gray-300 hover:text-white transition cursor-pointer flex items-center gap-1.5">
           <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-400"></i>
-          <span>${tr({ de: 'Standard wiederherstellen', en: 'Reset to default' })}</span>
+          <span>${tr({ de: 'Standard wiederherstellen', en: 'Reset to default', fr: 'Rétablir par défaut', it: 'Ripristina predefiniti', es: 'Restablecer predeterminado', el: 'Επαναφορά προεπιλογών' })}</span>
         </button>
         <button onclick="closeColumnsManagerModal()" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-lg transition cursor-pointer">
-          ${tr({ de: 'Fertig', en: 'Done' })}
+          ${tr({ de: 'Fertig', en: 'Done', fr: 'Terminé', it: 'Fatto', es: 'Listo', el: 'Τέλος' })}
         </button>
       </div>
     </div>
@@ -39174,7 +42436,7 @@ function toggleColumnVisibility(colId) {
   saveHistory();
   if (idx !== -1) {
     if (activeOrder.length <= 1) {
-      showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!' }));
+      showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!', fr: 'Au moins une colonne doit rester sur le tableau !', it: 'Almeno una colonna deve rimanere sulla lavagna!', es: '¡Al menos una columna debe permanecer en el tablero!', el: 'Τουλάχιστον μία στήλη πρέπει να παραμείνει στον πίνακα!' }));
       return;
     }
     activeOrder.splice(idx, 1);
@@ -39309,7 +42571,7 @@ async function deleteColumn(colId, e) {
   const idx = activeOrder.findIndex(([id]) => id === colId);
   if (idx === -1) return;
   if (activeOrder.length <= 1) {
-    showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!' }));
+    showToast(tr({ de: 'Mindestens eine Spalte muss auf dem Board bleiben!', en: 'At least one column must stay on the board!', fr: 'Au moins une colonne doit rester sur le tableau !', it: 'Almeno una colonna deve rimanere sulla lavagna!', es: '¡Al menos una columna debe permanecer en el tablero!', el: 'Τουλάχιστον μία στήλη πρέπει να παραμείνει στον πίνακα!' }));
     return;
   }
   const entry = activeOrder[idx];
@@ -39328,9 +42590,9 @@ async function deleteColumn(colId, e) {
   });
 
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
-    title: typeof tr === 'function' ? tr({ de: 'Karte entfernen?', en: 'Remove card?' }) : 'Karte entfernen?',
+    title: typeof tr === 'function' ? tr({ de: 'Karte entfernen?', en: 'Remove card?', fr: 'Supprimer la carte ?', it: 'Rimuovere la scheda?', es: '¿Eliminar tarjeta?', el: 'Αφαίρεση κάρτας;' }) : 'Karte entfernen?',
     message: confirmMsg,
-    confirmText: typeof tr === 'function' ? tr({ de: 'Entfernen', en: 'Remove' }) : 'Entfernen',
+    confirmText: typeof tr === 'function' ? tr({ de: 'Entfernen', en: 'Remove', fr: 'Supprimer', it: 'Rimuovi', es: 'Eliminar', el: 'Αφαίρεση' }) : 'Entfernen',
     isDanger: true,
     icon: 'trash-2'
   }) : confirm(confirmMsg);
@@ -39580,7 +42842,7 @@ function renderApp() {
         </div>
         <div class="flex items-center gap-1 shrink-0">
           ${countBadgeHTML}
-          <button onmouseenter="cancelCloseColumnOptionsMenu(); openColumnOptionsMenu('${id}', this);" onmouseleave="scheduleCloseColumnOptionsMenu();" onclick="toggleColumnOptionsMenu('${id}', event)" aria-label="${tr({ de: 'Karten-Aktionen & Aufräumen', en: 'Column actions & clear' })}" class="column-options-btn w-5 h-5 p-0 text-gray-400 hover:text-white hover:bg-white/10 rounded-md transition-all duration-150 cursor-pointer flex items-center justify-center opacity-70 hover:opacity-100 shrink-0" title="${tr({ de: 'Karten-Aktionen & Aufräumen (Leeren, Archivieren, Löschen) ⚙️', en: 'Column actions & clear ⚙️' })}">
+          <button onmouseenter="cancelCloseColumnOptionsMenu(); openColumnOptionsMenu('${id}', this);" onmouseleave="scheduleCloseColumnOptionsMenu();" onclick="toggleColumnOptionsMenu('${id}', event)" aria-label="${tr({ de: 'Karten-Aktionen & Aufräumen', en: 'Column actions & clear', fr: 'Actions de carte & nettoyage', it: 'Azioni scheda e pulizia', es: 'Acciones de tarjetas y limpieza', el: 'Ενέργειες καρτών & εκκαθάριση' })}" class="column-options-btn w-5 h-5 p-0 text-gray-400 hover:text-white hover:bg-white/10 rounded-md transition-all duration-150 cursor-pointer flex items-center justify-center opacity-70 hover:opacity-100 shrink-0" title="${tr({ de: 'Karten-Aktionen & Aufräumen (Leeren, Archivieren, Löschen) ⚙️', en: 'Column actions & clear ⚙️', fr: 'Actions de carte & nettoyage (Vider, Archiver, Supprimer) ⚙️', it: 'Azioni scheda e pulizia (Svuota, Archivia, Elimina) ⚙️', es: 'Acciones de tarjetas y limpieza (Vaciar, Archivar, Eliminar) ⚙️', el: 'Ενέργειες καρτών & εκκαθάριση (Εκκαθάριση, Αρχειοθέτηση, Διαγραφή) ⚙️' })}">
             ${svgFn('more-vertical', 'w-3 h-3')}
           </button>
         </div>
@@ -39654,7 +42916,7 @@ function renderApp() {
 
       const addInput = document.createElement('textarea');
       addInput.rows = 2;
-      addInput.placeholder = t('notesPlaceholder') || tr({ de: 'Neue Notiz tippen (Enter zum Speichern)...', en: 'Type new note (Enter to save)...' });
+      addInput.placeholder = t('notesPlaceholder') || tr({ de: 'Neue Notiz tippen (Enter zum Speichern)...', en: 'Type new note (Enter to save)...', fr: 'Écrire une note (Entrée pour enregistrer)...', it: 'Scrivi nuova nota (Invio per salvare)...', es: 'Escribir nota (Enter para guardar)...', el: 'Πληκτρολογήστε νέα σημείωση (Enter για αποθήκευση)...' });
       addInput.className = 'w-full min-h-[44px] p-1.5 px-2.5 rounded-xl border border-amber-500/60 bg-[#0a0a0e] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-amber-400 transition cursor-text font-medium text-amber-100 shadow-inner resize-none mt-1';
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey && addInput.value.trim()) {
@@ -39727,7 +42989,7 @@ function renderApp() {
         itemDiv.onclick = () => editTermin(originalIndex);
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-14 select-none">
-            <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open' })}">
+            <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
               <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-lime-400 bg-lime-500/20 text-lime-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : 'border-[#89cff0]/40 bg-[#89cff0]/10 hover:border-lime-400 hover:bg-lime-500/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${status === 'stattgefunden' 
                   ? svgFn('check', 'w-3.5 h-3.5 text-lime-400')
@@ -39754,9 +43016,9 @@ function renderApp() {
             </div>
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-0.5 rounded-lg shadow-md z-40 backdrop-blur-md">
-            <button onclick="markTerminStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Stattgefunden', en: 'Attended' })}" class="p-1 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Stattgefunden ✅', en: 'Attended ✅' })}">${svgFn('check', 'w-3 h-3')}</button>
-            <button onclick="markTerminNichtStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Nicht stattgefunden', en: 'Did not happen' })}" class="p-1 text-rose-400 hover:text-rose-300 hover:bg-rose-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Nicht stattgefunden ❌', en: 'Did not happen ❌' })}">${svgFn('x', 'w-3 h-3')}</button>
-            <button onclick="openPostponeTerminModal(${originalIndex}, event)" aria-label="${tr({ de: 'Verschieben', en: 'Postpone' })}" class="p-1 text-sky-400 hover:text-sky-300 hover:bg-sky-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Verschieben & als verschoben markieren 🔄', en: 'Postpone & mark 🔄' })}">${svgFn('calendar-sync', 'w-3 h-3')}</button>
+            <button onclick="markTerminStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Eu lieu', it: 'Avvenuto', es: 'Asistido', el: 'Πραγματοποιήθηκε' })}" class="p-1 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Stattgefunden ✅', en: 'Attended ✅', fr: 'Eu lieu ✅', it: 'Avvenuto ✅', es: 'Asistido ✅', el: 'Πραγματοποιήθηκε ✅' })}">${svgFn('check', 'w-3 h-3')}</button>
+            <button onclick="markTerminNichtStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Nicht stattgefunden', en: 'Did not happen', fr: 'Pas eu lieu', it: 'Non avvenuto', es: 'No asistido', el: 'Δεν πραγματοποιήθηκε' })}" class="p-1 text-rose-400 hover:text-rose-300 hover:bg-rose-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Nicht stattgefunden ❌', en: 'Did not happen ❌', fr: 'Pas eu lieu ❌', it: 'Non avvenuto ❌', es: 'No asistido ❌', el: 'Δεν πραγματοποιήθηκε ❌' })}">${svgFn('x', 'w-3 h-3')}</button>
+            <button onclick="openPostponeTerminModal(${originalIndex}, event)" aria-label="${tr({ de: 'Verschieben', en: 'Postpone', fr: 'Reporter', it: 'Posticipa', es: 'Posponer', el: 'Αναβολή' })}" class="p-1 text-sky-400 hover:text-sky-300 hover:bg-sky-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Verschieben & als verschoben markieren 🔄', en: 'Postpone & mark 🔄', fr: 'Reporter & marquer 🔄', it: 'Posticipa e contrassegna 🔄', es: 'Posponer y marcar 🔄', el: 'Αναβολή & επισήμανση 🔄' })}">${svgFn('calendar-sync', 'w-3 h-3')}</button>
             <button onclick="editTermin(${originalIndex}, event)" aria-label="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}" class="p-1 text-amber-400 hover:text-amber-300 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}">${svgFn('edit-3', 'w-3 h-3')}</button>
             <button onclick="deleteTask('termine', ${originalIndex}, event)" aria-label="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}" class="p-1 text-gray-500 hover:text-red-400 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}">${svgFn('trash-2', 'w-3 h-3')}</button>
           </div>
@@ -39798,10 +43060,10 @@ function renderApp() {
           <div class="mb-2">
             <label class="text-[10px] text-gray-400 mb-0.5 block font-medium">Status:</label>
             <select id="add-termin-status" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer font-semibold">
-              <option value="open">⚪ ${tr({ de: 'Offen', en: 'Open' })}</option>
-              <option value="stattgefunden">🟢 ${tr({ de: 'Stattgefunden', en: 'Attended' })}</option>
-              <option value="nicht_stattgefunden">🔴 ${tr({ de: 'Nicht stattgefunden', en: 'Did not happen' })}</option>
-              <option value="verschoben">🔵 ${tr({ de: 'Verschoben', en: 'Postponed' })}</option>
+              <option value="open">⚪ ${tr({ de: 'Offen', en: 'Open', fr: 'Ouvert', it: 'Aperto', es: 'Abierto', el: 'Ανοιχτό' })}</option>
+              <option value="stattgefunden">🟢 ${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Eu lieu', it: 'Avvenuto', es: 'Asistido', el: 'Πραγματοποιήθηκε' })}</option>
+              <option value="nicht_stattgefunden">🔴 ${tr({ de: 'Nicht stattgefunden', en: 'Did not happen', fr: 'Pas eu lieu', it: 'Non avvenuto', es: 'No asistido', el: 'Δεν πραγματοποιήθηκε' })}</option>
+              <option value="verschoben">🔵 ${tr({ de: 'Verschoben', en: 'Postponed', fr: 'Reporté', it: 'Posticipato', es: 'Pospuesto', el: 'Αναβλήθηκε' })}</option>
             </select>
           </div>
           <div class="flex items-center gap-2 mt-1">
@@ -39865,8 +43127,11 @@ function renderApp() {
             <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
             ${recurrenceBadge}
           </div>
-          <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
-            <button onmouseenter="cancelCloseTaskMenu(); openTaskOptionsMenu('${id}', ${index}, this);" onmouseleave="scheduleCloseTaskMenu();" onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Steps, Focus, etc.)', en: 'Options (Steps, Focus, etc.)', fr: 'Options (Steps, Focus, etc.)', it: 'Opzioni (Steps, Focus, etc.)', es: 'Opciones (Steps, Focus, etc.)', el: 'Επιλογές (Steps, Focus, etc.)' })}">
+          <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
+            <button onclick="startTaskTimerByIndex('${id}', ${index}, event)" aria-label="${tr({ de: 'Timer für diese Aufgabe starten', en: 'Start timer for this task', fr: 'Lancer le minuteur', it: 'Avvia timer per questa attività', es: 'Iniciar temporizador', el: 'Εκκίνηση χρονοδιακόπτη' })}" class="p-1 px-1.5 text-amber-300 hover:text-white bg-[#1a1a28] hover:bg-amber-500/30 border border-white/20 hover:border-amber-400/50 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Fokus-Timer starten', en: 'Start focus timer', fr: 'Lancer le minuteur', it: 'Avvia timer', es: 'Iniciar temporizador', el: 'Εκκίνηση Timer' })}">
+              ${svgFn('timer', 'w-3.5 h-3.5 text-amber-400 hover:text-amber-200')}
+            </button>
+            <button onmouseenter="cancelCloseTaskMenu(); openTaskOptionsMenu('${id}', ${index}, this);" onmouseleave="scheduleCloseTaskMenu();" onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Timer, Chrono, Steps, etc.)', en: 'Options (Timer, Chrono, Steps, etc.)', fr: 'Options (Minuteur, Chrono, Steps, etc.)', it: 'Opzioni (Timer, Cronometro, Steps, etc.)', es: 'Opciones (Timer, Crono, Steps, etc.)', el: 'Επιλογές (Timer, Chrono, Steps)' })}">
               ${svgFn('more-horizontal', 'w-3.5 h-3.5 text-gray-200 hover:text-white')}
             </button>
           </div>
@@ -39904,7 +43169,7 @@ function renderApp() {
         const submitAddBtn = document.createElement('button');
         submitAddBtn.type = 'button';
         submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-lime-500/20 hover:bg-lime-500/35 text-lime-300 border border-lime-500/40 hover:border-lime-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
-        submitAddBtn.title = tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)' });
+        submitAddBtn.title = tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)', fr: 'Ajouter une tâche (Entrée)', it: 'Aggiungi attività (Invio)', es: 'Añadir tarea (Enter)', el: 'Προσθήκη εργασίας (Enter)' });
         submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-300')}`;
         submitAddBtn.onclick = () => {
           if (addInput.value.trim()) {
@@ -39926,7 +43191,7 @@ function renderApp() {
         const suggestBtn = document.createElement('button');
         suggestBtn.type = 'button';
         suggestBtn.className = 'p-1.5 px-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/30 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
-        suggestBtn.title = tr({ de: '💡 Aufgaben-Vorschläge & Inspiration', en: '💡 Task Suggestions & Inspiration' });
+        suggestBtn.title = tr({ de: '💡 Aufgaben-Vorschläge & Inspiration', en: '💡 Task Suggestions & Inspiration', fr: '💡 Suggestions de tâches & Inspiration', it: '💡 Suggerimenti per le attività & Ispirazione', es: '💡 Sugerencias de tareas e inspiración', el: '💡 Προτάσεις εργασιών & Έμπνευση' });
         suggestBtn.innerHTML = '<span>💡</span>';
         suggestBtn.onclick = (e) => {
           e.stopPropagation();
@@ -40144,11 +43409,8 @@ function handleCompleteTask(category, index, event) {
   if (typeof updateZenView === 'function') updateZenView();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
 
-  // 100% Celebration Check
-  const isDailyCat = category === 'daily' || category === 'work_focus';
-  if (isDailyCat && (curItems[category] || []).length === 0) {
-    setTimeout(() => openFeierabendModal(), 450);
-  } else if ((curItems[category] || []).length === 0) {
+  // 100% Celebration Check (Daily Review Modal nicht mehr automatisch öffnen, nur manuell oder weekly)
+  if ((curItems[category] || []).length === 0) {
     showToast(tr({
       de: `Karte "${t(category)}" zu 100% erledigt! 🌟`,
       en: `Card "${t(category)}" 100% completed! 🌟`,
@@ -40935,7 +44197,7 @@ function saveNoteDetailModal() {
       saveState();
       renderApp();
       closeNoteDetailModal();
-      showToast(tr({ de: 'Notiz gespeichert! 📝', en: 'Note saved! 📝' }));
+      showToast(tr({ de: 'Notiz gespeichert! 📝', en: 'Note saved! 📝', fr: 'Note enregistrée ! 📝', it: 'Nota salvata! 📝', es: '¡Nota guardada! 📝', el: 'Η σημείωση αποθηκεύτηκε! 📝' }));
     } else {
       deleteTask('notes', index);
       closeNoteDetailModal();
@@ -40957,7 +44219,7 @@ function copyCurrentNoteDetailText() {
   const val = textarea ? textarea.value : '';
   if (val) {
     navigator.clipboard?.writeText(val).then(() => {
-      showToast(tr({ de: 'Notiz in Zwischenablage kopiert! 📋', en: 'Note copied to clipboard! 📋' }));
+      showToast(tr({ de: 'Notiz in Zwischenablage kopiert! 📋', en: 'Note copied to clipboard! 📋', fr: 'Note copiée dans le presse-papiers ! 📋', it: 'Nota copiata negli appunti! 📋', es: '¡Nota copiada al portapapeles! 📋', el: 'Η σημείωση αντιγράφηκε στο πρόχειρο! 📋' }));
     }).catch(() => {});
   }
 }
@@ -41417,7 +44679,7 @@ function submitPostponeTermin() {
   
   if (!newDate) {
     if (typeof showToast === 'function') {
-      showToast(tr({ de: 'Bitte ein gültiges Datum wählen!', en: 'Please select a valid date!' }));
+      showToast(tr({ de: 'Bitte ein gültiges Datum wählen!', en: 'Please select a valid date!', fr: 'Veuillez sélectionner une date valide !', it: 'Seleziona una data valida!', es: '¡Seleccione una fecha válida!', el: 'Παρακαλούμε επιλέξτε έγκυρη ημερομηνία!' }));
     }
     return;
   }
@@ -41654,11 +44916,18 @@ function adjustPanelPosition(el, panelName) {
   const toolsPanel = document.getElementById('panel-header-tools');
   const isToolsSubpanel = el.classList.contains('dock-popover-panel') && el.closest('#panel-header-tools');
 
+  const zeroScrollPanels = ['panel-humor-lab', 'panel-cooking', 'panel-alarm'];
+  const isZeroScroll = zeroScrollPanels.includes(el.id);
+
   if (isToolsSubpanel && toolsPanel) {
     // Initial placement at top of tools panel, with full screen headroom
     el.style.top = '0px';
     el.style.maxHeight = `calc(100vh - 32px)`;
-    el.style.overflowY = 'auto';
+    if (isZeroScroll && vh >= 520) {
+      el.style.overflowY = 'hidden';
+    } else {
+      el.style.overflowY = 'auto';
+    }
 
     if (typeof requestAnimationFrame === 'function') {
       requestAnimationFrame(() => {
@@ -41694,9 +44963,13 @@ function adjustPanelPosition(el, panelName) {
       });
     }
   } else {
-    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, etc.)
+    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, alarm, etc.)
     el.style.maxHeight = `calc(100vh - 65px)`;
-    el.style.overflowY = 'auto';
+    if (isZeroScroll && vh >= 520) {
+      el.style.overflowY = 'hidden';
+    } else {
+      el.style.overflowY = 'auto';
+    }
     
     if (typeof requestAnimationFrame === 'function') {
       requestAnimationFrame(() => {
@@ -41841,7 +45114,9 @@ function togglePanel(panelName) {
       if (typeof switchDailyTab === 'function') switchDailyTab('shopping');
     }
     if (panelName === 'audio') {
-      const savedTab = (typeof window !== 'undefined' && window._lastActiveAudioTab) ? window._lastActiveAudioTab : 'ambient';
+      const savedTab = (typeof window !== 'undefined' && window._lastActiveAudioTab) 
+        ? window._lastActiveAudioTab 
+        : (localStorage.getItem('flow_last_audio_tab') || 'ambient');
       if (typeof switchAudioTab === 'function') switchAudioTab(savedTab);
     }
     if (panelName === 'collab-chat' && typeof CollabEngine !== 'undefined') {
@@ -43138,7 +46413,7 @@ function renderImmediateFallbackBadge() {
       imgEl.src = getWeatherIconUrl(1, isDay);
     }
     tempEl.innerText = weatherUnit === 'f' ? '68°F' : '20°';
-    badgeEl.title = `${currentWeatherLocation.name}: 20° • ${tr({ de: 'Heiter', en: 'Fair' })}`;
+    badgeEl.title = `${currentWeatherLocation.name}: 20° • ${tr({ de: 'Heiter', en: 'Fair', fr: 'Éclaircies', it: 'Sereno', es: 'Despejado', el: 'Αίθριος' })}`;
     badgeEl.classList.remove('hidden');
     badgeEl.classList.add('flex');
   }
@@ -43222,7 +46497,7 @@ function renderPinnedCitiesUI() {
         <span class="truncate font-semibold max-w-[90px]">${city.name}</span>
         <span class="font-mono text-[11px] font-bold ${isSelected ? 'text-sky-300' : 'text-gray-400 group-hover/pin:text-gray-200'}">${tempStr}</span>
         ${!isCapital && pinnedWeatherCities.length > 1 ? `
-          <button onclick="event.stopPropagation(); removePinnedCity(${idx})" class="text-gray-500 hover:text-rose-400 text-[10px] ml-0.5 opacity-60 hover:opacity-100 p-0.5 cursor-pointer" title="${tr({ de: 'Ort entfernen', en: 'Remove city' })}">✕</button>
+          <button onclick="event.stopPropagation(); removePinnedCity(${idx})" class="text-gray-500 hover:text-rose-400 text-[10px] ml-0.5 opacity-60 hover:opacity-100 p-0.5 cursor-pointer" title="${tr({ de: 'Ort entfernen', en: 'Remove city', fr: 'Supprimer la ville', it: 'Rimuovi città', es: 'Eliminar ciudad', el: 'Αφαίρεση πόλης' })}">✕</button>
         ` : ''}
       </div>
     `;
@@ -43237,7 +46512,7 @@ function renderPinnedCitiesUI() {
         </span>
         <button onclick="togglePinCurrentCity()" class="text-sky-400 hover:text-sky-300 text-[9.5px] font-semibold flex items-center gap-1 transition cursor-pointer">
           <i data-lucide="${isCurrentPinned ? 'check' : 'plus'}" class="w-3 h-3"></i>
-          <span>${isCurrentPinned ? tr({ de: 'Ort gespeichert', en: 'Saved' }) : tr({ de: '+ Ort anpinnen', en: '+ Pin city' })}</span>
+          <span>${isCurrentPinned ? tr({ de: 'Ort gespeichert', en: 'Saved', fr: 'Enregistré', it: 'Salvato', es: 'Guardado', el: 'Αποθηκεύτηκε' }) : tr({ de: '+ Ort anpinnen', en: '+ Pin city', fr: '+ Épingler la ville', it: '+ Fissa città', es: '+ Fijar ciudad', el: '+ Καρφίτσωμα πόλης' })}</span>
         </button>
       </div>
       <div class="flex flex-wrap gap-1.5 max-h-[85px] overflow-y-auto scrollbar-none py-0.5">
@@ -43496,7 +46771,7 @@ function renderWeatherData(data) {
   }
   const searchInput = document.getElementById('weather-city-input');
   if (searchInput && document.activeElement !== searchInput && !searchInput.value) {
-    searchInput.placeholder = `${currentWeatherLocation.name} (${tr({ de: 'oder Stadt suchen...', en: 'or search city...' })})`;
+    searchInput.placeholder = `${currentWeatherLocation.name} (${tr({ de: 'oder Stadt suchen...', en: 'or search city...', fr: 'ou rechercher une ville...', it: 'o cerca città...', es: 'o buscar ciudad...', el: 'ή αναζήτηση πόλης...' })})`;
   }
 
   if (typeof renderLucideIcons === 'function') {
@@ -43771,7 +47046,7 @@ function selectWeatherCity(name, country, lat, lon, isUserExplicit = true) {
 
 async function useDeviceLocationWeather(silent = false) {
   if (!silent && typeof showToast === 'function') {
-    showToast(tr({ de: 'Ermittle deinen lokalen Standort... 📍', en: 'Detecting your local location... 📍' }));
+    showToast(tr({ de: 'Ermittle deinen lokalen Standort... 📍', en: 'Detecting your local location... 📍', fr: 'Détection de votre position locale... 📍', it: 'Rilevamento della posizione locale... 📍', es: 'Detectando tu ubicación local... 📍', el: 'Εντοπισμός της τοποθεσίας σας... 📍' }));
   }
 
   const applyDetectedLocation = async (lat, lon, fallbackCity = 'Mein Standort', fallbackCountry = 'Lokal') => {
@@ -43875,7 +47150,7 @@ async function useDeviceLocationWeather(silent = false) {
         if (!ipSuccess) {
           fallbackToLanguageCapital();
           if (!silent && typeof showToast === 'function') {
-            showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.' }));
+            showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.', fr: 'Emplacement local non disponible. Affichage de la capitale de la langue.', it: 'Posizione locale non disponibile. Mostro la capitale della lingua.', es: 'Ubicación local no disponible. Mostrando la capital del idioma.', el: 'Η τοπική τοποθεσία δεν είναι διαθέσιμη. Εμφάνιση της πρωτεύουσας της γλώσσας.' }));
           }
         }
       },
@@ -43890,7 +47165,7 @@ async function useDeviceLocationWeather(silent = false) {
     if (!ipSuccess) {
       fallbackToLanguageCapital();
       if (!silent && typeof showToast === 'function') {
-        showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.' }));
+        showToast(tr({ de: 'Lokaler Standort nicht verfügbar. Zeige Hauptstadt der Sprache.', en: 'Local location not available. Showing language capital.', fr: 'Emplacement local non disponible. Affichage de la capitale de la langue.', it: 'Posizione locale non disponibile. Mostro la capitale della lingua.', es: 'Ubicación local no disponible. Mostrando la capital del idioma.', el: 'Η τοπική τοποθεσία δεν είναι διαθέσιμη. Εμφάνιση της πρωτεύουσας της γλώσσας.' }));
       }
     }
   }
@@ -44016,31 +47291,46 @@ if (typeof globalThis !== 'undefined') {
   // ============================================================================
 
   const RADIO_STATIONS = [
-    // 🇩🇪 Deutschland
+    // 🌌 1. Drone Zone & Pure Ambient (Immer an erster Stelle wie gewünscht)
+    { id: 'dronezone', name: 'SomaFM Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes (Empfehlung #1)', stream: 'https://ice1.somafm.com/dronezone-128-mp3', logo: '🧘' },
+    { id: 'spacestation', name: 'SomaFM Space Station', category: 'focus', country: 'global', flag: '🚀', desc: 'Mid- & Downtempo Space Ambient & Electronica', stream: 'https://ice1.somafm.com/spacestation-128-mp3', logo: '🛰️' },
+    { id: 'deepspaceone', name: 'SomaFM Deep Space One', category: 'focus', country: 'global', flag: '🌠', desc: 'Deep Ambient Electronic & Experimental Focus', stream: 'https://ice1.somafm.com/deepspaceone-128-mp3', logo: '🌌' },
+    { id: 'groovesalad', name: 'SomaFM Groove Salad', category: 'focus', country: 'global', flag: '🥗', desc: 'Downtempo Ambient & Chilled Electronic', stream: 'https://ice1.somafm.com/groovesalad-128-mp3', logo: '🥗' },
+    { id: 'lush', name: 'SomaFM Lush Chill', category: 'focus', country: 'global', flag: '🎧', desc: 'Sanfter Lofi Chill & Vocal Atmospheres', stream: 'https://ice1.somafm.com/lush-128-mp3', logo: '☕' },
+
+    // 🇩🇪 Freie & unabhängige Sender / Region DE (Schwerpunkt progressive/freie Medien)
+    { id: 'corax', name: 'Radio Corax (Freies Radio)', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Freies Radio Halle – Politik, Subkultur & Diskurse', stream: 'https://stream.radiocorax.de/corax.mp3', logo: '📻' },
+    { id: 'dreyeckland', name: 'Radio Dreyeckland', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Ältestes freies Radio Deutschlands (Freiburg)', stream: 'https://stream.rdl.de/rdl.mp3', logo: '🎙️' },
+    { id: 'fsk', name: 'FSK Hamburg (Freies Sender Kombinat)', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Nicht-kommerzielles emanzipatorisches Radio', stream: 'https://icecast.fsk-hh.org/fsk.mp3', logo: '📢' },
     { id: 'dlf', name: 'Deutschlandfunk', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Politik, Wissen & Kultur', stream: 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', logo: '📻' },
     { id: 'ndrinfo', name: 'NDR Info', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Das Informationsradio für den Norden', stream: 'https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', logo: '🎙️' },
     { id: 'wdr5', name: 'WDR 5', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Tiefgang, Analysen & Wissensmagazine', stream: 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', logo: '🎙️' },
     { id: 'br24', name: 'BR24 Live', category: 'news', country: 'de', flag: '🇩🇪', desc: 'In 15 Minuten umfassend informiert', stream: 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', logo: '📢' },
     { id: 'swraktuell', name: 'SWR Aktuell', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Interviews & Verkehr', stream: 'https://liveradio.swr.de/sw282p3/swraktuell/play.mp3', logo: '📻' },
 
-    // 🇦🇹 Österreich & 🇨🇭 Schweiz
+    // 🇦🇹 Österreich & 🇨🇭 Schweiz (Inkl. freie Radios)
+    { id: 'radioorange', name: 'Radio Orange 94.0 Wien', category: 'independent', country: 'at', flag: '🇦🇹', desc: 'Freies Community Radio Wien – Vielfalt & Diskurs', stream: 'https://stream.o94.at/live.mp3', logo: '🇦🇹' },
     { id: 'oe1', name: 'Ö1 Kultur & Info', category: 'news', country: 'at', flag: '🇦🇹', desc: 'Wissen, Kultur & fundierte Nachrichten', stream: 'https://orf-live.ors-shoutcast.at/oe1-q2a', logo: '🇦🇹' },
     { id: 'oe3', name: 'Hitradio Ö3', category: 'music', country: 'at', flag: '🇦🇹', desc: 'Österreichs beliebtes Hitradio', stream: 'https://orf-live.ors-shoutcast.at/oe3-q2a', logo: '🎵' },
+    { id: 'lora_ch', name: 'Radio LORA Zürich', category: 'independent', country: 'ch', flag: '🇨🇭', desc: 'Alternatives nicht-kommerzielles Radio Zürich', stream: 'https://stream.lora.ch/lora.mp3', logo: '🇨🇭' },
     { id: 'srf1', name: 'SRF 1 Info & Musik', category: 'news', country: 'ch', flag: '🇨🇭', desc: 'Schweizer Radio & Nachrichten', stream: 'https://stream.srg-ssr.ch/m/drs1/mp3_128', logo: '🇨🇭' },
     { id: 'swisspop', name: 'Radio Swiss Pop', category: 'music', country: 'ch', flag: '🇨🇭', desc: 'Entspannter Pop-Mix ohne Unterbrechung', stream: 'https://stream.srg-ssr.ch/m/rsp/mp3_128', logo: '🎶' },
 
-    // 🇬🇧 UK & 🇺🇸 USA & 🌐 Global
+    // 🇬🇧 UK & 🇺🇸 USA (Inkl. Progressive / Independent Media)
+    { id: 'democracynow', name: 'Democracy Now! Audio', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Independent global daily news with Amy Goodman', stream: 'https://traffic.libsyn.com/democracynow/dn2024-live.mp3', logo: '🗽' },
+    { id: 'wbai', name: 'Pacifica Radio WBAI New York', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Listener-sponsored progressive independent radio', stream: 'https://stream.wbai.org/live', logo: '🗽' },
     { id: 'bbcworld', name: 'BBC World Service', category: 'news', country: 'uk', flag: '🇬🇧', desc: 'Global news, reports & analysis', stream: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', logo: '🌍' },
     { id: 'npr', name: 'NPR 24/7 News', category: 'news', country: 'us', flag: '🇺🇸', desc: 'National Public Radio Live Stream', stream: 'https://npr-ice.streamguys1.com/live.mp3', logo: '🌐' },
-    { id: 'franceinfo', name: 'France Info Live', category: 'news', country: 'fr', flag: '🇫🇷', desc: 'Actualités en direct et informations 24/7', stream: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', logo: '🇫🇷' },
-    { id: 'rne', name: 'Radio Nacional España', category: 'news', country: 'es', flag: '🇪🇸', desc: 'Noticias y actualidad en directo', stream: 'https://rtvelivestream.akamaized.net/rne_r1_main.mp3', logo: '🇪🇸' },
-    { id: 'rai1', name: 'Rai Radio 1', category: 'news', country: 'it', flag: '🇮🇹', desc: 'Informazione e approfondimenti 24h', stream: 'https://icstream.rai.it/1.mp3', logo: '🇮🇹' },
-    { id: 'ertproto', name: 'ΕΡΤ Πρώτο Πρόγραμμα', category: 'news', country: 'gr', flag: '🇬🇷', desc: 'Δημόσια ραδιοφωνία & ενημέρωση', stream: 'https://radiostreaming.ert.gr/ert-proto', logo: '🏛️' },
 
-    // 🧘 Focus & Chill Soundscapes
-    { id: 'groovesalad', name: 'SomaFM Groove Salad', category: 'focus', country: 'global', flag: '🧘', desc: 'Downtempo Ambient & Chilled Electronic', stream: 'https://ice1.somafm.com/groovesalad-128-mp3', logo: '🥗' },
-    { id: 'dronezone', name: 'SomaFM Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes', stream: 'https://ice1.somafm.com/dronezone-128-mp3', logo: '🧘' },
-    { id: 'lush', name: 'SomaFM Lush Chill', category: 'focus', country: 'global', flag: '🎧', desc: 'Sanfter Lofi Chill & Vocal Atmospheres', stream: 'https://ice1.somafm.com/lush-128-mp3', logo: '☕' }
+    // 🇫🇷 Frankreich & 🇪🇸 Spanien & 🇮🇹 Italien & 🇬🇷 Griechenland
+    { id: 'radiocanut', name: 'Radio Canut Lyon', category: 'independent', country: 'fr', flag: '🇫🇷', desc: 'La plus rebelle des radios libres (Lyon)', stream: 'https://live.francra.org:8443/radiocanut', logo: '🇫🇷' },
+    { id: 'franceinfo', name: 'France Info Live', category: 'news', country: 'fr', flag: '🇫🇷', desc: 'Actualités en direct et informations 24/7', stream: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', logo: '🇫🇷' },
+    { id: 'radiovallekas', name: 'Radio Vallekas Madrid', category: 'independent', country: 'es', flag: '🇪🇸', desc: 'Radio comunitaria y libre de Madrid', stream: 'https://stream.radiovallekas.org:8000/rvk.mp3', logo: '🇪🇸' },
+    { id: 'rne', name: 'Radio Nacional España', category: 'news', country: 'es', flag: '🇪🇸', desc: 'Noticias y actualidad en directo', stream: 'https://rtvelivestream.akamaized.net/rne_r1_main.mp3', logo: '🇪🇸' },
+    { id: 'radiopopolare', name: 'Radio Popolare Milano', category: 'independent', country: 'it', flag: '🇮🇹', desc: 'Informazione libera, critica e indipendente', stream: 'https://stream.radiopopolare.it/popolare.mp3', logo: '🇮🇹' },
+    { id: 'rai1', name: 'Rai Radio 1', category: 'news', country: 'it', flag: '🇮🇹', desc: 'Informazione e approfondimenti 24h', stream: 'https://icstream.rai.it/1.mp3', logo: '🇮🇹' },
+    { id: 'stokokkino', name: '105.5 Στο Κόκκινο', category: 'independent', country: 'gr', flag: '🇬🇷', desc: 'Ενημέρωση & ανεξάρτητη δημοσιογραφία', stream: 'https://stream.stokokkino.gr/kokkino-mp3', logo: '🏛️' },
+    { id: 'ertproto', name: 'ΕΡΤ Πρώτο Πρόγραμμα', category: 'news', country: 'gr', flag: '🇬🇷', desc: 'Δημόσια ραδιοφωνία & ενημέρωση', stream: 'https://radiostreaming.ert.gr/ert-proto', logo: '🏛️' }
   ];
 
   // 1.1 SPRACHE (Ausgabesprache & automatische Übersetzung)
@@ -44085,11 +47375,16 @@ if (typeof globalThis !== 'undefined') {
     { id: 'culture', name: 'Kultur', emoji: '🎭' }
   ];
 
-  // 1.5 DIVERSE LOKALE MEDIEN & QUELLEN PRO REGION
+  // 1.5 DIVERSE LOKALE MEDIEN & QUELLEN PRO REGION (Vielfältig, inkl. freie & progressive Qualitätsquellen)
   const LOCAL_MEDIA_OUTLETS = {
     de: [
       { id: 'all', name: 'Alle Quellen (Mix)', icon: '✨' },
+      { id: 'taz', name: 'taz (die tageszeitung)', match: ['taz', 'tageszeitung'], rss: 'https://taz.de/rss.xml' },
       { id: 'tagesschau', name: 'Tagesschau', match: ['tagesschau'], rss: 'https://www.tagesschau.de/xml/rss2/' },
+      { id: 'jungewelt', name: 'junge Welt', match: ['junge welt', 'jungewelt'], rss: 'https://www.jungewelt.de/feeds/neu.rss' },
+      { id: 'nd', name: 'nd (nd.Aktuell)', match: ['nd', 'neues deutschland', 'nd-aktuell'], rss: 'https://www.nd-aktuell.de/rss/nd-aktuell.xml' },
+      { id: 'jacobin_de', name: 'Jacobin Magazin', match: ['jacobin'], rss: 'https://jacobin.de/feed' },
+      { id: 'netzpolitik', name: 'netzpolitik.org', match: ['netzpolitik'], rss: 'https://netzpolitik.org/feed/' },
       { id: 'spiegel', name: 'Spiegel Online', match: ['spiegel'], rss: 'https://www.spiegel.de/schlagzeilen/index.rss' },
       { id: 'zeit', name: 'Zeit Online', match: ['zeit'], rss: 'https://newsfeed.zeit.de/index' },
       { id: 'heise', name: 'Heise Tech', match: ['heise'], rss: 'https://www.heise.de/rss/heise-atom.xml' },
@@ -44099,8 +47394,9 @@ if (typeof globalThis !== 'undefined') {
     ],
     at: [
       { id: 'all', name: 'Alle Quellen (Mix)', icon: '✨' },
-      { id: 'orf', name: 'ORF News', match: ['orf'], rss: 'https://rss.orf.at/news.xml' },
       { id: 'standard', name: 'Der Standard', match: ['standard'], rss: 'https://www.derstandard.at/rss' },
+      { id: 'mosaik', name: 'Mosaik Blog', match: ['mosaik'], rss: 'https://mosaik-blog.at/feed/' },
+      { id: 'orf', name: 'ORF News', match: ['orf'], rss: 'https://rss.orf.at/news.xml' },
       { id: 'kurier', name: 'Kurier', match: ['kurier'], rss: 'https://kurier.at/xml/rss' },
       { id: 'presse', name: 'Die Presse', match: ['presse'], rss: 'https://www.diepresse.com/rss/Home' },
       { id: 'salzburger', name: 'Salzburger Nachrichten', match: ['salzburger', 'sn'], rss: 'https://www.sn.at/rss' },
@@ -44108,6 +47404,8 @@ if (typeof globalThis !== 'undefined') {
     ],
     ch: [
       { id: 'all', name: 'Alle Quellen (Mix)', icon: '✨' },
+      { id: 'woz', name: 'WOZ Die Wochenzeitung', match: ['woz', 'wochenzeitung'], rss: 'https://www.woz.ch/rss.xml' },
+      { id: 'infosperber', name: 'Infosperber', match: ['infosperber'], rss: 'https://www.infosperber.ch/feed/' },
       { id: 'srf', name: 'SRF News', match: ['srf'], rss: 'https://www.srf.ch/news/bnf/rss/1646' },
       { id: 'nzz', name: 'NZZ', match: ['nzz'], rss: 'https://www.nzz.ch/recent.rss' },
       { id: 'tagesanzeiger', name: 'Tages-Anzeiger', match: ['tages-anzeiger', 'tagesanzeiger'], rss: 'https://www.tagesanzeiger.ch/rss' },
@@ -44117,15 +47415,18 @@ if (typeof globalThis !== 'undefined') {
     ],
     uk: [
       { id: 'all', name: 'All Media (Mix)', icon: '✨' },
-      { id: 'bbc', name: 'BBC News', match: ['bbc'], rss: 'https://feeds.bbci.co.uk/news/rss.xml' },
       { id: 'guardian', name: 'The Guardian', match: ['guardian'], rss: 'https://www.theguardian.com/uk/rss' },
-      { id: 'reuters', name: 'Reuters UK', match: ['reuters'], rss: 'https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best' },
       { id: 'independent', name: 'The Independent', match: ['independent'], rss: 'https://www.independent.co.uk/news/uk/rss' },
+      { id: 'bbc', name: 'BBC News', match: ['bbc'], rss: 'https://feeds.bbci.co.uk/news/rss.xml' },
+      { id: 'reuters', name: 'Reuters UK', match: ['reuters'], rss: 'https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best' },
       { id: 'ft', name: 'Financial Times', match: ['ft', 'financial times'], rss: 'https://www.ft.com/rss/home/uk' },
       { id: 'positive_news', name: 'Positive News', match: ['positive'], rss: 'https://www.positive.news/feed/' }
     ],
     us: [
       { id: 'all', name: 'All Media (Mix)', icon: '✨' },
+      { id: 'democracynow', name: 'Democracy Now!', match: ['democracy now'], rss: 'https://www.democracynow.org/democracynow.rss' },
+      { id: 'intercept', name: 'The Intercept', match: ['intercept'], rss: 'https://theintercept.com/feed/?lang=en' },
+      { id: 'jacobin_us', name: 'Jacobin', match: ['jacobin'], rss: 'https://jacobin.com/feed' },
       { id: 'npr', name: 'NPR News', match: ['npr'], rss: 'https://feeds.npr.org/1001/rss.xml' },
       { id: 'techcrunch', name: 'TechCrunch', match: ['techcrunch'], rss: 'https://techcrunch.com/feed/' },
       { id: 'wired', name: 'Wired', match: ['wired'], rss: 'https://www.wired.com/feed/rss' },
@@ -45125,7 +48426,7 @@ if (typeof globalThis !== 'undefined') {
   }
 
   // Radio Audio State
-  let currentStationId = localStorage.getItem('flow_radio_station') || 'dlf';
+  let currentStationId = localStorage.getItem('flow_radio_station') || 'dronezone';
   let isRadioPlaying = false;
   let radioVolume = parseFloat(localStorage.getItem('flow_radio_vol') || '0.7');
   let radioAudioEl = null;
@@ -46148,7 +49449,7 @@ if (typeof globalThis !== 'undefined') {
         <span class="text-[10px] font-mono text-gray-400 shrink-0">${currentItem.time || 'Jetzt'}</span>
       </div>
       <div class="text-xs font-bold text-white leading-snug">${fullTitle}</div>
-      ${fullSummary ? `<div class="text-[11px] text-gray-300 line-clamp-2 leading-relaxed">${fullSummary}</div>` : ''}
+      ${fullSummary ? `<div class="text-[11px] text-gray-300 leading-relaxed max-h-[160px] overflow-y-auto pr-1 custom-scrollbar">${fullSummary}</div>` : ''}
       <div class="flex items-center justify-between pt-1 border-t border-white/5">
         ${currentItem.url && currentItem.url !== '#' ? `
           <a href="${currentItem.url}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1.5 transition border border-white/15" title="Vollständigen Artikel öffnen">
@@ -46868,11 +50169,53 @@ if (typeof globalThis !== 'undefined') {
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 
+  function getOrderedRadioStations() {
+    const reg = currentRegion || 'de';
+    const appLang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'de';
+
+    // 1. Drone Zone & Pure Ambient immer an erster Stelle
+    const ambientStations = RADIO_STATIONS.filter(s => s.category === 'focus');
+
+    // 2. Sender der ausgewählten Region
+    const regionStations = RADIO_STATIONS.filter(s => s.country === reg && s.category !== 'focus');
+
+    // 3. Sender der ausgewählten Anwendungssprache (mit Schwerpunkt freie/progressive Medien)
+    const langStations = RADIO_STATIONS.filter(s => {
+      if (s.category === 'focus') return false;
+      if (s.country === reg) return false;
+      // Sprachzugehörigkeit
+      if (appLang === 'de') return ['de', 'at', 'ch'].includes(s.country);
+      if (appLang === 'en') return ['uk', 'us'].includes(s.country);
+      if (appLang === 'fr') return s.country === 'fr';
+      if (appLang === 'es') return s.country === 'es';
+      if (appLang === 'it') return s.country === 'it';
+      if (appLang === 'el') return s.country === 'gr';
+      return false;
+    });
+
+    // 4. Verbleibende internationale Sender
+    const alreadyIncludedIds = new Set([
+      ...ambientStations.map(s => s.id),
+      ...regionStations.map(s => s.id),
+      ...langStations.map(s => s.id)
+    ]);
+    const internationalStations = RADIO_STATIONS.filter(s => !alreadyIncludedIds.has(s.id));
+
+    return [
+      ...ambientStations,
+      ...regionStations,
+      ...langStations,
+      ...internationalStations
+    ];
+  }
+
   function renderRadioPanelContent() {
     const container = document.getElementById('radio-stations-list');
     if (!container) return;
 
-    container.innerHTML = RADIO_STATIONS.map(s => {
+    const orderedStations = getOrderedRadioStations();
+
+    container.innerHTML = orderedStations.map(s => {
       const isCurrent = s.id === currentStationId;
       const isLive = isCurrent && isRadioPlaying;
 
@@ -48645,18 +51988,31 @@ const ONBOARDING_STEPS = [
   {
     title: {
       de: "100% Offline & Datenhoheit 🛡️",
-      en: "100% Offline & Data Privacy 🛡️"
+      en: "100% Offline & Data Privacy 🛡️",
+      fr: "100% Hors-ligne & Souveraineté des données 🛡️",
+      it: "100% Offline & Sovranità dei dati 🛡️",
+      es: "100% Offline & Privacidad de datos 🛡️",
+      el: "100% Εκτός σύνδεσης & Προστασία δεδομένων 🛡️"
     },
     subtitle: {
       de: "Deine Daten gehören dir — jederzeit sicher",
-      en: "Your data stays yours — always safe and resilient"
+      en: "Your data stays yours — always safe and resilient",
+      fr: "Vos données vous appartiennent — toujours en sécurité",
+      it: "I tuoi dati appartengono a te — sempre al sicuro",
+      es: "Tus datos te pertenecen — siempre seguros",
+      el: "Τα δεδομένα σας ανήκουν σε εσάς — πάντα ασφαλή"
     },
     icon: "shield-check",
     color: "from-emerald-500 to-teal-500",
     badge: "4 / 4",
+    installButton: true,
     description: {
-      de: "Alle Daten bleiben lokal auf deinem Gerät gespeichert (mit automatischer IndexedDB-Sicherung). Nutze optional den Multi-Device Cloud-Sync, um nahtlos zwischen Handy und PC zu wechseln.",
-      en: "All data stays local on your device with automatic IndexedDB resilience. Optionally enable multi-device sync to switch smoothly between mobile and desktop."
+      de: "Alle Daten bleiben lokal auf deinem Gerät gespeichert. Installiere Noodle als App auf deinem Desktop oder Smartphone für blitzschnellen Schnellzugriff ohne Adressleiste!",
+      en: "All data stays stored locally on your device. Install Noodle as an app on your desktop or smartphone for lightning-fast access without address bars!",
+      fr: "Toutes les données restent stockées localement sur votre appareil. Installez Noodle comme application sur votre ordinateur ou smartphone pour un accès ultra-rapide !",
+      it: "Tutti i dati rimangono salvati localmente sul tuo dispositivo. Installa Noodle come app su desktop o smartphone per un accesso immediato!",
+      es: "Todos los datos se guardan localmente en tu dispositivo. ¡Instala Noodle como aplicación en tu PC o smartphone para un acceso ultra rápido!",
+      el: "Όλα τα δεδομένα παραμένουν τοπικά αποθηκευμένα στη συσκευή σας. Εγκαταστήστε το Noodle ως εφαρμογή στον υπολογιστή ή το κινητό σας για άμεση πρόσβαση!"
     }
   }
 ];
@@ -48700,6 +52056,27 @@ function renderOnboardingStep() {
       actionWrap.classList.remove('hidden');
     } else {
       actionWrap.classList.add('hidden');
+    }
+  }
+
+  const installWrap = modal.querySelector('#onboarding-install-wrap');
+  if (installWrap) {
+    if (step.installButton) {
+      installWrap.classList.remove('hidden');
+      const installBtnText = installWrap.querySelector('#onboarding-install-btn-text');
+      if (installBtnText) {
+        const installLabels = {
+          de: "App jetzt installieren 📲",
+          en: "Install App now 📲",
+          fr: "Installer l'application 📲",
+          it: "Installa l'app ora 📲",
+          es: "Instalar aplicación 📲",
+          el: "Εγκατάσταση εφαρμογής 📲"
+        };
+        installBtnText.innerText = installLabels[lang] || installLabels.de;
+      }
+    } else {
+      installWrap.classList.add('hidden');
     }
   }
 
@@ -48763,6 +52140,14 @@ function startOnboardingTour() {
           <button onclick="openRoutinePresetsModal(); closeOnboardingTour();" class="w-full py-2.5 px-3 bg-gradient-to-r from-amber-500/20 to-purple-500/20 hover:from-amber-500/30 hover:to-purple-500/30 text-amber-200 border border-amber-500/40 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md cursor-pointer active:scale-95">
             <i data-lucide="sliders" class="w-3.5 h-3.5 text-amber-300"></i>
             <span>Routine-Presets & Standards wählen ✨</span>
+          </button>
+        </div>
+
+        <!-- Optional Action Trigger for PWA Install -->
+        <div id="onboarding-install-wrap" class="hidden mb-5 w-full max-w-xs">
+          <button onclick="triggerPwaInstall();" class="w-full py-2.5 px-3 bg-gradient-to-r from-emerald-500/25 to-teal-500/25 hover:from-emerald-500/40 hover:to-teal-500/40 text-emerald-200 border border-emerald-400/50 rounded-2xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md cursor-pointer active:scale-95">
+            <i data-lucide="download" class="w-3.5 h-3.5 text-emerald-300"></i>
+            <span id="onboarding-install-btn-text">App jetzt installieren 📲</span>
           </button>
         </div>
 
@@ -49685,6 +53070,12 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 (function() {
   'use strict';
 
+  function tr(obj) {
+    const l = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' && window.currentLang) || 'de');
+    if (!obj || typeof obj !== 'object') return obj || '';
+    return obj[l] || obj['en'] || obj['de'] || Object.values(obj)[0] || '';
+  }
+
   const APP_URL = (typeof window !== 'undefined' && window.location) ? (window.location.origin + window.location.pathname) : 'https://noodle.studio';
   const GITHUB_URL = 'https://github.com/CableBlues/noodle';
 
@@ -49971,13 +53362,13 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     const textarea = document.getElementById('social-caption-textarea');
     const text = textarea ? textarea.value : '';
     if (!text || !text.trim()) {
-      if (typeof showToast === 'function') showToast('⚠️ Bitte schreibe zuerst einen Text oder wähle Hashtags.');
+      if (typeof showToast === 'function') showToast(tr({ de: '⚠️ Bitte schreibe zuerst einen Text oder wähle Hashtags.', en: '⚠️ Please write a text or select hashtags first.', fr: '⚠️ Veuillez d’abord écrire un texte ou choisir des hashtags.', it: '⚠️ Scrivi prima un testo o scegli gli hashtag.', es: '⚠️ Por favor, escribe un texto o selecciona hashtags primero.', el: '⚠️ Γράψε πρώτα κείμενο ή επίλεξε hashtags.' }));
       return;
     }
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
-        if (typeof showToast === 'function') showToast('📋 Text kopiert! Öffne ' + platformKey + '...');
+        if (typeof showToast === 'function') showToast(tr({ de: '📋 Text kopiert! Öffne ' + platformKey + '...', en: '📋 Text copied! Opening ' + platformKey + '...', fr: '📋 Texte copié ! Ouverture de ' + platformKey + '...', it: '📋 Testo copiato! Apertura di ' + platformKey + '...', es: '📋 ¡Texto copiado! Abriendo ' + platformKey + '...', el: '📋 Το κείμενο αντιγράφηκε! Άνοιγμα ' + platformKey + '...' }));
         setTimeout(() => openPlatform(platformKey, 'tab'), 300);
       });
     } else {
@@ -50004,12 +53395,17 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     container.innerHTML = `
       <!-- 1. HUB HEADER -->
       <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-        <div class="relative flex flex-col items-center justify-center shrink-0">
-          <div class="relative overflow-hidden flex items-center justify-center">
-            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-xl bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-300 shadow-sm shrink-0">
+            <i data-lucide="share-2" class="w-4 h-4"></i>
           </div>
-          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-            <span class="badge-tool-subtext select-none">SOCIAL</span>
+          <div class="relative flex flex-col items-center justify-center shrink-0">
+            <div class="relative overflow-hidden flex items-center justify-center">
+              <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+            </div>
+            <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+              <span class="badge-tool-subtext select-none">SOCIAL</span>
+            </div>
           </div>
         </div>
         <button onclick="togglePanel('social')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
@@ -50023,15 +53419,15 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
         </button>
         <button onclick="SocialHubEngine.switchTab('caption')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'caption' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
           <i data-lucide="edit-3" class="w-3.5 h-3.5 ${currentHubTab === 'caption' ? 'text-pink-300' : 'text-gray-400'}"></i>
-          <span>Post Studio</span>
+          <span>${tr({ de: "Post Studio", en: "Post Studio", fr: "Studio de Posts", it: "Studio Post", es: "Estudio de Publicaciones", el: "Εργαστήριο Αναρτήσεων" })}</span>
         </button>
         <button onclick="SocialHubEngine.switchTab('saved')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'saved' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
           <i data-lucide="bookmark" class="w-3.5 h-3.5 ${currentHubTab === 'saved' ? 'text-pink-300' : 'text-gray-400'}"></i>
-          <span>Inspiration</span>
+          <span>${tr({ de: "Inspiration", en: "Inspiration", fr: "Inspiration", it: "Ispirazione", es: "Inspiración", el: "Έμπνευση" })}</span>
         </button>
         <button onclick="SocialHubEngine.switchTab('viral')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'viral' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 ${currentHubTab === 'viral' ? 'text-pink-300' : 'text-gray-400'}"></i>
-          <span>Story Cards</span>
+          <span>${tr({ de: "Story Cards", en: "Story Cards", fr: "Cartes Stories", it: "Card Storie", es: "Tarjetas de Historias", el: "Κάρτες Ιστοριών" })}</span>
         </button>
       </div>
 
@@ -50052,10 +53448,10 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
         <!-- PLATFORMS GRID -->
         <div class="space-y-1.5">
           <div class="flex items-center justify-between text-[10px] text-gray-400 font-semibold px-0.5">
-            <span>PLATTFORMEN & SCHNELLZUGRIFF</span>
+            <span>${tr({ de: "PLATTFORMEN & SCHNELLZUGRIFF", en: "PLATFORMS & QUICK ACCESS", fr: "PLATEFORMES & ACCÈS RAPIDE", it: "PIATTAFORME & ACCESSO RAPIDO", es: "PLATAFORMAS Y ACCESO RÁPIDO", el: "ΠΛΑΤΦΟΡΜΕΣ & ΓΡΗΓΟΡΗ ΠΡΟΣΒΑΣΗ" })}</span>
             <span class="text-[9px] text-pink-300/80 font-mono">1-Click Launch</span>
           </div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-h-[175px] overflow-y-auto pr-1">
             ${PLATFORMS.map(p => {
               const hasCustom = !!savedProfiles[p.key];
               return `
@@ -50071,7 +53467,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
                   </div>
                   <div class="flex items-center gap-1 pt-0.5">
                     <button onclick="SocialHubEngine.openPlatform('${p.key}', 'tab')" class="flex-1 py-1 px-1.5 bg-white/5 hover:bg-pink-500/20 text-gray-200 hover:text-pink-200 border border-white/10 hover:border-pink-500/30 rounded-lg text-[10px] font-bold transition flex items-center justify-center gap-1 cursor-pointer" title="Im Browser öffnen">
-                      <span>Öffnen ↗</span>
+                      <span>${tr({ de: "Öffnen ↗", en: "Open ↗", fr: "Ouvrir ↗", it: "Apri ↗", es: "Abrir ↗", el: "Άνοιγμα ↗" })}</span>
                     </button>
                     <button onclick="SocialHubEngine.openPlatform('${p.key}', 'window')" class="py-1 px-1.5 bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white border border-white/10 rounded-lg text-[10px] transition cursor-pointer" title="Im Mini-Fenster öffnen">
                       <span>🪟</span>
@@ -50084,17 +53480,17 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
         </div>
 
         <!-- CUSTOM PROFILE LINKS MANAGER -->
-        <div class="p-3 rounded-2xl bg-black/50 border border-white/10 space-y-2">
+        <div class="p-2.5 rounded-2xl bg-black/50 border border-white/10 space-y-1.5">
           <div class="flex items-center justify-between text-[10px] font-bold text-gray-300">
             <span class="flex items-center gap-1 text-pink-300">
               <i data-lucide="user-check" class="w-3.5 h-3.5"></i>
-              <span>Meine Profile & Kanäle verknüpfen</span>
+              <span>${tr({ de: "Meine Profile & Kanäle verknüpfen", en: "Link My Profiles & Channels", fr: "Lier mes profils & chaînes", it: "Collega i miei profili & canali", es: "Vincular mis perfiles y canales", el: "Σύνδεση των προφίλ & καναλιών μου" })}</span>
             </span>
-            <span class="text-[9px] text-gray-500 font-mono">100% lokal</span>
+            <span class="text-[9px] text-gray-500 font-mono">${tr({ de: "100% lokal", en: "100% local", fr: "100% local", it: "100% locale", es: "100% local", el: "100% τοπικό" })}</span>
           </div>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-            ${PLATFORMS.slice(0, 6).map(p => `
+            ${PLATFORMS.slice(0, 4).map(p => `
               <div class="flex items-center gap-1.5 bg-white/[0.02] p-1.5 rounded-xl border border-white/5">
                 <span class="text-[10px] font-bold text-gray-300 w-16 truncate">${p.name}:</span>
                 <input type="text" value="${savedProfiles[p.key] || ''}" placeholder="${p.placeholder}" onchange="SocialHubEngine.saveProfile('${p.key}', this.value)" class="flex-1 bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-lg px-2 py-0.5 text-[10px] text-white placeholder-gray-600 focus:outline-none transition">
@@ -50108,14 +53504,14 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     if (tab === 'caption') {
       return `
         <!-- CAPTION & POST STUDIO -->
-        <div class="space-y-2.5">
+        <div class="space-y-2">
           <!-- Textarea Area -->
           <div class="space-y-1">
             <div class="flex items-center justify-between text-[10px] text-gray-400 px-0.5">
-              <span>POST / CAPTION VERFASSEN</span>
+              <span>${tr({ de: "POST / CAPTION VERFASSEN", en: "WRITE POST / CAPTION", fr: "RÉDIGER POST / LÉGENDE", it: "SCRIVI POST / DIDASCALIA", es: "ESCRIBIR PUBLICACIÓN / TEXTO", el: "ΣΥΝΤΑΞΗ ΑΝΑΡΤΗΣΗΣ / ΛΕΖΑΝΤΑΣ" })}</span>
               <span id="social-caption-count" class="font-mono text-pink-300">0 Zeichen</span>
             </div>
-            <textarea id="social-caption-textarea" oninput="SocialHubEngine.updateCaptionStats()" rows="5" placeholder="Schreibe deinen Instagram-Post, Facebook-Beitrag oder Tweet hier..." class="w-full bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-2xl p-2.5 text-xs text-white placeholder-gray-500 focus:outline-none transition custom-scrollbar"></textarea>
+            <textarea id="social-caption-textarea" oninput="SocialHubEngine.updateCaptionStats()" rows="3" placeholder="${tr({ de: 'Schreibe deinen Instagram-Post, Facebook-Beitrag oder Tweet hier...', en: 'Write your Instagram post, Facebook update or tweet here...', fr: 'Écrivez votre post Instagram, message Facebook ou tweet ici...', it: 'Scrivi qui il tuo post Instagram, post Facebook o tweet...', es: 'Escribe tu publicación de Instagram, Facebook o tweet aquí...', el: 'Γράψε την ανάρτηση Instagram, Facebook ή tweet εδώ...' })}" class="w-full bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-2xl p-2 text-xs text-white placeholder-gray-500 focus:outline-none transition custom-scrollbar"></textarea>
           </div>
 
           <!-- Quick Emoji Toolbar -->
@@ -50127,7 +53523,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
           <!-- Hashtag Packs -->
           <div class="space-y-1">
-            <span class="text-[10px] text-gray-400 font-semibold px-0.5">HASHTAG-PACKS (1-KLICK):</span>
+            <span class="text-[10px] text-gray-400 font-semibold px-0.5">${tr({ de: "HASHTAG-PACKS (1-KLICK):", en: "HASHTAG PACKS (1-CLICK):", fr: "PACKS DE HASHTAGS (1-CLIC) :", it: "PACCHETTI HASHTAG (1-CLIC):", es: "PACKS DE HASHTAGS (1-CLIC):", el: "ΠΑΚΕΤΑ HASHTAG (1-ΚΛΙΚ):" })}</span>
             <div class="grid grid-cols-2 gap-1.5">
               ${HASHTAG_PACKS.map((pack, idx) => `
                 <button onclick="SocialHubEngine.appendHashtags(${idx})" class="p-1.5 rounded-xl bg-white/[0.03] hover:bg-pink-500/15 border border-white/5 hover:border-pink-500/30 text-left transition cursor-pointer flex flex-col">
@@ -50148,7 +53544,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
           <!-- Action Buttons (Copy & Open) -->
           <div class="space-y-1">
-            <span class="text-[10px] text-gray-400 font-semibold px-0.5">KOPIEREN & DIREKT POSTEN AUF:</span>
+            <span class="text-[10px] text-gray-400 font-semibold px-0.5">${tr({ de: "KOPIEREN & DIREKT POSTEN AUF:", en: "COPY & POST DIRECTLY TO:", fr: "COPIER & PUBLIER DIRECTEMENT SUR :", it: "COPIA & PUBBLICA DIRETTAMENTE SU:", es: "COPIAR Y PUBLICAR DIRECTAMENTE EN:", el: "ΑΝΤΙΓΡΑΦΗ & ΑΠΕΥΘΕΙΑΣ ΑΝΑΡΤΗΣΗ ΣΕ:" })}</span>
             <div class="grid grid-cols-4 gap-1.5">
               <button onclick="SocialHubEngine.copyCaptionAndOpen('instagram')" class="py-1.5 rounded-xl bg-gradient-to-r from-fuchsia-600/30 to-pink-600/30 hover:from-fuchsia-600/50 hover:to-pink-600/50 border border-pink-500/40 text-pink-200 text-xs font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
                 <i data-lucide="camera" class="w-3.5 h-3.5"></i>
@@ -50178,14 +53574,14 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
         <div class="space-y-2.5">
           <!-- Add new link box -->
           <div class="p-2.5 rounded-2xl bg-black/60 border border-white/10 space-y-2">
-            <span class="text-[10px] font-bold text-pink-300">Neuen Post / Reel-Link speichern</span>
+            <span class="text-[10px] font-bold text-pink-300">${tr({ de: "Neuen Post / Reel-Link speichern", en: "Save New Post / Reel Link", fr: "Enregistrer un nouveau lien de post / reel", it: "Salva nuovo link post / reel", es: "Guardar nuevo enlace de post / reel", el: "Αποθήκευση νέου συνδέσμου ανάρτησης / reel" })}</span>
             <div class="space-y-1.5">
               <input type="text" id="social-add-url" placeholder="Link einfügen (z.B. https://instagram.com/p/...)" class="w-full bg-white/5 border border-white/10 focus:border-pink-500/60 rounded-xl px-2.5 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none transition">
               <div class="flex gap-1.5">
                 <input type="text" id="social-add-title" placeholder="Notiz / Titel (optional)..." class="flex-1 bg-white/5 border border-white/10 focus:border-pink-500/60 rounded-xl px-2.5 py-1 text-xs text-white placeholder-gray-500 focus:outline-none transition">
                 <button onclick="const u=document.getElementById('social-add-url'); const t=document.getElementById('social-add-title'); if(u&&u.value.trim()){SocialHubEngine.addInspiration(u.value.trim(), t?t.value:''); u.value=''; if(t) t.value='';}" class="px-3 py-1 bg-pink-500 hover:bg-pink-400 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1 shrink-0">
                   <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                  <span>Merken</span>
+                  <span>${tr({ de: "Merken", en: "Save", fr: "Enregistrer", it: "Salva", es: "Guardar", el: "Αποθήκευση" })}</span>
                 </button>
               </div>
             </div>
@@ -50194,7 +53590,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
           <!-- Saved Items List -->
           <div class="space-y-1.5">
             <div class="flex items-center justify-between text-[10px] text-gray-400 font-semibold px-0.5">
-              <span>GESPEICHERTE INSPIRATIONEN (${savedInspirations.length})</span>
+              <span>${tr({ de: "GESPEICHERTE INSPIRATIONEN", en: "SAVED INSPIRATIONS", fr: "INSPIRATIONS ENREGISTRÉES", it: "ISPIRAZIONI SALVATE", es: "INSPIRACIONES GUARDADAS", el: "ΑΠΟΘΗΚΕΥΜΕΝΕΣ ΕΜΠΝΕΥΣΕΙΣ" })} (${savedInspirations.length})</span>
             </div>
             <div class="space-y-1.5 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
               ${savedInspirations.length === 0 ? '<div class="text-xs text-gray-500 text-center py-4">Noch keine Links gespeichert. Füge oben einen Post-Link ein!</div>' : ''}
@@ -50227,12 +53623,12 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
             <i data-lucide="sparkles" class="w-5 h-5 text-pink-300"></i>
           </div>
           <div>
-            <h4 class="text-xs font-bold text-white font-display">Visuelles Card & Story Studio</h4>
-            <p class="text-[10px] text-gray-400 mt-0.5">Erstelle ästhetische 9:16 Stories, 1:1 Posts und 16:9 Banner deiner Streak- und Flow-Erfolge für Instagram & LinkedIn.</p>
+            <h4 class="text-xs font-bold text-white font-display">${tr({ de: "Visuelles Card & Story Studio", en: "Visual Card & Story Studio", fr: "Studio de cartes visuelles & stories", it: "Studio grafico per card & storie", es: "Estudio de tarjetas visuales e historias", el: "Εργαστήριο οπτικών καρτών & ιστοριών" })}</h4>
+            <p class="text-[10px] text-gray-400 mt-0.5">${tr({ de: "Erstelle ästhetische 9:16 Stories, 1:1 Posts und 16:9 Banner deiner Streak- und Flow-Erfolge für Instagram & LinkedIn.", en: "Create aesthetic 9:16 stories, 1:1 posts and 16:9 banners of your streak & flow achievements.", fr: "Créez des stories 9:16 esthétiques, posts 1:1 et bannières 16:9 de vos réussites.", it: "Crea storie 9:16 estetiche, post 1:1 e banner 16:9 dei tuoi successi di streak e flow.", es: "Crea historias 9:16 estéticas, posts 1:1 y banners 16:9 de tus logros de racha y flow.", el: "Δημιούργησε αισθητικές ιστορίες 9:16, αναρτήσεις 1:1 και banner 16:9 των επιτευγμάτων σου." })}</p>
           </div>
           <button onclick="openSocialLaunchModal('card')" class="w-full py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-md active:scale-95 flex items-center justify-center gap-1.5">
             <i data-lucide="image" class="w-3.5 h-3.5"></i>
-            <span>Visual Story Studio öffnen 🚀</span>
+            <span>${tr({ de: "Visual Story Studio öffnen 🚀", en: "Open Visual Story Studio 🚀", fr: "Ouvrir le studio de stories 🚀", it: "Apri lo studio di storie 🚀", es: "Abrir estudio de historias visuales 🚀", el: "Άνοιγμα εργαστηρίου οπτικών ιστοριών 🚀" })}</span>
           </button>
         </div>
       `;
@@ -50517,17 +53913,15 @@ function openAudioStudioMode(mode) {
   if (typeof togglePanel !== 'function') return;
   const panel = document.getElementById('panel-audio');
   const isHidden = !panel || panel.classList.contains('hidden');
-  const currentTab = (typeof window !== 'undefined' && window._lastActiveAudioTab) ? window._lastActiveAudioTab : 'ambient';
+  
+  if (typeof window !== 'undefined') window._lastActiveAudioTab = mode;
+  try { localStorage.setItem('flow_last_audio_tab', mode); } catch(e) {}
 
   if (isHidden) {
     togglePanel('audio');
-    if (typeof switchAudioTab === 'function') switchAudioTab(mode);
-  } else {
-    if (currentTab === mode) {
-      togglePanel('audio');
-    } else {
-      if (typeof switchAudioTab === 'function') switchAudioTab(mode);
-    }
+  }
+  if (typeof switchAudioTab === 'function') {
+    switchAudioTab(mode);
   }
 }
 window.openAudioStudioMode = openAudioStudioMode;
@@ -50581,6 +53975,25 @@ function switchAudioTab(tabName) {
       rightMasterFader.classList.toggle('hidden', tabName === 'dj');
     }
   }
+
+  const headerIconBadge = document.getElementById('audio-studio-header-icon-badge');
+  const headerSubtextBadge = document.getElementById('audio-studio-subtext-badge');
+  if (headerIconBadge) {
+    if (tabName === 'dj') {
+      headerIconBadge.className = 'w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shadow-sm shrink-0';
+      headerIconBadge.innerHTML = '<i data-lucide="sliders" class="w-4 h-4"></i>';
+      if (headerSubtextBadge) headerSubtextBadge.textContent = 'DJ';
+    } else if (tabName === 'music') {
+      headerIconBadge.className = 'w-7 h-7 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 shadow-sm shrink-0';
+      headerIconBadge.innerHTML = '<i data-lucide="disc-3" class="w-4 h-4"></i>';
+      if (headerSubtextBadge) headerSubtextBadge.textContent = 'MUSIC';
+    } else {
+      headerIconBadge.className = 'w-7 h-7 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 shadow-sm shrink-0';
+      headerIconBadge.innerHTML = '<i data-lucide="headphones" class="w-4 h-4"></i>';
+      if (headerSubtextBadge) headerSubtextBadge.textContent = 'SOUND';
+    }
+  }
+
   if (typeof lucide !== 'undefined') lucide.createIcons();
 
   if (tabName === 'music' && typeof renderMusicPlaylist === 'function') {
@@ -51207,10 +54620,14 @@ function getSimilarTheme(current) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt'];
+var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
 
 const THEME_ALIASES = {
   'default': 'aurora',
+  'fruity': 'fruity-classic',
+  'fruityloops': 'fruity-classic',
+  'flstudio': 'fruity-studio',
+  'fl-studio': 'fruity-studio',
   'daylight': 'botanical',
   'paper': 'botanical',
   'aurora-violet': 'aurora',
@@ -51838,11 +55255,7 @@ if (typeof window !== 'undefined') {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     window.deferredPwaPrompt = e;
-    const banner = document.getElementById('pwa-install-banner');
-    if (banner && !sessionStorage.getItem('pwa_dismissed')) {
-      banner.classList.remove('hidden');
-      renderLucideIcons();
-    }
+    // Nie automatisch beim Laden anbieten! Installation wird gezielt im Onboarding und in den Optionen angeboten.
   });
 
   window.addEventListener('appinstalled', () => {
@@ -51850,7 +55263,14 @@ if (typeof window !== 'undefined') {
     const banner = document.getElementById('pwa-install-banner');
     if (banner) banner.classList.add('hidden');
     if (typeof showToast === 'function') {
-      showToast('Noodle erfolgreich installiert! 🎉');
+      showToast(tr({
+        de: 'Noodle erfolgreich installiert! 🎉',
+        en: 'Noodle successfully installed! 🎉',
+        fr: 'Noodle a été installé avec succès ! 🎉',
+        it: 'Noodle installato con successo! 🎉',
+        es: '¡Noodle se ha instalado con éxito! 🎉',
+        el: 'Το Noodle εγκαταστάθηκε επιτυχώς! 🎉'
+      }));
     }
   });
 }
@@ -51868,7 +55288,14 @@ function triggerPwaInstall() {
     });
   } else {
     if (typeof showToast === 'function') {
-      showToast('Installiere Noodle über das Browsermenü („Zum Startbildschirm hinzufügen“)');
+      showToast(tr({
+        de: 'Installiere Noodle über dein Browsermenü („Zum Startbildschirm hinzufügen“ oder „App installieren“)',
+        en: 'Install Noodle via your browser menu ("Add to Home Screen" or "Install App")',
+        fr: 'Installez Noodle via le menu de votre navigateur ("Ajouter à l\'écran d\'accueil" ou "Installer l\'application")',
+        it: 'Installa Noodle dal menu del browser ("Aggiungi a schermata Home" o "Installa app")',
+        es: 'Instala Noodle desde el menú del navegador ("Añadir a pantalla de inicio" o "Instalar app")',
+        el: 'Εγκαταστήστε το Noodle μέσω του μενού του περιηγητή ("Προσθήκη στην αρχική οθόνη" ή "Εγκατάσταση εφαρμογής")'
+      }));
     }
   }
 }

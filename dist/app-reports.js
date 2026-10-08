@@ -15,11 +15,18 @@ function adjustPanelPosition(el, panelName) {
   const toolsPanel = document.getElementById('panel-header-tools');
   const isToolsSubpanel = el.classList.contains('dock-popover-panel') && el.closest('#panel-header-tools');
 
+  const zeroScrollPanels = ['panel-humor-lab', 'panel-cooking', 'panel-alarm'];
+  const isZeroScroll = zeroScrollPanels.includes(el.id);
+
   if (isToolsSubpanel && toolsPanel) {
     // Initial placement at top of tools panel, with full screen headroom
     el.style.top = '0px';
     el.style.maxHeight = `calc(100vh - 32px)`;
-    el.style.overflowY = 'auto';
+    if (isZeroScroll && vh >= 520) {
+      el.style.overflowY = 'hidden';
+    } else {
+      el.style.overflowY = 'auto';
+    }
 
     if (typeof requestAnimationFrame === 'function') {
       requestAnimationFrame(() => {
@@ -55,9 +62,13 @@ function adjustPanelPosition(el, panelName) {
       });
     }
   } else {
-    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, etc.)
+    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, alarm, etc.)
     el.style.maxHeight = `calc(100vh - 65px)`;
-    el.style.overflowY = 'auto';
+    if (isZeroScroll && vh >= 520) {
+      el.style.overflowY = 'hidden';
+    } else {
+      el.style.overflowY = 'auto';
+    }
     
     if (typeof requestAnimationFrame === 'function') {
       requestAnimationFrame(() => {
@@ -202,7 +213,9 @@ function togglePanel(panelName) {
       if (typeof switchDailyTab === 'function') switchDailyTab('shopping');
     }
     if (panelName === 'audio') {
-      const savedTab = (typeof window !== 'undefined' && window._lastActiveAudioTab) ? window._lastActiveAudioTab : 'ambient';
+      const savedTab = (typeof window !== 'undefined' && window._lastActiveAudioTab) 
+        ? window._lastActiveAudioTab 
+        : (localStorage.getItem('flow_last_audio_tab') || 'ambient');
       if (typeof switchAudioTab === 'function') switchAudioTab(savedTab);
     }
     if (panelName === 'collab-chat' && typeof CollabEngine !== 'undefined') {

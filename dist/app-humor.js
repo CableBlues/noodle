@@ -4,6 +4,12 @@
 (function() {
   'use strict';
 
+  function tr(obj) {
+    const l = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' && window.currentLang) || 'de');
+    if (!obj || typeof obj !== 'object') return obj || '';
+    return obj[l] || obj['en'] || obj['de'] || Object.values(obj)[0] || '';
+  }
+
   let audioCtx = null;
   let activeEffects = new Set();
   let bubbleGridState = Array(20).fill(false);
@@ -23,33 +29,152 @@
   // Configurable Idle Auto-Trigger Engine (Default 3 Minuten, seltener & radikaler)
   let idleTimer = null;
   let isIdleActive = false;
+  let isScreensaverActive = false;
+  let justDismissedScreensaver = false;
 
-  const JOKES = [
-    { q: "Warum prokrastinieren Entwickler gerne?", a: "Weil morgen die Anforderungen vielleicht deprecated sind!" },
-    { q: "Wie viele Programmierer braucht man, um eine Glühbirne zu wechseln?", a: "Keinen. Das ist ein Hardware-Problem!" },
-    { q: "Was ist das ADHS-Motto beim Aufräumen?", a: "Ich bringe nur kurz dieses Buch ins Regal... und 4 Stunden später habe ich mein Zimmer umgebaut und gelernt, wie man Origami-Drachen faltet." },
-    { q: "Warum können Geister so schlecht lügen?", a: "Weil man durch sie hindurchsehen kann!" },
-    { q: "Was macht ein Informatiker im Wald?", a: "Bäume loggen!" },
-    { q: "Warum trinken Programmierer so viel Kaffee?", a: "Weil Java ohne Kaffee nur ein Script ist." },
-    { q: "Wie nennt man eine To-Do-Liste mit 40 offenen Aufgaben?", a: "Eine Wunschliste für das nächste Leben!" },
-    { q: "Was ist der Lieblingsort eines Programmierers?", a: "Das Loop!" }
+    const JOKES = [
+    {
+      q: {
+        de: "Warum prokrastinieren Entwickler gerne?",
+        en: "Why do developers like to procrastinate?",
+        fr: "Pourquoi les développeurs aiment-ils procrastiner ?",
+        it: "Perché gli sviluppatori amano procrastinare?",
+        es: "¿Por qué a los desarrolladores les gusta procrastinar?",
+        el: "Γιατί αρέσει στους προγραμματιστές να χρονοτριβούν;"
+      },
+      a: {
+        de: "Weil morgen die Anforderungen vielleicht deprecated sind!",
+        en: "Because tomorrow the requirements might be deprecated!",
+        fr: "Parce que demain les exigences seront peut-être obsolètes !",
+        it: "Perché domani i requisiti potrebbero essere deprecati!",
+        es: "¡Porque mañana los requisitos podrían estar obsoletos!",
+        el: "Επειδή αύριο οι απαιτήσεις μπορεί να είναι παρωχημένες!"
+      }
+    },
+    {
+      q: {
+        de: "Wie viele Programmierer braucht man, um eine Glühbirne zu wechseln?",
+        en: "How many programmers does it take to change a light bulb?",
+        fr: "Combien de programmeurs faut-il pour changer une ampoule ?",
+        it: "Quanti programmatori servono per cambiare una lampadina?",
+        es: "¿Cuántos programadores se necesitan para cambiar una bombilla?",
+        el: "Πόσοι προγραμματιστές χρειάζονται για να αλλάξουν μια λάμπα;"
+      },
+      a: {
+        de: "Keinen. Das ist ein Hardware-Problem!",
+        en: "None. That's a hardware problem!",
+        fr: "Aucun. C'est un problème matériel !",
+        it: "Nessuno. È un problema hardware!",
+        es: "¡Ninguno. Ese es un problema de hardware!",
+        el: "Κανένας. Αυτό είναι πρόβλημα υλικού!"
+      }
+    },
+    {
+      q: {
+        de: "Was ist das ADHS-Motto beim Aufräumen?",
+        en: "What is the ADHD motto when tidying up?",
+        fr: "Quelle est la devise TDAH pour ranger ?",
+        it: "Qual è il motto ADHD per riordinare?",
+        es: "¿Cuál es el lema del TDAH al ordenar?",
+        el: "Ποιο είναι το μότο της ΔΕΠΥ στο συμμάζεμα;"
+      },
+      a: {
+        de: "Ich bringe nur kurz dieses Buch ins Regal... und 4 Stunden später habe ich Origami gelernt.",
+        en: "I'll just put this book back... and 4 hours later I mastered origami dragons.",
+        fr: "Je range juste ce livre... et 4 heures plus tard j'ai appris l'origami.",
+        it: "Metto solo questo libro a posto... e 4 ore dopo so fare origami.",
+        es: "Solo voy a poner este libro en la estantería... y 4 horas después hago origami.",
+        el: "Απλώς θα βάλω αυτό το βιβλίο στο ράφι... και 4 ώρες μετά έμαθα οριγκάμι."
+      }
+    },
+    {
+      q: {
+        de: "Warum trinken Programmierer so viel Kaffee?",
+        en: "Why do programmers drink so much coffee?",
+        fr: "Pourquoi les développeurs boivent-ils autant de café ?",
+        it: "Perché i programmatori bevono così tanto caffè?",
+        es: "¿Por qué los programadores beben tanto café?",
+        el: "Γιατί οι προγραμματιστές πίνουν τόσο καφέ;"
+      },
+      a: {
+        de: "Weil Java ohne Kaffee nur ein Script ist.",
+        en: "Because Java without coffee is just a script.",
+        fr: "Parce que Java sans café n'est qu'un script.",
+        it: "Perché Java senza caffè è solo uno script.",
+        es: "Porque Java sin café es solo un script.",
+        el: "Επειδή η Java χωρίς καφέ είναι απλώς ένα script."
+      }
+    }
   ];
 
   const ROAST_TEMPLATES = [
-    "👀 Schau dir diese Aufgabe an... Sie wartet seit 3 Tagen darauf, dass du sie in 90 Sekunden erledigst!",
-    "🔥 Wenn Prokrastination eine olympische Disziplin wäre, hättest du gerade Gold geholt. Klick auf Start!",
-    "🧠 Dein Gehirn: 'Lass uns erst den Wikipedia-Artikel über antiken römischen Beton lesen.' — Noodle sagt: Erst 2 Minuten Fokus!",
-    "🚀 Kleine Erinnerung: Eine unvollständige Aufgabe tut dir nichts. Sie schaut dich nur vorwurfsvoll an.",
-    "☕ Espresso getrunken, Playlist an, jetzt 5 Minuten Power-Sprint — danach gibt's Belohnung!"
+    {
+      de: "👀 Schau dir diese Aufgabe an... Sie wartet seit 3 Tagen darauf, dass du sie in 90 Sekunden erledigst!",
+      en: "👀 Look at this task... It has been waiting 3 days for you to finish it in 90 seconds!",
+      fr: "👀 Regarde cette tâche... Elle t'attend depuis 3 jours pour la boucler en 90 secondes !",
+      it: "👀 Guarda questo compito... Ti aspetta da 3 giorni per finirlo in 90 secondi!",
+      es: "👀 Mira esta tarea... ¡Lleva 3 días esperando a que la termines en 90 segundos!",
+      el: "👀 Κοίτα αυτή την εργασία... Σε περιμένει 3 μέρες να την τελειώσεις σε 90 δευτερόλεπτα!"
+    },
+    {
+      de: "🔥 Wenn Prokrastination eine olympische Disziplin wäre, hättest du Gold. Klick auf Start!",
+      en: "🔥 If procrastination were an Olympic sport, you'd take gold. Click Start!",
+      fr: "🔥 Si la procrastination était un sport olympique, tu aurais l'or. Clique sur Démarrer !",
+      it: "🔥 Se la procrastinazione fosse disciplina olimpica, vinceresti l'oro. Clicca Inizia!",
+      es: "🔥 Si procrastinar fuera deporte olímpico, tendrías oro. ¡Haz clic en Iniciar!",
+      el: "🔥 Αν η αναβλητικότητα ήταν ολυμπιακό άθλημα, θα έπαιρνες χρυσό. Πάτα Έναρξη!"
+    }
   ];
 
   const DECISIONS = [
-    "🚀 Einfach anfangen (2-Minuten-Regel)!",
-    "☕ Hol dir ein Glas Wasser / Tee & los!",
-    "🎧 Lieblings-Beat anmachen & 10 Min Power!",
-    "✂️ Zerlege die Aufgabe in 3 Mini-Schritte!",
-    "🧘 3 tiefe Atemzüge & die leichteste Sache zuerst!",
-    "🎲 Würfeln: Gerade Zahl = Jetzt machen, Ungerade = 5 Min Dehnen!"
+    {
+      de: "🚀 Einfach anfangen (2-Minuten-Regel)!",
+      en: "🚀 Just start (2-minute rule)!",
+      fr: "🚀 Commencez simplement (règle des 2 minutes) !",
+      it: "🚀 Inizia e basta (regola dei 2 minuti)!",
+      es: "🚀 ¡Solo empieza (regla de los 2 minutos)!",
+      el: "🚀 Απλώς ξεκίνα (κανόνας των 2 λεπτών)!"
+    },
+    {
+      de: "☕ Hol dir ein Glas Wasser / Tee & los!",
+      en: "☕ Grab a glass of water / tea & go!",
+      fr: "☕ Prenez un verre d'eau / thé et c'est parti !",
+      it: "☕ Prendi un bicchiere d'acqua / tè e vai!",
+      es: "☕ ¡Toma un vaso de agua / té y listo!",
+      el: "☕ Πάρε ένα ποτήρι νερό / τσάι και ξεκίνα!"
+    },
+    {
+      de: "🎧 Lieblings-Beat anmachen & 10 Min Power!",
+      en: "🎧 Put on your favorite beat & 10 min power!",
+      fr: "🎧 Mettez votre musique préférée & 10 min de boost !",
+      it: "🎧 Metti il tuo brano preferito & 10 min di energia!",
+      es: "🎧 ¡Pon tu música favorita y 10 min de energía!",
+      el: "🎧 Βάλε το αγαπημένο σου κομμάτι & 10 λεπτά δυναμικά!"
+    },
+    {
+      de: "✂️ Zerlege die Aufgabe in 3 Mini-Schritte!",
+      en: "✂️ Break the task down into 3 mini steps!",
+      fr: "✂️ Découpez la tâche en 3 mini-étapes !",
+      it: "✂️ Dividi il compito in 3 mini-passaggi!",
+      es: "✂️ ¡Divide la tarea en 3 mini pasos!",
+      el: "✂️ Σπάσε την εργασία σε 3 μικρά βήματα!"
+    },
+    {
+      de: "🧘 3 tiefe Atemzüge & die leichteste Sache zuerst!",
+      en: "🧘 3 deep breaths & easiest thing first!",
+      fr: "🧘 3 respirations profondes & la chose la plus facile en premier !",
+      it: "🧘 3 respiri profondi e la cosa più facile per prima!",
+      es: "🧘 ¡3 respiraciones profundas y lo más fácil primero!",
+      el: "🧘 3 βαθιές αναπνοές & το πιο εύκολο πρώτο!"
+    },
+    {
+      de: "🎲 Würfeln: Gerade Zahl = Jetzt machen, Ungerade = 5 Min Dehnen!",
+      en: "🎲 Roll dice: Even = Do now, Odd = 5 min stretch!",
+      fr: "🎲 Lancez les dés : Pair = Faire maintenant, Impair = 5 min d'étirements !",
+      it: "🎲 Lancia il dado: Pari = Fai ora, Dispari = 5 min stretching!",
+      es: "🎲 Tira los dados: Par = Hazlo ya, Impar = ¡5 min de estiramiento!",
+      el: "🎲 Ρίξε ζάρι: Ζυγός = Κάν' το τώρα, Μονός = 5 λεπτά τέντωμα!"
+    }
   ];
 
   function getAudioContext() {
@@ -483,6 +608,7 @@
   // 2. STYLES & CHAOS FX ENGINE
   // ==========================================================================
   function injectChaosStyles() {
+    isScreensaverActive = true;
     if (document.getElementById('humor-chaos-styles')) return;
     const style = document.createElement('style');
     style.id = 'humor-chaos-styles';
@@ -658,6 +784,7 @@
   function panicReset(silent = false) {
     activeEffects.clear();
     isIdleActive = false;
+    isScreensaverActive = false;
 
     if (activeFxAnimId) {
       cancelAnimationFrame(activeFxAnimId);
@@ -693,12 +820,95 @@
     }
   }
 
-  if (typeof window !== 'undefined') {
-    window.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        panicReset();
+  function isScreensaverRunning() {
+    if (isIdleActive || isScreensaverActive) return true;
+    if (activeEffects && activeEffects.size > 0) return true;
+    if (activeFxAnimId !== null) return true;
+    if (activeFxCleanup !== null) return true;
+    if (activeCleanups && activeCleanups.length > 0) return true;
+    const overlay = document.querySelector(
+      '.noodle-fx-canvas-overlay, #humor-fx-canvas, #humor-melting-svg, .humor-crt-screen, .noodle-idle-badge, .chaos-vhs-screen, .chaos-ransomware-screen, #humor-dvd-logo, #humor-glass-canvas, #humor-pixel-canvas, #humor-timewarp-overlay'
+    );
+    if (overlay) return true;
+    if (document.body && (
+        document.body.classList.contains('chaos-jello') ||
+        document.body.classList.contains('chaos-matrix-active') ||
+        document.body.classList.contains('chaos-vortex-active') ||
+        document.body.classList.contains('chaos-earthquake') ||
+        document.body.classList.contains('chaos-upside-down') ||
+        document.body.classList.contains('chaos-nervous-twitch') ||
+        document.body.classList.contains('chaos-time-warp-active')
+    )) {
+      return true;
+    }
+    return false;
+  }
+
+  function handleScreensaverKeydown(e) {
+    if (isScreensaverRunning()) {
+      justDismissedScreensaver = true;
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
       }
-    });
+      panicReset(true);
+      if (typeof resetIdleTimer === 'function') {
+        resetIdleTimer();
+      }
+      setTimeout(() => {
+        justDismissedScreensaver = false;
+      }, 200);
+      return false;
+    }
+  }
+
+  function handleScreensaverKeyup(e) {
+    if (justDismissedScreensaver || isScreensaverRunning()) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
+      return false;
+    }
+  }
+
+  function handleScreensaverKeypress(e) {
+    if (justDismissedScreensaver || isScreensaverRunning()) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
+      return false;
+    }
+  }
+
+  function handleScreensaverPointer(e) {
+    if (isScreensaverRunning()) {
+      const target = e.target;
+      if (target && target.closest && target.closest('#panel-humor-lab')) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') {
+        e.stopImmediatePropagation();
+      }
+      panicReset(true);
+      if (typeof resetIdleTimer === 'function') {
+        resetIdleTimer();
+      }
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', handleScreensaverKeydown, { capture: true });
+    window.addEventListener('keyup', handleScreensaverKeyup, { capture: true });
+    window.addEventListener('keypress', handleScreensaverKeypress, { capture: true });
+    window.addEventListener('pointerdown', handleScreensaverPointer, { capture: true });
+    window.addEventListener('click', handleScreensaverPointer, { capture: true });
   }
 
   // ==========================================================================
@@ -2422,7 +2632,7 @@
     const roastBox = document.getElementById('humor-roast-output');
     if (!roastBox) return;
     const randomRoast = ROAST_TEMPLATES[Math.floor(Math.random() * ROAST_TEMPLATES.length)];
-    roastBox.textContent = randomRoast;
+    roastBox.textContent = typeof randomRoast === "object" ? tr(randomRoast) : randomRoast;
     roastBox.classList.add('animate-bounce');
     setTimeout(() => roastBox.classList.remove('animate-bounce'), 800);
   }
@@ -2432,7 +2642,7 @@
     const decisionBox = document.getElementById('humor-decision-output');
     if (!decisionBox) return;
     const randomDec = DECISIONS[Math.floor(Math.random() * DECISIONS.length)];
-    decisionBox.textContent = randomDec;
+    decisionBox.textContent = typeof randomDec === "object" ? tr(randomDec) : randomDec;
     decisionBox.classList.add('animate-pulse');
     setTimeout(() => decisionBox.classList.remove('animate-pulse'), 1000);
   }
@@ -2444,13 +2654,20 @@
     const qEl = document.getElementById('humor-joke-q');
     const aEl = document.getElementById('humor-joke-a');
     if (qEl && aEl) {
-      qEl.textContent = joke.q;
-      aEl.textContent = joke.a;
+      qEl.textContent = typeof joke.q === "object" ? tr(joke.q) : joke.q;
+      aEl.textContent = typeof joke.a === "object" ? tr(joke.a) : joke.a;
     }
   }
 
+  let currentHumorTab = 'chaos'; // 'chaos' | 'party' | 'sounds' | 'stress'
+
+  function switchHumorTab(tab) {
+    currentHumorTab = tab;
+    renderHumorPanel();
+  }
+
   // ==========================================================================
-  // 7. PANEL RENDERER
+  // 7. PANEL RENDERER (COMPACT & 100% VIEWPORT-FITTING WITHOUT SCROLLING)
   // ==========================================================================
   function renderHumorPanel() {
     const container = document.getElementById('panel-humor-lab-content');
@@ -2475,324 +2692,355 @@
       `;
     }
 
+    // Dynamic Tab Navigation Active Classes
+    const activeTabClasses = 'bg-gradient-to-r from-pink-600/45 to-fuchsia-600/45 text-white border-pink-400/70 shadow-[0_0_12px_rgba(236,72,153,0.35)] font-bold';
+    const inactiveTabClasses = 'text-gray-400 hover:text-pink-200 border-transparent hover:bg-white/5 font-semibold';
+
+    let tabContentHtml = '';
+
+    if (currentHumorTab === 'chaos') {
+      tabContentHtml = `
+        <!-- TAB 1: 17 RADIKALE APP-BREAKING CHAOS FX (4-COL COMPACT GRID) -->
+        <div class="space-y-1.5 animate-fade-in">
+          <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-rose-300 font-mono px-0.5">
+            <span class="flex items-center gap-1">${tr({ de: "💥 17 Radikale Glitches", en: "💥 17 Radical Glitches", fr: "💥 17 Glitches Radicaux", it: "💥 17 Glitch Radicali", es: "💥 17 Glitches Radicales", el: "💥 17 Ριζοσπαστικά Glitches" })}</span>
+            <span class="text-[8.5px] text-rose-300/90 bg-rose-500/20 px-1.5 py-0.5 rounded-md border border-rose-500/30 font-mono">${tr({ de: "100% Sicher • [ESC] heilt", en: "100% Safe • [ESC] heals", fr: "100% Sûr • [Échap] guérit", it: "100% Sicuro • [ESC] ripristina", es: "100% Seguro • [ESC] restaura", el: "100% Ασφαλές • [ESC] επαναφέρει" })}</span>
+          </div>
+          <div class="grid grid-cols-4 gap-1.5">
+            <button onclick="HumorEngine.toggleGravityCollapse()" class="p-1.5 rounded-xl bg-amber-600/15 hover:bg-amber-600/30 border border-amber-500/30 text-xs font-bold text-amber-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Karten stürzen in die Tiefe">
+              <span class="text-base group-hover:scale-110 transition-transform">🪐</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Kollaps</span>
+            </button>
+            <button onclick="HumorEngine.toggleEarthquake()" class="p-1.5 rounded-xl bg-rose-600/15 hover:bg-rose-600/30 border border-rose-500/30 text-xs font-bold text-rose-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Erdbeben 10.0 mit tektonischen Rissen">
+              <span class="text-base group-hover:scale-110 transition-transform">🌋</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Erdbeben</span>
+            </button>
+            <button onclick="HumorEngine.toggleMeltingUI()" class="p-1.5 rounded-xl bg-orange-600/15 hover:bg-orange-600/30 border border-orange-500/30 text-xs font-bold text-orange-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Flüssiges Schmelzen wie heißes Wachs">
+              <span class="text-base group-hover:scale-110 transition-transform">🫠</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Melting</span>
+            </button>
+            <button onclick="HumorEngine.toggleHackerCorruption()" class="p-1.5 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/30 border border-emerald-500/30 text-xs font-bold text-emerald-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Matrix Glitch: Alle Board-Texte werden zu Alien-Code">
+              <span class="text-base group-hover:scale-110 transition-transform">👾</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Hacker FX</span>
+            </button>
+            <button onclick="HumorEngine.toggleFleeingUI()" class="p-1.5 rounded-xl bg-cyan-600/15 hover:bg-cyan-600/30 border border-cyan-500/30 text-xs font-bold text-cyan-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Die Buttons haben Angst und fliehen vor dem Cursor">
+              <span class="text-base group-hover:scale-110 transition-transform">🧲</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Flucht</span>
+            </button>
+            <button onclick="HumorEngine.toggleUpsideDown()" class="p-1.5 rounded-xl bg-fuchsia-600/15 hover:bg-fuchsia-600/30 border border-fuchsia-500/30 text-xs font-bold text-fuchsia-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="180° Kopfstand der Dimension">
+              <span class="text-base group-hover:scale-110 transition-transform">🙃</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Kopfstand</span>
+            </button>
+            <button onclick="HumorEngine.toggleCRTBreakdown()" class="p-1.5 rounded-xl bg-violet-600/15 hover:bg-violet-600/30 border border-violet-500/30 text-xs font-bold text-violet-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Retro Röhrenfernseher-Zusammenbruch">
+              <span class="text-base group-hover:scale-110 transition-transform">📺</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">CRT Röhre</span>
+            </button>
+            <button onclick="HumorEngine.toggleGlassShatter()" class="p-1.5 rounded-xl bg-sky-600/15 hover:bg-sky-600/30 border border-sky-500/30 text-xs font-bold text-sky-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Display-Bruch: Splitterndes Glas & Risse">
+              <span class="text-base group-hover:scale-110 transition-transform">🔨</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Glasbruch</span>
+            </button>
+            <button onclick="HumorEngine.toggleDvdBounce()" class="p-1.5 rounded-xl bg-pink-600/15 hover:bg-pink-600/30 border border-pink-500/30 text-xs font-bold text-pink-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Legendärer DVD-Screensaver">
+              <span class="text-base group-hover:scale-110 transition-transform">📀</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">DVD Bouncer</span>
+            </button>
+            <button onclick="HumorEngine.toggleVHSGlitch()" class="p-1.5 rounded-xl bg-purple-600/15 hover:bg-purple-600/30 border border-purple-500/30 text-xs font-bold text-purple-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="80s VHS Tracking-Störung">
+              <span class="text-base group-hover:scale-110 transition-transform">📼</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">VHS Band</span>
+            </button>
+            <button onclick="HumorEngine.toggleNervousTwitch()" class="p-1.5 rounded-xl bg-yellow-600/15 hover:bg-yellow-600/30 border border-yellow-500/30 text-xs font-bold text-yellow-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Koffein-Schock: ADHS-Zappel-Panik">
+              <span class="text-base group-hover:scale-110 transition-transform">⚡</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Hyper-Twitch</span>
+            </button>
+            <button onclick="HumorEngine.toggleAntiGravityFloat()" class="p-1.5 rounded-xl bg-indigo-600/15 hover:bg-indigo-600/30 border border-indigo-500/30 text-xs font-bold text-indigo-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Zero-G: Aufgaben schweben ins All">
+              <span class="text-base group-hover:scale-110 transition-transform">🛸</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Zero-G</span>
+            </button>
+            <button onclick="HumorEngine.toggleBlackHoleSingularity()" class="p-1.5 rounded-xl bg-slate-600/20 hover:bg-slate-600/35 border border-slate-500/40 text-xs font-bold text-slate-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Schwarzes Loch Singularität">
+              <span class="text-base group-hover:scale-110 transition-transform">🕳️</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Black Hole</span>
+            </button>
+            <button onclick="HumorEngine.toggleTornadoSpins()" class="p-1.5 rounded-xl bg-teal-600/15 hover:bg-teal-600/30 border border-teal-500/30 text-xs font-bold text-teal-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Kategorie-5 Aufgaben-Wirbelsturm">
+              <span class="text-base group-hover:scale-110 transition-transform">🌪️</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Tornado</span>
+            </button>
+            <button onclick="HumorEngine.toggleFakeRansomware()" class="p-1.5 rounded-xl bg-red-700/20 hover:bg-red-700/35 border border-red-500/40 text-xs font-bold text-red-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Geiselnahme (Lösegeld: 1 Kaffee)">
+              <span class="text-base group-hover:scale-110 transition-transform">☠️</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">Lösegeld</span>
+            </button>
+            <button onclick="HumorEngine.togglePixelate()" class="p-1.5 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/30 border border-emerald-500/30 text-xs font-bold text-emerald-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="8-Bit GameBoy Pixel Mosaik">
+              <span class="text-base group-hover:scale-110 transition-transform">👾</span>
+              <span class="text-[10px] font-bold truncate mt-0.5">8-Bit Pixel</span>
+            </button>
+            <button onclick="HumorEngine.toggleTimeWarp()" class="col-span-4 p-1.5 rounded-xl bg-amber-600/15 hover:bg-amber-600/30 border border-amber-500/30 text-xs font-bold text-amber-200 hover:text-white transition flex items-center justify-center gap-2 text-center cursor-pointer active:scale-95 shadow-xs group" title="Rückwärts-Zeitreise: Aufgaben werden ungeschehen">
+              <span class="text-base group-hover:scale-110 transition-transform">⏳</span>
+              <span class="text-[10.5px] font-bold">Time-Warp Rückwärts-Zeitreise</span>
+              <span class="text-[9px] text-amber-300/70 font-mono">(Tasks spulen zurück)</span>
+            </button>
+          </div>
+        </div>
+      `;
+    } else if (currentHumorTab === 'party') {
+      tabContentHtml = `
+        <!-- TAB 2: PARTY ACTION & AMBIENT SCREENSAVERS (2 x 3-COL GRIDS) -->
+        <div class="space-y-2.5 animate-fade-in">
+          <!-- Visuelle Live Action FX -->
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
+              <span>${tr({ de: "⚡ Live Action & Party FX", en: "⚡ Live Action & Party FX", fr: "⚡ Action & Fête FX", it: "⚡ Azione Live & FX", es: "⚡ Acción en vivo y FX", el: "⚡ Δράση & Εφέ" })}</span>
+              <span class="text-[9px] text-gray-400">${tr({ de: "Interaktiv", en: "Interactive", fr: "Interactif", it: "Interattivo", es: "Interactivo", el: "Διαδραστικό" })}</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="HumorEngine.toggleGravity()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🪐</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Gravity Drop</span>
+              </button>
+              <button onclick="HumorEngine.toggleJello()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🍮</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Jello Wobble</span>
+              </button>
+              <button onclick="HumorEngine.toggleMatrix()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🕶️</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Matrix Rain</span>
+              </button>
+              <button onclick="HumorEngine.toggleVortex()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-indigo-300 hover:text-indigo-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🌀</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Vortex Swirl</span>
+              </button>
+              <button onclick="HumorEngine.toggleLaser()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-cyan-300 hover:text-cyan-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">⚡</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Laser DJ</span>
+              </button>
+              <button onclick="HumorEngine.toggleConfetti()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-amber-300 hover:text-amber-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🎊</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Party Blast</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Ambient & Screensaver FX -->
+          <div class="space-y-1 pt-1 border-t border-white/5">
+            <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-purple-300 font-mono px-0.5">
+              <span>${tr({ de: "🌌 Ambient Flow & Screensaver", en: "🌌 Ambient Flow & Screensaver", fr: "🌌 Ambiance & Économiseur", it: "🌌 Flusso & Salvaschermo", es: "🌌 Flujo & Salvapantallas", el: "🌌 Χαλαρή ροή & Προφύλαξη" })}</span>
+              <span class="text-[9px] text-gray-400">${tr({ de: "Ästhetik & Ruhe", en: "Aesthetics & Calm", fr: "Esthétique & Calme", it: "Estetica & Calma", es: "Estética y Calma", el: "Αισθητική & Ηρεμία" })}</span>
+            </div>
+            <div class="grid grid-cols-3 gap-1.5">
+              <button onclick="HumorEngine.toggleHyperspace()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-violet-300 hover:text-violet-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🌌</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Hyperspace</span>
+              </button>
+              <button onclick="HumorEngine.toggleBubbles()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-pink-300 hover:text-pink-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🫧</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Bubbles</span>
+              </button>
+              <button onclick="HumorEngine.toggleFireflies()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-yellow-300 hover:text-yellow-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🔥</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Fireflies</span>
+              </button>
+              <button onclick="HumorEngine.toggleSynthwave()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-rose-300 hover:text-rose-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">🌊</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Synthwave</span>
+              </button>
+              <button onclick="HumorEngine.toggleSnow()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-sky-300 hover:text-sky-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">❄️</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Winter Snow</span>
+              </button>
+              <button onclick="HumorEngine.toggleArcade()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs">
+                <span class="text-base">👾</span>
+                <span class="truncate mt-0.5 text-[10.5px]">Arcade Pixel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    } else if (currentHumorTab === 'sounds') {
+      tabContentHtml = `
+        <!-- TAB 3: SYNTHESIZER SOUNDBOARD & WITZE -->
+        <div class="space-y-2.5 animate-fade-in">
+          <div class="space-y-1">
+            <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
+              <span>${tr({ de: "🔊 12 Soundboard FX", en: "🔊 12 Soundboard FX", fr: "🔊 12 Effets sonores", it: "🔊 12 Effetti sonori", es: "🔊 12 Efectos de sonido", el: "🔊 12 Ηχητικά εφέ" })}</span>
+              <span class="text-[9px] text-gray-400">${tr({ de: "100% autark", en: "100% offline", fr: "100% autonome", it: "100% autonomo", es: "100% autónomo", el: "100% αυτόνομο" })}</span>
+            </div>
+            <div class="grid grid-cols-4 gap-1.5">
+              <button onclick="HumorEngine.playSound('airhorn')" class="p-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>📯</span>
+                <span class="truncate">Airhorn</span>
+              </button>
+              <button onclick="HumorEngine.playSound('applause')" class="p-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 text-emerald-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>👏</span>
+                <span class="truncate">Applaus</span>
+              </button>
+              <button onclick="HumorEngine.playSound('rimshot')" class="p-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 border border-purple-500/40 text-purple-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🥁</span>
+                <span class="truncate">Badum</span>
+              </button>
+              <button onclick="HumorEngine.playSound('fail')" class="p-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-rose-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🎺</span>
+                <span class="truncate">Fail</span>
+              </button>
+              <button onclick="HumorEngine.playSound('laser')" class="p-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-500/40 text-cyan-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>⚡</span>
+                <span class="truncate">Laser</span>
+              </button>
+              <button onclick="HumorEngine.playSound('coin')" class="p-1.5 rounded-xl bg-yellow-500/20 hover:bg-yellow-500/35 border border-yellow-500/40 text-yellow-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🪙</span>
+                <span class="truncate">Coin</span>
+              </button>
+              <button onclick="HumorEngine.playSound('boing')" class="p-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/35 border border-blue-500/40 text-blue-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🦘</span>
+                <span class="truncate">Boing</span>
+              </button>
+              <button onclick="HumorEngine.playSound('sparkle')" class="p-1.5 rounded-xl bg-pink-500/20 hover:bg-pink-500/35 border border-pink-500/40 text-pink-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>✨</span>
+                <span class="truncate">Level Up</span>
+              </button>
+              <button onclick="HumorEngine.playSound('buzz')" class="p-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/35 border border-rose-600/40 text-rose-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🚨</span>
+                <span class="truncate">Buzz</span>
+              </button>
+              <button onclick="HumorEngine.playSound('thud')" class="p-1.5 rounded-xl bg-amber-700/20 hover:bg-amber-700/35 border border-amber-700/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>💥</span>
+                <span class="truncate">Thud</span>
+              </button>
+              <button onclick="HumorEngine.playSound('glitch')" class="p-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/35 border border-emerald-600/40 text-emerald-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>👾</span>
+                <span class="truncate">Glitch</span>
+              </button>
+              <button onclick="HumorEngine.playSound('reboot')" class="p-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/35 border border-sky-500/40 text-sky-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-xs">
+                <span>🔄</span>
+                <span class="truncate">Reboot</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Joke Box Footer -->
+          <div class="p-2.5 rounded-2xl bg-white/[0.02] border border-white/8 space-y-1 flex items-center justify-between gap-2 shadow-xs">
+            <div class="min-w-0 flex-1">
+              <div id="humor-joke-q" class="text-xs font-bold text-white truncate">${typeof currentJoke.q === "object" ? tr(currentJoke.q) : currentJoke.q}</div>
+              <div id="humor-joke-a" class="text-[11px] text-pink-300/90 truncate">${typeof currentJoke.a === "object" ? tr(currentJoke.a) : currentJoke.a}</div>
+            </div>
+            <button onclick="HumorEngine.nextJoke()" class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-bold shrink-0 transition cursor-pointer">
+              ${tr({ de: "Nächster Witz 😂", en: "Next Joke 😂", fr: "Blague suivante 😂", it: "Prossima barzelletta 😂", es: "Siguiente chiste 😂", el: "Επόμενο αστείο 😂" })}
+            </button>
+          </div>
+        </div>
+      `;
+    } else if (currentHumorTab === 'stress') {
+      tabContentHtml = `
+        <!-- TAB 4: ANTI-STRESS (BUBBLE POPPER, IMPULS & SCREENSAVER SETTINGS) -->
+        <div class="space-y-2.5 animate-fade-in">
+          <!-- Screensaver Inactivity Banner & Config -->
+          <div class="p-2.5 rounded-2xl bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-purple-900/30 border border-purple-500/30 space-y-1.5 shadow-xs">
+            <div class="flex items-center justify-between gap-2">
+              <div class="flex items-center gap-1.5 min-w-0">
+                <span class="text-base">🌌</span>
+                <div>
+                  <div class="text-[11px] font-bold text-purple-200">${tr({ de: "Screensaver bei Inaktivität", en: "Screensaver on Inactivity", fr: "Économiseur en cas d’inactivité", it: "Salvaschermo su inattività", es: "Salvapantallas por inactividad", el: "Προφύλαξη οθόνης σε αδράνεια" })}</div>
+                  <div class="text-[8.5px] text-gray-400 font-mono">${tr({ de: "Endet lautlos bei Mausbewegung oder [ESC]", en: "Ends silently on mouse move or [ESC]", fr: "S’arrête au mouvement de la souris ou [Échap]", it: "Termina muovendo il mouse o con [ESC]", es: "Termina al mover el ratón o con [ESC]", el: "Τερματίζει με κίνηση ποντικιού ή [ESC]" })}</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button onclick="HumorEngine.startIdleFX()" class="px-2 py-0.5 rounded-lg bg-purple-500/30 hover:bg-purple-500/50 text-purple-200 text-[9.5px] font-bold border border-purple-400/40 transition cursor-pointer" title="Jetzt Screensaver testen">
+                  ${tr({ de: "✨ Testen", en: "✨ Test", fr: "✨ Tester", it: "✨ Prova", es: "✨ Probar", el: "✨ Δοκιμή" })}
+                </button>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" onchange="HumorEngine.toggleIdleSetting(this.checked)" ${idleActive ? 'checked' : ''} class="sr-only peer">
+                  <div class="w-7 h-3.5 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[1.5px] after:left-[1.5px] after:bg-white after:rounded-full after:h-2.5 after:w-3 after:transition-all peer-checked:bg-purple-500"></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between gap-1 flex-wrap pt-0.5 border-t border-white/5 text-[9px]">
+              <div class="flex items-center gap-1">
+                <span class="text-gray-400 font-mono">${tr({ de: "Ruhezeit:", en: "Idle Time:", fr: "Inactivité :", it: "Tempo attesa:", es: "Inactividad:", el: "Χρόνος ηρεμίας:" })}</span>
+                <button onclick="HumorEngine.setIdleTimeoutMinutes(2)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 2 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">2m</button>
+                <button onclick="HumorEngine.setIdleTimeoutMinutes(3)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 3 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">3m</button>
+                <button onclick="HumorEngine.setIdleTimeoutMinutes(5)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 5 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">5m</button>
+                <button onclick="HumorEngine.setIdleTimeoutMinutes(10)" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMin === 10 ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">10m</button>
+              </div>
+              <div class="flex items-center gap-1">
+                <span class="text-gray-400 font-mono">${tr({ de: "Modus:", en: "Mode:", fr: "Mode :", it: "Modalità:", es: "Modo:", el: "Λειτουργία:" })}</span>
+                <button onclick="HumorEngine.setIdleMode('mixed')" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMode === 'mixed' ? 'bg-indigo-600 text-white' : 'bg-white/5 text-gray-300'}">🎲 Mix</button>
+                <button onclick="HumorEngine.setIdleMode('radical')" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMode === 'radical' ? 'bg-rose-600 text-white' : 'bg-white/5 text-gray-300'}">💥 Glitch</button>
+                <button onclick="HumorEngine.setIdleMode('ambient')" class="px-1.5 py-0.5 rounded text-[9px] font-bold transition cursor-pointer ${idleMode === 'ambient' ? 'bg-purple-600 text-white' : 'bg-white/5 text-gray-300'}">🌌 Sanft</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bubble Wrap Popper & Decision Spinner -->
+          <div class="grid grid-cols-2 gap-2">
+            <!-- Bubble Wrap Popper -->
+            <div class="p-2 rounded-2xl bg-pink-500/5 border border-pink-500/20 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-[9.5px] font-bold text-pink-300 uppercase tracking-wider font-mono">${tr({ de: "🫧 Luftpolsterfolie", en: "🫧 Bubble Wrap", fr: "🫧 Papier bulle", it: "🫧 Pluriball", es: "🫧 Plástico de burbujas", el: "🫧 Φυσαλίδες περιτυλίγματος" })}</span>
+                <button onclick="HumorEngine.resetBubbles()" class="text-[8.5px] text-pink-300 hover:text-pink-100 font-bold underline cursor-pointer">${tr({ de: "Neu", en: "Reset", fr: "Réinitialiser", it: "Nuovo", es: "Nuevo", el: "Νέο" })}</button>
+              </div>
+              <div class="flex flex-wrap gap-1 items-center justify-center max-h-[52px] overflow-hidden">
+                ${bubblesHtml}
+              </div>
+            </div>
+
+            <!-- Impuls & Würfel -->
+            <div class="p-2 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1 flex flex-col justify-between">
+              <div class="flex items-center justify-between">
+                <span class="text-[9.5px] font-bold text-purple-300 uppercase tracking-wider font-mono">${tr({ de: "🎯 Impuls & Würfel", en: "🎯 Impulse & Dice", fr: "🎯 Impulsion & Dé", it: "🎯 Impulso & Dadi", es: "🎯 Impulso y Dados", el: "🎯 Παρόρμηση & Ζάρι" })}</span>
+                <button onclick="HumorEngine.spinDecision()" class="px-1.5 py-0.5 rounded-lg bg-purple-500/30 hover:bg-purple-500/40 text-purple-200 text-[9.5px] font-bold transition cursor-pointer">
+                  ${tr({ de: "Würfeln 🎲", en: "Roll 🎲", fr: "Lancer 🎲", it: "Lancia 🎲", es: "Tirar 🎲", el: "Ζάρι 🎲" })}
+                </button>
+              </div>
+              <div id="humor-decision-output" class="p-1 rounded-xl bg-black/40 border border-purple-500/20 text-[10.5px] text-purple-200 font-medium min-h-[38px] flex items-center justify-center text-center">
+                ${tr({ de: "Klicke auf Würfeln für einen Impuls!", en: "Click roll for a quick nudge!", fr: "Cliquez sur lancer pour une impulsion !", it: "Clicca per lanciare un impulso!", es: "¡Haz clic para obtener un impulso!", el: "Κάνε κλικ στο ζάρι για ώθηση!" })}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
     container.innerHTML = `
       <!-- TOP HEADER -->
-      <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-        <div class="relative flex flex-col items-center justify-center shrink-0">
-          <div class="relative overflow-hidden flex items-center justify-center">
-            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+      <div class="flex items-center justify-between border-b border-white/10 pb-2">
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-xl bg-fuchsia-500/20 border border-fuchsia-400/40 flex items-center justify-center text-fuchsia-300 shadow-sm shrink-0">
+            <i data-lucide="smile" class="w-4 h-4"></i>
           </div>
-          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-            <span class="badge-tool-subtext select-none">HUMOR</span>
+          <div class="relative flex flex-col items-center justify-center shrink-0">
+            <div class="relative overflow-hidden flex items-center justify-center">
+              <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+            </div>
+            <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+              <span class="badge-tool-subtext select-none">HUMOR</span>
+            </div>
           </div>
         </div>
         <div class="flex items-center gap-1">
           <button onclick="HumorEngine.panicReset()" class="px-2 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[10px] font-bold transition cursor-pointer" title="Notfall-Reset: Alle Effekte sofort beenden">
-            🛡️ Panic Reset [ESC]
+            ${tr({ de: "🛡️ Panic Reset [ESC]", en: "🛡️ Panic Reset [ESC]", fr: "🛡️ Reset Panique [Échap]", it: "🛡️ Reset Panico [ESC]", es: "🛡️ Reinicio Pánico [ESC]", el: "🛡️ Επαναφορά Πανικού [ESC]" })}
           </button>
           <button onclick="togglePanel('humor-lab')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
         </div>
       </div>
 
-      <!-- 1. CUSTOMIZABLE SCREENSAVER BANNER -->
-      <div class="p-2.5 rounded-2xl bg-gradient-to-r from-purple-900/30 via-indigo-900/20 to-purple-900/30 border border-purple-500/30 space-y-2 shadow-sm">
-        <div class="flex items-center justify-between gap-2">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="text-lg">🌌</span>
-            <div>
-              <div class="text-xs font-bold text-purple-200">Inaktivitäts-Screensaver</div>
-              <div class="text-[9px] text-gray-400 font-mono">Endet sofort & lautlos bei jeder Bewegung oder [ESC]</div>
-            </div>
-          </div>
-          <div class="flex items-center gap-1.5 shrink-0">
-            <button onclick="HumorEngine.startIdleFX()" class="px-2.5 py-1 rounded-xl bg-purple-500/30 hover:bg-purple-500/50 text-purple-200 text-[10px] font-bold border border-purple-400/40 transition cursor-pointer" title="Jetzt Screensaver testen">
-              ✨ Testen
-            </button>
-            <label class="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" onchange="HumorEngine.toggleIdleSetting(this.checked)" ${idleActive ? 'checked' : ''} class="sr-only peer">
-              <div class="w-8 h-4 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-3 after:w-3.5 after:transition-all peer-checked:bg-purple-500"></div>
-            </label>
-          </div>
-        </div>
-
-        <!-- Timeout Pills: Seltener als 1 Minute (Standard 3 Min) -->
-        <div class="flex items-center gap-1.5 flex-wrap pt-0.5">
-          <span class="text-[9.5px] text-gray-400 font-mono">Ruhezeit:</span>
-          <button onclick="HumorEngine.setIdleTimeoutMinutes(2)" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMin === 2 ? 'bg-purple-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">2 Min</button>
-          <button onclick="HumorEngine.setIdleTimeoutMinutes(3)" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMin === 3 ? 'bg-purple-600 text-white shadow-sm ring-1 ring-purple-400/60' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">3 Min (Std)</button>
-          <button onclick="HumorEngine.setIdleTimeoutMinutes(5)" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMin === 5 ? 'bg-purple-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">5 Min</button>
-          <button onclick="HumorEngine.setIdleTimeoutMinutes(10)" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMin === 10 ? 'bg-purple-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">10 Min</button>
-        </div>
-
-        <!-- Mode Pills: Radikal vs Ambient vs Gemischt -->
-        <div class="flex items-center gap-1.5 flex-wrap pt-1 border-t border-white/5">
-          <span class="text-[9.5px] text-gray-400 font-mono">Effekt-Pool:</span>
-          <button onclick="HumorEngine.setIdleMode('mixed')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMode === 'mixed' ? 'bg-indigo-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">🎲 Gemischt</button>
-          <button onclick="HumorEngine.setIdleMode('radical')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMode === 'radical' ? 'bg-rose-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">💥 Radikal</button>
-          <button onclick="HumorEngine.setIdleMode('ambient')" class="px-2 py-0.5 rounded-lg text-[10px] font-bold transition cursor-pointer ${idleMode === 'ambient' ? 'bg-purple-600 text-white shadow-sm' : 'bg-white/5 hover:bg-white/10 text-gray-300'}">🌌 Sanft</button>
-        </div>
-      </div>
-
-      <!-- 2. RADIKALE APP-BREAKING CHAOS FX SECTION -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-rose-300 font-mono px-0.5">
-          <span>💥 Radikale Glitches & Zerstörung</span>
-          <span class="text-[9px] text-rose-300/90 bg-rose-500/20 px-1.5 py-0.5 rounded-md border border-rose-500/30">100% Sicher • ESC heilt</span>
-        </div>
-        <p class="text-[9.5px] text-gray-400 px-0.5 leading-snug">
-          Lässt die App vorübergehend crashen, schmelzen oder kollabieren – sofortige Heilung bei Bewegung oder [ESC]!
-        </p>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
-          <button onclick="HumorEngine.toggleGravityCollapse()" class="p-2 rounded-xl bg-amber-600/15 hover:bg-amber-600/30 border border-amber-500/30 text-xs font-bold text-amber-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Schwerkraft-Zusammenbruch: Karten fallen in die Tiefe">
-            <span class="text-base group-hover:scale-110 transition-transform">🪐</span>
-            <span class="truncate mt-0.5 font-bold">Kollaps</span>
-            <span class="text-[8.5px] text-amber-300/70 font-mono truncate">Karten stürzen ab</span>
-          </button>
-          <button onclick="HumorEngine.toggleEarthquake()" class="p-2 rounded-xl bg-rose-600/15 hover:bg-rose-600/30 border border-rose-500/30 text-xs font-bold text-rose-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Erdbeben 10.0 mit tektonischen Rissen">
-            <span class="text-base group-hover:scale-110 transition-transform">🌋</span>
-            <span class="truncate mt-0.5 font-bold">Erdbeben 10.0</span>
-            <span class="text-[8.5px] text-rose-300/70 font-mono truncate">Risse & Beben</span>
-          </button>
-          <button onclick="HumorEngine.toggleMeltingUI()" class="p-2 rounded-xl bg-orange-600/15 hover:bg-orange-600/30 border border-orange-500/30 text-xs font-bold text-orange-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Flüssiges Schmelzen wie heißes Wachs">
-            <span class="text-base group-hover:scale-110 transition-transform">🫠</span>
-            <span class="truncate mt-0.5 font-bold">Melting UI</span>
-            <span class="text-[8.5px] text-orange-300/70 font-mono truncate">Flüssig schmelzen</span>
-          </button>
-          <button onclick="HumorEngine.toggleHackerCorruption()" class="p-2 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/30 border border-emerald-500/30 text-xs font-bold text-emerald-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Matrix Glitch: Alle Board-Texte werden zu Alien-Code">
-            <span class="text-base group-hover:scale-110 transition-transform">👾</span>
-            <span class="truncate mt-0.5 font-bold">Hacker Glitch</span>
-            <span class="text-[8.5px] text-emerald-300/70 font-mono truncate">Code-Scramble</span>
-          </button>
-          <button onclick="HumorEngine.toggleFleeingUI()" class="p-2 rounded-xl bg-cyan-600/15 hover:bg-cyan-600/30 border border-cyan-500/30 text-xs font-bold text-cyan-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Die Buttons haben Angst und fliehen vor dem Cursor">
-            <span class="text-base group-hover:scale-110 transition-transform">🧲</span>
-            <span class="truncate mt-0.5 font-bold">Fliehende UI</span>
-            <span class="text-[8.5px] text-cyan-300/70 font-mono truncate">Flieht vor Maus</span>
-          </button>
-          <button onclick="HumorEngine.toggleUpsideDown()" class="p-2 rounded-xl bg-fuchsia-600/15 hover:bg-fuchsia-600/30 border border-fuchsia-500/30 text-xs font-bold text-fuchsia-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="180° Kopfstand der Dimension">
-            <span class="text-base group-hover:scale-110 transition-transform">🙃</span>
-            <span class="truncate mt-0.5 font-bold">Upside-Down</span>
-            <span class="text-[8.5px] text-fuchsia-300/70 font-mono truncate">180° Kopfstand</span>
-          </button>
-          <button onclick="HumorEngine.toggleCRTBreakdown()" class="p-2 rounded-xl bg-violet-600/15 hover:bg-violet-600/30 border border-violet-500/30 text-xs font-bold text-violet-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Retro Röhrenfernseher-Zusammenbruch">
-            <span class="text-base group-hover:scale-110 transition-transform">📺</span>
-            <span class="truncate mt-0.5 font-bold">CRT Breakdown</span>
-            <span class="text-[8.5px] text-violet-300/70 font-mono truncate">Röhren-Kollaps</span>
-          </button>
-          <button onclick="HumorEngine.toggleGlassShatter()" class="p-2 rounded-xl bg-sky-600/15 hover:bg-sky-600/30 border border-sky-500/30 text-xs font-bold text-sky-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Display-Bruch: Splitterndes Glas & Risse">
-            <span class="text-base group-hover:scale-110 transition-transform">🔨</span>
-            <span class="truncate mt-0.5 font-bold">Glasbruch</span>
-            <span class="text-[8.5px] text-sky-300/70 font-mono truncate">Display splittert</span>
-          </button>
-          <button onclick="HumorEngine.toggleDvdBounce()" class="p-2 rounded-xl bg-pink-600/15 hover:bg-pink-600/30 border border-pink-500/30 text-xs font-bold text-pink-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Legendärer DVD-Screensaver mit Noodle Logo">
-            <span class="text-base group-hover:scale-110 transition-transform">📀</span>
-            <span class="truncate mt-0.5 font-bold">DVD Bouncing</span>
-            <span class="text-[8.5px] text-pink-300/70 font-mono truncate">Trifft die Ecke?</span>
-          </button>
-          <button onclick="HumorEngine.toggleVHSGlitch()" class="p-2 rounded-xl bg-purple-600/15 hover:bg-purple-600/30 border border-purple-500/30 text-xs font-bold text-purple-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="80s VHS Tracking-Störung & Bandsalat">
-            <span class="text-base group-hover:scale-110 transition-transform">📼</span>
-            <span class="truncate mt-0.5 font-bold">VHS Glitch</span>
-            <span class="text-[8.5px] text-purple-300/70 font-mono truncate">Tracking-Salat</span>
-          </button>
-          <button onclick="HumorEngine.toggleNervousTwitch()" class="p-2 rounded-xl bg-yellow-600/15 hover:bg-yellow-600/30 border border-yellow-500/30 text-xs font-bold text-yellow-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Koffein-Schock: Die UI hat ADHS-Zappel-Panik">
-            <span class="text-base group-hover:scale-110 transition-transform">⚡</span>
-            <span class="truncate mt-0.5 font-bold">Hyper-Zappeln</span>
-            <span class="text-[8.5px] text-yellow-300/70 font-mono truncate">Koffein-Schock</span>
-          </button>
-          <button onclick="HumorEngine.toggleAntiGravityFloat()" class="p-2 rounded-xl bg-indigo-600/15 hover:bg-indigo-600/30 border border-indigo-500/30 text-xs font-bold text-indigo-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Zero-G: Aufgaben schweben schwerelos ins All">
-            <span class="text-base group-hover:scale-110 transition-transform">🛸</span>
-            <span class="truncate mt-0.5 font-bold">Anti-Gravity</span>
-            <span class="text-[8.5px] text-indigo-300/70 font-mono truncate">Schwebt ins All</span>
-          </button>
-          <button onclick="HumorEngine.toggleBlackHoleSingularity()" class="p-2 rounded-xl bg-slate-600/20 hover:bg-slate-600/35 border border-slate-500/40 text-xs font-bold text-slate-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Schwarzes Loch: Zieht das gesamte Board ins Zentrum">
-            <span class="text-base group-hover:scale-110 transition-transform">🕳️</span>
-            <span class="truncate mt-0.5 font-bold">Schwarzes Loch</span>
-            <span class="text-[8.5px] text-slate-300/70 font-mono truncate">Singularität</span>
-          </button>
-          <button onclick="HumorEngine.toggleTornadoSpins()" class="p-2 rounded-xl bg-teal-600/15 hover:bg-teal-600/30 border border-teal-500/30 text-xs font-bold text-teal-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Kategorie-5 Aufgaben-Tornado wirbelt alles herum">
-            <span class="text-base group-hover:scale-110 transition-transform">🌪️</span>
-            <span class="truncate mt-0.5 font-bold">To-Do Tornado</span>
-            <span class="text-[8.5px] text-teal-300/70 font-mono truncate">Wirbelsturm</span>
-          </button>
-          <button onclick="HumorEngine.toggleFakeRansomware()" class="p-2 rounded-xl bg-red-700/20 hover:bg-red-700/35 border border-red-500/40 text-xs font-bold text-red-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Geiselnahme deiner To-Dos (Lösegeld: 1 Kaffee)">
-            <span class="text-base group-hover:scale-110 transition-transform">☠️</span>
-            <span class="truncate mt-0.5 font-bold">Ransomware</span>
-            <span class="text-[8.5px] text-red-300/70 font-mono truncate">Kaffee-Lösegeld</span>
-          </button>
-          <button onclick="HumorEngine.togglePixelate()" class="p-2 rounded-xl bg-emerald-600/15 hover:bg-emerald-600/30 border border-emerald-500/30 text-xs font-bold text-emerald-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="8-Bit GameBoy Pixelation & Mosaik-Kollaps">
-            <span class="text-base group-hover:scale-110 transition-transform">👾</span>
-            <span class="truncate mt-0.5 font-bold">8-Bit Mosaik</span>
-            <span class="text-[8.5px] text-emerald-300/70 font-mono truncate">GameBoy Pixel</span>
-          </button>
-          <button onclick="HumorEngine.toggleTimeWarp()" class="p-2 rounded-xl bg-amber-600/15 hover:bg-amber-600/30 border border-amber-500/30 text-xs font-bold text-amber-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm group" title="Rückwärts-Zeitreise: Aufgaben werden ungeschehen">
-            <span class="text-base group-hover:scale-110 transition-transform">⏳</span>
-            <span class="truncate mt-0.5 font-bold">Time-Warp</span>
-            <span class="text-[8.5px] text-amber-300/70 font-mono truncate">Zeitreise zurück</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 3. CHAOS & LIVE ACTION FX -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
-          <span>⚡ Visuelle Action & Party FX</span>
-          <span class="text-[9px] text-gray-400">Interaktiv</span>
-        </div>
-        <div class="grid grid-cols-3 gap-1.5">
-          <button onclick="HumorEngine.toggleGravity()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Schwerkraft-Drop & Bounce">
-            <span class="text-base">🪐</span>
-            <span class="truncate mt-0.5">Gravity Drop</span>
-          </button>
-          <button onclick="HumorEngine.toggleJello()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-gray-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Wobble Jello Wellen">
-            <span class="text-base">🍮</span>
-            <span class="truncate mt-0.5">Jello Wobble</span>
-          </button>
-          <button onclick="HumorEngine.toggleMatrix()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Cyberpunk Code Regen">
-            <span class="text-base">🕶️</span>
-            <span class="truncate mt-0.5">Matrix Rain</span>
-          </button>
-          <button onclick="HumorEngine.toggleVortex()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-indigo-300 hover:text-indigo-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Schwarzes Loch Wirbel">
-            <span class="text-base">🌀</span>
-            <span class="truncate mt-0.5">Vortex Swirl</span>
-          </button>
-          <button onclick="HumorEngine.toggleLaser()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-cyan-300 hover:text-cyan-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Neon DJ Laser Scanner">
-            <span class="text-base">⚡</span>
-            <span class="truncate mt-0.5">Laser DJ</span>
-          </button>
-          <button onclick="HumorEngine.toggleConfetti()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-amber-300 hover:text-amber-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Konfetti Party Explosion">
-            <span class="text-base">🎊</span>
-            <span class="truncate mt-0.5">Party Blast</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 4. AMBIENT & IDLE FLOW SCREENSAVERS -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-purple-300 font-mono px-0.5">
-          <span>🌌 Ambient & Screensaver FX</span>
-          <span class="text-[9px] text-gray-400">Ruhe & Ästhetik</span>
-        </div>
-        <div class="grid grid-cols-3 gap-1.5">
-          <button onclick="HumorEngine.toggleHyperspace()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-violet-300 hover:text-violet-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="3D Hyperspace Sternenflug">
-            <span class="text-base">🌌</span>
-            <span class="truncate mt-0.5">Hyperspace</span>
-          </button>
-          <button onclick="HumorEngine.toggleBubbles()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-pink-300 hover:text-pink-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Schwebende Seifenblasen">
-            <span class="text-base">🫧</span>
-            <span class="truncate mt-0.5">Bubbles</span>
-          </button>
-          <button onclick="HumorEngine.toggleFireflies()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-yellow-300 hover:text-yellow-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Glühende Glühwürmchen">
-            <span class="text-base">🔥</span>
-            <span class="truncate mt-0.5">Fireflies</span>
-          </button>
-          <button onclick="HumorEngine.toggleSynthwave()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-rose-300 hover:text-rose-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="80s Retro Synthwave Gitter">
-            <span class="text-base">🌊</span>
-            <span class="truncate mt-0.5">Synthwave</span>
-          </button>
-          <button onclick="HumorEngine.toggleSnow()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-sky-300 hover:text-sky-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Sanfter Schneefall">
-            <span class="text-base">❄️</span>
-            <span class="truncate mt-0.5">Winter Snow</span>
-          </button>
-          <button onclick="HumorEngine.toggleArcade()" class="p-2 rounded-xl bg-white/[0.04] hover:bg-white/[0.1] border border-white/10 text-xs font-bold text-emerald-300 hover:text-emerald-100 transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-sm" title="Retro 8-Bit Pixel Items">
-            <span class="text-base">👾</span>
-            <span class="truncate mt-0.5">Arcade Pixel</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 5. SOUNDBOARD BUTTONS -->
-      <div class="space-y-1.5">
-        <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-pink-300 font-mono px-0.5">
-          <span>🔊 Synthesizer Soundboard</span>
-        </div>
-        <div class="grid grid-cols-4 gap-1.5">
-          <button onclick="HumorEngine.playSound('airhorn')" class="p-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-500/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>📯</span>
-            <span class="truncate">Airhorn</span>
-          </button>
-          <button onclick="HumorEngine.playSound('applause')" class="p-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 border border-emerald-500/40 text-emerald-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>👏</span>
-            <span class="truncate">Applaus</span>
-          </button>
-          <button onclick="HumorEngine.playSound('rimshot')" class="p-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 border border-purple-500/40 text-purple-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🥁</span>
-            <span class="truncate">Badum</span>
-          </button>
-          <button onclick="HumorEngine.playSound('fail')" class="p-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-rose-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🎺</span>
-            <span class="truncate">Fail</span>
-          </button>
-          <button onclick="HumorEngine.playSound('laser')" class="p-1.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-500/40 text-cyan-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>⚡</span>
-            <span class="truncate">Laser</span>
-          </button>
-          <button onclick="HumorEngine.playSound('coin')" class="p-1.5 rounded-xl bg-yellow-500/20 hover:bg-yellow-500/35 border border-yellow-500/40 text-yellow-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🪙</span>
-            <span class="truncate">Coin</span>
-          </button>
-          <button onclick="HumorEngine.playSound('boing')" class="p-1.5 rounded-xl bg-blue-500/20 hover:bg-blue-500/35 border border-blue-500/40 text-blue-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🦘</span>
-            <span class="truncate">Boing</span>
-          </button>
-          <button onclick="HumorEngine.playSound('sparkle')" class="p-1.5 rounded-xl bg-pink-500/20 hover:bg-pink-500/35 border border-pink-500/40 text-pink-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>✨</span>
-            <span class="truncate">Level Up</span>
-          </button>
-          <button onclick="HumorEngine.playSound('buzz')" class="p-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/35 border border-rose-600/40 text-rose-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🚨</span>
-            <span class="truncate">Buzz</span>
-          </button>
-          <button onclick="HumorEngine.playSound('thud')" class="p-1.5 rounded-xl bg-amber-700/20 hover:bg-amber-700/35 border border-amber-700/40 text-amber-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>💥</span>
-            <span class="truncate">Thud</span>
-          </button>
-          <button onclick="HumorEngine.playSound('glitch')" class="p-1.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600/35 border border-emerald-600/40 text-emerald-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>👾</span>
-            <span class="truncate">Glitch</span>
-          </button>
-          <button onclick="HumorEngine.playSound('reboot')" class="p-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/35 border border-sky-500/40 text-sky-200 text-[11px] font-bold transition flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-sm">
-            <span>🔄</span>
-            <span class="truncate">Reboot</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- 6. BUBBLE WRAP POPPER & DECISION SPINNER -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-        <!-- Bubble Wrap Popper -->
-        <div class="p-2.5 rounded-2xl bg-pink-500/5 border border-pink-500/20 space-y-1.5">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold text-pink-300 uppercase tracking-wider font-mono">🫧 Luftpolsterfolie</span>
-            <button onclick="HumorEngine.resetBubbles()" class="text-[9px] text-pink-300 hover:text-pink-100 font-bold underline cursor-pointer">Neu</button>
-          </div>
-          <div class="flex flex-wrap gap-1 items-center justify-center max-h-[64px] overflow-hidden">
-            ${bubblesHtml}
-          </div>
-        </div>
-
-        <!-- Task Roaster / Decision -->
-        <div class="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-1.5 flex flex-col justify-between">
-          <div class="flex items-center justify-between">
-            <span class="text-[10px] font-bold text-purple-300 uppercase tracking-wider font-mono">🎯 Impuls & Würfel</span>
-            <button onclick="HumorEngine.spinDecision()" class="px-2 py-0.5 rounded-lg bg-purple-500/30 hover:bg-purple-500/40 text-purple-200 text-[10px] font-bold transition cursor-pointer">
-              Würfeln 🎲
-            </button>
-          </div>
-          <div id="humor-decision-output" class="p-1.5 rounded-xl bg-black/40 border border-purple-500/20 text-[11px] text-purple-200 font-medium min-h-[34px] flex items-center justify-center text-center">
-            Klicke auf Würfeln für einen Impuls!
-          </div>
-        </div>
-      </div>
-
-      <!-- 7. JOKE BOX FOOTER -->
-      <div class="p-2.5 rounded-2xl bg-white/[0.02] border border-white/8 space-y-1 flex items-center justify-between gap-2">
-        <div class="min-w-0 flex-1">
-          <div id="humor-joke-q" class="text-xs font-bold text-white truncate">${currentJoke.q}</div>
-          <div id="humor-joke-a" class="text-[11px] text-pink-300/90 truncate">${currentJoke.a}</div>
-        </div>
-        <button onclick="HumorEngine.nextJoke()" class="px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-bold shrink-0 transition cursor-pointer">
-          Nächster Witz 😂
+      <!-- 4-TAB SUB-NAVIGATION BAR (ZERO-SCROLL VIEWPORT FITTING) -->
+      <div class="flex items-center bg-black/60 p-1 rounded-2xl border border-white/10 text-xs gap-1 shadow-sm select-none">
+        <button onclick="HumorEngine.switchTab('chaos')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'chaos' ? activeTabClasses : inactiveTabClasses}" title="17 Radikale App-Breaking Glitches">
+          <span>${tr({ de: "💥 Glitches", en: "💥 Glitches", fr: "💥 Glitches", it: "💥 Glitch", es: "💥 Glitches", el: "💥 Glitches" })}</span>
+          <span class="text-[8.5px] opacity-80 font-mono">17</span>
+        </button>
+        <button onclick="HumorEngine.switchTab('party')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'party' ? activeTabClasses : inactiveTabClasses}" title="Live Action & Ambient FX">
+          <span>${tr({ de: "⚡ Action & FX", en: "⚡ Action & FX", fr: "⚡ Action & FX", it: "⚡ Azione & FX", es: "⚡ Acción y FX", el: "⚡ Δράση & FX" })}</span>
+          <span class="text-[8.5px] opacity-80 font-mono">12</span>
+        </button>
+        <button onclick="HumorEngine.switchTab('sounds')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'sounds' ? activeTabClasses : inactiveTabClasses}" title="Soundboard & Witze">
+          <span>${tr({ de: "🔊 Sound & Witz", en: "🔊 Sound & Jokes", fr: "🔊 Sons & Blagues", it: "🔊 Suoni & Scherzi", es: "🔊 Sonidos y Bromas", el: "🔊 Ήχος & Αστεία" })}</span>
+        </button>
+        <button onclick="HumorEngine.switchTab('stress')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentHumorTab === 'stress' ? activeTabClasses : inactiveTabClasses}" title="Luftpolsterfolie, Würfel & Screensaver">
+          <span>${tr({ de: "🫧 Stress & Idle", en: "🫧 Stress & Idle", fr: "🫧 Stress & Veille", it: "🫧 Stress & Inattività", es: "🫧 Estrés y Reposo", el: "🫧 Στρες & Αδράνεια" })}</span>
         </button>
       </div>
+
+      <!-- ACTIVE TAB CONTENT -->
+      ${tabContentHtml}
     `;
 
     if (typeof window.lucide !== 'undefined' && typeof window.lucide.createIcons === 'function') {
@@ -2847,6 +3095,8 @@
     startIdleFX,
     toggleIdleSetting,
     panicReset,
+    switchTab: switchHumorTab,
+    getTab: () => currentHumorTab,
     renderHumorPanel
   };
 

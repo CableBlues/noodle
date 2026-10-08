@@ -120,17 +120,15 @@ function openAudioStudioMode(mode) {
   if (typeof togglePanel !== 'function') return;
   const panel = document.getElementById('panel-audio');
   const isHidden = !panel || panel.classList.contains('hidden');
-  const currentTab = (typeof window !== 'undefined' && window._lastActiveAudioTab) ? window._lastActiveAudioTab : 'ambient';
+  
+  if (typeof window !== 'undefined') window._lastActiveAudioTab = mode;
+  try { localStorage.setItem('flow_last_audio_tab', mode); } catch(e) {}
 
   if (isHidden) {
     togglePanel('audio');
-    if (typeof switchAudioTab === 'function') switchAudioTab(mode);
-  } else {
-    if (currentTab === mode) {
-      togglePanel('audio');
-    } else {
-      if (typeof switchAudioTab === 'function') switchAudioTab(mode);
-    }
+  }
+  if (typeof switchAudioTab === 'function') {
+    switchAudioTab(mode);
   }
 }
 window.openAudioStudioMode = openAudioStudioMode;
@@ -184,6 +182,25 @@ function switchAudioTab(tabName) {
       rightMasterFader.classList.toggle('hidden', tabName === 'dj');
     }
   }
+
+  const headerIconBadge = document.getElementById('audio-studio-header-icon-badge');
+  const headerSubtextBadge = document.getElementById('audio-studio-subtext-badge');
+  if (headerIconBadge) {
+    if (tabName === 'dj') {
+      headerIconBadge.className = 'w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shadow-sm shrink-0';
+      headerIconBadge.innerHTML = '<i data-lucide="sliders" class="w-4 h-4"></i>';
+      if (headerSubtextBadge) headerSubtextBadge.textContent = 'DJ';
+    } else if (tabName === 'music') {
+      headerIconBadge.className = 'w-7 h-7 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 shadow-sm shrink-0';
+      headerIconBadge.innerHTML = '<i data-lucide="disc-3" class="w-4 h-4"></i>';
+      if (headerSubtextBadge) headerSubtextBadge.textContent = 'MUSIC';
+    } else {
+      headerIconBadge.className = 'w-7 h-7 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 shadow-sm shrink-0';
+      headerIconBadge.innerHTML = '<i data-lucide="headphones" class="w-4 h-4"></i>';
+      if (headerSubtextBadge) headerSubtextBadge.textContent = 'SOUND';
+    }
+  }
+
   if (typeof lucide !== 'undefined') lucide.createIcons();
 
   if (tabName === 'music' && typeof renderMusicPlaylist === 'function') {
@@ -810,10 +827,14 @@ function getSimilarTheme(current) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt'];
+var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
 
 const THEME_ALIASES = {
   'default': 'aurora',
+  'fruity': 'fruity-classic',
+  'fruityloops': 'fruity-classic',
+  'flstudio': 'fruity-studio',
+  'fl-studio': 'fruity-studio',
   'daylight': 'botanical',
   'paper': 'botanical',
   'aurora-violet': 'aurora',
@@ -1441,11 +1462,7 @@ if (typeof window !== 'undefined') {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     window.deferredPwaPrompt = e;
-    const banner = document.getElementById('pwa-install-banner');
-    if (banner && !sessionStorage.getItem('pwa_dismissed')) {
-      banner.classList.remove('hidden');
-      renderLucideIcons();
-    }
+    // Nie automatisch beim Laden anbieten! Installation wird gezielt im Onboarding und in den Optionen angeboten.
   });
 
   window.addEventListener('appinstalled', () => {
@@ -1453,7 +1470,14 @@ if (typeof window !== 'undefined') {
     const banner = document.getElementById('pwa-install-banner');
     if (banner) banner.classList.add('hidden');
     if (typeof showToast === 'function') {
-      showToast('Noodle erfolgreich installiert! 🎉');
+      showToast(tr({
+        de: 'Noodle erfolgreich installiert! 🎉',
+        en: 'Noodle successfully installed! 🎉',
+        fr: 'Noodle a été installé avec succès ! 🎉',
+        it: 'Noodle installato con successo! 🎉',
+        es: '¡Noodle se ha instalado con éxito! 🎉',
+        el: 'Το Noodle εγκαταστάθηκε επιτυχώς! 🎉'
+      }));
     }
   });
 }
@@ -1471,7 +1495,14 @@ function triggerPwaInstall() {
     });
   } else {
     if (typeof showToast === 'function') {
-      showToast('Installiere Noodle über das Browsermenü („Zum Startbildschirm hinzufügen“)');
+      showToast(tr({
+        de: 'Installiere Noodle über dein Browsermenü („Zum Startbildschirm hinzufügen“ oder „App installieren“)',
+        en: 'Install Noodle via your browser menu ("Add to Home Screen" or "Install App")',
+        fr: 'Installez Noodle via le menu de votre navigateur ("Ajouter à l\'écran d\'accueil" ou "Installer l\'application")',
+        it: 'Installa Noodle dal menu del browser ("Aggiungi a schermata Home" o "Installa app")',
+        es: 'Instala Noodle desde el menú del navegador ("Añadir a pantalla de inicio" o "Instalar app")',
+        el: 'Εγκαταστήστε το Noodle μέσω του μενού του περιηγητή ("Προσθήκη στην αρχική οθόνη" ή "Εγκατάσταση εφαρμογής")'
+      }));
     }
   }
 }

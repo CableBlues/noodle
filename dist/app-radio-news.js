@@ -9,31 +9,46 @@
   // ============================================================================
 
   const RADIO_STATIONS = [
-    // 🇩🇪 Deutschland
+    // 🌌 1. Drone Zone & Pure Ambient (Immer an erster Stelle wie gewünscht)
+    { id: 'dronezone', name: 'SomaFM Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes (Empfehlung #1)', stream: 'https://ice1.somafm.com/dronezone-128-mp3', logo: '🧘' },
+    { id: 'spacestation', name: 'SomaFM Space Station', category: 'focus', country: 'global', flag: '🚀', desc: 'Mid- & Downtempo Space Ambient & Electronica', stream: 'https://ice1.somafm.com/spacestation-128-mp3', logo: '🛰️' },
+    { id: 'deepspaceone', name: 'SomaFM Deep Space One', category: 'focus', country: 'global', flag: '🌠', desc: 'Deep Ambient Electronic & Experimental Focus', stream: 'https://ice1.somafm.com/deepspaceone-128-mp3', logo: '🌌' },
+    { id: 'groovesalad', name: 'SomaFM Groove Salad', category: 'focus', country: 'global', flag: '🥗', desc: 'Downtempo Ambient & Chilled Electronic', stream: 'https://ice1.somafm.com/groovesalad-128-mp3', logo: '🥗' },
+    { id: 'lush', name: 'SomaFM Lush Chill', category: 'focus', country: 'global', flag: '🎧', desc: 'Sanfter Lofi Chill & Vocal Atmospheres', stream: 'https://ice1.somafm.com/lush-128-mp3', logo: '☕' },
+
+    // 🇩🇪 Freie & unabhängige Sender / Region DE (Schwerpunkt progressive/freie Medien)
+    { id: 'corax', name: 'Radio Corax (Freies Radio)', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Freies Radio Halle – Politik, Subkultur & Diskurse', stream: 'https://stream.radiocorax.de/corax.mp3', logo: '📻' },
+    { id: 'dreyeckland', name: 'Radio Dreyeckland', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Ältestes freies Radio Deutschlands (Freiburg)', stream: 'https://stream.rdl.de/rdl.mp3', logo: '🎙️' },
+    { id: 'fsk', name: 'FSK Hamburg (Freies Sender Kombinat)', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Nicht-kommerzielles emanzipatorisches Radio', stream: 'https://icecast.fsk-hh.org/fsk.mp3', logo: '📢' },
     { id: 'dlf', name: 'Deutschlandfunk', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Politik, Wissen & Kultur', stream: 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', logo: '📻' },
     { id: 'ndrinfo', name: 'NDR Info', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Das Informationsradio für den Norden', stream: 'https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', logo: '🎙️' },
     { id: 'wdr5', name: 'WDR 5', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Tiefgang, Analysen & Wissensmagazine', stream: 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', logo: '🎙️' },
     { id: 'br24', name: 'BR24 Live', category: 'news', country: 'de', flag: '🇩🇪', desc: 'In 15 Minuten umfassend informiert', stream: 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', logo: '📢' },
     { id: 'swraktuell', name: 'SWR Aktuell', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Interviews & Verkehr', stream: 'https://liveradio.swr.de/sw282p3/swraktuell/play.mp3', logo: '📻' },
 
-    // 🇦🇹 Österreich & 🇨🇭 Schweiz
+    // 🇦🇹 Österreich & 🇨🇭 Schweiz (Inkl. freie Radios)
+    { id: 'radioorange', name: 'Radio Orange 94.0 Wien', category: 'independent', country: 'at', flag: '🇦🇹', desc: 'Freies Community Radio Wien – Vielfalt & Diskurs', stream: 'https://stream.o94.at/live.mp3', logo: '🇦🇹' },
     { id: 'oe1', name: 'Ö1 Kultur & Info', category: 'news', country: 'at', flag: '🇦🇹', desc: 'Wissen, Kultur & fundierte Nachrichten', stream: 'https://orf-live.ors-shoutcast.at/oe1-q2a', logo: '🇦🇹' },
     { id: 'oe3', name: 'Hitradio Ö3', category: 'music', country: 'at', flag: '🇦🇹', desc: 'Österreichs beliebtes Hitradio', stream: 'https://orf-live.ors-shoutcast.at/oe3-q2a', logo: '🎵' },
+    { id: 'lora_ch', name: 'Radio LORA Zürich', category: 'independent', country: 'ch', flag: '🇨🇭', desc: 'Alternatives nicht-kommerzielles Radio Zürich', stream: 'https://stream.lora.ch/lora.mp3', logo: '🇨🇭' },
     { id: 'srf1', name: 'SRF 1 Info & Musik', category: 'news', country: 'ch', flag: '🇨🇭', desc: 'Schweizer Radio & Nachrichten', stream: 'https://stream.srg-ssr.ch/m/drs1/mp3_128', logo: '🇨🇭' },
     { id: 'swisspop', name: 'Radio Swiss Pop', category: 'music', country: 'ch', flag: '🇨🇭', desc: 'Entspannter Pop-Mix ohne Unterbrechung', stream: 'https://stream.srg-ssr.ch/m/rsp/mp3_128', logo: '🎶' },
 
-    // 🇬🇧 UK & 🇺🇸 USA & 🌐 Global
+    // 🇬🇧 UK & 🇺🇸 USA (Inkl. Progressive / Independent Media)
+    { id: 'democracynow', name: 'Democracy Now! Audio', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Independent global daily news with Amy Goodman', stream: 'https://traffic.libsyn.com/democracynow/dn2024-live.mp3', logo: '🗽' },
+    { id: 'wbai', name: 'Pacifica Radio WBAI New York', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Listener-sponsored progressive independent radio', stream: 'https://stream.wbai.org/live', logo: '🗽' },
     { id: 'bbcworld', name: 'BBC World Service', category: 'news', country: 'uk', flag: '🇬🇧', desc: 'Global news, reports & analysis', stream: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', logo: '🌍' },
     { id: 'npr', name: 'NPR 24/7 News', category: 'news', country: 'us', flag: '🇺🇸', desc: 'National Public Radio Live Stream', stream: 'https://npr-ice.streamguys1.com/live.mp3', logo: '🌐' },
-    { id: 'franceinfo', name: 'France Info Live', category: 'news', country: 'fr', flag: '🇫🇷', desc: 'Actualités en direct et informations 24/7', stream: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', logo: '🇫🇷' },
-    { id: 'rne', name: 'Radio Nacional España', category: 'news', country: 'es', flag: '🇪🇸', desc: 'Noticias y actualidad en directo', stream: 'https://rtvelivestream.akamaized.net/rne_r1_main.mp3', logo: '🇪🇸' },
-    { id: 'rai1', name: 'Rai Radio 1', category: 'news', country: 'it', flag: '🇮🇹', desc: 'Informazione e approfondimenti 24h', stream: 'https://icstream.rai.it/1.mp3', logo: '🇮🇹' },
-    { id: 'ertproto', name: 'ΕΡΤ Πρώτο Πρόγραμμα', category: 'news', country: 'gr', flag: '🇬🇷', desc: 'Δημόσια ραδιοφωνία & ενημέρωση', stream: 'https://radiostreaming.ert.gr/ert-proto', logo: '🏛️' },
 
-    // 🧘 Focus & Chill Soundscapes
-    { id: 'groovesalad', name: 'SomaFM Groove Salad', category: 'focus', country: 'global', flag: '🧘', desc: 'Downtempo Ambient & Chilled Electronic', stream: 'https://ice1.somafm.com/groovesalad-128-mp3', logo: '🥗' },
-    { id: 'dronezone', name: 'SomaFM Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes', stream: 'https://ice1.somafm.com/dronezone-128-mp3', logo: '🧘' },
-    { id: 'lush', name: 'SomaFM Lush Chill', category: 'focus', country: 'global', flag: '🎧', desc: 'Sanfter Lofi Chill & Vocal Atmospheres', stream: 'https://ice1.somafm.com/lush-128-mp3', logo: '☕' }
+    // 🇫🇷 Frankreich & 🇪🇸 Spanien & 🇮🇹 Italien & 🇬🇷 Griechenland
+    { id: 'radiocanut', name: 'Radio Canut Lyon', category: 'independent', country: 'fr', flag: '🇫🇷', desc: 'La plus rebelle des radios libres (Lyon)', stream: 'https://live.francra.org:8443/radiocanut', logo: '🇫🇷' },
+    { id: 'franceinfo', name: 'France Info Live', category: 'news', country: 'fr', flag: '🇫🇷', desc: 'Actualités en direct et informations 24/7', stream: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', logo: '🇫🇷' },
+    { id: 'radiovallekas', name: 'Radio Vallekas Madrid', category: 'independent', country: 'es', flag: '🇪🇸', desc: 'Radio comunitaria y libre de Madrid', stream: 'https://stream.radiovallekas.org:8000/rvk.mp3', logo: '🇪🇸' },
+    { id: 'rne', name: 'Radio Nacional España', category: 'news', country: 'es', flag: '🇪🇸', desc: 'Noticias y actualidad en directo', stream: 'https://rtvelivestream.akamaized.net/rne_r1_main.mp3', logo: '🇪🇸' },
+    { id: 'radiopopolare', name: 'Radio Popolare Milano', category: 'independent', country: 'it', flag: '🇮🇹', desc: 'Informazione libera, critica e indipendente', stream: 'https://stream.radiopopolare.it/popolare.mp3', logo: '🇮🇹' },
+    { id: 'rai1', name: 'Rai Radio 1', category: 'news', country: 'it', flag: '🇮🇹', desc: 'Informazione e approfondimenti 24h', stream: 'https://icstream.rai.it/1.mp3', logo: '🇮🇹' },
+    { id: 'stokokkino', name: '105.5 Στο Κόκκινο', category: 'independent', country: 'gr', flag: '🇬🇷', desc: 'Ενημέρωση & ανεξάρτητη δημοσιογραφία', stream: 'https://stream.stokokkino.gr/kokkino-mp3', logo: '🏛️' },
+    { id: 'ertproto', name: 'ΕΡΤ Πρώτο Πρόγραμμα', category: 'news', country: 'gr', flag: '🇬🇷', desc: 'Δημόσια ραδιοφωνία & ενημέρωση', stream: 'https://radiostreaming.ert.gr/ert-proto', logo: '🏛️' }
   ];
 
   // 1.1 SPRACHE (Ausgabesprache & automatische Übersetzung)
@@ -78,11 +93,16 @@
     { id: 'culture', name: 'Kultur', emoji: '🎭' }
   ];
 
-  // 1.5 DIVERSE LOKALE MEDIEN & QUELLEN PRO REGION
+  // 1.5 DIVERSE LOKALE MEDIEN & QUELLEN PRO REGION (Vielfältig, inkl. freie & progressive Qualitätsquellen)
   const LOCAL_MEDIA_OUTLETS = {
     de: [
       { id: 'all', name: 'Alle Quellen (Mix)', icon: '✨' },
+      { id: 'taz', name: 'taz (die tageszeitung)', match: ['taz', 'tageszeitung'], rss: 'https://taz.de/rss.xml' },
       { id: 'tagesschau', name: 'Tagesschau', match: ['tagesschau'], rss: 'https://www.tagesschau.de/xml/rss2/' },
+      { id: 'jungewelt', name: 'junge Welt', match: ['junge welt', 'jungewelt'], rss: 'https://www.jungewelt.de/feeds/neu.rss' },
+      { id: 'nd', name: 'nd (nd.Aktuell)', match: ['nd', 'neues deutschland', 'nd-aktuell'], rss: 'https://www.nd-aktuell.de/rss/nd-aktuell.xml' },
+      { id: 'jacobin_de', name: 'Jacobin Magazin', match: ['jacobin'], rss: 'https://jacobin.de/feed' },
+      { id: 'netzpolitik', name: 'netzpolitik.org', match: ['netzpolitik'], rss: 'https://netzpolitik.org/feed/' },
       { id: 'spiegel', name: 'Spiegel Online', match: ['spiegel'], rss: 'https://www.spiegel.de/schlagzeilen/index.rss' },
       { id: 'zeit', name: 'Zeit Online', match: ['zeit'], rss: 'https://newsfeed.zeit.de/index' },
       { id: 'heise', name: 'Heise Tech', match: ['heise'], rss: 'https://www.heise.de/rss/heise-atom.xml' },
@@ -92,8 +112,9 @@
     ],
     at: [
       { id: 'all', name: 'Alle Quellen (Mix)', icon: '✨' },
-      { id: 'orf', name: 'ORF News', match: ['orf'], rss: 'https://rss.orf.at/news.xml' },
       { id: 'standard', name: 'Der Standard', match: ['standard'], rss: 'https://www.derstandard.at/rss' },
+      { id: 'mosaik', name: 'Mosaik Blog', match: ['mosaik'], rss: 'https://mosaik-blog.at/feed/' },
+      { id: 'orf', name: 'ORF News', match: ['orf'], rss: 'https://rss.orf.at/news.xml' },
       { id: 'kurier', name: 'Kurier', match: ['kurier'], rss: 'https://kurier.at/xml/rss' },
       { id: 'presse', name: 'Die Presse', match: ['presse'], rss: 'https://www.diepresse.com/rss/Home' },
       { id: 'salzburger', name: 'Salzburger Nachrichten', match: ['salzburger', 'sn'], rss: 'https://www.sn.at/rss' },
@@ -101,6 +122,8 @@
     ],
     ch: [
       { id: 'all', name: 'Alle Quellen (Mix)', icon: '✨' },
+      { id: 'woz', name: 'WOZ Die Wochenzeitung', match: ['woz', 'wochenzeitung'], rss: 'https://www.woz.ch/rss.xml' },
+      { id: 'infosperber', name: 'Infosperber', match: ['infosperber'], rss: 'https://www.infosperber.ch/feed/' },
       { id: 'srf', name: 'SRF News', match: ['srf'], rss: 'https://www.srf.ch/news/bnf/rss/1646' },
       { id: 'nzz', name: 'NZZ', match: ['nzz'], rss: 'https://www.nzz.ch/recent.rss' },
       { id: 'tagesanzeiger', name: 'Tages-Anzeiger', match: ['tages-anzeiger', 'tagesanzeiger'], rss: 'https://www.tagesanzeiger.ch/rss' },
@@ -110,15 +133,18 @@
     ],
     uk: [
       { id: 'all', name: 'All Media (Mix)', icon: '✨' },
-      { id: 'bbc', name: 'BBC News', match: ['bbc'], rss: 'https://feeds.bbci.co.uk/news/rss.xml' },
       { id: 'guardian', name: 'The Guardian', match: ['guardian'], rss: 'https://www.theguardian.com/uk/rss' },
-      { id: 'reuters', name: 'Reuters UK', match: ['reuters'], rss: 'https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best' },
       { id: 'independent', name: 'The Independent', match: ['independent'], rss: 'https://www.independent.co.uk/news/uk/rss' },
+      { id: 'bbc', name: 'BBC News', match: ['bbc'], rss: 'https://feeds.bbci.co.uk/news/rss.xml' },
+      { id: 'reuters', name: 'Reuters UK', match: ['reuters'], rss: 'https://www.reutersagency.com/feed/?best-topics=business-finance&post_type=best' },
       { id: 'ft', name: 'Financial Times', match: ['ft', 'financial times'], rss: 'https://www.ft.com/rss/home/uk' },
       { id: 'positive_news', name: 'Positive News', match: ['positive'], rss: 'https://www.positive.news/feed/' }
     ],
     us: [
       { id: 'all', name: 'All Media (Mix)', icon: '✨' },
+      { id: 'democracynow', name: 'Democracy Now!', match: ['democracy now'], rss: 'https://www.democracynow.org/democracynow.rss' },
+      { id: 'intercept', name: 'The Intercept', match: ['intercept'], rss: 'https://theintercept.com/feed/?lang=en' },
+      { id: 'jacobin_us', name: 'Jacobin', match: ['jacobin'], rss: 'https://jacobin.com/feed' },
       { id: 'npr', name: 'NPR News', match: ['npr'], rss: 'https://feeds.npr.org/1001/rss.xml' },
       { id: 'techcrunch', name: 'TechCrunch', match: ['techcrunch'], rss: 'https://techcrunch.com/feed/' },
       { id: 'wired', name: 'Wired', match: ['wired'], rss: 'https://www.wired.com/feed/rss' },
@@ -1118,7 +1144,7 @@
   }
 
   // Radio Audio State
-  let currentStationId = localStorage.getItem('flow_radio_station') || 'dlf';
+  let currentStationId = localStorage.getItem('flow_radio_station') || 'dronezone';
   let isRadioPlaying = false;
   let radioVolume = parseFloat(localStorage.getItem('flow_radio_vol') || '0.7');
   let radioAudioEl = null;
@@ -2141,7 +2167,7 @@
         <span class="text-[10px] font-mono text-gray-400 shrink-0">${currentItem.time || 'Jetzt'}</span>
       </div>
       <div class="text-xs font-bold text-white leading-snug">${fullTitle}</div>
-      ${fullSummary ? `<div class="text-[11px] text-gray-300 line-clamp-2 leading-relaxed">${fullSummary}</div>` : ''}
+      ${fullSummary ? `<div class="text-[11px] text-gray-300 leading-relaxed max-h-[160px] overflow-y-auto pr-1 custom-scrollbar">${fullSummary}</div>` : ''}
       <div class="flex items-center justify-between pt-1 border-t border-white/5">
         ${currentItem.url && currentItem.url !== '#' ? `
           <a href="${currentItem.url}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1.5 transition border border-white/15" title="Vollständigen Artikel öffnen">
@@ -2861,11 +2887,53 @@
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 
+  function getOrderedRadioStations() {
+    const reg = currentRegion || 'de';
+    const appLang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'de';
+
+    // 1. Drone Zone & Pure Ambient immer an erster Stelle
+    const ambientStations = RADIO_STATIONS.filter(s => s.category === 'focus');
+
+    // 2. Sender der ausgewählten Region
+    const regionStations = RADIO_STATIONS.filter(s => s.country === reg && s.category !== 'focus');
+
+    // 3. Sender der ausgewählten Anwendungssprache (mit Schwerpunkt freie/progressive Medien)
+    const langStations = RADIO_STATIONS.filter(s => {
+      if (s.category === 'focus') return false;
+      if (s.country === reg) return false;
+      // Sprachzugehörigkeit
+      if (appLang === 'de') return ['de', 'at', 'ch'].includes(s.country);
+      if (appLang === 'en') return ['uk', 'us'].includes(s.country);
+      if (appLang === 'fr') return s.country === 'fr';
+      if (appLang === 'es') return s.country === 'es';
+      if (appLang === 'it') return s.country === 'it';
+      if (appLang === 'el') return s.country === 'gr';
+      return false;
+    });
+
+    // 4. Verbleibende internationale Sender
+    const alreadyIncludedIds = new Set([
+      ...ambientStations.map(s => s.id),
+      ...regionStations.map(s => s.id),
+      ...langStations.map(s => s.id)
+    ]);
+    const internationalStations = RADIO_STATIONS.filter(s => !alreadyIncludedIds.has(s.id));
+
+    return [
+      ...ambientStations,
+      ...regionStations,
+      ...langStations,
+      ...internationalStations
+    ];
+  }
+
   function renderRadioPanelContent() {
     const container = document.getElementById('radio-stations-list');
     if (!container) return;
 
-    container.innerHTML = RADIO_STATIONS.map(s => {
+    const orderedStations = getOrderedRadioStations();
+
+    container.innerHTML = orderedStations.map(s => {
       const isCurrent = s.id === currentStationId;
       const isLive = isCurrent && isRadioPlaying;
 

@@ -315,11 +315,22 @@ function handleQuickAddStaple(name) {
   }
 }
 
+let currentCookingTab = 'pantry'; // 'pantry' | 'recipe'
+
+function switchCookingTab(tab) {
+  currentCookingTab = tab;
+  renderCookingPanel(true);
+}
+
 function handleCookingSuggest() {
   const recipe = suggestCookingRecipe();
   if (recipe) {
+    currentCookingTab = 'recipe';
     renderCookingPanel(true);
     if (typeof playProceduralSound === 'function') playProceduralSound(0);
+  } else {
+    currentCookingTab = 'pantry';
+    renderCookingPanel(true);
   }
 }
 
@@ -359,113 +370,155 @@ function renderCookingPanel(skipLucide = false) {
     { label: 'Gemüse 🥦', val: 'Gemüse' }
   ];
 
-  panel.innerHTML = `
-    <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-      <div class="relative flex flex-col items-center justify-center shrink-0">
-        <div class="relative overflow-hidden flex items-center justify-center">
-          <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+  const activeTabClasses = 'bg-gradient-to-r from-orange-600/40 via-amber-600/35 to-orange-600/40 text-white border-orange-400/80 shadow-[0_0_12px_rgba(249,115,22,0.35)] font-bold';
+  const inactiveTabClasses = 'text-gray-400 hover:text-orange-200 border-transparent hover:bg-white/5 font-semibold';
+
+  let contentHtml = '';
+
+  if (currentCookingTab === 'pantry') {
+    contentHtml = `
+      <!-- TAB 1: VORRATSKAMMER & ZUTATEN -->
+      <div class="space-y-2.5 animate-fade-in">
+        <div class="flex gap-1.5">
+          <input id="cooking-ingredient-input" type="text" placeholder="${t('cook_add_ingredient_placeholder')}" class="flex-1 min-h-[34px] rounded-xl border border-white/10 bg-[#0a0a0f] px-3 text-xs text-gray-200 placeholder:text-gray-500 outline-none focus:border-[#ff7a00] font-semibold" />
+          <button onclick="handleCookingAddIngredient()" class="min-h-[34px] rounded-xl bg-[#ff7a00] px-3.5 text-xs font-bold text-white transition hover:bg-[#ff8c1a] cursor-pointer shadow-md">${t('cook_add_ingredient')}</button>
         </div>
-        <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-          <span class="badge-tool-subtext select-none">COOK</span>
+
+        <div class="space-y-1">
+          <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">${t('cook_quick_select')}</div>
+          <div class="flex flex-wrap gap-1">
+            ${staples.map(s => `
+              <button onclick="handleQuickAddStaple('${s.val}')" class="px-2 py-0.5 bg-white/[0.03] hover:bg-[#ff8c1a]/15 border border-white/5 hover:border-orange-500/30 rounded-lg text-[10px] text-gray-300 transition cursor-pointer font-medium hover:scale-105 active:scale-95">
+                ${s.label}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-white/5 bg-[#0a0a0e]/40 p-2.5 shadow-inner">
+          <div class="mb-1.5 flex items-center justify-between text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">
+            <span>${t('cook_ingredients')} (${pantry.length})</span>
+            ${pantry.length > 0 ? `<button onclick="resetCookingPantry()" class="text-rose-400 hover:text-rose-300 cursor-pointer">${t('cook_clear_pantry')}</button>` : ''}
+          </div>
+          ${pantry.length ? `
+            <div class="flex flex-wrap gap-1 max-h-[70px] overflow-y-auto pr-1">
+              ${pantry.map((item, index) => `
+                <span class="inline-flex items-center gap-1 rounded-lg border border-[#00ff66]/30 bg-[#00ff66]/15 px-2 py-0.5 text-[10.5px] text-[#00ff66] font-semibold">
+                  ${escapeHtml(capitalize(item))}
+                  <button type="button" onclick="removeCookingIngredient(${index}); renderCookingPanel(true);" aria-label="Zutat entfernen" class="ml-1 text-[#ff7a00]/60 hover:text-red-400 font-bold transition cursor-pointer text-xs">×</button>
+                </span>
+              `).join('')}
+            </div>
+          ` : `
+            <div class="text-[10.5px] text-gray-500 italic py-1 text-center">${t('cook_pantry_empty')}</div>
+          `}
+        </div>
+
+        <div class="pt-0.5">
+          <button onclick="handleCookingSuggest()" class="w-full min-h-[34px] rounded-xl bg-gradient-to-r from-[#ff7a00] to-[#ff3366] hover:from-[#ff8c1a] hover:to-[#ff4d7d] text-white font-bold text-xs shadow-md transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
+            <i data-lucide="cooking-pot" class="w-4 h-4"></i>
+            <span>🍳 ${t('cook_suggest_btn')}</span>
+          </button>
+        </div>
+      </div>
+    `;
+  } else {
+    contentHtml = `
+      <!-- TAB 2: REZEPT & ZUBEREITUNG -->
+      <div class="space-y-2 animate-fade-in">
+        ${activeRecipe ? `
+          <div class="rounded-2xl border border-orange-500/25 bg-orange-950/15 p-3 shadow-inner space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black text-[#c084fc] font-display truncate">${escapeHtml(activeRecipe.title)}</span>
+              <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#ff7a00]/15 text-[#ff7a00] font-bold border border-[#ff7a00]/30 shrink-0">${escapeHtml(activeRecipe.duration)}</span>
+            </div>
+            
+            <div class="space-y-1">
+              <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">${t('cook_ingredient_match')}</div>
+              <div class="flex flex-wrap gap-1 text-[9.5px]">
+                ${(activeRecipe.ingredients || []).map(ing => {
+                  const normalized = ing.toLowerCase();
+                  const matched = pantry.some(p => p.toLowerCase().includes(normalized) || normalized.includes(p.toLowerCase()));
+                  return `
+                    <span class="px-1.5 py-0.5 rounded-md ${matched ? 'bg-[#00ff66]/15 text-[#00ff66] border border-[#00ff66]/30' : 'bg-[#ff7a00]/15 text-[#ff7a00] border border-[#ff7a00]/30'} font-semibold">
+                      ${matched ? '✔️' : '❌'} ${escapeHtml(capitalize(ing))}
+                    </span>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <div class="space-y-1 border-t border-white/5 pt-2">
+              <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">${t('cook_steps')}</div>
+              <div class="space-y-1.5 max-h-[110px] overflow-y-auto pr-1">
+                ${(activeRecipe.steps || []).map((step, idx) => `
+                  <label class="flex items-start gap-2 cursor-pointer select-none group/step">
+                    <input type="checkbox" id="cook-step-${idx}" onchange="toggleCookingStepCheckbox(${idx})" class="w-3.5 h-3.5 rounded border-white/10 bg-[#0a0a0f] text-orange-500 focus:ring-0 accent-orange-500 shrink-0 mt-0.5 cursor-pointer" />
+                    <span id="cook-step-label-${idx}" class="text-[10.5px] text-[#00f2ff] group-hover/step:brightness-125 leading-tight font-medium transition duration-150">
+                      ${escapeHtml(step)}
+                    </span>
+                  </label>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button onclick="switchCookingTab('pantry')" class="flex-1 py-1.5 px-2 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-xl text-[10.5px] font-semibold transition cursor-pointer flex items-center justify-center gap-1">
+              <span>← ${t('cook_adjust_ingredients')}</span>
+            </button>
+            <button onclick="addRecipeMissingIngredientsToShopping()" class="flex-1 py-1.5 px-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 rounded-xl text-[10.5px] font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+              <i data-lucide="shopping-basket" class="w-3.5 h-3.5"></i>
+              <span>${t('cook_missing_to_shop')}</span>
+            </button>
+          </div>
+        ` : `
+          <div class="p-6 text-center rounded-2xl bg-white/[0.02] border border-white/5 space-y-2">
+            <span class="text-3xl block">🍳</span>
+            <div class="text-xs font-bold text-white">${t('cook_no_recipe_title')}</div>
+            <p class="text-[10px] text-gray-400">${t('cook_no_recipe_desc')}</p>
+            <button onclick="switchCookingTab('pantry')" class="px-4 py-1.5 bg-[#ff7a00] hover:bg-[#ff8c1a] text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-md inline-flex items-center gap-1">
+              <span>${t('cook_to_pantry_btn')}</span>
+            </button>
+          </div>
+        `}
+      </div>
+    `;
+  }
+
+  panel.innerHTML = `
+    <!-- KOPFZEILE -->
+    <div class="flex items-center justify-between border-b border-white/10 pb-2">
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-xl bg-orange-500/20 border border-orange-400/40 flex items-center justify-center text-orange-300 shadow-sm shrink-0">
+          <i data-lucide="chef-hat" class="w-4 h-4"></i>
+        </div>
+        <div class="relative flex flex-col items-center justify-center shrink-0">
+          <div class="relative overflow-hidden flex items-center justify-center">
+            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+          </div>
+          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+            <span class="badge-tool-subtext select-none">COOK</span>
+          </div>
         </div>
       </div>
       <button onclick="togglePanel('cooking')" aria-label="Koch-Panel schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
     </div>
 
-    <div class="space-y-4 pt-3 max-h-[460px] overflow-y-auto pr-1 scrollbar-thin">
-      
-      <div class="flex gap-2">
-        <input id="cooking-ingredient-input" type="text" placeholder="${t('cook_add_ingredient_placeholder')}" class="flex-1 min-h-[36px] rounded-xl border border-white/10 bg-[#0a0a0f] px-3 text-xs text-gray-200 placeholder:text-gray-500 outline-none focus:border-[#ff7a00] focus:shadow-[0_0_12px_rgba(255,122,0,0.35)] font-semibold" />
-        <button onclick="handleCookingAddIngredient()" class="min-h-[36px] rounded-xl bg-[#ff7a00] px-4 text-xs font-bold text-white transition hover:bg-[#ff8c1a] cursor-pointer shadow-md">${t('cook_add_ingredient')}</button>
-      </div>
-
-      <div class="space-y-1">
-        <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">Schnellauswahl</div>
-        <div class="flex flex-wrap gap-1.5">
-          ${staples.map(s => `
-            <button onclick="handleQuickAddStaple('${s.val}')" class="px-2 py-1 bg-white/[0.03] hover:bg-[#ff8c1a]/10 border border-white/5 hover:border-orange-500/30 rounded-lg text-[10px] text-gray-300 transition cursor-pointer font-medium hover:scale-105 active:scale-95">
-              ${s.label}
-            </button>
-          `).join('')}
-        </div>
-      </div>
-
-      <div class="rounded-2xl border border-white/5 bg-[#0a0a0e]/40 p-3 shadow-inner">
-        <div class="mb-2 text-[9px] font-bold uppercase tracking-wider text-gray-400">${t('cook_ingredients')}</div>
-        ${pantry.length ? `
-          <div class="flex flex-wrap gap-1.5">
-            ${pantry.map((item, index) => `
-              <span class="inline-flex items-center gap-1.5 rounded-lg border border-[#00ff66]/30 bg-[#00ff66]/15 px-2.5 py-1 text-[11px] text-[#00ff66] font-semibold">
-                ${escapeHtml(capitalize(item))}
-                <button type="button" onclick="removeCookingIngredient(${index}); renderCookingPanel(true);" aria-label="Zutat entfernen" class="ml-1 text-[#ff7a00]/60 hover:text-red-400 font-bold transition cursor-pointer text-xs">×</button>
-              </span>
-            `).join('')}
-          </div>
-        ` : `
-          <div class="text-[11px] text-gray-500 italic py-1">${t('cook_pantry_empty')}</div>
-        `}
-      </div>
-
-      <div class="flex gap-2">
-        <button onclick="handleCookingSuggest()" class="flex-1 min-h-[36px] rounded-xl bg-gradient-to-r from-[#ff7a00] to-[#ff3366] hover:from-[#ff8c1a] hover:to-[#ff4d7d] text-white font-bold text-xs shadow-md transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
-          <i data-lucide="cooking-pot" class="w-4 h-4"></i>
-          <span>${t('cook_suggest')}</span>
-        </button>
-        <button onclick="resetCookingPantry()" class="px-3 rounded-xl border border-white/10 bg-white/[0.04] text-xs font-semibold text-gray-300 hover:text-white hover:bg-white/[0.08] transition cursor-pointer">
-          Leeren
-        </button>
-      </div>
-
-      <div class="rounded-2xl border border-orange-500/20 bg-orange-950/5 p-3.5 shadow-inner">
-        <div class="mb-2.5 flex items-center justify-between">
-          <span class="text-[9px] font-bold uppercase tracking-widest text-[#ff7a00]">${t('cook_suggestion_title')}</span>
-          ${activeRecipe ? `
-            <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#ff7a00]/15 text-[#ff7a00] font-bold border border-[#ff7a00]/30">${escapeHtml(activeRecipe.duration)}</span>
-          ` : ''}
-        </div>
-
-        ${activeRecipe ? `
-          <div class="text-sm font-black text-[#c084fc] leading-tight font-display mb-2">${escapeHtml(activeRecipe.title)}</div>
-          
-          <div class="mb-3 space-y-1">
-            <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">Rezept-Zutaten</div>
-            <div class="flex flex-wrap gap-1.5 text-[10px]">
-              ${(activeRecipe.ingredients || []).map(ing => {
-                const normalized = ing.toLowerCase();
-                const matched = pantry.some(p => p.toLowerCase().includes(normalized) || normalized.includes(p.toLowerCase()));
-                return `
-                  <span class="px-2 py-0.5 rounded-md ${matched ? 'bg-[#00ff66]/15 text-[#00ff66] border border-[#00ff66]/30' : 'bg-[#ff7a00]/15 text-[#ff7a00] border border-[#ff7a00]/30'} font-semibold">
-                    ${matched ? '✔️' : '❌'} ${escapeHtml(capitalize(ing))}
-                  </span>
-                `;
-              }).join('')}
-            </div>
-          </div>
-
-          <div class="space-y-1.5 border-t border-white/5 pt-3">
-            <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 mb-1">${t('cook_steps')}</div>
-            <div class="space-y-2">
-              ${(activeRecipe.steps || []).map((step, idx) => `
-                <label class="flex items-start gap-2.5 cursor-pointer select-none group/step">
-                  <input type="checkbox" id="cook-step-${idx}" onchange="toggleCookingStepCheckbox(${idx})" class="w-4 h-4 rounded border-white/10 bg-[#0a0a0f] text-orange-500 focus:ring-0 accent-orange-500 shrink-0 mt-0.5 cursor-pointer" />
-                  <span id="cook-step-label-${idx}" class="text-[11px] text-[#00f2ff] group-hover/step:brightness-125 leading-normal font-medium transition duration-150">
-                    ${escapeHtml(step)}
-                  </span>
-                </label>
-              `).join('')}
-            </div>
-            
-            <button onclick="addRecipeMissingIngredientsToShopping()" class="w-full mt-2.5 py-1.5 px-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 rounded-xl text-[11px] font-bold transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i data-lucide="shopping-basket" class="w-3.5 h-3.5"></i>
-              <span data-i18n="cook_add_to_shop">Zutaten auf Einkaufsliste setzen 🛒</span>
-            </button>
-          </div>
-        ` : `
-          <div class="text-xs text-gray-400 italic text-center py-4">Gib deine Zutaten ein, um eine passende Anleitung zu erhalten.</div>
-        `}
-      </div>
-
+    <!-- 2-TAB SUB-NAVIGATION -->
+    <div class="flex items-center bg-black/60 p-1 rounded-2xl border border-white/10 text-xs gap-1 shadow-sm select-none">
+      <button onclick="switchCookingTab('pantry')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'pantry' ? activeTabClasses : inactiveTabClasses}">
+        <i data-lucide="utensils" class="w-3.5 h-3.5"></i>
+        <span>${t('cook_pantry_tab')}</span>
+      </button>
+      <button onclick="switchCookingTab('recipe')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'recipe' ? activeTabClasses : inactiveTabClasses}">
+        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+        <span>${t('cook_recipe_tab')}</span>
+      </button>
     </div>
+
+    <!-- TAB CONTENT -->
+    ${contentHtml}
   `;
 
   const input = panel.querySelector('#cooking-ingredient-input');
@@ -509,6 +562,7 @@ if (typeof window !== 'undefined') {
   window.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
   window.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
   window.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;
+  window.switchCookingTab = typeof switchCookingTab !== 'undefined' ? switchCookingTab : undefined;
   window.handleCookingSuggest = typeof handleCookingSuggest !== 'undefined' ? handleCookingSuggest : undefined;
   window.toggleCookingStepCheckbox = typeof toggleCookingStepCheckbox !== 'undefined' ? toggleCookingStepCheckbox : undefined;
   window.resetCookingPantry = typeof resetCookingPantry !== 'undefined' ? resetCookingPantry : undefined;
@@ -525,6 +579,7 @@ if (typeof window !== 'undefined') {
 }
 
 if (typeof globalThis !== 'undefined') {
+  globalThis.switchCookingTab = typeof switchCookingTab !== 'undefined' ? switchCookingTab : undefined;
   globalThis.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
   globalThis.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
   globalThis.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;

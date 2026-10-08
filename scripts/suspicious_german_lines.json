@@ -1,0 +1,917 @@
+[
+  {
+    "lineNum": 200,
+    "text": "🍎 Äpfel",
+    "line": "<button onclick=\"handleAddShoppingItem('Äpfel')\" class=\"px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0\">🍎 Äpfel</button>"
+  },
+  {
+    "lineNum": 204,
+    "text": "🧀 Käse",
+    "line": "<button onclick=\"handleAddShoppingItem('Käse')\" class=\"px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0\">🧀 Käse</button>"
+  },
+  {
+    "lineNum": 233,
+    "text": "Einkäufe abhaken wandert ins Protokoll.",
+    "line": "<span class=\"flex items-center gap-1.5\">💡 <span>Einkäufe abhaken wandert ins Protokoll.</span></span>"
+  },
+  {
+    "lineNum": 312,
+    "text": "(Auto-Übersetzung)",
+    "line": "<span class=\"text-[9px] text-gray-400 font-normal font-sans\">(Auto-Übersetzung)</span>"
+  },
+  {
+    "lineNum": 323,
+    "text": "Weltweit oder lokaler Fokus",
+    "line": "<span class=\"text-[9px] text-gray-400\">Weltweit oder lokaler Fokus</span>"
+  },
+  {
+    "lineNum": 540,
+    "text": "Natur & Atmosphäre",
+    "line": "<span>Natur & Atmosphäre</span>"
+  },
+  {
+    "lineNum": 679,
+    "text": "Datei laden",
+    "line": "<span>Datei laden</span>"
+  },
+  {
+    "lineNum": 695,
+    "text": "Noch keine Tracks geladen. Klicke auf 'Datei laden', um deine Musik abzuspielen.",
+    "line": "<div class=\"text-center py-2 text-xs text-gray-500 italic\">Noch keine Tracks geladen. Klicke auf 'Datei laden', um deine Musik abzuspielen.</div>"
+  },
+  {
+    "lineNum": 701,
+    "text": "Kein Track aktiv",
+    "line": "<span id=\"music-now-playing-title\" class=\"text-xs font-bold text-white truncate max-w-[180px]\">Kein Track aktiv</span>"
+  },
+  {
+    "lineNum": 726,
+    "text": "Füge eine Spotify Playlist- oder Track-URL ein:",
+    "line": "<div class=\"text-[10px] text-gray-400\">Füge eine Spotify Playlist- oder Track-URL ein:</div>"
+  },
+  {
+    "lineNum": 729,
+    "text": "Laden 🎧",
+    "line": "<button onclick=\"loadSpotifyEmbed()\" class=\"px-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 rounded-xl text-xs font-bold border border-emerald-500/30 transition cursor-pointer\">Laden 🎧</button>"
+  },
+  {
+    "lineNum": 733,
+    "text": "Noch keine Spotify-URL geladen.",
+    "line": "<span class=\"text-xs text-gray-500 italic\">Noch keine Spotify-URL geladen.</span>"
+  },
+  {
+    "lineNum": 740,
+    "text": "Füge eine YouTube Video- oder Live-Stream-URL ein:",
+    "line": "<div class=\"text-[10px] text-gray-400\">Füge eine YouTube Video- oder Live-Stream-URL ein:</div>"
+  },
+  {
+    "lineNum": 743,
+    "text": "Laden ▶",
+    "line": "<button onclick=\"loadYoutubeEmbed()\" class=\"px-2.5 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 rounded-xl text-xs font-bold border border-rose-500/30 transition cursor-pointer\">Laden ▶</button>"
+  },
+  {
+    "lineNum": 747,
+    "text": "Noch keine YouTube-URL geladen.",
+    "line": "<span class=\"text-xs text-gray-500 italic\">Noch keine YouTube-URL geladen.</span>"
+  },
+  {
+    "lineNum": 1203,
+    "text": "Kein Sender gewählt",
+    "line": "<span class=\"text-xs font-bold text-white truncate\" id=\"radio-now-playing-label\">Kein Sender gewählt</span>"
+  },
+  {
+    "lineNum": 1213,
+    "text": "Verfügbare Sender",
+    "line": "<div class=\"text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1\">Verfügbare Sender</div>"
+  },
+  {
+    "lineNum": 1459,
+    "text": "💡 Neue Idee",
+    "line": "<button onclick=\"CollabEngine.sendQuickChip('💡 Habe eine neue Idee aufs Board gepinnt!')\" class=\"px-2 py-0.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/30 border border-emerald-500/30 text-[10px] text-emerald-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0\">💡 Neue Idee</button>"
+  },
+  {
+    "lineNum": 1471,
+    "text": "Abbrechen",
+    "line": "<button onclick=\"CollabEngine.cancelVoiceRecording()\" class=\"px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-[10px] text-gray-300 transition cursor-pointer\">Abbrechen</button>"
+  },
+  {
+    "lineNum": 1495,
+    "text": "⚡ Schnell-Kontext einfügen:",
+    "line": "<span class=\"text-[9.5px] font-mono text-gray-400 uppercase tracking-wider\">⚡ Schnell-Kontext einfügen:</span>"
+  },
+  {
+    "lineNum": 1520,
+    "text": "Mit 1 Klick teilen an:",
+    "line": "<div class=\"text-[9.5px] font-mono text-gray-400 uppercase tracking-wider mb-1.5\">Mit 1 Klick teilen an:</div>"
+  },
+  {
+    "lineNum": 1574,
+    "text": "Telefonnummer oder @Username:",
+    "line": "<label class=\"block text-[10px] font-mono text-gray-400 uppercase tracking-wider mb-1\">Telefonnummer oder @Username:</label>"
+  },
+  {
+    "lineNum": 1584,
+    "text": "App auswählen zum Starten:",
+    "line": "<div class=\"text-[9.5px] font-mono text-gray-400 uppercase tracking-wider mb-1.5\">App auswählen zum Starten:</div>"
+  },
+  {
+    "lineNum": 1870,
+    "text": "🧘 Körper",
+    "line": "<button id=\"pause-dropdown-tab-body\" onclick=\"switchPauseDropdownTab('body')\" class=\"py-1.5 px-1 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition text-center cursor-pointer\">🧘 Körper</button>"
+  },
+  {
+    "lineNum": 1919,
+    "text": "Stoppt Grübeln & holt in die Realität",
+    "line": "<div class=\"text-[9px] text-gray-400 font-normal\">Stoppt Grübeln & holt in die Realität</div>"
+  },
+  {
+    "lineNum": 1930,
+    "text": "20s Bildschirm-Erholung & warme Handflächen",
+    "line": "<div class=\"text-[9px] text-gray-400 font-normal\">20s Bildschirm-Erholung & warme Handflächen</div>"
+  },
+  {
+    "lineNum": 1967,
+    "text": "Löst körperliche Starre & Trägheit",
+    "line": "<div class=\"text-[9px] text-gray-400 font-normal\">Löst körperliche Starre & Trägheit</div>"
+  },
+  {
+    "lineNum": 1992,
+    "text": "Plätschernder Waldbach",
+    "line": "<div class=\"leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-sky-200\">Plätschernder Waldbach</div>"
+  },
+  {
+    "lineNum": 1993,
+    "text": "Natürlicher Bio-Sound für mentale Ruhe",
+    "line": "<div class=\"text-[9px] text-gray-400 font-normal\">Natürlicher Bio-Sound für mentale Ruhe</div>"
+  },
+  {
+    "lineNum": 2015,
+    "text": "Gleichmäßiges Prasseln für Gemütlichkeit",
+    "line": "<div class=\"text-[9px] text-gray-400 font-normal\">Gleichmäßiges Prasseln für Gemütlichkeit</div>"
+  },
+  {
+    "lineNum": 2026,
+    "text": "Vollbild Recovery Studio öffnen ↗",
+    "line": "<span>Vollbild Recovery Studio öffnen ↗</span>"
+  },
+  {
+    "lineNum": 2104,
+    "text": "🌐 Sprache wählen",
+    "line": "<span>🌐 Sprache wählen</span>"
+  },
+  {
+    "lineNum": 2255,
+    "text": "Aktuelles Board fürs Team teilen",
+    "line": "<span>Aktuelles Board fürs Team teilen</span>"
+  },
+  {
+    "lineNum": 2299,
+    "text": "Lädt Live-Nachrichten...",
+    "line": "<span class=\"text-cyan-300 font-bold tracking-wide font-display drop-shadow-sm whitespace-nowrap hover:underline\">Lädt Live-Nachrichten...</span>"
+  },
+  {
+    "lineNum": 2322,
+    "text": "DE · Alle Themen",
+    "line": "<p class=\"text-[10px] text-gray-300 font-mono\" id=\"ticker-options-subtext\">DE · Alle Themen</p>"
+  },
+  {
+    "lineNum": 2352,
+    "text": "1. Ausgabesprache (Übersetzung)",
+    "line": "<span>1. Ausgabesprache (Übersetzung)</span>"
+  },
+  {
+    "lineNum": 2388,
+    "text": "Alle Quellen",
+    "line": "<span class=\"text-[8.5px] text-purple-300 cursor-pointer hover:underline\" onclick=\"RadioNewsEngine.selectMedia('all')\">Alle Quellen</span>"
+  },
+  {
+    "lineNum": 2400,
+    "text": "Zügig (22s)",
+    "line": "<button onclick=\"RadioNewsEngine.setTickerSpeed(22)\" data-speed=\"22\" class=\"ticker-speed-btn px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/15 text-[10px] font-mono text-gray-200 cursor-pointer\">Zügig (22s)</button>"
+  },
+  {
+    "lineNum": 2444,
+    "text": "Liste hinzufügen",
+    "line": "<span class=\"font-bold\">Liste hinzufügen</span>"
+  },
+  {
+    "lineNum": 2452,
+    "text": "Neue Liste anlegen",
+    "line": "<span>Neue Liste anlegen</span>"
+  },
+  {
+    "lineNum": 2467,
+    "text": "❤️ Wünsche",
+    "line": "<option value=\"heart\">❤️ Wünsche</option>"
+  },
+  {
+    "lineNum": 2476,
+    "text": "Erstellen",
+    "line": "<span>Erstellen</span>"
+  },
+  {
+    "lineNum": 2509,
+    "text": "Schließen",
+    "line": "<span class=\"text-[11px] font-semibold hidden sm:inline\">Schließen</span>"
+  },
+  {
+    "lineNum": 2562,
+    "text": "🐦 Vögel",
+    "line": "<button onclick=\"playAmbientSound('birds')\" class=\"px-2 py-1 bg-white/5 hover:bg-emerald-500/20 text-gray-300 hover:text-emerald-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0\">🐦 Vögel</button>"
+  },
+  {
+    "lineNum": 2906,
+    "text": "Atemübung & Ruhe",
+    "line": "<p class=\"text-[10px] text-teal-300 mt-0.5\">Atemübung & Ruhe</p>"
+  },
+  {
+    "lineNum": 3270,
+    "text": "Zwischen zwei Dingen gefangen? Lass den Münzwurf entscheiden – dein Bauchgefühl merkt sofort, ob du mit dem Ergebnis zufrieden bist!",
+    "line": "<span>Zwischen zwei Dingen gefangen? Lass den Münzwurf entscheiden – dein Bauchgefühl merkt sofort, ob du mit dem Ergebnis zufrieden bist!</span>"
+  },
+  {
+    "lineNum": 3286,
+    "text": "Münze werfen & entscheiden",
+    "line": "<span>Münze werfen & entscheiden</span>"
+  },
+  {
+    "lineNum": 3298,
+    "text": "Was blockiert dich gerade oder liegt dir auf der Seele? Tippe es kurz ein und starte sofort ohne Ablenkung.",
+    "line": "<span>Was blockiert dich gerade oder liegt dir auf der Seele? Tippe es kurz ein und starte sofort ohne Ablenkung.</span>"
+  },
+  {
+    "lineNum": 3365,
+    "text": "1-3 Löffel",
+    "line": "<span class=\"truncate\">1-3 Löffel</span>"
+  },
+  {
+    "lineNum": 3375,
+    "text": "Wähle ein vorgefertigtes Workout:",
+    "line": "<span>Wähle ein vorgefertigtes Workout:</span>"
+  },
+  {
+    "lineNum": 3376,
+    "text": "Keine Geräte nötig",
+    "line": "<span class=\"text-lime-300/80 font-mono text-[10px]\">Keine Geräte nötig</span>"
+  },
+  {
+    "lineNum": 3390,
+    "text": "3 Min. · 3 Übungen (Express)",
+    "line": "<option value=\"3\">3 Min. · 3 Übungen (Express)</option>"
+  },
+  {
+    "lineNum": 3391,
+    "text": "5 Min. · 5 Übungen (Optimal)",
+    "line": "<option value=\"5\" selected>5 Min. · 5 Übungen (Optimal)</option>"
+  },
+  {
+    "lineNum": 3392,
+    "text": "8 Min. · 8 Übungen (Intensiv)",
+    "line": "<option value=\"8\">8 Min. · 8 Übungen (Intensiv)</option>"
+  },
+  {
+    "lineNum": 3393,
+    "text": "12 Min. · 12 Übungen (Power)",
+    "line": "<option value=\"12\">12 Min. · 12 Übungen (Power)</option>"
+  },
+  {
+    "lineNum": 3394,
+    "text": "16 Min. · 16 Übungen (Voller Zirkel)",
+    "line": "<option value=\"16\">16 Min. · 16 Übungen (Voller Zirkel)</option>"
+  },
+  {
+    "lineNum": 3400,
+    "text": "🌟 Ausgewogener Ganzkörper-Mix",
+    "line": "<option value=\"all\" selected>🌟 Ausgewogener Ganzkörper-Mix</option>"
+  },
+  {
+    "lineNum": 3402,
+    "text": "🔥 Core & Rumpfstabilität",
+    "line": "<option value=\"core\">🔥 Core & Rumpfstabilität</option>"
+  },
+  {
+    "lineNum": 3403,
+    "text": "🦵 Beine & Gesäß (Ohne Springen)",
+    "line": "<option value=\"legs\">🦵 Beine & Gesäß (Ohne Springen)</option>"
+  },
+  {
+    "lineNum": 3404,
+    "text": "💪 Oberkörper & Haltung",
+    "line": "<option value=\"upper\">💪 Oberkörper & Haltung</option>"
+  },
+  {
+    "lineNum": 3409,
+    "text": "🪑 Verfügbares Equipment",
+    "line": "<label class=\"text-[10px] text-gray-400 font-bold block mb-1\">🪑 Verfügbares Equipment</label>"
+  },
+  {
+    "lineNum": 3412,
+    "text": "🚫 Rein Bodyweight (Kein Equipment)",
+    "line": "<option value=\"none\">🚫 Rein Bodyweight (Kein Equipment)</option>"
+  },
+  {
+    "lineNum": 3417,
+    "text": "⚡ Intervall-Taktung (Übung/Pause)",
+    "line": "<label class=\"text-[10px] text-gray-400 font-bold block mb-1\">⚡ Intervall-Taktung (Übung/Pause)</label>"
+  },
+  {
+    "lineNum": 3433,
+    "text": "Flüsterleise",
+    "line": "<span class=\"text-[9px] px-1.5 py-0.2 rounded-md bg-lime-500/20 text-lime-300 font-mono font-bold\">Flüsterleise</span>"
+  },
+  {
+    "lineNum": 3435,
+    "text": "Kein Springen, kein Trittschall, geräuschlos auf Teppich oder Parkett.",
+    "line": "<p class=\"text-[10px] text-gray-400 leading-tight\">Kein Springen, kein Trittschall, geräuschlos auf Teppich oder Parkett.</p>"
+  },
+  {
+    "lineNum": 3443,
+    "text": "Zusammengestellte Übungen:",
+    "line": "<span>Zusammengestellte Übungen:</span>"
+  },
+  {
+    "lineNum": 3465,
+    "text": "Alle Kategorien",
+    "line": "<option value=\"all\">Alle Kategorien</option>"
+  },
+  {
+    "lineNum": 3468,
+    "text": "🦵 Beine & Gesäß",
+    "line": "<option value=\"legs\">🦵 Beine & Gesäß</option>"
+  },
+  {
+    "lineNum": 3469,
+    "text": "💪 Oberkörper",
+    "line": "<option value=\"upper\">💪 Oberkörper</option>"
+  },
+  {
+    "lineNum": 3470,
+    "text": "🤸 Ganzkörper & Flow",
+    "line": "<option value=\"full\">🤸 Ganzkörper & Flow</option>"
+  },
+  {
+    "lineNum": 3487,
+    "text": "🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)",
+    "line": "<option value=\"1\">🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)</option>"
+  },
+  {
+    "lineNum": 3488,
+    "text": "🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)",
+    "line": "<option value=\"2\" selected>🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)</option>"
+  },
+  {
+    "lineNum": 3489,
+    "text": "🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)",
+    "line": "<option value=\"3\">🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)</option>"
+  },
+  {
+    "lineNum": 3510,
+    "text": "Übung absolviert & belohnen",
+    "line": "<i data-lucide=\"check-circle\" class=\"w-4 h-4\"></i> <span>Übung absolviert & belohnen</span>"
+  },
+  {
+    "lineNum": 3520,
+    "text": "Übung",
+    "line": "<div class=\"text-[10px] text-gray-400 font-mono\">Übung <span id=\"sport-player-step-counter\" class=\"text-white font-bold\">1 / 8</span></div>"
+  },
+  {
+    "lineNum": 3538,
+    "text": "🎯 Fokus: Beine & Gesäß",
+    "line": "<span id=\"sport-player-ex-muscle\" class=\"inline-block px-2 py-0.5 rounded-lg bg-white/5 text-[10px] text-lime-300/90 font-mono font-semibold mt-1\">🎯 Fokus: Beine & Gesäß</span>"
+  },
+  {
+    "lineNum": 3543,
+    "text": "Als Nächstes:",
+    "line": "<span class=\"text-gray-400\">Als Nächstes:</span>"
+  },
+  {
+    "lineNum": 3544,
+    "text": "Beckenbrücke",
+    "line": "<span class=\"text-lime-200 font-bold\">Beckenbrücke</span>"
+  },
+  {
+    "lineNum": 3641,
+    "text": "Alle Geräte & Offline-fähig",
+    "line": "<p class=\"text-[10px] text-emerald-400 font-medium\">Alle Geräte & Offline-fähig</p>"
+  },
+  {
+    "lineNum": 3844,
+    "text": "Aktivitäts-Trend",
+    "line": "<span>Aktivitäts-Trend</span>"
+  },
+  {
+    "lineNum": 3888,
+    "text": "Tiefenanalysen, Exportfunktionen und Monatsvergleiche.",
+    "line": "<p class=\"text-[11px] text-gray-400\">Tiefenanalysen, Exportfunktionen und Monatsvergleiche.</p>"
+  },
+  {
+    "lineNum": 3893,
+    "text": "Pro (bald verfügbar)",
+    "line": "<span>Pro (bald verfügbar)</span>"
+  },
+  {
+    "lineNum": 3908,
+    "text": "Alle Daten 100% lokal auf deinem Gerät gespeichert",
+    "line": "<span>Alle Daten 100% lokal auf deinem Gerät gespeichert</span>"
+  },
+  {
+    "lineNum": 3998,
+    "text": "Alle Kernfunktionen sind 100% lokal & dauerhaft kostenlos nutzbar.",
+    "line": "<p class=\"text-[11px] text-gray-400 mt-0.5\">Alle Kernfunktionen sind 100% lokal & dauerhaft kostenlos nutzbar.</p>"
+  },
+  {
+    "lineNum": 4003,
+    "text": "Pro (bald verfügbar)",
+    "line": "<span>Pro (bald verfügbar)</span>"
+  },
+  {
+    "lineNum": 4015,
+    "text": "Wähle, wie Tool-Panels, Wetter, Sounds und Popovers gesteuert werden.",
+    "line": "<p class=\"text-[11px] text-gray-400 mt-0.5\">Wähle, wie Tool-Panels, Wetter, Sounds und Popovers gesteuert werden.</p>"
+  },
+  {
+    "lineNum": 4026,
+    "text": "Hovern öffnet eine flüchtige Vorschau. Ein Klick fixiert das Panel dauerhaft am Platz.",
+    "line": "<p class=\"text-[11px] text-gray-400 mt-1 leading-relaxed\">Hovern öffnet eine flüchtige Vorschau. Ein Klick fixiert das Panel dauerhaft am Platz.</p>"
+  },
+  {
+    "lineNum": 4036,
+    "text": "Keine automatischen Popups bei Mausbewegungen. Alle Panels öffnen ausschließlich per Klick.",
+    "line": "<p class=\"text-[11px] text-gray-400 mt-1 leading-relaxed\">Keine automatischen Popups bei Mausbewegungen. Alle Panels öffnen ausschließlich per Klick.</p>"
+  },
+  {
+    "lineNum": 4079,
+    "text": "Voreingestellte Minuten für neue Timer-Sitzungen.",
+    "line": "<p class=\"text-[11px] text-gray-400\">Voreingestellte Minuten für neue Timer-Sitzungen.</p>"
+  },
+  {
+    "lineNum": 4096,
+    "text": "Sichere alle deine Aufgaben, Workspaces, Einstellungen und Historie in eine Datei oder stelle sie wieder her.",
+    "line": "<p class=\"text-[11px] text-gray-400 mt-0.5\">Sichere alle deine Aufgaben, Workspaces, Einstellungen und Historie in eine Datei oder stelle sie wieder her.</p>"
+  },
+  {
+    "lineNum": 4120,
+    "text": "Setzt den Browser-Speicher vollständig auf den Ursprungszustand zurück.",
+    "line": "<p class=\"text-[11px] text-gray-400 mt-0.5\">Setzt den Browser-Speicher vollständig auf den Ursprungszustand zurück.</p>"
+  },
+  {
+    "lineNum": 4145,
+    "text": "Screenshot hinzufügen 📷",
+    "line": "<span>Screenshot hinzufügen 📷</span>"
+  },
+  {
+    "lineNum": 4172,
+    "text": "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)",
+    "line": "<span>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</span>"
+  },
+  {
+    "lineNum": 4176,
+    "text": "Ein Projekt für barrierefreie, strukturierte Alltags- und Arbeitsorganisation.",
+    "line": "<p>Ein Projekt für barrierefreie, strukturierte Alltags- und Arbeitsorganisation.</p>"
+  },
+  {
+    "lineNum": 4179,
+    "text": "Musterstraße 12, 10115 Berlin, Deutschland",
+    "line": "<p>Musterstraße 12, 10115 Berlin, Deutschland</p>"
+  },
+  {
+    "lineNum": 4203,
+    "text": "ausschließlich lokal im Speicher deines Browsers (localStorage & IndexedDB)",
+    "line": "Deine Privatsphäre hat höchste Priorität. Noodle speichert deine Aufgaben, Notizen, Einkaufslisten, Timer und Einstellungen <strong>ausschließlich lokal im Speicher deines Browsers (localStorage & IndexedDB)</strong>. Wir nutzen ausschließlich Umami, ein cookie-freies, datenschutzfreundliches Analyse-Tool zur Erfassung anonymer Besucherstatistiken. Es findet kein Nutzer-Tracking über Cookies statt und wir binden keine Werbenetzwerke ein."
+  },
+  {
+    "lineNum": 4215,
+    "text": "Bei aktiver Nutzung des Wetter-Widgets wird die Open-Meteo API kontaktiert. Es werden keine personenbezogenen Profile erstellt.",
+    "line": "<li><strong>Wetterdaten (Open-Meteo):</strong> Bei aktiver Nutzung des Wetter-Widgets wird die Open-Meteo API kontaktiert. Es werden keine personenbezogenen Profile erstellt.</li>"
+  },
+  {
+    "lineNum": 4216,
+    "text": "Nutzt du die freiwillige geräteübergreifende Synchronisation, erfolgt die passwortlose Authentifizierung über Supabase Auth (Magic Link per E-Mail) und die Datenübertragung Ende-zu-Ende verschlüsselt auf gesicherten Servern innerhalb der Europäischen Union.",
+    "line": "<li><strong>Cloud-Synchronisation & Login (Optional):</strong> Nutzt du die freiwillige geräteübergreifende Synchronisation, erfolgt die passwortlose Authentifizierung über Supabase Auth (Magic Link per E-Mail) und die Datenübertragung Ende-zu-Ende verschlüsselt auf gesicherten Servern innerhalb der Europäischen Union.</li>"
+  },
+  {
+    "lineNum": 4253,
+    "text": "© Tailwind Labs Inc. (MIT License)",
+    "line": "<span class=\"text-gray-400\">© Tailwind Labs Inc. (MIT License)</span>"
+  },
+  {
+    "lineNum": 4261,
+    "text": "© Supabase Inc. (MIT License)",
+    "line": "<span class=\"text-gray-400\">© Supabase Inc. (MIT License)</span>"
+  },
+  {
+    "lineNum": 4265,
+    "text": "© Niklas von Hertzen (MIT License)",
+    "line": "<span class=\"text-gray-400\">© Niklas von Hertzen (MIT License)</span>"
+  },
+  {
+    "lineNum": 4302,
+    "text": "↵ Ausführen",
+    "line": "<span>↵ Ausführen</span>"
+  },
+  {
+    "lineNum": 4304,
+    "text": "Tastaturkürzel (?)",
+    "line": "<span onclick=\"openKeyboardShortcuts()\" class=\"hover:text-purple-300 transition cursor-pointer\">Tastaturkürzel (?)</span>"
+  },
+  {
+    "lineNum": 4336,
+    "text": "Neue Aufgabe erstellen",
+    "line": "<span class=\"text-gray-300\">Neue Aufgabe erstellen</span>"
+  },
+  {
+    "lineNum": 4344,
+    "text": "Zen-Fokusmodus an / aus",
+    "line": "<span class=\"text-gray-300\">Zen-Fokusmodus an / aus</span>"
+  },
+  {
+    "lineNum": 4355,
+    "text": "Diese Übersicht öffnen",
+    "line": "<span class=\"text-gray-300\">Diese Übersicht öffnen</span>"
+  },
+  {
+    "lineNum": 4359,
+    "text": "Modals & Popups schließen",
+    "line": "<span class=\"text-gray-300\">Modals & Popups schließen</span>"
+  },
+  {
+    "lineNum": 4502,
+    "text": "Alle Kernzonen frisch",
+    "line": "<span id=\"cleaning-guide-subtitle\" class=\"text-[10px] text-gray-400 font-mono\">Alle Kernzonen frisch</span>"
+  },
+  {
+    "lineNum": 4504,
+    "text": "Die solide Grundreinigung nach der goldenen Regel: Von oben nach unten, von innen nach außen, trocken vor nass!",
+    "line": "<p id=\"cleaning-guide-intro-tip\" class=\"text-[11px] text-gray-300 leading-relaxed font-normal\">Die solide Grundreinigung nach der goldenen Regel: Von oben nach unten, von innen nach außen, trocken vor nass!</p>"
+  },
+  {
+    "lineNum": 4534,
+    "text": "In Board übernehmen",
+    "line": "<span>In Board übernehmen</span>"
+  },
+  {
+    "lineNum": 4542,
+    "text": "Bereit für den Start!",
+    "line": "<span id=\"cleaning-progress-status\" class=\"text-gray-400\">Bereit für den Start!</span>"
+  },
+  {
+    "lineNum": 4558,
+    "text": "Profi-Spickzettel für Einsteiger (Farben & Regeln)",
+    "line": "<span>Profi-Spickzettel für Einsteiger (Farben & Regeln)</span>"
+  },
+  {
+    "lineNum": 4566,
+    "text": "Für Staub, Regale, Schreibtisch & Spiegel",
+    "line": "<div class=\"text-[10px] text-gray-400\">Für Staub, Regale, Schreibtisch & Spiegel</div>"
+  },
+  {
+    "lineNum": 4570,
+    "text": "Für Küche, Herd, Tische & Oberflächen",
+    "line": "<div class=\"text-[10px] text-gray-400\">Für Küche, Herd, Tische & Oberflächen</div>"
+  },
+  {
+    "lineNum": 4574,
+    "text": "Nur für WC & Sanitärbereich (Hygiene!)",
+    "line": "<div class=\"text-[10px] text-gray-400\">Nur für WC & Sanitärbereich (Hygiene!)</div>"
+  },
+  {
+    "lineNum": 4579,
+    "text": "Von oben nach unten:",
+    "line": "<p>1. <strong>Von oben nach unten:</strong> Zuerst Regale & Tische entstauben, ganz zum Schluss saugen & wischen.</p>"
+  },
+  {
+    "lineNum": 4580,
+    "text": "Sprühe Kalklöser & Badreiniger ein und mache 5 Min was anderes – kein Schrubben nötig!",
+    "line": "<p>2. <strong>Einwirken lassen:</strong> Sprühe Kalklöser & Badreiniger ein und mache 5 Min was anderes – kein Schrubben nötig!</p>"
+  },
+  {
+    "lineNum": 4581,
+    "text": "Trocken vor nass:",
+    "line": "<p>3. <strong>Trocken vor nass:</strong> Erst Krümel und Staub trocken wegfegen/saugen, bevor du mit Wasser wischst.</p>"
+  },
+  {
+    "lineNum": 4581,
+    "text": "Erst Krümel und Staub trocken wegfegen/saugen, bevor du mit Wasser wischst.",
+    "line": "<p>3. <strong>Trocken vor nass:</strong> Erst Krümel und Staub trocken wegfegen/saugen, bevor du mit Wasser wischst.</p>"
+  },
+  {
+    "lineNum": 4627,
+    "text": "Abbrechen",
+    "line": "<button onclick=\"closeNoteDetailModal()\" class=\"px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer\">Abbrechen</button>"
+  },
+  {
+    "lineNum": 4630,
+    "text": "Speichern",
+    "line": "<span>Speichern</span>"
+  },
+  {
+    "lineNum": 4663,
+    "text": "Datei laden (.txt, .md, .csv, .json, .ics)",
+    "line": "<span>Datei laden (.txt, .md, .csv, .json, .ics)</span>"
+  },
+  {
+    "lineNum": 4666,
+    "text": "0 Einträge",
+    "line": "<span id=\"text-import-count-badge\" class=\"px-3 py-2 bg-black/40 border border-white/10 rounded-xl text-[10px] font-mono text-emerald-400 font-bold shrink-0\">0 Einträge</span>"
+  },
+  {
+    "lineNum": 4676,
+    "text": "Abbrechen",
+    "line": "<button onclick=\"closeTextImportModal()\" class=\"px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer\">Abbrechen</button>"
+  },
+  {
+    "lineNum": 4707,
+    "text": "+1 Tag (Morgen)",
+    "line": "<button type=\"button\" onclick=\"quickPostponeTerminDays(1)\" class=\"py-1.5 px-2 rounded-xl bg-white/5 hover:bg-sky-500/20 border border-white/10 hover:border-sky-500/40 text-[11px] font-semibold text-gray-200 hover:text-sky-200 transition cursor-pointer text-center\">+1 Tag (Morgen)</button>"
+  },
+  {
+    "lineNum": 4708,
+    "text": "+2 Tage",
+    "line": "<button type=\"button\" onclick=\"quickPostponeTerminDays(2)\" class=\"py-1.5 px-2 rounded-xl bg-white/5 hover:bg-sky-500/20 border border-white/10 hover:border-sky-500/40 text-[11px] font-semibold text-gray-200 hover:text-sky-200 transition cursor-pointer text-center\">+2 Tage</button>"
+  },
+  {
+    "lineNum": 4709,
+    "text": "+1 Woche",
+    "line": "<button type=\"button\" onclick=\"quickPostponeTerminDays(7)\" class=\"py-1.5 px-2 rounded-xl bg-white/5 hover:bg-sky-500/20 border border-white/10 hover:border-sky-500/40 text-[11px] font-semibold text-gray-200 hover:text-sky-200 transition cursor-pointer text-center\">+1 Woche</button>"
+  },
+  {
+    "lineNum": 4720,
+    "text": "Neue Uhrzeit:",
+    "line": "<label class=\"text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1\">Neue Uhrzeit:</label>"
+  },
+  {
+    "lineNum": 4733,
+    "text": "Abbrechen",
+    "line": "<button type=\"button\" onclick=\"closePostponeTerminModal()\" class=\"px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs rounded-xl transition cursor-pointer\">Abbrechen</button>"
+  },
+  {
+    "lineNum": 4752,
+    "text": "(Woche & Monat)",
+    "line": "<span class=\"text-xs text-purple-300 font-mono font-normal\">(Woche & Monat)</span>"
+  },
+  {
+    "lineNum": 4791,
+    "text": "Menü & Einstellungen",
+    "line": "<span>Menü & Einstellungen</span>"
+  },
+  {
+    "lineNum": 4839,
+    "text": "Rückgängig",
+    "line": "<span>Rückgängig</span>"
+  },
+  {
+    "lineNum": 4847,
+    "text": "Plan laden",
+    "line": "<span>Plan laden</span>"
+  },
+  {
+    "lineNum": 4851,
+    "text": "Zurücksetzen",
+    "line": "<span>Zurücksetzen</span>"
+  },
+  {
+    "lineNum": 4905,
+    "text": "Naturklänge, Genre-Beats, MP3, Spotify, DJ",
+    "line": "<div class=\"text-[10px] text-purple-300/70\">Naturklänge, Genre-Beats, MP3, Spotify, DJ</div>"
+  },
+  {
+    "lineNum": 4945,
+    "text": "30s Überwindung",
+    "line": "<div class=\"text-[10px] text-yellow-300/70\">30s Überwindung</div>"
+  },
+  {
+    "lineNum": 5014,
+    "text": "Sport & Körper",
+    "line": "<div class=\"text-xs font-bold text-lime-300 leading-tight\">Sport & Körper</div>"
+  },
+  {
+    "lineNum": 5025,
+    "text": "Live & 5-Tage Trend",
+    "line": "<div class=\"text-[10px] text-sky-300/70\">Live & 5-Tage Trend</div>"
+  },
+  {
+    "lineNum": 5072,
+    "text": "Körper",
+    "line": "<span class=\"truncate\">Körper</span>"
+  },
+  {
+    "lineNum": 5165,
+    "text": "2️⃣ Schulterkreisen & Brustöffner",
+    "line": "<span>2️⃣ Schulterkreisen & Brustöffner</span>"
+  },
+  {
+    "lineNum": 5206,
+    "text": "Gemütlicher Fokus",
+    "line": "<div class=\"text-[9px] text-gray-400\">Gemütlicher Fokus</div>"
+  },
+  {
+    "lineNum": 5261,
+    "text": "Bedürfnis",
+    "line": "<span class=\"truncate\">Bedürfnis</span>"
+  },
+  {
+    "lineNum": 5265,
+    "text": "Brücke",
+    "line": "<span class=\"truncate\">Brücke</span>"
+  },
+  {
+    "lineNum": 5300,
+    "text": "Der biochemische Drang dauert im Nervensystem selten länger als 60–90 Sekunden. Wenn du diese Zeit achtsam überbrückst, gewinnst du deine volle Handlungsfreiheit zurück.",
+    "line": "<span><strong>Warum das funktioniert:</strong> Der biochemische Drang dauert im Nervensystem selten länger als 60–90 Sekunden. Wenn du diese Zeit achtsam überbrückst, gewinnst du deine volle Handlungsfreiheit zurück.</span>"
+  },
+  {
+    "lineNum": 5336,
+    "text": "Sehnsucht / Nähe",
+    "line": "<div class=\"text-[9px] text-gray-400\">Sehnsucht / Nähe</div>"
+  },
+  {
+    "lineNum": 5343,
+    "text": "Müdigkeit",
+    "line": "<div class=\"text-xs font-bold text-blue-300\">Müdigkeit</div>"
+  },
+  {
+    "lineNum": 5344,
+    "text": "Erschöpfter Geist",
+    "line": "<div class=\"text-[9px] text-gray-400\">Erschöpfter Geist</div>"
+  },
+  {
+    "lineNum": 5360,
+    "text": "Flucht vor Gefühl",
+    "line": "<div class=\"text-[9px] text-gray-400\">Flucht vor Gefühl</div>"
+  },
+  {
+    "lineNum": 5388,
+    "text": "Andere Sofort-Brücke vorschlagen 🔄",
+    "line": "<span>Andere Sofort-Brücke vorschlagen 🔄</span>"
+  },
+  {
+    "lineNum": 5415,
+    "text": "Deine persönlichen Anker (Warum lohnt es sich standhaft zu bleiben?):",
+    "line": "<label class=\"text-xs text-gray-300 font-bold block\">Deine persönlichen Anker (Warum lohnt es sich standhaft zu bleiben?):</label>"
+  },
+  {
+    "lineNum": 5421,
+    "text": "❤️ Für meine Liebsten",
+    "line": "<button onclick=\"saveClarityReason('Für meine Liebsten voll da sein')\" class=\"px-2.5 py-1 rounded-lg bg-white/5 hover:bg-teal-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-teal-200 transition cursor-pointer\">❤️ Für meine Liebsten</button>"
+  },
+  {
+    "lineNum": 5436,
+    "text": "Deine Tage in bewusster Klarheit",
+    "line": "<div class=\"text-[10px] uppercase font-bold tracking-widest text-teal-400 font-mono\">Deine Tage in bewusster Klarheit</div>"
+  },
+  {
+    "lineNum": 5438,
+    "text": "Tage der inneren Freiheit & Selbstbestimmung",
+    "line": "<div class=\"text-xs text-gray-300\">Tage der inneren Freiheit & Selbstbestimmung</div>"
+  },
+  {
+    "lineNum": 5443,
+    "text": "🌱 Tag 1",
+    "line": "<span class=\"text-teal-400 block mb-0.5\">🌱 Tag 1</span>"
+  },
+  {
+    "lineNum": 5447,
+    "text": "⚡ Tag 7",
+    "line": "<span class=\"text-teal-400 block mb-0.5\">⚡ Tag 7</span>"
+  },
+  {
+    "lineNum": 5451,
+    "text": "🏆 Tag 30",
+    "line": "<span class=\"text-teal-400 block mb-0.5\">🏆 Tag 30</span>"
+  },
+  {
+    "lineNum": 5541,
+    "text": "Die schnellste biologische Methode zur Senkung von Herzfrequenz und CO₂-Druck",
+    "line": "<p class=\"text-[10px] text-gray-400\">Die schnellste biologische Methode zur Senkung von Herzfrequenz und CO₂-Druck</p>"
+  },
+  {
+    "lineNum": 5556,
+    "text": "Geführten Atem-Pacer starten",
+    "line": "<span>Geführten Atem-Pacer starten</span>"
+  },
+  {
+    "lineNum": 5568,
+    "text": "Verschränke die Arme über der Brust und klopfe abwechselnd sanft auf die Schlüsselbeine",
+    "line": "<p class=\"text-[10px] text-gray-400\">Verschränke die Arme über der Brust und klopfe abwechselnd sanft auf die Schlüsselbeine</p>"
+  },
+  {
+    "lineNum": 5592,
+    "text": "TIPP-Kältereiz (Taucher-Reflex aus DBT):",
+    "line": "<span>🧊</span> <span>TIPP-Kältereiz (Taucher-Reflex aus DBT):</span>"
+  },
+  {
+    "lineNum": 5603,
+    "text": "Schritt 1 von 5",
+    "line": "<span id=\"reg-ground-badge\" class=\"px-2.5 py-1 rounded-lg bg-teal-500/20 text-teal-300 border border-teal-500/40 text-xs font-mono font-bold\">Schritt 1 von 5</span>"
+  },
+  {
+    "lineNum": 5636,
+    "text": "Neurogenes Ausschütteln (60s Shake-Out)",
+    "line": "<span>Neurogenes Ausschütteln (60s Shake-Out)</span>"
+  },
+  {
+    "lineNum": 5638,
+    "text": "Biologisches Entladen von Adrenalin aus Muskulatur und Faszien",
+    "line": "<p class=\"text-[10px] text-gray-400\">Biologisches Entladen von Adrenalin aus Muskulatur und Faszien</p>"
+  },
+  {
+    "lineNum": 5646,
+    "text": "Schüttle Hände, Schultern und Beine locker aus...",
+    "line": "<p id=\"reg-shake-status\" class=\"text-xs text-gray-300 mt-2 italic\">Schüttle Hände, Schultern und Beine locker aus...</p>"
+  },
+  {
+    "lineNum": 5673,
+    "text": "Level wählen",
+    "line": "<span id=\"reg-sud-pre-display\" class=\"text-[10px] font-mono text-teal-300\">Level wählen</span>"
+  },
+  {
+    "lineNum": 5675,
+    "text": "Klicke dein aktuelles Anspannungsniveau zur Selbsteinschätzung:",
+    "line": "<p class=\"text-[10px] text-gray-400\">Klicke dein aktuelles Anspannungsniveau zur Selbsteinschätzung:</p>"
+  },
+  {
+    "lineNum": 5693,
+    "text": "Validierende Notfall-Leitsätze:",
+    "line": "<label class=\"text-xs font-bold text-gray-300 block\">Validierende Notfall-Leitsätze:</label>"
+  },
+  {
+    "lineNum": 5695,
+    "text": "„Mein Körper schlägt gerade falschen Alarm. Es fühlt sich unangenehm an, ist aber nicht gefährlich.“",
+    "line": "🌿 <em>„Mein Körper schlägt gerade falschen Alarm. Es fühlt sich unangenehm an, ist aber nicht gefährlich.“</em>"
+  },
+  {
+    "lineNum": 5698,
+    "text": "„Die Adrenalinwelle hat ihren biologischen Höhepunkt nach 3 Minuten. Sie flacht jetzt bereits ab.“",
+    "line": "🌊 <em>„Die Adrenalinwelle hat ihren biologischen Höhepunkt nach 3 Minuten. Sie flacht jetzt bereits ab.“</em>"
+  },
+  {
+    "lineNum": 5701,
+    "text": "„Ich bin hier, ich atme, und ich bin in Sicherheit.“",
+    "line": "⚓ <em>„Ich bin hier, ich atme, und ich bin in Sicherheit.“</em>"
+  },
+  {
+    "lineNum": 5726,
+    "text": "Tiefenentspannung für das vegetative System",
+    "line": "<div class=\"text-[10px] text-gray-400\">Tiefenentspannung für das vegetative System</div>"
+  },
+  {
+    "lineNum": 5753,
+    "text": "Du bist nicht allein 🤝",
+    "line": "<div class=\"font-bold text-white text-xs\">Du bist nicht allein 🤝</div>"
+  },
+  {
+    "lineNum": 5754,
+    "text": "Kostenfreie, vertrauliche und professionelle Ansprechpartner rund um die Uhr:",
+    "line": "<p class=\"text-[11px] text-gray-300\">Kostenfreie, vertrauliche und professionelle Ansprechpartner rund um die Uhr:</p>"
+  },
+  {
+    "lineNum": 5760,
+    "text": "oder",
+    "line": "<div class=\"text-gray-300 mt-0.5\">• TelefonSeelsorge (24/7 kostenfrei): <a href=\"tel:08001110111\" class=\"text-white underline font-mono font-bold\">0800 111 0 111</a> oder <a href=\"tel:08001110222\" class=\"text-white underline font-mono font-bold\">0800 111 0 222</a></div>"
+  },
+  {
+    "lineNum": 5766,
+    "text": "Österreich & Schweiz:",
+    "line": "<div class=\"font-bold text-teal-300\">Österreich & Schweiz:</div>"
+  },
+  {
+    "lineNum": 5767,
+    "text": "• Österreich:",
+    "line": "<div class=\"text-gray-300 mt-0.5\">• Österreich: <a href=\"tel:142\" class=\"text-white underline font-mono font-bold\">142</a> (Telefonseelsorge)</div>"
+  },
+  {
+    "lineNum": 5850,
+    "text": "Was wäre die radikalste 5-Minuten-Lösung?",
+    "line": "<span id=\"brainstorm-spark-text\" class=\"text-xs text-teal-200/90 italic truncate font-medium\">Was wäre die radikalste 5-Minuten-Lösung?</span>"
+  },
+  {
+    "lineNum": 5860,
+    "text": "Alle",
+    "line": "<button onclick=\"setBrainstormFilter('all')\" data-filter=\"all\" class=\"brainstorm-filter-btn px-2.5 py-1 rounded-xl text-xs font-bold transition cursor-pointer bg-teal-500/20 text-teal-300 border border-teal-500/40\">Alle</button>"
+  },
+  {
+    "lineNum": 5921,
+    "text": "0 ausgewählt",
+    "line": "<span id=\"sample-selected-counter\" class=\"text-[11px] text-gray-400 font-mono\">0 ausgewählt</span>"
+  },
+  {
+    "lineNum": 6052,
+    "text": "ausschließlich lokal in deinem Webbrowser (Local Storage)",
+    "line": "Noodle Studio speichert alle deine Aufgaben, Einkaufslisten und Notizen <b>ausschließlich lokal in deinem Webbrowser (Local Storage)</b>. Es findet keine Weitergabe an Werbenetzwerke und keine personenbezogene Profilbildung statt. Lediglich anonyme, cookie-freie Seitenaufruf-Statistiken werden über Umami erfasst."
+  },
+  {
+    "lineNum": 6057,
+    "text": "Die Anwendung funktioniert vollständig offline. Deine Daten verbleiben lokal auf deinem Gerät. Nutzt du die optionale Cloud-Synchronisation, wird die passwortlose Authentifizierung via Supabase Magic-Link abgewickelt und der Datenabgleich sicher und verschlüsselt übertragen.",
+    "line": "<p>Die Anwendung funktioniert vollständig offline. Deine Daten verbleiben lokal auf deinem Gerät. Nutzt du die optionale Cloud-Synchronisation, wird die passwortlose Authentifizierung via Supabase Magic-Link abgewickelt und der Datenabgleich sicher und verschlüsselt übertragen.</p>"
+  },
+  {
+    "lineNum": 6062,
+    "text": "Eingebettete Medien (wie Spotify oder YouTube) unterliegen den Datenschutzbestimmungen der jeweiligen Anbieter und werden nur auf deine ausdrückliche Interaktion hin geladen.",
+    "line": "<p>Eingebettete Medien (wie Spotify oder YouTube) unterliegen den Datenschutzbestimmungen der jeweiligen Anbieter und werden nur auf deine ausdrückliche Interaktion hin geladen.</p>"
+  },
+  {
+    "lineNum": 6066,
+    "text": "3. Angaben gemäß § 5 TMG / Impressum",
+    "line": "<h4 class=\"font-bold text-white mb-1\">3. Angaben gemäß § 5 TMG / Impressum</h4>"
+  }
+]

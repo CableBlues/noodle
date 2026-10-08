@@ -385,7 +385,7 @@ function renderCookingPanel(skipLucide = false) {
         </div>
 
         <div class="space-y-1">
-          <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">Schnellauswahl</div>
+          <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">${t('cook_quick_select')}</div>
           <div class="flex flex-wrap gap-1">
             ${staples.map(s => `
               <button onclick="handleQuickAddStaple('${s.val}')" class="px-2 py-0.5 bg-white/[0.03] hover:bg-[#ff8c1a]/15 border border-white/5 hover:border-orange-500/30 rounded-lg text-[10px] text-gray-300 transition cursor-pointer font-medium hover:scale-105 active:scale-95">
@@ -398,7 +398,7 @@ function renderCookingPanel(skipLucide = false) {
         <div class="rounded-2xl border border-white/5 bg-[#0a0a0e]/40 p-2.5 shadow-inner">
           <div class="mb-1.5 flex items-center justify-between text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">
             <span>${t('cook_ingredients')} (${pantry.length})</span>
-            ${pantry.length > 0 ? `<button onclick="resetCookingPantry()" class="text-rose-400 hover:text-rose-300 cursor-pointer">Leeren</button>` : ''}
+            ${pantry.length > 0 ? `<button onclick="resetCookingPantry()" class="text-rose-400 hover:text-rose-300 cursor-pointer">${t('cook_clear_pantry')}</button>` : ''}
           </div>
           ${pantry.length ? `
             <div class="flex flex-wrap gap-1 max-h-[70px] overflow-y-auto pr-1">
@@ -417,7 +417,7 @@ function renderCookingPanel(skipLucide = false) {
         <div class="pt-0.5">
           <button onclick="handleCookingSuggest()" class="w-full min-h-[34px] rounded-xl bg-gradient-to-r from-[#ff7a00] to-[#ff3366] hover:from-[#ff8c1a] hover:to-[#ff4d7d] text-white font-bold text-xs shadow-md transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
             <i data-lucide="cooking-pot" class="w-4 h-4"></i>
-            <span>🍳 Rezept vorschlagen & Zubereiten</span>
+            <span>🍳 ${t('cook_suggest_btn')}</span>
           </button>
         </div>
       </div>
@@ -434,7 +434,7 @@ function renderCookingPanel(skipLucide = false) {
             </div>
             
             <div class="space-y-1">
-              <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">Zutaten-Abgleich</div>
+              <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">${t('cook_ingredient_match')}</div>
               <div class="flex flex-wrap gap-1 text-[9.5px]">
                 ${(activeRecipe.ingredients || []).map(ing => {
                   const normalized = ing.toLowerCase();
@@ -465,20 +465,20 @@ function renderCookingPanel(skipLucide = false) {
 
           <div class="flex gap-2">
             <button onclick="switchCookingTab('pantry')" class="flex-1 py-1.5 px-2 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-xl text-[10.5px] font-semibold transition cursor-pointer flex items-center justify-center gap-1">
-              <span>← Zutaten anpassen</span>
+              <span>← ${t('cook_adjust_ingredients')}</span>
             </button>
             <button onclick="addRecipeMissingIngredientsToShopping()" class="flex-1 py-1.5 px-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 rounded-xl text-[10.5px] font-bold transition flex items-center justify-center gap-1 cursor-pointer">
               <i data-lucide="shopping-basket" class="w-3.5 h-3.5"></i>
-              <span>Fehlendes auf Liste 🛒</span>
+              <span>${t('cook_missing_to_shop')}</span>
             </button>
           </div>
         ` : `
           <div class="p-6 text-center rounded-2xl bg-white/[0.02] border border-white/5 space-y-2">
             <span class="text-3xl block">🍳</span>
-            <div class="text-xs font-bold text-white">Noch kein Rezept ausgewählt</div>
-            <p class="text-[10px] text-gray-400">Trage deine verfügbaren Zutaten ein und lass dir ein schnelles Rezept zaubern.</p>
+            <div class="text-xs font-bold text-white">${t('cook_no_recipe_title')}</div>
+            <p class="text-[10px] text-gray-400">${t('cook_no_recipe_desc')}</p>
             <button onclick="switchCookingTab('pantry')" class="px-4 py-1.5 bg-[#ff7a00] hover:bg-[#ff8c1a] text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-md inline-flex items-center gap-1">
-              <span>Zu den Zutaten 🥗</span>
+              <span>${t('cook_to_pantry_btn')}</span>
             </button>
           </div>
         `}
@@ -489,12 +489,17 @@ function renderCookingPanel(skipLucide = false) {
   panel.innerHTML = `
     <!-- KOPFZEILE -->
     <div class="flex items-center justify-between border-b border-white/10 pb-2">
-      <div class="relative flex flex-col items-center justify-center shrink-0">
-        <div class="relative overflow-hidden flex items-center justify-center">
-          <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-xl bg-orange-500/20 border border-orange-400/40 flex items-center justify-center text-orange-300 shadow-sm shrink-0">
+          <i data-lucide="chef-hat" class="w-4 h-4"></i>
         </div>
-        <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-          <span class="badge-tool-subtext select-none">COOK</span>
+        <div class="relative flex flex-col items-center justify-center shrink-0">
+          <div class="relative overflow-hidden flex items-center justify-center">
+            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+          </div>
+          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+            <span class="badge-tool-subtext select-none">COOK</span>
+          </div>
         </div>
       </div>
       <button onclick="togglePanel('cooking')" aria-label="Koch-Panel schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
@@ -504,11 +509,11 @@ function renderCookingPanel(skipLucide = false) {
     <div class="flex items-center bg-black/60 p-1 rounded-2xl border border-white/10 text-xs gap-1 shadow-sm select-none">
       <button onclick="switchCookingTab('pantry')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'pantry' ? activeTabClasses : inactiveTabClasses}">
         <i data-lucide="utensils" class="w-3.5 h-3.5"></i>
-        <span>Vorrat & Zutaten</span>
+        <span>${t('cook_pantry_tab')}</span>
       </button>
       <button onclick="switchCookingTab('recipe')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'recipe' ? activeTabClasses : inactiveTabClasses}">
         <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-        <span>Rezept & Zubereitung</span>
+        <span>${t('cook_recipe_tab')}</span>
       </button>
     </div>
 

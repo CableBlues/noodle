@@ -12,7 +12,7 @@
  */
 
 // Grundlegende Konfiguration & globale State-Deklarationen
-var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt'];
+var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
 let currentLang = localStorage.getItem('flowPlannerLanguage') || 'en';
 let rawTheme = localStorage.getItem('flowPlannerTheme') || 'aurora';
 if (!ALL_VALID_THEMES.includes(rawTheme)) {
