@@ -1745,6 +1745,7 @@ if (typeof globalThis !== 'undefined') {
 
 
 function updateDjVuMeters() {
+  if (typeof document === 'undefined') return;
   const vuA = document.getElementById('dj-vu-meter-a');
   const vuB = document.getElementById('dj-vu-meter-b');
   
@@ -1762,4 +1763,6 @@ function updateDjVuMeters() {
     vuB.style.height = '10%';
   }
 }
-setInterval(updateDjVuMeters, 100);
+if (typeof window !== 'undefined') {
+  setInterval(updateDjVuMeters, 100);
+}

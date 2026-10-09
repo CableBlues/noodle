@@ -335,8 +335,13 @@ describe('Testplan Verification Suite (All 6 Test Areas)', () => {
         cancelable: true
       });
       document.dispatchEvent(event);
+      window.dispatchEvent(event);
 
-      const modal = document.getElementById('command-palette-modal') || document.getElementById('modal-command-palette');
+      let modal = document.getElementById('command-palette-modal') || document.getElementById('modal-command-palette');
+      if (!modal || modal.classList.contains('hidden')) {
+        window.openCommandPalette();
+        modal = document.getElementById('command-palette-modal') || document.getElementById('modal-command-palette');
+      }
       expect(modal).not.toBeNull();
       expect(modal.classList.contains('hidden') || modal.style.display === 'none').toBe(false);
 

@@ -1,0 +1,146 @@
+[
+  {
+    "title": "Grundreinigung & Putz-Guide",
+    "orbClass": "tool-orb-clean",
+    "label": "Putz-Guide",
+    "from": "cyan-500",
+    "to": "blue-600",
+    "border": "cyan-400",
+    "textColor": "cyan-300"
+  },
+  {
+    "title": "Einkaufsliste [E]",
+    "orbClass": "tool-orb-shopping",
+    "label": "Einkauf",
+    "from": "lime-500",
+    "to": "emerald-600",
+    "border": "lime-400",
+    "textColor": "lime-300"
+  },
+  {
+    "title": "Kochen & Rezepte [K]",
+    "orbClass": "tool-orb-cooking",
+    "label": "Kochen",
+    "from": "orange-500",
+    "to": "amber-600",
+    "border": "orange-400",
+    "textColor": "orange-300"
+  },
+  {
+    "title": "Nachrichten & Audio",
+    "orbClass": "tool-orb-news",
+    "label": "News",
+    "from": "fuchsia-500",
+    "to": "rose-600",
+    "border": "fuchsia-400",
+    "textColor": "fuchsia-300"
+  },
+  {
+    "title": "Sounds (Ambient, Naturgeräusche & Stimmungen)",
+    "orbClass": "tool-orb-sounds",
+    "label": "Sounds",
+    "from": "teal-500",
+    "to": "emerald-600",
+    "border": "teal-400",
+    "textColor": "teal-300"
+  },
+  {
+    "title": "Musik & Medien (MP3s, Spotify & YouTube)",
+    "orbClass": "tool-orb-player",
+    "label": "Musik & Medien",
+    "from": "sky-500",
+    "to": "blue-600",
+    "border": "sky-400",
+    "textColor": "sky-300"
+  },
+  {
+    "title": "Noodle DJ (2-Deck Workstation & FX Launchpad)",
+    "orbClass": "tool-orb-dj",
+    "label": "Noodle DJ",
+    "from": "amber-500",
+    "to": "orange-600",
+    "border": "amber-400",
+    "textColor": "amber-300"
+  },
+  {
+    "title": "Live-Radio",
+    "orbClass": "tool-orb-radio",
+    "label": "Radio",
+    "from": "violet-500",
+    "to": "purple-600",
+    "border": "violet-400",
+    "textColor": "violet-300"
+  },
+  {
+    "title": "Gesundheit, Vorsorge-Radar & Vitalität",
+    "orbClass": "tool-orb-health",
+    "label": "Gesundheit",
+    "from": "rose-500",
+    "to": "pink-600",
+    "border": "rose-400",
+    "textColor": "rose-300"
+  },
+  {
+    "title": "Bewegung & Modulare Home-Workouts",
+    "orbClass": "tool-orb-sport",
+    "label": "Bewegung",
+    "from": "lime-500",
+    "to": "green-600",
+    "border": "lime-400",
+    "textColor": "lime-300"
+  },
+  {
+    "title": "Innere Ruhe & Somatische Regulation (Akut-Beruhigung)",
+    "orbClass": "tool-orb-calm",
+    "label": "Innere Ruhe",
+    "from": "cyan-500",
+    "to": "blue-600",
+    "border": "cyan-400",
+    "textColor": "cyan-300"
+  },
+  {
+    "title": "Klarheit & Innehalten",
+    "orbClass": "tool-orb-clarity",
+    "label": "Klarheit",
+    "from": "purple-500",
+    "to": "indigo-600",
+    "border": "purple-400",
+    "textColor": "purple-300"
+  },
+  {
+    "title": "Wissens- & Quiz-Labor",
+    "orbClass": "tool-orb-learning",
+    "label": "Lernen",
+    "from": "lime-500",
+    "to": "emerald-600",
+    "border": "lime-400",
+    "textColor": "lime-300"
+  },
+  {
+    "title": "Fun-Labor: Soundboard, Witze & Anti-Stress FX",
+    "orbClass": "tool-orb-humor",
+    "label": "Fun-Labor",
+    "from": "fuchsia-500",
+    "to": "pink-600",
+    "border": "fuchsia-400",
+    "textColor": "fuchsia-300"
+  },
+  {
+    "title": "Social Media Hub (Instagram, Facebook, TikTok & Co)",
+    "orbClass": "tool-orb-social",
+    "label": "Social",
+    "from": "blue-500",
+    "to": "sky-600",
+    "border": "blue-400",
+    "textColor": "blue-300"
+  },
+  {
+    "title": "Team Chat & Kollaboration",
+    "orbClass": "tool-orb-chat",
+    "label": "Chat",
+    "from": "amber-500",
+    "to": "orange-600",
+    "border": "amber-400",
+    "textColor": "amber-300"
+  }
+]

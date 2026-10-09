@@ -1003,17 +1003,28 @@ async function useDeviceLocationWeather(silent = false) {
     let detectedCity = fallbackCity;
     let detectedCountry = fallbackCountry;
 
-    // Reverse Geocoding per Open Data API für den genauen Stadtnamen
+    // Reverse Geocoding per Open Data API für den genauen Stadtnamen (CORS-sicher ohne Redirects)
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3500);
-      const revRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${typeof currentLang !== 'undefined' ? currentLang : 'de'}`, { signal: controller.signal });
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+      let revRes = null;
+      try {
+        revRes = await fetch(`https://api-bdc.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${lang}`, { signal: controller.signal });
+      } catch (e) {}
+
+      if (!revRes || !revRes.ok) {
+        try {
+          revRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&accept-language=${lang}`, { signal: controller.signal });
+        } catch (e) {}
+      }
       clearTimeout(timeoutId);
-      if (revRes.ok) {
+
+      if (revRes && revRes.ok) {
         const revData = await revRes.json();
         if (revData) {
-          detectedCity = revData.city || revData.locality || revData.principalSubdivision || fallbackCity;
-          detectedCountry = revData.countryName || fallbackCountry;
+          detectedCity = revData.city || revData.locality || revData.address?.city || revData.address?.town || revData.address?.village || revData.principalSubdivision || fallbackCity;
+          detectedCountry = revData.countryName || revData.address?.country || fallbackCountry;
         }
       }
     } catch(e) {}

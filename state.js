@@ -1003,7 +1003,7 @@ function saveHistory() {
     }
 
     stack.push(listSnapshot);
-    if (stack.length > 50) stack.shift();
+    if (stack.length > 15) stack.shift();
     historyStack = stack;
     if (typeof window !== 'undefined') window.historyStack = stack;
     if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;

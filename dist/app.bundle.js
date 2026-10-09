@@ -13254,7 +13254,7 @@ function saveHistory() {
     }
 
     stack.push(listSnapshot);
-    if (stack.length > 50) stack.shift();
+    if (stack.length > 15) stack.shift();
     historyStack = stack;
     if (typeof window !== 'undefined') window.historyStack = stack;
     if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;
@@ -25132,6 +25132,7 @@ if (typeof globalThis !== 'undefined') {
 
 
 function updateDjVuMeters() {
+  if (typeof document === 'undefined') return;
   const vuA = document.getElementById('dj-vu-meter-a');
   const vuB = document.getElementById('dj-vu-meter-b');
   
@@ -25149,7 +25150,9 @@ function updateDjVuMeters() {
     vuB.style.height = '10%';
   }
 }
-setInterval(updateDjVuMeters, 100);
+if (typeof window !== 'undefined') {
+  setInterval(updateDjVuMeters, 100);
+}
 
 
 /* --- timer-1.js --- */
@@ -44259,17 +44262,7 @@ function copyTaskTextByIndex(cat, index, event) {
 }
 window.copyTaskTextByIndex = copyTaskTextByIndex;
 
-function startTaskTimerByIndex(cat, index, event) {
-  if (event) event.stopPropagation();
-  const curItems = getCurrentWorkspaceItems();
-  const item = curItems[cat]?.[index];
-  if (!item) return;
-  const text = typeof item === 'object' ? item.task : item;
-  if (typeof startTaskTimer === 'function') {
-    startTaskTimer(text, event);
-  }
-}
-window.startTaskTimerByIndex = startTaskTimerByIndex;
+
 
 function editTaskInline(cat, index, event) {
   if (event) {
@@ -47053,17 +47046,28 @@ async function useDeviceLocationWeather(silent = false) {
     let detectedCity = fallbackCity;
     let detectedCountry = fallbackCountry;
 
-    // Reverse Geocoding per Open Data API für den genauen Stadtnamen
+    // Reverse Geocoding per Open Data API für den genauen Stadtnamen (CORS-sicher ohne Redirects)
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 3500);
-      const revRes = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${typeof currentLang !== 'undefined' ? currentLang : 'de'}`, { signal: controller.signal });
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+      let revRes = null;
+      try {
+        revRes = await fetch(`https://api-bdc.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=${lang}`, { signal: controller.signal });
+      } catch (e) {}
+
+      if (!revRes || !revRes.ok) {
+        try {
+          revRes = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&accept-language=${lang}`, { signal: controller.signal });
+        } catch (e) {}
+      }
       clearTimeout(timeoutId);
-      if (revRes.ok) {
+
+      if (revRes && revRes.ok) {
         const revData = await revRes.json();
         if (revData) {
-          detectedCity = revData.city || revData.locality || revData.principalSubdivision || fallbackCity;
-          detectedCountry = revData.countryName || fallbackCountry;
+          detectedCity = revData.city || revData.locality || revData.address?.city || revData.address?.town || revData.address?.village || revData.principalSubdivision || fallbackCity;
+          detectedCountry = revData.countryName || revData.address?.country || fallbackCountry;
         }
       }
     } catch(e) {}
@@ -51181,7 +51185,7 @@ function getCommandPaletteActions() {
 }
 
 function openCommandPalette() {
-  let modal = document.getElementById('command-palette-modal');
+  let modal = document.getElementById('command-palette-modal') || document.getElementById('modal-command-palette');
   if (!modal) {
     modal = document.createElement('div');
     modal.id = 'command-palette-modal';
@@ -51214,13 +51218,15 @@ function openCommandPalette() {
 
     modal.onclick = closeCommandPalette;
     
-    const input = modal.querySelector('#command-palette-input');
-    input.oninput = (e) => filterCommandPalette(e.target.value);
-    input.onkeydown = handleCommandPaletteKeydown;
+    const input = modal.querySelector('#command-palette-input') || modal.querySelector('#cmd-palette-input');
+    if (input) {
+      input.oninput = (e) => filterCommandPalette(e.target.value);
+      input.onkeydown = handleCommandPaletteKeydown;
+    }
   }
 
   modal.classList.remove('hidden');
-  const input = modal.querySelector('#command-palette-input');
+  const input = modal.querySelector('#command-palette-input') || modal.querySelector('#cmd-palette-input');
   if (input) {
     input.value = '';
     input.focus();
@@ -51231,7 +51237,7 @@ function openCommandPalette() {
 }
 
 function closeCommandPalette() {
-  const modal = document.getElementById('command-palette-modal');
+  const modal = document.getElementById('command-palette-modal') || document.getElementById('modal-command-palette');
   if (modal) modal.classList.add('hidden');
 }
 
@@ -51353,7 +51359,7 @@ if (typeof document !== 'undefined') {
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
       e.preventDefault();
-      const modal = document.getElementById('command-palette-modal');
+      const modal = document.getElementById('command-palette-modal') || document.getElementById('modal-command-palette');
       if (modal && !modal.classList.contains('hidden')) {
         closeCommandPalette();
       } else {

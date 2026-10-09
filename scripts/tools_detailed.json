@@ -1,0 +1,62 @@
+[
+  {
+    "line": 136,
+    "section": "1. Grundreinigung & Putz-Guide Sphere",
+    "orbClass": "tool-orb-clean",
+    "title": "Grundreinigung & Putz-Guide",
+    "from": "",
+    "to": "",
+    "border": "",
+    "text": "",
+    "labelText": "",
+    "labelColor": ""
+  },
+  {
+    "line": 146,
+    "section": "2. Einkauf Sphere",
+    "orbClass": "tool-orb-shopping",
+    "title": "Einkaufsliste [E]",
+    "from": "",
+    "to": "",
+    "border": "",
+    "text": "",
+    "labelText": "",
+    "labelColor": ""
+  },
+  {
+    "line": 171,
+    "section": "2. Einkauf Sphere",
+    "orbClass": "",
+    "title": "Supermarkt-Modus (Vollbild)",
+    "from": "",
+    "to": "",
+    "border": "",
+    "text": "",
+    "labelText": "",
+    "labelColor": ""
+  },
+  {
+    "line": 248,
+    "section": "3. Kochen Sphere",
+    "orbClass": "tool-orb-cooking",
+    "title": "Kochen & Rezepte [K]",
+    "from": "",
+    "to": "",
+    "border": "",
+    "text": "",
+    "labelText": "",
+    "labelColor": ""
+  },
+  {
+    "line": 262,
+    "section": "4. Nachrichten Sphere",
+    "orbClass": "tool-orb-news",
+    "title": "Nachrichten & Audio",
+    "from": "",
+    "to": "",
+    "border": "",
+    "text": "",
+    "labelText": "",
+    "labelColor": ""
+  }
+]

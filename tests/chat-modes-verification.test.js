@@ -4,8 +4,12 @@ import path from 'path';
 
 describe('Collab Chat Tool & 4-Mode Suite', () => {
   beforeEach(() => {
-    const html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
-    document.documentElement.innerHTML = html;
+    const rawHtml = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+    const sanitizedHtml = rawHtml
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/<iframe[^>]*>.*?<\/iframe>/gis, '')
+      .replace(/<link[^>]*>/gis, '');
+    document.body.innerHTML = sanitizedHtml;
 
     // Load CollabEngine
     const collabCode = fs.readFileSync(path.join(__dirname, '../collab-engine.js'), 'utf8');
@@ -16,19 +20,17 @@ describe('Collab Chat Tool & 4-Mode Suite', () => {
     window.eval(reportsCode);
   });
 
-  it('DOM contains panel-collab-chat and all 4 mode panes', () => {
+  it('DOM contains panel-collab-chat and all mode panes', () => {
     const panel = document.getElementById('panel-collab-chat');
     expect(panel).not.toBeNull();
 
     const teamPane = document.getElementById('collab-pane-team');
-    const ircPane = document.getElementById('collab-pane-irc');
-    const aiPane = document.getElementById('collab-pane-ai');
-    const webhooksPane = document.getElementById('collab-pane-webhooks');
+    const messengersPane = document.getElementById('collab-pane-messengers');
+    const directPane = document.getElementById('collab-pane-direct');
 
     expect(teamPane).not.toBeNull();
-    expect(ircPane).not.toBeNull();
-    expect(aiPane).not.toBeNull();
-    expect(webhooksPane).not.toBeNull();
+    expect(messengersPane).not.toBeNull();
+    expect(directPane).not.toBeNull();
   });
 
   it('togglePanel("collab-chat") opens the panel properly', () => {
@@ -39,33 +41,23 @@ describe('Collab Chat Tool & 4-Mode Suite', () => {
     expect(panel.classList.contains('hidden')).toBe(false);
   });
 
-  it('switchChatMode toggles between team, irc, ai and webhooks correctly', () => {
-    window.CollabEngine.switchChatMode('irc');
-    expect(document.getElementById('collab-pane-irc').classList.contains('hidden')).toBe(false);
+  it('switchTab toggles between team, messengers and direct correctly', () => {
+    window.CollabEngine.switchTab('messengers');
+    expect(document.getElementById('collab-pane-messengers').classList.contains('hidden')).toBe(false);
     expect(document.getElementById('collab-pane-team').classList.contains('hidden')).toBe(true);
 
-    window.CollabEngine.switchChatMode('ai');
-    expect(document.getElementById('collab-pane-ai').classList.contains('hidden')).toBe(false);
-    expect(document.getElementById('collab-pane-irc').classList.contains('hidden')).toBe(true);
+    window.CollabEngine.switchTab('direct');
+    expect(document.getElementById('collab-pane-direct').classList.contains('hidden')).toBe(false);
+    expect(document.getElementById('collab-pane-messengers').classList.contains('hidden')).toBe(true);
 
-    window.CollabEngine.switchChatMode('webhooks');
-    expect(document.getElementById('collab-pane-webhooks').classList.contains('hidden')).toBe(false);
-    expect(document.getElementById('collab-pane-ai').classList.contains('hidden')).toBe(true);
-
-    window.CollabEngine.switchChatMode('team');
+    window.CollabEngine.switchTab('team');
     expect(document.getElementById('collab-pane-team').classList.contains('hidden')).toBe(false);
-    expect(document.getElementById('collab-pane-webhooks').classList.contains('hidden')).toBe(true);
+    expect(document.getElementById('collab-pane-direct').classList.contains('hidden')).toBe(true);
   });
 
-  it('IRC sub-engine handles commands', () => {
-    window.CollabEngine.sendIrcInput('/join #study');
-    const ircContainer = document.getElementById('collab-irc-messages-container');
-    expect(ircContainer.innerHTML).toContain('#study');
-  });
-
-  it('AI Body-Double sub-engine responds to prompt chips', () => {
-    window.CollabEngine.triggerAiQuickChip('breakdown');
-    const aiContainer = document.getElementById('collab-ai-messages-container');
-    expect(aiContainer.innerHTML).toContain('Task zerlegen');
+  it('CollabEngine supports team room and sharing', () => {
+    expect(window.CollabEngine.getRoom()).toBe('team-space');
+    window.CollabEngine.setRoom('focus-squad');
+    expect(window.CollabEngine.getRoom()).toBe('focus-squad');
   });
 });

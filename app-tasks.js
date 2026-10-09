@@ -2953,17 +2953,7 @@ function copyTaskTextByIndex(cat, index, event) {
 }
 window.copyTaskTextByIndex = copyTaskTextByIndex;
 
-function startTaskTimerByIndex(cat, index, event) {
-  if (event) event.stopPropagation();
-  const curItems = getCurrentWorkspaceItems();
-  const item = curItems[cat]?.[index];
-  if (!item) return;
-  const text = typeof item === 'object' ? item.task : item;
-  if (typeof startTaskTimer === 'function') {
-    startTaskTimer(text, event);
-  }
-}
-window.startTaskTimerByIndex = startTaskTimerByIndex;
+
 
 function editTaskInline(cat, index, event) {
   if (event) {

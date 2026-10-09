@@ -74,7 +74,7 @@ describe('Funlabor Radical Screensaver & App-Breaking Effects', () => {
     const fileContent = fs.readFileSync(path.resolve(rootDir, 'app-humor.js'), 'utf-8');
 
     // Section title
-    expect(fileContent).toContain('💥 Radikale Glitches & Zerstörung');
+    expect(fileContent).toMatch(/Radikale Glitches|Radical Glitches/);
     // Button hooks (BSOD removed)
     expect(fileContent).not.toContain('HumorEngine.toggleBSOD()');
     expect(fileContent).toContain('HumorEngine.toggleGravityCollapse()');

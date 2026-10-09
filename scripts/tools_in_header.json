@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Grundreinigung & Putz-Guide",
+    "from": "teal-500/25",
+    "to": "emerald-600/20",
+    "text": "teal-300",
+    "border": "teal-400",
+    "icon": "sparkles"
+  },
+  {
+    "title": "Einkaufsliste [E]",
+    "from": "emerald-500/25",
+    "to": "teal-600/20",
+    "text": "emerald-300",
+    "border": "emerald-400",
+    "icon": "shopping-cart"
+  }
+]

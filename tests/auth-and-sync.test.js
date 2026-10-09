@@ -378,8 +378,9 @@ describe('Vollständige & Zuverlässige Synchronisation (Supabase-only & Offline
 
   describe('6. Persistenz & Lokaler Modus (Test H)', () => {
     it('Test H: App schließen während Sync / Re-Open (State bleibt persistent in LocalStorage und synct beim nächsten Start)', () => {
+      const recentTombTime = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
       window.state = {
-        _tombstones: { 'old_tomb': '2026-09-01T00:00:00Z' },
+        _tombstones: { 'old_tomb': recentTombTime },
         items: { daily: [{ id: 'reopen_task', task: 'Persistente Aufgabe vor Schließen' }] },
         done: []
       };
@@ -392,7 +393,7 @@ describe('Vollständige & Zuverlässige Synchronisation (Supabase-only & Offline
       const restoredState = migrateState(loadedRaw, 'de');
 
       expect(restoredState.items.daily[0].task).toBe('Persistente Aufgabe vor Schließen');
-      expect(restoredState._tombstones['old_tomb']).toBe('2026-09-01T00:00:00Z');
+      expect(restoredState._tombstones['old_tomb']).toBe(recentTombTime);
     });
 
     it('migriert ältere String-Aufgaben automatisch zu Objekten mit stabiler ID und Zeitstempel bei Serialisierung/Sync', () => {

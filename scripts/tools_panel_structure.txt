@@ -1,0 +1,93 @@
+L123: <!-- 1. ALLTAG & LIFESTYLE -->
+L132: <div class="grid grid-cols-4 gap-2 sm:gap-2.5 pt-0.5">
+L134: <!-- 1. Grundreinigung & Putz-Guide Sphere -->
+L136: <button onclick="if(typeof openCleaningGuideModal==='function') openCleaningGuideModal(); togglePanel('header-tools');" class="tool-orb tool-orb-clean flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Grundreinigung & Putz-Guide">
+L137: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-teal-500/25 to-emerald-600/20 border border-teal-400/40 hover:border-teal-300 flex items-center justify-center text-teal-300 shadow-[0_0_12px_rgba(20,184,166,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L140: <span class="tool-orb-label text-[9.5px] font-bold text-teal-300 group-hover/orb:text-teal-200 transition-colors" data-i18n="clean_guide_title_short">Putz-Guide</span>
+L144: <!-- 2. Einkauf Sphere -->
+L146: <button onclick="togglePanel('shopping')" class="tool-orb tool-orb-shopping flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Einkaufsliste [E]">
+L147: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500/25 to-teal-600/20 border border-emerald-400/40 hover:border-emerald-300 flex items-center justify-center text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.15)] group-hover/orb:scale-105 transition-all duration-200 relative">
+L151: <span class="tool-orb-label text-[9.5px] font-bold text-emerald-300 group-hover/orb:text-emerald-200 transition-colors" data-i18n="nav_shopping">Einkauf</span>
+L246: <!-- 3. Kochen Sphere -->
+L248: <button onclick="togglePanel('cooking'); if(typeof renderCookingPanel==='function') renderCookingPanel();" class="tool-orb tool-orb-cooking flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Kochen & Rezepte [K]">
+L249: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500/25 to-amber-600/20 border border-orange-400/40 hover:border-orange-300 flex items-center justify-center text-orange-300 shadow-[0_0_12px_rgba(249,115,22,0.15)] group-hover/orb:scale-105 transition-all duration-200 relative">
+L253: <span class="tool-orb-label text-[9.5px] font-bold text-orange-300 group-hover/orb:text-orange-200 transition-colors" data-i18n="nav_cooking">Kochen</span>
+L260: <!-- 4. Nachrichten Sphere -->
+L262: <button onclick="togglePanel('news')" class="tool-orb tool-orb-news flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Nachrichten & Audio">
+L263: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-pink-500/25 to-rose-600/20 border border-pink-400/40 hover:border-pink-300 flex items-center justify-center text-pink-300 shadow-[0_0_12px_rgba(244,63,94,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L266: <span class="tool-orb-label text-[9.5px] font-bold text-pink-300 group-hover/orb:text-pink-200 transition-colors" data-i18n="tool_news">News</span>
+L307: <!-- 1. Ausgabesprache (Automatische Übersetzung) -->
+L319: <!-- 2. Region & Herkunft -->
+L328: <!-- 3. Feed-Modus (Wechselnd International & Lokal) -->
+L334: <!-- 4. Lokale Medien & Quellen -->
+L352: <div id="news-items-container" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[46vh] sm:max-h-[380px] overflow-y-auto pr-1"></div>
+L388: <!-- 2. SOUND & MUSIK -->
+L396: <div class="grid grid-cols-4 gap-2 sm:gap-2.5 pt-0.5">
+L398: <!-- 1. Sounds (Ambient, Natur & Stimmungen) -->
+L400: <button onclick="openAudioStudioMode('ambient')" class="tool-orb tool-orb-sounds flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Sounds (Ambient, Naturgeräusche & Stimmungen)">
+L401: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-500/25 to-purple-600/20 border border-cyan-400/40 hover:border-cyan-300 flex items-center justify-center text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L404: <span class="tool-orb-label text-[9.5px] font-bold text-cyan-300 group-hover/orb:text-cyan-200 transition-colors" data-i18n="tool_sounds">Sounds</span>
+L407: <!-- 1. STUDIO HEADER WITH MASTER CONTROLS -->
+L434: <!-- 2. STUDIO MAIN CONTAINER (LEFT CONTENT + RIGHT VERTICAL MASTER FADER) -->
+L464: <div class="grid grid-cols-5 gap-1">
+L496: <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
+L542: <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
+L579: <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
+L792: <div class="grid grid-cols-1 lg:grid-cols-[1fr_230px_1fr] gap-2.5 items-stretch">
+L887: <div class="grid grid-cols-4 gap-1 pt-0.5">
+L905: <div class="grid grid-cols-3 gap-1">
+L935: <div class="grid grid-cols-[1fr_24px_1fr] gap-1.5 items-center text-[9px] font-mono">
+L1101: <div class="grid grid-cols-4 gap-1 pt-0.5">
+L1147: <!-- 2. Musik & Medien Sphere (MP3s, Spotify & YouTube) -->
+L1149: <button onclick="openAudioStudioMode('music')" class="tool-orb tool-orb-player flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Musik & Medien (MP3s, Spotify & YouTube)">
+L1150: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-500/25 to-blue-600/20 border border-sky-400/40 hover:border-sky-300 flex items-center justify-center text-sky-300 shadow-[0_0_12px_rgba(56,189,248,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L1153: <span class="tool-orb-label text-[9.5px] font-bold text-sky-300 group-hover/orb:text-sky-200 transition-colors" data-i18n="tool_media">Musik & Medien</span>
+L1157: <!-- 3. Noodle DJ Sphere (2-Deck Mixer & FX) -->
+L1159: <button onclick="openAudioStudioMode('dj')" class="tool-orb tool-orb-dj flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Noodle DJ (2-Deck Workstation & FX Launchpad)">
+L1160: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500/25 to-orange-600/20 border border-amber-400/40 hover:border-amber-300 flex items-center justify-center text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L1163: <span class="tool-orb-label text-[9.5px] font-bold text-amber-300 group-hover/orb:text-amber-200 transition-colors" data-i18n="tool_dj">Noodle DJ</span>
+L1167: <!-- 4. Live-Radio Sphere -->
+L1169: <button onclick="togglePanel('radio')" class="tool-orb tool-orb-radio flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Live-Radio">
+L1170: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-500/25 to-red-600/20 border border-rose-400/40 hover:border-rose-300 flex items-center justify-center text-rose-300 shadow-[0_0_12px_rgba(244,63,94,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L1173: <span class="tool-orb-label text-[9.5px] font-bold text-rose-300 group-hover/orb:text-rose-200 transition-colors" data-i18n="tool_radio">Radio</span>
+L1225: <!-- 3. KÖRPER & GEIST (Gesundheit vor Bewegung) -->
+L1233: <div class="grid grid-cols-4 gap-2 sm:gap-2.5 pt-0.5">
+L1235: <!-- 1. Gesundheit & Vorsorge Sphere (Rose) -->
+L1237: <button onclick="togglePanel('health'); if(window.HealthEngine && window.HealthEngine.renderPanel) window.HealthEngine.renderPanel();" class="tool-orb tool-orb-health flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Gesundheit, Vorsorge-Radar & Vitalität">
+L1238: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-500/25 to-pink-600/20 border border-rose-400/40 hover:border-rose-300 flex items-center justify-center text-rose-300 shadow-[0_0_12px_rgba(244,63,94,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L1241: <span class="tool-orb-label text-[9.5px] font-bold text-rose-300 group-hover/orb:text-rose-200 transition-colors" data-i18n="tool_health">Gesundheit</span>
+L1248: <!-- 2. Bewegung & Home-Workout Sphere (Lime) -->
+L1250: <button onclick="openSportModal(); togglePanel('header-tools');" class="tool-orb tool-orb-sport flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Bewegung & Modulare Home-Workouts">
+L1251: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-lime-500/25 to-green-600/20 border border-lime-400/40 hover:border-lime-300 flex items-center justify-center text-lime-300 shadow-[0_0_12px_rgba(132,204,22,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L1254: <span class="tool-orb-label text-[9.5px] font-bold text-lime-300 group-hover/orb:text-lime-200 transition-colors" data-i18n="tool_sport">Bewegung</span>
+L1258: <!-- 3. Innere Ruhe & Somatische Regulation Sphere (Teal) -->
+L1260: <button onclick="openRegulationModal(); togglePanel('header-tools');" class="tool-orb tool-orb-calm flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Innere Ruhe & Somatische Regulation (Akut-Beruhigung)">
+L1261: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-teal-500/25 to-emerald-600/20 border border-teal-400/40 hover:border-teal-300 flex items-center justify-center text-teal-300 shadow-[0_0_12px_rgba(20,184,166,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L1264: <span class="tool-orb-label text-[9.5px] font-bold text-teal-300 group-hover/orb:text-teal-200 transition-colors" data-i18n="tool_calm">Innere Ruhe</span>
+L1268: <!-- 4. Klarheit & Impulskontrolle Sphere (Indigo) -->
+L1270: <button onclick="openClarityModal(); togglePanel('header-tools');" class="tool-orb tool-orb-clarity flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Klarheit & Innehalten">
+L1271: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500/25 to-cyan-600/20 border border-indigo-400/40 hover:border-indigo-300 flex items-center justify-center text-indigo-300 shadow-[0_0_12px_rgba(99,102,241,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L1274: <span class="tool-orb-label text-[9.5px] font-bold text-indigo-300 group-hover/orb:text-indigo-200 transition-colors" data-i18n="tool_clarity">Klarheit</span>
+L1284: <!-- 4. WISSEN, CHAT & SOCIAL -->
+L1292: <div class="grid grid-cols-4 gap-2 sm:gap-2.5 pt-0.5">
+L1294: <!-- 1. Lernen & Quiz-Labor Sphere (Blue) -->
+L1296: <button onclick="openLearningHubModal(); togglePanel('header-tools');" class="tool-orb tool-orb-learning flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Wissens- & Quiz-Labor">
+L1297: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500/25 to-indigo-600/20 border border-blue-400/40 hover:border-blue-300 flex items-center justify-center text-blue-300 shadow-[0_0_12px_rgba(59,130,246,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L1300: <span class="tool-orb-label text-[9.5px] font-bold text-blue-300 group-hover/orb:text-blue-200 transition-colors" data-i18n="tool_learning">Lernen</span>
+L1304: <!-- 2. Fun-Labor Sphere (Fuchsia) -->
+L1306: <button onclick="togglePanel('humor-lab')" class="tool-orb tool-orb-humor flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Fun-Labor: Soundboard, Witze & Anti-Stress FX">
+L1307: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-fuchsia-500/25 to-pink-600/20 border border-fuchsia-400/40 hover:border-fuchsia-300 flex items-center justify-center text-fuchsia-300 shadow-[0_0_12px_rgba(217,70,239,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+L1310: <span class="tool-orb-label text-[9.5px] font-bold text-fuchsia-300 group-hover/orb:text-fuchsia-200 transition-colors" data-i18n="tool_humor">Fun-Labor</span>
+L1317: <!-- 3. Social Media Hub Sphere (Rose/Pink) -->
+L1319: <button onclick="togglePanel('social'); if(window.SocialHubEngine) SocialHubEngine.render();" class="tool-orb tool-orb-social flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Social Media Hub (Instagram, Facebook, TikTok & Co)">
+L1320: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-pink-500/25 to-rose-600/20 border border-pink-400/40 hover:border-pink-300 flex items-center justify-center text-pink-300 shadow-[0_0_12px_rgba(244,63,94,0.15)] group-hover/orb:scale-105 transition-all duration-200 relative">
+L1323: <span class="tool-orb-label text-[9.5px] font-bold text-pink-300 group-hover/orb:text-pink-200 transition-colors" data-i18n="tool_social">Social</span>
+L1330: <!-- 4. Team Chat Sphere (Violet) -->
+L1332: <button onclick="togglePanel('collab-chat')" class="tool-orb tool-orb-chat flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Team Chat & Kollaboration">
+L1333: <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-500/25 to-indigo-600/20 border border-violet-400/40 hover:border-violet-300 flex items-center justify-center text-violet-300 shadow-[0_0_12px_rgba(139,92,246,0.15)] group-hover/orb:scale-105 transition-all duration-200 relative">
+L1337: <span class="tool-orb-label text-[9.5px] font-bold text-violet-300 group-hover/orb:text-violet-200 transition-colors" data-i18n="tool_chat">Chat</span>
+L1521: <div class="grid grid-cols-4 gap-1.5">
+L1585: <div class="grid grid-cols-2 gap-1.5">
+L1633: <!-- 2. Suche / Command Palette (Gleich nach dem Logo) -->
+L1647: <!-- 2. ZEIT- & FOKUS-BEREICH: [WECKER (BLINKEND & SYNCHRONISIERT)] + [TIMER] -->
+L1725: <!-- 3. ZENTRALE ZONE: [BRAINSTORMING (TEAL GLOW)] [WETTER & DATUM] [WAS NUN? (AMBER GLOW)] -->

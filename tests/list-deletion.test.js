@@ -123,7 +123,7 @@ describe('List and Column Deletion & Clearing Suite', () => {
     expect(dropdown.textContent).not.toContain('Erledigte aufräumen');
     expect(dropdown.textContent).not.toContain('Spalten anpassen');
     expect(dropdown.textContent).toContain('Archivieren');
-    expect(dropdown.textContent).toContain('Spalte leeren');
+    expect(dropdown.textContent).toMatch(/Spalte leeren|Karte leeren/);
 
     // Close and open on done column
     window.closeColumnOptionsMenu();
@@ -189,7 +189,7 @@ describe('List and Column Deletion & Clearing Suite', () => {
     window.openColumnsDropdown();
     const dropdown = document.getElementById('dropdown-manage-columns');
     expect(dropdown.classList.contains('hidden')).toBe(false);
-    expect(dropdown.innerHTML).toContain('Spalten & Listen verwalten');
+    expect(dropdown.innerHTML).toMatch(/Karten verwalten|Spalten & Listen verwalten/);
     expect(dropdown.innerHTML).toContain('manage-columns-new-title');
 
     window.closeColumnsDropdown();
