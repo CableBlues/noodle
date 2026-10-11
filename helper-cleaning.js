@@ -98,7 +98,7 @@ const CLEANING_LEVELS_DATA = {
         title: 'Böden saugen & feucht wischen (10 Min)',
         desc: 'Von der hintersten Zimmerecke rückwärts Richtung Wohnungstür gründlich saugen und bei Hartböden kurz feucht nachwischen. Fenster auf!',
         why: 'Wer rückwärts zur Tür arbeitet, tritt nicht auf die frisch geputzte, feuchte Fläche.',
-        icon: 'sparkles'
+        icon: 'brush'
       }
     ]
   },
@@ -145,7 +145,7 @@ const CLEANING_LEVELS_DATA = {
         title: 'Küche & Bad auf Hochglanz polieren (15 Min)',
         desc: 'Duschkabine, Waschbecken, Spüle und Herd abspülen. Spiegel und Glasflächen mit Glasreiniger streifenfrei polieren.',
         why: 'Funkelnde Spiegel und blitzblanke Armaturen sind das optische Highlight jedes Raumes.',
-        icon: 'sparkles'
+        icon: 'brush'
       },
       {
         id: 'deep_6',
@@ -159,7 +159,7 @@ const CLEANING_LEVELS_DATA = {
         title: 'Böden intensiv saugen & feucht wischen (15 Min)',
         desc: 'Gründlich auch unter Sofas und Betten saugen. Mit warmem Bodenreiniger-Wasser von hinten nach vorn wischen. 10 Min durchlüften.',
         why: 'Der krönende Abschluss: Der Duft von sauberem Bodenwischwasser erfüllt die ganze Wohnung.',
-        icon: 'sparkles'
+        icon: 'brush'
       }
     ]
   }

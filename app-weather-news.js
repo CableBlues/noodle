@@ -462,7 +462,7 @@ function renderPinnedCitiesUI() {
         </span>
         <button onclick="togglePinCurrentCity()" class="text-sky-400 hover:text-sky-300 text-[9.5px] font-semibold flex items-center gap-1 transition cursor-pointer">
           <i data-lucide="${isCurrentPinned ? 'check' : 'plus'}" class="w-3 h-3"></i>
-          <span>${isCurrentPinned ? tr({ de: 'Ort gespeichert', en: 'Saved', fr: 'Enregistré', it: 'Salvato', es: 'Guardado', el: 'Αποθηκεύτηκε' }) : tr({ de: '+ Ort anpinnen', en: '+ Pin city', fr: '+ Épingler la ville', it: '+ Fissa città', es: '+ Fijar ciudad', el: '+ Καρφίτσωμα πόλης' })}</span>
+          <span>${isCurrentPinned ? tr({ de: 'Ort gespeichert', en: 'Saved', fr: 'Enregistré', it: 'Salvato', es: 'Guardado', el: 'Αποθηκεύτηκε' }) : tr({ de: '+ Als Favorit speichern', en: '+ Save favorite', fr: '+ Enregistrer favori', it: '+ Salva preferito', es: '+ Guardar favorito', el: '+ Αποθήκευση αγαπημένου' })}</span>
         </button>
       </div>
       <div class="flex flex-wrap gap-1.5 max-h-[85px] overflow-y-auto scrollbar-none py-0.5">
@@ -482,11 +482,11 @@ function togglePinCurrentCity() {
   if (existingIdx >= 0) {
     if (pinnedWeatherCities.length > 1) {
       pinnedWeatherCities.splice(existingIdx, 1);
-      if (typeof showToast === 'function') showToast(tr({ de: `📍 ${currentWeatherLocation.name} entfernt`, en: `📍 ${currentWeatherLocation.name} unpinned` }));
+      if (typeof showToast === 'function') showToast(tr({ de: `📍 ${currentWeatherLocation.name} entfernt`, en: `📍 ${currentWeatherLocation.name} removed` }));
     }
   } else {
     pinnedWeatherCities.push({ ...currentWeatherLocation, defaultTemp: 20, defaultCode: 1 });
-    if (typeof showToast === 'function') showToast(tr({ de: `⭐ ${currentWeatherLocation.name} angepinnt!`, en: `⭐ ${currentWeatherLocation.name} pinned!` }));
+    if (typeof showToast === 'function') showToast(tr({ de: `⭐ ${currentWeatherLocation.name} als Favorit gespeichert!`, en: `⭐ ${currentWeatherLocation.name} saved as favorite!` }));
   }
   localStorage.setItem('flow_weather_pinned_cities', JSON.stringify(pinnedWeatherCities));
   renderPinnedCitiesUI();

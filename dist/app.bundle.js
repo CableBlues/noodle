@@ -1494,16 +1494,16 @@ const ROUTINE_PRESETS = [
   {
     id: 'adhd_focus',
     name: {
-      de: 'Klarheit & ADHS-Fokus',
-      en: 'Clarity & ADHD Flow',
-      es: 'Claridad y Enfoque TDAH',
-      fr: 'Clarté & Focus TDAH',
-      it: 'Chiarezza & Focus ADHD',
-      el: 'Διαύγεια & Εστίαση ADHD'
+      de: 'Klarheit & Reizfilter-Fokus',
+      en: 'Clarity & Low-Stimulus Flow',
+      es: 'Claridad y Enfoque Zen',
+      fr: 'Clarté & Focus Calme',
+      it: 'Chiarezza & Focus Calmo',
+      el: 'Διαύγεια & Ήρεμη Εστίαση'
     },
     tagline: {
-      de: 'Klare Micro-Steps, niedrige Hürden & schnelle Dopamin-Erfolge',
-      en: 'Bite-sized micro steps, low barrier & quick dopamine wins',
+      de: 'Klare Micro-Steps, niedrige Hürden & schnelle Momentum-Erfolge',
+      en: 'Bite-sized micro steps, low friction & rapid momentum wins',
       es: 'Micro-pasos claros, baja barrera de inicio y recompensas',
       fr: 'Micro-étapes simples, démarrage facile & victoires rapides',
       it: 'Micro-passi chiari, avvio facile e gratificazioni veloci',
@@ -1511,12 +1511,12 @@ const ROUTINE_PRESETS = [
     },
     icon: 'zap',
     badge: {
-      de: 'Neurodivers',
-      en: 'Neuro-Friendly',
-      es: 'Neurodiverso',
-      fr: 'Neuro-friendly',
-      it: 'Neuro-friendly',
-      el: 'Neuro-friendly'
+      de: 'Reizarm & Flow',
+      en: 'Low-Stimulus',
+      es: 'Calma & Flow',
+      fr: 'Calme & Flow',
+      it: 'Calma & Flow',
+      el: 'Ήρεμη Ροή'
     },
     color: 'from-amber-500 to-rose-500',
     tasks: {
@@ -5481,7 +5481,7 @@ const customTranslations = {
     "mobile_save_plan_btn": "Save Plan",
     "mobile_load_plan_btn": "Load Plan",
     "mobile_reset_btn": "Reset",
-    "mobile_start_tour": "Start App Tour & Onboarding ✨",
+    "mobile_start_tour": "Start App Tour & Onboarding",
     "mobile_feedback": "Feedback",
     "mobile_options": "Options",
     "mobile_privacy_legal": "Privacy & Legal Notice (100% Local-First)",
@@ -6112,6 +6112,7 @@ const customTranslations = {
     "celebration_title": "All Tasks Completed! 🎉",
     "celebration_desc": "Incredible job! You cleared all your items for today. Time for a well-deserved break.",
     "celebration_btn_chill": "Relax & Unwind ☕",
+    "celebration_btn_report": "View Daily Report 📊",
     "celebration_btn_later": "Continue Later",
     "cmd_search": "Search...",
     "tool_clean": "Cleaning",
@@ -6447,7 +6448,7 @@ const customTranslations = {
     "mobile_save_plan_btn": "Plan sichern",
     "mobile_load_plan_btn": "Plan laden",
     "mobile_reset_btn": "Zurücksetzen",
-    "mobile_start_tour": "App-Tour & Onboarding starten ✨",
+    "mobile_start_tour": "App-Tour & Onboarding starten",
     "mobile_feedback": "Feedback",
     "mobile_options": "Optionen",
     "mobile_privacy_legal": "Datenschutz & Impressum (100% Local-First)",
@@ -7078,6 +7079,7 @@ const customTranslations = {
     "celebration_title": "Alle Aufgaben erledigt! 🎉",
     "celebration_desc": "Großartige Leistung! Du hast für heute alle Punkte geschafft. Gönn dir eine Pause.",
     "celebration_btn_chill": "Entspannen & Durchatmen ☕",
+    "celebration_btn_report": "Tagesbilanz & Report ansehen 📊",
     "celebration_btn_later": "Später weitermachen",
     "cmd_search": "Suche...",
     "tool_clean": "Putz-Guide",
@@ -7413,7 +7415,7 @@ const customTranslations = {
     "mobile_save_plan_btn": "Enregistrer plan",
     "mobile_load_plan_btn": "Charger plan",
     "mobile_reset_btn": "Réinitialiser",
-    "mobile_start_tour": "Lancer visite & onboarding ✨",
+    "mobile_start_tour": "Lancer visite & onboarding",
     "mobile_feedback": "Commentaires",
     "mobile_options": "Options",
     "mobile_privacy_legal": "Confidentialité & Mentions légales (100% Local-First)",
@@ -8379,7 +8381,7 @@ const customTranslations = {
     "mobile_save_plan_btn": "Salva piano",
     "mobile_load_plan_btn": "Carica piano",
     "mobile_reset_btn": "Ripristina",
-    "mobile_start_tour": "Avvia tour e onboarding ✨",
+    "mobile_start_tour": "Avvia tour e onboarding",
     "mobile_feedback": "Feedback",
     "mobile_options": "Opzioni",
     "mobile_privacy_legal": "Privacy & Note legali (100% Local-First)",
@@ -9345,7 +9347,7 @@ const customTranslations = {
     "mobile_save_plan_btn": "Guardar plan",
     "mobile_load_plan_btn": "Cargar plan",
     "mobile_reset_btn": "Restablecer",
-    "mobile_start_tour": "Iniciar tour y bienvenida ✨",
+    "mobile_start_tour": "Iniciar tour y bienvenida",
     "mobile_feedback": "Comentarios",
     "mobile_options": "Opciones",
     "mobile_privacy_legal": "Privacidad y Aviso legal (100% Local-First)",
@@ -10311,7 +10313,7 @@ const customTranslations = {
     "mobile_save_plan_btn": "Αποθήκευση πλάνου",
     "mobile_load_plan_btn": "Φόρτωση πλάνου",
     "mobile_reset_btn": "Επαναφορά",
-    "mobile_start_tour": "Έναρξη ξενάγησης & εισαγωγής ✨",
+    "mobile_start_tour": "Έναρξη ξενάγησης & εισαγωγής",
     "mobile_feedback": "Σχόλια",
     "mobile_options": "Επιλογές",
     "mobile_privacy_legal": "Απόρρητο & Νομικές πληροφορίες (100% Local-First)",
@@ -13003,6 +13005,8 @@ window.cancelCloseHeaderWorkspaceDropdown = cancelCloseHeaderWorkspaceDropdown;
 
 function openHeaderWorkspaceDropdown() {
   cancelCloseHeaderWorkspaceDropdown();
+  const colDropdown = document.getElementById('dropdown-manage-columns');
+  if (colDropdown) colDropdown.classList.add('hidden');
   const el = document.getElementById('dropdown-header-workspace');
   if (el) {
     el.classList.remove('hidden');
@@ -13011,28 +13015,41 @@ function openHeaderWorkspaceDropdown() {
 }
 window.openHeaderWorkspaceDropdown = openHeaderWorkspaceDropdown;
 
-function closeHeaderWorkspaceDropdown() {
-  if (headerWsDropdownTimer) clearTimeout(headerWsDropdownTimer);
+function closeHeaderWorkspaceDropdown(force = false) {
+  if (headerWsDropdownTimer) {
+    clearTimeout(headerWsDropdownTimer);
+    headerWsDropdownTimer = null;
+  }
+  const el = document.getElementById('dropdown-header-workspace');
+  if (force) {
+    if (el) el.classList.add('hidden');
+    return;
+  }
   headerWsDropdownTimer = setTimeout(() => {
-    const el = document.getElementById('dropdown-header-workspace');
+    const elTarget = document.getElementById('dropdown-header-workspace');
     const btn = document.getElementById('header-workspace-wrapper');
     try {
-      if (el && el.matches(':hover')) return;
+      if (elTarget && elTarget.matches(':hover')) return;
       if (btn && btn.matches(':hover')) return;
     } catch (e) {}
-    if (el) el.classList.add('hidden');
+    if (elTarget) elTarget.classList.add('hidden');
   }, 260);
 }
 window.closeHeaderWorkspaceDropdown = closeHeaderWorkspaceDropdown;
 
 function toggleHeaderWorkspaceDropdown(event) {
-  if (event) event.stopPropagation();
+  if (event) {
+    event.stopPropagation();
+    if (event.preventDefault) event.preventDefault();
+  }
+  const colDropdown = document.getElementById('dropdown-manage-columns');
+  if (colDropdown) colDropdown.classList.add('hidden');
   const el = document.getElementById('dropdown-header-workspace');
   if (!el) return;
   if (el.classList.contains('hidden')) {
     openHeaderWorkspaceDropdown();
   } else {
-    el.classList.add('hidden');
+    closeHeaderWorkspaceDropdown(true);
   }
 }
 window.toggleHeaderWorkspaceDropdown = toggleHeaderWorkspaceDropdown;
@@ -14314,6 +14331,10 @@ const cloudSyncEngine = {
       if (typeof FlowAuth !== 'undefined' && FlowAuth.getSupabaseClient) {
         const supa = FlowAuth.getSupabaseClient();
         const user = FlowAuth.getUser();
+        if (user && user.isTokenOnly) {
+          this.updateSyncUI('synced');
+          return { skipped: true, tokenOnly: true };
+        }
         if (supa && user && user.id && !user.isTokenOnly) {
           const { error } = await supa.from('flow_sync').upsert({
             user_id: user.id,
@@ -14646,16 +14667,17 @@ async function handleEmailAuth(forcedMode = null) {
     return;
   }
 
-  if (!password || password.length < 4) {
+  const minPassLen = mode === 'register' ? 8 : 1;
+  if (!password || password.length < minPassLen) {
     if (errorMsg) {
       errorMsg.innerText = typeof tr === 'function' ? tr({
-        de: 'Das Passwort muss mindestens 4 Zeichen lang sein.',
-        en: 'Password must be at least 4 characters long.',
-        es: 'La contraseña debe tener al menos 4 caracteres.',
-        el: 'Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον 4 χαρακτήρες.',
-        fr: 'Le mot de passe doit comporter au moins 4 caractères.',
-        it: 'La password deve contenere almeno 4 caratteri.'
-      }) : 'Das Passwort muss mindestens 4 Zeichen lang sein.';
+        de: mode === 'register' ? 'Das Passwort muss mindestens 8 Zeichen lang sein.' : 'Bitte gib dein Passwort ein.',
+        en: mode === 'register' ? 'Password must be at least 8 characters long.' : 'Please enter your password.',
+        es: mode === 'register' ? 'La contraseña debe tener al menos 8 caracteres.' : 'Por favor, introduce tu contraseña.',
+        el: mode === 'register' ? 'Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον 8 χαρακτήρες.' : 'Παρακαλώ εισάγετε τον κωδικό πρόσβασής σας.',
+        fr: mode === 'register' ? 'Le mot de passe doit comporter au moins 8 caractères.' : 'Veuillez saisir votre mot de passe.',
+        it: mode === 'register' ? 'La password deve contenere almeno 8 caratteri.' : 'Inserisci la tua password.'
+      }) : (mode === 'register' ? 'Das Passwort muss mindestens 8 Zeichen lang sein.' : 'Bitte gib dein Passwort ein.');
       errorMsg.classList.remove('hidden');
     }
     return;
@@ -14928,6 +14950,17 @@ const CollabEngine = (function() {
     { bg: 'from-violet-600 to-fuchsia-600', text: '#e879f9', border: 'border-fuchsia-400/50' }
   ];
 
+  function generateSecureId(prefix = 'id') {
+    try {
+      if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+        const bytes = new Uint8Array(6);
+        crypto.getRandomValues(bytes);
+        return `${prefix}_${Date.now()}_${Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('')}`;
+      }
+    } catch (e) {}
+    return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  }
+
   function getLocalUser() {
     if (localUser) return localUser;
 
@@ -14938,7 +14971,7 @@ const CollabEngine = (function() {
       const name = email.split('@')[0];
       const colorIdx = Math.abs(name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % AVATAR_COLORS.length;
       localUser = {
-        id: (u && u.id) || `user_${Date.now()}`,
+        id: (u && u.id) || generateSecureId('user'),
         name: name.charAt(0).toUpperCase() + name.slice(1),
         email: email,
         avatar: name.slice(0, 2).toUpperCase(),
@@ -14958,7 +14991,7 @@ const CollabEngine = (function() {
       }
     } catch (e) {}
 
-    const randomId = 'guest_' + Math.random().toString(36).substring(2, 8);
+    const randomId = generateSecureId('guest');
     const names = ['Alex', 'Sam', 'Taylor', 'Jordan', 'Morgan', 'Casey', 'Robin', 'Charlie'];
     const randomName = names[Math.floor(Math.random() * names.length)];
     const colorIdx = Math.floor(Math.random() * AVATAR_COLORS.length);
@@ -15353,7 +15386,7 @@ const CollabEngine = (function() {
     };
 
     const newMsg = {
-      id: `dj_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+      id: generateSecureId('dj'),
       sender: user,
       isDjShare: true,
       track: trackInfo,
@@ -15505,9 +15538,9 @@ const CollabEngine = (function() {
       <div class="p-2 px-3 rounded-2xl bg-gradient-to-r from-cyan-950/80 via-purple-950/80 to-cyan-950/80 border border-cyan-500/40 shadow-lg flex items-center justify-between gap-2 text-xs">
         <div class="flex items-center gap-2 min-w-0">
           <div class="flex items-center gap-0.5">
-            <span class="w-1 h-3.5 bg-cyan-400 rounded-full animate-pulse"></span>
-            <span class="w-1 h-5 bg-purple-400 rounded-full animate-pulse delay-75"></span>
-            <span class="w-1 h-3 bg-pink-400 rounded-full animate-pulse delay-150"></span>
+            <span class="w-1 h-3.5 bg-cyan-400 rounded-full opacity-80"></span>
+            <span class="w-1 h-5 bg-purple-400 rounded-full opacity-90"></span>
+            <span class="w-1 h-3 bg-pink-400 rounded-full opacity-80"></span>
           </div>
           <div class="min-w-0">
             <div class="text-[10px] font-mono text-cyan-300 uppercase font-black truncate flex items-center gap-1">
@@ -15711,7 +15744,7 @@ const CollabEngine = (function() {
   function sendVoiceMessage(audioDataUrl, durationSecs) {
     const user = getLocalUser();
     const newMsg = {
-      id: `voice_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+      id: generateSecureId('voice'),
       sender: user,
       isVoice: true,
       audioUrl: audioDataUrl,
@@ -15838,7 +15871,7 @@ const CollabEngine = (function() {
     const user = getLocalUser();
 
     const newMsg = {
-      id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+      id: generateSecureId('msg'),
       sender: user,
       text: cleanText,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
@@ -16823,13 +16856,27 @@ function sanitizeUrl(url, fallback = '#') {
   return fallback;
 }
 
+function sanitizeIdentifier(id, fallbackPrefix = 'item') {
+  if (id === null || id === undefined) return `${fallbackPrefix}_${Date.now()}`;
+  const clean = String(id).replace(/[^a-zA-Z0-9_\-\:]/g, '_');
+  return clean || `${fallbackPrefix}_${Date.now()}`;
+}
+
+function escapeAttr(str) {
+  return escapeHtml(str);
+}
+
 if (typeof window !== 'undefined') {
   window.escapeHtml = escapeHtml;
+  window.escapeAttr = escapeAttr;
   window.sanitizeUrl = sanitizeUrl;
+  window.sanitizeIdentifier = sanitizeIdentifier;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.escapeHtml = escapeHtml;
+  globalThis.escapeAttr = escapeAttr;
   globalThis.sanitizeUrl = sanitizeUrl;
+  globalThis.sanitizeIdentifier = sanitizeIdentifier;
 }
 
 // Zentraler Panel-Manager (für Dropdowns & Werkzeug-Panels)
@@ -16988,6 +17035,10 @@ if (typeof document !== 'undefined') {
     if (e.key === 'Escape') {
       PanelManager.closeAll();
       ModalManager.closeAll();
+      const wsEl = document.getElementById('dropdown-header-workspace');
+      if (wsEl) wsEl.classList.add('hidden');
+      const colsEl = document.getElementById('dropdown-manage-columns');
+      if (colsEl) colsEl.classList.add('hidden');
     }
   });
 }
@@ -16996,6 +17047,9 @@ const _lucideSvgCache = new Map();
 
 function getLucideSvg(name, classNames = '', extraAttrs = '') {
   if (!name) return '';
+  if (name === 'sparkles' || name === 'star' || name === 'star-half' || name === 'asterisk') {
+    name = 'lightbulb';
+  }
   const cacheKey = `${name}:::${classNames}:::${extraAttrs}`;
   if (_lucideSvgCache.has(cacheKey)) return _lucideSvgCache.get(cacheKey);
 
@@ -17029,8 +17083,20 @@ function doRenderLucideIcons(root = null) {
             try {
               if (targetRoot !== document) {
                 const nodes = targetRoot.querySelectorAll('[data-lucide]');
+                nodes.forEach(n => {
+                  const iconAttr = n.getAttribute('data-lucide');
+                  if (iconAttr === 'sparkles' || iconAttr === 'star' || iconAttr === 'star-half' || iconAttr === 'asterisk') {
+                    n.setAttribute('data-lucide', 'lightbulb');
+                  }
+                });
                 if (nodes.length > 0) lucide.createIcons({ root: targetRoot });
               } else {
+                document.querySelectorAll('[data-lucide]').forEach(n => {
+                  const iconAttr = n.getAttribute('data-lucide');
+                  if (iconAttr === 'sparkles' || iconAttr === 'star' || iconAttr === 'star-half' || iconAttr === 'asterisk') {
+                    n.setAttribute('data-lucide', 'lightbulb');
+                  }
+                });
                 lucide.createIcons();
               }
             } catch(e) {}
@@ -17046,8 +17112,12 @@ function doRenderLucideIcons(root = null) {
     
     let needsFullLucide = false;
     iconNodes.forEach(node => {
-      const name = node.getAttribute('data-lucide');
+      let name = node.getAttribute('data-lucide');
       if (!name) return;
+      if (name === 'sparkles' || name === 'star' || name === 'star-half' || name === 'asterisk') {
+        name = 'lightbulb';
+        node.setAttribute('data-lucide', 'lightbulb');
+      }
       if (typeof lucide !== 'undefined' && lucide.icons && lucide.icons[name]) {
         try {
           const svgStr = getLucideSvg(name, node.className || '');
@@ -17373,8 +17443,8 @@ function setLogoAnimationMode(modeIndexOrName) {
   const targetMode = NOODLE_LOGO_MODES[_currentLogoModeIdx];
   container.classList.add(targetMode.id);
   container.setAttribute('data-logo-mode', targetMode.id);
-  container.setAttribute('title', 'Onboarding & Feedback');
-  container.setAttribute('data-noodle-tooltip', 'Onboarding & Feedback');
+  container.setAttribute('title', 'Noodle Tools & Suite');
+  container.setAttribute('data-noodle-tooltip', 'Noodle Tools & Suite');
 
   // Tab-Favicon synchron mitbewegen
   if (typeof animateFavicon === 'function') {
@@ -18258,6 +18328,40 @@ function triggerPraiseAnimation(idx) {
 }
 
 let _lastRenderedCalDateKey = null;
+let currentViewingCalendarMonth = new Date().getMonth();
+let currentViewingCalendarYear = new Date().getFullYear();
+
+function prevCalendarMonth(event) {
+  if (event) event.stopPropagation();
+  currentViewingCalendarMonth--;
+  if (currentViewingCalendarMonth < 0) {
+    currentViewingCalendarMonth = 11;
+    currentViewingCalendarYear--;
+  }
+  renderMiniCalendar(true);
+}
+
+function nextCalendarMonth(event) {
+  if (event) event.stopPropagation();
+  currentViewingCalendarMonth++;
+  if (currentViewingCalendarMonth > 11) {
+    currentViewingCalendarMonth = 0;
+    currentViewingCalendarYear++;
+  }
+  renderMiniCalendar(true);
+}
+
+function resetCalendarToToday(event) {
+  if (event) event.stopPropagation();
+  const now = new Date();
+  currentViewingCalendarMonth = now.getMonth();
+  currentViewingCalendarYear = now.getFullYear();
+  renderMiniCalendar(true);
+}
+
+window.prevCalendarMonth = prevCalendarMonth;
+window.nextCalendarMonth = nextCalendarMonth;
+window.resetCalendarToToday = resetCalendarToToday;
 
 function renderMiniCalendar(force = false) {
   const grid = document.getElementById('cal-days-grid');
@@ -18265,11 +18369,14 @@ function renderMiniCalendar(force = false) {
   if (!grid || !title) return;
 
   const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
+  const year = currentViewingCalendarYear;
+  const month = currentViewingCalendarMonth;
   const todayDate = now.getDate();
+  const todayMonth = now.getMonth();
+  const todayYear = now.getFullYear();
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
-  const termineList = (state && state.items && state.items.termine) ? state.items.termine : [];
+  const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state?.items || {});
+  const termineList = curItems.termine || [];
   const dateKey = `${year}-${month}-${todayDate}-${lang}-${termineList.length}`;
 
   if (!force && _lastRenderedCalDateKey === dateKey && grid.children.length > 0) {
@@ -18280,7 +18387,8 @@ function renderMiniCalendar(force = false) {
   grid.innerHTML = '';
 
   const locales = { de: 'de-DE', en: 'en-US', el: 'el-GR', es: 'es-ES', fr: 'fr-FR', it: 'it-IT' };
-  const monthName = new Intl.DateTimeFormat(locales[currentLang] || 'en-US', { month: 'long', year: 'numeric' }).format(now);
+  const viewingDate = new Date(year, month, 1);
+  const monthName = new Intl.DateTimeFormat(locales[currentLang] || 'en-US', { month: 'long', year: 'numeric' }).format(viewingDate);
   title.innerText = monthName;
 
   const firstDayOfMonth = new Date(year, month, 1);
@@ -18291,59 +18399,60 @@ function renderMiniCalendar(force = false) {
 
   for (let i = 0; i < firstDayIndex; i++) {
     const empty = document.createElement('span');
-    empty.className = 'text-transparent select-none pointer-events-none';
+    empty.className = 'text-transparent select-none pointer-events-none h-6 w-6';
     empty.innerText = '';
     grid.appendChild(empty);
   }
 
-  const todayMonth = now.getMonth();
-  const todayYear = now.getFullYear();
-
   for (let day = 1; day <= daysInMonth; day++) {
-    const daySpan = document.createElement('span');
+    const daySpan = document.createElement('button');
+    daySpan.type = 'button';
     daySpan.innerText = day;
     
     const isToday = day === todayDate && month === todayMonth && year === todayYear;
     if (isToday) {
-      const palette = typeof getDayColorPalette === 'function' ? getDayColorPalette(now) : null;
-      const accentColor = palette ? palette.accentHex : 'var(--accent)';
-      daySpan.className = 'flex items-center justify-center h-5 w-5 text-white font-bold rounded-lg border border-white/30 animate-pulse transition-all duration-200';
-      daySpan.style.backgroundColor = accentColor;
-      daySpan.style.boxShadow = `0 0 10px ${accentColor}99`;
+      daySpan.className = 'flex items-center justify-center h-6 w-6 text-white font-bold rounded-lg bg-amber-500/25 border border-amber-400/80 shadow-sm transition-all duration-150 cursor-pointer text-[10px]';
     } else {
-      daySpan.className = 'flex items-center justify-center h-5 w-5 text-gray-400 hover:text-white hover:bg-white/5 rounded transition-all duration-150';
+      daySpan.className = 'flex items-center justify-center h-6 w-6 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-150 cursor-pointer text-[10px]';
     }
     
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const dayAppointments = (state.items && state.items.termine) 
-      ? state.items.termine.filter(t => t.date === dateStr) 
-      : [];
+    const dayAppointments = termineList.filter(t => t && t.date === dateStr);
       
     if (dayAppointments.length > 0) {
-      daySpan.className += ' border border-amber-400/40 relative shadow-[0_0_10px_rgba(245,158,11,0.15)]';
+      daySpan.className += ' border border-sky-400/40 relative font-bold';
       
       const dot = document.createElement('span');
-      dot.className = 'absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-amber-400 rounded-full shadow-[0_0_4px_rgba(245,158,11,0.8)] animate-pulse';
+      dot.className = 'absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-sky-400 rounded-full shadow-xs';
       daySpan.appendChild(dot);
     }
 
-    // Tooltip-Beschriftung: Standardhinweis plus optionale Terminliste, falls vorhanden
-    const tooltipAction = tr({ de: "Auf ein Datum klicken, um einen Termin einzutragen", en: "Click on a date to enter an appointment", es: "Haz clic en una fecha para añadir una cita", el: "Κάνε κλικ σε μια ημερομηνία για να καταχωρήσεις ραντεβού", fr: "Clique sur une date pour ajouter un rendez-vous", it: "Clicca su una data per inserire un appuntamento" });
+    // Tooltip-Beschriftung
+    const tooltipAction = tr({ 
+      de: "Datum wählen & Termin erfassen", 
+      en: "Select date & add appointment", 
+      es: "Seleccionar fecha y añadir cita", 
+      el: "Επιλογή ημερομηνίας & καταχώρηση", 
+      fr: "Choisir date et ajouter rendez-vous", 
+      it: "Scegli data e inserisci appuntamento" 
+    });
 
     if (dayAppointments.length > 0) {
       const listStr = dayAppointments.map(t => {
         let loc = t.location ? ` (@ ${t.location})` : '';
         const allDayLabel = tr({ de: 'Ganztägig', en: 'All day', es: 'Todo el día', el: 'Ολοήμερο', fr: 'Toute la journée', it: 'Tutto il giorno' });
-        return `${t.time || allDayLabel} · ${t.task}${loc}`;
+        return `${t.time || allDayLabel} · ${t.task || t.name}${loc}`;
       }).join('\n');
       daySpan.title = `${tooltipAction}\n\nTermine:\n${listStr}`;
     } else {
       daySpan.title = tooltipAction;
     }
 
-    // Interaktiver Klick-Listener: Öffnet direkt das integrierte Formular
+    // Interaktiver Klick-Listener: Öffnet direkt das Termin-Formular und schließt das Dropdown
     daySpan.onclick = (e) => {
       e.stopPropagation();
+      const calDropdown = document.getElementById('panel-calendar-dropdown');
+      if (calDropdown) calDropdown.classList.add('hidden');
       if (typeof toggleTerminForm === 'function') {
         toggleTerminForm(true, dateStr);
       }
@@ -18358,11 +18467,6 @@ let weatherHoverTimeout = null;
 
 function toggleCalendarDropdown(event) {
   if (event) event.stopPropagation();
-  if (typeof togglePanel === 'function') {
-    togglePanel('calendar-dropdown');
-    if (typeof renderMiniCalendar === 'function') renderMiniCalendar();
-    return;
-  }
   const weatherEl = document.getElementById('panel-weather');
   if (weatherEl) weatherEl.classList.add('hidden');
   
@@ -18370,8 +18474,9 @@ function toggleCalendarDropdown(event) {
   if (calEl) {
     const isHidden = calEl.classList.contains('hidden');
     if (isHidden) {
+      if (typeof PanelManager !== 'undefined' && PanelManager.closeAll) PanelManager.closeAll();
       calEl.classList.remove('hidden');
-      renderMiniCalendar();
+      renderMiniCalendar(true);
     } else {
       calEl.classList.add('hidden');
     }
@@ -18381,11 +18486,6 @@ window.toggleCalendarDropdown = toggleCalendarDropdown;
 
 function toggleWeatherDropdown(event) {
   if (event) event.stopPropagation();
-  if (typeof togglePanel === 'function') {
-    togglePanel('weather');
-    if (typeof updateWeatherDisplay === 'function') updateWeatherDisplay();
-    return;
-  }
   const calEl = document.getElementById('panel-calendar-dropdown');
   if (calEl) calEl.classList.add('hidden');
   
@@ -18393,8 +18493,10 @@ function toggleWeatherDropdown(event) {
   if (weatherEl) {
     const isHidden = weatherEl.classList.contains('hidden');
     if (isHidden) {
+      if (typeof PanelManager !== 'undefined' && PanelManager.closeAll) PanelManager.closeAll();
       weatherEl.classList.remove('hidden');
       if (typeof updateWeatherDisplay === 'function') updateWeatherDisplay();
+      if (typeof fetchLocalWeather === 'function') fetchLocalWeather();
     } else {
       weatherEl.classList.add('hidden');
     }
@@ -18539,17 +18641,34 @@ if (typeof document !== 'undefined') {
         alarmEl.classList.add('hidden');
       }
     }
+    // 7. Workspace Dropdown
+    const wsEl = document.getElementById('dropdown-header-workspace');
+    const wsBtn = document.getElementById('btn-header-workspace');
+    if (wsEl && !wsEl.classList.contains('hidden')) {
+      if (!wsEl.contains(e.target) && (!wsBtn || !wsBtn.contains(e.target))) {
+        wsEl.classList.add('hidden');
+      }
+    }
+    // 8. Manage Columns Dropdown
+    const colsEl = document.getElementById('dropdown-manage-columns');
+    const colsBtn = document.getElementById('btn-board-columns');
+    if (colsEl && !colsEl.classList.contains('hidden')) {
+      if (!colsEl.contains(e.target) && (!colsBtn || !colsBtn.contains(e.target))) {
+        colsEl.classList.add('hidden');
+      }
+    }
   });
 }
 
 // 7 harmonische, leuchtende Farbpaletten für jeden Wochentag (0 = Sonntag bis 6 = Samstag)
+// Datum und Tag tragen immer exakt dieselbe Farbe, jeden Tag in einer frischen Farbvariante.
 const DAY_COLOR_PALETTES = [
   // 0: Sonntag (Sunday) - Warm Sun / Amber & Golden Orange
   {
     day: 0,
     name: 'Sonntag',
     dayClass: 'text-amber-300',
-    dateClass: 'text-orange-200',
+    dateClass: 'text-amber-300',
     accentHex: '#f59e0b',
     glowClass: 'drop-shadow-[0_0_8px_rgba(245,158,11,0.35)]',
     badgeClass: 'bg-amber-500/15 border-amber-500/30 text-amber-300'
@@ -18559,7 +18678,7 @@ const DAY_COLOR_PALETTES = [
     day: 1,
     name: 'Montag',
     dayClass: 'text-cyan-300',
-    dateClass: 'text-sky-200',
+    dateClass: 'text-cyan-300',
     accentHex: '#06b6d4',
     glowClass: 'drop-shadow-[0_0_8px_rgba(6,182,212,0.35)]',
     badgeClass: 'bg-cyan-500/15 border-cyan-500/30 text-cyan-300'
@@ -18569,7 +18688,7 @@ const DAY_COLOR_PALETTES = [
     day: 2,
     name: 'Dienstag',
     dayClass: 'text-emerald-300',
-    dateClass: 'text-teal-200',
+    dateClass: 'text-emerald-300',
     accentHex: '#10b981',
     glowClass: 'drop-shadow-[0_0_8px_rgba(16,185,129,0.35)]',
     badgeClass: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300'
@@ -18579,7 +18698,7 @@ const DAY_COLOR_PALETTES = [
     day: 3,
     name: 'Mittwoch',
     dayClass: 'text-yellow-300',
-    dateClass: 'text-lime-200',
+    dateClass: 'text-yellow-300',
     accentHex: '#eab308',
     glowClass: 'drop-shadow-[0_0_8px_rgba(234,179,8,0.35)]',
     badgeClass: 'bg-yellow-500/15 border-yellow-500/30 text-yellow-300'
@@ -18589,7 +18708,7 @@ const DAY_COLOR_PALETTES = [
     day: 4,
     name: 'Donnerstag',
     dayClass: 'text-purple-300',
-    dateClass: 'text-indigo-200',
+    dateClass: 'text-purple-300',
     accentHex: '#a855f7',
     glowClass: 'drop-shadow-[0_0_8px_rgba(168,85,247,0.35)]',
     badgeClass: 'bg-purple-500/15 border-purple-500/30 text-purple-300'
@@ -18599,7 +18718,7 @@ const DAY_COLOR_PALETTES = [
     day: 5,
     name: 'Freitag',
     dayClass: 'text-rose-300',
-    dateClass: 'text-pink-200',
+    dateClass: 'text-rose-300',
     accentHex: '#f43f5e',
     glowClass: 'drop-shadow-[0_0_8px_rgba(244,63,94,0.35)]',
     badgeClass: 'bg-rose-500/15 border-rose-500/30 text-rose-300'
@@ -18609,7 +18728,7 @@ const DAY_COLOR_PALETTES = [
     day: 6,
     name: 'Samstag',
     dayClass: 'text-fuchsia-300',
-    dateClass: 'text-fuchsia-200',
+    dateClass: 'text-fuchsia-300',
     accentHex: '#d946ef',
     glowClass: 'drop-shadow-[0_0_8px_rgba(217,70,239,0.35)]',
     badgeClass: 'bg-fuchsia-500/15 border-fuchsia-500/30 text-fuchsia-300'
@@ -18634,12 +18753,12 @@ function updateDateAndStreak() {
     const dayMonthLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
     const displayEl = document.getElementById('date-display');
     if (displayEl) {
-      displayEl.innerHTML = `<span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal transition-colors duration-300 ${palette.glowClass}"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="${palette.dateClass} font-bold text-xs md:text-sm tracking-normal transition-colors duration-300"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
+      displayEl.innerHTML = `<span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal transition-colors duration-300 ${palette.glowClass}"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal transition-colors duration-300 ${palette.glowClass}"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
     }
   } catch (e) {
     const displayEl = document.getElementById('date-display');
     if (displayEl) {
-      displayEl.innerHTML = `<span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal">${now.toLocaleDateString()}</span>`;
+      displayEl.innerHTML = `<span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal ${palette.glowClass}">${now.toLocaleDateString()}</span>`;
     }
   }
 
@@ -18810,7 +18929,7 @@ function closeSafeSpaceModal() {
 window.closeSafeSpaceModal = closeSafeSpaceModal;
 
 function switchPauseDropdownTab(tabName) {
-  ['breath', 'sensory', 'body', 'sound'].forEach(t => {
+  ['breath', 'sensory', 'body'].forEach(t => {
     const pane = document.getElementById(`pause-dropdown-pane-${t}`);
     const tabBtn = document.getElementById(`pause-dropdown-tab-${t}`);
     if (pane) {
@@ -19750,6 +19869,17 @@ function playAmbientSound(type, crossfade = false) {
 
   // Generatoren anstoßen
   startAmbientGeneratorForType(type);
+
+  if (typeof updateMiniAudioPlayer === 'function') {
+    const soundTitle = (typeof getNoodleSoundDisplayName === 'function') ? getNoodleSoundDisplayName(type) : type;
+    updateMiniAudioPlayer({
+      isPlaying: true,
+      title: soundTitle,
+      sub: 'Ambient Sound',
+      emoji: '🎧',
+      source: 'ambient'
+    });
+  }
 
   updateSoundscapeUI();
   lastSelectedSound = type;
@@ -20731,7 +20861,8 @@ function updateAudioStudioHeader(customTitle) {
   
   if (isPlaying) {
     if (liveBadge) liveBadge.classList.remove('hidden');
-    if (eqBars) eqBars.classList.add('animate-pulse');
+    if (eqBars) eqBars.classList.add('opacity-100');
+    if (eqBars) eqBars.classList.remove('opacity-40');
     if (titleEl) {
       if (customTitle) {
         titleEl.textContent = '▶ ' + customTitle;
@@ -20744,7 +20875,11 @@ function updateAudioStudioHeader(customTitle) {
     }
   } else {
     if (liveBadge) liveBadge.classList.add('hidden');
-    if (eqBars) eqBars.classList.remove('animate-pulse');
+    if (eqBars) {
+      eqBars.classList.remove('animate-pulse');
+      eqBars.classList.remove('opacity-100');
+      eqBars.classList.add('opacity-40');
+    }
     if (titleEl) {
       titleEl.textContent = (typeof tr === 'function') 
         ? tr({ de: 'Kein Sound aktiv · Wähle einen Preset oder Track', en: 'No audio active · Choose a preset or track' }) 
@@ -20771,25 +20906,17 @@ function updateHeaderSoundBtnUI() {
 
   const isPlaying = isAnyAudioPlaying();
   if (isPlaying) {
-    btn.className = 'h-[38px] w-[38px] p-0 border border-lime-400/80 rounded-xl bg-gradient-to-tr from-lime-600/35 to-emerald-600/35 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_18px_rgba(132,204,22,0.45)] shrink-0 group/sound-btn';
-    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound ausschalten (Klick)', en: 'Turn sound off (Click)' }) : 'Sound ausschalten';
+    btn.className = 'h-[38px] w-[38px] p-0 border border-purple-400/60 rounded-xl bg-purple-600/25 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_12px_rgba(168,85,247,0.25)] shrink-0 group/sound-btn';
+    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound stummschalten (Klick)', en: 'Mute sound (Click)' }) : 'Sound stummschalten';
     if (iconWrapper) {
-      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-lime-300 animate-pulse"></i>';
-    }
-    if (eqBars) {
-      eqBars.classList.remove('hidden');
-      eqBars.classList.add('flex');
+      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-purple-200"></i>';
     }
     if (label) label.textContent = '';
   } else {
-    btn.className = 'h-[38px] w-[38px] p-0 border border-purple-400/50 hover:border-purple-300 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 active:scale-95 text-purple-300 hover:text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_14px_rgba(168,85,247,0.28)] shrink-0 group/sound-btn';
-    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound einschalten (Klick)', en: 'Turn sound on (Click)' }) : 'Sound einschalten';
+    btn.className = 'h-[38px] w-[38px] p-0 border border-white/10 hover:border-purple-400/40 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-gray-400 hover:text-white flex items-center justify-center cursor-pointer transition shrink-0 group/sound-btn';
+    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound aktivieren (Klick)', en: 'Turn sound on (Click)' }) : 'Sound aktivieren';
     if (iconWrapper) {
-      iconWrapper.innerHTML = '<i data-lucide="volume-x" class="w-[18px] h-[18px] text-purple-400 group-hover/sound-btn:text-purple-300 group-hover/sound-btn:scale-110 transition-transform"></i>';
-    }
-    if (eqBars) {
-      eqBars.classList.add('hidden');
-      eqBars.classList.remove('flex');
+      iconWrapper.innerHTML = '<i data-lucide="volume-x" class="w-[18px] h-[18px] text-gray-400 group-hover/sound-btn:text-purple-300 transition-colors"></i>';
     }
     if (label) label.textContent = '';
   }
@@ -20820,6 +20947,8 @@ function stopAllStudioAudio() {
   if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
   if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
   if (typeof pauseDjDeck === 'function') { pauseDjDeck('a'); pauseDjDeck('b'); }
+  const miniPlayer = document.getElementById('noodle-mini-audio-player');
+  if (miniPlayer) miniPlayer.classList.add('hidden');
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
   document.querySelectorAll('.mood-preset-card').forEach(btn => {
@@ -21022,6 +21151,9 @@ function updateSoundscapeUI() {
   if (dockSoundBadge) {
     if (isAudioActive) dockSoundBadge.classList.remove('hidden');
     else dockSoundBadge.classList.add('hidden');
+  }
+  if (!isAudioActive && typeof updateMiniAudioPlayer === 'function') {
+    updateMiniAudioPlayer({ isPlaying: false });
   }
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
@@ -24016,9 +24148,21 @@ function playMusicTrack(index) {
     updateMusicNowPlayingDisplay();
     renderMusicPlaylist();
     startAudioVisualizerLoop();
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({
+        isPlaying: true,
+        title: track.name || track.fullName || 'Track',
+        sub: 'Musik & Medien',
+        emoji: isVideo ? '🎬' : '🎶',
+        source: 'music'
+      });
+    }
   }).catch(err => {
     console.warn('[AudioPlayer] Playback attempt error:', err);
     updateMusicPlayBtnUI(false);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false });
+    }
   });
 }
 window.playMusicTrack = playMusicTrack;
@@ -24034,11 +24178,24 @@ function toggleMusicPlayback() {
     activeUserAudio.play().then(() => {
       updateMusicPlayBtnUI(true);
       renderMusicPlaylist();
+      const currentTrack = playlistTracks[currentTrackIndex];
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({
+          isPlaying: true,
+          title: currentTrack ? (currentTrack.name || currentTrack.fullName) : 'Musik',
+          sub: 'Musik & Medien',
+          emoji: '🎶',
+          source: 'music'
+        });
+      }
     }).catch(e => console.warn(e));
   } else {
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
     renderMusicPlaylist();
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert' });
+    }
   }
 }
 window.toggleMusicPlayback = toggleMusicPlayback;
@@ -24733,11 +24890,23 @@ function toggleDjDeckPlayback(deckId) {
     deck.audio.play().then(() => {
       deck.isPlaying = true;
       updateDjPlayBtnUI(deckId, true);
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({
+          isPlaying: true,
+          title: (deck.track ? (deck.track.name || deck.track.title) : 'Deck ' + deckId.toUpperCase()),
+          sub: `Noodle DJ (${deck.bpm} BPM)`,
+          emoji: '🎧',
+          source: 'dj'
+        });
+      }
     }).catch(e => console.warn(e));
   } else {
     deck.audio.pause();
     deck.isPlaying = false;
     updateDjPlayBtnUI(deckId, false);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false, sub: 'DJ Pausiert' });
+    }
   }
 }
 window.toggleDjDeckPlayback = toggleDjDeckPlayback;
@@ -25133,6 +25302,10 @@ if (typeof globalThis !== 'undefined') {
 
 function updateDjVuMeters() {
   if (typeof document === 'undefined') return;
+  if ((!djDecks.a || !djDecks.a.isPlaying) && (!djDecks.b || !djDecks.b.isPlaying)) return;
+  const djPanel = document.getElementById('panel-audio');
+  if (!djPanel || djPanel.classList.contains('hidden')) return;
+
   const vuA = document.getElementById('dj-vu-meter-a');
   const vuB = document.getElementById('dj-vu-meter-b');
   
@@ -25151,8 +25324,194 @@ function updateDjVuMeters() {
   }
 }
 if (typeof window !== 'undefined') {
-  setInterval(updateDjVuMeters, 100);
+  setInterval(updateDjVuMeters, 250);
 }
+
+// ============================================================================
+// NOODLE PERSISTENT MINI AUDIO PLAYER ENGINE (BOTTOM-LEFT)
+// ============================================================================
+var currentActiveAudioSource = null; // 'ambient' | 'dj' | 'music' | 'radio' | 'tts' | null
+var isMiniPlayerPlaying = false;
+var miniPlayerCurrentInfo = {
+  title: 'Ambient Sound',
+  sub: 'Aktiv',
+  emoji: '🎵',
+  source: null
+};
+
+function getNoodleSoundDisplayName(type) {
+  const names = {
+    piano: 'Sanftes Piano',
+    lofi: 'Lofi Chords',
+    jazz_piano: 'Jazz Voicings',
+    rhodes: 'Fender Rhodes',
+    guitar: 'Akustik-Gitarre',
+    hypnotic_riff: 'Hypnotic Riff',
+    singingbowl: 'Klangschale',
+    chimes: 'Windspiel',
+    musicbox: 'Spieluhr',
+    campfire: 'Kaminfeuer',
+    birds: 'Waldvögel',
+    breeze: 'Blättersäuseln',
+    cafe: 'Cozy Café',
+    clock: 'Pendeluhr',
+    space: 'Cosmic Ambient',
+    techno: 'Techno 128',
+    dnb: 'Drum & Bass',
+    afrobeats: 'Afrobeats',
+    swing: 'Swing & Jazz',
+    boombap: 'Boom-Bap',
+    bossa_nova: 'Bossa Nova'
+  };
+  return names[type] || type || 'Ambient Sound';
+}
+window.getNoodleSoundDisplayName = getNoodleSoundDisplayName;
+
+function updateMiniAudioPlayer(info) {
+  if (typeof document === 'undefined') return;
+  const playerEl = document.getElementById('noodle-mini-audio-player');
+  if (!playerEl) return;
+
+  if (!info || !info.isPlaying) {
+    // Check if any audio is still active anywhere
+    const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
+    const isBeat = typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying);
+    const isDj = (djDecks.a && djDecks.a.isPlaying) || (djDecks.b && djDecks.b.isPlaying);
+    const isMusic = typeof isMusicPlaying !== 'undefined' && Boolean(isMusicPlaying);
+    const isRadio = typeof window !== 'undefined' && Boolean(window.isRadioPlaying);
+    const isTts = typeof RadioNewsEngine !== 'undefined' && Boolean(RadioNewsEngine.isReading);
+
+    if (!isAmbient && !isBeat && !isDj && !isMusic && !isRadio && !isTts) {
+      playerEl.classList.add('hidden');
+      isMiniPlayerPlaying = false;
+      currentActiveAudioSource = null;
+      return;
+    }
+  }
+
+  if (info) {
+    if (info.title) miniPlayerCurrentInfo.title = info.title;
+    if (info.sub) miniPlayerCurrentInfo.sub = info.sub;
+    if (info.emoji) miniPlayerCurrentInfo.emoji = info.emoji;
+    if (info.source) {
+      miniPlayerCurrentInfo.source = info.source;
+      currentActiveAudioSource = info.source;
+    }
+    isMiniPlayerPlaying = info.isPlaying !== undefined ? Boolean(info.isPlaying) : true;
+  }
+
+  // Update UI Elements
+  playerEl.classList.remove('hidden');
+  const titleEl = document.getElementById('mini-player-track-title');
+  const subEl = document.getElementById('mini-player-track-sub');
+  const emojiEl = document.getElementById('mini-player-source-emoji');
+  const playBtn = document.getElementById('mini-player-playpause-btn');
+  const eqAnim = document.getElementById('mini-player-eq-anim');
+
+  if (titleEl && miniPlayerCurrentInfo.title) titleEl.textContent = miniPlayerCurrentInfo.title;
+  if (subEl && miniPlayerCurrentInfo.sub) subEl.textContent = miniPlayerCurrentInfo.sub;
+  if (emojiEl && miniPlayerCurrentInfo.emoji) emojiEl.textContent = miniPlayerCurrentInfo.emoji;
+
+  if (playBtn) {
+    playBtn.innerHTML = isMiniPlayerPlaying 
+      ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' 
+      : '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+  }
+
+  if (eqAnim) {
+    if (isMiniPlayerPlaying) eqAnim.classList.remove('opacity-30');
+    else eqAnim.classList.add('opacity-30');
+  }
+}
+window.updateMiniAudioPlayer = updateMiniAudioPlayer;
+
+function toggleMiniPlayerPlayback() {
+  if (!currentActiveAudioSource) {
+    if (typeof playAmbientSound === 'function') {
+      playAmbientSound(window.lastSelectedSound || 'piano');
+    }
+    return;
+  }
+
+  if (currentActiveAudioSource === 'ambient') {
+    if (typeof currentSoundType !== 'undefined' && currentSoundType) {
+      const savedType = currentSoundType;
+      window._pausedAmbientSound = savedType;
+      if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+      updateMiniAudioPlayer({ isPlaying: false, title: getNoodleSoundDisplayName(savedType), sub: 'Pausiert', emoji: '⏸️' });
+    } else if (window._pausedAmbientSound) {
+      playAmbientSound(window._pausedAmbientSound);
+    }
+  } else if (currentActiveAudioSource === 'radio') {
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function') {
+      RadioNewsEngine.toggleRadioPlayback();
+    }
+  } else if (currentActiveAudioSource === 'dj') {
+    if (djDecks.a && djDecks.a.audio) toggleDjDeckPlayback('a');
+    else if (djDecks.b && djDecks.b.audio) toggleDjDeckPlayback('b');
+  } else if (currentActiveAudioSource === 'music') {
+    if (typeof toggleMusicPlayback === 'function') toggleMusicPlayback();
+  } else if (currentActiveAudioSource === 'tts') {
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleNewsReaderPause === 'function') {
+      RadioNewsEngine.toggleNewsReaderPause();
+    }
+  }
+}
+window.toggleMiniPlayerPlayback = toggleMiniPlayerPlayback;
+
+function stopAllMiniPlayerAudio() {
+  if (typeof stopAllSounds === 'function') stopAllSounds();
+  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+  if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+  if (typeof RadioNewsEngine !== 'undefined') {
+    if (typeof RadioNewsEngine.stopRadioPlayback === 'function') RadioNewsEngine.stopRadioPlayback();
+    if (typeof RadioNewsEngine.stopNewsReader === 'function') RadioNewsEngine.stopNewsReader();
+  }
+  const playerEl = document.getElementById('noodle-mini-audio-player');
+  if (playerEl) playerEl.classList.add('hidden');
+  isMiniPlayerPlaying = false;
+  currentActiveAudioSource = null;
+  if (typeof showToast === 'function') {
+    showToast(typeof tr === 'function' ? tr({ de: 'Audio beendet ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio beendet ⏹️');
+  }
+}
+window.stopAllMiniPlayerAudio = stopAllMiniPlayerAudio;
+
+function toggleDjProMode() {
+  const proElements = document.querySelectorAll('.dj-pro-only');
+  const btn = document.getElementById('dj-pro-mode-toggle-btn');
+  const isHidden = proElements.length > 0 && proElements[0].classList.contains('hidden');
+  proElements.forEach(el => {
+    if (isHidden) {
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+    }
+  });
+  if (btn) {
+    btn.innerHTML = isHidden 
+      ? '<span>🎛️ Pro Mixer: An</span>' 
+      : '<span>🎛️ Pro Mixer & FX</span>';
+  }
+}
+window.toggleDjProMode = toggleDjProMode;
+
+function handleMiniPlayerVolume(val) {
+  const vol = parseFloat(val);
+  if (typeof handleStudioMasterVolume === 'function') {
+    handleStudioMasterVolume(vol);
+  }
+  if (typeof soundMasterVolume !== 'undefined') {
+    soundMasterVolume = vol;
+  }
+  if (typeof setMusicPlayerVolume === 'function') {
+    setMusicPlayerVolume(vol);
+  }
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.setRadioVolume === 'function') {
+    RadioNewsEngine.setRadioVolume(vol);
+  }
+}
+window.handleMiniPlayerVolume = handleMiniPlayerVolume;
 
 
 /* --- timer-1.js --- */
@@ -25169,7 +25528,10 @@ var timerSoundEnabled = (typeof localStorage !== 'undefined' ? localStorage.getI
 var timerVoiceEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceEnabled') : null) !== 'false';
 var timerVoiceTimeAnnounce = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceTimeAnnounce') : null) !== 'false';
 var timerVoiceMotivation = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceMotivation') : null) !== 'false';
-var timerAudioMode = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerAudioMode') : null) || 'silent';
+var timerAudioMode = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerAudioMode') : null) || 'ambient';
+var selectedTimerSound = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerSelectedSound') : null) || 'lofi';
+var selectedTimerRadio = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerSelectedRadio') : null) || 'groovesalad';
+var selectedTimerMusicIndex = 0;
 var timerVoiceRotationIndex = 0;
 var lastSelectedTimerAmbient = null;
 var currentSpeechSessionId = 0;
@@ -25187,6 +25549,9 @@ if (typeof window !== 'undefined') {
   window.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
   window.timerVoiceMotivation = timerVoiceMotivation;
   window.timerAudioMode = timerAudioMode;
+  window.selectedTimerSound = selectedTimerSound;
+  window.selectedTimerRadio = selectedTimerRadio;
+  window.selectedTimerMusicIndex = selectedTimerMusicIndex;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.timerSeconds = timerSeconds;
@@ -25201,6 +25566,9 @@ if (typeof globalThis !== 'undefined') {
   globalThis.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
   globalThis.timerVoiceMotivation = timerVoiceMotivation;
   globalThis.timerAudioMode = timerAudioMode;
+  globalThis.selectedTimerSound = selectedTimerSound;
+  globalThis.selectedTimerRadio = selectedTimerRadio;
+  globalThis.selectedTimerMusicIndex = selectedTimerMusicIndex;
 }
 
 // Audio-Intervalle für die harmonischen Synthesizer-Loops am Ende
@@ -25868,6 +26236,394 @@ const OVERDUE_MINUTE_LABELS = {
   it: (n) => n === 1 ? "1 minuto di estensione del flusso" : `${n} minuti di estensione del flusso`
 };
 
+// =========================================================================
+// CHRONOMETER / STOPPUHR SPRACH- & MOTIVATIONS-ENGINE
+// =========================================================================
+
+const CHRONOMETER_START_PHRASES = {
+  de: [
+    "Stoppuhr gestartet. Nimm dir alle Zeit der Welt für deinen Fokus.",
+    "Chronometer läuft. Finde deinen eigenen, ruhigen Takt.",
+    "Offene Fokuszeit gestartet. Schritt für Schritt, ganz ohne Zeitdruck.",
+    "Zeiterfassung aktiv. Konzentriere dich entspannt auf das Hier und Jetzt.",
+    "Stoppuhr läuft. Lass deinen Gedanken freien Raum und arbeite im Flow."
+  ],
+  en: [
+    "Stopwatch started. Take all the time you need for your focus.",
+    "Chronometer running. Find your own gentle rhythm without any rush.",
+    "Open focus session started. Step by step, completely pressure-free.",
+    "Time tracking active. Settle peacefully into the present moment.",
+    "Stopwatch running. Give your mind open space and flow naturally."
+  ],
+  fr: [
+    "Chronomètre démarré. Prends tout le temps nécessaire pour ta tâche.",
+    "Session ouverte lancée. Trouve ton propre tempo sans pression.",
+    "Chronomètre actif. Avance pas à pas avec sérénité."
+  ],
+  it: [
+    "Cronometro avviato. Prenditi tutto il tempo che ti serve con calma.",
+    "Sessione aperta iniziata. Trova il tuo ritmo naturale senza fretta.",
+    "Cronometro attivo. Procedi un passo alla volta in serenità."
+  ],
+  es: [
+    "Cronómetro iniciado. Tómate todo el tiempo que necesites con calma.",
+    "Sesión abierta en marcha. Encuentra tu propio ritmo sin ninguna prisa.",
+    "Cronómetro activo. Avanza paso a paso con tranquilidad."
+  ],
+  el: [
+    "Το χρονόμετρο ξεκίνησε. Πάρε όλο τον χρόνο που χρειάζεσαι με ηρεμία.",
+    "Ανοιχτή συνεδρία εστίασης. Βρες τον δικό σου ρυθμό χωρίς καμία βιασύνη.",
+    "Χρονόμετρο ενεργό. Προχώρα βήμα προς βήμα με απόλυτη γαλήνη."
+  ]
+};
+
+const CHRONOMETER_START_TASK_PHRASES = {
+  de: [
+    "Stoppuhr gestartet für: {task}. Nimm dir alle Zeit der Welt.",
+    "Chronometer läuft für: {task}. Finde deinen eigenen, ruhigen Takt.",
+    "Offene Fokuszeit für: {task}. Schritt für Schritt, ganz ohne Druck.",
+    "Zeiterfassung aktiv für: {task}. Konzentrier dich entspannt darauf.",
+    "Auf geht's mit '{task}'. Arbeite voll in deinem eigenen Flow."
+  ],
+  en: [
+    "Stopwatch started for: {task}. Take all the time you need.",
+    "Chronometer running on: {task}. Find your own gentle rhythm.",
+    "Open focus session for: {task}. Step by step, without any rush.",
+    "Time tracking active on: {task}. Settle peacefully into the flow.",
+    "Here we go with '{task}'. Work completely in your own groove."
+  ],
+  fr: [
+    "Chronomètre démarré pour : {task}. Prends tout ton temps.",
+    "Session ouverte pour : {task}. Avance à ton rythme en toute sérénité."
+  ],
+  it: [
+    "Cronometro avviato per: {task}. Prenditi tutto il tempo necessario.",
+    "Sessione aperta su: {task}. Procedi con calma e concentrazione."
+  ],
+  es: [
+    "Cronómetro iniciado para: {task}. Tómate todo el tiempo que necesites.",
+    "Sesión abierta en: {task}. Avanza a tu propio ritmo con tranquilidad."
+  ],
+  el: [
+    "Το χρονόμετρο ξεκίνησε για το: {task}. Πάρε όλο τον χρόνο σου.",
+    "Ανοιχτή συνεδρία για το: {task}. Προχώρα με ηρεμία και καθαρό μυαλό."
+  ]
+};
+
+const CHRONOMETER_MOTIVATIONS = {
+  de: {
+    start: [
+      "Guter Einstieg. Lass dich ganz natürlich in deine Aufgabe sinken.",
+      "Ein ruhiger, stetiger Beginn. Du hast keinen Zeitdruck.",
+      "Schritt für Schritt. Dein Fokus baut sich ganz von alleine auf.",
+      "Atme tief durch und bleib ganz gelassen im Jetzt.",
+      "Der Anfang ist gemacht. Folge einfach deinen Gedanken."
+    ],
+    building: [
+      "Schöner Arbeitsfluss. Du bist gut in die Tiefe gekommen.",
+      "Gleichmäßige Konzentration. Behalte diesen ruhigen Takt bei.",
+      "Guter Rhythmus. Mach es Schritt für Schritt in deinem Tempo.",
+      "Dein Fokus trägt dich stetig voran. Sehr angenehm.",
+      "Schultern kurz entspannen und gelassen im Tunnel bleiben."
+    ],
+    deep_flow: [
+      "Wunderbarer Flow-Zustand. Du bist voll in deinem Element.",
+      "Beeindruckende Ausdauer. Deine Konzentration läuft wie von selbst.",
+      "Tiefe Hingabe an deine Aufgabe. Nimm diesen Schwung voll mit.",
+      "Großartiger Fokus. Jeder Schritt festigt dein Ergebnis.",
+      "Du hast den perfekten Rhythmus gefunden. Bleib entspannt dabei."
+    ],
+    mastery: [
+      "Hervorragende Konzentration! Du ziehst das mit starker Ruhe durch.",
+      "Großartige Ausdauer. Du hast heute schon bemerkenswert viel geschafft.",
+      "Ein meisterhafter Fokusblock. Du bist voll im Schaffensrausch!",
+      "Echtes Durchhaltevermögen. Du hast das Steuer souverän in der Hand.",
+      "Fokussiert, klar und gelassen. Eine Spitzenleistung!"
+    ],
+    ultra_focus: [
+      "Überwältigende Fokusleistung! Du bist heute unaufhaltsam.",
+      "Tiefe Arbeitsphase gemeistert. Denk daran: Du darfst dir jederzeit eine wohlverdiente Pause gönnen.",
+      "Unglaubliche Ausdauer. Gönn dir ruhig eine Verschnaufpause, wann immer es sich gut anfühlt.",
+      "Fantastischer Einsatz. Wenn der nächste Gedanke rund ist, hast du dir ein Päuschen redlich verdient.",
+      "Volle Hingabe. Du machst das spitze!"
+    ]
+  },
+  en: {
+    start: [
+      "Gentle start. Ease naturally into your task.",
+      "Calm and steady beginning. There is no rush at all.",
+      "Step by step. Your focus is building up effortlessly.",
+      "Take a deep breath and settle comfortably into the present moment.",
+      "The start is made. Simply let your thoughts flow."
+    ],
+    building: [
+      "Wonderful flow. You are settling nicely into depth.",
+      "Even concentration. Keep this peaceful rhythm.",
+      "Good groove. Moving forward step by step in your own time.",
+      "Your focus is carrying you smoothly. Very well done.",
+      "Relax your shoulders and stay peacefully in the zone."
+    ],
+    deep_flow: [
+      "Deep flow state. You are completely in your element.",
+      "Impressive endurance. Your concentration is unfolding effortlessly.",
+      "Wonderful dedication to your work. Ride this momentum.",
+      "Great focus. Every step is making solid progress.",
+      "You have found the perfect groove. Stay with it."
+    ],
+    mastery: [
+      "Superb concentration! Seeing this through with calm confidence.",
+      "Outstanding stamina. You have made remarkable progress.",
+      "A masterful block of deep work. Locked in and thriving!",
+      "True resilience. Fully in command and moving forward.",
+      "Focused, clear, and serene. Truly excellent work!"
+    ],
+    ultra_focus: [
+      "Extraordinary focus! You are absolutely unstoppable today.",
+      "Deep immersion achieved. Remember you are welcome to take a restful break whenever ready.",
+      "Incredible endurance. Feel free to treat yourself to a pause whenever it feels right.",
+      "Fantastic dedication. Once this thought feels complete, you have truly earned a break."
+    ]
+  },
+  fr: {
+    start: [
+      "Départ tout en douceur. Installe-toi paisiblement.",
+      "Pas à pas, sans aucune pression de temps."
+    ],
+    building: [
+      "Beau rythme de travail. La concentration s'installe bien.",
+      "Continue avec cette belle sérénité."
+    ],
+    deep_flow: [
+      "Immersion totale. Tu avances de manière remarquable.",
+      "Merveilleuse concentration, continue sur ta lancée !"
+    ],
+    mastery: [
+      "Superbe endurance ! Tu as accompli un travail précieux.",
+      "Excellente maîtrise. Prends une pause dès que tu le souhaites."
+    ],
+    ultra_focus: [
+      "Séance exceptionnelle ! Pense à t'accorder un repos bien mérité."
+    ]
+  },
+  it: {
+    start: [
+      "Partenza serena. Entra con calma nel tuo compito.",
+      "Un passo alla volta, senza alcuna fretta."
+    ],
+    building: [
+      "Ottimo flusso di lavoro. La concentrazione cresce armoniosa.",
+      "Procedi con questo bel ritmo costante."
+    ],
+    deep_flow: [
+      "Pieno stato di flow. Sei completamente nel tuo elemento.",
+      "Splendida concentrazione, avanti così !"
+    ],
+    mastery: [
+      "Resistenza straordinaria ! Hai fatto grandi passi avanti.",
+      "Lavoro magistrale. Concediti pure una pausa quando vuoi."
+    ],
+    ultra_focus: [
+      "Sessione magnifica ! Riposati ogni volta che ne senti il bisogno."
+    ]
+  },
+  es: {
+    start: [
+      "Comienzo tranquilo. Entra en tu tarea con naturalidad.",
+      "Paso a paso, sin ninguna prisa."
+    ],
+    building: [
+      "Buen ritmo constante. La concentración fluye muy bien.",
+      "Sigue adelante con esta serenidad."
+    ],
+    deep_flow: [
+      "Estado de flujo profundo. Estás totalmente en tu elemento.",
+      "¡Gran enfoque! Sigue con este excelente impulso."
+    ],
+    mastery: [
+      "¡Resistencia impresionante! Has avanzado muchísimo.",
+      "Trabajo magistral. Tómate un descanso cuando lo desees."
+    ],
+    ultra_focus: [
+      "¡Sesión sobresaliente! Regálate un buen respiro cuando quieras."
+    ]
+  },
+  el: {
+    start: [
+      "Ήρεμο ξεκίνημα. Μπες στην εργασία σου αβίαστα.",
+      "Βήμα προς βήμα, χωρίς καμία πίεση."
+    ],
+    building: [
+      "Όμορφη ροή. Η συγκέντρωση απλώνεται σταθερά.",
+      "Συνέχισε σε αυτόν τον γαλήνιο ρυθμό."
+    ],
+    deep_flow: [
+      "Βαθιά κατάσταση ροής. Είσαι απόλυτα μέσα στο στοιχείο σου.",
+      "Εξαιρετική εστίαση! Αξιοποίησε αυτόν τον όμορφο παλμό."
+    ],
+    mastery: [
+      "Εντυπωσιακή αντοχή! Έχεις κάνει τεράστια πρόοδο.",
+      "Αριστοτεχνική εργασία. Πάρε διάλειμμα όποτε το επιθυμείς."
+    ],
+    ultra_focus: [
+      "Κορυφαία συνεδρία! Χάρισε στον εαυτό σου μια ανάσα ξεκούρασης."
+    ]
+  }
+};
+
+const TASK_AWARE_CHRONOMETER_MOTIVATIONS = {
+  de: {
+    start: [
+      "Guter Einstieg in '{task}'. Lass dich ganz in Ruhe darauf ein.",
+      "Bleib entspannt bei '{task}'. Schritt für Schritt ganz ohne Druck.",
+      "Schöner Beginn für '{task}'. Dein Fokus trägt dich voran."
+    ],
+    building: [
+      "Gleichmäßiger Arbeitsfluss bei '{task}'. Du kommst gut voran.",
+      "Sehr schöner Rhythmus an '{task}'. Lass es entspannt fließen.",
+      "Guter Fortschritt bei '{task}'. Behalte diesen klaren Takt bei."
+    ],
+    deep_flow: [
+      "Mitten im Flow bei '{task}'. Du machst das fantastisch!",
+      "Tiefe Konzentration auf '{task}'. Nimm diesen Schwung voll mit.",
+      "Starke Ausdauer an '{task}'. Du bist voll im Element."
+    ],
+    mastery: [
+      "Großartiger Einsatz für '{task}'! Bemerkenswert, wie du dranbleibst.",
+      "Du hast '{task}' schon meilenweit vorangebracht. Meisterhafter Fokus!",
+      "Volle Hingabe an '{task}'. Du darfst dir jederzeit eine Pause gönnen."
+    ],
+    ultra_focus: [
+      "Überwältigende Arbeit an '{task}'! Eine herausragende Session.",
+      "Du hast '{task}' meisterhaft vertieft. Gönn dir ein wohlverdientes Durchatmen."
+    ]
+  },
+  en: {
+    start: [
+      "Gently easing into '{task}'. One step at a time.",
+      "Stay centered on '{task}'. Completely at your own tempo."
+    ],
+    building: [
+      "Steady rhythm on '{task}'. Smooth and calm progress.",
+      "Good groove on '{task}'. Let it unfold naturally."
+    ],
+    deep_flow: [
+      "Deep in the flow on '{task}'. You are doing fantastic!",
+      "Wonderful concentration on '{task}'. Ride this momentum."
+    ],
+    mastery: [
+      "Great dedication to '{task}'! You have made huge strides forward.",
+      "Masterful focus on '{task}'. Feel free to pause anytime you wish."
+    ],
+    ultra_focus: [
+      "Exceptional work on '{task}'! Treat yourself to a restful breather whenever ready."
+    ]
+  },
+  fr: {
+    start: ["Départ serein sur '{task}'. Avance pas à pas."],
+    building: ["Beau travail régulier sur '{task}'. Continue ainsi."],
+    deep_flow: ["Excellente immersion dans '{task}'. Tu es parfaitement lancé."],
+    mastery: ["Grand accomplissement sur '{task}'. Prends une pause dès que tu veux."],
+    ultra_focus: ["Session magistrale sur '{task}'. Bravo pour cette belle endurance."]
+  },
+  it: {
+    start: ["Partenza serena su '{task}'. Un passo alla volta."],
+    building: ["Ottimo ritmo costante su '{task}'. Vai benissimo."],
+    deep_flow: ["Immersione totale in '{task}'. Ottimo lavoro!"],
+    mastery: ["Grande dedizione per '{task}'. Concediti una pausa quando vuoi."],
+    ultra_focus: ["Sessione magistrale su '{task}'. Grande perseveranza!"]
+  },
+  es: {
+    start: ["Comienzo sereno en '{task}'. Paso a paso."],
+    building: ["Buen avance constante en '{task}'. Sigue así."],
+    deep_flow: ["Inmersión total en '{task}'. ¡Lo estás haciendo genial!"],
+    mastery: ["Gran dedicación en '{task}'. Puedes descansar cuando lo desees."],
+    ultra_focus: ["Sesión magistral en '{task}'. ¡Felicidades por tanta perseverancia!"]
+  },
+  el: {
+    start: ["Ήρεμη εκκίνηση στο '{task}'. Ένα βήμα τη φορά."],
+    building: ["Σταθερή πρόοδος στο '{task}'. Συνέχισε όμορφα."],
+    deep_flow: ["Απόλυτη ροή στο '{task}'. Τα πας περίφημα!"],
+    mastery: ["Σπουδαία αφοσίωση στο '{task}'. Πάρε διάλειμμα όποτε θέλεις."],
+    ultra_focus: ["Αριστοτεχνική συνεδρία στο '{task}'. Συγχαρητήρια για την αντοχή σου."]
+  }
+};
+
+const CHRONOMETER_STOP_PHRASES = {
+  de: {
+    short: [
+      "Stoppuhr beendet. Guter Einstieg!",
+      "Chronometer gestoppt. Jeder Moment zählt."
+    ],
+    medium: [
+      "Stoppuhr beendet: {mins} Minuten konzentriert gearbeitet. Sehr stark!",
+      "Chronometer beendet: {mins} Minuten im Fokus. Gute Arbeit!",
+      "Fokuszeit gestoppt: {mins} Minuten fokussiert vorangekommen."
+    ],
+    long: [
+      "Großartige Leistung! {mins} Minuten im tiefen Flow gearbeitet. Du hast dir eine Pause redlich verdient.",
+      "Stoppuhr beendet: {mins} Minuten meisterhafter Fokus! Gönn dir etwas Erholung."
+    ],
+    task_medium: [
+      "Stoppuhr beendet: {mins} Minuten konzentriert an '{task}' gearbeitet. Ausgezeichnet!",
+      "Chronometer beendet: {mins} Minuten Fokus auf '{task}'. Stark gemacht!",
+      "Klasse Einsatz! {mins} Minuten fokussiert an '{task}' gearbeitet."
+    ],
+    task_long: [
+      "Stoppuhr beendet: {mins} Minuten Hingabe für '{task}'! Du hast dir eine wohlverdiente Pause verdient.",
+      "Ausgezeichnete Ausdauer bei '{task}'. {mins} Minuten stark durchgezogen!"
+    ]
+  },
+  en: {
+    short: [
+      "Stopwatch stopped. Good start!",
+      "Chronometer finished. Every step counts."
+    ],
+    medium: [
+      "Stopwatch finished: {mins} minutes of focused work. Great job!",
+      "Chronometer stopped: {mins} minutes in focus. Very well done!"
+    ],
+    long: [
+      "Outstanding accomplishment! {mins} minutes of deep flow. You have truly earned a restful break.",
+      "Stopwatch finished: {mins} minutes of masterful focus! Take a peaceful breather."
+    ],
+    task_medium: [
+      "Stopwatch finished: {mins} minutes dedicated to '{task}'. Excellent work!",
+      "Chronometer stopped: {mins} minutes focused on '{task}'. Great job!"
+    ],
+    task_long: [
+      "Stopwatch stopped: {mins} minutes of dedication to '{task}'! You have earned a well-deserved rest."
+    ]
+  },
+  fr: {
+    short: ["Chronomètre arrêté. Bon début !"],
+    medium: ["Chronomètre terminé : {mins} minutes de travail accomplies. Bravo !"],
+    long: ["Superbe session ! {mins} minutes en plein flow. Tu as bien mérité une pause."],
+    task_medium: ["Chronomètre terminé : {mins} minutes consacrées à '{task}'. Excellent travail !"],
+    task_long: ["Chronomètre arrêté : {mins} minutes d'immersion dans '{task}'. Bravo !"]
+  },
+  it: {
+    short: ["Cronometro fermato. Buon inizio !"],
+    medium: ["Cronometro terminato: {mins} minuti di concentrazione. Ottimo lavoro !"],
+    long: ["Splendida sessione ! {mins} minuti nel flusso. Ti sei meritato una pausa."],
+    task_medium: ["Cronometro terminato: {mins} minuti dedicati a '{task}'. Bravissimo !"],
+    task_long: ["Cronometro fermato: {mins} minuti di dedizione a '{task}'. Ottimo lavoro !"]
+  },
+  es: {
+    short: ["Cronómetro detenido. ¡Buen comienzo!"],
+    medium: ["Cronómetro finalizado: {mins} minutos de trabajo enfocado. ¡Buen trabajo!"],
+    long: ["¡Excelente sesión! {mins} minutos en pleno flujo. Te has ganado un buen descanso."],
+    task_medium: ["Cronómetro finalizado: {mins} minutos dedicados a '{task}'. ¡Excelente!"],
+    task_long: ["Cronómetro detenido: {mins} minutos de entrega a '{task}'. ¡Gran trabajo!"]
+  },
+  el: {
+    short: ["Το χρονόμετρο σταμάτησε. Όμορφο ξεκίνημα!"],
+    medium: ["Το χρονόμετρο ολοκληρώθηκε: {mins} λεπτά εστίασης. Πολύ καλή δουλειά!"],
+    long: ["Υπέροχη συνεδρία! {mins} λεπτά στη ροή σου. Αξίζεις απόλυτα ένα διάλειμμα."],
+    task_medium: ["Χρονόμετρο ολοκληρώθηκε: {mins} λεπτά στο '{task}'. Εξαιρετική προσπάθεια!"],
+    task_long: ["Χρονόμετρο σταμάτησε: {mins} λεπτά αφοσίωσης στο '{task}'. Μπράβο σου!"]
+  }
+};
+
 // Zuletzt verwendete Sprüche merken, damit sich innerhalb einer Sitzung nichts unmittelbar wiederholt
 let lastMotivationByTier = {};
 let lastSessionStartPhrase = null;
@@ -26149,6 +26905,22 @@ function speakWithProfile(text, profileIndex = null, onComplete = null) {
       utterance.voice = selectedVoice;
     }
 
+    // 3.5 Automatischer Ambient-Sound zu Sprüchen (sofern nicht Musik oder Radio aktiv ist)
+    const isRadioActive = (typeof RadioNewsEngine !== 'undefined' && RadioNewsEngine.isRadioPlaying) || (typeof window !== 'undefined' && window.isRadioPlaying) || (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused);
+    const isMusicActive = (typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused);
+    let autoStartedAmbientForSpeech = false;
+
+    if (!isRadioActive && !isMusicActive) {
+      const isAmbientPlaying = typeof currentSoundType !== 'undefined' && currentSoundType;
+      if (!isAmbientPlaying && typeof playAmbientSound === 'function') {
+        const soundToUse = (typeof selectedTimerSound !== 'undefined' && selectedTimerSound && selectedTimerSound !== 'mix') ? selectedTimerSound : 'lofi';
+        try {
+          playAmbientSound(soundToUse, false);
+          autoStartedAmbientForSpeech = true;
+        } catch (e) {}
+      }
+    }
+
     // 4. Harmonisches Ducking: Hintergrundsounds sanft abdämpfen und nach Sprache wieder anheben
     duckAllAudioForSpeech(true);
 
@@ -26162,6 +26934,14 @@ function speakWithProfile(text, profileIndex = null, onComplete = null) {
       hasCompleted = true;
       if (!keepDucked) {
         duckAllAudioForSpeech(false);
+      }
+      if (autoStartedAmbientForSpeech) {
+        const currentMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+        if (currentMode === 'silent' && (!timerRunning || currentMode === 'silent')) {
+          setTimeout(() => {
+            if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+          }, 1500);
+        }
       }
       if (typeof onComplete === 'function') {
         try { onComplete(); } catch (e) { console.warn('onComplete callback error:', e); }
@@ -26200,7 +26980,7 @@ function speakWithProfile(text, profileIndex = null, onComplete = null) {
 }
 
 // Chaining von Ansagen mit wechselnden Stimmen (z. B. Zeitansage durch Stimme A -> Spruch durch Stimme B)
-function speakVoiceSequence(items, onComplete = null) {
+function speakVoiceSequence(items, onComplete = null, allowWhenStopped = false) {
   if (!timerSoundEnabled || timerVoiceEnabled === false) {
     if (typeof onComplete === 'function') setTimeout(onComplete, 50);
     return;
@@ -26219,7 +26999,8 @@ function speakVoiceSequence(items, onComplete = null) {
   let idx = 0;
 
   function runNext() {
-    if (typeof timerRunning !== 'undefined' && !timerRunning) {
+    const isTimingActive = (typeof timerRunning !== 'undefined' && timerRunning) || (typeof chronometerActive !== 'undefined' && chronometerActive);
+    if (!isTimingActive && !allowWhenStopped) {
       duckAllAudioForSpeech(false);
       if (typeof onComplete === 'function') onComplete();
       return;
@@ -26394,10 +27175,179 @@ function getContextMotivation(remSec, totSec, taskName = '') {
   return chosen;
 }
 
-// Angenehmer, dezenter Glockenton für die Minuten "dazwischen" (kein Sprechen, viel Klang-Varianz)
+// -------------------------------------------------------------------------
+// CHRONOMETER SPEZIFISCHE HELPER-FUNKTIONEN
+// -------------------------------------------------------------------------
+
+function getChronometerTimeAnnouncement(elapsedSec, lang = null) {
+  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const mins = Math.floor(elapsedSec / 60);
+
+  if (mins === 1) {
+    if (currentL === 'de') return "1 Minute im Flow.";
+    if (currentL === 'es') return "1 minuto en el flujo.";
+    if (currentL === 'fr') return "1 minute de concentration.";
+    if (currentL === 'it') return "1 minuto nel flusso.";
+    if (currentL === 'el') return "1 λεπτό στη ροή σου.";
+    return "1 minute in the flow.";
+  }
+  if (mins === 2) {
+    if (currentL === 'de') return "2 Minuten Fokuszeit.";
+    if (currentL === 'es') return "2 minutos de enfoque.";
+    if (currentL === 'fr') return "2 minutes de travail.";
+    if (currentL === 'it') return "2 minuti di concentrazione.";
+    if (currentL === 'el') return "2 λεπτά εστίασης.";
+    return "2 minutes of focus.";
+  }
+  if (mins === 5) {
+    if (currentL === 'de') return "5 Minuten im tiefen Fokus.";
+    if (currentL === 'es') return "5 minutos de concentración profunda.";
+    if (currentL === 'fr') return "5 minutes de concentration profonde.";
+    if (currentL === 'it') return "5 minuti di concentrazione profonda.";
+    if (currentL === 'el') return "5 λεπτά βαθιάς εστίασης.";
+    return "5 minutes of deep focus.";
+  }
+  if (mins === 10) {
+    if (currentL === 'de') return "10 Minuten geschafft.";
+    if (currentL === 'es') return "10 minutos completados.";
+    if (currentL === 'fr') return "10 minutes accomplies.";
+    if (currentL === 'it') return "10 minuti completati.";
+    if (currentL === 'el') return "10 λεπτά συμπληρώθηκαν.";
+    return "10 minutes completed.";
+  }
+  if (mins === 15) {
+    if (currentL === 'de') return "15 Minuten konzentriert im Flow.";
+    if (currentL === 'es') return "15 minutos de flujo continuo.";
+    if (currentL === 'fr') return "15 minutes de concentration soutenue.";
+    if (currentL === 'it') return "15 minuti nel flusso costante.";
+    if (currentL === 'el') return "15 λεπτά συνεχούς ροής.";
+    return "15 minutes of steady flow.";
+  }
+  if (mins === 20) {
+    if (currentL === 'de') return "20 Minuten fokussierte Arbeit.";
+    if (currentL === 'es') return "20 minutos de trabajo enfocado.";
+    if (currentL === 'fr') return "20 minutes de travail concentré.";
+    if (currentL === 'it') return "20 minuti di lavoro focalizzato.";
+    if (currentL === 'el') return "20 λεπτά συγκεντρωμένης εργασίας.";
+    return "20 minutes of focused work.";
+  }
+  if (mins === 25) {
+    if (currentL === 'de') return "25 Minuten erreicht – eine volle Pomodoro-Einheit!";
+    if (currentL === 'es') return "¡25 minutos alcanzados – un bloque Pomodoro completo!";
+    if (currentL === 'fr') return "25 minutes atteintes – une session Pomodoro complète !";
+    if (currentL === 'it') return "25 minuti raggiunti – un blocco Pomodoro completo!";
+    if (currentL === 'el') return "25 λεπτά – μια πλήρης ενότητα Pomodoro!";
+    return "25 minutes reached – a full Pomodoro block!";
+  }
+  if (mins === 30) {
+    if (currentL === 'de') return "30 Minuten tiefer Arbeitsfluss.";
+    if (currentL === 'es') return "30 minutos de trabajo profundo.";
+    if (currentL === 'fr') return "30 minutes d'immersion totale.";
+    if (currentL === 'it') return "30 minuti di flow profondo.";
+    if (currentL === 'el') return "30 λεπτά βαθιάς ροής.";
+    return "30 minutes of deep flow.";
+  }
+  if (mins === 45) {
+    if (currentL === 'de') return "45 Minuten meisterhafter Fokus.";
+    if (currentL === 'es') return "45 minutos de maestría y enfoque.";
+    if (currentL === 'fr') return "45 minutes de concentration magistrale.";
+    if (currentL === 'it') return "45 minuti di eccellente concentrazione.";
+    if (currentL === 'el') return "45 λεπτά κορυφαίας εστίασης.";
+    return "45 minutes of masterful focus.";
+  }
+  if (mins === 60) {
+    if (currentL === 'de') return "60 Minuten erreicht – eine ganze Stunde voller Hingabe!";
+    if (currentL === 'es') return "¡60 minutos – una hora completa de dedicación!";
+    if (currentL === 'fr') return "60 minutes atteintes – une heure entière de dévouement !";
+    if (currentL === 'it') return "60 minuti raggiunti – un'ora intera di dedizione !";
+    if (currentL === 'el') return "60 λεπτά – μια ολόκληρη ώρα αφοσίωσης!";
+    return "60 minutes reached – a full hour of dedication!";
+  }
+
+  // Für alle anderen Minuten
+  if (currentL === 'de') return `${mins} Minuten Fokuszeit erreicht.`;
+  if (currentL === 'es') return `${mins} minutos de enfoque completados.`;
+  if (currentL === 'fr') return `${mins} minutes de travail accomplies.`;
+  if (currentL === 'it') return `${mins} minuti di concentrazione raggiunti.`;
+  if (currentL === 'el') return `${mins} λεπτά εστίασης συμπληρώθηκαν.`;
+  return `${mins} minutes of focus achieved.`;
+}
+
+function getChronometerMotivation(elapsedSec, taskName = '', lang = null) {
+  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const mins = Math.floor(elapsedSec / 60);
+
+  let tier = 'start';
+  if (mins >= 60) tier = 'ultra_focus';
+  else if (mins >= 30) tier = 'mastery';
+  else if (mins >= 15) tier = 'deep_flow';
+  else if (mins >= 5) tier = 'building';
+  else tier = 'start';
+
+  // Task-bezogene Motivation mit 60% Chance bevorzugen
+  if (taskName && typeof taskName === 'string' && taskName.trim() && Math.random() < 0.6) {
+    const taskDict = (typeof TASK_AWARE_CHRONOMETER_MOTIVATIONS !== 'undefined' && TASK_AWARE_CHRONOMETER_MOTIVATIONS[currentL])
+      ? TASK_AWARE_CHRONOMETER_MOTIVATIONS[currentL]
+      : (typeof TASK_AWARE_CHRONOMETER_MOTIVATIONS !== 'undefined' ? TASK_AWARE_CHRONOMETER_MOTIVATIONS.de : null);
+    const list = taskDict ? (taskDict[tier] || taskDict.start) : null;
+    if (list && list.length > 0) {
+      const template = pickWithoutImmediateRepeat(list, lastMotivationByTier['chrono_task_' + tier]);
+      lastMotivationByTier['chrono_task_' + tier] = template;
+      const cleanTask = taskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
+      return template.replace('{task}', cleanTask);
+    }
+  }
+
+  // Allgemeine Chronometer-Motivation
+  const genDict = (typeof CHRONOMETER_MOTIVATIONS !== 'undefined' && CHRONOMETER_MOTIVATIONS[currentL])
+    ? CHRONOMETER_MOTIVATIONS[currentL]
+    : (typeof CHRONOMETER_MOTIVATIONS !== 'undefined' ? CHRONOMETER_MOTIVATIONS.de : null);
+  const list = genDict ? (genDict[tier] || genDict.start) : [];
+  if (list && list.length > 0) {
+    const chosen = pickWithoutImmediateRepeat(list, lastMotivationByTier['chrono_' + tier]);
+    lastMotivationByTier['chrono_' + tier] = chosen;
+    return chosen;
+  }
+  return "";
+}
+
+function getChronometerStopPhrase(elapsedSec, taskName = '', lang = null) {
+  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const mins = Math.max(1, Math.round(elapsedSec / 60));
+  const dict = (typeof CHRONOMETER_STOP_PHRASES !== 'undefined' && CHRONOMETER_STOP_PHRASES[currentL])
+    ? CHRONOMETER_STOP_PHRASES[currentL]
+    : (typeof CHRONOMETER_STOP_PHRASES !== 'undefined' ? CHRONOMETER_STOP_PHRASES.de : null);
+  
+  if (!dict) {
+    return currentL === 'de' ? `Stoppuhr beendet: ${mins} Minuten konzentriert gearbeitet.` : `Stopwatch finished: ${mins} minutes of focused work.`;
+  }
+
+  const cleanTask = taskName ? String(taskName).trim().replace(/^[\d\.\-\*•✓\s]+/, '') : '';
+  let list = [];
+
+  if (cleanTask) {
+    list = (mins >= 20 && dict.task_long) ? dict.task_long : (dict.task_medium || dict.medium);
+  } else {
+    if (mins < 3 && dict.short) list = dict.short;
+    else if (mins >= 20 && dict.long) list = dict.long;
+    else list = dict.medium || dict.short;
+  }
+
+  if (list && list.length > 0) {
+    const template = pickWithoutImmediateRepeat(list, lastMotivationByTier['chrono_stop']);
+    lastMotivationByTier['chrono_stop'] = template;
+    return template.replace('{mins}', mins).replace('{task}', cleanTask);
+  }
+  return currentL === 'de' ? `Stoppuhr beendet: ${mins} Minuten konzentriert gearbeitet.` : `Stopwatch finished: ${mins} minutes of focused work.`;
+}
 
 if (typeof window !== 'undefined') {
   window.VOICE_PROFILES = VOICE_PROFILES;
+  window.CHRONOMETER_START_PHRASES = CHRONOMETER_START_PHRASES;
+  window.CHRONOMETER_START_TASK_PHRASES = CHRONOMETER_START_TASK_PHRASES;
+  window.CHRONOMETER_MOTIVATIONS = CHRONOMETER_MOTIVATIONS;
+  window.TASK_AWARE_CHRONOMETER_MOTIVATIONS = TASK_AWARE_CHRONOMETER_MOTIVATIONS;
+  window.CHRONOMETER_STOP_PHRASES = CHRONOMETER_STOP_PHRASES;
   window.toggleTimerSound = toggleTimerSound;
   window.updateMuteButtonsUI = updateMuteButtonsUI;
   window.playRandomTimerAmbient = playRandomTimerAmbient;
@@ -26409,10 +27359,18 @@ if (typeof window !== 'undefined') {
   window.getContextMotivation = getContextMotivation;
   window.getOverdueMotivation = getOverdueMotivation;
   window.getTimeUpPhrase = getTimeUpPhrase;
+  window.getChronometerTimeAnnouncement = getChronometerTimeAnnouncement;
+  window.getChronometerMotivation = getChronometerMotivation;
+  window.getChronometerStopPhrase = getChronometerStopPhrase;
   window.getCurrentPresetMinutes = getCurrentPresetMinutes;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.VOICE_PROFILES = VOICE_PROFILES;
+  globalThis.CHRONOMETER_START_PHRASES = CHRONOMETER_START_PHRASES;
+  globalThis.CHRONOMETER_START_TASK_PHRASES = CHRONOMETER_START_TASK_PHRASES;
+  globalThis.CHRONOMETER_MOTIVATIONS = CHRONOMETER_MOTIVATIONS;
+  globalThis.TASK_AWARE_CHRONOMETER_MOTIVATIONS = TASK_AWARE_CHRONOMETER_MOTIVATIONS;
+  globalThis.CHRONOMETER_STOP_PHRASES = CHRONOMETER_STOP_PHRASES;
   globalThis.toggleTimerSound = toggleTimerSound;
   globalThis.updateMuteButtonsUI = updateMuteButtonsUI;
   globalThis.playRandomTimerAmbient = playRandomTimerAmbient;
@@ -26424,6 +27382,9 @@ if (typeof globalThis !== 'undefined') {
   globalThis.getContextMotivation = getContextMotivation;
   globalThis.getOverdueMotivation = getOverdueMotivation;
   globalThis.getTimeUpPhrase = getTimeUpPhrase;
+  globalThis.getChronometerTimeAnnouncement = getChronometerTimeAnnouncement;
+  globalThis.getChronometerMotivation = getChronometerMotivation;
+  globalThis.getChronometerStopPhrase = getChronometerStopPhrase;
   globalThis.getCurrentPresetMinutes = getCurrentPresetMinutes;
 }
 
@@ -26943,12 +27904,87 @@ function completeActiveTimerTask(event) {
 }
 window.completeActiveTimerTask = completeActiveTimerTask;
 
-function setTimerAudioMode(mode) {
+function playCurrentTimerBackgroundAudio(force = false) {
+  const isTiming = (typeof timerRunning !== 'undefined' && timerRunning) || (typeof chronometerActive !== 'undefined' && chronometerActive);
+  if (!isTiming && !force) return;
+
+  const mode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+  if (mode === 'silent') return;
+
+  try {
+    if (mode === 'radio') {
+      const station = (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) ? selectedTimerRadio : (localStorage.getItem('flow_radio_station') || 'groovesalad');
+      if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.playRadioStation === 'function') {
+        RadioNewsEngine.playRadioStation(station);
+      }
+    } else if (mode === 'music' || mode === 'soundmachine') {
+      if (typeof playMusicTrack === 'function' && typeof playlistTracks !== 'undefined' && playlistTracks.length > 0) {
+        const idx = (typeof selectedTimerMusicIndex === 'number' && selectedTimerMusicIndex >= 0 && selectedTimerMusicIndex < playlistTracks.length) 
+          ? selectedTimerMusicIndex 
+          : (typeof currentTrackIndex !== 'undefined' ? currentTrackIndex : 0);
+        playMusicTrack(idx);
+      } else if (typeof playAmbientSound === 'function') {
+        playAmbientSound('lofi', false);
+      }
+    } else {
+      // mode === 'ambient'
+      const sound = (typeof selectedTimerSound !== 'undefined' && selectedTimerSound) ? selectedTimerSound : 'lofi';
+      if (sound === 'mix') {
+        if (typeof playRandomTimerAmbient === 'function') playRandomTimerAmbient(false, true);
+      } else if (typeof playAmbientSound === 'function') {
+        playAmbientSound(sound, false);
+      }
+    }
+  } catch(e) {
+    console.warn("[TimerAudio] playCurrentTimerBackgroundAudio error:", e);
+  }
+}
+window.playCurrentTimerBackgroundAudio = playCurrentTimerBackgroundAudio;
+if (typeof globalThis !== 'undefined') globalThis.playCurrentTimerBackgroundAudio = playCurrentTimerBackgroundAudio;
+
+function stopTimerBackgroundAudio() {
+  try {
+    if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+    if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
+    if (typeof RadioNewsEngine !== 'undefined') {
+      if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && (window.isRadioPlaying || RadioNewsEngine.isRadioPlaying)) {
+        RadioNewsEngine.toggleRadioPlayback();
+      }
+      if (typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+        RadioNewsEngine.stopRadioPlayback();
+      }
+    }
+    if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
+      window.radioAudioEl.pause();
+    }
+  } catch(e) {}
+}
+window.stopTimerBackgroundAudio = stopTimerBackgroundAudio;
+if (typeof globalThis !== 'undefined') globalThis.stopTimerBackgroundAudio = stopTimerBackgroundAudio;
+
+function setTimerAudioMode(mode, specificChoice = null) {
   const currentMode = typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient';
   
-  // Wenn der gleiche Modus noch einmal angeklickt wird (außer wenn bereits silent) -> Ausschalten / Stille
+  if (specificChoice !== null && specificChoice !== undefined) {
+    if (mode === 'ambient') {
+      selectedTimerSound = specificChoice;
+      if (typeof window !== 'undefined') window.selectedTimerSound = specificChoice;
+      if (typeof globalThis !== 'undefined') globalThis.selectedTimerSound = specificChoice;
+      if (typeof localStorage !== 'undefined') localStorage.setItem('flowTimerSelectedSound', specificChoice);
+    } else if (mode === 'radio') {
+      selectedTimerRadio = specificChoice;
+      if (typeof window !== 'undefined') window.selectedTimerRadio = specificChoice;
+      if (typeof globalThis !== 'undefined') globalThis.selectedTimerRadio = specificChoice;
+      if (typeof localStorage !== 'undefined') localStorage.setItem('flowTimerSelectedRadio', specificChoice);
+    } else if (mode === 'music' || mode === 'soundmachine') {
+      selectedTimerMusicIndex = typeof specificChoice === 'number' ? specificChoice : 0;
+      if (typeof window !== 'undefined') window.selectedTimerMusicIndex = selectedTimerMusicIndex;
+      if (typeof globalThis !== 'undefined') globalThis.selectedTimerMusicIndex = selectedTimerMusicIndex;
+    }
+  }
+
   let newMode = mode;
-  if (currentMode === mode && mode !== 'silent') {
+  if (!specificChoice && currentMode === mode && mode !== 'silent') {
     newMode = 'silent';
   }
 
@@ -26959,53 +27995,18 @@ function setTimerAudioMode(mode) {
     localStorage.setItem('flowTimerAudioMode', newMode);
   }
   
-  // Alle bisherigen Sounds sofort stoppen (exklusive Wiedergabe, kein Klang-Chaos)
-  try {
-    if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-    if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
-    if (typeof stopAllSounds === 'function') stopAllSounds();
-    if (typeof RadioNewsEngine !== 'undefined') {
-      if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && (window.isRadioPlaying || RadioNewsEngine.isRadioPlaying)) {
-        RadioNewsEngine.toggleRadioPlayback();
-      }
-      if (typeof RadioNewsEngine.stopNewsReader === 'function') {
-        RadioNewsEngine.stopNewsReader();
-      }
-    }
-    if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
-      window.radioAudioEl.pause();
-    }
-    if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
-    if (typeof pauseDjDeck === 'function') { pauseDjDeck('a'); pauseDjDeck('b'); }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-  } catch(e) {}
+  // Alle bisherigen Sounds sofort stoppen
+  stopTimerBackgroundAudio();
 
-  // Wenn ein neuer aktiver Modus gewählt wurde, sofort starten
-  try {
-    if (newMode === 'radio') {
-      if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.playRadioStation === 'function') {
-        const savedStation = localStorage.getItem('flow_radio_station') || 'groovesalad';
-        RadioNewsEngine.playRadioStation(savedStation);
-      }
-    } else if (newMode === 'soundmachine') {
-      if (typeof playAmbientSound === 'function') {
-        playAmbientSound(typeof lastSelectedSound !== 'undefined' && lastSelectedSound ? lastSelectedSound : 'lofi');
-      }
-    } else if (newMode === 'ambient') {
-      if (typeof playRandomTimerAmbient === 'function') {
-        playRandomTimerAmbient(false, true);
-      }
-    }
-  } catch(e) {
-    console.warn("Audio mode live switch notice:", e);
+  const isTiming = (typeof timerRunning !== 'undefined' && timerRunning) || (typeof chronometerActive !== 'undefined' && chronometerActive);
+  if (isTiming || (specificChoice !== null && newMode !== 'silent')) {
+    playCurrentTimerBackgroundAudio(true);
   }
 
   renderTimerCockpitContent();
-  const names = { ambient: '🌿 Ambient Flow', soundmachine: '🎵 Sound Machine', radio: '📻 Live-Radio', silent: '🔇 Stille' };
+  const names = { ambient: '🌿 Sounds', music: '🎵 Musik', soundmachine: '🎵 Musik', radio: '📻 Live-Radio', silent: '🔇 Stille' };
   if (typeof showToast === 'function') {
-    showToast(`Audio: ${names[newMode] || newMode}`);
+    showToast(`Hintergrund: ${names[newMode] || newMode}`);
   }
 }
 window.setTimerAudioMode = setTimerAudioMode;
@@ -27268,7 +28269,11 @@ function renderTimerCockpitContent() {
   const currentMins = Math.round(timerInitialSeconds / 60) || 3;
   const taskTitle = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
   const openTasks = getAllOpenBoardTasks();
-  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'silent');
+  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+  const currentSound = (typeof selectedTimerSound !== 'undefined' && selectedTimerSound) ? selectedTimerSound : 'lofi';
+  const currentRadio = (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) ? selectedTimerRadio : 'groovesalad';
+  const currentMusicIdx = (typeof selectedTimerMusicIndex === 'number') ? selectedTimerMusicIndex : (typeof currentTrackIndex !== 'undefined' ? currentTrackIndex : 0);
+
   const isTimeAnnounce = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
   const isMotivation = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
   const isVoiceActive = isTimeAnnounce || isMotivation;
@@ -27284,31 +28289,60 @@ function renderTimerCockpitContent() {
     { mins: 60, label: '60m 🎯' }
   ];
 
+  const ambientSoundsList = [
+    { id: 'mix', label: '🎲 Zufall / Mix' },
+    { id: 'lofi', label: '🌿 Lofi Chill' },
+    { id: 'rain', label: '🌧️ Regen' },
+    { id: 'cafe', label: '☕ Café' },
+    { id: 'piano', label: '🎹 Piano' },
+    { id: 'campfire', label: '🏕️ Kamin' },
+    { id: 'birds', label: '🕊️ Wald' },
+    { id: 'synthwave', label: '🌌 Synthwave' },
+    { id: 'singingbowl', label: '🔔 Klangschale' },
+    { id: 'breeze', label: '💨 Brise' }
+  ];
+
+  const musicTracksList = [
+    { id: 0, label: '🎻 Evolution' },
+    { id: 1, label: '🎸 All That Glitters' },
+    { id: 2, label: '🎧 Lost Kingdom' },
+    { id: 3, label: '🥁 66 Meters' },
+    { id: 4, label: '🎹 Channel 1' },
+    { id: 5, label: '🎤 Hell Is Around' }
+  ];
+
+  const radioStationsList = [
+    { id: 'groovesalad', label: '🥗 Groove Salad' },
+    { id: 'chillout', label: '☕ Chillout Lounge' },
+    { id: 'defcon', label: '📻 SomaFM Defcon' },
+    { id: 'deepspace', label: '🎧 Deep Space' },
+    { id: 'secretagent', label: '🎶 Secret Agent' },
+    { id: 'lofi', label: '🔊 Lofi Girl' }
+  ];
+
   const masterVol = typeof soundMasterVolume !== 'undefined' ? soundMasterVolume : 0.5;
   const isMuted = (typeof isPlayerMuted !== 'undefined' && isPlayerMuted) || (typeof isTimerSoundActive === 'function' && !isTimerSoundActive());
   const currentVolPct = isMuted ? 0 : Math.round(masterVol * 100);
   const isRunning = typeof timerRunning !== 'undefined' ? timerRunning : (typeof window !== 'undefined' ? window.timerRunning : false);
+  const isChronoRunning = typeof chronometerActive !== 'undefined' ? chronometerActive : false;
 
   panel.innerHTML = `
-    <!-- 1. KOPFZEILE: NOODLE LOGO + TIMER UNTERSCHRIFT (LINKS) | LAUTSTÄRKE & CLOSE (RECHTS) -->
+    <!-- 1. KOPFZEILE: NOODLE LOGO + STATUS (LINKS) | LAUTSTÄRKE & CLOSE (RECHTS) -->
     <div class="flex items-center justify-between pb-2 border-b border-white/10 select-none">
-      
-      <!-- Noodle Logo & TIMER Subtext -->
       <div class="flex items-center gap-2">
         <div class="relative flex flex-col items-center justify-center shrink-0">
           <div class="relative overflow-hidden flex items-center justify-center">
             <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
           </div>
           <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-            <span class="badge-tool-subtext select-none">TIMER</span>
+            <span class="badge-tool-subtext select-none">${isChronoRunning ? 'CHRONO' : 'TIMER'}</span>
           </div>
         </div>
-        <span class="w-1.5 h-1.5 rounded-full ${isRunning ? 'bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]' : 'bg-purple-500/50'}"></span>
+        <span class="w-1.5 h-1.5 rounded-full ${isRunning || isChronoRunning ? 'bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]' : 'bg-purple-500/50'}"></span>
       </div>
 
-      <!-- Rechts: Vertikale Lautstärke & Schließen -->
+      <!-- Rechts: Lautstärke & Schließen -->
       <div class="flex items-center gap-2">
-        
         <!-- Vertikaler Lautstärke-Controller Popover -->
         <div class="relative group/vol flex items-center">
           <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="h-7 px-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-purple-300 hover:text-white transition cursor-pointer flex items-center gap-1.5 shadow-sm" title="Lautstärke anpassen">
@@ -27331,37 +28365,137 @@ function renderTimerCockpitContent() {
           </div>
         </div>
 
-        <!-- Schließen Button -->
         <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" class="w-7 h-7 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white text-xs font-bold flex items-center justify-center transition cursor-pointer" title="Schließen">✕</button>
       </div>
     </div>
 
-    <!-- 2. ZEIT-SCHNELLWAHL (KOMPAKT & MINIMAL) -->
-    <div class="p-2 rounded-2xl bg-purple-950/20 border border-purple-500/25 shadow-inner flex flex-col gap-1.5">
+    ${isChronoRunning ? `
+      <!-- CHRONOMETER AKTIV BANNER -->
+      <div class="p-2.5 rounded-2xl bg-gradient-to-r from-emerald-950/40 to-teal-950/40 border border-emerald-500/40 shadow-inner flex flex-col gap-2 animate-fade-in">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-emerald-300 font-display flex items-center gap-1.5">
+            <i data-lucide="watch" class="w-3.5 h-3.5 text-emerald-400 animate-pulse"></i>
+            <span>Stoppuhr / Chronometer läuft</span>
+          </span>
+          <span class="text-[12px] font-mono font-black text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-lg border border-emerald-500/40 animate-pulse">
+            ${formatChronometerTime(typeof chronometerSeconds !== 'undefined' ? chronometerSeconds : 0)}
+          </span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button onclick="stopChronometer(false); renderTimerCockpitContent();" class="flex-1 py-1 px-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold text-[10.5px] flex items-center justify-center gap-1 transition cursor-pointer active:scale-95">
+            <i data-lucide="square" class="w-3 h-3"></i>
+            <span>Stoppen</span>
+          </button>
+          <button onclick="stopChronometer(false); setTimerPreset(currentMins); renderTimerCockpitContent();" class="py-1 px-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[10px] font-medium transition cursor-pointer">
+            Zurück zu Timer
+          </button>
+        </div>
+      </div>
+    ` : `
+      <!-- 2. ZEIT-SCHNELLWAHL (KOMPAKT & MINIMAL) -->
+      <div class="p-2 rounded-2xl bg-purple-950/20 border border-purple-500/25 shadow-inner flex flex-col gap-1.5">
+        <div class="flex items-center justify-between px-0.5">
+          <span class="text-[10.5px] font-bold text-purple-200 font-display flex items-center gap-1.5">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-400"></i>
+            <span>Dauer wählen</span>
+          </span>
+          <span class="text-[9.5px] font-mono font-bold text-purple-300/90 bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/30">${currentMins} Min.</span>
+        </div>
+
+        <div class="grid grid-cols-4 gap-1">
+          ${presets.map(p => `
+            <button onclick="setCustomTimerDirect(${p.mins});" data-mins="${p.mins}" class="timer-preset-btn py-1 px-1 rounded-xl ${p.mins === currentMins ? 'bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_8px_rgba(168,85,247,0.35)]' : 'bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white'} border border-white/10 text-[10.5px] font-mono transition text-center cursor-pointer truncate active:scale-95">
+              ${p.label}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `}
+
+    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO · STILLE) -->
+    <div class="p-2.5 rounded-2xl bg-gradient-to-b from-teal-950/30 to-indigo-950/30 border border-teal-500/35 shadow-inner flex flex-col gap-2">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-purple-200 font-display flex items-center gap-1.5">
-          <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-400"></i>
-          <span>Dauer wählen</span>
+        <span class="text-[10.5px] font-bold text-teal-200 font-display flex items-center gap-1.5">
+          <i data-lucide="volume-2" class="w-3.5 h-3.5 text-teal-400"></i>
+          <span>Hintergrund-Audio</span>
         </span>
-        <span class="text-[9.5px] font-mono font-bold text-purple-300/90 bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/30">${currentMins} Min.</span>
+        <span class="text-[9px] font-mono text-teal-300 bg-teal-500/20 px-1.5 py-0.2 rounded border border-teal-500/30 font-bold uppercase tracking-wider">
+          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : (currentAudioMode === 'radio' ? '📻 Radio' : '🔇 Stille'))}
+        </span>
       </div>
 
-      <!-- Kompakte Presets (8 klare Tasten in 2 Reihen) -->
+      <!-- 4 Haupt-Modi -->
       <div class="grid grid-cols-4 gap-1">
-        ${presets.map(p => `
-          <button onclick="setCustomTimerDirect(${p.mins});" data-mins="${p.mins}" class="timer-preset-btn py-1 px-1 rounded-xl ${p.mins === currentMins ? 'bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_8px_rgba(168,85,247,0.35)]' : 'bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white'} border border-white/10 text-[10.5px] font-mono transition text-center cursor-pointer truncate active:scale-95">
-            ${p.label}
-          </button>
-        `).join('')}
+        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-gradient-to-r from-teal-600/50 to-emerald-600/50 border-teal-400 text-white shadow-[0_0_10px_rgba(20,184,166,0.35)] ring-1 ring-teal-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+          🌿 Sounds
+        </button>
+        <button onclick="setTimerAudioMode('music');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-gradient-to-r from-purple-600/50 to-indigo-600/50 border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.35)] ring-1 ring-purple-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+          🎵 Musik
+        </button>
+        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-gradient-to-r from-sky-600/50 to-cyan-600/50 border-cyan-400 text-white shadow-[0_0_10px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+          📻 Radio
+        </button>
+        <button onclick="setTimerAudioMode('silent');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'silent' ? 'bg-white/15 border-white/30 text-white font-bold shadow-sm' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
+          🔇 Stille
+        </button>
       </div>
+
+      <!-- Detail-Auswahl-Tray für die aktive Kategorie -->
+      ${currentAudioMode === 'ambient' ? `
+        <div class="pt-1 border-t border-teal-500/20 flex flex-col gap-1 animate-fade-in">
+          <div class="flex items-center justify-between text-[8.5px] font-mono text-teal-300/80 px-0.5">
+            <span>Sound wählen:</span>
+            <span class="text-teal-200 font-bold">${currentSound === 'mix' ? 'Mix (Zufall)' : currentSound}</span>
+          </div>
+          <div class="grid grid-cols-5 gap-1">
+            ${ambientSoundsList.map(s => `
+              <button onclick="setTimerAudioMode('ambient', '${s.id}');" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentSound === s.id ? 'bg-teal-500/30 border-teal-400 text-white font-bold shadow-xs ring-1 ring-teal-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${s.label}">
+                ${s.label}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? `
+        <div class="pt-1 border-t border-purple-500/20 flex flex-col gap-1 animate-fade-in">
+          <div class="flex items-center justify-between text-[8.5px] font-mono text-purple-300/80 px-0.5">
+            <span>Track wählen:</span>
+            <span class="text-purple-200 font-bold truncate max-w-[140px]">${musicTracksList[currentMusicIdx]?.label || 'Track ' + (currentMusicIdx + 1)}</span>
+          </div>
+          <div class="grid grid-cols-3 gap-1">
+            ${musicTracksList.map(t => `
+              <button onclick="setTimerAudioMode('music', ${t.id});" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentMusicIdx === t.id ? 'bg-purple-500/30 border-purple-400 text-white font-bold shadow-xs ring-1 ring-purple-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${t.label}">
+                ${t.label}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${currentAudioMode === 'radio' ? `
+        <div class="pt-1 border-t border-cyan-500/20 flex flex-col gap-1 animate-fade-in">
+          <div class="flex items-center justify-between text-[8.5px] font-mono text-cyan-300/80 px-0.5">
+            <span>Sender wählen:</span>
+            <span class="text-cyan-200 font-bold">${radioStationsList.find(r => r.id === currentRadio)?.label || currentRadio}</span>
+          </div>
+          <div class="grid grid-cols-3 gap-1">
+            ${radioStationsList.map(r => `
+              <button onclick="setTimerAudioMode('radio', '${r.id}');" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentRadio === r.id ? 'bg-cyan-500/30 border-cyan-400 text-white font-bold shadow-xs ring-1 ring-cyan-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${r.label}">
+                ${r.label}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
     </div>
 
-    <!-- 3. SPRACHBEGLEITUNG (ZEITANSAGEN & MOTIVATION) -->
+    <!-- 4. SPRACHBEGLEITUNG (ZEITANSAGEN & MOTIVATION) -->
     <div class="p-2 rounded-2xl bg-indigo-950/25 border border-indigo-500/30 shadow-inner flex flex-col gap-1.5">
       <div class="flex items-center justify-between px-0.5">
         <span class="text-[10.5px] font-bold text-indigo-300 font-display flex items-center gap-1.5">
           <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-400"></i>
-          <span>Sprachbegleitung</span>
+          <span>Sprachbegleitung & Sprüche</span>
         </span>
         <span class="text-[9px] font-mono font-bold ${isVoiceActive ? 'text-emerald-300' : 'text-gray-500'}">
           ${isVoiceActive ? '● Aktiv' : '○ Aus'}
@@ -27369,7 +28503,6 @@ function renderTimerCockpitContent() {
       </div>
 
       <div class="grid grid-cols-2 gap-1.5">
-        <!-- Zeitansagen Toggle -->
         <button onclick="toggleTimerVoiceFeature('time');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isTimeAnnounce ? 'bg-gradient-to-r from-indigo-600/40 to-purple-600/40 border-indigo-400/70 text-white shadow-[0_0_10px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
           <span class="flex items-center gap-1 truncate">
             <span>⏱️</span>
@@ -27378,7 +28511,6 @@ function renderTimerCockpitContent() {
           <span class="text-[9px] font-mono font-bold ${isTimeAnnounce ? 'text-indigo-200' : 'text-gray-500'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
         </button>
 
-        <!-- Motivationssprüche Toggle -->
         <button onclick="toggleTimerVoiceFeature('motivation');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isMotivation ? 'bg-gradient-to-r from-purple-600/40 to-pink-600/40 border-pink-400/70 text-white shadow-[0_0_10px_rgba(236,72,153,0.25)] ring-1 ring-pink-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
           <span class="flex items-center gap-1 truncate">
             <span>💡</span>
@@ -27388,7 +28520,6 @@ function renderTimerCockpitContent() {
         </button>
       </div>
 
-      <!-- Stimmen-Vielfalt (Wechselnd: Frau, Mann, Kind) mit Hörproben -->
       <div class="pt-1 border-t border-indigo-500/20 flex flex-col gap-1">
         <div class="flex items-center justify-between px-0.5">
           <span class="text-[9px] font-semibold text-indigo-300 flex items-center gap-1">
@@ -27400,15 +28531,15 @@ function renderTimerCockpitContent() {
           </span>
         </div>
         <div class="grid grid-cols-3 gap-1">
-          <button onclick="previewVoiceCategory('female');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Frauenstimmen (warm & freundlich)">
+          <button onclick="previewVoiceCategory('female');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Frauenstimmen">
             <span>👩</span>
             <span class="truncate">Frauen</span>
           </button>
-          <button onclick="previewVoiceCategory('male');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Männerstimmen (tief-warm & gelassen)">
+          <button onclick="previewVoiceCategory('male');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Männerstimmen">
             <span>👨</span>
             <span class="truncate">Männer</span>
           </button>
-          <button onclick="previewVoiceCategory('child');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Kinderstimmen (jung, hell & fröhlich)">
+          <button onclick="previewVoiceCategory('child');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Kinderstimmen">
             <span>🧒</span>
             <span class="truncate">Kinder</span>
           </button>
@@ -27416,36 +28547,7 @@ function renderTimerCockpitContent() {
       </div>
     </div>
 
-    <!-- 4. SOUNDS, MUSIK & RADIO -->
-    <div class="p-2 rounded-2xl bg-teal-950/20 border border-teal-500/30 shadow-inner flex flex-col gap-1.5">
-      <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-teal-300 font-display flex items-center gap-1.5">
-          <i data-lucide="music-2" class="w-3.5 h-3.5 text-teal-400"></i>
-          <span>Klang & Musik</span>
-        </span>
-        <span class="text-[9px] font-mono text-teal-400/80 font-bold uppercase tracking-wider">
-          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : (currentAudioMode === 'radio' ? '📻 Radio' : '🔇 Aus'))}
-        </span>
-      </div>
-
-      <!-- 4 Buttons: Sounds, Musik, Radio, Stille -->
-      <div class="grid grid-cols-4 gap-1">
-        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'ambient' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
-          🌿 Sounds
-        </button>
-        <button onclick="setTimerAudioMode('soundmachine');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
-          🎵 Musik
-        </button>
-        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'radio' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
-          📻 Radio
-        </button>
-        <button onclick="setTimerAudioMode('silent');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'silent' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
-          🔇 Stille
-        </button>
-      </div>
-    </div>
-
-    <!-- 5. FOKUS-ZIEL (AUFGABE AUS DEM BOARD) & CHRONOMETER -->
+    <!-- 5. FOKUS-ZIEL & STOPPUHR -->
     <div class="p-2 rounded-2xl bg-amber-950/20 border border-amber-500/30 shadow-inner flex flex-col gap-1.5">
       <div class="flex items-center justify-between px-0.5">
         <span class="text-[10.5px] font-bold text-amber-300 font-display flex items-center gap-1.5">
@@ -27453,9 +28555,9 @@ function renderTimerCockpitContent() {
           <span>Fokus-Ziel (Aufgabe)</span>
         </span>
         <div class="flex items-center gap-1">
-          <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); toggleChronometer();" class="px-2 py-0.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-mono text-[9px] font-bold flex items-center gap-1 transition cursor-pointer" title="Stoppuhr / Zeiterfassung starten">
+          <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); toggleChronometer();" class="px-2 py-0.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-mono text-[9px] font-bold flex items-center gap-1 transition cursor-pointer active:scale-95" title="Stoppuhr / Zeiterfassung starten">
             <i data-lucide="watch" class="w-2.5 h-2.5"></i>
-            <span>Chrono</span>
+            <span>${isChronoRunning ? 'Stoppuhr aktiv' : 'Stoppuhr'}</span>
           </button>
           ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">Verknüpft</span>` : ''}
         </div>
@@ -27502,7 +28604,7 @@ function renderTimerCockpitContent() {
     </div>
   `;
 
-  if (typeof lucide !== 'undefined') lucide.createIcons();
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
 window.renderTimerCockpitContent = renderTimerCockpitContent;
 
@@ -27640,32 +28742,9 @@ function startTimer() {
   updateTimerUI();
   updateMuteButtonsUI();
   
-  // Intelligentes Audio-Routing je nach gewähltem Begleit-Modus
+  // Intelligentes Audio-Routing (Sounds, Musik, Radio)
   try {
-    const activeAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
-    if (activeAudioMode === 'silent') {
-      // Keine kontinuierliche Hintergrundmusik
-    } else if (activeAudioMode === 'radio') {
-      if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.playRadioStation === 'function') {
-        const savedStation = localStorage.getItem('flow_radio_station') || 'lofi';
-        RadioNewsEngine.playRadioStation(savedStation);
-      } else if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && !RadioNewsEngine.isRadioPlaying) {
-        RadioNewsEngine.toggleRadioPlayback();
-      }
-    } else if (activeAudioMode === 'soundmachine') {
-      if (typeof playAmbientSound === 'function') {
-        playAmbientSound(typeof lastSelectedSound !== 'undefined' && lastSelectedSound ? lastSelectedSound : 'lofi');
-      }
-    } else {
-      // Standard: Ambient Flow
-      if (localStorage.getItem('flow_audio_timer_sync') === 'true' && typeof playAmbientSound === 'function') {
-        if (!currentSoundType && (!activeUserAudio || activeUserAudio.paused)) {
-          playAmbientSound(typeof lastSelectedSound !== 'undefined' && lastSelectedSound ? lastSelectedSound : 'lofi');
-        }
-      } else {
-        playRandomTimerAmbient();
-      }
-    }
+    playCurrentTimerBackgroundAudio(true);
   } catch(e) {
     console.warn("Timer Audio routing notice:", e);
   }
@@ -27953,9 +29032,7 @@ function pauseTimer() {
   if (typeof stopLookaheadSequencer === 'function') {
     stopLookaheadSequencer();
   }
-  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
-    RadioNewsEngine.toggleRadioPlayback();
-  }
+  stopTimerBackgroundAudio();
   if ('speechSynthesis' in window) {
     try { window.speechSynthesis.cancel(); } catch (e) { console.warn('[Timer] pause speech cancel warning:', e); }
     setTimeout(() => { try { window.speechSynthesis.cancel(); } catch (e) {} }, 0);
@@ -28004,15 +29081,10 @@ function stopTimer() {
   updateTimerUI();
   if (typeof renderApp === 'function') renderApp();
   
-  // Alle Ambient-Sounds, Sequencer, User-Audios, Radio und Sprachausgaben SOFORT stoppen
-  if (typeof stopAmbientSound === 'function') {
-    stopAmbientSound(true);
-  }
+  // Alle Hintergrund-Audios (Sounds, Musik, Radio) und Sprachausgaben SOFORT stoppen
+  stopTimerBackgroundAudio();
   if (typeof stopLookaheadSequencer === 'function') {
     stopLookaheadSequencer();
-  }
-  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
-    RadioNewsEngine.toggleRadioPlayback();
   }
   if ('speechSynthesis' in window) {
     try { window.speechSynthesis.cancel(); } catch (e) { console.warn('[Timer] stop speech cancel warning:', e); }
@@ -28197,6 +29269,8 @@ var chronometerSeconds = 0;
 var chronometerInterval = null;
 var activeChronometerTask = null;
 var chronometerStartTime = null;
+var lastAnnouncedChronoMinute = -1;
+var lastChronoSoundSwitchedMinute = -1;
 
 function formatChronometerTime(secs) {
   const s = Math.max(0, Math.floor(secs));
@@ -28236,19 +29310,156 @@ function startChronometer(taskTitle = null, colId = null, index = null) {
     clearInterval(chronometerInterval);
     chronometerInterval = null;
   }
+  if (typeof currentSpeechSessionId !== 'undefined') {
+    currentSpeechSessionId++;
+  }
 
   chronometerActive = true;
   chronometerSeconds = 0;
   chronometerStartTime = Date.now();
   activeChronometerTask = taskTitle ? { title: taskTitle, colId, index } : null;
+  lastAnnouncedChronoMinute = 0;
+  lastChronoSoundSwitchedMinute = 0;
 
   updateChronometerUI(true);
 
+  // Hintergrund-Audio (Sounds, Musik, Radio) starten
+  try {
+    playCurrentTimerBackgroundAudio(true);
+  } catch(e) {}
+
+  // Sprach-Begrüßung & Start-Motivation für die Stoppuhr
+  const isTimeAnnounceActive = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isMotivationActive = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isVoiceActiveNow = isTimeAnnounceActive || isMotivationActive;
+
+  if (isTimerSoundActive() && isVoiceActiveNow) {
+    try {
+      const speechItems = [];
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+      const cleanTask = taskTitle ? String(taskTitle).trim().replace(/^[\d\.\-\*•✓\s]+/, '') : '';
+
+      if (isTimeAnnounceActive) {
+        let timeText = "";
+        if (cleanTask) {
+          const phraseList = (typeof CHRONOMETER_START_TASK_PHRASES !== 'undefined' && CHRONOMETER_START_TASK_PHRASES[lang])
+            ? CHRONOMETER_START_TASK_PHRASES[lang]
+            : (typeof CHRONOMETER_START_TASK_PHRASES !== 'undefined' ? CHRONOMETER_START_TASK_PHRASES.de : null);
+          const phrase = (phraseList && phraseList.length > 0)
+            ? (typeof pickWithoutImmediateRepeat === 'function' ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase) : phraseList[0])
+            : "Stoppuhr gestartet für: {task}.";
+          lastSessionStartPhrase = phrase;
+          timeText = phrase.replace('{task}', cleanTask);
+        } else {
+          const phraseList = (typeof CHRONOMETER_START_PHRASES !== 'undefined' && CHRONOMETER_START_PHRASES[lang])
+            ? CHRONOMETER_START_PHRASES[lang]
+            : (typeof CHRONOMETER_START_PHRASES !== 'undefined' ? CHRONOMETER_START_PHRASES.de : ["Stoppuhr gestartet. Nimm dir alle Zeit der Welt."]);
+          const phrase = (phraseList && phraseList.length > 0)
+            ? (typeof pickWithoutImmediateRepeat === 'function' ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase) : phraseList[0])
+            : phraseList[0];
+          lastSessionStartPhrase = phrase;
+          timeText = phrase;
+        }
+        if (timeText) speechItems.push({ text: timeText });
+      }
+
+      if (isMotivationActive) {
+        const motiv = (typeof getChronometerMotivation === 'function')
+          ? getChronometerMotivation(0, cleanTask, lang)
+          : "Guter Einstieg. Lass dich ganz natürlich in deine Aufgabe sinken.";
+        if (motiv) speechItems.push({ text: motiv });
+      }
+
+      if (speechItems.length > 0) {
+        const startSessionToken = currentSpeechSessionId;
+        const startTimeout = setTimeout(() => {
+          if (!chronometerActive || currentSpeechSessionId !== startSessionToken) return;
+          if (typeof speakVoiceSequence === 'function') {
+            speakVoiceSequence(speechItems);
+          } else if (typeof speakSoftlyDynamic === 'function') {
+            speakSoftlyDynamic(speechItems.map(s => s.text).join('. '), 0, 0);
+          }
+        }, 380);
+        if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
+          activeTimeouts.push(startTimeout);
+        }
+      }
+    } catch(e) {
+      console.warn('[Chronometer] Error generating start speech:', e);
+    }
+  }
+
+  let prevTickSec = 0;
   chronometerInterval = setInterval(() => {
     if (!chronometerActive) return;
+    const prevSecs = chronometerSeconds;
     chronometerSeconds = Math.round((Date.now() - chronometerStartTime) / 1000);
+
+    const elapsedMins = Math.floor(chronometerSeconds / 60);
+    const prevElapsedMins = Math.floor(prevSecs / 60);
+
+    // Jede volle Minute erfassen
+    if (elapsedMins > prevElapsedMins && elapsedMins !== lastAnnouncedChronoMinute) {
+      lastAnnouncedChronoMinute = elapsedMins;
+
+      // Alle 2 Minuten sowie bei 1m, 5m, 15m, 25m, 45m, 60m sprechen
+      const isTwoMinMark = (elapsedMins % 2 === 0);
+      const isMilestone = (elapsedMins === 1 || elapsedMins === 5 || elapsedMins === 15 || elapsedMins === 25 || elapsedMins === 45 || elapsedMins === 60);
+      const shouldSpeak = isTwoMinMark || isMilestone;
+
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+      const cleanTask = activeChronometerTask ? (activeChronometerTask.title || '') : '';
+
+      if (shouldSpeak && isTimerSoundActive() && isVoiceActiveNow) {
+        const speechItems = [];
+
+        if (isTimeAnnounceActive && typeof getChronometerTimeAnnouncement === 'function') {
+          const timeText = getChronometerTimeAnnouncement(chronometerSeconds, lang);
+          if (timeText) speechItems.push({ text: timeText });
+        }
+
+        if (isMotivationActive && typeof getChronometerMotivation === 'function') {
+          const motiv = getChronometerMotivation(chronometerSeconds, cleanTask, lang);
+          if (motiv) speechItems.push({ text: motiv });
+        }
+
+        if (speechItems.length > 0) {
+          if (typeof speakVoiceSequence === 'function') {
+            speakVoiceSequence(speechItems, () => {
+              if (isTwoMinMark && lastChronoSoundSwitchedMinute !== elapsedMins) {
+                lastChronoSoundSwitchedMinute = elapsedMins;
+                try { playRandomTimerAmbient(true); } catch(e) {}
+              }
+            });
+          } else if (typeof speakSoftlyDynamic === 'function') {
+            speakSoftlyDynamic(speechItems.map(s => s.text).join('. '), 0, 0, () => {
+              if (isTwoMinMark && lastChronoSoundSwitchedMinute !== elapsedMins) {
+                lastChronoSoundSwitchedMinute = elapsedMins;
+                try { playRandomTimerAmbient(true); } catch(e) {}
+              }
+            });
+          }
+        } else {
+          if (typeof playMinuteChime === 'function') playMinuteChime();
+        }
+
+        // Falls Sprache aus, Sound trotzdem alle 2 Minuten wechseln
+        if (!isVoiceActiveNow && isTwoMinMark && lastChronoSoundSwitchedMinute !== elapsedMins) {
+          lastChronoSoundSwitchedMinute = elapsedMins;
+          try { playRandomTimerAmbient(true); } catch(e) {}
+        }
+      } else {
+        // Nicht-Sprech-Minuten: sanfter Glockenton
+        if (typeof playMinuteChime === 'function') playMinuteChime();
+      }
+    } else if (chronometerSeconds % 60 === 30 && chronometerSeconds !== prevTickSec) {
+      // Zwischen-Signalton alle halbe Minute (30s)
+      if (typeof playMinuteChime === 'function') playMinuteChime();
+    }
+    prevTickSec = chronometerSeconds;
+
     updateChronometerDisplay();
-  }, 500);
+  }, 250);
 
   updateChronometerDisplay();
 
@@ -28267,6 +29478,17 @@ function stopChronometer(isCompleted = false) {
     chronometerInterval = null;
   }
 
+  if (typeof currentSpeechSessionId !== 'undefined') {
+    currentSpeechSessionId++;
+  }
+  if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
+    activeTimeouts.forEach(t => clearTimeout(t));
+    activeTimeouts.length = 0;
+  }
+
+  // Hintergrund-Audio stoppen
+  stopTimerBackgroundAudio();
+
   const durationSec = chronometerSeconds;
   const timeFormatted = formatChronometerTime(durationSec);
   const taskObj = activeChronometerTask;
@@ -28276,16 +29498,33 @@ function stopChronometer(isCompleted = false) {
   updateChronometerUI(false);
   updateTimerDisplay(); // Setzt Standardanzeige zurück
 
-  if (durationSec > 10 && taskObj && taskObj.title) {
+  const isTimeAnnounceActive = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isMotivationActive = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isVoiceActiveNow = isTimeAnnounceActive || isMotivationActive;
+  const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+
+  if (durationSec >= 10) {
     // In Wochenbericht / Notizen vermerken
     try {
-      if (typeof logFocusSessionToReport === 'function') {
+      if (typeof logFocusSessionToReport === 'function' && taskObj && taskObj.title) {
         logFocusSessionToReport(taskObj.title, durationSec);
       }
     } catch(e) {}
 
-    if (typeof showToast === 'function') {
-      showToast(`⏱️ Chronometer beendet: "${taskObj.title}" dauerte ${timeFormatted}`);
+    // Abschluss-Sprachansage
+    if (isTimerSoundActive() && isVoiceActiveNow && typeof getChronometerStopPhrase === 'function') {
+      const stopText = getChronometerStopPhrase(durationSec, taskObj ? taskObj.title : '', lang);
+      if (stopText && typeof speakVoiceSequence === 'function') {
+        speakVoiceSequence([{ text: stopText }], null, true);
+      }
+    }
+
+    if (taskObj && taskObj.title) {
+      if (typeof showToast === 'function') {
+        showToast(`⏱️ Chronometer beendet: "${taskObj.title}" (${timeFormatted})`);
+      }
+    } else if (typeof showToast === 'function') {
+      showToast(`⏱️ Chronometer beendet (${timeFormatted})`);
     }
   } else if (typeof showToast === 'function') {
     showToast(`⏱️ Chronometer gestoppt (${timeFormatted})`);
@@ -28388,6 +29627,9 @@ if (typeof window !== 'undefined') {
   window.startChronometer = startChronometer;
   window.stopChronometer = stopChronometer;
   window.toggleChronometer = toggleChronometer;
+  window.setTimerAudioMode = setTimerAudioMode;
+  window.playCurrentTimerBackgroundAudio = playCurrentTimerBackgroundAudio;
+  window.stopTimerBackgroundAudio = stopTimerBackgroundAudio;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.startTaskTimer = startTaskTimer;
@@ -28410,6 +29652,9 @@ if (typeof globalThis !== 'undefined') {
   globalThis.startChronometer = startChronometer;
   globalThis.stopChronometer = stopChronometer;
   globalThis.toggleChronometer = toggleChronometer;
+  globalThis.setTimerAudioMode = setTimerAudioMode;
+  globalThis.playCurrentTimerBackgroundAudio = playCurrentTimerBackgroundAudio;
+  globalThis.stopTimerBackgroundAudio = stopTimerBackgroundAudio;
 }
 
 
@@ -29145,8 +30390,8 @@ const WORKOUT_PRESETS = {
   },
   full_body_power_15: {
     id: 'full_body_power_15',
-    icon: 'sparkles',
-    title: { de: '🌟 Ganzkörper Power-Zirkel (15 Min)', en: '🌟 Full Body Power Circuit (15 Min)', fr: '🌟 Circuit Corps Entier Power (15 Min)', es: '🌟 Circuito Completo de Fuerza (15 Min)', it: '🌟 Circuito Total Body Power (15 Min)', el: '🌟 Ολοκληρωμένο Κυκλικό (15 Min)' },
+    icon: 'flame',
+    title: { de: '🔥 Ganzkörper Power-Zirkel (15 Min)', en: '🔥 Full Body Power Circuit (15 Min)', fr: '🔥 Circuit Corps Entier Power (15 Min)', es: '🔥 Circuito Completo de Fuerza (15 Min)', it: '🔥 Circuito Total Body Power (15 Min)', el: '🔥 Ολοκληρωμένο Κυκλικό (15 Min)' },
     subtitle: { de: 'Kompletter Zirkel für Kraft, Ausdauer & Haltung', en: 'Complete circuit for strength, endurance & posture', fr: 'Circuit complet force, endurance et posture', es: 'Circuito completo de fuerza y resistencia', it: 'Circuito completo per forza e postura', el: 'Πλήρης κύκλος δύναμης και αντοχής' },
     durationMin: 15,
     exerciseIds: ['low_impact_step_jack', 'quiet_squat', 'wall_incline_pushups', 'dead_bug', 'reverse_lunges', 'prone_y_t_w', 'shadow_boxing_flow', 'glute_bridge', 'plank_hold', 'standing_calf_raise', 'doorframe_chest_stretch', 'good_mornings'],
@@ -29213,17 +30458,25 @@ const SPORT_EXERCISES = {
 // =========================================================================
 // MODAL CONTROLS & NAVIGATION
 // =========================================================================
-function openSportModal(initialTab = 'presets') {
+function openSportModal(initialTab = 'spoons') {
   const modal = document.getElementById('helper-sport-modal');
   if (modal) {
     modal.classList.remove('hidden');
     switchSportTab(initialTab);
-    renderWorkoutPresets();
-    renderCustomWorkoutSelector();
-    renderExerciseLibrary();
-    renderMovementHistoryUI();
     updateMovementStatsBadge();
-    generateSportSuggestion();
+    if (initialTab === 'spoons') {
+      generateSportSuggestion();
+    } else if (initialTab === 'presets') {
+      renderWorkoutPresets();
+    }
+    // Nachgelagert im Hintergrund initialisieren für sofortige Klickreaktion
+    setTimeout(() => {
+      if (initialTab !== 'presets') renderWorkoutPresets();
+      renderCustomWorkoutSelector();
+      renderExerciseLibrary();
+      renderMovementHistoryUI();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }, 50);
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 }
@@ -29942,6 +31195,541 @@ if (typeof globalThis !== 'undefined') {
 }
 
 
+/* --- app-interaction-mode.js --- */
+/**
+ * app-interaction-mode.js
+ * Windows-Grade Multi-Window Studio & Smart Glances Engine
+ * =====================================================================
+ * - Vollständiges, einheitliches Fenster-Management für ALLE Tools, Menüs & Modals:
+ *   [ — ] Minimieren in Taskleiste (mit Live-Thumbnail-Hover)
+ *   [ ⛶ / 🗗 ] Maximieren / Wiederherstellen (auch per Header-Doppelklick)
+ *   [ ✕ ] Schließen
+ * - Dynamischer DOM-Observer: Verhindert doppelte / fehlende Buttons nach Tab-Wechseln.
+ * - Paralleles Multitasking: Beliebig viele Tools laufen gleichzeitig nebeneinander.
+ * - Windows-Taskleiste am unteren Bildschirmrand mit Live-Glance-Previews.
+ * - Intelligente Hovers auf allen Header- & Menü-Icons beibehalten.
+ */
+
+(function () {
+  'use strict';
+
+  const STORAGE_KEY = 'noodle_interaction_mode';
+
+  function isTouchDevice() {
+    return (
+      (typeof window !== 'undefined' &&
+        window.matchMedia &&
+        window.matchMedia('(hover: none) and (pointer: coarse)').matches) ||
+      (typeof navigator !== 'undefined' && (navigator.maxTouchPoints > 0 || 'ontouchstart' in window))
+    );
+  }
+
+  function getSavedMode() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved === 'click-only' || saved === 'multi-window') return saved;
+    } catch (e) {}
+    return 'multi-window';
+  }
+
+  let currentMode = getSavedMode();
+  let highestZIndex = 100030;
+  const activeWindows = new Set();
+  const minimizedWindows = new Set();
+
+  function applyModeClasses(mode) {
+    if (typeof document === 'undefined' || !document.body) return;
+    document.body.classList.toggle('mode-multi-window', mode === 'multi-window');
+    document.body.classList.toggle('mode-click-only', mode === 'click-only');
+    updateSettingsUI(mode);
+  }
+
+  function setInteractionMode(mode, showNotification = true) {
+    if (mode !== 'click-only' && mode !== 'multi-window') return;
+    currentMode = mode;
+    try {
+      localStorage.setItem(STORAGE_KEY, mode);
+    } catch (e) {}
+
+    applyModeClasses(mode);
+
+    if (showNotification && typeof showToast === 'function') {
+      const msg = typeof tr === 'function' ? tr({
+        de: '🗗 Multi-Window Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen',
+        en: '🗗 Multi-Window Studio active: Minimize [—], maximize [⛶] & run tools in parallel'
+      }) : '🗗 Multi-Window Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen';
+      showToast(msg);
+    }
+
+    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
+    window.dispatchEvent(new CustomEvent('noodle-interaction-mode-changed', { detail: { mode } }));
+  }
+
+  function updateSettingsUI(mode) {
+    const btnMulti = document.getElementById('btn-mode-peek-pin');
+    const btnClick = document.getElementById('btn-mode-click-only');
+    const badge = document.getElementById('interaction-mode-badge');
+
+    const activeClasses = 'bg-purple-600 text-white font-bold shadow-md border border-purple-400/40';
+    const inactiveClasses = 'bg-white/[0.03] text-gray-400 hover:text-white border border-transparent';
+
+    if (btnMulti) {
+      btnMulti.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'multi-window' ? activeClasses : inactiveClasses}`;
+    }
+    if (btnClick) {
+      btnClick.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'click-only' ? activeClasses : inactiveClasses}`;
+    }
+
+    if (badge) {
+      badge.textContent = mode === 'click-only' ? 'Kompakt' : 'Multi-Window';
+    }
+
+    const modalRadioPeek = document.getElementById('modal-radio-mode-peek');
+    const modalRadioClick = document.getElementById('modal-radio-mode-click');
+    if (modalRadioPeek && modalRadioClick) {
+      modalRadioPeek.checked = (mode === 'multi-window');
+      modalRadioClick.checked = (mode === 'click-only');
+    }
+  }
+
+  function getPanelMeta(panelName) {
+    const cleanName = panelName.replace(/^(panel-|modal-|helper-)/, '');
+    const metas = {
+      'shopping': { title: 'Einkaufsliste', icon: '🛒', short: 'Einkauf', color: 'text-emerald-400', getSummary: () => {
+        const countEl = document.getElementById('shop-badge-count');
+        const count = countEl && !countEl.classList.contains('hidden') ? countEl.textContent : '0';
+        return `${count} Artikel auf der Liste`;
+      }},
+      'cooking': { title: 'Koch-Studio', icon: '🍳', short: 'Kochen', color: 'text-amber-400', getSummary: () => 'Smarte Rezepte & Zubereitung' },
+      'clean-guide': { title: 'Putz-Guide', icon: '✨', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
+      'cleaning-guide': { title: 'Putz-Guide', icon: '✨', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
+      'alarm': { title: 'Wecker & Timer', icon: '⏱️', short: 'Timer', color: 'text-rose-400', getSummary: () => {
+        const timerEl = document.getElementById('timer-display');
+        return timerEl ? `Timer: ${timerEl.textContent.trim()}` : 'Wecker & Countdown aktiv';
+      }},
+      
+      'audio': { title: 'Sound Center', icon: '🎧', short: 'Sound', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Entspannung' },
+      'radio': { title: 'Radio Stream', icon: '📻', short: 'Radio', color: 'text-pink-400', getSummary: () => 'Live-Sender & Streams' },
+      'news': { title: 'News Briefing', icon: '📰', short: 'News', color: 'text-purple-400', getSummary: () => 'Weltweite & lokale Nachrichten' },
+      'sample-manager': { title: 'Sample Manager', icon: '🎛️', short: 'Samples', color: 'text-violet-400', getSummary: () => 'Eigene DJ-Samples verwalten' },
+
+      'health': { title: 'Gesundheit & Vital', icon: '❤️', short: 'Health', color: 'text-rose-400', getSummary: () => 'Wasser, Puls & Vorsorge' },
+      'humor-lab': { title: 'Humor Lab', icon: '🎭', short: 'Humor', color: 'text-yellow-400', getSummary: () => 'Gute Laune & Minispiele' },
+      'brainstorm': { title: 'Brainstorming Hub', icon: '💡', short: 'Brainstorm', color: 'text-amber-300', getSummary: () => 'Gedankenblitze & Ideen-Board' },
+      'inspiration': { title: 'Inspiration & Zitate', icon: '✨', short: 'Ideen', color: 'text-amber-300', getSummary: () => 'Tages-Zitate & Motivation' },
+      'clarity': { title: 'Clarity Gedanken', icon: '🧠', short: 'Clarity', color: 'text-indigo-300', getSummary: () => 'Gedanken sortieren & Klarheit' },
+
+      'pick': { title: 'Was Jetzt?', icon: '🎲', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Zufalls-Entscheidungshilfe' },
+      'whatnow': { title: 'Was Jetzt?', icon: '🎲', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Zufalls-Entscheidungshilfe' },
+      'sport': { title: 'Sport & Bewegung', icon: '🏃', short: 'Sport', color: 'text-green-400', getSummary: () => '7-Minuten Workout & Dehnen' },
+      'safespace': { title: 'Safe Space', icon: '🛡️', short: 'Safe Space', color: 'text-cyan-300', getSummary: () => 'Ruheort & Beruhigung' },
+      'dice': { title: 'Würfel Studio', icon: '🎲', short: 'Würfel', color: 'text-purple-300', getSummary: () => '3D-Würfel für Entscheidungen' },
+      'roulette': { title: 'Entscheidungs-Rad', icon: '🎯', short: 'Roulette', color: 'text-rose-300', getSummary: () => 'Glücksrad für Aufgaben' },
+      'regulation': { title: 'Regulation Studio', icon: '🧘', short: 'Regulation', color: 'text-teal-300', getSummary: () => 'Nervensystem regulieren' },
+      'ocr-scanner': { title: 'OCR Scanner', icon: '📷', short: 'Scanner', color: 'text-blue-300', getSummary: () => 'Texte & Rechnungen scannen' },
+      'supermarket': { title: 'Supermarkt-Modus', icon: '🏬', short: 'Markt', color: 'text-emerald-400', getSummary: () => 'Vollbild Einkaufsmodus' },
+      'p2p-sync': { title: 'P2P Synchronisierung', icon: '🔄', short: 'Sync', color: 'text-emerald-300', getSummary: () => 'Echtzeit-Gerätekopplung' },
+      'app-install': { title: 'App Installation & Setup', icon: '💻', short: 'Install', color: 'text-purple-300', getSummary: () => 'Windows, Mac, Android, Linux & Offline' },
+      'settings': { title: 'Optionen & Einstellungen', icon: '⚙️', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
+
+      'weather': { title: 'Wetter', icon: '🌤️', short: 'Wetter', color: 'text-sky-400', getSummary: () => {
+        const tempEl = document.getElementById('weather-current-temp');
+        return tempEl ? `${tempEl.textContent.trim()} • Wetterbericht` : 'Live-Wetter & Vorhersage';
+      }},
+      'calendar-dropdown': { title: 'Kalender & Termine', icon: '📅', short: 'Kalender', color: 'text-blue-400', getSummary: () => 'Monatsübersicht & Fristen' },
+      'pause-dropdown': { title: 'Pausen-Hub', icon: '🧘', short: 'Pause', color: 'text-teal-300', getSummary: () => 'Atemübungen & Entspannung' },
+      'report': { title: 'Statistiken', icon: '📊', short: 'Stats', color: 'text-emerald-400', getSummary: () => 'Tages- & Wochenauswertung' },
+      'settings-dropdown': { title: 'Optionen', icon: '⚙️', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
+      'timer-presets': { title: 'Fokus-Cockpit', icon: '⚡', short: 'Fokus', color: 'text-purple-300', getSummary: () => 'Pomodoro, Flow & Deep Work' },
+      'header-tools': { title: 'Tools Hub', icon: '🎛️', short: 'Tools', color: 'text-purple-400', getSummary: () => 'Alle 20+ Noodle Studio Werkzeuge' },
+      'social': { title: 'Community & Collab', icon: '👥', short: 'Social', color: 'text-indigo-400', getSummary: () => 'Live-Zusammenarbeit & Sync' },
+      'collab-chat': { title: 'Team Chat', icon: '💬', short: 'Chat', color: 'text-cyan-400', getSummary: () => 'Live-Teamchat' }
+    };
+
+    return metas[cleanName] || metas[panelName] || {
+      title: cleanName.replace(/-/g, ' ').toUpperCase(),
+      icon: '🗗',
+      short: cleanName.substring(0, 8),
+      color: 'text-purple-300',
+      getSummary: () => 'Aktiv im Studio'
+    };
+  }
+
+  function getPanelElement(panelName) {
+    if (!panelName) return null;
+    return document.getElementById(`panel-${panelName}`) ||
+           document.getElementById(`modal-${panelName}`) ||
+           document.getElementById(`helper-${panelName}-modal`) ||
+           document.getElementById(`${panelName}-modal`) ||
+           document.getElementById(panelName);
+  }
+
+  function bringWindowToFront(panelName) {
+    const el = getPanelElement(panelName);
+    if (!el) return;
+    highestZIndex += 2;
+    el.style.zIndex = highestZIndex;
+    document.querySelectorAll('.noodle-panel-focused').forEach(p => p.classList.remove('noodle-panel-focused'));
+    el.classList.add('noodle-panel-focused');
+  }
+
+  function getMinimizedDock() {
+    let dock = document.getElementById('noodle-minimized-dock');
+    if (!dock && typeof document !== 'undefined' && document.body) {
+      dock = document.createElement('div');
+      dock.id = 'noodle-minimized-dock';
+      dock.className = 'noodle-minimized-dock fixed bottom-4 right-4 z-[100080] flex items-center gap-2 flex-wrap pointer-events-auto select-none';
+      document.body.appendChild(dock);
+    }
+    return dock;
+  }
+
+  function updateMinimizedDockUI() {
+    const dock = getMinimizedDock();
+    if (!dock) return;
+
+    if (minimizedWindows.size === 0) {
+      dock.innerHTML = '';
+      dock.classList.add('hidden');
+      return;
+    }
+
+    dock.classList.remove('hidden');
+    dock.innerHTML = '';
+
+    minimizedWindows.forEach(panelName => {
+      const meta = getPanelMeta(panelName);
+      const pill = document.createElement('div');
+      pill.className = 'noodle-min-pill relative flex items-center gap-1.5 px-3 py-1.5 rounded-2xl bg-[#0f1017]/95 border border-purple-500/40 hover:border-purple-400 text-xs text-white shadow-xl backdrop-blur-xl cursor-pointer transition-all duration-150 animate-spring-modal group/pill';
+      pill.setAttribute('data-min-panel', panelName);
+
+      const summaryText = typeof meta.getSummary === 'function' ? meta.getSummary() : 'Aktiv';
+
+      pill.innerHTML = `
+        <span class="text-sm">${meta.icon}</span>
+        <span class="font-bold text-[11px] ${meta.color}">${meta.short}</span>
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5"></span>
+        <button class="noodle-min-close-btn ml-1 w-4 h-4 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 text-[9px] transition" title="Schließen">✕</button>
+
+        <!-- Windows-Style Hover Thumbnail Preview Card -->
+        <div class="noodle-taskbar-preview-card hidden group-hover/pill:flex absolute bottom-[calc(100%+10px)] right-0 w-64 p-3 rounded-2xl bg-[#12111c]/98 border border-purple-500/40 shadow-2xl backdrop-blur-2xl flex-col gap-1.5 text-left z-[100090] animate-fade-in pointer-events-none">
+          <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
+            <div class="flex items-center gap-1.5">
+              <span class="text-base">${meta.icon}</span>
+              <span class="font-bold text-xs text-white">${meta.title}</span>
+            </div>
+            <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300">Live</span>
+          </div>
+          <p class="text-[11px] text-gray-300 leading-snug">${summaryText}</p>
+          <div class="text-[9.5px] text-purple-400/80 font-medium pt-0.5 flex items-center gap-1">
+            <span>🖱️ Klick zum Wiederherstellen</span>
+          </div>
+        </div>
+      `;
+
+      pill.onclick = (e) => {
+        if (e.target.closest('.noodle-min-close-btn')) {
+          e.stopPropagation();
+          closeWindow(panelName);
+        } else {
+          restoreWindow(panelName);
+        }
+      };
+
+      dock.appendChild(pill);
+    });
+  }
+
+  function openWindow(panelName) {
+    const el = getPanelElement(panelName);
+    if (!el) return;
+
+    minimizedWindows.delete(panelName);
+    activeWindows.add(panelName);
+    updateMinimizedDockUI();
+
+    el.classList.remove('hidden', 'noodle-panel-peeking', 'noodle-panel-minimized');
+    el.classList.add('noodle-panel-pinned');
+
+    bringWindowToFront(panelName);
+    decoratePanel(el, panelName);
+
+    // Dynamic Render Callbacks
+    triggerPanelRender(panelName);
+
+    if (typeof adjustPanelPosition === 'function') {
+      try { adjustPanelPosition(el, panelName); } catch (e) {}
+    }
+
+    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
+  }
+
+  function triggerPanelRender(panelName) {
+    const clean = panelName.replace(/^(panel-|modal-|helper-)/, '');
+    if (clean === 'cooking' && typeof renderCookingPanel === 'function') renderCookingPanel(true);
+    if (clean === 'health' && window.HealthEngine && window.HealthEngine.renderPanel) window.HealthEngine.renderPanel();
+    if (clean === 'humor-lab' && window.HumorEngine && window.HumorEngine.renderPanel) window.HumorEngine.renderPanel();
+    if (clean === 'social' && window.SocialEngine && window.SocialEngine.renderPanel) window.SocialEngine.renderPanel();
+    if (clean === 'calendar-dropdown' && typeof renderMiniCalendar === 'function') renderMiniCalendar();
+    if (clean === 'weather' && typeof updateWeatherDisplay === 'function') updateWeatherDisplay();
+  }
+
+  function minimizeWindow(panelName, event) {
+    if (event) event.stopPropagation();
+    const el = getPanelElement(panelName);
+    if (!el) return;
+
+    el.classList.add('hidden', 'noodle-panel-minimized');
+    el.classList.remove('noodle-panel-focused');
+    minimizedWindows.add(panelName);
+    activeWindows.add(panelName);
+
+    updateMinimizedDockUI();
+
+    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('medium');
+    if (typeof showToast === 'function') {
+      const meta = getPanelMeta(panelName);
+      showToast(`${meta.icon} ${meta.title} minimiert`);
+    }
+  }
+
+  function restoreWindow(panelName) {
+    const el = getPanelElement(panelName);
+    if (!el) return;
+
+    minimizedWindows.delete(panelName);
+    el.classList.remove('hidden', 'noodle-panel-minimized');
+    el.classList.add('noodle-panel-pinned');
+
+    updateMinimizedDockUI();
+    bringWindowToFront(panelName);
+    decoratePanel(el, panelName);
+    triggerPanelRender(panelName);
+
+    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
+  }
+
+  function toggleFullscreen(panelName, event) {
+    if (event) event.stopPropagation();
+    const el = getPanelElement(panelName);
+    if (!el) return;
+
+    const isFull = el.classList.contains('noodle-panel-fullscreen');
+    if (isFull) {
+      el.classList.remove('noodle-panel-fullscreen');
+    } else {
+      el.classList.add('noodle-panel-fullscreen');
+    }
+
+    bringWindowToFront(panelName);
+    decoratePanel(el, panelName);
+    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
+  }
+
+  function closeWindow(panelName, event) {
+    if (event) event.stopPropagation();
+    const el = getPanelElement(panelName);
+    if (el) {
+      el.classList.add('hidden');
+      el.classList.remove('noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'noodle-panel-peeking', 'noodle-panel-minimized');
+    }
+
+    activeWindows.delete(panelName);
+    minimizedWindows.delete(panelName);
+    updateMinimizedDockUI();
+
+    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
+  }
+
+  function togglePanel(panelName, event) {
+    if (event) event.stopPropagation();
+    const el = getPanelElement(panelName);
+    if (!el) return;
+
+    if (minimizedWindows.has(panelName)) {
+      restoreWindow(panelName);
+      return;
+    }
+
+    const isVisible = !el.classList.contains('hidden');
+    if (isVisible) {
+      if (el.classList.contains('noodle-panel-focused')) {
+        minimizeWindow(panelName);
+      } else {
+        bringWindowToFront(panelName);
+      }
+    } else {
+      openWindow(panelName);
+    }
+  }
+
+  // Findet oder erzeugt das 3er-Kontrollfeld [—] [⛶] [✕] im Panel-Header
+  function decoratePanel(el, panelName) {
+    if (!el) return;
+
+    const isFullscreen = el.classList.contains('noodle-panel-fullscreen');
+
+    // 1. Suche Header-Zeile
+    const existingClose = el.querySelector('button[aria-label*="schließen"], button[aria-label*="close"], .modal-close-btn') ||
+                          Array.from(el.querySelectorAll('button')).find(b => b.textContent && b.textContent.trim() === '✕');
+
+    const headerRow = existingClose ? existingClose.parentElement : (el.querySelector('.flex.items-center.justify-between') || el.querySelector('.border-b') || el.firstElementChild);
+
+    if (headerRow) {
+      // Header-Doppelklick maximiert / stellt wieder her (Windows/macOS Standard)
+      if (!headerRow._noodleDblClickAttached) {
+        headerRow._noodleDblClickAttached = true;
+        headerRow.addEventListener('dblclick', (e) => {
+          if (e.target.closest('button, input, select, textarea, a')) return;
+          toggleFullscreen(panelName, e);
+        });
+      }
+
+      let winControls = el.querySelector(`.noodle-win-controls[data-panel-controls="${panelName}"]`);
+      if (!winControls) {
+        winControls = document.createElement('div');
+        winControls.className = 'noodle-win-controls flex items-center gap-1 shrink-0';
+        winControls.setAttribute('data-panel-controls', panelName);
+
+        // 1. Minimize [—]
+        const minBtn = document.createElement('button');
+        minBtn.type = 'button';
+        minBtn.className = 'noodle-win-btn noodle-win-min-btn';
+        minBtn.title = 'Minimieren in Taskleiste [—]';
+        minBtn.setAttribute('aria-label', 'Minimieren');
+        minBtn.innerHTML = '<span>—</span>';
+        minBtn.onclick = (e) => minimizeWindow(panelName, e);
+        winControls.appendChild(minBtn);
+
+        // 2. Maximize / Restore [⛶ / 🗗]
+        const maxBtn = document.createElement('button');
+        maxBtn.type = 'button';
+        maxBtn.className = 'noodle-win-btn noodle-win-max-btn noodle-fullscreen-badge-btn';
+        maxBtn.setAttribute('data-panel-fullscreen', panelName);
+        maxBtn.title = 'Maximieren / Vollbild [⛶]';
+        maxBtn.setAttribute('aria-label', 'Maximieren');
+        maxBtn.innerHTML = '<span>⛶</span>';
+        maxBtn.onclick = (e) => toggleFullscreen(panelName, e);
+        winControls.appendChild(maxBtn);
+
+        // 3. Close [✕]
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.className = 'noodle-win-btn noodle-win-close-btn';
+        closeBtn.title = 'Schließen [✕]';
+        closeBtn.setAttribute('aria-label', 'Schließen');
+        closeBtn.innerHTML = '<span>✕</span>';
+        closeBtn.onclick = (e) => closeWindow(panelName, e);
+        winControls.appendChild(closeBtn);
+
+        // Alte native Schließen-Elemente im gesamten Panel sauber ausblenden
+        el.querySelectorAll('.modal-close-btn, button[aria-label*="schließen"], button[aria-label*="close"]').forEach(oldBtn => {
+          if (!oldBtn.classList.contains('noodle-win-btn')) {
+            oldBtn.style.display = 'none';
+          }
+        });
+        if (existingClose && !existingClose.classList.contains('noodle-win-btn')) {
+          existingClose.style.display = 'none';
+        }
+
+        headerRow.appendChild(winControls);
+
+        if (typeof attachSnapHoverToControls === 'function') {
+          attachSnapHoverToControls(winControls, panelName);
+        }
+      }
+
+      // Maximize Button State aktualisieren
+      const maxBtn = winControls.querySelector('.noodle-win-max-btn');
+      if (maxBtn) {
+        maxBtn.innerHTML = isFullscreen ? '<span>🗗</span>' : '<span>⛶</span>';
+        maxBtn.title = isFullscreen ? 'Wiederherstellen / Normalgröße [🗗]' : 'Maximieren / Vollbild [⛶]';
+        if (typeof attachSnapHoverToControls === 'function') {
+          attachSnapHoverToControls(winControls, panelName);
+        }
+      }
+    }
+
+    // Klick bringt Panel in den Vordergrund
+    if (!el._noodleFocusAttached) {
+      el._noodleFocusAttached = true;
+      el.addEventListener('pointerdown', () => {
+        bringWindowToFront(panelName);
+      }, { passive: true });
+    }
+  }
+
+  // Performance: Subtree MutationObserver entfernt. Fenster-Controls werden effizient
+  // on-demand beim Öffnen oder initial einmalig registriert, statt bei jedem Klick den DOM-Baum zu durchsuchen.
+  function setupDOMObserver() {
+    // Bewusst kein teurer body-subtree MutationObserver mehr nötig
+  }
+
+  // Initialisierung nach DOM-Ready
+  function init() {
+    applyModeClasses(currentMode);
+
+    // ESC schließt oder minimiert aktives Fenster
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const focused = document.querySelector('.noodle-panel-focused');
+        if (focused && focused.id) {
+          const id = focused.id.replace(/^(panel-|modal-|helper-)/, '');
+          closeWindow(id);
+        }
+      }
+    });
+
+    // Alle vorhandenen Panels & Modals registrieren & mit Window-Controls versehen
+    const scanAndDecorate = () => {
+      document.querySelectorAll('.dock-popover-panel, [id^="panel-"], .modal, [id$="-modal"], [id*="modal-"]').forEach(el => {
+        if (!el.id) return;
+        const panelName = el.id.replace(/^(panel-|modal-|helper-)/, '');
+        decoratePanel(el, panelName);
+      });
+    };
+
+    scanAndDecorate();
+    setTimeout(scanAndDecorate, 300);
+    setupDOMObserver();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  // Öffentliche Schnittstelle & Globals
+  window.NoodleInteractionMode = {
+    getMode: () => currentMode,
+    setMode: setInteractionMode,
+    isTouchDevice,
+    openWindow,
+    minimizeWindow,
+    restoreWindow,
+    toggleFullscreen,
+    closeWindow,
+    togglePanel,
+    bringWindowToFront,
+    decoratePanel,
+    updateSettingsUI,
+    pinPanel: openWindow,
+    unpinPanel: closeWindow,
+    togglePin: togglePanel
+  };
+
+  window.setInteractionMode = setInteractionMode;
+  window.minimizeWindow = minimizeWindow;
+  window.restoreWindow = restoreWindow;
+  window.closeWindow = closeWindow;
+  window.togglePanelFullscreen = toggleFullscreen;
+  window.togglePinPanel = togglePanel;
+  window.bringWindowToFront = bringWindowToFront;
+
+})();
+
+
 /* --- helper-core-data.js --- */
 // Ausgelagert aus helper-core.js: Datensammlungen fuer den 'Was nun?'-Helfer
 const DEFAULT_SPOON_OPTIONS = [
@@ -30369,8 +32157,8 @@ let currentWhatNowEnergyLevel = 'med';
 let currentWhatNowChosen = null;
 
 function switchWhatNowTab(tabName) {
-  const normTab = (tabName === 'energy' || tabName === 'micro' || tabName === 'zen') ? 'suggestion' : tabName;
-  const TABS = ['suggestion', 'dilemma', 'braindump'];
+  const normTab = (tabName === 'dilemma') ? 'dilemma' : 'suggestion';
+  const TABS = ['suggestion', 'dilemma'];
   
   TABS.forEach(t => {
     const pane = document.getElementById(`whatnow-pane-${t}`);
@@ -30381,9 +32169,9 @@ function switchWhatNowTab(tabName) {
     }
     if (tabBtn) {
       if (t === normTab) {
-        tabBtn.className = 'py-2 px-2 rounded-xl bg-gradient-to-r from-amber-500/30 to-amber-600/30 border border-amber-400/50 text-amber-200 text-center transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm font-bold';
+        tabBtn.className = 'py-2 px-3 rounded-xl bg-gradient-to-r from-amber-500/25 to-amber-600/25 border border-amber-400/40 text-amber-200 text-center transition cursor-pointer flex items-center justify-center gap-2 shadow-sm font-bold';
       } else {
-        tabBtn.className = 'py-2 px-2 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-1.5 border border-transparent font-bold';
+        tabBtn.className = 'py-2 px-3 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-2 border border-transparent font-bold';
       }
     }
   });
@@ -30486,10 +32274,11 @@ function populateWhatNowDilemmaDefaults() {
   if (!inputA || !inputB) return;
 
   if (!inputA.value.trim() && !inputB.value.trim()) {
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state?.items || {});
     const all = [];
-    ['daily', 'todo', 'weekly', 'occasionally'].forEach(cat => {
-      (state?.items?.[cat] || []).filter(Boolean).forEach(t => {
-        const text = typeof t === 'object' ? t.task : t;
+    ['daily', 'todo', 'weekly', 'occasionally', 'termine'].forEach(cat => {
+      (curItems[cat] || []).filter(Boolean).forEach(t => {
+        const text = typeof t === 'object' ? (t.task || t.name) : t;
         if (text && !all.includes(text)) all.push(text);
       });
     });
@@ -30542,126 +32331,122 @@ function flipWhatNowDilemma() {
   }, 650);
 }
 
-function launchBrainDumpAsFocus() {
-  const input = document.getElementById('whatnow-braindump-input');
-  const text = input ? input.value.trim() : '';
-  if (!text) {
-    showToast(tr({ de: 'Bitte zuerst einen Gedanken eingeben!', en: 'Please enter a thought first!' }));
-    return;
-  }
-
-  saveHistory();
-  if (!state.items.todo) state.items.todo = [];
-  state.items.todo.unshift({
-    task: text,
-    created: new Date().toISOString(),
-    id: 'task-' + Date.now()
-  });
-  saveState();
-  renderApp();
-
-  input.value = '';
-  startZenWithTask(text, 'todo');
-}
-
-function saveBrainDumpAsTask() {
-  const input = document.getElementById('whatnow-braindump-input');
-  const text = input ? input.value.trim() : '';
-  if (!text) return;
-
-  saveHistory();
-  if (!state.items.todo) state.items.todo = [];
-  state.items.todo.unshift({
-    task: text,
-    created: new Date().toISOString(),
-    id: 'task-' + Date.now()
-  });
-  saveState();
-  renderApp();
-
-  input.value = '';
-  showToast(tr({ de: `Als Aufgabe gesichert! 📋`, en: `Saved as task! 📋` }));
-  switchWhatNowTab('suggestion');
-  pickRandomTask();
-}
-
+/**
+ * Intelligente Priorisierungs-Engine fuer "Was nun?"
+ * Berechnet fuer jede offene Aufgabe einen qualifizierten Score
+ */
 function pickRandomTask() {
   const box = document.getElementById('helper-pick-box');
   if (!box) return;
 
-  const incompleteDailies = (state?.items?.daily || [])
-    .filter(Boolean)
-    .map(t => ({ cat: 'daily', task: typeof t === 'object' ? t.task : t }))
-    .filter(t => t.task && !isEveningTeethTask(t.task));
+  const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state?.items || {});
+  const todayISO = new Date().toISOString().split('T')[0];
 
-  const houseworkTasks = [];
-  const todoTasks = [];
-  const otherTasks = [];
+  const candidatePool = [];
 
-  ['weekly', 'todo', 'occasionally', 'termine'].forEach(cat => {
-    (state?.items?.[cat] || []).filter(Boolean).forEach(t => {
-      const taskText = typeof t === 'object' ? t.task : t;
-      if (!taskText) return;
-      const taskObj = { cat, task: taskText };
-      if (isHouseworkTask(taskText)) {
-        houseworkTasks.push(taskObj);
-      } else if (cat === 'todo') {
-        todoTasks.push(taskObj);
-      } else {
-        otherTasks.push(taskObj);
+  // Scanne alle Kategorien
+  const scanCategories = ['daily', 'todo', 'weekly', 'work_focus', 'work_backlog', 'study_focus', 'study_modules', 'occasionally', 'termine'];
+  
+  scanCategories.forEach(cat => {
+    const list = curItems[cat] || [];
+    list.filter(Boolean).forEach((rawItem, idx) => {
+      const isObj = typeof rawItem === 'object' && rawItem !== null;
+      const taskText = isObj ? (rawItem.task || rawItem.name || '') : String(rawItem || '');
+      if (!taskText || isEveningTeethTask(taskText)) return;
+
+      // Status ueberpruefen (z.B. bei Terminen)
+      if (isObj && (rawItem.status === 'stattgefunden' || rawItem.status === 'nicht_stattgefunden')) return;
+
+      // Berechne Teilschritte
+      let stepsCompleted = 0;
+      let totalSteps = 0;
+      if (state.customSteps && state.customSteps[taskText]) {
+        totalSteps = state.customSteps[taskText].length;
+        stepsCompleted = (state.completedSteps && state.completedSteps[taskText]) ? state.completedSteps[taskText].length : 0;
       }
+
+      // Basis-Dauer schaetzen
+      let estMinutes = 20;
+      if (cat === 'daily' || isHouseworkTask(taskText)) estMinutes = 10;
+      else if (cat === 'todo' || cat === 'work_backlog') estMinutes = 30;
+      if (isObj && rawItem.estimatedMinutes) estMinutes = rawItem.estimatedMinutes;
+
+      // Executive Scoring
+      let score = 50;
+      let reasonKey = 'smart_recommendation';
+      let reasonLabel = '💡 Smarter Fokus-Vorschlag';
+
+      // 1. Termine/Deadlines von heute
+      const itemDate = isObj ? (rawItem.date || '') : '';
+      if (cat === 'termine' || itemDate === todayISO) {
+        score += 80;
+        reasonKey = 'due_today';
+        reasonLabel = '📌 Heute fällig';
+      }
+
+      // 2. Explizit hohe Priorität
+      const isHighPrio = isObj && (rawItem.priority === 'high' || rawItem.prio === 'high' || rawItem.isUrgent);
+      if (isHighPrio) {
+        score += 60;
+        reasonKey = 'high_priority';
+        reasonLabel = '🔥 Hohe Priorität';
+      }
+
+      // 3. Bereits angefangene Aufgaben mit Checklisten-Fortschritt
+      if (totalSteps > 0 && stepsCompleted > 0 && stepsCompleted < totalSteps) {
+        score += 45;
+        reasonKey = 'in_progress';
+        reasonLabel = `🪜 In Arbeit (${stepsCompleted}/${totalSteps} Schritte)`;
+      }
+
+      // 4. Kategorie-Gewichtung
+      if (cat === 'daily' || cat === 'work_focus') score += 30;
+      else if (cat === 'todo') score += 20;
+
+      candidatePool.push({
+        cat,
+        idx,
+        task: taskText,
+        estMinutes,
+        score,
+        reasonLabel,
+        totalSteps,
+        stepsCompleted,
+        isHousework: isHouseworkTask(taskText)
+      });
     });
   });
 
-  let poolDailies = incompleteDailies.filter(t => !suggestedTaskNamesInCurrentRun.includes(t.task));
-  let poolHousework = houseworkTasks.filter(t => !suggestedTaskNamesInCurrentRun.includes(t.task));
-  let poolTodo = todoTasks.filter(t => !suggestedTaskNamesInCurrentRun.includes(t.task));
-  let poolOther = otherTasks.filter(t => !suggestedTaskNamesInCurrentRun.includes(t.task));
-
-  const totalAvailable = poolDailies.length + poolHousework.length + poolTodo.length + poolOther.length;
-  if (totalAvailable === 0) {
+  // Filter nach aktuellem Energie-Level
+  let filteredCandidates = candidatePool.filter(c => !suggestedTaskNamesInCurrentRun.includes(c.task));
+  if (filteredCandidates.length === 0 && candidatePool.length > 0) {
     suggestedTaskNamesInCurrentRun = [];
-    poolDailies = incompleteDailies;
-    poolHousework = houseworkTasks;
-    poolTodo = todoTasks;
-    poolOther = otherTasks;
+    filteredCandidates = [...candidatePool];
   }
-
-  let chosen = null;
-  let estimatedMin = 15;
 
   if (currentWhatNowEnergyLevel === 'low') {
-    estimatedMin = 5;
-    if (poolDailies.length > 0) chosen = poolDailies[0];
-    else if (poolHousework.length > 0) chosen = poolHousework[0];
-    else if (poolTodo.length > 0) chosen = poolTodo[0];
-    else chosen = poolOther[0] || null;
+    // Quick Win: 2-5 Min (bevorzugt kurze Tasks, Dailies, Haushalt, oder Teilschritte)
+    filteredCandidates.sort((a, b) => {
+      const aQuick = (a.estMinutes <= 10 || a.cat === 'daily' || a.isHousework) ? 1 : 0;
+      const bQuick = (b.estMinutes <= 10 || b.cat === 'daily' || b.isHousework) ? 1 : 0;
+      return (bQuick * 100 + b.score) - (aQuick * 100 + a.score);
+    });
   } else if (currentWhatNowEnergyLevel === 'high') {
-    estimatedMin = 45;
-    if (poolTodo.length > 0) chosen = poolTodo[0];
-    else if (poolOther.length > 0) chosen = poolOther[0];
-    else if (poolDailies.length > 0) chosen = poolDailies[0];
-    else chosen = poolHousework[0] || null;
+    // Deep Work: 45+ Min (bevorzugt grosse To-Dos, Projekte)
+    filteredCandidates.sort((a, b) => {
+      const aDeep = (a.cat === 'todo' || a.cat === 'work_backlog' || a.estMinutes >= 25) ? 1 : 0;
+      const bDeep = (b.cat === 'todo' || b.cat === 'work_backlog' || b.estMinutes >= 25) ? 1 : 0;
+      return (bDeep * 100 + b.score) - (aDeep * 100 + a.score);
+    });
   } else if (currentWhatNowEnergyLevel === 'random') {
-    const all = [...poolDailies, ...poolHousework, ...poolTodo, ...poolOther];
-    if (all.length > 0) {
-      chosen = all[Math.floor(Math.random() * all.length)];
-      estimatedMin = (chosen.cat === 'daily' || isHouseworkTask(chosen.task)) ? 10 : 25;
-    }
+    // Zufall
+    filteredCandidates.sort(() => Math.random() - 0.5);
   } else {
-    // Standard 'med' (Fokus)
-    estimatedMin = 20;
-    if (poolDailies.length > 0 && Math.random() < 0.5) {
-      chosen = poolDailies[0];
-    } else if (poolTodo.length > 0) {
-      chosen = poolTodo[0];
-    } else if (poolHousework.length > 0) {
-      chosen = poolHousework[0];
-    } else {
-      chosen = poolOther[0] || poolDailies[0] || null;
-    }
+    // Standard 'med' (Fokus): Höchster Score gewinnt
+    filteredCandidates.sort((a, b) => b.score - a.score);
   }
 
+  const chosen = filteredCandidates[0] || null;
   currentWhatNowChosen = chosen;
 
   if (!chosen) {
@@ -30682,75 +32467,71 @@ function pickRandomTask() {
     `;
     activeTimerTask = "";
     updateActiveTimerLabels();
-  } else {
-    suggestedTaskNamesInCurrentRun.push(chosen.task);
+    return;
+  }
 
-    const taskIdx = (state?.items?.[chosen.cat] || []).findIndex(item => {
-      if (!item) return false;
-      const taskVal = typeof item === 'object' ? item.task : item;
-      return taskVal === chosen.task;
-    });
+  suggestedTaskNamesInCurrentRun.push(chosen.task);
+  activeTimerTask = chosen.task;
+  updateActiveTimerLabels();
 
-    activeTimerTask = chosen.task;
-    updateActiveTimerLabels();
+  // Ermittle den ersten Kickstart-Schritt
+  let firstStep = "Schritt 1: Bereite deinen Arbeitsplatz vor und starte für 2 Minuten.";
+  const steps = getTaskStepsList(chosen.task);
+  if (steps && steps.length > 0) {
+    firstStep = cleanStepText(steps[0]);
+  }
 
-    // Ermittle den ersten Kickstart-Schritt
-    let firstStep = "Schritt 1: Bereite alles vor und starte mit nur 2 Minuten.";
-    const steps = getTaskStepsList(chosen.task);
-    if (steps && steps.length > 0) {
-      firstStep = cleanStepText(steps[0]);
-    }
+  const safeTask = chosen.task.replace(/'/g, "\\'");
+  const catLabel = typeof t === 'function' ? t(chosen.cat) : chosen.cat;
 
-    const safeTask = chosen.task.replace(/'/g, "\\'");
-    const catLabel = typeof t === 'function' ? t(chosen.cat) : chosen.cat;
-
-    box.className = "p-5 rounded-2xl bg-gradient-to-br from-[#16121c] to-[#0d0d14] border border-amber-500/40 shadow-xl space-y-4 text-left transition-all duration-300";
-    box.innerHTML = `
-      <div class="flex items-center justify-between gap-2">
-        <div class="flex items-center gap-1.5 flex-wrap">
-          <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/35 text-amber-300 font-bold text-[10px] uppercase tracking-wider font-mono">
-            ${escapeHtml(catLabel)}
-          </span>
-          <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-[10px] font-mono">
-            ⏱️ ~${estimatedMin} Min
-          </span>
-        </div>
-        <span class="text-[9px] text-gray-400 font-mono">Empfehlung #1</span>
+  box.className = "p-5 rounded-2xl bg-gradient-to-br from-[#16121c] to-[#0d0d14] border border-amber-500/35 shadow-xl space-y-4 text-left transition-all duration-300";
+  box.innerHTML = `
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold text-[10px] uppercase tracking-wider font-mono">
+          ${escapeHtml(catLabel)}
+        </span>
+        <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-[10px] font-mono">
+          ⏱️ ~${chosen.estMinutes} Min
+        </span>
       </div>
+      <span class="text-[9px] px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/25 text-amber-300 font-semibold font-mono">
+        ${escapeHtml(chosen.reasonLabel)}
+      </span>
+    </div>
 
-      <!-- Task Title -->
-      <div>
-        <h2 class="text-xl sm:text-2xl font-display font-black text-white leading-tight tracking-tight break-words">
-          ${escapeHtml(chosen.task)}
-        </h2>
-        <div class="mt-2 flex items-start gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 font-medium">
-          <span class="text-amber-400 shrink-0">🪜</span>
-          <span class="leading-relaxed"><strong class="text-white">Kickstart:</strong> ${escapeHtml(firstStep)}</span>
-        </div>
+    <!-- Task Title -->
+    <div>
+      <h2 class="text-xl sm:text-2xl font-display font-black text-white leading-tight tracking-tight break-words">
+        ${escapeHtml(chosen.task)}
+      </h2>
+      <div class="mt-2.5 flex items-start gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 font-medium">
+        <span class="text-amber-400 shrink-0">🪜</span>
+        <span class="leading-relaxed"><strong class="text-white">Kickstart-Schritt:</strong> ${escapeHtml(firstStep)}</span>
       </div>
+    </div>
 
-      <!-- Primary Action Buttons -->
-      <div class="space-y-2 pt-1">
-        <button onclick="startZenWithTask('${safeTask}', '${chosen.cat}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-500 hover:from-amber-400 hover:to-yellow-400 text-black font-black text-xs rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
-          <i data-lucide="play" class="w-4 h-4 fill-black"></i>
-          <span>Im Fokus starten [Space] 🧘</span>
+    <!-- Primary Action Buttons -->
+    <div class="space-y-2 pt-1">
+      <button onclick="startZenWithTask('${safeTask}', '${chosen.cat}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-black text-xs rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.25)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
+        <i data-lucide="play" class="w-4 h-4 fill-black"></i>
+        <span>Im Fokus starten [Space] 🧘</span>
+      </button>
+
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
+          <i data-lucide="timer" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>2-Min Start</span>
         </button>
 
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
-            <i data-lucide="timer" class="w-3.5 h-3.5 text-cyan-400"></i>
-            <span>2-Min Start</span>
-          </button>
-
-          <button onclick="completeWhatNowTask('${chosen.cat}', ${taskIdx})" class="py-2.5 px-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren (+XP)">
-            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-            <span>Erledigt (+XP)</span>
-          </button>
-        </div>
+        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2.5 px-3 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren (+XP)">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          <span>Erledigt (+XP)</span>
+        </button>
       </div>
-    `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-  }
+    </div>
+  `;
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
 
 
@@ -31273,7 +33054,7 @@ function updateUrgeDisplay() {
     const cycle = (90 - clarityUrgeSecondsLeft) % 12;
     if (cycle < 4) {
       breathEl.innerText = tr({ en: '💨 Inhale softly through the nose (4s)...', de: '💨 Sanft durch die Nase einatmen (4s)...', fr: '💨 Inspire doucement par le nez (4s)...', it: '💨 Inspira dolcemente dal naso (4s)...', es: '💨 Inhala suave por la nariz (4s)...', el: '💨 Εισπνεύστε απαλά (4δ)...' });
-      breathEl.className = 'text-xs font-bold text-teal-300 transition-colors animate-pulse';
+      breathEl.className = 'text-xs font-bold text-teal-300 transition-colors';
     } else if (cycle < 6) {
       breathEl.innerText = tr({ en: '⏸️ Hold gently & relax the jaw (2s)...', de: '⏸️ Sanft halten & Kiefer lockern (2s)...', fr: '⏸️ Maintiens doucement & relâche (2s)...', it: '⏸️ Trattieni & rilassa il viso (2s)...', es: '⏸️ Mantén y relaja la mandíbula (2s)...', el: '⏸️ Κράτημα & χαλάρωση (2δ)...' });
       breathEl.className = 'text-xs font-bold text-cyan-300 transition-colors';
@@ -31294,7 +33075,18 @@ function onUrgeSurfingComplete() {
     es: '🌱 ¡Superado con éxito! La ola ha pasado. Le diste espacio y claridad a tu mente.',
     el: '🌱 Εξαιρετικά! Το κύμα πέρασε. Χάρισες ηρεμία και διαύγεια στον εαυτό σου.'
   });
-  if (phraseEl) phraseEl.innerText = winMsg;
+  if (phraseEl) {
+    phraseEl.innerHTML = `
+      <div class="space-y-2 text-center">
+        <p class="text-xs text-teal-200 font-medium">${winMsg}</p>
+        <div class="pt-2 flex justify-center">
+          <button onclick="if(typeof startClarityMicroFocus === 'function') startClarityMicroFocus(10);" class="px-4 py-2 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black font-black text-xs rounded-2xl shadow-xl transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+            <span>🚀 Jetzt mit 10m Micro-Focus starten</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }
   if (typeof playCheerfulSuccessJingle === 'function') playCheerfulSuccessJingle();
   if (typeof triggerCelebration === 'function') triggerCelebration();
   if (typeof addGamificationXP === 'function') addGamificationXP(50, 'Klarheits-Welle');
@@ -31367,7 +33159,7 @@ const HALT_DATA = {
     }
   },
   dopamine: {
-    icon: 'sparkles',
+    icon: 'zap',
     color: 'teal',
     title: { de: 'Reiz-Hunger & Rastlosigkeit', en: 'Restlessness & Novelty Craving' },
     insight: {
@@ -32278,14 +34070,14 @@ function renderBrainstormUI() {
             <div class="group p-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-teal-500/40 rounded-xl transition flex flex-col gap-1.5 shadow-xs text-xs">
               <div class="flex items-start justify-between gap-1">
                 <span class="text-gray-200 font-medium leading-relaxed select-text">${escapeHtml(item.text)}</span>
-                <button onclick="deleteBrainstormIdea('${item.id}')" class="opacity-0 group-hover:opacity-100 p-0.5 text-gray-500 hover:text-red-400 transition cursor-pointer shrink-0">
+                <button onclick="deleteBrainstormIdea('${escapeAttr(item.id)}')" class="opacity-0 group-hover:opacity-100 p-0.5 text-gray-500 hover:text-red-400 transition cursor-pointer shrink-0">
                   <i data-lucide="trash-2" class="w-3 h-3"></i>
                 </button>
               </div>
               <div class="flex items-center gap-1 pt-1 border-t border-white/5 flex-wrap">
-                <button onclick="transferIdeaToBoard('${item.id}', 'heute')" class="px-1.5 py-0.5 rounded bg-teal-500/15 hover:bg-teal-500/30 text-teal-300 text-[9px] font-bold transition cursor-pointer">Heute</button>
-                <button onclick="transferIdeaToBoard('${item.id}', 'morgen')" class="px-1.5 py-0.5 rounded bg-indigo-500/15 hover:bg-indigo-500/30 text-indigo-300 text-[9px] font-bold transition cursor-pointer">Demnächst</button>
-                <button onclick="expandIdeaToMicroSteps('${item.id}')" class="px-1.5 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-[9px] font-bold transition cursor-pointer">Steps ✨</button>
+                <button onclick="transferIdeaToBoard('${escapeAttr(item.id)}', 'heute')" class="px-1.5 py-0.5 rounded bg-teal-500/15 hover:bg-teal-500/30 text-teal-300 text-[9px] font-bold transition cursor-pointer">Heute</button>
+                <button onclick="transferIdeaToBoard('${escapeAttr(item.id)}', 'morgen')" class="px-1.5 py-0.5 rounded bg-indigo-500/15 hover:bg-indigo-500/30 text-indigo-300 text-[9px] font-bold transition cursor-pointer">Demnächst</button>
+                <button onclick="expandIdeaToMicroSteps('${escapeAttr(item.id)}')" class="px-1.5 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-[9px] font-bold transition cursor-pointer">Steps ✨</button>
               </div>
             </div>
           `).join('')}
@@ -32314,14 +34106,14 @@ function renderBrainstormUI() {
             <span>${tagConfig.icon}</span>
             <span>${tagLabel}</span>
           </span>
-          <button onclick="toggleStarIdea('${item.id}')" class="p-1 text-sm ${starClass} transition cursor-pointer" title="${tr({ de: 'Favorit umschalten', en: 'Toggle favorite' })}">
+          <button onclick="toggleStarIdea('${escapeAttr(item.id)}')" class="p-1 text-sm ${starClass} transition cursor-pointer" title="${tr({ de: 'Favorit umschalten', en: 'Toggle favorite' })}">
             ${starIcon}
           </button>
         </div>
         
         <!-- Action Buttons -->
         <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition">
-          <button onclick="deleteBrainstormIdea('${item.id}')" aria-label="${tr({ de: 'Idee löschen', en: 'Delete idea' })}" class="p-1 rounded-md text-gray-500 hover:text-red-400 hover:bg-white/10 transition cursor-pointer" title="${tr({ de: 'Idee löschen', en: 'Delete idea' })}">
+          <button onclick="deleteBrainstormIdea('${escapeAttr(item.id)}')" aria-label="${tr({ de: 'Idee löschen', en: 'Delete idea' })}" class="p-1 rounded-md text-gray-500 hover:text-red-400 hover:bg-white/10 transition cursor-pointer" title="${tr({ de: 'Idee löschen', en: 'Delete idea' })}">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
           </button>
         </div>
@@ -32417,6 +34209,7 @@ if (typeof window !== 'undefined') {
   window.setBrainstormViewMode = setBrainstormViewMode;
   window.copyBrainstormAsMindmap = copyBrainstormAsMindmap;
   window.exportBrainstormAsActionPlan = exportBrainstormAsActionPlan;
+  window.getBrainstormIdeas = function() { return brainstormIdeas; };
 
 }
 
@@ -32448,7 +34241,728 @@ if (typeof globalThis !== 'undefined') {
   globalThis.setBrainstormViewMode = setBrainstormViewMode;
   globalThis.copyBrainstormAsMindmap = copyBrainstormAsMindmap;
   globalThis.exportBrainstormAsActionPlan = exportBrainstormAsActionPlan;
+  globalThis.getBrainstormIdeas = function() { return brainstormIdeas; };
 
+}
+
+
+/* --- helper-ocr-scanner.js --- */
+// ============================================================================
+// NOODLE HANDWRITING OCR & DOCUMENT SCANNER (helper-ocr-scanner.js)
+// Exklusiv integriert im Brainstorming Studio und in der Notizenkarte
+// ============================================================================
+
+let currentScannerContext = 'brainstorm'; // 'brainstorm' | 'notes' | 'note-detail'
+let currentScannerTargetId = null;
+let currentScannerMediaStream = null;
+let currentScannerImage = null; // HTMLImageElement or ImageBitmap
+let currentScannerFilter = 'doc'; // 'doc' | 'original' | 'sharpen'
+let currentScannerRotation = 0; // 0, 90, 180, 270
+let isOcrProcessing = false;
+let ocrWorkerInstance = null;
+
+// --- INITIALISIERUNG & MODAL-STEUERUNG ---
+
+function openNoteScannerModal(context = 'brainstorm', targetId = null) {
+  currentScannerContext = context;
+  currentScannerTargetId = targetId;
+  currentScannerImage = null;
+  currentScannerFilter = 'doc';
+  currentScannerRotation = 0;
+
+  const modal = document.getElementById('note-scanner-modal');
+  if (!modal) {
+    createNoteScannerModalDOM();
+  }
+  
+  const m = document.getElementById('note-scanner-modal');
+  if (m) {
+    m.classList.remove('hidden');
+    resetScannerUI();
+    updateScannerContextLabels();
+  }
+}
+window.openNoteScannerModal = openNoteScannerModal;
+
+function closeNoteScannerModal() {
+  stopScannerCamera();
+  const m = document.getElementById('note-scanner-modal');
+  if (m) m.classList.add('hidden');
+}
+window.closeNoteScannerModal = closeNoteScannerModal;
+
+function updateScannerContextLabels() {
+  const titleEl = document.getElementById('scanner-context-title');
+  const badgeEl = document.getElementById('scanner-context-badge');
+  const actionContainer = document.getElementById('scanner-action-buttons');
+  
+  if (titleEl && badgeEl) {
+    if (currentScannerContext === 'brainstorm') {
+      titleEl.innerText = tr({ de: 'Handschrift & Notizen erfassen', en: 'Capture Handwriting & Notes' });
+      badgeEl.innerText = 'BRAINSTORMING';
+      badgeEl.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-teal-500/20 text-teal-300 border border-teal-500/40';
+    } else {
+      titleEl.innerText = tr({ de: 'Notiz-Scan & Handschrift', en: 'Note Scan & Handwriting' });
+      badgeEl.innerText = 'NOTIZENKARTE';
+      badgeEl.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-amber-500/20 text-amber-300 border border-amber-500/40';
+    }
+  }
+
+  renderScannerActionButtons();
+}
+
+function renderScannerActionButtons() {
+  const container = document.getElementById('scanner-action-buttons');
+  if (!container) return;
+
+  if (currentScannerContext === 'brainstorm') {
+    container.innerHTML = `
+      <div class="flex flex-wrap items-center gap-2 justify-end w-full">
+        <select id="scanner-brainstorm-tag" class="bg-black/60 border border-teal-500/40 rounded-xl px-2.5 py-2 text-xs font-bold text-teal-300 outline-none cursor-pointer shadow-sm">
+          <option value="idea">💡 Als Ideen</option>
+          <option value="quickwin">⚡ Als Quick Wins</option>
+          <option value="project">🚀 Als Projekte</option>
+          <option value="question">❓ Als Fragen</option>
+          <option value="goal">🎯 Als Ziele</option>
+        </select>
+        <button onclick="importScannedTextToBrainstorm()" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-black font-bold text-xs shadow-lg transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+          <i data-lucide="lightbulb" class="w-4 h-4"></i>
+          <span>Als Ideen ins Brainstorming übernehmen</span>
+        </button>
+      </div>
+    `;
+  } else {
+    // Notizenkarte / Note Detail / Cross-Tool Bridge
+    container.innerHTML = `
+      <div class="flex flex-wrap items-center gap-2 justify-end w-full">
+        <button onclick="importScannedTextToNotes('notes')" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs shadow-lg transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+          <i data-lucide="sticky-note" class="w-3.5 h-3.5"></i>
+          <span>In Notizen</span>
+        </button>
+        <button onclick="importScannedTextToNotes('todo')" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 font-bold text-xs transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+          <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+          <span>Als Aufgaben</span>
+        </button>
+        <button onclick="if(typeof bridgeOcrToShopping === 'function'){ const txt = document.getElementById('scanner-ocr-result-text')?.value; bridgeOcrToShopping(txt); closeNoteScannerModal(); }" class="px-3 py-1.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 border border-teal-500/40 text-teal-300 font-bold text-xs transition cursor-pointer flex items-center gap-1.5 active:scale-95" title="Erkannte Posten direkt auf die Einkaufsliste setzen">
+          <i data-lucide="shopping-cart" class="w-3.5 h-3.5 text-teal-400"></i>
+          <span>Zur Einkaufsliste</span>
+        </button>
+      </div>
+    `;
+  }
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+}
+
+function resetScannerUI() {
+  const uploadStep = document.getElementById('scanner-upload-step');
+  const previewStep = document.getElementById('scanner-preview-step');
+  const ocrProgress = document.getElementById('scanner-ocr-progress');
+  const ocrTextarea = document.getElementById('scanner-ocr-result-text');
+
+  if (uploadStep) uploadStep.classList.remove('hidden');
+  if (previewStep) previewStep.classList.add('hidden');
+  if (ocrProgress) ocrProgress.classList.add('hidden');
+  if (ocrTextarea) ocrTextarea.value = '';
+
+  const fileInput = document.getElementById('scanner-file-input');
+  if (fileInput) fileInput.value = '';
+}
+
+// --- KAMERA STREAM & CAPTURE ---
+
+async function startScannerCamera() {
+  const video = document.getElementById('scanner-camera-video');
+  const camContainer = document.getElementById('scanner-camera-container');
+  const dropZone = document.getElementById('scanner-dropzone');
+  if (!video || !camContainer) return;
+
+  try {
+    stopScannerCamera();
+    const constraints = {
+      video: {
+        facingMode: { ideal: 'environment' },
+        width: { ideal: 1920 },
+        height: { ideal: 1080 }
+      }
+    };
+    currentScannerMediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+    video.srcObject = currentScannerMediaStream;
+    await video.play();
+
+    camContainer.classList.remove('hidden');
+    if (dropZone) dropZone.classList.add('hidden');
+  } catch (err) {
+    console.warn('[Scanner] Camera error:', err);
+    if (typeof showToast === 'function') {
+      showToast(tr({
+        de: '📷 Kamerazugriff nicht verfügbar oder abgelehnt. Bitte Foto hochladen.',
+        en: '📷 Camera access not available or denied. Please upload a photo.'
+      }));
+    }
+  }
+}
+window.startScannerCamera = startScannerCamera;
+
+function stopScannerCamera() {
+  if (currentScannerMediaStream) {
+    currentScannerMediaStream.getTracks().forEach(track => track.stop());
+    currentScannerMediaStream = null;
+  }
+  const video = document.getElementById('scanner-camera-video');
+  if (video) video.srcObject = null;
+  const camContainer = document.getElementById('scanner-camera-container');
+  const dropZone = document.getElementById('scanner-dropzone');
+  if (camContainer) camContainer.classList.add('hidden');
+  if (dropZone) dropZone.classList.remove('hidden');
+}
+window.stopScannerCamera = stopScannerCamera;
+
+function captureScannerPhoto() {
+  const video = document.getElementById('scanner-camera-video');
+  if (!video || !video.videoWidth) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  stopScannerCamera();
+
+  const img = new Image();
+  img.onload = () => {
+    currentScannerImage = img;
+    processAndDisplayScannedImage();
+    runOcrOnScannedImage();
+  };
+  img.src = canvas.toDataURL('image/jpeg', 0.92);
+}
+window.captureScannerPhoto = captureScannerPhoto;
+
+// --- DATEI-UPLOAD & DRAG-AND-DROP ---
+
+function handleScannerFileInput(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+  loadScannerImageFromFile(file);
+}
+window.handleScannerFileInput = handleScannerFileInput;
+
+function loadScannerImageFromFile(file) {
+  if (!file || !file.type.startsWith('image/')) {
+    if (typeof showToast === 'function') {
+      showToast('Bitte eine gültige Bilddatei (PNG, JPG, WebP) auswählen.');
+    }
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      currentScannerImage = img;
+      processAndDisplayScannedImage();
+      runOcrOnScannedImage();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// Paste Handler (Strg + V)
+if (typeof window !== 'undefined') {
+  window.addEventListener('paste', (e) => {
+    const modal = document.getElementById('note-scanner-modal');
+    if (!modal || modal.classList.contains('hidden')) return;
+
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].type.indexOf('image') !== -1) {
+        const blob = items[i].getAsFile();
+        if (blob) {
+          loadScannerImageFromFile(blob);
+          if (typeof showToast === 'function') {
+            showToast('📋 Bild aus Zwischenablage geladen!');
+          }
+          break;
+        }
+      }
+    }
+  });
+}
+
+// --- CANVAS-BILDOPTIMIERUNG (DOKUMENTEN-FILTER & KONTRAST) ---
+
+function setScannerFilter(filterName) {
+  currentScannerFilter = filterName;
+  processAndDisplayScannedImage();
+}
+window.setScannerFilter = setScannerFilter;
+
+function rotateScannerImage() {
+  currentScannerRotation = (currentScannerRotation + 90) % 360;
+  processAndDisplayScannedImage();
+}
+window.rotateScannerImage = rotateScannerImage;
+
+function processAndDisplayScannedImage() {
+  if (!currentScannerImage) return;
+
+  const canvas = document.getElementById('scanner-preview-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  
+  // Maße unter Berücksichtigung der Rotation bestimmen
+  const isRotated = currentScannerRotation === 90 || currentScannerRotation === 270;
+  const rawW = currentScannerImage.naturalWidth || currentScannerImage.width;
+  const rawH = currentScannerImage.naturalHeight || currentScannerImage.height;
+  
+  // Auf max 1600px für optimale Performance & OCR-Präzision skalieren
+  const maxDim = 1600;
+  let scale = 1;
+  if (Math.max(rawW, rawH) > maxDim) {
+    scale = maxDim / Math.max(rawW, rawH);
+  }
+  
+  const targetW = Math.round(rawW * scale);
+  const targetH = Math.round(rawH * scale);
+
+  canvas.width = isRotated ? targetH : targetW;
+  canvas.height = isRotated ? targetW : targetH;
+
+  ctx.save();
+  ctx.translate(canvas.width / 2, canvas.height / 2);
+  ctx.rotate((currentScannerRotation * Math.PI) / 180);
+  ctx.drawImage(currentScannerImage, -targetW / 2, -targetH / 2, targetW, targetH);
+  ctx.restore();
+
+  // Filter anwenden
+  if (currentScannerFilter === 'doc') {
+    applyDocumentScanFilter(ctx, canvas.width, canvas.height);
+  } else if (currentScannerFilter === 'sharpen') {
+    applyContrastSharpenFilter(ctx, canvas.width, canvas.height);
+  }
+
+  // UI-Umschaltung
+  const uploadStep = document.getElementById('scanner-upload-step');
+  const previewStep = document.getElementById('scanner-preview-step');
+  if (uploadStep) uploadStep.classList.add('hidden');
+  if (previewStep) previewStep.classList.remove('hidden');
+
+  updateFilterButtonsUI();
+}
+
+function applyDocumentScanFilter(ctx, width, height) {
+  const imgData = ctx.getImageData(0, 0, width, height);
+  const data = imgData.data;
+
+  // Grayscale & Adaptive High-Contrast Binarization
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    
+    // Helligkeit
+    const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+    
+    // Kontrast-S-Kurve (Weißes Papier wird reinweiß, Tinte tiefschwarz)
+    let val;
+    if (lum > 140) {
+      val = Math.min(255, lum * 1.35);
+    } else if (lum < 90) {
+      val = Math.max(0, lum * 0.6);
+    } else {
+      val = lum;
+    }
+
+    data[i] = val;
+    data[i + 1] = val;
+    data[i + 2] = val;
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+}
+
+function applyContrastSharpenFilter(ctx, width, height) {
+  const imgData = ctx.getImageData(0, 0, width, height);
+  const data = imgData.data;
+  const factor = 1.35; // Contrast Boost
+
+  for (let i = 0; i < data.length; i += 4) {
+    for (let c = 0; c < 3; c++) {
+      let val = data[i + c];
+      val = ((val / 255 - 0.5) * factor + 0.5) * 255;
+      data[i + c] = Math.max(0, Math.min(255, val));
+    }
+  }
+
+  ctx.putImageData(imgData, 0, 0);
+}
+
+function updateFilterButtonsUI() {
+  const btnDoc = document.getElementById('scanner-filter-btn-doc');
+  const btnOrig = document.getElementById('scanner-filter-btn-original');
+  const btnSharp = document.getElementById('scanner-filter-btn-sharpen');
+
+  const activeClass = 'px-3 py-1 rounded-xl text-xs font-bold bg-teal-500/30 border border-teal-400 text-teal-200 shadow-xs';
+  const inactiveClass = 'px-3 py-1 rounded-xl text-xs font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white';
+
+  if (btnDoc) btnDoc.className = currentScannerFilter === 'doc' ? activeClass : inactiveClass;
+  if (btnOrig) btnOrig.className = currentScannerFilter === 'original' ? activeClass : inactiveClass;
+  if (btnSharp) btnSharp.className = currentScannerFilter === 'sharpen' ? activeClass : inactiveClass;
+}
+
+// --- OCR ERKENNUNG (TESSERACT.JS MIT FALLBACK) ---
+
+async function runOcrOnScannedImage() {
+  const canvas = document.getElementById('scanner-preview-canvas');
+  const progressBox = document.getElementById('scanner-ocr-progress');
+  const progressText = document.getElementById('scanner-ocr-status-text');
+  const progressBar = document.getElementById('scanner-ocr-progress-bar');
+  const resultTextarea = document.getElementById('scanner-ocr-result-text');
+
+  if (!canvas || isOcrProcessing) return;
+
+  isOcrProcessing = true;
+  if (progressBox) progressBox.classList.remove('hidden');
+  if (progressText) progressText.innerText = 'Lade OCR-Handschriftenerkennung...';
+  if (progressBar) progressBar.style.width = '15%';
+
+  try {
+    // 1. Tesseract.js dynamisch laden, falls noch nicht im Scope
+    if (typeof Tesseract === 'undefined') {
+      if (progressText) progressText.innerText = 'Initialisiere OCR-Engine...';
+      await loadScript('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js');
+    }
+
+    if (typeof Tesseract !== 'undefined') {
+      if (progressText) progressText.innerText = 'Analysiere Handschrift & Notizen...';
+      if (progressBar) progressBar.style.width = '45%';
+
+      const langCode = (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'eng' : 'deu+eng';
+      
+      const { data: { text } } = await Tesseract.recognize(canvas, langCode, {
+        logger: (m) => {
+          if (m.status === 'recognizing text' && progressBar) {
+            const pct = Math.round((m.progress || 0) * 100);
+            progressBar.style.width = `${Math.max(45, pct)}%`;
+            if (progressText) progressText.innerText = `Erkenne Text: ${pct}%`;
+          }
+        }
+      });
+
+      const cleaned = postProcessOcrText(text);
+      if (resultTextarea) {
+        resultTextarea.value = cleaned;
+      }
+      if (progressBar) progressBar.style.width = '100%';
+      if (progressText) progressText.innerText = '✅ Handschrift erfolgreich erkannt!';
+      
+      if (typeof showToast === 'function') {
+        showToast(tr({ de: '✨ Handschriftliche Notiz erkannt!', en: '✨ Handwritten note recognized!' }));
+      }
+    } else {
+      throw new Error('Tesseract script not available');
+    }
+  } catch (err) {
+    console.warn('[Scanner] OCR fallback triggered:', err);
+    if (progressText) progressText.innerText = 'ℹ️ Bild geladen (Handschrift bitte kurz prüfen/ergänzen)';
+    if (resultTextarea && !resultTextarea.value.trim()) {
+      resultTextarea.value = '• Gescannte Notiz (' + new Date().toLocaleDateString() + ')\n';
+    }
+  } finally {
+    isOcrProcessing = false;
+    setTimeout(() => {
+      if (progressBox) progressBox.classList.add('hidden');
+    }, 1200);
+  }
+}
+window.runOcrOnScannedImage = runOcrOnScannedImage;
+
+function postProcessOcrText(rawText) {
+  if (!rawText) return '';
+  return rawText
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0 && !/^[\s|_\-+=*~`]+$/.test(line))
+    .join('\n');
+}
+window.postProcessOcrText = postProcessOcrText;
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) {
+      resolve();
+      return;
+    }
+    const s = document.createElement('script');
+    s.src = src;
+    s.onload = () => resolve();
+    s.onerror = (e) => reject(e);
+    document.head.appendChild(s);
+  });
+}
+
+// --- IMPORT-AKTIONEN ---
+
+function importScannedTextToBrainstorm() {
+  const textarea = document.getElementById('scanner-ocr-result-text');
+  const tagSelect = document.getElementById('scanner-brainstorm-tag');
+  const tag = tagSelect ? tagSelect.value : 'idea';
+  const text = textarea ? textarea.value.trim() : '';
+
+  if (!text) {
+    if (typeof showToast === 'function') showToast('Kein Text zum Importieren vorhanden.');
+    return;
+  }
+
+  if (typeof addBrainstormIdea === 'function') {
+    addBrainstormIdea(text, tag);
+  }
+
+  closeNoteScannerModal();
+  if (typeof openBrainstormModal === 'function') {
+    openBrainstormModal();
+  }
+}
+window.importScannedTextToBrainstorm = importScannedTextToBrainstorm;
+
+function importScannedTextToNotes(targetType = 'notes') {
+  const textarea = document.getElementById('scanner-ocr-result-text');
+  const text = textarea ? textarea.value.trim() : '';
+
+  if (!text) {
+    if (typeof showToast === 'function') showToast('Kein Text zum Importieren vorhanden.');
+    return;
+  }
+
+  if (currentScannerContext === 'note-detail') {
+    const detailTextarea = document.getElementById('note-detail-textarea');
+    if (detailTextarea) {
+      if (detailTextarea.value.trim()) {
+        detailTextarea.value += '\n\n' + text;
+      } else {
+        detailTextarea.value = text;
+      }
+    }
+    closeNoteScannerModal();
+    if (typeof showToast === 'function') {
+      showToast(tr({
+        de: '📝 Scan in Notiz eingefügt!',
+        en: '📝 Scan inserted into note!'
+      }));
+    }
+    return;
+  }
+
+  if (targetType === 'todo') {
+    // Einzelne Zeilen in die To-Do Spalte einfügen
+    if (typeof saveHistory === 'function') saveHistory();
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state.items || {});
+    if (!curItems.todo) curItems.todo = [];
+    
+    const lines = text.split('\n').map(l => l.replace(/^[-*•\d.]+\s*/, '').trim()).filter(l => l.length > 0);
+    lines.forEach(l => {
+      curItems.todo.push(l);
+    });
+    
+    if (typeof saveState === 'function') saveState();
+    if (typeof renderApp === 'function') renderApp();
+    if (typeof showToast === 'function') {
+      showToast(tr({
+        de: `🚀 ${lines.length} Aufgaben in To-Do Spalte angelegt!`,
+        en: `🚀 ${lines.length} tasks added to To-Do!`
+      }));
+    }
+  } else {
+    // In die Notizenkarte einfügen
+    if (typeof saveHistory === 'function') saveHistory();
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state.items || {});
+    if (!curItems.notes) curItems.notes = [];
+    curItems.notes.push(text);
+
+    if (typeof saveState === 'function') saveState();
+    if (typeof renderApp === 'function') renderApp();
+    if (typeof showToast === 'function') {
+      showToast(tr({
+        de: '📝 Notiz aus Scan erfolgreich gespeichert!',
+        en: '📝 Note from scan successfully saved!'
+      }));
+    }
+  }
+
+  closeNoteScannerModal();
+}
+window.importScannedTextToNotes = importScannedTextToNotes;
+
+// --- MODAL DOM GENERIERUNG ---
+
+function createNoteScannerModalDOM() {
+  const modalDiv = document.createElement('div');
+  modalDiv.id = 'note-scanner-modal';
+  modalDiv.className = 'hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in';
+  modalDiv.onclick = (e) => {
+    if (e.target === modalDiv) closeNoteScannerModal();
+  };
+
+  modalDiv.innerHTML = `
+    <div class="mobile-modal-card animate-spring-modal w-full max-w-2xl bg-[#0e0c18] border border-teal-500/40 p-4 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative flex flex-col max-h-[92vh] overflow-hidden" onclick="event.stopPropagation()">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10 select-none shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-teal-500/30 to-indigo-500/30 border border-teal-400/40 flex items-center justify-center text-teal-300 shadow-inner">
+            <i data-lucide="scan-line" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 id="scanner-context-title" class="text-sm sm:text-base font-bold font-display text-white">Handschrift & Notizen erfassen</h3>
+            <div class="flex items-center gap-2 mt-0.5">
+              <span id="scanner-context-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold font-mono bg-teal-500/20 text-teal-300 border border-teal-500/40">BRAINSTORMING</span>
+              <span class="text-[10px] text-gray-400">Kamera · Upload · Handschrift-OCR</span>
+            </div>
+          </div>
+        </div>
+        <button onclick="closeNoteScannerModal()" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white text-sm font-bold flex items-center justify-center transition cursor-pointer" title="Schließen">✕</button>
+      </div>
+
+      <!-- Scrollbarer Inhalt -->
+      <div class="flex-1 overflow-y-auto space-y-3.5 pr-1 custom-scrollbar min-h-0">
+        
+        <!-- 1. UPLOAD & KAMERA SCHRITT -->
+        <div id="scanner-upload-step" class="space-y-3">
+          
+          <!-- Dropzone / Auswahl-Optionen -->
+          <div id="scanner-dropzone" class="border-2 border-dashed border-teal-500/35 hover:border-teal-400 rounded-3xl p-6 sm:p-8 bg-black/40 text-center flex flex-col items-center justify-center gap-3 transition cursor-pointer group" onclick="document.getElementById('scanner-file-input').click()">
+            <input type="file" id="scanner-file-input" accept="image/*" class="hidden" onchange="handleScannerFileInput(event)" />
+            
+            <div class="w-14 h-14 rounded-2xl bg-teal-500/15 group-hover:bg-teal-500/25 border border-teal-500/30 group-hover:border-teal-400/60 flex items-center justify-center text-teal-300 group-hover:scale-110 transition duration-200 shadow-lg">
+              <i data-lucide="camera" class="w-7 h-7"></i>
+            </div>
+            
+            <div>
+              <h4 class="text-sm font-bold text-white mb-1">Notizblatt fotografieren oder Foto hochladen</h4>
+              <p class="text-xs text-gray-400 max-w-sm">Klicke zum Auswählen, ziehe ein Bild hierher oder drücke <kbd class="px-1.5 py-0.5 bg-white/10 rounded text-[10px] font-mono text-teal-300">Strg+V</kbd> zum Einfügen.</p>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-center gap-2 pt-1" onclick="event.stopPropagation()">
+              <button onclick="document.getElementById('scanner-file-input').click()" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-white font-bold text-xs transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+                <i data-lucide="upload" class="w-3.5 h-3.5 text-teal-300"></i>
+                <span>Foto auswählen</span>
+              </button>
+              <button onclick="startScannerCamera()" class="px-3.5 py-2 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 border border-teal-500/40 text-teal-200 font-bold text-xs transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+                <i data-lucide="video" class="w-3.5 h-3.5 text-teal-400"></i>
+                <span>Live-Kamera starten</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Kamera Stream Container (falls aktiviert) -->
+          <div id="scanner-camera-container" class="hidden relative rounded-3xl overflow-hidden border border-teal-500/50 bg-black aspect-video flex items-center justify-center shadow-2xl">
+            <video id="scanner-camera-video" playsinline autoplay class="w-full h-full object-cover"></video>
+            
+            <div class="absolute bottom-3 inset-x-0 flex items-center justify-center gap-3 z-20">
+              <button onclick="captureScannerPhoto()" class="px-5 py-2.5 rounded-2xl bg-teal-500 hover:bg-teal-400 text-black font-bold text-xs shadow-xl transition cursor-pointer flex items-center gap-2 active:scale-90">
+                <i data-lucide="camera" class="w-4 h-4"></i>
+                <span>Foto knipsen</span>
+              </button>
+              <button onclick="stopScannerCamera()" class="px-4 py-2.5 rounded-2xl bg-black/70 hover:bg-black/90 border border-white/20 text-gray-300 hover:text-white font-bold text-xs transition cursor-pointer">
+                Abbrechen
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. VORSCHAU & OCR-ERGEBNIS SCHRITT -->
+        <div id="scanner-preview-step" class="hidden space-y-3">
+          
+          <!-- Werkzeugleiste für Filter & Rotation -->
+          <div class="flex flex-wrap items-center justify-between gap-2 p-2 rounded-2xl bg-black/50 border border-white/10">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[11px] font-mono text-gray-400 mr-1">Filter:</span>
+              <button id="scanner-filter-btn-doc" onclick="setScannerFilter('doc')" class="px-3 py-1 rounded-xl text-xs font-bold bg-teal-500/30 border border-teal-400 text-teal-200 shadow-xs transition cursor-pointer">📄 Scan (S/W)</button>
+              <button id="scanner-filter-btn-sharpen" onclick="setScannerFilter('sharpen')" class="px-3 py-1 rounded-xl text-xs font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white transition cursor-pointer">✨ Schärfen</button>
+              <button id="scanner-filter-btn-original" onclick="setScannerFilter('original')" class="px-3 py-1 rounded-xl text-xs font-medium bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white transition cursor-pointer">🎨 Original</button>
+            </div>
+
+            <div class="flex items-center gap-1.5">
+              <button onclick="rotateScannerImage()" class="p-1.5 px-2.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-300 hover:text-white text-xs font-medium flex items-center gap-1 transition cursor-pointer" title="Bild um 90° drehen">
+                <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+                <span>90° Drehen</span>
+              </button>
+              <button onclick="resetScannerUI()" class="p-1.5 px-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-medium flex items-center gap-1 transition cursor-pointer">
+                <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+                <span>Neues Foto</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Split-View: Bild-Scan links, OCR-Text rechts -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 items-start">
+            
+            <!-- Scan-Vorschau (Canvas) -->
+            <div class="relative rounded-2xl overflow-hidden border border-teal-500/30 bg-black/60 flex items-center justify-center max-h-[280px] p-2">
+              <canvas id="scanner-preview-canvas" class="max-h-[260px] max-w-full object-contain rounded-lg shadow-md"></canvas>
+            </div>
+
+            <!-- OCR Text-Ergebnis (Live editierbar) -->
+            <div class="flex flex-col gap-1.5">
+              <div class="flex items-center justify-between text-xs font-bold text-gray-300">
+                <span class="flex items-center gap-1 text-teal-300">
+                  <i data-lucide="align-left" class="w-3.5 h-3.5"></i>
+                  <span>Erkannte Notizen & Stichpunkte:</span>
+                </span>
+                <button onclick="runOcrOnScannedImage()" class="text-[10.5px] text-teal-400 hover:text-teal-300 font-mono hover:underline cursor-pointer flex items-center gap-0.5">
+                  <i data-lucide="rotate-cw" class="w-3 h-3"></i>
+                  <span>Erneut scannen</span>
+                </button>
+              </div>
+
+              <!-- OCR Lade-Balken -->
+              <div id="scanner-ocr-progress" class="p-2 rounded-xl bg-teal-950/30 border border-teal-500/40 space-y-1">
+                <div class="flex items-center justify-between text-[10px] font-mono text-teal-300">
+                  <span id="scanner-ocr-status-text">Analysiere Handschrift...</span>
+                </div>
+                <div class="w-full h-1.5 bg-black/60 rounded-full overflow-hidden">
+                  <div id="scanner-ocr-progress-bar" class="h-full bg-gradient-to-r from-teal-400 to-emerald-400 transition-all duration-300 w-1/4"></div>
+                </div>
+              </div>
+
+              <textarea id="scanner-ocr-result-text" rows="8" placeholder="Erkannter Handschrifttext erscheint hier zur Überprüfung..." class="w-full p-3 bg-black/60 border border-teal-500/30 focus:border-teal-400 rounded-xl text-xs text-white placeholder:text-gray-500 font-mono leading-relaxed outline-none resize-none shadow-inner"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer & Kontext-Aktionen -->
+      <div class="pt-3 mt-3 border-t border-white/10 flex items-center justify-between gap-2 shrink-0">
+        <button onclick="closeNoteScannerModal()" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white text-xs font-semibold transition cursor-pointer">
+          Abbrechen
+        </button>
+        <div id="scanner-action-buttons">
+          <!-- Dynamisch gerendert via renderScannerActionButtons() -->
+        </div>
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(modalDiv);
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+}
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    openNoteScannerModal,
+    closeNoteScannerModal,
+    updateScannerContextLabels,
+    renderScannerActionButtons,
+    postProcessOcrText,
+    importScannedTextToBrainstorm,
+    importScannedTextToNotes
+  };
 }
 
 
@@ -32553,7 +35067,7 @@ const CLEANING_LEVELS_DATA = {
         title: 'Böden saugen & feucht wischen (10 Min)',
         desc: 'Von der hintersten Zimmerecke rückwärts Richtung Wohnungstür gründlich saugen und bei Hartböden kurz feucht nachwischen. Fenster auf!',
         why: 'Wer rückwärts zur Tür arbeitet, tritt nicht auf die frisch geputzte, feuchte Fläche.',
-        icon: 'sparkles'
+        icon: 'brush'
       }
     ]
   },
@@ -32600,7 +35114,7 @@ const CLEANING_LEVELS_DATA = {
         title: 'Küche & Bad auf Hochglanz polieren (15 Min)',
         desc: 'Duschkabine, Waschbecken, Spüle und Herd abspülen. Spiegel und Glasflächen mit Glasreiniger streifenfrei polieren.',
         why: 'Funkelnde Spiegel und blitzblanke Armaturen sind das optische Highlight jedes Raumes.',
-        icon: 'sparkles'
+        icon: 'brush'
       },
       {
         id: 'deep_6',
@@ -32614,7 +35128,7 @@ const CLEANING_LEVELS_DATA = {
         title: 'Böden intensiv saugen & feucht wischen (15 Min)',
         desc: 'Gründlich auch unter Sofas und Betten saugen. Mit warmem Bodenreiniger-Wasser von hinten nach vorn wischen. 10 Min durchlüften.',
         why: 'Der krönende Abschluss: Der Duft von sauberem Bodenwischwasser erfüllt die ganze Wohnung.',
-        icon: 'sparkles'
+        icon: 'brush'
       }
     ]
   }
@@ -32892,83 +35406,40 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- helper-learning.js --- */
-
-  // ============================================================================
-  // SPACED REPETITION & LEITNER BOX SYSTEM
-  // ============================================================================
-  const SR_STORAGE_KEY = 'noodle_flashcards_sr_v1';
-
-  function getSRData() {
-    try {
-      const raw = localStorage.getItem(SR_STORAGE_KEY);
-      return raw ? JSON.parse(raw) : {};
-    } catch (e) {
-      return {};
-    }
-  }
-
-  function saveSRData(data) {
-    try {
-      localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(data));
-    } catch (e) {}
-  }
-
-  function rateQuestionSR(questionId, rating) {
-    // rating: 'again' (Box 1), 'good' (Box +1), 'master' (Box 5)
-    const data = getSRData();
-    const entry = data[questionId] || { box: 1, streak: 0, lastReview: Date.now() };
-
-    if (rating === 'again') {
-      entry.box = 1;
-      entry.streak = 0;
-    } else if (rating === 'good') {
-      entry.box = Math.min(5, (entry.box || 1) + 1);
-      entry.streak = (entry.streak || 0) + 1;
-    } else if (rating === 'master') {
-      entry.box = 5;
-      entry.streak = (entry.streak || 0) + 3;
-    }
-    entry.lastReview = Date.now();
-    data[questionId] = entry;
-    saveSRData(data);
-
-    if (typeof showToast === 'function') {
-      showToast(`🧠 Leitner-Box: Stufe ${entry.box} / 5 gespeichert!`);
-    }
-    renderLearningSessionUI();
-  }
-
-// helper-learning.js: Deep Learning & Intelligent Quiz Engine
-// 100% Serverless, Offline-first, Adaptive Active Recall & Deep Knowledge Synthesis
-// Supports curated packs, dynamic custom topic synthesis, deep explanations & spaced repetition.
+// ============================================================================
+// NOODLE LEARNING HUB: DEEP LEARNING, FLASHCARDS & AI-QUIZ ENGINE
+// ============================================================================
+// 100% Serverless, Offline-First, Spaced Repetition (Leitner/SM-2), 3D Flashcards & Custom Decks
 
 (function() {
   'use strict';
 
-  // ============================================================================
-  // 1. DATA: CURATED DEEP KNOWLEDGE PACKS
-  // ============================================================================
+  const SR_STORAGE_KEY = 'noodle_flashcards_sr_v2';
+  const CUSTOM_PACKS_KEY = 'noodle_custom_learning_packs_v2';
 
+  // --------------------------------------------------------------------------
+  // 1. CURATED DEEP KNOWLEDGE PACKS
+  // --------------------------------------------------------------------------
   const CURATED_LEARNING_PACKS = {
     adhd_neuro: {
       id: 'adhd_neuro',
-      title: 'ADHS, Dopamin & Neurobiologie',
+      title: 'Neuro-Fokus, Dopamin & Kognitionsbiologie',
       icon: '🧠',
       color: 'purple',
-      desc: 'Exekutive Funktionen, Dopamin-Regulation, Reizfilter & Hyperfokus',
+      desc: 'Aktivierungs-Energie, Dopamin-Regulation, Reizfilter & Flow-Zustand',
       level: 'Praxis & Wissenschaft',
       questions: [
         {
           id: 'adhd_1',
-          question: 'Warum fällt Menschen mit ADHS der Start einer Aufgabe oft schwer, selbst wenn sie die Aufgabe erledigen wollen?',
+          question: 'Warum fällt der Start einer Aufgabe oft schwer, selbst wenn man sie unbedingt erledigen will?',
           options: [
             'Wegen mangelnder Disziplin und fehlender Willenskraft.',
             'Durch eine veränderte Dopamin-Wiederaufnahme im präfrontalen Kortex, die eine höhere Aktivierungsschwelle (Interest-based Nervous System) erfordert.',
-            'Weil das Kurzzeitgedächtnis bei ADHS grundsätzlich keine Aufgaben speichern kann.',
+            'Weil das Kurzzeitgedächtnis bei hoher Reizdichte keine Aufgaben speichern kann.',
             'Aufgrund eines chronisch überhöhten Serotoninspiegels, der passive Lethargie erzeugt.'
           ],
           correct: 1,
-          explanation: 'Das ADHS-Gehirn arbeitet mit einem „Interest-based Nervous System“: Die Dopamin-Transporter pumpen Dopamin im synaptischen Spalt zu schnell zurück. Ohne echtes Interesse, Dringlichkeit, Neuheit oder Herausforderung fehlt die biochemische Zündung.',
+          explanation: 'Das menschliche Motivationssystem arbeitet oft mit einem „Interest-based Nervous System“: Die Dopamin-Transporter pumpen Dopamin im synaptischen Spalt zu schnell zurück. Ohne echtes Interesse, Dringlichkeit, Neuheit oder Herausforderung fehlt die biochemische Zündung.',
           mnemonic: '💡 Merksatz: „Nicht Willensschwäche, sondern Zündkerzen-Mangel.“ — Dopamin ist der Treibstoff für den Handlungsstart.',
           pitfall: 'Option A verwechselt neurologische Dopamin-Verfügbarkeit fälschlicherweise mit Charakterfragen.'
         },
@@ -32982,13 +35453,13 @@ if (typeof globalThis !== 'undefined') {
             'Ein Zustand, bei dem man während des Schlafs die Orientierung verliert.'
           ],
           correct: 1,
-          explanation: 'ADHS-Gehirne erleben Zeit oft nicht als kontinuierliches Band, sondern binär: Entweder etwas passiert JETZT (und erfordert sofortige Aufmerksamkeit) oder es ist NICHT JETZT (und verschwindet aus dem Arbeitsfokus). Sichtbare Countdown-Timer machen Zeit physisch greifbar.',
+          explanation: 'Das Arbeitsgedächtnis erlebt Zeit oft nicht als kontinuierliches Band, sondern binär: Entweder etwas passiert JETZT oder NICHT JETZT. Sichtbare Countdown-Timer machen Zeit physisch greifbar.',
           mnemonic: '💡 Merksatz: „Mach Zeit sichtbar.“ — Visuelle Balken & Sanduhren überbrücken die Zeitblindheit.',
           pitfall: 'Option C beschreibt reines Daten-Vergessen, nicht das fehlende lineare Zeitgefühl während des Tuns.'
         },
         {
           id: 'adhd_3',
-          question: 'Was ist „Body Doubling“ und warum reduziert es Prokrastination signifikant?',
+          question: 'Was ist „Body Doubling“ (Fokus-Partner) und warum reduziert es Prokrastination signifikant?',
           options: [
             'Das Auslagern von Aufgaben an einen Doppelgänger oder Assistenten.',
             'Die physische oder virtuelle Anwesenheit einer anderen arbeitenden Person, die als sozialer Anker und externer Fokus-Stabilisator dient.',
@@ -32996,7 +35467,7 @@ if (typeof globalThis !== 'undefined') {
             'Eine psychologische Abspaltung bei Überlastung.'
           ],
           correct: 1,
-          explanation: 'Body Doubling nutzt die Spiegelneuronen und den sozialen Bezugsrahmen. Die ruhige Anwesenheit einer anderen Person (ohne Einmischung) signalisiert dem Nervensystem: „Wir sind im Arbeitsmodus“, was den inneren Widerstand senkt.',
+          explanation: 'Co-Working und Body Doubling nutzen die Spiegelneuronen und den sozialen Bezugsrahmen. Die ruhige Anwesenheit einer anderen Person (ohne Einmischung) signalisiert dem Nervensystem: „Wir sind im Arbeitsmodus“, was den inneren Widerstand senkt.',
           mnemonic: '💡 Merksatz: „Geteilte Präsenz halbiert die Reibung.“ — Coworking stabilisiert den Arbeitsfokus.',
           pitfall: 'Option A verwechselt Body Doubling mit Delegation; Option C mit Multitasking.'
         },
@@ -33010,9 +35481,9 @@ if (typeof globalThis !== 'undefined') {
             'Hyperfokus ist ein medizinisches Synonym für Schlaflosigkeit.'
           ],
           correct: 1,
-          explanation: 'ADHS ist kein genereller Mangel an Aufmerksamkeit, sondern eine Dysregulation. Wenn eine Tätigkeit fasziniert, schüttet das Belohnungssystem kontinuierlich Dopamin aus, was zu stundenlanger tiefer Versenkung ohne Ermüdungsgefühl führt.',
+          explanation: 'Tiefe Versenkung (Hyperfokus) ist kein genereller Mangel an Aufmerksamkeit, sondern eine intensive Selektion. Wenn eine Tätigkeit fasziniert, schüttet das Belohnungssystem kontinuierlich Dopamin aus, was zu stundenlanger tiefer Versenkung ohne Ermüdungsgefühl führt.',
           mnemonic: '💡 Merksatz: „Aufmerksamkeits-Flutlicht statt Scheinwerfer.“ — Hyperfokus kanalisiert Energie maximal.',
-          pitfall: 'Option A ist falsch: Hyperfokus lässt sich bei uninteressanten Pflichtaufgaben eben nicht einfach erzwingen.'
+          pitfall: 'Option A ist falsch: Hyperfokus lässt sich bei uninteressanten Pflichtaufgaben nicht einfach erzwingen.'
         },
         {
           id: 'adhd_5',
@@ -33024,14 +35495,13 @@ if (typeof globalThis !== 'undefined') {
             'Entscheidungen immer auf den späten Abend verschieben.'
           ],
           correct: 1,
-          explanation: 'Jede getroffene Entscheidung verbraucht Glukose und neuronale Ressourcen im präfrontalen Kortex. Durch feste Start-Rituale („Automatisierung der Banalitäten“) bleibt die geistige Frische für die eigentlichen Kernaufgaben erhalten.',
+          explanation: 'Jede getroffene Entscheidung verbraucht Glukose und neuronale Ressourcen im präfrontalen Kortex. Durch feste Start-Rituale bleibt die geistige Frische für die eigentlichen Kernaufgaben erhalten.',
           mnemonic: '💡 Merksatz: „Routinen befreien den Geist.“ — Schütze deine Morgen-Entscheidungen.',
           pitfall: 'Option A führt direkt zur Paralyse und verbraucht das Dopamin-Budget vor Arbeitsbeginn.'
         }
       ]
     },
 
-    
     productivity_science: {
       id: 'productivity_science',
       title: 'Produktivitäts- & Fokus-Wissenschaft',
@@ -33078,7 +35548,7 @@ if (typeof globalThis !== 'undefined') {
             'Die Anzahl der Herzschläge pro Stunde.'
           ],
           correct: 1,
-          explanation: 'Prof. Kleitman entdeckte: Wie im REM-Schlaf pulsiert auch unsere Wach-Aufmerksamkeit in 90-Minuten-Zyklen. Danach sinkt die neuronale Signalstärke; eine 15-minütige echte Pause lädt die Neurotransmitter wieder auf.',
+          explanation: 'Wie im REM-Schlaf pulsiert auch unsere Wach-Aufmerksamkeit in 90-Minuten-Zyklen. Danach sinkt die neuronale Signalstärke; eine 15-minütige echte Pause lädt die Neurotransmitter wieder auf.',
           mnemonic: '💡 Merksatz: „Surfe auf der 90-Minuten-Welle.“ — Arbeite intensiv im Peak, erhole dich im Tal.',
           pitfall: 'Option C bezieht sich auf Ernährung, nicht auf die Zyklen des zentralen Nervensystems.'
         }
@@ -33103,7 +35573,7 @@ if (typeof globalThis !== 'undefined') {
             'Adenosin verhindert die Aufnahme von Vitamin D.'
           ],
           correct: 1,
-          explanation: 'Koffein ist ein Antagonist: Es besetzt die Adenosin-Rezeptoren wie ein falscher Schlüssel im Schloss. Das Gehirn spürt die Müdigkeit nicht, während sich im Hintergrund immer mehr Adenosin anstaut. Lässt das Koffein nach, flutet das aufgestaute Adenosin die Rezeptoren (Koffein-Absturz).',
+          explanation: 'Koffein ist ein Antagonist: Es besetzt die Adenosin-Rezeptoren wie ein falscher Schlüssel im Schloss. Das Gehirn spürt die Müdigkeit nicht, während sich im Hintergrund immer mehr Adenosin anstaut. Lässt das Koffein nach, flutet das aufgestaute Adenosin die Rezeptoren.',
           mnemonic: '💡 Merksatz: „Koffein leiht Energie aus der Zukunft, erzeugt aber keine neue.“',
           pitfall: 'Option A ist falsch: Koffein baut Adenosin nicht ab, sondern maskiert es nur temporär.'
         },
@@ -33117,15 +35587,16 @@ if (typeof globalThis !== 'undefined') {
             'Ein Cardio-Intervall-Workout für den Abend.'
           ],
           correct: 1,
-          explanation: 'Forschung von Dr. Andrew Huberman zeigt: NSDR senkt die Herzfrequenzvariabilität, schaltet das Gehirn in Theta-Wellen und beschleunigt das Abspeichern kurz zuvor gelernter Fähigkeiten um ein Vielfaches.',
-          mnemonic: '💡 Merksatz: „Lernen geschieht im Tun, Festigung geschieht in der Ruhe.“ — 15 Min. NSDR ersetzen Stunden.',
-          pitfall: 'Option C ist falsch: NSDR ist eine reine physiologische Atem- und Körper-Technik, keine Chemie.'
+          explanation: 'NSDR senkt die Herzfrequenz, schaltet das Gehirn in regenerative Theta-Wellen und beschleunigt das Abspeichern kurz zuvor gelernter Fähigkeiten um ein Vielfaches.',
+          mnemonic: '💡 Merksatz: „Lernen geschieht im Tun, Festigung geschieht in der Ruhe.“',
+          pitfall: 'Option C ist falsch: NSDR ist eine reine physiologische Atem- und Körper-Technik.'
         }
       ]
     },
+
     stoicism_mental_models: {
       id: 'stoicism_mental_models',
-      title: 'Stoizismus & Denkmodelle',
+      title: 'Stoizismus & Mentale Denkmodelle',
       icon: '🏛️',
       color: 'amber',
       desc: 'Dichotomie der Kontrolle, Kritisches Denken & Mentale Heuristiken',
@@ -33141,9 +35612,9 @@ if (typeof globalThis !== 'undefined') {
             'Kontrolle ist eine Illusion, daher ist jedes Handeln sinnlos.'
           ],
           correct: 1,
-          explanation: 'Epiktet lehrte im Enchiridion: Seelenruhe (Ataraxie) entsteht, indem man 100% seiner Energie auf die eigenen Entscheidungen und Haltungen fokussiert, während man externe Umstände und Resultate gelassen annimmt.',
+          explanation: 'Epiktet lehrte: Seelenruhe (Ataraxie) entsteht, indem man 100% seiner Energie auf die eigenen Entscheidungen und Haltungen fokussiert, während man externe Umstände gelassen annimmt.',
           mnemonic: '💡 Merksatz: „Fokus auf den Bogen, nicht auf den Wind.“ — Kontrolliere den Schuss, akzeptiere das Ziel.',
-          pitfall: 'Option C ist der klassische Mythos über Stoizismus; Stoiker unterdrücken Gefühle nicht, sondern bewerten Reize weise.'
+          pitfall: 'Option C ist der klassische Mythos: Stoiker unterdrücken Gefühle nicht, sondern bewerten Reize weise.'
         },
         {
           id: 'stoic_2',
@@ -33155,9 +35626,9 @@ if (typeof globalThis !== 'undefined') {
             'Man wechselt alle 5 Minuten das Thema.'
           ],
           correct: 0,
-          explanation: '„Invert, always invert“: Anstatt zu fragen „Wie werde ich erfolgreich?“, fragt man „Was garantiert mein Scheitern?“ (z. B. Schlafmangel, Unzuverlässigkeit, Impulsivität). Das systematische Vermeiden von Dummheit ist oft leichter als Genialität.',
-          mnemonic: '💡 Merksatz: „Vermeide die Klippe, statt fliegen zu lernen.“ — Vermeidung von Fehlern schlägt Heldentum.',
-          pitfall: 'Option C (reines Toxic Positivity) blendet Risiken aus, während Inversion Risiken präventiv entschärft.'
+          explanation: '„Invert, always invert“: Anstatt zu fragen „Wie werde ich erfolgreich?“, fragt man „Was garantiert mein Scheitern?“. Das systematische Vermeiden von Dummheit ist oft leichter als Genialität.',
+          mnemonic: '💡 Merksatz: „Vermeide die Klippe, statt fliegen zu lernen.“ — Fehlervermeidung schlägt Heldentum.',
+          pitfall: 'Option C (Toxic Positivity) blendet Risiken aus, während Inversion Risiken präventiv entschärft.'
         },
         {
           id: 'stoic_3',
@@ -33169,37 +35640,9 @@ if (typeof globalThis !== 'undefined') {
             'Dass komplexe Erklärungen immer tiefer und wahrer sind als einfache.'
           ],
           correct: 1,
-          explanation: 'Ockhams Rasiermesser schneidet unnötige Spekulationen ab. Wenn jemand nicht sofort antwortet, ist die einfachste Erklärung „beschäftigt oder vergessen“, nicht eine absurde Verschwörung.',
+          explanation: 'Ockhams Rasiermesser schneidet unnötige Spekulationen ab. Die sparsamste und plausibelste Annahme gewinnt.',
           mnemonic: '💡 Merksatz: „Schneide den Spekulations-Ballast ab.“ — Die sparsamste Annahme gewinnt.',
-          pitfall: 'Option D ist ein Denkfehler: Komplexität wird oft fälschlicherweise mit Weisheit verwechselt.'
-        },
-        {
-          id: 'stoic_4',
-          question: 'Was meint das Prinzip „Amor Fati“ (Liebe zum Schicksal)?',
-          options: [
-            'Schicksalsschläge nur mit Zähneknirschen zu ertragen.',
-            'Jedes Ereignis – auch Rückschläge und Hindernisse – nicht nur zu tolerieren, sondern als notwendiges Material für persönliches Wachstum und Charakter zu umarmen.',
-            'Fatalismus: Man glaubt, dass alles vorherbestimmt ist und nichts geändert werden kann.',
-            'Die Liebe zu romantischen Geschichten.'
-          ],
-          correct: 1,
-          explanation: 'Von Nietzsche geprägt und bei Marc Aurel verankert: „Das Hindernis für die Handlung fördert die Handlung. Was im Weg steht, wird zum Weg.“ Rückschläge sind Übungsfelder für Geduld, Mut und Kreativität.',
-          mnemonic: '💡 Merksatz: „Hindernisse sind Brennstoff.“ — Das Feuer verbrennt nicht am Holz, es wächst daran.',
-          pitfall: 'Option C beschreibt passiven Fatalismus, während Amor Fati aktive, freudige Gestaltungskraft ist.'
-        },
-        {
-          id: 'stoic_5',
-          question: 'Was besagt „Hanlons Rasiermesser“ (Hanlon’s Razor)?',
-          options: [
-            'Schreibe niemals der Bosheit zu, was durch Unwissenheit oder Gedankenlosigkeit hinreichend erklärt werden kann.',
-            'Wer zuerst kommt, mahlt zuerst.',
-            'Jeder Mensch handelt immer aus egoistischen Motiven.',
-            'Man sollte niemals mit Fremden sprechen.'
-          ],
-          correct: 0,
-          explanation: 'Menschen machen Fehler aus Hektik, Übermüdung oder Stress – selten aus böser Absicht gegen uns. Diese Heuristik verhindert unnötige Paranoia, Groll und verletzte Gefühle im Alltag.',
-          mnemonic: '💡 Merksatz: „Verzeihe Hektik, vermute nicht Bosheit.“ — Schont Nerven und Beziehungen.',
-          pitfall: 'Option C unterstellt universelle Bosheit/Egoismus – genau das Gegenteil von Hanlons Prinzip.'
+          pitfall: 'Option D ist ein Denkfehler: Komplexität wird fälschlicherweise mit Weisheit verwechselt.'
         }
       ]
     },
@@ -33222,7 +35665,7 @@ if (typeof globalThis !== 'undefined') {
             'Promises blockieren den Browser-Thread synchron bis zur Serverantwort.'
           ],
           correct: 1,
-          explanation: 'Nach jeder Ausführung einer synchronen Task leert die JS-Engine die gesamte Microtask-Queue (Promises, queueMicrotask, MutationObserver). Erst danach wird der nächste Macrotask (setTimeout, setInterval, I/O) aus der Task-Queue entnommen.',
+          explanation: 'Nach jeder Ausführung einer synchronen Task leert die JS-Engine die gesamte Microtask-Queue (Promises, queueMicrotask). Erst danach wird der nächste Macrotask aus der Task-Queue entnommen.',
           mnemonic: '💡 Merksatz: „Microtasks räumen den Tisch ab, bevor die nächste Runde serviert wird.“',
           pitfall: 'Option A ist falsch: setTimeout(..., 0) wartet immer, bis alle anstehenden Promise-Callbacks fertig sind.'
         },
@@ -33236,193 +35679,112 @@ if (typeof globalThis !== 'undefined') {
             'Dass die Schnittstelle in unter 50 Millisekunden antwortet.'
           ],
           correct: 1,
-          explanation: 'Ein idempotent ausgelegter Endpunkt (z. B. DELETE /item/123 oder PUT /user/profile) ändert den Zustand beim 2. oder 10. Aufruf nicht weiter. POST ist typischerweise nicht idempotent (erzeugt mehrfache Ressourcen).',
+          explanation: 'Ein idempotent ausgelegter Endpunkt ändert den Zustand beim 2. oder 10. Aufruf nicht weiter. POST ist typischerweise nicht idempotent.',
           mnemonic: '💡 Merksatz: „Lichtschalter AN: 1x oder 10x drücken = Licht bleibt AN.“',
-          pitfall: 'Option D beschreibt Latenz/Performance, nicht das mathematische Konzept der Zustandskonsistenz.'
-        },
-        {
-          id: 'code_3',
-          question: 'Welches Sicherheitsrisiko wird durch konsequentes HTML-Entity-Escaping und DOMPurify bei Nutzereingaben verhindert?',
-          options: [
-            'Distributed Denial of Service (DDoS)',
-            'Cross-Site Scripting (XSS), bei dem bösartiger JavaScript-Code in den Browser anderer Nutzer injiziert wird.',
-            'SQL-Injection im Backend.',
-            'Physischer Festplattendefekt auf dem Server.'
-          ],
-          correct: 1,
-          explanation: 'Wenn rohe Benutzereingaben unescaped via innerHTML ins DOM gerendert werden, kann ein Angreifer script-Tags oder onload/onerror-Attribute einschleusen und Session-Tokens abgreifen.',
-          mnemonic: '💡 Merksatz: „Traue keinem User-Input: Erst desinfizieren, dann rendern.“',
-          pitfall: 'Option C (SQL Injection) betrifft Datenbankabfragen im Backend, nicht das clientseitige Browser-DOM.'
-        },
-        {
-          id: 'code_4',
-          question: 'Wofür steht das „Single Responsibility Principle“ (SRP) in den SOLID-Prinzipien?',
-          options: [
-            'Jedes Programm darf nur von einem einzigen Entwickler geschrieben werden.',
-            'Ein Modul oder eine Klasse sollte genau einen wohl definierten Grund haben, sich zu ändern (eine einzige Verantwortlichkeit).',
-            'Alle Funktionen müssen in einer einzigen Datei liegen.',
-            'Es darf pro Server nur ein CPU-Kern genutzt werden.'
-          ],
-          correct: 1,
-          explanation: 'SRP verhindert monströse "God Objects". Wenn eine Klasse gleichzeitig UI rendert, Netzwerk-Requests sendet und Daten speichert, führt jede Änderung an einem Teil zu Seiteneffekten im gesamten System.',
-          mnemonic: '💡 Merksatz: „Ein Werkzeug, eine Aufgabe.“ — Trenne Datenlogik von Darstellung.',
-          pitfall: 'Option C ist das Gegenteil von modularer Architektur.'
-        },
-        {
-          id: 'code_5',
-          question: 'Was ist der Hauptvorteil von zustandslosen (stateless) Client-Architekturen mit LocalStorage & P2P gegenüber serverbasierten Sessions?',
-          options: [
-            'Keine Serverkosten, 100% Datenschutz (Zero-Data-Retention auf Fremdservern) und vollkommene Offline-Resilienz.',
-            'Dass Daten automatisch im gesamten Internet öffentlich sichtbar sind.',
-            'Dass JavaScript nicht mehr kompiliert werden muss.',
-            'Dass Bilder eine höhere Auflösung erhalten.'
-          ],
-          correct: 0,
-          explanation: 'Local-First-Apps arbeiten unabhängig von Server-Verfügbarkeiten. Daten bleiben auf dem Gerät des Nutzers, Latenzen sind 0 ms und die App funktioniert im Flugzeug ebenso wie in abgelegenen Regionen.',
-          mnemonic: '💡 Merksatz: „Local-First = Dein Gerät ist die primäre Quelle der Wahrheit.“',
-          pitfall: 'Option B ist falsch: Lokale Speicherung schützt Privatsphäre maximal, statt Daten zu veröffentlichen.'
+          pitfall: 'Option D beschreibt Latenz/Performance, nicht Zustandskonsistenz.'
         }
       ]
     },
 
-    science_universe: {
-      id: 'science_universe',
-      title: 'Kosmos, Quanten & Naturwissenschaften',
-      icon: '🌌',
-      color: 'indigo',
-      desc: 'Quantenmechanik, Entropie, Relativität & biologische Systeme',
-      level: 'Wissenschaft & Natur',
+    cognitive_biases: {
+      id: 'cognitive_biases',
+      title: 'Kognitive Biases & Rationales Entscheiden',
+      icon: '🎯',
+      color: 'rose',
+      desc: 'Confirmation Bias, Dunning-Kruger, Availability & Anchoring',
+      level: 'Psychologie & Kognition',
       questions: [
         {
-          id: 'sci_1',
-          question: 'Was beschreibt der 2. Hauptsatz der Thermodynamik (Entropiesatz) für geschlossene Systeme?',
+          id: 'bias_1',
+          question: 'Was beschreibt der „Confirmation Bias“ (Bestätigungsfehler)?',
           options: [
-            'Energie kann aus dem Nichts erschaffen werden.',
-            'Die Entropie (das Maß für Unordnung bzw. mikroskopische Zustandsvielfalt) nimmt in einem isolierten System spontan niemals ab, sondern strebt ein Maximum an.',
-            'Kälte fließt von selbst in heißere Körper über.',
-            'Die Lichtgeschwindigkeit verdoppelt sich bei sinkender Temperatur.'
+            'Dass man eine Bestätigungs-E-Mail nach einem Kauf erhält.',
+            'Die unbewusste Tendenz, nur Informationen wahrzunehmen und zu suchen, die die eigene bestehende Meinung stützen, während Gegenbeweise ignoriert oder abgewertet werden.',
+            'Die Fähigkeit, mathematische Beweise fehlerfrei zu bestätigen.',
+            'Dass man anderen Menschen grundsätzlich immer zustimmt.'
           ],
           correct: 1,
-          explanation: 'Der 2. Hauptsatz erklärt den Zeitpfeil: Wärme fließt nur von warm nach kalt, ein zerbrochenes Glas setzt sich nicht von selbst zusammen. Ordnung aufrechtzuerhalten erfordert immer kontinuierliche Energiezufuhr (z. B. Aufräumen, biologisches Leben).',
-          mnemonic: '💡 Merksatz: „Ordnung braucht Energie — Unordnung passiert von allein.“',
-          pitfall: 'Option A widerspricht dem 1. Hauptsatz (Energieerhaltungssatz).'
+          explanation: 'Das Gehirn schützt sein bestehendes Weltbild, um kognitive Dissonanz zu vermeiden. Echte Rationalität erfordert das aktive Suchen nach widerlegenden Beweisen (Falsifikation).',
+          mnemonic: '💡 Merksatz: „Suche nach dem Gegenbeweis, nicht nach dem Schulterklopfen.“',
+          pitfall: 'Option D beschreibt soziale Gefälligkeit (People Pleasing), nicht den kognitiven Bestätigungsfehler.'
         },
         {
-          id: 'sci_2',
-          question: 'Was besagt die Heisenbergsche Unschärferelation in der Quantenphysik?',
+          id: 'bias_2',
+          question: 'Was kennzeichnet den „Dunning-Kruger-Effekt“?',
           options: [
-            'Dass Wissenschaftler ungenaue Messgeräte benutzen.',
-            'Dass zwei komplementäre Eigenschaften eines Teilchens (wie Ort und Impuls) prinzipiell nicht gleichzeitig beliebig genau bestimmt werden können.',
-            'Dass alle physikalischen Gesetze reine Schätzungen sind.',
-            'Dass Atome größer sind als Planeten.'
+            'Dass erfahrene Meister sich selbst stark überschätzen.',
+            'Dass Personen mit geringem Wissen in einem Bereich ihre eigene Inkompetenz nicht erkennen und ihr Können drastisch überschätzen, während Experten zu Zweifeln neigen.',
+            'Ein Gesetz über das schnelle Erlernen von Fremdsprachen.',
+            'Eine Technik zur Reduzierung von Arbeitsstress.'
           ],
           correct: 1,
-          explanation: 'Die Unschärfe ist keine technische Messungenauigkeit, sondern eine fundamentale Welle-Teilchen-Natur der Realität. Je exakter der Ort eines Elektrons eingegrenzt wird, desto unbestimmter wird sein Impuls.',
-          mnemonic: '💡 Merksatz: „Je schärfer der Ort, desto unschärfer die Bewegung.“',
-          pitfall: 'Option A verwechselt fundamentale Quanten-Grenzen mit fehlerhaften Messinstrumenten.'
-        },
-        {
-          id: 'sci_3',
-          question: 'Wie erklärt Einsteins Allgemeine Relativitätstheorie das Phänomen der Gravitation?',
-          options: [
-            'Masse und Energie krümmen die vierdimensionale Raumzeit; Körper folgen lediglich den geradesten Linien (Geodäten) in diesem gekrümmten Raum.',
-            'Als unsichtbare Seile, die zwischen Planeten gespannt sind.',
-            'Durch magnetische Abstoßung im Vakuum.',
-            'Durch die Reibung der Planeten an der Atmosphäre des Alls.'
-          ],
-          correct: 0,
-          explanation: '„Die Materie sagt dem Raum, wie er sich krümmen soll; der Raum sagt der Materie, wie sie sich bewegen soll.“ (John Wheeler). Licht wird in der Nähe schwerer Sterne abgelenkt, weil der Raum selbst gekrümmt ist.',
-          mnemonic: '💡 Merksatz: „Masse dellt das Raum-Gewebe ein.“ — Gravitation ist Geometrie.',
-          pitfall: 'Option B & C sind überholte oder physikalisch unhaltbare Vorstellungen.'
-        },
-        {
-          id: 'sci_4',
-          question: 'Warum ist die Zell-Autophagie (Nobelpreis 2016) für die Langlebigkeit so entscheidend?',
-          options: [
-            'Weil sie neue Fettzellen produziert.',
-            'Weil die Zelle beschädigte Proteine, defekte Zellorganellen und Abfallstoffe recycelt und als Bausteine für Erneuerung nutzt.',
-            'Weil sie das Herz schneller schlagen lässt.',
-            'Weil sie das Schlafen überflüssig macht.'
-          ],
-          correct: 1,
-          explanation: 'Autophagie ist die körpereigene Müllabfuhr. Bei Fastenphasen oder Bewegung schaltet die Zelle auf Selbstreinigung um: Toxische Protein-Plaques und alte Mitochondrien werden enzymatisch zerlegt.',
-          mnemonic: '💡 Merksatz: „Zelluläres Recycling statt Müllhalde.“ — Fasten stößt den Hausputz der Zellen an.',
-          pitfall: 'Option A beschreibt Fettaufbau, das Gegenteil des metabolischen Schalters der Autophagie.'
-        },
-        {
-          id: 'sci_5',
-          question: 'Was ist „Quantenverschränkung“ (Quantum Entanglement)?',
-          options: [
-            'Das Verknoten von Kabeln hinter dem Schreibtisch.',
-            'Ein Zustand, bei dem zwei Teilchen so gekoppelt sind, dass die Messung des Zustands des einen instantan den Zustand des anderen bestimmt — unabhängig von der Distanz.',
-            'Eine chemische Bindung zwischen Wasserstoff und Sauerstoff.',
-            'Die Gravitationsanziehung der Erde auf den Mond.'
-          ],
-          correct: 1,
-          explanation: 'Einstein nannte es „spukhafte Fernwirkung“. Zwei verschränkte Photonen bilden ein gemeinsames quantenmechanisches System. Wird der Spin von Teilchen A gemessen, steht der von Teilchen B im selben Augenblick fest.',
-          mnemonic: '💡 Merksatz: „Zwei Seiten derselben Münze, auch Lichtjahre voneinander entfernt.“',
-          pitfall: 'Option C beschreibt kovalente chemische Bindungen, keine Quantenverschränkung.'
-        }
-      ]
-    },
-
-    financial_intelligence: {
-      id: 'financial_intelligence',
-      title: 'Finanzen & Verhaltensökonomik',
-      icon: '📈',
-      color: 'emerald',
-      desc: 'Zinseszins, 72er-Regel, Sunk-Cost-Falle & Risikomanagement',
-      level: 'Wirtschaft & Wohlstand',
-      questions: [
-        {
-          id: 'fin_1',
-          question: 'Wie funktioniert die „72er-Regel“ zur schnellen Berechnung von Zinseszins-Verdopplungen?',
-          options: [
-            'Man teilt 72 durch den jährlichen Zinssatz in Prozent — das Ergebnis ist die ungefähre Anzahl der Jahre bis zur Verdopplung des Kapitals.',
-            'Man muss 72 Jahre lang sparen, um Millionär zu werden.',
-            'Man multipliziert das Einkommen mit 72.',
-            'Man darf maximal 72 Euro pro Monat ausgeben.'
-          ],
-          correct: 0,
-          explanation: 'Bei 7% Rendite verdoppelt sich das Geld in ca. 72 / 7 ≈ 10,3 Jahren. Bei 10% Zinsen in nur 7,2 Jahren. Dies veranschaulicht die gewaltige Hebelkraft des Zinseszins-Effekts über die Zeit.',
-          mnemonic: '💡 Merksatz: „72 / Rendite = Verdopplungsjahre.“ — Schnelle mentale Mathematik für Geld.',
-          pitfall: 'Option B ignoriert Zinssätze und mathematische Exponentialfunktionen.'
-        },
-        {
-          id: 'fin_2',
-          question: 'Was beschreibt die „Sunk Cost Fallacy“ (Versunkene-Kosten-Falle)?',
-          options: [
-            'Dass Schiffe auf dem Meeresgrund an Wert verlieren.',
-            'Die Tendenz, an einem verlustreichen Vorhaben festzuhalten, nur weil man bereits viel Zeit, Geld oder Mühe investiert hat — obwohl die Zukunftsaussichten negativ sind.',
-            'Das automatische Sparen von Cent-Beträgen.',
-            'Eine Steuerbefreiung für gemeinnützige Vereine.'
-          ],
-          correct: 1,
-          explanation: 'Bereits ausgegebenes Geld oder vergangene Zeit sind verloren und können nicht zurückgeholt werden („sunk“). Rationale Entscheidungen müssen ausschließlich zukünftige Kosten und zukünftigen Nutzen bewerten.',
-          mnemonic: '💡 Merksatz: „Gutes Geld nicht schlechtem hinterherwerfen.“ — Vergangene Kosten sind vergangen.',
-          pitfall: 'Option A nimmt die Redewendung wortwörtlich statt als psychologischen Fehlschluss.'
-        },
-        {
-          id: 'fin_3',
-          question: 'Was ist der primäre Zweck eines „Notgroschens“ (Emergency Fund von 3-6 Monatsausgaben)?',
-          options: [
-            'Möglichst hohe spekulative Kursgewinne an der Börse erzielen.',
-            'Psychologische Ruhe und finanzielle Resilienz, um bei plötzlichen Reparaturen oder Jobwechseln nicht zu teuren Konsumkrediten oder Notverkäufen gezwungen zu sein.',
-            'Um am Jahresende Luxusartikel zu kaufen.',
-            'Damit die Bank Gebühren erlassen kann.'
-          ],
-          correct: 1,
-          explanation: 'Ein Notgroschen ist keine Rendite-Anlage, sondern eine emotionale und finanzielle Versicherung. Er schützt das langfristige Investitions-Depot davor, in Markttiefs panisch liquidiert werden zu müssen.',
-          mnemonic: '💡 Merksatz: „Liquidität kauft Seelenruhe.“ — Sicherheit geht vor Rendite.',
-          pitfall: 'Option A verwechselt Notfall-Liquidität auf dem Tagesgeld mit spekulativem Risikokapital.'
+          explanation: 'Um eigene Fehler zu erkennen, benötigt man genau jene Fachkompetenz, die einem Anfänger noch fehlt („Mount Stupid“). Erst mit tieferem Wissen begreift man die wahre Komplexität.',
+          mnemonic: '💡 Merksatz: „Wenig Wissen erzeugt Gewissheit — tiefes Wissen erzeugt Demut.“',
+          pitfall: 'Option A vertauscht die Rollen von Anfängern und Experten.'
         }
       ]
     }
   };
 
-  // ============================================================================
-  // 2. STATE & GENERATOR ENGINE
-  // ============================================================================
+  // --------------------------------------------------------------------------
+  // 2. SPACED REPETITION & LEITNER ENGINE
+  // --------------------------------------------------------------------------
+  const LEITNER_INTERVALS_DAYS = [1, 3, 7, 14, 30]; // Box 1 to 5
+
+  function getSRData() {
+    try {
+      const raw = localStorage.getItem(SR_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveSRData(data) {
+    try {
+      localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function rateQuestionSR(questionId, rating) {
+    // rating: 'again' (Box 1), 'good' (+1 Box), 'master' (Box 5)
+    const data = getSRData();
+    const entry = data[questionId] || { box: 1, streak: 0, lastReview: Date.now(), reps: 0 };
+
+    if (rating === 'again') {
+      entry.box = 1;
+      entry.streak = 0;
+    } else if (rating === 'good') {
+      entry.box = Math.min(5, (entry.box || 1) + 1);
+      entry.streak = (entry.streak || 0) + 1;
+    } else if (rating === 'master') {
+      entry.box = 5;
+      entry.streak = (entry.streak || 0) + 3;
+    }
+
+    entry.reps = (entry.reps || 0) + 1;
+    entry.lastReview = Date.now();
+    const daysToAdd = LEITNER_INTERVALS_DAYS[entry.box - 1] || 1;
+    entry.nextReview = Date.now() + (daysToAdd * 24 * 60 * 60 * 1000);
+
+    data[questionId] = entry;
+    saveSRData(data);
+
+    if (typeof showToast === 'function') {
+      showToast(`🧠 Leitner-Box: Stufe ${entry.box}/5 gespeichert (Nächste Wdh: in ${daysToAdd}T)`);
+    }
+
+    if (typeof playProceduralSound === 'function') playProceduralSound(3);
+
+    renderLearningSessionUI();
+    return entry;
+  }
+
+  // --------------------------------------------------------------------------
+  // 3. STATE & LEARNING SESSION CONTROLLER
+  // --------------------------------------------------------------------------
+  let currentLearningMode = 'quiz'; // 'quiz' | 'flashcard' | 'decks'
+  let isFlashcardFlipped = false;
 
   let activeLearningSession = {
     packId: 'adhd_neuro',
@@ -33443,7 +35805,7 @@ if (typeof globalThis !== 'undefined') {
 
   function loadLearningStorage() {
     try {
-      const savedCustom = localStorage.getItem('flow_learning_custom_packs');
+      const savedCustom = localStorage.getItem(CUSTOM_PACKS_KEY);
       if (savedCustom) customPacksStorage = JSON.parse(savedCustom);
 
       const savedMistakes = localStorage.getItem('flow_learning_mistakes');
@@ -33455,17 +35817,20 @@ if (typeof globalThis !== 'undefined') {
 
   function saveLearningStorage() {
     try {
-      localStorage.setItem('flow_learning_custom_packs', JSON.stringify(customPacksStorage));
+      localStorage.setItem(CUSTOM_PACKS_KEY, JSON.stringify(customPacksStorage));
       localStorage.setItem('flow_learning_mistakes', JSON.stringify(activeLearningSession.mistakesArchive));
     } catch (e) {
       console.warn('[LearningHub] Storage save error:', e);
     }
   }
 
-  // ============================================================================
-  // 3. DYNAMIC QUESTION SYNTHESIZER FOR ANY CUSTOM TOPIC
-  // ============================================================================
+  function getAllPacks() {
+    return { ...CURATED_LEARNING_PACKS, ...customPacksStorage };
+  }
 
+  // --------------------------------------------------------------------------
+  // 4. DYNAMIC SYNTHESIZER
+  // --------------------------------------------------------------------------
   function generateDynamicQuestionsForTopic(rawTopic) {
     const topic = (rawTopic || 'Allgemeinwissen').trim();
     const cleanName = topic.charAt(0).toUpperCase() + topic.slice(1);
@@ -33511,7 +35876,7 @@ if (typeof globalThis !== 'undefined') {
         correct: 0,
         explanation: 'Die Feynman-Technik deckt Wissenslücken schonungslos auf: Wer ein Konzept von ' + cleanName + ' nicht in einfachen Worten erklären kann, hat es noch nicht tief verstanden.',
         mnemonic: '💡 Merksatz: „Einfachheit ist das Siegel der Wahrheit.“ — Erkläre es einem Laien.',
-        pitfall: 'Option B (passives Wiederlesen) erzeugt eine trügerische Illusion von Kompetenz (Fluency Illusion).'
+        pitfall: 'Option B (passives Wiederlesen) erzeugt eine trügerische Illusion von Kompetenz.'
       },
       {
         id: 'dyn_' + Date.now() + '_4',
@@ -33525,7 +35890,7 @@ if (typeof globalThis !== 'undefined') {
         correct: 0,
         explanation: 'Nach Anders Ericsson entsteht Spitzenleistung in ' + cleanName + ' durch Deliberate Practice: Man sucht gezielt die Bereiche auf, in denen man noch Fehler macht, und korrigiert sie unmittelbar.',
         mnemonic: '💡 Merksatz: „Übe dort, wo es hakt — nicht dort, wo es glänzt.“',
-        pitfall: 'Passiver Konsum (Option D) trainiert das Wiedererkennen, nicht die aktive Problemlösungskompetenz.'
+        pitfall: 'Passiver Konsum trainiert das Wiedererkennen, nicht die aktive Problemlösungskompetenz.'
       },
       {
         id: 'dyn_' + Date.now() + '_5',
@@ -33544,10 +35909,9 @@ if (typeof globalThis !== 'undefined') {
     ];
   }
 
-  // ============================================================================
-  // 4. MODAL CONTROLLER & UI RENDERING
-  // ============================================================================
-
+  // --------------------------------------------------------------------------
+  // 5. SESSION & CONTROLLER ACTIONS
+  // --------------------------------------------------------------------------
   function openLearningHubModal(customTopic = null) {
     loadLearningStorage();
     const modal = document.getElementById('modal-learning-hub');
@@ -33570,9 +35934,23 @@ if (typeof globalThis !== 'undefined') {
     if (modal) modal.classList.add('hidden');
   }
 
+  function switchLearningMode(mode) {
+    currentLearningMode = mode;
+    isFlashcardFlipped = false;
+    renderLearningSessionUI();
+    if (typeof playProceduralSound === 'function') playProceduralSound(0);
+  }
+
+  function flipFlashcard() {
+    isFlashcardFlipped = !isFlashcardFlipped;
+    renderLearningSessionUI();
+    if (typeof playProceduralSound === 'function') playProceduralSound(6);
+  }
+
   function selectLearningPack(packId) {
-    if (CURATED_LEARNING_PACKS[packId]) {
-      const pack = CURATED_LEARNING_PACKS[packId];
+    const allPacks = getAllPacks();
+    if (allPacks[packId]) {
+      const pack = allPacks[packId];
       activeLearningSession = {
         packId: packId,
         customTopic: null,
@@ -33587,6 +35965,7 @@ if (typeof globalThis !== 'undefined') {
         startTime: Date.now(),
         mistakesArchive: activeLearningSession.mistakesArchive || []
       };
+      isFlashcardFlipped = false;
       renderLearningSessionUI();
     }
   }
@@ -33610,6 +35989,7 @@ if (typeof globalThis !== 'undefined') {
       startTime: Date.now(),
       mistakesArchive: activeLearningSession.mistakesArchive || []
     };
+    isFlashcardFlipped = false;
     renderLearningSessionUI();
   }
 
@@ -33637,10 +36017,12 @@ if (typeof globalThis !== 'undefined') {
     if (isCorrect) {
       activeLearningSession.score++;
       activeLearningSession.xpEarned += 15;
+      rateQuestionSR(currentQ.id, 'good');
       if (typeof window.playCheerfulSuccessJingle === 'function') window.playCheerfulSuccessJingle();
       if (typeof window.triggerHapticFeedback === 'function') window.triggerHapticFeedback([20, 30, 20]);
       if (typeof window.addGamificationXP === 'function') window.addGamificationXP(15, 'Lern-Quiz');
     } else {
+      rateQuestionSR(currentQ.id, 'again');
       if (typeof window.triggerHapticFeedback === 'function') window.triggerHapticFeedback([40]);
       if (!activeLearningSession.mistakesArchive.some(m => m.id === currentQ.id)) {
         activeLearningSession.mistakesArchive.push(currentQ);
@@ -33652,6 +36034,7 @@ if (typeof globalThis !== 'undefined') {
   }
 
   function nextLearningQuestion() {
+    isFlashcardFlipped = false;
     if (activeLearningSession.currentIndex < activeLearningSession.questions.length - 1) {
       activeLearningSession.currentIndex++;
       renderLearningSessionUI();
@@ -33661,6 +36044,7 @@ if (typeof globalThis !== 'undefined') {
   }
 
   function prevLearningQuestion() {
+    isFlashcardFlipped = false;
     if (activeLearningSession.currentIndex > 0) {
       activeLearningSession.currentIndex--;
       renderLearningSessionUI();
@@ -33694,6 +36078,7 @@ if (typeof globalThis !== 'undefined') {
       startTime: Date.now(),
       mistakesArchive: activeLearningSession.mistakesArchive
     };
+    isFlashcardFlipped = false;
     renderLearningSessionUI();
   }
 
@@ -33713,34 +36098,47 @@ if (typeof globalThis !== 'undefined') {
     }
   }
 
-  function transferLearnedTopicToBoard() {
-    const title = activeLearningSession.customTopic 
-      ? '🧠 Wissens-Wiederholung: ' + activeLearningSession.customTopic 
-      : '🧠 Vertiefung: ' + (CURATED_LEARNING_PACKS[activeLearningSession.packId]?.title || 'Lernsession');
+  function speakQuestionAloud() {
+    const currentQ = activeLearningSession.questions[activeLearningSession.currentIndex];
+    if (!currentQ) return;
+    const textToSpeak = isFlashcardFlipped
+      ? (currentQ.explanation + ' ' + (currentQ.mnemonic || ''))
+      : currentQ.question;
 
-    const curState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
-    if (!curState || !curState.items) return;
-
-    const cat = curState.items.weekly ? 'weekly' : 'daily';
-    if (!curState.items[cat]) curState.items[cat] = [];
-
-    const nowISO = new Date().toISOString();
-    curState.items[cat].push({
-      id: 'learn_' + Date.now(),
-      task: title,
-      createdAt: nowISO,
-      updatedAt: nowISO
-    });
-
-    if (typeof saveState === 'function') saveState();
-    if (typeof renderApp === 'function') renderApp();
-    if (typeof showToast === 'function') showToast('✨ Aufgabe ins Board übernommen!');
+    if (typeof speakWithProfile === 'function') {
+      speakWithProfile(textToSpeak, 'mentor');
+      return;
+    }
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined') {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = 'de-DE';
+      window.speechSynthesis.speak(utterance);
+    }
   }
 
-  // ============================================================================
-  // 5. HTML UI BUILDER (FOR MODAL AND EMBEDDED DASHBOARD VIEW)
-  // ============================================================================
+  function createCustomDeck(title, desc, questions) {
+    if (!title || !Array.isArray(questions) || questions.length === 0) return false;
+    loadLearningStorage();
+    const id = 'custom_deck_' + Date.now();
+    customPacksStorage[id] = {
+      id,
+      title,
+      icon: '✨',
+      color: 'amber',
+      desc: desc || 'Eigenes Wissens-Set',
+      level: 'Individuell',
+      questions
+    };
+    saveLearningStorage();
+    selectLearningPack(id);
+    if (typeof showToast === 'function') showToast(`📦 Neues Deck "${title}" erfolgreich gespeichert!`);
+    return id;
+  }
 
+  // --------------------------------------------------------------------------
+  // 6. UI BUILDER (QUIZ, 3D FLASHCARDS, DECKS & LEITNER OVERVIEW)
+  // --------------------------------------------------------------------------
   function renderLearningSessionUI() {
     const containers = [
       document.getElementById('learning-hub-content'),
@@ -33753,163 +36151,312 @@ if (typeof globalThis !== 'undefined') {
     const currentIdx = activeLearningSession.currentIndex;
     const currentQ = activeLearningSession.questions[currentIdx] || activeLearningSession.questions[0];
     const isFinished = activeLearningSession.isFinished;
+    const srData = getSRData();
 
-    let packsHtml = Object.values(CURATED_LEARNING_PACKS).map(pack => {
+    const activeTabClasses = 'bg-gradient-to-r from-purple-600/40 via-pink-600/35 to-purple-600/40 text-white border-purple-400/80 shadow-[0_0_12px_rgba(168,85,247,0.35)] font-bold';
+    const inactiveTabClasses = 'text-gray-400 hover:text-purple-200 border-transparent hover:bg-white/5 font-semibold';
+
+    const allPacks = getAllPacks();
+    let packsHtml = Object.values(allPacks).map(pack => {
       const isActive = activeLearningSession.packId === pack.id && !activeLearningSession.customTopic;
-      return '<button onclick="LearningHubEngine.selectLearningPack(\'' + pack.id + '\')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ' +
+      return '<button onclick="LearningHubEngine.selectLearningPack(\'' + pack.id + '\')" class="px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ' +
         (isActive 
           ? 'bg-purple-500/30 text-white border border-purple-400 shadow-sm' 
           : 'bg-white/5 hover:bg-white/10 text-gray-400 hover:text-gray-200 border border-white/5') +
         '">' +
-        '<span>' + pack.icon + '</span>' +
-        '<span class="truncate max-w-[140px]">' + pack.title.split(',')[0] + '</span>' +
+        '<span>' + (pack.icon || '📚') + '</span>' +
+        '<span class="truncate max-w-[130px]">' + pack.title.split(',')[0] + '</span>' +
         '</button>';
     }).join('');
 
     const hasMistakes = activeLearningSession.mistakesArchive && activeLearningSession.mistakesArchive.length > 0;
     if (hasMistakes) {
-      packsHtml += '<button onclick="LearningHubEngine.startMistakesReviewSession()" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 cursor-pointer">' +
+      packsHtml += '<button onclick="LearningHubEngine.startMistakesReviewSession()" class="px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 cursor-pointer">' +
         '<span>🔁</span><span>Fehler (' + activeLearningSession.mistakesArchive.length + ')</span></button>';
     }
 
-    let innerContent = '';
+    let modeContent = '';
 
-    if (isFinished) {
-      const pct = Math.round((activeLearningSession.score / totalQ) * 100) || 0;
-      let badgeEmoji = pct >= 80 ? '🌟 Meistergrad' : (pct >= 50 ? '🌱 Guter Fortschritt' : '📖 Wiederholung empfohlen');
-      let badgeColor = pct >= 80 ? 'text-emerald-400' : (pct >= 50 ? 'text-amber-400' : 'text-rose-400');
+    // ========================================================================
+    // TAB 1: INTERAKTIVES QUIZ
+    // ========================================================================
+    if (currentLearningMode === 'quiz') {
+      if (isFinished) {
+        const pct = Math.round((activeLearningSession.score / totalQ) * 100) || 0;
+        let badgeEmoji = pct >= 80 ? '🌟 Meistergrad' : (pct >= 50 ? '🌱 Guter Fortschritt' : '📖 Wiederholung empfohlen');
+        let badgeColor = pct >= 80 ? 'text-emerald-400' : (pct >= 50 ? 'text-amber-400' : 'text-rose-400');
 
-      innerContent = '<div class="space-y-5 animate-fade-in text-left">' +
-        '<div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">' + packsHtml + '</div>' +
-        '<div class="p-6 rounded-3xl bg-gradient-to-br from-[#161624] to-[#0d0d16] border border-purple-500/30 shadow-2xl text-center space-y-4">' +
-          '<div class="w-16 h-16 rounded-3xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-3xl mx-auto shadow-inner">🏆</div>' +
+        modeContent = '<div class="p-6 rounded-3xl bg-gradient-to-br from-[#161624] to-[#0d0d16] border border-purple-500/30 shadow-2xl text-center space-y-4">' +
+          '<div class="w-14 h-14 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-3xl mx-auto shadow-inner">🏆</div>' +
           '<div>' +
             '<span class="text-xs font-mono font-bold uppercase tracking-wider ' + badgeColor + '">' + badgeEmoji + '</span>' +
-            '<h3 class="text-2xl font-black text-white font-display mt-1">Lern-Session erfolgreich!</h3>' +
-            '<p class="text-xs text-gray-400 mt-0.5">Thema: <span class="text-purple-300 font-bold">' + (activeLearningSession.customTopic || CURATED_LEARNING_PACKS[activeLearningSession.packId]?.title) + '</span></p>' +
+            '<h3 class="text-xl font-black text-white font-display mt-1">Lern-Session erfolgreich!</h3>' +
+            '<p class="text-xs text-gray-400 mt-0.5">Thema: <span class="text-purple-300 font-bold">' + (activeLearningSession.customTopic || allPacks[activeLearningSession.packId]?.title) + '</span></p>' +
           '</div>' +
-          '<div class="grid grid-cols-3 gap-2.5 max-w-md mx-auto pt-2">' +
-            '<div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10">' +
+          '<div class="grid grid-cols-3 gap-2 max-w-md mx-auto pt-1">' +
+            '<div class="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10">' +
               '<div class="text-[10px] text-gray-400 font-mono">Ergebnis</div>' +
-              '<div class="text-xl font-black text-white font-display">' + activeLearningSession.score + ' / ' + totalQ + '</div>' +
+              '<div class="text-lg font-black text-white font-display">' + activeLearningSession.score + ' / ' + totalQ + '</div>' +
             '</div>' +
-            '<div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10">' +
+            '<div class="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10">' +
               '<div class="text-[10px] text-gray-400 font-mono">Genauigkeit</div>' +
-              '<div class="text-xl font-black ' + badgeColor + ' font-display">' + pct + '%</div>' +
+              '<div class="text-lg font-black ' + badgeColor + ' font-display">' + pct + '%</div>' +
             '</div>' +
-            '<div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10">' +
+            '<div class="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10">' +
               '<div class="text-[10px] text-gray-400 font-mono">XP Bonus</div>' +
-              '<div class="text-xl font-black text-amber-300 font-display">+' + activeLearningSession.xpEarned + '</div>' +
+              '<div class="text-lg font-black text-amber-300 font-display">+' + activeLearningSession.xpEarned + '</div>' +
             '</div>' +
           '</div>' +
-          '<div class="flex flex-wrap items-center justify-center gap-2 pt-3">' +
-            '<button onclick="LearningHubEngine.restartCurrentPack()" class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition active:scale-95 cursor-pointer shadow-lg shadow-purple-900/30 flex items-center gap-1.5">' +
+          '<div class="flex flex-wrap items-center justify-center gap-2 pt-2">' +
+            '<button onclick="LearningHubEngine.restartCurrentPack()" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition active:scale-95 cursor-pointer shadow-md flex items-center gap-1.5">' +
               '<i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>Erneut üben</span>' +
             '</button>' +
-            '<button onclick="LearningHubEngine.transferLearnedTopicToBoard()" class="px-4 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition active:scale-95 cursor-pointer flex items-center gap-1.5">' +
-              '<i data-lucide="plus" class="w-4 h-4"></i><span>Als Wiederholungs-Task ins Board</span>' +
+            '<button onclick="LearningHubEngine.switchLearningMode(\'flashcard\')" class="px-4 py-2 rounded-xl bg-pink-600/40 hover:bg-pink-600/60 text-pink-200 border border-pink-500/40 text-xs font-bold transition active:scale-95 cursor-pointer flex items-center gap-1.5">' +
+              '<span>🎴 Als Karteikarten wiederholen</span>' +
             '</button>' +
           '</div>' +
-        '</div>' +
-      '</div>';
-    } else if (currentQ) {
-      const answerState = activeLearningSession.answers[currentQ.id];
-      const isAnswered = answerState !== undefined;
-      const isBookmarked = activeLearningSession.bookmarked[currentQ.id];
+        '</div>';
+      } else if (currentQ) {
+        const answerState = activeLearningSession.answers[currentQ.id];
+        const isAnswered = answerState !== undefined;
+        const isBookmarked = activeLearningSession.bookmarked[currentQ.id];
 
-      const optionsHtml = currentQ.options.map((optText, optIdx) => {
-        let btnStyle = 'bg-white/[0.03] hover:bg-white/[0.07] border-white/10 text-gray-200';
-        let icon = '<span class="w-6 h-6 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono font-bold text-gray-400 shrink-0">' + String.fromCharCode(65 + optIdx) + '</span>';
+        const optionsHtml = (currentQ.options || []).map((optText, optIdx) => {
+          let btnStyle = 'bg-white/[0.03] hover:bg-white/[0.07] border-white/10 text-gray-200';
+          let icon = '<span class="w-5 h-5 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono font-bold text-gray-400 shrink-0">' + String.fromCharCode(65 + optIdx) + '</span>';
 
-        if (isAnswered) {
-          if (optIdx === currentQ.correct) {
-            btnStyle = 'bg-emerald-500/20 border-emerald-400 text-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.2)] font-bold';
-            icon = '<span class="w-6 h-6 rounded-lg bg-emerald-500 text-black flex items-center justify-center text-xs font-bold shrink-0">✓</span>';
-          } else if (optIdx === answerState.selected && !answerState.isCorrect) {
-            btnStyle = 'bg-rose-500/20 border-rose-400 text-rose-100 shadow-[0_0_15px_rgba(244,63,94,0.2)] font-bold';
-            icon = '<span class="w-6 h-6 rounded-lg bg-rose-500 text-white flex items-center justify-center text-xs font-bold shrink-0">✕</span>';
-          } else {
-            btnStyle = 'bg-black/40 border-white/5 text-gray-500 opacity-60';
+          if (isAnswered) {
+            if (optIdx === currentQ.correct) {
+              btnStyle = 'bg-emerald-500/20 border-emerald-400 text-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.2)] font-bold';
+              icon = '<span class="w-5 h-5 rounded-lg bg-emerald-500 text-black flex items-center justify-center text-xs font-bold shrink-0">✓</span>';
+            } else if (optIdx === answerState.selected && !answerState.isCorrect) {
+              btnStyle = 'bg-rose-500/20 border-rose-400 text-rose-100 shadow-[0_0_15px_rgba(244,63,94,0.2)] font-bold';
+              icon = '<span class="w-5 h-5 rounded-lg bg-rose-500 text-white flex items-center justify-center text-xs font-bold shrink-0">✕</span>';
+            } else {
+              btnStyle = 'bg-black/40 border-white/5 text-gray-500 opacity-60';
+            }
           }
+
+          return '<button onclick="LearningHubEngine.handleSelectAnswer(' + optIdx + ')" ' + (isAnswered ? 'disabled' : '') + ' class="w-full p-3 rounded-2xl border ' + btnStyle + ' transition-all duration-200 text-left flex items-center gap-2.5 cursor-pointer active:scale-[0.99] text-xs sm:text-sm">' +
+            icon + '<span class="flex-1 leading-snug">' + optText + '</span></button>';
+        }).join('');
+
+        let explanationHtml = '';
+        if (isAnswered) {
+          explanationHtml = '<div class="p-3.5 rounded-2xl ' + (answerState.isCorrect ? 'bg-emerald-950/40 border-emerald-500/40' : 'bg-rose-950/40 border-rose-500/40') + ' border space-y-2 animate-fade-in text-xs">' +
+            '<div class="flex items-center justify-between font-bold">' +
+              '<span class="' + (answerState.isCorrect ? 'text-emerald-300' : 'text-rose-300') + ' flex items-center gap-1.5 text-xs font-bold">' +
+                (answerState.isCorrect ? '✨ Richtig gelöst!' : '💡 Erklärung & Kernwissen:') +
+              '</span>' +
+              '<button onclick="LearningHubEngine.speakQuestionAloud()" class="text-gray-400 hover:text-white text-[10px] flex items-center gap-1 cursor-pointer font-normal">🔊 Vorlesen</button>' +
+            '</div>' +
+            '<p class="text-gray-200 leading-relaxed text-[11.5px]">' + currentQ.explanation + '</p>' +
+            (currentQ.mnemonic ? '<div class="p-2 bg-black/40 rounded-xl border border-white/10 text-amber-200 text-[11px] font-medium">' + currentQ.mnemonic + '</div>' : '') +
+            (currentQ.pitfall ? '<div class="text-[10.5px] text-gray-400 italic">⚠️ Typischer Fehler: ' + currentQ.pitfall + '</div>' : '') +
+          '</div>';
         }
 
-        return '<button onclick="LearningHubEngine.handleSelectAnswer(' + optIdx + ')" ' + (isAnswered ? 'disabled' : '') + ' class="w-full p-3.5 rounded-2xl border ' + btnStyle + ' transition-all duration-200 text-left flex items-center gap-3 cursor-pointer active:scale-[0.99] text-xs sm:text-sm">' +
-          icon + '<span class="flex-1 leading-snug">' + optText + '</span></button>';
-      }).join('');
+        const progressPct = Math.round(((currentIdx + 1) / totalQ) * 100);
 
-      let explanationHtml = '';
-      if (isAnswered) {
-        explanationHtml = '<div class="p-4 rounded-2xl ' + (answerState.isCorrect ? 'bg-emerald-950/40 border-emerald-500/40' : 'bg-rose-950/40 border-rose-500/40') + ' border space-y-2.5 animate-fade-in text-xs">' +
-          '<div class="flex items-center justify-between font-bold">' +
-            '<span class="' + (answerState.isCorrect ? 'text-emerald-300' : 'text-rose-300') + ' flex items-center gap-1.5 text-sm">' +
-              (answerState.isCorrect ? '✨ Exzellent! Richtig verstanden.' : '💡 Erkenntnisgewinn & Erklärung:') +
-            '</span>' +
-            '<span class="text-[10px] font-mono text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30">Active Recall</span>' +
+        modeContent = '<div class="space-y-3">' +
+          '<div class="space-y-1">' +
+            '<div class="flex items-center justify-between text-xs font-semibold text-gray-400">' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-[10.5px]">Frage ' + (currentIdx + 1) + ' von ' + totalQ + '</span>' +
+                '<span class="text-white font-bold truncate max-w-[200px] text-xs">' + (activeLearningSession.customTopic || allPacks[activeLearningSession.packId]?.title) + '</span>' +
+              '</div>' +
+              '<div class="flex items-center gap-2">' +
+                '<button onclick="LearningHubEngine.speakQuestionAloud()" class="text-gray-400 hover:text-white p-1 cursor-pointer" title="Frage vorlesen">🔊</button>' +
+                '<button onclick="LearningHubEngine.toggleBookmarkCurrentQuestion()" class="p-1 rounded-lg text-gray-400 hover:text-amber-300 transition cursor-pointer" title="' + (isBookmarked ? 'Lesezeichen entfernen' : 'Frage merken') + '">' +
+                  '<i data-lucide="bookmark" class="w-3.5 h-3.5 ' + (isBookmarked ? 'fill-amber-400 text-amber-400' : '') + '"></i>' +
+                '</button>' +
+                '<span class="font-mono text-purple-300 font-bold text-xs">+' + activeLearningSession.xpEarned + ' XP</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">' +
+              '<div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300" style="width: ' + progressPct + '%"></div>' +
+            '</div>' +
           '</div>' +
-          '<p class="text-gray-200 leading-relaxed">' + currentQ.explanation + '</p>' +
-          (currentQ.mnemonic ? '<div class="p-2.5 bg-black/40 rounded-xl border border-white/10 text-amber-200 font-medium">' + currentQ.mnemonic + '</div>' : '') +
-          (currentQ.pitfall ? '<div class="text-[11px] text-gray-400 italic">⚠️ Typischer Fehler: ' + currentQ.pitfall + '</div>' : '') +
-          '<div class="pt-2 border-t border-white/10 flex items-center justify-between gap-1.5 flex-wrap">' +
-            '<span class="text-[10px] text-gray-400 font-mono">🧠 Spaced Repetition (Leitner):</span>' +
-            '<div class="flex items-center gap-1">' +
-              '<button onclick="rateQuestionSR(\'' + currentQ.id + '\', \'again\')" class="px-2 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[10px] font-bold transition cursor-pointer">Wiederholen (Box 1)</button>' +
-              '<button onclick="rateQuestionSR(\'' + currentQ.id + '\', \'good\')" class="px-2 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-[10px] font-bold transition cursor-pointer">Gut (+1)</button>' +
-              '<button onclick="rateQuestionSR(\'' + currentQ.id + '\', \'master\')" class="px-2 py-1 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold transition cursor-pointer">Meisterhaft (Box 5)</button>' +
+
+          '<div class="p-4 rounded-3xl bg-gradient-to-br from-[#141420] to-[#0f0e18] border border-white/10 shadow-xl space-y-3">' +
+            '<h3 class="text-xs sm:text-sm font-bold text-white leading-snug">' + currentQ.question + '</h3>' +
+            '<div class="space-y-1.5 pt-0.5">' + optionsHtml + '</div>' +
+            explanationHtml +
+          '</div>' +
+
+          '<div class="flex items-center justify-between pt-0.5">' +
+            '<button onclick="LearningHubEngine.prevLearningQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + ' class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 text-gray-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">' +
+              '<i data-lucide="chevron-left" class="w-3.5 h-3.5"></i><span>Zurück</span>' +
+            '</button>' +
+            '<div class="flex items-center gap-2">' +
+              (isAnswered 
+                ? '<button onclick="LearningHubEngine.nextLearningQuestion()" class="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition active:scale-95 cursor-pointer shadow-md flex items-center gap-1">' +
+                    '<span>' + (currentIdx === totalQ - 1 ? 'Auswertung 🏆' : 'Weiter') + '</span><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>'
+                : '<span class="text-[10px] text-gray-400 italic">Antwort wählen...</span>') +
             '</div>' +
           '</div>' +
         '</div>';
       }
+    }
 
-      const progressPct = Math.round(((currentIdx + 1) / totalQ) * 100);
+    // ========================================================================
+    // TAB 2: 3D KARTEIKARTEN (FLASHCARDS MIT SPACED REPETITION)
+    // ========================================================================
+    else if (currentLearningMode === 'flashcard') {
+      const qEntry = srData[currentQ.id] || { box: 1, reps: 0 };
+      const daysUntilReview = LEITNER_INTERVALS_DAYS[qEntry.box - 1] || 1;
 
-      innerContent = '<div class="space-y-4 animate-fade-in text-left">' +
-        '<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 border-b border-white/10 pb-3">' +
-          '<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">' + packsHtml + '</div>' +
-          '<div class="flex items-center gap-1.5 shrink-0">' +
-            '<input type="text" id="learning-custom-topic-input" placeholder="Beliebiges Thema..." class="px-2.5 py-1.5 bg-black/50 border border-white/15 rounded-xl text-xs text-white placeholder-gray-500 outline-none focus:border-purple-400 w-36 sm:w-44" onkeydown="if(event.key===\'Enter\') LearningHubEngine.handleCustomTopicSubmit()">' +
-            '<button onclick="LearningHubEngine.handleCustomTopicSubmit()" class="px-2.5 py-1.5 bg-purple-600/40 hover:bg-purple-600/60 text-purple-200 border border-purple-400/50 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1" title="Neues Thema generieren">' +
-              '<i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span>Quiz</span>' +
+      modeContent = '<div class="space-y-3 animate-fade-in">' +
+        '<div class="flex items-center justify-between text-xs font-semibold text-gray-400">' +
+          '<div class="flex items-center gap-2">' +
+            '<span class="px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 font-mono font-bold text-[10.5px]">Karte ' + (currentIdx + 1) + ' von ' + totalQ + '</span>' +
+            '<span class="text-xs px-2 py-0.5 rounded-md bg-white/5 text-amber-300 border border-white/5 font-mono">📦 Box ' + qEntry.box + ' / 5</span>' +
+          '</div>' +
+          '<div class="flex items-center gap-2">' +
+            '<button onclick="LearningHubEngine.speakQuestionAloud()" class="text-gray-400 hover:text-white p-1 cursor-pointer" title="Laut vorlesen">🔊 Vorlesen</button>' +
+            '<button onclick="LearningHubEngine.toggleBookmarkCurrentQuestion()" class="p-1 rounded-lg text-gray-400 hover:text-amber-300 transition cursor-pointer">' +
+              '<i data-lucide="bookmark" class="w-3.5 h-3.5 ' + (activeLearningSession.bookmarked[currentQ.id] ? 'fill-amber-400 text-amber-400' : '') + '"></i>' +
             '</button>' +
           '</div>' +
         '</div>' +
-        '<div class="space-y-1.5">' +
-          '<div class="flex items-center justify-between text-xs font-semibold text-gray-400">' +
-            '<div class="flex items-center gap-2">' +
-              '<span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-[11px]">Frage ' + (currentIdx + 1) + ' von ' + totalQ + '</span>' +
-              '<span class="text-white font-bold truncate max-w-[200px]">' + (activeLearningSession.customTopic || CURATED_LEARNING_PACKS[activeLearningSession.packId]?.title) + '</span>' +
+
+        '<!-- 3D Interactive Flashcard Card -->' +
+        '<div onclick="LearningHubEngine.flipFlashcard()" class="min-h-[190px] p-5 rounded-3xl bg-gradient-to-br ' + (isFlashcardFlipped ? 'from-purple-950/50 via-[#151224] to-[#0e0d18] border-purple-500/40' : 'from-[#141422] to-[#0a0a10] border-white/15') + ' border shadow-2xl flex flex-col justify-between cursor-pointer transition-all duration-300 transform active:scale-[0.99] select-none">' +
+          '<div>' +
+            '<div class="flex items-center justify-between text-[9px] font-bold uppercase tracking-wider ' + (isFlashcardFlipped ? 'text-pink-300' : 'text-gray-400') + ' mb-2">' +
+              '<span>' + (isFlashcardFlipped ? 'Antwort & Erklärung (Rückseite)' : 'Frage / Konzept (Vorderseite)') + '</span>' +
+              '<span>🔄 Klick zum Umdrehen</span>' +
             '</div>' +
-            '<div class="flex items-center gap-2">' +
-              '<button onclick="LearningHubEngine.toggleBookmarkCurrentQuestion()" class="p-1 rounded-lg text-gray-400 hover:text-amber-300 transition cursor-pointer" title="' + (isBookmarked ? 'Lesezeichen entfernen' : 'Frage merken') + '">' +
-                '<i data-lucide="bookmark" class="w-4 h-4 ' + (isBookmarked ? 'fill-amber-400 text-amber-400' : '') + '"></i>' +
+            (isFlashcardFlipped ? (
+              '<div class="space-y-2 text-xs leading-relaxed text-gray-100">' +
+                '<p class="font-medium">' + currentQ.explanation + '</p>' +
+                (currentQ.mnemonic ? '<div class="p-2 bg-black/50 rounded-xl border border-amber-500/30 text-amber-200 text-[11px] font-medium">' + currentQ.mnemonic + '</div>' : '') +
+              '</div>'
+            ) : (
+              '<div class="text-sm sm:text-base font-bold text-white leading-relaxed pt-2">' + currentQ.question + '</div>'
+            )) +
+          '</div>' +
+          '<div class="pt-3 border-t border-white/5 flex items-center justify-between text-[10px] text-gray-500">' +
+            '<span>' + (allPacks[activeLearningSession.packId]?.title || 'Lernkarten') + '</span>' +
+            '<span>Wiederholungen: ' + (qEntry.reps || 0) + '</span>' +
+          '</div>' +
+        '</div>' +
+
+        '<!-- Leitner Rating Action Buttons -->' +
+        (isFlashcardFlipped ? (
+          '<div class="space-y-1.5 animate-fade-in">' +
+            '<div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 text-center">Wie gut wusstest du die Antwort?</div>' +
+            '<div class="grid grid-cols-3 gap-2">' +
+              '<button onclick="LearningHubEngine.rateQuestionSR(\'' + currentQ.id + '\', \'again\'); LearningHubEngine.nextLearningQuestion();" class="py-2 px-1 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-xs font-bold transition flex flex-col items-center cursor-pointer shadow-sm">' +
+                '<span>🔴 Nochmal</span>' +
+                '<span class="text-[9px] opacity-75 font-normal">Box 1 (1 Tag)</span>' +
               '</button>' +
-              '<span class="font-mono text-purple-300 font-bold">' + activeLearningSession.score + ' Punkte (+' + activeLearningSession.xpEarned + ' XP)</span>' +
+              '<button onclick="LearningHubEngine.rateQuestionSR(\'' + currentQ.id + '\', \'good\'); LearningHubEngine.nextLearningQuestion();" class="py-2 px-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold transition flex flex-col items-center cursor-pointer shadow-sm">' +
+                '<span>🟡 Gut</span>' +
+                '<span class="text-[9px] opacity-75 font-normal">+1 Box (' + daysUntilReview + 'T)</span>' +
+              '</button>' +
+              '<button onclick="LearningHubEngine.rateQuestionSR(\'' + currentQ.id + '\', \'master\'); LearningHubEngine.nextLearningQuestion();" class="py-2 px-1 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition flex flex-col items-center cursor-pointer shadow-sm">' +
+                '<span>🟢 Gemastert</span>' +
+                '<span class="text-[9px] opacity-75 font-normal">Box 5 (30 Tage)</span>' +
+              '</button>' +
             '</div>' +
+          '</div>'
+        ) : (
+          '<div class="flex items-center justify-between pt-1">' +
+            '<button onclick="LearningHubEngine.prevLearningQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + ' class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 text-gray-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">' +
+              '<i data-lucide="chevron-left" class="w-3.5 h-3.5"></i><span>Vorige Karte</span>' +
+            '</button>' +
+            '<button onclick="LearningHubEngine.flipFlashcard()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-xs font-bold transition shadow-md cursor-pointer flex items-center gap-1">' +
+              '<span>Antwort aufdecken 🔄</span>' +
+            '</button>' +
+            '<button onclick="LearningHubEngine.nextLearningQuestion()" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">' +
+              '<span>Nächste</span><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>' +
+            '</button>' +
+          '</div>'
+        )) +
+      '</div>';
+    }
+
+    // ========================================================================
+    // TAB 3: DECKS & LEITNER-BOXEN ÜBERSICHT
+    // ========================================================================
+    else if (currentLearningMode === 'decks') {
+      let boxCounts = [0, 0, 0, 0, 0];
+      let totalReviewed = 0;
+      Object.values(srData).forEach(entry => {
+        const b = (entry.box >= 1 && entry.box <= 5) ? entry.box : 1;
+        boxCounts[b - 1]++;
+        totalReviewed++;
+      });
+
+      modeContent = '<div class="space-y-4 animate-fade-in">' +
+        '<!-- Leitner Mastery Box Distribution -->' +
+        '<div class="p-3.5 rounded-2xl bg-[#0d0d16] border border-white/10 space-y-2.5">' +
+          '<div class="flex items-center justify-between text-xs font-bold text-gray-200">' +
+            '<span>🧠 Leitner-Boxen Lernfortschritt</span>' +
+            '<span class="text-purple-300 font-mono text-[11px]">' + totalReviewed + ' Karten im System</span>' +
           '</div>' +
-          '<div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">' +
-            '<div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300" style="width: ' + progressPct + '%"></div>' +
+          '<div class="grid grid-cols-5 gap-1.5 text-center text-xs font-mono">' +
+            [1, 2, 3, 4, 5].map(b => `
+              <div class="p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <div class="text-[9px] text-gray-400">Box ${b}</div>
+                <div class="font-bold text-white">${boxCounts[b - 1]}</div>
+                <div class="text-[8.5px] text-gray-500">${LEITNER_INTERVALS_DAYS[b - 1]}T</div>
+              </div>
+            `).join('') +
           '</div>' +
         '</div>' +
-        '<div class="p-5 rounded-3xl bg-gradient-to-br from-[#141420] to-[#0f0e18] border border-white/10 shadow-xl space-y-4">' +
-          '<h3 class="text-sm sm:text-base font-bold text-white leading-snug">' + currentQ.question + '</h3>' +
-          '<div class="space-y-2 pt-1">' + optionsHtml + '</div>' +
-          explanationHtml +
-        '</div>' +
-        '<div class="flex items-center justify-between pt-1">' +
-          '<button onclick="LearningHubEngine.prevLearningQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + ' class="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 text-gray-300 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">' +
-            '<i data-lucide="chevron-left" class="w-4 h-4"></i><span>Zurück</span>' +
-          '</button>' +
-          '<div class="flex items-center gap-2">' +
-            (isAnswered 
-              ? '<button onclick="LearningHubEngine.nextLearningQuestion()" class="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition active:scale-95 cursor-pointer shadow-lg shadow-purple-900/30 flex items-center gap-1.5">' +
-                  '<span>' + (currentIdx === totalQ - 1 ? 'Auswertung anzeigen 🏆' : 'Nächste Frage') + '</span><i data-lucide="chevron-right" class="w-4 h-4"></i></button>'
-              : '<span class="text-[11px] text-gray-400 italic">Wähle eine Antwort für die Erklärung...</span>') +
+
+        '<!-- Decks Library -->' +
+        '<div class="space-y-2">' +
+          '<div class="text-xs font-bold text-gray-300">📚 Verfügbare Decks (' + Object.keys(allPacks).length + ')</div>' +
+          '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[220px] overflow-y-auto pr-1">' +
+            Object.values(allPacks).map(pack => `
+              <div onclick="LearningHubEngine.selectLearningPack('${pack.id}'); LearningHubEngine.switchLearningMode('quiz');" class="p-2.5 rounded-2xl border ${activeLearningSession.packId === pack.id ? 'border-purple-500/60 bg-purple-950/20' : 'border-white/5 bg-white/[0.02] hover:border-purple-500/30'} transition cursor-pointer flex flex-col justify-between gap-1 group">
+                <div class="flex items-start justify-between gap-1">
+                  <div class="font-bold text-xs text-white group-hover:text-purple-300 truncate">${pack.icon || '📚'} ${pack.title}</div>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-gray-400 shrink-0 font-mono">${pack.questions.length} Karten</span>
+                </div>
+                <div class="text-[10px] text-gray-400 line-clamp-1">${pack.desc || ''}</div>
+              </div>
+            `).join('') +
           '</div>' +
         '</div>' +
       '</div>';
     }
 
+    // Modal / Container Shell
+    const shellHtml = '<div class="space-y-3.5 text-left">' +
+      '<!-- 3-TAB SUB-NAVIGATION -->' +
+      '<div class="flex items-center bg-black/60 p-1 rounded-2xl border border-white/10 text-xs gap-1 shadow-sm select-none">' +
+        '<button onclick="LearningHubEngine.switchLearningMode(\'quiz\')" class="flex-1 py-1.5 px-2 rounded-xl transition flex items-center justify-center gap-1.5 text-xs cursor-pointer border ' + (currentLearningMode === 'quiz' ? activeTabClasses : inactiveTabClasses) + '">' +
+          '<span>🎯</span><span>Quiz & Test</span>' +
+        '</button>' +
+        '<button onclick="LearningHubEngine.switchLearningMode(\'flashcard\')" class="flex-1 py-1.5 px-2 rounded-xl transition flex items-center justify-center gap-1.5 text-xs cursor-pointer border ' + (currentLearningMode === 'flashcard' ? activeTabClasses : inactiveTabClasses) + '">' +
+          '<span>🎴</span><span>3D Karteikarten</span>' +
+        '</button>' +
+        '<button onclick="LearningHubEngine.switchLearningMode(\'decks\')" class="flex-1 py-1.5 px-2 rounded-xl transition flex items-center justify-center gap-1.5 text-xs cursor-pointer border ' + (currentLearningMode === 'decks' ? activeTabClasses : inactiveTabClasses) + '">' +
+          '<span>📦</span><span>Decks & Leitner</span>' +
+        '</button>' +
+      '</div>' +
+
+      '<!-- Packs Quick Bar & Dynamic Topic Creator -->' +
+      '<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 border-b border-white/10 pb-2.5">' +
+        '<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">' + packsHtml + '</div>' +
+        '<div class="flex items-center gap-1.5 shrink-0">' +
+          '<input type="text" id="learning-custom-topic-input" placeholder="Neues Thema eingeben..." class="px-2.5 py-1 bg-black/50 border border-white/15 rounded-xl text-xs text-white placeholder-gray-500 outline-none focus:border-purple-400 w-36 sm:w-44" onkeydown="if(event.key===\'Enter\') LearningHubEngine.handleCustomTopicSubmit()">' +
+          '<button onclick="LearningHubEngine.handleCustomTopicSubmit()" class="px-2.5 py-1 bg-purple-600/40 hover:bg-purple-600/60 text-purple-200 border border-purple-400/50 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1" title="Generieren">' +
+            '<i data-lucide="lightbulb" class="w-3.5 h-3.5"></i><span>Generieren</span>' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+
+      '<!-- MAIN MODE CONTENT -->' +
+      modeContent +
+    '</div>';
+
     containers.forEach(c => {
-      c.innerHTML = innerContent;
+      c.innerHTML = shellHtml;
     });
 
     renderLucideIcons();
@@ -33921,10 +36468,9 @@ if (typeof globalThis !== 'undefined') {
     }
   }
 
-  // ============================================================================
-  // 6. GLOBAL EXPORT
-  // ============================================================================
-
+  // --------------------------------------------------------------------------
+  // 7. GLOBAL EXPORTS
+  // --------------------------------------------------------------------------
   const LearningHubEngine = {
     openLearningHubModal,
     closeLearningHubModal,
@@ -33937,9 +36483,13 @@ if (typeof globalThis !== 'undefined') {
     toggleBookmarkCurrentQuestion,
     startMistakesReviewSession,
     restartCurrentPack,
-    transferLearnedTopicToBoard,
     generateDynamicQuestionsForTopic,
     renderLearningSessionUI,
+    switchLearningMode,
+    flipFlashcard,
+    rateQuestionSR,
+    speakQuestionAloud,
+    createCustomDeck,
     CURATED_LEARNING_PACKS,
     getSession: () => activeLearningSession
   };
@@ -33958,6 +36508,9 @@ if (typeof globalThis !== 'undefined') {
     window.renderLearningSessionUI = renderLearningSessionUI;
     window.activeLearningSession = activeLearningSession;
     window.customPacksStorage = customPacksStorage;
+    window.switchLearningMode = switchLearningMode;
+    window.flipFlashcard = flipFlashcard;
+    window.createCustomDeck = createCustomDeck;
   }
   if (typeof globalThis !== 'undefined') {
     globalThis.LearningHubEngine = LearningHubEngine;
@@ -33970,13 +36523,12 @@ if (typeof globalThis !== 'undefined') {
     globalThis.renderLearningHub = renderLearningSessionUI;
     globalThis.renderLearningSessionUI = renderLearningSessionUI;
     globalThis.activeLearningSession = activeLearningSession;
+    globalThis.rateQuestionSR = rateQuestionSR;
+    globalThis.getSRData = getSRData;
+    globalThis.switchLearningMode = switchLearningMode;
+    globalThis.flipFlashcard = flipFlashcard;
+    globalThis.createCustomDeck = createCustomDeck;
   }
-  if (typeof globalThis !== 'undefined') {
-    globalThis.LearningHubEngine = LearningHubEngine;
-    globalThis.openLearningHubModal = openLearningHubModal;
-    globalThis.closeLearningHubModal = closeLearningHubModal;
-  }
-
 })();
 
 
@@ -33992,9 +36544,13 @@ if (typeof globalThis !== 'undefined') {
 
   // --- STATE ---
   let activeRegulationTab = 'reset'; // 'reset', 'grounding', 'somatic', 'mind', 'audio', 'crisis'
+  let activeBreathPattern = 'sigh'; // 'sigh', 'box', 'relax478', 'coherence', 'energize'
   let breathTimer = null;
+  let breathCyclesCompleted = 0;
+  let isPacerRunning = false;
   let bilateralInterval = null;
   let bilateralSide = 'left';
+  let isBilateralRunning = false;
   let shakeInterval = null;
   let shakeTimeRemaining = 60;
   let isShakeRunning = false;
@@ -34006,19 +36562,62 @@ if (typeof globalThis !== 'undefined') {
   let postDistressScore = null;
   let groundingStep = 1;
 
+  // --- BREATH PATTERNS DEFINITIONS ---
+  const BREATH_PATTERNS = {
+    sigh: {
+      id: 'sigh',
+      name: 'Physiologischer Seufzer',
+      subtitle: 'Stanford Huberman • Akut-Beruhigung in 60s',
+      phases: [
+        { label: 'Tief durch die Nase einatmen', sub: 'Phase 1/3', duration: 2500, scale: 1.35, color: 'rgba(20, 184, 166, 0.9)', bg: 'rgba(20, 184, 166, 0.2)' },
+        { label: 'Kurz oben nachatmen!', sub: 'Phase 2/3 (Top-up)', duration: 1200, scale: 1.55, color: 'rgba(137, 207, 240, 1)', bg: 'rgba(137, 207, 240, 0.25)' },
+        { label: 'Langsam durch den Mund ausatmen', sub: 'Phase 3/3 (Loslassen)', duration: 6500, scale: 0.85, color: 'rgba(168, 85, 247, 0.7)', bg: 'rgba(168, 85, 247, 0.1)' }
+      ]
+    },
+    box: {
+      id: 'box',
+      name: 'Box Breathing (4-4-4-4)',
+      subtitle: 'Navy SEALs • Fokus, Klarheit & Gelassenheit',
+      phases: [
+        { label: 'Einatmen (4s)', sub: 'Durch die Nase', duration: 4000, scale: 1.45, color: 'rgba(56, 189, 248, 0.9)', bg: 'rgba(56, 189, 248, 0.2)' },
+        { label: 'Halten (4s)', sub: 'Lunge gefüllt halten', duration: 4000, scale: 1.45, color: 'rgba(234, 179, 8, 0.9)', bg: 'rgba(234, 179, 8, 0.2)' },
+        { label: 'Ausatmen (4s)', sub: 'Gleichmäßig ausströmen lassen', duration: 4000, scale: 0.85, color: 'rgba(168, 85, 247, 0.8)', bg: 'rgba(168, 85, 247, 0.15)' },
+        { label: 'Halten (4s)', sub: 'In der Leere entspannen', duration: 4000, scale: 0.85, color: 'rgba(234, 179, 8, 0.9)', bg: 'rgba(234, 179, 8, 0.2)' }
+      ]
+    },
+    relax478: {
+      id: 'relax478',
+      name: '4-7-8 Einschlaf-Atmung',
+      subtitle: 'Dr. Andrew Weil • Parasympathikus & Tiefenentspannung',
+      phases: [
+        { label: 'Sanft Einatmen (4s)', sub: 'Nase', duration: 4000, scale: 1.4, color: 'rgba(20, 184, 166, 0.9)', bg: 'rgba(20, 184, 166, 0.2)' },
+        { label: 'Atem sanft Anhalten (7s)', sub: 'Vollkommene Stille', duration: 7000, scale: 1.4, color: 'rgba(99, 102, 241, 0.9)', bg: 'rgba(99, 102, 241, 0.2)' },
+        { label: 'Lange Ausatmen (8s)', sub: 'Mit leisem Rauschen durch den Mund', duration: 8000, scale: 0.8, color: 'rgba(217, 70, 239, 0.8)', bg: 'rgba(217, 70, 239, 0.15)' }
+      ]
+    },
+    coherence: {
+      id: 'coherence',
+      name: 'Herz-Kohärenz (5.5s - 5.5s)',
+      subtitle: 'Resonanzatmung • Maximale Herzratenvariabilität (HRV)',
+      phases: [
+        { label: 'Fließend Einatmen (5.5s)', sub: 'Sanfter Atemstrom', duration: 5500, scale: 1.5, color: 'rgba(16, 185, 129, 0.9)', bg: 'rgba(16, 185, 129, 0.2)' },
+        { label: 'Fließend Ausatmen (5.5s)', sub: 'Vollkommen loslassen', duration: 5500, scale: 0.85, color: 'rgba(6, 182, 212, 0.9)', bg: 'rgba(6, 182, 212, 0.15)' }
+      ]
+    }
+  };
+
   // --- TRANSLATIONS FOR REGULATION STUDIO ---
   const REGULATION_TEXTS = {
     de: {
       title: "Innere Ruhe & Somatische Regulation",
       subtitle: "Neurobiologisch fundierte Methoden zur Beruhigung des vegetativen Nervensystems",
-      tab_reset: "🚨 Akut-Reset",
+      tab_reset: "🚨 Akut-Reset & Atmung",
       tab_grounding: "⚓ Erdung (5-4-3-2-1)",
       tab_somatic: "🌊 Körper-Release",
       tab_mind: "🧠 Beruhigender Dialog",
       tab_audio: "🎵 Bio-Resonanz (432Hz)",
       tab_crisis: "🤝 Notfall-Hilfe",
       
-      // Akut Reset
       sigh_title: "Physiologischer Seufzer (Stanford Neuroscience)",
       sigh_desc: "Die biologisch schnellste Methode, um die Herzfrequenz zu senken und das Alarmsystem im Gehirn herunterzufahren.",
       sigh_step1: "1. Tief durch die Nase einatmen",
@@ -34040,7 +36639,6 @@ if (typeof globalThis !== 'undefined') {
       tipp_step2: "• Lege es auf Stirn, Wangen und Schläfen",
       tipp_step3: "• Halte für 15-20 Sekunden sanft die Luft an und beuge dich leicht vor",
       
-      // Grounding
       grounding_title: "Sensorisches 5-4-3-2-1 Grounding",
       grounding_intro: "Bringe dein Bewusstsein zurück ins Hier und Jetzt. Nimm dir für jeden Sinn bewusst Zeit.",
       ground_5: "5 DINGE SEHEN 👀",
@@ -34056,7 +36654,6 @@ if (typeof globalThis !== 'undefined') {
       ground_next: "Weiter",
       ground_restart: "Neu starten",
       
-      // Somatic
       shake_title: "Neurogenes Ausschütteln (60s Shake-Out)",
       shake_desc: "Tiere zittern nach Stress instinktiv, um Adrenalin aus den Muskeln abzutransportieren. Schüttle sanft Hände, Arme und Beine aus.",
       shake_start: "60s Timer starten",
@@ -34068,7 +36665,6 @@ if (typeof globalThis !== 'undefined') {
       pmr_step1: "Schultern zu den Ohren hochziehen & fest anspannen (5s)...",
       pmr_step2: "Komplett fallen lassen und das plötzliche Gefühl von Schwere spüren (15s).",
       
-      // Mind
       mind_title: "Validierende Leitsätze bei Anspannung & Panik",
       mind_desc: "Erinnere deinen Verstand daran, dass Anspannung eine natürliche körperliche Reaktion ist, die von selbst wieder abebbt.",
       reassurance_1: "„Mein Körper schlägt gerade falschen Alarm. Es fühlt sich unangenehm an, ist aber nicht gefährlich.“",
@@ -34084,7 +36680,6 @@ if (typeof globalThis !== 'undefined') {
       sud_saved_post: "Aktueller Wert: Level",
       sud_improvement: "Großartig! Dein Nervensystem hat sich messbar beruhigt.",
       
-      // Audio
       audio_title: "Neuroakustische Frequenzen & Resonanz",
       audio_desc: "Sanfte Schwingungen zur Stimulation von Alphawellen (Entspannung) und Thetawellen (Tiefenruhe).",
       audio_432: "432 Hz Solfeggio (Natürliche Harmonie & Erdung)",
@@ -34093,7 +36688,6 @@ if (typeof globalThis !== 'undefined') {
       audio_play: "Frequenz abspielen",
       audio_stop: "Stopp",
       
-      // Crisis
       crisis_title: "Kostenfreie & Anonyme Hilfsangebote",
       crisis_desc: "Wenn du dich überwältigt fühlst oder jemanden zum Reden brauchst, bist du nicht allein:",
       crisis_de_phone1: "TelefonSeelsorge (kostenfrei, 24/7): 0800 111 0 111 oder 0800 111 0 222",
@@ -34106,7 +36700,7 @@ if (typeof globalThis !== 'undefined') {
     en: {
       title: "Inner Peace & Somatic Regulation",
       subtitle: "Neurobiologically grounded practices to calm the autonomic nervous system",
-      tab_reset: "🚨 Acute Reset",
+      tab_reset: "🚨 Acute Reset & Breathing",
       tab_grounding: "⚓ Grounding (5-4-3-2-1)",
       tab_somatic: "🌊 Body Release",
       tab_mind: "🧠 Reassuring Dialogue",
@@ -34191,194 +36785,6 @@ if (typeof globalThis !== 'undefined') {
       crisis_at: "International: Befrienders Worldwide (befrienders.org)",
       crisis_ch: "Europe Emergency: 112",
       crisis_intl: "You are not alone. Reaching out is a sign of strength."
-    },
-    fr: {
-      title: "Paix Intérieure & Régulation Somatique",
-      subtitle: "Méthodes neurobiologiques pour apaiser le système nerveux autonome",
-      tab_reset: "🚨 Reset Aigu",
-      tab_grounding: "⚓ Ancrage (5-4-3-2-1)",
-      tab_somatic: "🌊 Libération Corporelle",
-      tab_mind: "🧠 Dialogue Apaisant",
-      tab_audio: "🎵 Bio-Résonance (432Hz)",
-      tab_crisis: "🤝 Soutien d'Urgence",
-      sigh_title: "Soupir Physiologique (Stanford)",
-      sigh_desc: "La méthode biologique la plus rapide pour ralentir le rythme cardiaque.",
-      sigh_step1: "1. Inspirez profondément par le nez",
-      sigh_step2: "2. Reprenez une courte inspiration au sommet !",
-      sigh_step3: "3. Expirez très lentement par la bouche",
-      sigh_btn_start: "Démarrer le guide respiratoire",
-      sigh_btn_stop: "Mettre en pause",
-      bilateral_title: "Stimulation Bilatérale",
-      bilateral_desc: "Tapottement alterné sur les épaules pour rééquilibrer le cerveau.",
-      bilateral_left: "GAUCHE",
-      bilateral_right: "DROITE",
-      bilateral_start: "Démarrer le rythme",
-      bilateral_stop: "Arrêter",
-      grounding_title: "Ancrage Sensoriel 5-4-3-2-1",
-      grounding_intro: "Revenez en douceur dans le moment présent.",
-      ground_5: "5 CHOSES À VOIR 👀",
-      ground_4: "4 CHOSES À TOUCHER ✋",
-      ground_3: "3 CHOSES À ÉCOUTER 👂",
-      ground_2: "2 CHOSES À SENTIR 👃",
-      ground_1: "1 CHOSE À GOÛTER 👅",
-      ground_next: "Suivant",
-      ground_restart: "Recommencer",
-      shake_title: "Secouement Neurogène (60s)",
-      shake_desc: "Secouez doucement les bras et jambes pour libérer l'adrénaline.",
-      shake_start: "Démarrer 60s",
-      pmr_title: "Micro-Relaxation Musculaire",
-      pmr_desc: "Haussez les épaules 5s, puis relâchez totalement.",
-      mind_title: "Phrases d'Apaisement & ACT",
-      reassurance_1: "« Mon corps déclenche une fausse alerte. C'est inconfortable, mais je suis en sécurité. »",
-      reassurance_2: "« La vague d'adrénaline redescend en 3 minutes. Cela passe déjà. »",
-      reassurance_3: "« Je respire et je m'ancre dans le présent. »",
-      audio_title: "Fréquences Thérapeutiques",
-      audio_432: "432 Hz Solfeggio (Harmonie)",
-      audio_play: "Écouter",
-      audio_stop: "Arrêter",
-      crisis_title: "Aide & Écoute Anonyme",
-      crisis_desc: "Numéro national d'aide d'urgence : 3114 (France, 24/7 gratuit)."
-    },
-    it: {
-      title: "Pace Interiore & Regolazione Somatica",
-      subtitle: "Metodi neurobiologici per calmare il sistema nervoso autonomo",
-      tab_reset: "🚨 Reset Rapido",
-      tab_grounding: "⚓ Radicamento (5-4-3-2-1)",
-      tab_somatic: "🌊 Rilascio Corporeo",
-      tab_mind: "🧠 Dialogo Rassicurante",
-      tab_audio: "🎵 Bio-Risonanza (432Hz)",
-      tab_crisis: "🤝 Supporto",
-      sigh_title: "Sospiro Fisiologico (Stanford)",
-      sigh_desc: "Il metodo più rapido per abbassare la frequenza cardiaca.",
-      sigh_step1: "1. Inspira a fondo con il naso",
-      sigh_step2: "2. Fai un ulteriore piccolo respiro al culmine!",
-      sigh_step3: "3. Espira molto lentamente dalla bocca",
-      sigh_btn_start: "Avvia ritmo",
-      sigh_btn_stop: "Pausa",
-      bilateral_title: "Stimolazione Bilaterale",
-      bilateral_desc: "Picchiettamento alternato su spalle o cosce per ritrovare equilibrio.",
-      bilateral_left: "SINISTRA",
-      bilateral_right: "DESTRA",
-      bilateral_start: "Avvia",
-      bilateral_stop: "Stop",
-      grounding_title: "Radicamento Sensoriale 5-4-3-2-1",
-      grounding_intro: "Ritorna nel momento presente con i tuoi sensi.",
-      ground_5: "5 COSE DA VEDERE 👀",
-      ground_4: "4 COSE DA TOCCARE ✋",
-      ground_3: "3 COSE DA ASCOLTARE 👂",
-      ground_2: "2 COSE DA ODORARE 👃",
-      ground_1: "1 COSA DA GUSTARE 👅",
-      ground_next: "Avanti",
-      ground_restart: "Riavvia",
-      shake_title: "Scuotimento Neurogeno (60s)",
-      shake_desc: "Scuoti delicatamente braccia e gambe per scaricare la tensione.",
-      shake_start: "Avvia 60s",
-      pmr_title: "Micro-Rilassamento Muscolare",
-      pmr_desc: "Tendi le spalle per 5s, poi rilascia completamente.",
-      mind_title: "Frasi Rassicuranti & ACT",
-      reassurance_1: "«Il mio corpo sta dando un falso allarme. È spiacevole, ma sono al sicuro.»",
-      reassurance_2: "«L'ondata di adrenalina dura pochi minuti. Sta già diminuendo.»",
-      reassurance_3: "«Sono qui, respiro e lascio che il mio corpo si calmi.»",
-      audio_title: "Frequenze Rilassanti",
-      audio_432: "432 Hz Solfeggio (Armonia)",
-      audio_play: "Riproduci",
-      audio_stop: "Stop",
-      crisis_title: "Supporto & Ascolto",
-      crisis_desc: "Telefono Amico Italia: 02 2327 2327 o Emergenza 112."
-    },
-    es: {
-      title: "Paz Interior & Regulación Somática",
-      subtitle: "Métodos neurobiológicos para calmar el sistema nervioso autónomo",
-      tab_reset: "🚨 Reset Rápido",
-      tab_grounding: "⚓ Anclaje (5-4-3-2-1)",
-      tab_somatic: "🌊 Liberación Corporal",
-      tab_mind: "🧠 Diálogo Calmante",
-      tab_audio: "🎵 Bio-Resonancia (432Hz)",
-      tab_crisis: "🤝 Ayuda Inmediata",
-      sigh_title: "Suspiro Fisiológico (Stanford)",
-      sigh_desc: "La técnica biológica más rápida para bajar el ritmo cardíaco y la ansiedad.",
-      sigh_step1: "1. Inhala profundo por la nariz",
-      sigh_step2: "2. ¡Toma un sorbo extra de aire al final!",
-      sigh_step3: "3. Exhala muy despacio por la boca",
-      sigh_btn_start: "Iniciar guía respiratoria",
-      sigh_btn_stop: "Pausar",
-      bilateral_title: "Estimulación Bilateral",
-      bilateral_desc: "Toques alternos en hombros o muslos para equilibrar el cerebro.",
-      bilateral_left: "IZQUIERDA",
-      bilateral_right: "DERECHA",
-      bilateral_start: "Iniciar",
-      bilateral_stop: "Detener",
-      grounding_title: "Anclaje Sensorial 5-4-3-2-1",
-      grounding_intro: "Vuelve con suavidad al momento presente.",
-      ground_5: "5 COSAS QUE VER 👀",
-      ground_4: "4 COSAS QUE SENTIR ✋",
-      ground_3: "3 COSAS QUE ESCUCHAR 👂",
-      ground_2: "2 COSAS QUE OLER 👃",
-      ground_1: "1 COSA QUE SABOREAR 👅",
-      ground_next: "Siguiente",
-      ground_restart: "Reiniciar",
-      shake_title: "Sacudida Neurobiológica (60s)",
-      shake_desc: "Sacude suavemente manos, brazos y piernas para disipar la adrenalina.",
-      shake_start: "Iniciar 60s",
-      pmr_title: "Micro-Relajación Muscular",
-      pmr_desc: "Tensa los hombros durante 5s y suelta por completo.",
-      mind_title: "Afirmaciones de Seguridad & ACT",
-      reassurance_1: "«Mi cuerpo está dando una falsa alarma. Es incómodo, pero estoy a salvo.»",
-      reassurance_2: "«La ola de adrenalina baja en pocos minutos. Ya está disminuyendo.»",
-      reassurance_3: "«Estoy aquí, respiro y dejo que mi cuerpo se calme a su ritmo.»",
-      audio_title: "Frecuencias Curativas",
-      audio_432: "432 Hz Solfeggio (Armonía)",
-      audio_play: "Reproducir",
-      audio_stop: "Parar",
-      crisis_title: "Líneas de Ayuda Gratuitas",
-      crisis_desc: "Teléfono de la Esperanza (España): 717 003 717 o Emergencias 112."
-    },
-    el: {
-      title: "Εσωτερική Γαλήνη & Σωματική Ρύθμιση",
-      subtitle: "Νευροβιολογικές τεχνικές ηρεμίας του αυτόνομου νευρικού συστήματος",
-      tab_reset: "🚨 Άμεση Επαναφορά",
-      tab_grounding: "⚓ Γείωση (5-4-3-2-1)",
-      tab_somatic: "🌊 Σωματική Αποφόρτιση",
-      tab_mind: "🧠 Καθησυχαστικός Διάλογος",
-      tab_audio: "🎵 Βιο-Συχνότητες (432Hz)",
-      tab_crisis: "🤝 Γραμμές Βοήθειας",
-      sigh_title: "Φυσιολογικός Αναστεναγμός (Stanford)",
-      sigh_desc: "Η ταχύτερη βιολογική μέθοδος για μείωση των παλμών της καρδιάς.",
-      sigh_step1: "1. Βαθιά εισπνοή από τη μύτη",
-      sigh_step2: "2. Μια επιπλέον μικρή εισπνοή στην κορυφή!",
-      sigh_step3: "3. Πολύ αργή εκπνοή από το στόμα",
-      sigh_btn_start: "Έναρξη αναπνοής",
-      sigh_btn_stop: "Παύση",
-      bilateral_title: "Διμερής Διέγερση",
-      bilateral_desc: "Εναλλάξ απαλά χτυπήματα στους ώμους για εξισορρόπηση των ημισφαιρίων.",
-      bilateral_left: "ΑΡΙΣΤΕΡΑ",
-      bilateral_right: "ΔΕΞΙΑ",
-      bilateral_start: "Έναρξη",
-      bilateral_stop: "Διακοπή",
-      grounding_title: "Αισθητηριακή Γείωση 5-4-3-2-1",
-      grounding_intro: "Επιστροφή με ασφάλεια στο παρόν.",
-      ground_5: "5 ΠΡΑΓΜΑΤΑ ΝΑ ΔΕΙΣ 👀",
-      ground_4: "4 ΠΡΑΓΜΑΤΑ ΝΑ ΑΓΓΙΞΕΙΣ ✋",
-      ground_3: "3 ΠΡΑΓΜΑΤΑ ΝΑ ΑΚΟΥΣΕΙΣ 👂",
-      ground_2: "2 ΠΡΑΓΜΑΤΑ ΝΑ ΜΥΡΙΣΕΙΣ 👃",
-      ground_1: "1 ΠΡΑΓΜΑ ΝΑ ΓΕΥΤΕΙΣ 👅",
-      ground_next: "Επόμενο",
-      ground_restart: "Επανεκκίνηση",
-      shake_title: "Νευρογενές Τίναγμα (60s)",
-      shake_desc: "Απαλό τίναγμα χεριών και ποδιών για απομάκρυνση της αδρεναλίνης.",
-      shake_start: "Έναρξη 60s",
-      pmr_title: "Μικρο-Μυϊκή Χαλάρωση",
-      pmr_desc: "Σφίξιμο ώμων για 5s και πλήρης απελευθέρωση.",
-      mind_title: "Καθησυχαστικές Σκέψεις",
-      reassurance_1: "«Το σώμα μου δίνει έναν ψευδή συναγερμό. Είναι δυσάρεστο, αλλά είμαι ασφαλής.»",
-      reassurance_2: "«Το κύμα αδρεναλίνης θα κοπάσει σε λίγα λεπτά. Ήδη υποχωρεί.»",
-      reassurance_3: "«Είμαι εδώ, αναπνέω και εμπιστεύομαι το σώμα μου να ηρεμήσει.»",
-      audio_title: "Θεραπευτικές Συχνότητες",
-      audio_432: "432 Hz Solfeggio (Αρμονία)",
-      audio_play: "Αναπαραγωγή",
-      audio_stop: "Διακοπή",
-      crisis_title: "Γραμμές Βοήθειας & Στήριξης",
-      crisis_desc: "Γραμμή Ψυχολογικής Υποστήριξης 10306 ή Άμεση Δράση 112."
     }
   };
 
@@ -34435,8 +36841,26 @@ if (typeof globalThis !== 'undefined') {
     }
   }
 
-  // --- 1. PHYSIOLOGICAL SIGH PACER ---
-  let isPacerRunning = false;
+  function setBreathPattern(patternId) {
+    if (BREATH_PATTERNS[patternId]) {
+      activeBreathPattern = patternId;
+      if (isPacerRunning) {
+        startBreathPacer();
+      } else {
+        updateBreathPatternUI();
+      }
+    }
+  }
+
+  function updateBreathPatternUI() {
+    const p = BREATH_PATTERNS[activeBreathPattern] || BREATH_PATTERNS.sigh;
+    const label = document.getElementById('reg-sigh-label');
+    const sub = document.getElementById('reg-sigh-sub');
+    if (label) label.innerText = p.phases[0].label;
+    if (sub) sub.innerText = p.subtitle;
+  }
+
+  // --- 1. MULTI-PATTERN BREATH PACER ---
   function toggleBreathPacer() {
     if (isPacerRunning) stopBreathPacer();
     else startBreathPacer();
@@ -34454,48 +36878,40 @@ if (typeof globalThis !== 'undefined') {
     const sub = document.getElementById('reg-sigh-sub');
     const timer = document.getElementById('reg-sigh-timer');
 
-    function cycle() {
+    const pattern = BREATH_PATTERNS[activeBreathPattern] || BREATH_PATTERNS.sigh;
+    let phaseIdx = 0;
+
+    function runPhase() {
       if (!isPacerRunning) return;
-      // Phase 1: Inhale 1 (2.5s)
-      if (label) label.innerText = getRegText('sigh_step1');
-      if (sub) sub.innerText = "Nase • Tief einatmen";
-      if (timer) timer.innerText = "2.5s";
+      const ph = pattern.phases[phaseIdx];
+      if (!ph) return;
+
+      if (label) label.innerText = ph.label;
+      if (sub) sub.innerText = ph.sub || pattern.name;
+      if (timer) timer.innerText = `${(ph.duration / 1000).toFixed(1)}s`;
       if (circle) {
-        circle.style.transform = "scale(1.35)";
-        circle.style.borderColor = "rgba(20, 184, 166, 0.9)";
-        circle.style.backgroundColor = "rgba(20, 184, 166, 0.2)";
+        circle.style.transform = `scale(${ph.scale})`;
+        circle.style.borderColor = ph.color;
+        circle.style.backgroundColor = ph.bg;
       }
+
+      playSoftTick(phaseIdx === 0 ? 330 : 260);
 
       breathTimer = setTimeout(() => {
         if (!isPacerRunning) return;
-        // Phase 2: Inhale Top-up (1.2s)
-        if (label) label.innerText = getRegText('sigh_step2');
-        if (sub) sub.innerText = "Kurz nachatmen!";
-        if (timer) timer.innerText = "1.0s";
-        if (circle) {
-          circle.style.transform = "scale(1.55)";
-          circle.style.borderColor = "rgba(137, 207, 240, 1)";
-          circle.style.backgroundColor = "rgba(137, 207, 240, 0.25)";
-        }
-
-        breathTimer = setTimeout(() => {
-          if (!isPacerRunning) return;
-          // Phase 3: Long Exhale (6.5s)
-          if (label) label.innerText = getRegText('sigh_step3');
-          if (sub) sub.innerText = "Mund • Ganz entspannt loslassen...";
-          if (timer) timer.innerText = "6.5s";
-          if (circle) {
-            circle.style.transform = "scale(0.85)";
-            circle.style.borderColor = "rgba(168, 85, 247, 0.7)";
-            circle.style.backgroundColor = "rgba(168, 85, 247, 0.1)";
+        phaseIdx++;
+        if (phaseIdx >= pattern.phases.length) {
+          phaseIdx = 0;
+          breathCyclesCompleted++;
+          if (typeof playProceduralSound === 'function' && breathCyclesCompleted % 3 === 0) {
+            playProceduralSound(3);
           }
-
-          breathTimer = setTimeout(cycle, 6500);
-        }, 1200);
-      }, 2500);
+        }
+        runPhase();
+      }, ph.duration);
     }
 
-    cycle();
+    runPhase();
   }
 
   function stopBreathPacer() {
@@ -34522,7 +36938,6 @@ if (typeof globalThis !== 'undefined') {
   }
 
   // --- 2. BILATERAL STIMULATION PACER ---
-  let isBilateralRunning = false;
   function toggleBilateralPacing() {
     if (isBilateralRunning) stopBilateralPacing();
     else startBilateralPacing();
@@ -34604,10 +37019,7 @@ if (typeof globalThis !== 'undefined') {
     } else {
       groundingStep = 1;
       if (typeof showToast === 'function') {
-        showToast(typeof tr === 'function' ? tr({
-          de: "✨ Erdung abgeschlossen! Spüre die Stabilität unter deinen Füßen.",
-          en: "✨ Grounding complete! Notice the stability beneath your feet."
-        }) : "✨ Erdung abgeschlossen!");
+        showToast("✨ Erdung abgeschlossen! Spüre die Stabilität unter deinen Füßen.");
       }
     }
     renderGroundingStep();
@@ -34635,7 +37047,7 @@ if (typeof globalThis !== 'undefined') {
 
     if (btn) btn.innerHTML = `<i data-lucide="pause" class="w-4 h-4"></i> <span>Stopp</span>`;
     if (statusEl) statusEl.innerText = getRegText('shake_running');
-    if (ring) ring.classList.add('animate-pulse');
+    if (ring) ring.classList.add('border-teal-400/60');
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
 
     shakeInterval = setInterval(() => {
@@ -34646,10 +37058,7 @@ if (typeof globalThis !== 'undefined') {
         if (statusEl) statusEl.innerText = getRegText('shake_done');
         playSoftChime();
         if (typeof showToast === 'function') {
-          showToast(typeof tr === 'function' ? tr({
-            de: "🌊 60s Shake-Out beendet! Dein Körper baut Stresshormone spürbar ab.",
-            en: "🌊 60s Shake-Out finished! Your body is actively releasing stress hormones."
-          }) : "🌊 Shake-Out beendet!");
+          showToast("🌊 60s Shake-Out beendet! Dein Körper baut Stresshormone spürbar ab.");
         }
       }
     }, 1000);
@@ -34667,7 +37076,7 @@ if (typeof globalThis !== 'undefined') {
     const ring = document.getElementById('reg-shake-ring');
     if (btn) btn.innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> <span>${getRegText('shake_start')}</span>`;
     if (countEl) countEl.innerText = `${shakeTimeRemaining}s`;
-    if (ring) ring.classList.remove('animate-pulse');
+    if (ring) ring.classList.remove('border-teal-400/60');
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
   }
 
@@ -34708,8 +37117,6 @@ if (typeof globalThis !== 'undefined') {
       osc.start();
       activeAudioOsc = osc;
     } else if (type === 'theta') {
-      // 6 Hz binaural beat (Carrier 216 Hz & 222 Hz)
-      const merger = ctx.createChannelMerger(2);
       const oscL = ctx.createOscillator();
       const oscR = ctx.createOscillator();
       oscL.type = 'sine';
@@ -34723,7 +37130,6 @@ if (typeof globalThis !== 'undefined') {
       oscR.start();
       activeAudioOsc = { stop: () => { oscL.stop(); oscR.stop(); } };
     } else if (type === 'ocean') {
-      // Procedural soft pink/brown noise wave
       const bufferSize = ctx.sampleRate * 2;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -34856,6 +37262,7 @@ if (typeof globalThis !== 'undefined') {
     openModal: openRegulationModal,
     closeModal: closeRegulationModal,
     switchTab: switchRegulationTab,
+    setPattern: setBreathPattern,
     togglePacer: toggleBreathPacer,
     toggleBilateral: toggleBilateralPacing,
     nextGrounding: nextGroundingStep,
@@ -34863,7 +37270,8 @@ if (typeof globalThis !== 'undefined') {
     toggleShake: toggleShakeTimer,
     playFrequency: playBioFrequency,
     stopAudio: stopBioAudio,
-    selectSUD: selectSUDLevel
+    selectSUD: selectSUDLevel,
+    BREATH_PATTERNS
   };
 
   if (typeof window !== 'undefined') {
@@ -34931,7 +37339,7 @@ if (typeof globalThis !== 'undefined') {
       gender: 'all',
       intervalMonths: 6,
       officialBody: 'G-BA Richtlinie',
-      icon: 'sparkles',
+      icon: 'smile',
       color: 'sky'
     },
     {
@@ -35340,7 +37748,7 @@ if (typeof globalThis !== 'undefined') {
                   <div class="min-w-0">
                     <div class="flex items-center gap-1.5">
                       <h4 class="font-bold text-white text-xs truncate">${c.title}</h4>
-                      <span class="px-1.5 py-0.2 rounded text-[8.5px] font-mono font-bold ${c.status === 'done' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : c.status === 'urgent' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}">
+                      <span class="px-1.5 py-0.2 rounded text-[8.5px] font-mono font-bold ${c.status === 'done' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : c.status === 'urgent' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}">
                         ${c.status === 'done' ? tr({de:'Erledigt ✓',en:'Done ✓',fr:'Fait ✓',it:'Fatto ✓',es:'Hecho ✓',el:'Ολοκληρώθηκε ✓'}) : c.status === 'urgent' ? tr({de:'Überfällig!',en:'Overdue!',fr:'En retard !',it:'Scaduto!',es:'¡Atrasado!',el:'Εκπρόθεσμο!'}) : tr({de:'Fällig',en:'Due',fr:'Dû',it:'In scadenza',es:'Pendiente',el:'Εκκρεμεί'})}
                       </span>
                     </div>
@@ -35591,12 +37999,12 @@ if (typeof globalThis !== 'undefined') {
     },
     {
       q: {
-        de: "Was ist das ADHS-Motto beim Aufräumen?",
-        en: "What is the ADHD motto when tidying up?",
-        fr: "Quelle est la devise TDAH pour ranger ?",
-        it: "Qual è il motto ADHD per riordinare?",
-        es: "¿Cuál es el lema del TDAH al ordenar?",
-        el: "Ποιο είναι το μότο της ΔΕΠΥ στο συμμάζεμα;"
+        de: "Was ist das kreative Multitasking-Motto beim Aufräumen?",
+        en: "What is the creative multitasking motto when tidying up?",
+        fr: "Quelle est la devise du multitâche créatif pour ranger ?",
+        it: "Qual è il motto del multitasking per riordinare?",
+        es: "¿Cuál es el lema del multitasking creativo al ordenar?",
+        el: "Ποιο είναι το μότο του δημιουργικού multitasking στο συμμάζεμα;"
       },
       a: {
         de: "Ich bringe nur kurz dieses Buch ins Regal... und 4 Stunden später habe ich Origami gelernt.",
@@ -38061,9 +40469,9 @@ if (typeof globalThis !== 'undefined') {
   function isIdleEnabled() {
     try {
       const stored = localStorage.getItem('noodle_idle_fx_enabled');
-      return stored !== 'false';
+      return stored === 'true'; // Opt-in: Standardmäßig deaktiviert, um Reizüberflutung zu verhindern
     } catch(e) {
-      return true;
+      return false;
     }
   }
 
@@ -38267,7 +40675,7 @@ if (typeof globalThis !== 'undefined') {
               <span class="text-base group-hover:scale-110 transition-transform">📼</span>
               <span class="text-[10px] font-bold truncate mt-0.5">VHS Band</span>
             </button>
-            <button onclick="HumorEngine.toggleNervousTwitch()" class="p-1.5 rounded-xl bg-yellow-600/15 hover:bg-yellow-600/30 border border-yellow-500/30 text-xs font-bold text-yellow-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Koffein-Schock: ADHS-Zappel-Panik">
+            <button onclick="HumorEngine.toggleNervousTwitch()" class="p-1.5 rounded-xl bg-yellow-600/15 hover:bg-yellow-600/30 border border-yellow-500/30 text-xs font-bold text-yellow-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Koffein-Schock: Hyper-Energie & Shake">
               <span class="text-base group-hover:scale-110 transition-transform">⚡</span>
               <span class="text-[10px] font-bold truncate mt-0.5">Hyper-Twitch</span>
             </button>
@@ -38535,7 +40943,7 @@ if (typeof globalThis !== 'undefined') {
         </div>
         <div class="flex items-center gap-1">
           <button onclick="HumorEngine.panicReset()" class="px-2 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[10px] font-bold transition cursor-pointer" title="Notfall-Reset: Alle Effekte sofort beenden">
-            ${tr({ de: "🛡️ Panic Reset [ESC]", en: "🛡️ Panic Reset [ESC]", fr: "🛡️ Reset Panique [Échap]", it: "🛡️ Reset Panico [ESC]", es: "🛡️ Reinicio Pánico [ESC]", el: "🛡️ Επαναφορά Πανικού [ESC]" })}
+            ${tr({ de: "🛡️ Notfall-Reset", en: "🛡️ Panic Reset", fr: "🛡️ Reset Panique", it: "🛡️ Reset Panico", es: "🛡️ Reinicio Pánico", el: "🛡️ Επαναφορά Πανικού" })}
           </button>
           <button onclick="togglePanel('humor-lab')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
         </div>
@@ -38860,34 +41268,33 @@ window.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
 window.getDepartmentForItem = getDepartmentForItem;
 
 // -------------------------------------------------------------
-// TAB SWITCHER: [ LISTE ] vs [ DISCOUNTER-DEALS ]
+// TAB SWITCHER: [ LISTE ] vs [ DISCOUNTER-DEALS ] vs [ VORRATSKAMMER ]
 // -------------------------------------------------------------
 function switchShoppingTab(tabName) {
   activeShoppingTab = tabName;
   const listPane = document.getElementById('shopping-pane-list');
   const dealsPane = document.getElementById('shopping-pane-deals');
+  const pantryPane = document.getElementById('shopping-pane-pantry');
   const btnList = document.getElementById('shopping-tab-btn-list');
   const btnDeals = document.getElementById('shopping-tab-btn-deals');
+  const btnPantry = document.getElementById('shopping-tab-btn-pantry');
+
+  const activeBtnClass = 'flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition';
+  const inactiveBtnClass = 'flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
+
+  if (listPane) listPane.classList.toggle('hidden', tabName !== 'list');
+  if (dealsPane) dealsPane.classList.toggle('hidden', tabName !== 'deals');
+  if (pantryPane) pantryPane.classList.toggle('hidden', tabName !== 'pantry');
+
+  if (btnList) btnList.className = tabName === 'list' ? activeBtnClass : inactiveBtnClass;
+  if (btnDeals) btnDeals.className = tabName === 'deals' ? activeBtnClass : inactiveBtnClass;
+  if (btnPantry) btnPantry.className = tabName === 'pantry' ? activeBtnClass : inactiveBtnClass;
 
   if (tabName === 'deals') {
-    if (listPane) listPane.classList.add('hidden');
-    if (dealsPane) dealsPane.classList.remove('hidden');
-    if (btnList) {
-      btnList.className = 'flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
-    }
-    if (btnDeals) {
-      btnDeals.className = 'flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer';
-    }
     renderDiscounterDeals();
+  } else if (tabName === 'pantry') {
+    renderPantryTab();
   } else {
-    if (listPane) listPane.classList.remove('hidden');
-    if (dealsPane) dealsPane.classList.add('hidden');
-    if (btnList) {
-      btnList.className = 'flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer';
-    }
-    if (btnDeals) {
-      btnDeals.className = 'flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
-    }
     updateShoppingListPopup();
   }
   if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -38959,6 +41366,9 @@ function handleAddShoppingItem(explicitName = null, options = {}) {
   saveState();
   renderApp();
   renderSupermarketModal();
+
+  const activeInput = document.getElementById('shop-add-name') || document.getElementById('supermarket-add-input');
+  if (activeInput) activeInput.focus();
 
   if (itemsToAdd.length === 1) {
     showToast(tr({
@@ -39670,6 +42080,348 @@ function clearCompletedShopItems() {
   }
 }
 
+// -------------------------------------------------------------
+// VORRATSKAMMER (PANTRY & HALTBARKEIT) ENGINE
+// -------------------------------------------------------------
+
+function getPantryItems() {
+  if (!state.pantryItems || !Array.isArray(state.pantryItems)) {
+    if (state.cooking && Array.isArray(state.cooking.pantryItems)) {
+      state.pantryItems = state.cooking.pantryItems;
+    } else {
+      state.pantryItems = [];
+    }
+  }
+  return state.pantryItems;
+}
+
+function getPantryItemFreshness(item) {
+  if (!item.expiresAt) return { status: 'good', daysLeft: 99, label: 'Haltbar', badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' };
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const exp = new Date(item.expiresAt);
+  exp.setHours(0, 0, 0, 0);
+  const diffDays = Math.round((exp - now) / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0) {
+    return { status: 'expired', daysLeft: diffDays, label: `Abgelaufen (${Math.abs(diffDays)}T)`, badgeClass: 'bg-rose-500/25 text-rose-300 border-rose-500/40 animate-pulse' };
+  }
+  if (diffDays === 0) {
+    return { status: 'warning', daysLeft: 0, label: 'Heute verbrauchen!', badgeClass: 'bg-amber-500/25 text-amber-300 border-amber-500/40 animate-pulse' };
+  }
+  if (diffDays <= 3) {
+    return { status: 'warning', daysLeft: diffDays, label: `Noch ${diffDays} Tage`, badgeClass: 'bg-amber-500/20 text-amber-300 border-amber-500/30' };
+  }
+  return { status: 'good', daysLeft: diffDays, label: `Noch ${diffDays} Tage`, badgeClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' };
+}
+
+function handleAddPantryItem(explicitName = null, options = {}) {
+  let rawInput = explicitName;
+  if (!rawInput) {
+    const inp = document.getElementById('pantry-add-input');
+    rawInput = inp ? inp.value.trim() : '';
+    if (inp) inp.value = '';
+  }
+  if (!rawInput) return;
+
+  saveHistory();
+  const pantry = getPantryItems();
+  const itemsToAdd = rawInput.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+
+  itemsToAdd.forEach(text => {
+    let name = text;
+    let qty = (typeof options.qty === 'number') ? options.qty : 1;
+    let unit = options.unit || '';
+
+    const qtyMatch = text.match(/^(\d+)\s*(x|kg|g|l|ml|bund|stk|packung|dose|gläser|glas)?\s+(.+)$/i);
+    if (qtyMatch) {
+      if (typeof options.qty !== 'number') {
+        qty = parseInt(qtyMatch[1], 10) || 1;
+      }
+      if (!options.unit && qtyMatch[2]) {
+        unit = qtyMatch[2] || '';
+      }
+      name = qtyMatch[3].trim();
+    }
+
+    const dept = options.dept || getDepartmentForItem(name);
+    const expiryDays = options.expiryDays || 14;
+    const expiresAt = new Date(Date.now() + expiryDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+    const existing = pantry.find(p => p.name.toLowerCase() === name.toLowerCase());
+    if (existing) {
+      existing.qty = (existing.qty || 1) + qty;
+      if (unit) existing.unit = unit;
+      existing.expiresAt = expiresAt;
+    } else {
+      pantry.push({
+        id: 'pantry-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+        name,
+        qty,
+        unit,
+        dept,
+        expiresAt,
+        addedAt: new Date().toISOString().split('T')[0]
+      });
+    }
+  });
+
+  saveState();
+  renderApp();
+  renderPantryTab();
+  showToast(`📦 ${itemsToAdd.length} Artikel in Vorratskammer gelegt!`);
+}
+window.handleAddPantryItem = handleAddPantryItem;
+
+function handleDeletePantryItem(index) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  saveHistory();
+  const removed = pantry.splice(index, 1)[0];
+  saveState();
+  renderApp();
+  renderPantryTab();
+  showToast(`🗑️ "${removed.name}" aus Vorrat gelöscht.`);
+}
+window.handleDeletePantryItem = handleDeletePantryItem;
+
+function adjustPantryItemQty(index, delta) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  saveHistory();
+  const newQty = (pantry[index].qty || 1) + delta;
+  if (newQty <= 0) {
+    handleDeletePantryItem(index);
+    return;
+  }
+  pantry[index].qty = newQty;
+  saveState();
+  renderApp();
+  renderPantryTab();
+}
+window.adjustPantryItemQty = adjustPantryItemQty;
+
+function extendPantryExpiry(index, daysToAdd) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  saveHistory();
+  const currentExp = pantry[index].expiresAt ? new Date(pantry[index].expiresAt) : new Date();
+  const newDate = new Date(currentExp.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+  pantry[index].expiresAt = newDate.toISOString().split('T')[0];
+  saveState();
+  renderApp();
+  renderPantryTab();
+  showToast(`⏳ Haltbarkeit für "${pantry[index].name}" um +${daysToAdd} Tage verlängert.`);
+}
+window.extendPantryExpiry = extendPantryExpiry;
+
+function movePantryItemToShoppingList(index) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  const pItem = pantry[index];
+  handleAddShoppingItem(pItem.name, { qty: pItem.qty || 1, unit: pItem.unit || '', dept: pItem.dept });
+  showToast(`🛒 "${pItem.name}" auf Einkaufsliste gesetzt!`);
+}
+window.movePantryItemToShoppingList = movePantryItemToShoppingList;
+
+function moveBoughtItemToPantry(item, expiryDays = 7) {
+  if (!item || !item.name) return;
+  handleAddPantryItem(item.name, {
+    qty: item.qty || 1,
+    unit: item.unit || '',
+    dept: item.dept || getDepartmentForItem(item.name),
+    expiryDays: expiryDays
+  });
+}
+window.moveBoughtItemToPantry = moveBoughtItemToPantry;
+
+function renderPantryTab() {
+  const container = document.getElementById('pantry-items-container');
+  if (!container) return;
+
+  const pantry = getPantryItems();
+  if (pantry.length === 0) {
+    container.innerHTML = `
+      <div class="text-center py-6 text-gray-500 italic text-xs space-y-1">
+        <div class="text-2xl">📦</div>
+        <div>Deine Vorratskammer ist leer.</div>
+        <div class="text-[10px] text-gray-600">Trage Vorräte oben ein oder übernehme eingekaufte Artikel.</div>
+      </div>
+    `;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  // Gruppieren nach Abteilung / Gang
+  const grouped = {};
+  pantry.forEach((pItem, idx) => {
+    const dept = pItem.dept || getDepartmentForItem(pItem.name);
+    if (!grouped[dept]) grouped[dept] = [];
+    grouped[dept].push({ item: pItem, originalIdx: idx });
+  });
+
+  let html = '<div class="space-y-3 max-h-[300px] overflow-y-auto pr-1">';
+  const safeEscape = typeof escapeHtml === 'function' ? escapeHtml : (str) => String(str || '');
+
+  for (const deptKey in grouped) {
+    const deptInfo = SHOPPING_DEPARTMENTS[deptKey] || { icon: 'box', color: 'gray', title: { en: 'Other', de: 'Sonstiges' } };
+    const deptTitle = deptInfo.title[currentLang] || deptInfo.title.de || deptInfo.title.en || deptKey;
+
+    html += `
+      <div class="p-2 bg-black/40 border border-white/5 rounded-2xl space-y-1.5">
+        <div class="flex items-center gap-1.5 text-[10px] font-bold text-amber-300 uppercase tracking-wider px-1">
+          <i data-lucide="${deptInfo.icon}" class="w-3.5 h-3.5 text-${deptInfo.color}-400"></i>
+          <span>${deptTitle} (${grouped[deptKey].length})</span>
+        </div>
+    `;
+
+    grouped[deptKey].forEach(({ item, originalIdx }) => {
+      const freshness = getPantryItemFreshness(item);
+      const qtyStr = `${item.qty || 1}${item.unit ? ' ' + item.unit : 'x'}`;
+
+      html += `
+        <div class="p-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 rounded-xl flex items-center justify-between gap-2 transition group">
+          <div class="flex-1 min-w-0 space-y-0.5">
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-xs text-white truncate" title="${safeEscape(item.name)}">${safeEscape(item.name)}</span>
+              <span class="px-1.5 py-0.2 rounded border text-[9px] font-bold font-mono ${freshness.badgeClass}">
+                ${freshness.label}
+              </span>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] text-gray-400">
+              <span class="font-mono text-emerald-300 font-bold">${qtyStr}</span>
+              <button onclick="extendPantryExpiry(${originalIdx}, 7)" class="text-[9px] text-gray-500 hover:text-amber-300 cursor-pointer" title="Haltbarkeit um 7 Tage verlängern">+7T</button>
+              <button onclick="extendPantryExpiry(${originalIdx}, 30)" class="text-[9px] text-gray-500 hover:text-amber-300 cursor-pointer" title="Haltbarkeit um 30 Tage verlängern">+30T</button>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="adjustPantryItemQty(${originalIdx}, -1)" class="w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-xs flex items-center justify-center cursor-pointer font-bold">-</button>
+            <span class="text-[10px] font-mono text-white px-0.5">${item.qty || 1}</span>
+            <button onclick="adjustPantryItemQty(${originalIdx}, 1)" class="w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-xs flex items-center justify-center cursor-pointer font-bold">+</button>
+            
+            <button onclick="movePantryItemToShoppingList(${originalIdx})" class="p-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-lg text-[9px] font-bold flex items-center gap-0.5 cursor-pointer ml-1" title="Wieder auf Einkaufszettel setzen">
+              <i data-lucide="shopping-cart" class="w-3 h-3"></i>
+            </button>
+            <button onclick="handleDeletePantryItem(${originalIdx})" class="p-1 text-gray-500 hover:text-rose-400 rounded transition cursor-pointer">
+              <i data-lucide="trash-2" class="w-3 h-3"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+window.renderPantryTab = renderPantryTab;
+
+// -------------------------------------------------------------
+// SHOPPING LIST UTILITIES (CALCULATOR, SHARE & RECIPE IMPORT)
+// -------------------------------------------------------------
+
+function calculateShoppingListTotal() {
+  const list = state.shoppingList || [];
+  let total = 0;
+  let hasPriceCount = 0;
+
+  list.forEach(item => {
+    const qty = item.qty || 1;
+    if (item.dealInfo && typeof item.dealInfo.price === 'number') {
+      total += item.dealInfo.price * qty;
+      hasPriceCount++;
+    } else {
+      const bestDeal = findBestDealForShoppingItem(item.name);
+      if (bestDeal && bestDeal.deal && typeof bestDeal.deal.price === 'number') {
+        total += bestDeal.deal.price * qty;
+        hasPriceCount++;
+      }
+    }
+  });
+
+  return {
+    totalFormatted: total.toFixed(2) + ' €',
+    totalNum: total,
+    itemCount: list.length,
+    hasPrices: hasPriceCount > 0
+  };
+}
+window.calculateShoppingListTotal = calculateShoppingListTotal;
+
+function formatShoppingListForShare() {
+  const list = state.shoppingList || [];
+  if (list.length === 0) return '';
+  const aisleOrder = ['produce', 'dairy', 'bakery', 'meat', 'pantry', 'drinks', 'household', 'other'];
+  const grouped = {};
+  list.forEach(item => {
+    const dept = item.dept || getDepartmentForItem(item.name);
+    if (!grouped[dept]) grouped[dept] = [];
+    grouped[dept].push(item);
+  });
+
+  const lines = ['🛒 Noodle Einkaufszettel\n'];
+  aisleOrder.forEach(deptKey => {
+    if (grouped[deptKey] && grouped[deptKey].length > 0) {
+      const deptInfo = SHOPPING_DEPARTMENTS[deptKey] || { title: { de: 'Sonstiges', en: 'Other' } };
+      const title = deptInfo.title[currentLang] || deptInfo.title.de || deptInfo.title.en || deptKey;
+      lines.push(`\n📍 ${title}:`);
+      grouped[deptKey].forEach(item => {
+        const qty = (item.qty && item.qty > 1) ? `${item.qty}${item.unit ? ' ' + item.unit : 'x'} ` : '';
+        const deal = item.dealInfo ? ` (${item.dealInfo.price.toFixed(2)}€ bei ${item.dealInfo.storeName || item.dealInfo.store})` : '';
+        lines.push(`  • ${qty}${item.name}${deal}`);
+      });
+    }
+  });
+
+  const calc = calculateShoppingListTotal();
+  if (calc.hasPrices) {
+    lines.push(`\n💰 Geschätzter Sparpreis: ~${calc.totalFormatted}`);
+  }
+
+  return lines.join('\n');
+}
+window.formatShoppingListForShare = formatShoppingListForShare;
+
+function copyShoppingListToClipboard() {
+  const text = formatShoppingListForShare();
+  if (!text) {
+    showToast(tr({ de: "Einkaufsliste ist leer!", en: "Shopping list is empty!" }));
+    return;
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast("📋 Einkaufszettel kopiert (bereit für WhatsApp / Notizen)!");
+    }).catch(() => {
+      fallbackCopyText(text);
+    });
+  } else {
+    fallbackCopyText(text);
+  }
+}
+window.copyShoppingListToClipboard = copyShoppingListToClipboard;
+
+function fallbackCopyText(text) {
+  const t = document.createElement('textarea');
+  t.value = text;
+  document.body.appendChild(t);
+  t.select();
+  try {
+    document.execCommand('copy');
+    showToast("📋 Einkaufszettel kopiert!");
+  } catch(e) {}
+  document.body.removeChild(t);
+}
+
+function importRecipeIngredientsToShoppingList(recipeName, ingredients) {
+  if (!Array.isArray(ingredients) || ingredients.length === 0) return;
+  addIngredientsToShoppingList(ingredients, recipeName);
+}
+window.importRecipeIngredientsToShoppingList = importRecipeIngredientsToShoppingList;
+
 // Fetch live deals on initialization
 if (typeof window !== 'undefined') {
   setTimeout(fetchLiveDiscounterDeals, 500);
@@ -39690,6 +42442,7 @@ if (typeof window !== 'undefined') {
   window.clearCompletedShopItems = clearCompletedShopItems;
   window.clearShoppingHistory = clearShoppingHistory;
   window.addIngredientsToShoppingList = addIngredientsToShoppingList;
+  window.importRecipeIngredientsToShoppingList = importRecipeIngredientsToShoppingList;
   window.openSupermarketModal = openSupermarketModal;
   window.closeSupermarketModal = closeSupermarketModal;
   window.openShoppingModal = openShoppingModal;
@@ -39698,10 +42451,23 @@ if (typeof window !== 'undefined') {
   window.switchShoppingTab = switchShoppingTab;
   window.renderDiscounterDeals = renderDiscounterDeals;
   window.filterDiscounterDeals = filterDiscounterDeals;
+  window.searchDiscounterDeals = searchDiscounterDeals;
   window.findBestDealForShoppingItem = findBestDealForShoppingItem;
   window.getShoppingListRadarMatches = getShoppingListRadarMatches;
   window.addDealToShoppingList = addDealToShoppingList;
   window.applyDealToShoppingItem = applyDealToShoppingItem;
+  window.getPantryItems = getPantryItems;
+  window.getPantryItemFreshness = getPantryItemFreshness;
+  window.handleAddPantryItem = handleAddPantryItem;
+  window.handleDeletePantryItem = handleDeletePantryItem;
+  window.adjustPantryItemQty = adjustPantryItemQty;
+  window.extendPantryExpiry = extendPantryExpiry;
+  window.movePantryItemToShoppingList = movePantryItemToShoppingList;
+  window.moveBoughtItemToPantry = moveBoughtItemToPantry;
+  window.renderPantryTab = renderPantryTab;
+  window.calculateShoppingListTotal = calculateShoppingListTotal;
+  window.formatShoppingListForShare = formatShoppingListForShare;
+  window.copyShoppingListToClipboard = copyShoppingListToClipboard;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
@@ -39718,6 +42484,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.clearCompletedShopItems = clearCompletedShopItems;
   globalThis.clearShoppingHistory = clearShoppingHistory;
   globalThis.addIngredientsToShoppingList = addIngredientsToShoppingList;
+  globalThis.importRecipeIngredientsToShoppingList = importRecipeIngredientsToShoppingList;
   globalThis.openSupermarketModal = openSupermarketModal;
   globalThis.closeSupermarketModal = closeSupermarketModal;
   globalThis.openShoppingModal = openShoppingModal;
@@ -39731,12 +42498,188 @@ if (typeof globalThis !== 'undefined') {
   globalThis.getShoppingListRadarMatches = getShoppingListRadarMatches;
   globalThis.addDealToShoppingList = addDealToShoppingList;
   globalThis.applyDealToShoppingItem = applyDealToShoppingItem;
+  globalThis.getPantryItems = getPantryItems;
+  globalThis.getPantryItemFreshness = getPantryItemFreshness;
+  globalThis.handleAddPantryItem = handleAddPantryItem;
+  globalThis.handleDeletePantryItem = handleDeletePantryItem;
+  globalThis.adjustPantryItemQty = adjustPantryItemQty;
+  globalThis.extendPantryExpiry = extendPantryExpiry;
+  globalThis.movePantryItemToShoppingList = movePantryItemToShoppingList;
+  globalThis.moveBoughtItemToPantry = moveBoughtItemToPantry;
+  globalThis.renderPantryTab = renderPantryTab;
+  globalThis.calculateShoppingListTotal = calculateShoppingListTotal;
+  globalThis.formatShoppingListForShare = formatShoppingListForShare;
+  globalThis.copyShoppingListToClipboard = copyShoppingListToClipboard;
 }
 
 
 /* --- app-cooking.js --- */
+// ============================================================================
+// NOODLE COOKING HUB & SMART RECIPE ASSISTANT
+// ============================================================================
+
+const DEFAULT_CURATED_RECIPES = [
+  {
+    id: 'pasta-tomate',
+    title: 'Schnelle Mediterrane Tomaten-Pasta',
+    duration: '15 Min',
+    category: 'schnell',
+    servings: 2,
+    tags: ['Schnell', 'Vegetarisch', 'Pasta'],
+    ingredients: ['250g Pasta', '400g Tomaten', '2 Zehen Knoblauch', '2 EL Olivenöl', '1 Handvoll Basilikum', '50g Parmesan', '1 Prise Salz', '1 Prise Pfeffer'],
+    steps: [
+      'Bring reichlich gesalzenes Wasser in einem großen Topf zum Kochen und gare die 250g Pasta ca. 9-10 Minuten al dente.',
+      'Schneide in der Zwischenzeit den Knoblauch in feine Scheiben und würfle die frischen Tomaten.',
+      'Erhitze 2 EL Olivenöl in einer Pfanne auf mittlerer Stufe und schwitze den Knoblauch 1 Minute sanft an.',
+      'Gib die Tomatenwürfel hinzu und lasse die Sauce ca. 5 Minuten leicht einkochen. Mit Salz und Pfeffer abschmecken.',
+      'Gieße die Pasta ab, hebe etwas Nudelwasser auf und schwenke die Nudeln direkt in der Tomatensauce.',
+      'Mit frischem Basilikum und frisch geriebenem Parmesan garnieren und heiß servieren!'
+    ]
+  },
+  {
+    id: 'wrap-huhn',
+    title: 'High-Protein Hähnchen & Avocado Wrap',
+    duration: '15 Min',
+    category: 'protein',
+    servings: 2,
+    tags: ['High Protein', 'Schnell', 'Fitness'],
+    ingredients: ['2 Vollkorn Wraps', '250g Hähnchenbrust', '1 Avocado', '100g Gurke', '100g Griechischer Joghurt', '50g Frischer Spinat', '1 TL Paprikapulver', '1 Prise Salz'],
+    steps: [
+      'Schneide die Hähnchenbrust in Streifen und würze sie mit Salz und Paprikapulver.',
+      'Brate das Hähnchen in einer heißen Pfanne mit etwas Öl ca. 6-7 Minuten goldbraun durch.',
+      'Schneide Avocado und Gurke in feine Streifen und wasche den Spinat gründlich.',
+      'Erwärme die Wraps kurz für 20 Sekunden in einer trockenen Pfanne für maximale Flexibilität.',
+      'Bestreiche die Wraps mit griechischem Joghurt, belege sie mit Spinat, Gurke, Avocado und dem gebratenen Hähnchen.',
+      'Die Seiten einklappen, stramm aufrollen, diagonal durchschneiden und genießen.'
+    ]
+  },
+  {
+    id: 'omelette',
+    title: 'Power Protein-Omelett mit Feta & Spinat',
+    duration: '10 Min',
+    category: 'protein',
+    servings: 1,
+    tags: ['High Protein', 'Vegetarisch', 'Frühstück'],
+    ingredients: ['3 Eier', '60g Feta Käse', '80g Frischer Blattspinat', '1 TL Butter', '1 Prise Pfeffer', '1 Prise Muskatnuss'],
+    steps: [
+      'Verquirle 3 Eier in einer Schüssel mit Pfeffer und einer kleinen Prise Muskatnuss.',
+      'Lasse 1 TL Butter in einer beschichteten Pfanne auf mittlerer Hitze schmelzen und dünste den Spinat 1 Minute an.',
+      'Gieße die Eiermasse gleichmäßig über den Spinat in die Pfanne.',
+      'Lasse das Omelett bei mittlerer Hitze ca. 3-4 Minuten stocken, bis die Unterseite goldgelb ist.',
+      'Krümle 60g Feta über eine Hälfte des Omeletts und klappe die andere Hälfte vorsichtig darüber.',
+      'Noch 1 Minute ruhen lassen, damit der Feta leicht cremig schmilzt, und direkt servieren!'
+    ]
+  },
+  {
+    id: 'linsen-curry',
+    title: 'Cremiges Rote-Linsen Kokos-Curry',
+    duration: '20 Min',
+    category: 'vegan',
+    servings: 3,
+    tags: ['Vegan', 'Meal Prep', 'Curry'],
+    ingredients: ['200g Rote Linsen', '400ml Kokosmilch', '1 Zwiebel', '2 Karotten', '1 Stück Ingwer', '1 EL Currypulver', '250ml Gemüsebrühe', '1 Handvoll Koriander'],
+    steps: [
+      'Würfle die Zwiebel, schneide Karotten in Scheiben und reibe den frischen Ingwer fein.',
+      'Erhitze etwas Öl in einem Topf und schwitze Zwiebel, Ingwer und 1 EL Currypulver 2 Minuten an.',
+      'Spüle die roten Linsen unter kaltem Wasser ab und gib sie zusammen mit den Karotten in den Topf.',
+      'Mit 400ml Kokosmilch und 250ml Gemüsebrühe aufgießen und aufkochen lassen.',
+      'Bei mittlerer Hitze ca. 12-15 Minuten sanft köcheln lassen, bis die Linsen butterweich und sämig sind.',
+      'Mit Salz, Pfeffer und Limettensaft abschmecken. Mit frischem Koriander servieren (optional mit Reis).'
+    ]
+  },
+  {
+    id: 'quinoa-bowl',
+    title: 'Bunte Buddha Bowl mit Kichererbsen',
+    duration: '20 Min',
+    category: 'vegan',
+    servings: 2,
+    tags: ['Vegan', 'Meal Prep', 'Bowls'],
+    ingredients: ['150g Quinoa', '1 Dose Kichererbsen', '1 Gurke', '1 Paprika', '1 Avocado', '2 EL Tahini', '1 EL Zitronensaft', '1 EL Olivenöl'],
+    steps: [
+      'Spüle Quinoa heiß ab und koche ihn mit der doppelten Menge Wasser und etwas Salz ca. 15 Minuten gar.',
+      'Spüle Kichererbsen ab, tupfe sie trocken und röste sie in einer Pfanne mit etwas Olivenöl und Paprika 5 Minuten knusprig.',
+      'Schneide Gurke, Paprika und Avocado in mundgerechte Scheiben.',
+      'Rühre für das Dressing 2 EL Tahini mit 1 EL Zitronensaft, 2 EL warmem Wasser, Salz und Pfeffer cremig.',
+      'Richte Quinoa in zwei Schalen an, platziere Gemüse und geröstete Kichererbsen darauf und beträufle alles mit dem Tahini-Dressing.'
+    ]
+  },
+  {
+    id: 'lachs-reis',
+    title: 'Lachsfilet aus der Pfanne mit Brokkoli & Reis',
+    duration: '20 Min',
+    category: 'protein',
+    servings: 2,
+    tags: ['High Protein', 'Gesund', 'Fisch'],
+    ingredients: ['2 Lachsfilets (ca. 300g)', '150g Basmati Reis', '300g Brokkoli', '1 Zitrone', '1 EL Sojasauce', '1 EL Butter', '1 Prise Meersalz'],
+    steps: [
+      'Gare den Basmati Reis nach Packungsanleitung in leicht gesalzenem Wasser ca. 12 Minuten.',
+      'Teile den Brokkoli in Röschen und dünste ihn in einem Topf mit wenig Salzwasser oder Dampfeinsatz für 6 Minuten bissfest.',
+      'Tupfe die Lachsfilets trocken, salze sie leicht und brate sie in einer heißen Pfanne mit 1 EL Butter auf der Hautseite ca. 4 Minuten knusprig.',
+      'Wende den Lachs vorsichtig und brate ihn für weitere 2-3 Minuten auf mittlerer Stufe saftig durch.',
+      'Beträufle den Lachs mit etwas frischem Zitronensaft und einem Spritzer Sojasauce.',
+      'Reis, Brokkoli und Lachsfilet auf Tellern anrichten und sofort genießen.'
+    ]
+  },
+  {
+    id: 'shakshuka',
+    title: 'Wärmende Shakshuka mit Feta & Eiern',
+    duration: '20 Min',
+    category: 'vegetarisch',
+    servings: 2,
+    tags: ['Vegetarisch', 'Pfannengericht', 'Klassiker'],
+    ingredients: ['1 Dose gehackte Tomaten', '1 Rote Paprika', '1 Zwiebel', '2 Zehen Knoblauch', '3 Eier', '80g Feta Käse', '1 TL Kreuzkümmel', '1 Fladenbrot'],
+    steps: [
+      'Würfle Zwiebel und Paprika und hacke den Knoblauch fein.',
+      'Dünste Zwiebel und Paprika in Olivenöl für 5 Minuten weich. Knoblauch und 1 TL Kreuzkümmel kurz mitbraten.',
+      'Gib die gehackten Tomaten dazu, salze und pfeffere und lasse die Sauce ca. 8 Minuten sämig einköcheln.',
+      'Mache mit einem Löffel 3 kleine Mulden in die Sauce und schlage vorsichtig jeweils ein Ei hinein.',
+      'Feta darüber krümeln, Deckel auf die Pfanne setzen und bei geringer Hitze 5-6 Minuten stocken lassen (bis das Eiweiß fest, Eigelb noch flüssig ist).',
+      'Mit frischer Petersilie bestreuen und direkt aus der Pfanne mit getoastetem Fladenbrot dippen!'
+    ]
+  },
+  {
+    id: 'kartoffel-suppe',
+    title: 'Cremige Kartoffel-Lauch-Suppe',
+    duration: '25 Min',
+    category: 'vegetarisch',
+    servings: 4,
+    tags: ['Suppen', 'Vegetarisch', 'Comfort Food'],
+    ingredients: ['600g Kartoffeln', '1 Stange Lauch', '1 Zwiebel', '800ml Gemüsebrühe', '100ml Sahne oder Hafer-Cuisine', '1 EL Butter', '1 Prise Muskat'],
+    steps: [
+      'Schäle und würfle die Kartoffeln. Wasche den Lauch gründlich und schneide ihn in Ringe.',
+      'Dünste Zwiebel und Lauch in 1 EL Butter in einem großen Topf für ca. 3 Minuten an.',
+      'Kartoffelwürfel hinzugeben, mit 800ml Gemüsebrühe aufgießen und aufkochen lassen.',
+      'Bei mittlerer Hitze ca. 15-18 Minuten köcheln lassen, bis die Kartoffeln weich sind.',
+      'Topf vom Herd nehmen, Sahne dazugeben und mit dem Pürierstab cremig fein pürieren.',
+      'Mit Salz, Pfeffer und einer Prise frischer Muskatnuss abschmecken und servieren.'
+    ]
+  }
+];
+
 function getCookingState() {
-  if (!state.cooking) state.cooking = createDefaultCookingState();
+  if (!state.cooking) {
+    state.cooking = {
+      pantryItems: [],
+      recipes: DEFAULT_CURATED_RECIPES,
+      activeRecipeId: null,
+      activeRecipe: null,
+      activeStepIndex: 0,
+      servingsMultiplier: 1,
+      filterCategory: 'all',
+      searchQuery: '',
+      activeTimer: null
+    };
+  }
+  // Ensure recipes array exists and is populated
+  if (!Array.isArray(state.cooking.recipes) || state.cooking.recipes.length === 0) {
+    state.cooking.recipes = [...DEFAULT_CURATED_RECIPES];
+  }
+  if (typeof state.cooking.activeStepIndex !== 'number') {
+    state.cooking.activeStepIndex = 0;
+  }
+  if (typeof state.cooking.servingsMultiplier !== 'number' || state.cooking.servingsMultiplier <= 0) {
+    state.cooking.servingsMultiplier = 1;
+  }
   return state.cooking;
 }
 
@@ -39745,6 +42688,45 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
 
+// ----------------------------------------------------------------------------
+// SERVING SCALER UTILITY
+// ----------------------------------------------------------------------------
+function scaleIngredientText(ingredientStr, multiplier) {
+  if (!ingredientStr || multiplier === 1) return ingredientStr;
+  
+  // Check if string starts with a fraction (e.g. 1/2 Zitrone)
+  const fractionMatch = ingredientStr.match(/^(\d+)\s*\/\s*(\d+)\s*(.*)$/);
+  if (fractionMatch) {
+    const val = (parseFloat(fractionMatch[1]) / parseFloat(fractionMatch[2])) * multiplier;
+    const rest = fractionMatch[3];
+    return `${formatScaledNumber(val)} ${rest}`.trim();
+  }
+
+  // Otherwise match standard number + unit (e.g. 250g Pasta, 1 Dose Tomaten, 400ml Kokosmilch)
+  return ingredientStr.replace(/^(\d+(?:[.,]\d+)?)\s*([a-zA-ZäöüÄÖÜ]+|\b)/, (match, number, unit) => {
+    const parsed = parseFloat(number.replace(',', '.'));
+    if (isNaN(parsed)) return match;
+    const scaled = parsed * multiplier;
+    return `${formatScaledNumber(scaled)}${unit ? (unit.length <= 2 ? unit : ' ' + unit) : ''}`;
+  });
+}
+
+function formatScaledNumber(val) {
+  if (val <= 0) return '0';
+  if (Math.abs(val - Math.round(val)) < 0.05) {
+    return String(Math.round(val));
+  }
+  if (Math.abs(val - 0.5) < 0.05) return '½';
+  if (Math.abs(val - 0.25) < 0.05) return '¼';
+  if (Math.abs(val - 0.75) < 0.05) return '¾';
+  if (Math.abs(val - 1.5) < 0.05) return '1 ½';
+  if (Math.abs(val - 2.5) < 0.05) return '2 ½';
+  return val.toFixed(1).replace('.0', '').replace('.', ',');
+}
+
+// ----------------------------------------------------------------------------
+// INGREDIENT & PANTRY MANAGEMENT
+// ----------------------------------------------------------------------------
 function addCookingIngredient(value) {
   const text = String(value || '').trim();
   if (!text) return false;
@@ -39763,9 +42745,24 @@ function removeCookingIngredient(index) {
   if (!Array.isArray(cooking.pantryItems) || index < 0 || index >= cooking.pantryItems.length) return;
   cooking.pantryItems.splice(index, 1);
   saveState();
-  suggestCookingRecipe();
+  renderCookingPanel(true);
 }
 
+function clearCookingPantry() {
+  const cooking = getCookingState();
+  cooking.pantryItems = [];
+  saveState();
+  renderCookingPanel(true);
+  if (typeof playProceduralSound === 'function') playProceduralSound(11);
+}
+
+function resetCookingPantry() {
+  clearCookingPantry();
+}
+
+// ----------------------------------------------------------------------------
+// DYNAMIC SKILLET GENERATOR (RESTEVERWERTUNG)
+// ----------------------------------------------------------------------------
 function buildDynamicRecipeFromPantry(pantry) {
   const items = pantry.map(i => i.trim().toLowerCase()).filter(Boolean);
   if (items.length === 0) return null;
@@ -39775,260 +42772,301 @@ function buildDynamicRecipeFromPantry(pantry) {
   const veggies = items.filter(i => /(tomate|gurke|paprika|zucchini|aubergine|spinat|pilz|champignon|zwiebel|knoblauch|karotte|möhre|brokkoli|tomato|cucumber|pepper|spinach|mushroom|onion|garlic|carrot|broccoli)/i.test(i));
   const dairy = items.filter(i => /(käse|feta|parmesan|mozzarella|butter|sahne|joghurt|frischkäse|schmand|cheese|cream|yogurt)/i.test(i));
 
-  let duration = tr({ en: "15 min", de: "15 Min", fr: "15 min", it: "15 min", es: "15 min", el: "15 λεπ" });
-
+  let duration = "15 Min";
   const primaryCarb = carbs[0] || null;
   const primaryProtein = proteins[0] || null;
   const primaryVeggie = veggies[0] || null;
   const primaryDairy = dairy[0] || null;
 
-  let title = tr({
-    en: "Creative Skillet Dish",
-    de: "Kreative Restepfanne",
-    fr: "Poêlée créative maison",
-    it: "Padellata creativa",
-    es: "Salteado creativo casero",
-    el: "Δημιουργικό τηγανητό πιάτο"
-  });
-
+  let title = "Kreative Restepfanne";
   if (primaryCarb && primaryProtein && primaryVeggie) {
-    title = tr({
-      en: `Savory ${capitalize(primaryCarb)} Skillet with ${capitalize(primaryProtein)} & ${capitalize(primaryVeggie)}`,
-      de: `Herzhafte ${capitalize(primaryCarb)}-Pfanne mit ${capitalize(primaryProtein)} und ${capitalize(primaryVeggie)}`,
-      fr: `Poêlée de ${capitalize(primaryCarb)} avec ${capitalize(primaryProtein)} et ${capitalize(primaryVeggie)}`,
-      it: `Padellata di ${capitalize(primaryCarb)} con ${capitalize(primaryProtein)} e ${capitalize(primaryVeggie)}`,
-      es: `Salteado de ${capitalize(primaryCarb)} con ${capitalize(primaryProtein)} y ${capitalize(primaryVeggie)}`,
-      el: `Πιάτο ${capitalize(primaryCarb)} με ${capitalize(primaryProtein)} και ${capitalize(primaryVeggie)}`
-    });
+    title = `Herzhafte ${capitalize(primaryCarb)}-Pfanne mit ${capitalize(primaryProtein)} & ${capitalize(primaryVeggie)}`;
   } else if (primaryCarb && primaryDairy) {
-    title = tr({
-      en: `Creamy ${capitalize(primaryCarb)} Bowl with Melted ${capitalize(primaryDairy)}`,
-      de: `Cremiges ${capitalize(primaryCarb)}-Gericht mit geschmolzenem ${capitalize(primaryDairy)}`,
-      fr: `Plat crémeux de ${capitalize(primaryCarb)} au ${capitalize(primaryDairy)} fondu`,
-      it: `Piatto cremoso di ${capitalize(primaryCarb)} con ${capitalize(primaryDairy)} fuso`,
-      es: `Plato cremoso de ${capitalize(primaryCarb)} con ${capitalize(primaryDairy)} fundido`,
-      el: `Κρεμώδες πιάτο ${capitalize(primaryCarb)} με λιωμένο ${capitalize(primaryDairy)}`
-    });
+    title = `Cremiges ${capitalize(primaryCarb)}-Gericht mit geschmolzenem ${capitalize(primaryDairy)}`;
   } else if (primaryProtein && primaryVeggie) {
-    title = tr({
-      en: `Stir-fried ${capitalize(primaryProtein)} with Fresh ${capitalize(primaryVeggie)}`,
-      de: `Pfannengerührtes ${capitalize(primaryProtein)} mit frischem ${capitalize(primaryVeggie)}`,
-      fr: `Sauté de ${capitalize(primaryProtein)} aux ${capitalize(primaryVeggie)} frais`,
-      it: `Saltato di ${capitalize(primaryProtein)} con ${capitalize(primaryVeggie)} freschi`,
-      es: `Salteado de ${capitalize(primaryProtein)} con ${capitalize(primaryVeggie)} frescos`,
-      el: `Σοταρισμένο ${capitalize(primaryProtein)} με φρέσκα ${capitalize(primaryVeggie)}`
-    });
+    title = `Pfannengerührtes ${capitalize(primaryProtein)} mit ${capitalize(primaryVeggie)}`;
   } else if (primaryCarb && primaryVeggie) {
-    title = tr({
-      en: `${capitalize(primaryCarb)} with Steamed ${capitalize(primaryVeggie)}`,
-      de: `${capitalize(primaryCarb)} mit gedünstetem ${capitalize(primaryVeggie)}`,
-      fr: `${capitalize(primaryCarb)} aux ${capitalize(primaryVeggie)} vapeur`,
-      it: `${capitalize(primaryCarb)} con ${capitalize(primaryVeggie)} stufati`,
-      es: `${capitalize(primaryCarb)} con ${capitalize(primaryVeggie)} al vapor`,
-      el: `${capitalize(primaryCarb)} με λαχανικά ${capitalize(primaryVeggie)}`
-    });
+    title = `${capitalize(primaryCarb)} mit frischem ${capitalize(primaryVeggie)}`;
   } else if (primaryProtein && primaryDairy) {
-    title = tr({
-      en: `Savory ${capitalize(primaryProtein)} Gratin with ${capitalize(primaryDairy)}`,
-      de: `Herzhaftes ${capitalize(primaryProtein)} überbacken mit ${capitalize(primaryDairy)}`,
-      fr: `Gratin de ${capitalize(primaryProtein)} au ${capitalize(primaryDairy)}`,
-      it: `Gratinato di ${capitalize(primaryProtein)} con ${capitalize(primaryDairy)}`,
-      es: `Gratinado de ${capitalize(primaryProtein)} con ${capitalize(primaryDairy)}`,
-      el: `Ογκρατέν ${capitalize(primaryProtein)} με ${capitalize(primaryDairy)}`
-    });
+    title = `Herzhaftes ${capitalize(primaryProtein)} überbacken mit ${capitalize(primaryDairy)}`;
   } else if (primaryProtein) {
-    title = tr({
-      en: `Quick Protein Plate (${capitalize(primaryProtein)})`,
-      de: `Schnelles Protein-Gericht (${capitalize(primaryProtein)})`,
-      fr: `Assiette rapide de protéines (${capitalize(primaryProtein)})`,
-      it: `Piatto veloce di proteine (${capitalize(primaryProtein)})`,
-      es: `Plato rápido de proteínas (${capitalize(primaryProtein)})`,
-      el: `Γρήγορο πιάτο πρωτεΐνης (${capitalize(primaryProtein)})`
-    });
+    title = `Schnelles Protein-Gericht (${capitalize(primaryProtein)})`;
   } else if (primaryCarb) {
-    title = tr({
-      en: `Satisfying ${capitalize(primaryCarb)} Creation`,
-      de: `Sättigende ${capitalize(primaryCarb)}-Kreation`,
-      fr: `Plat réconfortant de ${capitalize(primaryCarb)}`,
-      it: `Creazione nutriente di ${capitalize(primaryCarb)}`,
-      es: `Creación nutritiva de ${capitalize(primaryCarb)}`,
-      el: `Χορταστικό πιάτο ${capitalize(primaryCarb)}`
-    });
+    title = `Sättigende ${capitalize(primaryCarb)}-Kreation`;
   } else if (primaryVeggie) {
-    title = tr({
-      en: `Fresh Colorful ${capitalize(primaryVeggie)} Medley`,
-      de: `Bunte ${capitalize(primaryVeggie)}-Pfanne`,
-      fr: `Poêlée colorée de ${capitalize(primaryVeggie)}`,
-      it: `Padellata colorata di ${capitalize(primaryVeggie)}`,
-      es: `Salteado colorido de ${capitalize(primaryVeggie)}`,
-      el: `Πολύχρωμο πιάτο λαχανικών ${capitalize(primaryVeggie)}`
-    });
+    title = `Bunte ${capitalize(primaryVeggie)}-Pfanne`;
   } else {
-    title = tr({
-      en: `Ingredient Medley: ${items.map(capitalize).join(' & ')}`,
-      de: `Zutaten-Kombination: ${items.map(capitalize).join(' & ')}`,
-      fr: `Méli-mélo d'ingrédients : ${items.map(capitalize).join(' & ')}`,
-      it: `Combinazione di ingredienti: ${items.map(capitalize).join(' & ')}`,
-      es: `Combinación de ingredientes: ${items.map(capitalize).join(' & ')}`,
-      el: `Συνδυασμός υλικών: ${items.map(capitalize).join(' & ')}`
-    });
+    title = `Zutaten-Kombination: ${items.map(capitalize).join(' & ')}`;
   }
 
-  let steps = [];
-  steps.push(tr({
-    en: "Preparation: Clean your prep area and rinse all fresh ingredients thoroughly.",
-    de: "Vorbereitung: Reinige deine Arbeitsfläche und wasche frische Zutaten gründlich ab.",
-    fr: "Préparation : Nettoie ton plan de travail et rince soigneusement les ingrédients frais.",
-    it: "Preparazione: Pulisci la superficie di lavoro e lava accuratamente gli ingredienti freschi.",
-    es: "Preparación: Limpia tu espacio de trabajo y lava bien todos los ingredientes frescos.",
-    el: "Προετοιμασία: Καθάρισε τον πάγκο εργασίας και πλύνε καλά όλα τα φρέσκα υλικά."
-  }));
+  let steps = [
+    "Vorbereitung: Reinige deine Arbeitsfläche und wasche alle frischen Zutaten gründlich ab."
+  ];
 
   let prepIngredients = [...veggies, ...proteins].filter(i => !/(ei|linsen|bohnen|egg|lentil|bean)/i.test(i));
   if (prepIngredients.length > 0) {
-    steps.push(tr({
-      en: `Chop ${prepIngredients.map(capitalize).join(', ')} into even bite-sized pieces.`,
-      de: `Schneide ${prepIngredients.map(capitalize).join(', ')} in gleichmäßige, mundgerechte Stücke.`,
-      fr: `Coupe ${prepIngredients.map(capitalize).join(', ')} en morceaux réguliers.`,
-      it: `Taglia ${prepIngredients.map(capitalize).join(', ')} in bocconcini regolari.`,
-      es: `Corta ${prepIngredients.map(capitalize).join(', ')} en trozos regulares.`,
-      el: `Κόψε ${prepIngredients.map(capitalize).join(', ')} σε ομοιόμορφα κομμάτια.`
-    }));
+    steps.push(`Schneide ${prepIngredients.map(capitalize).join(', ')} in gleichmäßige, mundgerechte Stücke.`);
   }
 
   if (primaryCarb) {
     if (/(pasta|nudel|reis|grieß|linsen|rice|lentil)/i.test(primaryCarb)) {
-      steps.push(tr({
-        en: `Bring salted water to a boil and cook ${capitalize(primaryCarb)} al dente according to instructions.`,
-        de: `Bringe gesalzenes Wasser zum Kochen und bereite ${capitalize(primaryCarb)} bissfest nach Packungsanleitung zu.`,
-        fr: `Porte de l'eau salée à ébullition et cuis ${capitalize(primaryCarb)} al dente selon les indications.`,
-        it: `Porta a ebollizione l'acqua salata e cuoci ${capitalize(primaryCarb)} al dente.`,
-        es: `Lleva agua con sal a ebullición y cocina ${capitalize(primaryCarb)} al dente.`,
-        el: `Βράσε αλατισμένο νερό και μαγείρεψε ${capitalize(primaryCarb)} al dente.`
-      }));
+      steps.push(`Bringe gesalzenes Wasser zum Kochen und bereite ${capitalize(primaryCarb)} bissfest nach Packungsanleitung zu.`);
     } else if (/(kartoffel|potato)/i.test(primaryCarb)) {
-      steps.push(tr({
-        en: `Precook ${capitalize(primaryCarb)} or sauté sliced in oil until golden brown.`,
-        de: `Vorkoche die ${capitalize(primaryCarb)} kurz oder brate sie direkt in feinen Spalten mit etwas Öl goldgelb an.`,
-        fr: `Précuis les ${capitalize(primaryCarb)} ou fais-les dorer en tranches avec un filet d'huile.`,
-        it: `Precuoci le ${capitalize(primaryCarb)} o falle dorare a spicchi con un filo d'olio.`,
-        es: `Precocina las ${capitalize(primaryCarb)} o dóralas en gajos con un poco de aceite.`,
-        el: `Προβράσε τις ${capitalize(primaryCarb)} ή σόταρε τες σε φέτες με λίγο λάδι μέχρι να ροδίσουν.`
-      }));
+      steps.push(`Vorkoche die ${capitalize(primaryCarb)} kurz oder brate sie direkt in feinen Spalten mit etwas Öl ca. 10 Min goldgelb an.`);
     } else if (/(brot|wrap|toast|fladen|baguette|bread)/i.test(primaryCarb)) {
-      steps.push(tr({
-        en: `Warm ${capitalize(primaryCarb)} briefly in a dry pan or toaster for the best aroma.`,
-        de: `Erwärme ${capitalize(primaryCarb)} kurz in einer trockenen Pfanne oder im Toaster für das beste Aroma.`,
-        fr: `Réchauffe ${capitalize(primaryCarb)} dans une poêle sèche ou au grille-pain pour exhaler les arômes.`,
-        it: `Scalda ${capitalize(primaryCarb)} in una padella asciutta o nel tostapane per esaltarne il profumo.`,
-        es: `Calienta ${capitalize(primaryCarb)} en una sartén seca o tostadora para un gran aroma.`,
-        el: `Ζέστανε ${capitalize(primaryCarb)} σε ένα στεγνό τηγάνι ή τοστιέρα για τέλειο άρωμα.`
-      }));
+      steps.push(`Erwärme ${capitalize(primaryCarb)} kurz in einer trockenen Pfanne oder im Toaster für das beste Röstaroma.`);
     }
   }
 
   let panItems = [...proteins, ...veggies].filter(i => !/(pasta|nudel|reis|brot|wrap|toast|fladen|baguette|rice|bread)/i.test(i));
   if (panItems.length > 0) {
     let verb = proteins.length > 0 
-      ? tr({
-          en: "Sear the protein first, then add the vegetables",
-          de: "Brate zuerst die Proteinquelle scharf an und füge kurz darauf das Gemüse hinzu",
-          fr: "Saisis d'abord la source de protéines, puis ajoute les légumes",
-          it: "Scotta prima la proteina, poi aggiungi le verdure",
-          es: "Dora primero la proteína y luego añade las verduras",
-          el: "Σοτάρισε πρώτα την πρωτεΐνη και μετά πρόσθεσε τα λαχανικά"
-        })
-      : tr({
-          en: "Sauté the vegetables with some quality oil in a hot pan",
-          de: "Dünste das Gemüse mit etwas gutem Öl in einer heißen Pfanne an",
-          fr: "Fais revenir les légumes avec un filet d'huile dans une poêle chaude",
-          it: "Salta le verdure con un filo d'olio in una padella calda",
-          es: "Saltea las verduras con un poco de buen aceite en una sartén caliente",
-          el: "Σοτάρισε τα λαχανικά με λίγο ελαιόλαδο σε ζεστό τηγάνι"
-        });
+      ? "Brate zuerst die Proteinquelle scharf an und füge kurz darauf das Gemüse hinzu"
+      : "Dünste das Gemüse mit etwas gutem Öl in einer heißen Pfanne für ca. 5 Min an";
     steps.push(`${verb} (${panItems.map(capitalize).join(', ')}).`);
   }
 
   if (primaryCarb && panItems.length > 0) {
-    steps.push(tr({
-      en: `Combine the cooked ${capitalize(primaryCarb)} directly in the warm pan with all ingredients.`,
-      de: `Vermenge das Gekochte (${capitalize(primaryCarb)}) direkt in der warmen Pfanne mit den übrigen Zutaten.`,
-      fr: `Mélange les ${capitalize(primaryCarb)} directement dans la poêle chaude avec le reste.`,
-      it: `Unisci ${capitalize(primaryCarb)} direttamente nella padella calda con gli altri ingredienti.`,
-      es: `Mezcla ${capitalize(primaryCarb)} directamente en la sartén caliente con el resto de ingredientes.`,
-      el: `Ανάμειξε ${capitalize(primaryCarb)} απευθείας στο ζεστό τηγάνι με τα υπόλοιπα υλικά.`
-    }));
+    steps.push(`Vermenge das Gekochte (${capitalize(primaryCarb)}) direkt in der warmen Pfanne mit den übrigen Zutaten.`);
   }
 
   if (primaryDairy) {
-    steps.push(tr({
-      en: `Add ${capitalize(primaryDairy)} and let it melt gently into the dish.`,
-      de: `Füge ${capitalize(primaryDairy)} hinzu. Lasse ihn kurz mitschmelzen oder ziehe ihn sanft unter die heiße Masse.`,
-      fr: `Ajoute ${capitalize(primaryDairy)} et laisse-le fondre doucement.`,
-      it: `Aggiungi ${capitalize(primaryDairy)} e lascialo fondere dolcemente.`,
-      es: `Añade ${capitalize(primaryDairy)} y deja que se funda suavemente.`,
-      el: `Πρόσθεσε ${capitalize(primaryDairy)} και άφησέ το να λιώσει απαλά.`
-    }));
+    steps.push(`Füge ${capitalize(primaryDairy)} hinzu. Lasse ihn kurz mitschmelzen oder ziehe ihn sanft unter die heiße Pfannenmasse.`);
   }
 
-  steps.push(tr({
-    en: "Finish: Season with salt, pepper, and fresh herbs. Serve warm and enjoy!",
-    de: "Abschluss: Schmecke dein Gericht mit Salz, Pfeffer und Kräutern ab. Frisch servieren!",
-    fr: "Finition : Assaisonne avec sel, poivre et herbes. Sers chaud et régale-toi !",
-    it: "Completamento: Condisci con sale, pepe ed erbe aromatiche. Servi caldo e buon appetito!",
-    es: "Final: Sazona con sal, pimienta y hierbas. ¡Sirve caliente y disfruta!",
-    el: "Ολοκλήρωση: Καρύκευσε με αλάτι, πιπέρι και βότανα. Σέρβιρε ζεστό και καλή απόλαυση!"
-  }));
+  steps.push("Abschluss: Schmecke dein Gericht mit Salz, Pfeffer und frischen Kräutern ab. Heiß servieren und genießen!");
 
   return {
     id: 'dynamic-generated',
     title,
     duration,
+    servings: 2,
+    tags: ['Resteverwertung', 'Kreativ'],
     ingredients: items.map(capitalize),
     steps
   };
 }
 
+function calculateRecipeMatch(recipe, pantry) {
+  if (!recipe || !Array.isArray(recipe.ingredients) || recipe.ingredients.length === 0) return { percent: 0, matched: [], missing: [] };
+  const pantryNorm = (pantry || []).map(p => String(p).trim().toLowerCase()).filter(Boolean);
+  if (pantryNorm.length === 0) return { percent: 0, matched: [], missing: recipe.ingredients };
+
+  let matched = [];
+  let missing = [];
+
+  recipe.ingredients.forEach(ing => {
+    const norm = String(ing).toLowerCase();
+    const hasMatch = pantryNorm.some(p => norm.includes(p) || p.includes(norm.replace(/^\d+[\w\s.,/]*\b/, '').trim()));
+    if (hasMatch) {
+      matched.push(ing);
+    } else {
+      missing.push(ing);
+    }
+  });
+
+  const percent = Math.round((matched.length / recipe.ingredients.length) * 100);
+  return { percent, matched, missing };
+}
+
 function suggestCookingRecipe() {
   const cooking = getCookingState();
   const pantry = (cooking.pantryItems || []).map(item => String(item).trim().toLowerCase()).filter(Boolean);
-  const recipes = Array.isArray(cooking.recipes) && cooking.recipes.length ? cooking.recipes : createDefaultCookingState().recipes;
-
-  cooking.activeRecipe = null;
-  cooking.activeRecipeId = null;
+  const recipes = cooking.recipes || DEFAULT_CURATED_RECIPES;
 
   if (!pantry.length) {
+    cooking.activeRecipe = null;
+    cooking.activeRecipeId = null;
     saveState();
     return null;
   }
 
   const ranked = recipes.map(recipe => {
-    let score = 0;
-    let directMatches = 0;
-    const recipeIngredients = (recipe.ingredients || []).map(item => String(item).trim().toLowerCase());
-    
-    recipeIngredients.forEach(ingredient => {
-      if (pantry.includes(ingredient)) {
-        score += 10;
-        directMatches += 1;
-      } else if (pantry.some(item => item.includes(ingredient) || ingredient.includes(item))) {
-        score += 4;
-      }
-    });
-    
-    return { ...recipe, score, directMatches, recipeIngredients };
-  }).sort((a, b) => b.score - a.score);
+    const match = calculateRecipeMatch(recipe, pantry);
+    return { ...recipe, matchPercent: match.percent, matchedCount: match.matched.length };
+  }).sort((a, b) => b.matchPercent - a.matchPercent);
 
-  const bestPredefined = ranked[0];
-  const best = (bestPredefined && bestPredefined.directMatches >= 2) ? bestPredefined : buildDynamicRecipeFromPantry(pantry);
+  const best = (ranked[0] && ranked[0].matchedCount >= 2) ? ranked[0] : buildDynamicRecipeFromPantry(pantry);
 
   if (best) {
     cooking.activeRecipeId = best.id;
     cooking.activeRecipe = best;
+    cooking.activeStepIndex = 0;
   }
   
   saveState();
   return best;
+}
+
+// ----------------------------------------------------------------------------
+// STEP-BY-STEP COOKING MODE & TIMERS & TTS
+// ----------------------------------------------------------------------------
+let activeCookingTimerInterval = null;
+let activeCookingTimerSeconds = 0;
+let activeCookingTimerTotal = 0;
+let activeCookingTimerStep = null;
+
+function extractMinutesFromText(text) {
+  if (!text) return null;
+  const match = text.match(/(\d+)\s*(?:-|bis|\s+)?(?:\d+)?\s*(?:min|minute|minuten)\b/i);
+  if (match && match[1]) {
+    return parseInt(match[1], 10);
+  }
+  return null;
+}
+
+function startCookingTimer(minutes, stepIndex) {
+  stopCookingTimer();
+  activeCookingTimerTotal = minutes * 60;
+  activeCookingTimerSeconds = activeCookingTimerTotal;
+  activeCookingTimerStep = stepIndex;
+
+  if (typeof playProceduralSound === 'function') playProceduralSound(3);
+
+  activeCookingTimerInterval = setInterval(() => {
+    activeCookingTimerSeconds--;
+    updateCookingTimerDisplay();
+
+    if (activeCookingTimerSeconds <= 0) {
+      stopCookingTimer();
+      onCookingTimerFinished(minutes);
+    }
+  }, 1000);
+
+  renderCookingPanel(true);
+}
+
+function stopCookingTimer() {
+  if (activeCookingTimerInterval) {
+    clearInterval(activeCookingTimerInterval);
+    activeCookingTimerInterval = null;
+  }
+  activeCookingTimerSeconds = 0;
+  activeCookingTimerTotal = 0;
+  activeCookingTimerStep = null;
+  renderCookingPanel(true);
+}
+
+function updateCookingTimerDisplay() {
+  const el = document.getElementById('cooking-live-timer');
+  if (!el) return;
+  const mins = Math.floor(activeCookingTimerSeconds / 60);
+  const secs = activeCookingTimerSeconds % 60;
+  const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  el.textContent = formatted;
+}
+
+function onCookingTimerFinished(minutes) {
+  if (typeof playProceduralSound === 'function') {
+    playProceduralSound(1); // Finish chime
+    setTimeout(() => playProceduralSound(1), 400);
+  }
+
+  // Voice notification
+  const msg = `Der ${minutes}-Minuten Koch-Timer ist fertig! Bitte Pfanne oder Topf prüfen.`;
+  speakCookingText(msg);
+
+  if (typeof showFloatingToast === 'function') {
+    showFloatingToast(`⏱️ Koch-Timer (${minutes} Min.) beendet!`, 'success');
+  }
+}
+
+function speakCookingText(text) {
+  if (!text) return;
+  if (typeof speakWithProfile === 'function') {
+    speakWithProfile(text, 'chef');
+    return;
+  }
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined') {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = (typeof currentLang !== 'undefined' && currentLang) ? (currentLang === 'de' ? 'de-DE' : 'en-US') : 'de-DE';
+    utterance.rate = 1.0;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
+function readCurrentCookingStepAloud() {
+  const cooking = getCookingState();
+  const recipe = cooking.activeRecipe;
+  if (!recipe || !Array.isArray(recipe.steps)) return;
+  const stepIdx = cooking.activeStepIndex || 0;
+  const stepText = recipe.steps[stepIdx];
+  if (!stepText) return;
+
+  const header = `Schritt ${stepIdx + 1} von ${recipe.steps.length}. `;
+  speakCookingText(header + stepText);
+  if (typeof playProceduralSound === 'function') playProceduralSound(0);
+}
+
+function nextCookingStep() {
+  const cooking = getCookingState();
+  const recipe = cooking.activeRecipe;
+  if (!recipe || !Array.isArray(recipe.steps)) return;
+  if (cooking.activeStepIndex < recipe.steps.length - 1) {
+    cooking.activeStepIndex++;
+    saveState();
+    renderCookingPanel(true);
+    if (typeof playProceduralSound === 'function') playProceduralSound(2);
+    // Auto read step
+    readCurrentCookingStepAloud();
+  }
+}
+
+function prevCookingStep() {
+  const cooking = getCookingState();
+  if (cooking.activeStepIndex > 0) {
+    cooking.activeStepIndex--;
+    saveState();
+    renderCookingPanel(true);
+    if (typeof playProceduralSound === 'function') playProceduralSound(2);
+  }
+}
+
+function setCookingStep(stepIndex) {
+  const cooking = getCookingState();
+  const recipe = cooking.activeRecipe;
+  if (!recipe || !Array.isArray(recipe.steps)) return;
+  if (stepIndex >= 0 && stepIndex < recipe.steps.length) {
+    cooking.activeStepIndex = stepIndex;
+    saveState();
+    renderCookingPanel(true);
+  }
+}
+
+function changeServingsMultiplier(delta) {
+  const cooking = getCookingState();
+  const current = cooking.servingsMultiplier || 1;
+  const updated = Math.max(0.5, Math.min(6, current + delta));
+  cooking.servingsMultiplier = updated;
+  saveState();
+  renderCookingPanel(true);
+  if (typeof playProceduralSound === 'function') playProceduralSound(6);
+}
+
+// ----------------------------------------------------------------------------
+// SELECT & MANAGE RECIPES
+// ----------------------------------------------------------------------------
+function selectActiveRecipe(recipeId) {
+  const cooking = getCookingState();
+  const found = (cooking.recipes || DEFAULT_CURATED_RECIPES).find(r => r.id === recipeId);
+  if (found) {
+    cooking.activeRecipeId = found.id;
+    cooking.activeRecipe = found;
+    cooking.activeStepIndex = 0;
+    currentCookingTab = 'mode';
+    saveState();
+    renderCookingPanel(true);
+    if (typeof playProceduralSound === 'function') playProceduralSound(0);
+  }
+}
+
+let currentCookingTab = 'recipes'; // 'recipes' | 'mode' | 'pantry' | 'new_recipe'
+
+function switchCookingTab(tab) {
+  currentCookingTab = tab;
+  renderCookingPanel(true);
+  if (typeof playProceduralSound === 'function') playProceduralSound(0);
 }
 
 function handleCookingAddIngredient() {
@@ -40037,7 +43075,6 @@ function handleCookingAddIngredient() {
   const added = addCookingIngredient(input.value);
   if (added) {
     input.value = '';
-    suggestCookingRecipe();
     renderCookingPanel(true);
     if (typeof playProceduralSound === 'function') playProceduralSound(3);
   }
@@ -40046,23 +43083,15 @@ function handleCookingAddIngredient() {
 function handleQuickAddStaple(name) {
   const added = addCookingIngredient(name);
   if (added) {
-    suggestCookingRecipe();
     renderCookingPanel(true);
     if (typeof playProceduralSound === 'function') playProceduralSound(3);
   }
 }
 
-let currentCookingTab = 'pantry'; // 'pantry' | 'recipe'
-
-function switchCookingTab(tab) {
-  currentCookingTab = tab;
-  renderCookingPanel(true);
-}
-
 function handleCookingSuggest() {
   const recipe = suggestCookingRecipe();
   if (recipe) {
-    currentCookingTab = 'recipe';
+    currentCookingTab = 'mode';
     renderCookingPanel(true);
     if (typeof playProceduralSound === 'function') playProceduralSound(0);
   } else {
@@ -40071,40 +43100,109 @@ function handleCookingSuggest() {
   }
 }
 
-function toggleCookingStepCheckbox(stepIndex) {
-  if (typeof playProceduralSound === 'function') playProceduralSound(6);
-  const checkbox = document.getElementById(`cook-step-${stepIndex}`);
-  const label = document.getElementById(`cook-step-label-${stepIndex}`);
-  if (checkbox && label) {
-    if (checkbox.checked) {
-      label.classList.add('line-through', 'text-gray-500', 'opacity-60');
-    } else {
-      label.classList.remove('line-through', 'text-gray-500', 'opacity-60');
+function addRecipeMissingIngredientsToShopping() {
+  const cooking = getCookingState();
+  const activeRecipe = cooking.activeRecipe;
+  if (!activeRecipe || !Array.isArray(activeRecipe.ingredients)) return;
+  
+  const match = calculateRecipeMatch(activeRecipe, cooking.pantryItems || []);
+  const itemsToAdd = (match.missing && match.missing.length > 0) ? match.missing : activeRecipe.ingredients;
+  const scaledItems = itemsToAdd.map(item => scaleIngredientText(item, cooking.servingsMultiplier || 1));
+
+  if (typeof importRecipeIngredientsToShoppingList === 'function') {
+    const addedCount = importRecipeIngredientsToShoppingList(scaledItems, activeRecipe.title);
+    if (typeof showFloatingToast === 'function') {
+      showFloatingToast(`🛒 ${addedCount} Zutat(en) zur Einkaufsliste hinzugefügt!`, 'success');
     }
+  } else if (typeof addIngredientsToShoppingList === 'function') {
+    addIngredientsToShoppingList(scaledItems, activeRecipe.title);
   }
+
+  if (typeof playProceduralSound === 'function') playProceduralSound(3);
 }
 
+function saveCustomRecipeFromForm() {
+  const titleInput = document.getElementById('new-recipe-title');
+  const durationInput = document.getElementById('new-recipe-duration');
+  const categorySelect = document.getElementById('new-recipe-category');
+  const ingredientsInput = document.getElementById('new-recipe-ingredients');
+  const stepsInput = document.getElementById('new-recipe-steps');
+
+  if (!titleInput || !ingredientsInput || !stepsInput) return;
+
+  const title = titleInput.value.trim();
+  const duration = durationInput ? durationInput.value.trim() || '20 Min' : '20 Min';
+  const category = categorySelect ? categorySelect.value : 'schnell';
+  const ingredients = ingredientsInput.value.split('\n').map(s => s.trim()).filter(Boolean);
+  const steps = stepsInput.value.split('\n').map(s => s.trim()).filter(Boolean);
+
+  if (!title || ingredients.length === 0 || steps.length === 0) {
+    alert('Bitte Titel, mindestens eine Zutat und einen Zubereitungsschritt angeben.');
+    return;
+  }
+
+  const newRecipe = {
+    id: 'custom-' + Date.now(),
+    title,
+    duration,
+    category,
+    servings: 2,
+    tags: ['Eigenes Rezept', category],
+    ingredients,
+    steps
+  };
+
+  const cooking = getCookingState();
+  cooking.recipes.unshift(newRecipe);
+  cooking.activeRecipeId = newRecipe.id;
+  cooking.activeRecipe = newRecipe;
+  cooking.activeStepIndex = 0;
+  saveState();
+
+  currentCookingTab = 'mode';
+  renderCookingPanel(true);
+  if (typeof playProceduralSound === 'function') playProceduralSound(3);
+}
+
+function deleteCustomRecipe(recipeId, e) {
+  if (e) e.stopPropagation();
+  if (!confirm('Möchtest du dieses eigene Rezept wirklich löschen?')) return;
+  const cooking = getCookingState();
+  cooking.recipes = (cooking.recipes || []).filter(r => r.id !== recipeId);
+  if (cooking.activeRecipeId === recipeId) {
+    cooking.activeRecipeId = null;
+    cooking.activeRecipe = null;
+  }
+  saveState();
+  renderCookingPanel(true);
+  if (typeof playProceduralSound === 'function') playProceduralSound(11);
+}
+
+// ----------------------------------------------------------------------------
+// RENDER PANEL
+// ----------------------------------------------------------------------------
 function renderCookingPanel(skipLucide = false) {
   const panel = document.getElementById('panel-cooking');
   if (!panel) return;
   if (skipLucide && panel.classList.contains('hidden')) return;
 
-  panel.style.width = "380px";
+  panel.style.width = "440px";
   panel.style.maxWidth = "95vw";
 
   const cooking = getCookingState();
   const activeRecipe = cooking.activeRecipe;
   const pantry = cooking.pantryItems || [];
+  const multiplier = cooking.servingsMultiplier || 1;
 
   const staples = [
     { label: 'Pasta 🍝', val: 'Pasta' },
     { label: 'Reis 🍚', val: 'Reis' },
-    { label: 'Ei 🥚', val: 'Eier' },
+    { label: 'Eier 🥚', val: 'Eier' },
     { label: 'Käse 🧀', val: 'Käse' },
     { label: 'Hähnchen 🍗', val: 'Hähnchen' },
-    { label: 'Tomate 🍅', val: 'Tomaten' },
-    { label: 'Zwiebel 🧅', val: 'Zwiebeln' },
-    { label: 'Gemüse 🥦', val: 'Gemüse' }
+    { label: 'Tomaten 🍅', val: 'Tomaten' },
+    { label: 'Knoblauch 🧄', val: 'Knoblauch' },
+    { label: 'Spinat 🥬', val: 'Spinat' }
   ];
 
   const activeTabClasses = 'bg-gradient-to-r from-orange-600/40 via-amber-600/35 to-orange-600/40 text-white border-orange-400/80 shadow-[0_0_12px_rgba(249,115,22,0.35)] font-bold';
@@ -40112,119 +43210,412 @@ function renderCookingPanel(skipLucide = false) {
 
   let contentHtml = '';
 
-  if (currentCookingTab === 'pantry') {
+  // --------------------------------------------------------------------------
+  // TAB 1: REZEPTKATALOG & SUCHE
+  // --------------------------------------------------------------------------
+  if (currentCookingTab === 'recipes') {
+    const filter = cooking.filterCategory || 'all';
+    const query = (cooking.searchQuery || '').toLowerCase();
+    const allRecipes = cooking.recipes || DEFAULT_CURATED_RECIPES;
+
+    const filtered = allRecipes.filter(r => {
+      if (filter !== 'all') {
+        const catMatch = r.category === filter || (r.tags || []).some(t => t.toLowerCase() === filter.toLowerCase());
+        if (!catMatch) return false;
+      }
+      if (query) {
+        const matchTitle = r.title.toLowerCase().includes(query);
+        const matchIng = (r.ingredients || []).some(i => i.toLowerCase().includes(query));
+        if (!matchTitle && !matchIng) return false;
+      }
+      return true;
+    });
+
     contentHtml = `
-      <!-- TAB 1: VORRATSKAMMER & ZUTATEN -->
       <div class="space-y-2.5 animate-fade-in">
-        <div class="flex gap-1.5">
-          <input id="cooking-ingredient-input" type="text" placeholder="${t('cook_add_ingredient_placeholder')}" class="flex-1 min-h-[34px] rounded-xl border border-white/10 bg-[#0a0a0f] px-3 text-xs text-gray-200 placeholder:text-gray-500 outline-none focus:border-[#ff7a00] font-semibold" />
-          <button onclick="handleCookingAddIngredient()" class="min-h-[34px] rounded-xl bg-[#ff7a00] px-3.5 text-xs font-bold text-white transition hover:bg-[#ff8c1a] cursor-pointer shadow-md">${t('cook_add_ingredient')}</button>
+        <!-- Search & New Recipe Row -->
+        <div class="flex gap-2">
+          <div class="relative flex-1">
+            <input 
+              id="cooking-search-input" 
+              type="text" 
+              value="${escapeHtml(cooking.searchQuery || '')}"
+              placeholder="🔍 Rezepte oder Zutaten suchen..." 
+              oninput="getCookingState().searchQuery = this.value; renderCookingPanel(true);"
+              class="w-full min-h-[34px] rounded-xl border border-white/10 bg-[#0a0a0f] px-3 text-xs text-gray-200 placeholder:text-gray-500 outline-none focus:border-[#ff7a00] font-semibold"
+            />
+          </div>
+          <button 
+            onclick="switchCookingTab('new_recipe')" 
+            class="min-h-[34px] px-3 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 shrink-0 shadow-md cursor-pointer"
+            title="Eigenes Rezept erstellen"
+          >
+            <span>+ Neu</span>
+          </button>
         </div>
 
+        <!-- Filter Tags -->
+        <div class="flex gap-1 overflow-x-auto pb-1 scrollbar-none text-[10px]">
+          ${[
+            { id: 'all', label: 'Alle' },
+            { id: 'schnell', label: '⚡ Schnell (<20m)' },
+            { id: 'protein', label: '💪 High Protein' },
+            { id: 'vegetarisch', label: '🌱 Veggie' },
+            { id: 'vegan', label: '🥑 Vegan' }
+          ].map(cat => `
+            <button 
+              onclick="getCookingState().filterCategory = '${cat.id}'; renderCookingPanel(true);"
+              class="px-2.5 py-1 rounded-lg shrink-0 font-medium transition cursor-pointer border ${filter === cat.id ? 'bg-orange-500/20 text-orange-300 border-orange-500/40 font-bold' : 'bg-white/[0.03] text-gray-400 border-white/5 hover:text-white'}"
+            >
+              ${cat.label}
+            </button>
+          `).join('')}
+        </div>
+
+        <!-- Recipes Grid / List -->
+        <div class="space-y-2 max-h-[320px] overflow-y-auto pr-1">
+          ${filtered.length ? filtered.map(recipe => {
+            const match = calculateRecipeMatch(recipe, pantry);
+            const isCustom = recipe.id && recipe.id.startsWith('custom-');
+            const isActive = activeRecipe && activeRecipe.id === recipe.id;
+
+            return `
+              <div 
+                onclick="selectActiveRecipe('${escapeAttr(recipe.id)}')"
+                class="group p-2.5 rounded-2xl border ${isActive ? 'border-orange-500/50 bg-orange-950/20 shadow-md' : 'border-white/5 bg-[#0a0a0f]/60 hover:border-orange-500/30 hover:bg-white/[0.03]'} transition cursor-pointer flex flex-col gap-1.5"
+              >
+                <div class="flex items-start justify-between gap-2">
+                  <div class="font-bold text-xs ${isActive ? 'text-orange-300' : 'text-gray-200 group-hover:text-orange-200'} flex-1 leading-snug">
+                    ${escapeHtml(recipe.title)}
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    <span class="text-[9px] px-1.5 py-0.5 rounded-md bg-white/5 text-gray-400 font-semibold border border-white/5">
+                      ⏱️ ${escapeHtml(recipe.duration || '20 Min')}
+                    </span>
+                    ${isCustom ? `
+                      <button onclick="deleteCustomRecipe('${escapeAttr(recipe.id)}', event)" title="Rezept löschen" class="text-gray-500 hover:text-rose-400 p-0.5 text-xs">🗑️</button>
+                    ` : ''}
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between text-[10px]">
+                  <!-- Tags -->
+                  <div class="flex flex-wrap gap-1">
+                    ${(recipe.tags || []).slice(0, 3).map(tag => `
+                      <span class="px-1.5 py-0.2 rounded bg-white/[0.04] text-gray-400 text-[9px]">${escapeHtml(tag)}</span>
+                    `).join('')}
+                  </div>
+
+                  <!-- Pantry Match Score -->
+                  <div class="text-[9.5px] font-bold ${match.percent >= 75 ? 'text-emerald-400' : match.percent >= 40 ? 'text-amber-400' : 'text-gray-500'}">
+                    ${match.percent > 0 ? `📦 ${match.percent}% vorrätig` : `${recipe.ingredients.length} Zutaten`}
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('') : `
+            <div class="py-8 text-center text-xs text-gray-500 italic">
+              Keine Rezepte für diesen Filter gefunden.
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+  }
+
+  // --------------------------------------------------------------------------
+  // TAB 2: INTERAKTIVER KOCHMODUS (STEP-BY-STEP & TIMERS)
+  // --------------------------------------------------------------------------
+  else if (currentCookingTab === 'mode') {
+    if (!activeRecipe) {
+      contentHtml = `
+        <div class="p-6 text-center rounded-2xl bg-white/[0.02] border border-white/5 space-y-3">
+          <span class="text-4xl block">👨‍🍳</span>
+          <div class="text-xs font-bold text-white">Kein aktives Rezept ausgewählt</div>
+          <p class="text-[11px] text-gray-400">Wähle ein Rezept aus dem Katalog oder lasse dir eines aus deinen Zutaten vorschlagen.</p>
+          <div class="flex justify-center gap-2 pt-1">
+            <button onclick="switchCookingTab('recipes')" class="px-3.5 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-bold transition shadow-md cursor-pointer">
+              📖 Zum Rezeptbuch
+            </button>
+            <button onclick="handleCookingSuggest()" class="px-3.5 py-1.5 bg-white/10 hover:bg-white/15 text-gray-200 rounded-xl text-xs font-semibold transition cursor-pointer">
+              🍳 Aus Vorrat kochen
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      const stepIdx = cooking.activeStepIndex || 0;
+      const totalSteps = (activeRecipe.steps || []).length;
+      const currentStepText = activeRecipe.steps && activeRecipe.steps[stepIdx] ? activeRecipe.steps[stepIdx] : '';
+      const detectedMinutes = extractMinutesFromText(currentStepText);
+      const isTimerRunning = activeCookingTimerInterval !== null;
+      const isTimerForThisStep = activeCookingTimerStep === stepIdx;
+
+      const baseServings = activeRecipe.servings || 2;
+      const currentServings = Math.round(baseServings * multiplier);
+
+      contentHtml = `
+        <div class="space-y-2.5 animate-fade-in">
+          <!-- Recipe Header Card with Servings Multiplier -->
+          <div class="rounded-2xl border border-orange-500/25 bg-orange-950/20 p-2.5 shadow-inner space-y-2">
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <h3 class="text-xs font-black text-orange-200 font-display">${escapeHtml(activeRecipe.title)}</h3>
+                <div class="text-[9.5px] text-gray-400 flex items-center gap-2 mt-0.5">
+                  <span>⏱️ ${escapeHtml(activeRecipe.duration)}</span>
+                  <span>•</span>
+                  <span>${totalSteps} Schritte</span>
+                </div>
+              </div>
+
+              <!-- Servings Scaler -->
+              <div class="flex items-center gap-1 bg-black/50 border border-white/10 rounded-xl px-1.5 py-0.5 shrink-0">
+                <button onclick="changeServingsMultiplier(-0.5)" class="text-xs font-bold text-gray-400 hover:text-white px-1 cursor-pointer" title="Weniger Portionen">-</button>
+                <span class="text-[10px] font-bold text-orange-300 min-w-[50px] text-center">🍽️ ${currentServings} Port.</span>
+                <button onclick="changeServingsMultiplier(0.5)" class="text-xs font-bold text-gray-400 hover:text-white px-1 cursor-pointer" title="Mehr Portionen">+</button>
+              </div>
+            </div>
+
+            <!-- Ingredients Summary with Missing to Shopping & Board Task Bridge -->
+            <div class="border-t border-white/5 pt-1.5">
+              <div class="flex items-center justify-between text-[9px] font-bold uppercase text-gray-400 mb-1 flex-wrap gap-1">
+                <span>Zutaten (skaliert)</span>
+                <div class="flex items-center gap-2">
+                  <button onclick="if(typeof bridgeRecipeToBoardTask === 'function') bridgeRecipeToBoardTask(getCookingState().activeRecipe.id);" class="text-amber-400 hover:text-amber-300 font-semibold cursor-pointer flex items-center gap-0.5 text-[9.5px]" title="Rezept als verknüpfte Aufgabe im Kanban-Board anlegen">
+                    <i data-lucide="plus-circle" class="w-3 h-3"></i>
+                    <span>📋 Als Aufgabe ins Board</span>
+                  </button>
+                  <button onclick="addRecipeMissingIngredientsToShopping()" class="text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer flex items-center gap-0.5 text-[9.5px]" title="Zutaten auf die Einkaufsliste setzen">
+                    <i data-lucide="shopping-cart" class="w-3 h-3"></i>
+                    <span>🛒 Auf Einkaufsliste</span>
+                  </button>
+                </div>
+              </div>
+              <div class="flex flex-wrap gap-1 max-h-[60px] overflow-y-auto pr-1">
+                ${(activeRecipe.ingredients || []).map(ing => {
+                  const scaled = scaleIngredientText(ing, multiplier);
+                  const norm = ing.toLowerCase();
+                  const inPantry = pantry.some(p => p.toLowerCase().includes(norm) || norm.includes(p.toLowerCase()));
+                  return `
+                    <span class="px-1.5 py-0.5 rounded-md text-[9px] font-medium border ${inPantry ? 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' : 'bg-orange-500/15 text-orange-300 border-orange-500/30'}">
+                      ${inPantry ? '✓' : '•'} ${escapeHtml(scaled)}
+                    </span>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Cooking Step Focus Card -->
+          <div class="rounded-2xl border border-white/10 bg-[#0a0a0f] p-3 shadow-lg space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-orange-400">
+                Schritt ${stepIdx + 1} von ${totalSteps}
+              </span>
+              <button 
+                onclick="readCurrentCookingStepAloud()" 
+                class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-orange-500/20 text-gray-300 hover:text-orange-200 border border-white/10 text-[10px] font-semibold transition flex items-center gap-1 cursor-pointer"
+                title="Diesen Schritt laut vorlesen"
+              >
+                <span>🔊 Vorlesen</span>
+              </button>
+            </div>
+
+            <!-- Step Progress Bar -->
+            <div class="w-full bg-white/5 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-gradient-to-r from-orange-500 to-amber-400 h-full transition-all duration-300" style="width: ${((stepIdx + 1) / totalSteps) * 100}%"></div>
+            </div>
+
+            <!-- Big Step Instruction Text -->
+            <div class="text-xs text-gray-100 font-medium leading-relaxed min-h-[48px] bg-white/[0.02] p-2 rounded-xl border border-white/5">
+              ${escapeHtml(currentStepText)}
+            </div>
+
+            <!-- Integrated Cooking Timer Widget -->
+            ${detectedMinutes || isTimerRunning ? `
+              <div class="p-2 rounded-xl bg-orange-950/30 border border-orange-500/30 flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-base">⏱️</span>
+                  <div>
+                    <div class="text-[9px] font-bold text-orange-300 uppercase">Koch-Timer</div>
+                    <div id="cooking-live-timer" class="text-xs font-black text-white font-mono">
+                      ${isTimerRunning ? `${String(Math.floor(activeCookingTimerSeconds / 60)).padStart(2, '0')}:${String(activeCookingTimerSeconds % 60).padStart(2, '0')}` : `${detectedMinutes || 5}:00 Min`}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-1.5">
+                  ${isTimerRunning ? `
+                    <button onclick="stopCookingTimer()" class="px-2.5 py-1 bg-rose-600/80 hover:bg-rose-500 text-white rounded-lg text-[10px] font-bold transition cursor-pointer">
+                      Stopp
+                    </button>
+                  ` : `
+                    <button onclick="startCookingTimer(${detectedMinutes || 5}, ${stepIdx})" class="px-2.5 py-1 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-lg text-[10px] font-bold transition shadow-sm cursor-pointer">
+                      ▶ Timer starten (${detectedMinutes || 5} Min)
+                    </button>
+                  `}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Step Navigation Buttons -->
+            <div class="flex items-center justify-between gap-2 pt-1">
+              <button 
+                onclick="prevCookingStep()" 
+                ${stepIdx === 0 ? 'disabled' : ''}
+                class="flex-1 py-1.5 px-2 bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed text-gray-300 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-1"
+              >
+                <span>← Zurück</span>
+              </button>
+
+              ${stepIdx < totalSteps - 1 ? `
+                <button 
+                  onclick="nextCookingStep()" 
+                  class="flex-1 py-1.5 px-2 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-xl text-xs font-bold transition shadow-md cursor-pointer flex items-center justify-center gap-1"
+                >
+                  <span>Weiter →</span>
+                </button>
+              ` : `
+                <button 
+                  onclick="if (typeof playProceduralSound === 'function') playProceduralSound(1); switchCookingTab('recipes');" 
+                  class="flex-1 py-1.5 px-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-xl text-xs font-bold transition shadow-md cursor-pointer flex items-center justify-center gap-1"
+                >
+                  <span>🎉 Fertig! Guten Appetit</span>
+                </button>
+              `}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // TAB 3: VORRAT & RESTEVERWERTUNG (PANTRY)
+  // --------------------------------------------------------------------------
+  else if (currentCookingTab === 'pantry') {
+    contentHtml = `
+      <div class="space-y-2.5 animate-fade-in">
+        <!-- Ingredient Add Input -->
+        <div class="flex gap-1.5">
+          <input 
+            id="cooking-ingredient-input" 
+            type="text" 
+            placeholder="Zutat eingeben (z.B. Paprika, Eier, Reis)..." 
+            class="flex-1 min-h-[34px] rounded-xl border border-white/10 bg-[#0a0a0f] px-3 text-xs text-gray-200 placeholder:text-gray-500 outline-none focus:border-[#ff7a00] font-semibold" 
+          />
+          <button 
+            onclick="handleCookingAddIngredient()" 
+            class="min-h-[34px] rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 px-3.5 text-xs font-bold text-white transition shadow-md cursor-pointer"
+          >
+            + Hinzufügen
+          </button>
+        </div>
+
+        <!-- Quick Select Staples -->
         <div class="space-y-1">
-          <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">${t('cook_quick_select')}</div>
+          <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">Schnellauswahl Grundzutaten</div>
           <div class="flex flex-wrap gap-1">
             ${staples.map(s => `
-              <button onclick="handleQuickAddStaple('${s.val}')" class="px-2 py-0.5 bg-white/[0.03] hover:bg-[#ff8c1a]/15 border border-white/5 hover:border-orange-500/30 rounded-lg text-[10px] text-gray-300 transition cursor-pointer font-medium hover:scale-105 active:scale-95">
+              <button 
+                onclick="handleQuickAddStaple('${s.val}')" 
+                class="px-2 py-0.5 bg-white/[0.03] hover:bg-orange-500/15 border border-white/5 hover:border-orange-500/30 rounded-lg text-[10px] text-gray-300 transition cursor-pointer font-medium hover:scale-105 active:scale-95"
+              >
                 ${s.label}
               </button>
             `).join('')}
           </div>
         </div>
 
+        <!-- Pantry List -->
         <div class="rounded-2xl border border-white/5 bg-[#0a0a0e]/40 p-2.5 shadow-inner">
           <div class="mb-1.5 flex items-center justify-between text-[9px] font-bold uppercase tracking-wider text-gray-400 px-0.5">
-            <span>${t('cook_ingredients')} (${pantry.length})</span>
-            ${pantry.length > 0 ? `<button onclick="resetCookingPantry()" class="text-rose-400 hover:text-rose-300 cursor-pointer">${t('cook_clear_pantry')}</button>` : ''}
+            <span>Vorhandene Zutaten (${pantry.length})</span>
+            ${pantry.length > 0 ? `
+              <button onclick="clearCookingPantry()" class="text-rose-400 hover:text-rose-300 cursor-pointer">Alle leeren</button>
+            ` : ''}
           </div>
           ${pantry.length ? `
-            <div class="flex flex-wrap gap-1 max-h-[70px] overflow-y-auto pr-1">
+            <div class="flex flex-wrap gap-1 max-h-[80px] overflow-y-auto pr-1">
               ${pantry.map((item, index) => `
-                <span class="inline-flex items-center gap-1 rounded-lg border border-[#00ff66]/30 bg-[#00ff66]/15 px-2 py-0.5 text-[10.5px] text-[#00ff66] font-semibold">
+                <span class="inline-flex items-center gap-1 rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-2 py-0.5 text-[10.5px] text-emerald-300 font-semibold">
                   ${escapeHtml(capitalize(item))}
-                  <button type="button" onclick="removeCookingIngredient(${index}); renderCookingPanel(true);" aria-label="Zutat entfernen" class="ml-1 text-[#ff7a00]/60 hover:text-red-400 font-bold transition cursor-pointer text-xs">×</button>
+                  <button type="button" onclick="removeCookingIngredient(${index})" aria-label="Zutat entfernen" class="ml-1 text-orange-400/80 hover:text-red-400 font-bold transition cursor-pointer text-xs">×</button>
                 </span>
               `).join('')}
             </div>
           ` : `
-            <div class="text-[10.5px] text-gray-500 italic py-1 text-center">${t('cook_pantry_empty')}</div>
+            <div class="text-[10.5px] text-gray-500 italic py-2 text-center">Noch keine Zutaten eingetragen. Wähle oben Zutaten aus deinem Kühlschrank!</div>
           `}
         </div>
 
+        <!-- Suggest Smart Skillet Recipe Button -->
         <div class="pt-0.5">
-          <button onclick="handleCookingSuggest()" class="w-full min-h-[34px] rounded-xl bg-gradient-to-r from-[#ff7a00] to-[#ff3366] hover:from-[#ff8c1a] hover:to-[#ff4d7d] text-white font-bold text-xs shadow-md transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
-            <i data-lucide="cooking-pot" class="w-4 h-4"></i>
-            <span>🍳 ${t('cook_suggest_btn')}</span>
+          <button 
+            onclick="handleCookingSuggest()" 
+            class="w-full min-h-[36px] rounded-xl bg-gradient-to-r from-[#ff7a00] to-[#ff3366] hover:from-[#ff8c1a] hover:to-[#ff4d7d] text-white font-bold text-xs shadow-md transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5"
+          >
+            <span>🍳 Smart-Rezept aus Vorrat zaubern</span>
           </button>
         </div>
       </div>
     `;
-  } else {
+  }
+
+  // --------------------------------------------------------------------------
+  // TAB 4: NEUES REZEPT ERSTELLEN
+  // --------------------------------------------------------------------------
+  else if (currentCookingTab === 'new_recipe') {
     contentHtml = `
-      <!-- TAB 2: REZEPT & ZUBEREITUNG -->
-      <div class="space-y-2 animate-fade-in">
-        ${activeRecipe ? `
-          <div class="rounded-2xl border border-orange-500/25 bg-orange-950/15 p-3 shadow-inner space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-black text-[#c084fc] font-display truncate">${escapeHtml(activeRecipe.title)}</span>
-              <span class="text-[9px] px-2 py-0.5 rounded-full bg-[#ff7a00]/15 text-[#ff7a00] font-bold border border-[#ff7a00]/30 shrink-0">${escapeHtml(activeRecipe.duration)}</span>
-            </div>
-            
-            <div class="space-y-1">
-              <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">${t('cook_ingredient_match')}</div>
-              <div class="flex flex-wrap gap-1 text-[9.5px]">
-                ${(activeRecipe.ingredients || []).map(ing => {
-                  const normalized = ing.toLowerCase();
-                  const matched = pantry.some(p => p.toLowerCase().includes(normalized) || normalized.includes(p.toLowerCase()));
-                  return `
-                    <span class="px-1.5 py-0.5 rounded-md ${matched ? 'bg-[#00ff66]/15 text-[#00ff66] border border-[#00ff66]/30' : 'bg-[#ff7a00]/15 text-[#ff7a00] border border-[#ff7a00]/30'} font-semibold">
-                      ${matched ? '✔️' : '❌'} ${escapeHtml(capitalize(ing))}
-                    </span>
-                  `;
-                }).join('')}
-              </div>
-            </div>
+      <div class="space-y-2.5 animate-fade-in">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-orange-300">Eigenes Rezept anlegen</span>
+          <button onclick="switchCookingTab('recipes')" class="text-xs text-gray-400 hover:text-white cursor-pointer">Abbrechen</button>
+        </div>
 
-            <div class="space-y-1 border-t border-white/5 pt-2">
-              <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400">${t('cook_steps')}</div>
-              <div class="space-y-1.5 max-h-[110px] overflow-y-auto pr-1">
-                ${(activeRecipe.steps || []).map((step, idx) => `
-                  <label class="flex items-start gap-2 cursor-pointer select-none group/step">
-                    <input type="checkbox" id="cook-step-${idx}" onchange="toggleCookingStepCheckbox(${idx})" class="w-3.5 h-3.5 rounded border-white/10 bg-[#0a0a0f] text-orange-500 focus:ring-0 accent-orange-500 shrink-0 mt-0.5 cursor-pointer" />
-                    <span id="cook-step-label-${idx}" class="text-[10.5px] text-[#00f2ff] group-hover/step:brightness-125 leading-tight font-medium transition duration-150">
-                      ${escapeHtml(step)}
-                    </span>
-                  </label>
-                `).join('')}
-              </div>
+        <div class="space-y-2 text-xs">
+          <div>
+            <label class="text-[9px] font-bold uppercase text-gray-400 block mb-0.5">Rezepttitel</label>
+            <input id="new-recipe-title" type="text" placeholder="z.B. Omas Gemüseauflauf" class="w-full min-h-[30px] rounded-xl border border-white/10 bg-[#0a0a0f] px-2.5 text-xs text-white outline-none focus:border-orange-500" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="text-[9px] font-bold uppercase text-gray-400 block mb-0.5">Dauer</label>
+              <input id="new-recipe-duration" type="text" placeholder="z.B. 25 Min" class="w-full min-h-[30px] rounded-xl border border-white/10 bg-[#0a0a0f] px-2.5 text-xs text-white outline-none focus:border-orange-500" />
+            </div>
+            <div>
+              <label class="text-[9px] font-bold uppercase text-gray-400 block mb-0.5">Kategorie</label>
+              <select id="new-recipe-category" class="w-full min-h-[30px] rounded-xl border border-white/10 bg-[#0a0a0f] px-2 text-xs text-gray-300 outline-none focus:border-orange-500">
+                <option value="schnell">Schnelle Küche</option>
+                <option value="protein">High Protein</option>
+                <option value="vegetarisch">Vegetarisch</option>
+                <option value="vegan">Vegan</option>
+              </select>
             </div>
           </div>
 
-          <div class="flex gap-2">
-            <button onclick="switchCookingTab('pantry')" class="flex-1 py-1.5 px-2 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-xl text-[10.5px] font-semibold transition cursor-pointer flex items-center justify-center gap-1">
-              <span>← ${t('cook_adjust_ingredients')}</span>
-            </button>
-            <button onclick="addRecipeMissingIngredientsToShopping()" class="flex-1 py-1.5 px-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 rounded-xl text-[10.5px] font-bold transition flex items-center justify-center gap-1 cursor-pointer">
-              <i data-lucide="shopping-basket" class="w-3.5 h-3.5"></i>
-              <span>${t('cook_missing_to_shop')}</span>
-            </button>
+          <div>
+            <label class="text-[9px] font-bold uppercase text-gray-400 block mb-0.5">Zutaten (eine pro Zeile)</label>
+            <textarea id="new-recipe-ingredients" rows="3" placeholder="250g Pasta&#10;2 Tomaten&#10;1 Zehe Knoblauch" class="w-full rounded-xl border border-white/10 bg-[#0a0a0f] p-2 text-xs text-white outline-none focus:border-orange-500 resize-none font-mono"></textarea>
           </div>
-        ` : `
-          <div class="p-6 text-center rounded-2xl bg-white/[0.02] border border-white/5 space-y-2">
-            <span class="text-3xl block">🍳</span>
-            <div class="text-xs font-bold text-white">${t('cook_no_recipe_title')}</div>
-            <p class="text-[10px] text-gray-400">${t('cook_no_recipe_desc')}</p>
-            <button onclick="switchCookingTab('pantry')" class="px-4 py-1.5 bg-[#ff7a00] hover:bg-[#ff8c1a] text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-md inline-flex items-center gap-1">
-              <span>${t('cook_to_pantry_btn')}</span>
-            </button>
+
+          <div>
+            <label class="text-[9px] font-bold uppercase text-gray-400 block mb-0.5">Zubereitungsschritte (einer pro Zeile)</label>
+            <textarea id="new-recipe-steps" rows="3" placeholder="Wasser zum Kochen bringen.&#10;Tomaten und Knoblauch anbraten.&#10;Nudeln untermengen und servieren." class="w-full rounded-xl border border-white/10 bg-[#0a0a0f] p-2 text-xs text-white outline-none focus:border-orange-500 resize-none font-mono"></textarea>
           </div>
-        `}
+
+          <button onclick="saveCustomRecipeFromForm()" class="w-full min-h-[34px] rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold text-xs shadow-md transition cursor-pointer">
+            ✓ Rezept speichern & öffnen
+          </button>
+        </div>
       </div>
     `;
   }
 
+  // Header and Navigation Shell
   panel.innerHTML = `
-    <!-- KOPFZEILE -->
+    <!-- HEADER -->
     <div class="flex items-center justify-between border-b border-white/10 pb-2">
       <div class="flex items-center gap-2">
         <div class="w-7 h-7 rounded-xl bg-orange-500/20 border border-orange-400/40 flex items-center justify-center text-orange-300 shadow-sm shrink-0">
@@ -40242,15 +43633,19 @@ function renderCookingPanel(skipLucide = false) {
       <button onclick="togglePanel('cooking')" aria-label="Koch-Panel schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
     </div>
 
-    <!-- 2-TAB SUB-NAVIGATION -->
+    <!-- 3-TAB SUB-NAVIGATION -->
     <div class="flex items-center bg-black/60 p-1 rounded-2xl border border-white/10 text-xs gap-1 shadow-sm select-none">
+      <button onclick="switchCookingTab('recipes')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'recipes' ? activeTabClasses : inactiveTabClasses}">
+        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+        <span>Rezepte</span>
+      </button>
+      <button onclick="switchCookingTab('mode')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'mode' ? activeTabClasses : inactiveTabClasses}">
+        <i data-lucide="cooking-pot" class="w-3.5 h-3.5"></i>
+        <span>Kochmodus</span>
+      </button>
       <button onclick="switchCookingTab('pantry')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'pantry' ? activeTabClasses : inactiveTabClasses}">
         <i data-lucide="utensils" class="w-3.5 h-3.5"></i>
-        <span>${t('cook_pantry_tab')}</span>
-      </button>
-      <button onclick="switchCookingTab('recipe')" class="flex-1 py-1 px-1 rounded-xl transition flex items-center justify-center gap-1 text-[10.5px] cursor-pointer border ${currentCookingTab === 'recipe' ? activeTabClasses : inactiveTabClasses}">
-        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-        <span>${t('cook_recipe_tab')}</span>
+        <span>Vorrat</span>
       </button>
     </div>
 
@@ -40258,6 +43653,7 @@ function renderCookingPanel(skipLucide = false) {
     ${contentHtml}
   `;
 
+  // Enter key listener for ingredient input
   const input = panel.querySelector('#cooking-ingredient-input');
   if (input) {
     input.onkeydown = (e) => {
@@ -40267,72 +43663,69 @@ function renderCookingPanel(skipLucide = false) {
       }
     };
   }
-  if (!skipLucide) renderLucideIcons();
-}
 
-function resetCookingPantry() {
-  const cooking = getCookingState();
-  cooking.pantryItems = [];
-  cooking.activeRecipeId = null;
-  cooking.activeRecipe = null;
-  saveState();
-  renderCookingPanel(true);
-  if (typeof playProceduralSound === 'function') playProceduralSound(11);
-}
-
-function addRecipeMissingIngredientsToShopping() {
-  const cooking = getCookingState();
-  const activeRecipe = cooking.activeRecipe;
-  if (!activeRecipe || !Array.isArray(activeRecipe.ingredients)) return;
-  const pantry = (cooking.pantryItems || []).map(p => p.toLowerCase());
-  const missing = activeRecipe.ingredients.filter(ing => {
-    const norm = ing.toLowerCase();
-    return !pantry.some(p => p.includes(norm) || norm.includes(p));
-  });
-  const itemsToAdd = missing.length > 0 ? missing : activeRecipe.ingredients;
-  if (typeof addIngredientsToShoppingList === 'function') {
-    addIngredientsToShoppingList(itemsToAdd, activeRecipe.title);
+  if (!skipLucide && typeof renderLucideIcons === 'function') {
+    renderLucideIcons();
   }
 }
 
+// ----------------------------------------------------------------------------
+// EXPORTS & GLOBAL REGISTRATION
+// ----------------------------------------------------------------------------
 if (typeof window !== 'undefined') {
-  window.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
-  window.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
-  window.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;
-  window.switchCookingTab = typeof switchCookingTab !== 'undefined' ? switchCookingTab : undefined;
-  window.handleCookingSuggest = typeof handleCookingSuggest !== 'undefined' ? handleCookingSuggest : undefined;
-  window.toggleCookingStepCheckbox = typeof toggleCookingStepCheckbox !== 'undefined' ? toggleCookingStepCheckbox : undefined;
-  window.resetCookingPantry = typeof resetCookingPantry !== 'undefined' ? resetCookingPantry : undefined;
-  window.openPantryModal = typeof openPantryModal !== 'undefined' ? openPantryModal : undefined;
-  window.closePantryModal = typeof closePantryModal !== 'undefined' ? closePantryModal : undefined;
-  window.openRecipeModal = typeof openRecipeModal !== 'undefined' ? openRecipeModal : undefined;
-  window.closeRecipeModal = typeof closeRecipeModal !== 'undefined' ? closeRecipeModal : undefined;
+  window.renderCookingPanel = renderCookingPanel;
+  window.handleCookingAddIngredient = handleCookingAddIngredient;
+  window.handleQuickAddStaple = handleQuickAddStaple;
+  window.switchCookingTab = switchCookingTab;
+  window.handleCookingSuggest = handleCookingSuggest;
+  window.resetCookingPantry = resetCookingPantry;
+  window.clearCookingPantry = clearCookingPantry;
   window.addCookingIngredient = addCookingIngredient;
   window.removeCookingIngredient = removeCookingIngredient;
-  window.suggestCookingRecipe = typeof suggestCookingRecipe !== 'undefined' ? suggestCookingRecipe : undefined;
-  window.clearCookingPantry = typeof clearCookingPantry !== 'undefined' ? clearCookingPantry : undefined;
+  window.suggestCookingRecipe = suggestCookingRecipe;
   window.addRecipeMissingIngredientsToShopping = addRecipeMissingIngredientsToShopping;
-  window.getCookingState = typeof getCookingState !== 'undefined' ? getCookingState : undefined;
+  window.getCookingState = getCookingState;
+  window.selectActiveRecipe = selectActiveRecipe;
+  window.nextCookingStep = nextCookingStep;
+  window.prevCookingStep = prevCookingStep;
+  window.setCookingStep = setCookingStep;
+  window.changeServingsMultiplier = changeServingsMultiplier;
+  window.scaleIngredientText = scaleIngredientText;
+  window.startCookingTimer = startCookingTimer;
+  window.stopCookingTimer = stopCookingTimer;
+  window.readCurrentCookingStepAloud = readCurrentCookingStepAloud;
+  window.extractMinutesFromText = extractMinutesFromText;
+  window.calculateRecipeMatch = calculateRecipeMatch;
+  window.saveCustomRecipeFromForm = saveCustomRecipeFromForm;
+  window.deleteCustomRecipe = deleteCustomRecipe;
 }
 
 if (typeof globalThis !== 'undefined') {
-  globalThis.switchCookingTab = typeof switchCookingTab !== 'undefined' ? switchCookingTab : undefined;
-  globalThis.renderCookingPanel = typeof renderCookingPanel !== 'undefined' ? renderCookingPanel : undefined;
-  globalThis.handleCookingAddIngredient = typeof handleCookingAddIngredient !== 'undefined' ? handleCookingAddIngredient : undefined;
-  globalThis.handleQuickAddStaple = typeof handleQuickAddStaple !== 'undefined' ? handleQuickAddStaple : undefined;
-  globalThis.handleCookingSuggest = typeof handleCookingSuggest !== 'undefined' ? handleCookingSuggest : undefined;
-  globalThis.toggleCookingStepCheckbox = typeof toggleCookingStepCheckbox !== 'undefined' ? toggleCookingStepCheckbox : undefined;
-  globalThis.resetCookingPantry = typeof resetCookingPantry !== 'undefined' ? resetCookingPantry : undefined;
-  globalThis.openPantryModal = typeof openPantryModal !== 'undefined' ? openPantryModal : undefined;
-  globalThis.closePantryModal = typeof closePantryModal !== 'undefined' ? closePantryModal : undefined;
-  globalThis.openRecipeModal = typeof openRecipeModal !== 'undefined' ? openRecipeModal : undefined;
-  globalThis.closeRecipeModal = typeof closeRecipeModal !== 'undefined' ? closeRecipeModal : undefined;
+  globalThis.renderCookingPanel = renderCookingPanel;
+  globalThis.handleCookingAddIngredient = handleCookingAddIngredient;
+  globalThis.handleQuickAddStaple = handleQuickAddStaple;
+  globalThis.switchCookingTab = switchCookingTab;
+  globalThis.handleCookingSuggest = handleCookingSuggest;
+  globalThis.resetCookingPantry = resetCookingPantry;
+  globalThis.clearCookingPantry = clearCookingPantry;
   globalThis.addCookingIngredient = addCookingIngredient;
   globalThis.removeCookingIngredient = removeCookingIngredient;
-  globalThis.suggestCookingRecipe = typeof suggestCookingRecipe !== 'undefined' ? suggestCookingRecipe : undefined;
-  globalThis.clearCookingPantry = typeof clearCookingPantry !== 'undefined' ? clearCookingPantry : undefined;
+  globalThis.suggestCookingRecipe = suggestCookingRecipe;
   globalThis.addRecipeMissingIngredientsToShopping = addRecipeMissingIngredientsToShopping;
-  globalThis.getCookingState = typeof getCookingState !== 'undefined' ? getCookingState : undefined;
+  globalThis.getCookingState = getCookingState;
+  globalThis.selectActiveRecipe = selectActiveRecipe;
+  globalThis.nextCookingStep = nextCookingStep;
+  globalThis.prevCookingStep = prevCookingStep;
+  globalThis.setCookingStep = setCookingStep;
+  globalThis.changeServingsMultiplier = changeServingsMultiplier;
+  globalThis.scaleIngredientText = scaleIngredientText;
+  globalThis.startCookingTimer = startCookingTimer;
+  globalThis.stopCookingTimer = stopCookingTimer;
+  globalThis.readCurrentCookingStepAloud = readCurrentCookingStepAloud;
+  globalThis.extractMinutesFromText = extractMinutesFromText;
+  globalThis.calculateRecipeMatch = calculateRecipeMatch;
+  globalThis.saveCustomRecipeFromForm = saveCustomRecipeFromForm;
+  globalThis.deleteCustomRecipe = deleteCustomRecipe;
 }
 
 
@@ -41435,6 +44828,10 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
       <i data-lucide="footprints" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>
       <span>Steps</span>
     </button>
+    <button onclick="if(typeof openLinkToolModal === 'function') openLinkToolModal('${colId}', ${index}); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-cyan-300 hover:text-cyan-200 transition cursor-pointer text-left font-medium" title="Tool verknüpfen (Timer, Rezept, Sound, etc.)">
+      <i data-lucide="link" class="w-3.5 h-3.5 text-cyan-400"></i>
+      <span>${tr({ de: 'Verknüpfen', en: 'Link Tool', fr: 'Lier outil', it: 'Collega', es: 'Vincular', el: 'Σύνδεση' })}</span>
+    </button>
     
     <div class="h-[1px] bg-white/10 my-0.5"></div>
 
@@ -41764,7 +45161,7 @@ function openColumnOptionsMenu(colId, btnEl) {
     actionsHtml = `
       <div class="py-0.5 space-y-0.5">
         <button onclick="clearCompletedInColumn('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-emerald-500/15 text-emerald-300 hover:text-emerald-200 transition flex items-center gap-2 text-left cursor-pointer">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+          <i data-lucide="check-check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
           <span>${tr({ de: 'Erledigte aufräumen', en: 'Clear completed', fr: 'Nettoyer les terminées', it: 'Pulisci completate', es: 'Limpiar completadas', el: 'Καθαρισμός ολοκληρωμένων' })}</span>
         </button>
         <button onclick="archiveColumnTasks('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-white/10 hover:text-white transition flex items-center gap-2 text-left cursor-pointer">
@@ -42023,6 +45420,9 @@ function toggleColumnsDropdown(e) {
     e.stopPropagation();
     e.preventDefault();
   }
+  const wsDropdown = document.getElementById('dropdown-header-workspace');
+  if (wsDropdown) wsDropdown.classList.add('hidden');
+
   const dropdown = document.getElementById('dropdown-manage-columns');
   if (!dropdown) {
     openColumnsManagerModal();
@@ -42031,22 +45431,28 @@ function toggleColumnsDropdown(e) {
   if (dropdown.classList.contains('hidden')) {
     openColumnsDropdown();
   } else {
-    closeColumnsDropdown();
+    closeColumnsDropdown(true);
   }
 }
 
-function closeColumnsDropdown() {
+function closeColumnsDropdown(force = true) {
+  cancelCloseColumnsDropdown();
   const dropdown = document.getElementById('dropdown-manage-columns');
-  const btn = document.getElementById('btn-board-columns');
-  try {
-    if (dropdown && dropdown.matches(':hover')) return;
-    if (btn && btn.matches(':hover')) return;
-  } catch (e) {}
+  if (!force) {
+    const btn = document.getElementById('btn-board-columns');
+    try {
+      if (dropdown && dropdown.matches(':hover')) return;
+      if (btn && btn.matches(':hover')) return;
+    } catch (e) {}
+  }
   if (dropdown) dropdown.classList.add('hidden');
 }
 
 function openColumnsDropdown(triggerEl) {
   cancelCloseColumnsDropdown();
+  const wsDropdown = document.getElementById('dropdown-header-workspace');
+  if (wsDropdown) wsDropdown.classList.add('hidden');
+
   const dropdown = document.getElementById('dropdown-manage-columns');
   if (!dropdown) {
     openColumnsManagerModal();
@@ -42151,7 +45557,7 @@ function renderColumnsDropdownContent(dropdown) {
           <option value="heart">❤️ Leben</option>
           <option value="briefcase">💼 Projekt</option>
           <option value="calendar">📅 Termine</option>
-          <option value="sparkles">✨ Gewohnheit</option>
+          <option value="lightbulb">💡 Gewohnheit</option>
         </select>
         <button onclick="submitAddListFromManager()" class="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer shrink-0">
           <i data-lucide="plus" class="w-3.5 h-3.5"></i>
@@ -42359,7 +45765,7 @@ function openColumnsManagerModal() {
           <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/50 border border-white/15 text-xs text-gray-200 rounded-xl focus:outline-none focus:border-purple-400 cursor-pointer">
             <option value="layers">🗂️ Standard</option>
             <option value="list-todo">📝 Todo</option>
-            <option value="sparkles">✨ Highlights</option>
+            <option value="sparkles">💡 Highlights</option>
             <option value="target">🎯 Fokus</option>
             <option value="zap">⚡ Sprint</option>
             <option value="book-open">📚 Studium</option>
@@ -42861,6 +46267,15 @@ function renderApp() {
               <polyline points="9 15 12 12 15 15"/>
             </svg>
           </button>
+          ${isNotes ? `
+            <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-white font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+              <span>Scan</span>
+            </button>
+          ` : ''}
         </div>
       ` : ''}
     `;
@@ -43018,12 +46433,10 @@ function renderApp() {
               </div>
             </div>
           </div>
-          <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-0.5 rounded-lg shadow-md z-40 backdrop-blur-md">
-            <button onclick="markTerminStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Eu lieu', it: 'Avvenuto', es: 'Asistido', el: 'Πραγματοποιήθηκε' })}" class="p-1 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Stattgefunden ✅', en: 'Attended ✅', fr: 'Eu lieu ✅', it: 'Avvenuto ✅', es: 'Asistido ✅', el: 'Πραγματοποιήθηκε ✅' })}">${svgFn('check', 'w-3 h-3')}</button>
-            <button onclick="markTerminNichtStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Nicht stattgefunden', en: 'Did not happen', fr: 'Pas eu lieu', it: 'Non avvenuto', es: 'No asistido', el: 'Δεν πραγματοποιήθηκε' })}" class="p-1 text-rose-400 hover:text-rose-300 hover:bg-rose-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Nicht stattgefunden ❌', en: 'Did not happen ❌', fr: 'Pas eu lieu ❌', it: 'Non avvenuto ❌', es: 'No asistido ❌', el: 'Δεν πραγματοποιήθηκε ❌' })}">${svgFn('x', 'w-3 h-3')}</button>
-            <button onclick="openPostponeTerminModal(${originalIndex}, event)" aria-label="${tr({ de: 'Verschieben', en: 'Postpone', fr: 'Reporter', it: 'Posticipa', es: 'Posponer', el: 'Αναβολή' })}" class="p-1 text-sky-400 hover:text-sky-300 hover:bg-sky-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Verschieben & als verschoben markieren 🔄', en: 'Postpone & mark 🔄', fr: 'Reporter & marquer 🔄', it: 'Posticipa e contrassegna 🔄', es: 'Posponer y marcar 🔄', el: 'Αναβολή & επισήμανση 🔄' })}">${svgFn('calendar-sync', 'w-3 h-3')}</button>
-            <button onclick="editTermin(${originalIndex}, event)" aria-label="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}" class="p-1 text-amber-400 hover:text-amber-300 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}">${svgFn('edit-3', 'w-3 h-3')}</button>
-            <button onclick="deleteTask('termine', ${originalIndex}, event)" aria-label="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}" class="p-1 text-gray-500 hover:text-red-400 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}">${svgFn('trash-2', 'w-3 h-3')}</button>
+          <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-1 rounded-xl shadow-md z-40 backdrop-blur-md">
+            <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Status umschalten', en: 'Toggle status', fr: 'Basculer statut', it: 'Cambia stato', es: 'Cambiar estado', el: 'Εναλλαγή' })}" class="p-1 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/20 rounded-lg transition cursor-pointer" title="${tr({ de: 'Status ändern', en: 'Toggle status', fr: 'Changer statut', it: 'Modifica stato', es: 'Cambiar estado', el: 'Αλλαγή κατάστασης' })}">${svgFn('check', 'w-3.5 h-3.5')}</button>
+            <button onclick="editTermin(${originalIndex}, event)" aria-label="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}" class="p-1 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition cursor-pointer" title="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}">${svgFn('edit-3', 'w-3.5 h-3.5')}</button>
+            <button onclick="deleteTask('termine', ${originalIndex}, event)" aria-label="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}" class="p-1 text-gray-400 hover:text-red-400 hover:bg-white/10 rounded-lg transition cursor-pointer" title="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}">${svgFn('trash-2', 'w-3.5 h-3.5')}</button>
           </div>
         `;
         listEl.appendChild(itemDiv);
@@ -43119,22 +46532,26 @@ function renderApp() {
           : '';
         const editTooltip = tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' });
         const completeTooltip = tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' });
+        const toolBadgesHTML = (typeof renderTaskToolBadgesHTML === 'function')
+          ? renderTaskToolBadgesHTML(taskObj, id, index)
+          : '';
         itemDiv.innerHTML = `
-          <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none">
+          <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none flex-wrap">
             <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
               <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-lime-400 hover:bg-lime-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
-                ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400 animate-pulse' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
+                ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
                 ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
               </span>
             </button>
             <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
             ${recurrenceBadge}
+            ${toolBadgesHTML}
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
             <button onclick="startTaskTimerByIndex('${id}', ${index}, event)" aria-label="${tr({ de: 'Timer für diese Aufgabe starten', en: 'Start timer for this task', fr: 'Lancer le minuteur', it: 'Avvia timer per questa attività', es: 'Iniciar temporizador', el: 'Εκκίνηση χρονοδιακόπτη' })}" class="p-1 px-1.5 text-amber-300 hover:text-white bg-[#1a1a28] hover:bg-amber-500/30 border border-white/20 hover:border-amber-400/50 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Fokus-Timer starten', en: 'Start focus timer', fr: 'Lancer le minuteur', it: 'Avvia timer', es: 'Iniciar temporizador', el: 'Εκκίνηση Timer' })}">
               ${svgFn('timer', 'w-3.5 h-3.5 text-amber-400 hover:text-amber-200')}
             </button>
-            <button onmouseenter="cancelCloseTaskMenu(); openTaskOptionsMenu('${id}', ${index}, this);" onmouseleave="scheduleCloseTaskMenu();" onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Timer, Chrono, Steps, etc.)', en: 'Options (Timer, Chrono, Steps, etc.)', fr: 'Options (Minuteur, Chrono, Steps, etc.)', it: 'Opzioni (Timer, Cronometro, Steps, etc.)', es: 'Opciones (Timer, Crono, Steps, etc.)', el: 'Επιλογές (Timer, Chrono, Steps)' })}">
+            <button onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Timer, Chrono, Steps, etc.)', en: 'Options (Timer, Chrono, Steps, etc.)', fr: 'Options (Minuteur, Chrono, Steps, etc.)', it: 'Opzioni (Timer, Cronometro, Steps, etc.)', es: 'Opciones (Timer, Crono, Steps, etc.)', el: 'Επιλογές (Timer, Chrono, Steps)' })}">
               ${svgFn('more-horizontal', 'w-3.5 h-3.5 text-gray-200 hover:text-white')}
             </button>
           </div>
@@ -43412,8 +46829,23 @@ function handleCompleteTask(category, index, event) {
   if (typeof updateZenView === 'function') updateZenView();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
 
-  // 100% Celebration Check (Daily Review Modal nicht mehr automatisch öffnen, nur manuell oder weekly)
-  if ((curItems[category] || []).length === 0) {
+  // 100% Celebration Check & Feierabend-Trigger
+  let categoryEmpty = (curItems[category] || []).length === 0;
+  let allDone = false;
+  if (curItems) {
+    let remainingTotal = 0;
+    Object.keys(curItems).forEach(col => {
+      if (Array.isArray(curItems[col])) remainingTotal += curItems[col].length;
+    });
+    allDone = (remainingTotal === 0);
+  }
+
+  if (allDone) {
+    // Sanfter, verzögerter Feierabend-Trigger (verhindert Reiz-Kaskaden)
+    setTimeout(() => {
+      openFeierabendModal();
+    }, 550);
+  } else if (categoryEmpty) {
     showToast(tr({
       de: `Karte "${t(category)}" zu 100% erledigt! 🌟`,
       en: `Card "${t(category)}" 100% completed! 🌟`,
@@ -43430,7 +46862,6 @@ function openFeierabendModal() {
   if (!modal) return;
   modal.classList.remove('hidden');
   renderLucideIcons();
-  if (typeof triggerCelebrationParticles === 'function') triggerCelebrationParticles();
 }
 
 function closeFeierabendModal() {
@@ -43440,13 +46871,17 @@ function closeFeierabendModal() {
 
 function startFeierabendChillMode() {
   closeFeierabendModal();
+  // Schalte nahtlos in die Zen-Chill-Ansicht um (visuelle Entlastung, verdeckt das Arbeits-Board)
+  if (typeof isMinimalist !== 'undefined' && !isMinimalist && typeof toggleMinimalist === 'function') {
+    toggleMinimalist();
+  }
   showToast(tr({
-    de: 'Feierabend-Modus aktiviert! 🍹 Entspanne dich!',
-    en: 'Chill mode activated! 🍹 Relax and enjoy!',
-    fr: 'Mode détente activé ! 🍹 Profite bien !',
-    it: 'Modalità relax attivata! 🍹 Buon riposo!',
-    es: '¡Modo relax activado! 🍹 ¡A descansar!',
-    el: 'Λειτουργία χαλάρωσης ενεργοποιήθηκε! 🍹'
+    de: 'Feierabend & Zen-Modus aktiv 🍃 Entspanne dich!',
+    en: 'Chill mode activated! 🍃 Relax and unwind!',
+    fr: 'Mode détente activé ! 🍃 Profite bien !',
+    it: 'Modalità relax attivata! 🍃 Buon riposo!',
+    es: '¡Modo relax activado! 🍃 ¡A descansar!',
+    el: 'Λειτουργία χαλάρωσης ενεργοποιήθηκε! 🍃'
   }));
   if (typeof startAmbientSound === 'function') {
     startAmbientSound('lofi_sunshine');
@@ -43939,14 +47374,17 @@ document.addEventListener('pointerdown', (e) => {
   }
   if (clickedTrigger) return;
 
-  // Andernfalls: Panel stabil schließen & Pin aufheben
+  // Wenn das Panel fest gepinnt (📌) oder im Vollbild (⛶) ist: NICHT schließen bei Klicks im Board!
+  if (openPanelEl.classList.contains('noodle-panel-pinned') || openPanelEl.classList.contains('noodle-panel-fullscreen')) {
+    return;
+  }
+
+  // Andernfalls (flüchtige Hover-Vorschau / Peek): Panel schließen
   openPanelEl.classList.add('hidden');
-  openPanelEl.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+  openPanelEl.classList.remove('noodle-panel-peeking');
   currentlyOpenPanel = null;
-  pinnedPanel = null;
   if (typeof window !== 'undefined') {
     window.currentlyOpenPanel = null;
-    window.pinnedPanel = null;
   }
   const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
   if (dockContainer) dockContainer.classList.remove('is-active');
@@ -45042,12 +48480,14 @@ function togglePanel(panelName) {
   const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab'];
   const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
 
-  // Andere Popover-Panels schließen
+  // Andere Popover-Panels schließen (gepinnte schwebende Fenster bleiben offen!)
   ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'social', 'radio-news', 'timer-presets', 'health', 'humor-lab'].forEach(p => {
     if (isSubpanelOfTools && p === 'header-tools') return;
     if (p !== panelName) {
       const other = document.getElementById(`panel-${p}`);
-      if (other) other.classList.add('hidden');
+      if (other && !other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
+        other.classList.add('hidden');
+      }
     }
   });
 
@@ -45905,20 +49345,25 @@ function updateMissedTasksList() {
 }
 
 async function exportReportAsImage() {
-  const target = document.getElementById('report-export-target');
+  const target = document.getElementById('report-export-target') || document.getElementById('dash-section-stats') || document.getElementById('panel-report');
   if (!target) return;
   
   if (typeof html2canvas === 'undefined') {
-    try {
-      await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'vendor/html2canvas.min.js';
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-      });
-    } catch (e) {
-      console.warn('[Reports] Failed to load html2canvas:', e);
+    const isTestEnv = typeof navigator !== 'undefined' && (/HappyDOM/i.test(navigator.userAgent || '') || typeof process !== 'undefined' && process.env && process.env.VITEST);
+    if (!isTestEnv && typeof window !== 'undefined' && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:' || window.location.protocol === 'file:')) {
+      try {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'vendor/html2canvas.min.js';
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      } catch (e) {
+        console.warn('[Reports] Failed to load html2canvas:', e);
+      }
+    }
+    if (typeof html2canvas === 'undefined') {
       if (typeof showToast === 'function') {
         showToast(tr({
           de: 'Bildexport aktuell nicht verfügbar.',
@@ -45940,7 +49385,7 @@ async function exportReportAsImage() {
     link.click();
     if (typeof showToast === 'function') showToast(tr({ de: "Statistik als Bild exportiert! 📸", en: "Statistics exported as image! 📸" }));
   }).catch(err => {
-    console.error("Export-Fehler:", err);
+    console.warn("Export-Fehler:", err);
     if (typeof showToast === 'function') showToast(tr({ de: "Export fehlgeschlagen.", en: "Export failed." }));
   });
 }
@@ -46505,7 +49950,7 @@ function renderPinnedCitiesUI() {
         </span>
         <button onclick="togglePinCurrentCity()" class="text-sky-400 hover:text-sky-300 text-[9.5px] font-semibold flex items-center gap-1 transition cursor-pointer">
           <i data-lucide="${isCurrentPinned ? 'check' : 'plus'}" class="w-3 h-3"></i>
-          <span>${isCurrentPinned ? tr({ de: 'Ort gespeichert', en: 'Saved', fr: 'Enregistré', it: 'Salvato', es: 'Guardado', el: 'Αποθηκεύτηκε' }) : tr({ de: '+ Ort anpinnen', en: '+ Pin city', fr: '+ Épingler la ville', it: '+ Fissa città', es: '+ Fijar ciudad', el: '+ Καρφίτσωμα πόλης' })}</span>
+          <span>${isCurrentPinned ? tr({ de: 'Ort gespeichert', en: 'Saved', fr: 'Enregistré', it: 'Salvato', es: 'Guardado', el: 'Αποθηκεύτηκε' }) : tr({ de: '+ Als Favorit speichern', en: '+ Save favorite', fr: '+ Enregistrer favori', it: '+ Salva preferito', es: '+ Guardar favorito', el: '+ Αποθήκευση αγαπημένου' })}</span>
         </button>
       </div>
       <div class="flex flex-wrap gap-1.5 max-h-[85px] overflow-y-auto scrollbar-none py-0.5">
@@ -46525,11 +49970,11 @@ function togglePinCurrentCity() {
   if (existingIdx >= 0) {
     if (pinnedWeatherCities.length > 1) {
       pinnedWeatherCities.splice(existingIdx, 1);
-      if (typeof showToast === 'function') showToast(tr({ de: `📍 ${currentWeatherLocation.name} entfernt`, en: `📍 ${currentWeatherLocation.name} unpinned` }));
+      if (typeof showToast === 'function') showToast(tr({ de: `📍 ${currentWeatherLocation.name} entfernt`, en: `📍 ${currentWeatherLocation.name} removed` }));
     }
   } else {
     pinnedWeatherCities.push({ ...currentWeatherLocation, defaultTemp: 20, defaultCode: 1 });
-    if (typeof showToast === 'function') showToast(tr({ de: `⭐ ${currentWeatherLocation.name} angepinnt!`, en: `⭐ ${currentWeatherLocation.name} pinned!` }));
+    if (typeof showToast === 'function') showToast(tr({ de: `⭐ ${currentWeatherLocation.name} als Favorit gespeichert!`, en: `⭐ ${currentWeatherLocation.name} saved as favorite!` }));
   }
   localStorage.setItem('flow_weather_pinned_cities', JSON.stringify(pinnedWeatherCities));
   renderPinnedCitiesUI();
@@ -47588,7 +51033,7 @@ if (typeof globalThis !== 'undefined') {
       }
     },
     {
-      action: 'clean', icon: 'sparkles',
+      action: 'clean', icon: 'brush',
       actionTitle: { de: 'Clean-Coach', en: 'Clean Coach', es: 'Entrenador de limpieza', fr: 'Coach Rangement', it: 'Coach Riordino', el: 'Clean Coach' },
       text: {
         de: 'Strukturierte 10-Minuten-Aufräumsprints für frische Energie in deinem Raum.',
@@ -48607,16 +52052,31 @@ if (typeof globalThis !== 'undefined') {
       audio.play().then(() => {
         isRadioPlaying = true;
         updateRadioUIState(true);
+        if (typeof updateMiniAudioPlayer === 'function') {
+          updateMiniAudioPlayer({
+            isPlaying: true,
+            title: `${station.flag || '📻'} ${station.name}`,
+            sub: 'Live Radio',
+            emoji: '📻',
+            source: 'radio'
+          });
+        }
         if (typeof showToast === 'function') {
           showToast(`📻 ${station.flag} ${station.name}`);
         }
       }).catch(() => {
         isRadioPlaying = false;
         updateRadioUIState(false);
+        if (typeof updateMiniAudioPlayer === 'function') {
+          updateMiniAudioPlayer({ isPlaying: false });
+        }
       });
     } catch (err) {
       isRadioPlaying = false;
       updateRadioUIState(false);
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({ isPlaying: false });
+      }
     }
     renderRadioPanelContent();
   }
@@ -48627,6 +52087,9 @@ if (typeof globalThis !== 'undefined') {
       audio.pause();
       isRadioPlaying = false;
       updateRadioUIState(false);
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({ isPlaying: false });
+      }
     } else {
       try {
         if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
@@ -49993,6 +53456,15 @@ if (typeof globalThis !== 'undefined') {
     };
 
     window.speechSynthesis.speak(utterance);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({
+        isPlaying: true,
+        title: item.title,
+        sub: `News Briefing (${currentSpeakingIndex + 1}/${items.length})`,
+        emoji: '📰',
+        source: 'tts'
+      });
+    }
     updateTtsReaderUI();
   }
 
@@ -50032,9 +53504,15 @@ if (typeof globalThis !== 'undefined') {
     if (isTtsPaused) {
       window.speechSynthesis.resume();
       isTtsPaused = false;
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({ isPlaying: true });
+      }
     } else {
       window.speechSynthesis.pause();
       isTtsPaused = true;
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert' });
+      }
     }
     updateTtsReaderUI();
   }
@@ -50048,6 +53526,9 @@ if (typeof globalThis !== 'undefined') {
     currentSpeakingIndex = -1;
     removeNewsHighlights();
     updateTtsReaderUI();
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false });
+    }
   }
 
   function nextNewsItem() {
@@ -50997,7 +54478,7 @@ function getCommandPaletteActions() {
       id: 'cmd-open-cleaning',
       title: tr({ de: 'Putz-Guide & Haushalts-Routinen', en: 'Open Cleaning Guide' }),
       category: tr({ de: 'Werkzeuge', en: 'Tools' }),
-      icon: 'sparkles',
+      icon: 'brush',
       color: 'text-teal-400',
       action: () => {
         if (typeof openCleaningGuideModal === 'function') openCleaningGuideModal();
@@ -51119,9 +54600,9 @@ function getCommandPaletteActions() {
     },
     {
       id: 'cmd-open-onboarding',
-      title: tr({ de: 'App-Einführung & Tour starten ✨ [Onboarding]', en: 'Start App Tour & Onboarding ✨' }),
+      title: tr({ de: 'App-Einführung & Tour starten [Onboarding]', en: 'Start App Tour & Onboarding' }),
       category: tr({ de: 'Hilfe & Guide', en: 'Help & Guide' }),
-      icon: 'sparkles',
+      icon: 'lightbulb',
       color: 'text-purple-400',
       action: () => {
         if (typeof startOnboardingTour === 'function') startOnboardingTour();
@@ -51447,7 +54928,7 @@ function renderRoutinePresetsModalContent() {
 
   // Tab Header translations
   const tabs = [
-    { id: 'presets', label: curL === 'de' ? '✨ Lifestyle-Presets' : (curL === 'es' ? '✨ Ajustes' : (curL === 'fr' ? '✨ Préréglages' : (curL === 'it' ? '✨ Preset' : (curL === 'el' ? '✨ Πρότυπα' : '✨ Routine Presets')))), icon: 'sparkles' },
+    { id: 'presets', label: curL === 'de' ? '📋 Lifestyle-Presets' : (curL === 'es' ? '📋 Ajustes' : (curL === 'fr' ? '📋 Préréglages' : (curL === 'it' ? '📋 Preset' : (curL === 'el' ? '📋 Πρότυπα' : '📋 Routine Presets')))), icon: 'layers' },
     { id: 'custom', label: curL === 'de' ? '🛠️ Standards anpassen' : (curL === 'es' ? '🛠️ Personalizar' : (curL === 'fr' ? '🛠️ Personnaliser' : (curL === 'it' ? '🛠️ Personalizza' : (curL === 'el' ? '🛠️ Προσαρμογή' : '🛠️ Custom Defaults')))), icon: 'sliders' },
     { id: 'suggestions', label: curL === 'de' ? '💡 Inspiration & Ideen' : (curL === 'es' ? '💡 Ideas' : (curL === 'fr' ? '💡 Idées' : (curL === 'it' ? '💡 Ispirazione' : (curL === 'el' ? '💡 Ιδέες' : '💡 Task Inspiration')))), icon: 'lightbulb' }
   ];
@@ -51683,7 +55164,7 @@ function renderRoutinePresetsModalContent() {
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 p-0.5 shadow-md flex items-center justify-center text-white">
             <div class="w-full h-full bg-[#111118]/80 rounded-[14px] flex items-center justify-center">
-              <i data-lucide="sparkles" class="w-4 h-4 text-purple-300"></i>
+              <i data-lucide="lightbulb" class="w-4 h-4 text-purple-300"></i>
             </div>
           </div>
           <div>
@@ -51932,6 +55413,1755 @@ if (typeof globalThis !== 'undefined') {
 }
 
 
+/* --- app-feature-bridge.js --- */
+/**
+ * ============================================================================
+ * NOODLE FEATURE BRIDGE & CROSS-TOOL INTEGRATION HUB (app-feature-bridge.js)
+ * ============================================================================
+ * Tiefgreifende Verknüpfung und Interlink-Pipeline aller Kern-Werkzeuge:
+ * 1. Smart Action Badges & Task Tool Links (Timer, Rezepte, Einkaufsliste, Soundscapes, etc.)
+ * 2. Universal Inline @-Mention & Tag Parser
+ * 3. Kontextmenü-Erweiterung: "🔗 Tool verknüpfen..."
+ * 4. 1-Klick Cross-Pipeline Bridges:
+ *    - Koch-Studio ➔ Einkaufsliste & Kanban-Board
+ *    - OCR Scanner ➔ Aufgaben, Einkaufsliste, Flashcards & Brainstorming
+ *    - Brainstorming ➔ Aufgaben & Micro-Steps
+ *    - Clarity & Atemübung ➔ Direkter Micro-Focus Arbeitsstart
+ *    - Lernkarten / Flashcards ➔ Pomodoro Study Sprint
+ * ============================================================================
+ */
+
+(function(global) {
+  'use strict';
+
+  // --------------------------------------------------------------------------
+  // 1. SMART TOOL LINK PARSER & DETECTION
+  // --------------------------------------------------------------------------
+
+  /**
+   * Extrahiert alle verknüpften Tools für ein Task-Objekt oder einen Text-String.
+   * Prüft sowohl explizite Eigenschaften auf dem Task-Objekt (task.toolLinks)
+   * als auch semantische Schlüsselwörter und Inline-Tags wie @timer, @rezept, etc.
+   */
+  function getTaskToolLinks(taskItem) {
+    if (!taskItem) return [];
+    const links = [];
+    const taskObj = (typeof taskItem === 'object' && taskItem !== null) ? taskItem : { task: String(taskItem || '') };
+    const taskText = String(taskObj.task || taskObj.title || taskObj.name || '').trim();
+    const explicitLinks = taskObj.toolLinks || {};
+
+    // 1. Expliziter Timer oder Regex-Dauer / @timer
+    if (explicitLinks.timer) {
+      links.push({
+        type: 'timer',
+        icon: 'timer',
+        label: explicitLinks.timer.label || `${explicitLinks.timer.minutes || 25}m Timer`,
+        color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
+        data: explicitLinks.timer
+      });
+    } else {
+      const timerMatch = taskText.match(/@timer\s*(\d+)?m?/i) || taskText.match(/\b(\d{1,3})\s*(?:min|minute|minuten|m)\b/i);
+      if (timerMatch) {
+        const mins = parseInt(timerMatch[1], 10) || 25;
+        links.push({
+          type: 'timer',
+          icon: 'timer',
+          label: `${mins}m Fokus`,
+          color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
+          data: { minutes: mins }
+        });
+      }
+    }
+
+    // 2. Explizites oder semantisches Rezept / @rezept / Koch-Aufgabe
+    if (explicitLinks.recipe) {
+      links.push({
+        type: 'recipe',
+        icon: 'utensils',
+        label: explicitLinks.recipe.title ? `🍳 ${explicitLinks.recipe.title.slice(0, 18)}...` : '🍳 Rezept öffnen',
+        color: 'text-orange-300 border-orange-500/40 bg-orange-500/15 hover:bg-orange-500/25',
+        data: explicitLinks.recipe
+      });
+    } else {
+      const recipeMatch = taskText.match(/@rezept(?::([\w-]+))?/i) || taskText.match(/\b(rezept|kochen|zubereiten|nudeln|pasta|curry|wrap|omelett|lachs)\b/i);
+      if (recipeMatch) {
+        const recipeId = recipeMatch[1] || null;
+        links.push({
+          type: 'recipe',
+          icon: 'utensils',
+          label: '🍳 Koch-Studio',
+          color: 'text-orange-300 border-orange-500/40 bg-orange-500/15 hover:bg-orange-500/25',
+          data: { recipeId }
+        });
+      }
+    }
+
+    // 3. Explizite oder semantische Einkaufsliste / @einkauf
+    if (explicitLinks.shopping) {
+      links.push({
+        type: 'shopping',
+        icon: 'shopping-cart',
+        label: '🛒 Einkaufsliste',
+        color: 'text-emerald-300 border-emerald-500/40 bg-emerald-500/15 hover:bg-emerald-500/25',
+        data: explicitLinks.shopping
+      });
+    } else if (/@einkauf|@shopping|einkaufen|supermarkt|lebensmittel|zutaten/i.test(taskText)) {
+      links.push({
+        type: 'shopping',
+        icon: 'shopping-cart',
+        label: '🛒 Einkaufsliste',
+        color: 'text-emerald-300 border-emerald-500/40 bg-emerald-500/15 hover:bg-emerald-500/25',
+        data: {}
+      });
+    }
+
+    // 4. Soundscape / Ambient Lo-Fi / @sound
+    if (explicitLinks.sound) {
+      links.push({
+        type: 'sound',
+        icon: 'headphones',
+        label: explicitLinks.sound.name ? `🎧 ${explicitLinks.sound.name}` : '🎧 Soundscape',
+        color: 'text-indigo-300 border-indigo-500/40 bg-indigo-500/15 hover:bg-indigo-500/25',
+        data: explicitLinks.sound
+      });
+    } else if (/@sound(?::([\w-]+))?|@lofi|@rain|@focus|soundscape|hintergrundmusik/i.test(taskText)) {
+      const soundMatch = taskText.match(/@sound(?::([\w-]+))?/i);
+      links.push({
+        type: 'sound',
+        icon: 'headphones',
+        label: '🎧 Soundscape',
+        color: 'text-indigo-300 border-indigo-500/40 bg-indigo-500/15 hover:bg-indigo-500/25',
+        data: { soundId: soundMatch ? soundMatch[1] : 'rain' }
+      });
+    }
+
+    // 5. Lernkarten / Flashcards / @learn / @flashcards
+    if (explicitLinks.flashcards) {
+      links.push({
+        type: 'flashcards',
+        icon: 'graduation-cap',
+        label: '🗂️ Lernkarten',
+        color: 'text-purple-300 border-purple-500/40 bg-purple-500/15 hover:bg-purple-500/25',
+        data: explicitLinks.flashcards
+      });
+    } else if (/@learn|@cards|@flashcards|vokabeln|lernen|prüfung|klausur|karteikarten/i.test(taskText)) {
+      links.push({
+        type: 'flashcards',
+        icon: 'graduation-cap',
+        label: '🗂️ Lernkarten',
+        color: 'text-purple-300 border-purple-500/40 bg-purple-500/15 hover:bg-purple-500/25',
+        data: {}
+      });
+    }
+
+    // 6. Brainstorming / Mindmap / @brainstorm / @mindmap
+    if (explicitLinks.brainstorm) {
+      links.push({
+        type: 'brainstorm',
+        icon: 'lightbulb',
+        label: '💡 Mindmap & Ideen',
+        color: 'text-teal-300 border-teal-500/40 bg-teal-500/15 hover:bg-teal-500/25',
+        data: explicitLinks.brainstorm
+      });
+    } else if (/@brainstorm|@mindmap|@ideen|brainstorming|konzept|entwurf/i.test(taskText)) {
+      links.push({
+        type: 'brainstorm',
+        icon: 'lightbulb',
+        label: '💡 Mindmap & Ideen',
+        color: 'text-teal-300 border-teal-500/40 bg-teal-500/15 hover:bg-teal-500/25',
+        data: {}
+      });
+    }
+
+    // 7. Clarity / Anti-Aufschub / Urge Surf / @clarity / @breathe
+    if (explicitLinks.clarity) {
+      links.push({
+        type: 'clarity',
+        icon: 'wind',
+        label: '🌬️ 90s Atem & Klarheit',
+        color: 'text-cyan-300 border-cyan-500/40 bg-cyan-500/15 hover:bg-cyan-500/25',
+        data: explicitLinks.clarity
+      });
+    } else if (/@clarity|@breathe|@urge|atemübung|widerstand|aufschieben|blockade/i.test(taskText)) {
+      links.push({
+        type: 'clarity',
+        icon: 'wind',
+        label: '🌬️ 90s Atem & Klarheit',
+        color: 'text-cyan-300 border-cyan-500/40 bg-cyan-500/15 hover:bg-cyan-500/25',
+        data: {}
+      });
+    }
+
+    // 8. OCR Notiz & Handschrift Scan / @ocr / @scan
+    if (explicitLinks.ocr) {
+      links.push({
+        type: 'ocr',
+        icon: 'camera',
+        label: '📷 OCR Notiz',
+        color: 'text-rose-300 border-rose-500/40 bg-rose-500/15 hover:bg-rose-500/25',
+        data: explicitLinks.ocr
+      });
+    } else if (/@scan|@ocr|handschrift|foto-notiz|abfotografieren/i.test(taskText)) {
+      links.push({
+        type: 'ocr',
+        icon: 'camera',
+        label: '📷 OCR Scan',
+        color: 'text-rose-300 border-rose-500/40 bg-rose-500/15 hover:bg-rose-500/25',
+        data: {}
+      });
+    }
+
+    return links;
+  }
+
+  // --------------------------------------------------------------------------
+  // 2. TOOL BADGE RENDERING
+  // --------------------------------------------------------------------------
+
+  /**
+   * Erzeugt das kompakte HTML für die interaktiven Aktions-Pills unter einer Aufgabenkarte.
+   */
+  function renderTaskToolBadgesHTML(taskItem, colId, index) {
+    const links = getTaskToolLinks(taskItem);
+    if (!links || links.length === 0) return '';
+
+    const badges = links.map(link => {
+      const safeData = JSON.stringify(link.data || {}).replace(/"/g, '&quot;');
+      return `
+        <button 
+          onclick="executeToolLink('${link.type}', ${safeData}, '${colId}', ${index}, event)"
+          class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md border text-[9.5px] font-bold transition-all duration-150 cursor-pointer shadow-xs hover:scale-105 active:scale-95 shrink-0 ${link.color}"
+          title="${tr({ de: 'Klicken zum Öffnen / Starten dieses verknüpften Tools', en: 'Click to open or trigger this linked tool' })}"
+        >
+          <i data-lucide="${link.icon}" class="w-2.5 h-2.5"></i>
+          <span>${link.label}</span>
+        </button>
+      `;
+    }).join('');
+
+    return `
+      <div class="flex items-center gap-1 flex-wrap mt-1 pt-0.5 border-t border-white/[0.04] w-full" onclick="event.stopPropagation()">
+        ${badges}
+      </div>
+    `;
+  }
+
+  // --------------------------------------------------------------------------
+  // 3. TOOL LINK EXECUTION (DER INTELLIGENTE TRIGGER)
+  // --------------------------------------------------------------------------
+
+  function executeToolLink(type, data, colId, index, event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    const taskItem = curItems[colId]?.[index];
+    const taskTitle = typeof taskItem === 'object' && taskItem ? (taskItem.task || taskItem.title || taskItem.name || '') : String(taskItem || '');
+
+    switch (type) {
+      case 'timer': {
+        const mins = (data && data.minutes) ? data.minutes : 25;
+        if (typeof linkTaskToTimer === 'function') {
+          linkTaskToTimer(taskTitle, colId, index);
+        }
+        if (typeof setCustomTimerMinutes === 'function') {
+          setCustomTimerMinutes(mins);
+        } else if (typeof state !== 'undefined') {
+          state.timerDuration = mins * 60;
+          state.timerSecondsLeft = mins * 60;
+        }
+        if (typeof startTimer === 'function') {
+          startTimer();
+        }
+        if (typeof showToast === 'function') {
+          showToast(`⏱️ ${mins}-Minuten Fokus für "${taskTitle || 'Aufgabe'}" gestartet!`);
+        }
+        break;
+      }
+
+      case 'recipe': {
+        if (typeof openCookingHub === 'function') {
+          openCookingHub();
+        } else if (typeof openCookingModal === 'function') {
+          openCookingModal();
+        }
+        const recipeId = data.recipeId || data.id;
+        if (recipeId && typeof viewRecipeDetail === 'function') {
+          setTimeout(() => viewRecipeDetail(recipeId), 150);
+        }
+        if (typeof showToast === 'function') {
+          showToast(`🍳 Rezept geöffnet: "${data.title || 'Koch-Studio'}"`);
+        }
+        break;
+      }
+
+      case 'shopping': {
+        if (typeof openSupermarketModal === 'function') {
+          openSupermarketModal();
+        } else if (typeof openShoppingHub === 'function') {
+          openShoppingHub();
+        }
+        if (typeof showToast === 'function') {
+          showToast(`🛒 Einkaufsliste geöffnet`);
+        }
+        break;
+      }
+
+      case 'sound': {
+        const soundId = data.soundId || data.id || 'rain';
+        if (typeof playPresetSound === 'function') {
+          playPresetSound(soundId);
+        } else if (typeof playSoundScape === 'function') {
+          playSoundScape(soundId);
+        } else if (typeof toggleAudioPlay === 'function') {
+          toggleAudioPlay(true);
+        }
+        if (typeof showToast === 'function') {
+          showToast(`🎧 Soundscape aktiviert (${soundId})`);
+        }
+        break;
+      }
+
+      case 'flashcards': {
+        if (typeof openLearningModal === 'function') {
+          openLearningModal();
+        } else if (typeof openLearningHub === 'function') {
+          openLearningHub();
+        }
+        if (data.deckId && typeof startLearningDeck === 'function') {
+          setTimeout(() => startLearningDeck(data.deckId), 150);
+        }
+        if (typeof showToast === 'function') {
+          showToast(`🗂️ Lernkarten geöffnet`);
+        }
+        break;
+      }
+
+      case 'brainstorm': {
+        if (typeof openBrainstormModal === 'function') {
+          openBrainstormModal();
+        } else if (typeof openBrainstormHub === 'function') {
+          openBrainstormHub();
+        }
+        if (typeof showToast === 'function') {
+          showToast(`💡 Brainstorming geöffnet`);
+        }
+        break;
+      }
+
+      case 'clarity': {
+        if (typeof openClarityModal === 'function') {
+          openClarityModal();
+          if (typeof switchClarityTab === 'function') switchClarityTab('urge');
+          if (typeof startClarityUrgeTimer === 'function') {
+            setTimeout(() => startClarityUrgeTimer(), 200);
+          }
+        }
+        if (typeof showToast === 'function') {
+          showToast(`🌬️ 90s Urge Surfing gestartet – durchatmen!`);
+        }
+        break;
+      }
+
+      case 'ocr': {
+        if (typeof openNoteScannerModal === 'function') {
+          openNoteScannerModal('notes', `${colId}-${index}`);
+        }
+        if (typeof showToast === 'function') {
+          showToast(`📷 OCR Dokument- & Notiz-Scanner geöffnet`);
+        }
+        break;
+      }
+
+      default:
+        console.warn('[FeatureBridge] Unknown tool link type:', type);
+    }
+
+    if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  }
+
+  // --------------------------------------------------------------------------
+  // 4. MODAL: "TOOL VERKNÜPFEN" (LINK TOOL TO TASK)
+  // --------------------------------------------------------------------------
+
+  let linkingTargetMeta = null; // { colId, index }
+
+  function openLinkToolModal(colId, index) {
+    linkingTargetMeta = { colId, index };
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    const rawTask = curItems[colId]?.[index];
+    if (!rawTask) return;
+    const taskObj = typeof rawTask === 'object' ? rawTask : { task: rawTask };
+    const taskTitle = taskObj.task || taskObj.title || 'Aufgabe';
+
+    let modal = document.getElementById('modal-link-tool');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'modal-link-tool';
+      modal.className = 'fixed inset-0 z-[200060] bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in';
+      document.body.appendChild(modal);
+    }
+
+    modal.innerHTML = `
+      <div class="relative w-full max-w-lg bg-[#12111d] border border-white/20 rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.9)] p-6 flex flex-col gap-4 text-gray-200">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-3 border-b border-white/10">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+              <i data-lucide="link" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h2 class="text-base font-bold text-white tracking-tight">${tr({ de: 'Tool mit Aufgabe verknüpfen', en: 'Link Tool to Task' })}</h2>
+              <p class="text-xs text-gray-400 truncate max-w-xs font-mono">"${escapeHtml(taskTitle)}"</p>
+            </div>
+          </div>
+          <button onclick="closeLinkToolModal()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white flex items-center justify-center transition cursor-pointer">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Quick Tool Select Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 my-1">
+          <!-- 1. Timer -->
+          <button onclick="attachToolToTask('timer', { minutes: 25, label: '25m Pomodoro' })" class="p-3 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-left transition flex flex-col gap-1 cursor-pointer group">
+            <div class="flex items-center justify-between">
+              <span class="text-lg">⏱️</span>
+              <span class="text-[9px] font-mono font-bold text-amber-300 bg-amber-500/20 px-1.5 py-0.5 rounded">25 Min</span>
+            </div>
+            <span class="text-xs font-bold text-amber-200 group-hover:text-amber-100">${tr({ de: 'Fokus-Timer', en: 'Focus Timer' })}</span>
+            <span class="text-[10px] text-gray-400">${tr({ de: 'Startet Pomodoro-Taktung', en: 'Starts Pomodoro interval' })}</span>
+          </button>
+
+          <!-- 2. Stoppuhr / Chrono -->
+          <button onclick="attachToolToTask('timer', { minutes: 50, label: '50m Deep Work' })" class="p-3 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-left transition flex flex-col gap-1 cursor-pointer group">
+            <div class="flex items-center justify-between">
+              <span class="text-lg">⏳</span>
+              <span class="text-[9px] font-mono font-bold text-emerald-300 bg-emerald-500/20 px-1.5 py-0.5 rounded">50 Min</span>
+            </div>
+            <span class="text-xs font-bold text-emerald-200 group-hover:text-emerald-100">${tr({ de: 'Deep Work', en: 'Deep Work' })}</span>
+            <span class="text-[10px] text-gray-400">${tr({ de: 'Langer Fokus-Block', en: 'Long focus block' })}</span>
+          </button>
+
+          <!-- 3. Soundscape -->
+          <button onclick="attachToolToTask('sound', { soundId: 'rain', name: 'Regen & Lo-Fi' })" class="p-3 rounded-2xl bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 text-left transition flex flex-col gap-1 cursor-pointer group">
+            <div class="flex items-center justify-between">
+              <span class="text-lg">🎧</span>
+              <span class="text-[9px] font-mono font-bold text-indigo-300 bg-indigo-500/20 px-1.5 py-0.5 rounded">Ambient</span>
+            </div>
+            <span class="text-xs font-bold text-indigo-200 group-hover:text-indigo-100">${tr({ de: 'Soundscape', en: 'Soundscape' })}</span>
+            <span class="text-[10px] text-gray-400">${tr({ de: 'Regen, Cafe & Lo-Fi', en: 'Rain, Cafe & Lo-Fi' })}</span>
+          </button>
+
+          <!-- 4. Kochstudio / Rezept -->
+          <button onclick="attachToolToTask('recipe', { title: 'Schnelle Nudeln' })" class="p-3 rounded-2xl bg-orange-500/10 hover:bg-orange-500/20 border border-orange-500/30 text-left transition flex flex-col gap-1 cursor-pointer group">
+            <div class="flex items-center justify-between">
+              <span class="text-lg">🍳</span>
+              <span class="text-[9px] font-mono font-bold text-orange-300 bg-orange-500/20 px-1.5 py-0.5 rounded">Rezept</span>
+            </div>
+            <span class="text-xs font-bold text-orange-200 group-hover:text-orange-100">${tr({ de: 'Koch-Studio', en: 'Cooking Hub' })}</span>
+            <span class="text-[10px] text-gray-400">${tr({ de: 'Schritte & Küchen-Timer', en: 'Steps & kitchen timers' })}</span>
+          </button>
+
+          <!-- 5. Einkaufsliste -->
+          <button onclick="attachToolToTask('shopping', {})" class="p-3 rounded-2xl bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 text-left transition flex flex-col gap-1 cursor-pointer group">
+            <div class="flex items-center justify-between">
+              <span class="text-lg">🛒</span>
+              <span class="text-[9px] font-mono font-bold text-teal-300 bg-teal-500/20 px-1.5 py-0.5 rounded">Deals</span>
+            </div>
+            <span class="text-xs font-bold text-teal-200 group-hover:text-teal-100">${tr({ de: 'Einkaufsliste', en: 'Shopping List' })}</span>
+            <span class="text-[10px] text-gray-400">${tr({ de: 'Gänge & Supermarkt-Radar', en: 'Aisles & Supermarket deals' })}</span>
+          </button>
+
+          <!-- 6. Brainstorming / Mindmap -->
+          <button onclick="attachToolToTask('brainstorm', {})" class="p-3 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-left transition flex flex-col gap-1 cursor-pointer group">
+            <div class="flex items-center justify-between">
+              <span class="text-lg">💡</span>
+              <span class="text-[9px] font-mono font-bold text-purple-300 bg-purple-500/20 px-1.5 py-0.5 rounded">Ideen</span>
+            </div>
+            <span class="text-xs font-bold text-purple-200 group-hover:text-purple-100">${tr({ de: 'Brainstorming', en: 'Brainstorming' })}</span>
+            <span class="text-[10px] text-gray-400">${tr({ de: 'Mindmap & Ideenpool', en: 'Mindmap & idea pool' })}</span>
+          </button>
+
+          <!-- 7. Lernkarten -->
+          <button onclick="attachToolToTask('flashcards', { deckId: 'adhd_neuro' })" class="p-3 rounded-2xl bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-left transition flex flex-col gap-1 cursor-pointer group">
+            <div class="flex items-center justify-between">
+              <span class="text-lg">🗂️</span>
+              <span class="text-[9px] font-mono font-bold text-sky-300 bg-sky-500/20 px-1.5 py-0.5 rounded">Spaced</span>
+            </div>
+            <span class="text-xs font-bold text-sky-200 group-hover:text-sky-100">${tr({ de: 'Lernkarten', en: 'Flashcards' })}</span>
+            <span class="text-[10px] text-gray-400">${tr({ de: 'Wissen & Leitner-System', en: 'Knowledge & Leitner spaced rep' })}</span>
+          </button>
+
+          <!-- 8. Clarity / 90s Breath -->
+          <button onclick="attachToolToTask('clarity', { mode: 'urge' })" class="p-3 rounded-2xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-left transition flex flex-col gap-1 cursor-pointer group">
+            <div class="flex items-center justify-between">
+              <span class="text-lg">🌬️</span>
+              <span class="text-[9px] font-mono font-bold text-cyan-300 bg-cyan-500/20 px-1.5 py-0.5 rounded">90 Sek</span>
+            </div>
+            <span class="text-xs font-bold text-cyan-200 group-hover:text-cyan-100">${tr({ de: 'Anti-Aufschub', en: 'Anti-Procrastinate' })}</span>
+            <span class="text-[10px] text-gray-400">${tr({ de: 'Atemübung & Impulskontrolle', en: 'Breathing & somatic calm' })}</span>
+          </button>
+
+          <!-- 9. OCR Scan -->
+          <button onclick="attachToolToTask('ocr', {})" class="p-3 rounded-2xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-left transition flex flex-col gap-1 cursor-pointer group">
+            <div class="flex items-center justify-between">
+              <span class="text-lg">📷</span>
+              <span class="text-[9px] font-mono font-bold text-rose-300 bg-rose-500/20 px-1.5 py-0.5 rounded">OCR</span>
+            </div>
+            <span class="text-xs font-bold text-rose-200 group-hover:text-rose-100">${tr({ de: 'Dokument-Scan', en: 'Document Scan' })}</span>
+            <span class="text-[10px] text-gray-400">${tr({ de: 'Handschrift erfassen', en: 'Handwriting capture' })}</span>
+          </button>
+        </div>
+
+        <!-- Footer Actions -->
+        <div class="flex items-center justify-between pt-3 border-t border-white/10">
+          <button onclick="removeAllToolLinksFromTask()" class="px-3 py-1.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 text-red-300 font-medium text-xs transition cursor-pointer">
+            ${tr({ de: 'Verknüpfungen entfernen', en: 'Remove tool links' })}
+          </button>
+          <button onclick="closeLinkToolModal()" class="px-4 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition cursor-pointer">
+            ${tr({ de: 'Fertig', en: 'Done' })}
+          </button>
+        </div>
+      </div>
+    `;
+
+    modal.classList.remove('hidden');
+    if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  }
+
+  function closeLinkToolModal() {
+    const modal = document.getElementById('modal-link-tool');
+    if (modal) modal.classList.add('hidden');
+    linkingTargetMeta = null;
+  }
+
+  function attachToolToTask(toolType, toolData) {
+    if (!linkingTargetMeta) return;
+    const { colId, index } = linkingTargetMeta;
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    let rawTask = curItems[colId]?.[index];
+    if (!rawTask) return;
+
+    if (typeof rawTask === 'string') {
+      rawTask = { task: rawTask };
+      curItems[colId][index] = rawTask;
+    }
+
+    if (!rawTask.toolLinks) rawTask.toolLinks = {};
+    rawTask.toolLinks[toolType] = toolData || {};
+
+    if (typeof saveHistory === 'function') saveHistory();
+    if (typeof saveState === 'function') saveState();
+    if (typeof renderApp === 'function') renderApp();
+
+    closeLinkToolModal();
+    if (typeof showToast === 'function') {
+      showToast(`🔗 Tool erfolgreich verknüpft!`);
+    }
+  }
+
+  function removeAllToolLinksFromTask() {
+    if (!linkingTargetMeta) return;
+    const { colId, index } = linkingTargetMeta;
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    const rawTask = curItems[colId]?.[index];
+    if (rawTask && typeof rawTask === 'object') {
+      rawTask.toolLinks = {};
+      if (typeof saveHistory === 'function') saveHistory();
+      if (typeof saveState === 'function') saveState();
+      if (typeof renderApp === 'function') renderApp();
+    }
+    closeLinkToolModal();
+    if (typeof showToast === 'function') {
+      showToast(tr({ de: 'Verknüpfungen gelöscht', en: 'Links removed' }));
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // 5. CROSS-FEATURE PIPELINE BRIDGES
+  // --------------------------------------------------------------------------
+
+  /**
+   * KOCHSTUDIO ➔ EINKAUFSLISTE
+   * Übernimmt alle Zutaten eines Rezepts direkt in die Einkaufsliste
+   */
+  function bridgeRecipeToShopping(recipeIdOrObj) {
+    let recipe = recipeIdOrObj;
+    if (typeof recipe === 'string') {
+      const cooking = (typeof getCookingState === 'function') ? getCookingState() : (state.cooking || {});
+      const allRecipes = (cooking.recipes && cooking.recipes.length) ? cooking.recipes : (typeof DEFAULT_CURATED_RECIPES !== 'undefined' ? DEFAULT_CURATED_RECIPES : []);
+      recipe = allRecipes.find(r => r.id === recipeIdOrObj);
+    }
+    if (!recipe || !Array.isArray(recipe.ingredients)) {
+      if (typeof showToast === 'function') showToast('Rezept-Zutaten konnten nicht geladen werden');
+      return;
+    }
+
+    if (typeof handleAddShoppingItem === 'function') {
+      recipe.ingredients.forEach(ing => {
+        handleAddShoppingItem(ing, {
+          dept: (typeof getDepartmentForItem === 'function') ? getDepartmentForItem(ing) : 'pantry'
+        });
+      });
+    }
+
+    if (typeof showToast === 'function') {
+      showToast(`🛒 ${recipe.ingredients.length} Zutaten für "${recipe.title}" auf Einkaufsliste gesetzt!`);
+    }
+  }
+
+  /**
+   * KOCHSTUDIO ➔ BOARD AUFGABE
+   * Erstellt eine Aufgabe "Kochen: [Rezeptname]" mit Rezept-Link und Timer-Dauer
+   */
+  function bridgeRecipeToBoardTask(recipeIdOrObj, colId = 'daily') {
+    let recipe = recipeIdOrObj;
+    if (typeof recipe === 'string') {
+      const cooking = (typeof getCookingState === 'function') ? getCookingState() : (state.cooking || {});
+      const allRecipes = (cooking.recipes && cooking.recipes.length) ? cooking.recipes : (typeof DEFAULT_CURATED_RECIPES !== 'undefined' ? DEFAULT_CURATED_RECIPES : []);
+      recipe = allRecipes.find(r => r.id === recipeIdOrObj);
+    }
+    if (!recipe) return;
+
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    if (!curItems[colId]) curItems[colId] = [];
+
+    const durationMins = parseInt(recipe.duration, 10) || 20;
+
+    const newTask = {
+      task: `🍳 Kochen: ${recipe.title}`,
+      color: 'orange',
+      toolLinks: {
+        recipe: { id: recipe.id, title: recipe.title },
+        timer: { minutes: durationMins, label: `${durationMins}m Zubereitung` }
+      }
+    };
+
+    if (typeof saveHistory === 'function') saveHistory();
+    curItems[colId].push(newTask);
+    if (typeof saveState === 'function') saveState();
+    if (typeof renderApp === 'function') renderApp();
+
+    if (typeof showToast === 'function') {
+      showToast(`📋 Aufgabe "${newTask.task}" im Board angelegt!`);
+    }
+  }
+
+  /**
+   * OCR SCANNER ➔ BOARD AUFGABEN
+   * Zerlegt gescannten Text in To-Dos und fügt sie ins Board ein
+   */
+  function bridgeOcrToBoardTasks(scannedText, colId = 'todo') {
+    if (!scannedText) return;
+    const lines = scannedText.split('\n')
+      .map(l => l.replace(/^[-*•\d.)\]\s]+/, '').trim())
+      .filter(l => l.length > 2);
+
+    if (lines.length === 0) return;
+
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    if (!curItems[colId]) curItems[colId] = [];
+
+    if (typeof saveHistory === 'function') saveHistory();
+    lines.forEach(text => {
+      curItems[colId].push({
+        task: text,
+        toolLinks: {
+          ocr: { scannedAt: new Date().toISOString() }
+        }
+      });
+    });
+
+    if (typeof saveState === 'function') saveState();
+    if (typeof renderApp === 'function') renderApp();
+
+    if (typeof showToast === 'function') {
+      showToast(`📋 ${lines.length} Aufgaben aus Scan übernommen!`);
+    }
+  }
+
+  /**
+   * OCR SCANNER ➔ EINKAUFSLISTE
+   */
+  function bridgeOcrToShopping(scannedText) {
+    if (!scannedText) return;
+    const lines = scannedText.split('\n')
+      .map(l => l.replace(/^[-*•\d.)\]\s]+/, '').trim())
+      .filter(l => l.length > 1);
+
+    if (lines.length === 0) return;
+
+    if (typeof handleAddShoppingItem === 'function') {
+      lines.forEach(item => handleAddShoppingItem(item));
+    }
+  }
+
+  /**
+   * BRAINSTORMING ➔ BOARD AUFGABE
+   */
+  function bridgeBrainstormToBoardTask(ideaId, colId = 'daily') {
+    const ideas = (typeof brainstormIdeas !== 'undefined') ? brainstormIdeas : [];
+    const idea = ideas.find(i => i.id === ideaId);
+    if (!idea) return;
+
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    if (!curItems[colId]) curItems[colId] = [];
+
+    const newTask = {
+      task: idea.text,
+      color: idea.tag === 'quickwin' ? 'emerald' : (idea.tag === 'project' ? 'sky' : 'purple'),
+      toolLinks: {
+        brainstorm: { ideaId: idea.id, tag: idea.tag },
+        timer: { minutes: idea.tag === 'quickwin' ? 10 : 25 }
+      }
+    };
+
+    if (typeof saveHistory === 'function') saveHistory();
+    curItems[colId].push(newTask);
+    if (typeof saveState === 'function') saveState();
+    if (typeof renderApp === 'function') renderApp();
+
+    if (typeof showToast === 'function') {
+      showToast(`💡 Idee als Aufgabe mit Timer ins Board übertragen!`);
+    }
+  }
+
+  /**
+   * CLARITY / ATEMÜBUNG ➔ DIREKTER MICRO-FOCUS ARBEITSSTART
+   * Startet nach der Atemübung sofort einen 10- oder 25-Minuten Fokusblock auf der obersten Aufgabe
+   */
+  function startClarityMicroFocus(minutes = 10) {
+    if (typeof closeClarityModal === 'function') closeClarityModal();
+
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : {};
+    const firstCol = curItems.daily || curItems.todo || [];
+    const firstTask = firstCol[0];
+    const taskTitle = typeof firstTask === 'object' && firstTask ? (firstTask.task || 'Micro-Focus Block') : (firstTask || 'Micro-Focus Block');
+
+    if (typeof linkTaskToTimer === 'function') {
+      linkTaskToTimer(taskTitle, 'daily', 0);
+    }
+    if (typeof setCustomTimerMinutes === 'function') {
+      setCustomTimerMinutes(minutes);
+    } else if (typeof state !== 'undefined') {
+      state.timerDuration = minutes * 60;
+      state.timerSecondsLeft = minutes * 60;
+    }
+    if (typeof startTimer === 'function') {
+      startTimer();
+    }
+    if (typeof playPresetSound === 'function') {
+      playPresetSound('lofi');
+    }
+
+    if (typeof showToast === 'function') {
+      showToast(`🚀 ${minutes}-Minuten Micro-Focus gestartet! Ruhig und konzentriert loslegen.`);
+    }
+  }
+
+  // --------------------------------------------------------------------------
+  // 6. GLOBAL EXPORTS
+  // --------------------------------------------------------------------------
+
+  global.getTaskToolLinks = getTaskToolLinks;
+  global.renderTaskToolBadgesHTML = renderTaskToolBadgesHTML;
+  global.executeToolLink = executeToolLink;
+  global.openLinkToolModal = openLinkToolModal;
+  global.closeLinkToolModal = closeLinkToolModal;
+  global.attachToolToTask = attachToolToTask;
+  global.removeAllToolLinksFromTask = removeAllToolLinksFromTask;
+
+  global.bridgeRecipeToShopping = bridgeRecipeToShopping;
+  global.bridgeRecipeToBoardTask = bridgeRecipeToBoardTask;
+  global.bridgeOcrToBoardTasks = bridgeOcrToBoardTasks;
+  global.bridgeOcrToShopping = bridgeOcrToShopping;
+  global.bridgeBrainstormToBoardTask = bridgeBrainstormToBoardTask;
+  global.startClarityMicroFocus = startClarityMicroFocus;
+
+})(typeof window !== 'undefined' ? window : globalThis);
+
+
+/* --- app-multitasking-hub.js --- */
+/**
+ * ============================================================================
+ * NOODLE MULTITASKING & SNAP-LAYOUT ENGINE (app-multitasking-hub.js)
+ * ============================================================================
+ * Umfassendes Multitasking für Desktop & Mobilgeräte:
+ * 
+ * 1. DESKTOP WINDOWS-11 SNAP LAYOUTS:
+ *    - Hover auf Maximieren-Button [⛶] öffnet Windows-11 Snap Layout Picker
+ *    - 🌓 50:50 Split (Links / Rechts)
+ *    - 🔲 65:35 Fokus-Split (Großes Arbeitsboard + Schlanker Begleiter)
+ *    - ⊞ 4-Quadranten Grid (25% pro Ecke für maximale Übersicht)
+ *    - Kanten-Snapping per Drag & Drop
+ * 
+ * 2. MOBILE DYNAMIC ISLAND & FLOATING MULTITASKING PILL:
+ *    - Schwebende, hochmoderne Dynamic Island am Bildschirmrand
+ *    - Live-Status für Timer, Soundscape-Player, Radio & Koch-Schritte
+ *    - Tap öffnet das Mobile Multitasking Cockpit (Schnellsteuerung & App-Switcher)
+ * 
+ * 3. MOBILE DUAL-SCREEN / SPLIT-VIEW (OBEN / UNTEN):
+ *    - 2 Tools gleichzeitig vertikal gestackt bedienen
+ *    - Einstellbarer Split-Divider mit Touch-Gesten
+ * 
+ * 4. KEYBOARD & GESTEN-NAVIGATION:
+ *    - Alt+Tab / Cmd+Tab Multitasking Switcher
+ *    - Win+Links / Win+Rechts Schnell-Snapping
+ * ============================================================================
+ */
+
+(function(global) {
+  'use strict';
+
+  // --------------------------------------------------------------------------
+  // STATE & REGISTRY
+  // --------------------------------------------------------------------------
+  const snappedWindows = new Map(); // panelName -> layoutType
+  let activeSnapFlyout = null;
+  let flyoutCloseTimer = null;
+  let mobileSplitActive = false;
+  let mobileSplitTools = { top: null, bottom: null };
+
+  function isMobileViewport() {
+    return window.innerWidth <= 768 || ('ontouchstart' in window && window.innerWidth <= 1024);
+  }
+
+  // --------------------------------------------------------------------------
+  // 1. DESKTOP SNAP LAYOUTS (WINDOWS 11 STYLE)
+  // --------------------------------------------------------------------------
+
+  const SNAP_LAYOUTS = {
+    'left-50': {
+      title: 'Links 50%',
+      style: { left: '8px', top: '56px', width: 'calc(50vw - 12px)', height: 'calc(100vh - 64px)', right: 'auto', bottom: 'auto' }
+    },
+    'right-50': {
+      title: 'Rechts 50%',
+      style: { left: 'calc(50vw + 4px)', top: '56px', width: 'calc(50vw - 12px)', height: 'calc(100vh - 64px)', right: 'auto', bottom: 'auto' }
+    },
+    'left-65': {
+      title: 'Fokus 65%',
+      style: { left: '8px', top: '56px', width: 'calc(65vw - 12px)', height: 'calc(100vh - 64px)', right: 'auto', bottom: 'auto' }
+    },
+    'right-35': {
+      title: 'Begleiter 35%',
+      style: { left: 'calc(65vw + 4px)', top: '56px', width: 'calc(35vw - 12px)', height: 'calc(100vh - 64px)', right: 'auto', bottom: 'auto' }
+    },
+    'top-left': {
+      title: 'Oben Links 25%',
+      style: { left: '8px', top: '56px', width: 'calc(50vw - 12px)', height: 'calc(50vh - 36px)', right: 'auto', bottom: 'auto' }
+    },
+    'top-right': {
+      title: 'Oben Rechts 25%',
+      style: { left: 'calc(50vw + 4px)', top: '56px', width: 'calc(50vw - 12px)', height: 'calc(50vh - 36px)', right: 'auto', bottom: 'auto' }
+    },
+    'bottom-left': {
+      title: 'Unten Links 25%',
+      style: { left: '8px', top: 'calc(50vh + 26px)', width: 'calc(50vw - 12px)', height: 'calc(50vh - 36px)', right: 'auto', bottom: 'auto' }
+    },
+    'bottom-right': {
+      title: 'Unten Rechts 25%',
+      style: { left: 'calc(50vw + 4px)', top: 'calc(50vh + 26px)', width: 'calc(50vw - 12px)', height: 'calc(50vh - 36px)', right: 'auto', bottom: 'auto' }
+    },
+    'full': {
+      title: 'Vollbild',
+      style: { left: '0px', top: '0px', width: '100vw', height: '100vh', right: '0px', bottom: '0px' }
+    }
+  };
+
+  /**
+   * Rastet ein Fenster in das gewünschte Snap-Layout ein
+   */
+  function snapWindow(panelName, layoutType) {
+    const el = (typeof getPanelElement === 'function') ? getPanelElement(panelName) : document.getElementById(panelName);
+    if (!el) return;
+
+    const layout = SNAP_LAYOUTS[layoutType];
+    if (!layout) return;
+
+    // Reset old snap / fullscreen classes
+    el.classList.remove('noodle-panel-fullscreen', 'hidden', 'noodle-panel-minimized');
+    el.classList.add('noodle-panel-pinned', 'noodle-panel-snapped');
+    el.setAttribute('data-snap-layout', layoutType);
+
+    // Set layout coordinates
+    Object.assign(el.style, {
+      position: 'fixed',
+      margin: '0',
+      zIndex: (typeof highestZIndex !== 'undefined') ? (highestZIndex + 2) : 100050,
+      borderRadius: (layoutType === 'full') ? '0px' : '20px',
+      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.15)',
+      ...layout.style
+    });
+
+    snappedWindows.set(panelName, layoutType);
+    hideSnapFlyout();
+
+    if (typeof bringWindowToFront === 'function') bringWindowToFront(panelName);
+    if (typeof showToast === 'function') {
+      showToast(`🔲 Fenster eingerastet: ${layout.title}`);
+    }
+    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
+
+    updateMultitaskingState();
+  }
+
+  /**
+   * Stellt ein gesnapptes Fenster wieder auf die Standardgröße zurück
+   */
+  function unsnapWindow(panelName) {
+    const el = (typeof getPanelElement === 'function') ? getPanelElement(panelName) : document.getElementById(panelName);
+    if (!el) return;
+
+    el.classList.remove('noodle-panel-snapped');
+    el.removeAttribute('data-snap-layout');
+    snappedWindows.delete(panelName);
+
+    // Reset inline positioning styles to defaults
+    el.style.left = '';
+    el.style.top = '';
+    el.style.width = '';
+    el.style.height = '';
+    el.style.right = '';
+    el.style.bottom = '';
+    el.style.borderRadius = '';
+
+    updateMultitaskingState();
+  }
+
+  // --------------------------------------------------------------------------
+  // 2. WINDOWS 11 SNAP LAYOUT FLYOUT POPUP
+  // --------------------------------------------------------------------------
+
+  function showSnapFlyout(anchorBtn, panelName) {
+    if (isMobileViewport()) return; // On mobile, use dynamic island / split sheet instead
+    clearTimeout(flyoutCloseTimer);
+
+    let flyout = document.getElementById('noodle-snap-flyout');
+    if (!flyout) {
+      flyout = document.createElement('div');
+      flyout.id = 'noodle-snap-flyout';
+      flyout.className = 'fixed z-[200080] p-3 rounded-2xl bg-[#0f0e18]/98 border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col gap-2.5 text-gray-200 select-none animate-spring-modal';
+      document.body.appendChild(flyout);
+
+      flyout.onmouseenter = () => clearTimeout(flyoutCloseTimer);
+      flyout.onmouseleave = () => scheduleCloseSnapFlyout(200);
+    }
+
+    activeSnapFlyout = { panelName, anchorBtn };
+
+    const isSnapped = snappedWindows.has(panelName);
+
+    flyout.innerHTML = `
+      <div class="flex items-center justify-between pb-1.5 border-b border-white/10">
+        <span class="text-[11px] font-bold text-gray-200 flex items-center gap-1.5">
+          <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-purple-400"></i>
+          <span>Multitasking-Ansicht</span>
+        </span>
+      </div>
+
+      <div class="flex flex-col gap-1.5 w-56 pt-1">
+        <!-- 1. Neben dem Board anheften (50% Split) -->
+        <button onclick="snapWindow('${panelName}', 'right-50'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-purple-400/50 transition flex items-center justify-between text-left cursor-pointer group">
+          <div class="flex items-center gap-2">
+            <span class="text-sm">🌓</span>
+            <div>
+              <div class="text-xs font-bold text-white group-hover:text-purple-300">Neben Board anheften</div>
+              <div class="text-[9.5px] text-gray-400">Rechte Bildschirmhälfte</div>
+            </div>
+          </div>
+          <span class="text-[10px] text-purple-300 font-mono font-bold">50%</span>
+        </button>
+
+        <!-- 2. Vollbild / Normalgröße -->
+        <button onclick="toggleFullscreen('${panelName}'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-purple-400/50 transition flex items-center justify-between text-left cursor-pointer group">
+          <div class="flex items-center gap-2">
+            <span class="text-sm">⛶</span>
+            <div>
+              <div class="text-xs font-bold text-white group-hover:text-purple-300">Vollbild umschalten</div>
+              <div class="text-[9.5px] text-gray-400">Gesamten Bildschirm nutzen</div>
+            </div>
+          </div>
+          <span class="text-[10px] text-purple-300 font-mono font-bold">100%</span>
+        </button>
+      </div>
+
+      ${isSnapped ? `
+        <div class="pt-1.5 border-t border-white/10 flex justify-end">
+          <button onclick="unsnapWindow('${panelName}'); hideSnapFlyout();" class="text-[10.5px] text-gray-400 hover:text-white transition cursor-pointer flex items-center gap-1">
+            <span>↩ Normalgröße wiederherstellen</span>
+          </button>
+        </div>
+      ` : ''}
+    `;
+
+    // Positioning near anchorBtn
+    const rect = anchorBtn.getBoundingClientRect();
+    let left = rect.left - 100;
+    let top = rect.bottom + 8;
+    if (left + 280 > window.innerWidth) left = window.innerWidth - 290;
+    if (left < 10) left = 10;
+    if (top + 200 > window.innerHeight) top = rect.top - 210;
+
+    flyout.style.left = `${left}px`;
+    flyout.style.top = `${top}px`;
+    flyout.classList.remove('hidden');
+
+    if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  }
+
+  function scheduleCloseSnapFlyout(delay = 250) {
+    clearTimeout(flyoutCloseTimer);
+    flyoutCloseTimer = setTimeout(hideSnapFlyout, delay);
+  }
+
+  function hideSnapFlyout() {
+    clearTimeout(flyoutCloseTimer);
+    const flyout = document.getElementById('noodle-snap-flyout');
+    if (flyout) flyout.classList.add('hidden');
+    activeSnapFlyout = null;
+  }
+
+  // --------------------------------------------------------------------------
+  // 3. MOBILE DYNAMIC ISLAND & MULTITASKING STATUS PILL
+  // --------------------------------------------------------------------------
+
+  function getActiveMultitaskBackgroundInfo() {
+    const tasks = [];
+
+    // 1. Timer Active
+    if (typeof state !== 'undefined' && state.timerRunning && state.timerSecondsLeft > 0) {
+      const mins = Math.floor(state.timerSecondsLeft / 60);
+      const secs = state.timerSecondsLeft % 60;
+      const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      const taskName = (typeof activeTimerTask !== 'undefined' && activeTimerTask) ? activeTimerTask.title : 'Fokus';
+      tasks.push({
+        type: 'timer',
+        icon: '⏱️',
+        label: `${formatted}`,
+        sub: taskName,
+        action: () => togglePanel('alarm')
+      });
+    }
+
+    // 2. Audio Player / Soundscape Active
+    if (typeof isAudioPlaying !== 'undefined' && isAudioPlaying) {
+      tasks.push({
+        type: 'audio',
+        icon: '🎧',
+        label: 'Soundscape',
+        sub: 'Lo-Fi Focus',
+        action: () => togglePanel('audio')
+      });
+    }
+
+    // 3. Cooking Active
+    if (typeof getCookingState === 'function') {
+      const cooking = getCookingState();
+      if (cooking && cooking.activeRecipe) {
+        tasks.push({
+          type: 'cooking',
+          icon: '🍳',
+          label: `Schritt ${(cooking.activeStepIndex || 0) + 1}`,
+          sub: cooking.activeRecipe.title,
+          action: () => togglePanel('cooking')
+        });
+      }
+    }
+
+    return tasks;
+  }
+
+  function renderMobileDynamicIsland() {
+    let island = document.getElementById('mobile-dynamic-island');
+    if (!island && typeof document !== 'undefined' && document.body) {
+      island = document.createElement('div');
+      island.id = 'mobile-dynamic-island';
+      island.className = 'fixed top-3 inset-x-0 mx-auto w-fit max-w-[92vw] z-[200070] pointer-events-auto select-none transition-all duration-300 hidden';
+      document.body.appendChild(island);
+    }
+    if (!island) return;
+
+    const bgTasks = getActiveMultitaskBackgroundInfo();
+
+    // Nur einblenden, wenn tatsächlich ein Hintergrund-Task aktiv ist (Timer läuft, Musik spielt, Rezept aktiv)
+    if (!bgTasks || bgTasks.length === 0) {
+      island.classList.add('hidden');
+      island.innerHTML = '';
+      return;
+    }
+
+    island.classList.remove('hidden');
+
+    const primary = bgTasks[0];
+    island.innerHTML = `
+      <div onclick="openMobileMultitaskingSheet()" class="group flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#12111e]/95 border border-purple-500/40 hover:border-purple-400 shadow-[0_10px_30px_rgba(0,0,0,0.85)] backdrop-blur-2xl cursor-pointer active:scale-95 transition-all duration-200">
+        <span class="text-sm animate-pulse">${primary.icon}</span>
+        <div class="flex items-center gap-1.5">
+          <span class="font-mono font-bold text-xs text-white">${primary.label}</span>
+          <span class="text-[10px] text-gray-400 truncate max-w-[110px] hidden sm:inline">• ${escapeHtml(primary.sub)}</span>
+        </div>
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse ml-0.5"></span>
+        ${bgTasks.length > 1 ? `<span class="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-purple-500/30 text-purple-200">+${bgTasks.length - 1}</span>` : ''}
+      </div>
+    `;
+  }
+
+  // --------------------------------------------------------------------------
+  // 4. MOBILE MULTITASKING BOTTOM-SHEET / APP-SWITCHER
+  // --------------------------------------------------------------------------
+
+  function openMobileMultitaskingSheet() {
+    let sheet = document.getElementById('modal-mobile-multitasking');
+    if (!sheet) {
+      sheet = document.createElement('div');
+      sheet.id = 'modal-mobile-multitasking';
+      sheet.className = 'fixed inset-0 z-[200085] bg-black/80 backdrop-blur-md flex flex-col justify-end animate-fade-in';
+      document.body.appendChild(sheet);
+    }
+
+    const bgTasks = getActiveMultitaskBackgroundInfo();
+    const openPanels = (typeof activeWindows !== 'undefined') ? Array.from(activeWindows) : [];
+
+    sheet.innerHTML = `
+      <div class="w-full max-h-[85vh] bg-[#12111d] border-t border-white/20 rounded-t-3xl p-5 flex flex-col gap-4 text-gray-200 overflow-y-auto custom-scrollbar shadow-2xl animate-spring-modal">
+        <!-- Sheet Handle -->
+        <div class="w-12 h-1.5 rounded-full bg-white/20 mx-auto -mt-1 shrink-0"></div>
+
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-2 border-b border-white/10">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300">
+              <i data-lucide="layers" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white tracking-tight">Multitasking Center</h3>
+              <p class="text-[10px] text-gray-400 font-mono">Mobile App-Switcher & Split-View</p>
+            </div>
+          </div>
+          <button onclick="closeMobileMultitaskingSheet()" class="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-gray-300 text-xs">✕</button>
+        </div>
+
+        <!-- 1. Live Background Controls (Timer / Sound) -->
+        ${bgTasks.length > 0 ? `
+          <div class="space-y-2">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-amber-300">Aktive Hintergrund-Prozesse</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${bgTasks.map(t => `
+                <div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-2.5">
+                    <span class="text-xl">${t.icon}</span>
+                    <div>
+                      <div class="text-xs font-bold text-white">${t.label}</div>
+                      <div class="text-[10px] text-gray-400">${escapeHtml(t.sub)}</div>
+                    </div>
+                  </div>
+                  <button onclick="(${t.action.toString()})(); closeMobileMultitaskingSheet();" class="px-3 py-1.5 rounded-xl bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs shadow-md">Öffnen</button>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+
+        <!-- 2. Dual-Screen / Split-View Trigger -->
+        <div class="p-3.5 rounded-2xl bg-gradient-to-r from-purple-950/40 to-indigo-950/40 border border-purple-500/30 flex items-center justify-between gap-2">
+          <div>
+            <div class="text-xs font-bold text-purple-200">⚡ Dual-Split Screen (Oben / Unten)</div>
+            <div class="text-[10px] text-gray-400">Board oben + Timer/Einkauf unten parallel nutzen</div>
+          </div>
+          <button onclick="toggleMobileSplitView('board', 'alarm'); closeMobileMultitaskingSheet();" class="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-md whitespace-nowrap cursor-pointer">
+            ${mobileSplitActive ? 'Split beenden' : 'Split starten'}
+          </button>
+        </div>
+
+        <!-- 3. Offene Werkzeuge Carousel -->
+        <div class="space-y-2">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-purple-300">Geöffnete Werkzeuge (${openPanels.length})</span>
+          <div class="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+            ${openPanels.map(pName => {
+              const meta = (typeof getPanelMeta === 'function') ? getPanelMeta(pName) : { icon: '🗗', title: pName };
+              return `
+                <div onclick="if(typeof bringWindowToFront === 'function') bringWindowToFront('${pName}'); if(typeof restoreWindow === 'function') restoreWindow('${pName}'); closeMobileMultitaskingSheet();" class="p-2.5 rounded-xl bg-white/[0.02] hover:bg-white/[0.06] border border-white/5 hover:border-purple-500/40 transition cursor-pointer flex items-center gap-2">
+                  <span class="text-base">${meta.icon}</span>
+                  <span class="text-xs font-semibold text-gray-200 truncate">${meta.title}</span>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <button onclick="closeMobileMultitaskingSheet()" class="w-full py-2.5 rounded-2xl bg-white/10 text-white font-bold text-xs transition cursor-pointer">
+          Schließen
+        </button>
+      </div>
+    `;
+
+    sheet.classList.remove('hidden');
+    if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  }
+
+  function closeMobileMultitaskingSheet() {
+    const sheet = document.getElementById('modal-mobile-multitasking');
+    if (sheet) sheet.classList.add('hidden');
+  }
+
+  // --------------------------------------------------------------------------
+  // 5. MOBILE DUAL-SPLIT VIEW (TOP / BOTTOM DUAL PANES)
+  // --------------------------------------------------------------------------
+
+  function toggleMobileSplitView(topTool = 'board', bottomTool = 'alarm') {
+    mobileSplitActive = !mobileSplitActive;
+    const body = document.body;
+    if (!body) return;
+
+    body.classList.toggle('noodle-mobile-split-active', mobileSplitActive);
+
+    if (mobileSplitActive) {
+      if (typeof openWindow === 'function') openWindow(bottomTool);
+      const bottomEl = (typeof getPanelElement === 'function') ? getPanelElement(bottomTool) : document.getElementById(bottomTool);
+      if (bottomEl) {
+        bottomEl.classList.add('noodle-mobile-split-bottom');
+      }
+      if (typeof showToast === 'function') showToast('⚡ Dual-Split Screen aktiv: 2 Tools parallel!');
+    } else {
+      document.querySelectorAll('.noodle-mobile-split-bottom').forEach(el => el.classList.remove('noodle-mobile-split-bottom'));
+      if (typeof showToast === 'function') showToast('Dual-Split Screen beendet');
+    }
+
+    updateMultitaskingState();
+  }
+
+  // --------------------------------------------------------------------------
+  // 6. SNAP HOVER HOOKS FOR WINDOW CONTROLS
+  // --------------------------------------------------------------------------
+
+  function attachSnapHoverToControls(winControls, panelName) {
+    if (!winControls || winControls._snapHoverAttached) return;
+    winControls._snapHoverAttached = true;
+
+    const maxBtn = winControls.querySelector('.noodle-win-max-btn');
+    if (maxBtn) {
+      maxBtn.addEventListener('mouseenter', () => {
+        showSnapFlyout(maxBtn, panelName);
+      });
+
+      maxBtn.addEventListener('mouseleave', () => {
+        scheduleCloseSnapFlyout(300);
+      });
+    }
+  }
+
+  function updateMultitaskingState() {
+    renderMobileDynamicIsland();
+  }
+
+  // --------------------------------------------------------------------------
+  // 7. KEYBOARD SHORTCUTS (ALT+TAB & WIN+ARROWS)
+  // --------------------------------------------------------------------------
+
+  if (typeof window !== 'undefined') {
+    window.addEventListener('keydown', (e) => {
+      // Alt + Tab / Cmd + K for Mobile Multitasking / App Switcher
+      if ((e.altKey && e.key === 'Tab') || (e.ctrlKey && e.key === 'q')) {
+        e.preventDefault();
+        openMobileMultitaskingSheet();
+      }
+
+      // Live Status Updates interval
+      setInterval(renderMobileDynamicIsland, 1000);
+    });
+
+    // Auto-update observer
+    setInterval(renderMobileDynamicIsland, 1500);
+  }
+
+  // --------------------------------------------------------------------------
+  // GLOBAL EXPORTS
+  // --------------------------------------------------------------------------
+  global.snapWindow = snapWindow;
+  global.unsnapWindow = unsnapWindow;
+  global.showSnapFlyout = showSnapFlyout;
+  global.hideSnapFlyout = hideSnapFlyout;
+  global.openMobileMultitaskingSheet = openMobileMultitaskingSheet;
+  global.closeMobileMultitaskingSheet = closeMobileMultitaskingSheet;
+  global.toggleMobileSplitView = toggleMobileSplitView;
+  global.attachSnapHoverToControls = attachSnapHoverToControls;
+
+})(typeof window !== 'undefined' ? window : globalThis);
+
+
+/* --- app-installation-hub.js --- */
+/**
+ * app-installation-hub.js
+ * Cross-Platform Local App Installation, Setup Wizard & Offline Cockpit for Noodle Studio
+ * ======================================================================================
+ * Unterstützt:
+ *  - Windows (🪟 PWA, Edge/Chrome App-Modus, Desktop-Launcher, Autostart-Guide)
+ *  - Android (🤖 PWA 1-Click Install, Vollbild ohne Adressleiste, Offline-Ready)
+ *  - macOS (🍎 Safari Dock-App, Chrome/Brave Launchpad & Spotlight-Integration)
+ *  - Linux (🐧 PWA, .desktop-Launcher für GNOME/KDE/XFCE/Wayland)
+ *  - iOS / iPadOS (📱 Safari "Zum Home-Bildschirm")
+ *  - Setup-Wizard: Routinen-Auswahl, Sync-Kopplung, Themes, Sound, Offline-Tresor
+ *  - Portable Offline-Standalone-Paket Download (100% offline ohne Internet)
+ */
+
+(function () {
+  'use strict';
+
+  // State
+  let currentPlatform = 'windows';
+  let isInstallPromptAvailable = false;
+
+  /**
+   * Automatische Erkennung des Betriebssystems
+   */
+  function detectPlatform() {
+    if (typeof navigator === 'undefined') return 'windows';
+    const ua = navigator.userAgent || '';
+    const platform = navigator.platform || '';
+
+    if (/android/i.test(ua)) return 'android';
+    if (/iPad|iPhone|iPod/.test(ua) || (platform === 'MacIntel' && navigator.maxTouchPoints > 1)) return 'ios';
+    if (/Macintosh|MacIntel|MacPPC|Mac68K/i.test(platform) || /Mac OS X/i.test(ua)) return 'macos';
+    if (/Linux/i.test(platform) || /Linux/i.test(ua)) return 'linux';
+    return 'windows';
+  }
+
+  /**
+   * Prüft den aktuellen PWA- und Offline-Status
+   */
+  async function checkOfflineStatus() {
+    const status = {
+      isServiceWorkerActive: false,
+      cachedAssetsCount: 0,
+      isStandalone: false
+    };
+
+    if (typeof window !== 'undefined') {
+      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+        status.isStandalone = true;
+      }
+      if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        status.isServiceWorkerActive = true;
+      }
+      if ('caches' in window) {
+        try {
+          const cacheKeys = await caches.keys();
+          for (const key of cacheKeys) {
+            const cache = await caches.open(key);
+            const keys = await cache.keys();
+            status.cachedAssetsCount += keys.length;
+          }
+        } catch (e) {
+          console.warn('[InstallHub] Error reading caches:', e);
+        }
+      }
+    }
+    return status;
+  }
+
+  /**
+   * Aktualisiert die Live-Status-Badges im Modal
+   */
+  async function refreshStatusBadges() {
+    const status = await checkOfflineStatus();
+    const badgeStandalone = document.getElementById('install-badge-standalone');
+    const badgeOffline = document.getElementById('install-badge-offline');
+    const directBtn = document.getElementById('install-direct-pwa-btn');
+
+    if (badgeStandalone) {
+      if (status.isStandalone) {
+        badgeStandalone.className = 'px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-mono font-bold flex items-center gap-1.5';
+        badgeStandalone.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>Als App aktiv ✓</span>';
+      } else {
+        badgeStandalone.className = 'px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-[10px] font-mono font-bold flex items-center gap-1.5';
+        badgeStandalone.innerHTML = '<span>Browser-Tab</span>';
+      }
+    }
+
+    if (badgeOffline) {
+      if (status.isServiceWorkerActive || status.cachedAssetsCount > 0) {
+        badgeOffline.className = 'px-2.5 py-1 rounded-full bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 text-[10px] font-mono font-bold flex items-center gap-1.5';
+        badgeOffline.innerHTML = `<i data-lucide="shield-check" class="w-3 h-3 text-cyan-300"></i><span>100% Offline-Bereit (${status.cachedAssetsCount || '30+'} Assets)</span>`;
+      } else {
+        badgeOffline.className = 'px-2.5 py-1 rounded-full bg-white/10 border border-white/15 text-gray-300 text-[10px] font-mono font-bold flex items-center gap-1.5';
+        badgeOffline.innerHTML = '<span>Offline-Cache lädt...</span>';
+      }
+    }
+
+    if (directBtn) {
+      if (window.deferredPwaPrompt) {
+        directBtn.classList.remove('hidden');
+      } else {
+        // Even if direct prompt is not held, button can open the native browser install hint
+        directBtn.classList.remove('hidden');
+      }
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try { lucide.createIcons(); } catch (e) {}
+    }
+  }
+
+  /**
+   * Öffnet das Installations- & Setup-Cockpit
+   */
+  function openInstallModal(platform) {
+    const modal = document.getElementById('modal-app-install');
+    if (!modal) return;
+
+    currentPlatform = platform || detectPlatform();
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+    modal.style.zIndex = '200050';
+
+    switchPlatformTab(currentPlatform);
+    refreshStatusBadges();
+
+    if (typeof window.bringToFront === 'function') {
+      window.bringToFront(modal);
+    }
+    if (window.NoodleInteractionMode && typeof window.NoodleInteractionMode.bringWindowToFront === 'function') {
+      window.NoodleInteractionMode.bringWindowToFront('app-install');
+    }
+    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try { lucide.createIcons(); } catch (e) {}
+    }
+  }
+
+  /**
+   * Schließt das Modal
+   */
+  function closeInstallModal() {
+    const modal = document.getElementById('modal-app-install');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+  }
+
+  /**
+   * Wechselt die Plattform-Reiter im Installations-Center
+   */
+  function switchPlatformTab(platformKey) {
+    currentPlatform = platformKey;
+    const platforms = ['windows', 'android', 'macos', 'linux', 'ios', 'wizard'];
+
+    platforms.forEach(p => {
+      const btn = document.getElementById(`install-tab-btn-${p}`);
+      const pane = document.getElementById(`install-pane-${p}`);
+
+      if (btn) {
+        if (p === platformKey) {
+          btn.className = 'py-2 px-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-bold border border-purple-400/50 shadow-md transition flex items-center justify-center gap-1.5 text-xs cursor-pointer active:scale-95';
+        } else {
+          btn.className = 'py-2 px-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-white border border-transparent transition flex items-center justify-center gap-1.5 text-xs cursor-pointer font-medium';
+        }
+      }
+
+      if (pane) {
+        if (p === platformKey) {
+          pane.classList.remove('hidden');
+        } else {
+          pane.classList.add('hidden');
+        }
+      }
+    });
+
+    if (platformKey === 'wizard') {
+      renderSetupWizardValues();
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try { lucide.createIcons(); } catch (e) {}
+    }
+  }
+
+  /**
+   * Löst die 1-Klick-PWA-Installation oder den Desktop-Starter aus
+   */
+  function triggerDirectInstall() {
+    if (window.deferredPwaPrompt) {
+      window.deferredPwaPrompt.prompt();
+      window.deferredPwaPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          if (typeof showToast === 'function') {
+            showToast(typeof tr === 'function' ? tr({
+              de: '🎉 Noodle wird auf deinem System installiert!',
+              en: '🎉 Installing Noodle on your system!'
+            }) : '🎉 Noodle wird auf deinem System installiert!');
+          }
+        }
+        window.deferredPwaPrompt = null;
+        refreshStatusBadges();
+      });
+    } else {
+      // Wenn der Browser keinen direkten Prompt anbietet, lade für Windows/Linux direkt den Starter herunter!
+      const detected = currentPlatform || detectPlatform();
+      if (detected === 'windows') {
+        downloadDesktopLauncher('windows-bat');
+        if (typeof showToast === 'function') {
+          showToast('📥 Windows Desktop-Starter heruntergeladen! Führe die .bat Datei aus.');
+        }
+      } else if (detected === 'linux') {
+        downloadDesktopLauncher('linux-desktop');
+        if (typeof showToast === 'function') {
+          showToast('📥 Linux Desktop-Shortcut heruntergeladen!');
+        }
+      } else {
+        const platformTitles = {
+          android: 'Tippe im Browser-Menü (⋮) auf „App installieren“ oder „Zum Startbildschirm hinzufügen“.',
+          macos: 'Klicke im Safari-Menü auf „Ablage“ ➔ „Zum Dock hinzufügen“ oder im Chrome auf ⊕.',
+          ios: 'Tippe in Safari auf das Teilen-Symbol [↑] und wähle „Zum Home-Bildschirm“.'
+        };
+        const hint = platformTitles[detected] || 'Installiere Noodle über dein Browser-Menü als App.';
+        if (typeof showToast === 'function') showToast(hint);
+      }
+    }
+  }
+
+  /**
+   * Erzeugt und lädt einen nativen Desktop-Launcher herunter
+   */
+  function downloadDesktopLauncher(type) {
+    const currentOrigin = (typeof window !== 'undefined' && window.location.origin) ? window.location.origin : 'https://noodlestudio.app';
+    const currentPath = (typeof window !== 'undefined' && window.location.pathname) ? window.location.pathname : '/';
+    const fullAppUrl = currentOrigin + currentPath;
+
+    let filename = 'Noodle-Studio';
+    let content = '';
+    let mimeType = 'text/plain';
+
+    if (type === 'windows-bat' || type === 'windows-installer') {
+      filename = 'Install-Noodle-Studio.bat';
+      content = `@echo off
+setlocal enabledelayedexpansion
+title Noodle Studio - Windows Installer
+chcp 65001 >nul 2>&1
+
+echo ==============================================================================
+echo  🍜 NOODLE STUDIO - WINDOWS INSTALLER
+echo ==============================================================================
+echo.
+echo  Installiere Noodle Studio dauerhaft auf deinem Computer...
+echo.
+
+set "APP_DIR=%LOCALAPPDATA%\\NoodleStudio"
+set "DESKTOP_DIR=%USERPROFILE%\\Desktop"
+set "STARTMENU_DIR=%APPDATA%\\Microsoft\\Windows\\Start Menu\\Programs"
+set "APP_URL=${fullAppUrl}"
+
+:: 1. Erstelle lokales Anwendungsverzeichnis
+if not exist "%APP_DIR%" (
+    mkdir "%APP_DIR%"
+)
+
+:: 2. Erstelle den rahmenlosen App-Launcher
+(
+echo @echo off
+echo title Noodle Studio
+echo where msedge ^>nul 2^>nul ^&^& (start msedge --app="%APP_URL%" ^& exit /b^)
+echo where chrome ^>nul 2^>nul ^&^& (start chrome --app="%APP_URL%" ^& exit /b^)
+echo where brave ^>nul 2^>nul ^&^& (start brave --app="%APP_URL%" ^& exit /b^)
+echo start "" "%APP_URL%"
+) > "%APP_DIR%\\noodle-studio.cmd"
+
+:: 3. Erstelle lautlosen VBScript-Starter (kein strendes schwarzes Konsolenfenster)
+(
+echo Set WshShell = CreateObject("WScript.Shell"^)
+echo WshShell.Run chr(34^) ^& "%APP_DIR%\\noodle-studio.cmd" ^& chr(34^), 0, False
+echo Set WshShell = Nothing
+) > "%APP_DIR%\\launch.vbs"
+
+:: 4. Erstelle Deinstallations-Skript
+(
+echo @echo off
+echo title Noodle Studio Deinstallieren
+echo del /f /q "%DESKTOP_DIR%\\Noodle Studio.lnk" 2^>nul
+echo del /f /q "%STARTMENU_DIR%\\Noodle Studio.lnk" 2^>nul
+echo rd /s /q "%APP_DIR%" 2^>nul
+echo Noodle Studio wurde erfolgreich entfernt.
+echo pause
+) > "%APP_DIR%\\uninstall.cmd"
+
+:: 5. Erstelle echte Windows .lnk Shortcuts auf Desktop und im Startmen via PowerShell
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+  "$ws = New-Object -ComObject WScript.Shell; " ^
+  "$sDesktop = $ws.CreateShortcut('%DESKTOP_DIR%\\Noodle Studio.lnk'); " ^
+  "$sDesktop.TargetPath = 'wscript.exe'; " ^
+  "$sDesktop.Arguments = '\"%APP_DIR%\\launch.vbs\"'; " ^
+  "$sDesktop.Description = 'Noodle Studio - Dein fokussierter Alltags- und Arbeits-Planer'; " ^
+  "$sDesktop.WorkingDirectory = '%APP_DIR%'; " ^
+  "$sDesktop.Save(); " ^
+  "$sStart = $ws.CreateShortcut('%STARTMENU_DIR%\\Noodle Studio.lnk'); " ^
+  "$sStart.TargetPath = 'wscript.exe'; " ^
+  "$sStart.Arguments = '\"%APP_DIR%\\launch.vbs\"'; " ^
+  "$sStart.Description = 'Noodle Studio'; " ^
+  "$sStart.WorkingDirectory = '%APP_DIR%'; " ^
+  "$sStart.Save();"
+
+echo  [OK] Desktop-Verknpfung erstellt:
+echo       "%DESKTOP_DIR%\\Noodle Studio.lnk"
+echo.
+echo  [OK] Startmen-Eintrag registriert:
+echo       "%STARTMENU_DIR%\\Noodle Studio.lnk"
+echo.
+echo  [OK] Anwendungsdateien installiert in:
+echo       "%APP_DIR%"
+echo.
+echo ==============================================================================
+echo  🎉 INSTALLATION ERFOLGREICH! Noodle Studio startet jetzt...
+echo ==============================================================================
+echo.
+
+:: 6. Starte installierte App sofort
+start "" wscript.exe "%APP_DIR%\\launch.vbs"
+timeout /t 2 >nul
+exit /b
+`;
+    } else if (type === 'windows-url') {
+      filename = 'Noodle-Studio.url';
+      content = `[InternetShortcut]\nURL=${fullAppUrl}\nIconIndex=0\n`;
+    } else if (type === 'linux-desktop') {
+      filename = 'noodle-studio.desktop';
+      content = `[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Noodle Studio
+Comment=Dein fokussierter, ruhiger und barrierefreier Alltags- und Arbeits-Planer
+Exec=x-www-browser --app="${fullAppUrl}" || xdg-open "${fullAppUrl}"
+Icon=applications-office
+Terminal=false
+Categories=Office;Productivity;Utility;
+StartupWMClass=noodle-studio
+`;
+    } else if (type === 'offline-pack') {
+      // Standalone Portable HTML Backup Package
+      filename = 'Noodle-Studio-Standalone-Portable.html';
+      const rawHtml = document.documentElement ? document.documentElement.outerHTML : '<!DOCTYPE html><html><body>Noodle Studio Standalone</body></html>';
+      content = rawHtml;
+      mimeType = 'text/html';
+    }
+
+    try {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      if (typeof showToast === 'function') {
+        showToast(typeof tr === 'function' ? tr({
+          de: `💾 "${filename}" erfolgreich heruntergeladen!`,
+          en: `💾 "${filename}" successfully downloaded!`
+        }) : `💾 "${filename}" erfolgreich heruntergeladen!`);
+      }
+    } catch (e) {
+      console.error('[InstallHub] Download launcher failed:', e);
+    }
+  }
+
+  /**
+   * Fragt die Desktop-/System-Benachrichtigungsberechtigung an
+   */
+  async function requestNotificationPermission() {
+    if (typeof Notification === 'undefined') {
+      if (typeof showToast === 'function') showToast('Benachrichtigungen werden von diesem Browser nicht unterstützt.');
+      return;
+    }
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        new Notification('Noodle Studio', {
+          body: 'Benachrichtigungen sind aktiv! 🔔',
+          icon: './icon-192.png'
+        });
+        if (typeof showToast === 'function') showToast('🔔 Benachrichtigungen erfolgreich aktiviert!');
+      } else {
+        if (typeof showToast === 'function') showToast('Benachrichtigungen wurden nicht freigegeben.');
+      }
+    } catch (e) {
+      console.warn('Notification permission error:', e);
+    }
+  }
+
+  /**
+   * Liest & rendert Werte im interaktiven Setup-Wizard Tab
+   */
+  function renderSetupWizardValues() {
+    // Current Theme badge
+    const curTheme = (typeof currentTheme !== 'undefined' ? currentTheme : (localStorage.getItem('flowPlannerTheme') || 'aurora'));
+    const themeDisplay = document.getElementById('wizard-current-theme-name');
+    if (themeDisplay) themeDisplay.textContent = curTheme;
+
+    // Current Lang badge
+    const curLang = (typeof currentLang !== 'undefined' ? currentLang : (localStorage.getItem('flowPlannerLanguage') || 'de'));
+    const langDisplay = document.getElementById('wizard-current-lang-name');
+    if (langDisplay) langDisplay.textContent = curLang.toUpperCase();
+  }
+
+  // Event Listener für BeforeInstallPrompt
+  if (typeof window !== 'undefined') {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      window.deferredPwaPrompt = e;
+      isInstallPromptAvailable = true;
+      refreshStatusBadges();
+    });
+
+    window.addEventListener('appinstalled', () => {
+      window.deferredPwaPrompt = null;
+      isInstallPromptAvailable = false;
+      refreshStatusBadges();
+      if (typeof showToast === 'function') {
+        showToast(typeof tr === 'function' ? tr({
+          de: '🎉 Noodle Studio wurde erfolgreich auf deinem System installiert!',
+          en: '🎉 Noodle Studio was successfully installed on your system!'
+        }) : '🎉 Noodle Studio wurde erfolgreich auf deinem System installiert!');
+      }
+    });
+  }
+
+  // Public API Export
+  const AppInstallationHub = {
+    detectPlatform,
+    openInstallModal,
+    closeInstallModal,
+    switchPlatformTab,
+    triggerDirectInstall,
+    downloadDesktopLauncher,
+    requestNotificationPermission,
+    checkOfflineStatus,
+    refreshStatusBadges,
+    renderSetupWizardValues
+  };
+
+  if (typeof window !== 'undefined') {
+    window.AppInstallationHub = AppInstallationHub;
+    window.openInstallModal = openInstallModal;
+    window.closeInstallModal = closeInstallModal;
+    window.switchPlatformTab = switchPlatformTab;
+    window.triggerDirectInstall = triggerDirectInstall;
+    window.downloadDesktopLauncher = downloadDesktopLauncher;
+  }
+
+  if (typeof globalThis !== 'undefined') {
+    globalThis.AppInstallationHub = AppInstallationHub;
+    globalThis.openInstallModal = openInstallModal;
+    globalThis.closeInstallModal = closeInstallModal;
+  }
+
+})();
+
+
 /* --- onboarding.js --- */
 // onboarding.js - Interaktive Erstnutzer-Tour & Onboarding für Noodle
 // ============================================================================
@@ -51941,19 +57171,19 @@ let onboardingCurrentStep = 0;
 const ONBOARDING_STEPS = [
   {
     title: {
-      de: "Willkommen bei Noodle! 🍜✨",
-      en: "Welcome to Noodle! 🍜✨"
+      de: "Willkommen bei Noodle! 🍜",
+      en: "Welcome to Noodle! 🍜"
     },
     subtitle: {
-      de: "Dein übersichtlicher Begleiter für Fokus, Alltag & Klarheit",
-      en: "Your calm companion for focus, daily tasks & clarity"
+      de: "Dein strukturierter Begleiter für Alltag, Fokus & Produktivität",
+      en: "Your structured companion for daily tasks, focus & productivity"
     },
-    icon: "sparkles",
+    icon: "lightbulb",
     color: "from-purple-500 to-pink-500",
     badge: "1 / 4",
     description: {
-      de: "Noodle verbindet intelligentes Aufgabenmanagement mit beruhigenden Soundscapes, Fokus-Timern und alltagsnahen Tools — ohne Reizüberflutung.",
-      en: "Noodle combines intelligent task management with calming soundscapes, focus timers, and mindful daily tools — distraction-free."
+      de: "Noodle verbindet flexibles Aufgabenmanagement mit integrierten Audio-Tools, Timern und praktischen Alltags-Modulen in einer übersichtlichen Oberfläche.",
+      en: "Noodle combines flexible task management with integrated audio tools, timers, and daily utilities in a clean interface."
     }
   },
   {
@@ -51979,8 +57209,8 @@ const ONBOARDING_STEPS = [
       en: "Custom Routines & Lifestyle Presets ✨"
     },
     subtitle: {
-      de: "Passend für deinen Alltag: Minimalist, ADHS-Fokus oder Deep Work",
-      en: "Tailored to your lifestyle: Minimalist, ADHD-friendly or Deep Work"
+      de: "Passend für deinen Alltag: Minimalist, Reizfilter-Fokus oder Deep Work",
+      en: "Tailored to your lifestyle: Minimalist, Low-Stimulus Flow or Deep Work"
     },
     icon: "sliders",
     color: "from-amber-500 to-rose-500",
@@ -52132,7 +57362,7 @@ function startOnboardingTour() {
         <!-- Icon Container -->
         <div id="onboarding-icon-wrap" class="w-16 h-16 rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 p-0.5 shadow-xl flex items-center justify-center text-white mb-4">
           <div class="w-full h-full bg-[#111118]/80 rounded-[22px] flex items-center justify-center">
-            <i data-lucide="sparkles" class="w-8 h-8 text-white"></i>
+            <i data-lucide="lightbulb" class="w-8 h-8 text-white"></i>
           </div>
         </div>
 
@@ -52840,8 +58070,8 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
         white-space: nowrap !important;
         line-height: 1.35 !important;
         opacity: 0;
-        transform: scale(0.96) translateY(2px);
-        transition: opacity 0.07s cubic-bezier(0.16, 1, 0.3, 1), transform 0.07s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        transform: scale(0.98);
+        transition: opacity 0.02s ease-out, transform 0.02s ease-out !important;
         will-change: transform, opacity;
       }
       .noodle-custom-tooltip.noodle-tooltip-visible {
@@ -53192,7 +58422,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
   ];
 
   const HASHTAG_PACKS = [
-    { name: '🎯 Fokus & Flow', tags: '#Productivity #DeepWork #Focus #Neurodiversity #ADHD #Mindset #TimeManagement #NoodleStudio' },
+    { name: '🎯 Fokus & Flow', tags: '#Productivity #DeepWork #Focus #FlowState #Cognition #Mindset #TimeManagement #NoodleStudio' },
     { name: '✨ Daily Lifestyle', tags: '#DailyVibe #Routine #MorningHabits #Aesthetic #Minimalism #SelfCare #CalmLiving' },
     { name: '💡 Creator & Indie', tags: '#BuildInPublic #IndieHackers #CreatorEconomy #WebDesign #UIUX #DigitalNomad' },
     { name: '🌿 Mind & Wellness', tags: '#MentalHealth #Breathwork #Calm #Mindfulness #SlowLiving #StressFree' }
@@ -53432,7 +58662,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
           <span>${tr({ de: "Inspiration", en: "Inspiration", fr: "Inspiration", it: "Ispirazione", es: "Inspiración", el: "Έμπνευση" })}</span>
         </button>
         <button onclick="SocialHubEngine.switchTab('viral')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'viral' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 ${currentHubTab === 'viral' ? 'text-pink-300' : 'text-gray-400'}"></i>
+          <i data-lucide="layout" class="w-3.5 h-3.5 ${currentHubTab === 'viral' ? 'text-pink-300' : 'text-gray-400'}"></i>
           <span>${tr({ de: "Story Cards", en: "Story Cards", fr: "Cartes Stories", it: "Card Storie", es: "Tarjetas de Historias", el: "Κάρτες Ιστοριών" })}</span>
         </button>
       </div>
@@ -53626,7 +58856,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
         <!-- VIRAL & STORY CARDS GENERATOR -->
         <div class="p-3 rounded-2xl bg-gradient-to-br from-pink-950/40 via-purple-950/30 to-black/60 border border-pink-500/30 space-y-2.5 text-center">
           <div class="w-10 h-10 rounded-2xl bg-pink-500/20 border border-pink-500/40 flex items-center justify-center text-pink-300 mx-auto shadow-sm">
-            <i data-lucide="sparkles" class="w-5 h-5 text-pink-300"></i>
+            <i data-lucide="layout" class="w-5 h-5 text-pink-300"></i>
           </div>
           <div>
             <h4 class="text-xs font-bold text-white font-display">${tr({ de: "Visuelles Card & Story Studio", en: "Visual Card & Story Studio", fr: "Studio de cartes visuelles & stories", it: "Studio grafico per card & storie", es: "Estudio de tarjetas visuales e historias", el: "Εργαστήριο οπτικών καρτών & ιστοριών" })}</h4>
@@ -53710,7 +58940,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     switch (platform) {
       case 'x':
       case 'twitter':
-        targetUrl = 'https://twitter.com/intent/tweet?text=' + textEncoded + '&url=' + urlEncoded + '&hashtags=NoodleStudio,Productivity,ADHD,BuildInPublic';
+        targetUrl = 'https://twitter.com/intent/tweet?text=' + textEncoded + '&url=' + urlEncoded + '&hashtags=NoodleStudio,Productivity,FlowState,BuildInPublic';
         break;
       case 'linkedin':
         targetUrl = 'https://www.linkedin.com/sharing/share-offsite/?url=' + urlEncoded;
@@ -55284,7 +60514,11 @@ if (typeof window !== 'undefined') {
 function triggerPwaInstall() {
   const banner = document.getElementById('pwa-install-banner');
   if (banner) banner.classList.add('hidden');
-  if (window.deferredPwaPrompt) {
+  if (typeof openInstallModal === 'function') {
+    openInstallModal();
+  } else if (window.AppInstallationHub && typeof window.AppInstallationHub.openInstallModal === 'function') {
+    window.AppInstallationHub.openInstallModal();
+  } else if (window.deferredPwaPrompt) {
     window.deferredPwaPrompt.prompt();
     window.deferredPwaPrompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === 'accepted') {
@@ -55296,11 +60530,7 @@ function triggerPwaInstall() {
     if (typeof showToast === 'function') {
       showToast(tr({
         de: 'Installiere Noodle über dein Browsermenü („Zum Startbildschirm hinzufügen“ oder „App installieren“)',
-        en: 'Install Noodle via your browser menu ("Add to Home Screen" or "Install App")',
-        fr: 'Installez Noodle via le menu de votre navigateur ("Ajouter à l\'écran d\'accueil" ou "Installer l\'application")',
-        it: 'Installa Noodle dal menu del browser ("Aggiungi a schermata Home" o "Installa app")',
-        es: 'Instala Noodle desde el menú del navegador ("Añadir a pantalla de inicio" o "Instalar app")',
-        el: 'Εγκαταστήστε το Noodle μέσω του μενού του περιηγητή ("Προσθήκη στην αρχική οθόνη" ή "Εγκατάσταση εφαρμογής")'
+        en: 'Install Noodle via your browser menu ("Add to Home Screen" or "Install App")'
       }));
     }
   }

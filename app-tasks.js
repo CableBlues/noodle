@@ -126,6 +126,10 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
       <i data-lucide="footprints" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>
       <span>Steps</span>
     </button>
+    <button onclick="if(typeof openLinkToolModal === 'function') openLinkToolModal('${colId}', ${index}); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-cyan-300 hover:text-cyan-200 transition cursor-pointer text-left font-medium" title="Tool verknüpfen (Timer, Rezept, Sound, etc.)">
+      <i data-lucide="link" class="w-3.5 h-3.5 text-cyan-400"></i>
+      <span>${tr({ de: 'Verknüpfen', en: 'Link Tool', fr: 'Lier outil', it: 'Collega', es: 'Vincular', el: 'Σύνδεση' })}</span>
+    </button>
     
     <div class="h-[1px] bg-white/10 my-0.5"></div>
 
@@ -455,7 +459,7 @@ function openColumnOptionsMenu(colId, btnEl) {
     actionsHtml = `
       <div class="py-0.5 space-y-0.5">
         <button onclick="clearCompletedInColumn('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-emerald-500/15 text-emerald-300 hover:text-emerald-200 transition flex items-center gap-2 text-left cursor-pointer">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
+          <i data-lucide="check-check" class="w-3.5 h-3.5 text-emerald-400 shrink-0"></i>
           <span>${tr({ de: 'Erledigte aufräumen', en: 'Clear completed', fr: 'Nettoyer les terminées', it: 'Pulisci completate', es: 'Limpiar completadas', el: 'Καθαρισμός ολοκληρωμένων' })}</span>
         </button>
         <button onclick="archiveColumnTasks('${colId}', event)" class="w-full px-2 py-1.5 rounded-xl hover:bg-white/10 hover:text-white transition flex items-center gap-2 text-left cursor-pointer">
@@ -714,6 +718,9 @@ function toggleColumnsDropdown(e) {
     e.stopPropagation();
     e.preventDefault();
   }
+  const wsDropdown = document.getElementById('dropdown-header-workspace');
+  if (wsDropdown) wsDropdown.classList.add('hidden');
+
   const dropdown = document.getElementById('dropdown-manage-columns');
   if (!dropdown) {
     openColumnsManagerModal();
@@ -722,22 +729,28 @@ function toggleColumnsDropdown(e) {
   if (dropdown.classList.contains('hidden')) {
     openColumnsDropdown();
   } else {
-    closeColumnsDropdown();
+    closeColumnsDropdown(true);
   }
 }
 
-function closeColumnsDropdown() {
+function closeColumnsDropdown(force = true) {
+  cancelCloseColumnsDropdown();
   const dropdown = document.getElementById('dropdown-manage-columns');
-  const btn = document.getElementById('btn-board-columns');
-  try {
-    if (dropdown && dropdown.matches(':hover')) return;
-    if (btn && btn.matches(':hover')) return;
-  } catch (e) {}
+  if (!force) {
+    const btn = document.getElementById('btn-board-columns');
+    try {
+      if (dropdown && dropdown.matches(':hover')) return;
+      if (btn && btn.matches(':hover')) return;
+    } catch (e) {}
+  }
   if (dropdown) dropdown.classList.add('hidden');
 }
 
 function openColumnsDropdown(triggerEl) {
   cancelCloseColumnsDropdown();
+  const wsDropdown = document.getElementById('dropdown-header-workspace');
+  if (wsDropdown) wsDropdown.classList.add('hidden');
+
   const dropdown = document.getElementById('dropdown-manage-columns');
   if (!dropdown) {
     openColumnsManagerModal();
@@ -842,7 +855,7 @@ function renderColumnsDropdownContent(dropdown) {
           <option value="heart">❤️ Leben</option>
           <option value="briefcase">💼 Projekt</option>
           <option value="calendar">📅 Termine</option>
-          <option value="sparkles">✨ Gewohnheit</option>
+          <option value="lightbulb">💡 Gewohnheit</option>
         </select>
         <button onclick="submitAddListFromManager()" class="px-2.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer shrink-0">
           <i data-lucide="plus" class="w-3.5 h-3.5"></i>
@@ -1050,7 +1063,7 @@ function openColumnsManagerModal() {
           <select id="manage-columns-new-icon" class="px-2 py-1.5 bg-black/50 border border-white/15 text-xs text-gray-200 rounded-xl focus:outline-none focus:border-purple-400 cursor-pointer">
             <option value="layers">🗂️ Standard</option>
             <option value="list-todo">📝 Todo</option>
-            <option value="sparkles">✨ Highlights</option>
+            <option value="sparkles">💡 Highlights</option>
             <option value="target">🎯 Fokus</option>
             <option value="zap">⚡ Sprint</option>
             <option value="book-open">📚 Studium</option>
@@ -1552,6 +1565,15 @@ function renderApp() {
               <polyline points="9 15 12 12 15 15"/>
             </svg>
           </button>
+          ${isNotes ? `
+            <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-white font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
+              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+              <span>Scan</span>
+            </button>
+          ` : ''}
         </div>
       ` : ''}
     `;
@@ -1709,12 +1731,10 @@ function renderApp() {
               </div>
             </div>
           </div>
-          <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-0.5 rounded-lg shadow-md z-40 backdrop-blur-md">
-            <button onclick="markTerminStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Eu lieu', it: 'Avvenuto', es: 'Asistido', el: 'Πραγματοποιήθηκε' })}" class="p-1 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Stattgefunden ✅', en: 'Attended ✅', fr: 'Eu lieu ✅', it: 'Avvenuto ✅', es: 'Asistido ✅', el: 'Πραγματοποιήθηκε ✅' })}">${svgFn('check', 'w-3 h-3')}</button>
-            <button onclick="markTerminNichtStattgefunden(${originalIndex}, event)" aria-label="${tr({ de: 'Nicht stattgefunden', en: 'Did not happen', fr: 'Pas eu lieu', it: 'Non avvenuto', es: 'No asistido', el: 'Δεν πραγματοποιήθηκε' })}" class="p-1 text-rose-400 hover:text-rose-300 hover:bg-rose-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Nicht stattgefunden ❌', en: 'Did not happen ❌', fr: 'Pas eu lieu ❌', it: 'Non avvenuto ❌', es: 'No asistido ❌', el: 'Δεν πραγματοποιήθηκε ❌' })}">${svgFn('x', 'w-3 h-3')}</button>
-            <button onclick="openPostponeTerminModal(${originalIndex}, event)" aria-label="${tr({ de: 'Verschieben', en: 'Postpone', fr: 'Reporter', it: 'Posticipa', es: 'Posponer', el: 'Αναβολή' })}" class="p-1 text-sky-400 hover:text-sky-300 hover:bg-sky-500/20 rounded-md transition cursor-pointer" title="${tr({ de: 'Verschieben & als verschoben markieren 🔄', en: 'Postpone & mark 🔄', fr: 'Reporter & marquer 🔄', it: 'Posticipa e contrassegna 🔄', es: 'Posponer y marcar 🔄', el: 'Αναβολή & επισήμανση 🔄' })}">${svgFn('calendar-sync', 'w-3 h-3')}</button>
-            <button onclick="editTermin(${originalIndex}, event)" aria-label="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}" class="p-1 text-amber-400 hover:text-amber-300 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}">${svgFn('edit-3', 'w-3 h-3')}</button>
-            <button onclick="deleteTask('termine', ${originalIndex}, event)" aria-label="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}" class="p-1 text-gray-500 hover:text-red-400 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}">${svgFn('trash-2', 'w-3 h-3')}</button>
+          <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-1 rounded-xl shadow-md z-40 backdrop-blur-md">
+            <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Status umschalten', en: 'Toggle status', fr: 'Basculer statut', it: 'Cambia stato', es: 'Cambiar estado', el: 'Εναλλαγή' })}" class="p-1 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/20 rounded-lg transition cursor-pointer" title="${tr({ de: 'Status ändern', en: 'Toggle status', fr: 'Changer statut', it: 'Modifica stato', es: 'Cambiar estado', el: 'Αλλαγή κατάστασης' })}">${svgFn('check', 'w-3.5 h-3.5')}</button>
+            <button onclick="editTermin(${originalIndex}, event)" aria-label="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}" class="p-1 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition cursor-pointer" title="${tr({ de: 'Termin bearbeiten', en: 'Edit appointment', fr: 'Modifier le rendez-vous', it: 'Modifica appuntamento', es: 'Editar cita', el: 'Επεξεργασία ραντεβού' })}">${svgFn('edit-3', 'w-3.5 h-3.5')}</button>
+            <button onclick="deleteTask('termine', ${originalIndex}, event)" aria-label="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}" class="p-1 text-gray-400 hover:text-red-400 hover:bg-white/10 rounded-lg transition cursor-pointer" title="${tr({ de: 'Termin löschen', en: 'Delete appointment', fr: 'Supprimer le rendez-vous', it: 'Elimina appuntamento', es: 'Eliminar cita', el: 'Διαγραφή ραντεβού' })}">${svgFn('trash-2', 'w-3.5 h-3.5')}</button>
           </div>
         `;
         listEl.appendChild(itemDiv);
@@ -1810,22 +1830,26 @@ function renderApp() {
           : '';
         const editTooltip = tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' });
         const completeTooltip = tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' });
+        const toolBadgesHTML = (typeof renderTaskToolBadgesHTML === 'function')
+          ? renderTaskToolBadgesHTML(taskObj, id, index)
+          : '';
         itemDiv.innerHTML = `
-          <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none">
+          <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none flex-wrap">
             <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
               <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-lime-400 hover:bg-lime-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
-                ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400 animate-pulse' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
+                ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
                 ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
               </span>
             </button>
             <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
             ${recurrenceBadge}
+            ${toolBadgesHTML}
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
             <button onclick="startTaskTimerByIndex('${id}', ${index}, event)" aria-label="${tr({ de: 'Timer für diese Aufgabe starten', en: 'Start timer for this task', fr: 'Lancer le minuteur', it: 'Avvia timer per questa attività', es: 'Iniciar temporizador', el: 'Εκκίνηση χρονοδιακόπτη' })}" class="p-1 px-1.5 text-amber-300 hover:text-white bg-[#1a1a28] hover:bg-amber-500/30 border border-white/20 hover:border-amber-400/50 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Fokus-Timer starten', en: 'Start focus timer', fr: 'Lancer le minuteur', it: 'Avvia timer', es: 'Iniciar temporizador', el: 'Εκκίνηση Timer' })}">
               ${svgFn('timer', 'w-3.5 h-3.5 text-amber-400 hover:text-amber-200')}
             </button>
-            <button onmouseenter="cancelCloseTaskMenu(); openTaskOptionsMenu('${id}', ${index}, this);" onmouseleave="scheduleCloseTaskMenu();" onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Timer, Chrono, Steps, etc.)', en: 'Options (Timer, Chrono, Steps, etc.)', fr: 'Options (Minuteur, Chrono, Steps, etc.)', it: 'Opzioni (Timer, Cronometro, Steps, etc.)', es: 'Opciones (Timer, Crono, Steps, etc.)', el: 'Επιλογές (Timer, Chrono, Steps)' })}">
+            <button onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Timer, Chrono, Steps, etc.)', en: 'Options (Timer, Chrono, Steps, etc.)', fr: 'Options (Minuteur, Chrono, Steps, etc.)', it: 'Opzioni (Timer, Cronometro, Steps, etc.)', es: 'Opciones (Timer, Crono, Steps, etc.)', el: 'Επιλογές (Timer, Chrono, Steps)' })}">
               ${svgFn('more-horizontal', 'w-3.5 h-3.5 text-gray-200 hover:text-white')}
             </button>
           </div>
@@ -2103,8 +2127,23 @@ function handleCompleteTask(category, index, event) {
   if (typeof updateZenView === 'function') updateZenView();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
 
-  // 100% Celebration Check (Daily Review Modal nicht mehr automatisch öffnen, nur manuell oder weekly)
-  if ((curItems[category] || []).length === 0) {
+  // 100% Celebration Check & Feierabend-Trigger
+  let categoryEmpty = (curItems[category] || []).length === 0;
+  let allDone = false;
+  if (curItems) {
+    let remainingTotal = 0;
+    Object.keys(curItems).forEach(col => {
+      if (Array.isArray(curItems[col])) remainingTotal += curItems[col].length;
+    });
+    allDone = (remainingTotal === 0);
+  }
+
+  if (allDone) {
+    // Sanfter, verzögerter Feierabend-Trigger (verhindert Reiz-Kaskaden)
+    setTimeout(() => {
+      openFeierabendModal();
+    }, 550);
+  } else if (categoryEmpty) {
     showToast(tr({
       de: `Karte "${t(category)}" zu 100% erledigt! 🌟`,
       en: `Card "${t(category)}" 100% completed! 🌟`,
@@ -2121,7 +2160,6 @@ function openFeierabendModal() {
   if (!modal) return;
   modal.classList.remove('hidden');
   renderLucideIcons();
-  if (typeof triggerCelebrationParticles === 'function') triggerCelebrationParticles();
 }
 
 function closeFeierabendModal() {
@@ -2131,13 +2169,17 @@ function closeFeierabendModal() {
 
 function startFeierabendChillMode() {
   closeFeierabendModal();
+  // Schalte nahtlos in die Zen-Chill-Ansicht um (visuelle Entlastung, verdeckt das Arbeits-Board)
+  if (typeof isMinimalist !== 'undefined' && !isMinimalist && typeof toggleMinimalist === 'function') {
+    toggleMinimalist();
+  }
   showToast(tr({
-    de: 'Feierabend-Modus aktiviert! 🍹 Entspanne dich!',
-    en: 'Chill mode activated! 🍹 Relax and enjoy!',
-    fr: 'Mode détente activé ! 🍹 Profite bien !',
-    it: 'Modalità relax attivata! 🍹 Buon riposo!',
-    es: '¡Modo relax activado! 🍹 ¡A descansar!',
-    el: 'Λειτουργία χαλάρωσης ενεργοποιήθηκε! 🍹'
+    de: 'Feierabend & Zen-Modus aktiv 🍃 Entspanne dich!',
+    en: 'Chill mode activated! 🍃 Relax and unwind!',
+    fr: 'Mode détente activé ! 🍃 Profite bien !',
+    it: 'Modalità relax attivata! 🍃 Buon riposo!',
+    es: '¡Modo relax activado! 🍃 ¡A descansar!',
+    el: 'Λειτουργία χαλάρωσης ενεργοποιήθηκε! 🍃'
   }));
   if (typeof startAmbientSound === 'function') {
     startAmbientSound('lofi_sunshine');
@@ -2630,14 +2672,17 @@ document.addEventListener('pointerdown', (e) => {
   }
   if (clickedTrigger) return;
 
-  // Andernfalls: Panel stabil schließen & Pin aufheben
+  // Wenn das Panel fest gepinnt (📌) oder im Vollbild (⛶) ist: NICHT schließen bei Klicks im Board!
+  if (openPanelEl.classList.contains('noodle-panel-pinned') || openPanelEl.classList.contains('noodle-panel-fullscreen')) {
+    return;
+  }
+
+  // Andernfalls (flüchtige Hover-Vorschau / Peek): Panel schließen
   openPanelEl.classList.add('hidden');
-  openPanelEl.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+  openPanelEl.classList.remove('noodle-panel-peeking');
   currentlyOpenPanel = null;
-  pinnedPanel = null;
   if (typeof window !== 'undefined') {
     window.currentlyOpenPanel = null;
-    window.pinnedPanel = null;
   }
   const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
   if (dockContainer) dockContainer.classList.remove('is-active');

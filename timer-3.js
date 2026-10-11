@@ -117,12 +117,87 @@ function completeActiveTimerTask(event) {
 }
 window.completeActiveTimerTask = completeActiveTimerTask;
 
-function setTimerAudioMode(mode) {
+function playCurrentTimerBackgroundAudio(force = false) {
+  const isTiming = (typeof timerRunning !== 'undefined' && timerRunning) || (typeof chronometerActive !== 'undefined' && chronometerActive);
+  if (!isTiming && !force) return;
+
+  const mode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+  if (mode === 'silent') return;
+
+  try {
+    if (mode === 'radio') {
+      const station = (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) ? selectedTimerRadio : (localStorage.getItem('flow_radio_station') || 'groovesalad');
+      if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.playRadioStation === 'function') {
+        RadioNewsEngine.playRadioStation(station);
+      }
+    } else if (mode === 'music' || mode === 'soundmachine') {
+      if (typeof playMusicTrack === 'function' && typeof playlistTracks !== 'undefined' && playlistTracks.length > 0) {
+        const idx = (typeof selectedTimerMusicIndex === 'number' && selectedTimerMusicIndex >= 0 && selectedTimerMusicIndex < playlistTracks.length) 
+          ? selectedTimerMusicIndex 
+          : (typeof currentTrackIndex !== 'undefined' ? currentTrackIndex : 0);
+        playMusicTrack(idx);
+      } else if (typeof playAmbientSound === 'function') {
+        playAmbientSound('lofi', false);
+      }
+    } else {
+      // mode === 'ambient'
+      const sound = (typeof selectedTimerSound !== 'undefined' && selectedTimerSound) ? selectedTimerSound : 'lofi';
+      if (sound === 'mix') {
+        if (typeof playRandomTimerAmbient === 'function') playRandomTimerAmbient(false, true);
+      } else if (typeof playAmbientSound === 'function') {
+        playAmbientSound(sound, false);
+      }
+    }
+  } catch(e) {
+    console.warn("[TimerAudio] playCurrentTimerBackgroundAudio error:", e);
+  }
+}
+window.playCurrentTimerBackgroundAudio = playCurrentTimerBackgroundAudio;
+if (typeof globalThis !== 'undefined') globalThis.playCurrentTimerBackgroundAudio = playCurrentTimerBackgroundAudio;
+
+function stopTimerBackgroundAudio() {
+  try {
+    if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+    if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
+    if (typeof RadioNewsEngine !== 'undefined') {
+      if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && (window.isRadioPlaying || RadioNewsEngine.isRadioPlaying)) {
+        RadioNewsEngine.toggleRadioPlayback();
+      }
+      if (typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+        RadioNewsEngine.stopRadioPlayback();
+      }
+    }
+    if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
+      window.radioAudioEl.pause();
+    }
+  } catch(e) {}
+}
+window.stopTimerBackgroundAudio = stopTimerBackgroundAudio;
+if (typeof globalThis !== 'undefined') globalThis.stopTimerBackgroundAudio = stopTimerBackgroundAudio;
+
+function setTimerAudioMode(mode, specificChoice = null) {
   const currentMode = typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient';
   
-  // Wenn der gleiche Modus noch einmal angeklickt wird (außer wenn bereits silent) -> Ausschalten / Stille
+  if (specificChoice !== null && specificChoice !== undefined) {
+    if (mode === 'ambient') {
+      selectedTimerSound = specificChoice;
+      if (typeof window !== 'undefined') window.selectedTimerSound = specificChoice;
+      if (typeof globalThis !== 'undefined') globalThis.selectedTimerSound = specificChoice;
+      if (typeof localStorage !== 'undefined') localStorage.setItem('flowTimerSelectedSound', specificChoice);
+    } else if (mode === 'radio') {
+      selectedTimerRadio = specificChoice;
+      if (typeof window !== 'undefined') window.selectedTimerRadio = specificChoice;
+      if (typeof globalThis !== 'undefined') globalThis.selectedTimerRadio = specificChoice;
+      if (typeof localStorage !== 'undefined') localStorage.setItem('flowTimerSelectedRadio', specificChoice);
+    } else if (mode === 'music' || mode === 'soundmachine') {
+      selectedTimerMusicIndex = typeof specificChoice === 'number' ? specificChoice : 0;
+      if (typeof window !== 'undefined') window.selectedTimerMusicIndex = selectedTimerMusicIndex;
+      if (typeof globalThis !== 'undefined') globalThis.selectedTimerMusicIndex = selectedTimerMusicIndex;
+    }
+  }
+
   let newMode = mode;
-  if (currentMode === mode && mode !== 'silent') {
+  if (!specificChoice && currentMode === mode && mode !== 'silent') {
     newMode = 'silent';
   }
 
@@ -133,53 +208,18 @@ function setTimerAudioMode(mode) {
     localStorage.setItem('flowTimerAudioMode', newMode);
   }
   
-  // Alle bisherigen Sounds sofort stoppen (exklusive Wiedergabe, kein Klang-Chaos)
-  try {
-    if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-    if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
-    if (typeof stopAllSounds === 'function') stopAllSounds();
-    if (typeof RadioNewsEngine !== 'undefined') {
-      if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && (window.isRadioPlaying || RadioNewsEngine.isRadioPlaying)) {
-        RadioNewsEngine.toggleRadioPlayback();
-      }
-      if (typeof RadioNewsEngine.stopNewsReader === 'function') {
-        RadioNewsEngine.stopNewsReader();
-      }
-    }
-    if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
-      window.radioAudioEl.pause();
-    }
-    if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
-    if (typeof pauseDjDeck === 'function') { pauseDjDeck('a'); pauseDjDeck('b'); }
-    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-    }
-  } catch(e) {}
+  // Alle bisherigen Sounds sofort stoppen
+  stopTimerBackgroundAudio();
 
-  // Wenn ein neuer aktiver Modus gewählt wurde, sofort starten
-  try {
-    if (newMode === 'radio') {
-      if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.playRadioStation === 'function') {
-        const savedStation = localStorage.getItem('flow_radio_station') || 'groovesalad';
-        RadioNewsEngine.playRadioStation(savedStation);
-      }
-    } else if (newMode === 'soundmachine') {
-      if (typeof playAmbientSound === 'function') {
-        playAmbientSound(typeof lastSelectedSound !== 'undefined' && lastSelectedSound ? lastSelectedSound : 'lofi');
-      }
-    } else if (newMode === 'ambient') {
-      if (typeof playRandomTimerAmbient === 'function') {
-        playRandomTimerAmbient(false, true);
-      }
-    }
-  } catch(e) {
-    console.warn("Audio mode live switch notice:", e);
+  const isTiming = (typeof timerRunning !== 'undefined' && timerRunning) || (typeof chronometerActive !== 'undefined' && chronometerActive);
+  if (isTiming || (specificChoice !== null && newMode !== 'silent')) {
+    playCurrentTimerBackgroundAudio(true);
   }
 
   renderTimerCockpitContent();
-  const names = { ambient: '🌿 Ambient Flow', soundmachine: '🎵 Sound Machine', radio: '📻 Live-Radio', silent: '🔇 Stille' };
+  const names = { ambient: '🌿 Sounds', music: '🎵 Musik', soundmachine: '🎵 Musik', radio: '📻 Live-Radio', silent: '🔇 Stille' };
   if (typeof showToast === 'function') {
-    showToast(`Audio: ${names[newMode] || newMode}`);
+    showToast(`Hintergrund: ${names[newMode] || newMode}`);
   }
 }
 window.setTimerAudioMode = setTimerAudioMode;
@@ -442,7 +482,11 @@ function renderTimerCockpitContent() {
   const currentMins = Math.round(timerInitialSeconds / 60) || 3;
   const taskTitle = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
   const openTasks = getAllOpenBoardTasks();
-  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'silent');
+  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+  const currentSound = (typeof selectedTimerSound !== 'undefined' && selectedTimerSound) ? selectedTimerSound : 'lofi';
+  const currentRadio = (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) ? selectedTimerRadio : 'groovesalad';
+  const currentMusicIdx = (typeof selectedTimerMusicIndex === 'number') ? selectedTimerMusicIndex : (typeof currentTrackIndex !== 'undefined' ? currentTrackIndex : 0);
+
   const isTimeAnnounce = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
   const isMotivation = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
   const isVoiceActive = isTimeAnnounce || isMotivation;
@@ -458,31 +502,60 @@ function renderTimerCockpitContent() {
     { mins: 60, label: '60m 🎯' }
   ];
 
+  const ambientSoundsList = [
+    { id: 'mix', label: '🎲 Zufall / Mix' },
+    { id: 'lofi', label: '🌿 Lofi Chill' },
+    { id: 'rain', label: '🌧️ Regen' },
+    { id: 'cafe', label: '☕ Café' },
+    { id: 'piano', label: '🎹 Piano' },
+    { id: 'campfire', label: '🏕️ Kamin' },
+    { id: 'birds', label: '🕊️ Wald' },
+    { id: 'synthwave', label: '🌌 Synthwave' },
+    { id: 'singingbowl', label: '🔔 Klangschale' },
+    { id: 'breeze', label: '💨 Brise' }
+  ];
+
+  const musicTracksList = [
+    { id: 0, label: '🎻 Evolution' },
+    { id: 1, label: '🎸 All That Glitters' },
+    { id: 2, label: '🎧 Lost Kingdom' },
+    { id: 3, label: '🥁 66 Meters' },
+    { id: 4, label: '🎹 Channel 1' },
+    { id: 5, label: '🎤 Hell Is Around' }
+  ];
+
+  const radioStationsList = [
+    { id: 'groovesalad', label: '🥗 Groove Salad' },
+    { id: 'chillout', label: '☕ Chillout Lounge' },
+    { id: 'defcon', label: '📻 SomaFM Defcon' },
+    { id: 'deepspace', label: '🎧 Deep Space' },
+    { id: 'secretagent', label: '🎶 Secret Agent' },
+    { id: 'lofi', label: '🔊 Lofi Girl' }
+  ];
+
   const masterVol = typeof soundMasterVolume !== 'undefined' ? soundMasterVolume : 0.5;
   const isMuted = (typeof isPlayerMuted !== 'undefined' && isPlayerMuted) || (typeof isTimerSoundActive === 'function' && !isTimerSoundActive());
   const currentVolPct = isMuted ? 0 : Math.round(masterVol * 100);
   const isRunning = typeof timerRunning !== 'undefined' ? timerRunning : (typeof window !== 'undefined' ? window.timerRunning : false);
+  const isChronoRunning = typeof chronometerActive !== 'undefined' ? chronometerActive : false;
 
   panel.innerHTML = `
-    <!-- 1. KOPFZEILE: NOODLE LOGO + TIMER UNTERSCHRIFT (LINKS) | LAUTSTÄRKE & CLOSE (RECHTS) -->
+    <!-- 1. KOPFZEILE: NOODLE LOGO + STATUS (LINKS) | LAUTSTÄRKE & CLOSE (RECHTS) -->
     <div class="flex items-center justify-between pb-2 border-b border-white/10 select-none">
-      
-      <!-- Noodle Logo & TIMER Subtext -->
       <div class="flex items-center gap-2">
         <div class="relative flex flex-col items-center justify-center shrink-0">
           <div class="relative overflow-hidden flex items-center justify-center">
             <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
           </div>
           <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-            <span class="badge-tool-subtext select-none">TIMER</span>
+            <span class="badge-tool-subtext select-none">${isChronoRunning ? 'CHRONO' : 'TIMER'}</span>
           </div>
         </div>
-        <span class="w-1.5 h-1.5 rounded-full ${isRunning ? 'bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]' : 'bg-purple-500/50'}"></span>
+        <span class="w-1.5 h-1.5 rounded-full ${isRunning || isChronoRunning ? 'bg-emerald-400 animate-pulse shadow-[0_0_6px_#34d399]' : 'bg-purple-500/50'}"></span>
       </div>
 
-      <!-- Rechts: Vertikale Lautstärke & Schließen -->
+      <!-- Rechts: Lautstärke & Schließen -->
       <div class="flex items-center gap-2">
-        
         <!-- Vertikaler Lautstärke-Controller Popover -->
         <div class="relative group/vol flex items-center">
           <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="h-7 px-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-purple-300 hover:text-white transition cursor-pointer flex items-center gap-1.5 shadow-sm" title="Lautstärke anpassen">
@@ -505,37 +578,137 @@ function renderTimerCockpitContent() {
           </div>
         </div>
 
-        <!-- Schließen Button -->
         <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" class="w-7 h-7 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white text-xs font-bold flex items-center justify-center transition cursor-pointer" title="Schließen">✕</button>
       </div>
     </div>
 
-    <!-- 2. ZEIT-SCHNELLWAHL (KOMPAKT & MINIMAL) -->
-    <div class="p-2 rounded-2xl bg-purple-950/20 border border-purple-500/25 shadow-inner flex flex-col gap-1.5">
+    ${isChronoRunning ? `
+      <!-- CHRONOMETER AKTIV BANNER -->
+      <div class="p-2.5 rounded-2xl bg-gradient-to-r from-emerald-950/40 to-teal-950/40 border border-emerald-500/40 shadow-inner flex flex-col gap-2 animate-fade-in">
+        <div class="flex items-center justify-between">
+          <span class="text-[11px] font-bold text-emerald-300 font-display flex items-center gap-1.5">
+            <i data-lucide="watch" class="w-3.5 h-3.5 text-emerald-400 animate-pulse"></i>
+            <span>Stoppuhr / Chronometer läuft</span>
+          </span>
+          <span class="text-[12px] font-mono font-black text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-lg border border-emerald-500/40 animate-pulse">
+            ${formatChronometerTime(typeof chronometerSeconds !== 'undefined' ? chronometerSeconds : 0)}
+          </span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <button onclick="stopChronometer(false); renderTimerCockpitContent();" class="flex-1 py-1 px-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold text-[10.5px] flex items-center justify-center gap-1 transition cursor-pointer active:scale-95">
+            <i data-lucide="square" class="w-3 h-3"></i>
+            <span>Stoppen</span>
+          </button>
+          <button onclick="stopChronometer(false); setTimerPreset(currentMins); renderTimerCockpitContent();" class="py-1 px-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[10px] font-medium transition cursor-pointer">
+            Zurück zu Timer
+          </button>
+        </div>
+      </div>
+    ` : `
+      <!-- 2. ZEIT-SCHNELLWAHL (KOMPAKT & MINIMAL) -->
+      <div class="p-2 rounded-2xl bg-purple-950/20 border border-purple-500/25 shadow-inner flex flex-col gap-1.5">
+        <div class="flex items-center justify-between px-0.5">
+          <span class="text-[10.5px] font-bold text-purple-200 font-display flex items-center gap-1.5">
+            <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-400"></i>
+            <span>Dauer wählen</span>
+          </span>
+          <span class="text-[9.5px] font-mono font-bold text-purple-300/90 bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/30">${currentMins} Min.</span>
+        </div>
+
+        <div class="grid grid-cols-4 gap-1">
+          ${presets.map(p => `
+            <button onclick="setCustomTimerDirect(${p.mins});" data-mins="${p.mins}" class="timer-preset-btn py-1 px-1 rounded-xl ${p.mins === currentMins ? 'bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_8px_rgba(168,85,247,0.35)]' : 'bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white'} border border-white/10 text-[10.5px] font-mono transition text-center cursor-pointer truncate active:scale-95">
+              ${p.label}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    `}
+
+    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO · STILLE) -->
+    <div class="p-2.5 rounded-2xl bg-gradient-to-b from-teal-950/30 to-indigo-950/30 border border-teal-500/35 shadow-inner flex flex-col gap-2">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-purple-200 font-display flex items-center gap-1.5">
-          <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-400"></i>
-          <span>Dauer wählen</span>
+        <span class="text-[10.5px] font-bold text-teal-200 font-display flex items-center gap-1.5">
+          <i data-lucide="volume-2" class="w-3.5 h-3.5 text-teal-400"></i>
+          <span>Hintergrund-Audio</span>
         </span>
-        <span class="text-[9.5px] font-mono font-bold text-purple-300/90 bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/30">${currentMins} Min.</span>
+        <span class="text-[9px] font-mono text-teal-300 bg-teal-500/20 px-1.5 py-0.2 rounded border border-teal-500/30 font-bold uppercase tracking-wider">
+          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : (currentAudioMode === 'radio' ? '📻 Radio' : '🔇 Stille'))}
+        </span>
       </div>
 
-      <!-- Kompakte Presets (8 klare Tasten in 2 Reihen) -->
+      <!-- 4 Haupt-Modi -->
       <div class="grid grid-cols-4 gap-1">
-        ${presets.map(p => `
-          <button onclick="setCustomTimerDirect(${p.mins});" data-mins="${p.mins}" class="timer-preset-btn py-1 px-1 rounded-xl ${p.mins === currentMins ? 'bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_8px_rgba(168,85,247,0.35)]' : 'bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white'} border border-white/10 text-[10.5px] font-mono transition text-center cursor-pointer truncate active:scale-95">
-            ${p.label}
-          </button>
-        `).join('')}
+        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-gradient-to-r from-teal-600/50 to-emerald-600/50 border-teal-400 text-white shadow-[0_0_10px_rgba(20,184,166,0.35)] ring-1 ring-teal-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+          🌿 Sounds
+        </button>
+        <button onclick="setTimerAudioMode('music');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-gradient-to-r from-purple-600/50 to-indigo-600/50 border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.35)] ring-1 ring-purple-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+          🎵 Musik
+        </button>
+        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-gradient-to-r from-sky-600/50 to-cyan-600/50 border-cyan-400 text-white shadow-[0_0_10px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+          📻 Radio
+        </button>
+        <button onclick="setTimerAudioMode('silent');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'silent' ? 'bg-white/15 border-white/30 text-white font-bold shadow-sm' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
+          🔇 Stille
+        </button>
       </div>
+
+      <!-- Detail-Auswahl-Tray für die aktive Kategorie -->
+      ${currentAudioMode === 'ambient' ? `
+        <div class="pt-1 border-t border-teal-500/20 flex flex-col gap-1 animate-fade-in">
+          <div class="flex items-center justify-between text-[8.5px] font-mono text-teal-300/80 px-0.5">
+            <span>Sound wählen:</span>
+            <span class="text-teal-200 font-bold">${currentSound === 'mix' ? 'Mix (Zufall)' : currentSound}</span>
+          </div>
+          <div class="grid grid-cols-5 gap-1">
+            ${ambientSoundsList.map(s => `
+              <button onclick="setTimerAudioMode('ambient', '${s.id}');" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentSound === s.id ? 'bg-teal-500/30 border-teal-400 text-white font-bold shadow-xs ring-1 ring-teal-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${s.label}">
+                ${s.label}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? `
+        <div class="pt-1 border-t border-purple-500/20 flex flex-col gap-1 animate-fade-in">
+          <div class="flex items-center justify-between text-[8.5px] font-mono text-purple-300/80 px-0.5">
+            <span>Track wählen:</span>
+            <span class="text-purple-200 font-bold truncate max-w-[140px]">${musicTracksList[currentMusicIdx]?.label || 'Track ' + (currentMusicIdx + 1)}</span>
+          </div>
+          <div class="grid grid-cols-3 gap-1">
+            ${musicTracksList.map(t => `
+              <button onclick="setTimerAudioMode('music', ${t.id});" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentMusicIdx === t.id ? 'bg-purple-500/30 border-purple-400 text-white font-bold shadow-xs ring-1 ring-purple-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${t.label}">
+                ${t.label}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      ${currentAudioMode === 'radio' ? `
+        <div class="pt-1 border-t border-cyan-500/20 flex flex-col gap-1 animate-fade-in">
+          <div class="flex items-center justify-between text-[8.5px] font-mono text-cyan-300/80 px-0.5">
+            <span>Sender wählen:</span>
+            <span class="text-cyan-200 font-bold">${radioStationsList.find(r => r.id === currentRadio)?.label || currentRadio}</span>
+          </div>
+          <div class="grid grid-cols-3 gap-1">
+            ${radioStationsList.map(r => `
+              <button onclick="setTimerAudioMode('radio', '${r.id}');" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentRadio === r.id ? 'bg-cyan-500/30 border-cyan-400 text-white font-bold shadow-xs ring-1 ring-cyan-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${r.label}">
+                ${r.label}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
     </div>
 
-    <!-- 3. SPRACHBEGLEITUNG (ZEITANSAGEN & MOTIVATION) -->
+    <!-- 4. SPRACHBEGLEITUNG (ZEITANSAGEN & MOTIVATION) -->
     <div class="p-2 rounded-2xl bg-indigo-950/25 border border-indigo-500/30 shadow-inner flex flex-col gap-1.5">
       <div class="flex items-center justify-between px-0.5">
         <span class="text-[10.5px] font-bold text-indigo-300 font-display flex items-center gap-1.5">
           <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-400"></i>
-          <span>Sprachbegleitung</span>
+          <span>Sprachbegleitung & Sprüche</span>
         </span>
         <span class="text-[9px] font-mono font-bold ${isVoiceActive ? 'text-emerald-300' : 'text-gray-500'}">
           ${isVoiceActive ? '● Aktiv' : '○ Aus'}
@@ -543,7 +716,6 @@ function renderTimerCockpitContent() {
       </div>
 
       <div class="grid grid-cols-2 gap-1.5">
-        <!-- Zeitansagen Toggle -->
         <button onclick="toggleTimerVoiceFeature('time');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isTimeAnnounce ? 'bg-gradient-to-r from-indigo-600/40 to-purple-600/40 border-indigo-400/70 text-white shadow-[0_0_10px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
           <span class="flex items-center gap-1 truncate">
             <span>⏱️</span>
@@ -552,7 +724,6 @@ function renderTimerCockpitContent() {
           <span class="text-[9px] font-mono font-bold ${isTimeAnnounce ? 'text-indigo-200' : 'text-gray-500'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
         </button>
 
-        <!-- Motivationssprüche Toggle -->
         <button onclick="toggleTimerVoiceFeature('motivation');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isMotivation ? 'bg-gradient-to-r from-purple-600/40 to-pink-600/40 border-pink-400/70 text-white shadow-[0_0_10px_rgba(236,72,153,0.25)] ring-1 ring-pink-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
           <span class="flex items-center gap-1 truncate">
             <span>💡</span>
@@ -562,7 +733,6 @@ function renderTimerCockpitContent() {
         </button>
       </div>
 
-      <!-- Stimmen-Vielfalt (Wechselnd: Frau, Mann, Kind) mit Hörproben -->
       <div class="pt-1 border-t border-indigo-500/20 flex flex-col gap-1">
         <div class="flex items-center justify-between px-0.5">
           <span class="text-[9px] font-semibold text-indigo-300 flex items-center gap-1">
@@ -574,15 +744,15 @@ function renderTimerCockpitContent() {
           </span>
         </div>
         <div class="grid grid-cols-3 gap-1">
-          <button onclick="previewVoiceCategory('female');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Frauenstimmen (warm & freundlich)">
+          <button onclick="previewVoiceCategory('female');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Frauenstimmen">
             <span>👩</span>
             <span class="truncate">Frauen</span>
           </button>
-          <button onclick="previewVoiceCategory('male');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Männerstimmen (tief-warm & gelassen)">
+          <button onclick="previewVoiceCategory('male');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Männerstimmen">
             <span>👨</span>
             <span class="truncate">Männer</span>
           </button>
-          <button onclick="previewVoiceCategory('child');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Kinderstimmen (jung, hell & fröhlich)">
+          <button onclick="previewVoiceCategory('child');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Kinderstimmen">
             <span>🧒</span>
             <span class="truncate">Kinder</span>
           </button>
@@ -590,36 +760,7 @@ function renderTimerCockpitContent() {
       </div>
     </div>
 
-    <!-- 4. SOUNDS, MUSIK & RADIO -->
-    <div class="p-2 rounded-2xl bg-teal-950/20 border border-teal-500/30 shadow-inner flex flex-col gap-1.5">
-      <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-teal-300 font-display flex items-center gap-1.5">
-          <i data-lucide="music-2" class="w-3.5 h-3.5 text-teal-400"></i>
-          <span>Klang & Musik</span>
-        </span>
-        <span class="text-[9px] font-mono text-teal-400/80 font-bold uppercase tracking-wider">
-          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : (currentAudioMode === 'radio' ? '📻 Radio' : '🔇 Aus'))}
-        </span>
-      </div>
-
-      <!-- 4 Buttons: Sounds, Musik, Radio, Stille -->
-      <div class="grid grid-cols-4 gap-1">
-        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'ambient' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
-          🌿 Sounds
-        </button>
-        <button onclick="setTimerAudioMode('soundmachine');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
-          🎵 Musik
-        </button>
-        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'radio' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
-          📻 Radio
-        </button>
-        <button onclick="setTimerAudioMode('silent');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate ${currentAudioMode === 'silent' ? 'bg-teal-500/30 border-teal-400 text-teal-200 shadow-[0_0_8px_rgba(20,184,166,0.3)] font-bold' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white'}">
-          🔇 Stille
-        </button>
-      </div>
-    </div>
-
-    <!-- 5. FOKUS-ZIEL (AUFGABE AUS DEM BOARD) & CHRONOMETER -->
+    <!-- 5. FOKUS-ZIEL & STOPPUHR -->
     <div class="p-2 rounded-2xl bg-amber-950/20 border border-amber-500/30 shadow-inner flex flex-col gap-1.5">
       <div class="flex items-center justify-between px-0.5">
         <span class="text-[10.5px] font-bold text-amber-300 font-display flex items-center gap-1.5">
@@ -627,9 +768,9 @@ function renderTimerCockpitContent() {
           <span>Fokus-Ziel (Aufgabe)</span>
         </span>
         <div class="flex items-center gap-1">
-          <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); toggleChronometer();" class="px-2 py-0.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-mono text-[9px] font-bold flex items-center gap-1 transition cursor-pointer" title="Stoppuhr / Zeiterfassung starten">
+          <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); toggleChronometer();" class="px-2 py-0.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-mono text-[9px] font-bold flex items-center gap-1 transition cursor-pointer active:scale-95" title="Stoppuhr / Zeiterfassung starten">
             <i data-lucide="watch" class="w-2.5 h-2.5"></i>
-            <span>Chrono</span>
+            <span>${isChronoRunning ? 'Stoppuhr aktiv' : 'Stoppuhr'}</span>
           </button>
           ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">Verknüpft</span>` : ''}
         </div>
@@ -676,7 +817,7 @@ function renderTimerCockpitContent() {
     </div>
   `;
 
-  if (typeof lucide !== 'undefined') lucide.createIcons();
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
 window.renderTimerCockpitContent = renderTimerCockpitContent;
 
@@ -814,32 +955,9 @@ function startTimer() {
   updateTimerUI();
   updateMuteButtonsUI();
   
-  // Intelligentes Audio-Routing je nach gewähltem Begleit-Modus
+  // Intelligentes Audio-Routing (Sounds, Musik, Radio)
   try {
-    const activeAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
-    if (activeAudioMode === 'silent') {
-      // Keine kontinuierliche Hintergrundmusik
-    } else if (activeAudioMode === 'radio') {
-      if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.playRadioStation === 'function') {
-        const savedStation = localStorage.getItem('flow_radio_station') || 'lofi';
-        RadioNewsEngine.playRadioStation(savedStation);
-      } else if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && !RadioNewsEngine.isRadioPlaying) {
-        RadioNewsEngine.toggleRadioPlayback();
-      }
-    } else if (activeAudioMode === 'soundmachine') {
-      if (typeof playAmbientSound === 'function') {
-        playAmbientSound(typeof lastSelectedSound !== 'undefined' && lastSelectedSound ? lastSelectedSound : 'lofi');
-      }
-    } else {
-      // Standard: Ambient Flow
-      if (localStorage.getItem('flow_audio_timer_sync') === 'true' && typeof playAmbientSound === 'function') {
-        if (!currentSoundType && (!activeUserAudio || activeUserAudio.paused)) {
-          playAmbientSound(typeof lastSelectedSound !== 'undefined' && lastSelectedSound ? lastSelectedSound : 'lofi');
-        }
-      } else {
-        playRandomTimerAmbient();
-      }
-    }
+    playCurrentTimerBackgroundAudio(true);
   } catch(e) {
     console.warn("Timer Audio routing notice:", e);
   }
@@ -1127,9 +1245,7 @@ function pauseTimer() {
   if (typeof stopLookaheadSequencer === 'function') {
     stopLookaheadSequencer();
   }
-  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
-    RadioNewsEngine.toggleRadioPlayback();
-  }
+  stopTimerBackgroundAudio();
   if ('speechSynthesis' in window) {
     try { window.speechSynthesis.cancel(); } catch (e) { console.warn('[Timer] pause speech cancel warning:', e); }
     setTimeout(() => { try { window.speechSynthesis.cancel(); } catch (e) {} }, 0);
@@ -1178,15 +1294,10 @@ function stopTimer() {
   updateTimerUI();
   if (typeof renderApp === 'function') renderApp();
   
-  // Alle Ambient-Sounds, Sequencer, User-Audios, Radio und Sprachausgaben SOFORT stoppen
-  if (typeof stopAmbientSound === 'function') {
-    stopAmbientSound(true);
-  }
+  // Alle Hintergrund-Audios (Sounds, Musik, Radio) und Sprachausgaben SOFORT stoppen
+  stopTimerBackgroundAudio();
   if (typeof stopLookaheadSequencer === 'function') {
     stopLookaheadSequencer();
-  }
-  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
-    RadioNewsEngine.toggleRadioPlayback();
   }
   if ('speechSynthesis' in window) {
     try { window.speechSynthesis.cancel(); } catch (e) { console.warn('[Timer] stop speech cancel warning:', e); }
@@ -1371,6 +1482,8 @@ var chronometerSeconds = 0;
 var chronometerInterval = null;
 var activeChronometerTask = null;
 var chronometerStartTime = null;
+var lastAnnouncedChronoMinute = -1;
+var lastChronoSoundSwitchedMinute = -1;
 
 function formatChronometerTime(secs) {
   const s = Math.max(0, Math.floor(secs));
@@ -1410,19 +1523,156 @@ function startChronometer(taskTitle = null, colId = null, index = null) {
     clearInterval(chronometerInterval);
     chronometerInterval = null;
   }
+  if (typeof currentSpeechSessionId !== 'undefined') {
+    currentSpeechSessionId++;
+  }
 
   chronometerActive = true;
   chronometerSeconds = 0;
   chronometerStartTime = Date.now();
   activeChronometerTask = taskTitle ? { title: taskTitle, colId, index } : null;
+  lastAnnouncedChronoMinute = 0;
+  lastChronoSoundSwitchedMinute = 0;
 
   updateChronometerUI(true);
 
+  // Hintergrund-Audio (Sounds, Musik, Radio) starten
+  try {
+    playCurrentTimerBackgroundAudio(true);
+  } catch(e) {}
+
+  // Sprach-Begrüßung & Start-Motivation für die Stoppuhr
+  const isTimeAnnounceActive = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isMotivationActive = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isVoiceActiveNow = isTimeAnnounceActive || isMotivationActive;
+
+  if (isTimerSoundActive() && isVoiceActiveNow) {
+    try {
+      const speechItems = [];
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+      const cleanTask = taskTitle ? String(taskTitle).trim().replace(/^[\d\.\-\*•✓\s]+/, '') : '';
+
+      if (isTimeAnnounceActive) {
+        let timeText = "";
+        if (cleanTask) {
+          const phraseList = (typeof CHRONOMETER_START_TASK_PHRASES !== 'undefined' && CHRONOMETER_START_TASK_PHRASES[lang])
+            ? CHRONOMETER_START_TASK_PHRASES[lang]
+            : (typeof CHRONOMETER_START_TASK_PHRASES !== 'undefined' ? CHRONOMETER_START_TASK_PHRASES.de : null);
+          const phrase = (phraseList && phraseList.length > 0)
+            ? (typeof pickWithoutImmediateRepeat === 'function' ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase) : phraseList[0])
+            : "Stoppuhr gestartet für: {task}.";
+          lastSessionStartPhrase = phrase;
+          timeText = phrase.replace('{task}', cleanTask);
+        } else {
+          const phraseList = (typeof CHRONOMETER_START_PHRASES !== 'undefined' && CHRONOMETER_START_PHRASES[lang])
+            ? CHRONOMETER_START_PHRASES[lang]
+            : (typeof CHRONOMETER_START_PHRASES !== 'undefined' ? CHRONOMETER_START_PHRASES.de : ["Stoppuhr gestartet. Nimm dir alle Zeit der Welt."]);
+          const phrase = (phraseList && phraseList.length > 0)
+            ? (typeof pickWithoutImmediateRepeat === 'function' ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase) : phraseList[0])
+            : phraseList[0];
+          lastSessionStartPhrase = phrase;
+          timeText = phrase;
+        }
+        if (timeText) speechItems.push({ text: timeText });
+      }
+
+      if (isMotivationActive) {
+        const motiv = (typeof getChronometerMotivation === 'function')
+          ? getChronometerMotivation(0, cleanTask, lang)
+          : "Guter Einstieg. Lass dich ganz natürlich in deine Aufgabe sinken.";
+        if (motiv) speechItems.push({ text: motiv });
+      }
+
+      if (speechItems.length > 0) {
+        const startSessionToken = currentSpeechSessionId;
+        const startTimeout = setTimeout(() => {
+          if (!chronometerActive || currentSpeechSessionId !== startSessionToken) return;
+          if (typeof speakVoiceSequence === 'function') {
+            speakVoiceSequence(speechItems);
+          } else if (typeof speakSoftlyDynamic === 'function') {
+            speakSoftlyDynamic(speechItems.map(s => s.text).join('. '), 0, 0);
+          }
+        }, 380);
+        if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
+          activeTimeouts.push(startTimeout);
+        }
+      }
+    } catch(e) {
+      console.warn('[Chronometer] Error generating start speech:', e);
+    }
+  }
+
+  let prevTickSec = 0;
   chronometerInterval = setInterval(() => {
     if (!chronometerActive) return;
+    const prevSecs = chronometerSeconds;
     chronometerSeconds = Math.round((Date.now() - chronometerStartTime) / 1000);
+
+    const elapsedMins = Math.floor(chronometerSeconds / 60);
+    const prevElapsedMins = Math.floor(prevSecs / 60);
+
+    // Jede volle Minute erfassen
+    if (elapsedMins > prevElapsedMins && elapsedMins !== lastAnnouncedChronoMinute) {
+      lastAnnouncedChronoMinute = elapsedMins;
+
+      // Alle 2 Minuten sowie bei 1m, 5m, 15m, 25m, 45m, 60m sprechen
+      const isTwoMinMark = (elapsedMins % 2 === 0);
+      const isMilestone = (elapsedMins === 1 || elapsedMins === 5 || elapsedMins === 15 || elapsedMins === 25 || elapsedMins === 45 || elapsedMins === 60);
+      const shouldSpeak = isTwoMinMark || isMilestone;
+
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+      const cleanTask = activeChronometerTask ? (activeChronometerTask.title || '') : '';
+
+      if (shouldSpeak && isTimerSoundActive() && isVoiceActiveNow) {
+        const speechItems = [];
+
+        if (isTimeAnnounceActive && typeof getChronometerTimeAnnouncement === 'function') {
+          const timeText = getChronometerTimeAnnouncement(chronometerSeconds, lang);
+          if (timeText) speechItems.push({ text: timeText });
+        }
+
+        if (isMotivationActive && typeof getChronometerMotivation === 'function') {
+          const motiv = getChronometerMotivation(chronometerSeconds, cleanTask, lang);
+          if (motiv) speechItems.push({ text: motiv });
+        }
+
+        if (speechItems.length > 0) {
+          if (typeof speakVoiceSequence === 'function') {
+            speakVoiceSequence(speechItems, () => {
+              if (isTwoMinMark && lastChronoSoundSwitchedMinute !== elapsedMins) {
+                lastChronoSoundSwitchedMinute = elapsedMins;
+                try { playRandomTimerAmbient(true); } catch(e) {}
+              }
+            });
+          } else if (typeof speakSoftlyDynamic === 'function') {
+            speakSoftlyDynamic(speechItems.map(s => s.text).join('. '), 0, 0, () => {
+              if (isTwoMinMark && lastChronoSoundSwitchedMinute !== elapsedMins) {
+                lastChronoSoundSwitchedMinute = elapsedMins;
+                try { playRandomTimerAmbient(true); } catch(e) {}
+              }
+            });
+          }
+        } else {
+          if (typeof playMinuteChime === 'function') playMinuteChime();
+        }
+
+        // Falls Sprache aus, Sound trotzdem alle 2 Minuten wechseln
+        if (!isVoiceActiveNow && isTwoMinMark && lastChronoSoundSwitchedMinute !== elapsedMins) {
+          lastChronoSoundSwitchedMinute = elapsedMins;
+          try { playRandomTimerAmbient(true); } catch(e) {}
+        }
+      } else {
+        // Nicht-Sprech-Minuten: sanfter Glockenton
+        if (typeof playMinuteChime === 'function') playMinuteChime();
+      }
+    } else if (chronometerSeconds % 60 === 30 && chronometerSeconds !== prevTickSec) {
+      // Zwischen-Signalton alle halbe Minute (30s)
+      if (typeof playMinuteChime === 'function') playMinuteChime();
+    }
+    prevTickSec = chronometerSeconds;
+
     updateChronometerDisplay();
-  }, 500);
+  }, 250);
 
   updateChronometerDisplay();
 
@@ -1441,6 +1691,17 @@ function stopChronometer(isCompleted = false) {
     chronometerInterval = null;
   }
 
+  if (typeof currentSpeechSessionId !== 'undefined') {
+    currentSpeechSessionId++;
+  }
+  if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
+    activeTimeouts.forEach(t => clearTimeout(t));
+    activeTimeouts.length = 0;
+  }
+
+  // Hintergrund-Audio stoppen
+  stopTimerBackgroundAudio();
+
   const durationSec = chronometerSeconds;
   const timeFormatted = formatChronometerTime(durationSec);
   const taskObj = activeChronometerTask;
@@ -1450,16 +1711,33 @@ function stopChronometer(isCompleted = false) {
   updateChronometerUI(false);
   updateTimerDisplay(); // Setzt Standardanzeige zurück
 
-  if (durationSec > 10 && taskObj && taskObj.title) {
+  const isTimeAnnounceActive = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isMotivationActive = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  const isVoiceActiveNow = isTimeAnnounceActive || isMotivationActive;
+  const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+
+  if (durationSec >= 10) {
     // In Wochenbericht / Notizen vermerken
     try {
-      if (typeof logFocusSessionToReport === 'function') {
+      if (typeof logFocusSessionToReport === 'function' && taskObj && taskObj.title) {
         logFocusSessionToReport(taskObj.title, durationSec);
       }
     } catch(e) {}
 
-    if (typeof showToast === 'function') {
-      showToast(`⏱️ Chronometer beendet: "${taskObj.title}" dauerte ${timeFormatted}`);
+    // Abschluss-Sprachansage
+    if (isTimerSoundActive() && isVoiceActiveNow && typeof getChronometerStopPhrase === 'function') {
+      const stopText = getChronometerStopPhrase(durationSec, taskObj ? taskObj.title : '', lang);
+      if (stopText && typeof speakVoiceSequence === 'function') {
+        speakVoiceSequence([{ text: stopText }], null, true);
+      }
+    }
+
+    if (taskObj && taskObj.title) {
+      if (typeof showToast === 'function') {
+        showToast(`⏱️ Chronometer beendet: "${taskObj.title}" (${timeFormatted})`);
+      }
+    } else if (typeof showToast === 'function') {
+      showToast(`⏱️ Chronometer beendet (${timeFormatted})`);
     }
   } else if (typeof showToast === 'function') {
     showToast(`⏱️ Chronometer gestoppt (${timeFormatted})`);
@@ -1562,6 +1840,9 @@ if (typeof window !== 'undefined') {
   window.startChronometer = startChronometer;
   window.stopChronometer = stopChronometer;
   window.toggleChronometer = toggleChronometer;
+  window.setTimerAudioMode = setTimerAudioMode;
+  window.playCurrentTimerBackgroundAudio = playCurrentTimerBackgroundAudio;
+  window.stopTimerBackgroundAudio = stopTimerBackgroundAudio;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.startTaskTimer = startTaskTimer;
@@ -1584,4 +1865,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.startChronometer = startChronometer;
   globalThis.stopChronometer = stopChronometer;
   globalThis.toggleChronometer = toggleChronometer;
+  globalThis.setTimerAudioMode = setTimerAudioMode;
+  globalThis.playCurrentTimerBackgroundAudio = playCurrentTimerBackgroundAudio;
+  globalThis.stopTimerBackgroundAudio = stopTimerBackgroundAudio;
 }

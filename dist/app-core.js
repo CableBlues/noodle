@@ -1485,7 +1485,11 @@ if (typeof window !== 'undefined') {
 function triggerPwaInstall() {
   const banner = document.getElementById('pwa-install-banner');
   if (banner) banner.classList.add('hidden');
-  if (window.deferredPwaPrompt) {
+  if (typeof openInstallModal === 'function') {
+    openInstallModal();
+  } else if (window.AppInstallationHub && typeof window.AppInstallationHub.openInstallModal === 'function') {
+    window.AppInstallationHub.openInstallModal();
+  } else if (window.deferredPwaPrompt) {
     window.deferredPwaPrompt.prompt();
     window.deferredPwaPrompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === 'accepted') {
@@ -1497,11 +1501,7 @@ function triggerPwaInstall() {
     if (typeof showToast === 'function') {
       showToast(tr({
         de: 'Installiere Noodle über dein Browsermenü („Zum Startbildschirm hinzufügen“ oder „App installieren“)',
-        en: 'Install Noodle via your browser menu ("Add to Home Screen" or "Install App")',
-        fr: 'Installez Noodle via le menu de votre navigateur ("Ajouter à l\'écran d\'accueil" ou "Installer l\'application")',
-        it: 'Installa Noodle dal menu del browser ("Aggiungi a schermata Home" o "Installa app")',
-        es: 'Instala Noodle desde el menú del navegador ("Añadir a pantalla de inicio" o "Instalar app")',
-        el: 'Εγκαταστήστε το Noodle μέσω του μενού του περιηγητή ("Προσθήκη στην αρχική οθόνη" ή "Εγκατάσταση εφαρμογής")'
+        en: 'Install Noodle via your browser menu ("Add to Home Screen" or "Install App")'
       }));
     }
   }

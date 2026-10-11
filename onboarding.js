@@ -6,19 +6,19 @@ let onboardingCurrentStep = 0;
 const ONBOARDING_STEPS = [
   {
     title: {
-      de: "Willkommen bei Noodle! 🍜✨",
-      en: "Welcome to Noodle! 🍜✨"
+      de: "Willkommen bei Noodle! 🍜",
+      en: "Welcome to Noodle! 🍜"
     },
     subtitle: {
-      de: "Dein übersichtlicher Begleiter für Fokus, Alltag & Klarheit",
-      en: "Your calm companion for focus, daily tasks & clarity"
+      de: "Dein strukturierter Begleiter für Alltag, Fokus & Produktivität",
+      en: "Your structured companion for daily tasks, focus & productivity"
     },
-    icon: "sparkles",
+    icon: "lightbulb",
     color: "from-purple-500 to-pink-500",
     badge: "1 / 4",
     description: {
-      de: "Noodle verbindet intelligentes Aufgabenmanagement mit beruhigenden Soundscapes, Fokus-Timern und alltagsnahen Tools — ohne Reizüberflutung.",
-      en: "Noodle combines intelligent task management with calming soundscapes, focus timers, and mindful daily tools — distraction-free."
+      de: "Noodle verbindet flexibles Aufgabenmanagement mit integrierten Audio-Tools, Timern und praktischen Alltags-Modulen in einer übersichtlichen Oberfläche.",
+      en: "Noodle combines flexible task management with integrated audio tools, timers, and daily utilities in a clean interface."
     }
   },
   {
@@ -44,8 +44,8 @@ const ONBOARDING_STEPS = [
       en: "Custom Routines & Lifestyle Presets ✨"
     },
     subtitle: {
-      de: "Passend für deinen Alltag: Minimalist, ADHS-Fokus oder Deep Work",
-      en: "Tailored to your lifestyle: Minimalist, ADHD-friendly or Deep Work"
+      de: "Passend für deinen Alltag: Minimalist, Reizfilter-Fokus oder Deep Work",
+      en: "Tailored to your lifestyle: Minimalist, Low-Stimulus Flow or Deep Work"
     },
     icon: "sliders",
     color: "from-amber-500 to-rose-500",
@@ -197,7 +197,7 @@ function startOnboardingTour() {
         <!-- Icon Container -->
         <div id="onboarding-icon-wrap" class="w-16 h-16 rounded-3xl bg-gradient-to-br from-purple-500 to-pink-500 p-0.5 shadow-xl flex items-center justify-center text-white mb-4">
           <div class="w-full h-full bg-[#111118]/80 rounded-[22px] flex items-center justify-center">
-            <i data-lucide="sparkles" class="w-8 h-8 text-white"></i>
+            <i data-lucide="lightbulb" class="w-8 h-8 text-white"></i>
           </div>
         </div>
 

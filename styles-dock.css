@@ -266,5 +266,43 @@
   color: #ffffff !important;
 }
 
+/* ==========================================================================
+   NOODLE SNAP-LAYOUTS & MULTITASKING STYLES
+   ========================================================================== */
+.noodle-panel-snapped {
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+}
+
+#mobile-dynamic-island {
+  animation: dynamicIslandEntrance 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dynamicIslandEntrance {
+  0% { transform: translateY(-30px) scale(0.85); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Mobile Split-Screen Mode */
+body.noodle-mobile-split-active #main-content {
+  height: 50vh !important;
+  overflow-y: auto !important;
+}
+
+body.noodle-mobile-split-active .noodle-mobile-split-bottom {
+  position: fixed !important;
+  top: 50vh !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100vw !important;
+  height: 50vh !important;
+  border-top: 2px solid rgba(168, 85, 247, 0.5) !important;
+  border-radius: 20px 20px 0 0 !important;
+  z-index: 99990 !important;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8) !important;
+}
+
 
 

@@ -164,7 +164,7 @@ function getCommandPaletteActions() {
       id: 'cmd-open-cleaning',
       title: tr({ de: 'Putz-Guide & Haushalts-Routinen', en: 'Open Cleaning Guide' }),
       category: tr({ de: 'Werkzeuge', en: 'Tools' }),
-      icon: 'sparkles',
+      icon: 'brush',
       color: 'text-teal-400',
       action: () => {
         if (typeof openCleaningGuideModal === 'function') openCleaningGuideModal();
@@ -286,9 +286,9 @@ function getCommandPaletteActions() {
     },
     {
       id: 'cmd-open-onboarding',
-      title: tr({ de: 'App-Einführung & Tour starten ✨ [Onboarding]', en: 'Start App Tour & Onboarding ✨' }),
+      title: tr({ de: 'App-Einführung & Tour starten [Onboarding]', en: 'Start App Tour & Onboarding' }),
       category: tr({ de: 'Hilfe & Guide', en: 'Help & Guide' }),
-      icon: 'sparkles',
+      icon: 'lightbulb',
       color: 'text-purple-400',
       action: () => {
         if (typeof startOnboardingTour === 'function') startOnboardingTour();

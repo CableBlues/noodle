@@ -25,6 +25,13 @@ describe('XSS Protection & String Utils (Production Code)', () => {
     expect(escaped).not.toContain('<img');
     expect(escaped).not.toContain('>');
   });
+
+  it('escapeAttr and sanitizeIdentifier properly sanitize attributes and IDs', () => {
+    expect(window.escapeAttr(`" onfocus="alert(1)`)).toBe('&quot; onfocus=&quot;alert(1)');
+    expect(window.sanitizeIdentifier('task-123_valid:id')).toBe('task-123_valid:id');
+    expect(window.sanitizeIdentifier(`task' onclick="bad()"`)).toBe('task__onclick__bad___');
+    expect(window.sanitizeIdentifier(null, 'prefix')).toContain('prefix_');
+  });
 });
 
 describe('AppStorage Abstraction (Production Code)', () => {

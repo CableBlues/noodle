@@ -120,7 +120,7 @@
   ];
 
   const HASHTAG_PACKS = [
-    { name: '🎯 Fokus & Flow', tags: '#Productivity #DeepWork #Focus #Neurodiversity #ADHD #Mindset #TimeManagement #NoodleStudio' },
+    { name: '🎯 Fokus & Flow', tags: '#Productivity #DeepWork #Focus #FlowState #Cognition #Mindset #TimeManagement #NoodleStudio' },
     { name: '✨ Daily Lifestyle', tags: '#DailyVibe #Routine #MorningHabits #Aesthetic #Minimalism #SelfCare #CalmLiving' },
     { name: '💡 Creator & Indie', tags: '#BuildInPublic #IndieHackers #CreatorEconomy #WebDesign #UIUX #DigitalNomad' },
     { name: '🌿 Mind & Wellness', tags: '#MentalHealth #Breathwork #Calm #Mindfulness #SlowLiving #StressFree' }
@@ -360,7 +360,7 @@
           <span>${tr({ de: "Inspiration", en: "Inspiration", fr: "Inspiration", it: "Ispirazione", es: "Inspiración", el: "Έμπνευση" })}</span>
         </button>
         <button onclick="SocialHubEngine.switchTab('viral')" class="flex-1 py-1.5 px-1 rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer text-[11px] ${currentHubTab === 'viral' ? 'text-white bg-gradient-to-r from-pink-600/40 to-rose-600/40 border border-pink-400/60 shadow-[0_0_12px_rgba(244,63,94,0.3)] font-bold' : 'text-gray-400 hover:text-pink-200 border border-transparent font-medium'}">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 ${currentHubTab === 'viral' ? 'text-pink-300' : 'text-gray-400'}"></i>
+          <i data-lucide="layout" class="w-3.5 h-3.5 ${currentHubTab === 'viral' ? 'text-pink-300' : 'text-gray-400'}"></i>
           <span>${tr({ de: "Story Cards", en: "Story Cards", fr: "Cartes Stories", it: "Card Storie", es: "Tarjetas de Historias", el: "Κάρτες Ιστοριών" })}</span>
         </button>
       </div>
@@ -554,7 +554,7 @@
         <!-- VIRAL & STORY CARDS GENERATOR -->
         <div class="p-3 rounded-2xl bg-gradient-to-br from-pink-950/40 via-purple-950/30 to-black/60 border border-pink-500/30 space-y-2.5 text-center">
           <div class="w-10 h-10 rounded-2xl bg-pink-500/20 border border-pink-500/40 flex items-center justify-center text-pink-300 mx-auto shadow-sm">
-            <i data-lucide="sparkles" class="w-5 h-5 text-pink-300"></i>
+            <i data-lucide="layout" class="w-5 h-5 text-pink-300"></i>
           </div>
           <div>
             <h4 class="text-xs font-bold text-white font-display">${tr({ de: "Visuelles Card & Story Studio", en: "Visual Card & Story Studio", fr: "Studio de cartes visuelles & stories", it: "Studio grafico per card & storie", es: "Estudio de tarjetas visuales e historias", el: "Εργαστήριο οπτικών καρτών & ιστοριών" })}</h4>
@@ -638,7 +638,7 @@
     switch (platform) {
       case 'x':
       case 'twitter':
-        targetUrl = 'https://twitter.com/intent/tweet?text=' + textEncoded + '&url=' + urlEncoded + '&hashtags=NoodleStudio,Productivity,ADHD,BuildInPublic';
+        targetUrl = 'https://twitter.com/intent/tweet?text=' + textEncoded + '&url=' + urlEncoded + '&hashtags=NoodleStudio,Productivity,FlowState,BuildInPublic';
         break;
       case 'linkedin':
         targetUrl = 'https://www.linkedin.com/sharing/share-offsite/?url=' + urlEncoded;

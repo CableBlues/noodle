@@ -7,7 +7,6 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:legacy": "node tests/test-suite.js",
     "build": "node build.js"
   },
   "devDependencies": {

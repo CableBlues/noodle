@@ -254,16 +254,16 @@ const ROUTINE_PRESETS = [
   {
     id: 'adhd_focus',
     name: {
-      de: 'Klarheit & ADHS-Fokus',
-      en: 'Clarity & ADHD Flow',
-      es: 'Claridad y Enfoque TDAH',
-      fr: 'Clarté & Focus TDAH',
-      it: 'Chiarezza & Focus ADHD',
-      el: 'Διαύγεια & Εστίαση ADHD'
+      de: 'Klarheit & Reizfilter-Fokus',
+      en: 'Clarity & Low-Stimulus Flow',
+      es: 'Claridad y Enfoque Zen',
+      fr: 'Clarté & Focus Calme',
+      it: 'Chiarezza & Focus Calmo',
+      el: 'Διαύγεια & Ήρεμη Εστίαση'
     },
     tagline: {
-      de: 'Klare Micro-Steps, niedrige Hürden & schnelle Dopamin-Erfolge',
-      en: 'Bite-sized micro steps, low barrier & quick dopamine wins',
+      de: 'Klare Micro-Steps, niedrige Hürden & schnelle Momentum-Erfolge',
+      en: 'Bite-sized micro steps, low friction & rapid momentum wins',
       es: 'Micro-pasos claros, baja barrera de inicio y recompensas',
       fr: 'Micro-étapes simples, démarrage facile & victoires rapides',
       it: 'Micro-passi chiari, avvio facile e gratificazioni veloci',
@@ -271,12 +271,12 @@ const ROUTINE_PRESETS = [
     },
     icon: 'zap',
     badge: {
-      de: 'Neurodivers',
-      en: 'Neuro-Friendly',
-      es: 'Neurodiverso',
-      fr: 'Neuro-friendly',
-      it: 'Neuro-friendly',
-      el: 'Neuro-friendly'
+      de: 'Reizarm & Flow',
+      en: 'Low-Stimulus',
+      es: 'Calma & Flow',
+      fr: 'Calme & Flow',
+      it: 'Calma & Flow',
+      el: 'Ήρεμη Ροή'
     },
     color: 'from-amber-500 to-rose-500',
     tasks: {

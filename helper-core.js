@@ -166,8 +166,8 @@ let currentWhatNowEnergyLevel = 'med';
 let currentWhatNowChosen = null;
 
 function switchWhatNowTab(tabName) {
-  const normTab = (tabName === 'energy' || tabName === 'micro' || tabName === 'zen') ? 'suggestion' : tabName;
-  const TABS = ['suggestion', 'dilemma', 'braindump'];
+  const normTab = (tabName === 'dilemma') ? 'dilemma' : 'suggestion';
+  const TABS = ['suggestion', 'dilemma'];
   
   TABS.forEach(t => {
     const pane = document.getElementById(`whatnow-pane-${t}`);
@@ -178,9 +178,9 @@ function switchWhatNowTab(tabName) {
     }
     if (tabBtn) {
       if (t === normTab) {
-        tabBtn.className = 'py-2 px-2 rounded-xl bg-gradient-to-r from-amber-500/30 to-amber-600/30 border border-amber-400/50 text-amber-200 text-center transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm font-bold';
+        tabBtn.className = 'py-2 px-3 rounded-xl bg-gradient-to-r from-amber-500/25 to-amber-600/25 border border-amber-400/40 text-amber-200 text-center transition cursor-pointer flex items-center justify-center gap-2 shadow-sm font-bold';
       } else {
-        tabBtn.className = 'py-2 px-2 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-1.5 border border-transparent font-bold';
+        tabBtn.className = 'py-2 px-3 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-2 border border-transparent font-bold';
       }
     }
   });
@@ -283,10 +283,11 @@ function populateWhatNowDilemmaDefaults() {
   if (!inputA || !inputB) return;
 
   if (!inputA.value.trim() && !inputB.value.trim()) {
+    const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state?.items || {});
     const all = [];
-    ['daily', 'todo', 'weekly', 'occasionally'].forEach(cat => {
-      (state?.items?.[cat] || []).filter(Boolean).forEach(t => {
-        const text = typeof t === 'object' ? t.task : t;
+    ['daily', 'todo', 'weekly', 'occasionally', 'termine'].forEach(cat => {
+      (curItems[cat] || []).filter(Boolean).forEach(t => {
+        const text = typeof t === 'object' ? (t.task || t.name) : t;
         if (text && !all.includes(text)) all.push(text);
       });
     });
@@ -339,126 +340,122 @@ function flipWhatNowDilemma() {
   }, 650);
 }
 
-function launchBrainDumpAsFocus() {
-  const input = document.getElementById('whatnow-braindump-input');
-  const text = input ? input.value.trim() : '';
-  if (!text) {
-    showToast(tr({ de: 'Bitte zuerst einen Gedanken eingeben!', en: 'Please enter a thought first!' }));
-    return;
-  }
-
-  saveHistory();
-  if (!state.items.todo) state.items.todo = [];
-  state.items.todo.unshift({
-    task: text,
-    created: new Date().toISOString(),
-    id: 'task-' + Date.now()
-  });
-  saveState();
-  renderApp();
-
-  input.value = '';
-  startZenWithTask(text, 'todo');
-}
-
-function saveBrainDumpAsTask() {
-  const input = document.getElementById('whatnow-braindump-input');
-  const text = input ? input.value.trim() : '';
-  if (!text) return;
-
-  saveHistory();
-  if (!state.items.todo) state.items.todo = [];
-  state.items.todo.unshift({
-    task: text,
-    created: new Date().toISOString(),
-    id: 'task-' + Date.now()
-  });
-  saveState();
-  renderApp();
-
-  input.value = '';
-  showToast(tr({ de: `Als Aufgabe gesichert! 📋`, en: `Saved as task! 📋` }));
-  switchWhatNowTab('suggestion');
-  pickRandomTask();
-}
-
+/**
+ * Intelligente Priorisierungs-Engine fuer "Was nun?"
+ * Berechnet fuer jede offene Aufgabe einen qualifizierten Score
+ */
 function pickRandomTask() {
   const box = document.getElementById('helper-pick-box');
   if (!box) return;
 
-  const incompleteDailies = (state?.items?.daily || [])
-    .filter(Boolean)
-    .map(t => ({ cat: 'daily', task: typeof t === 'object' ? t.task : t }))
-    .filter(t => t.task && !isEveningTeethTask(t.task));
+  const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state?.items || {});
+  const todayISO = new Date().toISOString().split('T')[0];
 
-  const houseworkTasks = [];
-  const todoTasks = [];
-  const otherTasks = [];
+  const candidatePool = [];
 
-  ['weekly', 'todo', 'occasionally', 'termine'].forEach(cat => {
-    (state?.items?.[cat] || []).filter(Boolean).forEach(t => {
-      const taskText = typeof t === 'object' ? t.task : t;
-      if (!taskText) return;
-      const taskObj = { cat, task: taskText };
-      if (isHouseworkTask(taskText)) {
-        houseworkTasks.push(taskObj);
-      } else if (cat === 'todo') {
-        todoTasks.push(taskObj);
-      } else {
-        otherTasks.push(taskObj);
+  // Scanne alle Kategorien
+  const scanCategories = ['daily', 'todo', 'weekly', 'work_focus', 'work_backlog', 'study_focus', 'study_modules', 'occasionally', 'termine'];
+  
+  scanCategories.forEach(cat => {
+    const list = curItems[cat] || [];
+    list.filter(Boolean).forEach((rawItem, idx) => {
+      const isObj = typeof rawItem === 'object' && rawItem !== null;
+      const taskText = isObj ? (rawItem.task || rawItem.name || '') : String(rawItem || '');
+      if (!taskText || isEveningTeethTask(taskText)) return;
+
+      // Status ueberpruefen (z.B. bei Terminen)
+      if (isObj && (rawItem.status === 'stattgefunden' || rawItem.status === 'nicht_stattgefunden')) return;
+
+      // Berechne Teilschritte
+      let stepsCompleted = 0;
+      let totalSteps = 0;
+      if (state.customSteps && state.customSteps[taskText]) {
+        totalSteps = state.customSteps[taskText].length;
+        stepsCompleted = (state.completedSteps && state.completedSteps[taskText]) ? state.completedSteps[taskText].length : 0;
       }
+
+      // Basis-Dauer schaetzen
+      let estMinutes = 20;
+      if (cat === 'daily' || isHouseworkTask(taskText)) estMinutes = 10;
+      else if (cat === 'todo' || cat === 'work_backlog') estMinutes = 30;
+      if (isObj && rawItem.estimatedMinutes) estMinutes = rawItem.estimatedMinutes;
+
+      // Executive Scoring
+      let score = 50;
+      let reasonKey = 'smart_recommendation';
+      let reasonLabel = '💡 Smarter Fokus-Vorschlag';
+
+      // 1. Termine/Deadlines von heute
+      const itemDate = isObj ? (rawItem.date || '') : '';
+      if (cat === 'termine' || itemDate === todayISO) {
+        score += 80;
+        reasonKey = 'due_today';
+        reasonLabel = '📌 Heute fällig';
+      }
+
+      // 2. Explizit hohe Priorität
+      const isHighPrio = isObj && (rawItem.priority === 'high' || rawItem.prio === 'high' || rawItem.isUrgent);
+      if (isHighPrio) {
+        score += 60;
+        reasonKey = 'high_priority';
+        reasonLabel = '🔥 Hohe Priorität';
+      }
+
+      // 3. Bereits angefangene Aufgaben mit Checklisten-Fortschritt
+      if (totalSteps > 0 && stepsCompleted > 0 && stepsCompleted < totalSteps) {
+        score += 45;
+        reasonKey = 'in_progress';
+        reasonLabel = `🪜 In Arbeit (${stepsCompleted}/${totalSteps} Schritte)`;
+      }
+
+      // 4. Kategorie-Gewichtung
+      if (cat === 'daily' || cat === 'work_focus') score += 30;
+      else if (cat === 'todo') score += 20;
+
+      candidatePool.push({
+        cat,
+        idx,
+        task: taskText,
+        estMinutes,
+        score,
+        reasonLabel,
+        totalSteps,
+        stepsCompleted,
+        isHousework: isHouseworkTask(taskText)
+      });
     });
   });
 
-  let poolDailies = incompleteDailies.filter(t => !suggestedTaskNamesInCurrentRun.includes(t.task));
-  let poolHousework = houseworkTasks.filter(t => !suggestedTaskNamesInCurrentRun.includes(t.task));
-  let poolTodo = todoTasks.filter(t => !suggestedTaskNamesInCurrentRun.includes(t.task));
-  let poolOther = otherTasks.filter(t => !suggestedTaskNamesInCurrentRun.includes(t.task));
-
-  const totalAvailable = poolDailies.length + poolHousework.length + poolTodo.length + poolOther.length;
-  if (totalAvailable === 0) {
+  // Filter nach aktuellem Energie-Level
+  let filteredCandidates = candidatePool.filter(c => !suggestedTaskNamesInCurrentRun.includes(c.task));
+  if (filteredCandidates.length === 0 && candidatePool.length > 0) {
     suggestedTaskNamesInCurrentRun = [];
-    poolDailies = incompleteDailies;
-    poolHousework = houseworkTasks;
-    poolTodo = todoTasks;
-    poolOther = otherTasks;
+    filteredCandidates = [...candidatePool];
   }
-
-  let chosen = null;
-  let estimatedMin = 15;
 
   if (currentWhatNowEnergyLevel === 'low') {
-    estimatedMin = 5;
-    if (poolDailies.length > 0) chosen = poolDailies[0];
-    else if (poolHousework.length > 0) chosen = poolHousework[0];
-    else if (poolTodo.length > 0) chosen = poolTodo[0];
-    else chosen = poolOther[0] || null;
+    // Quick Win: 2-5 Min (bevorzugt kurze Tasks, Dailies, Haushalt, oder Teilschritte)
+    filteredCandidates.sort((a, b) => {
+      const aQuick = (a.estMinutes <= 10 || a.cat === 'daily' || a.isHousework) ? 1 : 0;
+      const bQuick = (b.estMinutes <= 10 || b.cat === 'daily' || b.isHousework) ? 1 : 0;
+      return (bQuick * 100 + b.score) - (aQuick * 100 + a.score);
+    });
   } else if (currentWhatNowEnergyLevel === 'high') {
-    estimatedMin = 45;
-    if (poolTodo.length > 0) chosen = poolTodo[0];
-    else if (poolOther.length > 0) chosen = poolOther[0];
-    else if (poolDailies.length > 0) chosen = poolDailies[0];
-    else chosen = poolHousework[0] || null;
+    // Deep Work: 45+ Min (bevorzugt grosse To-Dos, Projekte)
+    filteredCandidates.sort((a, b) => {
+      const aDeep = (a.cat === 'todo' || a.cat === 'work_backlog' || a.estMinutes >= 25) ? 1 : 0;
+      const bDeep = (b.cat === 'todo' || b.cat === 'work_backlog' || b.estMinutes >= 25) ? 1 : 0;
+      return (bDeep * 100 + b.score) - (aDeep * 100 + a.score);
+    });
   } else if (currentWhatNowEnergyLevel === 'random') {
-    const all = [...poolDailies, ...poolHousework, ...poolTodo, ...poolOther];
-    if (all.length > 0) {
-      chosen = all[Math.floor(Math.random() * all.length)];
-      estimatedMin = (chosen.cat === 'daily' || isHouseworkTask(chosen.task)) ? 10 : 25;
-    }
+    // Zufall
+    filteredCandidates.sort(() => Math.random() - 0.5);
   } else {
-    // Standard 'med' (Fokus)
-    estimatedMin = 20;
-    if (poolDailies.length > 0 && Math.random() < 0.5) {
-      chosen = poolDailies[0];
-    } else if (poolTodo.length > 0) {
-      chosen = poolTodo[0];
-    } else if (poolHousework.length > 0) {
-      chosen = poolHousework[0];
-    } else {
-      chosen = poolOther[0] || poolDailies[0] || null;
-    }
+    // Standard 'med' (Fokus): Höchster Score gewinnt
+    filteredCandidates.sort((a, b) => b.score - a.score);
   }
 
+  const chosen = filteredCandidates[0] || null;
   currentWhatNowChosen = chosen;
 
   if (!chosen) {
@@ -479,75 +476,71 @@ function pickRandomTask() {
     `;
     activeTimerTask = "";
     updateActiveTimerLabels();
-  } else {
-    suggestedTaskNamesInCurrentRun.push(chosen.task);
+    return;
+  }
 
-    const taskIdx = (state?.items?.[chosen.cat] || []).findIndex(item => {
-      if (!item) return false;
-      const taskVal = typeof item === 'object' ? item.task : item;
-      return taskVal === chosen.task;
-    });
+  suggestedTaskNamesInCurrentRun.push(chosen.task);
+  activeTimerTask = chosen.task;
+  updateActiveTimerLabels();
 
-    activeTimerTask = chosen.task;
-    updateActiveTimerLabels();
+  // Ermittle den ersten Kickstart-Schritt
+  let firstStep = "Schritt 1: Bereite deinen Arbeitsplatz vor und starte für 2 Minuten.";
+  const steps = getTaskStepsList(chosen.task);
+  if (steps && steps.length > 0) {
+    firstStep = cleanStepText(steps[0]);
+  }
 
-    // Ermittle den ersten Kickstart-Schritt
-    let firstStep = "Schritt 1: Bereite alles vor und starte mit nur 2 Minuten.";
-    const steps = getTaskStepsList(chosen.task);
-    if (steps && steps.length > 0) {
-      firstStep = cleanStepText(steps[0]);
-    }
+  const safeTask = chosen.task.replace(/'/g, "\\'");
+  const catLabel = typeof t === 'function' ? t(chosen.cat) : chosen.cat;
 
-    const safeTask = chosen.task.replace(/'/g, "\\'");
-    const catLabel = typeof t === 'function' ? t(chosen.cat) : chosen.cat;
-
-    box.className = "p-5 rounded-2xl bg-gradient-to-br from-[#16121c] to-[#0d0d14] border border-amber-500/40 shadow-xl space-y-4 text-left transition-all duration-300";
-    box.innerHTML = `
-      <div class="flex items-center justify-between gap-2">
-        <div class="flex items-center gap-1.5 flex-wrap">
-          <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/35 text-amber-300 font-bold text-[10px] uppercase tracking-wider font-mono">
-            ${escapeHtml(catLabel)}
-          </span>
-          <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-[10px] font-mono">
-            ⏱️ ~${estimatedMin} Min
-          </span>
-        </div>
-        <span class="text-[9px] text-gray-400 font-mono">Empfehlung #1</span>
+  box.className = "p-5 rounded-2xl bg-gradient-to-br from-[#16121c] to-[#0d0d14] border border-amber-500/35 shadow-xl space-y-4 text-left transition-all duration-300";
+  box.innerHTML = `
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex items-center gap-1.5 flex-wrap">
+        <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold text-[10px] uppercase tracking-wider font-mono">
+          ${escapeHtml(catLabel)}
+        </span>
+        <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-[10px] font-mono">
+          ⏱️ ~${chosen.estMinutes} Min
+        </span>
       </div>
+      <span class="text-[9px] px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/25 text-amber-300 font-semibold font-mono">
+        ${escapeHtml(chosen.reasonLabel)}
+      </span>
+    </div>
 
-      <!-- Task Title -->
-      <div>
-        <h2 class="text-xl sm:text-2xl font-display font-black text-white leading-tight tracking-tight break-words">
-          ${escapeHtml(chosen.task)}
-        </h2>
-        <div class="mt-2 flex items-start gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 font-medium">
-          <span class="text-amber-400 shrink-0">🪜</span>
-          <span class="leading-relaxed"><strong class="text-white">Kickstart:</strong> ${escapeHtml(firstStep)}</span>
-        </div>
+    <!-- Task Title -->
+    <div>
+      <h2 class="text-xl sm:text-2xl font-display font-black text-white leading-tight tracking-tight break-words">
+        ${escapeHtml(chosen.task)}
+      </h2>
+      <div class="mt-2.5 flex items-start gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 font-medium">
+        <span class="text-amber-400 shrink-0">🪜</span>
+        <span class="leading-relaxed"><strong class="text-white">Kickstart-Schritt:</strong> ${escapeHtml(firstStep)}</span>
       </div>
+    </div>
 
-      <!-- Primary Action Buttons -->
-      <div class="space-y-2 pt-1">
-        <button onclick="startZenWithTask('${safeTask}', '${chosen.cat}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-500 hover:from-amber-400 hover:to-yellow-400 text-black font-black text-xs rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.3)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
-          <i data-lucide="play" class="w-4 h-4 fill-black"></i>
-          <span>Im Fokus starten [Space] 🧘</span>
+    <!-- Primary Action Buttons -->
+    <div class="space-y-2 pt-1">
+      <button onclick="startZenWithTask('${safeTask}', '${chosen.cat}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-black text-xs rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.25)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
+        <i data-lucide="play" class="w-4 h-4 fill-black"></i>
+        <span>Im Fokus starten [Space] 🧘</span>
+      </button>
+
+      <div class="grid grid-cols-2 gap-2">
+        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
+          <i data-lucide="timer" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span>2-Min Start</span>
         </button>
 
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
-            <i data-lucide="timer" class="w-3.5 h-3.5 text-cyan-400"></i>
-            <span>2-Min Start</span>
-          </button>
-
-          <button onclick="completeWhatNowTask('${chosen.cat}', ${taskIdx})" class="py-2.5 px-3 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren (+XP)">
-            <i data-lucide="check" class="w-3.5 h-3.5"></i>
-            <span>Erledigt (+XP)</span>
-          </button>
-        </div>
+        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2.5 px-3 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren (+XP)">
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          <span>Erledigt (+XP)</span>
+        </button>
       </div>
-    `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-  }
+    </div>
+  `;
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
 
 

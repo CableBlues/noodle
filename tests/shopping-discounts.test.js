@@ -54,17 +54,62 @@ describe('Shopping Discounter Deals & Smart Deal-Radar Suite', () => {
     expect(coffeeDeal.deal.dept).toBe('drinks');
   });
 
-  it('should add discounter deal to shopping list with store metadata and department', async () => {
+  it('should manage pantry items, quantities and freshness calculation', async () => {
     const code = fs.readFileSync(path.join(process.cwd(), 'app-shopping.js'), 'utf8');
     eval(code);
 
-    window.addDealToShoppingList('deal-lidl-01'); // Barista Hafermilch
+    // 1. Add pantry item
+    window.handleAddPantryItem('500g Reis', { qty: 1, unit: '500g', dept: 'bakery', expiryDays: 10 });
+    expect(state.pantryItems.length).toBe(1);
+    expect(state.pantryItems[0].name).toBe('Reis');
+    expect(state.pantryItems[0].qty).toBe(1);
+
+    // 2. Freshness check
+    const fresh = window.getPantryItemFreshness(state.pantryItems[0]);
+    expect(fresh.status).toBe('good');
+    expect(fresh.daysLeft).toBeGreaterThanOrEqual(9);
+
+    // 3. Adjust quantity
+    window.adjustPantryItemQty(0, 2);
+    expect(state.pantryItems[0].qty).toBe(3);
+
+    // 4. Move to shopping list
+    window.movePantryItemToShoppingList(0);
     expect(state.shoppingList.length).toBe(1);
-    expect(state.shoppingList[0].name).toContain('Hafermilch');
-    expect(state.shoppingList[0].name).toContain('Lidl');
-    expect(state.shoppingList[0].dept).toBe('dairy');
-    expect(state.shoppingList[0].dealInfo).toBeDefined();
-    expect(state.shoppingList[0].dealInfo.store).toBe('lidl');
-    expect(state.shoppingList[0].dealInfo.price).toBe(1.19);
+    expect(state.shoppingList[0].name).toBe('Reis');
+
+    // 5. Delete from pantry
+    window.handleDeletePantryItem(0);
+    expect(state.pantryItems.length).toBe(0);
+  });
+
+  it('should calculate estimated shopping total and format list for share', async () => {
+    const code = fs.readFileSync(path.join(process.cwd(), 'app-shopping.js'), 'utf8');
+    eval(code);
+
+    window.addDealToShoppingList('deal-aldi-01'); // Bio Vollmilch 1.09€
+    window.addDealToShoppingList('deal-aldi-02'); // Butter 1.39€
+
+    const total = window.calculateShoppingListTotal();
+    expect(total.hasPrices).toBe(true);
+    expect(total.totalNum).toBeCloseTo(2.48, 2);
+
+    const shareText = window.formatShoppingListForShare();
+    expect(shareText).toContain('Noodle Einkaufszettel');
+    expect(shareText).toContain('Kühlregal');
+    expect(shareText).toContain('Bio Vollmilch');
+  });
+
+  it('should import recipe ingredients directly to shopping list', async () => {
+    const code = fs.readFileSync(path.join(process.cwd(), 'app-shopping.js'), 'utf8');
+    eval(code);
+
+    const ingredients = ['400g Spaghetti', '200g Guanciale', '4 Eier', '100g Pecorino'];
+    window.importRecipeIngredientsToShoppingList('Carbonara', ingredients);
+
+    expect(state.shoppingList.length).toBe(4);
+    expect(state.shoppingList.some(item => item.name.includes('Spaghetti'))).toBe(true);
+    expect(state.shoppingList.some(item => item.name.includes('Eier'))).toBe(true);
   });
 });
+

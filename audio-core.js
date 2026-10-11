@@ -548,6 +548,17 @@ function playAmbientSound(type, crossfade = false) {
   // Generatoren anstoßen
   startAmbientGeneratorForType(type);
 
+  if (typeof updateMiniAudioPlayer === 'function') {
+    const soundTitle = (typeof getNoodleSoundDisplayName === 'function') ? getNoodleSoundDisplayName(type) : type;
+    updateMiniAudioPlayer({
+      isPlaying: true,
+      title: soundTitle,
+      sub: 'Ambient Sound',
+      emoji: '🎧',
+      source: 'ambient'
+    });
+  }
+
   updateSoundscapeUI();
   lastSelectedSound = type;
 }
@@ -1528,7 +1539,8 @@ function updateAudioStudioHeader(customTitle) {
   
   if (isPlaying) {
     if (liveBadge) liveBadge.classList.remove('hidden');
-    if (eqBars) eqBars.classList.add('animate-pulse');
+    if (eqBars) eqBars.classList.add('opacity-100');
+    if (eqBars) eqBars.classList.remove('opacity-40');
     if (titleEl) {
       if (customTitle) {
         titleEl.textContent = '▶ ' + customTitle;
@@ -1541,7 +1553,11 @@ function updateAudioStudioHeader(customTitle) {
     }
   } else {
     if (liveBadge) liveBadge.classList.add('hidden');
-    if (eqBars) eqBars.classList.remove('animate-pulse');
+    if (eqBars) {
+      eqBars.classList.remove('animate-pulse');
+      eqBars.classList.remove('opacity-100');
+      eqBars.classList.add('opacity-40');
+    }
     if (titleEl) {
       titleEl.textContent = (typeof tr === 'function') 
         ? tr({ de: 'Kein Sound aktiv · Wähle einen Preset oder Track', en: 'No audio active · Choose a preset or track' }) 
@@ -1568,25 +1584,17 @@ function updateHeaderSoundBtnUI() {
 
   const isPlaying = isAnyAudioPlaying();
   if (isPlaying) {
-    btn.className = 'h-[38px] w-[38px] p-0 border border-lime-400/80 rounded-xl bg-gradient-to-tr from-lime-600/35 to-emerald-600/35 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_18px_rgba(132,204,22,0.45)] shrink-0 group/sound-btn';
-    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound ausschalten (Klick)', en: 'Turn sound off (Click)' }) : 'Sound ausschalten';
+    btn.className = 'h-[38px] w-[38px] p-0 border border-purple-400/60 rounded-xl bg-purple-600/25 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_12px_rgba(168,85,247,0.25)] shrink-0 group/sound-btn';
+    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound stummschalten (Klick)', en: 'Mute sound (Click)' }) : 'Sound stummschalten';
     if (iconWrapper) {
-      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-lime-300 animate-pulse"></i>';
-    }
-    if (eqBars) {
-      eqBars.classList.remove('hidden');
-      eqBars.classList.add('flex');
+      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-purple-200"></i>';
     }
     if (label) label.textContent = '';
   } else {
-    btn.className = 'h-[38px] w-[38px] p-0 border border-purple-400/50 hover:border-purple-300 rounded-xl bg-purple-500/20 hover:bg-purple-500/35 active:scale-95 text-purple-300 hover:text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_14px_rgba(168,85,247,0.28)] shrink-0 group/sound-btn';
-    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound einschalten (Klick)', en: 'Turn sound on (Click)' }) : 'Sound einschalten';
+    btn.className = 'h-[38px] w-[38px] p-0 border border-white/10 hover:border-purple-400/40 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-gray-400 hover:text-white flex items-center justify-center cursor-pointer transition shrink-0 group/sound-btn';
+    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound aktivieren (Klick)', en: 'Turn sound on (Click)' }) : 'Sound aktivieren';
     if (iconWrapper) {
-      iconWrapper.innerHTML = '<i data-lucide="volume-x" class="w-[18px] h-[18px] text-purple-400 group-hover/sound-btn:text-purple-300 group-hover/sound-btn:scale-110 transition-transform"></i>';
-    }
-    if (eqBars) {
-      eqBars.classList.add('hidden');
-      eqBars.classList.remove('flex');
+      iconWrapper.innerHTML = '<i data-lucide="volume-x" class="w-[18px] h-[18px] text-gray-400 group-hover/sound-btn:text-purple-300 transition-colors"></i>';
     }
     if (label) label.textContent = '';
   }
@@ -1617,6 +1625,8 @@ function stopAllStudioAudio() {
   if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
   if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
   if (typeof pauseDjDeck === 'function') { pauseDjDeck('a'); pauseDjDeck('b'); }
+  const miniPlayer = document.getElementById('noodle-mini-audio-player');
+  if (miniPlayer) miniPlayer.classList.add('hidden');
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
   document.querySelectorAll('.mood-preset-card').forEach(btn => {
@@ -1819,6 +1829,9 @@ function updateSoundscapeUI() {
   if (dockSoundBadge) {
     if (isAudioActive) dockSoundBadge.classList.remove('hidden');
     else dockSoundBadge.classList.add('hidden');
+  }
+  if (!isAudioActive && typeof updateMiniAudioPlayer === 'function') {
+    updateMiniAudioPlayer({ isPlaying: false });
   }
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();

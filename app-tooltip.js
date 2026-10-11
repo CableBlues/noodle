@@ -35,8 +35,8 @@
         white-space: nowrap !important;
         line-height: 1.35 !important;
         opacity: 0;
-        transform: scale(0.96) translateY(2px);
-        transition: opacity 0.07s cubic-bezier(0.16, 1, 0.3, 1), transform 0.07s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        transform: scale(0.98);
+        transition: opacity 0.02s ease-out, transform 0.02s ease-out !important;
         will-change: transform, opacity;
       }
       .noodle-custom-tooltip.noodle-tooltip-visible {

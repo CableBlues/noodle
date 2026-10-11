@@ -148,12 +148,14 @@ function togglePanel(panelName) {
   const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab'];
   const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
 
-  // Andere Popover-Panels schließen
+  // Andere Popover-Panels schließen (gepinnte schwebende Fenster bleiben offen!)
   ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'social', 'radio-news', 'timer-presets', 'health', 'humor-lab'].forEach(p => {
     if (isSubpanelOfTools && p === 'header-tools') return;
     if (p !== panelName) {
       const other = document.getElementById(`panel-${p}`);
-      if (other) other.classList.add('hidden');
+      if (other && !other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
+        other.classList.add('hidden');
+      }
     }
   });
 
@@ -1011,20 +1013,25 @@ function updateMissedTasksList() {
 }
 
 async function exportReportAsImage() {
-  const target = document.getElementById('report-export-target');
+  const target = document.getElementById('report-export-target') || document.getElementById('dash-section-stats') || document.getElementById('panel-report');
   if (!target) return;
   
   if (typeof html2canvas === 'undefined') {
-    try {
-      await new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = 'vendor/html2canvas.min.js';
-        script.onload = resolve;
-        script.onerror = reject;
-        document.head.appendChild(script);
-      });
-    } catch (e) {
-      console.warn('[Reports] Failed to load html2canvas:', e);
+    const isTestEnv = typeof navigator !== 'undefined' && (/HappyDOM/i.test(navigator.userAgent || '') || typeof process !== 'undefined' && process.env && process.env.VITEST);
+    if (!isTestEnv && typeof window !== 'undefined' && window.location && (window.location.protocol === 'http:' || window.location.protocol === 'https:' || window.location.protocol === 'file:')) {
+      try {
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = 'vendor/html2canvas.min.js';
+          script.onload = resolve;
+          script.onerror = reject;
+          document.head.appendChild(script);
+        });
+      } catch (e) {
+        console.warn('[Reports] Failed to load html2canvas:', e);
+      }
+    }
+    if (typeof html2canvas === 'undefined') {
       if (typeof showToast === 'function') {
         showToast(tr({
           de: 'Bildexport aktuell nicht verfügbar.',
@@ -1046,7 +1053,7 @@ async function exportReportAsImage() {
     link.click();
     if (typeof showToast === 'function') showToast(tr({ de: "Statistik als Bild exportiert! 📸", en: "Statistics exported as image! 📸" }));
   }).catch(err => {
-    console.error("Export-Fehler:", err);
+    console.warn("Export-Fehler:", err);
     if (typeof showToast === 'function') showToast(tr({ de: "Export fehlgeschlagen.", en: "Export failed." }));
   });
 }

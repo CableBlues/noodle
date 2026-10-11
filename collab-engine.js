@@ -42,6 +42,17 @@ const CollabEngine = (function() {
     { bg: 'from-violet-600 to-fuchsia-600', text: '#e879f9', border: 'border-fuchsia-400/50' }
   ];
 
+  function generateSecureId(prefix = 'id') {
+    try {
+      if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+        const bytes = new Uint8Array(6);
+        crypto.getRandomValues(bytes);
+        return `${prefix}_${Date.now()}_${Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('')}`;
+      }
+    } catch (e) {}
+    return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+  }
+
   function getLocalUser() {
     if (localUser) return localUser;
 
@@ -52,7 +63,7 @@ const CollabEngine = (function() {
       const name = email.split('@')[0];
       const colorIdx = Math.abs(name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0)) % AVATAR_COLORS.length;
       localUser = {
-        id: (u && u.id) || `user_${Date.now()}`,
+        id: (u && u.id) || generateSecureId('user'),
         name: name.charAt(0).toUpperCase() + name.slice(1),
         email: email,
         avatar: name.slice(0, 2).toUpperCase(),
@@ -72,7 +83,7 @@ const CollabEngine = (function() {
       }
     } catch (e) {}
 
-    const randomId = 'guest_' + Math.random().toString(36).substring(2, 8);
+    const randomId = generateSecureId('guest');
     const names = ['Alex', 'Sam', 'Taylor', 'Jordan', 'Morgan', 'Casey', 'Robin', 'Charlie'];
     const randomName = names[Math.floor(Math.random() * names.length)];
     const colorIdx = Math.floor(Math.random() * AVATAR_COLORS.length);
@@ -467,7 +478,7 @@ const CollabEngine = (function() {
     };
 
     const newMsg = {
-      id: `dj_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+      id: generateSecureId('dj'),
       sender: user,
       isDjShare: true,
       track: trackInfo,
@@ -619,9 +630,9 @@ const CollabEngine = (function() {
       <div class="p-2 px-3 rounded-2xl bg-gradient-to-r from-cyan-950/80 via-purple-950/80 to-cyan-950/80 border border-cyan-500/40 shadow-lg flex items-center justify-between gap-2 text-xs">
         <div class="flex items-center gap-2 min-w-0">
           <div class="flex items-center gap-0.5">
-            <span class="w-1 h-3.5 bg-cyan-400 rounded-full animate-pulse"></span>
-            <span class="w-1 h-5 bg-purple-400 rounded-full animate-pulse delay-75"></span>
-            <span class="w-1 h-3 bg-pink-400 rounded-full animate-pulse delay-150"></span>
+            <span class="w-1 h-3.5 bg-cyan-400 rounded-full opacity-80"></span>
+            <span class="w-1 h-5 bg-purple-400 rounded-full opacity-90"></span>
+            <span class="w-1 h-3 bg-pink-400 rounded-full opacity-80"></span>
           </div>
           <div class="min-w-0">
             <div class="text-[10px] font-mono text-cyan-300 uppercase font-black truncate flex items-center gap-1">
@@ -825,7 +836,7 @@ const CollabEngine = (function() {
   function sendVoiceMessage(audioDataUrl, durationSecs) {
     const user = getLocalUser();
     const newMsg = {
-      id: `voice_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+      id: generateSecureId('voice'),
       sender: user,
       isVoice: true,
       audioUrl: audioDataUrl,
@@ -952,7 +963,7 @@ const CollabEngine = (function() {
     const user = getLocalUser();
 
     const newMsg = {
-      id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 4)}`,
+      id: generateSecureId('msg'),
       sender: user,
       text: cleanText,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),

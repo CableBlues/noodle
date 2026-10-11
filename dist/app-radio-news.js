@@ -302,7 +302,7 @@
       }
     },
     {
-      action: 'clean', icon: 'sparkles',
+      action: 'clean', icon: 'brush',
       actionTitle: { de: 'Clean-Coach', en: 'Clean Coach', es: 'Entrenador de limpieza', fr: 'Coach Rangement', it: 'Coach Riordino', el: 'Clean Coach' },
       text: {
         de: 'Strukturierte 10-Minuten-Aufräumsprints für frische Energie in deinem Raum.',
@@ -1321,16 +1321,31 @@
       audio.play().then(() => {
         isRadioPlaying = true;
         updateRadioUIState(true);
+        if (typeof updateMiniAudioPlayer === 'function') {
+          updateMiniAudioPlayer({
+            isPlaying: true,
+            title: `${station.flag || '📻'} ${station.name}`,
+            sub: 'Live Radio',
+            emoji: '📻',
+            source: 'radio'
+          });
+        }
         if (typeof showToast === 'function') {
           showToast(`📻 ${station.flag} ${station.name}`);
         }
       }).catch(() => {
         isRadioPlaying = false;
         updateRadioUIState(false);
+        if (typeof updateMiniAudioPlayer === 'function') {
+          updateMiniAudioPlayer({ isPlaying: false });
+        }
       });
     } catch (err) {
       isRadioPlaying = false;
       updateRadioUIState(false);
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({ isPlaying: false });
+      }
     }
     renderRadioPanelContent();
   }
@@ -1341,6 +1356,9 @@
       audio.pause();
       isRadioPlaying = false;
       updateRadioUIState(false);
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({ isPlaying: false });
+      }
     } else {
       try {
         if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
@@ -2707,6 +2725,15 @@
     };
 
     window.speechSynthesis.speak(utterance);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({
+        isPlaying: true,
+        title: item.title,
+        sub: `News Briefing (${currentSpeakingIndex + 1}/${items.length})`,
+        emoji: '📰',
+        source: 'tts'
+      });
+    }
     updateTtsReaderUI();
   }
 
@@ -2746,9 +2773,15 @@
     if (isTtsPaused) {
       window.speechSynthesis.resume();
       isTtsPaused = false;
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({ isPlaying: true });
+      }
     } else {
       window.speechSynthesis.pause();
       isTtsPaused = true;
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert' });
+      }
     }
     updateTtsReaderUI();
   }
@@ -2762,6 +2795,9 @@
     currentSpeakingIndex = -1;
     removeNewsHighlights();
     updateTtsReaderUI();
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false });
+    }
   }
 
   function nextNewsItem() {

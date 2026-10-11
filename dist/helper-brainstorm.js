@@ -582,14 +582,14 @@ function renderBrainstormUI() {
             <div class="group p-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 hover:border-teal-500/40 rounded-xl transition flex flex-col gap-1.5 shadow-xs text-xs">
               <div class="flex items-start justify-between gap-1">
                 <span class="text-gray-200 font-medium leading-relaxed select-text">${escapeHtml(item.text)}</span>
-                <button onclick="deleteBrainstormIdea('${item.id}')" class="opacity-0 group-hover:opacity-100 p-0.5 text-gray-500 hover:text-red-400 transition cursor-pointer shrink-0">
+                <button onclick="deleteBrainstormIdea('${escapeAttr(item.id)}')" class="opacity-0 group-hover:opacity-100 p-0.5 text-gray-500 hover:text-red-400 transition cursor-pointer shrink-0">
                   <i data-lucide="trash-2" class="w-3 h-3"></i>
                 </button>
               </div>
               <div class="flex items-center gap-1 pt-1 border-t border-white/5 flex-wrap">
-                <button onclick="transferIdeaToBoard('${item.id}', 'heute')" class="px-1.5 py-0.5 rounded bg-teal-500/15 hover:bg-teal-500/30 text-teal-300 text-[9px] font-bold transition cursor-pointer">Heute</button>
-                <button onclick="transferIdeaToBoard('${item.id}', 'morgen')" class="px-1.5 py-0.5 rounded bg-indigo-500/15 hover:bg-indigo-500/30 text-indigo-300 text-[9px] font-bold transition cursor-pointer">Demnächst</button>
-                <button onclick="expandIdeaToMicroSteps('${item.id}')" class="px-1.5 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-[9px] font-bold transition cursor-pointer">Steps ✨</button>
+                <button onclick="transferIdeaToBoard('${escapeAttr(item.id)}', 'heute')" class="px-1.5 py-0.5 rounded bg-teal-500/15 hover:bg-teal-500/30 text-teal-300 text-[9px] font-bold transition cursor-pointer">Heute</button>
+                <button onclick="transferIdeaToBoard('${escapeAttr(item.id)}', 'morgen')" class="px-1.5 py-0.5 rounded bg-indigo-500/15 hover:bg-indigo-500/30 text-indigo-300 text-[9px] font-bold transition cursor-pointer">Demnächst</button>
+                <button onclick="expandIdeaToMicroSteps('${escapeAttr(item.id)}')" class="px-1.5 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-[9px] font-bold transition cursor-pointer">Steps ✨</button>
               </div>
             </div>
           `).join('')}
@@ -618,14 +618,14 @@ function renderBrainstormUI() {
             <span>${tagConfig.icon}</span>
             <span>${tagLabel}</span>
           </span>
-          <button onclick="toggleStarIdea('${item.id}')" class="p-1 text-sm ${starClass} transition cursor-pointer" title="${tr({ de: 'Favorit umschalten', en: 'Toggle favorite' })}">
+          <button onclick="toggleStarIdea('${escapeAttr(item.id)}')" class="p-1 text-sm ${starClass} transition cursor-pointer" title="${tr({ de: 'Favorit umschalten', en: 'Toggle favorite' })}">
             ${starIcon}
           </button>
         </div>
         
         <!-- Action Buttons -->
         <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 transition">
-          <button onclick="deleteBrainstormIdea('${item.id}')" aria-label="${tr({ de: 'Idee löschen', en: 'Delete idea' })}" class="p-1 rounded-md text-gray-500 hover:text-red-400 hover:bg-white/10 transition cursor-pointer" title="${tr({ de: 'Idee löschen', en: 'Delete idea' })}">
+          <button onclick="deleteBrainstormIdea('${escapeAttr(item.id)}')" aria-label="${tr({ de: 'Idee löschen', en: 'Delete idea' })}" class="p-1 rounded-md text-gray-500 hover:text-red-400 hover:bg-white/10 transition cursor-pointer" title="${tr({ de: 'Idee löschen', en: 'Delete idea' })}">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
           </button>
         </div>
@@ -721,6 +721,7 @@ if (typeof window !== 'undefined') {
   window.setBrainstormViewMode = setBrainstormViewMode;
   window.copyBrainstormAsMindmap = copyBrainstormAsMindmap;
   window.exportBrainstormAsActionPlan = exportBrainstormAsActionPlan;
+  window.getBrainstormIdeas = function() { return brainstormIdeas; };
 
 }
 
@@ -752,5 +753,6 @@ if (typeof globalThis !== 'undefined') {
   globalThis.setBrainstormViewMode = setBrainstormViewMode;
   globalThis.copyBrainstormAsMindmap = copyBrainstormAsMindmap;
   globalThis.exportBrainstormAsActionPlan = exportBrainstormAsActionPlan;
+  globalThis.getBrainstormIdeas = function() { return brainstormIdeas; };
 
 }

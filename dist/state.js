@@ -752,6 +752,8 @@ window.cancelCloseHeaderWorkspaceDropdown = cancelCloseHeaderWorkspaceDropdown;
 
 function openHeaderWorkspaceDropdown() {
   cancelCloseHeaderWorkspaceDropdown();
+  const colDropdown = document.getElementById('dropdown-manage-columns');
+  if (colDropdown) colDropdown.classList.add('hidden');
   const el = document.getElementById('dropdown-header-workspace');
   if (el) {
     el.classList.remove('hidden');
@@ -760,28 +762,41 @@ function openHeaderWorkspaceDropdown() {
 }
 window.openHeaderWorkspaceDropdown = openHeaderWorkspaceDropdown;
 
-function closeHeaderWorkspaceDropdown() {
-  if (headerWsDropdownTimer) clearTimeout(headerWsDropdownTimer);
+function closeHeaderWorkspaceDropdown(force = false) {
+  if (headerWsDropdownTimer) {
+    clearTimeout(headerWsDropdownTimer);
+    headerWsDropdownTimer = null;
+  }
+  const el = document.getElementById('dropdown-header-workspace');
+  if (force) {
+    if (el) el.classList.add('hidden');
+    return;
+  }
   headerWsDropdownTimer = setTimeout(() => {
-    const el = document.getElementById('dropdown-header-workspace');
+    const elTarget = document.getElementById('dropdown-header-workspace');
     const btn = document.getElementById('header-workspace-wrapper');
     try {
-      if (el && el.matches(':hover')) return;
+      if (elTarget && elTarget.matches(':hover')) return;
       if (btn && btn.matches(':hover')) return;
     } catch (e) {}
-    if (el) el.classList.add('hidden');
+    if (elTarget) elTarget.classList.add('hidden');
   }, 260);
 }
 window.closeHeaderWorkspaceDropdown = closeHeaderWorkspaceDropdown;
 
 function toggleHeaderWorkspaceDropdown(event) {
-  if (event) event.stopPropagation();
+  if (event) {
+    event.stopPropagation();
+    if (event.preventDefault) event.preventDefault();
+  }
+  const colDropdown = document.getElementById('dropdown-manage-columns');
+  if (colDropdown) colDropdown.classList.add('hidden');
   const el = document.getElementById('dropdown-header-workspace');
   if (!el) return;
   if (el.classList.contains('hidden')) {
     openHeaderWorkspaceDropdown();
   } else {
-    el.classList.add('hidden');
+    closeHeaderWorkspaceDropdown(true);
   }
 }
 window.toggleHeaderWorkspaceDropdown = toggleHeaderWorkspaceDropdown;

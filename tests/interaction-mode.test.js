@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import '../app-interaction-mode.js';
 
-describe('Interaction Mode: Peek & Pin vs. Click-Only Dual Modality', () => {
+describe('Multi-Window Studio & Window Management Controls', () => {
   beforeEach(() => {
     localStorage.clear();
     document.body.className = '';
@@ -24,54 +24,63 @@ describe('Interaction Mode: Peek & Pin vs. Click-Only Dual Modality', () => {
         </div>
       </div>
     `;
-    window.pinnedPanel = null;
-    window.currentlyOpenPanel = null;
-    window.NoodleInteractionMode.setMode('peek-pin', false);
+    window.NoodleInteractionMode.setMode('multi-window', false);
   });
 
-  it('initializes in peek-pin mode by default on desktop', () => {
+  it('initializes in multi-window mode by default', () => {
     expect(window.NoodleInteractionMode).toBeDefined();
-    expect(window.NoodleInteractionMode.getMode()).toBe('peek-pin');
-    expect(document.body.classList.contains('mode-peek-pin')).toBe(true);
+    expect(window.NoodleInteractionMode.getMode()).toBe('multi-window');
   });
 
-  it('switches to click-only mode and persists in localStorage', () => {
-    window.NoodleInteractionMode.setMode('click-only', false);
-
-    expect(window.NoodleInteractionMode.getMode()).toBe('click-only');
-    expect(localStorage.getItem('noodle_interaction_mode')).toBe('click-only');
-    expect(document.body.classList.contains('mode-click-only')).toBe(true);
-    expect(document.body.classList.contains('mode-peek-pin')).toBe(false);
-  });
-
-  it('pins and unpins panel correctly with visual feedback', () => {
+  it('decorates panel with 3 window controls [—], [⛶], [✕]', () => {
     const panel = document.getElementById('panel-shopping');
+    window.NoodleInteractionMode.openWindow('shopping');
 
-    window.NoodleInteractionMode.pinPanel('shopping');
-    expect(window.pinnedPanel).toBe('shopping');
-    expect(panel.classList.contains('hidden')).toBe(false);
-    expect(panel.classList.contains('noodle-panel-pinned')).toBe(true);
+    const winControls = panel.querySelector('.noodle-win-controls');
+    expect(winControls).not.toBeNull();
 
-    // Decorate panel added pin button
-    const pinBtn = panel.querySelector('.noodle-pin-badge-btn');
-    expect(pinBtn).not.toBeNull();
-    expect(pinBtn.textContent).toContain('Fixiert');
+    const minBtn = winControls.querySelector('.noodle-win-min-btn');
+    const maxBtn = winControls.querySelector('.noodle-win-max-btn');
+    const closeBtn = winControls.querySelector('.noodle-win-close-btn');
 
-    // Unpin closes panel
-    window.NoodleInteractionMode.unpinPanel('shopping', true);
-    expect(window.pinnedPanel).toBeNull();
-    expect(panel.classList.contains('hidden')).toBe(true);
+    expect(minBtn).not.toBeNull();
+    expect(maxBtn).not.toBeNull();
+    expect(closeBtn).not.toBeNull();
   });
 
-  it('togglePin promotes peeking panel to pinned state', () => {
-    const panel = document.getElementById('panel-alarm');
-    panel.classList.remove('hidden');
-    panel.classList.add('noodle-panel-peeking');
-    window.pinnedPanel = null;
+  it('minimizes window to live pill and restores on click', () => {
+    const panel = document.getElementById('panel-shopping');
+    window.NoodleInteractionMode.openWindow('shopping');
+    expect(panel.classList.contains('hidden')).toBe(false);
 
-    window.NoodleInteractionMode.togglePin('alarm');
-    expect(window.pinnedPanel).toBe('alarm');
-    expect(panel.classList.contains('noodle-panel-pinned')).toBe(true);
-    expect(panel.classList.contains('noodle-panel-peeking')).toBe(false);
+    // Minimize window
+    window.NoodleInteractionMode.minimizeWindow('shopping');
+    expect(panel.classList.contains('hidden')).toBe(true);
+
+    const dock = document.getElementById('noodle-minimized-dock');
+    expect(dock).not.toBeNull();
+    const pill = dock.querySelector('[data-min-panel="shopping"]');
+    expect(pill).not.toBeNull();
+
+    // Restore window
+    window.NoodleInteractionMode.restoreWindow('shopping');
+    expect(panel.classList.contains('hidden')).toBe(false);
+    expect(dock.querySelector('[data-min-panel="shopping"]')).toBeNull();
+  });
+
+  it('supports multiple windows open in parallel', () => {
+    const shopPanel = document.getElementById('panel-shopping');
+    const alarmPanel = document.getElementById('panel-alarm');
+
+    window.NoodleInteractionMode.openWindow('shopping');
+    window.NoodleInteractionMode.openWindow('alarm');
+
+    expect(shopPanel.classList.contains('hidden')).toBe(false);
+    expect(alarmPanel.classList.contains('hidden')).toBe(false);
+
+    // Maximize one without closing the other
+    window.NoodleInteractionMode.toggleFullscreen('shopping');
+    expect(shopPanel.classList.contains('noodle-panel-fullscreen')).toBe(true);
+    expect(alarmPanel.classList.contains('hidden')).toBe(false);
   });
 });

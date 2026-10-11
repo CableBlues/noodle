@@ -46,7 +46,7 @@
       gender: 'all',
       intervalMonths: 6,
       officialBody: 'G-BA Richtlinie',
-      icon: 'sparkles',
+      icon: 'smile',
       color: 'sky'
     },
     {
@@ -455,7 +455,7 @@
                   <div class="min-w-0">
                     <div class="flex items-center gap-1.5">
                       <h4 class="font-bold text-white text-xs truncate">${c.title}</h4>
-                      <span class="px-1.5 py-0.2 rounded text-[8.5px] font-mono font-bold ${c.status === 'done' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : c.status === 'urgent' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40 animate-pulse' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}">
+                      <span class="px-1.5 py-0.2 rounded text-[8.5px] font-mono font-bold ${c.status === 'done' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : c.status === 'urgent' ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'}">
                         ${c.status === 'done' ? tr({de:'Erledigt ✓',en:'Done ✓',fr:'Fait ✓',it:'Fatto ✓',es:'Hecho ✓',el:'Ολοκληρώθηκε ✓'}) : c.status === 'urgent' ? tr({de:'Überfällig!',en:'Overdue!',fr:'En retard !',it:'Scaduto!',es:'¡Atrasado!',el:'Εκπρόθεσμο!'}) : tr({de:'Fällig',en:'Due',fr:'Dû',it:'In scadenza',es:'Pendiente',el:'Εκκρεμεί'})}
                       </span>
                     </div>

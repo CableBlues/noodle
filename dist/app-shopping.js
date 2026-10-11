@@ -228,34 +228,33 @@ window.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
 window.getDepartmentForItem = getDepartmentForItem;
 
 // -------------------------------------------------------------
-// TAB SWITCHER: [ LISTE ] vs [ DISCOUNTER-DEALS ]
+// TAB SWITCHER: [ LISTE ] vs [ DISCOUNTER-DEALS ] vs [ VORRATSKAMMER ]
 // -------------------------------------------------------------
 function switchShoppingTab(tabName) {
   activeShoppingTab = tabName;
   const listPane = document.getElementById('shopping-pane-list');
   const dealsPane = document.getElementById('shopping-pane-deals');
+  const pantryPane = document.getElementById('shopping-pane-pantry');
   const btnList = document.getElementById('shopping-tab-btn-list');
   const btnDeals = document.getElementById('shopping-tab-btn-deals');
+  const btnPantry = document.getElementById('shopping-tab-btn-pantry');
+
+  const activeBtnClass = 'flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition';
+  const inactiveBtnClass = 'flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
+
+  if (listPane) listPane.classList.toggle('hidden', tabName !== 'list');
+  if (dealsPane) dealsPane.classList.toggle('hidden', tabName !== 'deals');
+  if (pantryPane) pantryPane.classList.toggle('hidden', tabName !== 'pantry');
+
+  if (btnList) btnList.className = tabName === 'list' ? activeBtnClass : inactiveBtnClass;
+  if (btnDeals) btnDeals.className = tabName === 'deals' ? activeBtnClass : inactiveBtnClass;
+  if (btnPantry) btnPantry.className = tabName === 'pantry' ? activeBtnClass : inactiveBtnClass;
 
   if (tabName === 'deals') {
-    if (listPane) listPane.classList.add('hidden');
-    if (dealsPane) dealsPane.classList.remove('hidden');
-    if (btnList) {
-      btnList.className = 'flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
-    }
-    if (btnDeals) {
-      btnDeals.className = 'flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer';
-    }
     renderDiscounterDeals();
+  } else if (tabName === 'pantry') {
+    renderPantryTab();
   } else {
-    if (listPane) listPane.classList.remove('hidden');
-    if (dealsPane) dealsPane.classList.add('hidden');
-    if (btnList) {
-      btnList.className = 'flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer';
-    }
-    if (btnDeals) {
-      btnDeals.className = 'flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
-    }
     updateShoppingListPopup();
   }
   if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -327,6 +326,9 @@ function handleAddShoppingItem(explicitName = null, options = {}) {
   saveState();
   renderApp();
   renderSupermarketModal();
+
+  const activeInput = document.getElementById('shop-add-name') || document.getElementById('supermarket-add-input');
+  if (activeInput) activeInput.focus();
 
   if (itemsToAdd.length === 1) {
     showToast(tr({
@@ -1038,6 +1040,348 @@ function clearCompletedShopItems() {
   }
 }
 
+// -------------------------------------------------------------
+// VORRATSKAMMER (PANTRY & HALTBARKEIT) ENGINE
+// -------------------------------------------------------------
+
+function getPantryItems() {
+  if (!state.pantryItems || !Array.isArray(state.pantryItems)) {
+    if (state.cooking && Array.isArray(state.cooking.pantryItems)) {
+      state.pantryItems = state.cooking.pantryItems;
+    } else {
+      state.pantryItems = [];
+    }
+  }
+  return state.pantryItems;
+}
+
+function getPantryItemFreshness(item) {
+  if (!item.expiresAt) return { status: 'good', daysLeft: 99, label: 'Haltbar', badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' };
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const exp = new Date(item.expiresAt);
+  exp.setHours(0, 0, 0, 0);
+  const diffDays = Math.round((exp - now) / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0) {
+    return { status: 'expired', daysLeft: diffDays, label: `Abgelaufen (${Math.abs(diffDays)}T)`, badgeClass: 'bg-rose-500/25 text-rose-300 border-rose-500/40 animate-pulse' };
+  }
+  if (diffDays === 0) {
+    return { status: 'warning', daysLeft: 0, label: 'Heute verbrauchen!', badgeClass: 'bg-amber-500/25 text-amber-300 border-amber-500/40 animate-pulse' };
+  }
+  if (diffDays <= 3) {
+    return { status: 'warning', daysLeft: diffDays, label: `Noch ${diffDays} Tage`, badgeClass: 'bg-amber-500/20 text-amber-300 border-amber-500/30' };
+  }
+  return { status: 'good', daysLeft: diffDays, label: `Noch ${diffDays} Tage`, badgeClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' };
+}
+
+function handleAddPantryItem(explicitName = null, options = {}) {
+  let rawInput = explicitName;
+  if (!rawInput) {
+    const inp = document.getElementById('pantry-add-input');
+    rawInput = inp ? inp.value.trim() : '';
+    if (inp) inp.value = '';
+  }
+  if (!rawInput) return;
+
+  saveHistory();
+  const pantry = getPantryItems();
+  const itemsToAdd = rawInput.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+
+  itemsToAdd.forEach(text => {
+    let name = text;
+    let qty = (typeof options.qty === 'number') ? options.qty : 1;
+    let unit = options.unit || '';
+
+    const qtyMatch = text.match(/^(\d+)\s*(x|kg|g|l|ml|bund|stk|packung|dose|gläser|glas)?\s+(.+)$/i);
+    if (qtyMatch) {
+      if (typeof options.qty !== 'number') {
+        qty = parseInt(qtyMatch[1], 10) || 1;
+      }
+      if (!options.unit && qtyMatch[2]) {
+        unit = qtyMatch[2] || '';
+      }
+      name = qtyMatch[3].trim();
+    }
+
+    const dept = options.dept || getDepartmentForItem(name);
+    const expiryDays = options.expiryDays || 14;
+    const expiresAt = new Date(Date.now() + expiryDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+    const existing = pantry.find(p => p.name.toLowerCase() === name.toLowerCase());
+    if (existing) {
+      existing.qty = (existing.qty || 1) + qty;
+      if (unit) existing.unit = unit;
+      existing.expiresAt = expiresAt;
+    } else {
+      pantry.push({
+        id: 'pantry-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+        name,
+        qty,
+        unit,
+        dept,
+        expiresAt,
+        addedAt: new Date().toISOString().split('T')[0]
+      });
+    }
+  });
+
+  saveState();
+  renderApp();
+  renderPantryTab();
+  showToast(`📦 ${itemsToAdd.length} Artikel in Vorratskammer gelegt!`);
+}
+window.handleAddPantryItem = handleAddPantryItem;
+
+function handleDeletePantryItem(index) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  saveHistory();
+  const removed = pantry.splice(index, 1)[0];
+  saveState();
+  renderApp();
+  renderPantryTab();
+  showToast(`🗑️ "${removed.name}" aus Vorrat gelöscht.`);
+}
+window.handleDeletePantryItem = handleDeletePantryItem;
+
+function adjustPantryItemQty(index, delta) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  saveHistory();
+  const newQty = (pantry[index].qty || 1) + delta;
+  if (newQty <= 0) {
+    handleDeletePantryItem(index);
+    return;
+  }
+  pantry[index].qty = newQty;
+  saveState();
+  renderApp();
+  renderPantryTab();
+}
+window.adjustPantryItemQty = adjustPantryItemQty;
+
+function extendPantryExpiry(index, daysToAdd) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  saveHistory();
+  const currentExp = pantry[index].expiresAt ? new Date(pantry[index].expiresAt) : new Date();
+  const newDate = new Date(currentExp.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+  pantry[index].expiresAt = newDate.toISOString().split('T')[0];
+  saveState();
+  renderApp();
+  renderPantryTab();
+  showToast(`⏳ Haltbarkeit für "${pantry[index].name}" um +${daysToAdd} Tage verlängert.`);
+}
+window.extendPantryExpiry = extendPantryExpiry;
+
+function movePantryItemToShoppingList(index) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  const pItem = pantry[index];
+  handleAddShoppingItem(pItem.name, { qty: pItem.qty || 1, unit: pItem.unit || '', dept: pItem.dept });
+  showToast(`🛒 "${pItem.name}" auf Einkaufsliste gesetzt!`);
+}
+window.movePantryItemToShoppingList = movePantryItemToShoppingList;
+
+function moveBoughtItemToPantry(item, expiryDays = 7) {
+  if (!item || !item.name) return;
+  handleAddPantryItem(item.name, {
+    qty: item.qty || 1,
+    unit: item.unit || '',
+    dept: item.dept || getDepartmentForItem(item.name),
+    expiryDays: expiryDays
+  });
+}
+window.moveBoughtItemToPantry = moveBoughtItemToPantry;
+
+function renderPantryTab() {
+  const container = document.getElementById('pantry-items-container');
+  if (!container) return;
+
+  const pantry = getPantryItems();
+  if (pantry.length === 0) {
+    container.innerHTML = `
+      <div class="text-center py-6 text-gray-500 italic text-xs space-y-1">
+        <div class="text-2xl">📦</div>
+        <div>Deine Vorratskammer ist leer.</div>
+        <div class="text-[10px] text-gray-600">Trage Vorräte oben ein oder übernehme eingekaufte Artikel.</div>
+      </div>
+    `;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  // Gruppieren nach Abteilung / Gang
+  const grouped = {};
+  pantry.forEach((pItem, idx) => {
+    const dept = pItem.dept || getDepartmentForItem(pItem.name);
+    if (!grouped[dept]) grouped[dept] = [];
+    grouped[dept].push({ item: pItem, originalIdx: idx });
+  });
+
+  let html = '<div class="space-y-3 max-h-[300px] overflow-y-auto pr-1">';
+  const safeEscape = typeof escapeHtml === 'function' ? escapeHtml : (str) => String(str || '');
+
+  for (const deptKey in grouped) {
+    const deptInfo = SHOPPING_DEPARTMENTS[deptKey] || { icon: 'box', color: 'gray', title: { en: 'Other', de: 'Sonstiges' } };
+    const deptTitle = deptInfo.title[currentLang] || deptInfo.title.de || deptInfo.title.en || deptKey;
+
+    html += `
+      <div class="p-2 bg-black/40 border border-white/5 rounded-2xl space-y-1.5">
+        <div class="flex items-center gap-1.5 text-[10px] font-bold text-amber-300 uppercase tracking-wider px-1">
+          <i data-lucide="${deptInfo.icon}" class="w-3.5 h-3.5 text-${deptInfo.color}-400"></i>
+          <span>${deptTitle} (${grouped[deptKey].length})</span>
+        </div>
+    `;
+
+    grouped[deptKey].forEach(({ item, originalIdx }) => {
+      const freshness = getPantryItemFreshness(item);
+      const qtyStr = `${item.qty || 1}${item.unit ? ' ' + item.unit : 'x'}`;
+
+      html += `
+        <div class="p-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 rounded-xl flex items-center justify-between gap-2 transition group">
+          <div class="flex-1 min-w-0 space-y-0.5">
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-xs text-white truncate" title="${safeEscape(item.name)}">${safeEscape(item.name)}</span>
+              <span class="px-1.5 py-0.2 rounded border text-[9px] font-bold font-mono ${freshness.badgeClass}">
+                ${freshness.label}
+              </span>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] text-gray-400">
+              <span class="font-mono text-emerald-300 font-bold">${qtyStr}</span>
+              <button onclick="extendPantryExpiry(${originalIdx}, 7)" class="text-[9px] text-gray-500 hover:text-amber-300 cursor-pointer" title="Haltbarkeit um 7 Tage verlängern">+7T</button>
+              <button onclick="extendPantryExpiry(${originalIdx}, 30)" class="text-[9px] text-gray-500 hover:text-amber-300 cursor-pointer" title="Haltbarkeit um 30 Tage verlängern">+30T</button>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="adjustPantryItemQty(${originalIdx}, -1)" class="w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-xs flex items-center justify-center cursor-pointer font-bold">-</button>
+            <span class="text-[10px] font-mono text-white px-0.5">${item.qty || 1}</span>
+            <button onclick="adjustPantryItemQty(${originalIdx}, 1)" class="w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-xs flex items-center justify-center cursor-pointer font-bold">+</button>
+            
+            <button onclick="movePantryItemToShoppingList(${originalIdx})" class="p-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-lg text-[9px] font-bold flex items-center gap-0.5 cursor-pointer ml-1" title="Wieder auf Einkaufszettel setzen">
+              <i data-lucide="shopping-cart" class="w-3 h-3"></i>
+            </button>
+            <button onclick="handleDeletePantryItem(${originalIdx})" class="p-1 text-gray-500 hover:text-rose-400 rounded transition cursor-pointer">
+              <i data-lucide="trash-2" class="w-3 h-3"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+window.renderPantryTab = renderPantryTab;
+
+// -------------------------------------------------------------
+// SHOPPING LIST UTILITIES (CALCULATOR, SHARE & RECIPE IMPORT)
+// -------------------------------------------------------------
+
+function calculateShoppingListTotal() {
+  const list = state.shoppingList || [];
+  let total = 0;
+  let hasPriceCount = 0;
+
+  list.forEach(item => {
+    const qty = item.qty || 1;
+    if (item.dealInfo && typeof item.dealInfo.price === 'number') {
+      total += item.dealInfo.price * qty;
+      hasPriceCount++;
+    } else {
+      const bestDeal = findBestDealForShoppingItem(item.name);
+      if (bestDeal && bestDeal.deal && typeof bestDeal.deal.price === 'number') {
+        total += bestDeal.deal.price * qty;
+        hasPriceCount++;
+      }
+    }
+  });
+
+  return {
+    totalFormatted: total.toFixed(2) + ' €',
+    totalNum: total,
+    itemCount: list.length,
+    hasPrices: hasPriceCount > 0
+  };
+}
+window.calculateShoppingListTotal = calculateShoppingListTotal;
+
+function formatShoppingListForShare() {
+  const list = state.shoppingList || [];
+  if (list.length === 0) return '';
+  const aisleOrder = ['produce', 'dairy', 'bakery', 'meat', 'pantry', 'drinks', 'household', 'other'];
+  const grouped = {};
+  list.forEach(item => {
+    const dept = item.dept || getDepartmentForItem(item.name);
+    if (!grouped[dept]) grouped[dept] = [];
+    grouped[dept].push(item);
+  });
+
+  const lines = ['🛒 Noodle Einkaufszettel\n'];
+  aisleOrder.forEach(deptKey => {
+    if (grouped[deptKey] && grouped[deptKey].length > 0) {
+      const deptInfo = SHOPPING_DEPARTMENTS[deptKey] || { title: { de: 'Sonstiges', en: 'Other' } };
+      const title = deptInfo.title[currentLang] || deptInfo.title.de || deptInfo.title.en || deptKey;
+      lines.push(`\n📍 ${title}:`);
+      grouped[deptKey].forEach(item => {
+        const qty = (item.qty && item.qty > 1) ? `${item.qty}${item.unit ? ' ' + item.unit : 'x'} ` : '';
+        const deal = item.dealInfo ? ` (${item.dealInfo.price.toFixed(2)}€ bei ${item.dealInfo.storeName || item.dealInfo.store})` : '';
+        lines.push(`  • ${qty}${item.name}${deal}`);
+      });
+    }
+  });
+
+  const calc = calculateShoppingListTotal();
+  if (calc.hasPrices) {
+    lines.push(`\n💰 Geschätzter Sparpreis: ~${calc.totalFormatted}`);
+  }
+
+  return lines.join('\n');
+}
+window.formatShoppingListForShare = formatShoppingListForShare;
+
+function copyShoppingListToClipboard() {
+  const text = formatShoppingListForShare();
+  if (!text) {
+    showToast(tr({ de: "Einkaufsliste ist leer!", en: "Shopping list is empty!" }));
+    return;
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast("📋 Einkaufszettel kopiert (bereit für WhatsApp / Notizen)!");
+    }).catch(() => {
+      fallbackCopyText(text);
+    });
+  } else {
+    fallbackCopyText(text);
+  }
+}
+window.copyShoppingListToClipboard = copyShoppingListToClipboard;
+
+function fallbackCopyText(text) {
+  const t = document.createElement('textarea');
+  t.value = text;
+  document.body.appendChild(t);
+  t.select();
+  try {
+    document.execCommand('copy');
+    showToast("📋 Einkaufszettel kopiert!");
+  } catch(e) {}
+  document.body.removeChild(t);
+}
+
+function importRecipeIngredientsToShoppingList(recipeName, ingredients) {
+  if (!Array.isArray(ingredients) || ingredients.length === 0) return;
+  addIngredientsToShoppingList(ingredients, recipeName);
+}
+window.importRecipeIngredientsToShoppingList = importRecipeIngredientsToShoppingList;
+
 // Fetch live deals on initialization
 if (typeof window !== 'undefined') {
   setTimeout(fetchLiveDiscounterDeals, 500);
@@ -1058,6 +1402,7 @@ if (typeof window !== 'undefined') {
   window.clearCompletedShopItems = clearCompletedShopItems;
   window.clearShoppingHistory = clearShoppingHistory;
   window.addIngredientsToShoppingList = addIngredientsToShoppingList;
+  window.importRecipeIngredientsToShoppingList = importRecipeIngredientsToShoppingList;
   window.openSupermarketModal = openSupermarketModal;
   window.closeSupermarketModal = closeSupermarketModal;
   window.openShoppingModal = openShoppingModal;
@@ -1066,10 +1411,23 @@ if (typeof window !== 'undefined') {
   window.switchShoppingTab = switchShoppingTab;
   window.renderDiscounterDeals = renderDiscounterDeals;
   window.filterDiscounterDeals = filterDiscounterDeals;
+  window.searchDiscounterDeals = searchDiscounterDeals;
   window.findBestDealForShoppingItem = findBestDealForShoppingItem;
   window.getShoppingListRadarMatches = getShoppingListRadarMatches;
   window.addDealToShoppingList = addDealToShoppingList;
   window.applyDealToShoppingItem = applyDealToShoppingItem;
+  window.getPantryItems = getPantryItems;
+  window.getPantryItemFreshness = getPantryItemFreshness;
+  window.handleAddPantryItem = handleAddPantryItem;
+  window.handleDeletePantryItem = handleDeletePantryItem;
+  window.adjustPantryItemQty = adjustPantryItemQty;
+  window.extendPantryExpiry = extendPantryExpiry;
+  window.movePantryItemToShoppingList = movePantryItemToShoppingList;
+  window.moveBoughtItemToPantry = moveBoughtItemToPantry;
+  window.renderPantryTab = renderPantryTab;
+  window.calculateShoppingListTotal = calculateShoppingListTotal;
+  window.formatShoppingListForShare = formatShoppingListForShare;
+  window.copyShoppingListToClipboard = copyShoppingListToClipboard;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
@@ -1086,6 +1444,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.clearCompletedShopItems = clearCompletedShopItems;
   globalThis.clearShoppingHistory = clearShoppingHistory;
   globalThis.addIngredientsToShoppingList = addIngredientsToShoppingList;
+  globalThis.importRecipeIngredientsToShoppingList = importRecipeIngredientsToShoppingList;
   globalThis.openSupermarketModal = openSupermarketModal;
   globalThis.closeSupermarketModal = closeSupermarketModal;
   globalThis.openShoppingModal = openShoppingModal;
@@ -1099,4 +1458,16 @@ if (typeof globalThis !== 'undefined') {
   globalThis.getShoppingListRadarMatches = getShoppingListRadarMatches;
   globalThis.addDealToShoppingList = addDealToShoppingList;
   globalThis.applyDealToShoppingItem = applyDealToShoppingItem;
+  globalThis.getPantryItems = getPantryItems;
+  globalThis.getPantryItemFreshness = getPantryItemFreshness;
+  globalThis.handleAddPantryItem = handleAddPantryItem;
+  globalThis.handleDeletePantryItem = handleDeletePantryItem;
+  globalThis.adjustPantryItemQty = adjustPantryItemQty;
+  globalThis.extendPantryExpiry = extendPantryExpiry;
+  globalThis.movePantryItemToShoppingList = movePantryItemToShoppingList;
+  globalThis.moveBoughtItemToPantry = moveBoughtItemToPantry;
+  globalThis.renderPantryTab = renderPantryTab;
+  globalThis.calculateShoppingListTotal = calculateShoppingListTotal;
+  globalThis.formatShoppingListForShare = formatShoppingListForShare;
+  globalThis.copyShoppingListToClipboard = copyShoppingListToClipboard;
 }

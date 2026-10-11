@@ -439,6 +439,10 @@ const cloudSyncEngine = {
       if (typeof FlowAuth !== 'undefined' && FlowAuth.getSupabaseClient) {
         const supa = FlowAuth.getSupabaseClient();
         const user = FlowAuth.getUser();
+        if (user && user.isTokenOnly) {
+          this.updateSyncUI('synced');
+          return { skipped: true, tokenOnly: true };
+        }
         if (supa && user && user.id && !user.isTokenOnly) {
           const { error } = await supa.from('flow_sync').upsert({
             user_id: user.id,
@@ -771,16 +775,17 @@ async function handleEmailAuth(forcedMode = null) {
     return;
   }
 
-  if (!password || password.length < 4) {
+  const minPassLen = mode === 'register' ? 8 : 1;
+  if (!password || password.length < minPassLen) {
     if (errorMsg) {
       errorMsg.innerText = typeof tr === 'function' ? tr({
-        de: 'Das Passwort muss mindestens 4 Zeichen lang sein.',
-        en: 'Password must be at least 4 characters long.',
-        es: 'La contraseña debe tener al menos 4 caracteres.',
-        el: 'Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον 4 χαρακτήρες.',
-        fr: 'Le mot de passe doit comporter au moins 4 caractères.',
-        it: 'La password deve contenere almeno 4 caratteri.'
-      }) : 'Das Passwort muss mindestens 4 Zeichen lang sein.';
+        de: mode === 'register' ? 'Das Passwort muss mindestens 8 Zeichen lang sein.' : 'Bitte gib dein Passwort ein.',
+        en: mode === 'register' ? 'Password must be at least 8 characters long.' : 'Please enter your password.',
+        es: mode === 'register' ? 'La contraseña debe tener al menos 8 caracteres.' : 'Por favor, introduce tu contraseña.',
+        el: mode === 'register' ? 'Ο κωδικός πρόσβασης πρέπει να έχει τουλάχιστον 8 χαρακτήρες.' : 'Παρακαλώ εισάγετε τον κωδικό πρόσβασής σας.',
+        fr: mode === 'register' ? 'Le mot de passe doit comporter au moins 8 caractères.' : 'Veuillez saisir votre mot de passe.',
+        it: mode === 'register' ? 'La password deve contenere almeno 8 caratteri.' : 'Inserisci la tua password.'
+      }) : (mode === 'register' ? 'Das Passwort muss mindestens 8 Zeichen lang sein.' : 'Bitte gib dein Passwort ein.');
       errorMsg.classList.remove('hidden');
     }
     return;

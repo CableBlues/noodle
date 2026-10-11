@@ -203,7 +203,7 @@ function updateUrgeDisplay() {
     const cycle = (90 - clarityUrgeSecondsLeft) % 12;
     if (cycle < 4) {
       breathEl.innerText = tr({ en: '💨 Inhale softly through the nose (4s)...', de: '💨 Sanft durch die Nase einatmen (4s)...', fr: '💨 Inspire doucement par le nez (4s)...', it: '💨 Inspira dolcemente dal naso (4s)...', es: '💨 Inhala suave por la nariz (4s)...', el: '💨 Εισπνεύστε απαλά (4δ)...' });
-      breathEl.className = 'text-xs font-bold text-teal-300 transition-colors animate-pulse';
+      breathEl.className = 'text-xs font-bold text-teal-300 transition-colors';
     } else if (cycle < 6) {
       breathEl.innerText = tr({ en: '⏸️ Hold gently & relax the jaw (2s)...', de: '⏸️ Sanft halten & Kiefer lockern (2s)...', fr: '⏸️ Maintiens doucement & relâche (2s)...', it: '⏸️ Trattieni & rilassa il viso (2s)...', es: '⏸️ Mantén y relaja la mandíbula (2s)...', el: '⏸️ Κράτημα & χαλάρωση (2δ)...' });
       breathEl.className = 'text-xs font-bold text-cyan-300 transition-colors';
@@ -224,7 +224,18 @@ function onUrgeSurfingComplete() {
     es: '🌱 ¡Superado con éxito! La ola ha pasado. Le diste espacio y claridad a tu mente.',
     el: '🌱 Εξαιρετικά! Το κύμα πέρασε. Χάρισες ηρεμία και διαύγεια στον εαυτό σου.'
   });
-  if (phraseEl) phraseEl.innerText = winMsg;
+  if (phraseEl) {
+    phraseEl.innerHTML = `
+      <div class="space-y-2 text-center">
+        <p class="text-xs text-teal-200 font-medium">${winMsg}</p>
+        <div class="pt-2 flex justify-center">
+          <button onclick="if(typeof startClarityMicroFocus === 'function') startClarityMicroFocus(10);" class="px-4 py-2 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black font-black text-xs rounded-2xl shadow-xl transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+            <span>🚀 Jetzt mit 10m Micro-Focus starten</span>
+          </button>
+        </div>
+      </div>
+    `;
+  }
   if (typeof playCheerfulSuccessJingle === 'function') playCheerfulSuccessJingle();
   if (typeof triggerCelebration === 'function') triggerCelebration();
   if (typeof addGamificationXP === 'function') addGamificationXP(50, 'Klarheits-Welle');
@@ -297,7 +308,7 @@ const HALT_DATA = {
     }
   },
   dopamine: {
-    icon: 'sparkles',
+    icon: 'zap',
     color: 'teal',
     title: { de: 'Reiz-Hunger & Rastlosigkeit', en: 'Restlessness & Novelty Craving' },
     insight: {

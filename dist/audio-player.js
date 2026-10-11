@@ -629,9 +629,21 @@ function playMusicTrack(index) {
     updateMusicNowPlayingDisplay();
     renderMusicPlaylist();
     startAudioVisualizerLoop();
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({
+        isPlaying: true,
+        title: track.name || track.fullName || 'Track',
+        sub: 'Musik & Medien',
+        emoji: isVideo ? '🎬' : '🎶',
+        source: 'music'
+      });
+    }
   }).catch(err => {
     console.warn('[AudioPlayer] Playback attempt error:', err);
     updateMusicPlayBtnUI(false);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false });
+    }
   });
 }
 window.playMusicTrack = playMusicTrack;
@@ -647,11 +659,24 @@ function toggleMusicPlayback() {
     activeUserAudio.play().then(() => {
       updateMusicPlayBtnUI(true);
       renderMusicPlaylist();
+      const currentTrack = playlistTracks[currentTrackIndex];
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({
+          isPlaying: true,
+          title: currentTrack ? (currentTrack.name || currentTrack.fullName) : 'Musik',
+          sub: 'Musik & Medien',
+          emoji: '🎶',
+          source: 'music'
+        });
+      }
     }).catch(e => console.warn(e));
   } else {
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
     renderMusicPlaylist();
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert' });
+    }
   }
 }
 window.toggleMusicPlayback = toggleMusicPlayback;
@@ -1346,11 +1371,23 @@ function toggleDjDeckPlayback(deckId) {
     deck.audio.play().then(() => {
       deck.isPlaying = true;
       updateDjPlayBtnUI(deckId, true);
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({
+          isPlaying: true,
+          title: (deck.track ? (deck.track.name || deck.track.title) : 'Deck ' + deckId.toUpperCase()),
+          sub: `Noodle DJ (${deck.bpm} BPM)`,
+          emoji: '🎧',
+          source: 'dj'
+        });
+      }
     }).catch(e => console.warn(e));
   } else {
     deck.audio.pause();
     deck.isPlaying = false;
     updateDjPlayBtnUI(deckId, false);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false, sub: 'DJ Pausiert' });
+    }
   }
 }
 window.toggleDjDeckPlayback = toggleDjDeckPlayback;
@@ -1746,6 +1783,10 @@ if (typeof globalThis !== 'undefined') {
 
 function updateDjVuMeters() {
   if (typeof document === 'undefined') return;
+  if ((!djDecks.a || !djDecks.a.isPlaying) && (!djDecks.b || !djDecks.b.isPlaying)) return;
+  const djPanel = document.getElementById('panel-audio');
+  if (!djPanel || djPanel.classList.contains('hidden')) return;
+
   const vuA = document.getElementById('dj-vu-meter-a');
   const vuB = document.getElementById('dj-vu-meter-b');
   
@@ -1764,5 +1805,191 @@ function updateDjVuMeters() {
   }
 }
 if (typeof window !== 'undefined') {
-  setInterval(updateDjVuMeters, 100);
+  setInterval(updateDjVuMeters, 250);
 }
+
+// ============================================================================
+// NOODLE PERSISTENT MINI AUDIO PLAYER ENGINE (BOTTOM-LEFT)
+// ============================================================================
+var currentActiveAudioSource = null; // 'ambient' | 'dj' | 'music' | 'radio' | 'tts' | null
+var isMiniPlayerPlaying = false;
+var miniPlayerCurrentInfo = {
+  title: 'Ambient Sound',
+  sub: 'Aktiv',
+  emoji: '🎵',
+  source: null
+};
+
+function getNoodleSoundDisplayName(type) {
+  const names = {
+    piano: 'Sanftes Piano',
+    lofi: 'Lofi Chords',
+    jazz_piano: 'Jazz Voicings',
+    rhodes: 'Fender Rhodes',
+    guitar: 'Akustik-Gitarre',
+    hypnotic_riff: 'Hypnotic Riff',
+    singingbowl: 'Klangschale',
+    chimes: 'Windspiel',
+    musicbox: 'Spieluhr',
+    campfire: 'Kaminfeuer',
+    birds: 'Waldvögel',
+    breeze: 'Blättersäuseln',
+    cafe: 'Cozy Café',
+    clock: 'Pendeluhr',
+    space: 'Cosmic Ambient',
+    techno: 'Techno 128',
+    dnb: 'Drum & Bass',
+    afrobeats: 'Afrobeats',
+    swing: 'Swing & Jazz',
+    boombap: 'Boom-Bap',
+    bossa_nova: 'Bossa Nova'
+  };
+  return names[type] || type || 'Ambient Sound';
+}
+window.getNoodleSoundDisplayName = getNoodleSoundDisplayName;
+
+function updateMiniAudioPlayer(info) {
+  if (typeof document === 'undefined') return;
+  const playerEl = document.getElementById('noodle-mini-audio-player');
+  if (!playerEl) return;
+
+  if (!info || !info.isPlaying) {
+    // Check if any audio is still active anywhere
+    const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
+    const isBeat = typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying);
+    const isDj = (djDecks.a && djDecks.a.isPlaying) || (djDecks.b && djDecks.b.isPlaying);
+    const isMusic = typeof isMusicPlaying !== 'undefined' && Boolean(isMusicPlaying);
+    const isRadio = typeof window !== 'undefined' && Boolean(window.isRadioPlaying);
+    const isTts = typeof RadioNewsEngine !== 'undefined' && Boolean(RadioNewsEngine.isReading);
+
+    if (!isAmbient && !isBeat && !isDj && !isMusic && !isRadio && !isTts) {
+      playerEl.classList.add('hidden');
+      isMiniPlayerPlaying = false;
+      currentActiveAudioSource = null;
+      return;
+    }
+  }
+
+  if (info) {
+    if (info.title) miniPlayerCurrentInfo.title = info.title;
+    if (info.sub) miniPlayerCurrentInfo.sub = info.sub;
+    if (info.emoji) miniPlayerCurrentInfo.emoji = info.emoji;
+    if (info.source) {
+      miniPlayerCurrentInfo.source = info.source;
+      currentActiveAudioSource = info.source;
+    }
+    isMiniPlayerPlaying = info.isPlaying !== undefined ? Boolean(info.isPlaying) : true;
+  }
+
+  // Update UI Elements
+  playerEl.classList.remove('hidden');
+  const titleEl = document.getElementById('mini-player-track-title');
+  const subEl = document.getElementById('mini-player-track-sub');
+  const emojiEl = document.getElementById('mini-player-source-emoji');
+  const playBtn = document.getElementById('mini-player-playpause-btn');
+  const eqAnim = document.getElementById('mini-player-eq-anim');
+
+  if (titleEl && miniPlayerCurrentInfo.title) titleEl.textContent = miniPlayerCurrentInfo.title;
+  if (subEl && miniPlayerCurrentInfo.sub) subEl.textContent = miniPlayerCurrentInfo.sub;
+  if (emojiEl && miniPlayerCurrentInfo.emoji) emojiEl.textContent = miniPlayerCurrentInfo.emoji;
+
+  if (playBtn) {
+    playBtn.innerHTML = isMiniPlayerPlaying 
+      ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' 
+      : '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+  }
+
+  if (eqAnim) {
+    if (isMiniPlayerPlaying) eqAnim.classList.remove('opacity-30');
+    else eqAnim.classList.add('opacity-30');
+  }
+}
+window.updateMiniAudioPlayer = updateMiniAudioPlayer;
+
+function toggleMiniPlayerPlayback() {
+  if (!currentActiveAudioSource) {
+    if (typeof playAmbientSound === 'function') {
+      playAmbientSound(window.lastSelectedSound || 'piano');
+    }
+    return;
+  }
+
+  if (currentActiveAudioSource === 'ambient') {
+    if (typeof currentSoundType !== 'undefined' && currentSoundType) {
+      const savedType = currentSoundType;
+      window._pausedAmbientSound = savedType;
+      if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+      updateMiniAudioPlayer({ isPlaying: false, title: getNoodleSoundDisplayName(savedType), sub: 'Pausiert', emoji: '⏸️' });
+    } else if (window._pausedAmbientSound) {
+      playAmbientSound(window._pausedAmbientSound);
+    }
+  } else if (currentActiveAudioSource === 'radio') {
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function') {
+      RadioNewsEngine.toggleRadioPlayback();
+    }
+  } else if (currentActiveAudioSource === 'dj') {
+    if (djDecks.a && djDecks.a.audio) toggleDjDeckPlayback('a');
+    else if (djDecks.b && djDecks.b.audio) toggleDjDeckPlayback('b');
+  } else if (currentActiveAudioSource === 'music') {
+    if (typeof toggleMusicPlayback === 'function') toggleMusicPlayback();
+  } else if (currentActiveAudioSource === 'tts') {
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleNewsReaderPause === 'function') {
+      RadioNewsEngine.toggleNewsReaderPause();
+    }
+  }
+}
+window.toggleMiniPlayerPlayback = toggleMiniPlayerPlayback;
+
+function stopAllMiniPlayerAudio() {
+  if (typeof stopAllSounds === 'function') stopAllSounds();
+  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+  if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+  if (typeof RadioNewsEngine !== 'undefined') {
+    if (typeof RadioNewsEngine.stopRadioPlayback === 'function') RadioNewsEngine.stopRadioPlayback();
+    if (typeof RadioNewsEngine.stopNewsReader === 'function') RadioNewsEngine.stopNewsReader();
+  }
+  const playerEl = document.getElementById('noodle-mini-audio-player');
+  if (playerEl) playerEl.classList.add('hidden');
+  isMiniPlayerPlaying = false;
+  currentActiveAudioSource = null;
+  if (typeof showToast === 'function') {
+    showToast(typeof tr === 'function' ? tr({ de: 'Audio beendet ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio beendet ⏹️');
+  }
+}
+window.stopAllMiniPlayerAudio = stopAllMiniPlayerAudio;
+
+function toggleDjProMode() {
+  const proElements = document.querySelectorAll('.dj-pro-only');
+  const btn = document.getElementById('dj-pro-mode-toggle-btn');
+  const isHidden = proElements.length > 0 && proElements[0].classList.contains('hidden');
+  proElements.forEach(el => {
+    if (isHidden) {
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+    }
+  });
+  if (btn) {
+    btn.innerHTML = isHidden 
+      ? '<span>🎛️ Pro Mixer: An</span>' 
+      : '<span>🎛️ Pro Mixer & FX</span>';
+  }
+}
+window.toggleDjProMode = toggleDjProMode;
+
+function handleMiniPlayerVolume(val) {
+  const vol = parseFloat(val);
+  if (typeof handleStudioMasterVolume === 'function') {
+    handleStudioMasterVolume(vol);
+  }
+  if (typeof soundMasterVolume !== 'undefined') {
+    soundMasterVolume = vol;
+  }
+  if (typeof setMusicPlayerVolume === 'function') {
+    setMusicPlayerVolume(vol);
+  }
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.setRadioVolume === 'function') {
+    RadioNewsEngine.setRadioVolume(vol);
+  }
+}
+window.handleMiniPlayerVolume = handleMiniPlayerVolume;

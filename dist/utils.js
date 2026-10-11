@@ -24,13 +24,27 @@ function sanitizeUrl(url, fallback = '#') {
   return fallback;
 }
 
+function sanitizeIdentifier(id, fallbackPrefix = 'item') {
+  if (id === null || id === undefined) return `${fallbackPrefix}_${Date.now()}`;
+  const clean = String(id).replace(/[^a-zA-Z0-9_\-\:]/g, '_');
+  return clean || `${fallbackPrefix}_${Date.now()}`;
+}
+
+function escapeAttr(str) {
+  return escapeHtml(str);
+}
+
 if (typeof window !== 'undefined') {
   window.escapeHtml = escapeHtml;
+  window.escapeAttr = escapeAttr;
   window.sanitizeUrl = sanitizeUrl;
+  window.sanitizeIdentifier = sanitizeIdentifier;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.escapeHtml = escapeHtml;
+  globalThis.escapeAttr = escapeAttr;
   globalThis.sanitizeUrl = sanitizeUrl;
+  globalThis.sanitizeIdentifier = sanitizeIdentifier;
 }
 
 // Zentraler Panel-Manager (für Dropdowns & Werkzeug-Panels)
@@ -189,6 +203,10 @@ if (typeof document !== 'undefined') {
     if (e.key === 'Escape') {
       PanelManager.closeAll();
       ModalManager.closeAll();
+      const wsEl = document.getElementById('dropdown-header-workspace');
+      if (wsEl) wsEl.classList.add('hidden');
+      const colsEl = document.getElementById('dropdown-manage-columns');
+      if (colsEl) colsEl.classList.add('hidden');
     }
   });
 }
@@ -197,6 +215,9 @@ const _lucideSvgCache = new Map();
 
 function getLucideSvg(name, classNames = '', extraAttrs = '') {
   if (!name) return '';
+  if (name === 'sparkles' || name === 'star' || name === 'star-half' || name === 'asterisk') {
+    name = 'lightbulb';
+  }
   const cacheKey = `${name}:::${classNames}:::${extraAttrs}`;
   if (_lucideSvgCache.has(cacheKey)) return _lucideSvgCache.get(cacheKey);
 
@@ -230,8 +251,20 @@ function doRenderLucideIcons(root = null) {
             try {
               if (targetRoot !== document) {
                 const nodes = targetRoot.querySelectorAll('[data-lucide]');
+                nodes.forEach(n => {
+                  const iconAttr = n.getAttribute('data-lucide');
+                  if (iconAttr === 'sparkles' || iconAttr === 'star' || iconAttr === 'star-half' || iconAttr === 'asterisk') {
+                    n.setAttribute('data-lucide', 'lightbulb');
+                  }
+                });
                 if (nodes.length > 0) lucide.createIcons({ root: targetRoot });
               } else {
+                document.querySelectorAll('[data-lucide]').forEach(n => {
+                  const iconAttr = n.getAttribute('data-lucide');
+                  if (iconAttr === 'sparkles' || iconAttr === 'star' || iconAttr === 'star-half' || iconAttr === 'asterisk') {
+                    n.setAttribute('data-lucide', 'lightbulb');
+                  }
+                });
                 lucide.createIcons();
               }
             } catch(e) {}
@@ -247,8 +280,12 @@ function doRenderLucideIcons(root = null) {
     
     let needsFullLucide = false;
     iconNodes.forEach(node => {
-      const name = node.getAttribute('data-lucide');
+      let name = node.getAttribute('data-lucide');
       if (!name) return;
+      if (name === 'sparkles' || name === 'star' || name === 'star-half' || name === 'asterisk') {
+        name = 'lightbulb';
+        node.setAttribute('data-lucide', 'lightbulb');
+      }
       if (typeof lucide !== 'undefined' && lucide.icons && lucide.icons[name]) {
         try {
           const svgStr = getLucideSvg(name, node.className || '');
@@ -574,8 +611,8 @@ function setLogoAnimationMode(modeIndexOrName) {
   const targetMode = NOODLE_LOGO_MODES[_currentLogoModeIdx];
   container.classList.add(targetMode.id);
   container.setAttribute('data-logo-mode', targetMode.id);
-  container.setAttribute('title', 'Onboarding & Feedback');
-  container.setAttribute('data-noodle-tooltip', 'Onboarding & Feedback');
+  container.setAttribute('title', 'Noodle Tools & Suite');
+  container.setAttribute('data-noodle-tooltip', 'Noodle Tools & Suite');
 
   // Tab-Favicon synchron mitbewegen
   if (typeof animateFavicon === 'function') {

@@ -71,12 +71,12 @@
     },
     {
       q: {
-        de: "Was ist das ADHS-Motto beim Aufräumen?",
-        en: "What is the ADHD motto when tidying up?",
-        fr: "Quelle est la devise TDAH pour ranger ?",
-        it: "Qual è il motto ADHD per riordinare?",
-        es: "¿Cuál es el lema del TDAH al ordenar?",
-        el: "Ποιο είναι το μότο της ΔΕΠΥ στο συμμάζεμα;"
+        de: "Was ist das kreative Multitasking-Motto beim Aufräumen?",
+        en: "What is the creative multitasking motto when tidying up?",
+        fr: "Quelle est la devise du multitâche créatif pour ranger ?",
+        it: "Qual è il motto del multitasking per riordinare?",
+        es: "¿Cuál es el lema del multitasking creativo al ordenar?",
+        el: "Ποιο είναι το μότο του δημιουργικού multitasking στο συμμάζεμα;"
       },
       a: {
         de: "Ich bringe nur kurz dieses Buch ins Regal... und 4 Stunden später habe ich Origami gelernt.",
@@ -2541,9 +2541,9 @@
   function isIdleEnabled() {
     try {
       const stored = localStorage.getItem('noodle_idle_fx_enabled');
-      return stored !== 'false';
+      return stored === 'true'; // Opt-in: Standardmäßig deaktiviert, um Reizüberflutung zu verhindern
     } catch(e) {
-      return true;
+      return false;
     }
   }
 
@@ -2747,7 +2747,7 @@
               <span class="text-base group-hover:scale-110 transition-transform">📼</span>
               <span class="text-[10px] font-bold truncate mt-0.5">VHS Band</span>
             </button>
-            <button onclick="HumorEngine.toggleNervousTwitch()" class="p-1.5 rounded-xl bg-yellow-600/15 hover:bg-yellow-600/30 border border-yellow-500/30 text-xs font-bold text-yellow-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Koffein-Schock: ADHS-Zappel-Panik">
+            <button onclick="HumorEngine.toggleNervousTwitch()" class="p-1.5 rounded-xl bg-yellow-600/15 hover:bg-yellow-600/30 border border-yellow-500/30 text-xs font-bold text-yellow-200 hover:text-white transition flex flex-col items-center justify-center text-center cursor-pointer active:scale-95 shadow-xs group" title="Koffein-Schock: Hyper-Energie & Shake">
               <span class="text-base group-hover:scale-110 transition-transform">⚡</span>
               <span class="text-[10px] font-bold truncate mt-0.5">Hyper-Twitch</span>
             </button>
@@ -3015,7 +3015,7 @@
         </div>
         <div class="flex items-center gap-1">
           <button onclick="HumorEngine.panicReset()" class="px-2 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-[10px] font-bold transition cursor-pointer" title="Notfall-Reset: Alle Effekte sofort beenden">
-            ${tr({ de: "🛡️ Panic Reset [ESC]", en: "🛡️ Panic Reset [ESC]", fr: "🛡️ Reset Panique [Échap]", it: "🛡️ Reset Panico [ESC]", es: "🛡️ Reinicio Pánico [ESC]", el: "🛡️ Επαναφορά Πανικού [ESC]" })}
+            ${tr({ de: "🛡️ Notfall-Reset", en: "🛡️ Panic Reset", fr: "🛡️ Reset Panique", it: "🛡️ Reset Panico", es: "🛡️ Reinicio Pánico", el: "🛡️ Επαναφορά Πανικού" })}
           </button>
           <button onclick="togglePanel('humor-lab')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
         </div>

@@ -729,8 +729,8 @@ const WORKOUT_PRESETS = {
   },
   full_body_power_15: {
     id: 'full_body_power_15',
-    icon: 'sparkles',
-    title: { de: '🌟 Ganzkörper Power-Zirkel (15 Min)', en: '🌟 Full Body Power Circuit (15 Min)', fr: '🌟 Circuit Corps Entier Power (15 Min)', es: '🌟 Circuito Completo de Fuerza (15 Min)', it: '🌟 Circuito Total Body Power (15 Min)', el: '🌟 Ολοκληρωμένο Κυκλικό (15 Min)' },
+    icon: 'flame',
+    title: { de: '🔥 Ganzkörper Power-Zirkel (15 Min)', en: '🔥 Full Body Power Circuit (15 Min)', fr: '🔥 Circuit Corps Entier Power (15 Min)', es: '🔥 Circuito Completo de Fuerza (15 Min)', it: '🔥 Circuito Total Body Power (15 Min)', el: '🔥 Ολοκληρωμένο Κυκλικό (15 Min)' },
     subtitle: { de: 'Kompletter Zirkel für Kraft, Ausdauer & Haltung', en: 'Complete circuit for strength, endurance & posture', fr: 'Circuit complet force, endurance et posture', es: 'Circuito completo de fuerza y resistencia', it: 'Circuito completo per forza e postura', el: 'Πλήρης κύκλος δύναμης και αντοχής' },
     durationMin: 15,
     exerciseIds: ['low_impact_step_jack', 'quiet_squat', 'wall_incline_pushups', 'dead_bug', 'reverse_lunges', 'prone_y_t_w', 'shadow_boxing_flow', 'glute_bridge', 'plank_hold', 'standing_calf_raise', 'doorframe_chest_stretch', 'good_mornings'],
@@ -797,17 +797,25 @@ const SPORT_EXERCISES = {
 // =========================================================================
 // MODAL CONTROLS & NAVIGATION
 // =========================================================================
-function openSportModal(initialTab = 'presets') {
+function openSportModal(initialTab = 'spoons') {
   const modal = document.getElementById('helper-sport-modal');
   if (modal) {
     modal.classList.remove('hidden');
     switchSportTab(initialTab);
-    renderWorkoutPresets();
-    renderCustomWorkoutSelector();
-    renderExerciseLibrary();
-    renderMovementHistoryUI();
     updateMovementStatsBadge();
-    generateSportSuggestion();
+    if (initialTab === 'spoons') {
+      generateSportSuggestion();
+    } else if (initialTab === 'presets') {
+      renderWorkoutPresets();
+    }
+    // Nachgelagert im Hintergrund initialisieren für sofortige Klickreaktion
+    setTimeout(() => {
+      if (initialTab !== 'presets') renderWorkoutPresets();
+      renderCustomWorkoutSelector();
+      renderExerciseLibrary();
+      renderMovementHistoryUI();
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }, 50);
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 }
