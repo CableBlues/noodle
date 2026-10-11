@@ -1,15 +1,11 @@
 /**
- * app-installation-hub.js
- * Cross-Platform Local App Installation, Setup Wizard & Offline Cockpit for Noodle Studio
- * ======================================================================================
- * Unterstützt:
- *  - Windows (🪟 PWA, Edge/Chrome App-Modus, Desktop-Launcher, Autostart-Guide)
- *  - Android (🤖 PWA 1-Click Install, Vollbild ohne Adressleiste, Offline-Ready)
- *  - macOS (🍎 Safari Dock-App, Chrome/Brave Launchpad & Spotlight-Integration)
- *  - Linux (🐧 PWA, .desktop-Launcher für GNOME/KDE/XFCE/Wayland)
- *  - iOS / iPadOS (📱 Safari "Zum Home-Bildschirm")
- *  - Setup-Wizard: Routinen-Auswahl, Sync-Kopplung, Themes, Sound, Offline-Tresor
- *  - Portable Offline-Standalone-Paket Download (100% offline ohne Internet)
+ * @file app-installation-hub.js
+ * @module InstallationHub
+ * @description
+ * Plattformübergreifender PWA-Installationsassistent & Offline-Cockpit:
+ * - Automatische Betriebssystem- und Browser-Erkennung (Windows, macOS, Linux, Android, iOS/iPadOS)
+ * - Native `beforeinstallprompt`-Integration für 1-Klick-PWA-Installation
+ * - Interaktiver Setup-Assistent für Routinen, Sync-Kopplung, Themes und lokalen Backup-Tresor
  */
 
 (function () {

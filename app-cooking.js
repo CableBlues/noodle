@@ -1,6 +1,11 @@
-// ============================================================================
-// NOODLE COOKING HUB & SMART RECIPE ASSISTANT
-// ============================================================================
+/**
+ * @file app-cooking.js
+ * @module CookingStudio
+ * @description
+ * Rezept-Verwaltung, Vorratskammer-Abgleich (`pantryItems`) und interaktiver
+ * Schritt-für-Schritt-Kochmodus. Ermöglicht das direkte Übertragen fehlender
+ * Zutaten auf die Einkaufsliste (`app-shopping.js`).
+ */
 
 const DEFAULT_CURATED_RECIPES = [
   {

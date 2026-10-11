@@ -1,5 +1,11 @@
-// helper-clarity.js: Intelligenter, mitfühlender Begleiter für Klarheit, Impulskontrolle & Selbstregulation
-// 100% Clientseitig, diskret, wissenschaftlich fundiert & tief menschlich aufgebaut.
+/**
+ * @file helper-clarity.js
+ * @module ClarityAndImpulseControl
+ * @description
+ * Modul zur Impulskontrolle, Selbstregulation und Reflexion (`#clarity-modal`).
+ * Bietet einen interaktiven 90-Sekunden-Urge-Surfing-Timer, Streak-Tracking,
+ * persönliche Motivationsgründe sowie ein lokal gespeichertes Reflexions-Journal.
+ */
 
 let clarityUrgeInterval = null;
 let clarityUrgeSecondsLeft = 90;

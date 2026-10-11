@@ -1,4 +1,11 @@
-// helper-core.js Teil 2/2: Eigene Schritte / Teilschritt-Zerlegung & Dopamin-Kick-Logik
+/**
+ * @file helper-core-2.js
+ * @module ExecutiveTaskBreakdown
+ * @description
+ * Verwaltet die Schritt-für-Schritt-Zerlegung (Micro-Steps) einzelner Aufgaben,
+ * benutzerdefinierte Teilschritte (`state.customSteps`) und die Fortschrittsanzeige
+ * innerhalb des Aufgaben-Assistenten.
+ */
 function getTaskStepsList(taskName) {
   if (!taskName) return [];
   if (state.customSteps && state.customSteps[taskName] && state.customSteps[taskName].length > 0) {

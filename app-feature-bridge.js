@@ -1,18 +1,12 @@
 /**
- * ============================================================================
- * NOODLE FEATURE BRIDGE & CROSS-TOOL INTEGRATION HUB (app-feature-bridge.js)
- * ============================================================================
- * Tiefgreifende Verknüpfung und Interlink-Pipeline aller Kern-Werkzeuge:
- * 1. Smart Action Badges & Task Tool Links (Timer, Rezepte, Einkaufsliste, Soundscapes, etc.)
- * 2. Universal Inline @-Mention & Tag Parser
- * 3. Kontextmenü-Erweiterung: "🔗 Tool verknüpfen..."
- * 4. 1-Klick Cross-Pipeline Bridges:
- *    - Koch-Studio ➔ Einkaufsliste & Kanban-Board
- *    - OCR Scanner ➔ Aufgaben, Einkaufsliste, Flashcards & Brainstorming
- *    - Brainstorming ➔ Aufgaben & Micro-Steps
- *    - Clarity & Atemübung ➔ Direkter Micro-Focus Arbeitsstart
- *    - Lernkarten / Flashcards ➔ Pomodoro Study Sprint
- * ============================================================================
+ * @file app-feature-bridge.js
+ * @module FeatureBridge
+ * @description
+ * Modulübergreifende Integrations-Pipeline & Smart-Action-Verknüpfung:
+ * - Smart Action Badges & Aufgaben-Tool-Links (Timer, Rezepte, Einkaufsliste, Soundscapes)
+ * - Universeller Inline-Parser für `@`-Mentions und kontextsensitive Schlagworte
+ * - Kontextmenü-Integration zur direkten Werkzeugverknüpfung an Aufgabenkarten
+ * - 1-Klick-Pipelines zwischen Koch-Studio, OCR-Scanner, Brainstorming, Lernkarten und Kanban-Board
  */
 
 (function(global) {

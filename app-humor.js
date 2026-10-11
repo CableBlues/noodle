@@ -1,5 +1,11 @@
-// app-humor.js - Noodle Humor Lab, Chaos FX Studio & Customizable Radical Idle Screensaver
-// 100% Client-Side, Web Audio Synthesizer, Radical App-Breaking FX, Ambient Screensavers
+/**
+ * @file app-humor.js
+ * @module HumorAndScreensaverLab
+ * @description
+ * Interaktives Pausen- und Auflockerungsmodul („Humor Lab"):
+ * Enthält Witze, prozedurale WebAudio-Soundeffekte, digitale Luftpolsterfolie,
+ * visuelle Canvas-Effekte sowie einen optionalen Idle-Bildschirmschoner.
+ */
 
 (function() {
   'use strict';

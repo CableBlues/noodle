@@ -1,4 +1,11 @@
-// ============================================================================
+/**
+ * @file audio-player.js
+ * @module AudioPlayerAndDjStudio
+ * @description
+ * Integrierter Musik-Player für lokale Audiodateien (`music/manifest.json`) sowie
+ * Dual-Deck-DJ-Mixer (Deck A & Deck B) mit 3-Band-EQ, Pitch/BPM-Anpassung,
+ * Hot-Cues, Beat-Looping, Crossfader und Mini-Audio-Player-Koordination.
+ */
 
 var djDecks = {
   a: {

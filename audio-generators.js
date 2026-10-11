@@ -1,4 +1,11 @@
-// audio-generators.js: Startet die sanften Klangerzeuger & Melodie-Generatoren je nach Sound-Typ
+/**
+ * @file audio-generators.js
+ * @module AudioGenerators
+ * @description
+ * Dispatcher und Synthese-Initialisierung für prozedurale Fokus-Klangwelten.
+ * Startet je nach gewähltem Klangtyp (`type`) die zugehörigen Oszillator-,
+ * Rauschfilter- und Melodie-Scheduler auf dem zentralen WebAudio-Bus.
+ */
 
 function startAmbientGeneratorForType(type) {
   if (!audioCtx) return;

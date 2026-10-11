@@ -1,13 +1,12 @@
 /**
- * ============================================================================
- * Noodle - Speicherabstraktion & Resilienz-Vault (storage.js)
- * ============================================================================
- * Stellt eine ausfallsichere Speicherschicht (`AppStorage`) bereit:
- * - Schneller synchroner Zugriff via localStorage
- * - Automatischer asynchroner IndexedDB-Sicherheitsspiegel (`IDB_VAULT`)
- * - Robuster Schutz gegen Safari/iOS Storage-Eviction
- * - Sichere JSON-Serialisierung mit Fallback-Garantie
- * ============================================================================
+ * @file storage.js
+ * @module StorageAbstraction
+ * @description
+ * Dual-Storage Resilienz-Vault (`AppStorage`):
+ * - Synchroner Primärzugriff über `localStorage` für verzögerungsfreies UI-Rendering
+ * - Asynchroner IndexedDB-Sicherheitsspiegel (`IDB_VAULT`) gegen Browser-Storage-Eviction (z. B. Safari ITP)
+ * - Automatische Wiederherstellung (`hydrateFromVault`) beim App-Start
+ * - Sichere JSON-Serialisierung und Quota-Überwachung
  */
 
 // 1. IndexedDB Vault (Asynchroner Sicherheitsspiegel gegen Safari/Mobile Eviction)
@@ -214,27 +213,23 @@ const AppStorage = {
     }
   },
 
-  // Resilienz-Prüfung bei App-Start: Stellt Daten wieder her, falls Safari/Android localStorage geleert hat oder Daten beschädigt sind
+  // Resilienz-Prüfung bei App-Start: Stellt Daten still im Hintergrund wieder her, falls Browser-Storage (z. B. Safari ITP) geleert wurde
   async initResilience() {
     try {
       if (typeof localStorage === 'undefined') return false;
       let hasValidData = false;
+      const primaryKey = (typeof window !== 'undefined' && window.STORE_KEY) || 'flowPlannerV3';
+      const rawPrimary = localStorage.getItem(primaryKey);
       const rawV3 = localStorage.getItem('flow_state_v3');
       const rawV2 = localStorage.getItem('flow_items_v2');
 
-      if (rawV3) {
+      const candidateRaw = rawPrimary || rawV3 || rawV2;
+      if (candidateRaw) {
         try {
-          const parsed = JSON.parse(rawV3);
-          if (parsed && typeof parsed === 'object' && (parsed.items || parsed.done || parsed.workItems)) {
+          const parsed = JSON.parse(candidateRaw);
+          if (parsed && typeof parsed === 'object') {
             hasValidData = true;
           }
-        } catch (parseErr) {
-          hasValidData = false;
-        }
-      } else if (rawV2) {
-        try {
-          const parsed = JSON.parse(rawV2);
-          if (parsed && typeof parsed === 'object') hasValidData = true;
         } catch (parseErr) {
           hasValidData = false;
         }
@@ -243,7 +238,7 @@ const AppStorage = {
       if (!hasValidData) {
         const idbKeys = await IDB_VAULT.getAllKeys();
         if (idbKeys && idbKeys.length > 0) {
-          console.log('[AppStorage] LocalStorage war leer oder beschädigt – stelle aus IndexedDB Vault wieder her...');
+          let restoredPrimary = false;
           for (const key of idbKeys) {
             const val = await IDB_VAULT.get(key);
             if (val !== null && val !== undefined) {
@@ -252,10 +247,15 @@ const AppStorage = {
               } else {
                 localStorage.setItem(key, JSON.stringify(val));
               }
+              if (key === primaryKey || key === 'flow_state_v3') {
+                restoredPrimary = true;
+              }
             }
           }
-          if (typeof window !== 'undefined' && typeof window.showToast === 'function') {
-            window.showToast('Daten erfolgreich aus sicherem Speicher wiederhergestellt! 🛡️');
+          if (restoredPrimary && typeof loadState === 'function' && typeof renderApp === 'function') {
+            state = loadState();
+            if (typeof window !== 'undefined') window.state = state;
+            renderApp();
           }
           return true;
         }

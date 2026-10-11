@@ -1,4 +1,10 @@
-// data-tasks-steps-2.js: Hochwertige, professionelle & verständliche Schritt-für-Schritt-Anleitungen (Teil 2: Haushalt & Reinigung)
+/**
+ * @file data-tasks-steps-2.js
+ * @module DataTaskStepsHousehold
+ * @description
+ * Mehrsprachige Schritt-für-Schritt-Anleitungen (Micro-Steps) für Haushalts-,
+ * Ordnungs- und Reinigungsaufgaben (`DE`, `EN`, `ES`, `EL`, `FR`, `IT`).
+ */
 const TASK_STEPS_DATABASE_PART2 = {
   'Aufräumen': {
     de: [

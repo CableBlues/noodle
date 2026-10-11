@@ -1,3 +1,12 @@
+/**
+ * @file data-tasks.js
+ * @module DataDefaultTasks
+ * @description
+ * Zentrale Speicherschlüssel (`STORE_KEY`, `HISTORY_KEY`), mehrsprachige
+ * Standardaufgaben (`DEFAULT_TASKS_BY_LANG`) sowie Zusammenführung der
+ * Teilschritt-Datenbanken (`TASK_STEPS_DATABASE`).
+ */
+
 // CONFIGURATION KEYS FOR LOCALSTORAGE
 var STORE_KEY = (typeof window !== 'undefined' && window.STORE_KEY) || 'flowPlannerV3';
 var HISTORY_KEY = (typeof window !== 'undefined' && window.HISTORY_KEY) || 'flowPlannerV3History';

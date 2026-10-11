@@ -1,5 +1,11 @@
-// app-social.js: High-End Social Media Hub, Creator Lounge & Visual Card Studio for Noodle Studio
-// 100% Client-Side, Zero Tracking, GDPR/DSGVO compliant, Canvas-powered Social Graphic Generator & Multi-Platform Companion
+/**
+ * @file app-social.js
+ * @module SocialCreatorHub
+ * @description
+ * Social-Media-Begleitmodul und visueller Share-Card-Generator (HTML5 Canvas).
+ * Ermöglicht das Erstellen und Exportieren von Fortschritts- oder Zitatgrafiken
+ * sowie das Verwalten von Entwürfen für gängige Plattformen ohne Drittanbieter-SDKs.
+ */
 
 (function() {
   'use strict';

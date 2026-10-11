@@ -1,6 +1,9 @@
-/* ==========================================================================
-   NOODLE SUITE · HEADER TOOLS HUB & POPOVERS
-   ========================================================================== */
+/**
+ * @file styles-dock.css
+ * @description
+ * Layout-, Positionierungs- und Scrollbar-Regeln für das Header-Tools-Menü
+ * (`#panel-header-tools`) und dessen seitlich aufklappende Popover-Panels.
+ */
 
 #panel-header-tools {
   max-height: calc(100vh - 60px);

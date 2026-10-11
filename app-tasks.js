@@ -1,15 +1,14 @@
 
 /**
- * ============================================================================
- * Noodle - Aufgaben- & Board-Management (app-tasks.js)
- * ============================================================================
- * Dieses Modul steuert die Kernlogik des Kanban-Boards:
- * - Rendering der Spalten und Aufgabenkarten (Personal & Work Workspace)
+ * @file app-tasks.js
+ * @module KanbanBoardController
+ * @description
+ * Kernlogik und Rendering-Engine des Kanban-Boards:
+ * - Reaktives Rendering der Spalten und Aufgabenkarten (Personal & Work Workspace)
  * - Aufgaben-Lebenszyklus: Erstellen, Inline-Editieren, Abhaken, Löschen & Wiederherstellen
- * - Drag & Drop Sortierung (Spalten und Karten)
- * - Kontextmenü für Fokus-Timer, Task-Steps und Farbmarkierungen
- * - Mobile Touch-Navigation & Kalender-Terminverwaltung
- * ============================================================================
+ * - Drag & Drop Sortierung für Spalten und Aufgabenkarten (Desktop & Touch)
+ * - Kontextmenü für Fokus-Timer, Micro-Steps und visuelle Priorisierung
+ * - Integrierte Kalender-Terminverwaltung und Erinnerungs-Trigger
  */
 
 let inlineEditingTaskInfo = null;

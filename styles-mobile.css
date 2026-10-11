@@ -1,8 +1,9 @@
-/* ==========================================================================
-   MOBILE DESIGN SYSTEM (5-Tab Ergonomie-Architektur & Native App Experience)
-   Gilt AUSSCHLIESSLICH auf Mobilgeräten (max-width: 768px / Touch).
-   Desktop-PCs (> 768px) bleiben zu 100% unberührt.
-   ========================================================================== */
+/**
+ * @file styles-mobile.css
+ * @description
+ * Responsive Layout- und Touch-Regeln für Smartphones und kompakte Viewports (`max-width: 768px`).
+ * Steuert die 5-Tab-Bottom-Navigation, Bottom-Sheet-Modals und verhindert iOS-Auto-Zooming.
+ */
 
 /* Auf Desktop standardmäßig ausblenden */
 #mobile-bottom-nav,

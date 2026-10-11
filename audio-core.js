@@ -1,7 +1,13 @@
 
-// =========================================================================
-// MULTI-TRACK AMBIENT MIXER & BINAURAL FOCUS FREQUENCIES ENGINE
-// =========================================================================
+/**
+ * @file audio-core.js
+ * @module AudioCore
+ * @description
+ * WebAudio-DSP-Kernmodul für den Mehrspur-Ambient-Mixer und die Erzeugung
+ * binauraler Fokus-Frequenzen (Alpha, Theta, Gamma).
+ * Verwaltet den globalen `AudioContext`, das Master-Gain-Routing, Rauschpuffer
+ * (Weiß/Rosa/Braun) sowie kombinierbare Klang-Presets (`SOUND_MIX_PRESETS`).
+ */
 
 var activeAmbientLayers = {}; // [type]: { source, gainNode, filter, volume }
 var activeBinauralBeat = null; // 'alpha', 'theta', 'gamma', or null

@@ -1,4 +1,11 @@
-// helper-cleaning.js: Interaktiver Wohnungs-Reset & Level-Putz-Guide für Noodle
+/**
+ * @file helper-cleaning.js
+ * @module CleaningCoach
+ * @description
+ * Geführter Aufräum- und Reinigungs-Assistent mit abgestuften Zeitprogrammen
+ * (15-Minuten-Blitz-Reset, 30-Minuten-Standard, 60-Minuten-Deep-Clean),
+ * interaktiver Checkliste und integrierter Timer-Steuerung.
+ */
 
 const CLEANING_LEVELS_DATA = {
   express: {

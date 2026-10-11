@@ -1,5 +1,14 @@
-// collab-engine.js - Real-time Team Collaboration, Live DJ Music Hub, WebRTC Voice & Shared Dashboard Suite
-// ========================================================================================================
+/**
+ * @file collab-engine.js
+ * @module CollabEngine
+ * @description
+ * Echtzeit-Kollaborationsmodul für geteilte Team-Workspaces (`shared`).
+ *
+ * Unterstützt:
+ * - Gemeinsame Aufgaben-Boards über Supabase Realtime und lokale BroadcastChannels
+ * - Präsenz-Anzeige aktiver Teammitglieder und Echtzeit-Chat
+ * - Synchronisierte Live-DJ-Sessions und WebRTC-basierte Sprachräume (Mesh-Topologie)
+ */
 
 const CollabEngine = (function() {
   let activeRoom = 'team-space';

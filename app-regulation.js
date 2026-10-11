@@ -1,7 +1,11 @@
 /**
- * NOODLE SUITE - PSYCHOLOGICAL REGULATION & INNER PEACE STUDIO (app-regulation.js)
- * Evidence-based psychological & somatic tools for acute anxiety, panic, overwhelm & nervous system regulation.
- * Rooted in Polyvagal Theory, Somatic Experiencing, DBT (TIPP), EMDR (Bilateral Pacing), and ACT (Cognitive Defusion).
+ * @file app-regulation.js
+ * @module RegulationStudio
+ * @description
+ * Evidenzbasierte Werkzeuge zur Stress-, Angst- und Nervensystem-Regulation:
+ * - Geführte Atem-Pacer (Physiologischer Seufzer, Box-Breathing, 4-7-8, Kohärenz-Atmung)
+ * - Sensorisches 5-4-3-2-1 Grounding und bilaterale Stimulation (EMDR-Pacing)
+ * - Somatische Übungen, kognitive Defusion (ACT) und beruhigende WebAudio-Frequenzgeneratoren
  */
 
 (function() {

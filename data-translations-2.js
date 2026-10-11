@@ -1,4 +1,9 @@
-// data-translations-2.js: Complete translations for Italian, Spanish and Greek
+/**
+ * @file data-translations-2.js
+ * @module DataTranslationsPart2
+ * @description
+ * Vollständige UI-Lokalisierungswörterbücher für Italienisch (`it`), Spanisch (`es`) und Griechisch (`el`).
+ */
 const TRANSLATIONS_PART2 = {
   "it": {
     "add": "Aggiungi attività",

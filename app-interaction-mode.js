@@ -1,15 +1,12 @@
 /**
- * app-interaction-mode.js
- * Windows-Grade Multi-Window Studio & Smart Glances Engine
- * =====================================================================
- * - Vollständiges, einheitliches Fenster-Management für ALLE Tools, Menüs & Modals:
- *   [ — ] Minimieren in Taskleiste (mit Live-Thumbnail-Hover)
- *   [ ⛶ / 🗗 ] Maximieren / Wiederherstellen (auch per Header-Doppelklick)
- *   [ ✕ ] Schließen
- * - Dynamischer DOM-Observer: Verhindert doppelte / fehlende Buttons nach Tab-Wechseln.
- * - Paralleles Multitasking: Beliebig viele Tools laufen gleichzeitig nebeneinander.
- * - Windows-Taskleiste am unteren Bildschirmrand mit Live-Glance-Previews.
- * - Intelligente Hovers auf allen Header- & Menü-Icons beibehalten.
+ * @file app-interaction-mode.js
+ * @module WindowManager
+ * @description
+ * Multi-Window Studio & Smart-Glance Fenstermanagement:
+ * - Einheitliche Fenstersteuerung (Minimieren, Maximieren/Wiederherstellen, Schließen) für alle Modals & Tools
+ * - Dynamischer `MutationObserver` für konsistente Fenster-Header über Tab-Wechsel hinweg
+ * - Paralleles Multitasking mit frei positionierbaren Tool-Fenstern
+ * - Taskleiste am unteren Bildschirmrand mit Live-Glance-Vorschau
  */
 
 (function () {

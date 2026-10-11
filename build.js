@@ -1,3 +1,12 @@
+/**
+ * @file build.js
+ * @description
+ * Produktions-Build-Skript für Noodle Studio (`npm run build`).
+ * Generiert das lokale Musik-Manifest, kopiert statische Assets nach `dist/`,
+ * konkateniert alle Anwendungsmodule in deterministischer Reihenfolge zu
+ * `dist/app.bundle.js` und aktualisiert den Service Worker (`dist/sw.js`).
+ */
+
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';

@@ -1,4 +1,10 @@
-// Ausgelagert aus helper-core.js: Datensammlungen fuer den 'Was nun?'-Helfer
+/**
+ * @file helper-core-data.js
+ * @module ExecutiveHelperData
+ * @description
+ * Statische Vorlagen und prozedurale Aufgaben-Zerlegungsmuster (`PROCEDURAL_BREAKDOWNS`)
+ * für den „Was nun?"-Entscheidungsassistenten und das Energie-Budget-System (Spoon-Theorie).
+ */
 const DEFAULT_SPOON_OPTIONS = [
   { name: "Arbeit / Job-Sitzung 🖥️", cost: 3 },
   { name: "Haushalt / Saugen / Kochen 🧹", cost: 2 },

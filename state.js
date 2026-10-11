@@ -1,14 +1,13 @@
 /**
- * ============================================================================
- * Noodle - State Management & Datenpersistenz (state.js)
- * ============================================================================
- * Verwaltet den gesamten reaktiven Zustand der Applikation:
- * - Aufgaben-Listen (Personal & Work Workspace)
- * - Erledigte Aufgaben, Archiv & Wiederherstellung
- * - Historie & Undo-Stack (bis zu 20 Schritte)
- * - Schema-Versionierung & automatische Migrationen
- * - Fallback-Trimming bei QuotaExceeded-Fehlern
- * ============================================================================
+ * @file state.js
+ * @module StateManager
+ * @description
+ * Zentrales State-Management & Datenpersistenz:
+ * - Reaktive Aufgaben-Listen für getrennte Workspaces (Personal & Work)
+ * - Erledigte Aufgaben, Archiv, Tombstone-Tracking & Wiederherstellung
+ * - Transaktionaler History- & Undo-Stack (bis zu 20 Snapshots)
+ * - Schema-Versionierung, Daten-Sanitizing & automatische Migrationen
+ * - Automatische Speicherbereinigung bei `QuotaExceededError`
  */
 
 // Grundlegende Konfiguration & globale State-Deklarationen

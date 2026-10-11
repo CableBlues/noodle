@@ -1,4 +1,11 @@
-// timer.js Teil 3/3: Timer-Start/Stop/Pause & UI-Updates
+/**
+ * @file timer-3.js
+ * @module FocusTimerController
+ * @description
+ * Haupt-Steuerlogik des Fokus-Timers (`startTimer`, `pauseTimer`, `stopTimer`, `resetTimer`),
+ * Verknüpfung mit offenen Aufgaben des Kanban-Boards sowie Synchronisation
+ * der Header- und Popover-Anzeigen.
+ */
 var timerHasTriggeredZero = false;
 
 function isTimerSoundActive() {

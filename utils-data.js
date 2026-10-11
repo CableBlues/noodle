@@ -1,4 +1,11 @@
-// Ausgelagert aus utils.js: TIERED_PRAISES Lobtexte-Datenbank
+/**
+ * @file utils-data.js
+ * @module UtilsData
+ * @description
+ * Mehrsprachige Textdatenbank (`TIERED_PRAISES`) für kontextabhängiges positives Feedback
+ * beim Abschließen von Aufgaben, gestaffelt nach Tagesfortschritt (Stufe 1 bis 4).
+ */
+
 const TIERED_PRAISES = {
   de: {
     // Stufe 1: Erster Einstieg (1 Aufgabe geschafft)

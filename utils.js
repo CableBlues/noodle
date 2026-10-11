@@ -1,3 +1,13 @@
+/**
+ * @file utils.js
+ * @module Utils
+ * @description
+ * Zentrale Hilfs- und Sicherheitsfunktionen der Anwendung:
+ * - XSS-Prävention (`escapeHtml`, `escapeAttr`, `sanitizeUrl`, `sanitizeIdentifier`)
+ * - Lokalisierungs-Helfer (`t`, `tr`)
+ * - Toast-Benachrichtigungen, Haptik-Feedback und Konfetti-Effekte
+ */
+
 // XSS-Schutz: Sichere HTML-Maskierung & URL-Sanitization für Benutzereingaben
 function escapeHtml(str) {
   if (str === null || str === undefined) return '';

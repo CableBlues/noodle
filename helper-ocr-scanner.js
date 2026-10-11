@@ -1,7 +1,11 @@
-// ============================================================================
-// NOODLE HANDWRITING OCR & DOCUMENT SCANNER (helper-ocr-scanner.js)
-// Exklusiv integriert im Brainstorming Studio und in der Notizenkarte
-// ============================================================================
+/**
+ * @file helper-ocr-scanner.js
+ * @module NoteScannerAndOCR
+ * @description
+ * Kamera- und Bild-Scanner für handschriftliche oder gedruckte Notizen.
+ * Unterstützt Bildvorverarbeitung (Dokumenten-Kontrastfilter, Schärfung, Rotation)
+ * sowie Texterkennung zur direkten Übernahme in Notizen, Brainstorming oder Aufgaben.
+ */
 
 let currentScannerContext = 'brainstorm'; // 'brainstorm' | 'notes' | 'note-detail'
 let currentScannerTargetId = null;

@@ -1,4 +1,11 @@
-// app-alarm.js: Wecker & Reminder (Zuverlässige minütliche Auslösung, laut & dauerhaft)
+/**
+ * @file app-alarm.js
+ * @module AlarmAndReminderEngine
+ * @description
+ * Wecker- und Erinnerungs-System mit minütlicher Hintergrundprüfung,
+ * vier synthetisierten Wecktönen (`digital`, `bell`, `radar`, `retro`),
+ * Vibrationsunterstützung auf Mobilgeräten und Snooze-Steuerung.
+ */
 let alarmState = { alarms: [], reminders: [], settings: {} };
 
 const DEFAULT_ALARM_SETTINGS = {

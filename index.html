@@ -51,14 +51,7 @@
     })();
   </script>
 
-  <!--
-    PERFORMANCE-FIX:
-    - html2canvas wird nur bei Bedarf beim Bildexport nachgeladen (siehe
-      exportReportAsImage() in app-reports.js), kein CDN-Fallback mehr.
-    - Der frühere 3D-Spielmodus (Three.js + OrbitControls) wurde entfernt.
-  -->
-
-  <!-- Tailwind Config -->
+  <!-- Tailwind CSS Laufzeit-Konfiguration (Schriftfamilien & Design-Tokens) -->
   <script>
     tailwind.config = {
       theme: {
@@ -3137,7 +3130,7 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- NEUES HOCHWERTIGES "WAS NUN?" MODAL (SMART EXECUTIVE ASSISTANT) -->
+  <!-- MODAL: ENTSCHEIDUNGSHILFE ("WAS NUN?" / EXECUTIVE ASSISTANT)           -->
   <!-- ====================================================================== -->
   <div id="helper-pick-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xl" onclick="if(event.target===this) closeHelperModal()">
     <div id="helper-pick-card" class="mobile-modal-card animate-spring-modal w-full max-w-lg bg-[#0e0e16]/98 border border-orange-500/30 p-5 sm:p-6 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.9),0_0_30px_rgba(249,115,22,0.15)] backdrop-blur-2xl text-white relative transition-all duration-300 text-left">
@@ -3680,7 +3673,7 @@
     </div>
   </div>
 
-  <!-- MODAL: DETAIL-STATISTIK & ANALYSE-DASHBOARD (STUFE 2) -->
+  <!-- MODAL: STATISTIK- & ANALYSE-DASHBOARD -->
   <div id="modal-report-dashboard" class="hidden fixed inset-0 z-[120000] bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-5 animate-fade-in" onclick="if(event.target === this) closeReportDashboard()">
     <div class="relative w-full max-w-4xl bg-[#0f0f18]/98 border border-purple-500/35 rounded-3xl p-5 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(168,85,247,0.15)] space-y-5 max-h-[92vh] overflow-y-auto custom-scrollbar" onclick="event.stopPropagation()">
       
@@ -6363,6 +6356,13 @@
     </div>
   </div>
 
+  <!-- ====================================================================== -->
+  <!-- ANWENDUNGS-MODULE (Geordnet nach Architektur-Schichten)                -->
+  <!-- Im Produktions-Build (npm run build) wird dieser Block durch           -->
+  <!-- ein einzelnes gebündeltes app.bundle.js ersetzt.                       -->
+  <!-- ====================================================================== -->
+
+  <!-- 1. Statische Daten & Mehrsprachige Wörterbücher -->
   <script src="data-tasks-steps-1.js"></script>
   <script src="data-tasks-steps-2.js"></script>
   <script src="data-tasks-steps-3.js"></script>
@@ -6372,14 +6372,20 @@
   <script src="data-translations.js"></script>
   <script src="data-custom-translations.js"></script>
   <script src="data-extras.js"></script>
+
+  <!-- 2. Konfiguration, Authentifizierung, Persistenz & Synchronisation -->
   <script src="config.js"></script>
   <script src="auth-engine.js"></script>
   <script src="storage.js"></script>
   <script src="state.js"></script>
   <script src="sync-engine.js"></script>
+
+  <!-- 3. Basis-Hilfsfunktionen & Sanitization -->
   <script src="utils-data.js"></script>
   <script src="utils.js"></script>
   <script src="utils-2.js"></script>
+
+  <!-- 4. WebAudio-DSP-Synthese, Musik-Player & Fokus-Timer -->
   <script src="audio-core.js"></script>
   <script src="audio-generators.js"></script>
   <script src="audio-scheduler-1.js"></script>
@@ -6389,6 +6395,8 @@
   <script src="timer-1.js"></script>
   <script src="timer-2.js"></script>
   <script src="timer-3.js"></script>
+
+  <!-- 5. Exekutive Assistenten & Fachmodule -->
   <script src="helper-core-data.js"></script>
   <script src="helper-core.js"></script>
   <script src="helper-core-2.js"></script>
@@ -6421,6 +6429,8 @@
   <script src="app-health.js"></script>
   <script src="app-humor.js"></script>
   <script src="app-social.js"></script>
+
+  <!-- 6. Haupt-Orchestrierung & Initialisierung -->
   <script src="app-core.js"></script>
 
   <!-- Umami: generisches Feature-Tracking – wrapt automatisch ALLE window.open...Modal-Funktionen,
