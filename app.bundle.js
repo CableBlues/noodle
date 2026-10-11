@@ -1239,10 +1239,12 @@ globalThis.TASK_STEPS_DATABASE_PART3 = TASK_STEPS_DATABASE_PART3;
 
 /* --- data-tasks.js --- */
 // CONFIGURATION KEYS FOR LOCALSTORAGE
-const STORE_KEY = 'flowPlannerV3';
-const HISTORY_KEY = 'flowPlannerV3History';
-window.STORE_KEY = STORE_KEY;
-window.HISTORY_KEY = HISTORY_KEY;
+var STORE_KEY = (typeof window !== 'undefined' && window.STORE_KEY) || 'flowPlannerV3';
+var HISTORY_KEY = (typeof window !== 'undefined' && window.HISTORY_KEY) || 'flowPlannerV3History';
+if (typeof window !== 'undefined') {
+  window.STORE_KEY = STORE_KEY;
+  window.HISTORY_KEY = HISTORY_KEY;
+}
 
 // 6-LANGUAGE DEFAULT LIST DICTIONARY (Full Rich Standard Routine)
 const DEFAULT_TASKS_BY_LANG = {
@@ -5264,7 +5266,7 @@ const customTranslations = {
     "report_cat_distribution": "Category Distribution",
     "report_completed_tasks": "Completed Tasks",
     "close": "Close",
-    "add": "Add",
+    "add": "Add task",
     "save": "Save",
     "delete": "Delete",
     "clear": "Clear",
@@ -5280,10 +5282,10 @@ const customTranslations = {
     "shop_tab_list": "My List",
     "shop_tab_deals": "Store Deals",
     "shop_sale_badge": "Sale",
-    "shop_add_placeholder": "Item (e.g. 2x Oat milk, tomatoes)...",
+    "shop_add_placeholder": "Add item (e.g. 2x oat milk, bread)...",
     "shop_open_items": "To Buy",
-    "shop_clear": "Clear All",
-    "shop_log_hint": "Checked items are logged.",
+    "shop_clear": "Clear all",
+    "shop_log_hint": "Checking off items logs them to history.",
     "news_sec_lang": "🌐 1. Output Language",
     "news_auto_translate": "(Auto-Translation)",
     "news_app_standard": "App Default",
@@ -5295,7 +5297,7 @@ const customTranslations = {
     "news_speed_label": "Speech Speed:",
     "news_listening": "Reading aloud...",
     "radio_no_station": "No station selected",
-    "radio_available_stations": "Available Stations",
+    "radio_available_stations": "Available stations",
     "audio_mood_quick": "Quick Moods (1-Click)",
     "audio_ready": "Ready instantly",
     "audio_mood_focus": "Focus",
@@ -5315,9 +5317,9 @@ const customTranslations = {
     "collab_messengers": "Messengers",
     "collab_direct_chat": "Direct Chat",
     "collab_team_dashboard": "Team Dashboard:",
-    "collab_team_board": "👥 Team Board",
+    "collab_team_board": "Team Board",
     "pause_tab_breath": "🌬️ Breath",
-    "pause_tab_sensory": "⚓ Reset",
+    "pause_tab_sensory": "Senses & Body",
     "pause_tab_body": "🧘 Body",
     "pause_tab_sound": "🎧 Sound",
     "pause_444_title": "4-4-4 Box Breathing",
@@ -5425,7 +5427,6 @@ const customTranslations = {
     "mobile_ambient_windchime": "Windchime",
     "mobile_ambient_bowl": "Singing Bowl",
     "mobile_ambient_rain": "Rain",
-
     "media_audio_video": "Audio & Video Media",
     "media_load_file": "Load file",
     "media_play": "Play",
@@ -5437,16 +5438,12 @@ const customTranslations = {
     "media_youtube_hint": "Paste YouTube video or livestream URL:",
     "media_youtube_load": "Load ▶",
     "media_youtube_empty": "No YouTube URL loaded yet.",
-    "radio_no_station": "No station selected",
-    "radio_available_stations": "Available stations",
-    "news_all_sources": "All sources",
+    "news_all_sources": "All Sources",
     "news_speed_fast": "Fast (22s)",
     "news_speed_normal": "Normal (30s)",
     "news_speed_calm": "Calm (42s)",
     "collab_active_members": "Active members:",
-    "collab_team_dashboard": "Team Dashboard:",
     "collab_share_board": "Share board",
-    "collab_team_board": "Team Board",
     "collab_quick_share": "⚡ Quick share:",
     "collab_chip_sprint": "🚀 Focus sprint",
     "collab_chip_coffee": "☕ Coffee break",
@@ -5467,10 +5464,8 @@ const customTranslations = {
     "shortcuts_open_overview": "Open this overview",
     "shortcuts_close_modals": "Close modals & popups",
     "shortcuts_understood": "Got it ✓",
-    "mobile_menu_title": "Menu & Settings",
     "mobile_backup_export": "Backup & Export",
     "mobile_backup_btn": "Backup Export",
-    "mobile_restore_btn": "Restore",
     "mobile_view_report": "View & Reports",
     "mobile_stats_btn": "Stats / Report",
     "mobile_themes_btn": "Themes",
@@ -5482,10 +5477,7 @@ const customTranslations = {
     "mobile_load_plan_btn": "Load Plan",
     "mobile_reset_btn": "Reset",
     "mobile_start_tour": "Start App Tour & Onboarding",
-    "mobile_feedback": "Feedback",
-    "mobile_options": "Options",
     "mobile_privacy_legal": "Privacy & Legal Notice (100% Local-First)",
-    "mobile_tools_title": "Tools & Helpers",
     "mobile_tool_audio_title": "Audio & Atmosphere Studio",
     "mobile_tool_audio_sub": "Nature sounds, beats, MP3, Spotify, DJ",
     "mobile_tool_alarm_title": "Alarm",
@@ -5518,9 +5510,6 @@ const customTranslations = {
     "chip_pasta": "🍝 Pasta",
     "chip_cheese": "🧀 Cheese",
     "chip_onions": "🧅 Onions",
-    "shop_log_hint": "Checking off items logs them to history.",
-
-    "add": "Add task",
     "add_column": "Add card",
     "add_task": "Add task",
     "afternoon_peak": "Afternoon (12:00 - 18:00)",
@@ -5548,7 +5537,7 @@ const customTranslations = {
     "audio_tab_dj": "DJ Tool",
     "audio_tab_nature": "Nature",
     "audio_tab_player": "Player & Media",
-    "board_clear_lists": "Clear cards",
+    "board_clear_lists": "Clear boards",
     "board_columns": "Customize cards",
     "board_reset": "Reset",
     "board_undo": "Undo",
@@ -5807,7 +5796,6 @@ const customTranslations = {
     "pause_eyes_202020_desc": "Relieves screen eye strain",
     "pause_eyes_202020_title": "20-20-20 Eye Relief",
     "pause_eyes_sub": "20s screen relaxation & warm palms",
-    "pause_eyes_title": "20-20-20 Eye Rest & Palming",
     "pause_grounding_sub": "Brings you immediately to the present",
     "pause_grounding_title": "5-4-3-2-1 Grounding",
     "pause_hub_title": "Pause & Sensory Reset",
@@ -5824,7 +5812,6 @@ const customTranslations = {
     "pause_stretch_title": "Body & Neck Stretch",
     "pause_tab_break": "Micro-Breaks",
     "pause_tab_breathing": "Breathing",
-    "pause_tab_sensory": "Senses & Body",
     "pause_tea_desc": "Savor a warm drink mindfully",
     "pause_tea_title": "Mindful Tea Break",
     "peak_hours": "Peak Productivity",
@@ -5880,8 +5867,6 @@ const customTranslations = {
     "settings_start_tour_btn": "Start Tour 🚀",
     "settings_tour": "Tour 🚀",
     "shop_add_btn": "Add",
-    "shop_add_placeholder": "Add item (e.g. 2x oat milk, bread)...",
-    "shop_clear": "Clear all",
     "shop_empty": "Your shopping list is clear!",
     "shop_history": "History",
     "shop_recent_bought": "Recently purchased",
@@ -5889,7 +5874,7 @@ const customTranslations = {
     "sound_afrobeats": "Afrobeats",
     "sound_binaural_alpha": "Alpha Waves (Focus)",
     "sound_binaural_theta": "Theta Waves (Calm)",
-    "sound_birds": "Forest Birds",
+    "sound_birds": "🐦 Birds",
     "sound_boombap": "Boom-Bap",
     "sound_bossa_nova": "Bossa Nova",
     "sound_breeze": "Rustling Leaves",
@@ -5954,13 +5939,11 @@ const customTranslations = {
     "sphere_supermarket_badge": "Shopping",
     "sphere_supermarket_desc": "Aisle-Sorted List",
     "standard_mode": "Standard View",
-    "start": "Start",
     "start_focus": "Start Focus",
     "start_timer": "Start Focus Timer",
     "steps_btn": "Steps",
     "steps_desc": "Select a task to view its detailed step-by-step breakdown:",
     "steps_tab": "Steps",
-    "stop": "Stop",
     "studio_label": "STUDIO",
     "study_deep": "Deep Study & Summaries",
     "study_focus": "Study Focus & Goal",
@@ -6069,7 +6052,6 @@ const customTranslations = {
     "workspace_work": "Work & Projects",
     "zen_title": "Zen Focus",
     "nav_shopping": "Shopping",
-    "shop_open_items": "To Buy",
     "nav_cooking": "Cooking",
     "sound_campfire": "Campfire",
     "export": "Export",
@@ -6150,13 +6132,112 @@ const customTranslations = {
     "break_stop": "End Break",
     "deep_focus_timer": "Deep Focus Timer",
     "news_all_topics": "All Topics",
-    "news_all_sources": "All Sources",
     "news_read_aloud": "Read Aloud",
-    "close": "Close",
     "save_as_task": "Save as Task",
     "all_devices_offline": "All devices & offline-ready",
     "all_categories": "All categories",
-    "pause": "Pause"
+    "shop_tab_pantry": "Pantry",
+    "settings_open_all": "All Settings & Themes ⚙️",
+    "report_dashboard_title": "Stats & Progress",
+    "radio_no_station_selected": "No station selected",
+    "safespace_relieve_inertia": "Breaks physical inertia & brain fog",
+    "safespace_open_fullscreen": "Open Fullscreen Recovery Studio ↗",
+    "quick_lang_select": "🌐 Select Language",
+    "mode_studio_short": "◨ Studio",
+    "mode_compact_short": "🗗 Compact",
+    "mode_turbo_short": "⚡ Turbo",
+    "volume": "Volume",
+    "collab_share_current_board": "Share current board with team",
+    "news_loading_live": "Loading live news...",
+    "news_output_lang": "1. Output Language (Translation)",
+    "shop_add_list_btn": "Add list",
+    "shop_cat_wishes": "❤️ Wishlist",
+    "create": "Create",
+    "safespace_breath_calm": "Breathing & Calm",
+    "pick_executive_subtitle": "Executive assistant for your next immediate step",
+    "sport_opt_3min": "3 min · 3 exercises (Express)",
+    "sport_opt_5min": "5 min · 5 exercises (Optimal)",
+    "sport_opt_8min": "8 min · 8 exercises (Intensive)",
+    "sport_opt_12min": "12 min · 12 exercises (Power)",
+    "sport_opt_16min": "16 min · 16 exercises (Full Circuit)",
+    "sport_zone_fullbody": "🌟 Balanced Full-Body Mix",
+    "sport_zone_core": "🔥 Core & Trunk Stability",
+    "sport_zone_legs_nojump": "🦵 Legs & Glutes (No Jumping)",
+    "sport_zone_upper": "💪 Upper Body & Posture",
+    "sport_composed_exercises": "Prepared exercises:",
+    "sport_cat_all": "All categories",
+    "sport_cat_legs": "🦵 Legs & Glutes",
+    "sport_cat_upper": "💪 Upper Body",
+    "sport_cat_flow": "🤸 Full Body & Flow",
+    "sport_spoon_1": "🔋 1 Spoon · Lying or seated (Gentle)",
+    "sport_spoon_2": "🔋 2 Spoons · Standing stretch & release (Moderate)",
+    "sport_spoon_3": "🔋 3 Spoons · Activating mini boost (Effective)",
+    "exercise": "Exercise",
+    "sport_focus_legs": "🎯 Focus: Legs & Glutes",
+    "sport_next_up": "Next up:",
+    "sport_ex_glute_bridge": "Glute Bridge",
+    "settings_all_devices": "All Devices & Offline Ready",
+    "settings_install_local_title": "Install Noodle as local application",
+    "settings_interaction_desc": "Choose how tool panels, assistants, and popovers appear in your workspace.",
+    "mode_studio_dock": "◨ Studio Dock",
+    "mode_studio_dock_desc": "Tools open with a click, minimize to the taskbar, or pin to the sidebar.",
+    "mode_compact_focus": "🗗 Compact / Focus",
+    "mode_compact_desc": "Panels open centered as compact overlays and close when clicking outside.",
+    "mode_turbo_hover": "⚡ Turbo-Hover",
+    "mode_turbo_desc": "For fast workflows: Ultra-fast 40ms hover switching inspired by Edge tabs.",
+    "settings_timer_preset_desc": "Default minutes configured for new timer sessions.",
+    "settings_reset_desc": "Restores browser storage completely back to its original state.",
+    "settings_add_screenshot": "Attach screenshot 📷",
+    "cmd_run": "↵ Execute",
+    "cmd_shortcuts_help": "Keyboard shortcuts (?)",
+    "step": "Step",
+    "cleaning_step_timer": "Step focus timer:",
+    "clean_cheat_sheet_title": "Pro cheat sheet for beginners (Colors & Rules)",
+    "clean_cloth_blue": "For dust, shelves, desks & mirrors",
+    "clean_cloth_yellow": "For kitchen, stove, dining tables & counters",
+    "clean_cloth_red": "Dedicated strictly for toilet & sanitaries (Hygiene!)",
+    "clean_tip_chemicals": "Spray limescale remover & bath spray, wait 5 min doing something else – no hard scrubbing needed!",
+    "clean_tip_dry_before_wet": "Always vacuum or sweep dry crumbs and dust first before wiping with water.",
+    "audio_studio_full_title": "Audio & Atmosphere Studio",
+    "badge_pro_studio": "Pro Studio",
+    "audio_studio_sub": "Nature sounds, genre beats, MP3, Spotify, DJ",
+    "boost_30s": "30s Micro-Action",
+    "safespace_exercises_grounding": "Exercises & Grounding",
+    "sport_body_title": "Fitness & Body",
+    "sport_1min_workouts": "1-Minute Workouts",
+    "preset_cozy_focus": "Cozy Focus",
+    "safespace_tab_wave90": "90s Wave",
+    "safespace_tab_need": "Underlying Need",
+    "safespace_tab_bridge": "Action Bridge",
+    "safespace_need_longing": "Connection / Closeness",
+    "safespace_need_fatigue": "Physical Fatigue",
+    "safespace_need_exhaustion": "Mental Overload",
+    "safespace_need_escape": "Avoiding uncomfortable feeling",
+    "safespace_other_bridge": "Suggest another instant bridge 🔄",
+    "safespace_personal_anchors_title": "Your personal anchors (Why staying strong matters):",
+    "safespace_anchor_loved_ones": "❤️ For my loved ones",
+    "safespace_butterfly_instruction": "Cross arms over your chest and alternate gentle taps on your collarbones",
+    "safespace_sensory_grounding": "Sensory Grounding",
+    "safespace_shake_limbs": "Gently shake out hands, shoulders, and legs...",
+    "safespace_choose_level": "Select level",
+    "safespace_tension_level_desc": "Click your current tension level for quick self-assessment:",
+    "safespace_frequencies_desc": "100% offline generated frequencies for neuroacoustic soothing:",
+    "safespace_frequencies_subtitle": "Deep relaxation for the autonomic nervous system",
+    "dilemma_radical_question": "What would be the most radical 5-minute solution?",
+    "badge_100_offline": "100% Offline",
+    "pwa_native_app_desc": "Use as a native standalone app on your device",
+    "badge_100_offline_capable": "100% Offline Ready",
+    "pwa_install_now_btn": "Install Now 📲",
+    "pwa_offline_benefit": "Offline advantage:",
+    "pwa_step1_safari": "Step 1: Open in Safari",
+    "presets_card_desc": "Choose preconfigured routine presets (Focus, Minimalist, Household Guide).",
+    "presets_choose_btn": "Choose Presets",
+    "sync_devices_title": "Sync & Device Pairing",
+    "sync_devices_desc": "Pair your phone or second screen in real-time via QR code or cloud.",
+    "notifications_desc": "Enable system notifications for timers and audio reminders.",
+    "offline_download_desc": "Download the complete Noodle app as a portable offline file on the go.",
+    "offline_bundle_btn": "Offline Bundle",
+    "step_choose_placeholder": "Select step"
   },
   "de": {
     "pick_tab_suggestion": "Fokus-Vorschlag",
@@ -6231,15 +6312,15 @@ const customTranslations = {
     "report_cat_distribution": "Kategorie-Verteilung",
     "report_completed_tasks": "Erledigte Aufgaben",
     "close": "Schließen",
-    "add": "Hinzufügen",
+    "add": "Aufgabe hinzufügen",
     "save": "Speichern",
     "delete": "Löschen",
     "clear": "Leeren",
     "open": "Öffnen",
     "play": "Abspielen",
     "pause": "Pause",
-    "stop": "Stoppen",
-    "start": "Starten",
+    "stop": "Stopp",
+    "start": "Start",
     "share": "Teilen",
     "search_placeholder": "Suche...",
     "undo": "Rückgängig",
@@ -6247,7 +6328,7 @@ const customTranslations = {
     "shop_tab_list": "Meine Liste",
     "shop_tab_deals": "Discounter Deals",
     "shop_sale_badge": "Angebot",
-    "shop_add_placeholder": "Artikel (z.B. 2x Hafermilch, Tomaten)...",
+    "shop_add_placeholder": "Artikel hinzufügen (z.B. 2x Hafermilch, Brot)...",
     "shop_open_items": "Zu besorgen",
     "shop_clear": "Alle löschen",
     "shop_log_hint": "Einkäufe abhaken wandert ins Protokoll.",
@@ -6282,9 +6363,9 @@ const customTranslations = {
     "collab_messengers": "Messengers",
     "collab_direct_chat": "Direkt-Chat",
     "collab_team_dashboard": "Team-Dashboard:",
-    "collab_team_board": "👥 Team-Board",
+    "collab_team_board": "Team-Board",
     "pause_tab_breath": "🌬️ Atem",
-    "pause_tab_sensory": "⚓ Reset",
+    "pause_tab_sensory": "Sinne & Körper",
     "pause_tab_body": "🧘 Körper",
     "pause_tab_sound": "🎧 Sound",
     "pause_444_title": "4-4-4 Box-Atmung",
@@ -6392,7 +6473,6 @@ const customTranslations = {
     "mobile_ambient_windchime": "Windspiel",
     "mobile_ambient_bowl": "Klangschale",
     "mobile_ambient_rain": "Regen",
-
     "media_audio_video": "Audio & Video Medien",
     "media_load_file": "Datei laden",
     "media_play": "Abspielen",
@@ -6404,16 +6484,12 @@ const customTranslations = {
     "media_youtube_hint": "Füge eine YouTube Video- oder Live-Stream-URL ein:",
     "media_youtube_load": "Laden ▶",
     "media_youtube_empty": "Noch keine YouTube-URL geladen.",
-    "radio_no_station": "Kein Sender gewählt",
-    "radio_available_stations": "Verfügbare Sender",
     "news_all_sources": "Alle Quellen",
     "news_speed_fast": "Zügig (22s)",
     "news_speed_normal": "Normal (30s)",
     "news_speed_calm": "Ruhig (42s)",
     "collab_active_members": "Aktive Mitglieder:",
-    "collab_team_dashboard": "Team-Dashboard:",
     "collab_share_board": "Board teilen",
-    "collab_team_board": "Team-Board",
     "collab_quick_share": "⚡ Schnell teilen:",
     "collab_chip_sprint": "🚀 Fokus-Sprint",
     "collab_chip_coffee": "☕ Kaffeepause",
@@ -6434,10 +6510,8 @@ const customTranslations = {
     "shortcuts_open_overview": "Diese Übersicht öffnen",
     "shortcuts_close_modals": "Modals & Popups schließen",
     "shortcuts_understood": "Verstanden ✓",
-    "mobile_menu_title": "Menü & Einstellungen",
     "mobile_backup_export": "Datensicherung & Export",
     "mobile_backup_btn": "Backup Export",
-    "mobile_restore_btn": "Wiederherstellen",
     "mobile_view_report": "Ansicht & Auswertung",
     "mobile_stats_btn": "Statistik / Bericht",
     "mobile_themes_btn": "Farbschemas",
@@ -6449,10 +6523,7 @@ const customTranslations = {
     "mobile_load_plan_btn": "Plan laden",
     "mobile_reset_btn": "Zurücksetzen",
     "mobile_start_tour": "App-Tour & Onboarding starten",
-    "mobile_feedback": "Feedback",
-    "mobile_options": "Optionen",
     "mobile_privacy_legal": "Datenschutz & Impressum (100% Local-First)",
-    "mobile_tools_title": "Werkzeuge & Noodle-Helfer",
     "mobile_tool_audio_title": "Audio & Atmosphere Studio",
     "mobile_tool_audio_sub": "Naturklänge, Genre-Beats, MP3, Spotify, DJ",
     "mobile_tool_alarm_title": "Wecker",
@@ -6485,9 +6556,6 @@ const customTranslations = {
     "chip_pasta": "🍝 Nudeln",
     "chip_cheese": "🧀 Käse",
     "chip_onions": "🧅 Zwiebeln",
-    "shop_log_hint": "Einkäufe abhaken wandert ins Protokoll.",
-
-    "add": "Aufgabe hinzufügen",
     "add_column": "Karte hinzufügen",
     "add_task": "Aufgabe hinzufügen",
     "afternoon_peak": "Nachmittag (12:00 - 18:00)",
@@ -6504,7 +6572,7 @@ const customTranslations = {
     "audio_center_subtitle": "Fokus, Beats & Mix-Studio",
     "audio_center_title": "Audio-Center",
     "audio_live_badge": "LIVE",
-    "audio_no_sound_active": "Kein Sound aktiv · Wähle einen Preset oder Track",
+    "audio_no_sound_active": "Kein Sound aktiv · Wähle ein Preset oder Track",
     "audio_section_harmony": "Harmonien & Melodien",
     "audio_section_nature": "Natur & Atmosphäre",
     "audio_stop_all": "Stop",
@@ -6774,7 +6842,6 @@ const customTranslations = {
     "pause_eyes_202020_desc": "Gegen Bildschirm-Müdigkeit",
     "pause_eyes_202020_title": "20-20-20 Augen-Pause",
     "pause_eyes_sub": "20s Bildschirm-Entlastung & Augen ruhen",
-    "pause_eyes_title": "20-20-20 Augen-Pause & Palming",
     "pause_grounding_sub": "Holt dich sofort ins Hier & Jetzt",
     "pause_grounding_title": "5-4-3-2-1 Erdung",
     "pause_hub_title": "Pause & Sinnes-Erdung",
@@ -6791,7 +6858,6 @@ const customTranslations = {
     "pause_stretch_title": "Körper & Nacken lockern",
     "pause_tab_break": "Mikro-Pausen",
     "pause_tab_breathing": "Atemübungen",
-    "pause_tab_sensory": "Sinne & Körper",
     "pause_tea_desc": "Warmes Getränk bewusst genießen",
     "pause_tea_title": "Achtsame Teepause",
     "peak_hours": "Produktivste Phase",
@@ -6847,8 +6913,6 @@ const customTranslations = {
     "settings_start_tour_btn": "Tour jetzt starten 🚀",
     "settings_tour": "Einführung 🚀",
     "shop_add_btn": "Hinzufügen",
-    "shop_add_placeholder": "Artikel hinzufügen (z.B. 2x Hafermilch, Brot)...",
-    "shop_clear": "Alle löschen",
     "shop_empty": "Deine Einkaufsliste ist leer!",
     "shop_history": "Verlauf",
     "shop_recent_bought": "Zuletzt gekauft",
@@ -6856,7 +6920,7 @@ const customTranslations = {
     "sound_afrobeats": "Afrobeats",
     "sound_binaural_alpha": "Alpha-Wellen (Fokus)",
     "sound_binaural_theta": "Theta-Wellen (Ruhe)",
-    "sound_birds": "Waldvögel",
+    "sound_birds": "🐦 Vögel",
     "sound_boombap": "Boom-Bap",
     "sound_bossa_nova": "Bossa Nova",
     "sound_breeze": "Blätterrauschen",
@@ -6921,13 +6985,11 @@ const customTranslations = {
     "sphere_supermarket_badge": "Einkauf",
     "sphere_supermarket_desc": "Regal-Sortierung",
     "standard_mode": "Standard-Modus",
-    "start": "Start",
     "start_focus": "Fokus starten",
     "start_timer": "Fokus-Timer starten",
     "steps_btn": "Schritte",
     "steps_desc": "Wähle eine Aufgabe, um die detaillierte Schritt-für-Schritt-Anleitung anzuzeigen:",
     "steps_tab": "Schritte",
-    "stop": "Stopp",
     "studio_label": "STUDIO",
     "study_deep": "Deep Study & Skripte",
     "study_focus": "Lernfokus & Ziel",
@@ -7036,7 +7098,6 @@ const customTranslations = {
     "workspace_work": "Arbeit & Projektaufgaben",
     "zen_title": "Zen-Fokus",
     "nav_shopping": "Einkauf",
-    "shop_open_items": "Zu besorgen",
     "nav_cooking": "Kochen",
     "sound_campfire": "Lagerfeuer",
     "export": "Exportieren",
@@ -7117,13 +7178,112 @@ const customTranslations = {
     "break_stop": "Pause beenden",
     "deep_focus_timer": "Deep Focus Timer",
     "news_all_topics": "Alle Themen",
-    "news_all_sources": "Alle Quellen",
     "news_read_aloud": "Vorlesen",
-    "close": "Schließen",
     "save_as_task": "Als Aufgabe speichern",
     "all_devices_offline": "Alle Geräte & Offline-fähig",
     "all_categories": "Alle Kategorien",
-    "pause": "Pause"
+    "shop_tab_pantry": "Vorrat",
+    "settings_open_all": "Alle Einstellungen & Themes ⚙️",
+    "report_dashboard_title": "Statistiken & Fortschritt",
+    "radio_no_station_selected": "Kein Sender gewählt",
+    "safespace_relieve_inertia": "Löst körperliche Starre & Trägheit",
+    "safespace_open_fullscreen": "Vollbild Recovery Studio öffnen ↗",
+    "quick_lang_select": "🌐 Sprache wählen",
+    "mode_studio_short": "◨ Studio",
+    "mode_compact_short": "🗗 Kompakt",
+    "mode_turbo_short": "⚡ Turbo",
+    "volume": "Lautstärke",
+    "collab_share_current_board": "Aktuelles Board fürs Team teilen",
+    "news_loading_live": "Lädt Live-Nachrichten...",
+    "news_output_lang": "1. Ausgabesprache (Übersetzung)",
+    "shop_add_list_btn": "Liste hinzufügen",
+    "shop_cat_wishes": "❤️ Wünsche",
+    "create": "Erstellen",
+    "safespace_breath_calm": "Atemübung & Ruhe",
+    "pick_executive_subtitle": "Exekutiv-Assistent für deinen nächsten Schritt",
+    "sport_opt_3min": "3 Min. · 3 Übungen (Express)",
+    "sport_opt_5min": "5 Min. · 5 Übungen (Optimal)",
+    "sport_opt_8min": "8 Min. · 8 Übungen (Intensiv)",
+    "sport_opt_12min": "12 Min. · 12 Übungen (Power)",
+    "sport_opt_16min": "16 Min. · 16 Übungen (Voller Zirkel)",
+    "sport_zone_fullbody": "🌟 Ausgewogener Ganzkörper-Mix",
+    "sport_zone_core": "🔥 Core & Rumpfstabilität",
+    "sport_zone_legs_nojump": "🦵 Beine & Gesäß (Ohne Springen)",
+    "sport_zone_upper": "💪 Oberkörper & Haltung",
+    "sport_composed_exercises": "Zusammengestellte Übungen:",
+    "sport_cat_all": "Alle Kategorien",
+    "sport_cat_legs": "🦵 Beine & Gesäß",
+    "sport_cat_upper": "💪 Oberkörper",
+    "sport_cat_flow": "🤸 Ganzkörper & Flow",
+    "sport_spoon_1": "🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)",
+    "sport_spoon_2": "🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)",
+    "sport_spoon_3": "🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)",
+    "exercise": "Übung",
+    "sport_focus_legs": "🎯 Fokus: Beine & Gesäß",
+    "sport_next_up": "Als Nächstes:",
+    "sport_ex_glute_bridge": "Beckenbrücke",
+    "settings_all_devices": "Alle Geräte & Offline-fähig",
+    "settings_install_local_title": "Noodle als lokale Anwendung installieren",
+    "settings_interaction_desc": "Wähle, wie Tool-Panels, Assistenten und Popovers im Workspace angezeigt werden.",
+    "mode_studio_dock": "◨ Studio Dock",
+    "mode_studio_dock_desc": "Tools öffnen per Klick, minimieren in Taskleiste oder heften an die Seitenleiste an.",
+    "mode_compact_focus": "🗗 Kompakt / Fokus",
+    "mode_compact_desc": "Panels öffnen zentriert als kompakte Popups und schließen bei Klicks außerhalb.",
+    "mode_turbo_hover": "⚡ Turbo-Hover",
+    "mode_turbo_desc": "Für Ungeduldige: Ultraschnelle Reaktionszeit (40ms) beim Überfahren wie Microsoft Edge Tabs.",
+    "settings_timer_preset_desc": "Voreingestellte Minuten für neue Timer-Sitzungen.",
+    "settings_reset_desc": "Setzt den Browser-Speicher vollständig auf den Ursprungszustand zurück.",
+    "settings_add_screenshot": "Screenshot hinzufügen 📷",
+    "cmd_run": "↵ Ausführen",
+    "cmd_shortcuts_help": "Tastaturkürzel (?)",
+    "step": "Schritt",
+    "cleaning_step_timer": "Schritt-Fokus-Timer:",
+    "clean_cheat_sheet_title": "Profi-Spickzettel für Einsteiger (Farben & Regeln)",
+    "clean_cloth_blue": "Für Staub, Regale, Schreibtisch & Spiegel",
+    "clean_cloth_yellow": "Für Küche, Herd, Tische & Oberflächen",
+    "clean_cloth_red": "Nur für WC & Sanitärbereich (Hygiene!)",
+    "clean_tip_chemicals": "Sprühe Kalklöser & Badreiniger ein und mache 5 Min was anderes – kein Schrubben nötig!",
+    "clean_tip_dry_before_wet": "Erst Krümel und Staub trocken wegfegen/saugen, bevor du mit Wasser wischst.",
+    "audio_studio_full_title": "Audio & Atmosphere Studio",
+    "badge_pro_studio": "Pro Studio",
+    "audio_studio_sub": "Naturklänge, Genre-Beats, MP3, Spotify, DJ",
+    "boost_30s": "30s Überwindung",
+    "safespace_exercises_grounding": "Übungen & Erdung",
+    "sport_body_title": "Sport & Körper",
+    "sport_1min_workouts": "1-Minuten Workouts",
+    "preset_cozy_focus": "Gemütlicher Fokus",
+    "safespace_tab_wave90": "90s Welle",
+    "safespace_tab_need": "Bedürfnis",
+    "safespace_tab_bridge": "Brücke",
+    "safespace_need_longing": "Sehnsucht / Nähe",
+    "safespace_need_fatigue": "Müdigkeit",
+    "safespace_need_exhaustion": "Erschöpfter Geist",
+    "safespace_need_escape": "Flucht vor Gefühl",
+    "safespace_other_bridge": "Andere Sofort-Brücke vorschlagen 🔄",
+    "safespace_personal_anchors_title": "Deine persönlichen Anker (Warum lohnt es sich standhaft zu bleiben?):",
+    "safespace_anchor_loved_ones": "❤️ Für meine Liebsten",
+    "safespace_butterfly_instruction": "Verschränke die Arme über der Brust und klopfe abwechselnd sanft auf die Schlüsselbeine",
+    "safespace_sensory_grounding": "Sensorische Verankerung",
+    "safespace_shake_limbs": "Schüttle Hände, Schultern und Beine locker aus...",
+    "safespace_choose_level": "Level wählen",
+    "safespace_tension_level_desc": "Klicke dein aktuelles Anspannungsniveau zur Selbsteinschätzung:",
+    "safespace_frequencies_desc": "100% offline synthetisierte Frequenzen zur neuroakustischen Beruhigung:",
+    "safespace_frequencies_subtitle": "Tiefenentspannung für das vegetative System",
+    "dilemma_radical_question": "Was wäre die radikalste 5-Minuten-Lösung?",
+    "badge_100_offline": "100% Offline",
+    "pwa_native_app_desc": "Als native App auf deinem Gerät nutzen",
+    "badge_100_offline_capable": "100% Offline-fähig",
+    "pwa_install_now_btn": "Jetzt installieren 📲",
+    "pwa_offline_benefit": "Offline-Vorteil:",
+    "pwa_step1_safari": "Schritt 1: In Safari öffnen",
+    "presets_card_desc": "Wähle vorkonfigurierte Routine-Presets (Fokus, Minimalist, Haushalts-Guide).",
+    "presets_choose_btn": "Presets wählen",
+    "sync_devices_title": "Sync & Geräte-Kopplung",
+    "sync_devices_desc": "Kopple dein Smartphone oder Zweitgerät in Echtzeit via QR-Code oder Cloud.",
+    "notifications_desc": "Erlaube System-Benachrichtigungen für Timer und akustische Erinnerungen.",
+    "offline_download_desc": "Lade die komplette Noodle App als portable Offline-Datei für unterwegs herunter.",
+    "offline_bundle_btn": "Offline-Paket",
+    "step_choose_placeholder": "Schritt wählen"
   },
   "fr": {
     "pick_tab_suggestion": "Suggestion de focus",
@@ -7198,7 +7358,7 @@ const customTranslations = {
     "report_cat_distribution": "Répartition par catégorie",
     "report_completed_tasks": "Tâches terminées",
     "close": "Fermer",
-    "add": "Ajouter",
+    "add": "Ajouter une tâche",
     "save": "Enregistrer",
     "delete": "Supprimer",
     "clear": "Effacer",
@@ -7214,10 +7374,10 @@ const customTranslations = {
     "shop_tab_list": "Ma liste",
     "shop_tab_deals": "Bons plans",
     "shop_sale_badge": "Promo",
-    "shop_add_placeholder": "Article (ex. 2x lait d'avoine, tomates)...",
+    "shop_add_placeholder": "Ajouter un article (ex. 2x lait d'avoine, pain)...",
     "shop_open_items": "À acheter",
     "shop_clear": "Tout effacer",
-    "shop_log_hint": "Les articles cochés sont enregistrés.",
+    "shop_log_hint": "Cocher les achats les archive dans l'historique.",
     "news_sec_lang": "🌐 1. Langue de sortie",
     "news_auto_translate": "(Traduction auto)",
     "news_app_standard": "Défaut appli",
@@ -7228,7 +7388,7 @@ const customTranslations = {
     "news_sec_topics": "📑 5. Thèmes & Rubriques",
     "news_speed_label": "Vitesse vocale :",
     "news_listening": "Lecture en cours...",
-    "radio_no_station": "Aucune station choisie",
+    "radio_no_station": "Aucune station sélectionnée",
     "radio_available_stations": "Stations disponibles",
     "audio_mood_quick": "Ambiances rapides (1-clic)",
     "audio_ready": "Prêt instantanément",
@@ -7248,10 +7408,10 @@ const customTranslations = {
     "collab_team_space": "Espace équipe",
     "collab_messengers": "Messageries",
     "collab_direct_chat": "Chat direct",
-    "collab_team_dashboard": "Tableau de bord :",
-    "collab_team_board": "👥 Tableau d'équipe",
+    "collab_team_dashboard": "Tableau d'équipe :",
+    "collab_team_board": "Tableau d'équipe",
     "pause_tab_breath": "🌬️ Respiration",
-    "pause_tab_sensory": "⚓ Réinitialiser",
+    "pause_tab_sensory": "Sens & Corps",
     "pause_tab_body": "🧘 Corps",
     "pause_tab_sound": "🎧 Son",
     "pause_444_title": "Respiration carrée 4-4-4",
@@ -7262,7 +7422,7 @@ const customTranslations = {
     "pause_sigh_desc": "Reset nerveux le plus rapide (30s)",
     "pause_54321_title": "Ancrage 5-4-3-2-1",
     "pause_54321_desc": "Arrête les ruminations et ancre",
-    "pause_eyes_title": "Pause visuelle 20-20-20",
+    "pause_eyes_title": "Pause Yeux 20-20-20 & Palming",
     "pause_eyes_desc": "20s de repos écran & paumes chaudes",
     "pause_detox_title": "Détox dopamine 60s (Silence)",
     "pause_detox_desc": "Pause sans écran ni stimuli",
@@ -7284,7 +7444,7 @@ const customTranslations = {
     "mobile_save_plan": "Enregistrer le plan",
     "mobile_load_plan": "Charger le plan",
     "mobile_reset": "Réinitialiser",
-    "mobile_feedback": "Avis",
+    "mobile_feedback": "Commentaires",
     "mobile_options": "Options",
     "cook_pantry_tab": "Garde-manger & Ingrédients",
     "cook_recipe_tab": "Recette & Préparation",
@@ -7359,7 +7519,6 @@ const customTranslations = {
     "mobile_ambient_windchime": "Carillon",
     "mobile_ambient_bowl": "Bol chantant",
     "mobile_ambient_rain": "Pluie",
-
     "media_audio_video": "Médias Audio & Vidéo",
     "media_load_file": "Charger fichier",
     "media_play": "Lire",
@@ -7371,16 +7530,12 @@ const customTranslations = {
     "media_youtube_hint": "Collez une URL vidéo ou direct YouTube :",
     "media_youtube_load": "Charger ▶",
     "media_youtube_empty": "Aucune URL YouTube chargée pour l'instant.",
-    "radio_no_station": "Aucune station sélectionnée",
-    "radio_available_stations": "Stations disponibles",
     "news_all_sources": "Toutes les sources",
     "news_speed_fast": "Rapide (22s)",
     "news_speed_normal": "Normal (30s)",
     "news_speed_calm": "Calme (42s)",
     "collab_active_members": "Membres actifs :",
-    "collab_team_dashboard": "Tableau d'équipe :",
     "collab_share_board": "Partager tableau",
-    "collab_team_board": "Tableau d'équipe",
     "collab_quick_share": "⚡ Partage rapide :",
     "collab_chip_sprint": "🚀 Sprint focus",
     "collab_chip_coffee": "☕ Pause café",
@@ -7401,10 +7556,8 @@ const customTranslations = {
     "shortcuts_open_overview": "Ouvrir cet aperçu",
     "shortcuts_close_modals": "Fermer les fenêtres modales",
     "shortcuts_understood": "Compris ✓",
-    "mobile_menu_title": "Menu & Paramètres",
     "mobile_backup_export": "Sauvegarde & Export",
     "mobile_backup_btn": "Exporter sauvegarde",
-    "mobile_restore_btn": "Restaurer",
     "mobile_view_report": "Affichage & Rapports",
     "mobile_stats_btn": "Statistiques / Rapport",
     "mobile_themes_btn": "Thèmes",
@@ -7416,10 +7569,7 @@ const customTranslations = {
     "mobile_load_plan_btn": "Charger plan",
     "mobile_reset_btn": "Réinitialiser",
     "mobile_start_tour": "Lancer visite & onboarding",
-    "mobile_feedback": "Commentaires",
-    "mobile_options": "Options",
     "mobile_privacy_legal": "Confidentialité & Mentions légales (100% Local-First)",
-    "mobile_tools_title": "Outils & Assistants",
     "mobile_tool_audio_title": "Studio Audio & Ambiance",
     "mobile_tool_audio_sub": "Sons naturels, beats, MP3, Spotify, DJ",
     "mobile_tool_alarm_title": "Réveil",
@@ -7452,9 +7602,6 @@ const customTranslations = {
     "chip_pasta": "🍝 Pâtes",
     "chip_cheese": "🧀 Fromage",
     "chip_onions": "🧅 Oignons",
-    "shop_log_hint": "Cocher les achats les archive dans l'historique.",
-
-    "add": "Ajouter une tâche",
     "add_column": "Ajouter une carte",
     "add_task": "Ajouter une tâche",
     "afternoon_peak": "Après-midi (12h00 - 18h00)",
@@ -7471,7 +7618,7 @@ const customTranslations = {
     "audio_center_subtitle": "Focus, Beats & Studio Mix",
     "audio_center_title": "Centre Audio",
     "audio_live_badge": "EN DIRECT",
-    "audio_no_sound_active": "Aucun son actif · Choisissez un préréglage ou une piste",
+    "audio_no_sound_active": "Aucun son actif · Choisissez une ambiance ou piste",
     "audio_section_harmony": "Harmonies & Mélodies",
     "audio_section_nature": "Nature & Atmosphère",
     "audio_stop_all": "Arrêt",
@@ -7482,7 +7629,7 @@ const customTranslations = {
     "audio_tab_dj": "Outil DJ",
     "audio_tab_nature": "Nature",
     "audio_tab_player": "Lecteur & Médias",
-    "board_clear_lists": "Vider les cartes",
+    "board_clear_lists": "Vider les listes",
     "board_columns": "Personnaliser cartes",
     "board_reset": "Réinitialiser",
     "board_undo": "Annuler",
@@ -7741,7 +7888,6 @@ const customTranslations = {
     "pause_eyes_202020_desc": "Contre la fatigue des écrans",
     "pause_eyes_202020_title": "Repos Oculaire 20-20-20",
     "pause_eyes_sub": "20s relaxation écran & paumes chaudes",
-    "pause_eyes_title": "Pause Yeux 20-20-20 & Palming",
     "pause_grounding_sub": "Te ramène immédiatement au présent",
     "pause_grounding_title": "Ancrage 5-4-3-2-1",
     "pause_hub_title": "Pause & Ancrage Sensoriel",
@@ -7758,7 +7904,6 @@ const customTranslations = {
     "pause_stretch_title": "Étirement du Corps & Cou",
     "pause_tab_break": "Micro-Pauses",
     "pause_tab_breathing": "Respiration",
-    "pause_tab_sensory": "Sens & Corps",
     "pause_tea_desc": "Savourer une boisson chaude",
     "pause_tea_title": "Pause Thé en Pleine Conscience",
     "peak_hours": "Période Productive",
@@ -7814,8 +7959,6 @@ const customTranslations = {
     "settings_start_tour_btn": "Lancer la visite 🚀",
     "settings_tour": "Visite 🚀",
     "shop_add_btn": "Ajouter",
-    "shop_add_placeholder": "Ajouter un article (ex. 2x lait d'avoine, pain)...",
-    "shop_clear": "Tout effacer",
     "shop_empty": "Ta liste de courses est vide !",
     "shop_history": "Historique",
     "shop_recent_bought": "Acheté récemment",
@@ -7823,7 +7966,7 @@ const customTranslations = {
     "sound_afrobeats": "Afrobeats",
     "sound_binaural_alpha": "Ondes Alpha (Focus)",
     "sound_binaural_theta": "Ondes Thêta (Calme)",
-    "sound_birds": "Oiseaux de Forêt",
+    "sound_birds": "🐦 Oiseaux",
     "sound_boombap": "Boom-Bap",
     "sound_bossa_nova": "Bossa Nova",
     "sound_breeze": "Bruissement de Feuilles",
@@ -7888,13 +8031,11 @@ const customTranslations = {
     "sphere_supermarket_badge": "Courses",
     "sphere_supermarket_desc": "Tri par rayons",
     "standard_mode": "Vue Standard",
-    "start": "Démarrer",
     "start_focus": "Démarrer le Focus",
     "start_timer": "Démarrer le minuteur",
     "steps_btn": "Étapes",
     "steps_desc": "Sélectionne une tâche pour voir son découpage détaillé pas à pas :",
     "steps_tab": "Étapes",
-    "stop": "Arrêter",
     "studio_label": "STUDIO",
     "study_deep": "Étude approfondie",
     "study_focus": "Focus d'étude",
@@ -8003,7 +8144,6 @@ const customTranslations = {
     "workspace_work": "Travail & Projets",
     "zen_title": "Focus Zen",
     "nav_shopping": "Courses",
-    "shop_open_items": "À acheter",
     "nav_cooking": "Cuisine",
     "sound_campfire": "Feu de camp",
     "export": "Exporter",
@@ -8083,13 +8223,113 @@ const customTranslations = {
     "break_stop": "Fin de pause",
     "deep_focus_timer": "Minuteur de concentration profonde",
     "news_all_topics": "Tous les thèmes",
-    "news_all_sources": "Toutes les sources",
     "news_read_aloud": "Lecture audio",
-    "close": "Fermer",
     "save_as_task": "Enregistrer comme tâche",
     "all_devices_offline": "Tous appareils & hors-ligne",
     "all_categories": "Toutes les catégories",
-    "pause": "Pause"
+    "celebration_btn_report": "Voir le bilan de la journée 📊",
+    "shop_tab_pantry": "Garde-manger",
+    "settings_open_all": "Tous les réglages et thèmes ⚙️",
+    "report_dashboard_title": "Statistiques et progrès",
+    "radio_no_station_selected": "Aucune station sélectionnée",
+    "safespace_relieve_inertia": "Dissipe la lourdeur corporelle et l'inertie",
+    "safespace_open_fullscreen": "Ouvrir le studio de récupération plein écran ↗",
+    "quick_lang_select": "🌐 Choisir la langue",
+    "mode_studio_short": "◨ Studio",
+    "mode_compact_short": "🗗 Compact",
+    "mode_turbo_short": "⚡ Turbo",
+    "volume": "Volume",
+    "collab_share_current_board": "Partager le tableau actuel avec l'équipe",
+    "news_loading_live": "Chargement des actualités en direct...",
+    "news_output_lang": "1. Langue d'affichage (Traduction)",
+    "shop_add_list_btn": "Ajouter une liste",
+    "shop_cat_wishes": "❤️ Envies & Cadeaux",
+    "create": "Créer",
+    "safespace_breath_calm": "Respiration & Sérénité",
+    "pick_executive_subtitle": "Assistant d'action pour votre prochaine étape",
+    "sport_opt_3min": "3 min · 3 exercices (Express)",
+    "sport_opt_5min": "5 min · 5 exercices (Idéal)",
+    "sport_opt_8min": "8 min · 8 exercices (Intensif)",
+    "sport_opt_12min": "12 min · 12 exercices (Énergie)",
+    "sport_opt_16min": "16 min · 16 exercices (Circuit complet)",
+    "sport_zone_fullbody": "🌟 Corps entier équilibré",
+    "sport_zone_core": "🔥 Gainage & Stabilité du tronc",
+    "sport_zone_legs_nojump": "🦵 Jambes & Fessiers (Sans sauts)",
+    "sport_zone_upper": "💪 Haut du corps & Posture",
+    "sport_composed_exercises": "Exercices préparés :",
+    "sport_cat_all": "Toutes les catégories",
+    "sport_cat_legs": "🦵 Jambes & Fessiers",
+    "sport_cat_upper": "💪 Haut du corps",
+    "sport_cat_flow": "🤸 Corps entier & Fluidité",
+    "sport_spoon_1": "🔋 1 Cuillère · Allongé ou assis (Très doux)",
+    "sport_spoon_2": "🔋 2 Cuillères · Debout, étirements (Modéré)",
+    "sport_spoon_3": "🔋 3 Cuillères · Mini-boost énergisant (Efficace)",
+    "exercise": "Exercice",
+    "sport_focus_legs": "🎯 Cible : Jambes & Fessiers",
+    "sport_next_up": "À suivre :",
+    "sport_ex_glute_bridge": "Pont fessier",
+    "settings_all_devices": "Tous appareils & Mode hors-ligne",
+    "settings_install_local_title": "Installer Noodle comme application locale",
+    "settings_interaction_desc": "Choisissez comment les panneaux et popovers s'affichent dans l'espace de travail.",
+    "mode_studio_dock": "◨ Studio Dock",
+    "mode_studio_dock_desc": "Les outils s'ouvrent au clic, se réduisent en barre des tâches ou s'épinglent.",
+    "mode_compact_focus": "🗗 Compact / Focus",
+    "mode_compact_desc": "Les fenêtres s'ouvrent centrées et se ferment d'un simple clic extérieur.",
+    "mode_turbo_hover": "⚡ Turbo-Hover",
+    "mode_turbo_desc": "Pour les rapides : Basculement ultra-rapide au survol (40 ms) comme les onglets Edge.",
+    "settings_timer_preset_desc": "Durée par défaut en minutes pour chaque nouvelle session de minuteur.",
+    "settings_reset_desc": "Réinitialise complètement les données locales à leur état d'origine.",
+    "settings_add_screenshot": "Joindre une capture d'écran 📷",
+    "cmd_run": "↵ Exécuter",
+    "cmd_shortcuts_help": "Raccourcis clavier (?)",
+    "step": "Étape",
+    "cleaning_step_timer": "Minuteur d'étape :",
+    "clean_cheat_sheet_title": "Fiche mémo efficace (Codes couleurs & Bonnes pratiques)",
+    "clean_cloth_blue": "Pour la poussière, étagères, bureaux et miroirs",
+    "clean_cloth_yellow": "Pour la cuisine, plaques, tables et plans de travail",
+    "clean_cloth_red": "Exclusivement réservé aux toilettes (Hygiène !)",
+    "clean_tip_chemicals": "Pulvérisez le nettoyant anticalcaire et laissez agir 5 min : inutile de frotter fort !",
+    "clean_tip_dry_before_wet": "Aspirez ou balayez toujours les miettes sèches avant de passer la serpillère.",
+    "audio_studio_full_title": "Studio d'Ambiance & Audio",
+    "badge_pro_studio": "Studio Pro",
+    "audio_studio_sub": "Sons de la nature, rythmes, MP3, Spotify, DJ",
+    "boost_30s": "Micro-action 30s",
+    "safespace_exercises_grounding": "Exercices & Ancrage",
+    "sport_body_title": "Mouvement & Corps",
+    "sport_1min_workouts": "Entraînements d'une minute",
+    "preset_cozy_focus": "Focus chaleureux",
+    "safespace_tab_wave90": "Vague 90s",
+    "safespace_tab_need": "Besoin réel",
+    "safespace_tab_bridge": "Passerelle",
+    "safespace_need_longing": "Lien / Proximité",
+    "safespace_need_fatigue": "Fatigue physique",
+    "safespace_need_exhaustion": "Surcharge mentale",
+    "safespace_need_escape": "Évitement d'une émotion",
+    "safespace_other_bridge": "Proposer une autre passerelle immédiate 🔄",
+    "safespace_personal_anchors_title": "Vos ancrages personnels (Pourquoi cela vaut la peine de tenir bon) :",
+    "safespace_anchor_loved_ones": "❤️ Pour ceux que j'aime",
+    "safespace_butterfly_instruction": "Croisez les bras sur votre poitrine et tapotez doucement vos clavicules en alternance",
+    "safespace_sensory_grounding": "Ancrage sensoriel",
+    "safespace_shake_limbs": "Secouez doucement les mains, les épaules et les jambes...",
+    "safespace_choose_level": "Choisir le niveau",
+    "safespace_tension_level_desc": "Évaluez votre niveau actuel de tension pour vous orienter :",
+    "safespace_frequencies_desc": "Fréquences générées à 100% hors-ligne pour l'apaisement neuroacoustique :",
+    "safespace_frequencies_subtitle": "Relaxation profonde du système nerveux autonome",
+    "dilemma_radical_question": "Quelle serait la solution la plus radicale en 5 minutes ?",
+    "badge_100_offline": "100% Hors-ligne",
+    "pwa_native_app_desc": "Utiliser comme application autonome sur votre appareil",
+    "badge_100_offline_capable": "100% Hors-ligne",
+    "pwa_install_now_btn": "Installer maintenant 📲",
+    "pwa_offline_benefit": "Avantage hors-ligne :",
+    "pwa_step1_safari": "Étape 1 : Ouvrir dans Safari",
+    "presets_card_desc": "Choisissez des modèles de routines préconfigurés (Focus, Minimaliste, Entretien).",
+    "presets_choose_btn": "Choisir les modèles",
+    "sync_devices_title": "Synchronisation & Appairage",
+    "sync_devices_desc": "Connectez votre smartphone ou deuxième écran en temps réel par QR code ou cloud.",
+    "notifications_desc": "Autorisez les notifications système pour les minuteurs et rappels sonores.",
+    "offline_download_desc": "Téléchargez l'application complète sous forme de fichier hors-ligne autonome.",
+    "offline_bundle_btn": "Pack hors-ligne",
+    "step_choose_placeholder": "Sélectionner une étape"
   },
   "it": {
     "pick_tab_suggestion": "Suggerimento focus",
@@ -8164,7 +8404,7 @@ const customTranslations = {
     "report_cat_distribution": "Distribuzione per categoria",
     "report_completed_tasks": "Attività completate",
     "close": "Chiudi",
-    "add": "Aggiungi",
+    "add": "Aggiungi attività",
     "save": "Salva",
     "delete": "Elimina",
     "clear": "Cancella",
@@ -8180,10 +8420,10 @@ const customTranslations = {
     "shop_tab_list": "La mia lista",
     "shop_tab_deals": "Offerte",
     "shop_sale_badge": "Saldi",
-    "shop_add_placeholder": "Articolo (es. 2x latte d'avena, pomodori)...",
+    "shop_add_placeholder": "Aggiungi articolo (es. 2x latte d'avena, pane)...",
     "shop_open_items": "Da comprare",
     "shop_clear": "Cancella tutto",
-    "shop_log_hint": "Gli articoli spuntati vengono registrati.",
+    "shop_log_hint": "Spuntare gli acquisti li archivia nella cronologia.",
     "news_sec_lang": "🌐 1. Lingua di output",
     "news_auto_translate": "(Traduzione auto)",
     "news_app_standard": "Predefinito app",
@@ -8194,7 +8434,7 @@ const customTranslations = {
     "news_sec_topics": "📑 5. Temi e categorie",
     "news_speed_label": "Velocità voce:",
     "news_listening": "In lettura...",
-    "radio_no_station": "Nessuna stazione scelta",
+    "radio_no_station": "Nessuna stazione selezionata",
     "radio_available_stations": "Stazioni disponibili",
     "audio_mood_quick": "Atmosfere rapide (1-Click)",
     "audio_ready": "Ready instantly",
@@ -8215,9 +8455,9 @@ const customTranslations = {
     "collab_messengers": "Messaggistica",
     "collab_direct_chat": "Chat diretta",
     "collab_team_dashboard": "Dashboard team:",
-    "collab_team_board": "👥 Bacheca team",
+    "collab_team_board": "Bacheca team",
     "pause_tab_breath": "🌬️ Respiro",
-    "pause_tab_sensory": "⚓ Reset",
+    "pause_tab_sensory": "Sensi & Corpo",
     "pause_tab_body": "🧘 Corpo",
     "pause_tab_sound": "🎧 Suono",
     "pause_444_title": "Respirazione quadrata 4-4-4",
@@ -8228,7 +8468,7 @@ const customTranslations = {
     "pause_sigh_desc": "Reset nervoso più rapido (30s)",
     "pause_54321_title": "Ancoraggio 5-4-3-2-1",
     "pause_54321_desc": "Ferma i pensieri e ancora alla realtà",
-    "pause_eyes_title": "Pausa visiva 20-20-20",
+    "pause_eyes_title": "Pausa Occhi 20-20-20 & Palming",
     "pause_eyes_desc": "20s di pausa schermo e palmi caldi",
     "pause_detox_title": "Detox dopamina 60s (Silenzio)",
     "pause_detox_desc": "Pausa mentale senza stimoli né schermi",
@@ -8239,8 +8479,8 @@ const customTranslations = {
     "settings_free_badge": "Gratuito",
     "settings_free_desc": "Tutte le funzioni sono 100% locali e gratuite per sempre.",
     "settings_pro_soon": "Pro (presto disponibile)",
-    "mobile_menu_title": "Menu e impostazioni",
-    "mobile_tools_title": "Strumenti e assistenti",
+    "mobile_menu_title": "Menu & Impostazioni",
+    "mobile_tools_title": "Strumenti & Aiutanti",
     "mobile_backup_export_btn": "Esporta backup",
     "mobile_restore_btn": "Ripristina",
     "mobile_stats_report": "Statistiche / Report",
@@ -8325,7 +8565,6 @@ const customTranslations = {
     "mobile_ambient_windchime": "Scacciapensieri",
     "mobile_ambient_bowl": "Campana tibetana",
     "mobile_ambient_rain": "Pioggia",
-
     "media_audio_video": "Media Audio & Video",
     "media_load_file": "Carica file",
     "media_play": "Riproduci",
@@ -8337,16 +8576,12 @@ const customTranslations = {
     "media_youtube_hint": "Incolla URL video o diretta YouTube:",
     "media_youtube_load": "Carica ▶",
     "media_youtube_empty": "Nessun URL YouTube caricato finora.",
-    "radio_no_station": "Nessuna stazione selezionata",
-    "radio_available_stations": "Stazioni disponibili",
     "news_all_sources": "Tutte le fonti",
     "news_speed_fast": "Rapido (22s)",
     "news_speed_normal": "Normale (30s)",
     "news_speed_calm": "Tranquillo (42s)",
     "collab_active_members": "Membri attivi:",
-    "collab_team_dashboard": "Dashboard team:",
     "collab_share_board": "Condividi bacheca",
-    "collab_team_board": "Bacheca team",
     "collab_quick_share": "⚡ Condivisione rapida:",
     "collab_chip_sprint": "🚀 Sprint focus",
     "collab_chip_coffee": "☕ Pausa caffè",
@@ -8367,10 +8602,8 @@ const customTranslations = {
     "shortcuts_open_overview": "Apri questa panoramica",
     "shortcuts_close_modals": "Chiudi popup e modali",
     "shortcuts_understood": "Ho capito ✓",
-    "mobile_menu_title": "Menu & Impostazioni",
     "mobile_backup_export": "Backup & Esportazione",
     "mobile_backup_btn": "Esporta backup",
-    "mobile_restore_btn": "Ripristina",
     "mobile_view_report": "Visualizzazione & Report",
     "mobile_stats_btn": "Statistiche / Report",
     "mobile_themes_btn": "Temi",
@@ -8382,10 +8615,7 @@ const customTranslations = {
     "mobile_load_plan_btn": "Carica piano",
     "mobile_reset_btn": "Ripristina",
     "mobile_start_tour": "Avvia tour e onboarding",
-    "mobile_feedback": "Feedback",
-    "mobile_options": "Opzioni",
     "mobile_privacy_legal": "Privacy & Note legali (100% Local-First)",
-    "mobile_tools_title": "Strumenti & Aiutanti",
     "mobile_tool_audio_title": "Studio Audio & Atmosfera",
     "mobile_tool_audio_sub": "Suoni della natura, beat, MP3, Spotify, DJ",
     "mobile_tool_alarm_title": "Sveglia",
@@ -8418,9 +8648,6 @@ const customTranslations = {
     "chip_pasta": "🍝 Pasta",
     "chip_cheese": "🧀 Formaggio",
     "chip_onions": "🧅 Cipolle",
-    "shop_log_hint": "Spuntare gli acquisti li archivia nella cronologia.",
-
-    "add": "Aggiungi attività",
     "add_column": "Aggiungi scheda",
     "add_task": "Aggiungi attività",
     "afternoon_peak": "Pomeriggio (12:00 - 18:00)",
@@ -8437,7 +8664,7 @@ const customTranslations = {
     "audio_center_subtitle": "Focus, Beat & Mix Studio",
     "audio_center_title": "Centro Audio",
     "audio_live_badge": "LIVE",
-    "audio_no_sound_active": "Nessun suono attivo · Scegli un preset o traccia",
+    "audio_no_sound_active": "Nessun suono attivo · Scegli un preset o brano",
     "audio_section_harmony": "Armonie & Melodie",
     "audio_section_nature": "Natura & Atmosfera",
     "audio_stop_all": "Stop",
@@ -8707,7 +8934,6 @@ const customTranslations = {
     "pause_eyes_202020_desc": "Contro l'affaticamento da schermo",
     "pause_eyes_202020_title": "Riposo Occhi 20-20-20",
     "pause_eyes_sub": "20s riposo schermo & palmi caldi",
-    "pause_eyes_title": "Pausa Occhi 20-20-20 & Palming",
     "pause_grounding_sub": "Ti riporta subito al momento presente",
     "pause_grounding_title": "Radicamento 5-4-3-2-1",
     "pause_hub_title": "Pausa & Reset Sensoriale",
@@ -8724,7 +8950,6 @@ const customTranslations = {
     "pause_stretch_title": "Stretching Corpo & Collo",
     "pause_tab_break": "Micro-Pause",
     "pause_tab_breathing": "Respirazione",
-    "pause_tab_sensory": "Sensi & Corpo",
     "pause_tea_desc": "Gusta una bevanda calda",
     "pause_tea_title": "Pausa Tè Consapevole",
     "peak_hours": "Ore Più Produttive",
@@ -8780,8 +9005,6 @@ const customTranslations = {
     "settings_start_tour_btn": "Avvia il Tour 🚀",
     "settings_tour": "Guida 🚀",
     "shop_add_btn": "Aggiungi",
-    "shop_add_placeholder": "Aggiungi articolo (es. 2x latte d'avena, pane)...",
-    "shop_clear": "Cancella tutto",
     "shop_empty": "La tua lista della spesa è pulita!",
     "shop_history": "Cronologia",
     "shop_recent_bought": "Acquistati di recente",
@@ -8789,7 +9012,7 @@ const customTranslations = {
     "sound_afrobeats": "Afrobeats",
     "sound_binaural_alpha": "Onde Alpha (Focus)",
     "sound_binaural_theta": "Onde Theta (Calma)",
-    "sound_birds": "Uccelli del Bosco",
+    "sound_birds": "🐦 Uccelli",
     "sound_boombap": "Boom-Bap",
     "sound_bossa_nova": "Bossa Nova",
     "sound_breeze": "Fruscio di Foglie",
@@ -8854,13 +9077,11 @@ const customTranslations = {
     "sphere_supermarket_badge": "Spesa",
     "sphere_supermarket_desc": "Ordinamento corsie",
     "standard_mode": "Vista Standard",
-    "start": "Avvia",
     "start_focus": "Inizia Focus",
     "start_timer": "Avvia Timer",
     "steps_btn": "Passaggi",
     "steps_desc": "Seleziona un'attività per visualizzare la suddivisione dettagliata passo dopo passo:",
     "steps_tab": "Passaggi",
-    "stop": "Ferma",
     "studio_label": "STUDIO",
     "study_deep": "Studio approfondito",
     "study_focus": "Focus studio",
@@ -8969,7 +9190,6 @@ const customTranslations = {
     "workspace_work": "Lavoro & Progetti",
     "zen_title": "Focus Zen",
     "nav_shopping": "Spesa",
-    "shop_open_items": "Da comprare",
     "nav_cooking": "Cucina",
     "sound_campfire": "Falò",
     "export": "Esporta",
@@ -9049,13 +9269,113 @@ const customTranslations = {
     "break_stop": "Termina pausa",
     "deep_focus_timer": "Timer di concentrazione profonda",
     "news_all_topics": "Tutti i temi",
-    "news_all_sources": "Tutte le fonti",
     "news_read_aloud": "Lettura vocale",
-    "close": "Chiudi",
     "save_as_task": "Salva come attività",
     "all_devices_offline": "Tutti i dispositivi & offline",
     "all_categories": "Tutte le categorie",
-    "pause": "Pausa"
+    "celebration_btn_report": "Visualizza resoconto giornaliero 📊",
+    "shop_tab_pantry": "Dispensa",
+    "settings_open_all": "Tutte le impostazioni e temi ⚙️",
+    "report_dashboard_title": "Statistiche e progressi",
+    "radio_no_station_selected": "Nessuna stazione selezionata",
+    "safespace_relieve_inertia": "Scioglie rigidità corporea e inerzia",
+    "safespace_open_fullscreen": "Apri studio di recupero a schermo intero ↗",
+    "quick_lang_select": "🌐 Seleziona lingua",
+    "mode_studio_short": "◨ Studio",
+    "mode_compact_short": "🗗 Compatto",
+    "mode_turbo_short": "⚡ Turbo",
+    "volume": "Volume",
+    "collab_share_current_board": "Condividi la bacheca corrente con il team",
+    "news_loading_live": "Caricamento notizie in tempo reale...",
+    "news_output_lang": "1. Lingua di visualizzazione (Traduzione)",
+    "shop_add_list_btn": "Aggiungi lista",
+    "shop_cat_wishes": "❤️ Desideri",
+    "create": "Crea",
+    "safespace_breath_calm": "Respirazione & Calma",
+    "pick_executive_subtitle": "Assistente per il tuo prossimo passo immediato",
+    "sport_opt_3min": "3 min · 3 esercizi (Express)",
+    "sport_opt_5min": "5 min · 5 esercizi (Ideale)",
+    "sport_opt_8min": "8 min · 8 esercizi (Intensivo)",
+    "sport_opt_12min": "12 min · 12 esercizi (Energia)",
+    "sport_opt_16min": "16 min · 16 esercizi (Circuito completo)",
+    "sport_zone_fullbody": "🌟 Corpo intero equilibrato",
+    "sport_zone_core": "🔥 Core & Stabilità del busto",
+    "sport_zone_legs_nojump": "🦵 Gambe & Glutei (Senza salti)",
+    "sport_zone_upper": "💪 Parte superiore & Postura",
+    "sport_composed_exercises": "Esercizi preparati:",
+    "sport_cat_all": "Tutte le categorie",
+    "sport_cat_legs": "🦵 Gambe & Glutei",
+    "sport_cat_upper": "💪 Parte superiore",
+    "sport_cat_flow": "🤸 Corpo intero & Flow",
+    "sport_spoon_1": "🔋 1 Cucchiaio · Sdraiato o seduto (Molto dolce)",
+    "sport_spoon_2": "🔋 2 Cucchiai · In piedi, stretching leggero (Moderato)",
+    "sport_spoon_3": "🔋 3 Cucchiai · Mini-carica attivante (Efficace)",
+    "exercise": "Esercizio",
+    "sport_focus_legs": "🎯 Focus: Gambe & Glutei",
+    "sport_next_up": "Successivo:",
+    "sport_ex_glute_bridge": "Ponte per glutei",
+    "settings_all_devices": "Tutti i dispositivi & Offline",
+    "settings_install_local_title": "Installa Noodle come applicazione locale",
+    "settings_interaction_desc": "Scegli come visualizzare pannelli e popover nell'area di lavoro.",
+    "mode_studio_dock": "◨ Studio Dock",
+    "mode_studio_dock_desc": "Gli strumenti si aprono con un clic, si riducono nella barra o si agganciano.",
+    "mode_compact_focus": "🗗 Compatto / Focus",
+    "mode_compact_desc": "I pannelli si aprono al centro e si chiudono cliccando all'esterno.",
+    "mode_turbo_hover": "⚡ Turbo-Hover",
+    "mode_turbo_desc": "Per la massima rapidità: Cambio ultra-veloce al passaggio del mouse (40 ms) in stile schede Edge.",
+    "settings_timer_preset_desc": "Minuti predefiniti per ogni nuova sessione del timer.",
+    "settings_reset_desc": "Ripristina completamente la memoria del browser allo stato iniziale.",
+    "settings_add_screenshot": "Allega screenshot 📷",
+    "cmd_run": "↵ Esegui",
+    "cmd_shortcuts_help": "Scorciatoie da tastiera (?)",
+    "step": "Passo",
+    "cleaning_step_timer": "Timer focalizzato sul passo:",
+    "clean_cheat_sheet_title": "Guida rapida per principianti (Colori & Regole)",
+    "clean_cloth_blue": "Per polvere, mensole, scrivanie e specchi",
+    "clean_cloth_yellow": "Per cucina, fornelli, tavoli e superfici",
+    "clean_cloth_red": "Esclusivamente per WC e sanitari (Igiene!)",
+    "clean_tip_chemicals": "Spruzza l'anticalcare e lascia agire 5 min facendo altro: nessuno sfregamento faticoso!",
+    "clean_tip_dry_before_wet": "Aspira o spazza sempre polvere e briciole a secco prima di lavare con acqua.",
+    "audio_studio_full_title": "Studio Audio & Atmosfere",
+    "badge_pro_studio": "Studio Pro",
+    "audio_studio_sub": "Suoni della natura, beat per genere, MP3, Spotify, DJ",
+    "boost_30s": "Micro-azione 30s",
+    "safespace_exercises_grounding": "Esercizi & Radicamento",
+    "sport_body_title": "Attività fisica & Corpo",
+    "sport_1min_workouts": "Allenamenti da 1 minuto",
+    "preset_cozy_focus": "Focus accogliente",
+    "safespace_tab_wave90": "Onda 90s",
+    "safespace_tab_need": "Bisogno reale",
+    "safespace_tab_bridge": "Ponte d'azione",
+    "safespace_need_longing": "Affetto / Vicinanza",
+    "safespace_need_fatigue": "Stanchezza fisica",
+    "safespace_need_exhaustion": "Sovraccarico mentale",
+    "safespace_need_escape": "Fuga da un'emozione",
+    "safespace_other_bridge": "Suggerisci un'altra alternativa immediata 🔄",
+    "safespace_personal_anchors_title": "Le tue ancore personali (Perché vale la pena perseverare):",
+    "safespace_anchor_loved_ones": "❤️ Per i miei cari",
+    "safespace_butterfly_instruction": "Incrocia le braccia sul petto e picchietta dolcemente le clavicole alternando i lati",
+    "safespace_sensory_grounding": "Radicamento sensoriale",
+    "safespace_shake_limbs": "Scuoti dolcemente mani, spalle e gambe...",
+    "safespace_choose_level": "Seleziona livello",
+    "safespace_tension_level_desc": "Indica il tuo livello di tensione attuale per autovalutarti:",
+    "safespace_frequencies_desc": "Frequenze generate al 100% offline per la distensione neuroacustica:",
+    "safespace_frequencies_subtitle": "Rilassamento profondo del sistema nervoso autonomo",
+    "dilemma_radical_question": "Quale sarebbe la soluzione più radicale in 5 minuti?",
+    "badge_100_offline": "100% Offline",
+    "pwa_native_app_desc": "Utilizza come app autonoma sul tuo dispositivo",
+    "badge_100_offline_capable": "100% Compatibile offline",
+    "pwa_install_now_btn": "Installa ora 📲",
+    "pwa_offline_benefit": "Vantaggio offline:",
+    "pwa_step1_safari": "Passo 1: Apri in Safari",
+    "presets_card_desc": "Scegli routine preconfigurate (Focus, Minimalista, Guida domestica).",
+    "presets_choose_btn": "Scegli preset",
+    "sync_devices_title": "Sincronizzazione & Dispositivi",
+    "sync_devices_desc": "Collega lo smartphone o secondo schermo in tempo reale tramite codice QR o cloud.",
+    "notifications_desc": "Abilita notifiche di sistema per timer e promemoria audio.",
+    "offline_download_desc": "Scarica l'intera app Noodle come pacchetto offline portatile per l'uso ovunque.",
+    "offline_bundle_btn": "Pacchetto offline",
+    "step_choose_placeholder": "Seleziona passo"
   },
   "es": {
     "pick_tab_suggestion": "Sugerencia de enfoque",
@@ -9130,7 +9450,7 @@ const customTranslations = {
     "report_cat_distribution": "Distribución por categorías",
     "report_completed_tasks": "Tareas completadas",
     "close": "Cerrar",
-    "add": "Añadir",
+    "add": "Añadir tarea",
     "save": "Guardar",
     "delete": "Eliminar",
     "clear": "Limpiar",
@@ -9146,10 +9466,10 @@ const customTranslations = {
     "shop_tab_list": "Mi lista",
     "shop_tab_deals": "Ofertas",
     "shop_sale_badge": "Oferta",
-    "shop_add_placeholder": "Artículo (ej. 2x leche de avena, tomates)...",
+    "shop_add_placeholder": "Añadir artículo (ej. 2x leche de avena, pan)...",
     "shop_open_items": "Por comprar",
     "shop_clear": "Borrar todo",
-    "shop_log_hint": "Los artículos marcados se registran.",
+    "shop_log_hint": "Marcar compras las archiva en el historial.",
     "news_sec_lang": "🌐 1. Idioma de salida",
     "news_auto_translate": "(Traducción auto)",
     "news_app_standard": "Predeterminado app",
@@ -9160,7 +9480,7 @@ const customTranslations = {
     "news_sec_topics": "📑 5. Temas y secciones",
     "news_speed_label": "Velocidad de voz:",
     "news_listening": "Leyendo en voz alta...",
-    "radio_no_station": "Ninguna emisora elegida",
+    "radio_no_station": "Ninguna emisora seleccionada",
     "radio_available_stations": "Emisoras disponibles",
     "audio_mood_quick": "Ambientes rápidos (1-clic)",
     "audio_ready": "Listo al instante",
@@ -9181,9 +9501,9 @@ const customTranslations = {
     "collab_messengers": "Mensajería",
     "collab_direct_chat": "Chat directo",
     "collab_team_dashboard": "Panel de equipo:",
-    "collab_team_board": "👥 Tablero de equipo",
+    "collab_team_board": "Tablero de equipo",
     "pause_tab_breath": "🌬️ Respiración",
-    "pause_tab_sensory": "⚓ Reiniciar",
+    "pause_tab_sensory": "Sentidos y Cuerpo",
     "pause_tab_body": "🧘 Cuerpo",
     "pause_tab_sound": "🎧 Sonido",
     "pause_444_title": "Respiración cuadrada 4-4-4",
@@ -9194,7 +9514,7 @@ const customTranslations = {
     "pause_sigh_desc": "Reset nervioso más rápido (30s)",
     "pause_54321_title": "Anclaje 5-4-3-2-1",
     "pause_54321_desc": "Detiene rumiaciones y ancla al presente",
-    "pause_eyes_title": "Pausa visual 20-20-20",
+    "pause_eyes_title": "Pausa Ocular 20-20-20 & Palming",
     "pause_eyes_desc": "20s de descanso de pantalla y palmas cálidas",
     "pause_detox_title": "Desintoxicación de dopamina 60s (Silencio)",
     "pause_detox_desc": "Pausa mental sin estímulos ni pantallas",
@@ -9205,8 +9525,8 @@ const customTranslations = {
     "settings_free_badge": "Gratis",
     "settings_free_desc": "Todas las funciones principales son 100% locales y siempre gratuitas.",
     "settings_pro_soon": "Pro (próximamente)",
-    "mobile_menu_title": "Menú y ajustes",
-    "mobile_tools_title": "Herramientas y asistentes",
+    "mobile_menu_title": "Menú y Configuración",
+    "mobile_tools_title": "Herramientas y Ayudantes",
     "mobile_backup_export_btn": "Exportar copia",
     "mobile_restore_btn": "Restaurar",
     "mobile_stats_report": "Estadísticas / Informe",
@@ -9291,7 +9611,6 @@ const customTranslations = {
     "mobile_ambient_windchime": "Carillón",
     "mobile_ambient_bowl": "Cuenco tibetano",
     "mobile_ambient_rain": "Lluvia",
-
     "media_audio_video": "Medios Audio & Video",
     "media_load_file": "Cargar archivo",
     "media_play": "Reproducir",
@@ -9303,16 +9622,12 @@ const customTranslations = {
     "media_youtube_hint": "Pega una URL de video o transmisión en vivo de YouTube:",
     "media_youtube_load": "Cargar ▶",
     "media_youtube_empty": "Aún no se ha cargado ninguna URL de YouTube.",
-    "radio_no_station": "Ninguna emisora seleccionada",
-    "radio_available_stations": "Emisoras disponibles",
     "news_all_sources": "Todas las fuentes",
     "news_speed_fast": "Rápido (22s)",
     "news_speed_normal": "Normal (30s)",
     "news_speed_calm": "Tranquilo (42s)",
     "collab_active_members": "Miembros activos:",
-    "collab_team_dashboard": "Panel de equipo:",
     "collab_share_board": "Compartir tablero",
-    "collab_team_board": "Tablero de equipo",
     "collab_quick_share": "⚡ Compartir rápido:",
     "collab_chip_sprint": "🚀 Sprint de foco",
     "collab_chip_coffee": "☕ Pausa para café",
@@ -9333,10 +9648,8 @@ const customTranslations = {
     "shortcuts_open_overview": "Abrir este resumen",
     "shortcuts_close_modals": "Cerrar modales y ventanas",
     "shortcuts_understood": "Entendido ✓",
-    "mobile_menu_title": "Menú y Configuración",
     "mobile_backup_export": "Copia de seguridad y Exportación",
     "mobile_backup_btn": "Exportar copia",
-    "mobile_restore_btn": "Restaurar",
     "mobile_view_report": "Vista y Reportes",
     "mobile_stats_btn": "Estadísticas / Reporte",
     "mobile_themes_btn": "Temas",
@@ -9348,10 +9661,7 @@ const customTranslations = {
     "mobile_load_plan_btn": "Cargar plan",
     "mobile_reset_btn": "Restablecer",
     "mobile_start_tour": "Iniciar tour y bienvenida",
-    "mobile_feedback": "Comentarios",
-    "mobile_options": "Opciones",
     "mobile_privacy_legal": "Privacidad y Aviso legal (100% Local-First)",
-    "mobile_tools_title": "Herramientas y Ayudantes",
     "mobile_tool_audio_title": "Estudio de Audio y Atmósfera",
     "mobile_tool_audio_sub": "Sonidos de la naturaleza, beats, MP3, Spotify, DJ",
     "mobile_tool_alarm_title": "Alarma",
@@ -9384,9 +9694,6 @@ const customTranslations = {
     "chip_pasta": "🍝 Pasta",
     "chip_cheese": "🧀 Queso",
     "chip_onions": "🧅 Cebollas",
-    "shop_log_hint": "Marcar compras las archiva en el historial.",
-
-    "add": "Añadir tarea",
     "add_column": "Añadir tarjeta",
     "add_task": "Añadir tarea",
     "afternoon_peak": "Tarde (12:00 - 18:00)",
@@ -9403,7 +9710,7 @@ const customTranslations = {
     "audio_center_subtitle": "Enfoque, Ritmos y Estudio Mix",
     "audio_center_title": "Centro de Audio",
     "audio_live_badge": "EN VIVO",
-    "audio_no_sound_active": "Sin sonido activo · Elige un ajuste preestablecido o pista",
+    "audio_no_sound_active": "Sin sonido activo · Elige un preset o pista",
     "audio_section_harmony": "Armonías y Melodías",
     "audio_section_nature": "Naturaleza y Atmósfera",
     "audio_stop_all": "Detener",
@@ -9414,7 +9721,7 @@ const customTranslations = {
     "audio_tab_dj": "Herramienta DJ",
     "audio_tab_nature": "Naturaleza",
     "audio_tab_player": "Reproductor y Medios",
-    "board_clear_lists": "Vaciar tarjetas",
+    "board_clear_lists": "Limpiar tableros",
     "board_columns": "Personalizar tarjetas",
     "board_reset": "Restablecer",
     "board_undo": "Deshacer",
@@ -9673,7 +9980,6 @@ const customTranslations = {
     "pause_eyes_202020_desc": "Alivia la fatiga de pantalla",
     "pause_eyes_202020_title": "Descanso Visual 20-20-20",
     "pause_eyes_sub": "20s descanso de pantalla y palmas cálidas",
-    "pause_eyes_title": "Pausa Ocular 20-20-20 & Palming",
     "pause_grounding_sub": "Te devuelve al momento presente",
     "pause_grounding_title": "Anclaje 5-4-3-2-1",
     "pause_hub_title": "Pausa y Enraizamiento Sensorial",
@@ -9690,7 +9996,6 @@ const customTranslations = {
     "pause_stretch_title": "Estiramiento de Cuerpo y Cuello",
     "pause_tab_break": "Micro-Pausas",
     "pause_tab_breathing": "Respiración",
-    "pause_tab_sensory": "Sentidos y Cuerpo",
     "pause_tea_desc": "Disfrutar una bebida caliente",
     "pause_tea_title": "Pausa de Té Consciente",
     "peak_hours": "Horas Más Productivas",
@@ -9746,8 +10051,6 @@ const customTranslations = {
     "settings_start_tour_btn": "Iniciar Tour 🚀",
     "settings_tour": "Guía 🚀",
     "shop_add_btn": "Añadir",
-    "shop_add_placeholder": "Añadir artículo (ej. 2x leche de avena, pan)...",
-    "shop_clear": "Borrar todo",
     "shop_empty": "¡Tu lista de compras está limpia!",
     "shop_history": "Historial",
     "shop_recent_bought": "Comprado recientemente",
@@ -9755,7 +10058,7 @@ const customTranslations = {
     "sound_afrobeats": "Afrobeats",
     "sound_binaural_alpha": "Ondas Alfa (Enfoque)",
     "sound_binaural_theta": "Ondas Theta (Calma)",
-    "sound_birds": "Aves del Bosque",
+    "sound_birds": "🐦 Pájaros",
     "sound_boombap": "Boom-Bap",
     "sound_bossa_nova": "Bossa Nova",
     "sound_breeze": "Hojas al Viento",
@@ -9820,13 +10123,11 @@ const customTranslations = {
     "sphere_supermarket_badge": "Compras",
     "sphere_supermarket_desc": "Orden por pasillos",
     "standard_mode": "Vista Estándar",
-    "start": "Iniciar",
     "start_focus": "Iniciar Enfoque",
     "start_timer": "Iniciar Temporizador",
     "steps_btn": "Pasos",
     "steps_desc": "Selecciona una tarea para ver el desglose detallado paso a paso:",
     "steps_tab": "Pasos",
-    "stop": "Detener",
     "studio_label": "STUDIO",
     "study_deep": "Estudio profundo",
     "study_focus": "Enfoque de estudio",
@@ -9935,7 +10236,6 @@ const customTranslations = {
     "workspace_work": "Trabajo y Proyectos",
     "zen_title": "Enfoque Zen",
     "nav_shopping": "Compras",
-    "shop_open_items": "Por comprar",
     "nav_cooking": "Cocina",
     "sound_campfire": "Hoguera",
     "export": "Exportar",
@@ -10015,13 +10315,113 @@ const customTranslations = {
     "break_stop": "Terminar descanso",
     "deep_focus_timer": "Temporizador de enfoque profundo",
     "news_all_topics": "Todos los temas",
-    "news_all_sources": "Todas las fuentes",
     "news_read_aloud": "Lectura en voz alta",
-    "close": "Cerrar",
     "save_as_task": "Guardar como tarea",
     "all_devices_offline": "Todos los dispositivos y sin conexión",
     "all_categories": "Todas las categorías",
-    "pause": "Pausa"
+    "celebration_btn_report": "Ver reporte del día 📊",
+    "shop_tab_pantry": "Despensa",
+    "settings_open_all": "Todos los ajustes y temas ⚙️",
+    "report_dashboard_title": "Estadísticas y progreso",
+    "radio_no_station_selected": "Ninguna emisora seleccionada",
+    "safespace_relieve_inertia": "Disipa la pesadez y la fatiga corporal",
+    "safespace_open_fullscreen": "Abrir estudio de relajación a pantalla completa ↗",
+    "quick_lang_select": "🌐 Seleccionar idioma",
+    "mode_studio_short": "◨ Studio",
+    "mode_compact_short": "🗗 Compacto",
+    "mode_turbo_short": "⚡ Turbo",
+    "volume": "Volumen",
+    "collab_share_current_board": "Compartir tablero actual con el equipo",
+    "news_loading_live": "Cargando noticias en directo...",
+    "news_output_lang": "1. Idioma de visualización (Traducción)",
+    "shop_add_list_btn": "Añadir lista",
+    "shop_cat_wishes": "❤️ Deseos",
+    "create": "Crear",
+    "safespace_breath_calm": "Respiración & Calma",
+    "pick_executive_subtitle": "Asistente para tu próximo paso inmediato",
+    "sport_opt_3min": "3 min · 3 ejercicios (Exprés)",
+    "sport_opt_5min": "5 min · 5 ejercicios (Óptimo)",
+    "sport_opt_8min": "8 min · 8 ejercicios (Intensivo)",
+    "sport_opt_12min": "12 min · 12 ejercicios (Potencia)",
+    "sport_opt_16min": "16 min · 16 ejercicios (Circuito total)",
+    "sport_zone_fullbody": "🌟 Cuerpo completo equilibrado",
+    "sport_zone_core": "🔥 Core & Estabilidad del tronco",
+    "sport_zone_legs_nojump": "🦵 Piernas & Glúteos (Sin saltos)",
+    "sport_zone_upper": "💪 Tren superior & Postura",
+    "sport_composed_exercises": "Ejercicios preparados:",
+    "sport_cat_all": "Todas las categorías",
+    "sport_cat_legs": "🦵 Piernas & Glúteos",
+    "sport_cat_upper": "💪 Tren superior",
+    "sport_cat_flow": "🤸 Cuerpo completo & Movilidad",
+    "sport_spoon_1": "🔋 1 Cuchara · Acostado o sentado (Muy suave)",
+    "sport_spoon_2": "🔋 2 Cucharas · De pie, estiramientos suaves (Moderado)",
+    "sport_spoon_3": "🔋 3 Cucharas · Mini-impulso energizante (Eficaz)",
+    "exercise": "Ejercicio",
+    "sport_focus_legs": "🎯 Enfoque: Piernas & Glúteos",
+    "sport_next_up": "A continuación:",
+    "sport_ex_glute_bridge": "Puente de glúteos",
+    "settings_all_devices": "Todos los dispositivos & Offline",
+    "settings_install_local_title": "Instalar Noodle como aplicación local",
+    "settings_interaction_desc": "Elige cómo se muestran los paneles y popovers en tu espacio de trabajo.",
+    "mode_studio_dock": "◨ Studio Dock",
+    "mode_studio_dock_desc": "Las herramientas se abren con un clic, se minimizan o se anclan al lateral.",
+    "mode_compact_focus": "🗗 Compacto / Enfoque",
+    "mode_compact_desc": "Los paneles se abren centrados y se cierran al hacer clic fuera.",
+    "mode_turbo_hover": "⚡ Turbo-Hover",
+    "mode_turbo_desc": "Para flujos rápidos: Cambio ultra-rápido al pasar el ratón (40 ms) estilo pestañas Edge.",
+    "settings_timer_preset_desc": "Minutos predeterminados para las nuevas sesiones de temporizador.",
+    "settings_reset_desc": "Restablece por completo la memoria local a su estado original.",
+    "settings_add_screenshot": "Adjuntar captura de pantalla 📷",
+    "cmd_run": "↵ Ejecutar",
+    "cmd_shortcuts_help": "Atajos de teclado (?)",
+    "step": "Paso",
+    "cleaning_step_timer": "Temporizador por paso:",
+    "clean_cheat_sheet_title": "Guía práctica para principiantes (Códigos de color & Reglas)",
+    "clean_cloth_blue": "Para polvo, estantes, escritorios y espejos",
+    "clean_cloth_yellow": "Para cocina, fogones, mesas y encimeras",
+    "clean_cloth_red": "Exclusivo para inodoro y sanitarios (¡Higiene!)",
+    "clean_tip_chemicals": "Aplica el antical y déjalo actuar 5 min mientras haces otra cosa: ¡no hace falta frotar fuerte!",
+    "clean_tip_dry_before_wet": "Pasa siempre la aspiradora o barre el polvo seco antes de fregar con agua.",
+    "audio_studio_full_title": "Estudio de Audio & Atmósferas",
+    "badge_pro_studio": "Estudio Pro",
+    "audio_studio_sub": "Sonidos naturales, ritmos por género, MP3, Spotify, DJ",
+    "boost_30s": "Micro-acción de 30s",
+    "safespace_exercises_grounding": "Ejercicios & Conexión a tierra",
+    "sport_body_title": "Movimiento & Cuerpo",
+    "sport_1min_workouts": "Entrenamientos de 1 minuto",
+    "preset_cozy_focus": "Enfoque acogedor",
+    "safespace_tab_wave90": "Ola de 90s",
+    "safespace_tab_need": "Necesidad real",
+    "safespace_tab_bridge": "Puente de acción",
+    "safespace_need_longing": "Conexión / Afecto",
+    "safespace_need_fatigue": "Fatiga física",
+    "safespace_need_exhaustion": "Sobrecarga mental",
+    "safespace_need_escape": "Evasión de una emoción",
+    "safespace_other_bridge": "Sugerir otra alternativa inmediata 🔄",
+    "safespace_personal_anchors_title": "Tus anclas personales (Por qué vale la pena mantenerte firme):",
+    "safespace_anchor_loved_ones": "❤️ Por mis seres queridos",
+    "safespace_butterfly_instruction": "Cruza los brazos sobre el pecho y da suaves toques alternos sobre las clavículas",
+    "safespace_sensory_grounding": "Anclaje sensorial",
+    "safespace_shake_limbs": "Sacude suavemente manos, hombros y piernas...",
+    "safespace_choose_level": "Seleccionar nivel",
+    "safespace_tension_level_desc": "Haz clic en tu nivel de tensión actual para orientarte:",
+    "safespace_frequencies_desc": "Frecuencias generadas 100% offline para la calma neuroacústica:",
+    "safespace_frequencies_subtitle": "Relajación profunda del sistema nervioso autónomo",
+    "dilemma_radical_question": "¿Cuál sería la solución más radical en 5 minutos?",
+    "badge_100_offline": "100% Offline",
+    "pwa_native_app_desc": "Úsala como app independiente en tu dispositivo",
+    "badge_100_offline_capable": "100% Funcional sin conexión",
+    "pwa_install_now_btn": "Instalar ahora 📲",
+    "pwa_offline_benefit": "Ventaja sin conexión:",
+    "pwa_step1_safari": "Paso 1: Abrir en Safari",
+    "presets_card_desc": "Elige rutinas preconfiguradas (Enfoque, Minimalista, Guía del hogar).",
+    "presets_choose_btn": "Elegir rutinas",
+    "sync_devices_title": "Sincronización & Dispositivos",
+    "sync_devices_desc": "Vincula tu smartphone o segunda pantalla en tiempo real con código QR o nube.",
+    "notifications_desc": "Permite notificaciones del sistema para temporizadores y recordatorios sonoros.",
+    "offline_download_desc": "Descarga la aplicación completa como archivo offline portátil para llevar.",
+    "offline_bundle_btn": "Paquete sin conexión",
+    "step_choose_placeholder": "Seleccionar paso"
   },
   "el": {
     "pick_tab_suggestion": "Πρόταση εστίασης",
@@ -10096,7 +10496,7 @@ const customTranslations = {
     "report_cat_distribution": "Κατανομή κατηγοριών",
     "report_completed_tasks": "Ολοκληρωμένες εργασίες",
     "close": "Κλείσιμο",
-    "add": "Προσθήκη",
+    "add": "Προσθήκη εργασίας",
     "save": "Αποθήκευση",
     "delete": "Διαγραφή",
     "clear": "Εκκαθάριση",
@@ -10112,10 +10512,10 @@ const customTranslations = {
     "shop_tab_list": "Η λίστα μου",
     "shop_tab_deals": "Προσφορές",
     "shop_sale_badge": "Έκπτωση",
-    "shop_add_placeholder": "Προϊόν (π.χ. 2x γάλα βρώμης, ντομάτες)...",
-    "shop_open_items": "Για αγορά",
+    "shop_add_placeholder": "Προσθήκη προϊόντος (π.χ. 2x γάλα βρώμης, ψωμί)...",
+    "shop_open_items": "Προς αγορά",
     "shop_clear": "Διαγραφή όλων",
-    "shop_log_hint": "Τα επιλεγμένα καταγράφονται.",
+    "shop_log_hint": "Η διαγραφή αγορών τις καταγράφει στο ιστορικό.",
     "news_sec_lang": "🌐 1. Γλώσσα εξόδου",
     "news_auto_translate": "(Αυτόματη μετάφραση)",
     "news_app_standard": "Προεπιλογή εφαρμογής",
@@ -10146,10 +10546,10 @@ const customTranslations = {
     "collab_team_space": "Χώρος ομάδας",
     "collab_messengers": "Εφαρμογές μηνυμάτων",
     "collab_direct_chat": "Άμεση συνομιλία",
-    "collab_team_dashboard": "Ταμπλό ομάδας:",
-    "collab_team_board": "👥 Πίνακας ομάδας",
+    "collab_team_dashboard": "Πίνακας ομάδας:",
+    "collab_team_board": "Πίνακας ομάδας",
     "pause_tab_breath": "🌬️ Αναπνοή",
-    "pause_tab_sensory": "⚓ Επαναφορά",
+    "pause_tab_sensory": "Αισθήσεις & Σώμα",
     "pause_tab_body": "🧘 Σώμα",
     "pause_tab_sound": "🎧 Ήχος",
     "pause_444_title": "Αναπνοή κουτιού 4-4-4",
@@ -10160,7 +10560,7 @@ const customTranslations = {
     "pause_sigh_desc": "Ταχύτερη βιολογική επαναφορά (30 δευτ.)",
     "pause_54321_title": "Γείωση 5-4-3-2-1",
     "pause_54321_desc": "Σταματά τις σκέψεις & επαναφέρει στην πραγματικότητα",
-    "pause_eyes_title": "Διάλειμμα ματιών 20-20-20",
+    "pause_eyes_title": "Χαλάρωση Ματιών 20-20-20",
     "pause_eyes_desc": "20 δευτ. ξεκούραση οθόνης & ζεστές παλάμες",
     "pause_detox_title": "Αποτοξίνωση ντοπαμίνης 60 δευτ. (Σιωπή)",
     "pause_detox_desc": "Διάλειμμα χωρίς οθόνη και ερεθίσματα",
@@ -10257,7 +10657,6 @@ const customTranslations = {
     "mobile_ambient_windchime": "Μενταγιόν ανέμου",
     "mobile_ambient_bowl": "Θιβετιανό μπολ",
     "mobile_ambient_rain": "Βροχή",
-
     "media_audio_video": "Μέσα Ήχου & Βίντεο",
     "media_load_file": "Φόρτωση αρχείου",
     "media_play": "Αναπαραγωγή",
@@ -10269,16 +10668,12 @@ const customTranslations = {
     "media_youtube_hint": "Επικολλήστε URL βίντεο ή ζωντανής μετάδοσης YouTube:",
     "media_youtube_load": "Φόρτωση ▶",
     "media_youtube_empty": "Δεν έχει φορτωθεί ακόμη URL YouTube.",
-    "radio_no_station": "Δεν έχει επιλεγεί σταθμός",
-    "radio_available_stations": "Διαθέσιμοι σταθμοί",
     "news_all_sources": "Όλες οι πηγές",
     "news_speed_fast": "Γρήγορο (22δ)",
     "news_speed_normal": "Κανονικό (30δ)",
     "news_speed_calm": "Ήρεμο (42δ)",
     "collab_active_members": "Ενεργά μέλη:",
-    "collab_team_dashboard": "Πίνακας ομάδας:",
     "collab_share_board": "Κοινοποίηση πίνακα",
-    "collab_team_board": "Πίνακας ομάδας",
     "collab_quick_share": "⚡ Γρήγορη κοινοποίηση:",
     "collab_chip_sprint": "🚀 Σπριντ εστίασης",
     "collab_chip_coffee": "☕ Διάλειμμα για καφέ",
@@ -10299,10 +10694,8 @@ const customTranslations = {
     "shortcuts_open_overview": "Άνοιγμα αυτής της επισκόπησης",
     "shortcuts_close_modals": "Κλείσιμο παραθύρων και αναδυόμενων",
     "shortcuts_understood": "Κατάλαβα ✓",
-    "mobile_menu_title": "Μενού & Ρυθμίσεις",
     "mobile_backup_export": "Αντίγραφα ασφαλείας & Εξαγωγή",
     "mobile_backup_btn": "Εξαγωγή αντιγράφου",
-    "mobile_restore_btn": "Επαναφορά",
     "mobile_view_report": "Προβολή & Αναφορές",
     "mobile_stats_btn": "Στατιστικά / Αναφορά",
     "mobile_themes_btn": "Θέματα εμφάνισης",
@@ -10314,10 +10707,7 @@ const customTranslations = {
     "mobile_load_plan_btn": "Φόρτωση πλάνου",
     "mobile_reset_btn": "Επαναφορά",
     "mobile_start_tour": "Έναρξη ξενάγησης & εισαγωγής",
-    "mobile_feedback": "Σχόλια",
-    "mobile_options": "Επιλογές",
     "mobile_privacy_legal": "Απόρρητο & Νομικές πληροφορίες (100% Local-First)",
-    "mobile_tools_title": "Εργαλεία & Βοηθοί",
     "mobile_tool_audio_title": "Στούντιο Ήχου & Ατμόσφαιρας",
     "mobile_tool_audio_sub": "Ήχοι φύσης, ρυθμοί, MP3, Spotify, DJ",
     "mobile_tool_alarm_title": "Ξυπνητήρι",
@@ -10350,9 +10740,6 @@ const customTranslations = {
     "chip_pasta": "🍝 Ζυμαρικά",
     "chip_cheese": "🧀 Τυρί",
     "chip_onions": "🧅 Κρεμμύδια",
-    "shop_log_hint": "Η διαγραφή αγορών τις καταγράφει στο ιστορικό.",
-
-    "add": "Προσθήκη εργασίας",
     "add_column": "Προσθήκη κάρτας",
     "add_task": "Προσθήκη εργασίας",
     "afternoon_peak": "Απόγευμα (12:00 - 18:00)",
@@ -10369,7 +10756,7 @@ const customTranslations = {
     "audio_center_subtitle": "Εστίαση, Ρυθμοί & Mix Studio",
     "audio_center_title": "Κέντρο Ήχου",
     "audio_live_badge": "ΖΩΝΤΑΝΑ",
-    "audio_no_sound_active": "Κανένας ήχος ενεργός · Επιλέξτε προεπιλογή ή κομμάτι",
+    "audio_no_sound_active": "Κανένας ενεργός ήχος · Επιλέξτε preset ή κομμάτι",
     "audio_section_harmony": "Αρμονίες & Μελωδίες",
     "audio_section_nature": "Φύση & Ατμόσφαιρα",
     "audio_stop_all": "Διακοπή",
@@ -10380,7 +10767,7 @@ const customTranslations = {
     "audio_tab_dj": "Εργαλείο DJ",
     "audio_tab_nature": "Φύση",
     "audio_tab_player": "Αναπαραγωγή & Πολυμέσα",
-    "board_clear_lists": "Άδειασμα καρτών",
+    "board_clear_lists": "Εκκαθάριση πινάκων",
     "board_columns": "Προσαρμογή καρτών",
     "board_reset": "Επαναφορά",
     "board_undo": "Αναίρεση",
@@ -10639,7 +11026,6 @@ const customTranslations = {
     "pause_eyes_202020_desc": "Ανακούφιση από την κούραση της οθόνης",
     "pause_eyes_202020_title": "Χαλάρωση Ματιών 20-20-20",
     "pause_eyes_sub": "20δ ξεκούραση από την οθόνη",
-    "pause_eyes_title": "Χαλάρωση Ματιών 20-20-20",
     "pause_grounding_sub": "Σε επαναφέρει άμεσα στο παρόν",
     "pause_grounding_title": "Γείωση 5-4-3-2-1",
     "pause_hub_title": "Διάλειμμα & Αισθητηριακή Γείωση",
@@ -10656,7 +11042,6 @@ const customTranslations = {
     "pause_stretch_title": "Διάταση Σώματος & Αυχένα",
     "pause_tab_break": "Μικρο-Διαλείμματα",
     "pause_tab_breathing": "Αναπνοή",
-    "pause_tab_sensory": "Αισθήσεις & Σώμα",
     "pause_tea_desc": "Απολαύστε ένα ζεστό ρόφημα ενσυνείδητα",
     "pause_tea_title": "Ενσυνείδητο Διάλειμμα Τσαγιού",
     "peak_hours": "Ώρες Κορυφαίας Απόδοσης",
@@ -10712,8 +11097,6 @@ const customTranslations = {
     "settings_start_tour_btn": "Έναρξη Περιήγησης 🚀",
     "settings_tour": "Ξενάγηση 🚀",
     "shop_add_btn": "Προσθήκη",
-    "shop_add_placeholder": "Προσθήκη προϊόντος (π.χ. 2x γάλα βρώμης, ψωμί)...",
-    "shop_clear": "Διαγραφή όλων",
     "shop_empty": "Η λίστα αγορών σου είναι καθαρή!",
     "shop_history": "Ιστορικό",
     "shop_recent_bought": "Πρόσφατα αγορασμένα",
@@ -10721,7 +11104,7 @@ const customTranslations = {
     "sound_afrobeats": "Afrobeats",
     "sound_binaural_alpha": "Κύματα Άλφα (Εστίαση)",
     "sound_binaural_theta": "Κύματα Θήτα (Ηρεμία)",
-    "sound_birds": "Πουλιά του Δάσους",
+    "sound_birds": "🐦 Πουλιά",
     "sound_boombap": "Boom-Bap",
     "sound_bossa_nova": "Bossa Nova",
     "sound_breeze": "Θρόισμα Φύλλων",
@@ -10786,13 +11169,11 @@ const customTranslations = {
     "sphere_supermarket_badge": "Ψώνια",
     "sphere_supermarket_desc": "Ταξινόμηση ανά διάδρομο",
     "standard_mode": "Βασική Προβολή",
-    "start": "Έναρξη",
     "start_focus": "Έναρξη Εστίασης",
     "start_timer": "Έναρξη Χρονομέτρου",
     "steps_btn": "Βήματα",
     "steps_desc": "Επίλεξε μια εργασία για να δεις τη λεπτομερή καθοδήγηση βήμα προς βήμα:",
     "steps_tab": "Βήματα",
-    "stop": "Διακοπή",
     "studio_label": "STUDIO",
     "study_deep": "Εις βάθος μελέτη",
     "study_focus": "Στόχος Μελέτης",
@@ -10901,7 +11282,6 @@ const customTranslations = {
     "workspace_work": "Εργασία & Έργα",
     "zen_title": "Εστίαση Zen",
     "nav_shopping": "Ψώνια",
-    "shop_open_items": "Προς αγορά",
     "nav_cooking": "Μαγειρική",
     "sound_campfire": "Φωτιά",
     "export": "Εξαγωγή",
@@ -10981,30 +11361,131 @@ const customTranslations = {
     "break_stop": "Τέλος διαλείμματος",
     "deep_focus_timer": "Χρονόμετρο βαθιάς εστίασης",
     "news_all_topics": "Όλα τα θέματα",
-    "news_all_sources": "Όλες οι πηγές",
     "news_read_aloud": "Φωνητική ανάγνωση",
-    "close": "Κλείσιμο",
     "save_as_task": "Αποθήκευση ως εργασία",
     "all_devices_offline": "Όλες οι συσκευές & εκτός σύνδεσης",
     "all_categories": "Όλες οι κατηγορίες",
-    "pause": "Παύση"
+    "celebration_btn_report": "Προβολή αναφοράς ημέρας 📊",
+    "shop_tab_pantry": "Προμήθειες",
+    "settings_open_all": "Όλες οι ρυθμίσεις & θέματα ⚙️",
+    "report_dashboard_title": "Στατιστικά & Πρόοδος",
+    "radio_no_station_selected": "Δεν έχει επιλεγεί σταθμός",
+    "safespace_relieve_inertia": "Διαλύει τη σωματική δυσκαμψία & αδράνεια",
+    "safespace_open_fullscreen": "Άνοιγμα στούντιο αποκατάστασης πλήρους οθόνης ↗",
+    "quick_lang_select": "🌐 Επιλογή γλώσσας",
+    "mode_studio_short": "◨ Studio",
+    "mode_compact_short": "🗗 Συμπαγές",
+    "mode_turbo_short": "⚡ Turbo",
+    "volume": "Ένταση",
+    "collab_share_current_board": "Κοινοποίηση τρέχοντος πίνακα με την ομάδα",
+    "news_loading_live": "Φόρτωση ζωντανών ειδήσεων...",
+    "news_output_lang": "1. Γλώσσα προβολής (Μετάφραση)",
+    "shop_add_list_btn": "Προσθήκη λίστας",
+    "shop_cat_wishes": "❤️ Επιθυμίες",
+    "create": "Δημιουργία",
+    "safespace_breath_calm": "Αναπνοή & Ηρεμία",
+    "pick_executive_subtitle": "Βοηθός δράσης για το επόμενο άμεσο βήμα σου",
+    "sport_opt_3min": "3 λεπτά · 3 ασκήσεις (Express)",
+    "sport_opt_5min": "5 λεπτά · 5 ασκήσεις (Ιδανικό)",
+    "sport_opt_8min": "8 λεπτά · 8 ασκήσεις (Εντατικό)",
+    "sport_opt_12min": "12 λεπτά · 12 ασκήσεις (Δυναμικό)",
+    "sport_opt_16min": "16 λεπτά · 16 ασκήσεις (Πλήρης κύκλος)",
+    "sport_zone_fullbody": "🌟 Ισορροπημένο πλήρες σώμα",
+    "sport_zone_core": "🔥 Κορμός & Σταθερότητα",
+    "sport_zone_legs_nojump": "🦵 Πόδια & Γλουτοί (Χωρίς άλματα)",
+    "sport_zone_upper": "💪 Άνω μέρος σώματος & Στάση",
+    "sport_composed_exercises": "Επιλεγμένες ασκήσεις:",
+    "sport_cat_all": "Όλες οι κατηγορίες",
+    "sport_cat_legs": "🦵 Πόδια & Γλουτοί",
+    "sport_cat_upper": "💪 Άνω μέρος σώματος",
+    "sport_cat_flow": "🤸 Πλήρες σώμα & Ροή",
+    "sport_spoon_1": "🔋 1 Κουτάλι · Ξαπλωτός ή καθιστός (Πολύ απαλό)",
+    "sport_spoon_2": "🔋 2 Κουτάλια · Όρθιες διατάσεις (Μέτριο)",
+    "sport_spoon_3": "🔋 3 Κουτάλια · Τονωτική ώθηση (Αποτελεσματικό)",
+    "exercise": "Άσκηση",
+    "sport_focus_legs": "🎯 Εστίαση: Πόδια & Γλουτοί",
+    "sport_next_up": "Ακολουθεί:",
+    "sport_ex_glute_bridge": "Γέφυρα γλουτών",
+    "settings_all_devices": "Όλες οι συσκευές & Λειτουργία εκτός σύνδεσης",
+    "settings_install_local_title": "Εγκατάσταση του Noodle ως τοπική εφαρμογή",
+    "settings_interaction_desc": "Επιλέξτε πώς εμφανίζονται τα παράθυρα εργαλείων και τα popovers στον χώρο εργασίας.",
+    "mode_studio_dock": "◨ Studio Dock",
+    "mode_studio_dock_desc": "Τα εργαλεία ανοίγουν με κλικ, ελαχιστοποιούνται ή καρφιτσώνονται στο πλάι.",
+    "mode_compact_focus": "🗗 Συμπαγές / Εστίαση",
+    "mode_compact_desc": "Τα παράθυρα ανοίγουν κεντραρισμένα και κλείνουν με κλικ έξω από αυτά.",
+    "mode_turbo_hover": "⚡ Turbo-Hover",
+    "mode_turbo_desc": "Για γρήγορη ροή: Υπερταχεία εναλλαγή (40ms) με αιώρηση όπως οι καρτέλες Edge.",
+    "settings_timer_preset_desc": "Προεπιλεγμένα λεπτά για νέες συνεδρίες χρονοδιακόπτη.",
+    "settings_reset_desc": "Επαναφέρει πλήρως τη μνήμη της εφαρμογής στην αρχική της κατάσταση.",
+    "settings_add_screenshot": "Επισύναψη στιγμιότυπου 📷",
+    "cmd_run": "↵ Εκτέλεση",
+    "cmd_shortcuts_help": "Συντομεύσεις πληκτρολογίου (?)",
+    "step": "Βήμα",
+    "cleaning_step_timer": "Χρονόμετρο εστίασης βήματος:",
+    "clean_cheat_sheet_title": "Πρακτικός οδηγός για αρχάριους (Χρώματα & Κανόνες)",
+    "clean_cloth_blue": "Για σκόνη, ράφια, γραφεία & καθρέφτες",
+    "clean_cloth_yellow": "Για κουζίνα, εστίες, τραπέζια & επιφάνειες",
+    "clean_cloth_red": "Αποκλειστικά για τουαλέτα & είδη υγιεινής (Υγιεινή!)",
+    "clean_tip_chemicals": "Ψεκάστε το καθαριστικό αλάτων και αφήστε το 5 λεπτά να δράσει – δεν χρειάζεται τρίψιμο!",
+    "clean_tip_dry_before_wet": "Σκουπίστε πρώτα στεγνά ψίχουλα και σκόνη πριν σφουγγαρίσετε με νερό.",
+    "audio_studio_full_title": "Στούντιο Ήχου & Ατμόσφαιρας",
+    "badge_pro_studio": "Pro Studio",
+    "audio_studio_sub": "Ήχοι φύσης, ρυθμοί, MP3, Spotify, DJ",
+    "boost_30s": "Μικρο-δράση 30 δευτ.",
+    "safespace_exercises_grounding": "Ασκήσεις & Γείωση",
+    "sport_body_title": "Άσκηση & Σώμα",
+    "sport_1min_workouts": "Προπονήσεις 1 λεπτού",
+    "preset_cozy_focus": "Ζεστή εστίαση",
+    "safespace_tab_wave90": "Κύμα 90 δευτ.",
+    "safespace_tab_need": "Πραγματική ανάγκη",
+    "safespace_tab_bridge": "Γέφυρα δράσης",
+    "safespace_need_longing": "Σύνδεση / Εγγύτητα",
+    "safespace_need_fatigue": "Σωματική κούραση",
+    "safespace_need_exhaustion": "Πνευματική εξάντληση",
+    "safespace_need_escape": "Αποφυγή δύσκολου συναισθήματος",
+    "safespace_other_bridge": "Πρότεινε άλλη άμεση εναλλακτική 🔄",
+    "safespace_personal_anchors_title": "Οι προσωπικές σου άγκυρες (Γιατί αξίζει να παραμείνεις σταθερός):",
+    "safespace_anchor_loved_ones": "❤️ Για τα αγαπημένα μου πρόσωπα",
+    "safespace_butterfly_instruction": "Σταύρωσε τα χέρια στο στήθος και χτύπα απαλά εναλλάξ τις κλείδες σου",
+    "safespace_sensory_grounding": "Αισθητηριακή γείωση",
+    "safespace_shake_limbs": "Τίναξε απαλά τα χέρια, τους ώμους και τα πόδια σου...",
+    "safespace_choose_level": "Επιλογή επιπέδου",
+    "safespace_tension_level_desc": "Επιλέξτε το τρέχον επίπεδο έντασης για γρήγορη αξιολόγηση:",
+    "safespace_frequencies_desc": "Συχνότητες παραγόμενες 100% εκτός σύνδεσης για νευροακουστική ηρεμία:",
+    "safespace_frequencies_subtitle": "Βαθιά χαλάρωση για το αυτόνομο νευρικό σύστημα",
+    "dilemma_radical_question": "Ποια θα ήταν η πιο ριζοσπαστική λύση 5 λεπτών;",
+    "badge_100_offline": "100% Εκτός σύνδεσης",
+    "pwa_native_app_desc": "Χρήση ως αυτόνομη εφαρμογή στη συσκευή σας",
+    "badge_100_offline_capable": "100% Λειτουργία εκτός σύνδεσης",
+    "pwa_install_now_btn": "Εγκατάσταση τώρα 📲",
+    "pwa_offline_benefit": "Πλεονέκτημα εκτός σύνδεσης:",
+    "pwa_step1_safari": "Βήμα 1: Άνοιγμα στο Safari",
+    "presets_card_desc": "Επιλέξτε προρυθμισμένες ρουτίνες (Εστίαση, Μινιμαλιστική, Οικιακός οδηγός).",
+    "presets_choose_btn": "Επιλογή προτύπων",
+    "sync_devices_title": "Συγχρονισμός & Σύζευξη",
+    "sync_devices_desc": "Συνδέστε το κινητό ή τη δεύτερη οθόνη σας σε πραγματικό χρόνο μέσω QR code ή cloud.",
+    "notifications_desc": "Επιτρέψτε τις ειδοποιήσεις συστήματος για χρονόμετρα και ηχητικές υπενθυμίσεις.",
+    "offline_download_desc": "Κατεβάστε ολόκληρη την εφαρμογή ως φορητό αυτόνομο αρχείο για χρήση εκτός σύνδεσης.",
+    "offline_bundle_btn": "Πακέτο εκτός σύνδεσης",
+    "step_choose_placeholder": "Επιλογή βήματος"
   }
 };
 
 if (typeof window !== 'undefined') {
   window.customTranslations = customTranslations;
-  if (window.TRANSLATIONS) {
-    for (let lang in customTranslations) {
-      window.TRANSLATIONS[lang] = Object.assign({}, window.TRANSLATIONS[lang] || {}, customTranslations[lang]);
-    }
+  if (!window.TRANSLATIONS) window.TRANSLATIONS = {};
+  for (const lang of Object.keys(customTranslations)) {
+    if (!window.TRANSLATIONS[lang]) window.TRANSLATIONS[lang] = {};
+    Object.assign(window.TRANSLATIONS[lang], customTranslations[lang]);
   }
 }
+
 if (typeof globalThis !== 'undefined') {
   globalThis.customTranslations = customTranslations;
-  if (globalThis.TRANSLATIONS) {
-    for (let lang in customTranslations) {
-      globalThis.TRANSLATIONS[lang] = Object.assign({}, globalThis.TRANSLATIONS[lang] || {}, customTranslations[lang]);
-    }
+  if (!globalThis.TRANSLATIONS) globalThis.TRANSLATIONS = {};
+  for (const lang of Object.keys(customTranslations)) {
+    if (!globalThis.TRANSLATIONS[lang]) globalThis.TRANSLATIONS[lang] = {};
+    Object.assign(globalThis.TRANSLATIONS[lang], customTranslations[lang]);
   }
 }
 
@@ -12265,15 +12746,27 @@ if (typeof globalThis !== 'undefined') {
  */
 
 // Grundlegende Konfiguration & globale State-Deklarationen
-var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
-let currentLang = localStorage.getItem('flowPlannerLanguage') || 'en';
-let rawTheme = localStorage.getItem('flowPlannerTheme') || 'aurora';
+var STORE_KEY = (typeof window !== 'undefined' && window.STORE_KEY) || (typeof globalThis !== 'undefined' && globalThis.STORE_KEY) || 'flowPlannerV3';
+var HISTORY_KEY = (typeof window !== 'undefined' && window.HISTORY_KEY) || (typeof globalThis !== 'undefined' && globalThis.HISTORY_KEY) || 'flowPlannerV3History';
+if (typeof window !== 'undefined') {
+  window.STORE_KEY = STORE_KEY;
+  window.HISTORY_KEY = HISTORY_KEY;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.STORE_KEY = STORE_KEY;
+  globalThis.HISTORY_KEY = HISTORY_KEY;
+}
+
+var ALL_VALID_THEMES = (typeof window !== 'undefined' && window.ALL_VALID_THEMES) || ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
+if (typeof window !== 'undefined') window.ALL_VALID_THEMES = ALL_VALID_THEMES;
+let currentLang = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerLanguage')) || 'en';
+let rawTheme = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerTheme')) || 'aurora';
 if (!ALL_VALID_THEMES.includes(rawTheme)) {
   rawTheme = 'code-night';
-  try { localStorage.setItem('flowPlannerTheme', 'code-night'); } catch(e) {}
+  try { if (typeof localStorage !== 'undefined') localStorage.setItem('flowPlannerTheme', 'code-night'); } catch(e) {}
 }
 let currentTheme = rawTheme;
-let isMinimalist = localStorage.getItem('flowPlannerMinimalist') === 'true';
+let isMinimalist = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerMinimalist') === 'true');
 let openTaskAddColumns = {};
 let categoriesOrder = null;
 let state = null;
@@ -13219,8 +13712,10 @@ function persistHistory() {
 function updateUndoUI() {
   if (typeof document === 'undefined') return;
   const undoBtn = document.getElementById('btn-board-undo');
+  const triggerBtn = document.getElementById('btn-undo-history-trigger');
+  const hasHistory = Array.isArray(historyStack) && historyStack.length > 0;
+
   if (undoBtn) {
-    const hasHistory = Array.isArray(historyStack) && historyStack.length > 0;
     undoBtn.disabled = !hasHistory;
     if (hasHistory) {
       undoBtn.classList.remove('opacity-30', 'pointer-events-none', 'grayscale');
@@ -13237,15 +13732,53 @@ function updateUndoUI() {
       if (badge) badge.classList.add('hidden');
     }
   }
+
+  if (triggerBtn) {
+    triggerBtn.disabled = !hasHistory;
+    if (hasHistory) {
+      triggerBtn.classList.remove('opacity-30', 'pointer-events-none');
+      triggerBtn.classList.add('opacity-100');
+    } else {
+      triggerBtn.classList.add('opacity-30', 'pointer-events-none');
+      triggerBtn.classList.remove('opacity-100');
+    }
+  }
 }
 
-function saveHistory() {
+function saveHistory(actionInfo = null) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : state);
   const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
   if (currentState) {
     const activeCats = (typeof window !== 'undefined' && window.categoriesOrder) ? window.categoriesOrder : (typeof categoriesOrder !== 'undefined' ? categoriesOrder : null);
     const activeWorkCats = (typeof window !== 'undefined' && window.workCategoriesOrder) ? window.workCategoriesOrder : (typeof workCategoriesOrder !== 'undefined' ? workCategoriesOrder : null);
     const activeStudyCats = (typeof window !== 'undefined' && window.studyCategoriesOrder) ? window.studyCategoriesOrder : (typeof studyCategoriesOrder !== 'undefined' ? studyCategoriesOrder : null);
+
+    // Formatierte Aktionsbeschreibung
+    let label = '';
+    if (typeof actionInfo === 'string' && actionInfo.trim()) {
+      label = actionInfo.trim();
+    } else if (actionInfo && typeof actionInfo === 'object') {
+      label = actionInfo.label || actionInfo.action || actionInfo.name || '';
+    }
+
+    // Falls kein expliziter Text mitgegeben wurde, präzisen Standard anhand des vorherigen Zustands ermitteln
+    if (!label) {
+      const prevSnap = (stack && stack.length > 0) ? stack[stack.length - 1] : null;
+      if (prevSnap && prevSnap.items && currentState.items) {
+        // Zähle Aufgaben
+        const prevCount = Object.values(prevSnap.items).reduce((acc, l) => acc + (Array.isArray(l) ? l.length : 0), 0) + (Array.isArray(prevSnap.done) ? prevSnap.done.length : 0);
+        const curCount = Object.values(currentState.items).reduce((acc, l) => acc + (Array.isArray(l) ? l.length : 0), 0) + (Array.isArray(currentState.done) ? currentState.done.length : 0);
+        if (curCount > prevCount) {
+          label = 'Aufgabe hinzugefügt';
+        } else if (curCount < prevCount) {
+          label = 'Aufgabe entfernt oder abgeschlossen';
+        } else {
+          label = 'Aufgaben geändert / verschoben';
+        }
+      } else {
+        label = 'Aufgaben geändert';
+      }
+    }
 
     // Fokussierter Snapshot: Speichert nur Aufgaben- und Listen-Änderungen
     const listSnapshot = {
@@ -13257,7 +13790,9 @@ function saveHistory() {
       studyDone: Array.isArray(currentState.studyDone) ? JSON.parse(JSON.stringify(currentState.studyDone)) : [],
       completedSteps: currentState.completedSteps ? JSON.parse(JSON.stringify(currentState.completedSteps)) : {},
       customSteps: currentState.customSteps ? JSON.parse(JSON.stringify(currentState.customSteps)) : {},
-      activeWorkspace: currentState.activeWorkspace || 'private'
+      activeWorkspace: currentState.activeWorkspace || 'private',
+      _actionLabel: label,
+      _timestamp: Date.now()
     };
 
     if (activeCats) {
@@ -13384,16 +13919,8 @@ function getGermanStandardKey(taskName) {
   return taskName;
 }
 
-function handleUndo() {
-  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
-  if (!stack || stack.length === 0) {
-    showToast(t('toast_no_undo'));
-    updateUndoUI();
-    return;
-  }
-  const popped = stack.pop();
+function applyHistorySnapshot(popped) {
   if (!popped) return;
-
   // 1. Spalten-Reihenfolge der Listen wiederherstellen falls vorhanden
   if (popped._savedCategoriesOrder) {
     categoriesOrder = JSON.parse(JSON.stringify(popped._savedCategoriesOrder));
@@ -13430,6 +13957,19 @@ function handleUndo() {
     if (typeof window !== 'undefined') window.state = state;
     if (typeof globalThis !== 'undefined') globalThis.state = state;
   }
+}
+
+function handleUndo() {
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
+  if (!stack || stack.length === 0) {
+    showToast(t('toast_no_undo'));
+    updateUndoUI();
+    return;
+  }
+  const popped = stack.pop();
+  if (!popped) return;
+
+  applyHistorySnapshot(popped);
 
   historyStack = stack;
   if (typeof window !== 'undefined') window.historyStack = stack;
@@ -13438,13 +13978,168 @@ function handleUndo() {
   persistHistory();
   updateUndoUI();
   saveState();
-  showToast(t('toast_undo_applied'));
+
+  const undoneAction = popped._actionLabel ? ` (${popped._actionLabel})` : '';
+  const undoMsg = (typeof tr === 'function')
+    ? tr({
+        de: `Rückgängig gemacht: ${popped._actionLabel || 'Letzter Schritt'} ↩️`,
+        en: `Undone: ${popped._actionLabel || 'Last action'} ↩️`,
+        fr: `Annulé : ${popped._actionLabel || 'Dernière action'} ↩️`,
+        it: `Annullato: ${popped._actionLabel || 'Ultima azione'} ↩️`,
+        es: `Deshecho: ${popped._actionLabel || 'Última acción'} ↩️`,
+        el: `Αναιρέθηκε: ${popped._actionLabel || 'Τελευταία ενέργεια'} ↩️`
+      })
+    : `${t('toast_undo_applied')}${undoneAction}`;
+
+  if (typeof showToast === 'function') {
+    showToast(undoMsg, { duration: 3200 });
+  }
+
   if (typeof renderApp === 'function') {
     renderApp();
   }
   if (typeof populateHelperTaskSelect === 'function') {
     populateHelperTaskSelect();
   }
+}
+
+function handleUndoToStep(targetIndex) {
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
+  if (!stack || stack.length === 0 || targetIndex < 0 || targetIndex >= stack.length) {
+    if (typeof showToast === 'function') showToast(t('toast_no_undo'));
+    return;
+  }
+
+  // Ziel-Snapshot holen
+  const targetSnapshot = stack[targetIndex];
+  const targetLabel = targetSnapshot._actionLabel || 'Ausgewählte Aktion';
+
+  // Stack bis inklusive targetIndex kürzen
+  stack.splice(targetIndex);
+
+  applyHistorySnapshot(targetSnapshot);
+
+  historyStack = stack;
+  if (typeof window !== 'undefined') window.historyStack = stack;
+  if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;
+
+  persistHistory();
+  updateUndoUI();
+  saveState();
+
+  const msg = (typeof tr === 'function')
+    ? tr({
+        de: `Zurückgesetzt vor: "${targetLabel}" ↩️`,
+        en: `Restored before: "${targetLabel}" ↩️`,
+        fr: `Restauré avant : « ${targetLabel} » ↩️`,
+        it: `Ripristinato prima di: "${targetLabel}" ↩️`,
+        es: `Restaurado antes de: "${targetLabel}" ↩️`,
+        el: `Επαναφορά πριν από: "${targetLabel}" ↩️`
+      })
+    : `Zurückgesetzt vor: "${targetLabel}" ↩️`;
+
+  if (typeof showToast === 'function') {
+    showToast(msg, { duration: 3500 });
+  }
+
+  if (typeof renderApp === 'function') renderApp();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+}
+
+function openUndoHistoryModal() {
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
+  if (!stack || stack.length === 0) {
+    showToast(t('toast_no_undo'));
+    return;
+  }
+
+  const modal = document.getElementById('modal-undo-history');
+  if (!modal) {
+    handleUndo();
+    return;
+  }
+
+  const listContainer = document.getElementById('undo-history-list');
+  if (listContainer) {
+    listContainer.innerHTML = '';
+    // Letzte Aktion oben anzeigen
+    for (let i = stack.length - 1; i >= 0; i--) {
+      const snap = stack[i];
+      const isLatest = (i === stack.length - 1);
+      const label = snap._actionLabel || `Schritt #${i + 1}`;
+      const timeStr = snap._timestamp ? new Date(snap._timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '';
+      
+      const itemBtn = document.createElement('button');
+      itemBtn.type = 'button';
+      itemBtn.className = `w-full p-2.5 sm:p-3 rounded-2xl border text-left transition flex items-center justify-between gap-3 cursor-pointer group active:scale-[0.98] ${
+        isLatest 
+          ? 'bg-cyan-500/15 border-cyan-400/40 hover:bg-cyan-500/25 hover:border-cyan-300' 
+          : 'bg-white/[0.03] border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+      }`;
+      
+      itemBtn.onclick = () => {
+        closeUndoHistoryModal();
+        handleUndoToStep(i);
+      };
+
+      // Detaillierte Symbol- und Farbwahl je nach Aktion
+      let iconName = 'history';
+      let iconColor = isLatest ? 'bg-cyan-400/20 text-cyan-300' : 'bg-white/10 text-gray-400';
+      if (label.includes('erledigt') || label.includes('abgeschlossen')) {
+        iconName = 'check-circle-2';
+        iconColor = 'bg-emerald-500/20 text-emerald-300';
+      } else if (label.includes('gelöscht') || label.includes('entfernt')) {
+        iconName = 'trash-2';
+        iconColor = 'bg-rose-500/20 text-rose-300';
+      } else if (label.includes('hinzugefügt')) {
+        iconName = 'plus-circle';
+        iconColor = 'bg-lime-500/20 text-lime-300';
+      } else if (label.includes('verschoben') || label.includes('Reihenfolge')) {
+        iconName = 'move';
+        iconColor = 'bg-blue-500/20 text-blue-300';
+      } else if (label.includes('Farbe')) {
+        iconName = 'palette';
+        iconColor = 'bg-amber-500/20 text-amber-300';
+      }
+
+      itemBtn.innerHTML = `
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-8 h-8 rounded-xl ${iconColor} flex items-center justify-center shrink-0 border border-white/10">
+            <i data-lucide="${iconName}" class="w-4 h-4"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold ${isLatest ? 'text-cyan-200' : 'text-gray-100'} group-hover:text-white truncate flex items-center gap-1.5">
+              <span>${label}</span>
+              ${isLatest ? '<span class="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-400/20 text-cyan-300 font-mono font-normal">Zuletzt</span>' : ''}
+            </div>
+            <div class="text-[10px] text-gray-400 mt-0.5">
+              ${timeStr ? '<span class="font-mono text-gray-400 font-medium">' + timeStr + '</span> · ' : ''}Vor dieser Aktion wiederherstellen
+            </div>
+          </div>
+        </div>
+        <div class="shrink-0 flex items-center gap-1 text-[11px] font-bold ${isLatest ? 'text-cyan-300' : 'text-gray-400'} group-hover:text-cyan-200">
+          <span>Rückgängig</span>
+          <i data-lucide="corner-down-left" class="w-3.5 h-3.5"></i>
+        </div>
+      `;
+      listContainer.appendChild(itemBtn);
+    }
+  }
+
+  modal.classList.remove('hidden');
+  if (typeof renderLucideIcons === 'function') renderLucideIcons(false, modal);
+}
+
+function closeUndoHistoryModal() {
+  const modal = document.getElementById('modal-undo-history');
+  if (modal) modal.classList.add('hidden');
+}
+
+if (typeof window !== 'undefined') {
+  window.openUndoHistoryModal = openUndoHistoryModal;
+  window.closeUndoHistoryModal = closeUndoHistoryModal;
+  window.handleUndoToStep = handleUndoToStep;
+  window.applyHistorySnapshot = applyHistorySnapshot;
 }
 
 async function handleReset() {
@@ -19840,8 +20535,11 @@ function playAmbientSound(type, crossfade = false) {
 
   // Wenn der geklickte Sound bereits läuft -> stoppen (Toggle-Funktion)
   if (currentSoundType === type) {
-    stopAmbientSound(true);
-    if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+    if (typeof stopAllStudioAudio === 'function') {
+      stopAllStudioAudio(true);
+    } else {
+      stopAmbientSound(true);
+    }
     updateSoundscapeUI();
     if (typeof showToast === 'function') {
       showToast(typeof tr === 'function' ? tr({ de: 'Audio gestoppt ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio gestoppt ⏹️');
@@ -19849,18 +20547,12 @@ function playAmbientSound(type, crossfade = false) {
     return;
   }
 
-  // Ansonsten: Alle anderen vorher laufenden Sounds/Musik/Radio restlos stoppen
-  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
-  stopAmbientSound(true);
-
-  // Exklusivität: Radio stoppen falls aktiv
-  try {
-    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
-      RadioNewsEngine.toggleRadioPlayback();
-    } else if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
-      window.radioAudioEl.pause();
-    }
-  } catch (e) {}
+  // Ansonsten: Alle anderen vorher laufenden Sounds/Musik/Radio restlos still stoppen
+  if (typeof stopAllStudioAudio === 'function') {
+    stopAllStudioAudio(true);
+  } else {
+    stopAmbientSound(true);
+  }
 
   currentSoundType = type;
   soundGainNode = audioCtx.createGain();
@@ -20018,6 +20710,7 @@ function playGameSound(type) {
   const dest = getUiAudioDest();
   if (!dest) return;
   const masterVol = Math.min(0.6, (soundMasterVolume || 0.5) * 0.42);
+  if (masterVol <= 0.001) return;
 
   const ALL_GAME_SOUNDS = [
     'coin', 'gem', 'boing', 'pop', 'bloop', 'squeak', 'powerup', 'jump',
@@ -20676,8 +21369,9 @@ function playNatureSound(type) {
 // Master UI sound dispatcher: plays contextual or highly-varied rotating game sounds
 function playUiSound(category = 'click', specificType = null) {
   const currentTime = Date.now();
-  if (currentTime - lastUiSoundTime < 30) return; // Debounce fast spam
+  if (currentTime - lastUiSoundTime < 45) return; // Debounce fast spam
   lastUiSoundTime = currentTime;
+  if (isPlayerMuted || (typeof soundMasterVolume === 'number' && soundMasterVolume <= 0.001)) return;
 
   if (specificType) {
     playGameSound(specificType);
@@ -20891,9 +21585,19 @@ function updateAudioStudioHeader(customTitle) {
 window.updateAudioStudioHeader = updateAudioStudioHeader;
 
 function isAnyAudioPlaying() {
-  return (typeof currentSoundType !== 'undefined' && Boolean(currentSoundType)) || 
-         (typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused) || 
-         (typeof djDecks !== 'undefined' && djDecks && (djDecks.a?.isPlaying || djDecks.b?.isPlaying));
+  const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
+  const isMusic = typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused;
+  const isDj = typeof djDecks !== 'undefined' && djDecks && (djDecks.a?.isPlaying || djDecks.b?.isPlaying);
+  const isRadio = (typeof window !== 'undefined' && Boolean(window.isRadioPlaying)) || 
+                  (typeof isRadioPlaying !== 'undefined' && Boolean(isRadioPlaying)) ||
+                  (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused);
+  const isBeat = typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying);
+  const isLayers = typeof activeAmbientLayers !== 'undefined' && Object.keys(activeAmbientLayers).length > 0;
+  const isBinaural = typeof activeBinauralBeat !== 'undefined' && Boolean(activeBinauralBeat);
+  const isTts = (typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis.speaking) ||
+                (typeof RadioNewsEngine !== 'undefined' && Boolean(RadioNewsEngine.isSpeakingQueue));
+
+  return Boolean(isAmbient || isMusic || isDj || isRadio || isBeat || isLayers || isBinaural || isTts);
 }
 window.isAnyAudioPlaying = isAnyAudioPlaying;
 
@@ -20920,7 +21624,7 @@ function updateHeaderSoundBtnUI() {
     }
     if (label) label.textContent = '';
   }
-  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: btn });
 }
 window.updateHeaderSoundBtnUI = updateHeaderSoundBtnUI;
 
@@ -20943,18 +21647,66 @@ function toggleMasterSound() {
 }
 window.toggleMasterSound = toggleMasterSound;
 
-function stopAllStudioAudio() {
+function stopAllStudioAudio(silent = false) {
+  // 1. Ambient & Natur-Soundscapes
   if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+
+  // 2. Multi-track Ambient layers
+  if (typeof activeAmbientLayers !== 'undefined') {
+    Object.keys(activeAmbientLayers).forEach(type => {
+      try { stopAmbientLayer(type); } catch(e) {}
+    });
+  }
+
+  // 3. Binaural beats
+  if (typeof stopBinauralBeat === 'function') stopBinauralBeat();
+
+  // 4. Beat Sequencer & LoFi
+  if (typeof stopBeatSequencer === 'function') stopBeatSequencer();
+  if (typeof stopLoFiBeats === 'function') stopLoFiBeats();
+
+  // 5. Music & Media Player
   if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
+  else if (typeof activeUserAudio !== 'undefined' && activeUserAudio) {
+    try { activeUserAudio.pause(); } catch(e) {}
+  }
+
+  // 6. Live Radio
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+    RadioNewsEngine.stopRadioPlayback();
+  } else if (typeof stopRadioPlayback === 'function') {
+    stopRadioPlayback();
+  } else if (typeof window !== 'undefined' && window.radioAudioEl) {
+    try { window.radioAudioEl.pause(); } catch(e) {}
+    window.isRadioPlaying = false;
+    if (typeof updateRadioUIState === 'function') updateRadioUIState(false);
+  }
+
+  // 7. DJ Decks
   if (typeof pauseDjDeck === 'function') { pauseDjDeck('a'); pauseDjDeck('b'); }
+
+  // 8. TTS / News Reader
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopNewsReader === 'function') {
+    RadioNewsEngine.stopNewsReader();
+  }
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    try { window.speechSynthesis.cancel(); } catch(e) {}
+  }
+
   const miniPlayer = document.getElementById('noodle-mini-audio-player');
-  if (miniPlayer) miniPlayer.classList.add('hidden');
+  if (typeof updateMiniAudioPlayer === 'function') {
+    updateMiniAudioPlayer({ isPlaying: false, sub: 'Gestoppt' });
+  } else if (miniPlayer) {
+    miniPlayer.classList.remove('hidden');
+  }
+  if (typeof isMiniPlayerPlaying !== 'undefined') isMiniPlayerPlaying = false;
+
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
   document.querySelectorAll('.mood-preset-card').forEach(btn => {
     btn.classList.remove('border-purple-500/80', 'bg-purple-500/25');
   });
-  if (typeof showToast === 'function') {
+  if (!silent && typeof showToast === 'function') {
     showToast(tr({ de: 'Sound gestoppt ⏹️', en: 'Sound stopped ⏹️', fr: 'Son arrêté ⏹️', it: 'Suono interrotto ⏹️', es: 'Sonido detenido ⏹️', el: 'Ο ήχος σταμάτησε ⏹️' }));
   }
 }
@@ -20966,7 +21718,12 @@ function handleHeaderVolumeInput(val) {
   try { localStorage.setItem('flow_master_vol', soundMasterVolume.toString()); } catch(e) {}
 
   // 1. Ambient & Natur-Soundscape Pegel aktualisieren
-  if (typeof setSoundVolume === 'function') setSoundVolume(soundMasterVolume);
+  if (masterGainNode && audioCtx) {
+    try {
+      masterGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      masterGainNode.gain.setValueAtTime(soundMasterVolume, audioCtx.currentTime);
+    } catch(e) {}
+  }
   if (soundGainNode && audioCtx) {
     try {
       soundGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
@@ -20977,7 +21734,7 @@ function handleHeaderVolumeInput(val) {
   // 2. Media Player Pegel synchronisieren
   if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(soundMasterVolume);
   if (activeUserAudio) {
-    try { activeUserAudio.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75); } catch(e) {}
+    try { activeUserAudio.volume = isPlayerMuted ? 0 : Math.max(0, Math.min(1, soundMasterVolume)); } catch(e) {}
   }
 
   // 3. Radio Engine synchronisieren
@@ -21012,7 +21769,7 @@ function handleHeaderVolumeInput(val) {
   // 6. UI-Slider & Prozentanzeigen an allen Stellen synchron halten
   const numVal = `${Math.round(soundMasterVolume * 100)}`;
   const percentEl = document.getElementById('header-sound-volume-percent');
-  if (percentEl) percentEl.textContent = numVal;
+  if (percentEl) percentEl.textContent = `${numVal}%`;
   const studioPctEl = document.getElementById('audio-panel-master-volume-pct');
   if (studioPctEl) studioPctEl.textContent = `${numVal}%`;
 
@@ -21025,9 +21782,12 @@ function handleHeaderVolumeInput(val) {
   if (studioSlider && parseFloat(studioSlider.value) !== soundMasterVolume) studioSlider.value = soundMasterVolume;
   const radioSlider = document.getElementById('radio-volume-slider');
   if (radioSlider && parseFloat(radioSlider.value) !== soundMasterVolume) radioSlider.value = soundMasterVolume;
+  const miniSlider = document.getElementById('mini-player-volume-slider');
+  if (miniSlider && parseFloat(miniSlider.value) !== soundMasterVolume) miniSlider.value = soundMasterVolume;
 }
 window.handleHeaderVolumeInput = handleHeaderVolumeInput;
 window.handleStudioMasterVolume = handleHeaderVolumeInput;
+window.setSoundVolume = handleHeaderVolumeInput;
 
 let soundHoverSliderTimer = null;
 let soundVolumePinned = false;
@@ -21048,7 +21808,7 @@ function showSoundHoverSlider() {
       popover.classList.add('noodle-panel-peeking');
       popover.classList.remove('noodle-panel-pinned');
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: popover });
   }
 }
 window.showSoundHoverSlider = showSoundHoverSlider;
@@ -21083,7 +21843,7 @@ function toggleSoundVolumePopover(event) {
     soundVolumePinned = true;
     popover.classList.remove('hidden', 'noodle-panel-peeking');
     popover.classList.add('flex', 'noodle-panel-pinned');
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: popover });
   } else if (!soundVolumePinned) {
     soundVolumePinned = true;
     popover.classList.remove('noodle-panel-peeking');
@@ -21195,7 +21955,9 @@ function stopAllSounds() {
   if (typeof stopLoFiBeats === 'function') stopLoFiBeats();
   if (typeof stopBeatSequencer === 'function') stopBeatSequencer();
   if (typeof RadioNewsEngine !== 'undefined') {
-    if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
+    if (typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+      RadioNewsEngine.stopRadioPlayback();
+    } else if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
       RadioNewsEngine.toggleRadioPlayback();
     }
     if (typeof RadioNewsEngine.stopNewsReader === 'function') {
@@ -21715,8 +22477,12 @@ const PIANO_PENTATONIC = [
   880.00  // A5
 ];
 
-function scheduleGentlePianoMelody() {
+function scheduleGentlePianoMelody(immediate = true) {
   if (currentSoundType !== 'piano') return;
+  if (immediate) {
+    const noteInit = PIANO_PENTATONIC[Math.floor(Math.random() * PIANO_PENTATONIC.length)];
+    playGentlePianoNote(noteInit, 0);
+  }
   const delay = 1400 + Math.random() * 2200; // Ruhiger Atem-Rhythmus
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'piano') return;
@@ -21734,7 +22500,7 @@ function scheduleGentlePianoMelody() {
       activeTimeouts.push(t2);
     }
 
-    scheduleGentlePianoMelody();
+    scheduleGentlePianoMelody(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -21842,13 +22608,16 @@ function playLofiChord(notes) {
 // -------------------------------------------------------------
 const CHIME_FREQS = [880.00, 987.77, 1174.66, 1318.51, 1567.98, 1760.00, 2093.00];
 
-function scheduleZenWindChimes() {
+function scheduleZenWindChimes(immediate = true) {
   if (currentSoundType !== 'chimes') return;
+  if (immediate) {
+    playZenWindChime();
+  }
   const delay = 1200 + Math.random() * 2600;
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'chimes') return;
     playZenWindChime();
-    scheduleZenWindChimes();
+    scheduleZenWindChimes(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -21934,14 +22703,18 @@ function playSingingBowl() {
 // -------------------------------------------------------------
 const MUSIC_BOX_NOTES = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
 
-function scheduleMusicBoxLullaby() {
+function scheduleMusicBoxLullaby(immediate = true) {
   if (currentSoundType !== 'musicbox') return;
+  if (immediate) {
+    const noteInit = MUSIC_BOX_NOTES[Math.floor(Math.random() * MUSIC_BOX_NOTES.length)];
+    playMusicBoxNote(noteInit);
+  }
   const delay = 600 + Math.random() * 1200;
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'musicbox') return;
     const note = MUSIC_BOX_NOTES[Math.floor(Math.random() * MUSIC_BOX_NOTES.length)];
     playMusicBoxNote(note);
-    scheduleMusicBoxLullaby();
+    scheduleMusicBoxLullaby(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -21972,13 +22745,16 @@ function playMusicBoxNote(freq) {
 // -------------------------------------------------------------
 const GUITAR_STRINGS = [196.00, 246.94, 293.66, 329.63, 392.00, 493.88];
 
-function scheduleAcousticGuitarMelody() {
+function scheduleAcousticGuitarMelody(immediate = true) {
   if (currentSoundType !== 'guitar') return;
+  if (immediate) {
+    playGuitarPluck();
+  }
   const delay = 1600 + Math.random() * 2400;
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'guitar') return;
     playGuitarPluck();
-    scheduleAcousticGuitarMelody();
+    scheduleAcousticGuitarMelody(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -22779,77 +23555,45 @@ function stopAmbientSound(silent = false) {
   // 0. Ausstehende Crossfade-Nodes und Crossfade-Gains sofort hart stoppen & trennen
   if (typeof pendingCrossfadeNodes !== 'undefined' && pendingCrossfadeNodes.length > 0) {
     pendingCrossfadeNodes.forEach(node => {
-      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) { console.warn('[Audio] pendingCrossfadeNode.stop error:', e); }
-      try { node.disconnect(); } catch(e) { console.warn('[Audio] pendingCrossfadeNode.disconnect error:', e); }
+      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) {}
+      try { node.disconnect(); } catch(e) {}
     });
     pendingCrossfadeNodes = [];
   }
 
   if (typeof pendingCrossfadeGains !== 'undefined' && pendingCrossfadeGains.length > 0) {
     pendingCrossfadeGains.forEach(gain => {
-      try { gain.gain.cancelScheduledValues(now); } catch(e) { console.warn('[Audio] pendingGain.cancelScheduledValues error:', e); }
-      try { gain.gain.setValueAtTime(0, now); } catch(e) { console.warn('[Audio] pendingGain.setValueAtTime error:', e); }
-      try { gain.disconnect(); } catch(e) { console.warn('[Audio] pendingGain.disconnect error:', e); }
+      try { gain.gain.cancelScheduledValues(now); } catch(e) {}
+      try { gain.gain.setValueAtTime(0, now); } catch(e) {}
+      try { gain.disconnect(); } catch(e) {}
     });
     pendingCrossfadeGains = [];
   }
 
-  // 1. MASTER GAIN sofort kappen und trennen -> KEIN Ton erreicht mehr die Lautsprecher!
-  if (typeof masterGainNode !== 'undefined' && masterGainNode) {
-    try { masterGainNode.gain.cancelScheduledValues(now); } catch(e) { console.warn('[Audio] masterGain.cancelScheduledValues error:', e); }
-    try { masterGainNode.gain.setValueAtTime(0, now); } catch(e) { console.warn('[Audio] masterGain.setValueAtTime error:', e); }
-    try { masterGainNode.disconnect(); } catch(e) { console.warn('[Audio] masterGain.disconnect error:', e); }
-    masterGainNode = null;
-  }
-
-  // 2. Sound Gain trennen
+  // 1. Ambient Sound Gain stumm schalten & trennen (Master Gain bleibt unberührt und intakt)
   if (typeof soundGainNode !== 'undefined' && soundGainNode) {
-    try { soundGainNode.gain.cancelScheduledValues(now); } catch(e) { console.warn('[Audio] soundGain.cancelScheduledValues error:', e); }
-    try { soundGainNode.gain.setValueAtTime(0, now); } catch(e) { console.warn('[Audio] soundGain.setValueAtTime error:', e); }
-    try { soundGainNode.disconnect(); } catch(e) { console.warn('[Audio] soundGain.disconnect error:', e); }
+    try { soundGainNode.gain.cancelScheduledValues(now); } catch(e) {}
+    try { soundGainNode.gain.setValueAtTime(0, now); } catch(e) {}
+    try { soundGainNode.disconnect(); } catch(e) {}
     soundGainNode = null;
   }
 
-  // 3. Alle aktiven Oszillatoren / Noise Nodes stoppen & trennen
+  // 2. Alle aktiven Ambient Oszillatoren / Noise Nodes stoppen & trennen
   if (typeof activeNodes !== 'undefined' && activeNodes.length > 0) {
     activeNodes.forEach(node => {
-      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) { console.warn('[Audio] activeNode.stop error:', e); }
-      try { node.disconnect(); } catch(e) { console.warn('[Audio] activeNode.disconnect error:', e); }
+      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) {}
+      try { node.disconnect(); } catch(e) {}
     });
     activeNodes = [];
   }
 
-  // 4. HTML5 Audio stoppen
-  if (typeof activeUserAudio !== 'undefined' && activeUserAudio) {
-    try { activeUserAudio.pause(); } catch(e) { console.warn('[Audio] activeUserAudio.pause error:', e); }
-    try { activeUserAudio.currentTime = 0; } catch(e) { console.warn('[Audio] activeUserAudio.currentTime error:', e); }
-    try { activeUserAudio.src = ""; } catch(e) { console.warn('[Audio] activeUserAudio.src error:', e); }
-    activeUserAudio = null;
+  // 3. Beat Sequencer timer anhalten
+  if (typeof beatSchedulerTimer !== 'undefined' && beatSchedulerTimer) {
+    clearInterval(beatSchedulerTimer);
+    beatSchedulerTimer = null;
   }
-
-  // Alle HTML5-Audio-Elemente im DOM anhalten
-  try {
-    const allAudios = document.querySelectorAll('audio');
-    allAudios.forEach(a => {
-      try { a.pause(); a.currentTime = 0; } catch(e) { console.warn('[Audio] DOM audio reset error:', e); }
-    });
-  } catch(e) {
-    console.warn('[Audio] DOM audio pause error:', e);
-  }
-
-  // 5. Sprachausgabe sofort abbrechen & alle Timeouts invalidieren
-  if (typeof currentSpeechSessionId !== 'undefined') {
-    currentSpeechSessionId++;
-  }
-  if ('speechSynthesis' in window) {
-    try { window.speechSynthesis.cancel(); } catch(e) { console.warn('[Audio] speechSynthesis.cancel warning:', e); }
-    setTimeout(() => { try { window.speechSynthesis.cancel(); } catch(e) { console.warn('[Audio] deferred cancel warning:', e); } }, 0);
-    setTimeout(() => { try { window.speechSynthesis.cancel(); } catch(e) { console.warn('[Audio] deferred cancel 50ms warning:', e); } }, 50);
-  }
-
-  // Debug-Log für Graph-Zustand
-  if (typeof audioCtx !== 'undefined' && audioCtx) {
-    console.log(`[Audio] stopAmbientSound abgeschlossen | AudioContext State: ${audioCtx.state} | Aktive Nodes: 0 | Pending Crossfades: 0`);
+  if (typeof isBeatPlaying !== 'undefined') {
+    isBeatPlaying = false;
   }
 
   currentSoundType = null;
@@ -22859,13 +23603,10 @@ function stopAmbientSound(silent = false) {
   if (nameLabel) nameLabel.classList.add('hidden');
   
   if (!silent) {
-    const toastLabel = { 
-      de: 'Focus Sound gestoppt', 
-      en: 'Focus Sound stopped', 
-      es: 'Sonido de enfoque detenido', 
-      el: 'Ήχος εστίασης σταμάτησε' 
-    }[currentLang] || 'Sound stopped';
-    showToast(toastLabel);
+    const toastLabel = (typeof tr === 'function')
+      ? tr({ de: 'Focus Sound gestoppt ⏹️', en: 'Focus Sound stopped ⏹️', es: 'Sonido de enfoque detenido ⏹️', el: 'Ήχος εστίασης σταμάτησε ⏹️' })
+      : 'Focus Sound gestoppt ⏹️';
+    if (typeof showToast === 'function') showToast(toastLabel);
   }
 }
 
@@ -23491,6 +24232,10 @@ function runBeatLookaheadScheduler() {
 
   var secPer16th = (60.0 / (currentBeatBpm || 120)) / 4.0;
 
+  if (nextBeatTime < audioCtx.currentTime) {
+    nextBeatTime = audioCtx.currentTime;
+  }
+
   while (nextBeatTime < audioCtx.currentTime + scheduleAheadSec) {
     scheduleBeat16thStep(beatStepIndex, nextBeatTime);
     nextBeatTime += secPer16th;
@@ -24108,6 +24853,17 @@ function playMusicTrack(index) {
     } catch(e) {}
   }
 
+  // Exklusivität: Ambient & Radio still beenden, wenn Musik startet
+  try {
+    if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+      RadioNewsEngine.stopRadioPlayback();
+    } else if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
+      window.radioAudioEl.pause();
+      window.isRadioPlaying = false;
+    }
+  } catch(e) {}
+
   let mediaEl;
   const videoEl = document.getElementById('media-video-element');
 
@@ -24161,12 +24917,53 @@ function playMusicTrack(index) {
     console.warn('[AudioPlayer] Playback attempt error:', err);
     updateMusicPlayBtnUI(false);
     if (typeof updateMiniAudioPlayer === 'function') {
-      updateMiniAudioPlayer({ isPlaying: false });
+      updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'music' });
     }
   });
 }
 window.playMusicTrack = playMusicTrack;
 window.playTrack = playMusicTrack;
+
+function pauseMusicTrack() {
+  if (activeUserAudio && !activeUserAudio.paused) {
+    activeUserAudio.pause();
+    updateMusicPlayBtnUI(false);
+    renderMusicPlaylist();
+    const currentTrack = (playlistTracks && playlistTracks[currentTrackIndex]) || null;
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: currentTrack ? (currentTrack.name || currentTrack.fullName) : 'Musik',
+        sub: 'Pausiert',
+        emoji: '🎶',
+        source: 'music'
+      });
+    }
+  }
+}
+window.pauseMusicTrack = pauseMusicTrack;
+
+function stopMusicTrack() {
+  if (activeUserAudio) {
+    try {
+      activeUserAudio.pause();
+      activeUserAudio.currentTime = 0;
+    } catch(e) {}
+    updateMusicPlayBtnUI(false);
+    renderMusicPlaylist();
+    const currentTrack = (playlistTracks && playlistTracks[currentTrackIndex]) || null;
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: currentTrack ? (currentTrack.name || currentTrack.fullName) : 'Musik',
+        sub: 'Gestoppt',
+        emoji: '🎶',
+        source: 'music'
+      });
+    }
+  }
+}
+window.stopMusicTrack = stopMusicTrack;
 
 function toggleMusicPlayback() {
   if (!activeUserAudio) {
@@ -24193,8 +24990,15 @@ function toggleMusicPlayback() {
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
     renderMusicPlaylist();
+    const currentTrack = playlistTracks[currentTrackIndex];
     if (typeof updateMiniAudioPlayer === 'function') {
-      updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert' });
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: currentTrack ? (currentTrack.name || currentTrack.fullName) : 'Musik',
+        sub: 'Pausiert',
+        emoji: '🎶',
+        source: 'music'
+      });
     }
   }
 }
@@ -25372,21 +26176,11 @@ function updateMiniAudioPlayer(info) {
   const playerEl = document.getElementById('noodle-mini-audio-player');
   if (!playerEl) return;
 
-  if (!info || !info.isPlaying) {
-    // Check if any audio is still active anywhere
-    const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
-    const isBeat = typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying);
-    const isDj = (djDecks.a && djDecks.a.isPlaying) || (djDecks.b && djDecks.b.isPlaying);
-    const isMusic = typeof isMusicPlaying !== 'undefined' && Boolean(isMusicPlaying);
-    const isRadio = typeof window !== 'undefined' && Boolean(window.isRadioPlaying);
-    const isTts = typeof RadioNewsEngine !== 'undefined' && Boolean(RadioNewsEngine.isReading);
-
-    if (!isAmbient && !isBeat && !isDj && !isMusic && !isRadio && !isTts) {
-      playerEl.classList.add('hidden');
-      isMiniPlayerPlaying = false;
-      currentActiveAudioSource = null;
-      return;
-    }
+  if (info && info.hide) {
+    playerEl.classList.add('hidden');
+    isMiniPlayerPlaying = false;
+    currentActiveAudioSource = null;
+    return;
   }
 
   if (info) {
@@ -25416,6 +26210,7 @@ function updateMiniAudioPlayer(info) {
     playBtn.innerHTML = isMiniPlayerPlaying 
       ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' 
       : '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+    playBtn.title = isMiniPlayerPlaying ? 'Pause' : 'Fortsetzen';
   }
 
   if (eqAnim) {
@@ -25438,13 +26233,23 @@ function toggleMiniPlayerPlayback() {
       const savedType = currentSoundType;
       window._pausedAmbientSound = savedType;
       if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-      updateMiniAudioPlayer({ isPlaying: false, title: getNoodleSoundDisplayName(savedType), sub: 'Pausiert', emoji: '⏸️' });
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: getNoodleSoundDisplayName(savedType),
+        sub: 'Pausiert',
+        emoji: '⏸️',
+        source: 'ambient'
+      });
     } else if (window._pausedAmbientSound) {
       playAmbientSound(window._pausedAmbientSound);
+    } else {
+      playAmbientSound(window.lastSelectedSound || 'piano');
     }
   } else if (currentActiveAudioSource === 'radio') {
     if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function') {
       RadioNewsEngine.toggleRadioPlayback();
+    } else if (typeof window.toggleRadioPlayback === 'function') {
+      window.toggleRadioPlayback();
     }
   } else if (currentActiveAudioSource === 'dj') {
     if (djDecks.a && djDecks.a.audio) toggleDjDeckPlayback('a');
@@ -25460,17 +26265,25 @@ function toggleMiniPlayerPlayback() {
 window.toggleMiniPlayerPlayback = toggleMiniPlayerPlayback;
 
 function stopAllMiniPlayerAudio() {
-  if (typeof stopAllSounds === 'function') stopAllSounds();
-  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
-  if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+  if (typeof stopAllStudioAudio === 'function') {
+    stopAllStudioAudio(true);
+  } else {
+    if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+    if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
+  }
   if (typeof RadioNewsEngine !== 'undefined') {
     if (typeof RadioNewsEngine.stopRadioPlayback === 'function') RadioNewsEngine.stopRadioPlayback();
     if (typeof RadioNewsEngine.stopNewsReader === 'function') RadioNewsEngine.stopNewsReader();
   }
   const playerEl = document.getElementById('noodle-mini-audio-player');
-  if (playerEl) playerEl.classList.add('hidden');
+  if (playerEl) {
+    playerEl.classList.remove('hidden');
+  }
   isMiniPlayerPlaying = false;
-  currentActiveAudioSource = null;
+  updateMiniAudioPlayer({
+    isPlaying: false,
+    sub: 'Gestoppt'
+  });
   if (typeof showToast === 'function') {
     showToast(typeof tr === 'function' ? tr({ de: 'Audio beendet ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio beendet ⏹️');
   }
@@ -26756,7 +27569,7 @@ function duckAllAudioForSpeech(isDucked) {
     speechDuckingTimeout = null;
   }
   if (isDucked) {
-    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.18);
+    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.42);
     if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.duckRadio === 'function') {
       RadioNewsEngine.duckRadio(true);
     } else if (typeof window !== 'undefined' && typeof window.duckRadio === 'function') {
@@ -26819,7 +27632,15 @@ function speakWithProfile(text, profileIndex = null, onComplete = null) {
     const langMap = { en: 'en-US', de: 'de-DE', es: 'es-ES', el: 'el-GR', fr: 'fr-FR', it: 'it-IT' };
     const targetLang = langMap[lang] || 'en-US';
     utterance.lang = targetLang;
-    utterance.volume = 1.0;
+    
+    let targetSpeechVolume = 0.85;
+    if (typeof soundMasterVolume === 'number') {
+      targetSpeechVolume = Math.max(0.15, Math.min(1.0, soundMasterVolume * 1.35));
+    }
+    if (typeof isRadioPlaying !== 'undefined' && isRadioPlaying && typeof radioVolume === 'number') {
+      targetSpeechVolume = Math.max(0.15, Math.min(1.0, radioVolume * 1.35));
+    }
+    utterance.volume = targetSpeechVolume;
 
     // 2. Stimmen-Persona deterministisch oder abwechselnd rotieren
     if (profileIndex === null || profileIndex === undefined) {
@@ -31227,7 +32048,8 @@ if (typeof globalThis !== 'undefined') {
   function getSavedMode() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === 'click-only' || saved === 'multi-window') return saved;
+      if (saved === 'click-only' || saved === 'multi-window' || saved === 'turbo') return saved;
+      if (saved === 'peek-pin') return 'multi-window';
     } catch (e) {}
     return 'multi-window';
   }
@@ -31241,11 +32063,14 @@ if (typeof globalThis !== 'undefined') {
     if (typeof document === 'undefined' || !document.body) return;
     document.body.classList.toggle('mode-multi-window', mode === 'multi-window');
     document.body.classList.toggle('mode-click-only', mode === 'click-only');
+    document.body.classList.toggle('mode-turbo', mode === 'turbo');
+    document.body.classList.toggle('mode-fast-hover', mode === 'turbo');
     updateSettingsUI(mode);
   }
 
   function setInteractionMode(mode, showNotification = true) {
-    if (mode !== 'click-only' && mode !== 'multi-window') return;
+    if (mode === 'peek-pin') mode = 'multi-window';
+    if (mode !== 'click-only' && mode !== 'multi-window' && mode !== 'turbo') return;
     currentMode = mode;
     try {
       localStorage.setItem(STORAGE_KEY, mode);
@@ -31254,10 +32079,23 @@ if (typeof globalThis !== 'undefined') {
     applyModeClasses(mode);
 
     if (showNotification && typeof showToast === 'function') {
-      const msg = typeof tr === 'function' ? tr({
-        de: '🗗 Multi-Window Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen',
-        en: '🗗 Multi-Window Studio active: Minimize [—], maximize [⛶] & run tools in parallel'
-      }) : '🗗 Multi-Window Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen';
+      let msg = '';
+      if (mode === 'turbo') {
+        msg = typeof tr === 'function' ? tr({
+          de: '⚡ Turbo-Hover aktiv: Blitzschneller Wechsel & ultraschnelle Reaktionen (Edge-Style)',
+          en: '⚡ Turbo Hover active: Lightning-fast hover switching & instant responsiveness (Edge style)'
+        }) : '⚡ Turbo-Hover aktiv: Blitzschneller Wechsel & ultraschnelle Reaktionen';
+      } else if (mode === 'click-only') {
+        msg = typeof tr === 'function' ? tr({
+          de: '🗗 Kompakt-Modus aktiv: Panels öffnen zentriert per Klick',
+          en: '🗗 Compact mode active: Panels open centered on click'
+        }) : '🗗 Kompakt-Modus aktiv: Panels öffnen zentriert per Klick';
+      } else {
+        msg = typeof tr === 'function' ? tr({
+          de: '◨ Workspace Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen',
+          en: '◨ Workspace Studio active: Minimize [—], maximize [⛶] & run tools in parallel'
+        }) : '◨ Workspace Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen';
+      }
       showToast(msg);
     }
 
@@ -31268,9 +32106,11 @@ if (typeof globalThis !== 'undefined') {
   function updateSettingsUI(mode) {
     const btnMulti = document.getElementById('btn-mode-peek-pin');
     const btnClick = document.getElementById('btn-mode-click-only');
+    const btnTurbo = document.getElementById('btn-mode-turbo');
     const badge = document.getElementById('interaction-mode-badge');
 
     const activeClasses = 'bg-purple-600 text-white font-bold shadow-md border border-purple-400/40';
+    const activeTurboClasses = 'bg-gradient-to-r from-amber-500 to-orange-500 text-black font-black shadow-[0_0_12px_rgba(245,158,11,0.4)] border border-amber-300';
     const inactiveClasses = 'bg-white/[0.03] text-gray-400 hover:text-white border border-transparent';
 
     if (btnMulti) {
@@ -31279,17 +32119,29 @@ if (typeof globalThis !== 'undefined') {
     if (btnClick) {
       btnClick.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'click-only' ? activeClasses : inactiveClasses}`;
     }
+    if (btnTurbo) {
+      btnTurbo.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'turbo' ? activeTurboClasses : inactiveClasses}`;
+    }
 
     if (badge) {
-      badge.textContent = mode === 'click-only' ? 'Kompakt' : 'Multi-Window';
+      if (mode === 'turbo') {
+        badge.textContent = '⚡ Turbo Hover';
+        badge.className = 'text-[8.5px] font-mono font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded border border-amber-500/40 shadow-xs';
+      } else if (mode === 'click-only') {
+        badge.textContent = 'Kompakt';
+        badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
+      } else {
+        badge.textContent = 'Workspace Studio';
+        badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
+      }
     }
 
     const modalRadioPeek = document.getElementById('modal-radio-mode-peek');
     const modalRadioClick = document.getElementById('modal-radio-mode-click');
-    if (modalRadioPeek && modalRadioClick) {
-      modalRadioPeek.checked = (mode === 'multi-window');
-      modalRadioClick.checked = (mode === 'click-only');
-    }
+    const modalRadioTurbo = document.getElementById('modal-radio-mode-turbo');
+    if (modalRadioPeek) modalRadioPeek.checked = (mode === 'multi-window');
+    if (modalRadioClick) modalRadioClick.checked = (mode === 'click-only');
+    if (modalRadioTurbo) modalRadioTurbo.checked = (mode === 'turbo');
   }
 
   function getPanelMeta(panelName) {
@@ -31692,6 +32544,35 @@ if (typeof globalThis !== 'undefined') {
     scanAndDecorate();
     setTimeout(scanAndDecorate, 300);
     setupDOMObserver();
+    setupTurboHoverListeners();
+  }
+
+  // Edge-Tab Style Fast Hover Listener für Tabs & Workspaces
+  function setupTurboHoverListeners() {
+    if (typeof document === 'undefined') return;
+
+    // 1. Mobile/Board Category Tab Quick-Hover
+    document.addEventListener('mouseover', (e) => {
+      if (currentMode !== 'turbo') return;
+      
+      const tabBtn = e.target.closest('.mobile-tab-btn[data-cat]');
+      if (tabBtn && tabBtn.dataset && tabBtn.dataset.cat) {
+        const cat = tabBtn.dataset.cat;
+        if (typeof window.setMobileCategory === 'function' && document.body.dataset.mobileCat !== cat) {
+          window.setMobileCategory(cat);
+        }
+        return;
+      }
+
+      // 2. Workspace Dropdown Options Quick-Hover Switch
+      const wsBtn = e.target.closest('#dropdown-header-workspace button[id^="header-ws-opt-"]');
+      if (wsBtn) {
+        const wsId = wsBtn.id.replace('header-ws-opt-', '');
+        if (wsId && typeof window.setWorkspace === 'function' && window.state && window.state.activeWorkspace !== wsId) {
+          window.setWorkspace(wsId);
+        }
+      }
+    }, { passive: true });
   }
 
   if (document.readyState === 'loading') {
@@ -35373,7 +36254,15 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
 
   closeCleaningGuideModal();
   if (typeof showToast === 'function') {
-    showToast(`✨ ${addedCount} Schritte in deine Haushalts-Kategorie übernommen!`);
+    const msg = tr({
+      en: `✨ Added ${addedCount} steps to your board!`,
+      de: `✨ ${addedCount} Schritte in dein Board übernommen!`,
+      fr: `✨ ${addedCount} étapes ajoutées à votre tableau !`,
+      it: `✨ ${addedCount} passaggi aggiunti alla tua bacheca!`,
+      es: `✨ ¡${addedCount} pasos agregados a tu tablero!`,
+      el: `✨ Προστέθηκαν ${addedCount} βήματα στον πίνακά σου!`
+    });
+    showToast(msg);
   }
 }
 
@@ -45259,7 +46148,7 @@ async function clearColumnTasks(colId, e) {
   const entry = (activeOrder || []).find(([id]) => id === colId);
   const listTitle = (entry && entry[2]) || t(colId);
 
-  saveHistory();
+  saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} Aufgaben)`);
   if (isDone) {
     const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
     if (ws === 'study') {
@@ -46193,7 +47082,7 @@ function renderApp() {
           const srcIdx = targetList.findIndex(([catId]) => catId === srcId);
           const targetIdx = targetList.findIndex(([catId]) => catId === targetId);
           if (srcIdx !== -1 && targetIdx !== -1) {
-            saveHistory(); const [removed] = targetList.splice(srcIdx, 1);
+            saveHistory('Karten-Reihenfolge verschoben'); const [removed] = targetList.splice(srcIdx, 1);
             targetList.splice(targetIdx, 0, removed);
             saveCategoriesOrder();
             renderApp();
@@ -46567,8 +47456,8 @@ function renderApp() {
       addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-lime-500/50 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-lime-400 focus:shadow-[0_0_12px_rgba(132,204,22,0.25)] transition cursor-text font-semibold text-white shadow-inner';
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && addInput.value.trim()) {
-          saveHistory();
           const taskText = addInput.value.trim();
+          saveHistory(`Aufgabe hinzugefügt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
           const taskObj = (typeof ensureItemIdentity === 'function') 
             ? ensureItemIdentity(taskText, `task_${id}`)
             : { task: taskText };
@@ -46759,9 +47648,13 @@ function handleCompleteTask(category, index, event) {
     taskEl = event.currentTarget.closest('div[draggable="true"]');
   }
   const clientX = event?.clientX || (taskEl ? taskEl.getBoundingClientRect().left + 40 : null);
-  const clientY = event?.clientY || (taskEl ? taskEl.getBoundingClientRect().top + 20 : null);
+  let taskText = (typeof rawTask === 'object' && rawTask !== null) ? (rawTask.task || rawTask.name || '') : String(rawTask || '');
+  if (typeof rawTask === 'object' && rawTask !== null && rawTask.date) {
+    let locInfo = rawTask.location ? ` @ ${rawTask.location}` : '';
+    taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
+  }
 
-  saveHistory();
+  saveHistory(`Aufgabe erledigt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
   // Remove immediately to eliminate blank gaps
   curItems[category].splice(index, 1);
   curItems[category] = curItems[category].filter(Boolean);
@@ -46769,11 +47662,6 @@ function handleCompleteTask(category, index, event) {
   const now = new Date();
   const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const todayStr = now.toISOString().split('T')[0];
-  let taskText = (typeof rawTask === 'object' && rawTask !== null) ? (rawTask.task || rawTask.name || '') : String(rawTask || '');
-  if (typeof rawTask === 'object' && rawTask !== null && rawTask.date) {
-    let locInfo = rawTask.location ? ` @ ${rawTask.location}` : '';
-    taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
-  }
 
   const doneEntry = {
     id: (typeof rawTask === 'object' && rawTask !== null && rawTask.id) ? rawTask.id : ('done_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4)),
@@ -46893,10 +47781,11 @@ window.startFeierabendChillMode = startFeierabendChillMode;
 
 function deleteTask(category, index, event) {
   if (event) event.stopPropagation();
-  saveHistory();
   const curItems = getCurrentWorkspaceItems();
   const taskObj = curItems[category]?.[index];
   const taskText = typeof taskObj === 'object' ? taskObj?.task : taskObj;
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Aufgabe';
+  saveHistory(`Aufgabe gelöscht: ${snippet}`);
   const taskId = (taskObj && typeof taskObj === 'object' && taskObj.id) 
     ? taskObj.id 
     : ((typeof getStableId === 'function') ? getStableId(taskObj, `task_${category}`) : null);
@@ -46915,15 +47804,16 @@ function deleteTask(category, index, event) {
 
 
 function handleRestoreDoneTask(doneIndex) {
-  saveHistory();
   const curDone = getCurrentWorkspaceDone();
   const curItems = getCurrentWorkspaceItems();
   const reversedIndex = curDone.length - 1 - doneIndex;
   const item = curDone[reversedIndex]; if (!item) return;
+  const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Erledigte Aufgabe';
+  saveHistory(`Erledigte wiederhergestellt: ${snippet}`);
   curDone.splice(reversedIndex, 1);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
   const fallbackCat = ws === 'study' ? 'study_focus' : (ws === 'work' ? 'work_focus' : 'daily');
-  const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
   const targetCat = (item && item.origin && curItems[item.origin]) ? item.origin : fallbackCat;
   if (!curItems[targetCat]) curItems[targetCat] = [];
   curItems[targetCat].push(taskText);
@@ -47098,7 +47988,10 @@ function handleItemDrop(e, targetCategory, targetIndex) {
   if (!curItems[srcCat] || !curItems[targetCategory]) return;
   
   let insertIdx = isTopHalf ? targetIndex : targetIndex + 1;
-  saveHistory();
+  const rawItem = curItems[srcCat][srcIdx];
+  const itemText = (typeof rawItem === 'object' && rawItem !== null) ? (rawItem.task || rawItem.name || '') : String(rawItem || '');
+  const snippet = itemText ? `"${itemText.length > 20 ? itemText.substring(0, 18) + '...' : itemText}"` : 'Aufgabe';
+  saveHistory(`Aufgabe verschoben: ${snippet}`);
   const [item] = curItems[srcCat].splice(srcIdx, 1);
   if (srcCat === targetCategory && srcIdx < insertIdx) {
     insertIdx--;
@@ -47146,7 +48039,7 @@ let hoverPanelHideTimeout = null;
 
 // syncHeaderToolsMenuState handled by app-reports.js
 
-function showPanelHover(panelName, delay = 0) {
+function showPanelHover(panelName, delay = 180) {
   // Wenn im Click-Only Modus: keine automatische Hover-Vorschau öffnen!
   if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
     if (window.NoodleInteractionMode.getMode() === 'click-only') return;
@@ -47280,11 +48173,14 @@ function showPanelHover(panelName, delay = 0) {
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
-  if (delay <= 0) {
-    executeShow();
-  } else {
-    hoverPanelShowTimeout = setTimeout(executeShow, delay);
-  }
+
+  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
+                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
+  
+  // Im Turbo-Modus reagieren Panels blitzschnell wie Edge-Tabs (40ms statt 180ms)
+  const defaultDelay = isTurbo ? 35 : 180;
+  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? (isTurbo ? Math.min(delay, 35) : delay) : defaultDelay;
+  hoverPanelShowTimeout = setTimeout(executeShow, effectiveDelay);
 }
 window.showPanelHover = showPanelHover;
 
@@ -47297,6 +48193,10 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     clearTimeout(hoverPanelHideTimeout);
     hoverPanelHideTimeout = null;
   }
+
+  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
+                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
+  const effectiveGrace = isTurbo ? Math.min(gracePeriod, 80) : gracePeriod;
 
   const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
   if (isPinned) return;
@@ -47332,7 +48232,7 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     if (typeof syncHeaderToolsMenuState === 'function') {
       syncHeaderToolsMenuState();
     }
-  }, gracePeriod);
+  }, effectiveGrace);
 }
 window.hidePanelHover = hidePanelHover;
 
@@ -47435,7 +48335,10 @@ function updateTextImportPreview() {
   const text = textarea ? textarea.value : '';
   const items = parseTextIntoItems(text);
   if (countBadge) {
-    countBadge.innerText = `${items.length} ${items.length === 1 ? 'Eintrag' : 'Einträge'}`;
+    const label = items.length === 1
+      ? tr({ en: 'item', de: 'Eintrag', fr: 'entrée', it: 'voce', es: 'elemento', el: 'καταχώριση' })
+      : tr({ en: 'items', de: 'Einträge', fr: 'entrées', it: 'voci', es: 'elementos', el: 'καταχωρίσεις' });
+    countBadge.innerText = `${items.length} ${label}`;
   }
 }
 
@@ -52022,35 +52925,105 @@ if (typeof globalThis !== 'undefined') {
     }, stepTime);
   }
 
+  let radioCrossfadeInterval = null;
+
   function playRadioStation(stationId) {
     const station = RADIO_STATIONS.find(s => s.id === stationId);
     if (!station) return;
 
     if (currentStationId === stationId && isRadioPlaying && radioAudioEl) {
-      toggleRadioPlayback();
+      stopRadioPlayback();
       return;
     }
 
+    const previousAudio = (isRadioPlaying && radioAudioEl) ? radioAudioEl : null;
     currentStationId = stationId;
     localStorage.setItem('flow_radio_station', stationId);
 
     if (isSpeakingQueue) stopNewsReader();
 
-    // Exklusivität: Umgebungsgeräusche stoppen
+    // Exklusivität: Umgebungsgeräusche stoppen (still, da Radiosender startet)
     try {
       if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-      if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
       if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
     } catch(e) {}
 
-    const audio = getRadioAudio();
+    // Weicher Crossfade / Überblendung bei Senderwechsel
+    if (radioCrossfadeInterval) {
+      clearInterval(radioCrossfadeInterval);
+      radioCrossfadeInterval = null;
+    }
+
+    if (previousAudio) {
+      const fadeAudio = previousAudio;
+      const startFadeVol = fadeAudio.volume;
+      const steps = 8;
+      let step = 0;
+      radioCrossfadeInterval = setInterval(() => {
+        step++;
+        fadeAudio.volume = Math.max(0, startFadeVol * (1 - step / steps));
+        if (step >= steps) {
+          clearInterval(radioCrossfadeInterval);
+          radioCrossfadeInterval = null;
+          try { fadeAudio.pause(); fadeAudio.src = ''; } catch(e) {}
+        }
+      }, 35);
+    }
+
+    const audio = new Audio();
+    audio.preload = 'none';
+    audio.src = station.stream;
+    radioAudioEl = audio;
+    window.radioAudioEl = audio;
+
+    const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+    const targetVol = isRadioDucked ? (baseVol * 0.18) : baseVol;
+    audio.volume = 0; // Sanfter Start für weichen Einstieg
+
+    audio.addEventListener('playing', () => {
+      isRadioPlaying = true;
+      window.isRadioPlaying = true;
+      updateRadioUIState(true);
+      renderRadioPanelContent();
+    });
+    audio.addEventListener('pause', () => {
+      if (radioAudioEl === audio) {
+        isRadioPlaying = false;
+        window.isRadioPlaying = false;
+        updateRadioUIState(false);
+        renderRadioPanelContent();
+      }
+    });
+    audio.addEventListener('error', (e) => {
+      console.warn('[Radio Engine] Stream error:', e);
+      if (radioAudioEl === audio) {
+        isRadioPlaying = false;
+        window.isRadioPlaying = false;
+        updateRadioUIState(false);
+        renderRadioPanelContent();
+      }
+    });
+
     try {
-      audio.pause();
-      audio.src = station.stream;
-      audio.load();
-      audio.volume = isRadioDucked ? (radioVolume * 0.18) : radioVolume;
       audio.play().then(() => {
         isRadioPlaying = true;
+        window.isRadioPlaying = true;
+        // Fade in to target volume over 280ms
+        const inSteps = 8;
+        let inStep = 0;
+        const inInterval = setInterval(() => {
+          inStep++;
+          if (radioAudioEl !== audio) {
+            clearInterval(inInterval);
+            return;
+          }
+          audio.volume = Math.min(targetVol, targetVol * (inStep / inSteps));
+          if (inStep >= inSteps) {
+            clearInterval(inInterval);
+            audio.volume = targetVol;
+          }
+        }, 35);
+
         updateRadioUIState(true);
         if (typeof updateMiniAudioPlayer === 'function') {
           updateMiniAudioPlayer({
@@ -52064,38 +53037,60 @@ if (typeof globalThis !== 'undefined') {
         if (typeof showToast === 'function') {
           showToast(`📻 ${station.flag} ${station.name}`);
         }
-      }).catch(() => {
+        renderRadioPanelContent();
+      }).catch((err) => {
+        console.warn('Radio stream playback failed:', err);
         isRadioPlaying = false;
+        window.isRadioPlaying = false;
         updateRadioUIState(false);
         if (typeof updateMiniAudioPlayer === 'function') {
-          updateMiniAudioPlayer({ isPlaying: false });
+          updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
         }
+        renderRadioPanelContent();
       });
     } catch (err) {
       isRadioPlaying = false;
+      window.isRadioPlaying = false;
       updateRadioUIState(false);
       if (typeof updateMiniAudioPlayer === 'function') {
-        updateMiniAudioPlayer({ isPlaying: false });
+        updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
       }
+      renderRadioPanelContent();
+    }
+    updateRadioUIState(true);
+    renderRadioPanelContent();
+  }
+
+  function stopRadioPlayback() {
+    const audio = radioAudioEl || getRadioAudio();
+    if (audio) {
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+      } catch(e) {}
+    }
+    isRadioPlaying = false;
+    window.isRadioPlaying = false;
+    updateRadioUIState(false);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      const station = RADIO_STATIONS.find(s => s.id === currentStationId);
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: station ? `${station.flag || '📻'} ${station.name}` : 'Radio',
+        sub: 'Gestoppt',
+        emoji: '📻',
+        source: 'radio'
+      });
     }
     renderRadioPanelContent();
   }
 
   function toggleRadioPlayback() {
-    const audio = getRadioAudio();
     if (isRadioPlaying) {
-      audio.pause();
-      isRadioPlaying = false;
-      updateRadioUIState(false);
-      if (typeof updateMiniAudioPlayer === 'function') {
-        updateMiniAudioPlayer({ isPlaying: false });
-      }
+      stopRadioPlayback();
     } else {
-      try {
-        if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-        if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
-      } catch(e) {}
-      playRadioStation(currentStationId);
+      const stationToPlay = currentStationId || localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+      playRadioStation(stationToPlay);
     }
     renderRadioPanelContent();
   }
@@ -52103,20 +53098,64 @@ if (typeof globalThis !== 'undefined') {
   function setRadioVolume(val) {
     radioVolume = Math.max(0, Math.min(1, parseFloat(val)));
     localStorage.setItem('flow_radio_vol', radioVolume.toString());
-    const audio = getRadioAudio();
-    if (!isRadioDucked) {
+    const audio = radioAudioEl || getRadioAudio();
+    if (!isRadioDucked && audio) {
       audio.volume = radioVolume;
+    }
+    const slider = document.getElementById('radio-volume-slider');
+    if (slider && parseFloat(slider.value) !== radioVolume) {
+      slider.value = radioVolume;
+    }
+    if (isRadioPlaying) {
+      const miniSlider = document.getElementById('mini-player-volume-slider');
+      if (miniSlider && parseFloat(miniSlider.value) !== radioVolume) {
+        miniSlider.value = radioVolume;
+      }
     }
   }
 
   function updateRadioUIState(isPlaying) {
-    const playBtn = document.getElementById('radio-main-play-btn');
-    if (playBtn) {
-      playBtn.innerHTML = isPlaying 
-        ? '<i data-lucide="pause" class="w-4 h-4 fill-white"></i>' 
-        : '<i data-lucide="play" class="w-4 h-4 fill-white ml-0.5"></i>';
+    const masterPlayBtn = document.getElementById('radio-master-play-btn');
+    const nowPlayingLabel = document.getElementById('radio-now-playing-label');
+    const liveDot = document.getElementById('radio-live-dot');
+    const slider = document.getElementById('radio-volume-slider');
+
+    if (slider && typeof radioVolume === 'number') {
+      slider.value = radioVolume;
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+
+    const station = RADIO_STATIONS.find(s => s.id === currentStationId);
+
+    if (masterPlayBtn) {
+      if (isPlaying) {
+        masterPlayBtn.className = 'px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-md active:scale-95';
+        masterPlayBtn.innerHTML = '<i data-lucide="square" class="w-3.5 h-3.5 fill-white"></i><span id="radio-master-btn-label">Stop</span>';
+        masterPlayBtn.title = 'Radio stoppen';
+      } else {
+        masterPlayBtn.className = 'px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-sm active:scale-95';
+        masterPlayBtn.innerHTML = '<i data-lucide="play" class="w-3.5 h-3.5 fill-white ml-0.5"></i><span id="radio-master-btn-label">Play</span>';
+        masterPlayBtn.title = 'Radio abspielen';
+      }
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: masterPlayBtn });
+    }
+
+    if (nowPlayingLabel) {
+      if (station) {
+        nowPlayingLabel.textContent = isPlaying 
+          ? `${station.flag || '📻'} ${station.name}` 
+          : `${station.flag || '📻'} ${station.name} (${typeof tr === 'function' ? tr({ de: 'Pausiert', en: 'Paused' }) : 'Pausiert'})`;
+      } else {
+        nowPlayingLabel.textContent = typeof tr === 'function' ? tr({ de: 'Kein Sender gewählt', en: 'No station selected' }) : 'Kein Sender gewählt';
+      }
+    }
+
+    if (liveDot) {
+      if (isPlaying) {
+        liveDot.className = 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] shrink-0 animate-pulse';
+      } else {
+        liveDot.className = 'w-2 h-2 rounded-full bg-gray-500 shadow-sm shrink-0';
+      }
+    }
   }
 
   // ============================================================================
@@ -52691,7 +53730,10 @@ if (typeof globalThis !== 'undefined') {
       subtext.textContent = `${regObj ? regObj.id.toUpperCase() : 'DE'} → ${langObj ? langObj.id.toUpperCase() : 'DE'} · ${catObj ? catObj.name : 'Alle'}`;
     }
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    const newsPanel = document.getElementById('panel-news');
+    if (newsPanel && typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons({ root: newsPanel });
+    }
   }
 
   // ============================================================================
@@ -52764,7 +53806,7 @@ if (typeof globalThis !== 'undefined') {
       `;
     }).join('');
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: listContainer });
   }
 
   function renderTickerMarquee(items) {
@@ -52930,7 +53972,7 @@ if (typeof globalThis !== 'undefined') {
         </button>
       </div>
     `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (articleBox && typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: articleBox });
   }
 
   function updateHoverActionPill(it, idx) {
@@ -52953,7 +53995,7 @@ if (typeof globalThis !== 'undefined') {
         <i data-lucide="volume-2" class="w-3 h-3"></i>
       </button>
     `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: hoverPill });
   }
 
   function handleNewsClick(idx) {
@@ -53298,7 +54340,7 @@ if (typeof globalThis !== 'undefined') {
         RadioNewsEngine.handleInstructionClick(e, currentTip);
       };
       if (typeof lucide !== 'undefined' && lucide.createIcons) {
-        lucide.createIcons();
+        lucide.createIcons({ root: track });
       }
     } else if (textEl) {
       textEl.textContent = tipText;
@@ -53651,7 +54693,11 @@ if (typeof globalThis !== 'undefined') {
       }
     }
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      if (headerPlayBtn) lucide.createIcons({ root: headerPlayBtn });
+      if (tickerTtsBtn) lucide.createIcons({ root: tickerTtsBtn });
+      if (bottomPlayerBar) lucide.createIcons({ root: bottomPlayerBar });
+    }
   }
 
   function getOrderedRadioStations() {
@@ -53725,20 +54771,20 @@ if (typeof globalThis !== 'undefined') {
               <p class="text-[10px] text-gray-400 truncate">${s.desc}</p>
             </div>
           </div>
-          <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition ${
+          <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition active:scale-95 ${
             isLive 
-              ? 'bg-purple-500 text-white shadow-md' 
+              ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-md' 
               : isCurrent 
                 ? 'bg-purple-500/20 text-purple-300 group-hover:bg-purple-500 group-hover:text-white' 
                 : 'bg-white/5 text-gray-400 group-hover:bg-white/20 group-hover:text-white'
-          }">
-            <i data-lucide="${isLive ? 'pause' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
+          }" title="${isLive ? 'Sender stoppen' : 'Sender abspielen'}">
+            <i data-lucide="${isLive ? 'square' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
           </button>
         </div>
       `;
     }).join('');
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: container });
   }
 
   function switchMainTab(tab) {
@@ -53766,11 +54812,14 @@ if (typeof globalThis !== 'undefined') {
       if (radioTabBtn) {
         radioTabBtn.className = 'flex-1 py-1 px-2 rounded-xl text-gray-400 hover:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer text-xs font-medium select-none';
       }
-      if (currentNewsItems.length === 0) {
+      if (!currentNewsItems || currentNewsItems.length === 0) {
         fetchNewsForRegion(currentRegion);
       }
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    const targetPane = tab === 'radio' ? radioPane : newsPane;
+    if (targetPane && typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons({ root: targetPane });
+    }
   }
 
   function openFullNewsLounge() {
@@ -53786,7 +54835,9 @@ if (typeof globalThis !== 'undefined') {
   function initNewsPanel() {
     updateAllSelectorsUI();
     setSpeechRate(speechRate);
-    fetchNewsForRegion(currentRegion);
+    if (!currentNewsItems || currentNewsItems.length === 0) {
+      fetchNewsForRegion(currentRegion);
+    }
 
     if (!newsAutoRefreshInterval) {
       newsAutoRefreshInterval = setInterval(() => {
@@ -53798,8 +54849,13 @@ if (typeof globalThis !== 'undefined') {
   }
 
   function initRadioPanel() {
+    if (!currentStationId) {
+      currentStationId = localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+    }
     renderRadioPanelContent();
     updateRadioUIState(isRadioPlaying);
+    const slider = document.getElementById('radio-volume-slider');
+    if (slider) slider.value = radioVolume;
   }
 
   function initPanel() {
@@ -53828,6 +54884,7 @@ if (typeof globalThis !== 'undefined') {
     // Radio
     playRadioStation,
     toggleRadioPlayback,
+    stopRadioPlayback,
     setRadioVolume,
     duckRadio,
     // News Reader (TTS)
@@ -53901,11 +54958,13 @@ if (typeof globalThis !== 'undefined') {
     };
     window.playRadioStation = playRadioStation;
     window.toggleRadioPlayback = toggleRadioPlayback;
+    window.stopRadioPlayback = stopRadioPlayback;
     window.duckRadio = duckRadio;
   }
 
   if (typeof globalThis !== 'undefined') {
     globalThis.RadioNewsEngine = RadioNewsEngine;
+    globalThis.stopRadioPlayback = stopRadioPlayback;
     globalThis.duckRadio = duckRadio;
   }
 

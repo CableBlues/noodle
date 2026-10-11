@@ -157,77 +157,45 @@ function stopAmbientSound(silent = false) {
   // 0. Ausstehende Crossfade-Nodes und Crossfade-Gains sofort hart stoppen & trennen
   if (typeof pendingCrossfadeNodes !== 'undefined' && pendingCrossfadeNodes.length > 0) {
     pendingCrossfadeNodes.forEach(node => {
-      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) { console.warn('[Audio] pendingCrossfadeNode.stop error:', e); }
-      try { node.disconnect(); } catch(e) { console.warn('[Audio] pendingCrossfadeNode.disconnect error:', e); }
+      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) {}
+      try { node.disconnect(); } catch(e) {}
     });
     pendingCrossfadeNodes = [];
   }
 
   if (typeof pendingCrossfadeGains !== 'undefined' && pendingCrossfadeGains.length > 0) {
     pendingCrossfadeGains.forEach(gain => {
-      try { gain.gain.cancelScheduledValues(now); } catch(e) { console.warn('[Audio] pendingGain.cancelScheduledValues error:', e); }
-      try { gain.gain.setValueAtTime(0, now); } catch(e) { console.warn('[Audio] pendingGain.setValueAtTime error:', e); }
-      try { gain.disconnect(); } catch(e) { console.warn('[Audio] pendingGain.disconnect error:', e); }
+      try { gain.gain.cancelScheduledValues(now); } catch(e) {}
+      try { gain.gain.setValueAtTime(0, now); } catch(e) {}
+      try { gain.disconnect(); } catch(e) {}
     });
     pendingCrossfadeGains = [];
   }
 
-  // 1. MASTER GAIN sofort kappen und trennen -> KEIN Ton erreicht mehr die Lautsprecher!
-  if (typeof masterGainNode !== 'undefined' && masterGainNode) {
-    try { masterGainNode.gain.cancelScheduledValues(now); } catch(e) { console.warn('[Audio] masterGain.cancelScheduledValues error:', e); }
-    try { masterGainNode.gain.setValueAtTime(0, now); } catch(e) { console.warn('[Audio] masterGain.setValueAtTime error:', e); }
-    try { masterGainNode.disconnect(); } catch(e) { console.warn('[Audio] masterGain.disconnect error:', e); }
-    masterGainNode = null;
-  }
-
-  // 2. Sound Gain trennen
+  // 1. Ambient Sound Gain stumm schalten & trennen (Master Gain bleibt unberührt und intakt)
   if (typeof soundGainNode !== 'undefined' && soundGainNode) {
-    try { soundGainNode.gain.cancelScheduledValues(now); } catch(e) { console.warn('[Audio] soundGain.cancelScheduledValues error:', e); }
-    try { soundGainNode.gain.setValueAtTime(0, now); } catch(e) { console.warn('[Audio] soundGain.setValueAtTime error:', e); }
-    try { soundGainNode.disconnect(); } catch(e) { console.warn('[Audio] soundGain.disconnect error:', e); }
+    try { soundGainNode.gain.cancelScheduledValues(now); } catch(e) {}
+    try { soundGainNode.gain.setValueAtTime(0, now); } catch(e) {}
+    try { soundGainNode.disconnect(); } catch(e) {}
     soundGainNode = null;
   }
 
-  // 3. Alle aktiven Oszillatoren / Noise Nodes stoppen & trennen
+  // 2. Alle aktiven Ambient Oszillatoren / Noise Nodes stoppen & trennen
   if (typeof activeNodes !== 'undefined' && activeNodes.length > 0) {
     activeNodes.forEach(node => {
-      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) { console.warn('[Audio] activeNode.stop error:', e); }
-      try { node.disconnect(); } catch(e) { console.warn('[Audio] activeNode.disconnect error:', e); }
+      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) {}
+      try { node.disconnect(); } catch(e) {}
     });
     activeNodes = [];
   }
 
-  // 4. HTML5 Audio stoppen
-  if (typeof activeUserAudio !== 'undefined' && activeUserAudio) {
-    try { activeUserAudio.pause(); } catch(e) { console.warn('[Audio] activeUserAudio.pause error:', e); }
-    try { activeUserAudio.currentTime = 0; } catch(e) { console.warn('[Audio] activeUserAudio.currentTime error:', e); }
-    try { activeUserAudio.src = ""; } catch(e) { console.warn('[Audio] activeUserAudio.src error:', e); }
-    activeUserAudio = null;
+  // 3. Beat Sequencer timer anhalten
+  if (typeof beatSchedulerTimer !== 'undefined' && beatSchedulerTimer) {
+    clearInterval(beatSchedulerTimer);
+    beatSchedulerTimer = null;
   }
-
-  // Alle HTML5-Audio-Elemente im DOM anhalten
-  try {
-    const allAudios = document.querySelectorAll('audio');
-    allAudios.forEach(a => {
-      try { a.pause(); a.currentTime = 0; } catch(e) { console.warn('[Audio] DOM audio reset error:', e); }
-    });
-  } catch(e) {
-    console.warn('[Audio] DOM audio pause error:', e);
-  }
-
-  // 5. Sprachausgabe sofort abbrechen & alle Timeouts invalidieren
-  if (typeof currentSpeechSessionId !== 'undefined') {
-    currentSpeechSessionId++;
-  }
-  if ('speechSynthesis' in window) {
-    try { window.speechSynthesis.cancel(); } catch(e) { console.warn('[Audio] speechSynthesis.cancel warning:', e); }
-    setTimeout(() => { try { window.speechSynthesis.cancel(); } catch(e) { console.warn('[Audio] deferred cancel warning:', e); } }, 0);
-    setTimeout(() => { try { window.speechSynthesis.cancel(); } catch(e) { console.warn('[Audio] deferred cancel 50ms warning:', e); } }, 50);
-  }
-
-  // Debug-Log für Graph-Zustand
-  if (typeof audioCtx !== 'undefined' && audioCtx) {
-    console.log(`[Audio] stopAmbientSound abgeschlossen | AudioContext State: ${audioCtx.state} | Aktive Nodes: 0 | Pending Crossfades: 0`);
+  if (typeof isBeatPlaying !== 'undefined') {
+    isBeatPlaying = false;
   }
 
   currentSoundType = null;
@@ -237,13 +205,10 @@ function stopAmbientSound(silent = false) {
   if (nameLabel) nameLabel.classList.add('hidden');
   
   if (!silent) {
-    const toastLabel = { 
-      de: 'Focus Sound gestoppt', 
-      en: 'Focus Sound stopped', 
-      es: 'Sonido de enfoque detenido', 
-      el: 'Ήχος εστίασης σταμάτησε' 
-    }[currentLang] || 'Sound stopped';
-    showToast(toastLabel);
+    const toastLabel = (typeof tr === 'function')
+      ? tr({ de: 'Focus Sound gestoppt ⏹️', en: 'Focus Sound stopped ⏹️', es: 'Sonido de enfoque detenido ⏹️', el: 'Ήχος εστίασης σταμάτησε ⏹️' })
+      : 'Focus Sound gestoppt ⏹️';
+    if (typeof showToast === 'function') showToast(toastLabel);
   }
 }
 
@@ -868,6 +833,10 @@ function runBeatLookaheadScheduler() {
   if (!isBeatType) return;
 
   var secPer16th = (60.0 / (currentBeatBpm || 120)) / 4.0;
+
+  if (nextBeatTime < audioCtx.currentTime) {
+    nextBeatTime = audioCtx.currentTime;
+  }
 
   while (nextBeatTime < audioCtx.currentTime + scheduleAheadSec) {
     scheduleBeat16thStep(beatStepIndex, nextBeatTime);

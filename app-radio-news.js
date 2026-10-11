@@ -1291,35 +1291,105 @@
     }, stepTime);
   }
 
+  let radioCrossfadeInterval = null;
+
   function playRadioStation(stationId) {
     const station = RADIO_STATIONS.find(s => s.id === stationId);
     if (!station) return;
 
     if (currentStationId === stationId && isRadioPlaying && radioAudioEl) {
-      toggleRadioPlayback();
+      stopRadioPlayback();
       return;
     }
 
+    const previousAudio = (isRadioPlaying && radioAudioEl) ? radioAudioEl : null;
     currentStationId = stationId;
     localStorage.setItem('flow_radio_station', stationId);
 
     if (isSpeakingQueue) stopNewsReader();
 
-    // Exklusivität: Umgebungsgeräusche stoppen
+    // Exklusivität: Umgebungsgeräusche stoppen (still, da Radiosender startet)
     try {
       if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-      if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
       if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
     } catch(e) {}
 
-    const audio = getRadioAudio();
+    // Weicher Crossfade / Überblendung bei Senderwechsel
+    if (radioCrossfadeInterval) {
+      clearInterval(radioCrossfadeInterval);
+      radioCrossfadeInterval = null;
+    }
+
+    if (previousAudio) {
+      const fadeAudio = previousAudio;
+      const startFadeVol = fadeAudio.volume;
+      const steps = 8;
+      let step = 0;
+      radioCrossfadeInterval = setInterval(() => {
+        step++;
+        fadeAudio.volume = Math.max(0, startFadeVol * (1 - step / steps));
+        if (step >= steps) {
+          clearInterval(radioCrossfadeInterval);
+          radioCrossfadeInterval = null;
+          try { fadeAudio.pause(); fadeAudio.src = ''; } catch(e) {}
+        }
+      }, 35);
+    }
+
+    const audio = new Audio();
+    audio.preload = 'none';
+    audio.src = station.stream;
+    radioAudioEl = audio;
+    window.radioAudioEl = audio;
+
+    const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+    const targetVol = isRadioDucked ? (baseVol * 0.18) : baseVol;
+    audio.volume = 0; // Sanfter Start für weichen Einstieg
+
+    audio.addEventListener('playing', () => {
+      isRadioPlaying = true;
+      window.isRadioPlaying = true;
+      updateRadioUIState(true);
+      renderRadioPanelContent();
+    });
+    audio.addEventListener('pause', () => {
+      if (radioAudioEl === audio) {
+        isRadioPlaying = false;
+        window.isRadioPlaying = false;
+        updateRadioUIState(false);
+        renderRadioPanelContent();
+      }
+    });
+    audio.addEventListener('error', (e) => {
+      console.warn('[Radio Engine] Stream error:', e);
+      if (radioAudioEl === audio) {
+        isRadioPlaying = false;
+        window.isRadioPlaying = false;
+        updateRadioUIState(false);
+        renderRadioPanelContent();
+      }
+    });
+
     try {
-      audio.pause();
-      audio.src = station.stream;
-      audio.load();
-      audio.volume = isRadioDucked ? (radioVolume * 0.18) : radioVolume;
       audio.play().then(() => {
         isRadioPlaying = true;
+        window.isRadioPlaying = true;
+        // Fade in to target volume over 280ms
+        const inSteps = 8;
+        let inStep = 0;
+        const inInterval = setInterval(() => {
+          inStep++;
+          if (radioAudioEl !== audio) {
+            clearInterval(inInterval);
+            return;
+          }
+          audio.volume = Math.min(targetVol, targetVol * (inStep / inSteps));
+          if (inStep >= inSteps) {
+            clearInterval(inInterval);
+            audio.volume = targetVol;
+          }
+        }, 35);
+
         updateRadioUIState(true);
         if (typeof updateMiniAudioPlayer === 'function') {
           updateMiniAudioPlayer({
@@ -1333,38 +1403,60 @@
         if (typeof showToast === 'function') {
           showToast(`📻 ${station.flag} ${station.name}`);
         }
-      }).catch(() => {
+        renderRadioPanelContent();
+      }).catch((err) => {
+        console.warn('Radio stream playback failed:', err);
         isRadioPlaying = false;
+        window.isRadioPlaying = false;
         updateRadioUIState(false);
         if (typeof updateMiniAudioPlayer === 'function') {
-          updateMiniAudioPlayer({ isPlaying: false });
+          updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
         }
+        renderRadioPanelContent();
       });
     } catch (err) {
       isRadioPlaying = false;
+      window.isRadioPlaying = false;
       updateRadioUIState(false);
       if (typeof updateMiniAudioPlayer === 'function') {
-        updateMiniAudioPlayer({ isPlaying: false });
+        updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
       }
+      renderRadioPanelContent();
+    }
+    updateRadioUIState(true);
+    renderRadioPanelContent();
+  }
+
+  function stopRadioPlayback() {
+    const audio = radioAudioEl || getRadioAudio();
+    if (audio) {
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+      } catch(e) {}
+    }
+    isRadioPlaying = false;
+    window.isRadioPlaying = false;
+    updateRadioUIState(false);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      const station = RADIO_STATIONS.find(s => s.id === currentStationId);
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: station ? `${station.flag || '📻'} ${station.name}` : 'Radio',
+        sub: 'Gestoppt',
+        emoji: '📻',
+        source: 'radio'
+      });
     }
     renderRadioPanelContent();
   }
 
   function toggleRadioPlayback() {
-    const audio = getRadioAudio();
     if (isRadioPlaying) {
-      audio.pause();
-      isRadioPlaying = false;
-      updateRadioUIState(false);
-      if (typeof updateMiniAudioPlayer === 'function') {
-        updateMiniAudioPlayer({ isPlaying: false });
-      }
+      stopRadioPlayback();
     } else {
-      try {
-        if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-        if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
-      } catch(e) {}
-      playRadioStation(currentStationId);
+      const stationToPlay = currentStationId || localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+      playRadioStation(stationToPlay);
     }
     renderRadioPanelContent();
   }
@@ -1372,20 +1464,64 @@
   function setRadioVolume(val) {
     radioVolume = Math.max(0, Math.min(1, parseFloat(val)));
     localStorage.setItem('flow_radio_vol', radioVolume.toString());
-    const audio = getRadioAudio();
-    if (!isRadioDucked) {
+    const audio = radioAudioEl || getRadioAudio();
+    if (!isRadioDucked && audio) {
       audio.volume = radioVolume;
+    }
+    const slider = document.getElementById('radio-volume-slider');
+    if (slider && parseFloat(slider.value) !== radioVolume) {
+      slider.value = radioVolume;
+    }
+    if (isRadioPlaying) {
+      const miniSlider = document.getElementById('mini-player-volume-slider');
+      if (miniSlider && parseFloat(miniSlider.value) !== radioVolume) {
+        miniSlider.value = radioVolume;
+      }
     }
   }
 
   function updateRadioUIState(isPlaying) {
-    const playBtn = document.getElementById('radio-main-play-btn');
-    if (playBtn) {
-      playBtn.innerHTML = isPlaying 
-        ? '<i data-lucide="pause" class="w-4 h-4 fill-white"></i>' 
-        : '<i data-lucide="play" class="w-4 h-4 fill-white ml-0.5"></i>';
+    const masterPlayBtn = document.getElementById('radio-master-play-btn');
+    const nowPlayingLabel = document.getElementById('radio-now-playing-label');
+    const liveDot = document.getElementById('radio-live-dot');
+    const slider = document.getElementById('radio-volume-slider');
+
+    if (slider && typeof radioVolume === 'number') {
+      slider.value = radioVolume;
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+
+    const station = RADIO_STATIONS.find(s => s.id === currentStationId);
+
+    if (masterPlayBtn) {
+      if (isPlaying) {
+        masterPlayBtn.className = 'px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-md active:scale-95';
+        masterPlayBtn.innerHTML = '<i data-lucide="square" class="w-3.5 h-3.5 fill-white"></i><span id="radio-master-btn-label">Stop</span>';
+        masterPlayBtn.title = 'Radio stoppen';
+      } else {
+        masterPlayBtn.className = 'px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-sm active:scale-95';
+        masterPlayBtn.innerHTML = '<i data-lucide="play" class="w-3.5 h-3.5 fill-white ml-0.5"></i><span id="radio-master-btn-label">Play</span>';
+        masterPlayBtn.title = 'Radio abspielen';
+      }
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: masterPlayBtn });
+    }
+
+    if (nowPlayingLabel) {
+      if (station) {
+        nowPlayingLabel.textContent = isPlaying 
+          ? `${station.flag || '📻'} ${station.name}` 
+          : `${station.flag || '📻'} ${station.name} (${typeof tr === 'function' ? tr({ de: 'Pausiert', en: 'Paused' }) : 'Pausiert'})`;
+      } else {
+        nowPlayingLabel.textContent = typeof tr === 'function' ? tr({ de: 'Kein Sender gewählt', en: 'No station selected' }) : 'Kein Sender gewählt';
+      }
+    }
+
+    if (liveDot) {
+      if (isPlaying) {
+        liveDot.className = 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] shrink-0 animate-pulse';
+      } else {
+        liveDot.className = 'w-2 h-2 rounded-full bg-gray-500 shadow-sm shrink-0';
+      }
+    }
   }
 
   // ============================================================================
@@ -1960,7 +2096,10 @@
       subtext.textContent = `${regObj ? regObj.id.toUpperCase() : 'DE'} → ${langObj ? langObj.id.toUpperCase() : 'DE'} · ${catObj ? catObj.name : 'Alle'}`;
     }
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    const newsPanel = document.getElementById('panel-news');
+    if (newsPanel && typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons({ root: newsPanel });
+    }
   }
 
   // ============================================================================
@@ -2033,7 +2172,7 @@
       `;
     }).join('');
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: listContainer });
   }
 
   function renderTickerMarquee(items) {
@@ -2199,7 +2338,7 @@
         </button>
       </div>
     `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (articleBox && typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: articleBox });
   }
 
   function updateHoverActionPill(it, idx) {
@@ -2222,7 +2361,7 @@
         <i data-lucide="volume-2" class="w-3 h-3"></i>
       </button>
     `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: hoverPill });
   }
 
   function handleNewsClick(idx) {
@@ -2567,7 +2706,7 @@
         RadioNewsEngine.handleInstructionClick(e, currentTip);
       };
       if (typeof lucide !== 'undefined' && lucide.createIcons) {
-        lucide.createIcons();
+        lucide.createIcons({ root: track });
       }
     } else if (textEl) {
       textEl.textContent = tipText;
@@ -2920,7 +3059,11 @@
       }
     }
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      if (headerPlayBtn) lucide.createIcons({ root: headerPlayBtn });
+      if (tickerTtsBtn) lucide.createIcons({ root: tickerTtsBtn });
+      if (bottomPlayerBar) lucide.createIcons({ root: bottomPlayerBar });
+    }
   }
 
   function getOrderedRadioStations() {
@@ -2994,20 +3137,20 @@
               <p class="text-[10px] text-gray-400 truncate">${s.desc}</p>
             </div>
           </div>
-          <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition ${
+          <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition active:scale-95 ${
             isLive 
-              ? 'bg-purple-500 text-white shadow-md' 
+              ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-md' 
               : isCurrent 
                 ? 'bg-purple-500/20 text-purple-300 group-hover:bg-purple-500 group-hover:text-white' 
                 : 'bg-white/5 text-gray-400 group-hover:bg-white/20 group-hover:text-white'
-          }">
-            <i data-lucide="${isLive ? 'pause' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
+          }" title="${isLive ? 'Sender stoppen' : 'Sender abspielen'}">
+            <i data-lucide="${isLive ? 'square' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
           </button>
         </div>
       `;
     }).join('');
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: container });
   }
 
   function switchMainTab(tab) {
@@ -3035,11 +3178,14 @@
       if (radioTabBtn) {
         radioTabBtn.className = 'flex-1 py-1 px-2 rounded-xl text-gray-400 hover:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer text-xs font-medium select-none';
       }
-      if (currentNewsItems.length === 0) {
+      if (!currentNewsItems || currentNewsItems.length === 0) {
         fetchNewsForRegion(currentRegion);
       }
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    const targetPane = tab === 'radio' ? radioPane : newsPane;
+    if (targetPane && typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons({ root: targetPane });
+    }
   }
 
   function openFullNewsLounge() {
@@ -3055,7 +3201,9 @@
   function initNewsPanel() {
     updateAllSelectorsUI();
     setSpeechRate(speechRate);
-    fetchNewsForRegion(currentRegion);
+    if (!currentNewsItems || currentNewsItems.length === 0) {
+      fetchNewsForRegion(currentRegion);
+    }
 
     if (!newsAutoRefreshInterval) {
       newsAutoRefreshInterval = setInterval(() => {
@@ -3067,8 +3215,13 @@
   }
 
   function initRadioPanel() {
+    if (!currentStationId) {
+      currentStationId = localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+    }
     renderRadioPanelContent();
     updateRadioUIState(isRadioPlaying);
+    const slider = document.getElementById('radio-volume-slider');
+    if (slider) slider.value = radioVolume;
   }
 
   function initPanel() {
@@ -3097,6 +3250,7 @@
     // Radio
     playRadioStation,
     toggleRadioPlayback,
+    stopRadioPlayback,
     setRadioVolume,
     duckRadio,
     // News Reader (TTS)
@@ -3170,11 +3324,13 @@
     };
     window.playRadioStation = playRadioStation;
     window.toggleRadioPlayback = toggleRadioPlayback;
+    window.stopRadioPlayback = stopRadioPlayback;
     window.duckRadio = duckRadio;
   }
 
   if (typeof globalThis !== 'undefined') {
     globalThis.RadioNewsEngine = RadioNewsEngine;
+    globalThis.stopRadioPlayback = stopRadioPlayback;
     globalThis.duckRadio = duckRadio;
   }
 

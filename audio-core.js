@@ -518,8 +518,11 @@ function playAmbientSound(type, crossfade = false) {
 
   // Wenn der geklickte Sound bereits läuft -> stoppen (Toggle-Funktion)
   if (currentSoundType === type) {
-    stopAmbientSound(true);
-    if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+    if (typeof stopAllStudioAudio === 'function') {
+      stopAllStudioAudio(true);
+    } else {
+      stopAmbientSound(true);
+    }
     updateSoundscapeUI();
     if (typeof showToast === 'function') {
       showToast(typeof tr === 'function' ? tr({ de: 'Audio gestoppt ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio gestoppt ⏹️');
@@ -527,18 +530,12 @@ function playAmbientSound(type, crossfade = false) {
     return;
   }
 
-  // Ansonsten: Alle anderen vorher laufenden Sounds/Musik/Radio restlos stoppen
-  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
-  stopAmbientSound(true);
-
-  // Exklusivität: Radio stoppen falls aktiv
-  try {
-    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
-      RadioNewsEngine.toggleRadioPlayback();
-    } else if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
-      window.radioAudioEl.pause();
-    }
-  } catch (e) {}
+  // Ansonsten: Alle anderen vorher laufenden Sounds/Musik/Radio restlos still stoppen
+  if (typeof stopAllStudioAudio === 'function') {
+    stopAllStudioAudio(true);
+  } else {
+    stopAmbientSound(true);
+  }
 
   currentSoundType = type;
   soundGainNode = audioCtx.createGain();
@@ -696,6 +693,7 @@ function playGameSound(type) {
   const dest = getUiAudioDest();
   if (!dest) return;
   const masterVol = Math.min(0.6, (soundMasterVolume || 0.5) * 0.42);
+  if (masterVol <= 0.001) return;
 
   const ALL_GAME_SOUNDS = [
     'coin', 'gem', 'boing', 'pop', 'bloop', 'squeak', 'powerup', 'jump',
@@ -1354,8 +1352,9 @@ function playNatureSound(type) {
 // Master UI sound dispatcher: plays contextual or highly-varied rotating game sounds
 function playUiSound(category = 'click', specificType = null) {
   const currentTime = Date.now();
-  if (currentTime - lastUiSoundTime < 30) return; // Debounce fast spam
+  if (currentTime - lastUiSoundTime < 45) return; // Debounce fast spam
   lastUiSoundTime = currentTime;
+  if (isPlayerMuted || (typeof soundMasterVolume === 'number' && soundMasterVolume <= 0.001)) return;
 
   if (specificType) {
     playGameSound(specificType);
@@ -1569,9 +1568,19 @@ function updateAudioStudioHeader(customTitle) {
 window.updateAudioStudioHeader = updateAudioStudioHeader;
 
 function isAnyAudioPlaying() {
-  return (typeof currentSoundType !== 'undefined' && Boolean(currentSoundType)) || 
-         (typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused) || 
-         (typeof djDecks !== 'undefined' && djDecks && (djDecks.a?.isPlaying || djDecks.b?.isPlaying));
+  const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
+  const isMusic = typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused;
+  const isDj = typeof djDecks !== 'undefined' && djDecks && (djDecks.a?.isPlaying || djDecks.b?.isPlaying);
+  const isRadio = (typeof window !== 'undefined' && Boolean(window.isRadioPlaying)) || 
+                  (typeof isRadioPlaying !== 'undefined' && Boolean(isRadioPlaying)) ||
+                  (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused);
+  const isBeat = typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying);
+  const isLayers = typeof activeAmbientLayers !== 'undefined' && Object.keys(activeAmbientLayers).length > 0;
+  const isBinaural = typeof activeBinauralBeat !== 'undefined' && Boolean(activeBinauralBeat);
+  const isTts = (typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis.speaking) ||
+                (typeof RadioNewsEngine !== 'undefined' && Boolean(RadioNewsEngine.isSpeakingQueue));
+
+  return Boolean(isAmbient || isMusic || isDj || isRadio || isBeat || isLayers || isBinaural || isTts);
 }
 window.isAnyAudioPlaying = isAnyAudioPlaying;
 
@@ -1598,7 +1607,7 @@ function updateHeaderSoundBtnUI() {
     }
     if (label) label.textContent = '';
   }
-  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: btn });
 }
 window.updateHeaderSoundBtnUI = updateHeaderSoundBtnUI;
 
@@ -1621,18 +1630,66 @@ function toggleMasterSound() {
 }
 window.toggleMasterSound = toggleMasterSound;
 
-function stopAllStudioAudio() {
+function stopAllStudioAudio(silent = false) {
+  // 1. Ambient & Natur-Soundscapes
   if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+
+  // 2. Multi-track Ambient layers
+  if (typeof activeAmbientLayers !== 'undefined') {
+    Object.keys(activeAmbientLayers).forEach(type => {
+      try { stopAmbientLayer(type); } catch(e) {}
+    });
+  }
+
+  // 3. Binaural beats
+  if (typeof stopBinauralBeat === 'function') stopBinauralBeat();
+
+  // 4. Beat Sequencer & LoFi
+  if (typeof stopBeatSequencer === 'function') stopBeatSequencer();
+  if (typeof stopLoFiBeats === 'function') stopLoFiBeats();
+
+  // 5. Music & Media Player
   if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
+  else if (typeof activeUserAudio !== 'undefined' && activeUserAudio) {
+    try { activeUserAudio.pause(); } catch(e) {}
+  }
+
+  // 6. Live Radio
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+    RadioNewsEngine.stopRadioPlayback();
+  } else if (typeof stopRadioPlayback === 'function') {
+    stopRadioPlayback();
+  } else if (typeof window !== 'undefined' && window.radioAudioEl) {
+    try { window.radioAudioEl.pause(); } catch(e) {}
+    window.isRadioPlaying = false;
+    if (typeof updateRadioUIState === 'function') updateRadioUIState(false);
+  }
+
+  // 7. DJ Decks
   if (typeof pauseDjDeck === 'function') { pauseDjDeck('a'); pauseDjDeck('b'); }
+
+  // 8. TTS / News Reader
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopNewsReader === 'function') {
+    RadioNewsEngine.stopNewsReader();
+  }
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    try { window.speechSynthesis.cancel(); } catch(e) {}
+  }
+
   const miniPlayer = document.getElementById('noodle-mini-audio-player');
-  if (miniPlayer) miniPlayer.classList.add('hidden');
+  if (typeof updateMiniAudioPlayer === 'function') {
+    updateMiniAudioPlayer({ isPlaying: false, sub: 'Gestoppt' });
+  } else if (miniPlayer) {
+    miniPlayer.classList.remove('hidden');
+  }
+  if (typeof isMiniPlayerPlaying !== 'undefined') isMiniPlayerPlaying = false;
+
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
   document.querySelectorAll('.mood-preset-card').forEach(btn => {
     btn.classList.remove('border-purple-500/80', 'bg-purple-500/25');
   });
-  if (typeof showToast === 'function') {
+  if (!silent && typeof showToast === 'function') {
     showToast(tr({ de: 'Sound gestoppt ⏹️', en: 'Sound stopped ⏹️', fr: 'Son arrêté ⏹️', it: 'Suono interrotto ⏹️', es: 'Sonido detenido ⏹️', el: 'Ο ήχος σταμάτησε ⏹️' }));
   }
 }
@@ -1644,7 +1701,12 @@ function handleHeaderVolumeInput(val) {
   try { localStorage.setItem('flow_master_vol', soundMasterVolume.toString()); } catch(e) {}
 
   // 1. Ambient & Natur-Soundscape Pegel aktualisieren
-  if (typeof setSoundVolume === 'function') setSoundVolume(soundMasterVolume);
+  if (masterGainNode && audioCtx) {
+    try {
+      masterGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      masterGainNode.gain.setValueAtTime(soundMasterVolume, audioCtx.currentTime);
+    } catch(e) {}
+  }
   if (soundGainNode && audioCtx) {
     try {
       soundGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
@@ -1655,7 +1717,7 @@ function handleHeaderVolumeInput(val) {
   // 2. Media Player Pegel synchronisieren
   if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(soundMasterVolume);
   if (activeUserAudio) {
-    try { activeUserAudio.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75); } catch(e) {}
+    try { activeUserAudio.volume = isPlayerMuted ? 0 : Math.max(0, Math.min(1, soundMasterVolume)); } catch(e) {}
   }
 
   // 3. Radio Engine synchronisieren
@@ -1690,7 +1752,7 @@ function handleHeaderVolumeInput(val) {
   // 6. UI-Slider & Prozentanzeigen an allen Stellen synchron halten
   const numVal = `${Math.round(soundMasterVolume * 100)}`;
   const percentEl = document.getElementById('header-sound-volume-percent');
-  if (percentEl) percentEl.textContent = numVal;
+  if (percentEl) percentEl.textContent = `${numVal}%`;
   const studioPctEl = document.getElementById('audio-panel-master-volume-pct');
   if (studioPctEl) studioPctEl.textContent = `${numVal}%`;
 
@@ -1703,9 +1765,12 @@ function handleHeaderVolumeInput(val) {
   if (studioSlider && parseFloat(studioSlider.value) !== soundMasterVolume) studioSlider.value = soundMasterVolume;
   const radioSlider = document.getElementById('radio-volume-slider');
   if (radioSlider && parseFloat(radioSlider.value) !== soundMasterVolume) radioSlider.value = soundMasterVolume;
+  const miniSlider = document.getElementById('mini-player-volume-slider');
+  if (miniSlider && parseFloat(miniSlider.value) !== soundMasterVolume) miniSlider.value = soundMasterVolume;
 }
 window.handleHeaderVolumeInput = handleHeaderVolumeInput;
 window.handleStudioMasterVolume = handleHeaderVolumeInput;
+window.setSoundVolume = handleHeaderVolumeInput;
 
 let soundHoverSliderTimer = null;
 let soundVolumePinned = false;
@@ -1726,7 +1791,7 @@ function showSoundHoverSlider() {
       popover.classList.add('noodle-panel-peeking');
       popover.classList.remove('noodle-panel-pinned');
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: popover });
   }
 }
 window.showSoundHoverSlider = showSoundHoverSlider;
@@ -1761,7 +1826,7 @@ function toggleSoundVolumePopover(event) {
     soundVolumePinned = true;
     popover.classList.remove('hidden', 'noodle-panel-peeking');
     popover.classList.add('flex', 'noodle-panel-pinned');
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: popover });
   } else if (!soundVolumePinned) {
     soundVolumePinned = true;
     popover.classList.remove('noodle-panel-peeking');
@@ -1873,7 +1938,9 @@ function stopAllSounds() {
   if (typeof stopLoFiBeats === 'function') stopLoFiBeats();
   if (typeof stopBeatSequencer === 'function') stopBeatSequencer();
   if (typeof RadioNewsEngine !== 'undefined') {
-    if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
+    if (typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+      RadioNewsEngine.stopRadioPlayback();
+    } else if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
       RadioNewsEngine.toggleRadioPlayback();
     }
     if (typeof RadioNewsEngine.stopNewsReader === 'function') {

@@ -557,7 +557,7 @@ async function clearColumnTasks(colId, e) {
   const entry = (activeOrder || []).find(([id]) => id === colId);
   const listTitle = (entry && entry[2]) || t(colId);
 
-  saveHistory();
+  saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} Aufgaben)`);
   if (isDone) {
     const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
     if (ws === 'study') {
@@ -1491,7 +1491,7 @@ function renderApp() {
           const srcIdx = targetList.findIndex(([catId]) => catId === srcId);
           const targetIdx = targetList.findIndex(([catId]) => catId === targetId);
           if (srcIdx !== -1 && targetIdx !== -1) {
-            saveHistory(); const [removed] = targetList.splice(srcIdx, 1);
+            saveHistory('Karten-Reihenfolge verschoben'); const [removed] = targetList.splice(srcIdx, 1);
             targetList.splice(targetIdx, 0, removed);
             saveCategoriesOrder();
             renderApp();
@@ -1865,8 +1865,8 @@ function renderApp() {
       addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-lime-500/50 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-lime-400 focus:shadow-[0_0_12px_rgba(132,204,22,0.25)] transition cursor-text font-semibold text-white shadow-inner';
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && addInput.value.trim()) {
-          saveHistory();
           const taskText = addInput.value.trim();
+          saveHistory(`Aufgabe hinzugefügt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
           const taskObj = (typeof ensureItemIdentity === 'function') 
             ? ensureItemIdentity(taskText, `task_${id}`)
             : { task: taskText };
@@ -2057,9 +2057,13 @@ function handleCompleteTask(category, index, event) {
     taskEl = event.currentTarget.closest('div[draggable="true"]');
   }
   const clientX = event?.clientX || (taskEl ? taskEl.getBoundingClientRect().left + 40 : null);
-  const clientY = event?.clientY || (taskEl ? taskEl.getBoundingClientRect().top + 20 : null);
+  let taskText = (typeof rawTask === 'object' && rawTask !== null) ? (rawTask.task || rawTask.name || '') : String(rawTask || '');
+  if (typeof rawTask === 'object' && rawTask !== null && rawTask.date) {
+    let locInfo = rawTask.location ? ` @ ${rawTask.location}` : '';
+    taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
+  }
 
-  saveHistory();
+  saveHistory(`Aufgabe erledigt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
   // Remove immediately to eliminate blank gaps
   curItems[category].splice(index, 1);
   curItems[category] = curItems[category].filter(Boolean);
@@ -2067,11 +2071,6 @@ function handleCompleteTask(category, index, event) {
   const now = new Date();
   const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const todayStr = now.toISOString().split('T')[0];
-  let taskText = (typeof rawTask === 'object' && rawTask !== null) ? (rawTask.task || rawTask.name || '') : String(rawTask || '');
-  if (typeof rawTask === 'object' && rawTask !== null && rawTask.date) {
-    let locInfo = rawTask.location ? ` @ ${rawTask.location}` : '';
-    taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
-  }
 
   const doneEntry = {
     id: (typeof rawTask === 'object' && rawTask !== null && rawTask.id) ? rawTask.id : ('done_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4)),
@@ -2191,10 +2190,11 @@ window.startFeierabendChillMode = startFeierabendChillMode;
 
 function deleteTask(category, index, event) {
   if (event) event.stopPropagation();
-  saveHistory();
   const curItems = getCurrentWorkspaceItems();
   const taskObj = curItems[category]?.[index];
   const taskText = typeof taskObj === 'object' ? taskObj?.task : taskObj;
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Aufgabe';
+  saveHistory(`Aufgabe gelöscht: ${snippet}`);
   const taskId = (taskObj && typeof taskObj === 'object' && taskObj.id) 
     ? taskObj.id 
     : ((typeof getStableId === 'function') ? getStableId(taskObj, `task_${category}`) : null);
@@ -2213,15 +2213,16 @@ function deleteTask(category, index, event) {
 
 
 function handleRestoreDoneTask(doneIndex) {
-  saveHistory();
   const curDone = getCurrentWorkspaceDone();
   const curItems = getCurrentWorkspaceItems();
   const reversedIndex = curDone.length - 1 - doneIndex;
   const item = curDone[reversedIndex]; if (!item) return;
+  const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Erledigte Aufgabe';
+  saveHistory(`Erledigte wiederhergestellt: ${snippet}`);
   curDone.splice(reversedIndex, 1);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
   const fallbackCat = ws === 'study' ? 'study_focus' : (ws === 'work' ? 'work_focus' : 'daily');
-  const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
   const targetCat = (item && item.origin && curItems[item.origin]) ? item.origin : fallbackCat;
   if (!curItems[targetCat]) curItems[targetCat] = [];
   curItems[targetCat].push(taskText);
@@ -2396,7 +2397,10 @@ function handleItemDrop(e, targetCategory, targetIndex) {
   if (!curItems[srcCat] || !curItems[targetCategory]) return;
   
   let insertIdx = isTopHalf ? targetIndex : targetIndex + 1;
-  saveHistory();
+  const rawItem = curItems[srcCat][srcIdx];
+  const itemText = (typeof rawItem === 'object' && rawItem !== null) ? (rawItem.task || rawItem.name || '') : String(rawItem || '');
+  const snippet = itemText ? `"${itemText.length > 20 ? itemText.substring(0, 18) + '...' : itemText}"` : 'Aufgabe';
+  saveHistory(`Aufgabe verschoben: ${snippet}`);
   const [item] = curItems[srcCat].splice(srcIdx, 1);
   if (srcCat === targetCategory && srcIdx < insertIdx) {
     insertIdx--;
@@ -2444,7 +2448,7 @@ let hoverPanelHideTimeout = null;
 
 // syncHeaderToolsMenuState handled by app-reports.js
 
-function showPanelHover(panelName, delay = 0) {
+function showPanelHover(panelName, delay = 180) {
   // Wenn im Click-Only Modus: keine automatische Hover-Vorschau öffnen!
   if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
     if (window.NoodleInteractionMode.getMode() === 'click-only') return;
@@ -2578,11 +2582,14 @@ function showPanelHover(panelName, delay = 0) {
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
-  if (delay <= 0) {
-    executeShow();
-  } else {
-    hoverPanelShowTimeout = setTimeout(executeShow, delay);
-  }
+
+  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
+                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
+  
+  // Im Turbo-Modus reagieren Panels blitzschnell wie Edge-Tabs (40ms statt 180ms)
+  const defaultDelay = isTurbo ? 35 : 180;
+  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? (isTurbo ? Math.min(delay, 35) : delay) : defaultDelay;
+  hoverPanelShowTimeout = setTimeout(executeShow, effectiveDelay);
 }
 window.showPanelHover = showPanelHover;
 
@@ -2595,6 +2602,10 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     clearTimeout(hoverPanelHideTimeout);
     hoverPanelHideTimeout = null;
   }
+
+  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
+                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
+  const effectiveGrace = isTurbo ? Math.min(gracePeriod, 80) : gracePeriod;
 
   const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
   if (isPinned) return;
@@ -2630,7 +2641,7 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     if (typeof syncHeaderToolsMenuState === 'function') {
       syncHeaderToolsMenuState();
     }
-  }, gracePeriod);
+  }, effectiveGrace);
 }
 window.hidePanelHover = hidePanelHover;
 
@@ -2733,7 +2744,10 @@ function updateTextImportPreview() {
   const text = textarea ? textarea.value : '';
   const items = parseTextIntoItems(text);
   if (countBadge) {
-    countBadge.innerText = `${items.length} ${items.length === 1 ? 'Eintrag' : 'Einträge'}`;
+    const label = items.length === 1
+      ? tr({ en: 'item', de: 'Eintrag', fr: 'entrée', it: 'voce', es: 'elemento', el: 'καταχώριση' })
+      : tr({ en: 'items', de: 'Einträge', fr: 'entrées', it: 'voci', es: 'elementos', el: 'καταχωρίσεις' });
+    countBadge.innerText = `${items.length} ${label}`;
   }
 }
 

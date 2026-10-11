@@ -1214,7 +1214,7 @@
                     </div>
                     <span class="tool-orb-label text-[9.5px] font-bold text-violet-300 group-hover/orb:text-violet-200 transition-colors" data-i18n="tool_radio">Radio</span>
                   </button>
-                  <div id="panel-radio" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[430px] max-w-[95vw] bg-[#100b12]/98 border border-rose-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in">
+                  <div id="panel-radio" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[450px] max-w-[95vw] bg-[#100b12]/98 border border-rose-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in">
                     <div class="flex items-center justify-between border-b border-white/10 pb-2">
                       <div class="flex items-center gap-2">
                         <div class="w-7 h-7 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 shadow-sm shrink-0">
@@ -1230,7 +1230,7 @@
                         </div>
                       </div>
                       <div class="flex items-center gap-1.5">
-                        <button onclick="RadioNewsEngine.toggleRadioPlayback()" id="radio-master-play-btn" class="px-2.5 py-1 bg-rose-500 hover:bg-rose-400 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+                        <button onclick="RadioNewsEngine.toggleRadioPlayback()" id="radio-master-play-btn" class="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-sm">
                           <i data-lucide="play" class="w-3.5 h-3.5"></i>
                           <span id="radio-master-btn-label">Play</span>
                         </button>
@@ -1242,18 +1242,18 @@
                     <div class="p-2 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-3">
                       <div class="flex items-center gap-2 min-w-0">
                         <div class="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shrink-0" id="radio-live-dot"></div>
-                        <span class="text-xs font-bold text-white truncate" id="radio-now-playing-label" data-i18n="radio_no_station">Kein Sender gewählt</span>
+                        <span class="text-xs font-bold text-white truncate" id="radio-now-playing-label" data-i18n="radio_no_station_selected">Kein Sender gewählt</span>
                       </div>
                       <div class="flex items-center gap-2 shrink-0">
                         <i data-lucide="volume-2" class="w-3.5 h-3.5 text-gray-400"></i>
-                        <input type="range" id="radio-volume-slider" min="0" max="1" step="0.02" value="0.7" oninput="RadioNewsEngine.setRadioVolume(this.value)" class="w-16 accent-rose-500 cursor-pointer">
+                        <input type="range" id="radio-volume-slider" min="0" max="1" step="0.02" value="0.7" oninput="RadioNewsEngine.setRadioVolume(this.value)" onchange="RadioNewsEngine.setRadioVolume(this.value)" class="w-16 accent-rose-500 cursor-pointer">
                       </div>
                     </div>
 
                     <!-- Stations List Container -->
                     <div class="space-y-1">
                       <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1" data-i18n="radio_available_stations">Verfügbare Sender</div>
-                      <div id="radio-stations-list" class="space-y-1 max-h-[170px] overflow-y-auto pr-1"></div>
+                      <div id="radio-stations-list" class="space-y-1 max-h-[460px] sm:max-h-[520px] overflow-y-auto pr-1.5 custom-scrollbar"></div>
                     </div>
                   </div>
                 </div>
@@ -1510,7 +1510,7 @@
                           <span class="text-[10px] font-mono text-rose-200">🎙️ Aufnahme: <span id="collab-voice-record-timer">00:00</span></span>
                         </div>
                         <div class="flex items-center gap-1.5">
-                          <button onclick="CollabEngine.cancelVoiceRecording()" class="px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-[10px] text-gray-300 transition cursor-pointer">Abbrechen</button>
+                          <button onclick="CollabEngine.cancelVoiceRecording()" class="px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-[10px] text-gray-300 transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
                           <button onclick="CollabEngine.stopVoiceRecording(true)" class="px-2.5 py-0.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-[10px] text-white font-bold transition cursor-pointer shadow flex items-center gap-1"><span>Senden</span><i data-lucide="send" class="w-3 h-3"></i></button>
                         </div>
                       </div>
@@ -2005,7 +2005,7 @@
                   <span class="text-base">⚡</span>
                   <div>
                     <div class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-amber-200">Power Shake-Out</div>
-                    <div class="text-[9px] text-gray-400 font-normal">Löst körperliche Starre & Trägheit</div>
+                    <div class="text-[9px] text-gray-400 font-normal" data-i18n="safespace_relieve_inertia">Löst körperliche Starre & Trägheit</div>
                   </div>
                 </div>
                 <i data-lucide="chevron-right" class="w-4 h-4 text-amber-400/60 group-hover/pbtn:translate-x-0.5 transition-transform"></i>
@@ -2028,7 +2028,7 @@
             <div class="border-t border-white/10 pt-2">
               <button onclick="openSafeSpaceModal(); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-3 bg-gradient-to-r from-sky-500/20 via-cyan-500/20 to-sky-500/20 hover:from-sky-500/30 hover:to-cyan-500/30 border border-sky-400/40 text-sky-200 hover:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                 <span>✨</span>
-                <span>Vollbild Recovery Studio öffnen ↗</span>
+                <span data-i18n="safespace_open_fullscreen">Vollbild Recovery Studio öffnen ↗</span>
               </button>
             </div>
           </div>
@@ -2097,7 +2097,7 @@
               <!-- SECTION 1: SPRACHE (Kompakte Flaggen-Leiste) -->
               <div class="space-y-1">
                 <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 font-mono flex items-center justify-between" data-i18n="settings_section_lang">
-                  <span>🌐 Sprache wählen</span>
+                  <span data-i18n="quick_lang_select">🌐 Sprache wählen</span>
                 </div>
                 <div class="grid grid-cols-6 gap-1 p-1 bg-black/40 border border-white/10 rounded-xl shadow-inner">
                   <button onclick="setLanguage('de')" class="h-6.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.12] active:scale-90 text-sm flex items-center justify-center transition-all hover:scale-105 cursor-pointer border border-transparent hover:border-purple-400/40" title="Deutsch">🇩🇪</button>
@@ -2138,18 +2138,21 @@
                 </div>
               </div>
 
-              <!-- SECTION 2: INTERAKTIONS-MODUS (Workspace & Dock vs. Kompakt) -->
+              <!-- SECTION 2: INTERAKTIONS-MODUS (Workspace Dock vs. Kompakt vs. Turbo Hover) -->
               <div class="space-y-1.5 pt-1 border-t border-white/5">
                 <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 font-mono flex items-center justify-between">
                   <span data-i18n="settings_section_interaction">🖱️ Workspace & Panels</span>
                   <span id="interaction-mode-badge" class="text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30">Workspace Dock</span>
                 </div>
-                <div class="grid grid-cols-2 gap-1 p-1 bg-black/40 border border-white/10 rounded-xl shadow-inner">
-                  <button id="btn-mode-peek-pin" onclick="setInteractionMode('peek-pin')" class="py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-purple-600 text-white shadow-md border border-purple-400/40" title="Klick öffnet Tools & Docking an die Seitenleiste">
-                    <span>◨ Workspace Dock</span>
+                <div class="grid grid-cols-3 gap-1 p-1 bg-black/40 border border-white/10 rounded-xl shadow-inner">
+                  <button id="btn-mode-peek-pin" onclick="setInteractionMode('multi-window')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-purple-600 text-white shadow-md border border-purple-400/40" title="Tools öffnen & Docking an die Taskleiste">
+                    <span data-i18n="mode_studio_short">◨ Studio</span>
                   </button>
-                  <button id="btn-mode-click-only" onclick="setInteractionMode('click-only')" class="py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-white/[0.03] text-gray-400 hover:text-white border border-transparent" title="Panels öffnen als kompaktes Popup">
-                    <span>🗗 Kompakt</span>
+                  <button id="btn-mode-click-only" onclick="setInteractionMode('click-only')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-white/[0.03] text-gray-400 hover:text-white border border-transparent" title="Panels öffnen zentriert als kompaktes Popup">
+                    <span data-i18n="mode_compact_short">🗗 Kompakt</span>
+                  </button>
+                  <button id="btn-mode-turbo" onclick="setInteractionMode('turbo')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-white/[0.03] text-amber-300 hover:text-white border border-transparent" title="Sehr schneller Hover (wie Edge Tabs) für ungeduldige Power-User">
+                    <span data-i18n="mode_turbo_short">⚡ Turbo</span>
                   </button>
                 </div>
               </div>
@@ -2165,12 +2168,23 @@
           </div>
 
         <!-- Sound Master Mute / Unmute Toggle -->
-        <div id="header-btn-sound-container" class="relative shrink-0" onclick="toggleSoundVolumePopover(event)">
+        <div id="header-btn-sound-container" class="relative shrink-0" onclick="toggleSoundVolumePopover(event)" onmouseenter="showSoundHoverSlider()" onmouseleave="hideSoundHoverSlider()">
           <button id="header-btn-sound-toggle" onclick="event.stopPropagation(); toggleMasterSound();" class="h-[38px] w-[38px] border border-white/10 hover:border-purple-400/50 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-gray-300 hover:text-white flex items-center justify-center cursor-pointer transition shrink-0 group/sound-btn" title="Sound ein-/ausschalten (Master Mute)" aria-label="Sound ein-/ausschalten">
             <span id="header-sound-icon-wrapper" class="flex items-center justify-center">
               <i data-lucide="volume-x" class="w-[18px] h-[18px] text-gray-400 group-hover/sound-btn:text-purple-300 transition-colors"></i>
             </span>
           </button>
+
+          <!-- Sound Volume Quick Popover -->
+          <div id="header-sound-volume-popover" onclick="event.stopPropagation()" class="hidden absolute right-0 top-[calc(100%+8px)] z-[130] w-[220px] bg-[#0f0f18]/98 border border-purple-500/35 p-3 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left animate-fade-in">
+            <div class="flex items-center justify-between text-[11px] font-bold text-gray-300">
+              <span class="flex items-center gap-1.5"><i data-lucide="volume-2" class="w-3.5 h-3.5 text-purple-400"></i> Lautstärke</span>
+              <span class="font-mono text-purple-300 text-xs font-bold" id="header-sound-volume-percent">50%</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="range" id="header-sound-volume-slider" min="0" max="1" step="0.01" value="0.5" oninput="handleHeaderVolumeInput(this.value)" onchange="handleHeaderVolumeInput(this.value)" class="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/10 rounded-lg">
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -2213,7 +2227,7 @@
             </button>
             <button onclick="CollabEngine.shareCurrentBoardWithTeam(); closeHeaderWorkspaceDropdown(true);" class="w-full p-1.5 rounded-lg text-left flex items-center gap-2 transition cursor-pointer hover:bg-white/10 text-gray-300 text-[10.5px] font-medium">
               <i data-lucide="share-2" class="w-3.5 h-3.5 text-violet-400"></i>
-              <span>Aktuelles Board fürs Team teilen</span>
+              <span data-i18n="collab_share_current_board">Aktuelles Board fürs Team teilen</span>
             </button>
           </div>
         </div>
@@ -2257,7 +2271,7 @@
           <!-- 1. Headline Text Viewport (Links ausgerichtet, nimmt flexiblen Platz ein) -->
           <div id="board-ticker-viewport" class="min-w-0 overflow-hidden relative flex items-center justify-end cursor-pointer flex-1 px-1.5" onclick="RadioNewsEngine.toggleTickerSettingsDropdown(event)" title="Klicken für Nachrichten-Einstellungen">
             <div id="board-ticker-track" class="flex items-center justify-end whitespace-nowrap will-change-transform text-right w-full min-w-0 overflow-hidden">
-              <span class="text-cyan-300 font-bold tracking-wide font-display drop-shadow-sm whitespace-nowrap hover:underline">Lädt Live-Nachrichten...</span>
+              <span class="text-cyan-300 font-bold tracking-wide font-display drop-shadow-sm whitespace-nowrap hover:underline" data-i18n="news_loading_live">Lädt Live-Nachrichten...</span>
             </div>
           </div>
 
@@ -2310,7 +2324,7 @@
             <!-- 1. AUSGABESPRACHE (Automatische Übersetzung) -->
             <div class="space-y-1">
               <div class="text-[9px] font-bold text-gray-300 uppercase tracking-wider font-mono flex items-center justify-between">
-                <span>1. Ausgabesprache (Übersetzung)</span>
+                <span data-i18n="news_output_lang">1. Ausgabesprache (Übersetzung)</span>
                 <span id="ticker-lang-badge-status" class="text-[8.5px] text-purple-300 font-normal">App-Standard</span>
               </div>
               <div id="ticker-settings-language-grid" class="grid grid-cols-6 gap-1 text-[10px]">
@@ -2378,7 +2392,7 @@
         </div>
 
         <!-- 3.1 UNDO BUTTON (VOR RESET) -->
-        <button id="btn-board-undo" onclick="handleUndo()" class="p-1 px-1.5 sm:px-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 hover:border-cyan-400 text-cyan-300 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_10px_rgba(6,182,212,0.15)] group/undo shrink-0 relative opacity-30 pointer-events-none grayscale" title="Letzte Aktion rückgängig machen (Strg+Z)" data-i18n-title="undo_action_title" aria-label="Rückgängig">
+        <button id="btn-board-undo" onclick="handleUndo()" oncontextmenu="event.preventDefault(); openUndoHistoryModal();" class="p-1 px-1.5 sm:px-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 hover:border-cyan-400 text-cyan-300 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_10px_rgba(6,182,212,0.15)] group/undo shrink-0 relative opacity-30 pointer-events-none grayscale" title="Letzte Aktion rückgängig machen (Strg+Z / Rechtsklick für genauen Verlauf)" data-i18n-title="undo_action_title" aria-label="Rückgängig">
           <i data-lucide="undo-2" class="w-3.5 h-3.5 text-cyan-300 group-hover/undo:-rotate-45 transition-transform"></i>
           <span class="text-[10px] sm:text-[11px] hidden xl:inline" data-i18n="undo_action">Undo</span>
           <span id="undo-count-badge" class="hidden absolute -top-1 -right-1 px-1 py-0.2 rounded-full bg-[#00f2ff] text-black text-[8px] font-mono font-black leading-none shadow-sm"></span>
@@ -2404,7 +2418,7 @@
       <div class="relative flex items-center">
         <button id="btn-add-list-bottom" onclick="toggleAddListPopover(event)" class="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-2xl bg-[#141422]/95 hover:bg-purple-600/30 border border-purple-500/40 hover:border-purple-400 text-gray-200 hover:text-white transition flex items-center gap-2 text-xs font-bold cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_20px_rgba(168,85,247,0.25)] backdrop-blur-xl active:scale-95 group/addlist" title="Neue Liste erstellen">
           <i data-lucide="plus" class="w-4 h-4 text-purple-400 group-hover/addlist:scale-110 transition-transform"></i>
-          <span class="font-bold">Liste hinzufügen</span>
+          <span class="font-bold" data-i18n="shop_add_list_btn">Liste hinzufügen</span>
         </button>
 
         <!-- Compact Add List Popover (nach oben öffnend) -->
@@ -2427,7 +2441,7 @@
               <option value="zap">⚡ Sprint</option>
               <option value="bookmark">🔖 Gemerkt</option>
               <option value="folder">📁 Projekt</option>
-              <option value="heart">❤️ Wünsche</option>
+              <option value="heart" data-i18n="shop_cat_wishes">❤️ Wünsche</option>
               <option value="shopping-bag">🛍️ Shopping</option>
               <option value="code">💻 Code</option>
               <option value="book-open">📚 Lernen</option>
@@ -2436,9 +2450,9 @@
           <div class="flex items-center gap-2 pt-1">
             <button onclick="submitNewListTop()" class="flex-1 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold text-xs rounded-xl shadow-md transition cursor-pointer flex items-center justify-center gap-1">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-              <span>Erstellen</span>
+              <span data-i18n="create">Erstellen</span>
             </button>
-            <button onclick="toggleAddListPopover(event, false)" class="px-2.5 py-1.5 text-gray-400 hover:text-white rounded-xl hover:bg-white/10 transition cursor-pointer text-xs">
+            <button onclick="toggleAddListPopover(event, false)" class="px-2.5 py-1.5 text-gray-400 hover:text-white rounded-xl hover:bg-white/10 transition cursor-pointer text-xs" data-i18n="cancel">
               Abbrechen
             </button>
           </div>
@@ -2469,7 +2483,7 @@
             </span>
           </div>
           <button onclick="toggleMinimalist()" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer text-xs flex items-center gap-1" title="Focus Mode beenden">
-            <span class="text-[11px] font-semibold hidden sm:inline">Schließen</span>
+            <span class="text-[11px] font-semibold hidden sm:inline" data-i18n="close">Schließen</span>
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -2522,7 +2536,7 @@
             Sound:
           </span>
           <div class="flex items-center gap-1 overflow-x-auto py-0.5">
-            <button onclick="playAmbientSound('birds')" class="px-2 py-1 bg-white/5 hover:bg-emerald-500/20 text-gray-300 hover:text-emerald-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">🐦 Vögel</button>
+            <button onclick="playAmbientSound('birds')" class="px-2 py-1 bg-white/5 hover:bg-emerald-500/20 text-gray-300 hover:text-emerald-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0" data-i18n="sound_birds">🐦 Vögel</button>
             <button onclick="playAmbientSound('campfire')" class="px-2 py-1 bg-white/5 hover:bg-amber-500/20 text-gray-300 hover:text-amber-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">🔥 Feuer</button>
             <button onclick="playAmbientSound('binaural_alpha')" class="px-2 py-1 bg-white/5 hover:bg-purple-500/20 text-gray-300 hover:text-purple-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">🧠 Alpha Beats</button>
             <button onclick="playAmbientSound('whitenoise')" class="px-2 py-1 bg-white/5 hover:bg-zinc-500/20 text-gray-300 hover:text-white rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">📻 White Noise</button>
@@ -2866,7 +2880,7 @@
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight">Safe Space</h4>
-              <p class="text-[10px] text-teal-300 mt-0.5">Atemübung & Ruhe</p>
+              <p class="text-[10px] text-teal-300 mt-0.5" data-i18n="safespace_breath_calm">Atemübung & Ruhe</p>
             </div>
           </div>
 
@@ -3174,7 +3188,7 @@
               <span>Entscheidungshilfe</span>
               <span class="text-[9px] px-1.5 py-0.2 rounded-md bg-orange-500/20 text-orange-300 font-mono font-normal">SMART ASSIST</span>
             </h3>
-            <p class="text-[10px] text-gray-400">Exekutiv-Assistent für deinen nächsten Schritt</p>
+            <p class="text-[10px] text-gray-400" data-i18n="pick_executive_subtitle">Exekutiv-Assistent für deinen nächsten Schritt</p>
           </div>
         </div>
         <button onclick="closeHelperModal()" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
@@ -3237,7 +3251,7 @@
       <div id="whatnow-pane-dilemma" class="hidden space-y-3.5">
         <div class="p-3 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-[11px] text-orange-200/90 leading-relaxed flex items-center gap-2">
           <span class="text-base shrink-0">🪙</span>
-          <span>Zwischen zwei Dingen gefangen? Lass den Münzwurf entscheiden – dein Bauchgefühl merkt sofort, ob du mit dem Ergebnis zufrieden bist!</span>
+          <span data-i18n="pick_dilemma_hint">Zwischen zwei Dingen gefangen? Lass den Münzwurf entscheiden – dein Bauchgefühl merkt sofort, ob du mit dem Ergebnis zufrieden bist!</span>
         </div>
 
         <div class="space-y-2">
@@ -3334,21 +3348,21 @@
               <div>
                 <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_duration_scope">⏱️ Dauer / Umfang</label>
                 <select id="sport-builder-duration" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
-                  <option value="3">3 Min. · 3 Übungen (Express)</option>
-                  <option value="5" selected>5 Min. · 5 Übungen (Optimal)</option>
-                  <option value="8">8 Min. · 8 Übungen (Intensiv)</option>
-                  <option value="12">12 Min. · 12 Übungen (Power)</option>
-                  <option value="16">16 Min. · 16 Übungen (Voller Zirkel)</option>
+                  <option value="3" data-i18n="sport_opt_3min">3 Min. · 3 Übungen (Express)</option>
+                  <option value="5" selected data-i18n="sport_opt_5min">5 Min. · 5 Übungen (Optimal)</option>
+                  <option value="8" data-i18n="sport_opt_8min">8 Min. · 8 Übungen (Intensiv)</option>
+                  <option value="12" data-i18n="sport_opt_12min">12 Min. · 12 Übungen (Power)</option>
+                  <option value="16" data-i18n="sport_opt_16min">16 Min. · 16 Übungen (Voller Zirkel)</option>
                 </select>
               </div>
               <div>
                 <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_focus_zone">🎯 Fokus-Zone</label>
                 <select id="sport-builder-zone" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
-                  <option value="all" selected>🌟 Ausgewogener Ganzkörper-Mix</option>
+                  <option value="all" selected data-i18n="sport_zone_fullbody">🌟 Ausgewogener Ganzkörper-Mix</option>
                   <option value="mobility">🪑 Desk-Mobility & Nacken-Reset</option>
-                  <option value="core">🔥 Core & Rumpfstabilität</option>
-                  <option value="legs">🦵 Beine & Gesäß (Ohne Springen)</option>
-                  <option value="upper">💪 Oberkörper & Haltung</option>
+                  <option value="core" data-i18n="sport_zone_core">🔥 Core & Rumpfstabilität</option>
+                  <option value="legs" data-i18n="sport_zone_legs_nojump">🦵 Beine & Gesäß (Ohne Springen)</option>
+                  <option value="upper" data-i18n="sport_zone_upper">💪 Oberkörper & Haltung</option>
                   <option value="full">🤸 Cardio-Flow (Low Impact)</option>
                 </select>
               </div>
@@ -3387,7 +3401,7 @@
           <!-- Live Preview List -->
           <div>
             <div class="flex items-center justify-between text-[10px] font-bold text-gray-400 px-1 mb-1.5">
-              <span>Zusammengestellte Übungen:</span>
+              <span data-i18n="sport_composed_exercises">Zusammengestellte Übungen:</span>
               <button onclick="updateCustomWorkoutPreview()" class="text-lime-300 hover:text-lime-200 text-[10px] flex items-center gap-1 cursor-pointer">
                 <i data-lucide="refresh-cw" class="w-3 h-3"></i> <span>Neu mischen</span>
               </button>
@@ -3409,12 +3423,12 @@
               <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5"></i>
             </div>
             <select id="sport-library-category-filter" onchange="renderExerciseLibrary()" class="py-2 px-2.5 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
-              <option value="all">Alle Kategorien</option>
+              <option value="all" data-i18n="sport_cat_all">Alle Kategorien</option>
               <option value="mobility">🪑 Desk-Mobility</option>
               <option value="core">🔥 Core & Rumpf</option>
-              <option value="legs">🦵 Beine & Gesäß</option>
-              <option value="upper">💪 Oberkörper</option>
-              <option value="full">🤸 Ganzkörper & Flow</option>
+              <option value="legs" data-i18n="sport_cat_legs">🦵 Beine & Gesäß</option>
+              <option value="upper" data-i18n="sport_cat_upper">💪 Oberkörper</option>
+              <option value="full" data-i18n="sport_cat_flow">🤸 Ganzkörper & Flow</option>
             </select>
           </div>
           <div id="sport-library-list" class="space-y-2 max-h-[320px] overflow-y-auto pr-1 custom-scrollbar">
@@ -3431,9 +3445,9 @@
           <div>
             <label class="text-[10px] text-gray-400 font-bold block mb-1"><span data-i18n="sport_current_energy">Dein aktuelles Energie-Level</span></label>
             <select id="sport-energy-select" onchange="generateSportSuggestion()" class="w-full p-2.5 bg-[#12121e]/80 border border-white/10 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
-              <option value="1">🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)</option>
-              <option value="2" selected>🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)</option>
-              <option value="3">🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)</option>
+              <option value="1" data-i18n="sport_spoon_1">🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)</option>
+              <option value="2" selected data-i18n="sport_spoon_2">🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)</option>
+              <option value="3" data-i18n="sport_spoon_3">🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)</option>
             </select>
           </div>
 
@@ -3482,13 +3496,13 @@
             <div class="space-y-1 mt-1">
               <h4 id="sport-player-ex-name" class="text-base sm:text-lg font-black text-white font-display">Langsame Tief-Kniebeugen 🦵</h4>
               <p id="sport-player-ex-desc" class="text-xs text-gray-300 max-w-sm mx-auto leading-relaxed">3 Sek. kontrolliert absenken, 1 Sek. kraftvoll aufstehen. Fersen bleiben am Boden.</p>
-              <span id="sport-player-ex-muscle" class="inline-block px-2 py-0.5 rounded-lg bg-white/5 text-[10px] text-lime-300/90 font-mono font-semibold mt-1">🎯 Fokus: Beine & Gesäß</span>
+              <span id="sport-player-ex-muscle" class="inline-block px-2 py-0.5 rounded-lg bg-white/5 text-[10px] text-lime-300/90 font-mono font-semibold mt-1" data-i18n="sport_focus_legs">🎯 Fokus: Beine & Gesäß</span>
             </div>
 
             <!-- Next Up Banner -->
             <div id="sport-player-next-up-box" class="p-2 px-3 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 w-full flex items-center justify-between">
-              <span class="text-gray-400">Als Nächstes:</span>
-              <span class="text-lime-200 font-bold">Beckenbrücke</span>
+              <span class="text-gray-400" data-i18n="sport_next_up">Als Nächstes:</span>
+              <span class="text-lime-200 font-bold" data-i18n="sport_ex_glute_bridge">Beckenbrücke</span>
             </div>
           </div>
 
@@ -3586,7 +3600,7 @@
         </div>
         <div>
           <h3 class="text-white font-bold text-sm font-display">Automatische Synchronisation ⚡</h3>
-          <p class="text-[10px] text-emerald-400 font-medium">Alle Geräte & Offline-fähig</p>
+          <p class="text-[10px] text-emerald-400 font-medium" data-i18n="settings_all_devices">Alle Geräte & Offline-fähig</p>
         </div>
       </div>
 
@@ -3664,7 +3678,7 @@
           <span>✓ Synchronisiert</span>
         </div>
 
-        <button onclick="closeP2PSyncModal()" class="w-full py-2 px-3 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 text-xs font-semibold rounded-xl transition cursor-pointer">
+        <button onclick="closeP2PSyncModal()" class="w-full py-2 px-3 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 text-xs font-semibold rounded-xl transition cursor-pointer" data-i18n="close">
           Schließen
         </button>
       </div>
@@ -3912,7 +3926,7 @@
           <div class="space-y-0.5">
             <span class="font-bold text-white text-xs flex items-center gap-1.5">
               <i data-lucide="download" class="w-3.5 h-3.5 text-purple-400"></i>
-              <span>Noodle als lokale Anwendung installieren</span>
+              <span data-i18n="settings_install_local_title">Noodle als lokale Anwendung installieren</span>
               <span class="px-1.5 py-0.2 rounded text-[9px] font-mono text-purple-300 bg-purple-500/20">PWA / Standalone</span>
             </span>
             <p class="text-[11px] text-gray-400 leading-relaxed">
@@ -3933,28 +3947,38 @@
                 <i data-lucide="layout" class="w-3.5 h-3.5 text-purple-400"></i>
                 <span>🖱️ Workspace- & Panel-Steuerung</span>
               </label>
-              <p class="text-[11px] text-gray-400 mt-0.5">Wähle, wie Tool-Panels, Assistenten und Popovers im Workspace angezeigt werden.</p>
+              <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="settings_interaction_desc">Wähle, wie Tool-Panels, Assistenten und Popovers im Workspace angezeigt werden.</p>
             </div>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-            <div onclick="setInteractionMode('peek-pin')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-purple-500/10 border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex items-start gap-3 group">
-              <input type="radio" id="modal-radio-mode-peek" name="modal_interaction_mode" class="mt-1 accent-purple-500" checked onchange="setInteractionMode('peek-pin')">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+            <div onclick="setInteractionMode('multi-window')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-purple-500/10 border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex items-start gap-2.5 group">
+              <input type="radio" id="modal-radio-mode-peek" name="modal_interaction_mode" class="mt-1 accent-purple-500" checked onchange="setInteractionMode('multi-window')">
               <div>
                 <span class="font-bold text-xs text-white group-hover:text-purple-300 transition-colors flex items-center gap-1.5">
-                  <span>◨ Workspace & Dock</span>
+                  <span data-i18n="mode_studio_dock">◨ Studio Dock</span>
                   <span class="px-1.5 py-0.2 rounded text-[9px] bg-purple-500/20 text-purple-300 font-mono">Standard</span>
                 </span>
-                <p class="text-[11px] text-gray-400 mt-1 leading-relaxed">Panels öffnen stabil per Klick und lassen sich über das Dock-Symbol ◨ nahtlos als Seitenleiste anheften.</p>
+                <p class="text-[10.5px] text-gray-400 mt-1 leading-relaxed" data-i18n="mode_studio_dock_desc">Tools öffnen per Klick, minimieren in Taskleiste oder heften an die Seitenleiste an.</p>
               </div>
             </div>
-            <div onclick="setInteractionMode('click-only')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-purple-500/10 border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex items-start gap-3 group">
+            <div onclick="setInteractionMode('click-only')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-purple-500/10 border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex items-start gap-2.5 group">
               <input type="radio" id="modal-radio-mode-click" name="modal_interaction_mode" class="mt-1 accent-purple-500" onchange="setInteractionMode('click-only')">
               <div>
                 <span class="font-bold text-xs text-white group-hover:text-purple-300 transition-colors flex items-center gap-1.5">
-                  <span>🗗 Kompakt / Fokus</span>
+                  <span data-i18n="mode_compact_focus">🗗 Kompakt / Fokus</span>
                   <span class="px-1.5 py-0.2 rounded text-[9px] bg-white/10 text-gray-300 font-mono">Kompakt</span>
                 </span>
-                <p class="text-[11px] text-gray-400 mt-1 leading-relaxed">Alle Panels öffnen zentriert als kompakte Overlays und schließen bei Klicks außerhalb.</p>
+                <p class="text-[10.5px] text-gray-400 mt-1 leading-relaxed" data-i18n="mode_compact_desc">Panels öffnen zentriert als kompakte Popups und schließen bei Klicks außerhalb.</p>
+              </div>
+            </div>
+            <div onclick="setInteractionMode('turbo')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-amber-500/10 border border-white/10 hover:border-amber-500/40 transition cursor-pointer flex items-start gap-2.5 group">
+              <input type="radio" id="modal-radio-mode-turbo" name="modal_interaction_mode" class="mt-1 accent-amber-500" onchange="setInteractionMode('turbo')">
+              <div>
+                <span class="font-bold text-xs text-white group-hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                  <span data-i18n="mode_turbo_hover">⚡ Turbo-Hover</span>
+                  <span class="px-1.5 py-0.2 rounded text-[9px] bg-amber-500/20 text-amber-300 font-mono font-bold">Edge-Style</span>
+                </span>
+                <p class="text-[10.5px] text-gray-400 mt-1 leading-relaxed" data-i18n="mode_turbo_desc">Für Ungeduldige: Ultraschnelle Reaktionszeit (40ms) beim Überfahren wie Microsoft Edge Tabs.</p>
               </div>
             </div>
           </div>
@@ -3997,7 +4021,7 @@
         <!-- Standard Timer-Dauer -->
         <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
           <label class="font-bold text-gray-200 block text-xs" data-i18n="setting_default_timer">Standard Fokus-Dauer</label>
-          <p class="text-[11px] text-gray-400">Voreingestellte Minuten für neue Timer-Sitzungen.</p>
+          <p class="text-[11px] text-gray-400" data-i18n="settings_timer_preset_desc">Voreingestellte Minuten für neue Timer-Sitzungen.</p>
           <div class="grid grid-cols-4 gap-2">
             <button onclick="saveGeneralSetting('defaultTimer', 15)" id="setting-timer-15" class="py-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-mono font-bold hover:text-white cursor-pointer">15 Min</button>
             <button onclick="saveGeneralSetting('defaultTimer', 25)" id="setting-timer-25" class="py-1.5 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono font-bold cursor-pointer">25 Min</button>
@@ -4038,7 +4062,7 @@
         <div class="p-4 rounded-2xl bg-red-500/[0.03] border border-red-500/20 space-y-3">
           <div>
             <span class="font-bold text-red-300 text-xs">Gefahrenbereich: Lokale Datenbereinigung</span>
-            <p class="text-[11px] text-gray-400 mt-0.5">Setzt den Browser-Speicher vollständig auf den Ursprungszustand zurück.</p>
+            <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="settings_reset_desc">Setzt den Browser-Speicher vollständig auf den Ursprungszustand zurück.</p>
           </div>
           <div class="flex flex-wrap gap-2">
             <button onclick="clearAllApplicationData()" class="py-2 px-3 bg-red-600/80 hover:bg-red-600 text-white rounded-xl font-bold transition cursor-pointer flex items-center gap-1.5">
@@ -4063,7 +4087,7 @@
           <div class="flex items-center gap-2">
             <button onclick="document.getElementById('history-screenshot-input').click()" class="py-2 px-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl font-bold transition cursor-pointer flex items-center gap-1.5 shadow-lg shadow-purple-900/30">
               <i data-lucide="image-plus" class="w-4 h-4"></i>
-              <span>Screenshot hinzufügen 📷</span>
+              <span data-i18n="settings_add_screenshot">Screenshot hinzufügen 📷</span>
             </button>
             <input type="file" id="history-screenshot-input" onchange="handleHistoryScreenshotUpload(event)" accept="image/*" class="hidden" />
           </div>
@@ -4220,9 +4244,9 @@
       <div class="px-4 py-2 border-t border-white/5 bg-black/60 flex items-center justify-between text-[10px] text-gray-400 font-mono">
         <span class="flex items-center gap-2">
           <span>↑↓ Navigieren</span>
-          <span>↵ Ausführen</span>
+          <span data-i18n="cmd_run">↵ Ausführen</span>
         </span>
-        <span onclick="openKeyboardShortcuts()" class="hover:text-purple-300 transition cursor-pointer">Tastaturkürzel (?)</span>
+        <span onclick="openKeyboardShortcuts()" class="hover:text-purple-300 transition cursor-pointer" data-i18n="cmd_shortcuts_help">Tastaturkürzel (?)</span>
         <span>Noodle Spotlight ⌘K</span>
       </div>
 
@@ -4348,13 +4372,13 @@
           <input type="text" id="helper-new-step-input" placeholder="Eigenen Teilschritt eingeben (Enter)..." onkeydown="if(event.key==='Enter') addCustomStepToActiveTask()" class="flex-1 p-2.5 bg-black/50 border border-white/10 rounded-xl text-xs text-gray-200 outline-none focus:border-[var(--accent)] placeholder:text-gray-500 font-medium" />
           <button onclick="addCustomStepToActiveTask()" class="px-3.5 py-2.5 bg-[var(--accent)] hover:opacity-90 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1 shrink-0 shadow-md">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-            <span>Schritt</span>
+            <span data-i18n="step">Schritt</span>
           </button>
         </div>
 
         <!-- Timer / Speed Widget -->
         <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs">
-          <span class="text-[10px] text-gray-400 font-mono">Schritt-Fokus-Timer:</span>
+          <span class="text-[10px] text-gray-400 font-mono" data-i18n="cleaning_step_timer">Schritt-Fokus-Timer:</span>
           <div id="helper-steps-timer-widget" class="flex items-center gap-1.5 bg-black/40 border border-white/10 px-2 py-1 rounded-xl">
             <span id="helper-steps-timer-task" class="hidden"></span>
             <span id="helper-steps-timer-display" class="font-mono font-bold text-xs text-gray-300">02:00</span>
@@ -4416,10 +4440,10 @@
         <!-- Level Info & Motivation Card -->
         <div class="p-3.5 bg-gradient-to-r from-emerald-950/40 via-teal-950/30 to-purple-950/30 border border-emerald-500/20 rounded-2xl">
           <div class="flex items-center justify-between mb-1">
-            <h4 id="cleaning-guide-title" class="text-xs sm:text-sm font-bold text-emerald-200">45-Minuten Standard-Grundreinigung</h4>
+            <h4 id="cleaning-guide-title" class="text-xs sm:text-sm font-bold text-emerald-200" data-i18n="clean_standard_title">45-Minuten Standard-Grundreinigung</h4>
             <span id="cleaning-guide-subtitle" class="text-[10px] text-gray-400 font-mono">Alle Kernzonen frisch</span>
           </div>
-          <p id="cleaning-guide-intro-tip" class="text-[11px] text-gray-300 leading-relaxed font-normal">Die solide Grundreinigung nach der goldenen Regel: Von oben nach unten, von innen nach außen, trocken vor nass!</p>
+          <p id="cleaning-guide-intro-tip" class="text-[11px] text-gray-300 leading-relaxed font-normal" data-i18n="clean_standard_desc">Die solide Grundreinigung nach der goldenen Regel: Von oben nach unten, von innen nach außen, trocken vor nass!</p>
         </div>
 
         <!-- Timer & Controls Bar -->
@@ -4473,7 +4497,7 @@
           <summary class="font-bold text-gray-300 cursor-pointer flex items-center justify-between">
             <span class="flex items-center gap-1.5 text-amber-300">
               <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-400"></i>
-              <span>Profi-Spickzettel für Einsteiger (Farben & Regeln)</span>
+              <span data-i18n="clean_cheat_sheet_title">Profi-Spickzettel für Einsteiger (Farben & Regeln)</span>
             </span>
             <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-gray-500 transition-transform group-open:rotate-180"></i>
           </summary>
@@ -4481,15 +4505,15 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
               <div class="p-2 rounded-xl bg-blue-500/10 border border-blue-500/20">
                 <div class="font-bold text-blue-300">🔵 Blaues Tuch</div>
-                <div class="text-[10px] text-gray-400">Für Staub, Regale, Schreibtisch & Spiegel</div>
+                <div class="text-[10px] text-gray-400" data-i18n="clean_cloth_blue">Für Staub, Regale, Schreibtisch & Spiegel</div>
               </div>
               <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20">
                 <div class="font-bold text-amber-300">🟡 Gelbes Tuch</div>
-                <div class="text-[10px] text-gray-400">Für Küche, Herd, Tische & Oberflächen</div>
+                <div class="text-[10px] text-gray-400" data-i18n="clean_cloth_yellow">Für Küche, Herd, Tische & Oberflächen</div>
               </div>
               <div class="p-2 rounded-xl bg-rose-500/10 border border-rose-500/20">
                 <div class="font-bold text-rose-300">🔴 Rotes Tuch</div>
-                <div class="text-[10px] text-gray-400">Nur für WC & Sanitärbereich (Hygiene!)</div>
+                <div class="text-[10px] text-gray-400" data-i18n="clean_cloth_red">Nur für WC & Sanitärbereich (Hygiene!)</div>
               </div>
             </div>
             <div class="p-2.5 rounded-xl bg-white/5 space-y-1">
@@ -4544,10 +4568,10 @@
           </div>
 
           <div class="flex items-center gap-2">
-            <button onclick="closeNoteDetailModal()" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer">Abbrechen</button>
+            <button onclick="closeNoteDetailModal()" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
             <button onclick="saveNoteDetailModal()" class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1">
               <i data-lucide="check" class="w-4 h-4"></i>
-              <span>Speichern</span>
+              <span data-i18n="save">Speichern</span>
             </button>
           </div>
         </div>
@@ -4592,7 +4616,7 @@
 
         <!-- ACTION BUTTONS -->
         <div class="flex items-center justify-end gap-2 pt-1">
-          <button onclick="closeTextImportModal()" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer">Abbrechen</button>
+          <button onclick="closeTextImportModal()" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
           <button onclick="executeTextImport()" class="px-5 py-2 bg-[var(--accent)] hover:opacity-90 text-white font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5">
             <i data-lucide="plus-circle" class="w-4 h-4"></i>
             <span>Importieren</span>
@@ -4649,7 +4673,7 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-end gap-2 pt-2 border-t border-white/10">
-          <button type="button" onclick="closePostponeTerminModal()" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs rounded-xl transition cursor-pointer">Abbrechen</button>
+          <button type="button" onclick="closePostponeTerminModal()" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs rounded-xl transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
           <button type="button" onclick="submitPostponeTermin()" class="px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5 active:scale-95">
             <i data-lucide="calendar-sync" class="w-4 h-4"></i>
             <span>Verschieben & als verschoben markieren</span>
@@ -4665,7 +4689,7 @@
       <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
         <h3 class="text-white font-bold text-sm md:text-base font-display flex items-center gap-2">
           <i data-lucide="file-text" class="w-4 h-4 text-purple-400"></i>
-          <span>Statistik- & Fortschrittsbericht</span>
+          <span data-i18n="report_title">Statistik- & Fortschrittsbericht</span>
           <span class="text-xs text-purple-300 font-mono font-normal">(Woche & Monat)</span>
         </h3>
         <button onclick="closeReportExportModal()" class="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
@@ -4820,10 +4844,10 @@
           </div>
           <div class="flex-1 min-w-0">
             <div class="text-xs font-bold text-purple-200 leading-tight flex items-center justify-between">
-              <span>Audio & Atmosphere Studio</span>
-              <span class="text-[9px] font-mono text-purple-300/80 uppercase">Pro Studio</span>
+              <span data-i18n="audio_studio_full_title">Audio & Atmosphere Studio</span>
+              <span class="text-[9px] font-mono text-purple-300/80 uppercase" data-i18n="badge_pro_studio">Pro Studio</span>
             </div>
-            <div class="text-[10px] text-purple-300/70">Naturklänge, Genre-Beats, MP3, Spotify, DJ</div>
+            <div class="text-[10px] text-purple-300/70" data-i18n="audio_studio_sub">Naturklänge, Genre-Beats, MP3, Spotify, DJ</div>
           </div>
         </button>
 
@@ -4863,7 +4887,7 @@
           </div>
           <div>
             <div class="text-xs font-bold text-yellow-300 leading-tight">Schwung-Impuls</div>
-            <div class="text-[10px] text-yellow-300/70">30s Überwindung</div>
+            <div class="text-[10px] text-yellow-300/70" data-i18n="boost_30s">30s Überwindung</div>
           </div>
         </button>
 
@@ -4903,7 +4927,7 @@
           </div>
           <div>
             <div class="text-xs font-bold text-teal-300 leading-tight">Atem & Regulation</div>
-            <div class="text-[10px] text-teal-300/80">Übungen & Erdung</div>
+            <div class="text-[10px] text-teal-300/80" data-i18n="safespace_exercises_grounding">Übungen & Erdung</div>
           </div>
         </button>
 
@@ -4932,8 +4956,8 @@
             <i data-lucide="dumbbell" class="w-4 h-4 text-lime-300"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-lime-300 leading-tight">Sport & Körper</div>
-            <div class="text-[10px] text-lime-300/70">1-Minuten Workouts</div>
+            <div class="text-xs font-bold text-lime-300 leading-tight" data-i18n="sport_body_title">Sport & Körper</div>
+            <div class="text-[10px] text-lime-300/70" data-i18n="sport_1min_workouts">1-Minuten Workouts</div>
           </div>
         </button>
 
@@ -5124,7 +5148,7 @@
               <i data-lucide="play" class="w-3.5 h-3.5 text-indigo-400"></i>
             </div>
             <div class="text-xs font-bold text-white">Regen</div>
-            <div class="text-[9px] text-gray-400">Gemütlicher Fokus</div>
+            <div class="text-[9px] text-gray-400" data-i18n="preset_cozy_focus">Gemütlicher Fokus</div>
           </button>
           <button onclick="if(typeof stopAmbientSound === 'function') stopAmbientSound(true); showToast(tr({de:'🔇 Alle Sounds stummgeschaltet', en:'🔇 All sounds muted'}));" class="p-3 bg-red-500/10 hover:bg-red-500/25 border border-red-500/30 rounded-2xl text-left transition cursor-pointer flex flex-col gap-1">
             <div class="flex items-center justify-between">
@@ -5139,7 +5163,7 @@
 
       <!-- Footer Button -->
       <div class="border-t border-white/10 pt-2 flex justify-end">
-        <button onclick="closeSafeSpaceModal()" class="px-5 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer">
+        <button onclick="closeSafeSpaceModal()" class="px-5 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer" data-i18n="close">
           Schließen
         </button>
       </div>
@@ -5175,15 +5199,15 @@
       <div class="grid grid-cols-5 gap-1.5 bg-black/50 p-1.5 rounded-2xl border border-white/10 text-[10px] font-bold text-center">
         <button onclick="switchClarityTab('urge')" id="clarity-tab-urge" class="py-2 px-1 rounded-xl transition cursor-pointer flex flex-col items-center gap-1">
           <span class="text-base">🌊</span>
-          <span class="truncate">90s Welle</span>
+          <span class="truncate" data-i18n="safespace_tab_wave90">90s Welle</span>
         </button>
         <button onclick="switchClarityTab('halt')" id="clarity-tab-halt" class="py-2 px-1 rounded-xl transition cursor-pointer flex flex-col items-center gap-1">
           <span class="text-base">🌿</span>
-          <span class="truncate">Bedürfnis</span>
+          <span class="truncate" data-i18n="safespace_tab_need">Bedürfnis</span>
         </button>
         <button onclick="switchClarityTab('shift')" id="clarity-tab-shift" class="py-2 px-1 rounded-xl transition cursor-pointer flex flex-col items-center gap-1">
           <span class="text-base">⚡</span>
-          <span class="truncate">Brücke</span>
+          <span class="truncate" data-i18n="safespace_tab_bridge">Brücke</span>
         </button>
         <button onclick="switchClarityTab('future')" id="clarity-tab-future" class="py-2 px-1 rounded-xl transition cursor-pointer flex flex-col items-center gap-1">
           <span class="text-base">🧭</span>
@@ -5254,15 +5278,15 @@
             <span class="text-xl">💜</span>
             <div>
               <div class="text-xs font-bold text-purple-300">Einsamkeit</div>
-              <div class="text-[9px] text-gray-400">Sehnsucht / Nähe</div>
+              <div class="text-[9px] text-gray-400" data-i18n="safespace_need_longing">Sehnsucht / Nähe</div>
             </div>
           </button>
 
           <button onclick="selectHaltCategory('tired')" class="p-3 bg-white/[0.03] hover:bg-blue-500/15 border border-white/10 hover:border-blue-500/40 rounded-2xl text-left transition cursor-pointer flex flex-col justify-between gap-1">
             <span class="text-xl">🌙</span>
             <div>
-              <div class="text-xs font-bold text-blue-300">Müdigkeit</div>
-              <div class="text-[9px] text-gray-400">Erschöpfter Geist</div>
+              <div class="text-xs font-bold text-blue-300" data-i18n="safespace_need_fatigue">Müdigkeit</div>
+              <div class="text-[9px] text-gray-400" data-i18n="safespace_need_exhaustion">Erschöpfter Geist</div>
             </div>
           </button>
 
@@ -5278,7 +5302,7 @@
             <span class="text-xl">🛡️</span>
             <div>
               <div class="text-xs font-bold text-indigo-300">Selbstzweifel</div>
-              <div class="text-[9px] text-gray-400">Flucht vor Gefühl</div>
+              <div class="text-[9px] text-gray-400" data-i18n="safespace_need_escape">Flucht vor Gefühl</div>
             </div>
           </button>
         </div>
@@ -5306,7 +5330,7 @@
 
         <button onclick="suggestClarityShift()" class="w-full py-2.5 bg-white/10 hover:bg-white/15 border border-white/15 text-white text-xs font-bold rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
-          <span>Andere Sofort-Brücke vorschlagen 🔄</span>
+          <span data-i18n="safespace_other_bridge">Andere Sofort-Brücke vorschlagen 🔄</span>
         </button>
       </div>
 
@@ -5339,7 +5363,7 @@
             <button onclick="saveClarityReason('Klarer, scharfer Kopf & Energie')" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-teal-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-teal-200 transition cursor-pointer">🧠 Klarer Kopf</button>
             <button onclick="saveClarityReason('Tiefer, erholsamer Schlaf')" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-teal-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-teal-200 transition cursor-pointer">🌙 Tiefer Schlaf</button>
             <button onclick="saveClarityReason('Freiheit von Gedankenkreisen')" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-teal-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-teal-200 transition cursor-pointer">🕊️ Innere Ruhe</button>
-            <button onclick="saveClarityReason('Für meine Liebsten voll da sein')" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-teal-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-teal-200 transition cursor-pointer">❤️ Für meine Liebsten</button>
+            <button onclick="saveClarityReason('Für meine Liebsten voll da sein')" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-teal-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-teal-200 transition cursor-pointer" data-i18n="safespace_anchor_loved_ones">❤️ Für meine Liebsten</button>
             <button onclick="saveClarityReason('Stolz auf mein Selbstvertrauen')" class="px-2.5 py-1 rounded-lg bg-white/5 hover:bg-teal-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-teal-200 transition cursor-pointer">🌟 Selbstachtung</button>
           </div>
 
@@ -5486,7 +5510,7 @@
                 <i data-lucide="activity" class="w-4 h-4 text-indigo-400"></i>
                 <span><span data-i18n="calm_bilateral_title">Bilaterale Stimulation / Schmetterlings-Umarmung</span></span>
               </h4>
-              <p class="text-[10px] text-gray-400">Verschränke die Arme über der Brust und klopfe abwechselnd sanft auf die Schlüsselbeine</p>
+              <p class="text-[10px] text-gray-400" data-i18n="safespace_butterfly_instruction">Verschränke die Arme über der Brust und klopfe abwechselnd sanft auf die Schlüsselbeine</p>
             </div>
           </div>
 
@@ -5522,7 +5546,7 @@
       <div id="reg-pane-grounding" class="hidden space-y-4 text-left">
         <div class="flex items-center justify-between">
           <span id="reg-ground-badge" class="px-2.5 py-1 rounded-lg bg-teal-500/20 text-teal-300 border border-teal-500/40 text-xs font-mono font-bold">Schritt 1 von 5</span>
-          <span class="text-[11px] text-gray-400">Sensorische Verankerung</span>
+          <span class="text-[11px] text-gray-400" data-i18n="safespace_sensory_grounding">Sensorische Verankerung</span>
         </div>
 
         <div class="w-full bg-black/60 h-2.5 rounded-full overflow-hidden border border-white/10">
@@ -5564,7 +5588,7 @@
               <span id="reg-shake-count" class="text-2xl font-black font-mono text-teal-200">60s</span>
               <span class="text-[9px] text-teal-300/80 font-semibold uppercase">Shake</span>
             </div>
-            <p id="reg-shake-status" class="text-xs text-gray-300 mt-2 italic">Schüttle Hände, Schultern und Beine locker aus...</p>
+            <p id="reg-shake-status" class="text-xs text-gray-300 mt-2 italic" data-i18n="safespace_shake_limbs">Schüttle Hände, Schultern und Beine locker aus...</p>
           </div>
 
           <button onclick="RegulationStudio.toggleShake()" id="reg-shake-btn" class="w-full py-2.5 bg-teal-500 hover:bg-teal-400 text-black text-xs font-bold rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 shadow-md">
@@ -5591,9 +5615,9 @@
         <div class="p-4 bg-gradient-to-br from-teal-950/40 to-black/70 border border-teal-500/30 rounded-2xl space-y-2.5">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold text-white"><span data-i18n="calm_sud_title">Spannungsthermometer (SUD 1–10)</span></span>
-            <span id="reg-sud-pre-display" class="text-[10px] font-mono text-teal-300">Level wählen</span>
+            <span id="reg-sud-pre-display" class="text-[10px] font-mono text-teal-300" data-i18n="safespace_choose_level">Level wählen</span>
           </div>
-          <p class="text-[10px] text-gray-400">Klicke dein aktuelles Anspannungsniveau zur Selbsteinschätzung:</p>
+          <p class="text-[10px] text-gray-400" data-i18n="safespace_tension_level_desc">Klicke dein aktuelles Anspannungsniveau zur Selbsteinschätzung:</p>
           <div class="flex justify-between gap-1 pt-1">
             <button id="reg-sud-btn-1" onclick="RegulationStudio.selectSUD(1)" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-300 text-xs font-semibold cursor-pointer">1</button>
             <button id="reg-sud-btn-2" onclick="RegulationStudio.selectSUD(2)" class="w-8 h-8 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-300 text-xs font-semibold cursor-pointer">2</button>
@@ -5626,7 +5650,7 @@
 
       <!-- TAB 5: BIO-FREQUENZ AUDIO -->
       <div id="reg-pane-audio" class="hidden space-y-3 text-left">
-        <p class="text-xs text-gray-400">100% offline synthetisierte Frequenzen zur neuroakustischen Beruhigung:</p>
+        <p class="text-xs text-gray-400" data-i18n="safespace_frequencies_desc">100% offline synthetisierte Frequenzen zur neuroakustischen Beruhigung:</p>
 
         <button id="reg-audio-btn-432" onclick="RegulationStudio.playFrequency('432')" class="w-full py-3 px-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 flex items-center justify-between cursor-pointer transition-all">
           <div class="flex items-center gap-3">
@@ -5644,7 +5668,7 @@
             <span class="text-lg">🧠</span>
             <div>
               <div class="text-xs font-bold text-white">6 Hz Theta Binaural Beat</div>
-              <div class="text-[10px] text-gray-400">Tiefenentspannung für das vegetative System</div>
+              <div class="text-[10px] text-gray-400" data-i18n="safespace_frequencies_subtitle">Tiefenentspannung für das vegetative System</div>
             </div>
           </div>
           <span class="audio-state-text text-[10px] font-bold text-cyan-300">Starten</span>
@@ -5699,7 +5723,7 @@
       <!-- Footer -->
       <div class="border-t border-white/10 pt-2 flex justify-between items-center text-[10px] text-gray-500">
         <span>Noodle Suite · Somatic Science</span>
-        <button onclick="closeRegulationModal()" class="px-5 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer">
+        <button onclick="closeRegulationModal()" class="px-5 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer" data-i18n="close">
           Schließen
         </button>
       </div>
@@ -5772,7 +5796,7 @@
       <div class="p-2.5 bg-white/[0.025] border border-white/5 rounded-2xl flex items-center justify-between gap-2">
         <div class="flex items-center gap-2 min-w-0">
           <span class="text-sm">✨</span>
-          <span id="brainstorm-spark-text" class="text-xs text-teal-200/90 italic truncate font-medium">Was wäre die radikalste 5-Minuten-Lösung?</span>
+          <span id="brainstorm-spark-text" class="text-xs text-teal-200/90 italic truncate font-medium" data-i18n="dilemma_radical_question">Was wäre die radikalste 5-Minuten-Lösung?</span>
         </div>
         <button onclick="nextCreativeSpark()" class="px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-[10px] font-bold text-gray-300 hover:text-white transition cursor-pointer shrink-0">
           Neuer Impuls 🔄
@@ -5801,7 +5825,7 @@
       <!-- Footer -->
       <div class="border-t border-white/10 pt-2 flex items-center justify-between">
         <span class="text-[10px] text-gray-500 font-mono hidden sm:inline">100% Lautlos • Auto-Speicherung aktiv</span>
-        <button onclick="closeBrainstormModal()" class="px-5 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer ml-auto">
+        <button onclick="closeBrainstormModal()" class="px-5 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer ml-auto" data-i18n="close">
           Schließen
         </button>
       </div>
@@ -5983,7 +6007,7 @@
           </div>
           <div class="hidden sm:flex items-center gap-1.5 ml-2">
             <span id="install-badge-standalone" class="px-2 py-0.5 rounded-full bg-white/10 text-gray-300 text-[10px] font-mono font-bold">Browser-Tab</span>
-            <span id="install-badge-offline" class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 text-[10px] font-mono font-bold">100% Offline</span>
+            <span id="install-badge-offline" class="px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 text-[10px] font-mono font-bold" data-i18n="badge_100_offline">100% Offline</span>
           </div>
         </div>
 
@@ -5999,7 +6023,7 @@
         <div class="space-y-1 relative z-10">
           <div class="flex items-center gap-2">
             <span class="text-base">🚀</span>
-            <h4 class="font-bold text-sm text-white font-display">Als native App auf deinem Gerät nutzen</h4>
+            <h4 class="font-bold text-sm text-white font-display" data-i18n="pwa_native_app_desc">Als native App auf deinem Gerät nutzen</h4>
           </div>
           <p class="text-[11px] text-purple-200/90 leading-relaxed">
             Ohne störende Browser-Leisten, mit Offline-Speicherung, Desktop-Integration und Autostart.
@@ -6013,7 +6037,7 @@
 
         <button id="install-direct-pwa-btn" onclick="triggerDirectInstall()" class="py-2.5 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg shadow-purple-900/40 transition active:scale-95 flex items-center justify-center gap-2 shrink-0 cursor-pointer border border-purple-400/40 relative z-10">
           <i data-lucide="arrow-down-circle" class="w-4 h-4"></i>
-          <span>Jetzt installieren 📲</span>
+          <span data-i18n="pwa_install_now_btn">Jetzt installieren 📲</span>
         </button>
       </div>
 
@@ -6166,7 +6190,7 @@
         <div class="p-3.5 bg-white/[0.025] border border-white/10 rounded-2xl space-y-2">
           <div class="font-bold text-white flex items-center gap-2">
             <span class="px-2 py-0.5 rounded-lg bg-sky-500/20 text-sky-300 font-mono text-[10px] font-bold">1</span>
-            <span>Schritt 1: In Safari öffnen</span>
+            <span data-i18n="pwa_step1_safari">Schritt 1: In Safari öffnen</span>
           </div>
           <p class="text-gray-300 text-[11.5px] pl-6">
             Öffne Noodle Studio in <strong>Apple Safari</strong> auf deinem iPhone oder iPad.
@@ -6192,11 +6216,11 @@
             <div class="font-bold text-white flex items-center gap-1.5">
               <span>✨</span> <span>Routinen & Vorlagen</span>
             </div>
-            <p class="text-[11px] text-gray-400 mt-0.5">Wähle vorkonfigurierte Routine-Presets (Fokus, Minimalist, Haushalts-Guide).</p>
+            <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="presets_card_desc">Wähle vorkonfigurierte Routine-Presets (Fokus, Minimalist, Haushalts-Guide).</p>
           </div>
           <button onclick="closeInstallModal(); openRoutinePresetsModal();" class="py-2 px-3 bg-purple-600/30 hover:bg-purple-600/50 border border-purple-400/40 text-purple-200 rounded-xl font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">
             <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
-            <span>Presets wählen</span>
+            <span data-i18n="presets_choose_btn">Presets wählen</span>
           </button>
         </div>
 
@@ -6204,9 +6228,9 @@
         <div class="p-3.5 bg-white/[0.025] border border-white/10 rounded-2xl flex items-center justify-between gap-2">
           <div>
             <div class="font-bold text-white flex items-center gap-1.5">
-              <span>🔄</span> <span>Sync & Geräte-Kopplung</span>
+              <span>🔄</span> <span data-i18n="sync_devices_title">Sync & Geräte-Kopplung</span>
             </div>
-            <p class="text-[11px] text-gray-400 mt-0.5">Kopple dein Smartphone oder Zweitgerät in Echtzeit via QR-Code oder Cloud.</p>
+            <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="sync_devices_desc">Kopple dein Smartphone oder Zweitgerät in Echtzeit via QR-Code oder Cloud.</p>
           </div>
           <button onclick="closeInstallModal(); openP2PSyncModal();" class="py-2 px-3 bg-emerald-600/30 hover:bg-emerald-600/50 border border-emerald-400/40 text-emerald-200 rounded-xl font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">
             <i data-lucide="qr-code" class="w-3.5 h-3.5"></i>
@@ -6220,7 +6244,7 @@
             <div class="font-bold text-white flex items-center gap-1.5">
               <span>🔔</span> <span>Benachrichtigungen & Wecker</span>
             </div>
-            <p class="text-[11px] text-gray-400 mt-0.5">Erlaube System-Benachrichtigungen für Timer und akustische Erinnerungen.</p>
+            <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="notifications_desc">Erlaube System-Benachrichtigungen für Timer und akustische Erinnerungen.</p>
           </div>
           <button onclick="AppInstallationHub.requestNotificationPermission()" class="py-2 px-3 bg-amber-600/30 hover:bg-amber-600/50 border border-amber-400/40 text-amber-200 rounded-xl font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">
             <i data-lucide="bell" class="w-3.5 h-3.5"></i>
@@ -6234,11 +6258,11 @@
             <div class="font-bold text-white flex items-center gap-1.5">
               <span>💾</span> <span>Portable Standalone-App (USB-Stick / Offline)</span>
             </div>
-            <p class="text-[11px] text-gray-400 mt-0.5">Lade die komplette Noodle App als portable Offline-Datei für unterwegs herunter.</p>
+            <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="offline_download_desc">Lade die komplette Noodle App als portable Offline-Datei für unterwegs herunter.</p>
           </div>
           <button onclick="downloadDesktopLauncher('offline-pack')" class="py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/20 text-gray-200 rounded-xl font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
-            <span>Offline-Paket</span>
+            <span data-i18n="offline_bundle_btn">Offline-Paket</span>
           </button>
         </div>
       </div>
@@ -6249,7 +6273,7 @@
           <i data-lucide="shield" class="w-3 h-3 text-emerald-400"></i>
           <span>100% Sicher · Keine Cloud-Pflicht · Open Web Standards</span>
         </div>
-        <button onclick="closeInstallModal()" class="px-5 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer">
+        <button onclick="closeInstallModal()" class="px-5 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer" data-i18n="close">
           Schließen
         </button>
       </div>
@@ -6306,9 +6330,9 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- PERSISTENT FLOATING MINI AUDIO PLAYER (BOTTOM-LEFT) -->
+  <!-- PERSISTENT FLOATING MINI AUDIO PLAYER (BOTTOM-RIGHT) -->
   <!-- ====================================================================== -->
-  <aside id="noodle-mini-audio-player" aria-label="Audio-Player Steuerung" class="fixed bottom-4 left-4 z-[99999] hidden flex items-center gap-2.5 p-2 px-3 sm:px-3.5 rounded-2xl bg-[#0c0d16]/95 border border-purple-500/40 shadow-[0_12px_35px_rgba(0,0,0,0.85),0_0_24px_rgba(168,85,247,0.35)] backdrop-blur-2xl ring-1 ring-white/10 text-xs transition-all duration-300 select-none max-w-[calc(100vw-32px)]">
+  <aside id="noodle-mini-audio-player" aria-label="Audio-Player Steuerung" class="fixed bottom-4 right-4 z-[99999] hidden flex items-center gap-2.5 p-2 px-3 sm:px-3.5 rounded-2xl bg-[#0c0d16]/95 border border-purple-500/40 shadow-[0_12px_35px_rgba(0,0,0,0.85),0_0_24px_rgba(168,85,247,0.35)] backdrop-blur-2xl ring-1 ring-white/10 text-xs transition-all duration-300 select-none max-w-[calc(100vw-32px)]">
     <!-- Sound Wave & Info (Click opens Audio Studio) -->
     <button type="button" class="flex items-center gap-2 cursor-pointer group/minip bg-transparent border-0 text-left p-0" onclick="if(typeof openAudioStudioMode==='function')openAudioStudioMode('ambient');else if(typeof togglePanel==='function')togglePanel('audio');" title="Sound Center öffnen">
       <div class="relative w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-400/30 flex items-center justify-center text-purple-300 shrink-0 group-hover/minip:scale-105 group-hover/minip:border-purple-300 transition-all shadow-xs">
@@ -6334,6 +6358,45 @@
       </div>
     </div>
   </aside>
+
+  <!-- MODAL: UNDO-VERLAUF & SCHRITTAUSWAHL -->
+  <div id="modal-undo-history" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" onclick="if(event.target === this) closeUndoHistoryModal()">
+    <div class="bg-[#10111a] border border-cyan-500/40 rounded-3xl max-w-lg w-full p-4 sm:p-5 shadow-2xl relative text-white flex flex-col gap-3.5 max-h-[85vh] overflow-hidden" onclick="event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 shadow-sm shrink-0">
+            <i data-lucide="history" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-sm sm:text-base font-display text-white flex items-center gap-1.5">
+              <span>Undo-Verlauf</span>
+              <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30" data-i18n="step_choose_placeholder">Schritt wählen</span>
+            </h3>
+            <p class="text-[10.5px] text-gray-400">
+              Wähle eine vorherige Aktion aus, um den Zustand vor diesem Schritt wiederherzustellen.
+            </p>
+          </div>
+        </div>
+        <button onclick="closeUndoHistoryModal()" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Action History List (scrollable) -->
+      <div id="undo-history-list" class="space-y-2 overflow-y-auto max-h-[55vh] pr-1 custom-scrollbar">
+        <!-- Dynamisch befüllt via openUndoHistoryModal() -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="flex items-center justify-between border-t border-white/10 pt-3 text-xs">
+        <span class="text-[11px] text-gray-400">Tipp: Schnelles Undo auch mit <kbd class="px-1.5 py-0.5 rounded bg-white/10 border border-white/20 font-mono text-[10px] text-cyan-300">Strg+Z</kbd></span>
+        <button onclick="closeUndoHistoryModal()" class="px-4 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer" data-i18n="close">
+          Schließen
+        </button>
+      </div>
+    </div>
+  </div>
 
     <!-- Noodle Standalone Production Bundle -->
   <script src="app.bundle.js"></script>
