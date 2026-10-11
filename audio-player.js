@@ -589,6 +589,15 @@ function playMusicTrack(index) {
     } catch(e) {}
   }
 
+  // Exklusivität: Ambient & Radio still beenden, wenn Musik startet
+  try {
+    if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+    if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
+      window.radioAudioEl.pause();
+      if (typeof isRadioPlaying !== 'undefined') isRadioPlaying = false;
+    }
+  } catch(e) {}
+
   let mediaEl;
   const videoEl = document.getElementById('media-video-element');
 

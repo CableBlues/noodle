@@ -1305,10 +1305,10 @@
 
     if (isSpeakingQueue) stopNewsReader();
 
-    // Exklusivität: Umgebungsgeräusche stoppen
+    // Exklusivität: Umgebungsgeräusche stoppen (still, da Radiosender startet)
     try {
       if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-      if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+      if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio(true);
       if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
     } catch(e) {}
 
@@ -1362,7 +1362,7 @@
     } else {
       try {
         if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-        if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+        if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio(true);
       } catch(e) {}
       playRadioStation(currentStationId);
     }

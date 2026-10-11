@@ -519,7 +519,7 @@ function playAmbientSound(type, crossfade = false) {
   // Wenn der geklickte Sound bereits läuft -> stoppen (Toggle-Funktion)
   if (currentSoundType === type) {
     stopAmbientSound(true);
-    if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+    if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio(true);
     updateSoundscapeUI();
     if (typeof showToast === 'function') {
       showToast(typeof tr === 'function' ? tr({ de: 'Audio gestoppt ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio gestoppt ⏹️');
@@ -527,8 +527,8 @@ function playAmbientSound(type, crossfade = false) {
     return;
   }
 
-  // Ansonsten: Alle anderen vorher laufenden Sounds/Musik/Radio restlos stoppen
-  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+  // Ansonsten: Alle anderen vorher laufenden Sounds/Musik/Radio restlos stoppen (still, da neuer Sound startet)
+  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio(true);
   stopAmbientSound(true);
 
   // Exklusivität: Radio stoppen falls aktiv
@@ -1621,7 +1621,7 @@ function toggleMasterSound() {
 }
 window.toggleMasterSound = toggleMasterSound;
 
-function stopAllStudioAudio() {
+function stopAllStudioAudio(silent = false) {
   if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
   if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
   if (typeof pauseDjDeck === 'function') { pauseDjDeck('a'); pauseDjDeck('b'); }
@@ -1632,7 +1632,7 @@ function stopAllStudioAudio() {
   document.querySelectorAll('.mood-preset-card').forEach(btn => {
     btn.classList.remove('border-purple-500/80', 'bg-purple-500/25');
   });
-  if (typeof showToast === 'function') {
+  if (!silent && typeof showToast === 'function') {
     showToast(tr({ de: 'Sound gestoppt ⏹️', en: 'Sound stopped ⏹️', fr: 'Son arrêté ⏹️', it: 'Suono interrotto ⏹️', es: 'Sonido detenido ⏹️', el: 'Ο ήχος σταμάτησε ⏹️' }));
   }
 }
