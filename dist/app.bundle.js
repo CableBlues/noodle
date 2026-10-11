@@ -13219,8 +13219,10 @@ function persistHistory() {
 function updateUndoUI() {
   if (typeof document === 'undefined') return;
   const undoBtn = document.getElementById('btn-board-undo');
+  const triggerBtn = document.getElementById('btn-undo-history-trigger');
+  const hasHistory = Array.isArray(historyStack) && historyStack.length > 0;
+
   if (undoBtn) {
-    const hasHistory = Array.isArray(historyStack) && historyStack.length > 0;
     undoBtn.disabled = !hasHistory;
     if (hasHistory) {
       undoBtn.classList.remove('opacity-30', 'pointer-events-none', 'grayscale');
@@ -13237,15 +13239,34 @@ function updateUndoUI() {
       if (badge) badge.classList.add('hidden');
     }
   }
+
+  if (triggerBtn) {
+    triggerBtn.disabled = !hasHistory;
+    if (hasHistory) {
+      triggerBtn.classList.remove('opacity-30', 'pointer-events-none');
+      triggerBtn.classList.add('opacity-100');
+    } else {
+      triggerBtn.classList.add('opacity-30', 'pointer-events-none');
+      triggerBtn.classList.remove('opacity-100');
+    }
+  }
 }
 
-function saveHistory() {
+function saveHistory(actionInfo = null) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : state);
   const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
   if (currentState) {
     const activeCats = (typeof window !== 'undefined' && window.categoriesOrder) ? window.categoriesOrder : (typeof categoriesOrder !== 'undefined' ? categoriesOrder : null);
     const activeWorkCats = (typeof window !== 'undefined' && window.workCategoriesOrder) ? window.workCategoriesOrder : (typeof workCategoriesOrder !== 'undefined' ? workCategoriesOrder : null);
     const activeStudyCats = (typeof window !== 'undefined' && window.studyCategoriesOrder) ? window.studyCategoriesOrder : (typeof studyCategoriesOrder !== 'undefined' ? studyCategoriesOrder : null);
+
+    // Formatierte Aktionsbeschreibung
+    let label = 'Aktion';
+    if (typeof actionInfo === 'string' && actionInfo.trim()) {
+      label = actionInfo.trim();
+    } else if (actionInfo && typeof actionInfo === 'object') {
+      label = actionInfo.label || actionInfo.action || actionInfo.name || 'Aktion';
+    }
 
     // Fokussierter Snapshot: Speichert nur Aufgaben- und Listen-Änderungen
     const listSnapshot = {
@@ -13257,7 +13278,9 @@ function saveHistory() {
       studyDone: Array.isArray(currentState.studyDone) ? JSON.parse(JSON.stringify(currentState.studyDone)) : [],
       completedSteps: currentState.completedSteps ? JSON.parse(JSON.stringify(currentState.completedSteps)) : {},
       customSteps: currentState.customSteps ? JSON.parse(JSON.stringify(currentState.customSteps)) : {},
-      activeWorkspace: currentState.activeWorkspace || 'private'
+      activeWorkspace: currentState.activeWorkspace || 'private',
+      _actionLabel: label,
+      _timestamp: Date.now()
     };
 
     if (activeCats) {
@@ -13271,7 +13294,7 @@ function saveHistory() {
     }
 
     stack.push(listSnapshot);
-    if (stack.length > 15) stack.shift();
+    if (stack.length > 20) stack.shift();
     historyStack = stack;
     if (typeof window !== 'undefined') window.historyStack = stack;
     if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;
@@ -13384,16 +13407,8 @@ function getGermanStandardKey(taskName) {
   return taskName;
 }
 
-function handleUndo() {
-  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
-  if (!stack || stack.length === 0) {
-    showToast(t('toast_no_undo'));
-    updateUndoUI();
-    return;
-  }
-  const popped = stack.pop();
+function applyHistorySnapshot(popped) {
   if (!popped) return;
-
   // 1. Spalten-Reihenfolge der Listen wiederherstellen falls vorhanden
   if (popped._savedCategoriesOrder) {
     categoriesOrder = JSON.parse(JSON.stringify(popped._savedCategoriesOrder));
@@ -13430,6 +13445,19 @@ function handleUndo() {
     if (typeof window !== 'undefined') window.state = state;
     if (typeof globalThis !== 'undefined') globalThis.state = state;
   }
+}
+
+function handleUndo() {
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
+  if (!stack || stack.length === 0) {
+    showToast(t('toast_no_undo'));
+    updateUndoUI();
+    return;
+  }
+  const popped = stack.pop();
+  if (!popped) return;
+
+  applyHistorySnapshot(popped);
 
   historyStack = stack;
   if (typeof window !== 'undefined') window.historyStack = stack;
@@ -13438,13 +13466,148 @@ function handleUndo() {
   persistHistory();
   updateUndoUI();
   saveState();
-  showToast(t('toast_undo_applied'));
+
+  const undoneAction = popped._actionLabel ? ` (${popped._actionLabel})` : '';
+  const undoMsg = (typeof tr === 'function')
+    ? tr({
+        de: `Rückgängig gemacht: ${popped._actionLabel || 'Letzter Schritt'} ↩️`,
+        en: `Undone: ${popped._actionLabel || 'Last action'} ↩️`,
+        fr: `Annulé : ${popped._actionLabel || 'Dernière action'} ↩️`,
+        it: `Annullato: ${popped._actionLabel || 'Ultima azione'} ↩️`,
+        es: `Deshecho: ${popped._actionLabel || 'Última acción'} ↩️`,
+        el: `Αναιρέθηκε: ${popped._actionLabel || 'Τελευταία ενέργεια'} ↩️`
+      })
+    : `${t('toast_undo_applied')}${undoneAction}`;
+
+  if (typeof showToast === 'function') {
+    showToast(undoMsg, { duration: 3200 });
+  }
+
   if (typeof renderApp === 'function') {
     renderApp();
   }
   if (typeof populateHelperTaskSelect === 'function') {
     populateHelperTaskSelect();
   }
+}
+
+function handleUndoToStep(targetIndex) {
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
+  if (!stack || stack.length === 0 || targetIndex < 0 || targetIndex >= stack.length) {
+    if (typeof showToast === 'function') showToast(t('toast_no_undo'));
+    return;
+  }
+
+  // Ziel-Snapshot holen
+  const targetSnapshot = stack[targetIndex];
+  const targetLabel = targetSnapshot._actionLabel || 'Ausgewählte Aktion';
+
+  // Stack bis inklusive targetIndex kürzen
+  stack.splice(targetIndex);
+
+  applyHistorySnapshot(targetSnapshot);
+
+  historyStack = stack;
+  if (typeof window !== 'undefined') window.historyStack = stack;
+  if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;
+
+  persistHistory();
+  updateUndoUI();
+  saveState();
+
+  const msg = (typeof tr === 'function')
+    ? tr({
+        de: `Zurückgesetzt vor: "${targetLabel}" ↩️`,
+        en: `Restored before: "${targetLabel}" ↩️`,
+        fr: `Restauré avant : « ${targetLabel} » ↩️`,
+        it: `Ripristinato prima di: "${targetLabel}" ↩️`,
+        es: `Restaurado antes de: "${targetLabel}" ↩️`,
+        el: `Επαναφορά πριν από: "${targetLabel}" ↩️`
+      })
+    : `Zurückgesetzt vor: "${targetLabel}" ↩️`;
+
+  if (typeof showToast === 'function') {
+    showToast(msg, { duration: 3500 });
+  }
+
+  if (typeof renderApp === 'function') renderApp();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+}
+
+function openUndoHistoryModal() {
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
+  if (!stack || stack.length === 0) {
+    showToast(t('toast_no_undo'));
+    return;
+  }
+
+  const modal = document.getElementById('modal-undo-history');
+  if (!modal) {
+    handleUndo();
+    return;
+  }
+
+  const listContainer = document.getElementById('undo-history-list');
+  if (listContainer) {
+    listContainer.innerHTML = '';
+    // Letzte Aktion oben anzeigen
+    for (let i = stack.length - 1; i >= 0; i--) {
+      const snap = stack[i];
+      const isLatest = (i === stack.length - 1);
+      const label = snap._actionLabel || `Schritt #${i + 1}`;
+      const timeStr = snap._timestamp ? new Date(snap._timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '';
+      
+      const itemBtn = document.createElement('button');
+      itemBtn.type = 'button';
+      itemBtn.className = `w-full p-2.5 sm:p-3 rounded-2xl border text-left transition flex items-center justify-between gap-3 cursor-pointer group active:scale-[0.98] ${
+        isLatest 
+          ? 'bg-cyan-500/15 border-cyan-400/40 hover:bg-cyan-500/25 hover:border-cyan-300' 
+          : 'bg-white/[0.03] border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+      }`;
+      
+      itemBtn.onclick = () => {
+        closeUndoHistoryModal();
+        handleUndoToStep(i);
+      };
+
+      itemBtn.innerHTML = `
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-7 h-7 rounded-xl ${isLatest ? 'bg-cyan-400/20 text-cyan-300' : 'bg-white/10 text-gray-400'} flex items-center justify-center shrink-0">
+            <i data-lucide="${isLatest ? 'undo-2' : 'history'}" class="w-3.5 h-3.5"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold ${isLatest ? 'text-cyan-200' : 'text-gray-200'} group-hover:text-white truncate flex items-center gap-1.5">
+              <span>${label}</span>
+              ${isLatest ? '<span class="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-400/20 text-cyan-300 font-mono font-normal">Zuletzt</span>' : ''}
+            </div>
+            <div class="text-[10px] text-gray-400 mt-0.5 font-mono">
+              ${timeStr ? timeStr + ' · ' : ''}Vor dieser Aktion wiederherstellen
+            </div>
+          </div>
+        </div>
+        <div class="shrink-0 flex items-center gap-1 text-[11px] font-bold ${isLatest ? 'text-cyan-300' : 'text-gray-400'} group-hover:text-white">
+          <span>Rückgängig</span>
+          <i data-lucide="corner-down-left" class="w-3.5 h-3.5"></i>
+        </div>
+      `;
+      listContainer.appendChild(itemBtn);
+    }
+  }
+
+  modal.classList.remove('hidden');
+  if (typeof renderLucideIcons === 'function') renderLucideIcons(false, modal);
+}
+
+function closeUndoHistoryModal() {
+  const modal = document.getElementById('modal-undo-history');
+  if (modal) modal.classList.add('hidden');
+}
+
+if (typeof window !== 'undefined') {
+  window.openUndoHistoryModal = openUndoHistoryModal;
+  window.closeUndoHistoryModal = closeUndoHistoryModal;
+  window.handleUndoToStep = handleUndoToStep;
+  window.applyHistorySnapshot = applyHistorySnapshot;
 }
 
 async function handleReset() {
@@ -45259,7 +45422,7 @@ async function clearColumnTasks(colId, e) {
   const entry = (activeOrder || []).find(([id]) => id === colId);
   const listTitle = (entry && entry[2]) || t(colId);
 
-  saveHistory();
+  saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} Aufgaben)`);
   if (isDone) {
     const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
     if (ws === 'study') {
@@ -46193,7 +46356,7 @@ function renderApp() {
           const srcIdx = targetList.findIndex(([catId]) => catId === srcId);
           const targetIdx = targetList.findIndex(([catId]) => catId === targetId);
           if (srcIdx !== -1 && targetIdx !== -1) {
-            saveHistory(); const [removed] = targetList.splice(srcIdx, 1);
+            saveHistory('Karten-Reihenfolge verschoben'); const [removed] = targetList.splice(srcIdx, 1);
             targetList.splice(targetIdx, 0, removed);
             saveCategoriesOrder();
             renderApp();
@@ -46567,8 +46730,8 @@ function renderApp() {
       addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-lime-500/50 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-lime-400 focus:shadow-[0_0_12px_rgba(132,204,22,0.25)] transition cursor-text font-semibold text-white shadow-inner';
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && addInput.value.trim()) {
-          saveHistory();
           const taskText = addInput.value.trim();
+          saveHistory(`Aufgabe hinzugefügt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
           const taskObj = (typeof ensureItemIdentity === 'function') 
             ? ensureItemIdentity(taskText, `task_${id}`)
             : { task: taskText };
@@ -46759,9 +46922,13 @@ function handleCompleteTask(category, index, event) {
     taskEl = event.currentTarget.closest('div[draggable="true"]');
   }
   const clientX = event?.clientX || (taskEl ? taskEl.getBoundingClientRect().left + 40 : null);
-  const clientY = event?.clientY || (taskEl ? taskEl.getBoundingClientRect().top + 20 : null);
+  let taskText = (typeof rawTask === 'object' && rawTask !== null) ? (rawTask.task || rawTask.name || '') : String(rawTask || '');
+  if (typeof rawTask === 'object' && rawTask !== null && rawTask.date) {
+    let locInfo = rawTask.location ? ` @ ${rawTask.location}` : '';
+    taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
+  }
 
-  saveHistory();
+  saveHistory(`Aufgabe erledigt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
   // Remove immediately to eliminate blank gaps
   curItems[category].splice(index, 1);
   curItems[category] = curItems[category].filter(Boolean);
@@ -46769,11 +46936,6 @@ function handleCompleteTask(category, index, event) {
   const now = new Date();
   const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const todayStr = now.toISOString().split('T')[0];
-  let taskText = (typeof rawTask === 'object' && rawTask !== null) ? (rawTask.task || rawTask.name || '') : String(rawTask || '');
-  if (typeof rawTask === 'object' && rawTask !== null && rawTask.date) {
-    let locInfo = rawTask.location ? ` @ ${rawTask.location}` : '';
-    taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
-  }
 
   const doneEntry = {
     id: (typeof rawTask === 'object' && rawTask !== null && rawTask.id) ? rawTask.id : ('done_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4)),
@@ -46893,10 +47055,11 @@ window.startFeierabendChillMode = startFeierabendChillMode;
 
 function deleteTask(category, index, event) {
   if (event) event.stopPropagation();
-  saveHistory();
   const curItems = getCurrentWorkspaceItems();
   const taskObj = curItems[category]?.[index];
   const taskText = typeof taskObj === 'object' ? taskObj?.task : taskObj;
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Aufgabe';
+  saveHistory(`Aufgabe gelöscht: ${snippet}`);
   const taskId = (taskObj && typeof taskObj === 'object' && taskObj.id) 
     ? taskObj.id 
     : ((typeof getStableId === 'function') ? getStableId(taskObj, `task_${category}`) : null);
@@ -46915,15 +47078,16 @@ function deleteTask(category, index, event) {
 
 
 function handleRestoreDoneTask(doneIndex) {
-  saveHistory();
   const curDone = getCurrentWorkspaceDone();
   const curItems = getCurrentWorkspaceItems();
   const reversedIndex = curDone.length - 1 - doneIndex;
   const item = curDone[reversedIndex]; if (!item) return;
+  const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Erledigte Aufgabe';
+  saveHistory(`Erledigte wiederhergestellt: ${snippet}`);
   curDone.splice(reversedIndex, 1);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
   const fallbackCat = ws === 'study' ? 'study_focus' : (ws === 'work' ? 'work_focus' : 'daily');
-  const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
   const targetCat = (item && item.origin && curItems[item.origin]) ? item.origin : fallbackCat;
   if (!curItems[targetCat]) curItems[targetCat] = [];
   curItems[targetCat].push(taskText);
@@ -47098,7 +47262,10 @@ function handleItemDrop(e, targetCategory, targetIndex) {
   if (!curItems[srcCat] || !curItems[targetCategory]) return;
   
   let insertIdx = isTopHalf ? targetIndex : targetIndex + 1;
-  saveHistory();
+  const rawItem = curItems[srcCat][srcIdx];
+  const itemText = (typeof rawItem === 'object' && rawItem !== null) ? (rawItem.task || rawItem.name || '') : String(rawItem || '');
+  const snippet = itemText ? `"${itemText.length > 20 ? itemText.substring(0, 18) + '...' : itemText}"` : 'Aufgabe';
+  saveHistory(`Aufgabe verschoben: ${snippet}`);
   const [item] = curItems[srcCat].splice(srcIdx, 1);
   if (srcCat === targetCategory && srcIdx < insertIdx) {
     insertIdx--;

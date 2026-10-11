@@ -966,8 +966,10 @@ function persistHistory() {
 function updateUndoUI() {
   if (typeof document === 'undefined') return;
   const undoBtn = document.getElementById('btn-board-undo');
+  const triggerBtn = document.getElementById('btn-undo-history-trigger');
+  const hasHistory = Array.isArray(historyStack) && historyStack.length > 0;
+
   if (undoBtn) {
-    const hasHistory = Array.isArray(historyStack) && historyStack.length > 0;
     undoBtn.disabled = !hasHistory;
     if (hasHistory) {
       undoBtn.classList.remove('opacity-30', 'pointer-events-none', 'grayscale');
@@ -984,15 +986,34 @@ function updateUndoUI() {
       if (badge) badge.classList.add('hidden');
     }
   }
+
+  if (triggerBtn) {
+    triggerBtn.disabled = !hasHistory;
+    if (hasHistory) {
+      triggerBtn.classList.remove('opacity-30', 'pointer-events-none');
+      triggerBtn.classList.add('opacity-100');
+    } else {
+      triggerBtn.classList.add('opacity-30', 'pointer-events-none');
+      triggerBtn.classList.remove('opacity-100');
+    }
+  }
 }
 
-function saveHistory() {
+function saveHistory(actionInfo = null) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : state);
   const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
   if (currentState) {
     const activeCats = (typeof window !== 'undefined' && window.categoriesOrder) ? window.categoriesOrder : (typeof categoriesOrder !== 'undefined' ? categoriesOrder : null);
     const activeWorkCats = (typeof window !== 'undefined' && window.workCategoriesOrder) ? window.workCategoriesOrder : (typeof workCategoriesOrder !== 'undefined' ? workCategoriesOrder : null);
     const activeStudyCats = (typeof window !== 'undefined' && window.studyCategoriesOrder) ? window.studyCategoriesOrder : (typeof studyCategoriesOrder !== 'undefined' ? studyCategoriesOrder : null);
+
+    // Formatierte Aktionsbeschreibung
+    let label = 'Aktion';
+    if (typeof actionInfo === 'string' && actionInfo.trim()) {
+      label = actionInfo.trim();
+    } else if (actionInfo && typeof actionInfo === 'object') {
+      label = actionInfo.label || actionInfo.action || actionInfo.name || 'Aktion';
+    }
 
     // Fokussierter Snapshot: Speichert nur Aufgaben- und Listen-Änderungen
     const listSnapshot = {
@@ -1004,7 +1025,9 @@ function saveHistory() {
       studyDone: Array.isArray(currentState.studyDone) ? JSON.parse(JSON.stringify(currentState.studyDone)) : [],
       completedSteps: currentState.completedSteps ? JSON.parse(JSON.stringify(currentState.completedSteps)) : {},
       customSteps: currentState.customSteps ? JSON.parse(JSON.stringify(currentState.customSteps)) : {},
-      activeWorkspace: currentState.activeWorkspace || 'private'
+      activeWorkspace: currentState.activeWorkspace || 'private',
+      _actionLabel: label,
+      _timestamp: Date.now()
     };
 
     if (activeCats) {
@@ -1018,7 +1041,7 @@ function saveHistory() {
     }
 
     stack.push(listSnapshot);
-    if (stack.length > 15) stack.shift();
+    if (stack.length > 20) stack.shift();
     historyStack = stack;
     if (typeof window !== 'undefined') window.historyStack = stack;
     if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;
@@ -1131,16 +1154,8 @@ function getGermanStandardKey(taskName) {
   return taskName;
 }
 
-function handleUndo() {
-  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
-  if (!stack || stack.length === 0) {
-    showToast(t('toast_no_undo'));
-    updateUndoUI();
-    return;
-  }
-  const popped = stack.pop();
+function applyHistorySnapshot(popped) {
   if (!popped) return;
-
   // 1. Spalten-Reihenfolge der Listen wiederherstellen falls vorhanden
   if (popped._savedCategoriesOrder) {
     categoriesOrder = JSON.parse(JSON.stringify(popped._savedCategoriesOrder));
@@ -1177,6 +1192,19 @@ function handleUndo() {
     if (typeof window !== 'undefined') window.state = state;
     if (typeof globalThis !== 'undefined') globalThis.state = state;
   }
+}
+
+function handleUndo() {
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
+  if (!stack || stack.length === 0) {
+    showToast(t('toast_no_undo'));
+    updateUndoUI();
+    return;
+  }
+  const popped = stack.pop();
+  if (!popped) return;
+
+  applyHistorySnapshot(popped);
 
   historyStack = stack;
   if (typeof window !== 'undefined') window.historyStack = stack;
@@ -1185,13 +1213,148 @@ function handleUndo() {
   persistHistory();
   updateUndoUI();
   saveState();
-  showToast(t('toast_undo_applied'));
+
+  const undoneAction = popped._actionLabel ? ` (${popped._actionLabel})` : '';
+  const undoMsg = (typeof tr === 'function')
+    ? tr({
+        de: `Rückgängig gemacht: ${popped._actionLabel || 'Letzter Schritt'} ↩️`,
+        en: `Undone: ${popped._actionLabel || 'Last action'} ↩️`,
+        fr: `Annulé : ${popped._actionLabel || 'Dernière action'} ↩️`,
+        it: `Annullato: ${popped._actionLabel || 'Ultima azione'} ↩️`,
+        es: `Deshecho: ${popped._actionLabel || 'Última acción'} ↩️`,
+        el: `Αναιρέθηκε: ${popped._actionLabel || 'Τελευταία ενέργεια'} ↩️`
+      })
+    : `${t('toast_undo_applied')}${undoneAction}`;
+
+  if (typeof showToast === 'function') {
+    showToast(undoMsg, { duration: 3200 });
+  }
+
   if (typeof renderApp === 'function') {
     renderApp();
   }
   if (typeof populateHelperTaskSelect === 'function') {
     populateHelperTaskSelect();
   }
+}
+
+function handleUndoToStep(targetIndex) {
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
+  if (!stack || stack.length === 0 || targetIndex < 0 || targetIndex >= stack.length) {
+    if (typeof showToast === 'function') showToast(t('toast_no_undo'));
+    return;
+  }
+
+  // Ziel-Snapshot holen
+  const targetSnapshot = stack[targetIndex];
+  const targetLabel = targetSnapshot._actionLabel || 'Ausgewählte Aktion';
+
+  // Stack bis inklusive targetIndex kürzen
+  stack.splice(targetIndex);
+
+  applyHistorySnapshot(targetSnapshot);
+
+  historyStack = stack;
+  if (typeof window !== 'undefined') window.historyStack = stack;
+  if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;
+
+  persistHistory();
+  updateUndoUI();
+  saveState();
+
+  const msg = (typeof tr === 'function')
+    ? tr({
+        de: `Zurückgesetzt vor: "${targetLabel}" ↩️`,
+        en: `Restored before: "${targetLabel}" ↩️`,
+        fr: `Restauré avant : « ${targetLabel} » ↩️`,
+        it: `Ripristinato prima di: "${targetLabel}" ↩️`,
+        es: `Restaurado antes de: "${targetLabel}" ↩️`,
+        el: `Επαναφορά πριν από: "${targetLabel}" ↩️`
+      })
+    : `Zurückgesetzt vor: "${targetLabel}" ↩️`;
+
+  if (typeof showToast === 'function') {
+    showToast(msg, { duration: 3500 });
+  }
+
+  if (typeof renderApp === 'function') renderApp();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+}
+
+function openUndoHistoryModal() {
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : historyStack);
+  if (!stack || stack.length === 0) {
+    showToast(t('toast_no_undo'));
+    return;
+  }
+
+  const modal = document.getElementById('modal-undo-history');
+  if (!modal) {
+    handleUndo();
+    return;
+  }
+
+  const listContainer = document.getElementById('undo-history-list');
+  if (listContainer) {
+    listContainer.innerHTML = '';
+    // Letzte Aktion oben anzeigen
+    for (let i = stack.length - 1; i >= 0; i--) {
+      const snap = stack[i];
+      const isLatest = (i === stack.length - 1);
+      const label = snap._actionLabel || `Schritt #${i + 1}`;
+      const timeStr = snap._timestamp ? new Date(snap._timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '';
+      
+      const itemBtn = document.createElement('button');
+      itemBtn.type = 'button';
+      itemBtn.className = `w-full p-2.5 sm:p-3 rounded-2xl border text-left transition flex items-center justify-between gap-3 cursor-pointer group active:scale-[0.98] ${
+        isLatest 
+          ? 'bg-cyan-500/15 border-cyan-400/40 hover:bg-cyan-500/25 hover:border-cyan-300' 
+          : 'bg-white/[0.03] border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+      }`;
+      
+      itemBtn.onclick = () => {
+        closeUndoHistoryModal();
+        handleUndoToStep(i);
+      };
+
+      itemBtn.innerHTML = `
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-7 h-7 rounded-xl ${isLatest ? 'bg-cyan-400/20 text-cyan-300' : 'bg-white/10 text-gray-400'} flex items-center justify-center shrink-0">
+            <i data-lucide="${isLatest ? 'undo-2' : 'history'}" class="w-3.5 h-3.5"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold ${isLatest ? 'text-cyan-200' : 'text-gray-200'} group-hover:text-white truncate flex items-center gap-1.5">
+              <span>${label}</span>
+              ${isLatest ? '<span class="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-400/20 text-cyan-300 font-mono font-normal">Zuletzt</span>' : ''}
+            </div>
+            <div class="text-[10px] text-gray-400 mt-0.5 font-mono">
+              ${timeStr ? timeStr + ' · ' : ''}Vor dieser Aktion wiederherstellen
+            </div>
+          </div>
+        </div>
+        <div class="shrink-0 flex items-center gap-1 text-[11px] font-bold ${isLatest ? 'text-cyan-300' : 'text-gray-400'} group-hover:text-white">
+          <span>Rückgängig</span>
+          <i data-lucide="corner-down-left" class="w-3.5 h-3.5"></i>
+        </div>
+      `;
+      listContainer.appendChild(itemBtn);
+    }
+  }
+
+  modal.classList.remove('hidden');
+  if (typeof renderLucideIcons === 'function') renderLucideIcons(false, modal);
+}
+
+function closeUndoHistoryModal() {
+  const modal = document.getElementById('modal-undo-history');
+  if (modal) modal.classList.add('hidden');
+}
+
+if (typeof window !== 'undefined') {
+  window.openUndoHistoryModal = openUndoHistoryModal;
+  window.closeUndoHistoryModal = closeUndoHistoryModal;
+  window.handleUndoToStep = handleUndoToStep;
+  window.applyHistorySnapshot = applyHistorySnapshot;
 }
 
 async function handleReset() {
