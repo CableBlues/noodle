@@ -6280,13 +6280,17 @@ const customTranslations = {
   }
 };
 
-// Deep merge into global TRANSLATIONS
-for (const lang of Object.keys(customTranslations)) {
-  if (!window.TRANSLATIONS[lang]) window.TRANSLATIONS[lang] = {};
-  Object.assign(window.TRANSLATIONS[lang], customTranslations[lang]);
+if (typeof window !== 'undefined') {
+  window.customTranslations = customTranslations;
+  if (!window.TRANSLATIONS) window.TRANSLATIONS = {};
+  for (const lang of Object.keys(customTranslations)) {
+    if (!window.TRANSLATIONS[lang]) window.TRANSLATIONS[lang] = {};
+    Object.assign(window.TRANSLATIONS[lang], customTranslations[lang]);
+  }
 }
 
 if (typeof globalThis !== 'undefined') {
+  globalThis.customTranslations = customTranslations;
   if (!globalThis.TRANSLATIONS) globalThis.TRANSLATIONS = {};
   for (const lang of Object.keys(customTranslations)) {
     if (!globalThis.TRANSLATIONS[lang]) globalThis.TRANSLATIONS[lang] = {};

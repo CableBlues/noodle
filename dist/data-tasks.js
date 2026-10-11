@@ -1,8 +1,10 @@
 // CONFIGURATION KEYS FOR LOCALSTORAGE
-const STORE_KEY = 'flowPlannerV3';
-const HISTORY_KEY = 'flowPlannerV3History';
-window.STORE_KEY = STORE_KEY;
-window.HISTORY_KEY = HISTORY_KEY;
+var STORE_KEY = (typeof window !== 'undefined' && window.STORE_KEY) || 'flowPlannerV3';
+var HISTORY_KEY = (typeof window !== 'undefined' && window.HISTORY_KEY) || 'flowPlannerV3History';
+if (typeof window !== 'undefined') {
+  window.STORE_KEY = STORE_KEY;
+  window.HISTORY_KEY = HISTORY_KEY;
+}
 
 // 6-LANGUAGE DEFAULT LIST DICTIONARY (Full Rich Standard Routine)
 const DEFAULT_TASKS_BY_LANG = {

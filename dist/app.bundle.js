@@ -1239,10 +1239,12 @@ globalThis.TASK_STEPS_DATABASE_PART3 = TASK_STEPS_DATABASE_PART3;
 
 /* --- data-tasks.js --- */
 // CONFIGURATION KEYS FOR LOCALSTORAGE
-const STORE_KEY = 'flowPlannerV3';
-const HISTORY_KEY = 'flowPlannerV3History';
-window.STORE_KEY = STORE_KEY;
-window.HISTORY_KEY = HISTORY_KEY;
+var STORE_KEY = (typeof window !== 'undefined' && window.STORE_KEY) || 'flowPlannerV3';
+var HISTORY_KEY = (typeof window !== 'undefined' && window.HISTORY_KEY) || 'flowPlannerV3History';
+if (typeof window !== 'undefined') {
+  window.STORE_KEY = STORE_KEY;
+  window.HISTORY_KEY = HISTORY_KEY;
+}
 
 // 6-LANGUAGE DEFAULT LIST DICTIONARY (Full Rich Standard Routine)
 const DEFAULT_TASKS_BY_LANG = {
@@ -11469,13 +11471,17 @@ const customTranslations = {
   }
 };
 
-// Deep merge into global TRANSLATIONS
-for (const lang of Object.keys(customTranslations)) {
-  if (!window.TRANSLATIONS[lang]) window.TRANSLATIONS[lang] = {};
-  Object.assign(window.TRANSLATIONS[lang], customTranslations[lang]);
+if (typeof window !== 'undefined') {
+  window.customTranslations = customTranslations;
+  if (!window.TRANSLATIONS) window.TRANSLATIONS = {};
+  for (const lang of Object.keys(customTranslations)) {
+    if (!window.TRANSLATIONS[lang]) window.TRANSLATIONS[lang] = {};
+    Object.assign(window.TRANSLATIONS[lang], customTranslations[lang]);
+  }
 }
 
 if (typeof globalThis !== 'undefined') {
+  globalThis.customTranslations = customTranslations;
   if (!globalThis.TRANSLATIONS) globalThis.TRANSLATIONS = {};
   for (const lang of Object.keys(customTranslations)) {
     if (!globalThis.TRANSLATIONS[lang]) globalThis.TRANSLATIONS[lang] = {};
