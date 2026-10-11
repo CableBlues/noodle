@@ -29,7 +29,8 @@
   function getSavedMode() {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved === 'click-only' || saved === 'multi-window') return saved;
+      if (saved === 'click-only' || saved === 'multi-window' || saved === 'turbo') return saved;
+      if (saved === 'peek-pin') return 'multi-window';
     } catch (e) {}
     return 'multi-window';
   }
@@ -43,11 +44,14 @@
     if (typeof document === 'undefined' || !document.body) return;
     document.body.classList.toggle('mode-multi-window', mode === 'multi-window');
     document.body.classList.toggle('mode-click-only', mode === 'click-only');
+    document.body.classList.toggle('mode-turbo', mode === 'turbo');
+    document.body.classList.toggle('mode-fast-hover', mode === 'turbo');
     updateSettingsUI(mode);
   }
 
   function setInteractionMode(mode, showNotification = true) {
-    if (mode !== 'click-only' && mode !== 'multi-window') return;
+    if (mode === 'peek-pin') mode = 'multi-window';
+    if (mode !== 'click-only' && mode !== 'multi-window' && mode !== 'turbo') return;
     currentMode = mode;
     try {
       localStorage.setItem(STORAGE_KEY, mode);
@@ -56,10 +60,23 @@
     applyModeClasses(mode);
 
     if (showNotification && typeof showToast === 'function') {
-      const msg = typeof tr === 'function' ? tr({
-        de: '🗗 Multi-Window Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen',
-        en: '🗗 Multi-Window Studio active: Minimize [—], maximize [⛶] & run tools in parallel'
-      }) : '🗗 Multi-Window Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen';
+      let msg = '';
+      if (mode === 'turbo') {
+        msg = typeof tr === 'function' ? tr({
+          de: '⚡ Turbo-Hover aktiv: Blitzschneller Wechsel & ultraschnelle Reaktionen (Edge-Style)',
+          en: '⚡ Turbo Hover active: Lightning-fast hover switching & instant responsiveness (Edge style)'
+        }) : '⚡ Turbo-Hover aktiv: Blitzschneller Wechsel & ultraschnelle Reaktionen';
+      } else if (mode === 'click-only') {
+        msg = typeof tr === 'function' ? tr({
+          de: '🗗 Kompakt-Modus aktiv: Panels öffnen zentriert per Klick',
+          en: '🗗 Compact mode active: Panels open centered on click'
+        }) : '🗗 Kompakt-Modus aktiv: Panels öffnen zentriert per Klick';
+      } else {
+        msg = typeof tr === 'function' ? tr({
+          de: '◨ Workspace Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen',
+          en: '◨ Workspace Studio active: Minimize [—], maximize [⛶] & run tools in parallel'
+        }) : '◨ Workspace Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen';
+      }
       showToast(msg);
     }
 
@@ -70,9 +87,11 @@
   function updateSettingsUI(mode) {
     const btnMulti = document.getElementById('btn-mode-peek-pin');
     const btnClick = document.getElementById('btn-mode-click-only');
+    const btnTurbo = document.getElementById('btn-mode-turbo');
     const badge = document.getElementById('interaction-mode-badge');
 
     const activeClasses = 'bg-purple-600 text-white font-bold shadow-md border border-purple-400/40';
+    const activeTurboClasses = 'bg-gradient-to-r from-amber-500 to-orange-500 text-black font-black shadow-[0_0_12px_rgba(245,158,11,0.4)] border border-amber-300';
     const inactiveClasses = 'bg-white/[0.03] text-gray-400 hover:text-white border border-transparent';
 
     if (btnMulti) {
@@ -81,17 +100,29 @@
     if (btnClick) {
       btnClick.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'click-only' ? activeClasses : inactiveClasses}`;
     }
+    if (btnTurbo) {
+      btnTurbo.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'turbo' ? activeTurboClasses : inactiveClasses}`;
+    }
 
     if (badge) {
-      badge.textContent = mode === 'click-only' ? 'Kompakt' : 'Multi-Window';
+      if (mode === 'turbo') {
+        badge.textContent = '⚡ Turbo Hover';
+        badge.className = 'text-[8.5px] font-mono font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded border border-amber-500/40 shadow-xs';
+      } else if (mode === 'click-only') {
+        badge.textContent = 'Kompakt';
+        badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
+      } else {
+        badge.textContent = 'Workspace Studio';
+        badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
+      }
     }
 
     const modalRadioPeek = document.getElementById('modal-radio-mode-peek');
     const modalRadioClick = document.getElementById('modal-radio-mode-click');
-    if (modalRadioPeek && modalRadioClick) {
-      modalRadioPeek.checked = (mode === 'multi-window');
-      modalRadioClick.checked = (mode === 'click-only');
-    }
+    const modalRadioTurbo = document.getElementById('modal-radio-mode-turbo');
+    if (modalRadioPeek) modalRadioPeek.checked = (mode === 'multi-window');
+    if (modalRadioClick) modalRadioClick.checked = (mode === 'click-only');
+    if (modalRadioTurbo) modalRadioTurbo.checked = (mode === 'turbo');
   }
 
   function getPanelMeta(panelName) {
@@ -494,6 +525,35 @@
     scanAndDecorate();
     setTimeout(scanAndDecorate, 300);
     setupDOMObserver();
+    setupTurboHoverListeners();
+  }
+
+  // Edge-Tab Style Fast Hover Listener für Tabs & Workspaces
+  function setupTurboHoverListeners() {
+    if (typeof document === 'undefined') return;
+
+    // 1. Mobile/Board Category Tab Quick-Hover
+    document.addEventListener('mouseover', (e) => {
+      if (currentMode !== 'turbo') return;
+      
+      const tabBtn = e.target.closest('.mobile-tab-btn[data-cat]');
+      if (tabBtn && tabBtn.dataset && tabBtn.dataset.cat) {
+        const cat = tabBtn.dataset.cat;
+        if (typeof window.setMobileCategory === 'function' && document.body.dataset.mobileCat !== cat) {
+          window.setMobileCategory(cat);
+        }
+        return;
+      }
+
+      // 2. Workspace Dropdown Options Quick-Hover Switch
+      const wsBtn = e.target.closest('#dropdown-header-workspace button[id^="header-ws-opt-"]');
+      if (wsBtn) {
+        const wsId = wsBtn.id.replace('header-ws-opt-', '');
+        if (wsId && typeof window.setWorkspace === 'function' && window.state && window.state.activeWorkspace !== wsId) {
+          window.setWorkspace(wsId);
+        }
+      }
+    }, { passive: true });
   }
 
   if (document.readyState === 'loading') {

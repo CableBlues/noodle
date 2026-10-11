@@ -1687,3 +1687,52 @@ input[type="range"].dj-eq-slider:active::-webkit-slider-thumb {
   animation: instructionIconGlowBlink 5.5s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
 }
 
+/* ==========================================================================
+   ⚡ SUPER-FAST HOVER & TURBO INTERACTION MODE (EDGE-TAB STYLE)
+   ========================================================================== */
+body.mode-turbo,
+body.mode-fast-hover {
+  /* Ultraschnelle Reaktionszeiten ohne Flackern */
+  --noodle-hover-speed: 40ms;
+}
+
+/* 1. Blitzschnelle Hover-Übergänge auf interaktiven Elementen */
+body.mode-turbo button,
+body.mode-turbo .tool-orb,
+body.mode-turbo .mobile-tab-btn,
+body.mode-turbo .dock-popover-panel,
+body.mode-turbo [data-cat],
+body.mode-turbo .group\/logo,
+body.mode-turbo .group\/ws {
+  transition-duration: 45ms !important;
+  transition-delay: 0ms !important;
+}
+
+/* 2. Edge-Tab Style Active & Hover Highlighting */
+body.mode-turbo .mobile-tab-btn:hover:not(.mobile-tab-active) {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(168, 85, 247, 0.5) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+body.mode-turbo #dropdown-header-workspace button:hover {
+  background-color: rgba(192, 132, 252, 0.22) !important;
+  color: #ffffff !important;
+  transform: translateX(2px);
+  transition: all 40ms ease-out !important;
+}
+
+/* 3. Schnellere Tool-Flyouts ohne Trägheit */
+body.mode-turbo .dock-popover-panel {
+  animation-duration: 90ms !important;
+}
+
+/* 4. Subtiles Turbo-Status-Badge */
+.badge-turbo-mode {
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.25), rgba(249, 115, 22, 0.25));
+  border-color: rgba(245, 158, 11, 0.5);
+  color: #fbbf24;
+}
+
+

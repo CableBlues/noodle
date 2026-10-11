@@ -2138,18 +2138,21 @@
                 </div>
               </div>
 
-              <!-- SECTION 2: INTERAKTIONS-MODUS (Workspace & Dock vs. Kompakt) -->
+              <!-- SECTION 2: INTERAKTIONS-MODUS (Workspace Dock vs. Kompakt vs. Turbo Hover) -->
               <div class="space-y-1.5 pt-1 border-t border-white/5">
                 <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 font-mono flex items-center justify-between">
                   <span data-i18n="settings_section_interaction">🖱️ Workspace & Panels</span>
                   <span id="interaction-mode-badge" class="text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30">Workspace Dock</span>
                 </div>
-                <div class="grid grid-cols-2 gap-1 p-1 bg-black/40 border border-white/10 rounded-xl shadow-inner">
-                  <button id="btn-mode-peek-pin" onclick="setInteractionMode('peek-pin')" class="py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-purple-600 text-white shadow-md border border-purple-400/40" title="Klick öffnet Tools & Docking an die Seitenleiste">
-                    <span>◨ Workspace Dock</span>
+                <div class="grid grid-cols-3 gap-1 p-1 bg-black/40 border border-white/10 rounded-xl shadow-inner">
+                  <button id="btn-mode-peek-pin" onclick="setInteractionMode('multi-window')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-purple-600 text-white shadow-md border border-purple-400/40" title="Tools öffnen & Docking an die Taskleiste">
+                    <span>◨ Studio</span>
                   </button>
-                  <button id="btn-mode-click-only" onclick="setInteractionMode('click-only')" class="py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-white/[0.03] text-gray-400 hover:text-white border border-transparent" title="Panels öffnen als kompaktes Popup">
+                  <button id="btn-mode-click-only" onclick="setInteractionMode('click-only')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-white/[0.03] text-gray-400 hover:text-white border border-transparent" title="Panels öffnen zentriert als kompaktes Popup">
                     <span>🗗 Kompakt</span>
+                  </button>
+                  <button id="btn-mode-turbo" onclick="setInteractionMode('turbo')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-white/[0.03] text-amber-300 hover:text-white border border-transparent" title="Sehr schneller Hover (wie Edge Tabs) für ungeduldige Power-User">
+                    <span>⚡ Turbo</span>
                   </button>
                 </div>
               </div>
@@ -3947,25 +3950,35 @@
               <p class="text-[11px] text-gray-400 mt-0.5">Wähle, wie Tool-Panels, Assistenten und Popovers im Workspace angezeigt werden.</p>
             </div>
           </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-            <div onclick="setInteractionMode('peek-pin')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-purple-500/10 border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex items-start gap-3 group">
-              <input type="radio" id="modal-radio-mode-peek" name="modal_interaction_mode" class="mt-1 accent-purple-500" checked onchange="setInteractionMode('peek-pin')">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+            <div onclick="setInteractionMode('multi-window')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-purple-500/10 border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex items-start gap-2.5 group">
+              <input type="radio" id="modal-radio-mode-peek" name="modal_interaction_mode" class="mt-1 accent-purple-500" checked onchange="setInteractionMode('multi-window')">
               <div>
                 <span class="font-bold text-xs text-white group-hover:text-purple-300 transition-colors flex items-center gap-1.5">
-                  <span>◨ Workspace & Dock</span>
+                  <span>◨ Studio Dock</span>
                   <span class="px-1.5 py-0.2 rounded text-[9px] bg-purple-500/20 text-purple-300 font-mono">Standard</span>
                 </span>
-                <p class="text-[11px] text-gray-400 mt-1 leading-relaxed">Panels öffnen stabil per Klick und lassen sich über das Dock-Symbol ◨ nahtlos als Seitenleiste anheften.</p>
+                <p class="text-[10.5px] text-gray-400 mt-1 leading-relaxed">Tools öffnen per Klick, minimieren in Taskleiste oder heften an die Seitenleiste an.</p>
               </div>
             </div>
-            <div onclick="setInteractionMode('click-only')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-purple-500/10 border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex items-start gap-3 group">
+            <div onclick="setInteractionMode('click-only')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-purple-500/10 border border-white/10 hover:border-purple-500/40 transition cursor-pointer flex items-start gap-2.5 group">
               <input type="radio" id="modal-radio-mode-click" name="modal_interaction_mode" class="mt-1 accent-purple-500" onchange="setInteractionMode('click-only')">
               <div>
                 <span class="font-bold text-xs text-white group-hover:text-purple-300 transition-colors flex items-center gap-1.5">
                   <span>🗗 Kompakt / Fokus</span>
                   <span class="px-1.5 py-0.2 rounded text-[9px] bg-white/10 text-gray-300 font-mono">Kompakt</span>
                 </span>
-                <p class="text-[11px] text-gray-400 mt-1 leading-relaxed">Alle Panels öffnen zentriert als kompakte Overlays und schließen bei Klicks außerhalb.</p>
+                <p class="text-[10.5px] text-gray-400 mt-1 leading-relaxed">Panels öffnen zentriert als kompakte Popups und schließen bei Klicks außerhalb.</p>
+              </div>
+            </div>
+            <div onclick="setInteractionMode('turbo')" class="p-3 rounded-2xl bg-white/[0.02] hover:bg-amber-500/10 border border-white/10 hover:border-amber-500/40 transition cursor-pointer flex items-start gap-2.5 group">
+              <input type="radio" id="modal-radio-mode-turbo" name="modal_interaction_mode" class="mt-1 accent-amber-500" onchange="setInteractionMode('turbo')">
+              <div>
+                <span class="font-bold text-xs text-white group-hover:text-amber-300 transition-colors flex items-center gap-1.5">
+                  <span>⚡ Turbo-Hover</span>
+                  <span class="px-1.5 py-0.2 rounded text-[9px] bg-amber-500/20 text-amber-300 font-mono font-bold">Edge-Style</span>
+                </span>
+                <p class="text-[10.5px] text-gray-400 mt-1 leading-relaxed">Für Ungeduldige: Ultraschnelle Reaktionszeit (40ms) beim Überfahren wie Microsoft Edge Tabs.</p>
               </div>
             </div>
           </div>

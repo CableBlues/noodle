@@ -2582,7 +2582,13 @@ function showPanelHover(panelName, delay = 180) {
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
-  const effectiveDelay = (typeof delay === 'number' && delay > 0) ? delay : 180;
+
+  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
+                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
+  
+  // Im Turbo-Modus reagieren Panels blitzschnell wie Edge-Tabs (40ms statt 180ms)
+  const defaultDelay = isTurbo ? 35 : 180;
+  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? (isTurbo ? Math.min(delay, 35) : delay) : defaultDelay;
   hoverPanelShowTimeout = setTimeout(executeShow, effectiveDelay);
 }
 window.showPanelHover = showPanelHover;
@@ -2596,6 +2602,10 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     clearTimeout(hoverPanelHideTimeout);
     hoverPanelHideTimeout = null;
   }
+
+  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
+                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
+  const effectiveGrace = isTurbo ? Math.min(gracePeriod, 80) : gracePeriod;
 
   const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
   if (isPinned) return;
@@ -2631,7 +2641,7 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     if (typeof syncHeaderToolsMenuState === 'function') {
       syncHeaderToolsMenuState();
     }
-  }, gracePeriod);
+  }, effectiveGrace);
 }
 window.hidePanelHover = hidePanelHover;
 
