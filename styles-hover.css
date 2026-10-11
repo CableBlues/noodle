@@ -340,9 +340,15 @@ body.mode-click-only main article div[draggable="true"] .group-hover\:opacity-10
 }
 
 /* NEWS TICKER SETTINGS BUTTON & POPOVER ENGINE */
-.ticker-popover-open {
-  max-width: 36px !important;
+#ticker-options-wrapper {
   opacity: 1 !important;
   visibility: visible !important;
   overflow: visible !important;
+}
+
+.ticker-popover-open #ticker-options-btn {
+  background-color: rgba(168, 85, 247, 0.45) !important;
+  border-color: rgba(216, 180, 254, 0.85) !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.45) !important;
 }
