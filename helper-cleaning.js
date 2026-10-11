@@ -404,7 +404,15 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
 
   closeCleaningGuideModal();
   if (typeof showToast === 'function') {
-    showToast(`✨ ${addedCount} Schritte in deine Haushalts-Kategorie übernommen!`);
+    const msg = tr({
+      en: `✨ Added ${addedCount} steps to your board!`,
+      de: `✨ ${addedCount} Schritte in dein Board übernommen!`,
+      fr: `✨ ${addedCount} étapes ajoutées à votre tableau !`,
+      it: `✨ ${addedCount} passaggi aggiunti alla tua bacheca!`,
+      es: `✨ ¡${addedCount} pasos agregados a tu tablero!`,
+      el: `✨ Προστέθηκαν ${addedCount} βήματα στον πίνακά σου!`
+    });
+    showToast(msg);
   }
 }
 

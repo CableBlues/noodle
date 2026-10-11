@@ -1,0 +1,682 @@
+[
+  {
+    "lineNum": 135,
+    "text": "STUDIO",
+    "fullLine": "                  <span class=\"noodle-studio-badge badge-studio absolute inset-0 flex items-center justify-center text-[8px] font-black font-display tracking-[0.3em] uppercase leading-none select-none\">STUDIO</span>\r"
+  },
+  {
+    "lineNum": 1245,
+    "text": "Kein Sender gewählt",
+    "fullLine": "                        <span class=\"text-xs font-bold text-white truncate\" id=\"radio-now-playing-label\">Kein Sender gewählt</span>\r"
+  },
+  {
+    "lineNum": 1513,
+    "text": "Abbrechen",
+    "fullLine": "                          <button onclick=\"CollabEngine.cancelVoiceRecording()\" class=\"px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-[10px] text-gray-300 transition cursor-pointer\">Abbrechen</button>\r"
+  },
+  {
+    "lineNum": 1664,
+    "text": "App installieren",
+    "fullLine": "                <span class=\"text-[10.5px] font-bold tracking-wide\">App installieren</span>\r"
+  },
+  {
+    "lineNum": 2008,
+    "text": "Löst körperliche Starre & Trägheit",
+    "fullLine": "                    <div class=\"text-[9px] text-gray-400 font-normal\">Löst körperliche Starre & Trägheit</div>\r"
+  },
+  {
+    "lineNum": 2031,
+    "text": "Vollbild Recovery Studio öffnen ↗",
+    "fullLine": "                <span>Vollbild Recovery Studio öffnen ↗</span>\r"
+  },
+  {
+    "lineNum": 2100,
+    "text": "🌐 Sprache wählen",
+    "fullLine": "                  <span>🌐 Sprache wählen</span>\r"
+  },
+  {
+    "lineNum": 2149,
+    "text": "◨ Studio",
+    "fullLine": "                    <span>◨ Studio</span>\r"
+  },
+  {
+    "lineNum": 2152,
+    "text": "🗗 Kompakt",
+    "fullLine": "                    <span>🗗 Kompakt</span>\r"
+  },
+  {
+    "lineNum": 2155,
+    "text": "⚡ Turbo",
+    "fullLine": "                    <span>⚡ Turbo</span>\r"
+  },
+  {
+    "lineNum": 2181,
+    "text": "Lautstärke",
+    "fullLine": "              <span class=\"flex items-center gap-1.5\"><i data-lucide=\"volume-2\" class=\"w-3.5 h-3.5 text-purple-400\"></i> Lautstärke</span>\r"
+  },
+  {
+    "lineNum": 2230,
+    "text": "Aktuelles Board fürs Team teilen",
+    "fullLine": "              <span>Aktuelles Board fürs Team teilen</span>\r"
+  },
+  {
+    "lineNum": 2274,
+    "text": "Lädt Live-Nachrichten...",
+    "fullLine": "              <span class=\"text-cyan-300 font-bold tracking-wide font-display drop-shadow-sm whitespace-nowrap hover:underline\">Lädt Live-Nachrichten...</span>\r"
+  },
+  {
+    "lineNum": 2327,
+    "text": "1. Ausgabesprache (Übersetzung)",
+    "fullLine": "                <span>1. Ausgabesprache (Übersetzung)</span>\r"
+  },
+  {
+    "lineNum": 2421,
+    "text": "Liste hinzufügen",
+    "fullLine": "          <span class=\"font-bold\">Liste hinzufügen</span>\r"
+  },
+  {
+    "lineNum": 2444,
+    "text": "❤️ Wünsche",
+    "fullLine": "              <option value=\"heart\">❤️ Wünsche</option>\r"
+  },
+  {
+    "lineNum": 2453,
+    "text": "Erstellen",
+    "fullLine": "              <span>Erstellen</span>\r"
+  },
+  {
+    "lineNum": 2486,
+    "text": "Schließen",
+    "fullLine": "            <span class=\"text-[11px] font-semibold hidden sm:inline\">Schließen</span>\r"
+  },
+  {
+    "lineNum": 2539,
+    "text": "🐦 Vögel",
+    "fullLine": "            <button onclick=\"playAmbientSound('birds')\" class=\"px-2 py-1 bg-white/5 hover:bg-emerald-500/20 text-gray-300 hover:text-emerald-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0\">🐦 Vögel</button>\r"
+  },
+  {
+    "lineNum": 2883,
+    "text": "Atemübung & Ruhe",
+    "fullLine": "              <p class=\"text-[10px] text-teal-300 mt-0.5\">Atemübung & Ruhe</p>\r"
+  },
+  {
+    "lineNum": 3191,
+    "text": "Exekutiv-Assistent für deinen nächsten Schritt",
+    "fullLine": "            <p class=\"text-[10px] text-gray-400\">Exekutiv-Assistent für deinen nächsten Schritt</p>\r"
+  },
+  {
+    "lineNum": 3254,
+    "text": "Zwischen zwei Dingen gefangen? Lass den Münzwurf entscheiden – dein Bauchgefühl merkt sofort, ob du mit dem Ergebnis zufrieden bist!",
+    "fullLine": "          <span>Zwischen zwei Dingen gefangen? Lass den Münzwurf entscheiden – dein Bauchgefühl merkt sofort, ob du mit dem Ergebnis zufrieden bist!</span>\r"
+  },
+  {
+    "lineNum": 3351,
+    "text": "3 Min. · 3 Übungen (Express)",
+    "fullLine": "                  <option value=\"3\">3 Min. · 3 Übungen (Express)</option>\r"
+  },
+  {
+    "lineNum": 3352,
+    "text": "5 Min. · 5 Übungen (Optimal)",
+    "fullLine": "                  <option value=\"5\" selected>5 Min. · 5 Übungen (Optimal)</option>\r"
+  },
+  {
+    "lineNum": 3353,
+    "text": "8 Min. · 8 Übungen (Intensiv)",
+    "fullLine": "                  <option value=\"8\">8 Min. · 8 Übungen (Intensiv)</option>\r"
+  },
+  {
+    "lineNum": 3354,
+    "text": "12 Min. · 12 Übungen (Power)",
+    "fullLine": "                  <option value=\"12\">12 Min. · 12 Übungen (Power)</option>\r"
+  },
+  {
+    "lineNum": 3355,
+    "text": "16 Min. · 16 Übungen (Voller Zirkel)",
+    "fullLine": "                  <option value=\"16\">16 Min. · 16 Übungen (Voller Zirkel)</option>\r"
+  },
+  {
+    "lineNum": 3361,
+    "text": "🌟 Ausgewogener Ganzkörper-Mix",
+    "fullLine": "                  <option value=\"all\" selected>🌟 Ausgewogener Ganzkörper-Mix</option>\r"
+  },
+  {
+    "lineNum": 3363,
+    "text": "🔥 Core & Rumpfstabilität",
+    "fullLine": "                  <option value=\"core\">🔥 Core & Rumpfstabilität</option>\r"
+  },
+  {
+    "lineNum": 3364,
+    "text": "🦵 Beine & Gesäß (Ohne Springen)",
+    "fullLine": "                  <option value=\"legs\">🦵 Beine & Gesäß (Ohne Springen)</option>\r"
+  },
+  {
+    "lineNum": 3365,
+    "text": "💪 Oberkörper & Haltung",
+    "fullLine": "                  <option value=\"upper\">💪 Oberkörper & Haltung</option>\r"
+  },
+  {
+    "lineNum": 3404,
+    "text": "Zusammengestellte Übungen:",
+    "fullLine": "              <span>Zusammengestellte Übungen:</span>\r"
+  },
+  {
+    "lineNum": 3426,
+    "text": "Alle Kategorien",
+    "fullLine": "              <option value=\"all\">Alle Kategorien</option>\r"
+  },
+  {
+    "lineNum": 3429,
+    "text": "🦵 Beine & Gesäß",
+    "fullLine": "              <option value=\"legs\">🦵 Beine & Gesäß</option>\r"
+  },
+  {
+    "lineNum": 3430,
+    "text": "💪 Oberkörper",
+    "fullLine": "              <option value=\"upper\">💪 Oberkörper</option>\r"
+  },
+  {
+    "lineNum": 3431,
+    "text": "🤸 Ganzkörper & Flow",
+    "fullLine": "              <option value=\"full\">🤸 Ganzkörper & Flow</option>\r"
+  },
+  {
+    "lineNum": 3448,
+    "text": "🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)",
+    "fullLine": "              <option value=\"1\">🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)</option>\r"
+  },
+  {
+    "lineNum": 3449,
+    "text": "🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)",
+    "fullLine": "              <option value=\"2\" selected>🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)</option>\r"
+  },
+  {
+    "lineNum": 3450,
+    "text": "🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)",
+    "fullLine": "              <option value=\"3\">🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)</option>\r"
+  },
+  {
+    "lineNum": 3481,
+    "text": "Übung",
+    "fullLine": "              <div class=\"text-[10px] text-gray-400 font-mono\">Übung <span id=\"sport-player-step-counter\" class=\"text-white font-bold\">1 / 8</span></div>\r"
+  },
+  {
+    "lineNum": 3499,
+    "text": "🎯 Fokus: Beine & Gesäß",
+    "fullLine": "              <span id=\"sport-player-ex-muscle\" class=\"inline-block px-2 py-0.5 rounded-lg bg-white/5 text-[10px] text-lime-300/90 font-mono font-semibold mt-1\">🎯 Fokus: Beine & Gesäß</span>\r"
+  },
+  {
+    "lineNum": 3504,
+    "text": "Als Nächstes:",
+    "fullLine": "              <span class=\"text-gray-400\">Als Nächstes:</span>\r"
+  },
+  {
+    "lineNum": 3505,
+    "text": "Beckenbrücke",
+    "fullLine": "              <span class=\"text-lime-200 font-bold\">Beckenbrücke</span>\r"
+  },
+  {
+    "lineNum": 3603,
+    "text": "Alle Geräte & Offline-fähig",
+    "fullLine": "          <p class=\"text-[10px] text-emerald-400 font-medium\">Alle Geräte & Offline-fähig</p>\r"
+  },
+  {
+    "lineNum": 3929,
+    "text": "Noodle als lokale Anwendung installieren",
+    "fullLine": "              <span>Noodle als lokale Anwendung installieren</span>\r"
+  },
+  {
+    "lineNum": 3950,
+    "text": "Wähle, wie Tool-Panels, Assistenten und Popovers im Workspace angezeigt werden.",
+    "fullLine": "              <p class=\"text-[11px] text-gray-400 mt-0.5\">Wähle, wie Tool-Panels, Assistenten und Popovers im Workspace angezeigt werden.</p>\r"
+  },
+  {
+    "lineNum": 3958,
+    "text": "◨ Studio Dock",
+    "fullLine": "                  <span>◨ Studio Dock</span>\r"
+  },
+  {
+    "lineNum": 3961,
+    "text": "Tools öffnen per Klick, minimieren in Taskleiste oder heften an die Seitenleiste an.",
+    "fullLine": "                <p class=\"text-[10.5px] text-gray-400 mt-1 leading-relaxed\">Tools öffnen per Klick, minimieren in Taskleiste oder heften an die Seitenleiste an.</p>\r"
+  },
+  {
+    "lineNum": 3968,
+    "text": "🗗 Kompakt / Fokus",
+    "fullLine": "                  <span>🗗 Kompakt / Fokus</span>\r"
+  },
+  {
+    "lineNum": 3969,
+    "text": "Kompakt",
+    "fullLine": "                  <span class=\"px-1.5 py-0.2 rounded text-[9px] bg-white/10 text-gray-300 font-mono\">Kompakt</span>\r"
+  },
+  {
+    "lineNum": 3971,
+    "text": "Panels öffnen zentriert als kompakte Popups und schließen bei Klicks außerhalb.",
+    "fullLine": "                <p class=\"text-[10.5px] text-gray-400 mt-1 leading-relaxed\">Panels öffnen zentriert als kompakte Popups und schließen bei Klicks außerhalb.</p>\r"
+  },
+  {
+    "lineNum": 3978,
+    "text": "⚡ Turbo-Hover",
+    "fullLine": "                  <span>⚡ Turbo-Hover</span>\r"
+  },
+  {
+    "lineNum": 3981,
+    "text": "Für Ungeduldige: Ultraschnelle Reaktionszeit (40ms) beim Überfahren wie Microsoft Edge Tabs.",
+    "fullLine": "                <p class=\"text-[10.5px] text-gray-400 mt-1 leading-relaxed\">Für Ungeduldige: Ultraschnelle Reaktionszeit (40ms) beim Überfahren wie Microsoft Edge Tabs.</p>\r"
+  },
+  {
+    "lineNum": 4024,
+    "text": "Voreingestellte Minuten für neue Timer-Sitzungen.",
+    "fullLine": "          <p class=\"text-[11px] text-gray-400\">Voreingestellte Minuten für neue Timer-Sitzungen.</p>\r"
+  },
+  {
+    "lineNum": 4065,
+    "text": "Setzt den Browser-Speicher vollständig auf den Ursprungszustand zurück.",
+    "fullLine": "            <p class=\"text-[11px] text-gray-400 mt-0.5\">Setzt den Browser-Speicher vollständig auf den Ursprungszustand zurück.</p>\r"
+  },
+  {
+    "lineNum": 4090,
+    "text": "Screenshot hinzufügen 📷",
+    "fullLine": "              <span>Screenshot hinzufügen 📷</span>\r"
+  },
+  {
+    "lineNum": 4117,
+    "text": "Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)",
+    "fullLine": "            <span>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</span>\r"
+  },
+  {
+    "lineNum": 4121,
+    "text": "Ein Projekt für barrierefreie, strukturierte Alltags- und Arbeitsorganisation.",
+    "fullLine": "            <p>Ein Projekt für barrierefreie, strukturierte Alltags- und Arbeitsorganisation.</p>\r"
+  },
+  {
+    "lineNum": 4124,
+    "text": "Musterstraße 12, 10115 Berlin, Deutschland",
+    "fullLine": "            <p>Musterstraße 12, 10115 Berlin, Deutschland</p>\r"
+  },
+  {
+    "lineNum": 4148,
+    "text": "ausschließlich lokal im Speicher deines Browsers (localStorage & IndexedDB)",
+    "fullLine": "            Deine Privatsphäre hat höchste Priorität. Noodle speichert deine Aufgaben, Notizen, Einkaufslisten, Timer und Einstellungen <strong>ausschließlich lokal im Speicher deines Browsers (localStorage & IndexedDB)</strong>. Wir nutzen ausschließlich Umami, ein cookie-freies, datenschutzfreundliches Analyse-Tool zur Erfassung anonymer Besucherstatistiken. Es findet kein Nutzer-Tracking über Cookies statt und wir binden keine Werbenetzwerke ein.\r"
+  },
+  {
+    "lineNum": 4247,
+    "text": "↵ Ausführen",
+    "fullLine": "          <span>↵ Ausführen</span>\r"
+  },
+  {
+    "lineNum": 4249,
+    "text": "Tastaturkürzel (?)",
+    "fullLine": "        <span onclick=\"openKeyboardShortcuts()\" class=\"hover:text-purple-300 transition cursor-pointer\">Tastaturkürzel (?)</span>\r"
+  },
+  {
+    "lineNum": 4375,
+    "text": "Schritt",
+    "fullLine": "            <span>Schritt</span>\r"
+  },
+  {
+    "lineNum": 4381,
+    "text": "Schritt-Fokus-Timer:",
+    "fullLine": "          <span class=\"text-[10px] text-gray-400 font-mono\">Schritt-Fokus-Timer:</span>\r"
+  },
+  {
+    "lineNum": 4443,
+    "text": "45-Minuten Standard-Grundreinigung",
+    "fullLine": "            <h4 id=\"cleaning-guide-title\" class=\"text-xs sm:text-sm font-bold text-emerald-200\">45-Minuten Standard-Grundreinigung</h4>\r"
+  },
+  {
+    "lineNum": 4446,
+    "text": "Die solide Grundreinigung nach der goldenen Regel: Von oben nach unten, von innen nach außen, trocken vor nass!",
+    "fullLine": "          <p id=\"cleaning-guide-intro-tip\" class=\"text-[11px] text-gray-300 leading-relaxed font-normal\">Die solide Grundreinigung nach der goldenen Regel: Von oben nach unten, von innen nach außen, trocken vor nass!</p>\r"
+  },
+  {
+    "lineNum": 4500,
+    "text": "Profi-Spickzettel für Einsteiger (Farben & Regeln)",
+    "fullLine": "              <span>Profi-Spickzettel für Einsteiger (Farben & Regeln)</span>\r"
+  },
+  {
+    "lineNum": 4508,
+    "text": "Für Staub, Regale, Schreibtisch & Spiegel",
+    "fullLine": "                <div class=\"text-[10px] text-gray-400\">Für Staub, Regale, Schreibtisch & Spiegel</div>\r"
+  },
+  {
+    "lineNum": 4512,
+    "text": "Für Küche, Herd, Tische & Oberflächen",
+    "fullLine": "                <div class=\"text-[10px] text-gray-400\">Für Küche, Herd, Tische & Oberflächen</div>\r"
+  },
+  {
+    "lineNum": 4516,
+    "text": "Nur für WC & Sanitärbereich (Hygiene!)",
+    "fullLine": "                <div class=\"text-[10px] text-gray-400\">Nur für WC & Sanitärbereich (Hygiene!)</div>\r"
+  },
+  {
+    "lineNum": 4574,
+    "text": "Speichern",
+    "fullLine": "              <span>Speichern</span>\r"
+  },
+  {
+    "lineNum": 4609,
+    "text": "0 Einträge",
+    "fullLine": "          <span id=\"text-import-count-badge\" class=\"px-3 py-2 bg-black/40 border border-white/10 rounded-xl text-[10px] font-mono text-emerald-400 font-bold shrink-0\">0 Einträge</span>\r"
+  },
+  {
+    "lineNum": 4692,
+    "text": "Statistik- & Fortschrittsbericht",
+    "fullLine": "          <span>Statistik- & Fortschrittsbericht</span>\r"
+  },
+  {
+    "lineNum": 4847,
+    "text": "Audio & Atmosphere Studio",
+    "fullLine": "              <span>Audio & Atmosphere Studio</span>\r"
+  },
+  {
+    "lineNum": 4848,
+    "text": "Pro Studio",
+    "fullLine": "              <span class=\"text-[9px] font-mono text-purple-300/80 uppercase\">Pro Studio</span>\r"
+  },
+  {
+    "lineNum": 4850,
+    "text": "Naturklänge, Genre-Beats, MP3, Spotify, DJ",
+    "fullLine": "            <div class=\"text-[10px] text-purple-300/70\">Naturklänge, Genre-Beats, MP3, Spotify, DJ</div>\r"
+  },
+  {
+    "lineNum": 4890,
+    "text": "30s Überwindung",
+    "fullLine": "            <div class=\"text-[10px] text-yellow-300/70\">30s Überwindung</div>\r"
+  },
+  {
+    "lineNum": 4930,
+    "text": "Übungen & Erdung",
+    "fullLine": "            <div class=\"text-[10px] text-teal-300/80\">Übungen & Erdung</div>\r"
+  },
+  {
+    "lineNum": 4959,
+    "text": "Sport & Körper",
+    "fullLine": "            <div class=\"text-xs font-bold text-lime-300 leading-tight\">Sport & Körper</div>\r"
+  },
+  {
+    "lineNum": 4960,
+    "text": "1-Minuten Workouts",
+    "fullLine": "            <div class=\"text-[10px] text-lime-300/70\">1-Minuten Workouts</div>\r"
+  },
+  {
+    "lineNum": 5151,
+    "text": "Gemütlicher Fokus",
+    "fullLine": "            <div class=\"text-[9px] text-gray-400\">Gemütlicher Fokus</div>\r"
+  },
+  {
+    "lineNum": 5202,
+    "text": "90s Welle",
+    "fullLine": "          <span class=\"truncate\">90s Welle</span>\r"
+  },
+  {
+    "lineNum": 5206,
+    "text": "Bedürfnis",
+    "fullLine": "          <span class=\"truncate\">Bedürfnis</span>\r"
+  },
+  {
+    "lineNum": 5210,
+    "text": "Brücke",
+    "fullLine": "          <span class=\"truncate\">Brücke</span>\r"
+  },
+  {
+    "lineNum": 5281,
+    "text": "Sehnsucht / Nähe",
+    "fullLine": "              <div class=\"text-[9px] text-gray-400\">Sehnsucht / Nähe</div>\r"
+  },
+  {
+    "lineNum": 5288,
+    "text": "Müdigkeit",
+    "fullLine": "              <div class=\"text-xs font-bold text-blue-300\">Müdigkeit</div>\r"
+  },
+  {
+    "lineNum": 5289,
+    "text": "Erschöpfter Geist",
+    "fullLine": "              <div class=\"text-[9px] text-gray-400\">Erschöpfter Geist</div>\r"
+  },
+  {
+    "lineNum": 5305,
+    "text": "Flucht vor Gefühl",
+    "fullLine": "              <div class=\"text-[9px] text-gray-400\">Flucht vor Gefühl</div>\r"
+  },
+  {
+    "lineNum": 5333,
+    "text": "Andere Sofort-Brücke vorschlagen 🔄",
+    "fullLine": "          <span>Andere Sofort-Brücke vorschlagen 🔄</span>\r"
+  },
+  {
+    "lineNum": 5360,
+    "text": "Deine persönlichen Anker (Warum lohnt es sich standhaft zu bleiben?):",
+    "fullLine": "          <label class=\"text-xs text-gray-300 font-bold block\">Deine persönlichen Anker (Warum lohnt es sich standhaft zu bleiben?):</label>\r"
+  },
+  {
+    "lineNum": 5366,
+    "text": "❤️ Für meine Liebsten",
+    "fullLine": "            <button onclick=\"saveClarityReason('Für meine Liebsten voll da sein')\" class=\"px-2.5 py-1 rounded-lg bg-white/5 hover:bg-teal-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-teal-200 transition cursor-pointer\">❤️ Für meine Liebsten</button>\r"
+  },
+  {
+    "lineNum": 5513,
+    "text": "Verschränke die Arme über der Brust und klopfe abwechselnd sanft auf die Schlüsselbeine",
+    "fullLine": "              <p class=\"text-[10px] text-gray-400\">Verschränke die Arme über der Brust und klopfe abwechselnd sanft auf die Schlüsselbeine</p>\r"
+  },
+  {
+    "lineNum": 5548,
+    "text": "Schritt 1 von 5",
+    "fullLine": "          <span id=\"reg-ground-badge\" class=\"px-2.5 py-1 rounded-lg bg-teal-500/20 text-teal-300 border border-teal-500/40 text-xs font-mono font-bold\">Schritt 1 von 5</span>\r"
+  },
+  {
+    "lineNum": 5549,
+    "text": "Sensorische Verankerung",
+    "fullLine": "          <span class=\"text-[11px] text-gray-400\">Sensorische Verankerung</span>\r"
+  },
+  {
+    "lineNum": 5591,
+    "text": "Schüttle Hände, Schultern und Beine locker aus...",
+    "fullLine": "            <p id=\"reg-shake-status\" class=\"text-xs text-gray-300 mt-2 italic\">Schüttle Hände, Schultern und Beine locker aus...</p>\r"
+  },
+  {
+    "lineNum": 5618,
+    "text": "Level wählen",
+    "fullLine": "            <span id=\"reg-sud-pre-display\" class=\"text-[10px] font-mono text-teal-300\">Level wählen</span>\r"
+  },
+  {
+    "lineNum": 5620,
+    "text": "Klicke dein aktuelles Anspannungsniveau zur Selbsteinschätzung:",
+    "fullLine": "          <p class=\"text-[10px] text-gray-400\">Klicke dein aktuelles Anspannungsniveau zur Selbsteinschätzung:</p>\r"
+  },
+  {
+    "lineNum": 5640,
+    "text": "„Mein Körper schlägt gerade falschen Alarm. Es fühlt sich unangenehm an, ist aber nicht gefährlich.“",
+    "fullLine": "            🌿 <em>„Mein Körper schlägt gerade falschen Alarm. Es fühlt sich unangenehm an, ist aber nicht gefährlich.“</em>\r"
+  },
+  {
+    "lineNum": 5643,
+    "text": "„Die Adrenalinwelle hat ihren biologischen Höhepunkt nach 3 Minuten. Sie flacht jetzt bereits ab.“",
+    "fullLine": "            🌊 <em>„Die Adrenalinwelle hat ihren biologischen Höhepunkt nach 3 Minuten. Sie flacht jetzt bereits ab.“</em>\r"
+  },
+  {
+    "lineNum": 5653,
+    "text": "100% offline synthetisierte Frequenzen zur neuroakustischen Beruhigung:",
+    "fullLine": "        <p class=\"text-xs text-gray-400\">100% offline synthetisierte Frequenzen zur neuroakustischen Beruhigung:</p>\r"
+  },
+  {
+    "lineNum": 5671,
+    "text": "Tiefenentspannung für das vegetative System",
+    "fullLine": "              <div class=\"text-[10px] text-gray-400\">Tiefenentspannung für das vegetative System</div>\r"
+  },
+  {
+    "lineNum": 5711,
+    "text": "Österreich & Schweiz:",
+    "fullLine": "            <div class=\"font-bold text-teal-300\">Österreich & Schweiz:</div>\r"
+  },
+  {
+    "lineNum": 5712,
+    "text": "• Österreich:",
+    "fullLine": "            <div class=\"text-gray-300 mt-0.5\">• Österreich: <a href=\"tel:142\" class=\"text-white underline font-mono font-bold\">142</a> (Telefonseelsorge)</div>\r"
+  },
+  {
+    "lineNum": 5799,
+    "text": "Was wäre die radikalste 5-Minuten-Lösung?",
+    "fullLine": "          <span id=\"brainstorm-spark-text\" class=\"text-xs text-teal-200/90 italic truncate font-medium\">Was wäre die radikalste 5-Minuten-Lösung?</span>\r"
+  },
+  {
+    "lineNum": 5870,
+    "text": "0 ausgewählt",
+    "fullLine": "        <span id=\"sample-selected-counter\" class=\"text-[11px] text-gray-400 font-mono\">0 ausgewählt</span>\r"
+  },
+  {
+    "lineNum": 6010,
+    "text": "100% Offline",
+    "fullLine": "            <span id=\"install-badge-offline\" class=\"px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 text-[10px] font-mono font-bold\">100% Offline</span>\r"
+  },
+  {
+    "lineNum": 6026,
+    "text": "Als native App auf deinem Gerät nutzen",
+    "fullLine": "            <h4 class=\"font-bold text-sm text-white font-display\">Als native App auf deinem Gerät nutzen</h4>\r"
+  },
+  {
+    "lineNum": 6032,
+    "text": "100% Offline-fähig",
+    "fullLine": "            <span class=\"flex items-center gap-1\"><i data-lucide=\"check\" class=\"w-3 h-3 text-emerald-400\"></i> 100% Offline-fähig</span>\r"
+  },
+  {
+    "lineNum": 6040,
+    "text": "Jetzt installieren 📲",
+    "fullLine": "          <span>Jetzt installieren 📲</span>\r"
+  },
+  {
+    "lineNum": 6082,
+    "text": "Install-Noodle-Studio.bat herunterladen & ausführen 🚀",
+    "fullLine": "              <span>Install-Noodle-Studio.bat herunterladen & ausführen 🚀</span>\r"
+  },
+  {
+    "lineNum": 6090,
+    "text": "Alternative: PWA-Installation über Microsoft Edge, Chrome oder Brave",
+    "fullLine": "            <span>Alternative: PWA-Installation über Microsoft Edge, Chrome oder Brave</span>\r"
+  },
+  {
+    "lineNum": 6093,
+    "text": "⊕-Symbol („App installieren“)",
+    "fullLine": "            Klicke oben rechts in deiner Browser-Adressleiste auf das <strong>⊕-Symbol („App installieren“)</strong> oder im Menü (⋯) auf <strong>„Apps“ ➔ „Diese Site als App installieren“</strong>.\r"
+  },
+  {
+    "lineNum": 6100,
+    "text": "Schnell-Verknüpfung (.url)",
+    "fullLine": "            <span>Schnell-Verknüpfung (.url)</span>\r"
+  },
+  {
+    "lineNum": 6105,
+    "text": "Desktop-Verknüpfung (.url) herunterladen",
+    "fullLine": "              <span>Desktop-Verknüpfung (.url) herunterladen</span>\r"
+  },
+  {
+    "lineNum": 6116,
+    "text": "Schritt 1: Menü im mobilen Browser öffnen",
+    "fullLine": "            <span>Schritt 1: Menü im mobilen Browser öffnen</span>\r"
+  },
+  {
+    "lineNum": 6126,
+    "text": "Schritt 2: „App installieren“ oder „Zum Startbildschirm hinzufügen“",
+    "fullLine": "            <span>Schritt 2: „App installieren“ oder „Zum Startbildschirm hinzufügen“</span>\r"
+  },
+  {
+    "lineNum": 6129,
+    "text": "„App installieren“",
+    "fullLine": "            Wähle den Eintrag <strong>„App installieren“</strong>. Noodle Studio wird direkt auf deinem Android-Homescreen platziert und startet als vollwertige App ohne störende Browser-Adresszeile.\r"
+  },
+  {
+    "lineNum": 6134,
+    "text": "Offline-Vorteil:",
+    "fullLine": "          💡 <strong>Offline-Vorteil:</strong> Einmal geöffnet, funktioniert die gesamte Noodle App dank des integrierten Offline-Service-Workers auch im Flugmodus oder bei Verbindungsabbrüchen.\r"
+  },
+  {
+    "lineNum": 6146,
+    "text": "„Ablage“ (File) ➔ „Zum Dock hinzufügen…“ (Add to Dock)",
+    "fullLine": "            Klicke in der Menüleiste oben auf <strong>„Ablage“ (File) ➔ „Zum Dock hinzufügen…“ (Add to Dock)</strong>. Noodle Studio wird als echte native macOS App mit eigenem Fenster, Dock-Symbol und Spotlight-Unterstützung gespeichert.\r"
+  },
+  {
+    "lineNum": 6156,
+    "text": "⊕-Symbol („Noodle Studio installieren“)",
+    "fullLine": "            Klicke in der Adressleiste auf das <strong>⊕-Symbol („Noodle Studio installieren“)</strong>. Die App landet automatisch in deinem <em>Launchpad</em> und im Ordner <em>Programme</em>.\r"
+  },
+  {
+    "lineNum": 6181,
+    "text": "noodle-studio.desktop herunterladen",
+    "fullLine": "              <span>noodle-studio.desktop herunterladen</span>\r"
+  },
+  {
+    "lineNum": 6193,
+    "text": "Schritt 1: In Safari öffnen",
+    "fullLine": "            <span>Schritt 1: In Safari öffnen</span>\r"
+  },
+  {
+    "lineNum": 6203,
+    "text": "Schritt 2: Teilen-Symbol & Zum Home-Bildschirm",
+    "fullLine": "            <span>Schritt 2: Teilen-Symbol & Zum Home-Bildschirm</span>\r"
+  },
+  {
+    "lineNum": 6219,
+    "text": "Wähle vorkonfigurierte Routine-Presets (Fokus, Minimalist, Haushalts-Guide).",
+    "fullLine": "            <p class=\"text-[11px] text-gray-400 mt-0.5\">Wähle vorkonfigurierte Routine-Presets (Fokus, Minimalist, Haushalts-Guide).</p>\r"
+  },
+  {
+    "lineNum": 6223,
+    "text": "Presets wählen",
+    "fullLine": "            <span>Presets wählen</span>\r"
+  },
+  {
+    "lineNum": 6233,
+    "text": "Kopple dein Smartphone oder Zweitgerät in Echtzeit via QR-Code oder Cloud.",
+    "fullLine": "            <p class=\"text-[11px] text-gray-400 mt-0.5\">Kopple dein Smartphone oder Zweitgerät in Echtzeit via QR-Code oder Cloud.</p>\r"
+  },
+  {
+    "lineNum": 6247,
+    "text": "Erlaube System-Benachrichtigungen für Timer und akustische Erinnerungen.",
+    "fullLine": "            <p class=\"text-[11px] text-gray-400 mt-0.5\">Erlaube System-Benachrichtigungen für Timer und akustische Erinnerungen.</p>\r"
+  },
+  {
+    "lineNum": 6261,
+    "text": "Lade die komplette Noodle App als portable Offline-Datei für unterwegs herunter.",
+    "fullLine": "            <p class=\"text-[11px] text-gray-400 mt-0.5\">Lade die komplette Noodle App als portable Offline-Datei für unterwegs herunter.</p>\r"
+  },
+  {
+    "lineNum": 6265,
+    "text": "Offline-Paket",
+    "fullLine": "            <span>Offline-Paket</span>\r"
+  },
+  {
+    "lineNum": 6305,
+    "text": "ausschließlich lokal in deinem Webbrowser (Local Storage)",
+    "fullLine": "          Noodle Studio speichert alle deine Aufgaben, Einkaufslisten und Notizen <b>ausschließlich lokal in deinem Webbrowser (Local Storage)</b>. Es findet keine Weitergabe an Werbenetzwerke und keine personenbezogene Profilbildung statt. Lediglich anonyme, cookie-freie Seitenaufruf-Statistiken werden über Umami erfasst.\r"
+  },
+  {
+    "lineNum": 6309,
+    "text": "1. Datenspeicherung & Offline-Betrieb",
+    "fullLine": "          <h4 class=\"font-bold text-white mb-1\">1. Datenspeicherung & Offline-Betrieb</h4>\r"
+  },
+  {
+    "lineNum": 6310,
+    "text": "Die Anwendung funktioniert vollständig offline. Deine Daten verbleiben lokal auf deinem Gerät. Nutzt du die optionale Cloud-Synchronisation, wird die passwortlose Authentifizierung via Supabase Magic-Link abgewickelt und der Datenabgleich sicher und verschlüsselt übertragen.",
+    "fullLine": "          <p>Die Anwendung funktioniert vollständig offline. Deine Daten verbleiben lokal auf deinem Gerät. Nutzt du die optionale Cloud-Synchronisation, wird die passwortlose Authentifizierung via Supabase Magic-Link abgewickelt und der Datenabgleich sicher und verschlüsselt übertragen.</p>\r"
+  },
+  {
+    "lineNum": 6315,
+    "text": "Eingebettete Medien (wie Spotify oder YouTube) unterliegen den Datenschutzbestimmungen der jeweiligen Anbieter und werden nur auf deine ausdrückliche Interaktion hin geladen.",
+    "fullLine": "          <p>Eingebettete Medien (wie Spotify oder YouTube) unterliegen den Datenschutzbestimmungen der jeweiligen Anbieter und werden nur auf deine ausdrückliche Interaktion hin geladen.</p>\r"
+  },
+  {
+    "lineNum": 6319,
+    "text": "3. Angaben gemäß § 5 TMG / Impressum",
+    "fullLine": "          <h4 class=\"font-bold text-white mb-1\">3. Angaben gemäß § 5 TMG / Impressum</h4>\r"
+  },
+  {
+    "lineNum": 6320,
+    "text": "Noodle Studio — Entwickelt als datenschutzfreundliche Open-Web Progressive Web App.",
+    "fullLine": "          <p class=\"text-gray-400\">Noodle Studio — Entwickelt als datenschutzfreundliche Open-Web Progressive Web App.</p>\r"
+  },
+  {
+    "lineNum": 6374,
+    "text": "Schritt wählen",
+    "fullLine": "              <span class=\"text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 border border-cyan-500/30\">Schritt wählen</span>\r"
+  }
+]

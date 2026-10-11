@@ -2744,7 +2744,10 @@ function updateTextImportPreview() {
   const text = textarea ? textarea.value : '';
   const items = parseTextIntoItems(text);
   if (countBadge) {
-    countBadge.innerText = `${items.length} ${items.length === 1 ? 'Eintrag' : 'Einträge'}`;
+    const label = items.length === 1
+      ? tr({ en: 'item', de: 'Eintrag', fr: 'entrée', it: 'voce', es: 'elemento', el: 'καταχώριση' })
+      : tr({ en: 'items', de: 'Einträge', fr: 'entrées', it: 'voci', es: 'elementos', el: 'καταχωρίσεις' });
+    countBadge.innerText = `${items.length} ${label}`;
   }
 }
 

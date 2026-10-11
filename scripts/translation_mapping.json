@@ -1,0 +1,430 @@
+[
+  {
+    "text": "Kein Sender gewählt",
+    "key": "radio_no_station_selected"
+  },
+  {
+    "text": "Abbrechen",
+    "key": "cancel"
+  },
+  {
+    "text": "Löst körperliche Starre & Trägheit",
+    "key": "safespace_relieve_inertia"
+  },
+  {
+    "text": "Vollbild Recovery Studio öffnen ↗",
+    "key": "safespace_open_fullscreen"
+  },
+  {
+    "text": "🌐 Sprache wählen",
+    "key": "quick_lang_select"
+  },
+  {
+    "text": "◨ Studio",
+    "key": "mode_studio_short"
+  },
+  {
+    "text": "🗗 Kompakt",
+    "key": "mode_compact_short"
+  },
+  {
+    "text": "⚡ Turbo",
+    "key": "mode_turbo_short"
+  },
+  {
+    "text": "Lautstärke",
+    "key": "volume"
+  },
+  {
+    "text": "Aktuelles Board fürs Team teilen",
+    "key": "collab_share_current_board"
+  },
+  {
+    "text": "Lädt Live-Nachrichten...",
+    "key": "news_loading_live"
+  },
+  {
+    "text": "1. Ausgabesprache (Übersetzung)",
+    "key": "news_output_lang"
+  },
+  {
+    "text": "Liste hinzufügen",
+    "key": "shop_add_list_btn"
+  },
+  {
+    "text": "❤️ Wünsche",
+    "key": "shop_cat_wishes"
+  },
+  {
+    "text": "Erstellen",
+    "key": "create"
+  },
+  {
+    "text": "Schließen",
+    "key": "close"
+  },
+  {
+    "text": "🐦 Vögel",
+    "key": "sound_birds"
+  },
+  {
+    "text": "Atemübung & Ruhe",
+    "key": "safespace_breath_calm"
+  },
+  {
+    "text": "Exekutiv-Assistent für deinen nächsten Schritt",
+    "key": "pick_executive_subtitle"
+  },
+  {
+    "text": "Zwischen zwei Dingen gefangen? Lass den Münzwurf entscheiden – dein Bauchgefühl merkt sofort, ob du mit dem Ergebnis zufrieden bist!",
+    "key": "pick_dilemma_hint"
+  },
+  {
+    "text": "3 Min. · 3 Übungen (Express)",
+    "key": "sport_opt_3min"
+  },
+  {
+    "text": "5 Min. · 5 Übungen (Optimal)",
+    "key": "sport_opt_5min"
+  },
+  {
+    "text": "8 Min. · 8 Übungen (Intensiv)",
+    "key": "sport_opt_8min"
+  },
+  {
+    "text": "12 Min. · 12 Übungen (Power)",
+    "key": "sport_opt_12min"
+  },
+  {
+    "text": "16 Min. · 16 Übungen (Voller Zirkel)",
+    "key": "sport_opt_16min"
+  },
+  {
+    "text": "🌟 Ausgewogener Ganzkörper-Mix",
+    "key": "sport_zone_fullbody"
+  },
+  {
+    "text": "🔥 Core & Rumpfstabilität",
+    "key": "sport_zone_core"
+  },
+  {
+    "text": "🦵 Beine & Gesäß (Ohne Springen)",
+    "key": "sport_zone_legs_nojump"
+  },
+  {
+    "text": "💪 Oberkörper & Haltung",
+    "key": "sport_zone_upper"
+  },
+  {
+    "text": "Zusammengestellte Übungen:",
+    "key": "sport_composed_exercises"
+  },
+  {
+    "text": "Alle Kategorien",
+    "key": "sport_cat_all"
+  },
+  {
+    "text": "🦵 Beine & Gesäß",
+    "key": "sport_cat_legs"
+  },
+  {
+    "text": "💪 Oberkörper",
+    "key": "sport_cat_upper"
+  },
+  {
+    "text": "🤸 Ganzkörper & Flow",
+    "key": "sport_cat_flow"
+  },
+  {
+    "text": "🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)",
+    "key": "sport_spoon_1"
+  },
+  {
+    "text": "🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)",
+    "key": "sport_spoon_2"
+  },
+  {
+    "text": "🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)",
+    "key": "sport_spoon_3"
+  },
+  {
+    "text": "Übung",
+    "key": "exercise"
+  },
+  {
+    "text": "🎯 Fokus: Beine & Gesäß",
+    "key": "sport_focus_legs"
+  },
+  {
+    "text": "Als Nächstes:",
+    "key": "sport_next_up"
+  },
+  {
+    "text": "Beckenbrücke",
+    "key": "sport_ex_glute_bridge"
+  },
+  {
+    "text": "Alle Geräte & Offline-fähig",
+    "key": "settings_all_devices"
+  },
+  {
+    "text": "Noodle als lokale Anwendung installieren",
+    "key": "settings_install_local_title"
+  },
+  {
+    "text": "Wähle, wie Tool-Panels, Assistenten und Popovers im Workspace angezeigt werden.",
+    "key": "settings_interaction_desc"
+  },
+  {
+    "text": "◨ Studio Dock",
+    "key": "mode_studio_dock"
+  },
+  {
+    "text": "Tools öffnen per Klick, minimieren in Taskleiste oder heften an die Seitenleiste an.",
+    "key": "mode_studio_dock_desc"
+  },
+  {
+    "text": "🗗 Kompakt / Fokus",
+    "key": "mode_compact_focus"
+  },
+  {
+    "text": "Panels öffnen zentriert als kompakte Popups und schließen bei Klicks außerhalb.",
+    "key": "mode_compact_desc"
+  },
+  {
+    "text": "⚡ Turbo-Hover",
+    "key": "mode_turbo_hover"
+  },
+  {
+    "text": "Für Ungeduldige: Ultraschnelle Reaktionszeit (40ms) beim Überfahren wie Microsoft Edge Tabs.",
+    "key": "mode_turbo_desc"
+  },
+  {
+    "text": "Voreingestellte Minuten für neue Timer-Sitzungen.",
+    "key": "settings_timer_preset_desc"
+  },
+  {
+    "text": "Setzt den Browser-Speicher vollständig auf den Ursprungszustand zurück.",
+    "key": "settings_reset_desc"
+  },
+  {
+    "text": "Screenshot hinzufügen 📷",
+    "key": "settings_add_screenshot"
+  },
+  {
+    "text": "↵ Ausführen",
+    "key": "cmd_run"
+  },
+  {
+    "text": "Tastaturkürzel (?)",
+    "key": "cmd_shortcuts_help"
+  },
+  {
+    "text": "Schritt",
+    "key": "step"
+  },
+  {
+    "text": "Schritt-Fokus-Timer:",
+    "key": "cleaning_step_timer"
+  },
+  {
+    "text": "45-Minuten Standard-Grundreinigung",
+    "key": "clean_standard_title"
+  },
+  {
+    "text": "Die solide Grundreinigung nach der goldenen Regel: Von oben nach unten, von innen nach außen, trocken vor nass!",
+    "key": "clean_standard_desc"
+  },
+  {
+    "text": "Profi-Spickzettel für Einsteiger (Farben & Regeln)",
+    "key": "clean_cheat_sheet_title"
+  },
+  {
+    "text": "Für Staub, Regale, Schreibtisch & Spiegel",
+    "key": "clean_cloth_blue"
+  },
+  {
+    "text": "Für Küche, Herd, Tische & Oberflächen",
+    "key": "clean_cloth_yellow"
+  },
+  {
+    "text": "Nur für WC & Sanitärbereich (Hygiene!)",
+    "key": "clean_cloth_red"
+  },
+  {
+    "text": "Sprühe Kalklöser & Badreiniger ein und mache 5 Min was anderes – kein Schrubben nötig!",
+    "key": "clean_tip_chemicals"
+  },
+  {
+    "text": "Erst Krümel und Staub trocken wegfegen/saugen, bevor du mit Wasser wischst.",
+    "key": "clean_tip_dry_before_wet"
+  },
+  {
+    "text": "Speichern",
+    "key": "save"
+  },
+  {
+    "text": "Statistik- & Fortschrittsbericht",
+    "key": "report_title"
+  },
+  {
+    "text": "Audio & Atmosphere Studio",
+    "key": "audio_studio_full_title"
+  },
+  {
+    "text": "Pro Studio",
+    "key": "badge_pro_studio"
+  },
+  {
+    "text": "Naturklänge, Genre-Beats, MP3, Spotify, DJ",
+    "key": "audio_studio_sub"
+  },
+  {
+    "text": "30s Überwindung",
+    "key": "boost_30s"
+  },
+  {
+    "text": "Übungen & Erdung",
+    "key": "safespace_exercises_grounding"
+  },
+  {
+    "text": "Sport & Körper",
+    "key": "sport_body_title"
+  },
+  {
+    "text": "1-Minuten Workouts",
+    "key": "sport_1min_workouts"
+  },
+  {
+    "text": "Gemütlicher Fokus",
+    "key": "preset_cozy_focus"
+  },
+  {
+    "text": "90s Welle",
+    "key": "safespace_tab_wave90"
+  },
+  {
+    "text": "Bedürfnis",
+    "key": "safespace_tab_need"
+  },
+  {
+    "text": "Brücke",
+    "key": "safespace_tab_bridge"
+  },
+  {
+    "text": "Sehnsucht / Nähe",
+    "key": "safespace_need_longing"
+  },
+  {
+    "text": "Müdigkeit",
+    "key": "safespace_need_fatigue"
+  },
+  {
+    "text": "Erschöpfter Geist",
+    "key": "safespace_need_exhaustion"
+  },
+  {
+    "text": "Flucht vor Gefühl",
+    "key": "safespace_need_escape"
+  },
+  {
+    "text": "Andere Sofort-Brücke vorschlagen 🔄",
+    "key": "safespace_other_bridge"
+  },
+  {
+    "text": "Deine persönlichen Anker (Warum lohnt es sich standhaft zu bleiben?):",
+    "key": "safespace_personal_anchors_title"
+  },
+  {
+    "text": "❤️ Für meine Liebsten",
+    "key": "safespace_anchor_loved_ones"
+  },
+  {
+    "text": "Verschränke die Arme über der Brust und klopfe abwechselnd sanft auf die Schlüsselbeine",
+    "key": "safespace_butterfly_instruction"
+  },
+  {
+    "text": "Sensorische Verankerung",
+    "key": "safespace_sensory_grounding"
+  },
+  {
+    "text": "Schüttle Hände, Schultern und Beine locker aus...",
+    "key": "safespace_shake_limbs"
+  },
+  {
+    "text": "Level wählen",
+    "key": "safespace_choose_level"
+  },
+  {
+    "text": "Klicke dein aktuelles Anspannungsniveau zur Selbsteinschätzung:",
+    "key": "safespace_tension_level_desc"
+  },
+  {
+    "text": "100% offline synthetisierte Frequenzen zur neuroakustischen Beruhigung:",
+    "key": "safespace_frequencies_desc"
+  },
+  {
+    "text": "Tiefenentspannung für das vegetative System",
+    "key": "safespace_frequencies_subtitle"
+  },
+  {
+    "text": "Was wäre die radikalste 5-Minuten-Lösung?",
+    "key": "dilemma_radical_question"
+  },
+  {
+    "text": "100% Offline",
+    "key": "badge_100_offline"
+  },
+  {
+    "text": "Als native App auf deinem Gerät nutzen",
+    "key": "pwa_native_app_desc"
+  },
+  {
+    "text": "100% Offline-fähig",
+    "key": "badge_100_offline_capable"
+  },
+  {
+    "text": "Jetzt installieren 📲",
+    "key": "pwa_install_now_btn"
+  },
+  {
+    "text": "Offline-Vorteil:",
+    "key": "pwa_offline_benefit"
+  },
+  {
+    "text": "Schritt 1: In Safari öffnen",
+    "key": "pwa_step1_safari"
+  },
+  {
+    "text": "Wähle vorkonfigurierte Routine-Presets (Fokus, Minimalist, Haushalts-Guide).",
+    "key": "presets_card_desc"
+  },
+  {
+    "text": "Presets wählen",
+    "key": "presets_choose_btn"
+  },
+  {
+    "text": "Sync & Geräte-Kopplung",
+    "key": "sync_devices_title"
+  },
+  {
+    "text": "Kopple dein Smartphone oder Zweitgerät in Echtzeit via QR-Code oder Cloud.",
+    "key": "sync_devices_desc"
+  },
+  {
+    "text": "Erlaube System-Benachrichtigungen für Timer und akustische Erinnerungen.",
+    "key": "notifications_desc"
+  },
+  {
+    "text": "Lade die komplette Noodle App als portable Offline-Datei für unterwegs herunter.",
+    "key": "offline_download_desc"
+  },
+  {
+    "text": "Offline-Paket",
+    "key": "offline_bundle_btn"
+  },
+  {
+    "text": "Schritt wählen",
+    "key": "step_choose_placeholder"
+  }
+]
