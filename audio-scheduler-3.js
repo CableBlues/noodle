@@ -1,4 +1,11 @@
-// audio-scheduler-3.js: Sound-Scheduler fuer Typewriter, Storm, Frogs + Stop/Volume-Funktionen
+/**
+ * @file audio-scheduler-3.js
+ * @module AudioSchedulerNatureAndControl
+ * @description
+ * Prozedurale Natur- und Akustik-Synthese (Schreibmaschinen-Anschläge, Gewittergrollen,
+ * Nacht-Grillen/Frösche) sowie zentrale Lebenszyklus-Funktionen zum Stoppen,
+ * Ausblenden und Regeln der Master-Lautstärke aller aktiven WebAudio-Generatoren.
+ */
 
 function scheduleTypewriterClicks() {
   if (currentSoundType !== 'keyboard') return;

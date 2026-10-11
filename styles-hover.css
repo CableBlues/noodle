@@ -1,4 +1,9 @@
-/* styles-hover.css: High-Tech Launchpad LED & DJ Mixer Interaction Engine */
+/**
+ * @file styles-hover.css
+ * @description
+ * Interaktions-, Hover- und Fokus-Stile für Buttons, Lautstärke-Regler,
+ * DJ-Mixer-Bedienelemente sowie das Subheader-Newsticker-Optionenmenü.
+ */
 
 /* 1. NOODLE LOGO & CALM AMBIENT INTEGRATION */
 #header-logo-wrapper {

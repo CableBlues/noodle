@@ -1,5 +1,11 @@
 /* --- data-tasks-steps-1.js --- */
-// data-tasks-steps-1.js: Hochwertige, professionelle & verständliche Schritt-für-Schritt-Anleitungen (Teil 1: Daily Basics)
+/**
+ * @file data-tasks-steps-1.js
+ * @module DataTaskStepsDaily
+ * @description
+ * Mehrsprachige Schritt-für-Schritt-Anleitungen (Micro-Steps) für grundlegende
+ * tägliche Routinen (`DE`, `EN`, `ES`, `EL`, `FR`, `IT`).
+ */
 const TASK_STEPS_DATABASE_PART1 = {
   'Medis': {
     de: [
@@ -367,7 +373,13 @@ globalThis.TASK_STEPS_DATABASE_PART1 = TASK_STEPS_DATABASE_PART1;
 
 
 /* --- data-tasks-steps-2.js --- */
-// data-tasks-steps-2.js: Hochwertige, professionelle & verständliche Schritt-für-Schritt-Anleitungen (Teil 2: Haushalt & Reinigung)
+/**
+ * @file data-tasks-steps-2.js
+ * @module DataTaskStepsHousehold
+ * @description
+ * Mehrsprachige Schritt-für-Schritt-Anleitungen (Micro-Steps) für Haushalts-,
+ * Ordnungs- und Reinigungsaufgaben (`DE`, `EN`, `ES`, `EL`, `FR`, `IT`).
+ */
 const TASK_STEPS_DATABASE_PART2 = {
   'Aufräumen': {
     de: [
@@ -870,7 +882,13 @@ globalThis.TASK_STEPS_DATABASE_PART2 = TASK_STEPS_DATABASE_PART2;
 
 
 /* --- data-tasks-steps-3.js --- */
-// data-tasks-steps-3.js: Hochwertige, professionelle & verständliche Schritt-für-Schritt-Anleitungen (Teil 3: Entsorgung, Selfcare & Intensiv)
+/**
+ * @file data-tasks-steps-3.js
+ * @module DataTaskStepsSelfcareAndMaintenance
+ * @description
+ * Mehrsprachige Schritt-für-Schritt-Anleitungen (Micro-Steps) für Entsorgung,
+ * Körperpflege und periodische Wohnungsarbeiten (`DE`, `EN`, `ES`, `EL`, `FR`, `IT`).
+ */
 const TASK_STEPS_DATABASE_PART3 = {
   'Müll wegbringen': {
     de: [
@@ -1238,6 +1256,15 @@ globalThis.TASK_STEPS_DATABASE_PART3 = TASK_STEPS_DATABASE_PART3;
 
 
 /* --- data-tasks.js --- */
+/**
+ * @file data-tasks.js
+ * @module DataDefaultTasks
+ * @description
+ * Zentrale Speicherschlüssel (`STORE_KEY`, `HISTORY_KEY`), mehrsprachige
+ * Standardaufgaben (`DEFAULT_TASKS_BY_LANG`) sowie Zusammenführung der
+ * Teilschritt-Datenbanken (`TASK_STEPS_DATABASE`).
+ */
+
 // CONFIGURATION KEYS FOR LOCALSTORAGE
 var STORE_KEY = (typeof window !== 'undefined' && window.STORE_KEY) || 'flowPlannerV3';
 var HISTORY_KEY = (typeof window !== 'undefined' && window.HISTORY_KEY) || 'flowPlannerV3History';
@@ -1861,7 +1888,12 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- data-translations-1.js --- */
-// data-translations-1.js: Complete translations for English, German and French
+/**
+ * @file data-translations-1.js
+ * @module DataTranslationsPart1
+ * @description
+ * Vollständige UI-Lokalisierungswörterbücher für Englisch (`en`), Deutsch (`de`) und Französisch (`fr`).
+ */
 const TRANSLATIONS_PART1 = {
   "en": {
     "add": "Add task",
@@ -3520,7 +3552,12 @@ if (typeof globalThis !== 'undefined') { globalThis.TRANSLATIONS_PART1 = TRANSLA
 
 
 /* --- data-translations-2.js --- */
-// data-translations-2.js: Complete translations for Italian, Spanish and Greek
+/**
+ * @file data-translations-2.js
+ * @module DataTranslationsPart2
+ * @description
+ * Vollständige UI-Lokalisierungswörterbücher für Italienisch (`it`), Spanisch (`es`) und Griechisch (`el`).
+ */
 const TRANSLATIONS_PART2 = {
   "it": {
     "add": "Aggiungi attività",
@@ -5179,6 +5216,14 @@ if (typeof globalThis !== 'undefined') { globalThis.TRANSLATIONS_PART2 = TRANSLA
 
 
 /* --- data-translations.js --- */
+/**
+ * @file data-translations.js
+ * @module DataTranslationsAggregator
+ * @description
+ * Führt die Sprachpakete `TRANSLATIONS_PART1` (`en`, `de`, `fr`) und
+ * `TRANSLATIONS_PART2` (`it`, `es`, `el`) im globalen Objekt `TRANSLATIONS` zusammen.
+ */
+
 const TRANSLATIONS = Object.assign({},
   typeof TRANSLATIONS_PART1 !== 'undefined' ? TRANSLATIONS_PART1 : {},
   typeof TRANSLATIONS_PART2 !== 'undefined' ? TRANSLATIONS_PART2 : {}
@@ -5189,7 +5234,13 @@ if (typeof globalThis !== 'undefined') globalThis.TRANSLATIONS = TRANSLATIONS;
 
 
 /* --- data-custom-translations.js --- */
-// data-custom-translations.js: Synchronized custom translations
+/**
+ * @file data-custom-translations.js
+ * @module DataCustomTranslations
+ * @description
+ * Erweiterte Lokalisierungsschlüssel für Fachmodule (Workout-Baukasten, Entscheidungs-Assistent,
+ * Rezept-Studio, Einkaufs-Abteilungen und Einstellungen) in allen sechs unterstützten Sprachen.
+ */
 if (typeof window.TRANSLATIONS === 'undefined') { window.TRANSLATIONS = {}; }
 
 const customTranslations = {
@@ -11491,6 +11542,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- data-extras.js --- */
+/**
+ * @file data-extras.js
+ * @module DataBreakAndMotivationTips
+ * @description
+ * Kuratierte mehrsprachige Pausen-Impulse (`BREAK_TIPS`) und Motivations-Sätze
+ * für das Pausen-Modal und die Sprachausgabe.
+ */
+
 const BREAK_TIPS = {
   de: [
     "Mache 5 Kniebeugen oder strecke deinen Körper einmal kräftig durch!",
@@ -11858,8 +11917,15 @@ const BOOST_ACTIVITIES = {
 
 
 /* --- config.js --- */
-// config.js - Zentrale Konfiguration für Noodle (Supabase & Sync API)
-// ============================================================================
+/**
+ * @file config.js
+ * @module Config
+ * @description
+ * Zentrale Laufzeitkonfiguration für Noodle Studio.
+ * Definiert API-Endpunkte für die optionale Cloud-Synchronisation (Supabase),
+ * Synchronisationsintervalle sowie Feature-Flags. Kann für Self-Hosting-Instanzen
+ * über `localStorage` (`noodle_custom_config`) oder Window-Variablen überschrieben werden.
+ */
 
 (function() {
   const DEFAULT_CONFIG = {
@@ -11941,12 +12007,9 @@ const FlowAuth = (function() {
     if (typeof window !== 'undefined' && window.FLOW_CONFIG) {
       return window.FLOW_CONFIG;
     }
-    // BUGFIX: Vorher wurde hier stillschweigend eine tote Fallback-URL mit
-    // Dummy-Schlüssel zurückgegeben (Rest aus der "Flow Organiser"-Zeit).
-    // Da init() ohnehin niemals einen Client mit fehlender/ungültiger Config
-    // erstellt, ist eine klare Diagnosemeldung hier sinnvoller als ein
-    // stiller, nie erreichbarer Platzhalter-Wert.
-    console.error('[FlowAuth] FLOW_CONFIG wurde nicht gefunden. Bitte prüfen, ob config.js korrekt VOR auth-engine.js geladen wird – ohne gültige Konfiguration sind Login und Cloud-Sync nicht möglich.');
+    // Falls config.js nicht geladen wurde, geben wir leere Endpunkte zurück,
+    // damit init() kontrolliert in den lokalen Offline-Modus übergeht.
+    console.error('[FlowAuth] FLOW_CONFIG wurde nicht gefunden. Bitte prüfen, ob config.js vor auth-engine.js eingebunden ist.');
     return { SUPABASE_URL: null, SUPABASE_ANON_KEY: null };
   }
 
@@ -12383,15 +12446,14 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- storage.js --- */
 /**
- * ============================================================================
- * Noodle - Speicherabstraktion & Resilienz-Vault (storage.js)
- * ============================================================================
- * Stellt eine ausfallsichere Speicherschicht (`AppStorage`) bereit:
- * - Schneller synchroner Zugriff via localStorage
- * - Automatischer asynchroner IndexedDB-Sicherheitsspiegel (`IDB_VAULT`)
- * - Robuster Schutz gegen Safari/iOS Storage-Eviction
- * - Sichere JSON-Serialisierung mit Fallback-Garantie
- * ============================================================================
+ * @file storage.js
+ * @module StorageAbstraction
+ * @description
+ * Dual-Storage Resilienz-Vault (`AppStorage`):
+ * - Synchroner Primärzugriff über `localStorage` für verzögerungsfreies UI-Rendering
+ * - Asynchroner IndexedDB-Sicherheitsspiegel (`IDB_VAULT`) gegen Browser-Storage-Eviction (z. B. Safari ITP)
+ * - Automatische Wiederherstellung (`hydrateFromVault`) beim App-Start
+ * - Sichere JSON-Serialisierung und Quota-Überwachung
  */
 
 // 1. IndexedDB Vault (Asynchroner Sicherheitsspiegel gegen Safari/Mobile Eviction)
@@ -12598,27 +12660,23 @@ const AppStorage = {
     }
   },
 
-  // Resilienz-Prüfung bei App-Start: Stellt Daten wieder her, falls Safari/Android localStorage geleert hat oder Daten beschädigt sind
+  // Resilienz-Prüfung bei App-Start: Stellt Daten still im Hintergrund wieder her, falls Browser-Storage (z. B. Safari ITP) geleert wurde
   async initResilience() {
     try {
       if (typeof localStorage === 'undefined') return false;
       let hasValidData = false;
+      const primaryKey = (typeof window !== 'undefined' && window.STORE_KEY) || 'flowPlannerV3';
+      const rawPrimary = localStorage.getItem(primaryKey);
       const rawV3 = localStorage.getItem('flow_state_v3');
       const rawV2 = localStorage.getItem('flow_items_v2');
 
-      if (rawV3) {
+      const candidateRaw = rawPrimary || rawV3 || rawV2;
+      if (candidateRaw) {
         try {
-          const parsed = JSON.parse(rawV3);
-          if (parsed && typeof parsed === 'object' && (parsed.items || parsed.done || parsed.workItems)) {
+          const parsed = JSON.parse(candidateRaw);
+          if (parsed && typeof parsed === 'object') {
             hasValidData = true;
           }
-        } catch (parseErr) {
-          hasValidData = false;
-        }
-      } else if (rawV2) {
-        try {
-          const parsed = JSON.parse(rawV2);
-          if (parsed && typeof parsed === 'object') hasValidData = true;
         } catch (parseErr) {
           hasValidData = false;
         }
@@ -12627,7 +12685,7 @@ const AppStorage = {
       if (!hasValidData) {
         const idbKeys = await IDB_VAULT.getAllKeys();
         if (idbKeys && idbKeys.length > 0) {
-          console.log('[AppStorage] LocalStorage war leer oder beschädigt – stelle aus IndexedDB Vault wieder her...');
+          let restoredPrimary = false;
           for (const key of idbKeys) {
             const val = await IDB_VAULT.get(key);
             if (val !== null && val !== undefined) {
@@ -12636,10 +12694,15 @@ const AppStorage = {
               } else {
                 localStorage.setItem(key, JSON.stringify(val));
               }
+              if (key === primaryKey || key === 'flow_state_v3') {
+                restoredPrimary = true;
+              }
             }
           }
-          if (typeof window !== 'undefined' && typeof window.showToast === 'function') {
-            window.showToast('Daten erfolgreich aus sicherem Speicher wiederhergestellt! 🛡️');
+          if (restoredPrimary && typeof loadState === 'function' && typeof renderApp === 'function') {
+            state = loadState();
+            if (typeof window !== 'undefined') window.state = state;
+            renderApp();
           }
           return true;
         }
@@ -12733,16 +12796,15 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- state.js --- */
 /**
- * ============================================================================
- * Noodle - State Management & Datenpersistenz (state.js)
- * ============================================================================
- * Verwaltet den gesamten reaktiven Zustand der Applikation:
- * - Aufgaben-Listen (Personal & Work Workspace)
- * - Erledigte Aufgaben, Archiv & Wiederherstellung
- * - Historie & Undo-Stack (bis zu 20 Schritte)
- * - Schema-Versionierung & automatische Migrationen
- * - Fallback-Trimming bei QuotaExceeded-Fehlern
- * ============================================================================
+ * @file state.js
+ * @module StateManager
+ * @description
+ * Zentrales State-Management & Datenpersistenz:
+ * - Reaktive Aufgaben-Listen für getrennte Workspaces (Personal & Work)
+ * - Erledigte Aufgaben, Archiv, Tombstone-Tracking & Wiederherstellung
+ * - Transaktionaler History- & Undo-Stack (bis zu 20 Snapshots)
+ * - Schema-Versionierung, Daten-Sanitizing & automatische Migrationen
+ * - Automatische Speicherbereinigung bei `QuotaExceededError`
  */
 
 // Grundlegende Konfiguration & globale State-Deklarationen
@@ -14585,8 +14647,18 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- sync-engine.js --- */
-// sync-engine.js - Zuverlässige & automatische Synchronisations-Engine für Noodle
-// ============================================================================
+/**
+ * @file sync-engine.js
+ * @module SyncEngine
+ * @description
+ * Synchronisations- und Datenabgleich-Engine für den geräteübergreifenden Betrieb.
+ *
+ * Komponenten:
+ * - `MinimalQR`: Erzeugt SVG-QR-Codes für die direkte Geräte-Kopplung ohne Server-Zwischenspeicher.
+ * - `P2PDataCodec`: Komprimiert und Base64URL-kodiert Arbeitszustände für QR-Payloads.
+ * - `SyncEngine`: Verwaltet den Hintergrundabgleich mit Supabase, Tombstone-basierte
+ *   Konfliktauflösung (Last-Write-Wins auf Elementebene) sowie Offline-Warteschlangen.
+ */
 
 const MinimalQR = (function() {
   function generateQRCodeSVG(text, size = 220) {
@@ -15601,8 +15673,17 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- collab-engine.js --- */
-// collab-engine.js - Real-time Team Collaboration, Live DJ Music Hub, WebRTC Voice & Shared Dashboard Suite
-// ========================================================================================================
+/**
+ * @file collab-engine.js
+ * @module CollabEngine
+ * @description
+ * Echtzeit-Kollaborationsmodul für geteilte Team-Workspaces (`shared`).
+ *
+ * Unterstützt:
+ * - Gemeinsame Aufgaben-Boards über Supabase Realtime und lokale BroadcastChannels
+ * - Präsenz-Anzeige aktiver Teammitglieder und Echtzeit-Chat
+ * - Synchronisierte Live-DJ-Sessions und WebRTC-basierte Sprachräume (Mesh-Topologie)
+ */
 
 const CollabEngine = (function() {
   let activeRoom = 'team-space';
@@ -17285,7 +17366,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- utils-data.js --- */
-// Ausgelagert aus utils.js: TIERED_PRAISES Lobtexte-Datenbank
+/**
+ * @file utils-data.js
+ * @module UtilsData
+ * @description
+ * Mehrsprachige Textdatenbank (`TIERED_PRAISES`) für kontextabhängiges positives Feedback
+ * beim Abschließen von Aufgaben, gestaffelt nach Tagesfortschritt (Stufe 1 bis 4).
+ */
+
 const TIERED_PRAISES = {
   de: {
     // Stufe 1: Erster Einstieg (1 Aufgabe geschafft)
@@ -17525,6 +17613,16 @@ const TIERED_PRAISES = {
 
 
 /* --- utils.js --- */
+/**
+ * @file utils.js
+ * @module Utils
+ * @description
+ * Zentrale Hilfs- und Sicherheitsfunktionen der Anwendung:
+ * - XSS-Prävention (`escapeHtml`, `escapeAttr`, `sanitizeUrl`, `sanitizeIdentifier`)
+ * - Lokalisierungs-Helfer (`t`, `tr`)
+ * - Toast-Benachrichtigungen, Haptik-Feedback und Konfetti-Effekte
+ */
+
 // XSS-Schutz: Sichere HTML-Maskierung & URL-Sanitization für Benutzereingaben
 function escapeHtml(str) {
   if (str === null || str === undefined) return '';
@@ -18914,7 +19012,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- utils-2.js --- */
-// utils.js Teil 2/2: Praise-Animation, Mini-Kalender & Datum/Streak-Update
+/**
+ * @file utils-2.js
+ * @module UtilsCalendarAndStreaks
+ * @description
+ * Visuelle Belohnungsanimationen (`triggerPraiseAnimation`), interaktiver Mini-Kalender,
+ * Tageswechsel-/Wochen-Reset-Logik sowie Berechnung der täglichen Fokus-Streaks.
+ */
+
 function triggerPraiseAnimation(idx) {
   switch (idx) {
     case 0: // 1. Konfetti-Explosion
@@ -20016,9 +20121,15 @@ if (typeof document !== 'undefined') {
 
 /* --- audio-core.js --- */
 
-// =========================================================================
-// MULTI-TRACK AMBIENT MIXER & BINAURAL FOCUS FREQUENCIES ENGINE
-// =========================================================================
+/**
+ * @file audio-core.js
+ * @module AudioCore
+ * @description
+ * WebAudio-DSP-Kernmodul für den Mehrspur-Ambient-Mixer und die Erzeugung
+ * binauraler Fokus-Frequenzen (Alpha, Theta, Gamma).
+ * Verwaltet den globalen `AudioContext`, das Master-Gain-Routing, Rauschpuffer
+ * (Weiß/Rosa/Braun) sowie kombinierbare Klang-Presets (`SOUND_MIX_PRESETS`).
+ */
 
 var activeAmbientLayers = {}; // [type]: { source, gainNode, filter, volume }
 var activeBinauralBeat = null; // 'alpha', 'theta', 'gamma', or null
@@ -22068,7 +22179,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- audio-generators.js --- */
-// audio-generators.js: Startet die sanften Klangerzeuger & Melodie-Generatoren je nach Sound-Typ
+/**
+ * @file audio-generators.js
+ * @module AudioGenerators
+ * @description
+ * Dispatcher und Synthese-Initialisierung für prozedurale Fokus-Klangwelten.
+ * Startet je nach gewähltem Klangtyp (`type`) die zugehörigen Oszillator-,
+ * Rauschfilter- und Melodie-Scheduler auf dem zentralen WebAudio-Bus.
+ */
 
 function startAmbientGeneratorForType(type) {
   if (!audioCtx) return;
@@ -22459,7 +22577,14 @@ function startStreamWaterSound() {
 
 
 /* --- audio-scheduler-1.js --- */
-// audio-scheduler-1.js: Sound-Scheduler fuer sanfte Melodien, Piano, Lofi, Chimes, Klangschalen, Spieluhr & Akustik-Gitarre
+/**
+ * @file audio-scheduler-1.js
+ * @module AudioSchedulerHarmonic
+ * @description
+ * Generative Musik- und Harmonie-Scheduler auf Basis der Web Audio API:
+ * Pentatonisches Neo-Klassik-Piano, Lofi-7th-Tape-Akkorde, Zen-Windspiele,
+ * tibetische Klangschalen, Spieluhr-Melodien und gezupfte Akustikgitarre.
+ */
 
 // -------------------------------------------------------------
 // 1. SANFTES PIANO (PENTATONISCHE NEO-KLASSIK HARMONIEN)
@@ -23188,7 +23313,14 @@ function playStreamBubble() {
 
 
 /* --- audio-scheduler-2.js --- */
-// audio-scheduler-2.js: Sound-Scheduler fuer Train, Arcade, GuitarPad, Monastery
+/**
+ * @file audio-scheduler-2.js
+ * @module AudioSchedulerAtmospheric
+ * @description
+ * Prozedurale Klangsynthese für rhythmische und atmosphärische Umgebungen:
+ * Dampflokomotive (Schienenstoß & Dampf-Filter), Retro-Arcade-Arpeggios,
+ * Ambient-Gitarren-Pads und Kloster-Glocken.
+ */
 
 function scheduleTrainSteamChuffs() {
   if (currentSoundType !== 'train') return;
@@ -23396,7 +23528,14 @@ function playMonasteryOhmChant() {
 
 
 /* --- audio-scheduler-3.js --- */
-// audio-scheduler-3.js: Sound-Scheduler fuer Typewriter, Storm, Frogs + Stop/Volume-Funktionen
+/**
+ * @file audio-scheduler-3.js
+ * @module AudioSchedulerNatureAndControl
+ * @description
+ * Prozedurale Natur- und Akustik-Synthese (Schreibmaschinen-Anschläge, Gewittergrollen,
+ * Nacht-Grillen/Frösche) sowie zentrale Lebenszyklus-Funktionen zum Stoppen,
+ * Ausblenden und Regeln der Master-Lautstärke aller aktiven WebAudio-Generatoren.
+ */
 
 function scheduleTypewriterClicks() {
   if (currentSoundType !== 'keyboard') return;
@@ -24262,7 +24401,14 @@ window.startBeatLookaheadLoop = startBeatLookaheadLoop;
 
 
 /* --- audio-player.js --- */
-// ============================================================================
+/**
+ * @file audio-player.js
+ * @module AudioPlayerAndDjStudio
+ * @description
+ * Integrierter Musik-Player für lokale Audiodateien (`music/manifest.json`) sowie
+ * Dual-Deck-DJ-Mixer (Deck A & Deck B) mit 3-Band-EQ, Pitch/BPM-Anpassung,
+ * Hot-Cues, Beat-Looping, Crossfader und Mini-Audio-Player-Koordination.
+ */
 
 var djDecks = {
   a: {
@@ -26328,7 +26474,14 @@ window.handleMiniPlayerVolume = handleMiniPlayerVolume;
 
 
 /* --- timer-1.js --- */
-// timer.js Teil 1/3: State, Konstanten & Sound/Sprach-Hilfsfunktionen
+/**
+ * @file timer-1.js
+ * @module FocusTimerStateAndVoice
+ * @description
+ * Zustandshaltung, Konfigurations-Persistenz und Sprachausgabe-Steuerung (TTS)
+ * für den integrierten Fokus-Timer. Koordiniert motivierende Zwischenansagen,
+ * Zeitansagen sowie das automatische Audio-Ducking laufender Hintergrundklänge.
+ */
 
 var timerSeconds = 3 * 60; // Standardmäßig auf 3 Minuten initialisiert
 var timerInitialSeconds = 3 * 60;
@@ -28212,7 +28365,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- timer-2.js --- */
-// timer.js Teil 2/3: Klingel-/Chime-Logik & Ringing-Modal
+/**
+ * @file timer-2.js
+ * @module FocusTimerChimes
+ * @description
+ * Akustische Signalgeber und End-Modal-Steuerung für den Fokus-Timer.
+ * Synthetisiert acht variierende, sanfte Oszillator-Glockenspiele (`playMinuteChime`)
+ * sowie das Abschluss-Klingelsignal bei abgelaufener Fokus-Sitzung.
+ */
 
 var ringInterval = typeof ringInterval !== 'undefined' ? ringInterval : (typeof window !== 'undefined' ? window.ringInterval : null);
 var ringTimeout = typeof ringTimeout !== 'undefined' ? ringTimeout : (typeof window !== 'undefined' ? window.ringTimeout : null);
@@ -28606,7 +28766,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- timer-3.js --- */
-// timer.js Teil 3/3: Timer-Start/Stop/Pause & UI-Updates
+/**
+ * @file timer-3.js
+ * @module FocusTimerController
+ * @description
+ * Haupt-Steuerlogik des Fokus-Timers (`startTimer`, `pauseTimer`, `stopTimer`, `resetTimer`),
+ * Verknüpfung mit offenen Aufgaben des Kanban-Boards sowie Synchronisation
+ * der Header- und Popover-Anzeigen.
+ */
 var timerHasTriggeredZero = false;
 
 function isTimerSoundActive() {
@@ -30481,9 +30648,16 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- sport.js --- */
 
-// =========================================================================
-// MOVEMENT HISTORY & LOG TRACKING ENGINE
-// =========================================================================
+/**
+ * @file sport.js
+ * @module SportAndMovementEngine
+ * @description
+ * Modulares Bewegungs- und Home-Workout-System (`#helper-sport-modal`):
+ * - Vorgefertigte Kurzprogramme ohne Geräte (Presets)
+ * - Individueller Workout-Baukasten (Dauer, Fokus-Zone, Equipment, Nachbarschafts-Modus)
+ * - Durchsuchbares Übungs-Lexikon und 1–3-Löffel-Einzelimpulse
+ * - Interaktiver Intervall-Player mit Verlaufsspeicherung (`noodle_movement_history_v1`)
+ */
 const MOVEMENT_HISTORY_KEY = 'noodle_movement_history_v1';
 
 function getMovementHistory() {
@@ -32018,17 +32192,14 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-interaction-mode.js --- */
 /**
- * app-interaction-mode.js
- * Windows-Grade Multi-Window Studio & Smart Glances Engine
- * =====================================================================
- * - Vollständiges, einheitliches Fenster-Management für ALLE Tools, Menüs & Modals:
- *   [ — ] Minimieren in Taskleiste (mit Live-Thumbnail-Hover)
- *   [ ⛶ / 🗗 ] Maximieren / Wiederherstellen (auch per Header-Doppelklick)
- *   [ ✕ ] Schließen
- * - Dynamischer DOM-Observer: Verhindert doppelte / fehlende Buttons nach Tab-Wechseln.
- * - Paralleles Multitasking: Beliebig viele Tools laufen gleichzeitig nebeneinander.
- * - Windows-Taskleiste am unteren Bildschirmrand mit Live-Glance-Previews.
- * - Intelligente Hovers auf allen Header- & Menü-Icons beibehalten.
+ * @file app-interaction-mode.js
+ * @module WindowManager
+ * @description
+ * Multi-Window Studio & Smart-Glance Fenstermanagement:
+ * - Einheitliche Fenstersteuerung (Minimieren, Maximieren/Wiederherstellen, Schließen) für alle Modals & Tools
+ * - Dynamischer `MutationObserver` für konsistente Fenster-Header über Tab-Wechsel hinweg
+ * - Paralleles Multitasking mit frei positionierbaren Tool-Fenstern
+ * - Taskleiste am unteren Bildschirmrand mit Live-Glance-Vorschau
  */
 
 (function () {
@@ -32612,7 +32783,13 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- helper-core-data.js --- */
-// Ausgelagert aus helper-core.js: Datensammlungen fuer den 'Was nun?'-Helfer
+/**
+ * @file helper-core-data.js
+ * @module ExecutiveHelperData
+ * @description
+ * Statische Vorlagen und prozedurale Aufgaben-Zerlegungsmuster (`PROCEDURAL_BREAKDOWNS`)
+ * für den „Was nun?"-Entscheidungsassistenten und das Energie-Budget-System (Spoon-Theorie).
+ */
 const DEFAULT_SPOON_OPTIONS = [
   { name: "Arbeit / Job-Sitzung 🖥️", cost: 3 },
   { name: "Haushalt / Saugen / Kochen 🧹", cost: 2 },
@@ -32870,7 +33047,14 @@ const SUGGESTION_THEMES = [
 
 
 /* --- helper-core.js --- */
-// helper-core.js Teil 1/2: State-Variablen & Kernfunktionen (Modal, Sprachausgabe, Task-Auswahl)
+/**
+ * @file helper-core.js
+ * @module ExecutiveHelperCore
+ * @description
+ * Kernlogik des „Was nun?"-Entscheidungsassistenten (`#helper-pick-modal`):
+ * Energiebasierte Aufgaben-Empfehlung (Quick Win, Fokus, Deep Work),
+ * A-vs.-B-Münzwurf-Entscheider sowie Sprachausgabe-Unterstützung.
+ */
 let currentActiveTaskRef = null;
 let currentGeneratedSteps = [];
 let currentDopamineTask = null;
@@ -33420,7 +33604,14 @@ function pickRandomTask() {
 
 
 /* --- helper-core-2.js --- */
-// helper-core.js Teil 2/2: Eigene Schritte / Teilschritt-Zerlegung & Dopamin-Kick-Logik
+/**
+ * @file helper-core-2.js
+ * @module ExecutiveTaskBreakdown
+ * @description
+ * Verwaltet die Schritt-für-Schritt-Zerlegung (Micro-Steps) einzelner Aufgaben,
+ * benutzerdefinierte Teilschritte (`state.customSteps`) und die Fortschrittsanzeige
+ * innerhalb des Aufgaben-Assistenten.
+ */
 function getTaskStepsList(taskName) {
   if (!taskName) return [];
   if (state.customSteps && state.customSteps[taskName] && state.customSteps[taskName].length > 0) {
@@ -33730,8 +33921,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- helper-clarity.js --- */
-// helper-clarity.js: Intelligenter, mitfühlender Begleiter für Klarheit, Impulskontrolle & Selbstregulation
-// 100% Clientseitig, diskret, wissenschaftlich fundiert & tief menschlich aufgebaut.
+/**
+ * @file helper-clarity.js
+ * @module ClarityAndImpulseControl
+ * @description
+ * Modul zur Impulskontrolle, Selbstregulation und Reflexion (`#clarity-modal`).
+ * Bietet einen interaktiven 90-Sekunden-Urge-Surfing-Timer, Streak-Tracking,
+ * persönliche Motivationsgründe sowie ein lokal gespeichertes Reflexions-Journal.
+ */
 
 let clarityUrgeInterval = null;
 let clarityUrgeSecondsLeft = 90;
@@ -34367,6 +34564,15 @@ if (typeof globalThis !== 'undefined') {
 }
 
 /* --- helper-brainstorm.js --- */
+
+/**
+ * @file helper-brainstorm.js
+ * @module BrainstormingStudio
+ * @description
+ * Gedanken-Sammler und Brainstorming-Werkzeug mit Listen- und Themen-Cluster-Ansicht,
+ * Tag-Filterung, Favoriten-Markierung, direkter Umwandlung einzelner Ideen in
+ * Board-Aufgaben sowie Markdown-Mindmap-Export.
+ */
 
 let brainstormViewMode = 'list'; // 'list' | 'cluster'
 
@@ -35128,10 +35334,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- helper-ocr-scanner.js --- */
-// ============================================================================
-// NOODLE HANDWRITING OCR & DOCUMENT SCANNER (helper-ocr-scanner.js)
-// Exklusiv integriert im Brainstorming Studio und in der Notizenkarte
-// ============================================================================
+/**
+ * @file helper-ocr-scanner.js
+ * @module NoteScannerAndOCR
+ * @description
+ * Kamera- und Bild-Scanner für handschriftliche oder gedruckte Notizen.
+ * Unterstützt Bildvorverarbeitung (Dokumenten-Kontrastfilter, Schärfung, Rotation)
+ * sowie Texterkennung zur direkten Übernahme in Notizen, Brainstorming oder Aufgaben.
+ */
 
 let currentScannerContext = 'brainstorm'; // 'brainstorm' | 'notes' | 'note-detail'
 let currentScannerTargetId = null;
@@ -35848,7 +36058,14 @@ if (typeof module !== 'undefined' && module.exports) {
 
 
 /* --- helper-cleaning.js --- */
-// helper-cleaning.js: Interaktiver Wohnungs-Reset & Level-Putz-Guide für Noodle
+/**
+ * @file helper-cleaning.js
+ * @module CleaningCoach
+ * @description
+ * Geführter Aufräum- und Reinigungs-Assistent mit abgestuften Zeitprogrammen
+ * (15-Minuten-Blitz-Reset, 30-Minuten-Standard, 60-Minuten-Deep-Clean),
+ * interaktiver Checkliste und integrierter Timer-Steuerung.
+ */
 
 const CLEANING_LEVELS_DATA = {
   express: {
@@ -36295,10 +36512,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- helper-learning.js --- */
-// ============================================================================
-// NOODLE LEARNING HUB: DEEP LEARNING, FLASHCARDS & AI-QUIZ ENGINE
-// ============================================================================
-// 100% Serverless, Offline-First, Spaced Repetition (Leitner/SM-2), 3D Flashcards & Custom Decks
+/**
+ * @file helper-learning.js
+ * @module LearningHub
+ * @description
+ * Wissens- und Lernmodul (`#modal-learning-hub`) mit interaktiven 3D-Karteikarten,
+ * Spaced-Repetition-Algorithmus (Leitner / SM-2), kuratierten Wissenspaketen
+ * sowie Editor für eigene Lernkarten-Decks.
+ */
 
 (function() {
   'use strict';
@@ -37423,9 +37644,13 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-regulation.js --- */
 /**
- * NOODLE SUITE - PSYCHOLOGICAL REGULATION & INNER PEACE STUDIO (app-regulation.js)
- * Evidence-based psychological & somatic tools for acute anxiety, panic, overwhelm & nervous system regulation.
- * Rooted in Polyvagal Theory, Somatic Experiencing, DBT (TIPP), EMDR (Bilateral Pacing), and ACT (Cognitive Defusion).
+ * @file app-regulation.js
+ * @module RegulationStudio
+ * @description
+ * Evidenzbasierte Werkzeuge zur Stress-, Angst- und Nervensystem-Regulation:
+ * - Geführte Atem-Pacer (Physiologischer Seufzer, Box-Breathing, 4-7-8, Kohärenz-Atmung)
+ * - Sensorisches 5-4-3-2-1 Grounding und bilaterale Stimulation (EMDR-Pacing)
+ * - Somatische Übungen, kognitive Defusion (ACT) und beruhigende WebAudio-Frequenzgeneratoren
  */
 
 (function() {
@@ -38180,8 +38405,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-health.js --- */
-// app-health.js - Noodle Health, Prevention & Vitality Hub
-// 100% Client-Side, Zero-Tracking, Neuro-Friendly & Medically Sound
+/**
+ * @file app-health.js
+ * @module HealthAndPreventionHub
+ * @description
+ * Modul für Gesundheitsvorsorge, Medikamenten-Erinnerungen, Blutdruck-Protokollierung
+ * und Arzttermin-Vorbereitung. Alle Gesundheitsdaten verbleiben ausschließlich lokal
+ * im Browser des Nutzers (`localStorage` / `IndexedDB`).
+ */
 
 (function() {
   'use strict';
@@ -38815,8 +39046,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-humor.js --- */
-// app-humor.js - Noodle Humor Lab, Chaos FX Studio & Customizable Radical Idle Screensaver
-// 100% Client-Side, Web Audio Synthesizer, Radical App-Breaking FX, Ambient Screensavers
+/**
+ * @file app-humor.js
+ * @module HumorAndScreensaverLab
+ * @description
+ * Interaktives Pausen- und Auflockerungsmodul („Humor Lab"):
+ * Enthält Witze, prozedurale WebAudio-Soundeffekte, digitale Luftpolsterfolie,
+ * visuelle Canvas-Effekte sowie einen optionalen Idle-Bildschirmschoner.
+ */
 
 (function() {
   'use strict';
@@ -41927,7 +42164,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-shopping.js --- */
-// app-shopping.js: Umfassende Smart Shopping Suite mit Gängen, Discounter-Hub & Smart Deal-Radar
+/**
+ * @file app-shopping.js
+ * @module ShoppingAssistant
+ * @description
+ * Intelligente Einkaufslisten-Verwaltung mit automatischer Zuordnung zu
+ * Supermarkt-Abteilungen (`SHOPPING_DEPARTMENTS`), Mengen- und Notizerfassung,
+ * Verlauf häufig gekaufter Artikel sowie Markt-Übersicht.
+ */
 
 const SHOPPING_DEPARTMENTS = {
   produce: {
@@ -43403,9 +43647,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-cooking.js --- */
-// ============================================================================
-// NOODLE COOKING HUB & SMART RECIPE ASSISTANT
-// ============================================================================
+/**
+ * @file app-cooking.js
+ * @module CookingStudio
+ * @description
+ * Rezept-Verwaltung, Vorratskammer-Abgleich (`pantryItems`) und interaktiver
+ * Schritt-für-Schritt-Kochmodus. Ermöglicht das direkte Übertragen fehlender
+ * Zutaten auf die Einkaufsliste (`app-shopping.js`).
+ */
 
 const DEFAULT_CURATED_RECIPES = [
   {
@@ -44619,7 +44868,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-alarm.js --- */
-// app-alarm.js: Wecker & Reminder (Zuverlässige minütliche Auslösung, laut & dauerhaft)
+/**
+ * @file app-alarm.js
+ * @module AlarmAndReminderEngine
+ * @description
+ * Wecker- und Erinnerungs-System mit minütlicher Hintergrundprüfung,
+ * vier synthetisierten Wecktönen (`digital`, `bell`, `radar`, `retro`),
+ * Vibrationsunterstützung auf Mobilgeräten und Snooze-Steuerung.
+ */
 let alarmState = { alarms: [], reminders: [], settings: {} };
 
 const DEFAULT_ALARM_SETTINGS = {
@@ -45591,16 +45847,15 @@ if (typeof globalThis !== 'undefined') {
 /* --- app-tasks.js --- */
 
 /**
- * ============================================================================
- * Noodle - Aufgaben- & Board-Management (app-tasks.js)
- * ============================================================================
- * Dieses Modul steuert die Kernlogik des Kanban-Boards:
- * - Rendering der Spalten und Aufgabenkarten (Personal & Work Workspace)
+ * @file app-tasks.js
+ * @module KanbanBoardController
+ * @description
+ * Kernlogik und Rendering-Engine des Kanban-Boards:
+ * - Reaktives Rendering der Spalten und Aufgabenkarten (Personal & Work Workspace)
  * - Aufgaben-Lebenszyklus: Erstellen, Inline-Editieren, Abhaken, Löschen & Wiederherstellen
- * - Drag & Drop Sortierung (Spalten und Karten)
- * - Kontextmenü für Fokus-Timer, Task-Steps und Farbmarkierungen
- * - Mobile Touch-Navigation & Kalender-Terminverwaltung
- * ============================================================================
+ * - Drag & Drop Sortierung für Spalten und Aufgabenkarten (Desktop & Touch)
+ * - Kontextmenü für Fokus-Timer, Micro-Steps und visuelle Priorisierung
+ * - Integrierte Kalender-Terminverwaltung und Erinnerungs-Trigger
  */
 
 let inlineEditingTaskInfo = null;
@@ -49233,6 +49488,15 @@ if (typeof globalThis !== 'undefined') {
  
 
 /* --- app-reports.js --- */
+/**
+ * @file app-reports.js
+ * @module ReportsAndPanelPositioning
+ * @description
+ * Viewport-abhängige Positionierung von Popover-Panels (`adjustPanelPosition`)
+ * sowie Produktivitäts-Auswertungen, Aktivitäts-Heatmaps, Wochenbilanzen und
+ * hochauflösender Bildexport (`exportReportAsImage` via `html2canvas`).
+ */
+
 function adjustPanelPosition(el, panelName) {
   if (!el || typeof window === 'undefined' || typeof document === 'undefined') return;
 
@@ -50389,7 +50653,14 @@ if (typeof globalThis !== 'undefined') globalThis.openCookingModal = openCooking
 
 
 /* --- app-weather-news.js --- */
-// app-weather-news.js: Lokales Wetter (Open-Meteo API) & Kuratiertes Nachrichten-Briefing
+/**
+ * @file app-weather-news.js
+ * @module WeatherWidgetEngine
+ * @description
+ * Lokales Wetter-Modul auf Basis der datenschutzfreundlichen Open-Meteo API.
+ * Unterstützt Standortsuche, Favoriten-Städte (`flow_weather_pinned_cities`),
+ * 7-Tage-Vorhersage sowie automatische Offline-Fallback-Werte.
+ */
 
 // ============================================================================
 // 1. LOKALES WETTER (WEATHER ENGINE)
@@ -51632,18 +51903,31 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-radio-news.js --- */
-// app-radio-news.js: High-End Live Radio Stations, Minimal Calming News Lounge & Feature Guide
-// 100% Serverless, Zero-PHP, GitHub Pages compatible, Anti-Sensory-Overload & Neurodivergent-optimized
+/**
+ * @file app-radio-news.js
+ * @module RadioNewsEngine
+ * @description
+ * Verwaltet den integrierten Live-Radio-Player, den mehrsprachigen Nachrichten-Aggregator
+ * sowie die Subheader-Ticker-Leiste (Nachrichten & interaktive Funktionshinweise).
+ *
+ * Kernfunktionen:
+ * 1. Dreistufige Radio-Stream-Resilienz (Primärstream -> HTTPS-Mirror-Failover ->
+ *    dynamischer Radio-Browser-Lookup -> prozeduraler WebAudio-Synthese-Fallback).
+ * 2. 5-Dimensionen-Nachrichtenfilter (Sprache, Region, Feed-Modus, Kategorie, Medium)
+ *    mit kuratierter Offline-Datenbank und Live-RSS-Synchronisation.
+ * 3. Synchronisierte Ticker-Steuerung (Ein/Aus-Schalter, Vorlesefunktion via Web Speech API
+ *    mit automatischem Audio-Ducking).
+ */
 
 (function() {
   'use strict';
 
   // ============================================================================
-  // 1. DATA: RADIO STATIONS, LANGUAGES, REGIONS, FEED MODES & SOURCES
+  // 1. SENDERVERZEICHNIS, SPRACHEN, REGIONEN, FEED-MODI & MEDIENQUELLEN
   // ============================================================================
 
   const RADIO_STATIONS = [
-    // 🌌 1. Drone Zone & Pure Ambient (Immer an erster Stelle wie gewünscht)
+    // 🌌 Fokus- & Ambient-Streams (Standard-Priorität für konzentriertes Arbeiten)
     { id: 'dronezone', name: 'SomaFM Drone Zone', searchQuery: 'Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes (Empfehlung #1)', stream: 'https://ice1.somafm.com/dronezone-128-mp3', streams: ['https://ice1.somafm.com/dronezone-128-mp3', 'https://ice2.somafm.com/dronezone-128-mp3', 'https://ice4.somafm.com/dronezone-128-mp3', 'https://ice6.somafm.com/dronezone-128-mp3'], logo: '🧘' },
     { id: 'spacestation', name: 'SomaFM Space Station', searchQuery: 'Space Station Soma', category: 'focus', country: 'global', flag: '🚀', desc: 'Mid- & Downtempo Space Ambient & Electronica', stream: 'https://ice1.somafm.com/spacestation-128-mp3', streams: ['https://ice1.somafm.com/spacestation-128-mp3', 'https://ice2.somafm.com/spacestation-128-mp3', 'https://ice4.somafm.com/spacestation-128-mp3', 'https://ice6.somafm.com/spacestation-128-mp3'], logo: '🛰️' },
     { id: 'deepspaceone', name: 'SomaFM Deep Space One', searchQuery: 'Deep Space One', category: 'focus', country: 'global', flag: '🌠', desc: 'Deep Ambient Electronic & Experimental Focus', stream: 'https://ice1.somafm.com/deepspaceone-128-mp3', streams: ['https://ice1.somafm.com/deepspaceone-128-mp3', 'https://ice2.somafm.com/deepspaceone-128-mp3', 'https://ice4.somafm.com/deepspaceone-128-mp3', 'https://ice6.somafm.com/deepspaceone-128-mp3'], logo: '🌌' },
@@ -55127,11 +55411,10 @@ if (typeof globalThis !== 'undefined') {
   }
 
   // ============================================================================
-  // 8. INSTRUCTION TICKER ENGINE (LINKS NACH KARTEN LEEREN - 3:1 RHYTHMUS)
-  // Jede 3 auf dem Newsticker gezeigten Meldungen wechselnd 1 Anleitung links zeigen.
-  // Keine willkürlichen Deko-Icons - nur repräsentative, klickbare Aktions-Icons,
-  // mit denen der Nutzer genau das ausführen kann, was beschrieben wird.
-  // Während jede solche Anleitung gezeigt wird, ist der Newsticker rechts ausgeblendet.
+  // 8. INTERAKTIVE FUNKTIONSHINWEISE (3:1 ROTATION MIT DEM NEWSTICKER)
+  // Blendet nach jeweils drei Nachrichtenmeldungen einen interaktiven Hinweis
+  // zur Bedienung der Anwendung auf der linken Seite der Subheader-Leiste ein.
+  // Während ein Funktionshinweis sichtbar ist, pausiert der rechte Newsticker.
   // ============================================================================
 
   function setTickerSuppressed(suppressed) {
@@ -56043,7 +56326,13 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-dice.js --- */
-// app-dice.js: Dezent-elegantes Aufgaben-Glücksspiel (Glückswürfel)
+/**
+ * @file app-dice.js
+ * @module TaskLuckyDice
+ * @description
+ * Spielerische Zufallsauswahl für offene Aufgaben innerhalb einer Board-Spalte
+ * („Glückswürfel") zur Überwindung von Entscheidungsblockaden.
+ */
 
 let isDiceRolling = false;
 let currentDiceColumn = null;
@@ -56432,7 +56721,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-command-palette.js --- */
-// app-command-palette.js: Globales Command Menu (Strg+K / Cmd+K) für blitzschnelle Navigation & Power-User-Aktionen
+/**
+ * @file app-command-palette.js
+ * @module CommandPalette
+ * @description
+ * Globales Befehlsmenü (`Strg+K` / `Cmd+K`) für die tastaturgesteuerte Suche
+ * und direkte Ausführung sämtlicher Anwendungsaktionen, Werkzeugwechsel,
+ * Timer-Steuerungen und Workspace-Umschaltungen.
+ */
 
 let commandPaletteSelectedIndex = 0;
 let commandPaletteFilteredItems = [];
@@ -56999,8 +57295,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-routine-presets.js --- */
-// app-routine-presets.js - Interaktiver Routine-Preset & Standard-Aufgaben Manager
-// ============================================================================
+/**
+ * @file app-routine-presets.js
+ * @module RoutinePresetsManager
+ * @description
+ * Vorlagen- und Standardaufgaben-Manager (`#modal-routine-presets`).
+ * Ermöglicht das Laden kuratierter Tages-/Wochenroutinen sowie das Bearbeiten
+ * und Speichern eigener wiederkehrender Standardaufgaben (`flow_custom_default_tasks`).
+ */
 
 let currentRoutinePresetTab = 'presets'; // 'presets' | 'custom' | 'suggestions'
 
@@ -57535,20 +57837,14 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-feature-bridge.js --- */
 /**
- * ============================================================================
- * NOODLE FEATURE BRIDGE & CROSS-TOOL INTEGRATION HUB (app-feature-bridge.js)
- * ============================================================================
- * Tiefgreifende Verknüpfung und Interlink-Pipeline aller Kern-Werkzeuge:
- * 1. Smart Action Badges & Task Tool Links (Timer, Rezepte, Einkaufsliste, Soundscapes, etc.)
- * 2. Universal Inline @-Mention & Tag Parser
- * 3. Kontextmenü-Erweiterung: "🔗 Tool verknüpfen..."
- * 4. 1-Klick Cross-Pipeline Bridges:
- *    - Koch-Studio ➔ Einkaufsliste & Kanban-Board
- *    - OCR Scanner ➔ Aufgaben, Einkaufsliste, Flashcards & Brainstorming
- *    - Brainstorming ➔ Aufgaben & Micro-Steps
- *    - Clarity & Atemübung ➔ Direkter Micro-Focus Arbeitsstart
- *    - Lernkarten / Flashcards ➔ Pomodoro Study Sprint
- * ============================================================================
+ * @file app-feature-bridge.js
+ * @module FeatureBridge
+ * @description
+ * Modulübergreifende Integrations-Pipeline & Smart-Action-Verknüpfung:
+ * - Smart Action Badges & Aufgaben-Tool-Links (Timer, Rezepte, Einkaufsliste, Soundscapes)
+ * - Universeller Inline-Parser für `@`-Mentions und kontextsensitive Schlagworte
+ * - Kontextmenü-Integration zur direkten Werkzeugverknüpfung an Aufgabenkarten
+ * - 1-Klick-Pipelines zwischen Koch-Studio, OCR-Scanner, Brainstorming, Lernkarten und Kanban-Board
  */
 
 (function(global) {
@@ -58305,31 +58601,14 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-multitasking-hub.js --- */
 /**
- * ============================================================================
- * NOODLE MULTITASKING & SNAP-LAYOUT ENGINE (app-multitasking-hub.js)
- * ============================================================================
- * Umfassendes Multitasking für Desktop & Mobilgeräte:
- * 
- * 1. DESKTOP WINDOWS-11 SNAP LAYOUTS:
- *    - Hover auf Maximieren-Button [⛶] öffnet Windows-11 Snap Layout Picker
- *    - 🌓 50:50 Split (Links / Rechts)
- *    - 🔲 65:35 Fokus-Split (Großes Arbeitsboard + Schlanker Begleiter)
- *    - ⊞ 4-Quadranten Grid (25% pro Ecke für maximale Übersicht)
- *    - Kanten-Snapping per Drag & Drop
- * 
- * 2. MOBILE DYNAMIC ISLAND & FLOATING MULTITASKING PILL:
- *    - Schwebende, hochmoderne Dynamic Island am Bildschirmrand
- *    - Live-Status für Timer, Soundscape-Player, Radio & Koch-Schritte
- *    - Tap öffnet das Mobile Multitasking Cockpit (Schnellsteuerung & App-Switcher)
- * 
- * 3. MOBILE DUAL-SCREEN / SPLIT-VIEW (OBEN / UNTEN):
- *    - 2 Tools gleichzeitig vertikal gestackt bedienen
- *    - Einstellbarer Split-Divider mit Touch-Gesten
- * 
- * 4. KEYBOARD & GESTEN-NAVIGATION:
- *    - Alt+Tab / Cmd+Tab Multitasking Switcher
- *    - Win+Links / Win+Rechts Schnell-Snapping
- * ============================================================================
+ * @file app-multitasking-hub.js
+ * @module MultitaskingHub
+ * @description
+ * Desktop Snap-Layouts & Mobile Multitasking-Engine:
+ * - Desktop Snap-Layout-Picker (50:50 Split, 65:35 Fokus-Split, 4-Quadranten-Grid, Drag-to-Edge-Snapping)
+ * - Mobile Dynamic Island mit Echtzeit-Status für aktive Timer, Soundscapes, Radio und Koch-Schritte
+ * - Vertikaler Dual-Screen / Split-View-Modus für mobile Endgeräte mit verstellbarem Touch-Divider
+ * - Tastatur-Schnellnavigation (`Alt+Tab` / `Win+Pfeiltasten`)
  */
 
 (function(global) {
@@ -58815,17 +59094,13 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-installation-hub.js --- */
 /**
- * app-installation-hub.js
- * Cross-Platform Local App Installation, Setup Wizard & Offline Cockpit for Noodle Studio
- * ======================================================================================
- * Unterstützt:
- *  - Windows (🪟 PWA, Edge/Chrome App-Modus, Desktop-Launcher, Autostart-Guide)
- *  - Android (🤖 PWA 1-Click Install, Vollbild ohne Adressleiste, Offline-Ready)
- *  - macOS (🍎 Safari Dock-App, Chrome/Brave Launchpad & Spotlight-Integration)
- *  - Linux (🐧 PWA, .desktop-Launcher für GNOME/KDE/XFCE/Wayland)
- *  - iOS / iPadOS (📱 Safari "Zum Home-Bildschirm")
- *  - Setup-Wizard: Routinen-Auswahl, Sync-Kopplung, Themes, Sound, Offline-Tresor
- *  - Portable Offline-Standalone-Paket Download (100% offline ohne Internet)
+ * @file app-installation-hub.js
+ * @module InstallationHub
+ * @description
+ * Plattformübergreifender PWA-Installationsassistent & Offline-Cockpit:
+ * - Automatische Betriebssystem- und Browser-Erkennung (Windows, macOS, Linux, Android, iOS/iPadOS)
+ * - Native `beforeinstallprompt`-Integration für 1-Klick-PWA-Installation
+ * - Interaktiver Setup-Assistent für Routinen, Sync-Kopplung, Themes und lokalen Backup-Tresor
  */
 
 (function () {
@@ -59283,8 +59558,14 @@ StartupWMClass=noodle-studio
 
 
 /* --- onboarding.js --- */
-// onboarding.js - Interaktive Erstnutzer-Tour & Onboarding für Noodle
-// ============================================================================
+/**
+ * @file onboarding.js
+ * @module OnboardingTour
+ * @description
+ * Vierstufige interaktive Einführungstour für neue Nutzerinnen und Nutzer.
+ * Erklärt das modulare Kanban-Board, die integrierten Fokus-/Audio-Werkzeuge
+ * sowie die lokale Offline-Speicherung.
+ */
 
 let onboardingCurrentStep = 0;
 
@@ -59580,17 +59861,13 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- monetization.js --- */
 /**
- * ============================================================================
- * Noodle - Monetarisierungs- & Abo-Struktur (monetization.js)
- * ============================================================================
- * HINWEIS ZUM LAUNCH-STATUS:
- * Dieses Modul bereitet die Strukturen für spätere Pro-Funktionen und Upgrades
- * vor. Zum Launch ist FLOW_CONFIG.MONETIZATION_ENABLED = false und ADS_ENABLED = false.
- * 
- * Es wird KEIN Werbe- oder Zahlungs-SDK geladen und KEIN Checkout ausgelöst.
- * Klicks auf "Pro"-Teaser rufen ausschließlich handleUpgradeClick() auf,
- * welche einen freundlichen "Bald verfügbar"-Toast anzeigt.
- * ============================================================================
+ * @file monetization.js
+ * @module MonetizationFeatureGate
+ * @description
+ * Feature-Flag-Steuerung für optionale Pro-Erweiterungen:
+ * - Standardmäßig deaktiviert (`FLOW_CONFIG.MONETIZATION_ENABLED = false`, `ADS_ENABLED = false`)
+ * - Lädt keine externen Zahlungs- oder Werbe-SDKs
+ * - Stellt `handleUpgradeClick()` bereit, um bei deaktivierter Monetarisierung einen dezenten Hinweis anzuzeigen
  */
 
 function handleUpgradeClick(featureName) {
@@ -59646,8 +59923,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-feedback.js --- */
-// app-feedback.js - Intuitives & hochwertiges Feedback- & Einführungssystem
-// ============================================================================
+/**
+ * @file app-feedback.js
+ * @module FeedbackAndTourHub
+ * @description
+ * Integriertes Feedback- und Einführungsmodul.
+ * Ermöglicht das Einreichen von Verbesserungsvorschlägen, Fehlermeldungen
+ * oder Rückmeldungen sowie den jederzeitigen Neustart der Einführungstour.
+ */
 
 let currentFeedbackCategories = new Set(['idea']);
 let isSubmittingFeedback = false;
@@ -60153,8 +60436,14 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
 
 /* --- app-tooltip.js --- */
-// app-tooltip.js: Ultraschnelle, ästhetische & farblich abgestimmte Hovertexte (Tooltips)
-// ==========================================================================
+/**
+ * @file app-tooltip.js
+ * @module TooltipSystem
+ * @description
+ * Leichtgewichtiges, viewport-sicheres Tooltip-System.
+ * Positioniert Kurzbeschreibungen (`data-noodle-tooltip` / `title`) flackerfrei
+ * relativ zum Zielelement und verhindert Überlappungen am Bildschirmrand.
+ */
 
 (function() {
   'use strict';
@@ -60420,8 +60709,14 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
 
 /* --- app-social.js --- */
-// app-social.js: High-End Social Media Hub, Creator Lounge & Visual Card Studio for Noodle Studio
-// 100% Client-Side, Zero Tracking, GDPR/DSGVO compliant, Canvas-powered Social Graphic Generator & Multi-Platform Companion
+/**
+ * @file app-social.js
+ * @module SocialCreatorHub
+ * @description
+ * Social-Media-Begleitmodul und visueller Share-Card-Generator (HTML5 Canvas).
+ * Ermöglicht das Erstellen und Exportieren von Fortschritts- oder Zitatgrafiken
+ * sowie das Verwalten von Entwürfen für gängige Plattformen ohne Drittanbieter-SDKs.
+ */
 
 (function() {
   'use strict';
@@ -61148,17 +61443,15 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
 /* --- app-core.js --- */
 /**
- * ============================================================================
- * Noodle - App Core & Orchestrierung (app-core.js)
- * ============================================================================
- * Zentrale Steuerungseinheit der Benutzeroberfläche:
- * - Globale Fehlerbehandlung (Error Boundaries)
- * - Workspace-Verwaltung (Personal / Work Wechsel)
- * - Theme- & Farb-Engine (12 Themes, sanfte Übergänge, Minimalist-Modus)
- * - Mobile Navigation (5-Tab Leiste, Bottom-Sheets, Swipe-Gesten)
- * - Fokus- & Zen-Modus Orchestrierung
- * - Lokalisierung & dynamische UI-Übersetzungen
- * ============================================================================
+ * @file app-core.js
+ * @module AppCore
+ * @description
+ * Zentrale Anwendungs-Orchestrierung & Lifecycle-Steuerung:
+ * - Globale Fehlerbehandlung (Error Boundaries für Laufzeit- und Promise-Fehler)
+ * - Workspace-Isolation und nahtloser Kontextwechsel (Personal / Work)
+ * - Theme- & Farb-Engine (12 kuratierte Themes, Dark/Light-Adaption, Minimalist-Modus)
+ * - Mobile Navigation (5-Tab-Architektur, Bottom-Sheets, Touch-Swipe-Gesten)
+ * - Fokus- & Zen-Modus-Orchestrierung sowie mehrsprachige UI-Lokalisierung
  */
 
 let currentZenTaskInfo = null;
@@ -61930,7 +62223,7 @@ async function clearAllApplicationData() {
 window.clearAllApplicationData = clearAllApplicationData;
 
 document.addEventListener('DOMContentLoaded', () => {
-  setTheme(currentTheme); setLanguage(currentLang);
+  setTheme(currentTheme, true); setLanguage(currentLang, true);
   const iconEl = document.getElementById('zen-btn-icon'); const textEl = document.getElementById('minimal-mode-btn-text');
   const zenView = document.getElementById('zen-chill-view');
   const mainEl = document.querySelector('main');
@@ -62033,7 +62326,7 @@ const THEME_ALIASES = {
   'architect': 'ocean'
 };
 
-function setTheme(theme) {
+function setTheme(theme, skipRender = false) {
   if (THEME_ALIASES[theme]) theme = THEME_ALIASES[theme];
   if (!ALL_VALID_THEMES.includes(theme)) theme = 'code-night';
   if (typeof window !== 'undefined') window.currentTheme = theme;
@@ -62060,7 +62353,7 @@ function setTheme(theme) {
       }
     });
   }
-  if (typeof renderApp === 'function') {
+  if (!skipRender && typeof renderApp === 'function') {
     try { renderApp(); } catch(e) {}
   }
 }
@@ -62097,13 +62390,15 @@ function setThemeSlow(theme) {
   }, 2600);
 }
 
-function setLanguage(lang) {
+function setLanguage(lang, skipRender = false) {
   if (!lang || !TRANSLATIONS[lang] || !DEFAULT_TASKS_BY_LANG[lang]) { lang = 'en'; }
   const oldLang = currentLang; currentLang = lang; localStorage.setItem('flowPlannerLanguage', lang);
   document.documentElement.lang = lang; translateUserTasks(oldLang, lang);
   translateUI(); const textEl = document.getElementById('minimal-mode-btn-text');
   if (textEl) { textEl.innerText = isMinimalist ? t('standard_mode') : t('minimal_mode'); }
-  updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
+  if (!skipRender) {
+    updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
+  }
   // 1. Localize News Language independently from Region
   if (typeof RadioNewsEngine !== 'undefined') {
     if (typeof RadioNewsEngine.syncAppLanguage === 'function') {
@@ -62124,7 +62419,9 @@ function setLanguage(lang) {
     window.updateWeatherDisplay();
   }
 
-  renderLucideIcons();
+  if (!skipRender) {
+    renderLucideIcons();
+  }
 }
 
 function translateUI() {

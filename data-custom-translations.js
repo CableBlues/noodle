@@ -1,4 +1,10 @@
-// data-custom-translations.js: Synchronized custom translations
+/**
+ * @file data-custom-translations.js
+ * @module DataCustomTranslations
+ * @description
+ * Erweiterte Lokalisierungsschlüssel für Fachmodule (Workout-Baukasten, Entscheidungs-Assistent,
+ * Rezept-Studio, Einkaufs-Abteilungen und Einstellungen) in allen sechs unterstützten Sprachen.
+ */
 if (typeof window.TRANSLATIONS === 'undefined') { window.TRANSLATIONS = {}; }
 
 const customTranslations = {

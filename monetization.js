@@ -1,15 +1,11 @@
 /**
- * ============================================================================
- * Noodle - Monetarisierungs- & Abo-Struktur (monetization.js)
- * ============================================================================
- * HINWEIS ZUM LAUNCH-STATUS:
- * Dieses Modul bereitet die Strukturen für spätere Pro-Funktionen und Upgrades
- * vor. Zum Launch ist FLOW_CONFIG.MONETIZATION_ENABLED = false und ADS_ENABLED = false.
- * 
- * Es wird KEIN Werbe- oder Zahlungs-SDK geladen und KEIN Checkout ausgelöst.
- * Klicks auf "Pro"-Teaser rufen ausschließlich handleUpgradeClick() auf,
- * welche einen freundlichen "Bald verfügbar"-Toast anzeigt.
- * ============================================================================
+ * @file monetization.js
+ * @module MonetizationFeatureGate
+ * @description
+ * Feature-Flag-Steuerung für optionale Pro-Erweiterungen:
+ * - Standardmäßig deaktiviert (`FLOW_CONFIG.MONETIZATION_ENABLED = false`, `ADS_ENABLED = false`)
+ * - Lädt keine externen Zahlungs- oder Werbe-SDKs
+ * - Stellt `handleUpgradeClick()` bereit, um bei deaktivierter Monetarisierung einen dezenten Hinweis anzuzeigen
  */
 
 function handleUpgradeClick(featureName) {

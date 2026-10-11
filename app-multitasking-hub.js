@@ -1,29 +1,12 @@
 /**
- * ============================================================================
- * NOODLE MULTITASKING & SNAP-LAYOUT ENGINE (app-multitasking-hub.js)
- * ============================================================================
- * Umfassendes Multitasking für Desktop & Mobilgeräte:
- * 
- * 1. DESKTOP WINDOWS-11 SNAP LAYOUTS:
- *    - Hover auf Maximieren-Button [⛶] öffnet Windows-11 Snap Layout Picker
- *    - 🌓 50:50 Split (Links / Rechts)
- *    - 🔲 65:35 Fokus-Split (Großes Arbeitsboard + Schlanker Begleiter)
- *    - ⊞ 4-Quadranten Grid (25% pro Ecke für maximale Übersicht)
- *    - Kanten-Snapping per Drag & Drop
- * 
- * 2. MOBILE DYNAMIC ISLAND & FLOATING MULTITASKING PILL:
- *    - Schwebende, hochmoderne Dynamic Island am Bildschirmrand
- *    - Live-Status für Timer, Soundscape-Player, Radio & Koch-Schritte
- *    - Tap öffnet das Mobile Multitasking Cockpit (Schnellsteuerung & App-Switcher)
- * 
- * 3. MOBILE DUAL-SCREEN / SPLIT-VIEW (OBEN / UNTEN):
- *    - 2 Tools gleichzeitig vertikal gestackt bedienen
- *    - Einstellbarer Split-Divider mit Touch-Gesten
- * 
- * 4. KEYBOARD & GESTEN-NAVIGATION:
- *    - Alt+Tab / Cmd+Tab Multitasking Switcher
- *    - Win+Links / Win+Rechts Schnell-Snapping
- * ============================================================================
+ * @file app-multitasking-hub.js
+ * @module MultitaskingHub
+ * @description
+ * Desktop Snap-Layouts & Mobile Multitasking-Engine:
+ * - Desktop Snap-Layout-Picker (50:50 Split, 65:35 Fokus-Split, 4-Quadranten-Grid, Drag-to-Edge-Snapping)
+ * - Mobile Dynamic Island mit Echtzeit-Status für aktive Timer, Soundscapes, Radio und Koch-Schritte
+ * - Vertikaler Dual-Screen / Split-View-Modus für mobile Endgeräte mit verstellbarem Touch-Divider
+ * - Tastatur-Schnellnavigation (`Alt+Tab` / `Win+Pfeiltasten`)
  */
 
 (function(global) {

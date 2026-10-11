@@ -1,15 +1,13 @@
 /**
- * ============================================================================
- * Noodle - App Core & Orchestrierung (app-core.js)
- * ============================================================================
- * Zentrale Steuerungseinheit der Benutzeroberfläche:
- * - Globale Fehlerbehandlung (Error Boundaries)
- * - Workspace-Verwaltung (Personal / Work Wechsel)
- * - Theme- & Farb-Engine (12 Themes, sanfte Übergänge, Minimalist-Modus)
- * - Mobile Navigation (5-Tab Leiste, Bottom-Sheets, Swipe-Gesten)
- * - Fokus- & Zen-Modus Orchestrierung
- * - Lokalisierung & dynamische UI-Übersetzungen
- * ============================================================================
+ * @file app-core.js
+ * @module AppCore
+ * @description
+ * Zentrale Anwendungs-Orchestrierung & Lifecycle-Steuerung:
+ * - Globale Fehlerbehandlung (Error Boundaries für Laufzeit- und Promise-Fehler)
+ * - Workspace-Isolation und nahtloser Kontextwechsel (Personal / Work)
+ * - Theme- & Farb-Engine (12 kuratierte Themes, Dark/Light-Adaption, Minimalist-Modus)
+ * - Mobile Navigation (5-Tab-Architektur, Bottom-Sheets, Touch-Swipe-Gesten)
+ * - Fokus- & Zen-Modus-Orchestrierung sowie mehrsprachige UI-Lokalisierung
  */
 
 let currentZenTaskInfo = null;
@@ -781,7 +779,7 @@ async function clearAllApplicationData() {
 window.clearAllApplicationData = clearAllApplicationData;
 
 document.addEventListener('DOMContentLoaded', () => {
-  setTheme(currentTheme); setLanguage(currentLang);
+  setTheme(currentTheme, true); setLanguage(currentLang, true);
   const iconEl = document.getElementById('zen-btn-icon'); const textEl = document.getElementById('minimal-mode-btn-text');
   const zenView = document.getElementById('zen-chill-view');
   const mainEl = document.querySelector('main');
@@ -884,7 +882,7 @@ const THEME_ALIASES = {
   'architect': 'ocean'
 };
 
-function setTheme(theme) {
+function setTheme(theme, skipRender = false) {
   if (THEME_ALIASES[theme]) theme = THEME_ALIASES[theme];
   if (!ALL_VALID_THEMES.includes(theme)) theme = 'code-night';
   if (typeof window !== 'undefined') window.currentTheme = theme;
@@ -911,7 +909,7 @@ function setTheme(theme) {
       }
     });
   }
-  if (typeof renderApp === 'function') {
+  if (!skipRender && typeof renderApp === 'function') {
     try { renderApp(); } catch(e) {}
   }
 }
@@ -948,13 +946,15 @@ function setThemeSlow(theme) {
   }, 2600);
 }
 
-function setLanguage(lang) {
+function setLanguage(lang, skipRender = false) {
   if (!lang || !TRANSLATIONS[lang] || !DEFAULT_TASKS_BY_LANG[lang]) { lang = 'en'; }
   const oldLang = currentLang; currentLang = lang; localStorage.setItem('flowPlannerLanguage', lang);
   document.documentElement.lang = lang; translateUserTasks(oldLang, lang);
   translateUI(); const textEl = document.getElementById('minimal-mode-btn-text');
   if (textEl) { textEl.innerText = isMinimalist ? t('standard_mode') : t('minimal_mode'); }
-  updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
+  if (!skipRender) {
+    updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
+  }
   // 1. Localize News Language independently from Region
   if (typeof RadioNewsEngine !== 'undefined') {
     if (typeof RadioNewsEngine.syncAppLanguage === 'function') {
@@ -975,7 +975,9 @@ function setLanguage(lang) {
     window.updateWeatherDisplay();
   }
 
-  renderLucideIcons();
+  if (!skipRender) {
+    renderLucideIcons();
+  }
 }
 
 function translateUI() {

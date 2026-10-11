@@ -1,4 +1,10 @@
-// data-tasks-steps-3.js: Hochwertige, professionelle & verständliche Schritt-für-Schritt-Anleitungen (Teil 3: Entsorgung, Selfcare & Intensiv)
+/**
+ * @file data-tasks-steps-3.js
+ * @module DataTaskStepsSelfcareAndMaintenance
+ * @description
+ * Mehrsprachige Schritt-für-Schritt-Anleitungen (Micro-Steps) für Entsorgung,
+ * Körperpflege und periodische Wohnungsarbeiten (`DE`, `EN`, `ES`, `EL`, `FR`, `IT`).
+ */
 const TASK_STEPS_DATABASE_PART3 = {
   'Müll wegbringen': {
     de: [

@@ -1,4 +1,11 @@
-// timer.js Teil 1/3: State, Konstanten & Sound/Sprach-Hilfsfunktionen
+/**
+ * @file timer-1.js
+ * @module FocusTimerStateAndVoice
+ * @description
+ * Zustandshaltung, Konfigurations-Persistenz und Sprachausgabe-Steuerung (TTS)
+ * für den integrierten Fokus-Timer. Koordiniert motivierende Zwischenansagen,
+ * Zeitansagen sowie das automatische Audio-Ducking laufender Hintergrundklänge.
+ */
 
 var timerSeconds = 3 * 60; // Standardmäßig auf 3 Minuten initialisiert
 var timerInitialSeconds = 3 * 60;

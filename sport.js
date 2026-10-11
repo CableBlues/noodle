@@ -1,7 +1,14 @@
 
-// =========================================================================
-// MOVEMENT HISTORY & LOG TRACKING ENGINE
-// =========================================================================
+/**
+ * @file sport.js
+ * @module SportAndMovementEngine
+ * @description
+ * Modulares Bewegungs- und Home-Workout-System (`#helper-sport-modal`):
+ * - Vorgefertigte Kurzprogramme ohne Geräte (Presets)
+ * - Individueller Workout-Baukasten (Dauer, Fokus-Zone, Equipment, Nachbarschafts-Modus)
+ * - Durchsuchbares Übungs-Lexikon und 1–3-Löffel-Einzelimpulse
+ * - Interaktiver Intervall-Player mit Verlaufsspeicherung (`noodle_movement_history_v1`)
+ */
 const MOVEMENT_HISTORY_KEY = 'noodle_movement_history_v1';
 
 function getMovementHistory() {

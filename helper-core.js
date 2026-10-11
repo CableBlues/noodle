@@ -1,4 +1,11 @@
-// helper-core.js Teil 1/2: State-Variablen & Kernfunktionen (Modal, Sprachausgabe, Task-Auswahl)
+/**
+ * @file helper-core.js
+ * @module ExecutiveHelperCore
+ * @description
+ * Kernlogik des „Was nun?"-Entscheidungsassistenten (`#helper-pick-modal`):
+ * Energiebasierte Aufgaben-Empfehlung (Quick Win, Fokus, Deep Work),
+ * A-vs.-B-Münzwurf-Entscheider sowie Sprachausgabe-Unterstützung.
+ */
 let currentActiveTaskRef = null;
 let currentGeneratedSteps = [];
 let currentDopamineTask = null;

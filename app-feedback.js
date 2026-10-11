@@ -1,5 +1,11 @@
-// app-feedback.js - Intuitives & hochwertiges Feedback- & Einführungssystem
-// ============================================================================
+/**
+ * @file app-feedback.js
+ * @module FeedbackAndTourHub
+ * @description
+ * Integriertes Feedback- und Einführungsmodul.
+ * Ermöglicht das Einreichen von Verbesserungsvorschlägen, Fehlermeldungen
+ * oder Rückmeldungen sowie den jederzeitigen Neustart der Einführungstour.
+ */
 
 let currentFeedbackCategories = new Set(['idea']);
 let isSubmittingFeedback = false;

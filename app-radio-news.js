@@ -1,15 +1,28 @@
-// app-radio-news.js: High-End Live Radio Stations, Minimal Calming News Lounge & Feature Guide
-// 100% Serverless, Zero-PHP, GitHub Pages compatible, Anti-Sensory-Overload & Neurodivergent-optimized
+/**
+ * @file app-radio-news.js
+ * @module RadioNewsEngine
+ * @description
+ * Verwaltet den integrierten Live-Radio-Player, den mehrsprachigen Nachrichten-Aggregator
+ * sowie die Subheader-Ticker-Leiste (Nachrichten & interaktive Funktionshinweise).
+ *
+ * Kernfunktionen:
+ * 1. Dreistufige Radio-Stream-Resilienz (Primärstream -> HTTPS-Mirror-Failover ->
+ *    dynamischer Radio-Browser-Lookup -> prozeduraler WebAudio-Synthese-Fallback).
+ * 2. 5-Dimensionen-Nachrichtenfilter (Sprache, Region, Feed-Modus, Kategorie, Medium)
+ *    mit kuratierter Offline-Datenbank und Live-RSS-Synchronisation.
+ * 3. Synchronisierte Ticker-Steuerung (Ein/Aus-Schalter, Vorlesefunktion via Web Speech API
+ *    mit automatischem Audio-Ducking).
+ */
 
 (function() {
   'use strict';
 
   // ============================================================================
-  // 1. DATA: RADIO STATIONS, LANGUAGES, REGIONS, FEED MODES & SOURCES
+  // 1. SENDERVERZEICHNIS, SPRACHEN, REGIONEN, FEED-MODI & MEDIENQUELLEN
   // ============================================================================
 
   const RADIO_STATIONS = [
-    // 🌌 1. Drone Zone & Pure Ambient (Immer an erster Stelle wie gewünscht)
+    // 🌌 Fokus- & Ambient-Streams (Standard-Priorität für konzentriertes Arbeiten)
     { id: 'dronezone', name: 'SomaFM Drone Zone', searchQuery: 'Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes (Empfehlung #1)', stream: 'https://ice1.somafm.com/dronezone-128-mp3', streams: ['https://ice1.somafm.com/dronezone-128-mp3', 'https://ice2.somafm.com/dronezone-128-mp3', 'https://ice4.somafm.com/dronezone-128-mp3', 'https://ice6.somafm.com/dronezone-128-mp3'], logo: '🧘' },
     { id: 'spacestation', name: 'SomaFM Space Station', searchQuery: 'Space Station Soma', category: 'focus', country: 'global', flag: '🚀', desc: 'Mid- & Downtempo Space Ambient & Electronica', stream: 'https://ice1.somafm.com/spacestation-128-mp3', streams: ['https://ice1.somafm.com/spacestation-128-mp3', 'https://ice2.somafm.com/spacestation-128-mp3', 'https://ice4.somafm.com/spacestation-128-mp3', 'https://ice6.somafm.com/spacestation-128-mp3'], logo: '🛰️' },
     { id: 'deepspaceone', name: 'SomaFM Deep Space One', searchQuery: 'Deep Space One', category: 'focus', country: 'global', flag: '🌠', desc: 'Deep Ambient Electronic & Experimental Focus', stream: 'https://ice1.somafm.com/deepspaceone-128-mp3', streams: ['https://ice1.somafm.com/deepspaceone-128-mp3', 'https://ice2.somafm.com/deepspaceone-128-mp3', 'https://ice4.somafm.com/deepspaceone-128-mp3', 'https://ice6.somafm.com/deepspaceone-128-mp3'], logo: '🌌' },
@@ -3493,11 +3506,10 @@
   }
 
   // ============================================================================
-  // 8. INSTRUCTION TICKER ENGINE (LINKS NACH KARTEN LEEREN - 3:1 RHYTHMUS)
-  // Jede 3 auf dem Newsticker gezeigten Meldungen wechselnd 1 Anleitung links zeigen.
-  // Keine willkürlichen Deko-Icons - nur repräsentative, klickbare Aktions-Icons,
-  // mit denen der Nutzer genau das ausführen kann, was beschrieben wird.
-  // Während jede solche Anleitung gezeigt wird, ist der Newsticker rechts ausgeblendet.
+  // 8. INTERAKTIVE FUNKTIONSHINWEISE (3:1 ROTATION MIT DEM NEWSTICKER)
+  // Blendet nach jeweils drei Nachrichtenmeldungen einen interaktiven Hinweis
+  // zur Bedienung der Anwendung auf der linken Seite der Subheader-Leiste ein.
+  // Während ein Funktionshinweis sichtbar ist, pausiert der rechte Newsticker.
   // ============================================================================
 
   function setTickerSuppressed(suppressed) {

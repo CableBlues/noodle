@@ -1,4 +1,11 @@
-// utils.js Teil 2/2: Praise-Animation, Mini-Kalender & Datum/Streak-Update
+/**
+ * @file utils-2.js
+ * @module UtilsCalendarAndStreaks
+ * @description
+ * Visuelle Belohnungsanimationen (`triggerPraiseAnimation`), interaktiver Mini-Kalender,
+ * Tageswechsel-/Wochen-Reset-Logik sowie Berechnung der täglichen Fokus-Streaks.
+ */
+
 function triggerPraiseAnimation(idx) {
   switch (idx) {
     case 0: // 1. Konfetti-Explosion

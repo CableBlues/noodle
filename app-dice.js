@@ -1,4 +1,10 @@
-// app-dice.js: Dezent-elegantes Aufgaben-Glücksspiel (Glückswürfel)
+/**
+ * @file app-dice.js
+ * @module TaskLuckyDice
+ * @description
+ * Spielerische Zufallsauswahl für offene Aufgaben innerhalb einer Board-Spalte
+ * („Glückswürfel") zur Überwindung von Entscheidungsblockaden.
+ */
 
 let isDiceRolling = false;
 let currentDiceColumn = null;

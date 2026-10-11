@@ -1,7 +1,10 @@
 
-/* ==========================================================================
-   ULTRA-RESPONSIVE HARDWARE ACCELERATION & ZERO-LATENCY INTERACTION PIPELINE
-   ========================================================================== */
+/**
+ * @file styles-animations.css
+ * @description
+ * GPU-beschleunigte Composite-Layer-Regeln, Keyframe-Animationen,
+ * Marquee-Laufschrift-Effekte und weiche Modal-Übergänge.
+ */
 
 /* 1. Global Touch & Click Zero-Latency */
 html, body {

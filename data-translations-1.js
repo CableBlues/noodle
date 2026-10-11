@@ -1,4 +1,9 @@
-// data-translations-1.js: Complete translations for English, German and French
+/**
+ * @file data-translations-1.js
+ * @module DataTranslationsPart1
+ * @description
+ * Vollständige UI-Lokalisierungswörterbücher für Englisch (`en`), Deutsch (`de`) und Französisch (`fr`).
+ */
 const TRANSLATIONS_PART1 = {
   "en": {
     "add": "Add task",

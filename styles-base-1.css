@@ -1,4 +1,10 @@
-/* styles-base-1.css: Noodle Calm & Aesthetic PAL-Pastel Visual Engine */
+/**
+ * @file styles-base-1.css
+ * @description
+ * Globale CSS Custom Properties (Design-Tokens) und Definition der 12 Farbthemen
+ * (`aurora`, `obsidian`, `botanical`, `latte`, `peach`, `ocean`, `code-night`,
+ * `matrix`, `ruby`, `cobalt`, `fruity-classic`, `fruity-studio`).
+ */
 
 :root {
   --accent: #89cff0;

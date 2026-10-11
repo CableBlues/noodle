@@ -1,4 +1,11 @@
-// app-shopping.js: Umfassende Smart Shopping Suite mit Gängen, Discounter-Hub & Smart Deal-Radar
+/**
+ * @file app-shopping.js
+ * @module ShoppingAssistant
+ * @description
+ * Intelligente Einkaufslisten-Verwaltung mit automatischer Zuordnung zu
+ * Supermarkt-Abteilungen (`SHOPPING_DEPARTMENTS`), Mengen- und Notizerfassung,
+ * Verlauf häufig gekaufter Artikel sowie Markt-Übersicht.
+ */
 
 const SHOPPING_DEPARTMENTS = {
   produce: {

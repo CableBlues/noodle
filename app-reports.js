@@ -1,3 +1,12 @@
+/**
+ * @file app-reports.js
+ * @module ReportsAndPanelPositioning
+ * @description
+ * Viewport-abhängige Positionierung von Popover-Panels (`adjustPanelPosition`)
+ * sowie Produktivitäts-Auswertungen, Aktivitäts-Heatmaps, Wochenbilanzen und
+ * hochauflösender Bildexport (`exportReportAsImage` via `html2canvas`).
+ */
+
 function adjustPanelPosition(el, panelName) {
   if (!el || typeof window === 'undefined' || typeof document === 'undefined') return;
 

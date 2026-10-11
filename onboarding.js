@@ -1,5 +1,11 @@
-// onboarding.js - Interaktive Erstnutzer-Tour & Onboarding für Noodle
-// ============================================================================
+/**
+ * @file onboarding.js
+ * @module OnboardingTour
+ * @description
+ * Vierstufige interaktive Einführungstour für neue Nutzerinnen und Nutzer.
+ * Erklärt das modulare Kanban-Board, die integrierten Fokus-/Audio-Werkzeuge
+ * sowie die lokale Offline-Speicherung.
+ */
 
 let onboardingCurrentStep = 0;
 

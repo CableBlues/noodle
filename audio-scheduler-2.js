@@ -1,4 +1,11 @@
-// audio-scheduler-2.js: Sound-Scheduler fuer Train, Arcade, GuitarPad, Monastery
+/**
+ * @file audio-scheduler-2.js
+ * @module AudioSchedulerAtmospheric
+ * @description
+ * Prozedurale Klangsynthese für rhythmische und atmosphärische Umgebungen:
+ * Dampflokomotive (Schienenstoß & Dampf-Filter), Retro-Arcade-Arpeggios,
+ * Ambient-Gitarren-Pads und Kloster-Glocken.
+ */
 
 function scheduleTrainSteamChuffs() {
   if (currentSoundType !== 'train') return;

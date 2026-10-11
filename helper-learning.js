@@ -1,7 +1,11 @@
-// ============================================================================
-// NOODLE LEARNING HUB: DEEP LEARNING, FLASHCARDS & AI-QUIZ ENGINE
-// ============================================================================
-// 100% Serverless, Offline-First, Spaced Repetition (Leitner/SM-2), 3D Flashcards & Custom Decks
+/**
+ * @file helper-learning.js
+ * @module LearningHub
+ * @description
+ * Wissens- und Lernmodul (`#modal-learning-hub`) mit interaktiven 3D-Karteikarten,
+ * Spaced-Repetition-Algorithmus (Leitner / SM-2), kuratierten Wissenspaketen
+ * sowie Editor für eigene Lernkarten-Decks.
+ */
 
 (function() {
   'use strict';

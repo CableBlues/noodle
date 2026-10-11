@@ -1,4 +1,11 @@
-// app-command-palette.js: Globales Command Menu (Strg+K / Cmd+K) für blitzschnelle Navigation & Power-User-Aktionen
+/**
+ * @file app-command-palette.js
+ * @module CommandPalette
+ * @description
+ * Globales Befehlsmenü (`Strg+K` / `Cmd+K`) für die tastaturgesteuerte Suche
+ * und direkte Ausführung sämtlicher Anwendungsaktionen, Werkzeugwechsel,
+ * Timer-Steuerungen und Workspace-Umschaltungen.
+ */
 
 let commandPaletteSelectedIndex = 0;
 let commandPaletteFilteredItems = [];

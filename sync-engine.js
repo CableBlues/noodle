@@ -1,5 +1,15 @@
-// sync-engine.js - Zuverlässige & automatische Synchronisations-Engine für Noodle
-// ============================================================================
+/**
+ * @file sync-engine.js
+ * @module SyncEngine
+ * @description
+ * Synchronisations- und Datenabgleich-Engine für den geräteübergreifenden Betrieb.
+ *
+ * Komponenten:
+ * - `MinimalQR`: Erzeugt SVG-QR-Codes für die direkte Geräte-Kopplung ohne Server-Zwischenspeicher.
+ * - `P2PDataCodec`: Komprimiert und Base64URL-kodiert Arbeitszustände für QR-Payloads.
+ * - `SyncEngine`: Verwaltet den Hintergrundabgleich mit Supabase, Tombstone-basierte
+ *   Konfliktauflösung (Last-Write-Wins auf Elementebene) sowie Offline-Warteschlangen.
+ */
 
 const MinimalQR = (function() {
   function generateQRCodeSVG(text, size = 220) {

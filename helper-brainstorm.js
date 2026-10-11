@@ -1,4 +1,13 @@
 
+/**
+ * @file helper-brainstorm.js
+ * @module BrainstormingStudio
+ * @description
+ * Gedanken-Sammler und Brainstorming-Werkzeug mit Listen- und Themen-Cluster-Ansicht,
+ * Tag-Filterung, Favoriten-Markierung, direkter Umwandlung einzelner Ideen in
+ * Board-Aufgaben sowie Markdown-Mindmap-Export.
+ */
+
 let brainstormViewMode = 'list'; // 'list' | 'cluster'
 
 function setBrainstormViewMode(mode) {
