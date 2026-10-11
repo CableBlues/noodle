@@ -13273,11 +13273,30 @@ function saveHistory(actionInfo = null) {
     const activeStudyCats = (typeof window !== 'undefined' && window.studyCategoriesOrder) ? window.studyCategoriesOrder : (typeof studyCategoriesOrder !== 'undefined' ? studyCategoriesOrder : null);
 
     // Formatierte Aktionsbeschreibung
-    let label = 'Aktion';
+    let label = '';
     if (typeof actionInfo === 'string' && actionInfo.trim()) {
       label = actionInfo.trim();
     } else if (actionInfo && typeof actionInfo === 'object') {
-      label = actionInfo.label || actionInfo.action || actionInfo.name || 'Aktion';
+      label = actionInfo.label || actionInfo.action || actionInfo.name || '';
+    }
+
+    // Falls kein expliziter Text mitgegeben wurde, präzisen Standard anhand des vorherigen Zustands ermitteln
+    if (!label) {
+      const prevSnap = (stack && stack.length > 0) ? stack[stack.length - 1] : null;
+      if (prevSnap && prevSnap.items && currentState.items) {
+        // Zähle Aufgaben
+        const prevCount = Object.values(prevSnap.items).reduce((acc, l) => acc + (Array.isArray(l) ? l.length : 0), 0) + (Array.isArray(prevSnap.done) ? prevSnap.done.length : 0);
+        const curCount = Object.values(currentState.items).reduce((acc, l) => acc + (Array.isArray(l) ? l.length : 0), 0) + (Array.isArray(currentState.done) ? currentState.done.length : 0);
+        if (curCount > prevCount) {
+          label = 'Aufgabe hinzugefügt';
+        } else if (curCount < prevCount) {
+          label = 'Aufgabe entfernt oder abgeschlossen';
+        } else {
+          label = 'Aufgaben geändert / verschoben';
+        }
+      } else {
+        label = 'Aufgaben geändert';
+      }
     }
 
     // Fokussierter Snapshot: Speichert nur Aufgaben- und Listen-Änderungen
@@ -13582,22 +13601,42 @@ function openUndoHistoryModal() {
         handleUndoToStep(i);
       };
 
+      // Detaillierte Symbol- und Farbwahl je nach Aktion
+      let iconName = 'history';
+      let iconColor = isLatest ? 'bg-cyan-400/20 text-cyan-300' : 'bg-white/10 text-gray-400';
+      if (label.includes('erledigt') || label.includes('abgeschlossen')) {
+        iconName = 'check-circle-2';
+        iconColor = 'bg-emerald-500/20 text-emerald-300';
+      } else if (label.includes('gelöscht') || label.includes('entfernt')) {
+        iconName = 'trash-2';
+        iconColor = 'bg-rose-500/20 text-rose-300';
+      } else if (label.includes('hinzugefügt')) {
+        iconName = 'plus-circle';
+        iconColor = 'bg-lime-500/20 text-lime-300';
+      } else if (label.includes('verschoben') || label.includes('Reihenfolge')) {
+        iconName = 'move';
+        iconColor = 'bg-blue-500/20 text-blue-300';
+      } else if (label.includes('Farbe')) {
+        iconName = 'palette';
+        iconColor = 'bg-amber-500/20 text-amber-300';
+      }
+
       itemBtn.innerHTML = `
-        <div class="flex items-center gap-2.5 min-w-0">
-          <div class="w-7 h-7 rounded-xl ${isLatest ? 'bg-cyan-400/20 text-cyan-300' : 'bg-white/10 text-gray-400'} flex items-center justify-center shrink-0">
-            <i data-lucide="${isLatest ? 'undo-2' : 'history'}" class="w-3.5 h-3.5"></i>
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="w-8 h-8 rounded-xl ${iconColor} flex items-center justify-center shrink-0 border border-white/10">
+            <i data-lucide="${iconName}" class="w-4 h-4"></i>
           </div>
           <div class="min-w-0">
-            <div class="text-xs font-bold ${isLatest ? 'text-cyan-200' : 'text-gray-200'} group-hover:text-white truncate flex items-center gap-1.5">
+            <div class="text-xs font-bold ${isLatest ? 'text-cyan-200' : 'text-gray-100'} group-hover:text-white truncate flex items-center gap-1.5">
               <span>${label}</span>
               ${isLatest ? '<span class="text-[9px] px-1.5 py-0.2 rounded-full bg-cyan-400/20 text-cyan-300 font-mono font-normal">Zuletzt</span>' : ''}
             </div>
-            <div class="text-[10px] text-gray-400 mt-0.5 font-mono">
-              ${timeStr ? timeStr + ' · ' : ''}Vor dieser Aktion wiederherstellen
+            <div class="text-[10px] text-gray-400 mt-0.5">
+              ${timeStr ? '<span class="font-mono text-gray-400 font-medium">' + timeStr + '</span> · ' : ''}Vor dieser Aktion wiederherstellen
             </div>
           </div>
         </div>
-        <div class="shrink-0 flex items-center gap-1 text-[11px] font-bold ${isLatest ? 'text-cyan-300' : 'text-gray-400'} group-hover:text-white">
+        <div class="shrink-0 flex items-center gap-1 text-[11px] font-bold ${isLatest ? 'text-cyan-300' : 'text-gray-400'} group-hover:text-cyan-200">
           <span>Rückgängig</span>
           <i data-lucide="corner-down-left" class="w-3.5 h-3.5"></i>
         </div>
