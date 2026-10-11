@@ -1677,9 +1677,12 @@ function stopAllStudioAudio(silent = false) {
   }
 
   const miniPlayer = document.getElementById('noodle-mini-audio-player');
-  if (miniPlayer) miniPlayer.classList.add('hidden');
+  if (typeof updateMiniAudioPlayer === 'function') {
+    updateMiniAudioPlayer({ isPlaying: false, sub: 'Gestoppt' });
+  } else if (miniPlayer) {
+    miniPlayer.classList.remove('hidden');
+  }
   if (typeof isMiniPlayerPlaying !== 'undefined') isMiniPlayerPlaying = false;
-  if (typeof currentActiveAudioSource !== 'undefined') currentActiveAudioSource = null;
 
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
@@ -1698,7 +1701,12 @@ function handleHeaderVolumeInput(val) {
   try { localStorage.setItem('flow_master_vol', soundMasterVolume.toString()); } catch(e) {}
 
   // 1. Ambient & Natur-Soundscape Pegel aktualisieren
-  if (typeof setSoundVolume === 'function') setSoundVolume(soundMasterVolume);
+  if (masterGainNode && audioCtx) {
+    try {
+      masterGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      masterGainNode.gain.setValueAtTime(soundMasterVolume, audioCtx.currentTime);
+    } catch(e) {}
+  }
   if (soundGainNode && audioCtx) {
     try {
       soundGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
@@ -1709,7 +1717,7 @@ function handleHeaderVolumeInput(val) {
   // 2. Media Player Pegel synchronisieren
   if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(soundMasterVolume);
   if (activeUserAudio) {
-    try { activeUserAudio.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75); } catch(e) {}
+    try { activeUserAudio.volume = isPlayerMuted ? 0 : Math.max(0, Math.min(1, soundMasterVolume)); } catch(e) {}
   }
 
   // 3. Radio Engine synchronisieren
@@ -1744,7 +1752,7 @@ function handleHeaderVolumeInput(val) {
   // 6. UI-Slider & Prozentanzeigen an allen Stellen synchron halten
   const numVal = `${Math.round(soundMasterVolume * 100)}`;
   const percentEl = document.getElementById('header-sound-volume-percent');
-  if (percentEl) percentEl.textContent = numVal;
+  if (percentEl) percentEl.textContent = `${numVal}%`;
   const studioPctEl = document.getElementById('audio-panel-master-volume-pct');
   if (studioPctEl) studioPctEl.textContent = `${numVal}%`;
 
@@ -1757,9 +1765,12 @@ function handleHeaderVolumeInput(val) {
   if (studioSlider && parseFloat(studioSlider.value) !== soundMasterVolume) studioSlider.value = soundMasterVolume;
   const radioSlider = document.getElementById('radio-volume-slider');
   if (radioSlider && parseFloat(radioSlider.value) !== soundMasterVolume) radioSlider.value = soundMasterVolume;
+  const miniSlider = document.getElementById('mini-player-volume-slider');
+  if (miniSlider && parseFloat(miniSlider.value) !== soundMasterVolume) miniSlider.value = soundMasterVolume;
 }
 window.handleHeaderVolumeInput = handleHeaderVolumeInput;
 window.handleStudioMasterVolume = handleHeaderVolumeInput;
+window.setSoundVolume = handleHeaderVolumeInput;
 
 let soundHoverSliderTimer = null;
 let soundVolumePinned = false;

@@ -1214,7 +1214,7 @@
                     </div>
                     <span class="tool-orb-label text-[9.5px] font-bold text-violet-300 group-hover/orb:text-violet-200 transition-colors" data-i18n="tool_radio">Radio</span>
                   </button>
-                  <div id="panel-radio" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[430px] max-w-[95vw] bg-[#100b12]/98 border border-rose-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in">
+                  <div id="panel-radio" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[450px] max-w-[95vw] bg-[#100b12]/98 border border-rose-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in">
                     <div class="flex items-center justify-between border-b border-white/10 pb-2">
                       <div class="flex items-center gap-2">
                         <div class="w-7 h-7 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 shadow-sm shrink-0">
@@ -1230,7 +1230,7 @@
                         </div>
                       </div>
                       <div class="flex items-center gap-1.5">
-                        <button onclick="RadioNewsEngine.toggleRadioPlayback()" id="radio-master-play-btn" class="px-2.5 py-1 bg-rose-500 hover:bg-rose-400 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+                        <button onclick="RadioNewsEngine.toggleRadioPlayback()" id="radio-master-play-btn" class="px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-sm">
                           <i data-lucide="play" class="w-3.5 h-3.5"></i>
                           <span id="radio-master-btn-label">Play</span>
                         </button>
@@ -1242,18 +1242,18 @@
                     <div class="p-2 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-3">
                       <div class="flex items-center gap-2 min-w-0">
                         <div class="w-2 h-2 rounded-full bg-emerald-400 shadow-sm shrink-0" id="radio-live-dot"></div>
-                        <span class="text-xs font-bold text-white truncate" id="radio-now-playing-label" data-i18n="radio_no_station">Kein Sender gewählt</span>
+                        <span class="text-xs font-bold text-white truncate" id="radio-now-playing-label">Kein Sender gewählt</span>
                       </div>
                       <div class="flex items-center gap-2 shrink-0">
                         <i data-lucide="volume-2" class="w-3.5 h-3.5 text-gray-400"></i>
-                        <input type="range" id="radio-volume-slider" min="0" max="1" step="0.02" value="0.7" oninput="RadioNewsEngine.setRadioVolume(this.value)" class="w-16 accent-rose-500 cursor-pointer">
+                        <input type="range" id="radio-volume-slider" min="0" max="1" step="0.02" value="0.7" oninput="RadioNewsEngine.setRadioVolume(this.value)" onchange="RadioNewsEngine.setRadioVolume(this.value)" class="w-16 accent-rose-500 cursor-pointer">
                       </div>
                     </div>
 
                     <!-- Stations List Container -->
                     <div class="space-y-1">
                       <div class="text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1" data-i18n="radio_available_stations">Verfügbare Sender</div>
-                      <div id="radio-stations-list" class="space-y-1 max-h-[170px] overflow-y-auto pr-1"></div>
+                      <div id="radio-stations-list" class="space-y-1 max-h-[460px] sm:max-h-[520px] overflow-y-auto pr-1.5 custom-scrollbar"></div>
                     </div>
                   </div>
                 </div>
@@ -2165,12 +2165,23 @@
           </div>
 
         <!-- Sound Master Mute / Unmute Toggle -->
-        <div id="header-btn-sound-container" class="relative shrink-0" onclick="toggleSoundVolumePopover(event)">
+        <div id="header-btn-sound-container" class="relative shrink-0" onclick="toggleSoundVolumePopover(event)" onmouseenter="showSoundHoverSlider()" onmouseleave="hideSoundHoverSlider()">
           <button id="header-btn-sound-toggle" onclick="event.stopPropagation(); toggleMasterSound();" class="h-[38px] w-[38px] border border-white/10 hover:border-purple-400/50 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-gray-300 hover:text-white flex items-center justify-center cursor-pointer transition shrink-0 group/sound-btn" title="Sound ein-/ausschalten (Master Mute)" aria-label="Sound ein-/ausschalten">
             <span id="header-sound-icon-wrapper" class="flex items-center justify-center">
               <i data-lucide="volume-x" class="w-[18px] h-[18px] text-gray-400 group-hover/sound-btn:text-purple-300 transition-colors"></i>
             </span>
           </button>
+
+          <!-- Sound Volume Quick Popover -->
+          <div id="header-sound-volume-popover" onclick="event.stopPropagation()" class="hidden absolute right-0 top-[calc(100%+8px)] z-[130] w-[220px] bg-[#0f0f18]/98 border border-purple-500/35 p-3 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left animate-fade-in">
+            <div class="flex items-center justify-between text-[11px] font-bold text-gray-300">
+              <span class="flex items-center gap-1.5"><i data-lucide="volume-2" class="w-3.5 h-3.5 text-purple-400"></i> Lautstärke</span>
+              <span class="font-mono text-purple-300 text-xs font-bold" id="header-sound-volume-percent">50%</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="range" id="header-sound-volume-slider" min="0" max="1" step="0.01" value="0.5" oninput="handleHeaderVolumeInput(this.value)" onchange="handleHeaderVolumeInput(this.value)" class="w-full accent-purple-500 cursor-pointer h-1.5 bg-white/10 rounded-lg">
+            </div>
+          </div>
         </div>
       </div>
     </header>
@@ -6312,9 +6323,9 @@
   </div>
 
   <!-- ====================================================================== -->
-  <!-- PERSISTENT FLOATING MINI AUDIO PLAYER (BOTTOM-LEFT) -->
+  <!-- PERSISTENT FLOATING MINI AUDIO PLAYER (BOTTOM-RIGHT) -->
   <!-- ====================================================================== -->
-  <aside id="noodle-mini-audio-player" aria-label="Audio-Player Steuerung" class="fixed bottom-4 left-4 z-[99999] hidden flex items-center gap-2.5 p-2 px-3 sm:px-3.5 rounded-2xl bg-[#0c0d16]/95 border border-purple-500/40 shadow-[0_12px_35px_rgba(0,0,0,0.85),0_0_24px_rgba(168,85,247,0.35)] backdrop-blur-2xl ring-1 ring-white/10 text-xs transition-all duration-300 select-none max-w-[calc(100vw-32px)]">
+  <aside id="noodle-mini-audio-player" aria-label="Audio-Player Steuerung" class="fixed bottom-4 right-4 z-[99999] hidden flex items-center gap-2.5 p-2 px-3 sm:px-3.5 rounded-2xl bg-[#0c0d16]/95 border border-purple-500/40 shadow-[0_12px_35px_rgba(0,0,0,0.85),0_0_24px_rgba(168,85,247,0.35)] backdrop-blur-2xl ring-1 ring-white/10 text-xs transition-all duration-300 select-none max-w-[calc(100vw-32px)]">
     <!-- Sound Wave & Info (Click opens Audio Studio) -->
     <button type="button" class="flex items-center gap-2 cursor-pointer group/minip bg-transparent border-0 text-left p-0" onclick="if(typeof openAudioStudioMode==='function')openAudioStudioMode('ambient');else if(typeof togglePanel==='function')togglePanel('audio');" title="Sound Center öffnen">
       <div class="relative w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-400/30 flex items-center justify-center text-purple-300 shrink-0 group-hover/minip:scale-105 group-hover/minip:border-purple-300 transition-all shadow-xs">

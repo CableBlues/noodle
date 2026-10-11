@@ -1239,7 +1239,7 @@ function duckAllAudioForSpeech(isDucked) {
     speechDuckingTimeout = null;
   }
   if (isDucked) {
-    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.18);
+    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.42);
     if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.duckRadio === 'function') {
       RadioNewsEngine.duckRadio(true);
     } else if (typeof window !== 'undefined' && typeof window.duckRadio === 'function') {
@@ -1302,7 +1302,15 @@ function speakWithProfile(text, profileIndex = null, onComplete = null) {
     const langMap = { en: 'en-US', de: 'de-DE', es: 'es-ES', el: 'el-GR', fr: 'fr-FR', it: 'it-IT' };
     const targetLang = langMap[lang] || 'en-US';
     utterance.lang = targetLang;
-    utterance.volume = 1.0;
+    
+    let targetSpeechVolume = 0.85;
+    if (typeof soundMasterVolume === 'number') {
+      targetSpeechVolume = Math.max(0.15, Math.min(1.0, soundMasterVolume * 1.35));
+    }
+    if (typeof isRadioPlaying !== 'undefined' && isRadioPlaying && typeof radioVolume === 'number') {
+      targetSpeechVolume = Math.max(0.15, Math.min(1.0, radioVolume * 1.35));
+    }
+    utterance.volume = targetSpeechVolume;
 
     // 2. Stimmen-Persona deterministisch oder abwechselnd rotieren
     if (profileIndex === null || profileIndex === undefined) {

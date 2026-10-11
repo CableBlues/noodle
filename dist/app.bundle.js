@@ -21162,9 +21162,12 @@ function stopAllStudioAudio(silent = false) {
   }
 
   const miniPlayer = document.getElementById('noodle-mini-audio-player');
-  if (miniPlayer) miniPlayer.classList.add('hidden');
+  if (typeof updateMiniAudioPlayer === 'function') {
+    updateMiniAudioPlayer({ isPlaying: false, sub: 'Gestoppt' });
+  } else if (miniPlayer) {
+    miniPlayer.classList.remove('hidden');
+  }
   if (typeof isMiniPlayerPlaying !== 'undefined') isMiniPlayerPlaying = false;
-  if (typeof currentActiveAudioSource !== 'undefined') currentActiveAudioSource = null;
 
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
@@ -21183,7 +21186,12 @@ function handleHeaderVolumeInput(val) {
   try { localStorage.setItem('flow_master_vol', soundMasterVolume.toString()); } catch(e) {}
 
   // 1. Ambient & Natur-Soundscape Pegel aktualisieren
-  if (typeof setSoundVolume === 'function') setSoundVolume(soundMasterVolume);
+  if (masterGainNode && audioCtx) {
+    try {
+      masterGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
+      masterGainNode.gain.setValueAtTime(soundMasterVolume, audioCtx.currentTime);
+    } catch(e) {}
+  }
   if (soundGainNode && audioCtx) {
     try {
       soundGainNode.gain.cancelScheduledValues(audioCtx.currentTime);
@@ -21194,7 +21202,7 @@ function handleHeaderVolumeInput(val) {
   // 2. Media Player Pegel synchronisieren
   if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(soundMasterVolume);
   if (activeUserAudio) {
-    try { activeUserAudio.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75); } catch(e) {}
+    try { activeUserAudio.volume = isPlayerMuted ? 0 : Math.max(0, Math.min(1, soundMasterVolume)); } catch(e) {}
   }
 
   // 3. Radio Engine synchronisieren
@@ -21229,7 +21237,7 @@ function handleHeaderVolumeInput(val) {
   // 6. UI-Slider & Prozentanzeigen an allen Stellen synchron halten
   const numVal = `${Math.round(soundMasterVolume * 100)}`;
   const percentEl = document.getElementById('header-sound-volume-percent');
-  if (percentEl) percentEl.textContent = numVal;
+  if (percentEl) percentEl.textContent = `${numVal}%`;
   const studioPctEl = document.getElementById('audio-panel-master-volume-pct');
   if (studioPctEl) studioPctEl.textContent = `${numVal}%`;
 
@@ -21242,9 +21250,12 @@ function handleHeaderVolumeInput(val) {
   if (studioSlider && parseFloat(studioSlider.value) !== soundMasterVolume) studioSlider.value = soundMasterVolume;
   const radioSlider = document.getElementById('radio-volume-slider');
   if (radioSlider && parseFloat(radioSlider.value) !== soundMasterVolume) radioSlider.value = soundMasterVolume;
+  const miniSlider = document.getElementById('mini-player-volume-slider');
+  if (miniSlider && parseFloat(miniSlider.value) !== soundMasterVolume) miniSlider.value = soundMasterVolume;
 }
 window.handleHeaderVolumeInput = handleHeaderVolumeInput;
 window.handleStudioMasterVolume = handleHeaderVolumeInput;
+window.setSoundVolume = handleHeaderVolumeInput;
 
 let soundHoverSliderTimer = null;
 let soundVolumePinned = false;
@@ -25733,9 +25744,14 @@ function stopAllMiniPlayerAudio() {
     if (typeof RadioNewsEngine.stopNewsReader === 'function') RadioNewsEngine.stopNewsReader();
   }
   const playerEl = document.getElementById('noodle-mini-audio-player');
-  if (playerEl) playerEl.classList.add('hidden');
+  if (playerEl) {
+    playerEl.classList.remove('hidden');
+  }
   isMiniPlayerPlaying = false;
-  currentActiveAudioSource = null;
+  updateMiniAudioPlayer({
+    isPlaying: false,
+    sub: 'Gestoppt'
+  });
   if (typeof showToast === 'function') {
     showToast(typeof tr === 'function' ? tr({ de: 'Audio beendet ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio beendet ⏹️');
   }
@@ -27021,7 +27037,7 @@ function duckAllAudioForSpeech(isDucked) {
     speechDuckingTimeout = null;
   }
   if (isDucked) {
-    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.18);
+    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.42);
     if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.duckRadio === 'function') {
       RadioNewsEngine.duckRadio(true);
     } else if (typeof window !== 'undefined' && typeof window.duckRadio === 'function') {
@@ -27084,7 +27100,15 @@ function speakWithProfile(text, profileIndex = null, onComplete = null) {
     const langMap = { en: 'en-US', de: 'de-DE', es: 'es-ES', el: 'el-GR', fr: 'fr-FR', it: 'it-IT' };
     const targetLang = langMap[lang] || 'en-US';
     utterance.lang = targetLang;
-    utterance.volume = 1.0;
+    
+    let targetSpeechVolume = 0.85;
+    if (typeof soundMasterVolume === 'number') {
+      targetSpeechVolume = Math.max(0.15, Math.min(1.0, soundMasterVolume * 1.35));
+    }
+    if (typeof isRadioPlaying !== 'undefined' && isRadioPlaying && typeof radioVolume === 'number') {
+      targetSpeechVolume = Math.max(0.15, Math.min(1.0, radioVolume * 1.35));
+    }
+    utterance.volume = targetSpeechVolume;
 
     // 2. Stimmen-Persona deterministisch oder abwechselnd rotieren
     if (profileIndex === null || profileIndex === undefined) {
@@ -52288,15 +52312,18 @@ if (typeof globalThis !== 'undefined') {
     }, stepTime);
   }
 
+  let radioCrossfadeInterval = null;
+
   function playRadioStation(stationId) {
     const station = RADIO_STATIONS.find(s => s.id === stationId);
     if (!station) return;
 
     if (currentStationId === stationId && isRadioPlaying && radioAudioEl) {
-      toggleRadioPlayback();
+      stopRadioPlayback();
       return;
     }
 
+    const previousAudio = (isRadioPlaying && radioAudioEl) ? radioAudioEl : null;
     currentStationId = stationId;
     localStorage.setItem('flow_radio_station', stationId);
 
@@ -52308,17 +52335,82 @@ if (typeof globalThis !== 'undefined') {
       if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
     } catch(e) {}
 
-    const audio = getRadioAudio();
-    try {
-      audio.pause();
-      if (audio.src !== station.stream) {
-        audio.src = station.stream;
+    // Weicher Crossfade / Überblendung bei Senderwechsel
+    if (radioCrossfadeInterval) {
+      clearInterval(radioCrossfadeInterval);
+      radioCrossfadeInterval = null;
+    }
+
+    if (previousAudio) {
+      const fadeAudio = previousAudio;
+      const startFadeVol = fadeAudio.volume;
+      const steps = 8;
+      let step = 0;
+      radioCrossfadeInterval = setInterval(() => {
+        step++;
+        fadeAudio.volume = Math.max(0, startFadeVol * (1 - step / steps));
+        if (step >= steps) {
+          clearInterval(radioCrossfadeInterval);
+          radioCrossfadeInterval = null;
+          try { fadeAudio.pause(); fadeAudio.src = ''; } catch(e) {}
+        }
+      }, 35);
+    }
+
+    const audio = new Audio();
+    audio.preload = 'none';
+    audio.src = station.stream;
+    radioAudioEl = audio;
+    window.radioAudioEl = audio;
+
+    const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+    const targetVol = isRadioDucked ? (baseVol * 0.18) : baseVol;
+    audio.volume = 0; // Sanfter Start für weichen Einstieg
+
+    audio.addEventListener('playing', () => {
+      isRadioPlaying = true;
+      window.isRadioPlaying = true;
+      updateRadioUIState(true);
+      renderRadioPanelContent();
+    });
+    audio.addEventListener('pause', () => {
+      if (radioAudioEl === audio) {
+        isRadioPlaying = false;
+        window.isRadioPlaying = false;
+        updateRadioUIState(false);
+        renderRadioPanelContent();
       }
-      audio.volume = isRadioDucked ? (radioVolume * 0.18) : radioVolume;
+    });
+    audio.addEventListener('error', (e) => {
+      console.warn('[Radio Engine] Stream error:', e);
+      if (radioAudioEl === audio) {
+        isRadioPlaying = false;
+        window.isRadioPlaying = false;
+        updateRadioUIState(false);
+        renderRadioPanelContent();
+      }
+    });
+
+    try {
       audio.play().then(() => {
         isRadioPlaying = true;
         window.isRadioPlaying = true;
-        window.radioAudioEl = audio;
+        // Fade in to target volume over 280ms
+        const inSteps = 8;
+        let inStep = 0;
+        const inInterval = setInterval(() => {
+          inStep++;
+          if (radioAudioEl !== audio) {
+            clearInterval(inInterval);
+            return;
+          }
+          audio.volume = Math.min(targetVol, targetVol * (inStep / inSteps));
+          if (inStep >= inSteps) {
+            clearInterval(inInterval);
+            audio.volume = targetVol;
+          }
+        }, 35);
+
         updateRadioUIState(true);
         if (typeof updateMiniAudioPlayer === 'function') {
           updateMiniAudioPlayer({
@@ -52357,7 +52449,7 @@ if (typeof globalThis !== 'undefined') {
   }
 
   function stopRadioPlayback() {
-    const audio = getRadioAudio();
+    const audio = radioAudioEl || getRadioAudio();
     if (audio) {
       try {
         audio.pause();
@@ -52381,28 +52473,11 @@ if (typeof globalThis !== 'undefined') {
   }
 
   function toggleRadioPlayback() {
-    const audio = getRadioAudio();
     if (isRadioPlaying) {
-      audio.pause();
-      isRadioPlaying = false;
-      window.isRadioPlaying = false;
-      updateRadioUIState(false);
-      if (typeof updateMiniAudioPlayer === 'function') {
-        const station = RADIO_STATIONS.find(s => s.id === currentStationId);
-        updateMiniAudioPlayer({
-          isPlaying: false,
-          title: station ? `${station.flag || '📻'} ${station.name}` : 'Radio',
-          sub: 'Pausiert',
-          emoji: '📻',
-          source: 'radio'
-        });
-      }
+      stopRadioPlayback();
     } else {
-      try {
-        if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-        if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
-      } catch(e) {}
-      playRadioStation(currentStationId);
+      const stationToPlay = currentStationId || localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+      playRadioStation(stationToPlay);
     }
     renderRadioPanelContent();
   }
@@ -52410,19 +52485,63 @@ if (typeof globalThis !== 'undefined') {
   function setRadioVolume(val) {
     radioVolume = Math.max(0, Math.min(1, parseFloat(val)));
     localStorage.setItem('flow_radio_vol', radioVolume.toString());
-    const audio = getRadioAudio();
-    if (!isRadioDucked) {
+    const audio = radioAudioEl || getRadioAudio();
+    if (!isRadioDucked && audio) {
       audio.volume = radioVolume;
+    }
+    const slider = document.getElementById('radio-volume-slider');
+    if (slider && parseFloat(slider.value) !== radioVolume) {
+      slider.value = radioVolume;
+    }
+    if (isRadioPlaying) {
+      const miniSlider = document.getElementById('mini-player-volume-slider');
+      if (miniSlider && parseFloat(miniSlider.value) !== radioVolume) {
+        miniSlider.value = radioVolume;
+      }
     }
   }
 
   function updateRadioUIState(isPlaying) {
-    const playBtn = document.getElementById('radio-main-play-btn');
-    if (playBtn) {
-      playBtn.innerHTML = isPlaying 
-        ? '<i data-lucide="pause" class="w-4 h-4 fill-white"></i>' 
-        : '<i data-lucide="play" class="w-4 h-4 fill-white ml-0.5"></i>';
-      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: playBtn });
+    const masterPlayBtn = document.getElementById('radio-master-play-btn');
+    const nowPlayingLabel = document.getElementById('radio-now-playing-label');
+    const liveDot = document.getElementById('radio-live-dot');
+    const slider = document.getElementById('radio-volume-slider');
+
+    if (slider && typeof radioVolume === 'number') {
+      slider.value = radioVolume;
+    }
+
+    const station = RADIO_STATIONS.find(s => s.id === currentStationId);
+
+    if (masterPlayBtn) {
+      if (isPlaying) {
+        masterPlayBtn.className = 'px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-md active:scale-95';
+        masterPlayBtn.innerHTML = '<i data-lucide="square" class="w-3.5 h-3.5 fill-white"></i><span id="radio-master-btn-label">Stop</span>';
+        masterPlayBtn.title = 'Radio stoppen';
+      } else {
+        masterPlayBtn.className = 'px-2.5 py-1 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer shadow-sm active:scale-95';
+        masterPlayBtn.innerHTML = '<i data-lucide="play" class="w-3.5 h-3.5 fill-white ml-0.5"></i><span id="radio-master-btn-label">Play</span>';
+        masterPlayBtn.title = 'Radio abspielen';
+      }
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: masterPlayBtn });
+    }
+
+    if (nowPlayingLabel) {
+      if (station) {
+        nowPlayingLabel.textContent = isPlaying 
+          ? `${station.flag || '📻'} ${station.name}` 
+          : `${station.flag || '📻'} ${station.name} (${typeof tr === 'function' ? tr({ de: 'Pausiert', en: 'Paused' }) : 'Pausiert'})`;
+      } else {
+        nowPlayingLabel.textContent = typeof tr === 'function' ? tr({ de: 'Kein Sender gewählt', en: 'No station selected' }) : 'Kein Sender gewählt';
+      }
+    }
+
+    if (liveDot) {
+      if (isPlaying) {
+        liveDot.className = 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] shrink-0 animate-pulse';
+      } else {
+        liveDot.className = 'w-2 h-2 rounded-full bg-gray-500 shadow-sm shrink-0';
+      }
     }
   }
 
@@ -54039,14 +54158,14 @@ if (typeof globalThis !== 'undefined') {
               <p class="text-[10px] text-gray-400 truncate">${s.desc}</p>
             </div>
           </div>
-          <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition ${
+          <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition active:scale-95 ${
             isLive 
-              ? 'bg-purple-500 text-white shadow-md' 
+              ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-md' 
               : isCurrent 
                 ? 'bg-purple-500/20 text-purple-300 group-hover:bg-purple-500 group-hover:text-white' 
                 : 'bg-white/5 text-gray-400 group-hover:bg-white/20 group-hover:text-white'
-          }">
-            <i data-lucide="${isLive ? 'pause' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
+          }" title="${isLive ? 'Sender stoppen' : 'Sender abspielen'}">
+            <i data-lucide="${isLive ? 'square' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
           </button>
         </div>
       `;
@@ -54117,8 +54236,13 @@ if (typeof globalThis !== 'undefined') {
   }
 
   function initRadioPanel() {
+    if (!currentStationId) {
+      currentStationId = localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+    }
     renderRadioPanelContent();
     updateRadioUIState(isRadioPlaying);
+    const slider = document.getElementById('radio-volume-slider');
+    if (slider) slider.value = radioVolume;
   }
 
   function initPanel() {

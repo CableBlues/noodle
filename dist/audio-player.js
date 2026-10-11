@@ -2012,9 +2012,14 @@ function stopAllMiniPlayerAudio() {
     if (typeof RadioNewsEngine.stopNewsReader === 'function') RadioNewsEngine.stopNewsReader();
   }
   const playerEl = document.getElementById('noodle-mini-audio-player');
-  if (playerEl) playerEl.classList.add('hidden');
+  if (playerEl) {
+    playerEl.classList.remove('hidden');
+  }
   isMiniPlayerPlaying = false;
-  currentActiveAudioSource = null;
+  updateMiniAudioPlayer({
+    isPlaying: false,
+    sub: 'Gestoppt'
+  });
   if (typeof showToast === 'function') {
     showToast(typeof tr === 'function' ? tr({ de: 'Audio beendet ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio beendet ⏹️');
   }
