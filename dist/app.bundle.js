@@ -12265,15 +12265,27 @@ if (typeof globalThis !== 'undefined') {
  */
 
 // Grundlegende Konfiguration & globale State-Deklarationen
-var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
-let currentLang = localStorage.getItem('flowPlannerLanguage') || 'en';
-let rawTheme = localStorage.getItem('flowPlannerTheme') || 'aurora';
+var STORE_KEY = (typeof window !== 'undefined' && window.STORE_KEY) || (typeof globalThis !== 'undefined' && globalThis.STORE_KEY) || 'flowPlannerV3';
+var HISTORY_KEY = (typeof window !== 'undefined' && window.HISTORY_KEY) || (typeof globalThis !== 'undefined' && globalThis.HISTORY_KEY) || 'flowPlannerV3History';
+if (typeof window !== 'undefined') {
+  window.STORE_KEY = STORE_KEY;
+  window.HISTORY_KEY = HISTORY_KEY;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.STORE_KEY = STORE_KEY;
+  globalThis.HISTORY_KEY = HISTORY_KEY;
+}
+
+var ALL_VALID_THEMES = (typeof window !== 'undefined' && window.ALL_VALID_THEMES) || ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
+if (typeof window !== 'undefined') window.ALL_VALID_THEMES = ALL_VALID_THEMES;
+let currentLang = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerLanguage')) || 'en';
+let rawTheme = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerTheme')) || 'aurora';
 if (!ALL_VALID_THEMES.includes(rawTheme)) {
   rawTheme = 'code-night';
-  try { localStorage.setItem('flowPlannerTheme', 'code-night'); } catch(e) {}
+  try { if (typeof localStorage !== 'undefined') localStorage.setItem('flowPlannerTheme', 'code-night'); } catch(e) {}
 }
 let currentTheme = rawTheme;
-let isMinimalist = localStorage.getItem('flowPlannerMinimalist') === 'true';
+let isMinimalist = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerMinimalist') === 'true');
 let openTaskAddColumns = {};
 let categoriesOrder = null;
 let state = null;
@@ -13294,7 +13306,7 @@ function saveHistory(actionInfo = null) {
     }
 
     stack.push(listSnapshot);
-    if (stack.length > 20) stack.shift();
+    if (stack.length > 15) stack.shift();
     historyStack = stack;
     if (typeof window !== 'undefined') window.historyStack = stack;
     if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;
