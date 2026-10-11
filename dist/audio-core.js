@@ -693,6 +693,7 @@ function playGameSound(type) {
   const dest = getUiAudioDest();
   if (!dest) return;
   const masterVol = Math.min(0.6, (soundMasterVolume || 0.5) * 0.42);
+  if (masterVol <= 0.001) return;
 
   const ALL_GAME_SOUNDS = [
     'coin', 'gem', 'boing', 'pop', 'bloop', 'squeak', 'powerup', 'jump',
@@ -1351,8 +1352,9 @@ function playNatureSound(type) {
 // Master UI sound dispatcher: plays contextual or highly-varied rotating game sounds
 function playUiSound(category = 'click', specificType = null) {
   const currentTime = Date.now();
-  if (currentTime - lastUiSoundTime < 30) return; // Debounce fast spam
+  if (currentTime - lastUiSoundTime < 45) return; // Debounce fast spam
   lastUiSoundTime = currentTime;
+  if (isPlayerMuted || (typeof soundMasterVolume === 'number' && soundMasterVolume <= 0.001)) return;
 
   if (specificType) {
     playGameSound(specificType);
@@ -1605,7 +1607,7 @@ function updateHeaderSoundBtnUI() {
     }
     if (label) label.textContent = '';
   }
-  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: btn });
 }
 window.updateHeaderSoundBtnUI = updateHeaderSoundBtnUI;
 
@@ -1778,7 +1780,7 @@ function showSoundHoverSlider() {
       popover.classList.add('noodle-panel-peeking');
       popover.classList.remove('noodle-panel-pinned');
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: popover });
   }
 }
 window.showSoundHoverSlider = showSoundHoverSlider;
@@ -1813,7 +1815,7 @@ function toggleSoundVolumePopover(event) {
     soundVolumePinned = true;
     popover.classList.remove('hidden', 'noodle-panel-peeking');
     popover.classList.add('flex', 'noodle-panel-pinned');
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: popover });
   } else if (!soundVolumePinned) {
     soundVolumePinned = true;
     popover.classList.remove('noodle-panel-peeking');

@@ -2448,7 +2448,7 @@ let hoverPanelHideTimeout = null;
 
 // syncHeaderToolsMenuState handled by app-reports.js
 
-function showPanelHover(panelName, delay = 0) {
+function showPanelHover(panelName, delay = 180) {
   // Wenn im Click-Only Modus: keine automatische Hover-Vorschau öffnen!
   if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
     if (window.NoodleInteractionMode.getMode() === 'click-only') return;
@@ -2582,11 +2582,8 @@ function showPanelHover(panelName, delay = 0) {
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
-  if (delay <= 0) {
-    executeShow();
-  } else {
-    hoverPanelShowTimeout = setTimeout(executeShow, delay);
-  }
+  const effectiveDelay = (typeof delay === 'number' && delay > 0) ? delay : 180;
+  hoverPanelShowTimeout = setTimeout(executeShow, effectiveDelay);
 }
 window.showPanelHover = showPanelHover;
 

@@ -16,8 +16,12 @@ const PIANO_PENTATONIC = [
   880.00  // A5
 ];
 
-function scheduleGentlePianoMelody() {
+function scheduleGentlePianoMelody(immediate = true) {
   if (currentSoundType !== 'piano') return;
+  if (immediate) {
+    const noteInit = PIANO_PENTATONIC[Math.floor(Math.random() * PIANO_PENTATONIC.length)];
+    playGentlePianoNote(noteInit, 0);
+  }
   const delay = 1400 + Math.random() * 2200; // Ruhiger Atem-Rhythmus
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'piano') return;
@@ -35,7 +39,7 @@ function scheduleGentlePianoMelody() {
       activeTimeouts.push(t2);
     }
 
-    scheduleGentlePianoMelody();
+    scheduleGentlePianoMelody(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -143,13 +147,16 @@ function playLofiChord(notes) {
 // -------------------------------------------------------------
 const CHIME_FREQS = [880.00, 987.77, 1174.66, 1318.51, 1567.98, 1760.00, 2093.00];
 
-function scheduleZenWindChimes() {
+function scheduleZenWindChimes(immediate = true) {
   if (currentSoundType !== 'chimes') return;
+  if (immediate) {
+    playZenWindChime();
+  }
   const delay = 1200 + Math.random() * 2600;
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'chimes') return;
     playZenWindChime();
-    scheduleZenWindChimes();
+    scheduleZenWindChimes(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -235,14 +242,18 @@ function playSingingBowl() {
 // -------------------------------------------------------------
 const MUSIC_BOX_NOTES = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
 
-function scheduleMusicBoxLullaby() {
+function scheduleMusicBoxLullaby(immediate = true) {
   if (currentSoundType !== 'musicbox') return;
+  if (immediate) {
+    const noteInit = MUSIC_BOX_NOTES[Math.floor(Math.random() * MUSIC_BOX_NOTES.length)];
+    playMusicBoxNote(noteInit);
+  }
   const delay = 600 + Math.random() * 1200;
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'musicbox') return;
     const note = MUSIC_BOX_NOTES[Math.floor(Math.random() * MUSIC_BOX_NOTES.length)];
     playMusicBoxNote(note);
-    scheduleMusicBoxLullaby();
+    scheduleMusicBoxLullaby(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -273,13 +284,16 @@ function playMusicBoxNote(freq) {
 // -------------------------------------------------------------
 const GUITAR_STRINGS = [196.00, 246.94, 293.66, 329.63, 392.00, 493.88];
 
-function scheduleAcousticGuitarMelody() {
+function scheduleAcousticGuitarMelody(immediate = true) {
   if (currentSoundType !== 'guitar') return;
+  if (immediate) {
+    playGuitarPluck();
+  }
   const delay = 1600 + Math.random() * 2400;
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'guitar') return;
     playGuitarPluck();
-    scheduleAcousticGuitarMelody();
+    scheduleAcousticGuitarMelody(false);
   }, delay);
   activeTimeouts.push(timeout);
 }

@@ -1308,15 +1308,15 @@
     // Exklusivität: Umgebungsgeräusche stoppen (still, da Radiosender startet)
     try {
       if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-      if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio(true);
       if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
     } catch(e) {}
 
     const audio = getRadioAudio();
     try {
       audio.pause();
-      audio.src = station.stream;
-      audio.load();
+      if (audio.src !== station.stream) {
+        audio.src = station.stream;
+      }
       audio.volume = isRadioDucked ? (radioVolume * 0.18) : radioVolume;
       audio.play().then(() => {
         isRadioPlaying = true;
@@ -1335,13 +1335,16 @@
         if (typeof showToast === 'function') {
           showToast(`📻 ${station.flag} ${station.name}`);
         }
-      }).catch(() => {
+        renderRadioPanelContent();
+      }).catch((err) => {
+        console.warn('Radio stream playback failed:', err);
         isRadioPlaying = false;
         window.isRadioPlaying = false;
         updateRadioUIState(false);
         if (typeof updateMiniAudioPlayer === 'function') {
           updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
         }
+        renderRadioPanelContent();
       });
     } catch (err) {
       isRadioPlaying = false;
@@ -1350,7 +1353,9 @@
       if (typeof updateMiniAudioPlayer === 'function') {
         updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
       }
+      renderRadioPanelContent();
     }
+    updateRadioUIState(true);
     renderRadioPanelContent();
   }
 
@@ -1420,8 +1425,8 @@
       playBtn.innerHTML = isPlaying 
         ? '<i data-lucide="pause" class="w-4 h-4 fill-white"></i>' 
         : '<i data-lucide="play" class="w-4 h-4 fill-white ml-0.5"></i>';
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: playBtn });
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 
   // ============================================================================
@@ -1996,7 +2001,10 @@
       subtext.textContent = `${regObj ? regObj.id.toUpperCase() : 'DE'} → ${langObj ? langObj.id.toUpperCase() : 'DE'} · ${catObj ? catObj.name : 'Alle'}`;
     }
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    const newsPanel = document.getElementById('panel-news');
+    if (newsPanel && typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons({ root: newsPanel });
+    }
   }
 
   // ============================================================================
@@ -2069,7 +2077,7 @@
       `;
     }).join('');
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: listContainer });
   }
 
   function renderTickerMarquee(items) {
@@ -2235,7 +2243,7 @@
         </button>
       </div>
     `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (articleBox && typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: articleBox });
   }
 
   function updateHoverActionPill(it, idx) {
@@ -2258,7 +2266,7 @@
         <i data-lucide="volume-2" class="w-3 h-3"></i>
       </button>
     `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: hoverPill });
   }
 
   function handleNewsClick(idx) {
@@ -2603,7 +2611,7 @@
         RadioNewsEngine.handleInstructionClick(e, currentTip);
       };
       if (typeof lucide !== 'undefined' && lucide.createIcons) {
-        lucide.createIcons();
+        lucide.createIcons({ root: track });
       }
     } else if (textEl) {
       textEl.textContent = tipText;
@@ -2956,7 +2964,11 @@
       }
     }
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      if (headerPlayBtn) lucide.createIcons({ root: headerPlayBtn });
+      if (tickerTtsBtn) lucide.createIcons({ root: tickerTtsBtn });
+      if (bottomPlayerBar) lucide.createIcons({ root: bottomPlayerBar });
+    }
   }
 
   function getOrderedRadioStations() {
@@ -3043,7 +3055,7 @@
       `;
     }).join('');
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: container });
   }
 
   function switchMainTab(tab) {
@@ -3071,11 +3083,14 @@
       if (radioTabBtn) {
         radioTabBtn.className = 'flex-1 py-1 px-2 rounded-xl text-gray-400 hover:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer text-xs font-medium select-none';
       }
-      if (currentNewsItems.length === 0) {
+      if (!currentNewsItems || currentNewsItems.length === 0) {
         fetchNewsForRegion(currentRegion);
       }
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    const targetPane = tab === 'radio' ? radioPane : newsPane;
+    if (targetPane && typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons({ root: targetPane });
+    }
   }
 
   function openFullNewsLounge() {
@@ -3091,7 +3106,9 @@
   function initNewsPanel() {
     updateAllSelectorsUI();
     setSpeechRate(speechRate);
-    fetchNewsForRegion(currentRegion);
+    if (!currentNewsItems || currentNewsItems.length === 0) {
+      fetchNewsForRegion(currentRegion);
+    }
 
     if (!newsAutoRefreshInterval) {
       newsAutoRefreshInterval = setInterval(() => {

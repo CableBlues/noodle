@@ -20178,6 +20178,7 @@ function playGameSound(type) {
   const dest = getUiAudioDest();
   if (!dest) return;
   const masterVol = Math.min(0.6, (soundMasterVolume || 0.5) * 0.42);
+  if (masterVol <= 0.001) return;
 
   const ALL_GAME_SOUNDS = [
     'coin', 'gem', 'boing', 'pop', 'bloop', 'squeak', 'powerup', 'jump',
@@ -20836,8 +20837,9 @@ function playNatureSound(type) {
 // Master UI sound dispatcher: plays contextual or highly-varied rotating game sounds
 function playUiSound(category = 'click', specificType = null) {
   const currentTime = Date.now();
-  if (currentTime - lastUiSoundTime < 30) return; // Debounce fast spam
+  if (currentTime - lastUiSoundTime < 45) return; // Debounce fast spam
   lastUiSoundTime = currentTime;
+  if (isPlayerMuted || (typeof soundMasterVolume === 'number' && soundMasterVolume <= 0.001)) return;
 
   if (specificType) {
     playGameSound(specificType);
@@ -21090,7 +21092,7 @@ function updateHeaderSoundBtnUI() {
     }
     if (label) label.textContent = '';
   }
-  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: btn });
 }
 window.updateHeaderSoundBtnUI = updateHeaderSoundBtnUI;
 
@@ -21263,7 +21265,7 @@ function showSoundHoverSlider() {
       popover.classList.add('noodle-panel-peeking');
       popover.classList.remove('noodle-panel-pinned');
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: popover });
   }
 }
 window.showSoundHoverSlider = showSoundHoverSlider;
@@ -21298,7 +21300,7 @@ function toggleSoundVolumePopover(event) {
     soundVolumePinned = true;
     popover.classList.remove('hidden', 'noodle-panel-peeking');
     popover.classList.add('flex', 'noodle-panel-pinned');
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: popover });
   } else if (!soundVolumePinned) {
     soundVolumePinned = true;
     popover.classList.remove('noodle-panel-peeking');
@@ -21932,8 +21934,12 @@ const PIANO_PENTATONIC = [
   880.00  // A5
 ];
 
-function scheduleGentlePianoMelody() {
+function scheduleGentlePianoMelody(immediate = true) {
   if (currentSoundType !== 'piano') return;
+  if (immediate) {
+    const noteInit = PIANO_PENTATONIC[Math.floor(Math.random() * PIANO_PENTATONIC.length)];
+    playGentlePianoNote(noteInit, 0);
+  }
   const delay = 1400 + Math.random() * 2200; // Ruhiger Atem-Rhythmus
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'piano') return;
@@ -21951,7 +21957,7 @@ function scheduleGentlePianoMelody() {
       activeTimeouts.push(t2);
     }
 
-    scheduleGentlePianoMelody();
+    scheduleGentlePianoMelody(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -22059,13 +22065,16 @@ function playLofiChord(notes) {
 // -------------------------------------------------------------
 const CHIME_FREQS = [880.00, 987.77, 1174.66, 1318.51, 1567.98, 1760.00, 2093.00];
 
-function scheduleZenWindChimes() {
+function scheduleZenWindChimes(immediate = true) {
   if (currentSoundType !== 'chimes') return;
+  if (immediate) {
+    playZenWindChime();
+  }
   const delay = 1200 + Math.random() * 2600;
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'chimes') return;
     playZenWindChime();
-    scheduleZenWindChimes();
+    scheduleZenWindChimes(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -22151,14 +22160,18 @@ function playSingingBowl() {
 // -------------------------------------------------------------
 const MUSIC_BOX_NOTES = [523.25, 659.25, 783.99, 1046.50, 1318.51, 1567.98];
 
-function scheduleMusicBoxLullaby() {
+function scheduleMusicBoxLullaby(immediate = true) {
   if (currentSoundType !== 'musicbox') return;
+  if (immediate) {
+    const noteInit = MUSIC_BOX_NOTES[Math.floor(Math.random() * MUSIC_BOX_NOTES.length)];
+    playMusicBoxNote(noteInit);
+  }
   const delay = 600 + Math.random() * 1200;
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'musicbox') return;
     const note = MUSIC_BOX_NOTES[Math.floor(Math.random() * MUSIC_BOX_NOTES.length)];
     playMusicBoxNote(note);
-    scheduleMusicBoxLullaby();
+    scheduleMusicBoxLullaby(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -22189,13 +22202,16 @@ function playMusicBoxNote(freq) {
 // -------------------------------------------------------------
 const GUITAR_STRINGS = [196.00, 246.94, 293.66, 329.63, 392.00, 493.88];
 
-function scheduleAcousticGuitarMelody() {
+function scheduleAcousticGuitarMelody(immediate = true) {
   if (currentSoundType !== 'guitar') return;
+  if (immediate) {
+    playGuitarPluck();
+  }
   const delay = 1600 + Math.random() * 2400;
   const timeout = setTimeout(() => {
     if (currentSoundType !== 'guitar') return;
     playGuitarPluck();
-    scheduleAcousticGuitarMelody();
+    scheduleAcousticGuitarMelody(false);
   }, delay);
   activeTimeouts.push(timeout);
 }
@@ -23672,6 +23688,10 @@ function runBeatLookaheadScheduler() {
   if (!isBeatType) return;
 
   var secPer16th = (60.0 / (currentBeatBpm || 120)) / 4.0;
+
+  if (nextBeatTime < audioCtx.currentTime) {
+    nextBeatTime = audioCtx.currentTime;
+  }
 
   while (nextBeatTime < audioCtx.currentTime + scheduleAheadSec) {
     scheduleBeat16thStep(beatStepIndex, nextBeatTime);
@@ -47395,7 +47415,7 @@ let hoverPanelHideTimeout = null;
 
 // syncHeaderToolsMenuState handled by app-reports.js
 
-function showPanelHover(panelName, delay = 0) {
+function showPanelHover(panelName, delay = 180) {
   // Wenn im Click-Only Modus: keine automatische Hover-Vorschau öffnen!
   if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
     if (window.NoodleInteractionMode.getMode() === 'click-only') return;
@@ -47529,11 +47549,8 @@ function showPanelHover(panelName, delay = 0) {
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
-  if (delay <= 0) {
-    executeShow();
-  } else {
-    hoverPanelShowTimeout = setTimeout(executeShow, delay);
-  }
+  const effectiveDelay = (typeof delay === 'number' && delay > 0) ? delay : 180;
+  hoverPanelShowTimeout = setTimeout(executeShow, effectiveDelay);
 }
 window.showPanelHover = showPanelHover;
 
@@ -52288,15 +52305,15 @@ if (typeof globalThis !== 'undefined') {
     // Exklusivität: Umgebungsgeräusche stoppen (still, da Radiosender startet)
     try {
       if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-      if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio(true);
       if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
     } catch(e) {}
 
     const audio = getRadioAudio();
     try {
       audio.pause();
-      audio.src = station.stream;
-      audio.load();
+      if (audio.src !== station.stream) {
+        audio.src = station.stream;
+      }
       audio.volume = isRadioDucked ? (radioVolume * 0.18) : radioVolume;
       audio.play().then(() => {
         isRadioPlaying = true;
@@ -52315,13 +52332,16 @@ if (typeof globalThis !== 'undefined') {
         if (typeof showToast === 'function') {
           showToast(`📻 ${station.flag} ${station.name}`);
         }
-      }).catch(() => {
+        renderRadioPanelContent();
+      }).catch((err) => {
+        console.warn('Radio stream playback failed:', err);
         isRadioPlaying = false;
         window.isRadioPlaying = false;
         updateRadioUIState(false);
         if (typeof updateMiniAudioPlayer === 'function') {
           updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
         }
+        renderRadioPanelContent();
       });
     } catch (err) {
       isRadioPlaying = false;
@@ -52330,7 +52350,9 @@ if (typeof globalThis !== 'undefined') {
       if (typeof updateMiniAudioPlayer === 'function') {
         updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
       }
+      renderRadioPanelContent();
     }
+    updateRadioUIState(true);
     renderRadioPanelContent();
   }
 
@@ -52400,8 +52422,8 @@ if (typeof globalThis !== 'undefined') {
       playBtn.innerHTML = isPlaying 
         ? '<i data-lucide="pause" class="w-4 h-4 fill-white"></i>' 
         : '<i data-lucide="play" class="w-4 h-4 fill-white ml-0.5"></i>';
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: playBtn });
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 
   // ============================================================================
@@ -52976,7 +52998,10 @@ if (typeof globalThis !== 'undefined') {
       subtext.textContent = `${regObj ? regObj.id.toUpperCase() : 'DE'} → ${langObj ? langObj.id.toUpperCase() : 'DE'} · ${catObj ? catObj.name : 'Alle'}`;
     }
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    const newsPanel = document.getElementById('panel-news');
+    if (newsPanel && typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons({ root: newsPanel });
+    }
   }
 
   // ============================================================================
@@ -53049,7 +53074,7 @@ if (typeof globalThis !== 'undefined') {
       `;
     }).join('');
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: listContainer });
   }
 
   function renderTickerMarquee(items) {
@@ -53215,7 +53240,7 @@ if (typeof globalThis !== 'undefined') {
         </button>
       </div>
     `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (articleBox && typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: articleBox });
   }
 
   function updateHoverActionPill(it, idx) {
@@ -53238,7 +53263,7 @@ if (typeof globalThis !== 'undefined') {
         <i data-lucide="volume-2" class="w-3 h-3"></i>
       </button>
     `;
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: hoverPill });
   }
 
   function handleNewsClick(idx) {
@@ -53583,7 +53608,7 @@ if (typeof globalThis !== 'undefined') {
         RadioNewsEngine.handleInstructionClick(e, currentTip);
       };
       if (typeof lucide !== 'undefined' && lucide.createIcons) {
-        lucide.createIcons();
+        lucide.createIcons({ root: track });
       }
     } else if (textEl) {
       textEl.textContent = tipText;
@@ -53936,7 +53961,11 @@ if (typeof globalThis !== 'undefined') {
       }
     }
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      if (headerPlayBtn) lucide.createIcons({ root: headerPlayBtn });
+      if (tickerTtsBtn) lucide.createIcons({ root: tickerTtsBtn });
+      if (bottomPlayerBar) lucide.createIcons({ root: bottomPlayerBar });
+    }
   }
 
   function getOrderedRadioStations() {
@@ -54023,7 +54052,7 @@ if (typeof globalThis !== 'undefined') {
       `;
     }).join('');
 
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: container });
   }
 
   function switchMainTab(tab) {
@@ -54051,11 +54080,14 @@ if (typeof globalThis !== 'undefined') {
       if (radioTabBtn) {
         radioTabBtn.className = 'flex-1 py-1 px-2 rounded-xl text-gray-400 hover:text-white transition-all flex items-center justify-center gap-1.5 cursor-pointer text-xs font-medium select-none';
       }
-      if (currentNewsItems.length === 0) {
+      if (!currentNewsItems || currentNewsItems.length === 0) {
         fetchNewsForRegion(currentRegion);
       }
     }
-    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    const targetPane = tab === 'radio' ? radioPane : newsPane;
+    if (targetPane && typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons({ root: targetPane });
+    }
   }
 
   function openFullNewsLounge() {
@@ -54071,7 +54103,9 @@ if (typeof globalThis !== 'undefined') {
   function initNewsPanel() {
     updateAllSelectorsUI();
     setSpeechRate(speechRate);
-    fetchNewsForRegion(currentRegion);
+    if (!currentNewsItems || currentNewsItems.length === 0) {
+      fetchNewsForRegion(currentRegion);
+    }
 
     if (!newsAutoRefreshInterval) {
       newsAutoRefreshInterval = setInterval(() => {

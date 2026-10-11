@@ -834,6 +834,10 @@ function runBeatLookaheadScheduler() {
 
   var secPer16th = (60.0 / (currentBeatBpm || 120)) / 4.0;
 
+  if (nextBeatTime < audioCtx.currentTime) {
+    nextBeatTime = audioCtx.currentTime;
+  }
+
   while (nextBeatTime < audioCtx.currentTime + scheduleAheadSec) {
     scheduleBeat16thStep(beatStepIndex, nextBeatTime);
     nextBeatTime += secPer16th;
