@@ -20003,8 +20003,11 @@ function playAmbientSound(type, crossfade = false) {
 
   // Wenn der geklickte Sound bereits läuft -> stoppen (Toggle-Funktion)
   if (currentSoundType === type) {
-    stopAmbientSound(true);
-    if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio(true);
+    if (typeof stopAllStudioAudio === 'function') {
+      stopAllStudioAudio(true);
+    } else {
+      stopAmbientSound(true);
+    }
     updateSoundscapeUI();
     if (typeof showToast === 'function') {
       showToast(typeof tr === 'function' ? tr({ de: 'Audio gestoppt ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio gestoppt ⏹️');
@@ -20012,18 +20015,12 @@ function playAmbientSound(type, crossfade = false) {
     return;
   }
 
-  // Ansonsten: Alle anderen vorher laufenden Sounds/Musik/Radio restlos stoppen (still, da neuer Sound startet)
-  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio(true);
-  stopAmbientSound(true);
-
-  // Exklusivität: Radio stoppen falls aktiv
-  try {
-    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
-      RadioNewsEngine.toggleRadioPlayback();
-    } else if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
-      window.radioAudioEl.pause();
-    }
-  } catch (e) {}
+  // Ansonsten: Alle anderen vorher laufenden Sounds/Musik/Radio restlos still stoppen
+  if (typeof stopAllStudioAudio === 'function') {
+    stopAllStudioAudio(true);
+  } else {
+    stopAmbientSound(true);
+  }
 
   currentSoundType = type;
   soundGainNode = audioCtx.createGain();
@@ -21054,9 +21051,19 @@ function updateAudioStudioHeader(customTitle) {
 window.updateAudioStudioHeader = updateAudioStudioHeader;
 
 function isAnyAudioPlaying() {
-  return (typeof currentSoundType !== 'undefined' && Boolean(currentSoundType)) || 
-         (typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused) || 
-         (typeof djDecks !== 'undefined' && djDecks && (djDecks.a?.isPlaying || djDecks.b?.isPlaying));
+  const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
+  const isMusic = typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused;
+  const isDj = typeof djDecks !== 'undefined' && djDecks && (djDecks.a?.isPlaying || djDecks.b?.isPlaying);
+  const isRadio = (typeof window !== 'undefined' && Boolean(window.isRadioPlaying)) || 
+                  (typeof isRadioPlaying !== 'undefined' && Boolean(isRadioPlaying)) ||
+                  (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused);
+  const isBeat = typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying);
+  const isLayers = typeof activeAmbientLayers !== 'undefined' && Object.keys(activeAmbientLayers).length > 0;
+  const isBinaural = typeof activeBinauralBeat !== 'undefined' && Boolean(activeBinauralBeat);
+  const isTts = (typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis.speaking) ||
+                (typeof RadioNewsEngine !== 'undefined' && Boolean(RadioNewsEngine.isSpeakingQueue));
+
+  return Boolean(isAmbient || isMusic || isDj || isRadio || isBeat || isLayers || isBinaural || isTts);
 }
 window.isAnyAudioPlaying = isAnyAudioPlaying;
 
@@ -21107,11 +21114,56 @@ function toggleMasterSound() {
 window.toggleMasterSound = toggleMasterSound;
 
 function stopAllStudioAudio(silent = false) {
+  // 1. Ambient & Natur-Soundscapes
   if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+
+  // 2. Multi-track Ambient layers
+  if (typeof activeAmbientLayers !== 'undefined') {
+    Object.keys(activeAmbientLayers).forEach(type => {
+      try { stopAmbientLayer(type); } catch(e) {}
+    });
+  }
+
+  // 3. Binaural beats
+  if (typeof stopBinauralBeat === 'function') stopBinauralBeat();
+
+  // 4. Beat Sequencer & LoFi
+  if (typeof stopBeatSequencer === 'function') stopBeatSequencer();
+  if (typeof stopLoFiBeats === 'function') stopLoFiBeats();
+
+  // 5. Music & Media Player
   if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
+  else if (typeof activeUserAudio !== 'undefined' && activeUserAudio) {
+    try { activeUserAudio.pause(); } catch(e) {}
+  }
+
+  // 6. Live Radio
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+    RadioNewsEngine.stopRadioPlayback();
+  } else if (typeof stopRadioPlayback === 'function') {
+    stopRadioPlayback();
+  } else if (typeof window !== 'undefined' && window.radioAudioEl) {
+    try { window.radioAudioEl.pause(); } catch(e) {}
+    window.isRadioPlaying = false;
+    if (typeof updateRadioUIState === 'function') updateRadioUIState(false);
+  }
+
+  // 7. DJ Decks
   if (typeof pauseDjDeck === 'function') { pauseDjDeck('a'); pauseDjDeck('b'); }
+
+  // 8. TTS / News Reader
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopNewsReader === 'function') {
+    RadioNewsEngine.stopNewsReader();
+  }
+  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+    try { window.speechSynthesis.cancel(); } catch(e) {}
+  }
+
   const miniPlayer = document.getElementById('noodle-mini-audio-player');
   if (miniPlayer) miniPlayer.classList.add('hidden');
+  if (typeof isMiniPlayerPlaying !== 'undefined') isMiniPlayerPlaying = false;
+  if (typeof currentActiveAudioSource !== 'undefined') currentActiveAudioSource = null;
+
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
   document.querySelectorAll('.mood-preset-card').forEach(btn => {
@@ -21358,7 +21410,9 @@ function stopAllSounds() {
   if (typeof stopLoFiBeats === 'function') stopLoFiBeats();
   if (typeof stopBeatSequencer === 'function') stopBeatSequencer();
   if (typeof RadioNewsEngine !== 'undefined') {
-    if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
+    if (typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+      RadioNewsEngine.stopRadioPlayback();
+    } else if (typeof RadioNewsEngine.toggleRadioPlayback === 'function' && window.isRadioPlaying) {
       RadioNewsEngine.toggleRadioPlayback();
     }
     if (typeof RadioNewsEngine.stopNewsReader === 'function') {
@@ -22942,77 +22996,45 @@ function stopAmbientSound(silent = false) {
   // 0. Ausstehende Crossfade-Nodes und Crossfade-Gains sofort hart stoppen & trennen
   if (typeof pendingCrossfadeNodes !== 'undefined' && pendingCrossfadeNodes.length > 0) {
     pendingCrossfadeNodes.forEach(node => {
-      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) { console.warn('[Audio] pendingCrossfadeNode.stop error:', e); }
-      try { node.disconnect(); } catch(e) { console.warn('[Audio] pendingCrossfadeNode.disconnect error:', e); }
+      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) {}
+      try { node.disconnect(); } catch(e) {}
     });
     pendingCrossfadeNodes = [];
   }
 
   if (typeof pendingCrossfadeGains !== 'undefined' && pendingCrossfadeGains.length > 0) {
     pendingCrossfadeGains.forEach(gain => {
-      try { gain.gain.cancelScheduledValues(now); } catch(e) { console.warn('[Audio] pendingGain.cancelScheduledValues error:', e); }
-      try { gain.gain.setValueAtTime(0, now); } catch(e) { console.warn('[Audio] pendingGain.setValueAtTime error:', e); }
-      try { gain.disconnect(); } catch(e) { console.warn('[Audio] pendingGain.disconnect error:', e); }
+      try { gain.gain.cancelScheduledValues(now); } catch(e) {}
+      try { gain.gain.setValueAtTime(0, now); } catch(e) {}
+      try { gain.disconnect(); } catch(e) {}
     });
     pendingCrossfadeGains = [];
   }
 
-  // 1. MASTER GAIN sofort kappen und trennen -> KEIN Ton erreicht mehr die Lautsprecher!
-  if (typeof masterGainNode !== 'undefined' && masterGainNode) {
-    try { masterGainNode.gain.cancelScheduledValues(now); } catch(e) { console.warn('[Audio] masterGain.cancelScheduledValues error:', e); }
-    try { masterGainNode.gain.setValueAtTime(0, now); } catch(e) { console.warn('[Audio] masterGain.setValueAtTime error:', e); }
-    try { masterGainNode.disconnect(); } catch(e) { console.warn('[Audio] masterGain.disconnect error:', e); }
-    masterGainNode = null;
-  }
-
-  // 2. Sound Gain trennen
+  // 1. Ambient Sound Gain stumm schalten & trennen (Master Gain bleibt unberührt und intakt)
   if (typeof soundGainNode !== 'undefined' && soundGainNode) {
-    try { soundGainNode.gain.cancelScheduledValues(now); } catch(e) { console.warn('[Audio] soundGain.cancelScheduledValues error:', e); }
-    try { soundGainNode.gain.setValueAtTime(0, now); } catch(e) { console.warn('[Audio] soundGain.setValueAtTime error:', e); }
-    try { soundGainNode.disconnect(); } catch(e) { console.warn('[Audio] soundGain.disconnect error:', e); }
+    try { soundGainNode.gain.cancelScheduledValues(now); } catch(e) {}
+    try { soundGainNode.gain.setValueAtTime(0, now); } catch(e) {}
+    try { soundGainNode.disconnect(); } catch(e) {}
     soundGainNode = null;
   }
 
-  // 3. Alle aktiven Oszillatoren / Noise Nodes stoppen & trennen
+  // 2. Alle aktiven Ambient Oszillatoren / Noise Nodes stoppen & trennen
   if (typeof activeNodes !== 'undefined' && activeNodes.length > 0) {
     activeNodes.forEach(node => {
-      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) { console.warn('[Audio] activeNode.stop error:', e); }
-      try { node.disconnect(); } catch(e) { console.warn('[Audio] activeNode.disconnect error:', e); }
+      try { if (typeof node.stop === 'function') node.stop(0); } catch(e) {}
+      try { node.disconnect(); } catch(e) {}
     });
     activeNodes = [];
   }
 
-  // 4. HTML5 Audio stoppen
-  if (typeof activeUserAudio !== 'undefined' && activeUserAudio) {
-    try { activeUserAudio.pause(); } catch(e) { console.warn('[Audio] activeUserAudio.pause error:', e); }
-    try { activeUserAudio.currentTime = 0; } catch(e) { console.warn('[Audio] activeUserAudio.currentTime error:', e); }
-    try { activeUserAudio.src = ""; } catch(e) { console.warn('[Audio] activeUserAudio.src error:', e); }
-    activeUserAudio = null;
+  // 3. Beat Sequencer timer anhalten
+  if (typeof beatSchedulerTimer !== 'undefined' && beatSchedulerTimer) {
+    clearInterval(beatSchedulerTimer);
+    beatSchedulerTimer = null;
   }
-
-  // Alle HTML5-Audio-Elemente im DOM anhalten
-  try {
-    const allAudios = document.querySelectorAll('audio');
-    allAudios.forEach(a => {
-      try { a.pause(); a.currentTime = 0; } catch(e) { console.warn('[Audio] DOM audio reset error:', e); }
-    });
-  } catch(e) {
-    console.warn('[Audio] DOM audio pause error:', e);
-  }
-
-  // 5. Sprachausgabe sofort abbrechen & alle Timeouts invalidieren
-  if (typeof currentSpeechSessionId !== 'undefined') {
-    currentSpeechSessionId++;
-  }
-  if ('speechSynthesis' in window) {
-    try { window.speechSynthesis.cancel(); } catch(e) { console.warn('[Audio] speechSynthesis.cancel warning:', e); }
-    setTimeout(() => { try { window.speechSynthesis.cancel(); } catch(e) { console.warn('[Audio] deferred cancel warning:', e); } }, 0);
-    setTimeout(() => { try { window.speechSynthesis.cancel(); } catch(e) { console.warn('[Audio] deferred cancel 50ms warning:', e); } }, 50);
-  }
-
-  // Debug-Log für Graph-Zustand
-  if (typeof audioCtx !== 'undefined' && audioCtx) {
-    console.log(`[Audio] stopAmbientSound abgeschlossen | AudioContext State: ${audioCtx.state} | Aktive Nodes: 0 | Pending Crossfades: 0`);
+  if (typeof isBeatPlaying !== 'undefined') {
+    isBeatPlaying = false;
   }
 
   currentSoundType = null;
@@ -23022,13 +23044,10 @@ function stopAmbientSound(silent = false) {
   if (nameLabel) nameLabel.classList.add('hidden');
   
   if (!silent) {
-    const toastLabel = { 
-      de: 'Focus Sound gestoppt', 
-      en: 'Focus Sound stopped', 
-      es: 'Sonido de enfoque detenido', 
-      el: 'Ήχος εστίασης σταμάτησε' 
-    }[currentLang] || 'Sound stopped';
-    showToast(toastLabel);
+    const toastLabel = (typeof tr === 'function')
+      ? tr({ de: 'Focus Sound gestoppt ⏹️', en: 'Focus Sound stopped ⏹️', es: 'Sonido de enfoque detenido ⏹️', el: 'Ήχος εστίασης σταμάτησε ⏹️' })
+      : 'Focus Sound gestoppt ⏹️';
+    if (typeof showToast === 'function') showToast(toastLabel);
   }
 }
 
@@ -24274,9 +24293,11 @@ function playMusicTrack(index) {
   // Exklusivität: Ambient & Radio still beenden, wenn Musik startet
   try {
     if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-    if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopRadioPlayback === 'function') {
+      RadioNewsEngine.stopRadioPlayback();
+    } else if (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused) {
       window.radioAudioEl.pause();
-      if (typeof isRadioPlaying !== 'undefined') isRadioPlaying = false;
+      window.isRadioPlaying = false;
     }
   } catch(e) {}
 
@@ -24333,12 +24354,53 @@ function playMusicTrack(index) {
     console.warn('[AudioPlayer] Playback attempt error:', err);
     updateMusicPlayBtnUI(false);
     if (typeof updateMiniAudioPlayer === 'function') {
-      updateMiniAudioPlayer({ isPlaying: false });
+      updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'music' });
     }
   });
 }
 window.playMusicTrack = playMusicTrack;
 window.playTrack = playMusicTrack;
+
+function pauseMusicTrack() {
+  if (activeUserAudio && !activeUserAudio.paused) {
+    activeUserAudio.pause();
+    updateMusicPlayBtnUI(false);
+    renderMusicPlaylist();
+    const currentTrack = (playlistTracks && playlistTracks[currentTrackIndex]) || null;
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: currentTrack ? (currentTrack.name || currentTrack.fullName) : 'Musik',
+        sub: 'Pausiert',
+        emoji: '🎶',
+        source: 'music'
+      });
+    }
+  }
+}
+window.pauseMusicTrack = pauseMusicTrack;
+
+function stopMusicTrack() {
+  if (activeUserAudio) {
+    try {
+      activeUserAudio.pause();
+      activeUserAudio.currentTime = 0;
+    } catch(e) {}
+    updateMusicPlayBtnUI(false);
+    renderMusicPlaylist();
+    const currentTrack = (playlistTracks && playlistTracks[currentTrackIndex]) || null;
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: currentTrack ? (currentTrack.name || currentTrack.fullName) : 'Musik',
+        sub: 'Gestoppt',
+        emoji: '🎶',
+        source: 'music'
+      });
+    }
+  }
+}
+window.stopMusicTrack = stopMusicTrack;
 
 function toggleMusicPlayback() {
   if (!activeUserAudio) {
@@ -24365,8 +24427,15 @@ function toggleMusicPlayback() {
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
     renderMusicPlaylist();
+    const currentTrack = playlistTracks[currentTrackIndex];
     if (typeof updateMiniAudioPlayer === 'function') {
-      updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert' });
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: currentTrack ? (currentTrack.name || currentTrack.fullName) : 'Musik',
+        sub: 'Pausiert',
+        emoji: '🎶',
+        source: 'music'
+      });
     }
   }
 }
@@ -25544,21 +25613,11 @@ function updateMiniAudioPlayer(info) {
   const playerEl = document.getElementById('noodle-mini-audio-player');
   if (!playerEl) return;
 
-  if (!info || !info.isPlaying) {
-    // Check if any audio is still active anywhere
-    const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
-    const isBeat = typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying);
-    const isDj = (djDecks.a && djDecks.a.isPlaying) || (djDecks.b && djDecks.b.isPlaying);
-    const isMusic = typeof isMusicPlaying !== 'undefined' && Boolean(isMusicPlaying);
-    const isRadio = typeof window !== 'undefined' && Boolean(window.isRadioPlaying);
-    const isTts = typeof RadioNewsEngine !== 'undefined' && Boolean(RadioNewsEngine.isReading);
-
-    if (!isAmbient && !isBeat && !isDj && !isMusic && !isRadio && !isTts) {
-      playerEl.classList.add('hidden');
-      isMiniPlayerPlaying = false;
-      currentActiveAudioSource = null;
-      return;
-    }
+  if (info && info.hide) {
+    playerEl.classList.add('hidden');
+    isMiniPlayerPlaying = false;
+    currentActiveAudioSource = null;
+    return;
   }
 
   if (info) {
@@ -25588,6 +25647,7 @@ function updateMiniAudioPlayer(info) {
     playBtn.innerHTML = isMiniPlayerPlaying 
       ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' 
       : '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+    playBtn.title = isMiniPlayerPlaying ? 'Pause' : 'Fortsetzen';
   }
 
   if (eqAnim) {
@@ -25610,13 +25670,23 @@ function toggleMiniPlayerPlayback() {
       const savedType = currentSoundType;
       window._pausedAmbientSound = savedType;
       if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-      updateMiniAudioPlayer({ isPlaying: false, title: getNoodleSoundDisplayName(savedType), sub: 'Pausiert', emoji: '⏸️' });
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: getNoodleSoundDisplayName(savedType),
+        sub: 'Pausiert',
+        emoji: '⏸️',
+        source: 'ambient'
+      });
     } else if (window._pausedAmbientSound) {
       playAmbientSound(window._pausedAmbientSound);
+    } else {
+      playAmbientSound(window.lastSelectedSound || 'piano');
     }
   } else if (currentActiveAudioSource === 'radio') {
     if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function') {
       RadioNewsEngine.toggleRadioPlayback();
+    } else if (typeof window.toggleRadioPlayback === 'function') {
+      window.toggleRadioPlayback();
     }
   } else if (currentActiveAudioSource === 'dj') {
     if (djDecks.a && djDecks.a.audio) toggleDjDeckPlayback('a');
@@ -25632,9 +25702,12 @@ function toggleMiniPlayerPlayback() {
 window.toggleMiniPlayerPlayback = toggleMiniPlayerPlayback;
 
 function stopAllMiniPlayerAudio() {
-  if (typeof stopAllSounds === 'function') stopAllSounds();
-  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
-  if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+  if (typeof stopAllStudioAudio === 'function') {
+    stopAllStudioAudio(true);
+  } else {
+    if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+    if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
+  }
   if (typeof RadioNewsEngine !== 'undefined') {
     if (typeof RadioNewsEngine.stopRadioPlayback === 'function') RadioNewsEngine.stopRadioPlayback();
     if (typeof RadioNewsEngine.stopNewsReader === 'function') RadioNewsEngine.stopNewsReader();
@@ -52227,6 +52300,8 @@ if (typeof globalThis !== 'undefined') {
       audio.volume = isRadioDucked ? (radioVolume * 0.18) : radioVolume;
       audio.play().then(() => {
         isRadioPlaying = true;
+        window.isRadioPlaying = true;
+        window.radioAudioEl = audio;
         updateRadioUIState(true);
         if (typeof updateMiniAudioPlayer === 'function') {
           updateMiniAudioPlayer({
@@ -52242,17 +52317,43 @@ if (typeof globalThis !== 'undefined') {
         }
       }).catch(() => {
         isRadioPlaying = false;
+        window.isRadioPlaying = false;
         updateRadioUIState(false);
         if (typeof updateMiniAudioPlayer === 'function') {
-          updateMiniAudioPlayer({ isPlaying: false });
+          updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
         }
       });
     } catch (err) {
       isRadioPlaying = false;
+      window.isRadioPlaying = false;
       updateRadioUIState(false);
       if (typeof updateMiniAudioPlayer === 'function') {
-        updateMiniAudioPlayer({ isPlaying: false });
+        updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
       }
+    }
+    renderRadioPanelContent();
+  }
+
+  function stopRadioPlayback() {
+    const audio = getRadioAudio();
+    if (audio) {
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+      } catch(e) {}
+    }
+    isRadioPlaying = false;
+    window.isRadioPlaying = false;
+    updateRadioUIState(false);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      const station = RADIO_STATIONS.find(s => s.id === currentStationId);
+      updateMiniAudioPlayer({
+        isPlaying: false,
+        title: station ? `${station.flag || '📻'} ${station.name}` : 'Radio',
+        sub: 'Gestoppt',
+        emoji: '📻',
+        source: 'radio'
+      });
     }
     renderRadioPanelContent();
   }
@@ -52262,14 +52363,22 @@ if (typeof globalThis !== 'undefined') {
     if (isRadioPlaying) {
       audio.pause();
       isRadioPlaying = false;
+      window.isRadioPlaying = false;
       updateRadioUIState(false);
       if (typeof updateMiniAudioPlayer === 'function') {
-        updateMiniAudioPlayer({ isPlaying: false });
+        const station = RADIO_STATIONS.find(s => s.id === currentStationId);
+        updateMiniAudioPlayer({
+          isPlaying: false,
+          title: station ? `${station.flag || '📻'} ${station.name}` : 'Radio',
+          sub: 'Pausiert',
+          emoji: '📻',
+          source: 'radio'
+        });
       }
     } else {
       try {
         if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
-        if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio(true);
+        if (typeof pauseMusicTrack === 'function') pauseMusicTrack();
       } catch(e) {}
       playRadioStation(currentStationId);
     }
@@ -54004,6 +54113,7 @@ if (typeof globalThis !== 'undefined') {
     // Radio
     playRadioStation,
     toggleRadioPlayback,
+    stopRadioPlayback,
     setRadioVolume,
     duckRadio,
     // News Reader (TTS)
@@ -54077,11 +54187,13 @@ if (typeof globalThis !== 'undefined') {
     };
     window.playRadioStation = playRadioStation;
     window.toggleRadioPlayback = toggleRadioPlayback;
+    window.stopRadioPlayback = stopRadioPlayback;
     window.duckRadio = duckRadio;
   }
 
   if (typeof globalThis !== 'undefined') {
     globalThis.RadioNewsEngine = RadioNewsEngine;
+    globalThis.stopRadioPlayback = stopRadioPlayback;
     globalThis.duckRadio = duckRadio;
   }
 
