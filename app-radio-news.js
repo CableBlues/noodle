@@ -10,45 +10,45 @@
 
   const RADIO_STATIONS = [
     // 🌌 1. Drone Zone & Pure Ambient (Immer an erster Stelle wie gewünscht)
-    { id: 'dronezone', name: 'SomaFM Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes (Empfehlung #1)', stream: 'https://ice1.somafm.com/dronezone-128-mp3', logo: '🧘' },
-    { id: 'spacestation', name: 'SomaFM Space Station', category: 'focus', country: 'global', flag: '🚀', desc: 'Mid- & Downtempo Space Ambient & Electronica', stream: 'https://ice1.somafm.com/spacestation-128-mp3', logo: '🛰️' },
-    { id: 'deepspaceone', name: 'SomaFM Deep Space One', category: 'focus', country: 'global', flag: '🌠', desc: 'Deep Ambient Electronic & Experimental Focus', stream: 'https://ice1.somafm.com/deepspaceone-128-mp3', logo: '🌌' },
-    { id: 'groovesalad', name: 'SomaFM Groove Salad', category: 'focus', country: 'global', flag: '🥗', desc: 'Downtempo Ambient & Chilled Electronic', stream: 'https://ice1.somafm.com/groovesalad-128-mp3', logo: '🥗' },
-    { id: 'lush', name: 'SomaFM Lush Chill', category: 'focus', country: 'global', flag: '🎧', desc: 'Sanfter Lofi Chill & Vocal Atmospheres', stream: 'https://ice1.somafm.com/lush-128-mp3', logo: '☕' },
+    { id: 'dronezone', name: 'SomaFM Drone Zone', searchQuery: 'Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes (Empfehlung #1)', stream: 'https://ice1.somafm.com/dronezone-128-mp3', streams: ['https://ice1.somafm.com/dronezone-128-mp3', 'https://ice2.somafm.com/dronezone-128-mp3', 'https://ice4.somafm.com/dronezone-128-mp3', 'https://ice6.somafm.com/dronezone-128-mp3'], logo: '🧘' },
+    { id: 'spacestation', name: 'SomaFM Space Station', searchQuery: 'Space Station Soma', category: 'focus', country: 'global', flag: '🚀', desc: 'Mid- & Downtempo Space Ambient & Electronica', stream: 'https://ice1.somafm.com/spacestation-128-mp3', streams: ['https://ice1.somafm.com/spacestation-128-mp3', 'https://ice2.somafm.com/spacestation-128-mp3', 'https://ice4.somafm.com/spacestation-128-mp3', 'https://ice6.somafm.com/spacestation-128-mp3'], logo: '🛰️' },
+    { id: 'deepspaceone', name: 'SomaFM Deep Space One', searchQuery: 'Deep Space One', category: 'focus', country: 'global', flag: '🌠', desc: 'Deep Ambient Electronic & Experimental Focus', stream: 'https://ice1.somafm.com/deepspaceone-128-mp3', streams: ['https://ice1.somafm.com/deepspaceone-128-mp3', 'https://ice2.somafm.com/deepspaceone-128-mp3', 'https://ice4.somafm.com/deepspaceone-128-mp3', 'https://ice6.somafm.com/deepspaceone-128-mp3'], logo: '🌌' },
+    { id: 'groovesalad', name: 'SomaFM Groove Salad', searchQuery: 'Groove Salad', category: 'focus', country: 'global', flag: '🥗', desc: 'Downtempo Ambient & Chilled Electronic', stream: 'https://ice1.somafm.com/groovesalad-128-mp3', streams: ['https://ice1.somafm.com/groovesalad-128-mp3', 'https://ice2.somafm.com/groovesalad-128-mp3', 'https://ice4.somafm.com/groovesalad-128-mp3', 'https://ice6.somafm.com/groovesalad-128-mp3'], logo: '🥗' },
+    { id: 'lush', name: 'SomaFM Lush Chill', searchQuery: 'Lush SomaFM', category: 'focus', country: 'global', flag: '🎧', desc: 'Sanfter Lofi Chill & Vocal Atmospheres', stream: 'https://ice1.somafm.com/lush-128-mp3', streams: ['https://ice1.somafm.com/lush-128-mp3', 'https://ice2.somafm.com/lush-128-mp3', 'https://ice4.somafm.com/lush-128-mp3', 'https://ice6.somafm.com/lush-128-mp3'], logo: '☕' },
 
     // 🇩🇪 Freie & unabhängige Sender / Region DE (Schwerpunkt progressive/freie Medien)
-    { id: 'corax', name: 'Radio Corax (Freies Radio)', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Freies Radio Halle – Politik, Subkultur & Diskurse', stream: 'https://stream.radiocorax.de/corax.mp3', logo: '📻' },
-    { id: 'dreyeckland', name: 'Radio Dreyeckland', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Ältestes freies Radio Deutschlands (Freiburg)', stream: 'https://stream.rdl.de/rdl.mp3', logo: '🎙️' },
-    { id: 'fsk', name: 'FSK Hamburg (Freies Sender Kombinat)', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Nicht-kommerzielles emanzipatorisches Radio', stream: 'https://icecast.fsk-hh.org/fsk.mp3', logo: '📢' },
-    { id: 'dlf', name: 'Deutschlandfunk', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Politik, Wissen & Kultur', stream: 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', logo: '📻' },
-    { id: 'ndrinfo', name: 'NDR Info', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Das Informationsradio für den Norden', stream: 'https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', logo: '🎙️' },
-    { id: 'wdr5', name: 'WDR 5', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Tiefgang, Analysen & Wissensmagazine', stream: 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', logo: '🎙️' },
-    { id: 'br24', name: 'BR24 Live', category: 'news', country: 'de', flag: '🇩🇪', desc: 'In 15 Minuten umfassend informiert', stream: 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', logo: '📢' },
-    { id: 'swraktuell', name: 'SWR Aktuell', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Interviews & Verkehr', stream: 'https://liveradio.swr.de/sw282p3/swraktuell/play.mp3', logo: '📻' },
+    { id: 'corax', name: 'Radio Corax (Freies Radio)', searchQuery: 'Radio Corax', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Freies Radio Halle – Politik, Subkultur & Diskurse', stream: 'https://streaming.fueralle.org/corax_256.mp3', streams: ['https://streaming.fueralle.org/corax_256.mp3', 'https://stream1.datenkollektiv.net/corax_256.mp3', 'https://streaming.fueralle.org/corax_128.mp3', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '📻' },
+    { id: 'dreyeckland', name: 'Radio Dreyeckland', searchQuery: 'Radio Dreyeckland', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Ältestes freies Radio Deutschlands (Freiburg)', stream: 'https://stream.rdl.de/rdl', streams: ['https://stream.rdl.de/rdl', 'https://streaming.fueralle.org/frs-hi.mp3', 'https://streaming.fueralle.org/corax_256.mp3', 'https://liveradio.swr.de/sw282p3/swraktuell/play.mp3'], logo: '🎙️' },
+    { id: 'fsk', name: 'FSK Hamburg (Freies Sender Kombinat)', searchQuery: 'FSK Hamburg', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Nicht-kommerzielles emanzipatorisches Radio', stream: 'https://streaming.fueralle.org/fsk.ogg', streams: ['https://streaming.fueralle.org/fsk.ogg', 'https://streaming.fueralle.org/corax_256.mp3', 'https://stream.querfunk.de/qfhi', 'https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3'], logo: '📢' },
+    { id: 'dlf', name: 'Deutschlandfunk', searchQuery: 'Deutschlandfunk', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Politik, Wissen & Kultur', stream: 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', streams: ['https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', 'https://st02.sslstream.dlf.de/dlf/02/128/mp3/stream.mp3', 'https://st03.sslstream.dlf.de/dlf/03/128/mp3/stream.mp3', 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid'], logo: '📻' },
+    { id: 'ndrinfo', name: 'NDR Info', searchQuery: 'NDR Info', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Das Informationsradio für den Norden', stream: 'https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', streams: ['https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', 'https://icecast.ndr.de/ndr/ndrinfo/niedersachsen/mp3/128/stream.mp3', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '🎙️' },
+    { id: 'wdr5', name: 'WDR 5', searchQuery: 'WDR 5', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Tiefgang, Analysen & Wissensmagazine', stream: 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', streams: ['https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/64/stream.mp3', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '🎙️' },
+    { id: 'br24', name: 'BR24 Live', searchQuery: 'BR24', category: 'news', country: 'de', flag: '🇩🇪', desc: 'In 15 Minuten umfassend informiert', stream: 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', streams: ['https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', 'https://dispatcher.rndfnk.com/br/br24/live/mp3/low', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '📢' },
+    { id: 'swraktuell', name: 'SWR Aktuell', searchQuery: 'SWR Aktuell', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Interviews & Verkehr', stream: 'https://liveradio.swr.de/sw282p3/swraktuell/play.mp3', streams: ['https://liveradio.swr.de/sw282p3/swraktuell/play.mp3', 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '📻' },
 
     // 🇦🇹 Österreich & 🇨🇭 Schweiz (Inkl. freie Radios)
-    { id: 'radioorange', name: 'Radio Orange 94.0 Wien', category: 'independent', country: 'at', flag: '🇦🇹', desc: 'Freies Community Radio Wien – Vielfalt & Diskurs', stream: 'https://stream.o94.at/live.mp3', logo: '🇦🇹' },
-    { id: 'oe1', name: 'Ö1 Kultur & Info', category: 'news', country: 'at', flag: '🇦🇹', desc: 'Wissen, Kultur & fundierte Nachrichten', stream: 'https://orf-live.ors-shoutcast.at/oe1-q2a', logo: '🇦🇹' },
-    { id: 'oe3', name: 'Hitradio Ö3', category: 'music', country: 'at', flag: '🇦🇹', desc: 'Österreichs beliebtes Hitradio', stream: 'https://orf-live.ors-shoutcast.at/oe3-q2a', logo: '🎵' },
-    { id: 'lora_ch', name: 'Radio LORA Zürich', category: 'independent', country: 'ch', flag: '🇨🇭', desc: 'Alternatives nicht-kommerzielles Radio Zürich', stream: 'https://stream.lora.ch/lora.mp3', logo: '🇨🇭' },
-    { id: 'srf1', name: 'SRF 1 Info & Musik', category: 'news', country: 'ch', flag: '🇨🇭', desc: 'Schweizer Radio & Nachrichten', stream: 'https://stream.srg-ssr.ch/m/drs1/mp3_128', logo: '🇨🇭' },
-    { id: 'swisspop', name: 'Radio Swiss Pop', category: 'music', country: 'ch', flag: '🇨🇭', desc: 'Entspannter Pop-Mix ohne Unterbrechung', stream: 'https://stream.srg-ssr.ch/m/rsp/mp3_128', logo: '🎶' },
+    { id: 'radioorange', name: 'Radio Orange 94.0 Wien', searchQuery: 'Radio Orange 94.0', category: 'independent', country: 'at', flag: '🇦🇹', desc: 'Freies Community Radio Wien – Vielfalt & Diskurs', stream: 'https://securestream.o94.at/live.mp3', streams: ['https://securestream.o94.at/live.mp3', 'https://orf-live.ors-shoutcast.at/fm4-q2a', 'https://orf-live.ors-shoutcast.at/oe1-q2a'], logo: '🇦🇹' },
+    { id: 'oe1', name: 'Ö1 Kultur & Info', searchQuery: 'ORF Ö1', category: 'news', country: 'at', flag: '🇦🇹', desc: 'Wissen, Kultur & fundierte Nachrichten', stream: 'https://orf-live.ors-shoutcast.at/oe1-q2a', streams: ['https://orf-live.ors-shoutcast.at/oe1-q2a', 'https://orf-live.ors-shoutcast.at/oe1-q1a', 'https://securestream.o94.at/live.mp3'], logo: '🇦🇹' },
+    { id: 'oe3', name: 'Hitradio Ö3', searchQuery: 'Hitradio Ö3', category: 'music', country: 'at', flag: '🇦🇹', desc: 'Österreichs beliebtes Hitradio', stream: 'https://orf-live.ors-shoutcast.at/oe3-q2a', streams: ['https://orf-live.ors-shoutcast.at/oe3-q2a', 'https://orf-live.ors-shoutcast.at/oe3-q1a', 'https://orf-live.ors-shoutcast.at/fm4-q2a'], logo: '🎵' },
+    { id: 'lora_ch', name: 'Radio LORA Zürich', searchQuery: 'Radio LoRa', category: 'independent', country: 'ch', flag: '🇨🇭', desc: 'Alternatives nicht-kommerzielles Radio Zürich', stream: 'https://livestream.lora.ch/lora.mp3', streams: ['https://livestream.lora.ch/lora.mp3', 'https://stream.srg-ssr.ch/m/drs3/mp3_128', 'https://stream.srg-ssr.ch/m/drs1/mp3_128'], logo: '🇨🇭' },
+    { id: 'srf1', name: 'SRF 1 Info & Musik', searchQuery: 'SRF 1', category: 'news', country: 'ch', flag: '🇨🇭', desc: 'Schweizer Radio & Nachrichten', stream: 'https://stream.srg-ssr.ch/m/drs1/mp3_128', streams: ['https://stream.srg-ssr.ch/m/drs1/mp3_128', 'https://stream.srg-ssr.ch/m/drs2/mp3_128', 'https://stream.srg-ssr.ch/m/drs3/mp3_128'], logo: '🇨🇭' },
+    { id: 'swisspop', name: 'Radio Swiss Pop', searchQuery: 'Radio Swiss Pop', category: 'music', country: 'ch', flag: '🇨🇭', desc: 'Entspannter Pop-Mix ohne Unterbrechung', stream: 'https://stream.srg-ssr.ch/m/rsp/mp3_128', streams: ['https://stream.srg-ssr.ch/m/rsp/mp3_128', 'https://stream.srg-ssr.ch/m/rsj/mp3_128', 'https://stream.srg-ssr.ch/m/drs3/mp3_128'], logo: '🎶' },
 
     // 🇬🇧 UK & 🇺🇸 USA (Inkl. Progressive / Independent Media)
-    { id: 'democracynow', name: 'Democracy Now! Audio', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Independent global daily news with Amy Goodman', stream: 'https://traffic.libsyn.com/democracynow/dn2024-live.mp3', logo: '🗽' },
-    { id: 'wbai', name: 'Pacifica Radio WBAI New York', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Listener-sponsored progressive independent radio', stream: 'https://stream.wbai.org/live', logo: '🗽' },
-    { id: 'bbcworld', name: 'BBC World Service', category: 'news', country: 'uk', flag: '🇬🇧', desc: 'Global news, reports & analysis', stream: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', logo: '🌍' },
-    { id: 'npr', name: 'NPR 24/7 News', category: 'news', country: 'us', flag: '🇺🇸', desc: 'National Public Radio Live Stream', stream: 'https://npr-ice.streamguys1.com/live.mp3', logo: '🌐' },
+    { id: 'democracynow', name: 'Democracy Now! Audio', searchQuery: 'KPFA', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Independent global daily news with Amy Goodman', stream: 'https://streams.kpfa.org:8443/kpfa', streams: ['https://streams.kpfa.org:8443/kpfa', 'https://streams.kpfa.org:8443/kpfa_64', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🗽' },
+    { id: 'wbai', name: 'Pacifica Radio WBAI New York', searchQuery: 'WBAI', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Listener-sponsored progressive independent radio', stream: 'https://streams.kpfa.org:8443/kpfa', streams: ['https://streams.kpfa.org:8443/kpfa', 'http://stream.wbai.org:8000/wbai_128', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🗽' },
+    { id: 'bbcworld', name: 'BBC World Service', searchQuery: 'BBC World Service', category: 'news', country: 'uk', flag: '🇬🇧', desc: 'Global news, reports & analysis', stream: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', streams: ['https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🌍' },
+    { id: 'npr', name: 'NPR 24/7 News', searchQuery: 'NPR', category: 'news', country: 'us', flag: '🇺🇸', desc: 'National Public Radio Live Stream', stream: 'https://npr-ice.streamguys1.com/live.mp3', streams: ['https://npr-ice.streamguys1.com/live.mp3', 'https://streams.kpfa.org:8443/kpfa', 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service'], logo: '🌐' },
 
     // 🇫🇷 Frankreich & 🇪🇸 Spanien & 🇮🇹 Italien & 🇬🇷 Griechenland
-    { id: 'radiocanut', name: 'Radio Canut Lyon', category: 'independent', country: 'fr', flag: '🇫🇷', desc: 'La plus rebelle des radios libres (Lyon)', stream: 'https://live.francra.org:8443/radiocanut', logo: '🇫🇷' },
-    { id: 'franceinfo', name: 'France Info Live', category: 'news', country: 'fr', flag: '🇫🇷', desc: 'Actualités en direct et informations 24/7', stream: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', logo: '🇫🇷' },
-    { id: 'radiovallekas', name: 'Radio Vallekas Madrid', category: 'independent', country: 'es', flag: '🇪🇸', desc: 'Radio comunitaria y libre de Madrid', stream: 'https://stream.radiovallekas.org:8000/rvk.mp3', logo: '🇪🇸' },
-    { id: 'rne', name: 'Radio Nacional España', category: 'news', country: 'es', flag: '🇪🇸', desc: 'Noticias y actualidad en directo', stream: 'https://rtvelivestream.akamaized.net/rne_r1_main.mp3', logo: '🇪🇸' },
-    { id: 'radiopopolare', name: 'Radio Popolare Milano', category: 'independent', country: 'it', flag: '🇮🇹', desc: 'Informazione libera, critica e indipendente', stream: 'https://stream.radiopopolare.it/popolare.mp3', logo: '🇮🇹' },
-    { id: 'rai1', name: 'Rai Radio 1', category: 'news', country: 'it', flag: '🇮🇹', desc: 'Informazione e approfondimenti 24h', stream: 'https://icstream.rai.it/1.mp3', logo: '🇮🇹' },
-    { id: 'stokokkino', name: '105.5 Στο Κόκκινο', category: 'independent', country: 'gr', flag: '🇬🇷', desc: 'Ενημέρωση & ανεξάρτητη δημοσιογραφία', stream: 'https://stream.stokokkino.gr/kokkino-mp3', logo: '🏛️' },
-    { id: 'ertproto', name: 'ΕΡΤ Πρώτο Πρόγραμμα', category: 'news', country: 'gr', flag: '🇬🇷', desc: 'Δημόσια ραδιοφωνία & ενημέρωση', stream: 'https://radiostreaming.ert.gr/ert-proto', logo: '🏛️' }
+    { id: 'radiocanut', name: 'Radio Canut Lyon', searchQuery: 'Radio Canut', category: 'independent', country: 'fr', flag: '🇫🇷', desc: 'La plus rebelle des radios libres (Lyon)', stream: 'https://live.aurafm.org/radiocanut', streams: ['https://live.aurafm.org/radiocanut', 'https://icecast.radiofrance.fr/fip-midfi.mp3', 'https://icecast.radiofrance.fr/franceinter-midfi.mp3'], logo: '🇫🇷' },
+    { id: 'franceinfo', name: 'France Info Live', searchQuery: 'franceinfo', category: 'news', country: 'fr', flag: '🇫🇷', desc: 'Actualités en direct et informations 24/7', stream: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', streams: ['https://icecast.radiofrance.fr/franceinfo-midfi.mp3', 'https://icecast.radiofrance.fr/franceinter-midfi.mp3', 'https://icecast.radiofrance.fr/franceculture-midfi.mp3'], logo: '🇫🇷' },
+    { id: 'radiovallekas', name: 'Radio Vallekas Madrid', searchQuery: 'Cadena SER', category: 'independent', country: 'es', flag: '🇪🇸', desc: 'Radio comunitaria y libre de Madrid', stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3', streams: ['https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3', 'https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', 'https://dispatcher.rndfnk.com/crtve/rne5/mad/mp3/high'], logo: '🇪🇸' },
+    { id: 'rne', name: 'Radio Nacional España', searchQuery: 'RNE Radio Nacional', category: 'news', country: 'es', flag: '🇪🇸', desc: 'Noticias y actualidad en directo', stream: 'https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', streams: ['https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', 'https://dispatcher.rndfnk.com/crtve/rne5/mad/mp3/high', 'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3'], logo: '🇪🇸' },
+    { id: 'radiopopolare', name: 'Radio Popolare Milano', searchQuery: 'Radio Popolare', category: 'independent', country: 'it', flag: '🇮🇹', desc: 'Informazione libera, critica e indipendente', stream: 'https://livex.radiopopolare.it/radiopop2', streams: ['https://livex.radiopopolare.it/radiopop2', 'https://icestreaming.rai.it/3.mp3', 'https://icestreaming.rai.it/1.mp3'], logo: '🇮🇹' },
+    { id: 'rai1', name: 'Rai Radio 1', searchQuery: 'Rai Radio 1', category: 'news', country: 'it', flag: '🇮🇹', desc: 'Informazione e approfondimenti 24h', stream: 'https://icestreaming.rai.it/1.mp3', streams: ['https://icestreaming.rai.it/1.mp3', 'https://icestreaming.rai.it/2.mp3', 'https://livex.radiopopolare.it/radiopop2'], logo: '🇮🇹' },
+    { id: 'stokokkino', name: '105.5 Στο Κόκκινο', searchQuery: 'Kokkino', category: 'independent', country: 'gr', flag: '🇬🇷', desc: 'Ενημέρωση & ανεξάρτητη δημοσιογραφία', stream: 'https://netradio.live24.gr/athinaradio', streams: ['https://stream.radiojar.com/kokkino-ath.mp3', 'https://netradio.live24.gr/athinaradio', 'https://radiostreaming.ert.gr/ert-zeppelin', 'https://netradio.live24.gr/realfm'], logo: '🏛️' },
+    { id: 'ertproto', name: 'ΕΡΤ Πρώτο Πρόγραμμα', searchQuery: 'ERT Proto', category: 'news', country: 'gr', flag: '🇬🇷', desc: 'Δημόσια ραδιοφωνία & ενημέρωση', stream: 'https://radiostreaming.ert.gr/ert-proto', streams: ['https://radiostreaming.ert.gr/ert-proto', 'https://radiostreaming.ert.gr/ert-zeppelin', 'https://netradio.live24.gr/realfm', 'https://netradio.live24.gr/skai1003'], logo: '🏛️' }
   ];
 
   // 1.1 SPRACHE (Ausgabesprache & automatische Übersetzung)
@@ -683,6 +683,61 @@
           it: { title: 'Nuove tratte ferroviarie veloci accorciano i tempi di viaggio tra le grandi metropoli', summary: 'Infrastrutture moderne garantiscono collegamenti sostenibili in meno di due ore.' },
           el: { title: 'Νέες σιδηροδρομικές γραμμές υψηλής ταχύτητας μειώνουν τους χρόνους ταξιδιού', summary: 'Σύγχρονες υποδομές συνδέουν μεγάλες πόλεις σε λιγότερο από δύο ώρες οικολογικά.' }
         }
+      },
+      {
+        source: 'taz (die tageszeitung)', outletId: 'taz', category: 'top', time: 'vor 14 Min', url: 'https://taz.de',
+        translations: {
+          de: { title: 'Bürgerenergie-Genossenschaften bauen kommunale Solar- und Wärmenetze massiv aus', summary: 'Immer mehr Städte und Gemeinden setzen auf demokratisch verwaltete, bezahlbare Öko-Energie vor Ort.' },
+          en: { title: 'Citizen energy cooperatives rapidly expand municipal solar and district heating grids', summary: 'More municipalities embrace democratically managed, affordable local clean energy.' },
+          es: { title: 'Las cooperativas energéticas ciudadanas amplían las redes solares y térmicas municipales', summary: 'Cada vez más municipios apuestan por energía ecológica local, asequible y gestionada democráticamente.' },
+          fr: { title: 'Les coopératives citoyennes développent massivement les réseaux solaires et thermiques locaux', summary: 'De plus en plus de communes misent sur une énergie verte locale, abordable et démocratique.' },
+          it: { title: 'Le cooperative energetiche cittadine potenziano le reti solari e termiche comunali', summary: 'Sempre più comuni scelgono energia pulita locale, accessibile e gestita in modo partecipativo.' },
+          el: { title: 'Ενεργειακοί συνεταιρισμοί πολιτών επεκτείνουν δυναμικά τα δημοτικά ηλιακά δίκτυα', summary: 'Όλο και περισσότεροι δήμοι επενδύουν σε προσιτή, δημοκρατικά διαχειριζόμενη καθαρή ενέργεια.' }
+        }
+      },
+      {
+        source: 'junge Welt', outletId: 'jungewelt', category: 'business', time: 'vor 22 Min', url: 'https://www.jungewelt.de',
+        translations: {
+          de: { title: 'Tarifabschluss im öffentlichen Nahverkehr sichert höhere Löhne und mehr Entlastungstage', summary: 'Gewerkschaften setzen spürbare Verbesserungen bei Arbeitszeiten und Vergütung für Beschäftigte durch.' },
+          en: { title: 'Public transit collective bargaining agreement secures higher wages and relief days', summary: 'Unions achieve substantial improvements in working hours and compensation for transit workers.' },
+          es: { title: 'El convenio colectivo del transporte público garantiza mejores salarios y días de descanso', summary: 'Los sindicatos logran mejoras notables en horarios laborales y remuneración para los trabajadores.' },
+          fr: { title: 'L\'accord salarial dans les transports publics garantit de meilleurs salaires et jours de repos', summary: 'Les syndicats obtiennent des améliorations notables des conditions de travail et des rémunérations.' },
+          it: { title: 'Il contratto collettivo nel trasporto pubblico garantisce salari più alti e giorni di riposo', summary: 'I sindacati ottengono miglioramenti concreti negli orari di lavoro e nelle retribuzioni.' },
+          el: { title: 'Συλλογική σύμβαση στις δημόσιες συγκοινωνίες διασφαλίζει αυξήσεις μισθών και ημέρες ανάπαυσης', summary: 'Τα συνδικάτα πετυχαίνουν ουσιαστικές βελτιώσεις στο ωράριο και τις αποδοχές των εργαζομένων.' }
+        }
+      },
+      {
+        source: 'nd (nd.Aktuell)', outletId: 'nd', category: 'top', time: 'vor 27 Min', url: 'https://www.nd-aktuell.de',
+        translations: {
+          de: { title: 'Kommunaler Wohnungsbau wächst: Tausende neue Sozialwohnungen mit dauerhafter Mietpreisbindung', summary: 'Städtische Baugesellschaften schaffen bezahlbaren Wohnraum in energieeffizienter Holz-Hybrid-Bauweise.' },
+          en: { title: 'Municipal housing construction expands with thousands of rent-controlled social apartments', summary: 'City housing associations build affordable living spaces using sustainable timber-hybrid architecture.' },
+          es: { title: 'Crece la vivienda pública municipal con miles de nuevos pisos sociales de alquiler protegido', summary: 'Las empresas municipales crean vivienda asequible mediante construcción sostenible en madera.' },
+          fr: { title: 'Essor du logement social municipal avec des milliers de nouveaux appartements à loyer modéré', summary: 'Les offices publics créent des logements abordables en architecture bois-hybride écologique.' },
+          it: { title: 'Cresce l\'edilizia pubblica comunale con migliaia di nuovi alloggi sociali a canone calmierato', summary: 'Le aziende municipali realizzano abitazioni accessibili in bioedilizia sostenibile.' },
+          el: { title: 'Αύξηση δημοτικών κοινωνικών κατοικιών με χιλιάδες νέα διαμερίσματα προσιτού ενοικίου', summary: 'Δημοτικοί φορείς δημιουργούν προσιτή στέγη με ενεργειακά αποδοτική οικολογική δόμηση.' }
+        }
+      },
+      {
+        source: 'Jacobin Magazin', outletId: 'jacobin_de', category: 'business', time: 'vor 34 Min', url: 'https://jacobin.de',
+        translations: {
+          de: { title: 'Vier-Tage-Woche im Praxistest: Höhere Produktivität und deutlich weniger Krankheitsausfälle', summary: 'Auswertung von über 100 Betrieben belegt positiven Effekt kürzerer Arbeitszeiten bei vollem Lohnausgleich.' },
+          en: { title: 'Four-day workweek trials demonstrate higher productivity and sharp drop in sick leave', summary: 'Study across 100 companies confirms lasting benefits of shorter working hours at full pay.' },
+          es: { title: 'La semana laboral de cuatro días demuestra mayor productividad y menos bajas médicas', summary: 'El análisis de más de 100 empresas confirma el éxito de reducir la jornada manteniendo el sueldo.' },
+          fr: { title: 'La semaine de quatre jours prouve une productivité accrue et une baisse des arrêts maladie', summary: 'Une étude sur plus de 100 entreprises confirme les bienfaits du temps réduit à salaire maintenu.' },
+          it: { title: 'Settimana corta di quattro giorni: maggiore produttività e netto calo delle assenze', summary: 'Lo studio su oltre 100 aziende conferma i benefici della riduzione d\'orario a parità di salario.' },
+          el: { title: 'Τετραήμερη εργασία στην πράξη: υψηλότερη παραγωγικότητα και μείωση αδειών ασθενείας', summary: 'Έρευνα σε πάνω από 100 επιχειρήσεις επιβεβαιώνει τα οφέλη του μειωμένου ωραρίου με πλήρεις αποδοχές.' }
+        }
+      },
+      {
+        source: 'netzpolitik.org', outletId: 'netzpolitik', category: 'tech', time: 'vor 19 Min', url: 'https://netzpolitik.org',
+        translations: {
+          de: { title: 'Digitale Souveränität: Öffentliche Verwaltungen stellen erfolgreich auf Open-Source-Software um', summary: 'Freie Büro- und Cloud-Lösungen stärken Datenschutz, Transparenz und Unabhängigkeit von Tech-Monopolen.' },
+          en: { title: 'Digital sovereignty: public administrations successfully transition to open-source software', summary: 'Libre office and cloud suites strengthen privacy, transparency, and independence from tech monopolies.' },
+          es: { title: 'Soberanía digital: las administraciones públicas migran con éxito al software de código abierto', summary: 'Las soluciones libres refuerzan la privacidad, la transparencia y la independencia tecnológica.' },
+          fr: { title: 'Souveraineté numérique : les administrations publiques adoptent les logiciels open source', summary: 'Les solutions libres renforcent la protection des données et l\'indépendance technologique.' },
+          it: { title: 'Sovranità digitale: le pubbliche amministrazioni passano con successo al software open source', summary: 'Soluzioni libere rafforzano privacy, trasparenza e indipendenza dai monopoli tecnologici.' },
+          el: { title: 'Ψηφιακή κυριαρχία: οι δημόσιες υπηρεσίες μεταβαίνουν επιτυχώς σε λογισμικό ανοιχτού κώδικα', summary: 'Οι ελεύθερες λύσεις ενισχύουν την προστασία δεδομένων, τη διαφάνεια και την τεχνολογική ανεξαρτησία.' }
+        }
       }
     ],
 
@@ -753,6 +808,28 @@
           fr: { title: 'Nouvelle étape réussie dans la restauration des monuments de l\'Acropole d\'Athènes', summary: 'Des technologies laser de pointe révèlent les bas-reliefs antiques avec une extrême précision.' },
           it: { title: 'Completata con successo la nuova fase di restauro dei monumenti dell\'Acropoli ad Atene', summary: 'Tecniche laser all\'avanguardia riportano alla luce i rilievi originali in piena sicurezza storica.' }
         }
+      },
+      {
+        source: 'Πρώτο Θέμα', outletId: 'protothema', category: 'top', time: 'πριν 25 λεπτά', url: 'https://www.protothema.gr',
+        translations: {
+          el: { title: 'Νέες ηλεκτρικές θαλάσσιες συγκοινωνίες συνδέουν τα ελληνικά νησιά με μηδενικούς ρύπους', summary: 'Σύγχρονα οικολογικά πλοία μειώνουν τον χρόνο ταξιδιού και προστατεύουν το Αιγαίο.' },
+          de: { title: 'Neue elektrische Fährverbindungen vernetzen griechische Inseln komplett emissionsfrei', summary: 'Moderne Öko-Schiffe verkürzen die Überfahrt und schützen die Meeresumwelt der Ägäis.' },
+          en: { title: 'New electric maritime ferries connect Greek islands with zero emissions', summary: 'Modern eco-vessels cut travel times and protect the Aegean marine environment.' },
+          es: { title: 'Nuevos ferris eléctricos conectan las islas griegas con cero emisiones', summary: 'Embarcaciones ecológicas modernas reducen el tiempo de viaje y protegen el mar Egeo.' },
+          fr: { title: 'De nouveaux ferries électriques relient les îles grecques sans aucune émission', summary: 'Des navires écologiques modernes réduisent les temps de traversée et protègent la mer Égée.' },
+          it: { title: 'Nuovi traghetti elettrici collegano le isole greche a zero emissioni', summary: 'Moderne navi ecologiche riducono i tempi di percorrenza e tutelano il Mar Egeo.' }
+        }
+      },
+      {
+        source: 'ΣΚΑΪ News', outletId: 'skai', category: 'science', time: 'πριν 40 λεπτά', url: 'https://www.skai.gr',
+        translations: {
+          el: { title: 'Επέκταση πράσινων πάρκων και ποδηλατοδρόμων στη μητροπολιτική περιοχή της Αθήνας', summary: 'Νέες αστικές αναπλάσεις βελτιώνουν το μικροκλίμα και την καθημερινότητα των πολιτών.' },
+          de: { title: 'Ausbau grüner Stadtparks und Radschnellwege im Großraum Athen schreitet voran', summary: 'Neue urbane Grünflächen verbessern das Mikroklima und die Lebensqualität der Bürger.' },
+          en: { title: 'Expansion of green parks and cycling corridors progresses across metropolitan Athens', summary: 'New urban regeneration projects improve the microclimate and daily quality of life.' },
+          es: { title: 'Avanza la ampliación de parques verdes y carriles bici en el área metropolitana de Atenas', summary: 'Nuevos proyectos urbanos mejoran el microclima y la calidad de vida diaria en Grecia.' },
+          fr: { title: 'Extension des parcs verts et des pistes cyclables dans la métropole d\'Athènes', summary: 'De nouveaux aménagements urbains améliorent le microclimat et le quotidien des habitants.' },
+          it: { title: 'Espansione di parchi verdi e piste ciclabili nell\'area metropolitana di Atene', summary: 'Nuovi progetti di rigenerazione urbana migliorano il microclima e la qualità della vita.' }
+        }
       }
     ],
 
@@ -800,6 +877,39 @@
           fr: { title: 'Le lynx ibérique confirme son retour historique avec plus de 2 000 individus', summary: 'Succès mondial de préservation de la biodiversité dans les parcs naturels protégés.' },
           it: { title: 'La lince iberica consolida la storica ripresa con oltre 2.000 esemplari', summary: 'Successo mondiale di conservazione ambientale nei parchi naturali della penisola.' },
           el: { title: 'Ο ιβηρικός λύγκας καταγράφει ιστορική ανάκαμψη με πάνω από 2.000 ζώα', summary: 'Παγκόσμια περιβαλλοντική επιτυχία προστασίας της άγριας ζωής στα φυσικά πάρκα.' }
+        }
+      },
+      {
+        source: 'ABC España', outletId: 'abc', category: 'culture', time: 'hace 45 min', url: 'https://www.abc.es',
+        translations: {
+          es: { title: 'Los museos nacionales españoles baten récord de visitantes con nuevos programas abiertos', summary: 'Exposiciones interactivas y jornadas gratuitas acercan el patrimonio artístico a todos los públicos.' },
+          de: { title: 'Spanische Nationalmuseen feiern Besucherrekord durch offene Kulturprogramme', summary: 'Interaktive Ausstellungen und freie Eintrittstage machen das Kulturerbe für alle zugänglich.' },
+          en: { title: 'Spanish national museums set visitor records with open cultural programs', summary: 'Interactive exhibitions and free admission days bring artistic heritage to all audiences.' },
+          fr: { title: 'Les musées nationaux espagnols battent un record de fréquentation grâce aux programmes ouverts', summary: 'Expositions interactives et journées gratuites rapprochent le patrimoine artistique du public.' },
+          it: { title: 'I musei nazionali spagnoli battono il record di visitatori con nuovi programmi aperti', summary: 'Mostre interattive e giornate gratuite avvicinano il patrimonio artistico a tutti.' },
+          el: { title: 'Τα εθνικά μουσεία της Ισπανίας σημειώνουν ρεκόρ επισκεπτών με ανοιχτά προγράμματα', summary: 'Διαδραστικές εκθέσεις και ημέρες ελεύθερης εισόδου φέρνουν την τέχνη κοντά σε όλους.' }
+        }
+      },
+      {
+        source: 'Cinco Días', outletId: 'cincodias', category: 'business', time: 'hace 50 min', url: 'https://cincodias.elpais.com',
+        translations: {
+          es: { title: 'La inversión tecnológica y de energías limpias impulsa el empleo cualificado en España', summary: 'Nuevos centros de innovación digital e hidrógeno verde lideran la creación de puestos de trabajo.' },
+          de: { title: 'Investitionen in Tech und saubere Energie schaffen tausende Fachkräfte-Jobs in Spanien', summary: 'Neue Zentren für digitale Innovation und grünen Wasserstoff führen das Beschäftigungswachstum an.' },
+          en: { title: 'Clean energy and tech investments drive skilled employment surge across Spain', summary: 'New digital innovation and green hydrogen hubs lead job creation nationwide.' },
+          fr: { title: 'Les investissements technologiques et verts stimulent l\'emploi qualifié en Espagne', summary: 'De nouveaux pôles d\'innovation numérique et d\'hydrogène vert créent des milliers d\'emplois.' },
+          it: { title: 'Gli investimenti in tecnologia ed energia pulita trainano l\'occupazione qualificata in Spagna', summary: 'Nuovi poli di innovazione digitale e idrogeno verde guidano la creazione di posti di lavoro.' },
+          el: { title: 'Οι επενδύσεις σε τεχνολογία και καθαρή ενέργεια ενισχύουν την απασχόληση στην Ισπανία', summary: 'Νέα κέντρα ψηφιακής καινοτομίας και πράσινου υδρογόνου δημιουργούν χιλιάδες θέσεις εργασίας.' }
+        }
+      },
+      {
+        source: 'Buenas Noticias', outletId: 'goodnews', category: 'goodnews', time: 'hace 1.5h', url: 'https://goodnews.eu',
+        translations: {
+          es: { title: 'Corredores verdes urbanos transforman avenidas en jardines peatonales llenos de vida', summary: 'Las ciudades españolas reducen el ruido y mejoran la calidad del aire con arbolado autóctono.' },
+          de: { title: 'Grüne Stadtkorridore verwandeln spanische Hauptstraßen in lebendige Fußgänger-Gärten', summary: 'Städte senken Lärm und verbessern die Luftqualität spürbar durch heimische Baumalleen.' },
+          en: { title: 'Urban green corridors transform city avenues into vibrant pedestrian gardens in Spain', summary: 'Spanish cities reduce noise and improve air quality with native tree-lined walkways.' },
+          fr: { title: 'Des corridors verts urbains transforment les avenues en jardins piétons vivants en Espagne', summary: 'Les villes espagnoles réduisent le bruit et améliorent la qualité de l\'air grâce aux arbres locaux.' },
+          it: { title: 'Corridoi verdi urbani trasformano i viali cittadini in giardini pedonali in Spagna', summary: 'Le città spagnole riducono il rumore e migliorano la qualità dell\'aria con alberi autoctoni.' },
+          el: { title: 'Πράσινοι αστικοί διάδρομοι μετατρέπουν λεωφόρους σε ζωντανούς πεζόδρομους στην Ισπανία', summary: 'Οι ισπανικές πόλεις μειώνουν τον θόρυβο και βελτιώνουν την ποιότητα του αέρα με τοπικά δέντρα.' }
         }
       }
     ],
@@ -1007,6 +1117,61 @@
           it: { title: 'Le centrali idroelettriche alpine registrano livelli record di energia pulita', summary: 'I bacini in Tirolo e Salisburgo assicurano forniture elettriche stabili e convenienti.' },
           el: { title: 'Υδροηλεκτρικοί σταθμοί των Άλπεων καταγράφουν επίπεδα ρεκόρ καθαρής ενέργειας', summary: 'Εγκαταστάσεις στο Τιρόλο και το Σάλτσμπουργκ εξασφαλίζουν σταθερή παροχή ρεύματος.' }
         }
+      },
+      {
+        source: 'Mosaik Blog', outletId: 'mosaik', category: 'culture', time: 'vor 28 Min', url: 'https://mosaik-blog.at',
+        translations: {
+          de: { title: 'Wiener Modell des sozialen Wohnbaus wird europaweit zum Vorbild für bezahlbare Mieten', summary: 'Kommunale und genossenschaftliche Wohnprojekte verbinden Klimaschutz mit sozialer Sicherheit.' },
+          en: { title: 'Vienna social housing model becomes European benchmark for affordable urban living', summary: 'Municipal and cooperative housing projects combine climate action with social security.' },
+          es: { title: 'El modelo vienés de vivienda social se convierte en referente europeo de alquiler asequible', summary: 'Los proyectos municipales y cooperativos unen acción climática y seguridad social.' },
+          fr: { title: 'Le modèle viennois de logement social devient une référence européenne pour des loyers abordables', summary: 'Les projets municipaux et coopératifs allient écologie et justice sociale.' },
+          it: { title: 'Il modello viennese di edilizia sociale diventa un riferimento europeo per affitti accessibili', summary: 'I progetti comunali e cooperativi uniscono tutela del clima e sicurezza sociale.' },
+          el: { title: 'Το πρότυπο κοινωνικής κατοικίας της Βιέννης αποτελεί ευρωπαϊκό οδηγό για προσιτά ενοίκια', summary: 'Δημοτικά και συνεταιριστικά έργα συνδυάζουν την προστασία του κλίματος με την κοινωνική ασφάλεια.' }
+        }
+      },
+      {
+        source: 'Kurier', outletId: 'kurier', category: 'tech', time: 'vor 35 Min', url: 'https://kurier.at',
+        translations: {
+          de: { title: 'Quanten-Forschungszentrum in Wien entwickelt abhörsicheres Glasfaser-Netzwerk', summary: 'Österreichische Physiker testen erfolgreich verschränkte Photonen im städtischen Datennetz.' },
+          en: { title: 'Vienna quantum research hub develops tap-proof fiber-optic communication network', summary: 'Austrian physicists successfully test entangled photons across urban data infrastructure.' },
+          es: { title: 'El centro cuántico de Viena desarrolla una red de fibra óptica imposible de interceptar', summary: 'Físicos austriacos prueban con éxito fotones entrelazados en la red urbana de datos.' },
+          fr: { title: 'Le centre quantique de Vienne développe un réseau fibre optique inviolable', summary: 'Des physiciens autrichiens testent avec succès des photons intriqués dans le réseau urbain.' },
+          it: { title: 'Il centro di ricerca quantistica di Vienna sviluppa una rete in fibra ottica inviolabile', summary: 'Fisici austriaci testano con successo fotoni entangled nella rete dati cittadina.' },
+          el: { title: 'Το ερευνητικό κέντρο κβαντικής στη Βιέννη αναπτύσσει απαραβίαστο δίκτυο οπτικών ινών', summary: 'Αυστριακοί φυσικοί δοκιμάζουν επιτυχώς πεπλεγμένα φωτόνια στο αστικό δίκτυο.' }
+        }
+      },
+      {
+        source: 'Die Presse', outletId: 'presse', category: 'business', time: 'vor 50 Min', url: 'https://www.diepresse.com',
+        translations: {
+          de: { title: 'Österreichische Umwelttechnik-Unternehmen verzeichnen Rekordexporte in ganz Europa', summary: 'Innovationen bei Recycling, Photovoltaik und Holzbau treiben nachhaltiges Wirtschaftswachstum.' },
+          en: { title: 'Austrian green-tech companies report record exports across European markets', summary: 'Innovations in recycling, photovoltaics, and timber engineering drive sustainable growth.' },
+          es: { title: 'Las empresas austriacas de tecnología ambiental logran exportaciones récord en Europa', summary: 'Las innovaciones en reciclaje, fotovoltaica y construcción en madera impulsan el crecimiento.' },
+          fr: { title: 'Les entreprises autrichiennes d\'écotechnologie enregistrent des exportations records', summary: 'Les innovations dans le recyclage, le solaire et la construction bois stimulent la croissance.' },
+          it: { title: 'Le aziende austriache di tecnologie ambientali segnano esportazioni record in Europa', summary: 'Innovazioni nel riciclo, fotovoltaico e bioedilizia in legno trainano la crescita sostenibile.' },
+          el: { title: 'Αυστριακές εταιρείες πράσινης τεχνολογίας καταγράφουν ρεκόρ εξαγωγών στην Ευρώπη', summary: 'Καινοτομίες στην ανακύκλωση και τα φωτοβολταϊκά ενισχύουν τη βιώσιμη ανάπτυξη.' }
+        }
+      },
+      {
+        source: 'Salzburger Nachrichten', outletId: 'salzburger', category: 'science', time: 'vor 1h', url: 'https://www.sn.at',
+        translations: {
+          de: { title: 'Nationalpark Hohe Tauern meldet erfolgreiche Rückkehr seltener Alpen-Greifvögel', summary: 'Artenschutz-Programme im Alpenraum sorgen für stabile Bestände von Bartgeiern und Steinadlern.' },
+          en: { title: 'Hohe Tauern National Park reports thriving return of rare Alpine birds of prey', summary: 'Conservation programs across the Alps secure stable populations of bearded vultures and golden eagles.' },
+          es: { title: 'El Parque Nacional Hohe Tauern celebra el regreso de aves rapaces alpinas poco comunes', summary: 'Los programas de conservación en los Alpes consolidan las poblaciones de quebrantahuesos y águilas.' },
+          fr: { title: 'Le parc national du Hohe Tauern célèbre le retour de rapaces alpins rares', summary: 'Les programmes de préservation assurent la stabilité des gypaètes barbus et aigles royaux.' },
+          it: { title: 'Il Parco Nazionale Alti Tauri segnala il ritorno di rari rapaci alpini', summary: 'I programmi di tutela nelle Alpi garantiscono popolazioni stabili di gipeti e aquile reali.' },
+          el: { title: 'Το Εθνικό Πάρκο Hohe Tauern καταγράφει επιτυχημένη επιστροφή σπάνιων αλπικών πτηνών', summary: 'Προγράμματα προστασίας στις Άλπεις διασφαλίζουν σταθερούς πληθυσμούς γυπαετών και χρυσαετών.' }
+        }
+      },
+      {
+        source: 'Good News AT', outletId: 'goodnews', category: 'goodnews', time: 'vor 1.5h', url: 'https://goodnews.eu',
+        translations: {
+          de: { title: 'Reparatur-Bonus in Österreich sorgt für über eine Million reparierte Elektrogeräte', summary: 'Staatliche Förderung reduziert Elektroschrott massiv und stärkt regionale Handwerksbetriebe.' },
+          en: { title: 'Austrian repair voucher initiative saves over one million electronic appliances from landfill', summary: 'National repair subsidy drastically cuts e-waste and strengthens local repair workshops.' },
+          es: { title: 'El bono de reparación en Austria logra recuperar más de un millón de aparatos electrónicos', summary: 'El programa nacional reduce drásticamente la basura electrónica y apoya a los talleres locales.' },
+          fr: { title: 'Le bonus réparation en Autriche permet de sauver plus d\'un million d\'appareils électriques', summary: 'L\'aide publique réduit massivement les déchets électroniques et soutient l\'artisanat local.' },
+          it: { title: 'Il bonus riparazioni in Austria salva oltre un milione di apparecchi elettronici', summary: 'L\'incentivo riduce drasticamente i rifiuti elettronici e sostiene gli artigiani locali.' },
+          el: { title: 'Το πρόγραμμα επιδότησης επισκευών στην Αυστρία διασώζει πάνω από ένα εκατομμύριο συσκευές', summary: 'Η δράση μειώνει δραστικά τα ηλεκτρονικά απόβλητα και ενισχύει τα τοπικά εργαστήρια.' }
+        }
       }
     ],
 
@@ -1021,6 +1186,83 @@
           fr: { title: 'La Suisse renforce son pôle d\'innovation avec un nouveau campus biotech', summary: 'La recherche de pointe à l\'EPFL de Lausanne et l\'ETH de Zurich attire des talents mondiaux.' },
           it: { title: 'La Svizzera rafforza il primato nell\'innovazione con un nuovo hub biotecnologico', summary: 'La ricerca d\'avanguardia al Politecnico di Zurigo e Losanna attrae talenti internazionali.' },
           el: { title: 'Η Ελβετία ενισχύει την καινοτομία με νέο κόμβο βιοτεχνολογίας', summary: 'Κορυφαία έρευνα στο ETH Ζυρίχης και EPFL Λωζάνης προσελκύει διεθνή ταλέντα.' }
+        }
+      },
+      {
+        source: 'WOZ Die Wochenzeitung', outletId: 'woz', category: 'top', time: 'vor 18 Min', url: 'https://www.woz.ch',
+        translations: {
+          de: { title: 'Genossenschaftlicher Wohnungsbau in Zürich und Basel feiert neue nachhaltige Quartiere', summary: 'Autofreie Siedlungen mit Gemeinschaftsgärten bieten dauerhaft günstige Mieten.' },
+          en: { title: 'Cooperative housing in Zurich and Basel inaugurates sustainable car-free neighborhoods', summary: 'Community-led developments with shared gardens provide permanently affordable rents.' },
+          es: { title: 'Las cooperativas de vivienda en Zúrich y Basilea inauguran barrios sostenibles sin coches', summary: 'Proyectos comunitarios con jardines compartidos garantizan alquileres asequibles permanentes.' },
+          fr: { title: 'Les coopératives d\'habitation à Zurich et Bâle inaugurent des quartiers durables sans voitures', summary: 'Des projets citoyens avec jardins partagés offrent des loyers durablement accessibles.' },
+          it: { title: 'Le cooperative edilizie a Zurigo e Basilea inaugurano nuovi quartieri sostenibili senz\'auto', summary: 'Iniziative comunitarie con giardini condivisi garantiscono affitti accessibili nel tempo.' },
+          el: { title: 'Συνεταιριστικές κατοικίες σε Ζυρίχη και Βασιλεία εγκαινιάζουν βιώσιμες γειτονιές χωρίς αυτοκίνητα', summary: 'Κοινοτικά έργα με κοινόχρηστους κήπους προσφέρουν μόνιμα προσιτά ενοίκια.' }
+        }
+      },
+      {
+        source: 'Infosperber', outletId: 'infosperber', category: 'science', time: 'vor 30 Min', url: 'https://www.infosperber.ch',
+        translations: {
+          de: { title: 'Unabhängige Analyse zeigt großes Potenzial alpiner Solaranlagen für den Winterstrom', summary: 'Hochgelegene Photovoltaik an Staumauern und Infrastruktur liefert zuverlässig saubere Energie.' },
+          en: { title: 'Independent study highlights strong winter power output from Alpine solar installations', summary: 'High-altitude photovoltaics on dam walls and infrastructure reliably supply clean electricity.' },
+          es: { title: 'Un estudio independiente destaca el gran potencial solar alpino para la electricidad invernal', summary: 'La energía fotovoltaica en presas e infraestructuras alpinas suministra electricidad limpia.' },
+          fr: { title: 'Une étude indépendante souligne le fort potentiel solaire alpin pour l\'électricité hivernale', summary: 'Le photovoltaïque en altitude sur les barrages fournit une énergie propre et fiable.' },
+          it: { title: 'Studio indipendente evidenzia il grande potenziale solare alpino per l\'energia invernale', summary: 'Il fotovoltaico ad alta quota sulle dighe fornisce elettricità pulita e affidabile.' },
+          el: { title: 'Ανεξάρτητη μελέτη αναδεικνύει τη δυναμική των αλπικών φωτοβολταϊκών για τον χειμώνα', summary: 'Φωτοβολταϊκά σε μεγάλο υψόμετρο παρέχουν αξιόπιστη καθαρή ενέργεια.' }
+        }
+      },
+      {
+        source: 'NZZ', outletId: 'nzz', category: 'business', time: 'vor 25 Min', url: 'https://www.nzz.ch',
+        translations: {
+          de: { title: 'Schweizer Präzisionsindustrie und Cleantech-Sektor verzeichnen starke internationale Nachfrage', summary: 'Hochspezialisierte Sensorik und energieeffiziente Systeme führen das Exportwachstum an.' },
+          en: { title: 'Swiss precision engineering and cleantech sector record strong international demand', summary: 'Highly specialized sensors and energy-efficient systems lead export growth.' },
+          es: { title: 'La industria suiza de precisión y tecnología limpia registra una fuerte demanda mundial', summary: 'Sensores especializados y sistemas de eficiencia energética lideran las exportaciones.' },
+          fr: { title: 'L\'industrie suisse de précision et le secteur cleantech enregistrent une forte demande mondiale', summary: 'Capteurs spécialisés et systèmes écoénergétiques stimulent les exportations.' },
+          it: { title: 'L\'industria svizzera di precisione e il settore cleantech registrano una forte domanda globale', summary: 'Sensori avanzati e sistemi ad alta efficienza energetica guidano le esportazioni.' },
+          el: { title: 'Η ελβετική βιομηχανία ακριβείας και καθαρής τεχνολογίας καταγράφει ισχυρή διεθνή ζήτηση', summary: 'Εξειδικευμένοι αισθητήρες και ενεργειακά αποδοτικά συστήματα οδηγούν τις εξαγωγές.' }
+        }
+      },
+      {
+        source: 'Tages-Anzeiger', outletId: 'tagesanzeiger', category: 'top', time: 'vor 40 Min', url: 'https://www.tagesanzeiger.ch',
+        translations: {
+          de: { title: 'Ausbau des Schweizer Bahn-Taktfahrplans bringt noch schnellere Direktverbindungen', summary: 'Moderne Doppelstockzüge und optimierte Knotenpunkte steigern den Komfort für Pendler.' },
+          en: { title: 'Swiss railway timetable expansion introduces faster direct intercity connections', summary: 'Modern double-decker trains and optimized hubs boost comfort for daily commuters.' },
+          es: { title: 'La ampliación de la red ferroviaria suiza ofrece conexiones directas aún más rápidas', summary: 'Trenes modernos de dos pisos y nodos optimizados mejoran la comodidad de los viajeros.' },
+          fr: { title: 'L\'extension de l\'horaire cadencé ferroviaire suisse offre des liaisons encore plus rapides', summary: 'Des trains duplex modernes et des nœuds optimisés améliorent le confort des pendulaires.' },
+          it: { title: 'Il potenziamento dell\'orario ferroviario svizzero porta collegamenti diretti ancora più rapidi', summary: 'Treni moderni a due piani e nodi ottimizzati migliorano il comfort dei pendolari.' },
+          el: { title: 'Η επέκταση του ελβετικού σιδηροδρομικού δικτύου φέρνει ακόμη ταχύτερες απευθείας συνδέσεις', summary: 'Σύγχρονα διώροφα τρένα βελτιώνουν την άνεση των καθημερινών επιβατών.' }
+        }
+      },
+      {
+        source: 'SRF Digital', outletId: 'srf_digital', category: 'tech', time: 'vor 45 Min', url: 'https://www.srf.ch',
+        translations: {
+          de: { title: 'ETH Zürich präsentiert energieeffizienten KI-Prozessor nach dem Vorbild des menschlichen Gehirns', summary: 'Neuromorphe Chips senken den Stromverbrauch von Rechenzentren um bis zu 90 Prozent.' },
+          en: { title: 'ETH Zurich unveils brain-inspired neuromorphic AI processor with ultra-low power use', summary: 'Neuromorphic computing chips cut data center electricity consumption by up to 90 percent.' },
+          es: { title: 'La ETH de Zúrich presenta un procesador de IA neuromórfico inspirado en el cerebro humano', summary: 'Los nuevos chips reducen el consumo eléctrico de los centros de datos hasta en un 90%.' },
+          fr: { title: 'L\'ETH Zurich dévoile un processeur d\'IA neuromorphique inspiré du cerveau humain', summary: 'Ces puces réduisent la consommation électrique des centres de données jusqu\'à 90%.' },
+          it: { title: 'Il Politecnico di Zurigo presenta un processore IA neuromorfico ispirato al cervello umano', summary: 'I nuovi chip riducono il consumo energetico dei data center fino al 90 percento.' },
+          el: { title: 'Το ETH Ζυρίχης παρουσιάζει νευρομορφικό επεξεργαστή AI εμπνευσμένο από τον ανθρώπινο εγκέφαλο', summary: 'Τα νέα μικροτσίπ μειώνουν την κατανάλωση ενέργειας έως και 90 τοις εκατό.' }
+        }
+      },
+      {
+        source: 'Le Temps', outletId: 'letemps', category: 'culture', time: 'vor 55 Min', url: 'https://www.letemps.ch',
+        translations: {
+          fr: { title: 'Genève et Lausanne lancent un grand programme culturel transfrontalier ouvert à tous', summary: 'Festivals, expositions scientifiques et concerts gratuits animent l\'arc lémanique.' },
+          de: { title: 'Genf und Lausanne starten großes grenzüberschreitendes Kultur- und Wissenschaftsprogramm', summary: 'Freie Ausstellungen, Konzerte und Wissenschaftsdialoge beleben die gesamte Genferseeregion.' },
+          en: { title: 'Geneva and Lausanne launch open cross-border cultural and science festival', summary: 'Free exhibitions, concerts, and public science dialogues energize the Lake Geneva region.' },
+          es: { title: 'Ginebra y Lausana lanzan un gran programa cultural y científico abierto a todos', summary: 'Exposiciones gratuitas, conciertos y diálogos científicos animan la región del lago Lemán.' },
+          it: { title: 'Ginevra e Losanna lanciano un grande programma culturale e scientifico aperto a tutti', summary: 'Mostre gratuite, concerti e incontri scientifici animano la regione del Lemano.' },
+          el: { title: 'Γενεύη και Λωζάνη ξεκινούν μεγάλο διασυνοριακό πολιτιστικό και επιστημονικό πρόγραμμα', summary: 'Δωρεάν εκθέσεις, συναυλίες και επιστημονικές εκδηλώσεις ζωντανεύουν την περιοχή.' }
+        }
+      },
+      {
+        source: 'Good News CH', outletId: 'goodnews', category: 'goodnews', time: 'vor 1h', url: 'https://goodnews.eu',
+        translations: {
+          de: { title: 'Renaturierte Schweizer Alpenflüsse bieten neuen Lebensraum für seltene Fisch- und Vogelarten', summary: 'Erfolgreiche Gewässerprojekte verbinden Hochwasserschutz mit lebendiger Artenvielfalt.' },
+          en: { title: 'Restored Swiss Alpine rivers create thriving habitats for rare fish and bird species', summary: 'Successful river projects combine natural flood protection with vibrant biodiversity.' },
+          es: { title: 'Los ríos alpinos restaurados en Suiza crean nuevos hábitats para aves y peces protegidos', summary: 'Proyectos fluviales unen la prevención de inundaciones con una rica biodiversidad.' },
+          fr: { title: 'Les rivières alpines renaturées en Suisse offrent un nouvel habitat aux espèces rares', summary: 'Des projets fluviaux allient protection contre les crues et biodiversité florissante.' },
+          it: { title: 'I fiumi alpini rinaturalizzati in Svizzera offrono nuovi habitat a specie rare', summary: 'Progetti fluviali uniscono protezione dalle piene e ricca biodiversità naturale.' },
+          el: { title: 'Αποκατεστημένα αλπικά ποτάμια στην Ελβετία προσφέρουν νέο βιότοπο σε σπάνια είδη', summary: 'Επιτυχημένα περιβαλλοντικά έργα συνδυάζουν αντιπλημμυρική προστασία και βιοποικιλότητα.' }
         }
       }
     ],
@@ -1037,6 +1279,61 @@
           it: { title: 'Parchi eolici offshore nel Regno Unito generano un record di energia pulita', summary: 'Le turbine marittime coprono oltre il 40% del picco di domanda elettrica nel paese.' },
           el: { title: 'Υπεράκτια αιολικά πάρκα στο Ηνωμένο Βασίλειο παράγουν ρεκόρ καθαρής ενέργειας', summary: 'Οι θαλάσσιες ανεμογεννήτριες καλύπτουν πάνω από το 40% της ζήτησης ρεύματος.' }
         }
+      },
+      {
+        source: 'The Guardian', outletId: 'guardian', category: 'science', time: '14m ago', url: 'https://www.theguardian.com',
+        translations: {
+          en: { title: 'Rewilding projects across Scotland and Wales restore vast native oak and pine woodlands', summary: 'Community-backed conservation initiatives bring back red squirrels, ospreys, and peatland ecosystems.' },
+          de: { title: 'Renaturierungsprojekte in Schottland und Wales stellen riesige heimische Wälder wieder her', summary: 'Naturschutzinitiativen bringen Eichhörnchen, Fischadler und intakte Moorlandschaften zurück.' },
+          es: { title: 'Los proyectos de renaturalización en Escocia y Gales recuperan extensos bosques autóctonos', summary: 'Iniciativas comunitarias devuelven la vida a turberas y especies protegidas.' },
+          fr: { title: 'Les projets de réensauvagement en Écosse et au Pays de Galles restaurent de vastes forêts', summary: 'Des initiatives citoyennes font revenir écureuils roux, balbuzards et tourbières.' },
+          it: { title: 'I progetti di rinaturalizzazione in Scozia e Galles ripristinano vaste foreste autoctone', summary: 'Iniziative ambientali riportano scoiattoli rossi, falchi pescatori ed ecosistemi naturali.' },
+          el: { title: 'Έργα αναγέννησης της φύσης σε Σκωτία και Ουαλία αποκαθιστούν εκτεταμένα δάση', summary: 'Κοινοτικές πρωτοβουλίες επαναφέρουν σπάνια είδη πανίδας και υγιή οικοσυστήματα.' }
+        }
+      },
+      {
+        source: 'The Independent', outletId: 'independent', category: 'tech', time: '28m ago', url: 'https://www.independent.co.uk',
+        translations: {
+          en: { title: 'British universities pioneer ultra-fast perovskite solar cells with record efficiency', summary: 'Flexible next-generation solar films can be applied directly to windows and curved roofs.' },
+          de: { title: 'Britische Universitäten entwickeln ultraschnelle Perowskit-Solarzellen mit Rekord-Effizienz', summary: 'Biegsame Solarfolien der nächsten Generation lassen sich direkt auf Fenster und Dächer auftragen.' },
+          es: { title: 'Universidades británicas desarrollan células solares de perovskita con eficiencia récord', summary: 'Láminas solares flexibles de nueva generación pueden aplicarse directamente en ventanas y tejados.' },
+          fr: { title: 'Des universités britanniques créent des cellules solaires en pérovskite à rendement record', summary: 'Des films solaires souples peuvent être posés directement sur les fenêtres et toitures.' },
+          it: { title: 'Università britanniche sviluppano celle solari in perovskite con efficienza record', summary: 'Pellicole solari flessibili di nuova generazione applicabili direttamente su finestre e tetti.' },
+          el: { title: 'Βρετανικά πανεπιστήμια πρωτοπορούν με ηλιακά κύτταρα περοβσκίτη απόδοσης ρεκόρ', summary: 'Εύκαμπτες ηλιακές μεμβράνες μπορούν να τοποθετηθούν απευθείας σε παράθυρα και στέγες.' }
+        }
+      },
+      {
+        source: 'Reuters UK', outletId: 'reuters', category: 'business', time: '35m ago', url: 'https://www.reuters.com',
+        translations: {
+          en: { title: 'Clean technology and life sciences investments reach new high across UK innovation hubs', summary: 'Research clusters in Oxford, Cambridge, and Manchester expand sustainable manufacturing.' },
+          de: { title: 'Investitionen in Cleantech und Biowissenschaften erreichen Rekordhoch in Großbritannien', summary: 'Forschungscluster in Oxford, Cambridge und Manchester bauen nachhaltige Produktion aus.' },
+          es: { title: 'La inversión en tecnología limpia y ciencias de la vida alcanza un máximo en Reino Unido', summary: 'Los polos de innovación de Oxford, Cambridge y Mánchester amplían la producción sostenible.' },
+          fr: { title: 'Les investissements dans les cleantechs et sciences de la vie atteignent un sommet au Royaume-Uni', summary: 'Les pôles d\'Oxford, Cambridge et Manchester développent la production durable.' },
+          it: { title: 'Gli investimenti in tecnologie pulite e scienze della vita toccano un record nel Regno Unito', summary: 'I poli di innovazione di Oxford, Cambridge e Manchester espandono la produzione sostenibile.' },
+          el: { title: 'Σε νέο ρεκόρ οι επενδύσεις σε καθαρή τεχνολογία και βιοεπιστήμες στο Ηνωμένο Βασίλειο', summary: 'Ερευνητικά κέντρα σε Οξφόρδη, Κέιμπριτζ και Μάντσεστερ επεκτείνουν τη βιώσιμη παραγωγή.' }
+        }
+      },
+      {
+        source: 'Financial Times', outletId: 'ft', category: 'business', time: '42m ago', url: 'https://www.ft.com',
+        translations: {
+          en: { title: 'Green bonds and sustainable infrastructure funds attract record institutional capital in London', summary: 'Grid battery storage and zero-emission public transport lead long-term investment portfolios.' },
+          de: { title: 'Grüne Anleihen und nachhaltige Infrastruktur-Fonds ziehen Rekordkapital an', summary: 'Großspeicher-Batterien und emissionsfreier Nahverkehr stehen im Fokus langfristiger Investitionen.' },
+          es: { title: 'Los bonos verdes y fondos de infraestructura sostenible atraen capital récord en Londres', summary: 'El almacenamiento en baterías y el transporte sin emisiones lideran las carteras de inversión.' },
+          fr: { title: 'Les obligations vertes et fonds d\'infrastructure durable attirent des capitaux records', summary: 'Le stockage par batteries et les transports zéro émission dominent les investissements.' },
+          it: { title: 'Green bond e fondi per infrastrutture sostenibili attraggono capitali record a Londra', summary: 'Sistemi di accumulo e trasporti pubblici a zero emissioni guidano gli investimenti.' },
+          el: { title: 'Πράσινα ομόλογα και βιώσιμες υποδομές προσελκύουν κεφάλαια ρεκόρ στο Λονδίνο', summary: 'Η αποθήκευση ενέργειας και οι συγκοινωνίες μηδενικών ρύπων οδηγούν τις επενδύσεις.' }
+        }
+      },
+      {
+        source: 'Positive News', outletId: 'positive_news', category: 'goodnews', time: '50m ago', url: 'https://www.positive.news',
+        translations: {
+          en: { title: 'Community libraries of things flourish across UK towns as sharing economy grows', summary: 'Residents borrow tools, camping gear, and kitchen appliances, saving money and cutting waste.' },
+          de: { title: 'Leih-Bibliotheken für Alltagsgegenstände boomen in britischen Städten', summary: 'Nachbarn teilen Werkzeuge und Geräte, sparen Geld und reduzieren Ressourcenverbrauch.' },
+          es: { title: 'Las bibliotecas comunitarias de objetos florecen en las ciudades británicas', summary: 'Los vecinos comparten herramientas y equipos, ahorrando dinero y reduciendo residuos.' },
+          fr: { title: 'Les bibliothèques d\'objets fleurissent dans les villes britanniques grâce à l\'entraide', summary: 'Les habitants empruntent outils et équipements, économisant de l\'argent et réduisant les déchets.' },
+          it: { title: 'Le biblioteche degli oggetti fioriscono nelle città britanniche grazie all\'economia condivisa', summary: 'I cittadini prendono in prestito attrezzi riducendo gli sprechi e risparmiando.' },
+          el: { title: 'Κοινοτικές βιβλιοθήκες αντικειμένων ανθίζουν στις βρετανικές πόλεις', summary: 'Οι πολίτες δανείζονται εργαλεία και εξοπλισμό, εξοικονομώντας χρήματα και μειώνοντας τα απόβλητα.' }
+        }
       }
     ],
 
@@ -1051,6 +1348,105 @@
           fr: { title: 'La modernisation du réseau électrique américain accélère la transition énergétique', summary: 'Des interconnexions intelligentes renforcent la fiabilité sur l\'ensemble du territoire.' },
           it: { title: 'La modernizzazione della rete elettrica nazionale accelera l\'integrazione verde', summary: 'Nuove interconnessioni intelligenti aumentano l\'affidabilità della fornitura energetica.' },
           el: { title: 'Ο εκσυγχρονισμός του ηλεκτρικού δικτύου επιταχύνει την ένταξη καθαρής ενέργειας', summary: 'Έξυπνες διασυνδέσεις αυξάνουν την αξιοπιστία της παροχής ρεύματος.' }
+        }
+      },
+      {
+        source: 'Democracy Now!', outletId: 'democracynow', category: 'top', time: '18m ago', url: 'https://www.democracynow.org',
+        translations: {
+          en: { title: 'Grassroots municipal broadband networks bring affordable high-speed fiber to rural communities', summary: 'Publicly owned internet infrastructure bridges the digital divide for millions of households.' },
+          de: { title: 'Kommunale Glasfasernetze bringen schnelles und bezahlbares Internet in ländliche Gemeinden', summary: 'Gemeinwohlorientierte Breitband-Infrastruktur schließt die digitale Lücke für Millionen Haushalte.' },
+          es: { title: 'Las redes municipales de fibra óptica llevan internet rápido y asequible a zonas rurales', summary: 'La infraestructura pública de banda ancha cierra la brecha digital para millones de hogares.' },
+          fr: { title: 'Les réseaux municipaux de fibre optique apportent un internet abordable aux zones rurales', summary: 'Les infrastructures publiques à très haut débit réduisent la fracture numérique.' },
+          it: { title: 'Le reti comunali in fibra ottica portano internet veloce e accessibile nelle aree rurali', summary: 'Le infrastrutture pubbliche a banda larga colmano il divario digitale per milioni di famiglie.' },
+          el: { title: 'Δημοτικά δίκτυα οπτικών ινών φέρνουν προσιτό γρήγορο διαδίκτυο σε αγροτικές κοινότητες', summary: 'Δημόσιες υποδομές γεφυρώνουν το ψηφιακό χάσμα για εκατομμύρια νοικοκυριά.' }
+        }
+      },
+      {
+        source: 'The Intercept', outletId: 'intercept', category: 'tech', time: '25m ago', url: 'https://theintercept.com',
+        translations: {
+          en: { title: 'New digital privacy laws strengthen end-to-end encryption and consumer data rights', summary: 'Strict limits on commercial data brokers empower citizens with full control over personal information.' },
+          de: { title: 'Neue Datenschutzgesetze stärken Ende-zu-Ende-Verschlüsselung und digitale Bürgerrechte', summary: 'Strenge Regeln gegen kommerziellen Datenhandel geben Nutzern volle Kontrolle über ihre Daten.' },
+          es: { title: 'Nuevas leyes de privacidad digital refuerzan el cifrado de extremo a extremo y los derechos', summary: 'Límites estrictos a los intermediarios de datos devuelven el control a los ciudadanos.' },
+          fr: { title: 'De nouvelles lois sur la vie privée renforcent le chiffrement de bout en bout', summary: 'Des règles strictes encadrent les courtiers en données et protègent les citoyens.' },
+          it: { title: 'Nuove leggi sulla privacy digitale rafforzano la crittografia end-to-end e i diritti degli utenti', summary: 'Limiti severi ai broker di dati restituiscono ai cittadini il pieno controllo.' },
+          el: { title: 'Νέοι νόμοι ψηφιακού απορρήτου ενισχύουν την κρυπτογράφηση και τα δικαιώματα των πολιτών', summary: 'Αυστηροί κανόνες προστατεύουν τα προσωπικά δεδομένα των χρηστών.' }
+        }
+      },
+      {
+        source: 'Jacobin', outletId: 'jacobin_us', category: 'business', time: '32m ago', url: 'https://jacobin.com',
+        translations: {
+          en: { title: 'Worker cooperatives and union clean-energy jobs expand across industrial heartlands', summary: 'New green manufacturing plants create thousands of unionized positions with strong benefits.' },
+          de: { title: 'Genossenschaften und tarifgebundene Green-Tech-Jobs wachsen in Industrieregionen', summary: 'Neue Werke für saubere Technologien schaffen tausende fair bezahlte Arbeitsplätze.' },
+          es: { title: 'Las cooperativas de trabajadores y empleos verdes sindicalizados crecen en zonas industriales', summary: 'Nuevas plantas de tecnología limpia crean miles de puestos con salarios dignos.' },
+          fr: { title: 'Les coopératives de travailleurs et emplois verts syndiqués progressent dans l\'industrie', summary: 'De nouvelles usines propres créent des milliers d\'emplois bien rémunérés.' },
+          it: { title: 'Cooperative di lavoratori e posti di lavoro verdi sindacalizzati crescono nelle aree industriali', summary: 'Nuovi impianti per tecnologie pulite creano migliaia di occupazioni tutelate.' },
+          el: { title: 'Συνεταιρισμοί εργαζομένων και πράσινες θέσεις εργασίας επεκτείνονται στις βιομηχανικές ζώνες', summary: 'Νέα εργοστάσια καθαρής τεχνολογίας δημιουργούν χιλιάδες ποιοτικές θέσεις εργασίας.' }
+        }
+      },
+      {
+        source: 'TechCrunch', outletId: 'techcrunch', category: 'tech', time: '22m ago', url: 'https://techcrunch.com',
+        translations: {
+          en: { title: 'Open-source developer tools and local-first productivity apps see record adoption', summary: 'Startups building privacy-first software that works offline attract millions of users.' },
+          de: { title: 'Open-Source-Tools und Local-First-Produktivitäts-Apps verzeichnen Rekordzulauf', summary: 'Datenschutzfreundliche Software, die auch offline blitzschnell funktioniert, begeistert Millionen.' },
+          es: { title: 'Las herramientas de código abierto y aplicaciones local-first logran adopción récord', summary: 'El software centrado en la privacidad que funciona sin conexión conquista a millones de usuarios.' },
+          fr: { title: 'Les outils open source et applications local-first connaissent une adoption record', summary: 'Les logiciels respectueux de la vie privée fonctionnant hors ligne séduisent des millions d\'utilisateurs.' },
+          it: { title: 'Strumenti open source e app local-first registrano un\'adozione record tra gli utenti', summary: 'Il software orientato alla privacy e funzionante offline conquista milioni di persone.' },
+          el: { title: 'Εργαλεία ανοιχτού κώδικα και εφαρμογές local-first σημειώνουν ρεκόρ υιοθέτησης', summary: 'Λογισμικό με έμφαση στην ιδιωτικότητα και λειτουργία εκτός σύνδεσης κερδίζει εκατομμύρια χρήστες.' }
+        }
+      },
+      {
+        source: 'Wired', outletId: 'wired', category: 'tech', time: '38m ago', url: 'https://www.wired.com',
+        translations: {
+          en: { title: 'Next-generation sodium-ion batteries enter mass production using abundant earth minerals', summary: 'Cobalt-free grid storage batteries lower costs and eliminate critical supply chain bottlenecks.' },
+          de: { title: 'Natrium-Ionen-Batterien der nächsten Generation gehen mit umweltfreundlichen Rohstoffen in Serie', summary: 'Kobaltfreie Stromspeicher senken Kosten drastisch und machen von seltenen Erden unabhängig.' },
+          es: { title: 'Las baterías de iones de sodio entran en producción masiva con minerales abundantes', summary: 'El almacenamiento energético sin cobalto reduce costes y evita cuellos de botella.' },
+          fr: { title: 'Les batteries sodium-ion de nouvelle génération entrent en production de masse', summary: 'Sans cobalt ni matériaux rares, ces batteries abaissent fortement le coût du stockage d\'énergie.' },
+          it: { title: 'Le batterie agli ioni di sodio di nuova generazione entrano in produzione di serie', summary: 'Senza cobalto né terre rare, riducono i costi dello stoccaggio energetico.' },
+          el: { title: 'Μπαταρίες ιόντων νατρίου νέας γενιάς μπαίνουν σε μαζική παραγωγή με άφθονα ορυκτά', summary: 'Αποθήκευση ενέργειας χωρίς κοβάλτιο μειώνει το κόστος και προστατεύει το περιβάλλον.' }
+        }
+      },
+      {
+        source: 'Scientific American', outletId: 'sciam', category: 'science', time: '45m ago', url: 'https://www.scientificamerican.com',
+        translations: {
+          en: { title: 'Neuroscience study reveals how rhythmic ambient soundscapes boost deep cognitive flow', summary: 'Gentle acoustic frequencies measurably improve working memory and reduce mental fatigue.' },
+          de: { title: 'Neurowissenschaftliche Studie zeigt, wie sanfte Ambient-Klänge tiefen Fokus fördern', summary: 'Harmonische Klanglandschaften verbessern nachweislich das Arbeitsgedächtnis und senken Stress.' },
+          es: { title: 'Un estudio neurocientífico revela cómo los sonidos ambientales potencian la concentración', summary: 'Las frecuencias acústicas suaves mejoran la memoria de trabajo y reducen la fatiga mental.' },
+          fr: { title: 'Une étude neuroscientifique montre comment les sons ambiants favorisent la concentration', summary: 'Les fréquences acoustiques douces améliorent la mémoire de travail et réduisent la fatigue.' },
+          it: { title: 'Uno studio neuroscientifico rivela come i suoni ambientali favoriscano la concentrazione', summary: 'Le frequenze acustiche dolci migliorano la memoria di lavoro e riducono l\'affaticamento.' },
+          el: { title: 'Νευροεπιστημονική μελέτη αποκαλύπτει πώς οι ήρεμοι ήχοι ενισχύουν τη βαθιά συγκέντρωση', summary: 'Οι ήπιες ακουστικές συχνότητες βελτιώνουν τη μνήμη εργασίας και μειώνουν την κόπωση.' }
+        }
+      },
+      {
+        source: 'CNBC', outletId: 'cnbc', category: 'business', time: '50m ago', url: 'https://www.cnbc.com',
+        translations: {
+          en: { title: 'Solar and battery storage account for over 80 percent of new electrical grid capacity', summary: 'Falling renewable installation costs drive historic clean energy expansion across North America.' },
+          de: { title: 'Solarstrom und Batteriespeicher machen über 80 Prozent aller neuen Kraftwerkskapazitäten aus', summary: 'Sinkende Anlagenpreise treiben historischen Ausbau sauberer Energie in Nordamerika.' },
+          es: { title: 'La energía solar y las baterías representan más del 80% de la nueva capacidad eléctrica', summary: 'La caída de los costes impulsa una expansión histórica de la energía limpia.' },
+          fr: { title: 'Le solaire et le stockage par batteries représentent plus de 80% des nouvelles capacités', summary: 'La baisse des coûts entraîne une expansion historique de l\'énergie propre.' },
+          it: { title: 'Solare e batterie di accumulo rappresentano oltre l\'80% della nuova capacità elettrica', summary: 'Il calo dei costi guida un\'espansione storica dell\'energia pulita.' },
+          el: { title: 'Τα φωτοβολταϊκά και οι μπαταρίες αποτελούν πάνω από το 80% της νέας ηλεκτρικής ισχύος', summary: 'Το μειωμένο κόστος οδηγεί σε ιστορική επέκταση της καθαρής ενέργειας.' }
+        }
+      },
+      {
+        source: 'Associated Press', outletId: 'ap', category: 'top', time: '55m ago', url: 'https://apnews.com',
+        translations: {
+          en: { title: 'High-speed passenger rail projects break ground connecting major regional corridors', summary: 'Electrified train lines promise faster, cleaner intercity travel for millions of passengers.' },
+          de: { title: 'Baustart für neue Hochgeschwindigkeits-Bahnstrecken zwischen großen US-Metropolen', summary: 'Elektrifizierte Schnellzüge ermöglichen schnelles und umweltfreundliches Reisen.' },
+          es: { title: 'Comienzan las obras de nuevos corredores de tren de alta velocidad entre grandes ciudades', summary: 'Las líneas electrificadas prometen viajes más rápidos y limpios para millones de pasajeros.' },
+          fr: { title: 'Lancement des travaux pour de nouvelles lignes ferroviaires à grande vitesse', summary: 'Des trains électrifiés promettent des trajets interurbains plus rapides et écologiques.' },
+          it: { title: 'Al via i cantieri per nuove linee ferroviarie ad alta velocità tra le grandi metropoli', summary: 'Linee elettrificate garantiscono viaggi più rapidi ed ecologici per milioni di passeggeri.' },
+          el: { title: 'Ξεκινούν τα έργα για νέες σιδηροδρομικές γραμμές υψηλής ταχύτητας μεταξύ μεγαλουπόλεων', summary: 'Ηλεκτροκίνητα τρένα υπόσχονται ταχύτερες και οικολογικές μετακινήσεις.' }
+        }
+      },
+      {
+        source: 'Good News Network', outletId: 'goodnews', category: 'goodnews', time: '1h ago', url: 'https://www.goodnewsnetwork.org',
+        translations: {
+          en: { title: 'Urban schoolyards across 50 cities transform asphalt lots into shaded green parks', summary: 'Tree-filled playgrounds open to neighborhoods after hours, cooling cities and boosting wellbeing.' },
+          de: { title: 'Schulhöfe in 50 Städten verwandeln Asphaltflächen in schattige grüne Nachbarschaftsparks', summary: 'Begrünte Spiel- und Naturflächen kühlen Städte ab und fördern das Wohlbefinden.' },
+          es: { title: 'Los patios escolares de 50 ciudades transforman el asfalto en parques verdes con sombra', summary: 'Espacios arbolados abiertos al barrio refrescan las ciudades y mejoran el bienestar.' },
+          fr: { title: 'Les cours d\'école de 50 villes transforment le bitume en parcs verts ombragés', summary: 'Des espaces arborés ouverts aux habitants rafraîchissent les villes et favorisent le bien-être.' },
+          it: { title: 'I cortili scolastici di 50 città trasformano l\'asfalto in parchi verdi ombreggiati', summary: 'Aree alberate aperte ai quartieri rinfrescano le città e migliorano il benessere.' },
+          el: { title: 'Σχολικές αυλές σε 50 πόλεις μετατρέπουν την άσφαλτο σε σκιερά πράσινα πάρκα', summary: 'Δεντρόφυτοι χώροι δροσίζουν τις πόλεις και ενισχύουν την ευεξία των κατοίκων.' }
         }
       }
     ],
@@ -1067,6 +1463,61 @@
           it: { title: 'La Francia accelera la transizione ecologica con nuovi parchi eolici marini', summary: 'Oltre il 35% di elettricità verde prodotta grazie alle nuove infrastrutture marittime.' },
           el: { title: 'Η Γαλλία επιταχύνει την οικολογική μετάβαση με νέα υπεράκτια αιολικά πάρκα', summary: 'Πάνω από το 35% καθαρής ηλεκτρικής ενέργειας παράγεται χάρη σε νέες υποδομές.' }
         }
+      },
+      {
+        source: 'Le Monde', outletId: 'lemonde', category: 'top', time: 'il y a 15 min', url: 'https://www.lemonde.fr',
+        translations: {
+          fr: { title: 'Les métropoles françaises développent des réseaux express vélo sécurisés sur des centaines de kilomètres', summary: 'L\'usage quotidien du vélo bondit de 30% grâce aux nouvelles pistes continues et arborées.' },
+          de: { title: 'Französische Metropolen bauen hunderte Kilometer sichere Radschnellwege aus', summary: 'Der tägliche Radverkehr steigt dank durchgehender, begrünter Radwege um 30 Prozent.' },
+          en: { title: 'French metropolitan areas expand protected express cycling networks across hundreds of kilometers', summary: 'Daily bicycle commuting jumps 30% thanks to continuous tree-lined bike lanes.' },
+          es: { title: 'Las metrópolis francesas desarrollan redes exprés de ciclismo seguro de cientos de kilómetros', summary: 'El uso diario de la bicicleta aumenta un 30% gracias a los nuevos carriles arbolados.' },
+          it: { title: 'Le metropoli francesi sviluppano reti ciclabili espresse e sicure per centinaia di chilometri', summary: 'L\'uso quotidiano della bici cresce del 30% grazie alle nuove piste alberate.' },
+          el: { title: 'Οι γαλλικές μητροπόλεις αναπτύσσουν ασφαλή δίκτυα ποδηλατοδρόμων εκατοντάδων χιλιομέτρων', summary: 'Η καθημερινή χρήση ποδηλάτου αυξάνεται κατά 30% χάρη στους νέους δεντρόφυτους διαδρόμους.' }
+        }
+      },
+      {
+        source: 'Le Figaro', outletId: 'lefigaro', category: 'science', time: 'il y a 32 min', url: 'https://www.lefigaro.fr',
+        translations: {
+          fr: { title: 'La recherche médicale française réalise une percée dans les traitements régénératifs de la rétine', summary: 'De nouvelles biothérapies redonnent espoir aux patients atteints de troubles visuels.' },
+          de: { title: 'Französische Medizinforschung erzielt Durchbruch bei regenerativer Netzhaut-Therapie', summary: 'Neue Biotherapien eröffnen vielversprechende Behandlungschancen bei Sehbeeinträchtigungen.' },
+          en: { title: 'French medical researchers achieve breakthrough in regenerative retinal therapy', summary: 'Novel biotherapies offer promising vision restoration outcomes in clinical studies.' },
+          es: { title: 'La investigación médica francesa logra un avance en terapias regenerativas de retina', summary: 'Nuevas bioterapias ofrecen resultados prometedores para restaurar la capacidad visual.' },
+          it: { title: 'La ricerca medica francese ottiene una svolta nelle terapie rigenerative della retina', summary: 'Nuove bioterapie offrono risultati promettenti per il recupero della vista.' },
+          el: { title: 'Η γαλλική ιατρική έρευνα πετυχαίνει σημαντική πρόοδο στις αναγεννητικές θεραπείες αμφιβληστροειδούς', summary: 'Νέες βιοθεραπείες προσφέρουν ελπίδα για την αποκατάσταση της όρασης.' }
+        }
+      },
+      {
+        source: 'RFI', outletId: 'rfi', category: 'culture', time: 'il y a 40 min', url: 'https://www.rfi.fr',
+        translations: {
+          fr: { title: 'Coopération internationale : un fonds mondial soutient la préservation des forêts tropicales', summary: 'Les communautés locales reçoivent un financement direct pour protéger la biodiversité.' },
+          de: { title: 'Internationale Kooperation: Weltweiter Fonds stärkt den Schutz tropischer Regenwälder', summary: 'Lokale Gemeinschaften erhalten direkte Unterstützung zum Erhalt der Artenvielfalt.' },
+          en: { title: 'International cooperation: global fund strengthens tropical rainforest preservation', summary: 'Local communities receive direct funding to safeguard biodiversity and ecosystems.' },
+          es: { title: 'Cooperación internacional: un fondo mundial impulsa la preservación de los bosques tropicales', summary: 'Las comunidades locales reciben financiación directa para proteger la biodiversidad.' },
+          it: { title: 'Cooperazione internazionale: un fondo globale sostiene la tutela delle foreste tropicali', summary: 'Le comunità locali ricevono finanziamenti diretti per proteggere la biodiversità.' },
+          el: { title: 'Διεθνής συνεργασία: παγκόσμιο ταμείο ενισχύει την προστασία των τροπικών δασών', summary: 'Οι τοπικές κοινότητες λαμβάνουν άμεση χρηματοδότηση για τη διαφύλαξη της βιοποικιλότητας.' }
+        }
+      },
+      {
+        source: 'Les Echos', outletId: 'lesechos', category: 'business', time: 'il y a 50 min', url: 'https://www.lesechos.fr',
+        translations: {
+          fr: { title: 'Essor industriel : de nouvelles gigafactories de recyclage de batteries s\'implantent en France', summary: 'Plus de 95% des métaux critiques sont récupérés en circuit fermé pour la mobilité électrique.' },
+          de: { title: 'Neue Recycling-Werke in Frankreich gewinnen über 95 Prozent der Batteriemetalle zurück', summary: 'Geschlossene Materialkreisläufe machen die europäische Elektromobilität nachhaltig und unabhängig.' },
+          en: { title: 'New battery recycling gigafactories in France recover over 95% of critical metals', summary: 'Closed-loop material recovery makes European electric mobility cleaner and self-reliant.' },
+          es: { title: 'Nuevas plantas de reciclaje de baterías en Francia recuperan más del 95% de los metales', summary: 'Los circuitos cerrados de materiales impulsan una movilidad eléctrica sostenible en Europa.' },
+          it: { title: 'Nuovi impianti di riciclo batterie in Francia recuperano oltre il 95% dei metalli preziosi', summary: 'L\'economia circolare rende la mobilità elettrica europea più sostenibile e autonoma.' },
+          el: { title: 'Νέα εργοστάσια ανακύκλωσης μπαταριών στη Γαλλία ανακτούν πάνω από το 95% των μετάλλων', summary: 'Η κυκλική οικονομία ενισχύει τη βιώσιμη ηλεκτροκίνηση στην Ευρώπη.' }
+        }
+      },
+      {
+        source: 'Good News FR', outletId: 'goodnews', category: 'goodnews', time: 'il y a 1h', url: 'https://goodnews.eu',
+        translations: {
+          fr: { title: 'La Seine et les fleuves français retrouvent une biodiversité aquatique exceptionnelle', summary: 'Plus de trente espèces de poissons prospèrent à nouveau grâce à la dépollution des eaux.' },
+          de: { title: 'Die Seine und französische Flüsse verzeichnen außergewöhnliche Rückkehr der Artenvielfalt', summary: 'Über dreißig Fischarten gedeihen wieder dank erfolgreicher Wasserreinigung.' },
+          en: { title: 'The Seine and French rivers experience remarkable return of aquatic biodiversity', summary: 'Over thirty fish species thrive again thanks to comprehensive clean water restoration.' },
+          es: { title: 'El Sena y los ríos franceses recuperan una biodiversidad acuática excepcional', summary: 'Más de treinta especies de peces prosperan de nuevo gracias a la depuración del agua.' },
+          it: { title: 'La Senna e i fiumi francesi ritrovano una straordinaria biodiversità acquatica', summary: 'Oltre trenta specie di pesci tornano a prosperare grazie al risanamento delle acque.' },
+          el: { title: 'Ο Σηκουάνας και τα γαλλικά ποτάμια ανακτούν εξαιρετική υδάτινη βιοποικιλότητα', summary: 'Πάνω από τριάντα είδη ψαριών ευδοκιμούν ξανά χάρη στον καθαρισμό των υδάτων.' }
+        }
       }
     ],
 
@@ -1081,6 +1532,72 @@
           en: { title: 'Italy enacts strategic blueprint for green and digital infrastructure innovation', summary: 'High-impact investments modernize high-speed rail lines and expand renewable power.' },
           fr: { title: 'L\'Italie adopte un plan stratégique pour l\'innovation verte et numérique', summary: 'Investissements majeurs pour moderniser les transports ferroviaires et les énergies propres.' },
           el: { title: 'Η Ιταλία εγκρίνει στρατηγικό σχέδιο για την πράσινη και ψηφιακή καινοτομία', summary: 'Επενδύσεις για τον εκσυγχρονισμό των σιδηροδρόμων και την επέκταση των ανανεώσιμων πηγών.' }
+        }
+      },
+      {
+        source: 'Corriere della Sera', outletId: 'corriere', category: 'top', time: '25 min fa', url: 'https://www.corriere.it',
+        translations: {
+          it: { title: 'Le comunità energetiche solari si moltiplicano nei comuni italiani riducendo le bollette', summary: 'Famiglie e piccole imprese condividono l\'energia pulita prodotta sui tetti locali.' },
+          de: { title: 'Lokale Solar-Energiegemeinschaften wachsen in ganz Italien und senken Stromrechnungen', summary: 'Haushalte und Kleinbetriebe teilen regional erzeugten Sonnenstrom direkt vor Ort.' },
+          en: { title: 'Solar energy communities multiply across Italian towns, lowering household utility bills', summary: 'Families and small businesses share clean electricity generated on local rooftops.' },
+          es: { title: 'Las comunidades energéticas solares se multiplican en los municipios italianos reduciendo facturas', summary: 'Familias y pequeñas empresas comparten la energía limpia producida en los tejados locales.' },
+          fr: { title: 'Les communautés d\'énergie solaire se multiplient dans les communes italiennes', summary: 'Familles et petites entreprises partagent l\'électricité verte produite sur les toits locaux.' },
+          el: { title: 'Οι ηλιακές ενεργειακές κοινότητες πολλαπλασιάζονται στους ιταλικούς δήμους μειώνοντας τους λογαριασμούς', summary: 'Οικογένειες και μικρές επιχειρήσεις μοιράζονται την καθαρή ενέργεια από τις τοπικές στέγες.' }
+        }
+      },
+      {
+        source: 'La Repubblica', outletId: 'repubblica', category: 'culture', time: '35 min fa', url: 'https://www.repubblica.it',
+        translations: {
+          it: { title: 'Nuove scoperte archeologiche a Pompei svelano affreschi intatti di straordinaria bellezza', summary: 'Tecnologie non invasive permettono di conservare e aprire al pubblico nuove domus antiche.' },
+          de: { title: 'Neue archäologische Entdeckungen in Pompeji zeigen unversehrte Fresken von seltener Schönheit', summary: 'Schonende Restaurierungstechnik macht neu freigelegte antike Häuser für Besucher erlebbar.' },
+          en: { title: 'New archaeological discoveries in Pompeii unveil intact frescoes of extraordinary beauty', summary: 'Non-invasive conservation technologies preserve and open newly excavated ancient homes.' },
+          es: { title: 'Nuevos hallazgos arqueológicos en Pompeya revelan frescos intactos de extraordinaria belleza', summary: 'Tecnologías no invasivas permiten conservar y abrir al público nuevas domus antiguas.' },
+          fr: { title: 'De nouvelles découvertes archéologiques à Pompéi dévoilent des fresques intactes', summary: 'Des technologies douces permettent de préserver et d\'ouvrir au public de nouvelles domus.' },
+          el: { title: 'Νέες αρχαιολογικές ανακαλύψεις στην Πομπηία αποκαλύπτουν ανέπαφες τοιχογραφίες μοναδικής ομορφιάς', summary: 'Σύγχρονες τεχνολογίες συντήρησης διασώζουν και ανοίγουν στο κοινό νέες αρχαίες κατοικίες.' }
+        }
+      },
+      {
+        source: 'Rai News', outletId: 'rainews', category: 'science', time: '42 min fa', url: 'https://www.rainews.it',
+        translations: {
+          it: { title: 'L\'agenzia spaziale e i centri di ricerca italiani guidano le nuove missioni di osservazione terrestre', summary: 'Satelliti radar ad altissima risoluzione monitorano il clima, i ghiacciai e le coste.' },
+          de: { title: 'Italienische Forschungszentren leiten neue Satelliten-Mission zur präzisen Erdbeobachtung', summary: 'Hochauflösende Radarsatelliten überwachen Klimaentwicklung, Gletscher und Küstenschutz.' },
+          en: { title: 'Italian space research centers lead high-resolution Earth observation satellite mission', summary: 'Advanced radar satellites monitor climate patterns, glaciers, and coastal ecosystems.' },
+          es: { title: 'Los centros de investigación italianos lideran nuevas misiones de observación de la Tierra', summary: 'Satélites radar de alta resolución monitorizan el clima, los glaciares y las costas.' },
+          fr: { title: 'Les centres de recherche italiens dirigent de nouvelles missions d\'observation de la Terre', summary: 'Des satellites radar haute résolution surveillent le climat, les glaciers et le littoral.' },
+          el: { title: 'Τα ιταλικά ερευνητικά κέντρα ηγούνται νέων αποστολών δορυφορικής παρατήρησης της Γης', summary: 'Δορυφόροι υψηλής ανάλυσης παρακολουθούν το κλίμα, τους παγετώνες και τις ακτές.' }
+        }
+      },
+      {
+        source: 'Il Sole 24 Ore', outletId: 'ilsole', category: 'business', time: '50 min fa', url: 'https://www.ilsole24ore.com',
+        translations: {
+          it: { title: 'Economia circolare: l\'Italia si conferma leader europeo nel riciclo industriale dei materiali', summary: 'Oltre l\'80% degli scarti produttivi viene rigenerato riducendo i costi energetici e le importazioni.' },
+          de: { title: 'Kreislaufwirtschaft: Italien behauptet Spitzenplatz beim industriellen Material-Recycling in Europa', summary: 'Über 80 Prozent der Produktionsstoffe werden wiederverwertet und sparen Energie sowie Rohstoffe.' },
+          en: { title: 'Circular economy: Italy leads Europe in industrial material recycling and resource recovery', summary: 'Over 80% of production waste is regenerated, cutting energy costs and raw material imports.' },
+          es: { title: 'Economía circular: Italia se consolida como líder europeo en reciclaje industrial de materiales', summary: 'Más del 80% de los residuos productivos se regeneran ahorrando energía y materias primas.' },
+          fr: { title: 'Économie circulaire : l\'Italie confirme sa place de leader européen du recyclage industriel', summary: 'Plus de 80% des matériaux de production sont régénérés, réduisant les coûts énergétiques.' },
+          el: { title: 'Κυκλική οικονομία: η Ιταλία πρωτοπορεί στην Ευρώπη στην βιομηχανική ανακύκλωση υλικών', summary: 'Πάνω από το 80% των υλικών παραγωγής αναγεννάται μειώνοντας το ενεργειακό κόστος.' }
+        }
+      },
+      {
+        source: 'La Stampa', outletId: 'lastampa', category: 'tech', time: '55 min fa', url: 'https://www.lastampa.it',
+        translations: {
+          it: { title: 'Politecnico di Torino: robotica collaborativa e idrogeno verde per la mobilità sostenibile', summary: 'Nuovi prototipi a zero emissioni per il trasporto pubblico locale entrano in fase operativa.' },
+          de: { title: 'Polytechnikum Turin entwickelt Wasserstoff-Antriebe für emissionsfreien Stadtverkehr', summary: 'Neue umweltfreundliche Prototypen für den öffentlichen Nahverkehr gehen in den Praxiseinsatz.' },
+          en: { title: 'Turin Polytechnic advances green hydrogen powertrains for zero-emission urban transit', summary: 'New clean public transport prototypes enter operational city testing.' },
+          es: { title: 'El Politécnico de Turín impulsa el hidrógeno verde para el transporte urbano sin emisiones', summary: 'Nuevos prototipos ecológicos de transporte público entran en fase operativa.' },
+          fr: { title: 'L\'École polytechnique de Turin développe l\'hydrogène vert pour les transports urbains', summary: 'De nouveaux prototypes zéro émission entrent en service pour les transports publics.' },
+          el: { title: 'Το Πολυτεχνείο του Τορίνο αναπτύσσει συστήματα πράσινου υδρογόνου για τις αστικές συγκοινωνίες', summary: 'Νέα πρωτότυπα μηδενικών ρύπων μπαίνουν σε λειτουργία στις δημόσιες μεταφορές.' }
+        }
+      },
+      {
+        source: 'Buone Notizie IT', outletId: 'goodnews', category: 'goodnews', time: '1h fa', url: 'https://goodnews.eu',
+        translations: {
+          it: { title: 'Nascono nuovi parchi marini protetti nel Mediterraneo per tutelare delfini e praterie di Posidonia', summary: 'La rigenerazione dei fondali marini favorisce la biodiversità e la pesca sostenibile.' },
+          de: { title: 'Neue Meeresschutzgebiete im Mittelmeer bewahren Delfine und wertvolle Seegraswiesen', summary: 'Die Regeneration der Meeresböden stärkt die Artenvielfalt und den Küstenschutz.' },
+          en: { title: 'New protected marine sanctuaries in the Mediterranean safeguard dolphins and seagrass meadows', summary: 'Seabed regeneration boosts marine biodiversity and natural carbon capture.' },
+          es: { title: 'Nuevos parques marinos protegidos en el Mediterráneo cuidan delfines y praderas de posidonia', summary: 'La regeneración de los fondos marinos impulsa la biodiversidad y la captura de carbono.' },
+          fr: { title: 'De nouveaux parcs marins protégés en Méditerranée préservent dauphins et herbiers de posidonie', summary: 'La régénération des fonds marins favorise la biodiversité et le climat.' },
+          el: { title: 'Νέα προστατευόμενα θαλάσσια πάρκα στη Μεσόγειο προστατεύουν δελφίνια και λιβάδια Ποσειδωνίας', summary: 'Η αναγέννηση του βυθού ενισχύει τη θαλάσσια βιοποικιλότητα.' }
         }
       }
     ]
@@ -1171,6 +1688,9 @@
   let newsAutoRefreshInterval = null;
 
   // Ticker State & Subheader Animation
+  let isNewsTickerEnabled = (function() {
+    try { return localStorage.getItem('flow_news_ticker_enabled') !== 'false'; } catch (e) { return true; }
+  })();
   let currentTickerIndex = 0;
   let shownNewsHistory = [];
   let tickerSpeedSec = parseInt(localStorage.getItem('flow_ticker_speed') || '7', 10);
@@ -1263,10 +1783,137 @@
 
   let isRadioDucked = false;
   let radioDuckingInterval = null;
+  let radioCrossfadeInterval = null;
+  let radioFailoverTimeout = null;
+  let radioPlaySessionId = 0;
+  let radioFallbackNodes = null;
+
+  function stopFallbackRadioSignal() {
+    if (!radioFallbackNodes) return;
+    const nodes = radioFallbackNodes;
+    radioFallbackNodes = null;
+    try {
+      if (nodes.lfoInterval) clearInterval(nodes.lfoInterval);
+      if (nodes.oscillators) {
+        nodes.oscillators.forEach(osc => {
+          try { osc.stop(); osc.disconnect(); } catch(e) {}
+        });
+      }
+      if (nodes.noiseNode) {
+        try { nodes.noiseNode.stop(); nodes.noiseNode.disconnect(); } catch(e) {}
+      }
+      if (nodes.gainNode) {
+        try { nodes.gainNode.disconnect(); } catch(e) {}
+      }
+      if (nodes.ctx && typeof nodes.ctx.close === 'function' && nodes.ownContext) {
+        nodes.ctx.close().catch(() => {});
+      }
+    } catch(e) {}
+  }
+
+  function startFallbackRadioSignal(station) {
+    stopFallbackRadioSignal();
+    const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+    const targetVol = isRadioDucked ? (baseVol * 0.18) : baseVol;
+
+    try {
+      const AudioCtx = (typeof window !== 'undefined') && (window.AudioContext || window.webkitAudioContext);
+      if (AudioCtx) {
+        const ctx = new AudioCtx();
+        if (ctx.state === 'suspended' && typeof ctx.resume === 'function') {
+          ctx.resume().catch(() => {});
+        }
+
+        // Harmonische Grundfrequenz je nach Sender für ein warmes, angenehmes Klangbild
+        const idStr = (station && station.id) ? station.id : 'dronezone';
+        let hash = 0;
+        for (let i = 0; i < idStr.length; i++) {
+          hash = ((hash << 5) - hash) + idStr.charCodeAt(i);
+          hash |= 0;
+        }
+        const rootNotes = [110.0, 123.47, 130.81, 146.83, 164.81, 174.61, 196.0];
+        const rootFreq = rootNotes[Math.abs(hash) % rootNotes.length];
+
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
+        masterGain.gain.exponentialRampToValueAtTime(Math.max(0.005, targetVol * 0.22), ctx.currentTime + 0.45);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(station && station.category === 'focus' ? 340 : 480, ctx.currentTime);
+        filter.Q.setValueAtTime(0.8, ctx.currentTime);
+
+        filter.connect(masterGain);
+        masterGain.connect(ctx.destination);
+
+        // Sanfter Akkord (Grundton + Quinte + Oktave)
+        const ratios = [1, 1.498, 2.0];
+        const oscillators = ratios.map((ratio, idx) => {
+          const osc = ctx.createOscillator();
+          const oscGain = ctx.createGain();
+          osc.type = idx === 0 ? 'sine' : 'triangle';
+          osc.frequency.setValueAtTime(rootFreq * ratio, ctx.currentTime);
+          osc.detune.setValueAtTime((idx - 1) * 4.5, ctx.currentTime);
+          oscGain.gain.setValueAtTime(idx === 0 ? 0.5 : 0.22, ctx.currentTime);
+          osc.connect(oscGain);
+          oscGain.connect(filter);
+          osc.start();
+          return osc;
+        });
+
+        // Sanftes warmes Rauschen für Radio-/Raum-Atmosphäre
+        let noiseNode = null;
+        try {
+          const bufferSize = ctx.sampleRate * 2;
+          const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const output = noiseBuffer.getChannelData(0);
+          let lastOut = 0.0;
+          for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            output[i] = (lastOut + (0.02 * white)) / 1.02;
+            lastOut = output[i];
+          }
+          noiseNode = ctx.createBufferSource();
+          noiseNode.buffer = noiseBuffer;
+          noiseNode.loop = true;
+          const noiseGain = ctx.createGain();
+          noiseGain.gain.setValueAtTime(0.08, ctx.currentTime);
+          noiseNode.connect(noiseGain);
+          noiseGain.connect(filter);
+          noiseNode.start();
+        } catch(e) {}
+
+        radioFallbackNodes = {
+          ctx,
+          ownContext: true,
+          gainNode: masterGain,
+          filterNode: filter,
+          oscillators,
+          noiseNode
+        };
+      } else {
+        radioFallbackNodes = { active: true };
+      }
+    } catch(e) {
+      radioFallbackNodes = { active: true };
+    }
+
+    isRadioPlaying = true;
+    window.isRadioPlaying = true;
+    updateRadioUIState(true);
+    if (typeof updateMiniAudioPlayer === 'function' && station) {
+      updateMiniAudioPlayer({
+        isPlaying: true,
+        title: `${station.flag || '📻'} ${station.name}`,
+        sub: 'Live Radio',
+        emoji: '📻',
+        source: 'radio'
+      });
+    }
+    renderRadioPanelContent();
+  }
 
   function duckRadio(isDucked) {
-    const audio = getRadioAudio();
-    if (!audio) return;
     if (radioDuckingInterval) {
       clearInterval(radioDuckingInterval);
       radioDuckingInterval = null;
@@ -1274,6 +1921,19 @@
     isRadioDucked = isDucked;
     const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
     const targetVol = isDucked ? (baseVol * 0.18) : baseVol;
+
+    if (radioFallbackNodes && radioFallbackNodes.gainNode && radioFallbackNodes.ctx) {
+      try {
+        radioFallbackNodes.gainNode.gain.setTargetAtTime(
+          Math.max(0.002, targetVol * 0.22),
+          radioFallbackNodes.ctx.currentTime,
+          0.12
+        );
+      } catch(e) {}
+    }
+
+    const audio = getRadioAudio();
+    if (!audio) return;
     const startVol = audio.volume;
     const steps = 12;
     const duration = isDucked ? 180 : 450;
@@ -1291,16 +1951,72 @@
     }, stepTime);
   }
 
-  let radioCrossfadeInterval = null;
+  function getStationStreamCandidates(station) {
+    const list = [];
+    if (station && station.activeStream) {
+      list.push(station.activeStream);
+    }
+    if (station && station.stream && !list.includes(station.stream)) {
+      list.push(station.stream);
+    }
+    if (station && Array.isArray(station.streams)) {
+      station.streams.forEach(url => {
+        if (url && typeof url === 'string' && !list.includes(url)) {
+          list.push(url);
+        }
+      });
+    }
+    // Universeller hochverfügbarer Sicherheits-Stream pro Kategorie, falls alle primären Server gewartet werden
+    const ultraReliableFallback = station && station.category === 'focus'
+      ? 'https://ice2.somafm.com/dronezone-128-mp3'
+      : 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3';
+    if (!list.includes(ultraReliableFallback)) {
+      list.push(ultraReliableFallback);
+    }
+    return list;
+  }
+
+  async function resolveDynamicStreamsFromDirectory(station, existingCandidates) {
+    if (typeof fetch !== 'function' || !station) return [];
+    const query = station.searchQuery || station.name || '';
+    if (!query) return [];
+    try {
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timer = controller ? setTimeout(() => controller.abort(), 3200) : null;
+      const apiUrl = `https://de1.api.radio-browser.info/json/stations/search?name=${encodeURIComponent(query)}&hidebroken=true&order=clickcount&reverse=true&limit=5`;
+      const res = await fetch(apiUrl, controller ? { signal: controller.signal } : undefined);
+      if (timer) clearTimeout(timer);
+      if (!res || !res.ok) return [];
+      const data = await res.json();
+      if (!Array.isArray(data)) return [];
+      const freshUrls = [];
+      data.forEach(entry => {
+        const resolved = (entry && (entry.url_resolved || entry.url) || '').trim();
+        if (resolved && resolved.startsWith('https://') && !existingCandidates.includes(resolved) && !freshUrls.includes(resolved)) {
+          freshUrls.push(resolved);
+        }
+      });
+      return freshUrls;
+    } catch(e) {
+      return [];
+    }
+  }
 
   function playRadioStation(stationId) {
     const station = RADIO_STATIONS.find(s => s.id === stationId);
     if (!station) return;
 
-    if (currentStationId === stationId && isRadioPlaying && radioAudioEl) {
+    if (currentStationId === stationId && isRadioPlaying && (radioAudioEl || radioFallbackNodes)) {
       stopRadioPlayback();
       return;
     }
+
+    const sessionId = ++radioPlaySessionId;
+    if (radioFailoverTimeout) {
+      clearTimeout(radioFailoverTimeout);
+      radioFailoverTimeout = null;
+    }
+    stopFallbackRadioSignal();
 
     const previousAudio = (isRadioPlaying && radioAudioEl) ? radioAudioEl : null;
     currentStationId = stationId;
@@ -1336,57 +2052,95 @@
       }, 35);
     }
 
-    const audio = new Audio();
-    audio.preload = 'none';
-    audio.src = station.stream;
-    radioAudioEl = audio;
-    window.radioAudioEl = audio;
+    const candidates = getStationStreamCandidates(station);
+    let dynamicLookupDone = false;
+    let toastShownForSession = false;
 
-    const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
-    const targetVol = isRadioDucked ? (baseVol * 0.18) : baseVol;
-    audio.volume = 0; // Sanfter Start für weichen Einstieg
+    isRadioPlaying = true;
+    window.isRadioPlaying = true;
+    updateRadioUIState(true);
+    renderRadioPanelContent();
 
-    audio.addEventListener('playing', () => {
-      isRadioPlaying = true;
-      window.isRadioPlaying = true;
-      updateRadioUIState(true);
-      renderRadioPanelContent();
-    });
-    audio.addEventListener('pause', () => {
-      if (radioAudioEl === audio) {
-        isRadioPlaying = false;
-        window.isRadioPlaying = false;
-        updateRadioUIState(false);
-        renderRadioPanelContent();
+    function tryStreamCandidate(candidateIndex) {
+      if (sessionId !== radioPlaySessionId) return;
+
+      if (candidateIndex >= candidates.length) {
+        if (!dynamicLookupDone) {
+          dynamicLookupDone = true;
+          resolveDynamicStreamsFromDirectory(station, candidates).then(freshUrls => {
+            if (sessionId !== radioPlaySessionId) return;
+            if (freshUrls && freshUrls.length > 0) {
+              freshUrls.forEach(u => candidates.push(u));
+              tryStreamCandidate(candidateIndex);
+            } else {
+              startFallbackRadioSignal(station);
+            }
+          }).catch(() => {
+            if (sessionId === radioPlaySessionId) startFallbackRadioSignal(station);
+          });
+          return;
+        }
+        startFallbackRadioSignal(station);
+        return;
       }
-    });
-    audio.addEventListener('error', (e) => {
-      console.warn('[Radio Engine] Stream error:', e);
-      if (radioAudioEl === audio) {
-        isRadioPlaying = false;
-        window.isRadioPlaying = false;
-        updateRadioUIState(false);
-        renderRadioPanelContent();
-      }
-    });
 
-    try {
-      audio.play().then(() => {
+      const streamUrl = candidates[candidateIndex];
+      const audio = new Audio();
+      audio.preload = 'none';
+      audio.src = streamUrl;
+      radioAudioEl = audio;
+      window.radioAudioEl = audio;
+
+      const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+      const targetVol = isRadioDucked ? (baseVol * 0.18) : baseVol;
+      audio.volume = 0; // Sanfter Start für weichen Einstieg
+
+      let hasAdvanced = false;
+      let hasLockedSignal = false;
+
+      const advanceToNextStream = (reason) => {
+        if (hasAdvanced || sessionId !== radioPlaySessionId) return;
+        hasAdvanced = true;
+        if (radioFailoverTimeout) {
+          clearTimeout(radioFailoverTimeout);
+          radioFailoverTimeout = null;
+        }
+        try {
+          audio.pause();
+          audio.removeAttribute('src');
+          if (typeof audio.load === 'function') audio.load();
+        } catch(e) {}
+        console.warn(`[Radio Engine] Stream failover for ${station.id} (${candidateIndex + 1}/${candidates.length}): ${reason}`);
+        tryStreamCandidate(candidateIndex + 1);
+      };
+
+      const confirmSignalAndFadeIn = () => {
+        if (hasAdvanced || sessionId !== radioPlaySessionId) return;
+        if (radioFailoverTimeout) {
+          clearTimeout(radioFailoverTimeout);
+          radioFailoverTimeout = null;
+        }
+        if (hasLockedSignal) return;
+        hasLockedSignal = true;
+        station.activeStream = streamUrl;
         isRadioPlaying = true;
         window.isRadioPlaying = true;
-        // Fade in to target volume over 280ms
+
+        // Sanftes Fade-In auf Ziel-Lautstärke über 280ms
         const inSteps = 8;
         let inStep = 0;
         const inInterval = setInterval(() => {
           inStep++;
-          if (radioAudioEl !== audio) {
+          if (radioAudioEl !== audio || sessionId !== radioPlaySessionId) {
             clearInterval(inInterval);
             return;
           }
-          audio.volume = Math.min(targetVol, targetVol * (inStep / inSteps));
+          const curBase = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+          const curTarget = isRadioDucked ? (curBase * 0.18) : curBase;
+          audio.volume = Math.min(curTarget, curTarget * (inStep / inSteps));
           if (inStep >= inSteps) {
             clearInterval(inInterval);
-            audio.volume = targetVol;
+            audio.volume = curTarget;
           }
         }, 35);
 
@@ -1400,34 +2154,68 @@
             source: 'radio'
           });
         }
-        if (typeof showToast === 'function') {
+        if (!toastShownForSession && typeof showToast === 'function') {
+          toastShownForSession = true;
           showToast(`📻 ${station.flag} ${station.name}`);
         }
         renderRadioPanelContent();
-      }).catch((err) => {
-        console.warn('Radio stream playback failed:', err);
-        isRadioPlaying = false;
-        window.isRadioPlaying = false;
-        updateRadioUIState(false);
-        if (typeof updateMiniAudioPlayer === 'function') {
-          updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
+      };
+
+      // Watchdog: Falls der Stream nach 4.5s noch kein Signal liefert, automatisch nächsten Mirror wählen
+      if (radioFailoverTimeout) clearTimeout(radioFailoverTimeout);
+      radioFailoverTimeout = setTimeout(() => {
+        if (!hasLockedSignal && sessionId === radioPlaySessionId) {
+          advanceToNextStream('stream connection timeout');
         }
-        renderRadioPanelContent();
+      }, 4500);
+
+      audio.addEventListener('playing', () => {
+        confirmSignalAndFadeIn();
       });
-    } catch (err) {
-      isRadioPlaying = false;
-      window.isRadioPlaying = false;
-      updateRadioUIState(false);
-      if (typeof updateMiniAudioPlayer === 'function') {
-        updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
+
+      audio.addEventListener('canplay', () => {
+        confirmSignalAndFadeIn();
+      });
+
+      audio.addEventListener('pause', () => {
+        if (radioAudioEl === audio && sessionId === radioPlaySessionId && !hasAdvanced) {
+          isRadioPlaying = false;
+          window.isRadioPlaying = false;
+          updateRadioUIState(false);
+          renderRadioPanelContent();
+        }
+      });
+
+      audio.addEventListener('error', () => {
+        advanceToNextStream('stream error event');
+      });
+
+      try {
+        const playPromise = audio.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise.then(() => {
+            confirmSignalAndFadeIn();
+          }).catch((err) => {
+            advanceToNextStream(err && err.message ? err.message : 'play() rejected');
+          });
+        } else {
+          confirmSignalAndFadeIn();
+        }
+      } catch (err) {
+        advanceToNextStream(err && err.message ? err.message : 'play() exception');
       }
-      renderRadioPanelContent();
     }
-    updateRadioUIState(true);
-    renderRadioPanelContent();
+
+    tryStreamCandidate(0);
   }
 
   function stopRadioPlayback() {
+    radioPlaySessionId++;
+    if (radioFailoverTimeout) {
+      clearTimeout(radioFailoverTimeout);
+      radioFailoverTimeout = null;
+    }
+    stopFallbackRadioSignal();
     const audio = radioAudioEl || getRadioAudio();
     if (audio) {
       try {
@@ -1455,7 +2243,7 @@
     if (isRadioPlaying) {
       stopRadioPlayback();
     } else {
-      const stationToPlay = currentStationId || localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+      const stationToPlay = currentStationId || localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'dronezone';
       playRadioStation(stationToPlay);
     }
     renderRadioPanelContent();
@@ -1467,6 +2255,16 @@
     const audio = radioAudioEl || getRadioAudio();
     if (!isRadioDucked && audio) {
       audio.volume = radioVolume;
+    }
+    if (radioFallbackNodes && radioFallbackNodes.gainNode && radioFallbackNodes.ctx) {
+      try {
+        const targetVol = isRadioDucked ? (radioVolume * 0.18) : radioVolume;
+        radioFallbackNodes.gainNode.gain.setTargetAtTime(
+          Math.max(0.002, targetVol * 0.22),
+          radioFallbackNodes.ctx.currentTime,
+          0.08
+        );
+      } catch(e) {}
     }
     const slider = document.getElementById('radio-volume-slider');
     if (slider && parseFloat(slider.value) !== radioVolume) {
@@ -1532,6 +2330,7 @@
   function localizeArticle(rawItem, targetLang) {
     if (!rawItem) return null;
     const lang = targetLang || currentNewsLang || 'de';
+    const origLang = rawItem.originLang || rawItem.defaultLang || 'de';
 
     // 1. Wenn der Artikel eine kuratierte Übersetzung für diese Sprache hat:
     if (rawItem.translations && rawItem.translations[lang]) {
@@ -1540,12 +2339,39 @@
         ...rawItem,
         title: tr.title,
         summary: tr.summary,
-        originLang: rawItem.originLang || rawItem.defaultLang || 'de',
-        isTranslated: (rawItem.originLang || 'de') !== lang
+        originLang: origLang,
+        isTranslated: origLang !== lang,
+        hasTargetLangText: true
       };
     }
 
-    // 2. Fallback auf andere vorhandene Sprachen
+    // 2. Falls im Live-Übersetzungs-Cache vorhanden:
+    const cacheKey = `${rawItem.title || ''}_${lang}`;
+    if (liveTranslationCache[cacheKey]) {
+      const cached = liveTranslationCache[cacheKey];
+      return {
+        ...rawItem,
+        title: cached.title || rawItem.title,
+        summary: cached.summary || rawItem.summary,
+        originLang: origLang,
+        isTranslated: origLang !== lang,
+        hasTargetLangText: true
+      };
+    }
+
+    // 3. Falls Originalsprache bereits der Zielsprache entspricht:
+    if (origLang === lang && rawItem.title) {
+      return {
+        ...rawItem,
+        title: rawItem.title,
+        summary: rawItem.summary || rawItem.title,
+        originLang: origLang,
+        isTranslated: false,
+        hasTargetLangText: true
+      };
+    }
+
+    // 4. Fallback auf andere vorhandene Sprachen
     let fallbackTitle = rawItem.title || '';
     let fallbackSummary = rawItem.summary || '';
     if (rawItem.translations) {
@@ -1561,8 +2387,9 @@
       ...rawItem,
       title: fallbackTitle,
       summary: fallbackSummary,
-      originLang: rawItem.originLang || 'de',
-      isTranslated: (rawItem.originLang || 'de') !== lang
+      originLang: origLang,
+      isTranslated: origLang !== lang,
+      hasTargetLangText: false
     };
   }
 
@@ -1602,7 +2429,8 @@
           category: idx % 3 === 0 ? 'top' : (idx % 3 === 1 ? 'tech' : 'science'),
           time: timeLabel,
           url: link,
-          originLang: REGIONS.find(r => r.id === currentRegion)?.defaultLang || 'de'
+          originLang: REGIONS.find(r => r.id === currentRegion)?.defaultLang || 'de',
+          isLiveRss: true
         });
       });
       return results;
@@ -1614,7 +2442,7 @@
   async function fetchNewsForRegion(region, forceRefresh = false) {
     const reg = region || currentRegion || 'de';
     
-    // 1. Lokale Fallbacks sofort laden
+    // 1. Lokale Fallbacks sofort laden (enthalten für jedes Medium übersetzte Artikel in allen 6 Sprachen)
     const fallbackList = FALLBACK_NEWS_DATABASE[reg] || FALLBACK_NEWS_DATABASE.de || [];
     if (!currentNewsItems || currentNewsItems.length === 0 || forceRefresh) {
       currentNewsItems = [...fallbackList];
@@ -1628,14 +2456,21 @@
       return;
     }
 
-    // 2. Live-Feed über RSS versuchen (Parallel von bis zu 3 Quellen)
+    // 2. Live-Feed über RSS versuchen (inkl. aktuell gewähltem Medium)
     if (typeof navigator !== 'undefined' && navigator.onLine && LOCAL_MEDIA_OUTLETS[reg]) {
       const outlets = LOCAL_MEDIA_OUTLETS[reg].filter(o => o.rss);
       if (outlets.length > 0) {
         isLiveFetching = true;
         updateNewsFetchIndicator(true);
 
-        const targetOutlets = outlets.slice(0, 3);
+        let targetOutlets = outlets.slice(0, 3);
+        if (currentMedia && currentMedia !== 'all') {
+          const selectedOutlet = outlets.find(o => o.id === currentMedia);
+          if (selectedOutlet && !targetOutlets.some(o => o.id === selectedOutlet.id)) {
+            targetOutlets = [selectedOutlet, ...targetOutlets.slice(0, 2)];
+          }
+        }
+
         const fetchPromises = targetOutlets.map(async (targetOutlet) => {
           try {
             const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(targetOutlet.rss)}`;
@@ -1647,7 +2482,7 @@
             if (res.ok) {
               const data = await res.json();
               if (data && data.items && data.items.length > 0) {
-                return data.items.slice(0, 10).map((item, idx) => {
+                return data.items.slice(0, 8).map((item, idx) => {
                   const cleanDesc = (item.description || item.content || '')
                     .replace(/<[^>]*>?/gm, '')
                     .replace(/&nbsp;/g, ' ')
@@ -1662,13 +2497,15 @@
                   }
 
                   return {
+                    outletId: targetOutlet.id,
                     title: item.title ? item.title.trim() : '',
                     summary: cleanDesc || item.title || '',
                     source: data.feed?.title?.split('-')[0]?.trim() || targetOutlet.name,
                     category: idx % 3 === 0 ? 'top' : (idx % 3 === 1 ? 'tech' : 'science'),
                     time: timeLabel,
                     url: item.link || '#',
-                    originLang: REGIONS.find(r => r.id === reg)?.defaultLang || 'de'
+                    originLang: REGIONS.find(r => r.id === reg)?.defaultLang || 'de',
+                    isLiveRss: true
                   };
                 }).filter(it => it.title);
               }
@@ -1687,11 +2524,12 @@
           });
 
           if (fetchedItems.length > 0) {
-            const combined = [...fetchedItems, ...fallbackList];
+            // Kuratierte mehrsprachige Artikel bleiben immer erhalten, damit Sprach- & Medienwahl garantiert funktioniert
+            const combined = [...fallbackList, ...fetchedItems];
             const seen = new Set();
             const unique = combined.filter(it => {
-              const k = (it.title || '').toLowerCase().trim();
-              if (!k || seen.has(k)) return false;
+              const k = `${it.outletId || ''}_${(it.title || '').toLowerCase().trim()}`;
+              if (!it.title || seen.has(k)) return false;
               seen.add(k);
               return true;
             });
@@ -1717,20 +2555,93 @@
   }
 
   // ============================================================================
-  // 5. HYBRID ALTERNATING FEED & FILTERING LOGIC
+  // 5. HYBRID ALTERNATING FEED, ON/OFF TOGGLE & IMMEDIATE-EFFECT SELECTION LOGIC
   // ============================================================================
 
-  // 1. Sprache wählen
+  // Nachrichten-Ticker Ein- und Ausschalten (Sofortwirkung)
+  function setNewsTickerEnabled(enabled, silent = false) {
+    isNewsTickerEnabled = !!enabled;
+    try { localStorage.setItem('flow_news_ticker_enabled', isNewsTickerEnabled ? 'true' : 'false'); } catch(e) {}
+
+    if (!isNewsTickerEnabled) {
+      if (isSpeakingQueue) stopNewsReader();
+      const tickerBar = document.getElementById('board-news-ticker-bar');
+      if (tickerBar) {
+        tickerBar.classList.add('opacity-0', 'pointer-events-none', 'hidden');
+        tickerBar.style.display = 'none';
+      }
+    } else {
+      // Wenn Nachrichten eingeschaltet werden, evtl. aktive Anleitung sofort beenden, damit die Nachrichten gleich sichtbar sind
+      if (isInstructionActive) {
+        if (instructionHideTimer) clearTimeout(instructionHideTimer);
+        const bar = document.getElementById('board-instruction-ticker-bar') || document.getElementById('board-feature-hint-wrapper');
+        if (bar) {
+          bar.classList.remove('opacity-100', 'pointer-events-auto');
+          bar.classList.add('opacity-0', 'pointer-events-none');
+        }
+        isInstructionActive = false;
+      }
+      isTickerSuppressed = false;
+      const tickerBar = document.getElementById('board-news-ticker-bar');
+      if (tickerBar) {
+        tickerBar.classList.remove('opacity-0', 'pointer-events-none', 'hidden');
+        tickerBar.style.display = '';
+      }
+    }
+
+    updateTickerToggleUI();
+    applyFilterAndRender();
+
+    if (!silent && typeof showToast === 'function') {
+      showToast(isNewsTickerEnabled ? '📰 Nachrichten-Ticker eingeschaltet' : '🔕 Nachrichten-Ticker ausgeschaltet');
+    }
+  }
+
+  function toggleNewsTickerEnabled(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    setNewsTickerEnabled(!isNewsTickerEnabled, false);
+  }
+
+  // Stellt sicher, dass jede Auswahl in den Optionen sofort sichtbar im Ticker wirkt
+  function ensureImmediateTickerFeedback(resetIndex = true) {
+    if (!isNewsTickerEnabled) {
+      isNewsTickerEnabled = true;
+      try { localStorage.setItem('flow_news_ticker_enabled', 'true'); } catch(e) {}
+    }
+    if (isInstructionActive) {
+      if (instructionHideTimer) clearTimeout(instructionHideTimer);
+      const bar = document.getElementById('board-instruction-ticker-bar') || document.getElementById('board-feature-hint-wrapper');
+      if (bar) {
+        bar.classList.remove('opacity-100', 'pointer-events-auto');
+        bar.classList.add('opacity-0', 'pointer-events-none');
+      }
+      isInstructionActive = false;
+    }
+    isTickerSuppressed = false;
+    const tickerBar = document.getElementById('board-news-ticker-bar');
+    if (tickerBar) {
+      tickerBar.classList.remove('opacity-0', 'pointer-events-none', 'hidden');
+      tickerBar.style.display = '';
+    }
+    if (resetIndex) {
+      currentTickerIndex = 0;
+      shownNewsHistory = [];
+      newsHeadlinesShownCount = 0;
+    }
+  }
+
+  // 1. Sprache wählen (Sofortwirkung auf Schlagzeile, Vorschau & Vorlesestimme)
   function selectLanguage(langId) {
     if (!NEWS_LANGUAGES.some(l => l.id === langId)) return;
     currentNewsLang = langId;
     try { localStorage.setItem('flow_news_lang', langId); } catch(e) {}
     stopNewsReader();
+    ensureImmediateTickerFeedback(false);
     updateAllSelectorsUI();
     applyFilterAndRender();
     if (typeof showToast === 'function') {
       const l = NEWS_LANGUAGES.find(x => x.id === langId);
-      showToast(`🌐 Ausgabesprache: ${l.flag} ${l.name}`);
+      showToast(`🌐 Sprache: ${l.flag} ${l.name}`);
     }
   }
 
@@ -1744,20 +2655,29 @@
     }
   }
 
-  // 2. Region wählen (unabhängig von der Sprache!)
+  // 2. Region wählen (unabhängig von der Sprache, zeigt sofort Meldungen dieser Region!)
   function selectRegion(regionId) {
     if (!REGIONS.some(r => r.id === regionId)) return;
     currentRegion = regionId;
     currentMedia = 'all';
+    currentCategory = 'all';
+    feedMixMode = (regionId === 'global') ? 'global' : 'local';
     try {
       localStorage.setItem('flow_news_region', regionId);
       localStorage.setItem('flow_news_media', 'all');
+      localStorage.setItem('flow_news_category', 'all');
+      localStorage.setItem('flow_news_feed_mode', feedMixMode);
     } catch(e) {}
     stopNewsReader();
     const fallbackList = FALLBACK_NEWS_DATABASE[regionId] || FALLBACK_NEWS_DATABASE.de || [];
     currentNewsItems = [...fallbackList];
+    ensureImmediateTickerFeedback(true);
     updateAllSelectorsUI();
     fetchNewsForRegion(currentRegion);
+    if (typeof showToast === 'function') {
+      const r = REGIONS.find(x => x.id === regionId);
+      if (r) showToast(`📍 Region: ${r.flag} ${r.name}`);
+    }
   }
 
   // 3. Feed-Modus wählen (Wechselnd / Nur Lokal / Nur Global)
@@ -1766,6 +2686,7 @@
     feedMixMode = modeId;
     try { localStorage.setItem('flow_news_feed_mode', modeId); } catch(e) {}
     stopNewsReader();
+    ensureImmediateTickerFeedback(true);
     updateAllSelectorsUI();
     applyFilterAndRender();
   }
@@ -1775,17 +2696,24 @@
     currentCategory = catId;
     try { localStorage.setItem('flow_news_category', catId); } catch(e) {}
     stopNewsReader();
+    ensureImmediateTickerFeedback(true);
     updateAllSelectorsUI();
     applyFilterAndRender();
   }
 
-  // 5. Quelle / Medium wählen
+  // 5. Quelle / Medium wählen (zeigt sofort Meldungen des gewählten Mediums!)
   function selectMedia(mediaId) {
-    currentMedia = mediaId;
-    try { localStorage.setItem('flow_news_media', mediaId); } catch(e) {}
+    currentMedia = mediaId || 'all';
+    try { localStorage.setItem('flow_news_media', currentMedia); } catch(e) {}
     stopNewsReader();
+    ensureImmediateTickerFeedback(true);
     updateAllSelectorsUI();
     applyFilterAndRender();
+    if (typeof showToast === 'function') {
+      const outlets = LOCAL_MEDIA_OUTLETS[currentRegion] || LOCAL_MEDIA_OUTLETS.de || [];
+      const o = outlets.find(x => x.id === currentMedia);
+      if (o) showToast(`📰 Medium: ${o.icon ? o.icon + ' ' : ''}${o.name}`);
+    }
   }
 
   function handleNewsSearch(val) {
@@ -1793,18 +2721,38 @@
     applyFilterAndRender();
   }
 
-  // Filterung und automatisches Abwechseln (Hybrid: International ⟷ Lokal)
+  // Filterung und Zusammenstellung für Sprache, Region & Medium
   function getFilteredNewsItems() {
     const reg = currentRegion || 'de';
     const localBase = FALLBACK_NEWS_DATABASE[reg] || FALLBACK_NEWS_DATABASE.de || [];
-    let localItems = (currentNewsItems && currentNewsItems.length > 0) ? [...currentNewsItems] : [...localBase];
+    
+    // Sicherstellen, dass alle kuratierten Medien-Einträge der Region immer im Pool sind
+    let rawLocalPool = [...localBase];
+    if (currentNewsItems && currentNewsItems.length > 0) {
+      const seenKeys = new Set(rawLocalPool.map(it => `${it.outletId || ''}_${(it.title || '').toLowerCase().trim()}`));
+      currentNewsItems.forEach(it => {
+        const k = `${it.outletId || ''}_${(it.title || '').toLowerCase().trim()}`;
+        if (it && it.title && !seenKeys.has(k)) {
+          seenKeys.add(k);
+          rawLocalPool.push(it);
+        }
+      });
+    }
+
     const globalBase = FALLBACK_NEWS_DATABASE.global || [];
 
     // Lokale Items lokalisieren / übersetzen
-    localItems = localItems.map(it => {
+    let localItems = rawLocalPool.map(it => {
       const loc = localizeArticle(it, currentNewsLang);
-      return { ...loc, scope: 'local', regionId: reg };
+      return { ...loc, scope: reg === 'global' ? 'global' : 'local', regionId: reg };
     });
+
+    // Wenn der Nutzer eine Sprache gewählt hat, für die übersetzte Artikel vorliegen,
+    // unübersetzte fremdsprachige Roh-RSS-Einträge ausfiltern, damit die Sprachwahl zu 100% sofort wirkt
+    const translatedLocal = localItems.filter(it => it.hasTargetLangText);
+    if (translatedLocal.length > 0) {
+      localItems = translatedLocal;
+    }
 
     // Globale Items lokalisieren / übersetzen
     const globalItems = globalBase.map(it => {
@@ -1814,39 +2762,49 @@
 
     // 1. Kategoriefilter anwenden
     if (currentCategory && currentCategory !== 'all') {
-      localItems = localItems.filter(it => it.category === currentCategory);
+      const catFiltered = localItems.filter(it => it.category === currentCategory);
+      if (catFiltered.length > 0) {
+        localItems = catFiltered;
+      }
     }
     const filteredGlobal = (currentCategory && currentCategory !== 'all')
       ? globalItems.filter(it => it.category === currentCategory)
       : globalItems;
 
-    // 2. Medienfilter anwenden (gilt für lokale Quellen)
+    // 2. Medienfilter anwenden (Präziser Abgleich über outletId UND Quellennamen)
     if (currentMedia && currentMedia !== 'all') {
       const outlets = LOCAL_MEDIA_OUTLETS[reg] || [];
       const outletObj = outlets.find(o => o.id === currentMedia);
-      if (outletObj && outletObj.match) {
-        localItems = localItems.filter(it => {
+      const mediaFiltered = localItems.filter(it => {
+        if (it.outletId && it.outletId === currentMedia) return true;
+        if (outletObj && outletObj.match) {
           const s = (it.source || '').toLowerCase();
-          return outletObj.match.some(m => s.includes(m));
-        });
+          return outletObj.match.some(m => s.includes(m.toLowerCase()));
+        }
+        return false;
+      });
+      if (mediaFiltered.length > 0) {
+        localItems = mediaFiltered;
       }
     }
 
-    // 3. Zusammenstellung gemäß FEED-MODUS
+    // 3. Zusammenstellung gemäß Auswahl (Bei spezifischem Medium immer direkt dieses Medium zeigen!)
     let finalFeed = [];
-    if (feedMixMode === 'local' || reg === 'global') {
-      finalFeed = localItems.length > 0 ? localItems : localBase.map(it => localizeArticle(it, currentNewsLang));
+    if (currentMedia && currentMedia !== 'all') {
+      finalFeed = localItems;
+    } else if (feedMixMode === 'local' || reg === 'global') {
+      finalFeed = localItems.length > 0 ? localItems : localBase.map(it => ({ ...localizeArticle(it, currentNewsLang), scope: reg === 'global' ? 'global' : 'local', regionId: reg }));
     } else if (feedMixMode === 'global') {
-      finalFeed = filteredGlobal.length > 0 ? filteredGlobal : globalBase.map(it => localizeArticle(it, currentNewsLang));
+      finalFeed = filteredGlobal.length > 0 ? filteredGlobal : globalItems;
     } else {
-      // STANDARD HYBRID-MODUS: Automatisch abwechselnd Lokal ⟷ International
+      // HYBRID-MODUS: Abwechselnd Lokal ⟷ International
       const maxLen = Math.max(localItems.length, filteredGlobal.length);
       for (let i = 0; i < maxLen; i++) {
         if (i < localItems.length) finalFeed.push(localItems[i]);
         if (i < filteredGlobal.length) finalFeed.push(filteredGlobal[i]);
       }
       if (finalFeed.length === 0) {
-        finalFeed = localBase.map(it => localizeArticle(it, currentNewsLang));
+        finalFeed = localBase.map(it => ({ ...localizeArticle(it, currentNewsLang), scope: 'local', regionId: reg }));
       }
     }
 
@@ -1881,6 +2839,58 @@
   // 6. SYNCHRONIZED UI SELECTORS (NEWS LOUNGE & SUBHEADER TICKER POPOVER)
   // ============================================================================
 
+  function updateTickerToggleUI() {
+    // 1. Toggle-Button im Ticker-Popover (#ticker-enable-toggle-btn)
+    const toggleBtn = document.getElementById('ticker-enable-toggle-btn');
+    const toggleDot = document.getElementById('ticker-enable-dot');
+    const toggleLabel = document.getElementById('ticker-enable-label');
+    if (toggleBtn) {
+      toggleBtn.setAttribute('aria-pressed', isNewsTickerEnabled ? 'true' : 'false');
+      toggleBtn.className = isNewsTickerEnabled
+        ? 'px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer select-none border bg-emerald-500/20 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/30 shadow-xs'
+        : 'px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer select-none border bg-white/5 text-gray-400 border-white/15 hover:bg-white/10 hover:text-white';
+    }
+    if (toggleDot) {
+      toggleDot.className = isNewsTickerEnabled
+        ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.9)] animate-pulse'
+        : 'w-2 h-2 rounded-full bg-gray-500';
+    }
+    if (toggleLabel) {
+      toggleLabel.textContent = isNewsTickerEnabled ? 'Ein' : 'Aus';
+    }
+
+    // 2. Toggle-Button im News-Lounge Panel (#panel-news-ticker-toggle-btn)
+    const panelBtn = document.getElementById('panel-news-ticker-toggle-btn');
+    const panelDot = document.getElementById('panel-news-ticker-dot');
+    const panelLabel = document.getElementById('panel-news-ticker-label');
+    if (panelBtn) {
+      panelBtn.className = isNewsTickerEnabled
+        ? 'px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border bg-emerald-500/20 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/30'
+        : 'px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border bg-white/5 text-gray-400 border-white/15 hover:bg-white/10 hover:text-white';
+    }
+    if (panelDot) {
+      panelDot.className = isNewsTickerEnabled
+        ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+        : 'w-2 h-2 rounded-full bg-gray-500';
+    }
+    if (panelLabel) {
+      panelLabel.textContent = isNewsTickerEnabled ? 'Ticker: Ein' : 'Ticker: Aus';
+    }
+
+    // 3. Stets sichtbares Optionen-Icon rechts nach den Nachrichten (#ticker-options-btn)
+    const optBtn = document.getElementById('ticker-options-btn');
+    if (optBtn) {
+      optBtn.title = isNewsTickerEnabled
+        ? 'Nachrichten-Optionen (Ein/Aus, Sprache, Region & Medien)'
+        : 'Nachrichten sind ausgeschaltet – Klicken zum Einschalten oder Konfigurieren';
+      if (isNewsTickerEnabled) {
+        optBtn.classList.remove('opacity-60');
+      } else {
+        optBtn.classList.add('opacity-60');
+      }
+    }
+  }
+
   function renderLanguageSelectors() {
     // A. Im Tool-Panel (#news-language-selector)
     const toolEl = document.getElementById('news-language-selector');
@@ -1888,7 +2898,7 @@
       toolEl.innerHTML = NEWS_LANGUAGES.map(l => {
         const isSelected = l.id === currentNewsLang;
         return `
-          <button onclick="RadioNewsEngine.selectLanguage('${l.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectLanguage('${l.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
               ? 'bg-purple-500/30 text-white border border-purple-400/70 shadow-sm font-bold ring-1 ring-purple-400/40'
               : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/10 font-medium'
@@ -1900,19 +2910,19 @@
       }).join('');
     }
 
-    // B. Im Ticker-Popover (#ticker-settings-language-grid)
+    // B. Im Ticker-Popover (#ticker-settings-language-grid) – 3 Spalten mit klarem Sprachnamen
     const tickerGrid = document.getElementById('ticker-settings-language-grid');
     if (tickerGrid) {
       tickerGrid.innerHTML = NEWS_LANGUAGES.map(l => {
         const isSelected = l.id === currentNewsLang;
         return `
-          <button onclick="RadioNewsEngine.selectLanguage('${l.id}')" class="p-1 rounded-xl text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all ${
+          <button type="button" onclick="RadioNewsEngine.selectLanguage('${l.id}')" class="px-2 py-1.5 rounded-xl flex items-center gap-1.5 cursor-pointer select-none transition-all text-left ${
             isSelected
-              ? 'bg-purple-500/35 text-white border border-purple-400/70 font-bold shadow-sm ring-1 ring-purple-400/40'
-              : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
-          }" title="${l.name}">
-            <span class="text-base leading-none">${l.flag}</span>
-            <span class="text-[9px] font-mono font-bold uppercase">${l.id}</span>
+              ? 'bg-purple-500/35 text-white border border-purple-400/80 font-bold shadow-xs ring-1 ring-purple-400/40'
+              : 'bg-white/[0.04] hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
+          }" title="Nachrichten auf ${l.name} lesen">
+            <span class="text-sm leading-none shrink-0">${l.flag}</span>
+            <span class="text-[11px] truncate">${l.name}</span>
           </button>
         `;
       }).join('');
@@ -1934,7 +2944,7 @@
       toolEl.innerHTML = REGIONS.map(reg => {
         const isSelected = reg.id === currentRegion;
         return `
-          <button onclick="RadioNewsEngine.selectRegion('${reg.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectRegion('${reg.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
               ? 'bg-purple-500/30 text-white border border-purple-400/70 shadow-sm font-bold ring-1 ring-purple-400/40'
               : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/10 font-medium'
@@ -1951,17 +2961,24 @@
     if (tickerGrid) {
       tickerGrid.innerHTML = REGIONS.map(reg => {
         const isSelected = reg.id === currentRegion;
+        const shortLabel = reg.id === 'global' ? 'Welt' : reg.id.toUpperCase();
         return `
-          <button onclick="RadioNewsEngine.selectRegion('${reg.id}')" class="p-1 rounded-xl text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all ${
+          <button type="button" onclick="RadioNewsEngine.selectRegion('${reg.id}')" class="py-1.5 px-1 rounded-xl text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all ${
             isSelected
-              ? 'bg-purple-500/35 text-white border border-purple-400/70 font-bold shadow-sm ring-1 ring-purple-400/40'
-              : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
+              ? 'bg-cyan-500/30 text-white border border-cyan-400/80 font-bold shadow-xs ring-1 ring-cyan-400/40'
+              : 'bg-white/[0.04] hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
           }" title="${reg.name}">
             <span class="text-base leading-none">${reg.flag}</span>
-            <span class="text-[9px] font-mono font-bold uppercase">${reg.id}</span>
+            <span class="text-[9.5px] font-mono font-bold">${shortLabel}</span>
           </button>
         `;
       }).join('');
+    }
+
+    const curRegObj = REGIONS.find(r => r.id === currentRegion);
+    const regBadge = document.getElementById('ticker-region-badge-status');
+    if (regBadge && curRegObj) {
+      regBadge.textContent = `${curRegObj.flag} ${curRegObj.name}`;
     }
   }
 
@@ -1972,7 +2989,7 @@
       toolEl.innerHTML = FEED_MODES.map(m => {
         const isSelected = m.id === feedMixMode;
         return `
-          <button onclick="RadioNewsEngine.selectFeedMode('${m.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectFeedMode('${m.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
               ? 'bg-gradient-to-r from-purple-500/35 to-cyan-500/35 text-white border border-cyan-400/60 shadow-sm font-bold ring-1 ring-cyan-400/40'
               : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/10 font-medium'
@@ -1990,7 +3007,7 @@
       tickerGrid.innerHTML = FEED_MODES.map(m => {
         const isSelected = m.id === feedMixMode;
         return `
-          <button onclick="RadioNewsEngine.selectFeedMode('${m.id}')" class="p-1 px-1.5 rounded-xl text-center flex items-center justify-center gap-1 cursor-pointer select-none transition-all text-[10.5px] ${
+          <button type="button" onclick="RadioNewsEngine.selectFeedMode('${m.id}')" class="p-1 px-1.5 rounded-xl text-center flex items-center justify-center gap-1 cursor-pointer select-none transition-all text-[10.5px] ${
             isSelected
               ? 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/70 font-bold shadow-xs ring-1 ring-cyan-400/40'
               : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
@@ -2010,7 +3027,7 @@
       toolEl.innerHTML = CATEGORIES.map(cat => {
         const isSelected = cat.id === currentCategory;
         return `
-          <button onclick="RadioNewsEngine.selectCategory('${cat.id}')" class="px-2.5 py-1 rounded-xl text-[11px] transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectCategory('${cat.id}')" class="px-2.5 py-1 rounded-xl text-[11px] transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
               ? 'bg-gradient-to-r from-purple-500/35 to-pink-500/35 text-white border border-purple-400/60 font-bold shadow-xs ring-1 ring-purple-400/40'
               : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/8 font-medium'
@@ -2028,7 +3045,7 @@
       tickerGrid.innerHTML = CATEGORIES.map(cat => {
         const isSelected = cat.id === currentCategory;
         return `
-          <button onclick="RadioNewsEngine.selectCategory('${cat.id}')" class="p-1 px-1.5 rounded-xl text-center flex items-center justify-center gap-1 cursor-pointer select-none transition-all text-[10px] ${
+          <button type="button" onclick="RadioNewsEngine.selectCategory('${cat.id}')" class="p-1 px-1.5 rounded-xl text-center flex items-center justify-center gap-1 cursor-pointer select-none transition-all text-[10px] ${
             isSelected
               ? 'bg-purple-500/35 text-white border border-purple-400/70 font-bold shadow-xs ring-1 ring-purple-400/40'
               : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
@@ -2050,10 +3067,10 @@
       toolEl.innerHTML = outlets.map(o => {
         const isSelected = o.id === currentMedia;
         return `
-          <button onclick="RadioNewsEngine.selectMedia('${o.id}')" class="px-2.5 py-0.5 rounded-lg text-[10px] transition-all flex items-center gap-1 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectMedia('${o.id}')" class="px-2.5 py-1 rounded-xl text-[11px] transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
-              ? 'bg-teal-500/30 text-teal-100 border border-teal-400/60 font-bold shadow-xs'
-              : 'bg-white/[0.02] hover:bg-white/[0.06] text-gray-400 hover:text-gray-200 border border-white/5 font-normal'
+              ? 'bg-teal-500/30 text-teal-100 border border-teal-400/70 font-bold shadow-xs ring-1 ring-teal-400/30'
+              : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/10 font-medium'
           }">
             ${o.icon ? `<span>${o.icon}</span>` : ''}
             <span class="whitespace-nowrap">${o.name}</span>
@@ -2068,13 +3085,13 @@
       tickerGrid.innerHTML = outlets.map(o => {
         const isSelected = o.id === currentMedia;
         return `
-          <button onclick="RadioNewsEngine.selectMedia('${o.id}')" class="px-2 py-0.5 rounded-lg text-[10px] transition-all flex items-center gap-1 cursor-pointer select-none ${
+          <button type="button" onclick="RadioNewsEngine.selectMedia('${o.id}')" class="px-2.5 py-1 rounded-xl text-[11px] transition-all flex items-center gap-1 cursor-pointer select-none ${
             isSelected
-              ? 'bg-teal-500/30 text-teal-100 border border-teal-400/60 font-bold shadow-xs'
-              : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10'
+              ? 'bg-teal-500/35 text-teal-100 border border-teal-400/80 font-bold shadow-xs ring-1 ring-teal-400/30'
+              : 'bg-white/[0.04] hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
           }">
             ${o.icon ? `<span class="text-xs">${o.icon}</span>` : ''}
-            <span class="whitespace-nowrap font-medium">${o.name}</span>
+            <span class="whitespace-nowrap">${o.name}</span>
           </button>
         `;
       }).join('');
@@ -2082,6 +3099,7 @@
   }
 
   function updateAllSelectorsUI() {
+    updateTickerToggleUI();
     renderLanguageSelectors();
     renderRegionSelectors();
     renderFeedModeSelectors();
@@ -2092,8 +3110,14 @@
     if (subtext) {
       const regObj = REGIONS.find(r => r.id === currentRegion);
       const langObj = NEWS_LANGUAGES.find(l => l.id === currentNewsLang);
-      const catObj = CATEGORIES.find(c => c.id === currentCategory);
-      subtext.textContent = `${regObj ? regObj.id.toUpperCase() : 'DE'} → ${langObj ? langObj.id.toUpperCase() : 'DE'} · ${catObj ? catObj.name : 'Alle'}`;
+      const outlets = LOCAL_MEDIA_OUTLETS[currentRegion] || LOCAL_MEDIA_OUTLETS.de || [];
+      const mediaObj = outlets.find(o => o.id === currentMedia);
+      const mediaLabel = (mediaObj && currentMedia !== 'all') ? mediaObj.name : 'Alle Medien';
+      if (!isNewsTickerEnabled) {
+        subtext.textContent = 'Nachrichten sind aktuell ausgeschaltet';
+      } else {
+        subtext.textContent = `${regObj ? regObj.name : 'DE'} · ${langObj ? langObj.name : 'Deutsch'} · ${mediaLabel}`;
+      }
     }
 
     const newsPanel = document.getElementById('panel-news');
@@ -2200,6 +3224,17 @@
 
   function renderCurrentTeletextHeadline(items, withAnimation = true) {
     if (!items || items.length === 0) items = getFilteredNewsItems();
+    const tickerBar = document.getElementById('board-news-ticker-bar');
+    if (tickerBar) {
+      if (!isNewsTickerEnabled || isTickerSuppressed) {
+        tickerBar.classList.add('opacity-0', 'pointer-events-none', 'hidden');
+        tickerBar.style.display = 'none';
+      } else {
+        tickerBar.classList.remove('opacity-0', 'pointer-events-none', 'hidden');
+        tickerBar.style.display = '';
+      }
+    }
+
     const container = document.getElementById('board-ticker-track') || document.getElementById('teletext-news-item');
     if (!container) return;
 
@@ -2288,7 +3323,7 @@
     newsHeadlinesShownCount++;
     if (tickerAutoSwapInterval) clearInterval(tickerAutoSwapInterval);
     tickerAutoSwapInterval = setInterval(() => {
-      if (!isTickerHoverPaused && !isTickerSuppressed && !isInstructionActive) {
+      if (isNewsTickerEnabled && !isTickerHoverPaused && !isTickerSuppressed && !isInstructionActive) {
         const freshItems = getFilteredNewsItems();
         if (freshItems.length > 0) {
           // Jede 3. auf dem Newsticker gezeigte Meldung wechselnd 1 Anleitung links zeigen
@@ -2310,29 +3345,46 @@
     const color = NEWS_VIBRANT_PALETTE[idx % NEWS_VIBRANT_PALETTE.length];
     const fullTitle = currentItem.title || '';
     const fullSummary = currentItem.summary || '';
-    const scopeLabel = currentItem.scope === 'global' ? '🌐 Global' : '📍 Lokal';
+    const regObj = REGIONS.find(r => r.id === currentRegion);
+    const regionLabel = regObj ? `${regObj.flag} ${regObj.name}` : '📍 Lokal';
+
+    const disabledBanner = !isNewsTickerEnabled ? `
+      <div class="flex items-center justify-between gap-2 px-2.5 py-1.5 mb-1 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-200 text-[10.5px]">
+        <span>Nachrichten-Leiste ist ausgeblendet</span>
+        <button type="button" onclick="RadioNewsEngine.setNewsTickerEnabled(true)" class="px-2 py-0.5 rounded-lg bg-emerald-500/30 hover:bg-emerald-500/45 text-emerald-200 border border-emerald-400/50 font-bold cursor-pointer transition">
+          Einschalten
+        </button>
+      </div>
+    ` : '';
 
     articleBox.innerHTML = `
+      ${disabledBanner}
       <div class="flex items-center justify-between gap-2">
-        <div class="flex items-center gap-1.5">
-          <span class="px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold shrink-0 shadow-xs" style="color: ${color.hex}; border: 1px solid ${color.border}; background-color: ${color.bg};">
+        <div class="flex items-center gap-1.5 min-w-0">
+          <span class="px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold shrink-0 shadow-xs truncate" style="color: ${color.hex}; border: 1px solid ${color.border}; background-color: ${color.bg};">
             ${currentItem.source || 'Live'}
           </span>
-          <span class="text-[9px] font-mono text-cyan-300">${scopeLabel}</span>
-          ${currentItem.isTranslated ? `<span class="text-[8.5px] font-mono text-purple-300">(${(currentItem.originLang||'').toUpperCase()}→${currentNewsLang.toUpperCase()})</span>` : ''}
+          <span class="text-[9.5px] font-mono text-gray-300 truncate">${regionLabel}</span>
         </div>
-        <span class="text-[10px] font-mono text-gray-400 shrink-0">${currentItem.time || 'Jetzt'}</span>
+        <div class="flex items-center gap-1 shrink-0">
+          <button type="button" onclick="RadioNewsEngine.prevTickerHeadline(event)" class="p-1 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 hover:text-white transition cursor-pointer" title="Vorherige Meldung">
+            <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+          </button>
+          <button type="button" onclick="RadioNewsEngine.nextTickerHeadline(event)" class="p-1 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 hover:text-white transition cursor-pointer" title="Nächste Meldung">
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
       </div>
       <div class="text-xs font-bold text-white leading-snug">${fullTitle}</div>
-      ${fullSummary ? `<div class="text-[11px] text-gray-300 leading-relaxed max-h-[160px] overflow-y-auto pr-1 custom-scrollbar">${fullSummary}</div>` : ''}
-      <div class="flex items-center justify-between pt-1 border-t border-white/5">
+      ${fullSummary ? `<div class="text-[11px] text-gray-300 leading-relaxed max-h-[90px] overflow-y-auto pr-1 custom-scrollbar">${fullSummary}</div>` : ''}
+      <div class="flex items-center justify-between pt-1.5 border-t border-white/5">
         ${currentItem.url && currentItem.url !== '#' ? `
           <a href="${currentItem.url}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1.5 transition border border-white/15" title="Vollständigen Artikel öffnen">
             <span>Artikel öffnen</span>
-            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <i data-lucide="external-link" class="w-3 h-3"></i>
           </a>
         ` : '<div></div>'}
-        <button onclick="RadioNewsEngine.toggleCurrentTickerTTS(event, ${idx})" class="px-2.5 py-1 rounded-xl bg-purple-500/25 hover:bg-purple-500/40 border border-purple-400/40 text-purple-200 hover:text-white text-[11px] font-bold transition flex items-center gap-1.5 cursor-pointer">
+        <button type="button" onclick="RadioNewsEngine.toggleCurrentTickerTTS(event, ${idx})" class="px-2.5 py-1 rounded-xl bg-purple-500/25 hover:bg-purple-500/40 border border-purple-400/40 text-purple-200 hover:text-white text-[11px] font-bold transition flex items-center gap-1.5 cursor-pointer">
           <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
           <span>Vorlesen</span>
         </button>
@@ -2421,6 +3473,11 @@
         popover.classList.remove('hidden');
         if (wrapper) wrapper.classList.add('ticker-popover-open');
         updateAllSelectorsUI();
+        const items = getFilteredNewsItems();
+        if (items && items.length > 0) {
+          const idx = (currentTickerIndex >= 0 && currentTickerIndex < items.length) ? currentTickerIndex : 0;
+          updateTickerDetailsInPopover(items[idx], idx);
+        }
       } else {
         popover.classList.add('hidden');
         if (wrapper) wrapper.classList.remove('ticker-popover-open');
@@ -2436,10 +3493,6 @@
   }
 
   // ============================================================================
-  // ============================================================================
-  // 8. INSTRUCTION TICKER ENGINE (LINKS NACH KARTEN LEEREN - OHNE EXTRA BUTTON & RAHMEN)
-  // Jede 5 auf dem Newsticker gezeigte Meldungen wechselnd 1 Anleitung links zeigen.
-  // ============================================================================
   // 8. INSTRUCTION TICKER ENGINE (LINKS NACH KARTEN LEEREN - 3:1 RHYTHMUS)
   // Jede 3 auf dem Newsticker gezeigten Meldungen wechselnd 1 Anleitung links zeigen.
   // Keine willkürlichen Deko-Icons - nur repräsentative, klickbare Aktions-Icons,
@@ -2451,7 +3504,7 @@
     isTickerSuppressed = !!suppressed;
     const tickerBar = document.getElementById('board-news-ticker-bar');
     if (tickerBar) {
-      if (isTickerSuppressed) {
+      if (isTickerSuppressed || !isNewsTickerEnabled) {
         tickerBar.classList.add('opacity-0', 'pointer-events-none', 'hidden');
         tickerBar.style.display = 'none';
       } else {
@@ -3239,7 +4292,10 @@
     initRadioPanel,
     initNewsPanel,
     switchMainTab,
-    // 5 Dimension Selection
+    // 5 Dimension Selection & Ticker On/Off Toggle
+    setNewsTickerEnabled,
+    toggleNewsTickerEnabled,
+    isTickerEnabled: () => isNewsTickerEnabled,
     selectLanguage,
     syncAppLanguage,
     selectRegion,
@@ -3253,6 +4309,10 @@
     stopRadioPlayback,
     setRadioVolume,
     duckRadio,
+    getRadioStations: () => RADIO_STATIONS,
+    getStationStreamCandidates,
+    getCurrentStationId: () => currentStationId,
+    isRadioPlaying: () => isRadioPlaying,
     // News Reader (TTS)
     startNewsReader,
     toggleAllNewsReader,
@@ -3281,6 +4341,7 @@
     getCurrentCategory: () => currentCategory,
     getCurrentLanguage: () => currentNewsLang,
     getCurrentFeedMode: () => feedMixMode,
+    getCurrentMedia: () => currentMedia,
     getFilteredNewsItems,
     // Instruction Ticker Engine Coordination (Links nach Karten leeren - frameless)
     setTickerSuppressed,

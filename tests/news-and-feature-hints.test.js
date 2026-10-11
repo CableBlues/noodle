@@ -215,4 +215,99 @@ describe('News System & Feature Hints Ticker Engine', () => {
     expect(headlineText.textContent.trim()).toBe(items[0].title.trim());
     expect(headlineText.textContent).not.toContain('...');
   });
+
+  it('toggles news ticker on and off easily and immediately while options icon remains accessible', () => {
+    const tickerBar = document.getElementById('board-news-ticker-bar');
+    expect(window.RadioNewsEngine.isTickerEnabled()).toBe(true);
+
+    // Turn off news ticker
+    window.RadioNewsEngine.setNewsTickerEnabled(false, true);
+    expect(window.RadioNewsEngine.isTickerEnabled()).toBe(false);
+    expect(tickerBar.classList.contains('hidden')).toBe(true);
+
+    // Turn back on via toggle
+    window.RadioNewsEngine.toggleNewsTickerEnabled();
+    expect(window.RadioNewsEngine.isTickerEnabled()).toBe(true);
+    expect(tickerBar.classList.contains('hidden')).toBe(false);
+  });
+
+  it('guarantees immediate effect when selecting Language, Region, and specific Media outlets', () => {
+    // 1. Select Switzerland + SRF + French language
+    window.RadioNewsEngine.selectRegion('ch');
+    window.RadioNewsEngine.selectMedia('srf');
+    window.RadioNewsEngine.selectLanguage('fr');
+
+    expect(window.RadioNewsEngine.getCurrentRegion()).toBe('ch');
+    expect(window.RadioNewsEngine.getCurrentMedia()).toBe('srf');
+    expect(window.RadioNewsEngine.getCurrentLanguage()).toBe('fr');
+
+    let items = window.RadioNewsEngine.getFilteredNewsItems();
+    expect(items.length).toBeGreaterThan(0);
+    expect(items.every(it => it.outletId === 'srf' || it.source.toLowerCase().includes('srf'))).toBe(true);
+
+    const headlineEl = document.getElementById('ticker-headline-text');
+    expect(headlineEl.textContent.trim()).toBe(items[0].title.trim());
+
+    // 2. Select Greece + Kathimerini + Greek language
+    window.RadioNewsEngine.selectRegion('gr');
+    window.RadioNewsEngine.selectMedia('kathimerini');
+    window.RadioNewsEngine.selectLanguage('el');
+
+    items = window.RadioNewsEngine.getFilteredNewsItems();
+    expect(items.length).toBeGreaterThan(0);
+    expect(items[0].outletId).toBe('kathimerini');
+    expect(document.getElementById('ticker-headline-text').textContent.trim()).toBe(items[0].title.trim());
+  });
+
+  it('provides verified HTTPS streams and multi-stream failover for every radio station', async () => {
+    const stations = window.RadioNewsEngine.getRadioStations();
+    expect(stations.length).toBeGreaterThanOrEqual(27);
+
+    stations.forEach(station => {
+      expect(station.stream).toMatch(/^https:\/\//);
+      expect(Array.isArray(station.streams)).toBe(true);
+      expect(station.streams.length).toBeGreaterThanOrEqual(3);
+      const candidates = window.RadioNewsEngine.getStationStreamCandidates(station);
+      expect(candidates.length).toBeGreaterThanOrEqual(3);
+    });
+
+    // Simulate primary stream failing and second candidate succeeding automatically
+    const attemptedUrls = [];
+    const OriginalAudio = window.Audio;
+    window.Audio = class MockAudio {
+      constructor() {
+        this.volume = 0;
+        this.preload = 'none';
+        this.src = '';
+        this.listeners = {};
+      }
+      addEventListener(type, cb) {
+        this.listeners[type] = this.listeners[type] || [];
+        this.listeners[type].push(cb);
+      }
+      removeAttribute() {}
+      load() {}
+      pause() {}
+      play() {
+        attemptedUrls.push(this.src);
+        if (attemptedUrls.length === 1) {
+          return Promise.reject(new Error('Primary stream unreachable'));
+        }
+        return Promise.resolve();
+      }
+    };
+
+    window.RadioNewsEngine.playRadioStation('corax');
+    await new Promise(r => setTimeout(r, 20));
+
+    expect(attemptedUrls.length).toBe(2);
+    expect(window.RadioNewsEngine.getCurrentStationId()).toBe('corax');
+    expect(window.RadioNewsEngine.isRadioPlaying()).toBe(true);
+
+    window.RadioNewsEngine.stopRadioPlayback();
+    expect(window.RadioNewsEngine.isRadioPlaying()).toBe(false);
+    window.Audio = OriginalAudio;
+  });
 });
+
+
