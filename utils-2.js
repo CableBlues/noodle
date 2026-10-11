@@ -37,8 +37,8 @@ function triggerPraiseAnimation(idx) {
         const size = Math.random() * 45 + 15;
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
-        bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(168, 85, 247, 0.15) 40%, rgba(56, 189, 248, 0.45) 80%, rgba(255, 255, 255, 0) 100%)`;
-        bubble.style.boxShadow = 'inset 0 0 12px rgba(255, 255, 255, 0.65), 0 4px 15px rgba(56, 189, 248, 0.25)';
+        bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(168, 85, 247, 0.15) 40%, rgba(137, 207, 240, 0.45) 80%, rgba(255, 255, 255, 0) 100%)`;
+        bubble.style.boxShadow = 'inset 0 0 12px rgba(255, 255, 255, 0.65), 0 4px 15px rgba(137, 207, 240, 0.25)';
         bubble.style.left = `${Math.random() * 100}vw`;
         bubble.style.bottom = `-60px`;
         
@@ -107,6 +107,40 @@ function triggerPraiseAnimation(idx) {
 }
 
 let _lastRenderedCalDateKey = null;
+let currentViewingCalendarMonth = new Date().getMonth();
+let currentViewingCalendarYear = new Date().getFullYear();
+
+function prevCalendarMonth(event) {
+  if (event) event.stopPropagation();
+  currentViewingCalendarMonth--;
+  if (currentViewingCalendarMonth < 0) {
+    currentViewingCalendarMonth = 11;
+    currentViewingCalendarYear--;
+  }
+  renderMiniCalendar(true);
+}
+
+function nextCalendarMonth(event) {
+  if (event) event.stopPropagation();
+  currentViewingCalendarMonth++;
+  if (currentViewingCalendarMonth > 11) {
+    currentViewingCalendarMonth = 0;
+    currentViewingCalendarYear++;
+  }
+  renderMiniCalendar(true);
+}
+
+function resetCalendarToToday(event) {
+  if (event) event.stopPropagation();
+  const now = new Date();
+  currentViewingCalendarMonth = now.getMonth();
+  currentViewingCalendarYear = now.getFullYear();
+  renderMiniCalendar(true);
+}
+
+window.prevCalendarMonth = prevCalendarMonth;
+window.nextCalendarMonth = nextCalendarMonth;
+window.resetCalendarToToday = resetCalendarToToday;
 
 function renderMiniCalendar(force = false) {
   const grid = document.getElementById('cal-days-grid');
@@ -114,11 +148,14 @@ function renderMiniCalendar(force = false) {
   if (!grid || !title) return;
 
   const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth();
+  const year = currentViewingCalendarYear;
+  const month = currentViewingCalendarMonth;
   const todayDate = now.getDate();
+  const todayMonth = now.getMonth();
+  const todayYear = now.getFullYear();
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
-  const termineList = (state && state.items && state.items.termine) ? state.items.termine : [];
+  const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state?.items || {});
+  const termineList = curItems.termine || [];
   const dateKey = `${year}-${month}-${todayDate}-${lang}-${termineList.length}`;
 
   if (!force && _lastRenderedCalDateKey === dateKey && grid.children.length > 0) {
@@ -129,7 +166,8 @@ function renderMiniCalendar(force = false) {
   grid.innerHTML = '';
 
   const locales = { de: 'de-DE', en: 'en-US', el: 'el-GR', es: 'es-ES', fr: 'fr-FR', it: 'it-IT' };
-  const monthName = new Intl.DateTimeFormat(locales[currentLang] || 'en-US', { month: 'long', year: 'numeric' }).format(now);
+  const viewingDate = new Date(year, month, 1);
+  const monthName = new Intl.DateTimeFormat(locales[currentLang] || 'en-US', { month: 'long', year: 'numeric' }).format(viewingDate);
   title.innerText = monthName;
 
   const firstDayOfMonth = new Date(year, month, 1);
@@ -140,55 +178,60 @@ function renderMiniCalendar(force = false) {
 
   for (let i = 0; i < firstDayIndex; i++) {
     const empty = document.createElement('span');
-    empty.className = 'text-transparent select-none pointer-events-none';
+    empty.className = 'text-transparent select-none pointer-events-none h-6 w-6';
     empty.innerText = '';
     grid.appendChild(empty);
   }
 
-  const todayMonth = now.getMonth();
-  const todayYear = now.getFullYear();
-
   for (let day = 1; day <= daysInMonth; day++) {
-    const daySpan = document.createElement('span');
+    const daySpan = document.createElement('button');
+    daySpan.type = 'button';
     daySpan.innerText = day;
     
     const isToday = day === todayDate && month === todayMonth && year === todayYear;
     if (isToday) {
-      daySpan.className = 'flex items-center justify-center h-5 w-5 bg-[var(--accent)] text-white font-bold rounded-lg shadow-[0_0_8px_rgba(139,92,246,0.5)] border border-[var(--accent-light)]/20 animate-pulse';
+      daySpan.className = 'flex items-center justify-center h-6 w-6 text-white font-bold rounded-lg bg-amber-500/25 border border-amber-400/80 shadow-sm transition-all duration-150 cursor-pointer text-[10px]';
     } else {
-      daySpan.className = 'flex items-center justify-center h-5 w-5 text-gray-400 hover:text-white hover:bg-white/5 rounded transition-all duration-150';
+      daySpan.className = 'flex items-center justify-center h-6 w-6 text-gray-300 hover:text-white hover:bg-white/10 rounded-lg transition-all duration-150 cursor-pointer text-[10px]';
     }
     
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    const dayAppointments = (state.items && state.items.termine) 
-      ? state.items.termine.filter(t => t.date === dateStr) 
-      : [];
+    const dayAppointments = termineList.filter(t => t && t.date === dateStr);
       
     if (dayAppointments.length > 0) {
-      daySpan.className += ' border border-amber-400/40 relative shadow-[0_0_10px_rgba(245,158,11,0.15)]';
+      daySpan.className += ' border border-sky-400/40 relative font-bold';
       
       const dot = document.createElement('span');
-      dot.className = 'absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-amber-400 rounded-full shadow-[0_0_4px_rgba(245,158,11,0.8)] animate-pulse';
+      dot.className = 'absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-sky-400 rounded-full shadow-xs';
       daySpan.appendChild(dot);
     }
 
-    // Tooltip-Beschriftung: Standardhinweis plus optionale Terminliste, falls vorhanden
-    const tooltipAction = tr({ de: "Auf ein Datum klicken, um einen Termin einzutragen", en: "Click on a date to enter an appointment", es: "Haz clic en una fecha para añadir una cita", el: "Κάνε κλικ σε μια ημερομηνία για να καταχωρήσεις ραντεβού", fr: "Clique sur une date pour ajouter un rendez-vous", it: "Clicca su una data per inserire un appuntamento" });
+    // Tooltip-Beschriftung
+    const tooltipAction = tr({ 
+      de: "Datum wählen & Termin erfassen", 
+      en: "Select date & add appointment", 
+      es: "Seleccionar fecha y añadir cita", 
+      el: "Επιλογή ημερομηνίας & καταχώρηση", 
+      fr: "Choisir date et ajouter rendez-vous", 
+      it: "Scegli data e inserisci appuntamento" 
+    });
 
     if (dayAppointments.length > 0) {
       const listStr = dayAppointments.map(t => {
         let loc = t.location ? ` (@ ${t.location})` : '';
         const allDayLabel = tr({ de: 'Ganztägig', en: 'All day', es: 'Todo el día', el: 'Ολοήμερο', fr: 'Toute la journée', it: 'Tutto il giorno' });
-        return `${t.time || allDayLabel} · ${t.task}${loc}`;
+        return `${t.time || allDayLabel} · ${t.task || t.name}${loc}`;
       }).join('\n');
       daySpan.title = `${tooltipAction}\n\nTermine:\n${listStr}`;
     } else {
       daySpan.title = tooltipAction;
     }
 
-    // Interaktiver Klick-Listener: Öffnet direkt das integrierte Formular
+    // Interaktiver Klick-Listener: Öffnet direkt das Termin-Formular und schließt das Dropdown
     daySpan.onclick = (e) => {
       e.stopPropagation();
+      const calDropdown = document.getElementById('panel-calendar-dropdown');
+      if (calDropdown) calDropdown.classList.add('hidden');
       if (typeof toggleTerminForm === 'function') {
         toggleTerminForm(true, dateStr);
       }
@@ -210,8 +253,9 @@ function toggleCalendarDropdown(event) {
   if (calEl) {
     const isHidden = calEl.classList.contains('hidden');
     if (isHidden) {
+      if (typeof PanelManager !== 'undefined' && PanelManager.closeAll) PanelManager.closeAll();
       calEl.classList.remove('hidden');
-      renderMiniCalendar();
+      renderMiniCalendar(true);
     } else {
       calEl.classList.add('hidden');
     }
@@ -228,8 +272,10 @@ function toggleWeatherDropdown(event) {
   if (weatherEl) {
     const isHidden = weatherEl.classList.contains('hidden');
     if (isHidden) {
+      if (typeof PanelManager !== 'undefined' && PanelManager.closeAll) PanelManager.closeAll();
       weatherEl.classList.remove('hidden');
       if (typeof updateWeatherDisplay === 'function') updateWeatherDisplay();
+      if (typeof fetchLocalWeather === 'function') fetchLocalWeather();
     } else {
       weatherEl.classList.add('hidden');
     }
@@ -238,6 +284,11 @@ function toggleWeatherDropdown(event) {
 window.toggleWeatherDropdown = toggleWeatherDropdown;
 
 function openWeatherHover() {
+  if (typeof showPanelHover === 'function') {
+    showPanelHover('weather');
+    if (typeof updateWeatherDisplay === 'function') updateWeatherDisplay();
+    return;
+  }
   if (weatherHoverTimeout) {
     clearTimeout(weatherHoverTimeout);
     weatherHoverTimeout = null;
@@ -258,6 +309,10 @@ function openWeatherHover() {
 window.openWeatherHover = openWeatherHover;
 
 function closeWeatherHover() {
+  if (typeof hidePanelHover === 'function') {
+    hidePanelHover('weather');
+    return;
+  }
   if (weatherHoverTimeout) clearTimeout(weatherHoverTimeout);
   weatherHoverTimeout = setTimeout(() => {
     const el = document.getElementById('panel-weather');
@@ -272,6 +327,11 @@ function closeWeatherHover() {
 window.closeWeatherHover = closeWeatherHover;
 
 function openCalendarHover() {
+  if (typeof showPanelHover === 'function') {
+    showPanelHover('calendar-dropdown');
+    if (typeof renderMiniCalendar === 'function') renderMiniCalendar();
+    return;
+  }
   if (calendarHoverTimeout) {
     clearTimeout(calendarHoverTimeout);
     calendarHoverTimeout = null;
@@ -292,6 +352,10 @@ function openCalendarHover() {
 window.openCalendarHover = openCalendarHover;
 
 function closeCalendarHover() {
+  if (typeof hidePanelHover === 'function') {
+    hidePanelHover('calendar-dropdown');
+    return;
+  }
   if (calendarHoverTimeout) clearTimeout(calendarHoverTimeout);
   calendarHoverTimeout = setTimeout(() => {
     const el = document.getElementById('panel-calendar-dropdown');
@@ -348,22 +412,133 @@ if (typeof document !== 'undefined') {
         settingsEl.classList.add('hidden');
       }
     }
+    // 6. Wecker Dropdown
+    const alarmEl = document.getElementById('panel-alarm');
+    const alarmBtn = document.getElementById('header-btn-alarm-container');
+    if (alarmEl && !alarmEl.classList.contains('hidden')) {
+      if (!alarmEl.contains(e.target) && (!alarmBtn || !alarmBtn.contains(e.target))) {
+        alarmEl.classList.add('hidden');
+      }
+    }
+    // 7. Workspace Dropdown
+    const wsEl = document.getElementById('dropdown-header-workspace');
+    const wsBtn = document.getElementById('btn-header-workspace');
+    if (wsEl && !wsEl.classList.contains('hidden')) {
+      if (!wsEl.contains(e.target) && (!wsBtn || !wsBtn.contains(e.target))) {
+        wsEl.classList.add('hidden');
+      }
+    }
+    // 8. Manage Columns Dropdown
+    const colsEl = document.getElementById('dropdown-manage-columns');
+    const colsBtn = document.getElementById('btn-board-columns');
+    if (colsEl && !colsEl.classList.contains('hidden')) {
+      if (!colsEl.contains(e.target) && (!colsBtn || !colsBtn.contains(e.target))) {
+        colsEl.classList.add('hidden');
+      }
+    }
   });
 }
+
+// 7 harmonische, leuchtende Farbpaletten für jeden Wochentag (0 = Sonntag bis 6 = Samstag)
+// Datum und Tag tragen immer exakt dieselbe Farbe, jeden Tag in einer frischen Farbvariante.
+const DAY_COLOR_PALETTES = [
+  // 0: Sonntag (Sunday) - Warm Sun / Amber & Golden Orange
+  {
+    day: 0,
+    name: 'Sonntag',
+    dayClass: 'text-amber-300',
+    dateClass: 'text-amber-300',
+    accentHex: '#f59e0b',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(245,158,11,0.35)]',
+    badgeClass: 'bg-amber-500/15 border-amber-500/30 text-amber-300'
+  },
+  // 1: Montag (Monday) - Frisches Cyan & Electric Sky
+  {
+    day: 1,
+    name: 'Montag',
+    dayClass: 'text-cyan-300',
+    dateClass: 'text-cyan-300',
+    accentHex: '#06b6d4',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(6,182,212,0.35)]',
+    badgeClass: 'bg-cyan-500/15 border-cyan-500/30 text-cyan-300'
+  },
+  // 2: Dienstag (Tuesday) - Frisches Smaragdgrün & Mint
+  {
+    day: 2,
+    name: 'Dienstag',
+    dayClass: 'text-emerald-300',
+    dateClass: 'text-emerald-300',
+    accentHex: '#10b981',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(16,185,129,0.35)]',
+    badgeClass: 'bg-emerald-500/15 border-emerald-500/30 text-emerald-300'
+  },
+  // 3: Mittwoch (Wednesday) - Sonniges Gelb & Frisches Lime
+  {
+    day: 3,
+    name: 'Mittwoch',
+    dayClass: 'text-yellow-300',
+    dateClass: 'text-yellow-300',
+    accentHex: '#eab308',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(234,179,8,0.35)]',
+    badgeClass: 'bg-yellow-500/15 border-yellow-500/30 text-yellow-300'
+  },
+  // 4: Donnerstag (Thursday) - Strahlendes Violett & Royal Purple
+  {
+    day: 4,
+    name: 'Donnerstag',
+    dayClass: 'text-purple-300',
+    dateClass: 'text-purple-300',
+    accentHex: '#a855f7',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(168,85,247,0.35)]',
+    badgeClass: 'bg-purple-500/15 border-purple-500/30 text-purple-300'
+  },
+  // 5: Freitag (Friday) - Wochenend-Auftakt Koralle & Neon-Rose
+  {
+    day: 5,
+    name: 'Freitag',
+    dayClass: 'text-rose-300',
+    dateClass: 'text-rose-300',
+    accentHex: '#f43f5e',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(244,63,94,0.35)]',
+    badgeClass: 'bg-rose-500/15 border-rose-500/30 text-rose-300'
+  },
+  // 6: Samstag (Saturday) - Leuchtendes Fuchsia & Pink-Magenta
+  {
+    day: 6,
+    name: 'Samstag',
+    dayClass: 'text-fuchsia-300',
+    dateClass: 'text-fuchsia-300',
+    accentHex: '#d946ef',
+    glowClass: 'drop-shadow-[0_0_8px_rgba(217,70,239,0.35)]',
+    badgeClass: 'bg-fuchsia-500/15 border-fuchsia-500/30 text-fuchsia-300'
+  }
+];
+
+function getDayColorPalette(date = new Date()) {
+  const dayIndex = (date instanceof Date && !isNaN(date)) ? date.getDay() : 0;
+  return DAY_COLOR_PALETTES[dayIndex] || DAY_COLOR_PALETTES[0];
+}
+window.DAY_COLOR_PALETTES = DAY_COLOR_PALETTES;
+window.getDayColorPalette = getDayColorPalette;
 
 function updateDateAndStreak() {
   const now = new Date();
   const locales = { de: 'de-DE', en: 'en-GB', el: 'el-GR', es: 'es-ES', fr: 'fr-FR', it: 'it-IT' };
+  const palette = getDayColorPalette(now);
   try {
-    const weekday = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { weekday: 'long' }).format(now);
-    const dayMonth = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
+    const weekdayLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { weekday: 'long' }).format(now);
+    const weekdayShort = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { weekday: 'short' }).format(now);
+    const dayMonth = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'short' }).format(now);
+    const dayMonthLong = new Intl.DateTimeFormat(locales[currentLang] || 'en-GB', { day: 'numeric', month: 'long' }).format(now);
     const displayEl = document.getElementById('date-display');
     if (displayEl) {
-      displayEl.innerHTML = `<span class="text-zinc-400 font-medium text-xs md:text-sm tracking-normal">${weekday},</span> <span class="text-zinc-100 font-semibold text-xs md:text-sm tracking-normal">${dayMonth}</span>`;
+      displayEl.innerHTML = `<span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal transition-colors duration-300 ${palette.glowClass}"><span class="xl:hidden">${weekdayShort},</span><span class="hidden xl:inline">${weekdayLong},</span></span> <span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal transition-colors duration-300 ${palette.glowClass}"><span class="2xl:hidden">${dayMonth}</span><span class="hidden 2xl:inline">${dayMonthLong}</span></span>`;
     }
   } catch (e) {
     const displayEl = document.getElementById('date-display');
-    if (displayEl) displayEl.innerText = now.toLocaleDateString();
+    if (displayEl) {
+      displayEl.innerHTML = `<span class="${palette.dayClass} font-bold text-xs md:text-sm tracking-normal ${palette.glowClass}">${now.toLocaleDateString()}</span>`;
+    }
   }
 
   // Ganz dezente Live-Uhrzeit (Null Speicher-Overhead)
@@ -415,7 +590,7 @@ function spawnFloatingBubbles(e) {
     bubble.style.animationDelay = `${delay}s`;
     
     // Zufällige Farbe aus dem Brand-Spektrum
-    const colors = ['#38bdf8', '#10b981', '#8b5cf6', '#f472b6'];
+    const colors = ['#89cff0', '#10b981', '#8b5cf6', '#f472b6'];
     bubble.style.background = `radial-gradient(circle at 30% 30%, #fff 0%, ${colors[Math.floor(Math.random() * colors.length)]} 70%)`;
     
     document.body.appendChild(bubble);
@@ -486,7 +661,7 @@ let eyeRestRunning = false;
 let dopamineDetoxInterval = null;
 let dopamineDetoxSeconds = 60;
 
-function openBreakModal(type, pattern) {
+window.openBreakModal = function(type, pattern) {
   if (type === 'stretch') {
     if (typeof openSportModal === 'function') {
       openSportModal();
@@ -508,8 +683,7 @@ function openBreakModal(type, pattern) {
   } else {
     switchSafeSpaceTab('breath');
   }
-}
-window.openBreakModal = openBreakModal;
+};
 
 function openSafeSpaceModal() {
   const modal = document.getElementById('helper-safespace-modal');
@@ -534,7 +708,7 @@ function closeSafeSpaceModal() {
 window.closeSafeSpaceModal = closeSafeSpaceModal;
 
 function switchPauseDropdownTab(tabName) {
-  ['breath', 'sensory', 'body', 'sound'].forEach(t => {
+  ['breath', 'sensory', 'body'].forEach(t => {
     const pane = document.getElementById(`pause-dropdown-pane-${t}`);
     const tabBtn = document.getElementById(`pause-dropdown-tab-${t}`);
     if (pane) {
@@ -645,7 +819,7 @@ function startSafeSpaceBreathCycle() {
         text.innerText = tr({ de: "2. Nochmal nachatmen!", en: "2. Top-up Inhale!", fr: "2. Complétez !", it: "2. Riempi ancora!", es: "2. ¡Inhala más!", el: "2. Συμπληρώστε!" });
         if (countEl) countEl.innerText = "1s";
         circle.style.transform = "scale(1.45)";
-        circle.style.borderColor = "rgba(56, 189, 248, 0.9)";
+        circle.style.borderColor = "rgba(137, 207, 240, 0.9)";
 
         safeSpaceBreathTimeout = setTimeout(() => {
           text.innerText = tr({ de: "Langer beruhigender Seufzer...", en: "Long Calming Sigh...", fr: "Long soupir apaisant...", it: "Lungo sospiro calmante...", es: "Largo suspiro calmante...", el: "Μεγάλος αναστεναγμός..." });

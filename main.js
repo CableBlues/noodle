@@ -64,6 +64,7 @@ import './onboarding.js';
 import './monetization.js';
 import './app-feedback.js';
 import './app-tooltip.js';
+import './app-social.js';
 import './app-core.js';
 
 console.log('⚡ [Noodle] Alle Module erfolgreich initialisiert.');

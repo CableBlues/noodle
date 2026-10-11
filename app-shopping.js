@@ -1,4 +1,4 @@
-// app-shopping.js: Umfassende Smart Shopping Suite mit Gängen, Mengen, Quick-Chips & Supermarkt-Modus
+// app-shopping.js: Umfassende Smart Shopping Suite mit Gängen, Discounter-Hub & Smart Deal-Radar
 
 const SHOPPING_DEPARTMENTS = {
   produce: {
@@ -68,6 +68,151 @@ const QUICK_ESSENTIALS = {
   el: ['🥛 Γάλα', '🥚 Αυγά', '🍞 Ψωμί', '🧈 Βούτυρο', '🍎 Μήλα', '🍌 Μπανάνες', '☕ Καφές', '🍝 Ζυμαρικά', '🧅 Κρεμμύδια', '🧀 Τυρί']
 };
 
+// -------------------------------------------------------------
+// DISCOUNTER & DEALS ENGINE (STORES & LIVE CATALOG)
+// -------------------------------------------------------------
+const DISCOUNT_STORES = {
+  aldi: { name: 'Aldi', color: '#0284c7', bg: 'bg-sky-500/15', border: 'border-sky-500/40', text: 'text-sky-300', icon: 'shopping-bag', badge: 'Aldi Süd/Nord' },
+  lidl: { name: 'Lidl', color: '#eab308', bg: 'bg-yellow-500/15', border: 'border-yellow-500/40', text: 'text-yellow-300', icon: 'percent', badge: 'Lidl Plus' },
+  rewe: { name: 'Rewe', color: '#dc2626', bg: 'bg-red-500/15', border: 'border-red-500/40', text: 'text-red-300', icon: 'tag', badge: 'Rewe Beste Wahl' },
+  penny: { name: 'Penny', color: '#ea580c', bg: 'bg-orange-500/15', border: 'border-orange-500/40', text: 'text-orange-300', icon: 'flame', badge: 'Penny Knüller' },
+  kaufland: { name: 'Kaufland', color: '#9333ea', bg: 'bg-purple-500/15', border: 'border-purple-500/40', text: 'text-purple-300', icon: 'award', badge: 'Kaufland Card' },
+  edeka: { name: 'Edeka', color: '#16a34a', bg: 'bg-emerald-500/15', border: 'border-emerald-500/40', text: 'text-emerald-300', icon: 'heart', badge: 'Gut & Günstig' }
+};
+
+const DEFAULT_DISCOUNT_DEALS = [
+  { id: 'deal-aldi-01', store: 'aldi', name: 'Bio Vollmilch 3.8%', originalPrice: 1.49, price: 1.09, discountPct: 27, unit: '1 L', dept: 'dairy', badge: 'Bio Hit', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-02', store: 'aldi', name: 'Deutsche Markenbutter', originalPrice: 2.29, price: 1.39, discountPct: 39, unit: '250 g', dept: 'dairy', badge: 'Super-Knüller', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-03', store: 'aldi', name: 'Bananen Bio Fairtrade', originalPrice: 1.99, price: 1.29, discountPct: 35, unit: '1 kg', dept: 'produce', badge: 'Fairtrade', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-04', store: 'aldi', name: 'Natives Olivenöl Extra', originalPrice: 8.99, price: 5.99, discountPct: 33, unit: '750 ml', dept: 'pantry', badge: 'Aktion', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-05', store: 'aldi', name: 'Lachsfilet frisch mit Haut', originalPrice: 5.99, price: 4.29, discountPct: 28, unit: '300 g', dept: 'meat', badge: 'Frische-Tipp', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-aldi-06', store: 'aldi', name: 'Haferflocken Zart & Kernig', originalPrice: 0.79, price: 0.49, discountPct: 38, unit: '500 g', dept: 'bakery', badge: 'Dauer-Günstig', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-lidl-01', store: 'lidl', name: 'Barista Hafermilch Ungesüßt', originalPrice: 1.89, price: 1.19, discountPct: 37, unit: '1 L', dept: 'dairy', badge: 'Lidl Plus', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-02', store: 'lidl', name: 'Gouda jung in Scheiben', originalPrice: 2.69, price: 1.69, discountPct: 37, unit: '400 g', dept: 'dairy', badge: 'XXL Packung', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-03', store: 'lidl', name: 'Avocados Ready-to-Eat', originalPrice: 2.49, price: 1.49, discountPct: 40, unit: '2er Pack', dept: 'produce', badge: 'Knaller', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-04', store: 'lidl', name: 'Lavazza Crema e Aroma Bohnen', originalPrice: 14.99, price: 9.99, discountPct: 33, unit: '1 kg', dept: 'drinks', badge: 'Marken-Highlight', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-05', store: 'lidl', name: 'Hähnchen-Brustfilet Teilstücke', originalPrice: 7.49, price: 4.99, discountPct: 33, unit: '600 g', dept: 'meat', badge: 'Frische-Hit', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-lidl-06', store: 'lidl', name: 'Italienische Pasta Spaghetti & Penne', originalPrice: 1.19, price: 0.69, discountPct: 42, unit: '500 g', dept: 'bakery', badge: '42% Sparen', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-rewe-01', store: 'rewe', name: 'Kerrygold Original Irische Butter', originalPrice: 3.29, price: 1.99, discountPct: 40, unit: '250 g', dept: 'dairy', badge: 'Wochen-Knüller', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-rewe-02', store: 'rewe', name: 'Barilla Pasta Sorten', originalPrice: 1.99, price: 0.88, discountPct: 56, unit: '500 g', dept: 'bakery', badge: 'Top Sparpreis', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-rewe-03', store: 'rewe', name: 'Jacobs Krönung Kaffee gemahlen', originalPrice: 6.99, price: 4.44, discountPct: 36, unit: '500 g', dept: 'drinks', badge: 'Kaffee-Hit', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-rewe-04', store: 'rewe', name: 'Bio Freilandeier Gr. M/L', originalPrice: 3.29, price: 2.49, discountPct: 24, unit: '10er Pack', dept: 'dairy', badge: 'Bio Region', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-rewe-05', store: 'rewe', name: 'Bio Gurken aus Deutschland', originalPrice: 1.49, price: 0.79, discountPct: 47, unit: '1 Stück', dept: 'produce', badge: 'Lokal & Bio', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-penny-01', store: 'penny', name: 'Ritter Sport Bunte Vielfalt', originalPrice: 1.49, price: 0.88, discountPct: 41, unit: '100 g', dept: 'pantry', badge: 'Penny Knüller', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-penny-02', store: 'penny', name: 'Speisekartoffeln festkochend', originalPrice: 3.49, price: 1.99, discountPct: 43, unit: '2.5 kg', dept: 'produce', badge: 'Sack-Preis', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-penny-03', store: 'penny', name: 'Coca-Cola / Fanta / Sprite', originalPrice: 1.49, price: 0.99, discountPct: 34, unit: '1.25 L', dept: 'drinks', badge: 'Erfrischung', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-penny-04', store: 'penny', name: 'Toilettenpapier 3-lagig sanft', originalPrice: 4.29, price: 2.99, discountPct: 30, unit: '10x 200 Blatt', dept: 'household', badge: 'Haushalts-Hit', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-kaufland-01', store: 'kaufland', name: 'Gemischtes Hackfleisch Rind & Schwein', originalPrice: 5.49, price: 3.49, discountPct: 36, unit: '500 g', dept: 'meat', badge: 'Kaufland Card', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-kaufland-02', store: 'kaufland', name: 'Äpfel Gala / Elstar Tafeläpfel', originalPrice: 2.99, price: 1.59, discountPct: 47, unit: '1 kg', dept: 'produce', badge: 'Knack-Frisch', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-kaufland-03', store: 'kaufland', name: 'Dallmayr Prodomo Spitzenkaffee', originalPrice: 7.49, price: 4.99, discountPct: 33, unit: '500 g', dept: 'drinks', badge: 'Kaffee des Monats', validUntil: 'Sa. diese Woche' },
+
+  { id: 'deal-edeka-01', store: 'edeka', name: 'Mozzarella di Bufala Campana', originalPrice: 2.49, price: 1.49, discountPct: 40, unit: '125 g', dept: 'dairy', badge: 'Gourmet Deal', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-edeka-02', store: 'edeka', name: 'Bio Rispen-Tomaten aromatisch', originalPrice: 2.99, price: 1.79, discountPct: 40, unit: '500 g', dept: 'produce', badge: 'Bio Qualität', validUntil: 'Sa. diese Woche' },
+  { id: 'deal-edeka-03', store: 'edeka', name: 'Pesto Alla Genovese Barilla', originalPrice: 3.29, price: 1.99, discountPct: 39, unit: '190 g', dept: 'pantry', badge: 'Genuss-Hit', validUntil: 'Sa. diese Woche' }
+];
+
+let globalDiscountDeals = [...DEFAULT_DISCOUNT_DEALS];
+let activeDiscountStore = 'all';
+let activeDiscountSearch = '';
+let activeShoppingTab = 'list'; // 'list' or 'deals'
+
+async function fetchLiveDiscounterDeals() {
+  if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
+    // Auf file:// Protokoll blockieren Browser CORS-Fetches auf lokale Dateien.
+    // Direkt die eingebetteten Standard-Deals nutzen ohne Fehlermeldung.
+    return;
+  }
+  try {
+    const res = await fetch('api/discounts.php', { cache: 'no-cache' });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.deals) && data.deals.length > 0) {
+        globalDiscountDeals = data.deals;
+        if (typeof renderDiscounterDeals === 'function') {
+          renderDiscounterDeals();
+        }
+      }
+    }
+  } catch (err) {
+    // Graceful offline fallback to DEFAULT_DISCOUNT_DEALS
+  }
+}
+
+// -------------------------------------------------------------
+// SMART DEAL-RADAR & MATCHING ENGINE
+// -------------------------------------------------------------
+function findBestDealForShoppingItem(name) {
+  if (!name || typeof name !== 'string') return null;
+  const clean = name.toLowerCase().replace(/[^a-z0-9äöüß]/gi, ' ').trim();
+  const words = clean.split(/\s+/).filter(w => w.length > 2 && !['ein', 'eine', 'packung', 'dose', 'glas', 'stk', 'liter'].includes(w));
+
+  let bestMatch = null;
+  let highestScore = 0;
+
+  globalDiscountDeals.forEach(deal => {
+    const dealClean = deal.name.toLowerCase();
+    let score = 0;
+
+    // Exact or direct inclusion match
+    if (dealClean.includes(clean) || clean.includes(dealClean)) {
+      score += 10;
+    }
+
+    // Word matches
+    words.forEach(w => {
+      if (dealClean.includes(w)) {
+        score += 3;
+      }
+    });
+
+    // Special item mapping
+    if ((clean.includes('milch') || clean.includes('hafer')) && (dealClean.includes('milch') || dealClean.includes('hafer'))) score += 5;
+    if (clean.includes('butter') && dealClean.includes('butter')) score += 5;
+    if ((clean.includes('pasta') || clean.includes('nudel') || clean.includes('spaghetti')) && (dealClean.includes('pasta') || dealClean.includes('spaghetti'))) score += 5;
+    if (clean.includes('kaffee') && (dealClean.includes('kaffee') || dealClean.includes('lavazza') || dealClean.includes('dallmayr') || dealClean.includes('jacobs'))) score += 5;
+    if (clean.includes('ei') && dealClean.includes('eier')) score += 5;
+    if (clean.includes('apfel') && dealClean.includes('äpfel')) score += 5;
+    if (clean.includes('banan') && dealClean.includes('banan')) score += 5;
+    if (clean.includes('hack') && dealClean.includes('hack')) score += 5;
+    if (clean.includes('lachs') && dealClean.includes('lachs')) score += 5;
+    if (clean.includes('käse') && dealClean.includes('gouda')) score += 4;
+    if (clean.includes('öl') && dealClean.includes('olivenöl')) score += 5;
+
+    if (score > highestScore && score >= 4) {
+      highestScore = score;
+      bestMatch = deal;
+    }
+  });
+
+  if (!bestMatch) return null;
+
+  const storeInfo = DISCOUNT_STORES[bestMatch.store] || { name: bestMatch.store, color: '#10b981', text: 'text-emerald-300' };
+  const savings = ((bestMatch.originalPrice || 0) - (bestMatch.price || 0)).toFixed(2);
+
+  return {
+    deal: bestMatch,
+    storeInfo,
+    savings,
+    discountPct: bestMatch.discountPct || Math.round(((bestMatch.originalPrice - bestMatch.price) / bestMatch.originalPrice) * 100)
+  };
+}
+
+function getShoppingListRadarMatches() {
+  const list = state.shoppingList || [];
+  const matches = [];
+  list.forEach((item, idx) => {
+    const match = findBestDealForShoppingItem(item.name);
+    if (match) {
+      matches.push({ itemIndex: idx, item, ...match });
+    }
+  });
+  return matches;
+}
+
 function getDepartmentForItem(name) {
   if (!name) return 'other';
   const clean = name.toLowerCase().trim();
@@ -82,7 +227,44 @@ function getDepartmentForItem(name) {
 window.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
 window.getDepartmentForItem = getDepartmentForItem;
 
-function handleAddShoppingItem(explicitName = null) {
+// -------------------------------------------------------------
+// TAB SWITCHER: [ LISTE ] vs [ DISCOUNTER-DEALS ] vs [ VORRATSKAMMER ]
+// -------------------------------------------------------------
+function switchShoppingTab(tabName) {
+  activeShoppingTab = tabName;
+  const listPane = document.getElementById('shopping-pane-list');
+  const dealsPane = document.getElementById('shopping-pane-deals');
+  const pantryPane = document.getElementById('shopping-pane-pantry');
+  const btnList = document.getElementById('shopping-tab-btn-list');
+  const btnDeals = document.getElementById('shopping-tab-btn-deals');
+  const btnPantry = document.getElementById('shopping-tab-btn-pantry');
+
+  const activeBtnClass = 'flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition';
+  const inactiveBtnClass = 'flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
+
+  if (listPane) listPane.classList.toggle('hidden', tabName !== 'list');
+  if (dealsPane) dealsPane.classList.toggle('hidden', tabName !== 'deals');
+  if (pantryPane) pantryPane.classList.toggle('hidden', tabName !== 'pantry');
+
+  if (btnList) btnList.className = tabName === 'list' ? activeBtnClass : inactiveBtnClass;
+  if (btnDeals) btnDeals.className = tabName === 'deals' ? activeBtnClass : inactiveBtnClass;
+  if (btnPantry) btnPantry.className = tabName === 'pantry' ? activeBtnClass : inactiveBtnClass;
+
+  if (tabName === 'deals') {
+    renderDiscounterDeals();
+  } else if (tabName === 'pantry') {
+    renderPantryTab();
+  } else {
+    updateShoppingListPopup();
+  }
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+window.switchShoppingTab = switchShoppingTab;
+
+// -------------------------------------------------------------
+// ADDING & MODIFYING ITEMS
+// -------------------------------------------------------------
+function handleAddShoppingItem(explicitName = null, options = {}) {
   let rawInput = explicitName;
   if (!rawInput) {
     const inputEl = document.getElementById('shop-add-name') || document.getElementById('supermarket-add-input');
@@ -105,29 +287,29 @@ function handleAddShoppingItem(explicitName = null) {
   saveHistory();
   if (!Array.isArray(state.shoppingList)) state.shoppingList = [];
 
-  // Bulk-Splitter: Komma oder Zeilenumbruch
   const itemsToAdd = rawInput.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
 
   itemsToAdd.forEach(text => {
-    // Check if quantity is mentioned e.g. "2x Milch" or "500g Pasta" or "3 Äpfel"
     let name = text;
-    let qty = 1;
-    let unit = '';
+    let qty = options.qty || 1;
+    let unit = options.unit || '';
 
-    const qtyMatch = text.match(/^(\d+)\s*(x|kg|g|l|ml|bund|stk|packung|dose|gläser|glas)?\s+(.+)$/i);
-    if (qtyMatch) {
-      qty = parseInt(qtyMatch[1], 10) || 1;
-      unit = qtyMatch[2] || '';
-      name = qtyMatch[3].trim();
+    if (!options.qty) {
+      const qtyMatch = text.match(/^(\d+)\s*(x|kg|g|l|ml|bund|stk|packung|dose|gläser|glas)?\s+(.+)$/i);
+      if (qtyMatch) {
+        qty = parseInt(qtyMatch[1], 10) || 1;
+        unit = qtyMatch[2] || '';
+        name = qtyMatch[3].trim();
+      }
     }
 
-    const dept = getDepartmentForItem(name);
+    const dept = options.dept || getDepartmentForItem(name);
 
-    // Prüfen ob bereits vorhanden -> dann Menge erhöhen
     const existingIndex = state.shoppingList.findIndex(item => item.name.toLowerCase() === name.toLowerCase());
     if (existingIndex !== -1) {
       state.shoppingList[existingIndex].qty = (state.shoppingList[existingIndex].qty || 1) + qty;
       if (unit) state.shoppingList[existingIndex].unit = unit;
+      if (options.dealInfo) state.shoppingList[existingIndex].dealInfo = options.dealInfo;
     } else {
       state.shoppingList.push({
         id: 'shop-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
@@ -135,6 +317,7 @@ function handleAddShoppingItem(explicitName = null) {
         qty,
         unit,
         dept,
+        dealInfo: options.dealInfo || null,
         addedAt: new Date().toISOString()
       });
     }
@@ -143,6 +326,9 @@ function handleAddShoppingItem(explicitName = null) {
   saveState();
   renderApp();
   renderSupermarketModal();
+
+  const activeInput = document.getElementById('shop-add-name') || document.getElementById('supermarket-add-input');
+  if (activeInput) activeInput.focus();
 
   if (itemsToAdd.length === 1) {
     showToast(tr({
@@ -164,6 +350,57 @@ function handleAddShoppingItem(explicitName = null) {
     }));
   }
 }
+
+function addDealToShoppingList(dealId) {
+  const deal = globalDiscountDeals.find(d => d.id === dealId);
+  if (!deal) return;
+
+  const storeInfo = DISCOUNT_STORES[deal.store] || { name: deal.store };
+  const dealName = `${deal.name} (${storeInfo.name})`;
+
+  handleAddShoppingItem(dealName, {
+    qty: 1,
+    unit: deal.unit || '',
+    dept: deal.dept || getDepartmentForItem(deal.name),
+    dealInfo: {
+      id: deal.id,
+      store: deal.store,
+      storeName: storeInfo.name,
+      price: deal.price,
+      originalPrice: deal.originalPrice,
+      discountPct: deal.discountPct
+    }
+  });
+
+  if (typeof triggerCelebration === 'function') triggerCelebration();
+  showToast(`🏷️ ${deal.name} (${deal.price.toFixed(2)} € bei ${storeInfo.name}) auf Liste gesetzt! 🎉`);
+}
+window.addDealToShoppingList = addDealToShoppingList;
+
+function applyDealToShoppingItem(itemIndex, dealId) {
+  if (!state.shoppingList || !state.shoppingList[itemIndex]) return;
+  const deal = globalDiscountDeals.find(d => d.id === dealId);
+  if (!deal) return;
+
+  saveHistory();
+  const storeInfo = DISCOUNT_STORES[deal.store] || { name: deal.store };
+  state.shoppingList[itemIndex].name = `${deal.name} (${storeInfo.name})`;
+  state.shoppingList[itemIndex].dept = deal.dept || getDepartmentForItem(deal.name);
+  state.shoppingList[itemIndex].dealInfo = {
+    id: deal.id,
+    store: deal.store,
+    storeName: storeInfo.name,
+    price: deal.price,
+    originalPrice: deal.originalPrice,
+    discountPct: deal.discountPct
+  };
+
+  saveState();
+  renderApp();
+  renderSupermarketModal();
+  showToast(`✨ Deal angewendet: ${deal.name} (${deal.price.toFixed(2)} €) bei ${storeInfo.name}!`);
+}
+window.applyDealToShoppingItem = applyDealToShoppingItem;
 
 function adjustShoppingItemQty(index, delta) {
   if (!state.shoppingList || !state.shoppingList[index]) return;
@@ -216,6 +453,7 @@ function handleToggleShoppingItem(index) {
     qty: item.qty || 1,
     unit: item.unit || '',
     dept: item.dept || 'other',
+    dealInfo: item.dealInfo || null,
     date: todayStr
   });
 
@@ -238,7 +476,7 @@ function restoreShoppingHistoryItem(historyIndex) {
   if (!state.shoppingHistory || !state.shoppingHistory[historyIndex]) return;
   saveHistory();
   const hItem = state.shoppingHistory.splice(historyIndex, 1)[0];
-  handleAddShoppingItem(hItem.name);
+  handleAddShoppingItem(hItem.name, { qty: hItem.qty, unit: hItem.unit, dept: hItem.dept, dealInfo: hItem.dealInfo });
 }
 
 function toggleShoppingHistory() {
@@ -318,7 +556,7 @@ function addIngredientsToShoppingList(ingredients, recipeTitle = '') {
   if (typeof triggerCelebration === 'function') triggerCelebration();
   showToast(tr({
     de: `${count} Zutaten zu deiner Einkaufsliste hinzugefügt! 🛒`,
-    en: `Added ${count} ingredients to shopping list! 🛒`,
+    en: `${count} ingredients to shopping list! 🛒`,
     fr: `${count} ingrédients ajoutés à la liste de courses ! 🛒`,
     it: `${count} ingredienti aggiunti alla lista della spesa! 🛒`,
     es: `¡${count} ingredientes añadidos a la lista! 🛒`,
@@ -327,11 +565,136 @@ function addIngredientsToShoppingList(ingredients, recipeTitle = '') {
 }
 
 // -------------------------------------------------------------
-// DOCK POPUP UI RENDERING
+// DISCOUNTER HUB RENDERING (DEALS TAB)
+// -------------------------------------------------------------
+function filterDiscounterDeals(storeKey) {
+  activeDiscountStore = storeKey;
+  renderDiscounterDeals();
+}
+window.filterDiscounterDeals = filterDiscounterDeals;
+
+function searchDiscounterDeals(query) {
+  activeDiscountSearch = query.toLowerCase().trim();
+  renderDiscounterDeals();
+}
+window.searchDiscounterDeals = searchDiscounterDeals;
+
+function renderDiscounterDeals() {
+  const container = document.getElementById('discounter-deals-container');
+  if (!container) return;
+
+  const filtered = globalDiscountDeals.filter(deal => {
+    if (activeDiscountStore !== 'all' && deal.store !== activeDiscountStore) return false;
+    if (activeDiscountSearch) {
+      const matchName = deal.name.toLowerCase().includes(activeDiscountSearch);
+      const matchBadge = (deal.badge || '').toLowerCase().includes(activeDiscountSearch);
+      const matchStore = (deal.store || '').toLowerCase().includes(activeDiscountSearch);
+      if (!matchName && !matchBadge && !matchStore) return false;
+    }
+    return true;
+  });
+
+  // Store Filter Buttons Strip
+  const storesStrip = `
+    <div class="flex items-center gap-1.5 overflow-x-auto pb-1.5 scrollbar-none">
+      <button onclick="filterDiscounterDeals('all')" class="px-2.5 py-1 rounded-xl text-[10px] font-bold transition shrink-0 cursor-pointer ${activeDiscountStore === 'all' ? 'bg-emerald-500 text-black shadow-md' : 'bg-white/5 text-gray-400 hover:text-white border border-white/10'}">
+        ✨ Alle (${globalDiscountDeals.length})
+      </button>
+      ${Object.keys(DISCOUNT_STORES).map(key => {
+        const store = DISCOUNT_STORES[key];
+        const isActive = activeDiscountStore === key;
+        const count = globalDiscountDeals.filter(d => d.store === key).length;
+        return `
+          <button onclick="filterDiscounterDeals('${key}')" class="px-2.5 py-1 rounded-xl text-[10px] font-bold transition shrink-0 cursor-pointer flex items-center gap-1 ${isActive ? `${store.bg} ${store.text} border ${store.border} shadow-md` : 'bg-white/5 text-gray-400 hover:text-white border border-white/10'}">
+            <span>${store.name}</span>
+            <span class="text-[9px] opacity-70">(${count})</span>
+          </button>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  // Search Bar
+  const searchBar = `
+    <div class="relative">
+      <input type="text" placeholder="Angebote durchsuchen (z.B. Butter, Kaffee, Bio)..." value="${activeDiscountSearch}" oninput="searchDiscounterDeals(this.value)" class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-1.5 pl-8 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-emerald-400 transition" />
+      <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5"></i>
+      ${activeDiscountSearch ? `<button onclick="searchDiscounterDeals('');" class="absolute right-2.5 top-2 text-gray-400 hover:text-white text-xs font-bold">✕</button>` : ''}
+    </div>
+  `;
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="space-y-2">
+        ${storesStrip}
+        ${searchBar}
+        <div class="text-center py-6 text-gray-500 italic text-xs">
+          Keine Angebote für diesen Filter gefunden.
+        </div>
+      </div>
+    `;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  const dealsList = `
+    <div class="grid grid-cols-1 gap-2 max-h-[320px] overflow-y-auto pr-1">
+      ${filtered.map(deal => {
+        const store = DISCOUNT_STORES[deal.store] || { name: deal.store, text: 'text-emerald-300', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30' };
+        const safeName = typeof escapeHtml === 'function' ? escapeHtml(deal.name) : deal.name;
+        const discountPct = deal.discountPct || Math.round(((deal.originalPrice - deal.price) / deal.originalPrice) * 100);
+
+        return `
+          <div class="p-2.5 bg-black/50 hover:bg-white/[0.04] border border-white/10 hover:border-emerald-500/40 rounded-2xl transition flex items-center justify-between gap-2.5 group">
+            <div class="flex-1 min-w-0 space-y-1">
+              <div class="flex items-center gap-1.5">
+                <span class="px-1.5 py-0.2 rounded-md ${store.bg} ${store.text} border ${store.border} text-[9px] font-bold font-mono">
+                  ${store.name}
+                </span>
+                <span class="px-1.5 py-0.2 rounded-md bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[9px] font-bold">
+                  -${discountPct}%
+                </span>
+                ${deal.badge ? `<span class="text-[9px] text-gray-400 font-medium">${deal.badge}</span>` : ''}
+              </div>
+              <div class="font-bold text-xs text-white group-hover:text-emerald-300 transition truncate" title="${safeName}">
+                ${safeName}
+              </div>
+              <div class="flex items-center gap-2 text-[10px] text-gray-400 font-mono">
+                <span class="text-white font-bold text-xs text-emerald-400">${deal.price.toFixed(2)} €</span>
+                <span class="line-through text-gray-500 text-[10px]">${deal.originalPrice.toFixed(2)} €</span>
+                ${deal.unit ? `<span>(${deal.unit})</span>` : ''}
+              </div>
+            </div>
+
+            <button onclick="addDealToShoppingList('${deal.id}')" class="px-3 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-black font-bold text-[11px] rounded-xl transition shadow-md flex items-center gap-1 shrink-0 cursor-pointer active:scale-95" title="Auf Einkaufsliste übernehmen">
+              <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+              <span>+ Liste</span>
+            </button>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  container.innerHTML = `
+    <div class="space-y-2">
+      ${storesStrip}
+      ${searchBar}
+      ${dealsList}
+    </div>
+  `;
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+window.renderDiscounterDeals = renderDiscounterDeals;
+
+// -------------------------------------------------------------
+// DOCK POPUP UI RENDERING & SMART DEAL-RADAR
 // -------------------------------------------------------------
 function updateShoppingListPopup(skipLucide = false) {
   const rowsContainer = document.getElementById('shopping-list-rows');
   const badgeEl = document.getElementById('shop-badge-count');
+  const radarBannerContainer = document.getElementById('shopping-radar-banner-container');
   if (!rowsContainer) return;
 
   const list = state.shoppingList || [];
@@ -344,11 +707,6 @@ function updateShoppingListPopup(skipLucide = false) {
     }
   }
 
-  const panel = rowsContainer.closest('.dock-popover-panel') || document.getElementById('panel-shopping');
-  if (skipLucide && panel && panel.classList.contains('hidden')) {
-    return;
-  }
-
   // Quick Chips rendern
   const chipsContainer = document.getElementById('shop-quick-chips');
   if (chipsContainer) {
@@ -358,6 +716,37 @@ function updateShoppingListPopup(skipLucide = false) {
         + ${item}
       </button>
     `).join('');
+  }
+
+  // Smart Deal-Radar Matching
+  const matches = getShoppingListRadarMatches();
+  if (radarBannerContainer) {
+    if (matches.length > 0) {
+      radarBannerContainer.classList.remove('hidden');
+      const topMatch = matches[0];
+      radarBannerContainer.innerHTML = `
+        <div class="p-2.5 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-teal-950/60 to-cyan-950/70 border border-emerald-400/50 shadow-[0_0_15px_rgba(16,185,129,0.2)] space-y-1.5 animate-pulse-slow">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-300">
+              <span class="animate-bounce">⚡</span>
+              <span>Spar-Radar: ${matches.length} ${matches.length === 1 ? 'Angebot' : 'Angebote'} gefunden!</span>
+            </div>
+            <button onclick="switchShoppingTab('deals')" class="text-[10px] text-emerald-400 hover:text-emerald-200 font-bold underline cursor-pointer">
+              Alle Deals ➔
+            </button>
+          </div>
+          <div class="text-[11px] text-gray-300 flex items-center justify-between gap-1">
+            <span class="truncate">💡 <strong>${escapeHtml(topMatch.item.name)}</strong>: ${topMatch.deal.name} bei <strong>${topMatch.storeInfo.name}</strong> für <strong>${topMatch.deal.price.toFixed(2)} €</strong> (-${topMatch.discountPct}%)</span>
+            <button onclick="applyDealToShoppingItem(${topMatch.itemIndex}, '${topMatch.deal.id}')" class="px-2 py-0.5 bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-[9px] rounded-lg shrink-0 cursor-pointer shadow">
+              Anpassen
+            </button>
+          </div>
+        </div>
+      `;
+    } else {
+      radarBannerContainer.classList.add('hidden');
+      radarBannerContainer.innerHTML = '';
+    }
   }
 
   if (list.length === 0) {
@@ -378,7 +767,7 @@ function updateShoppingListPopup(skipLucide = false) {
       
       html += `
         <div class="space-y-1 pt-1">
-          <div class="flex items-center gap-1.5 text-[10px] font-bold text-${deptInfo.color}-300 uppercase tracking-wider px-1">
+          <div class="flex items-center gap-1.5 text-[10px] font-bold text-[#c084fc] uppercase tracking-wider px-1">
             <i data-lucide="${deptInfo.icon}" class="w-3 h-3 text-${deptInfo.color}-400"></i>
             <span>${deptTitle}</span>
           </div>
@@ -387,15 +776,35 @@ function updateShoppingListPopup(skipLucide = false) {
       grouped[deptKey].forEach(({ item, originalIdx }) => {
         const safeEscape = typeof escapeHtml === 'function' ? escapeHtml : (str) => String(str || '');
         const qtyLabel = (item.qty && item.qty > 1) ? `${item.qty}${item.unit ? item.unit : 'x'} ` : '';
+        
+        // Inline Deal Radar Tag
+        let inlineDealBadge = '';
+        if (item.dealInfo) {
+          const sName = item.dealInfo.storeName || item.dealInfo.store;
+          inlineDealBadge = `<span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-bold ml-1 shrink-0">🏷️ ${sName} ${item.dealInfo.price.toFixed(2)}€</span>`;
+        } else {
+          const autoDeal = findBestDealForShoppingItem(item.name);
+          if (autoDeal) {
+            inlineDealBadge = `
+              <button onclick="applyDealToShoppingItem(${originalIdx}, '${autoDeal.deal.id}')" class="px-1.5 py-0.2 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold ml-1 shrink-0 cursor-pointer" title="Deal bei ${autoDeal.storeInfo.name} für ${autoDeal.deal.price.toFixed(2)} € (-${autoDeal.discountPct}%) anwenden">
+                🏷️ ${autoDeal.storeInfo.name} ${autoDeal.deal.price.toFixed(2)}€ (-${autoDeal.discountPct}%)
+              </button>
+            `;
+          }
+        }
+
         html += `
           <div class="flex items-center justify-between gap-1.5 p-1.5 bg-black/40 hover:bg-white/[0.04] border border-white/5 rounded-xl text-gray-300 transition group">
-            <input type="checkbox" onclick="handleToggleShoppingItem(${originalIdx})" class="w-4 h-4 rounded bg-black border-white/10 text-emerald-500 accent-emerald-500 cursor-pointer shrink-0" />
-            <span class="truncate font-medium flex-1 pl-1 text-xs text-white" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
+            <input type="checkbox" onclick="handleToggleShoppingItem(${originalIdx})" class="w-4 h-4 rounded bg-black border-white/10 text-[#00ff66] accent-[#00ff66] cursor-pointer shrink-0" />
+            <div class="flex-1 min-w-0 flex items-center gap-1 pl-1">
+              <span class="truncate font-medium text-xs text-[#00f2ff]" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
+              ${inlineDealBadge}
+            </div>
             
             <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 shrink-0">
-              <button onclick="adjustShoppingItemQty(${originalIdx}, -1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-gray-400 text-[10px] flex items-center justify-center cursor-pointer font-bold">-</button>
-              <span class="text-[10px] font-mono text-emerald-400 px-0.5">${item.qty || 1}</span>
-              <button onclick="adjustShoppingItemQty(${originalIdx}, 1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-gray-400 text-[10px] flex items-center justify-center cursor-pointer font-bold">+</button>
+              <button onclick="adjustShoppingItemQty(${originalIdx}, -1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-[#c0caf5] text-[10px] flex items-center justify-center cursor-pointer font-bold">-</button>
+              <span class="text-[10px] font-mono text-[#00f2ff] px-0.5">${item.qty || 1}</span>
+              <button onclick="adjustShoppingItemQty(${originalIdx}, 1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-[#c0caf5] text-[10px] flex items-center justify-center cursor-pointer font-bold">+</button>
               <button onclick="handleDeleteShoppingItem(${originalIdx})" aria-label="Artikel löschen" class="p-1 text-gray-500 hover:text-red-400 rounded transition cursor-pointer ml-1">
                 <i data-lucide="trash-2" class="w-3 h-3"></i>
               </button>
@@ -432,7 +841,7 @@ function updateShoppingListPopup(skipLucide = false) {
           <span class="truncate max-w-[140px] line-through text-gray-400 font-medium">${safeEscape(hItem.name)}</span>
           <div class="flex items-center gap-1.5">
             <span class="font-mono text-[8px] text-gray-500">${hItem.date || ''}</span>
-            <button onclick="restoreShoppingHistoryItem(${realIdx})" aria-label="Wieder auf Liste setzen" class="text-emerald-400 hover:text-emerald-300 text-[9px] font-bold cursor-pointer" title="Wieder auf Liste setzen">＋</button>
+            <button onclick="restoreShoppingHistoryItem(${realIdx})" aria-label="Wieder auf Liste setzen" class="text-[#00ff66] hover:text-[#00ff66]/80 text-[9px] font-bold cursor-pointer" title="Wieder auf Liste setzen">＋</button>
           </div>
         `;
         historyList.appendChild(hDiv);
@@ -450,10 +859,11 @@ function generateSmartShoppingTips(container) {
   if (!tipEl) return;
   const tips = [
     'Tipp: Kaufe frisches Obst & Gemüse zuerst und Kühlwaren ganz zum Schluss!',
-    'Tipp: Nutze den Supermarkt-Modus für große Tasten zum schnellen Abhaken.',
-    'Tipp: Sortiere deine Liste nach Regal-Gängen, um Zeit zu sparen.'
+    'Tipp: Nutze den Reiter "Deals" für wöchentliche Discounter-Aktionen!',
+    'Tipp: Der Spar-Radar zeigt dir automatisch die besten Angebote für deine Liste.'
   ];
   tipEl.innerText = tips[Math.floor(Math.random() * tips.length)];
+  tipEl.className = 'text-xs text-[#ff7a00] font-medium';
 }
 window.generateSmartShoppingTips = generateSmartShoppingTips;
 
@@ -484,8 +894,16 @@ function renderSupermarketModal() {
   const total = list.length + hist.length;
   const boughtCount = hist.length;
 
+  // Calculate potential savings with Deal-Radar
+  const matches = getShoppingListRadarMatches();
+  const totalSavings = matches.reduce((acc, m) => acc + parseFloat(m.savings || 0), 0);
+
   if (countEl) {
-    countEl.innerText = `${list.length} ${tr({ en: 'items to buy', de: 'Artikel im Plan', fr: 'articles à acheter', it: 'da comprare', es: 'por comprar', el: 'για αγορά' })} (${boughtCount} ${tr({ en: 'in cart', de: 'im Wagen', fr: 'dans le panier', it: 'nel carrello', es: 'en el carrito', el: 'στο καλάθι' })})`;
+    let text = `${list.length} ${tr({ en: 'items to buy', de: 'Artikel im Plan', fr: 'articles à acheter', it: 'da comprare', es: 'por comprar', el: 'για αγορά' })} (${boughtCount} ${tr({ en: 'in cart', de: 'im Wagen', fr: 'dans le panier', it: 'nel carrello', es: 'en el carrito', el: 'στο καλάθι' })})`;
+    if (totalSavings > 0) {
+      text += ` • ⚡ Bis zu ${totalSavings.toFixed(2)} € Sparpotenzial!`;
+    }
+    countEl.innerText = text;
   }
 
   if (progressEl && total > 0) {
@@ -498,7 +916,7 @@ function renderSupermarketModal() {
       <div class="text-center py-10 space-y-3">
         <div class="text-4xl">🛒</div>
         <h4 class="font-bold text-base text-white">${tr({ en: 'Your cart is clear!', de: 'Dein Einkaufswagen ist leer!', fr: 'Ton panier est vide !', it: 'Il tuo carrello è vuoto!', es: '¡Tu carrito está vacío!', el: 'Το καλάθι είναι άδειο!' })}</h4>
-        <p class="text-xs text-gray-400">${tr({ en: 'Add groceries above to start your organized shopping trip.', de: 'Füge oben Artikel hinzu, um deinen geordneten Einkauf zu starten.', fr: 'Ajoute des articles ci-dessus pour préparer tes courses.', it: 'Aggiungi articoli qui sopra per iniziare la spesa.', es: 'Añade artículos arriba para organizar tu compra.', el: 'Προσθέστε προϊόντα παραπάνω για να ξεκινήσετε.' })}</p>
+        <p class="text-xs text-gray-400">${tr({ en: 'Add groceries above to start your organized shopping trip.', de: 'Füge oben Artikel hinzu oder nutze die Angebote im Discounter-Tab!', fr: 'Ajoute des articles ci-dessus pour préparer tes courses.', it: 'Aggiungi articoli qui sopra per iniziare la spesa.', es: 'Añade artículos arriba para organizar tu compra.', el: 'Προσθέστε προϊόντα παραπάνω για να ξεκινήσετε.' })}</p>
       </div>
     `;
     return;
@@ -520,7 +938,7 @@ function renderSupermarketModal() {
 
     html += `
       <div class="p-3 bg-white/[0.02] border border-white/10 rounded-2xl space-y-2">
-        <div class="flex items-center gap-2 font-bold text-xs text-${deptInfo.color}-300 pb-1 border-b border-white/5">
+        <div class="flex items-center gap-2 font-bold text-xs text-[#c084fc] pb-1 border-b border-white/5">
           <i data-lucide="${deptInfo.icon}" class="w-4 h-4 text-${deptInfo.color}-400"></i>
           <span>${deptTitle}</span>
           <span class="text-[10px] text-gray-500 font-mono">(${grouped[deptKey].length})</span>
@@ -529,14 +947,23 @@ function renderSupermarketModal() {
     `;
 
     grouped[deptKey].forEach(({ item, originalIdx }) => {
-      const qtyLabel = (item.qty && item.qty > 1) ? `<span class="px-2 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs">${item.qty}${item.unit ? ' ' + item.unit : 'x'}</span>` : '';
+      const qtyLabel = (item.qty && item.qty > 1) ? `<span class="px-2 py-0.5 rounded-lg bg-[#00f2ff]/20 text-[#00f2ff] font-bold text-xs">${item.qty}${item.unit ? ' ' + item.unit : 'x'}</span>` : '';
+      
+      let dealTag = '';
+      if (item.dealInfo) {
+        dealTag = `<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">🏷️ ${item.dealInfo.storeName || item.dealInfo.store} ${item.dealInfo.price.toFixed(2)}€</span>`;
+      }
+
       html += `
         <div class="flex items-center justify-between p-3 bg-black/40 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 rounded-xl transition cursor-pointer group" onclick="handleToggleShoppingItem(${originalIdx})">
           <div class="flex items-center gap-3 min-w-0">
             <div class="w-6 h-6 rounded-lg border-2 border-white/30 group-hover:border-emerald-400 flex items-center justify-center transition">
               <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 opacity-0 group-hover:opacity-100 transition"></i>
             </div>
-            <span class="font-bold text-sm text-white truncate">${escapeHtml(item.name)}</span>
+            <div class="flex flex-col min-w-0">
+              <span class="font-bold text-sm text-[#00f2ff] truncate">${escapeHtml(item.name)}</span>
+              ${dealTag}
+            </div>
           </div>
           <div class="flex items-center gap-2" onclick="event.stopPropagation()">
             ${qtyLabel}
@@ -556,7 +983,7 @@ function renderSupermarketModal() {
     html += `
       <div class="pt-3 border-t border-white/10">
         <div class="flex items-center justify-between text-xs text-gray-400 font-bold mb-2">
-          <span class="flex items-center gap-1.5 text-emerald-400">
+          <span class="flex items-center gap-1.5 text-[#00ff66]">
             <i data-lucide="check-circle-2" class="w-4 h-4"></i>
             <span>${tr({ en: 'In Cart (Bought)', de: 'Bereits im Einkaufswagen', fr: 'Dans le panier', it: 'Nel carrello', es: 'En el carrito', el: 'Στο καλάθι' })} (${hist.length})</span>
           </span>
@@ -568,9 +995,9 @@ function renderSupermarketModal() {
     hist.slice().reverse().forEach((hItem, hIdx) => {
       const realIdx = hist.length - 1 - hIdx;
       html += `
-        <div class="flex items-center justify-between p-2.5 bg-white/[0.02] border border-white/5 rounded-xl text-xs text-gray-400">
-          <span class="line-through truncate">${hItem.name}</span>
-          <button onclick="restoreShoppingHistoryItem(${realIdx})" class="px-2 py-0.5 bg-white/5 hover:bg-emerald-500/20 text-emerald-300 rounded text-[10px] font-semibold cursor-pointer">
+        <div class="flex items-center justify-between p-2.5 bg-white/[0.02] border border-white/5 rounded-xl text-xs text-[#00ff66]">
+          <span class="line-through truncate text-[#00ff66]">${hItem.name}</span>
+          <button onclick="restoreShoppingHistoryItem(${realIdx})" class="px-2 py-0.5 bg-white/5 hover:bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]/30 rounded text-[10px] font-semibold cursor-pointer">
             ↩ ${tr({ en: 'Undo', de: 'Zurück', fr: 'Annuler', it: 'Ripristina', es: 'Deshacer', el: 'Αναίρεση' })}
           </button>
         </div>
@@ -613,8 +1040,356 @@ function clearCompletedShopItems() {
   }
 }
 
+// -------------------------------------------------------------
+// VORRATSKAMMER (PANTRY & HALTBARKEIT) ENGINE
+// -------------------------------------------------------------
+
+function getPantryItems() {
+  if (!state.pantryItems || !Array.isArray(state.pantryItems)) {
+    if (state.cooking && Array.isArray(state.cooking.pantryItems)) {
+      state.pantryItems = state.cooking.pantryItems;
+    } else {
+      state.pantryItems = [];
+    }
+  }
+  return state.pantryItems;
+}
+
+function getPantryItemFreshness(item) {
+  if (!item.expiresAt) return { status: 'good', daysLeft: 99, label: 'Haltbar', badgeClass: 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' };
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  const exp = new Date(item.expiresAt);
+  exp.setHours(0, 0, 0, 0);
+  const diffDays = Math.round((exp - now) / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0) {
+    return { status: 'expired', daysLeft: diffDays, label: `Abgelaufen (${Math.abs(diffDays)}T)`, badgeClass: 'bg-rose-500/25 text-rose-300 border-rose-500/40 animate-pulse' };
+  }
+  if (diffDays === 0) {
+    return { status: 'warning', daysLeft: 0, label: 'Heute verbrauchen!', badgeClass: 'bg-amber-500/25 text-amber-300 border-amber-500/40 animate-pulse' };
+  }
+  if (diffDays <= 3) {
+    return { status: 'warning', daysLeft: diffDays, label: `Noch ${diffDays} Tage`, badgeClass: 'bg-amber-500/20 text-amber-300 border-amber-500/30' };
+  }
+  return { status: 'good', daysLeft: diffDays, label: `Noch ${diffDays} Tage`, badgeClass: 'bg-emerald-500/15 text-emerald-300 border-emerald-500/30' };
+}
+
+function handleAddPantryItem(explicitName = null, options = {}) {
+  let rawInput = explicitName;
+  if (!rawInput) {
+    const inp = document.getElementById('pantry-add-input');
+    rawInput = inp ? inp.value.trim() : '';
+    if (inp) inp.value = '';
+  }
+  if (!rawInput) return;
+
+  saveHistory();
+  const pantry = getPantryItems();
+  const itemsToAdd = rawInput.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+
+  itemsToAdd.forEach(text => {
+    let name = text;
+    let qty = (typeof options.qty === 'number') ? options.qty : 1;
+    let unit = options.unit || '';
+
+    const qtyMatch = text.match(/^(\d+)\s*(x|kg|g|l|ml|bund|stk|packung|dose|gläser|glas)?\s+(.+)$/i);
+    if (qtyMatch) {
+      if (typeof options.qty !== 'number') {
+        qty = parseInt(qtyMatch[1], 10) || 1;
+      }
+      if (!options.unit && qtyMatch[2]) {
+        unit = qtyMatch[2] || '';
+      }
+      name = qtyMatch[3].trim();
+    }
+
+    const dept = options.dept || getDepartmentForItem(name);
+    const expiryDays = options.expiryDays || 14;
+    const expiresAt = new Date(Date.now() + expiryDays * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+
+    const existing = pantry.find(p => p.name.toLowerCase() === name.toLowerCase());
+    if (existing) {
+      existing.qty = (existing.qty || 1) + qty;
+      if (unit) existing.unit = unit;
+      existing.expiresAt = expiresAt;
+    } else {
+      pantry.push({
+        id: 'pantry-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5),
+        name,
+        qty,
+        unit,
+        dept,
+        expiresAt,
+        addedAt: new Date().toISOString().split('T')[0]
+      });
+    }
+  });
+
+  saveState();
+  renderApp();
+  renderPantryTab();
+  showToast(`📦 ${itemsToAdd.length} Artikel in Vorratskammer gelegt!`);
+}
+window.handleAddPantryItem = handleAddPantryItem;
+
+function handleDeletePantryItem(index) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  saveHistory();
+  const removed = pantry.splice(index, 1)[0];
+  saveState();
+  renderApp();
+  renderPantryTab();
+  showToast(`🗑️ "${removed.name}" aus Vorrat gelöscht.`);
+}
+window.handleDeletePantryItem = handleDeletePantryItem;
+
+function adjustPantryItemQty(index, delta) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  saveHistory();
+  const newQty = (pantry[index].qty || 1) + delta;
+  if (newQty <= 0) {
+    handleDeletePantryItem(index);
+    return;
+  }
+  pantry[index].qty = newQty;
+  saveState();
+  renderApp();
+  renderPantryTab();
+}
+window.adjustPantryItemQty = adjustPantryItemQty;
+
+function extendPantryExpiry(index, daysToAdd) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  saveHistory();
+  const currentExp = pantry[index].expiresAt ? new Date(pantry[index].expiresAt) : new Date();
+  const newDate = new Date(currentExp.getTime() + daysToAdd * 24 * 60 * 60 * 1000);
+  pantry[index].expiresAt = newDate.toISOString().split('T')[0];
+  saveState();
+  renderApp();
+  renderPantryTab();
+  showToast(`⏳ Haltbarkeit für "${pantry[index].name}" um +${daysToAdd} Tage verlängert.`);
+}
+window.extendPantryExpiry = extendPantryExpiry;
+
+function movePantryItemToShoppingList(index) {
+  const pantry = getPantryItems();
+  if (!pantry[index]) return;
+  const pItem = pantry[index];
+  handleAddShoppingItem(pItem.name, { qty: pItem.qty || 1, unit: pItem.unit || '', dept: pItem.dept });
+  showToast(`🛒 "${pItem.name}" auf Einkaufsliste gesetzt!`);
+}
+window.movePantryItemToShoppingList = movePantryItemToShoppingList;
+
+function moveBoughtItemToPantry(item, expiryDays = 7) {
+  if (!item || !item.name) return;
+  handleAddPantryItem(item.name, {
+    qty: item.qty || 1,
+    unit: item.unit || '',
+    dept: item.dept || getDepartmentForItem(item.name),
+    expiryDays: expiryDays
+  });
+}
+window.moveBoughtItemToPantry = moveBoughtItemToPantry;
+
+function renderPantryTab() {
+  const container = document.getElementById('pantry-items-container');
+  if (!container) return;
+
+  const pantry = getPantryItems();
+  if (pantry.length === 0) {
+    container.innerHTML = `
+      <div class="text-center py-6 text-gray-500 italic text-xs space-y-1">
+        <div class="text-2xl">📦</div>
+        <div>Deine Vorratskammer ist leer.</div>
+        <div class="text-[10px] text-gray-600">Trage Vorräte oben ein oder übernehme eingekaufte Artikel.</div>
+      </div>
+    `;
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+    return;
+  }
+
+  // Gruppieren nach Abteilung / Gang
+  const grouped = {};
+  pantry.forEach((pItem, idx) => {
+    const dept = pItem.dept || getDepartmentForItem(pItem.name);
+    if (!grouped[dept]) grouped[dept] = [];
+    grouped[dept].push({ item: pItem, originalIdx: idx });
+  });
+
+  let html = '<div class="space-y-3 max-h-[300px] overflow-y-auto pr-1">';
+  const safeEscape = typeof escapeHtml === 'function' ? escapeHtml : (str) => String(str || '');
+
+  for (const deptKey in grouped) {
+    const deptInfo = SHOPPING_DEPARTMENTS[deptKey] || { icon: 'box', color: 'gray', title: { en: 'Other', de: 'Sonstiges' } };
+    const deptTitle = deptInfo.title[currentLang] || deptInfo.title.de || deptInfo.title.en || deptKey;
+
+    html += `
+      <div class="p-2 bg-black/40 border border-white/5 rounded-2xl space-y-1.5">
+        <div class="flex items-center gap-1.5 text-[10px] font-bold text-amber-300 uppercase tracking-wider px-1">
+          <i data-lucide="${deptInfo.icon}" class="w-3.5 h-3.5 text-${deptInfo.color}-400"></i>
+          <span>${deptTitle} (${grouped[deptKey].length})</span>
+        </div>
+    `;
+
+    grouped[deptKey].forEach(({ item, originalIdx }) => {
+      const freshness = getPantryItemFreshness(item);
+      const qtyStr = `${item.qty || 1}${item.unit ? ' ' + item.unit : 'x'}`;
+
+      html += `
+        <div class="p-2 bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 rounded-xl flex items-center justify-between gap-2 transition group">
+          <div class="flex-1 min-w-0 space-y-0.5">
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-xs text-white truncate" title="${safeEscape(item.name)}">${safeEscape(item.name)}</span>
+              <span class="px-1.5 py-0.2 rounded border text-[9px] font-bold font-mono ${freshness.badgeClass}">
+                ${freshness.label}
+              </span>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] text-gray-400">
+              <span class="font-mono text-emerald-300 font-bold">${qtyStr}</span>
+              <button onclick="extendPantryExpiry(${originalIdx}, 7)" class="text-[9px] text-gray-500 hover:text-amber-300 cursor-pointer" title="Haltbarkeit um 7 Tage verlängern">+7T</button>
+              <button onclick="extendPantryExpiry(${originalIdx}, 30)" class="text-[9px] text-gray-500 hover:text-amber-300 cursor-pointer" title="Haltbarkeit um 30 Tage verlängern">+30T</button>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1 shrink-0">
+            <button onclick="adjustPantryItemQty(${originalIdx}, -1)" class="w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-xs flex items-center justify-center cursor-pointer font-bold">-</button>
+            <span class="text-[10px] font-mono text-white px-0.5">${item.qty || 1}</span>
+            <button onclick="adjustPantryItemQty(${originalIdx}, 1)" class="w-5 h-5 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-xs flex items-center justify-center cursor-pointer font-bold">+</button>
+            
+            <button onclick="movePantryItemToShoppingList(${originalIdx})" class="p-1 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-lg text-[9px] font-bold flex items-center gap-0.5 cursor-pointer ml-1" title="Wieder auf Einkaufszettel setzen">
+              <i data-lucide="shopping-cart" class="w-3 h-3"></i>
+            </button>
+            <button onclick="handleDeletePantryItem(${originalIdx})" class="p-1 text-gray-500 hover:text-rose-400 rounded transition cursor-pointer">
+              <i data-lucide="trash-2" class="w-3 h-3"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    html += `</div>`;
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+window.renderPantryTab = renderPantryTab;
+
+// -------------------------------------------------------------
+// SHOPPING LIST UTILITIES (CALCULATOR, SHARE & RECIPE IMPORT)
+// -------------------------------------------------------------
+
+function calculateShoppingListTotal() {
+  const list = state.shoppingList || [];
+  let total = 0;
+  let hasPriceCount = 0;
+
+  list.forEach(item => {
+    const qty = item.qty || 1;
+    if (item.dealInfo && typeof item.dealInfo.price === 'number') {
+      total += item.dealInfo.price * qty;
+      hasPriceCount++;
+    } else {
+      const bestDeal = findBestDealForShoppingItem(item.name);
+      if (bestDeal && bestDeal.deal && typeof bestDeal.deal.price === 'number') {
+        total += bestDeal.deal.price * qty;
+        hasPriceCount++;
+      }
+    }
+  });
+
+  return {
+    totalFormatted: total.toFixed(2) + ' €',
+    totalNum: total,
+    itemCount: list.length,
+    hasPrices: hasPriceCount > 0
+  };
+}
+window.calculateShoppingListTotal = calculateShoppingListTotal;
+
+function formatShoppingListForShare() {
+  const list = state.shoppingList || [];
+  if (list.length === 0) return '';
+  const aisleOrder = ['produce', 'dairy', 'bakery', 'meat', 'pantry', 'drinks', 'household', 'other'];
+  const grouped = {};
+  list.forEach(item => {
+    const dept = item.dept || getDepartmentForItem(item.name);
+    if (!grouped[dept]) grouped[dept] = [];
+    grouped[dept].push(item);
+  });
+
+  const lines = ['🛒 Noodle Einkaufszettel\n'];
+  aisleOrder.forEach(deptKey => {
+    if (grouped[deptKey] && grouped[deptKey].length > 0) {
+      const deptInfo = SHOPPING_DEPARTMENTS[deptKey] || { title: { de: 'Sonstiges', en: 'Other' } };
+      const title = deptInfo.title[currentLang] || deptInfo.title.de || deptInfo.title.en || deptKey;
+      lines.push(`\n📍 ${title}:`);
+      grouped[deptKey].forEach(item => {
+        const qty = (item.qty && item.qty > 1) ? `${item.qty}${item.unit ? ' ' + item.unit : 'x'} ` : '';
+        const deal = item.dealInfo ? ` (${item.dealInfo.price.toFixed(2)}€ bei ${item.dealInfo.storeName || item.dealInfo.store})` : '';
+        lines.push(`  • ${qty}${item.name}${deal}`);
+      });
+    }
+  });
+
+  const calc = calculateShoppingListTotal();
+  if (calc.hasPrices) {
+    lines.push(`\n💰 Geschätzter Sparpreis: ~${calc.totalFormatted}`);
+  }
+
+  return lines.join('\n');
+}
+window.formatShoppingListForShare = formatShoppingListForShare;
+
+function copyShoppingListToClipboard() {
+  const text = formatShoppingListForShare();
+  if (!text) {
+    showToast(tr({ de: "Einkaufsliste ist leer!", en: "Shopping list is empty!" }));
+    return;
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => {
+      showToast("📋 Einkaufszettel kopiert (bereit für WhatsApp / Notizen)!");
+    }).catch(() => {
+      fallbackCopyText(text);
+    });
+  } else {
+    fallbackCopyText(text);
+  }
+}
+window.copyShoppingListToClipboard = copyShoppingListToClipboard;
+
+function fallbackCopyText(text) {
+  const t = document.createElement('textarea');
+  t.value = text;
+  document.body.appendChild(t);
+  t.select();
+  try {
+    document.execCommand('copy');
+    showToast("📋 Einkaufszettel kopiert!");
+  } catch(e) {}
+  document.body.removeChild(t);
+}
+
+function importRecipeIngredientsToShoppingList(recipeName, ingredients) {
+  if (!Array.isArray(ingredients) || ingredients.length === 0) return;
+  addIngredientsToShoppingList(ingredients, recipeName);
+}
+window.importRecipeIngredientsToShoppingList = importRecipeIngredientsToShoppingList;
+
+// Fetch live deals on initialization
+if (typeof window !== 'undefined') {
+  setTimeout(fetchLiveDiscounterDeals, 500);
+}
+
 if (typeof window !== 'undefined') {
   window.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
+  window.DISCOUNT_STORES = DISCOUNT_STORES;
   window.getDepartmentForItem = getDepartmentForItem;
   window.handleAddShoppingItem = handleAddShoppingItem;
   window.quickAddShopItem = quickAddShopItem;
@@ -627,14 +1402,36 @@ if (typeof window !== 'undefined') {
   window.clearCompletedShopItems = clearCompletedShopItems;
   window.clearShoppingHistory = clearShoppingHistory;
   window.addIngredientsToShoppingList = addIngredientsToShoppingList;
+  window.importRecipeIngredientsToShoppingList = importRecipeIngredientsToShoppingList;
   window.openSupermarketModal = openSupermarketModal;
   window.closeSupermarketModal = closeSupermarketModal;
   window.openShoppingModal = openShoppingModal;
   window.closeShoppingModal = closeShoppingModal;
   window.renderSupermarketModal = renderSupermarketModal;
+  window.switchShoppingTab = switchShoppingTab;
+  window.renderDiscounterDeals = renderDiscounterDeals;
+  window.filterDiscounterDeals = filterDiscounterDeals;
+  window.searchDiscounterDeals = searchDiscounterDeals;
+  window.findBestDealForShoppingItem = findBestDealForShoppingItem;
+  window.getShoppingListRadarMatches = getShoppingListRadarMatches;
+  window.addDealToShoppingList = addDealToShoppingList;
+  window.applyDealToShoppingItem = applyDealToShoppingItem;
+  window.getPantryItems = getPantryItems;
+  window.getPantryItemFreshness = getPantryItemFreshness;
+  window.handleAddPantryItem = handleAddPantryItem;
+  window.handleDeletePantryItem = handleDeletePantryItem;
+  window.adjustPantryItemQty = adjustPantryItemQty;
+  window.extendPantryExpiry = extendPantryExpiry;
+  window.movePantryItemToShoppingList = movePantryItemToShoppingList;
+  window.moveBoughtItemToPantry = moveBoughtItemToPantry;
+  window.renderPantryTab = renderPantryTab;
+  window.calculateShoppingListTotal = calculateShoppingListTotal;
+  window.formatShoppingListForShare = formatShoppingListForShare;
+  window.copyShoppingListToClipboard = copyShoppingListToClipboard;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.SHOPPING_DEPARTMENTS = SHOPPING_DEPARTMENTS;
+  globalThis.DISCOUNT_STORES = DISCOUNT_STORES;
   globalThis.getDepartmentForItem = getDepartmentForItem;
   globalThis.handleAddShoppingItem = handleAddShoppingItem;
   globalThis.quickAddShopItem = quickAddShopItem;
@@ -647,9 +1444,30 @@ if (typeof globalThis !== 'undefined') {
   globalThis.clearCompletedShopItems = clearCompletedShopItems;
   globalThis.clearShoppingHistory = clearShoppingHistory;
   globalThis.addIngredientsToShoppingList = addIngredientsToShoppingList;
+  globalThis.importRecipeIngredientsToShoppingList = importRecipeIngredientsToShoppingList;
   globalThis.openSupermarketModal = openSupermarketModal;
   globalThis.closeSupermarketModal = closeSupermarketModal;
   globalThis.openShoppingModal = openShoppingModal;
   globalThis.closeShoppingModal = closeShoppingModal;
   globalThis.renderSupermarketModal = renderSupermarketModal;
+  globalThis.switchShoppingTab = switchShoppingTab;
+  globalThis.renderDiscounterDeals = renderDiscounterDeals;
+  globalThis.filterDiscounterDeals = filterDiscounterDeals;
+  globalThis.searchDiscounterDeals = searchDiscounterDeals;
+  globalThis.findBestDealForShoppingItem = findBestDealForShoppingItem;
+  globalThis.getShoppingListRadarMatches = getShoppingListRadarMatches;
+  globalThis.addDealToShoppingList = addDealToShoppingList;
+  globalThis.applyDealToShoppingItem = applyDealToShoppingItem;
+  globalThis.getPantryItems = getPantryItems;
+  globalThis.getPantryItemFreshness = getPantryItemFreshness;
+  globalThis.handleAddPantryItem = handleAddPantryItem;
+  globalThis.handleDeletePantryItem = handleDeletePantryItem;
+  globalThis.adjustPantryItemQty = adjustPantryItemQty;
+  globalThis.extendPantryExpiry = extendPantryExpiry;
+  globalThis.movePantryItemToShoppingList = movePantryItemToShoppingList;
+  globalThis.moveBoughtItemToPantry = moveBoughtItemToPantry;
+  globalThis.renderPantryTab = renderPantryTab;
+  globalThis.calculateShoppingListTotal = calculateShoppingListTotal;
+  globalThis.formatShoppingListForShare = formatShoppingListForShare;
+  globalThis.copyShoppingListToClipboard = copyShoppingListToClipboard;
 }

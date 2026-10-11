@@ -9,9 +9,13 @@
 
   // --- STATE ---
   let activeRegulationTab = 'reset'; // 'reset', 'grounding', 'somatic', 'mind', 'audio', 'crisis'
+  let activeBreathPattern = 'sigh'; // 'sigh', 'box', 'relax478', 'coherence', 'energize'
   let breathTimer = null;
+  let breathCyclesCompleted = 0;
+  let isPacerRunning = false;
   let bilateralInterval = null;
   let bilateralSide = 'left';
+  let isBilateralRunning = false;
   let shakeInterval = null;
   let shakeTimeRemaining = 60;
   let isShakeRunning = false;
@@ -23,19 +27,62 @@
   let postDistressScore = null;
   let groundingStep = 1;
 
+  // --- BREATH PATTERNS DEFINITIONS ---
+  const BREATH_PATTERNS = {
+    sigh: {
+      id: 'sigh',
+      name: 'Physiologischer Seufzer',
+      subtitle: 'Stanford Huberman • Akut-Beruhigung in 60s',
+      phases: [
+        { label: 'Tief durch die Nase einatmen', sub: 'Phase 1/3', duration: 2500, scale: 1.35, color: 'rgba(20, 184, 166, 0.9)', bg: 'rgba(20, 184, 166, 0.2)' },
+        { label: 'Kurz oben nachatmen!', sub: 'Phase 2/3 (Top-up)', duration: 1200, scale: 1.55, color: 'rgba(137, 207, 240, 1)', bg: 'rgba(137, 207, 240, 0.25)' },
+        { label: 'Langsam durch den Mund ausatmen', sub: 'Phase 3/3 (Loslassen)', duration: 6500, scale: 0.85, color: 'rgba(168, 85, 247, 0.7)', bg: 'rgba(168, 85, 247, 0.1)' }
+      ]
+    },
+    box: {
+      id: 'box',
+      name: 'Box Breathing (4-4-4-4)',
+      subtitle: 'Navy SEALs • Fokus, Klarheit & Gelassenheit',
+      phases: [
+        { label: 'Einatmen (4s)', sub: 'Durch die Nase', duration: 4000, scale: 1.45, color: 'rgba(56, 189, 248, 0.9)', bg: 'rgba(56, 189, 248, 0.2)' },
+        { label: 'Halten (4s)', sub: 'Lunge gefüllt halten', duration: 4000, scale: 1.45, color: 'rgba(234, 179, 8, 0.9)', bg: 'rgba(234, 179, 8, 0.2)' },
+        { label: 'Ausatmen (4s)', sub: 'Gleichmäßig ausströmen lassen', duration: 4000, scale: 0.85, color: 'rgba(168, 85, 247, 0.8)', bg: 'rgba(168, 85, 247, 0.15)' },
+        { label: 'Halten (4s)', sub: 'In der Leere entspannen', duration: 4000, scale: 0.85, color: 'rgba(234, 179, 8, 0.9)', bg: 'rgba(234, 179, 8, 0.2)' }
+      ]
+    },
+    relax478: {
+      id: 'relax478',
+      name: '4-7-8 Einschlaf-Atmung',
+      subtitle: 'Dr. Andrew Weil • Parasympathikus & Tiefenentspannung',
+      phases: [
+        { label: 'Sanft Einatmen (4s)', sub: 'Nase', duration: 4000, scale: 1.4, color: 'rgba(20, 184, 166, 0.9)', bg: 'rgba(20, 184, 166, 0.2)' },
+        { label: 'Atem sanft Anhalten (7s)', sub: 'Vollkommene Stille', duration: 7000, scale: 1.4, color: 'rgba(99, 102, 241, 0.9)', bg: 'rgba(99, 102, 241, 0.2)' },
+        { label: 'Lange Ausatmen (8s)', sub: 'Mit leisem Rauschen durch den Mund', duration: 8000, scale: 0.8, color: 'rgba(217, 70, 239, 0.8)', bg: 'rgba(217, 70, 239, 0.15)' }
+      ]
+    },
+    coherence: {
+      id: 'coherence',
+      name: 'Herz-Kohärenz (5.5s - 5.5s)',
+      subtitle: 'Resonanzatmung • Maximale Herzratenvariabilität (HRV)',
+      phases: [
+        { label: 'Fließend Einatmen (5.5s)', sub: 'Sanfter Atemstrom', duration: 5500, scale: 1.5, color: 'rgba(16, 185, 129, 0.9)', bg: 'rgba(16, 185, 129, 0.2)' },
+        { label: 'Fließend Ausatmen (5.5s)', sub: 'Vollkommen loslassen', duration: 5500, scale: 0.85, color: 'rgba(6, 182, 212, 0.9)', bg: 'rgba(6, 182, 212, 0.15)' }
+      ]
+    }
+  };
+
   // --- TRANSLATIONS FOR REGULATION STUDIO ---
   const REGULATION_TEXTS = {
     de: {
       title: "Innere Ruhe & Somatische Regulation",
       subtitle: "Neurobiologisch fundierte Methoden zur Beruhigung des vegetativen Nervensystems",
-      tab_reset: "🚨 Akut-Reset",
+      tab_reset: "🚨 Akut-Reset & Atmung",
       tab_grounding: "⚓ Erdung (5-4-3-2-1)",
       tab_somatic: "🌊 Körper-Release",
       tab_mind: "🧠 Beruhigender Dialog",
       tab_audio: "🎵 Bio-Resonanz (432Hz)",
       tab_crisis: "🤝 Notfall-Hilfe",
       
-      // Akut Reset
       sigh_title: "Physiologischer Seufzer (Stanford Neuroscience)",
       sigh_desc: "Die biologisch schnellste Methode, um die Herzfrequenz zu senken und das Alarmsystem im Gehirn herunterzufahren.",
       sigh_step1: "1. Tief durch die Nase einatmen",
@@ -57,7 +104,6 @@
       tipp_step2: "• Lege es auf Stirn, Wangen und Schläfen",
       tipp_step3: "• Halte für 15-20 Sekunden sanft die Luft an und beuge dich leicht vor",
       
-      // Grounding
       grounding_title: "Sensorisches 5-4-3-2-1 Grounding",
       grounding_intro: "Bringe dein Bewusstsein zurück ins Hier und Jetzt. Nimm dir für jeden Sinn bewusst Zeit.",
       ground_5: "5 DINGE SEHEN 👀",
@@ -73,7 +119,6 @@
       ground_next: "Weiter",
       ground_restart: "Neu starten",
       
-      // Somatic
       shake_title: "Neurogenes Ausschütteln (60s Shake-Out)",
       shake_desc: "Tiere zittern nach Stress instinktiv, um Adrenalin aus den Muskeln abzutransportieren. Schüttle sanft Hände, Arme und Beine aus.",
       shake_start: "60s Timer starten",
@@ -85,7 +130,6 @@
       pmr_step1: "Schultern zu den Ohren hochziehen & fest anspannen (5s)...",
       pmr_step2: "Komplett fallen lassen und das plötzliche Gefühl von Schwere spüren (15s).",
       
-      // Mind
       mind_title: "Validierende Leitsätze bei Anspannung & Panik",
       mind_desc: "Erinnere deinen Verstand daran, dass Anspannung eine natürliche körperliche Reaktion ist, die von selbst wieder abebbt.",
       reassurance_1: "„Mein Körper schlägt gerade falschen Alarm. Es fühlt sich unangenehm an, ist aber nicht gefährlich.“",
@@ -101,7 +145,6 @@
       sud_saved_post: "Aktueller Wert: Level",
       sud_improvement: "Großartig! Dein Nervensystem hat sich messbar beruhigt.",
       
-      // Audio
       audio_title: "Neuroakustische Frequenzen & Resonanz",
       audio_desc: "Sanfte Schwingungen zur Stimulation von Alphawellen (Entspannung) und Thetawellen (Tiefenruhe).",
       audio_432: "432 Hz Solfeggio (Natürliche Harmonie & Erdung)",
@@ -110,7 +153,6 @@
       audio_play: "Frequenz abspielen",
       audio_stop: "Stopp",
       
-      // Crisis
       crisis_title: "Kostenfreie & Anonyme Hilfsangebote",
       crisis_desc: "Wenn du dich überwältigt fühlst oder jemanden zum Reden brauchst, bist du nicht allein:",
       crisis_de_phone1: "TelefonSeelsorge (kostenfrei, 24/7): 0800 111 0 111 oder 0800 111 0 222",
@@ -123,7 +165,7 @@
     en: {
       title: "Inner Peace & Somatic Regulation",
       subtitle: "Neurobiologically grounded practices to calm the autonomic nervous system",
-      tab_reset: "🚨 Acute Reset",
+      tab_reset: "🚨 Acute Reset & Breathing",
       tab_grounding: "⚓ Grounding (5-4-3-2-1)",
       tab_somatic: "🌊 Body Release",
       tab_mind: "🧠 Reassuring Dialogue",
@@ -208,194 +250,6 @@
       crisis_at: "International: Befrienders Worldwide (befrienders.org)",
       crisis_ch: "Europe Emergency: 112",
       crisis_intl: "You are not alone. Reaching out is a sign of strength."
-    },
-    fr: {
-      title: "Paix Intérieure & Régulation Somatique",
-      subtitle: "Méthodes neurobiologiques pour apaiser le système nerveux autonome",
-      tab_reset: "🚨 Reset Aigu",
-      tab_grounding: "⚓ Ancrage (5-4-3-2-1)",
-      tab_somatic: "🌊 Libération Corporelle",
-      tab_mind: "🧠 Dialogue Apaisant",
-      tab_audio: "🎵 Bio-Résonance (432Hz)",
-      tab_crisis: "🤝 Soutien d'Urgence",
-      sigh_title: "Soupir Physiologique (Stanford)",
-      sigh_desc: "La méthode biologique la plus rapide pour ralentir le rythme cardiaque.",
-      sigh_step1: "1. Inspirez profondément par le nez",
-      sigh_step2: "2. Reprenez une courte inspiration au sommet !",
-      sigh_step3: "3. Expirez très lentement par la bouche",
-      sigh_btn_start: "Démarrer le guide respiratoire",
-      sigh_btn_stop: "Mettre en pause",
-      bilateral_title: "Stimulation Bilatérale",
-      bilateral_desc: "Tapottement alterné sur les épaules pour rééquilibrer le cerveau.",
-      bilateral_left: "GAUCHE",
-      bilateral_right: "DROITE",
-      bilateral_start: "Démarrer le rythme",
-      bilateral_stop: "Arrêter",
-      grounding_title: "Ancrage Sensoriel 5-4-3-2-1",
-      grounding_intro: "Revenez en douceur dans le moment présent.",
-      ground_5: "5 CHOSES À VOIR 👀",
-      ground_4: "4 CHOSES À TOUCHER ✋",
-      ground_3: "3 CHOSES À ÉCOUTER 👂",
-      ground_2: "2 CHOSES À SENTIR 👃",
-      ground_1: "1 CHOSE À GOÛTER 👅",
-      ground_next: "Suivant",
-      ground_restart: "Recommencer",
-      shake_title: "Secouement Neurogène (60s)",
-      shake_desc: "Secouez doucement les bras et jambes pour libérer l'adrénaline.",
-      shake_start: "Démarrer 60s",
-      pmr_title: "Micro-Relaxation Musculaire",
-      pmr_desc: "Haussez les épaules 5s, puis relâchez totalement.",
-      mind_title: "Phrases d'Apaisement & ACT",
-      reassurance_1: "« Mon corps déclenche une fausse alerte. C'est inconfortable, mais je suis en sécurité. »",
-      reassurance_2: "« La vague d'adrénaline redescend en 3 minutes. Cela passe déjà. »",
-      reassurance_3: "« Je respire et je m'ancre dans le présent. »",
-      audio_title: "Fréquences Thérapeutiques",
-      audio_432: "432 Hz Solfeggio (Harmonie)",
-      audio_play: "Écouter",
-      audio_stop: "Arrêter",
-      crisis_title: "Aide & Écoute Anonyme",
-      crisis_desc: "Numéro national d'aide d'urgence : 3114 (France, 24/7 gratuit)."
-    },
-    it: {
-      title: "Pace Interiore & Regolazione Somatica",
-      subtitle: "Metodi neurobiologici per calmare il sistema nervoso autonomo",
-      tab_reset: "🚨 Reset Rapido",
-      tab_grounding: "⚓ Radicamento (5-4-3-2-1)",
-      tab_somatic: "🌊 Rilascio Corporeo",
-      tab_mind: "🧠 Dialogo Rassicurante",
-      tab_audio: "🎵 Bio-Risonanza (432Hz)",
-      tab_crisis: "🤝 Supporto",
-      sigh_title: "Sospiro Fisiologico (Stanford)",
-      sigh_desc: "Il metodo più rapido per abbassare la frequenza cardiaca.",
-      sigh_step1: "1. Inspira a fondo con il naso",
-      sigh_step2: "2. Fai un ulteriore piccolo respiro al culmine!",
-      sigh_step3: "3. Espira molto lentamente dalla bocca",
-      sigh_btn_start: "Avvia ritmo",
-      sigh_btn_stop: "Pausa",
-      bilateral_title: "Stimolazione Bilaterale",
-      bilateral_desc: "Picchiettamento alternato su spalle o cosce per ritrovare equilibrio.",
-      bilateral_left: "SINISTRA",
-      bilateral_right: "DESTRA",
-      bilateral_start: "Avvia",
-      bilateral_stop: "Stop",
-      grounding_title: "Radicamento Sensoriale 5-4-3-2-1",
-      grounding_intro: "Ritorna nel momento presente con i tuoi sensi.",
-      ground_5: "5 COSE DA VEDERE 👀",
-      ground_4: "4 COSE DA TOCCARE ✋",
-      ground_3: "3 COSE DA ASCOLTARE 👂",
-      ground_2: "2 COSE DA ODORARE 👃",
-      ground_1: "1 COSA DA GUSTARE 👅",
-      ground_next: "Avanti",
-      ground_restart: "Riavvia",
-      shake_title: "Scuotimento Neurogeno (60s)",
-      shake_desc: "Scuoti delicatamente braccia e gambe per scaricare la tensione.",
-      shake_start: "Avvia 60s",
-      pmr_title: "Micro-Rilassamento Muscolare",
-      pmr_desc: "Tendi le spalle per 5s, poi rilascia completamente.",
-      mind_title: "Frasi Rassicuranti & ACT",
-      reassurance_1: "«Il mio corpo sta dando un falso allarme. È spiacevole, ma sono al sicuro.»",
-      reassurance_2: "«L'ondata di adrenalina dura pochi minuti. Sta già diminuendo.»",
-      reassurance_3: "«Sono qui, respiro e lascio che il mio corpo si calmi.»",
-      audio_title: "Frequenze Rilassanti",
-      audio_432: "432 Hz Solfeggio (Armonia)",
-      audio_play: "Riproduci",
-      audio_stop: "Stop",
-      crisis_title: "Supporto & Ascolto",
-      crisis_desc: "Telefono Amico Italia: 02 2327 2327 o Emergenza 112."
-    },
-    es: {
-      title: "Paz Interior & Regulación Somática",
-      subtitle: "Métodos neurobiológicos para calmar el sistema nervioso autónomo",
-      tab_reset: "🚨 Reset Rápido",
-      tab_grounding: "⚓ Anclaje (5-4-3-2-1)",
-      tab_somatic: "🌊 Liberación Corporal",
-      tab_mind: "🧠 Diálogo Calmante",
-      tab_audio: "🎵 Bio-Resonancia (432Hz)",
-      tab_crisis: "🤝 Ayuda Inmediata",
-      sigh_title: "Suspiro Fisiológico (Stanford)",
-      sigh_desc: "La técnica biológica más rápida para bajar el ritmo cardíaco y la ansiedad.",
-      sigh_step1: "1. Inhala profundo por la nariz",
-      sigh_step2: "2. ¡Toma un sorbo extra de aire al final!",
-      sigh_step3: "3. Exhala muy despacio por la boca",
-      sigh_btn_start: "Iniciar guía respiratoria",
-      sigh_btn_stop: "Pausar",
-      bilateral_title: "Estimulación Bilateral",
-      bilateral_desc: "Toques alternos en hombros o muslos para equilibrar el cerebro.",
-      bilateral_left: "IZQUIERDA",
-      bilateral_right: "DERECHA",
-      bilateral_start: "Iniciar",
-      bilateral_stop: "Detener",
-      grounding_title: "Anclaje Sensorial 5-4-3-2-1",
-      grounding_intro: "Vuelve con suavidad al momento presente.",
-      ground_5: "5 COSAS QUE VER 👀",
-      ground_4: "4 COSAS QUE SENTIR ✋",
-      ground_3: "3 COSAS QUE ESCUCHAR 👂",
-      ground_2: "2 COSAS QUE OLER 👃",
-      ground_1: "1 COSA QUE SABOREAR 👅",
-      ground_next: "Siguiente",
-      ground_restart: "Reiniciar",
-      shake_title: "Sacudida Neurobiológica (60s)",
-      shake_desc: "Sacude suavemente manos, brazos y piernas para disipar la adrenalina.",
-      shake_start: "Iniciar 60s",
-      pmr_title: "Micro-Relajación Muscular",
-      pmr_desc: "Tensa los hombros durante 5s y suelta por completo.",
-      mind_title: "Afirmaciones de Seguridad & ACT",
-      reassurance_1: "«Mi cuerpo está dando una falsa alarma. Es incómodo, pero estoy a salvo.»",
-      reassurance_2: "«La ola de adrenalina baja en pocos minutos. Ya está disminuyendo.»",
-      reassurance_3: "«Estoy aquí, respiro y dejo que mi cuerpo se calme a su ritmo.»",
-      audio_title: "Frecuencias Curativas",
-      audio_432: "432 Hz Solfeggio (Armonía)",
-      audio_play: "Reproducir",
-      audio_stop: "Parar",
-      crisis_title: "Líneas de Ayuda Gratuitas",
-      crisis_desc: "Teléfono de la Esperanza (España): 717 003 717 o Emergencias 112."
-    },
-    el: {
-      title: "Εσωτερική Γαλήνη & Σωματική Ρύθμιση",
-      subtitle: "Νευροβιολογικές τεχνικές ηρεμίας του αυτόνομου νευρικού συστήματος",
-      tab_reset: "🚨 Άμεση Επαναφορά",
-      tab_grounding: "⚓ Γείωση (5-4-3-2-1)",
-      tab_somatic: "🌊 Σωματική Αποφόρτιση",
-      tab_mind: "🧠 Καθησυχαστικός Διάλογος",
-      tab_audio: "🎵 Βιο-Συχνότητες (432Hz)",
-      tab_crisis: "🤝 Γραμμές Βοήθειας",
-      sigh_title: "Φυσιολογικός Αναστεναγμός (Stanford)",
-      sigh_desc: "Η ταχύτερη βιολογική μέθοδος για μείωση των παλμών της καρδιάς.",
-      sigh_step1: "1. Βαθιά εισπνοή από τη μύτη",
-      sigh_step2: "2. Μια επιπλέον μικρή εισπνοή στην κορυφή!",
-      sigh_step3: "3. Πολύ αργή εκπνοή από το στόμα",
-      sigh_btn_start: "Έναρξη αναπνοής",
-      sigh_btn_stop: "Παύση",
-      bilateral_title: "Διμερής Διέγερση",
-      bilateral_desc: "Εναλλάξ απαλά χτυπήματα στους ώμους για εξισορρόπηση των ημισφαιρίων.",
-      bilateral_left: "ΑΡΙΣΤΕΡΑ",
-      bilateral_right: "ΔΕΞΙΑ",
-      bilateral_start: "Έναρξη",
-      bilateral_stop: "Διακοπή",
-      grounding_title: "Αισθητηριακή Γείωση 5-4-3-2-1",
-      grounding_intro: "Επιστροφή με ασφάλεια στο παρόν.",
-      ground_5: "5 ΠΡΑΓΜΑΤΑ ΝΑ ΔΕΙΣ 👀",
-      ground_4: "4 ΠΡΑΓΜΑΤΑ ΝΑ ΑΓΓΙΞΕΙΣ ✋",
-      ground_3: "3 ΠΡΑΓΜΑΤΑ ΝΑ ΑΚΟΥΣΕΙΣ 👂",
-      ground_2: "2 ΠΡΑΓΜΑΤΑ ΝΑ ΜΥΡΙΣΕΙΣ 👃",
-      ground_1: "1 ΠΡΑΓΜΑ ΝΑ ΓΕΥΤΕΙΣ 👅",
-      ground_next: "Επόμενο",
-      ground_restart: "Επανεκκίνηση",
-      shake_title: "Νευρογενές Τίναγμα (60s)",
-      shake_desc: "Απαλό τίναγμα χεριών και ποδιών για απομάκρυνση της αδρεναλίνης.",
-      shake_start: "Έναρξη 60s",
-      pmr_title: "Μικρο-Μυϊκή Χαλάρωση",
-      pmr_desc: "Σφίξιμο ώμων για 5s και πλήρης απελευθέρωση.",
-      mind_title: "Καθησυχαστικές Σκέψεις",
-      reassurance_1: "«Το σώμα μου δίνει έναν ψευδή συναγερμό. Είναι δυσάρεστο, αλλά είμαι ασφαλής.»",
-      reassurance_2: "«Το κύμα αδρεναλίνης θα κοπάσει σε λίγα λεπτά. Ήδη υποχωρεί.»",
-      reassurance_3: "«Είμαι εδώ, αναπνέω και εμπιστεύομαι το σώμα μου να ηρεμήσει.»",
-      audio_title: "Θεραπευτικές Συχνότητες",
-      audio_432: "432 Hz Solfeggio (Αρμονία)",
-      audio_play: "Αναπαραγωγή",
-      audio_stop: "Διακοπή",
-      crisis_title: "Γραμμές Βοήθειας & Στήριξης",
-      crisis_desc: "Γραμμή Ψυχολογικής Υποστήριξης 10306 ή Άμεση Δράση 112."
     }
   };
 
@@ -452,8 +306,26 @@
     }
   }
 
-  // --- 1. PHYSIOLOGICAL SIGH PACER ---
-  let isPacerRunning = false;
+  function setBreathPattern(patternId) {
+    if (BREATH_PATTERNS[patternId]) {
+      activeBreathPattern = patternId;
+      if (isPacerRunning) {
+        startBreathPacer();
+      } else {
+        updateBreathPatternUI();
+      }
+    }
+  }
+
+  function updateBreathPatternUI() {
+    const p = BREATH_PATTERNS[activeBreathPattern] || BREATH_PATTERNS.sigh;
+    const label = document.getElementById('reg-sigh-label');
+    const sub = document.getElementById('reg-sigh-sub');
+    if (label) label.innerText = p.phases[0].label;
+    if (sub) sub.innerText = p.subtitle;
+  }
+
+  // --- 1. MULTI-PATTERN BREATH PACER ---
   function toggleBreathPacer() {
     if (isPacerRunning) stopBreathPacer();
     else startBreathPacer();
@@ -471,48 +343,40 @@
     const sub = document.getElementById('reg-sigh-sub');
     const timer = document.getElementById('reg-sigh-timer');
 
-    function cycle() {
+    const pattern = BREATH_PATTERNS[activeBreathPattern] || BREATH_PATTERNS.sigh;
+    let phaseIdx = 0;
+
+    function runPhase() {
       if (!isPacerRunning) return;
-      // Phase 1: Inhale 1 (2.5s)
-      if (label) label.innerText = getRegText('sigh_step1');
-      if (sub) sub.innerText = "Nase • Tief einatmen";
-      if (timer) timer.innerText = "2.5s";
+      const ph = pattern.phases[phaseIdx];
+      if (!ph) return;
+
+      if (label) label.innerText = ph.label;
+      if (sub) sub.innerText = ph.sub || pattern.name;
+      if (timer) timer.innerText = `${(ph.duration / 1000).toFixed(1)}s`;
       if (circle) {
-        circle.style.transform = "scale(1.35)";
-        circle.style.borderColor = "rgba(20, 184, 166, 0.9)";
-        circle.style.backgroundColor = "rgba(20, 184, 166, 0.2)";
+        circle.style.transform = `scale(${ph.scale})`;
+        circle.style.borderColor = ph.color;
+        circle.style.backgroundColor = ph.bg;
       }
+
+      playSoftTick(phaseIdx === 0 ? 330 : 260);
 
       breathTimer = setTimeout(() => {
         if (!isPacerRunning) return;
-        // Phase 2: Inhale Top-up (1.2s)
-        if (label) label.innerText = getRegText('sigh_step2');
-        if (sub) sub.innerText = "Kurz nachatmen!";
-        if (timer) timer.innerText = "1.0s";
-        if (circle) {
-          circle.style.transform = "scale(1.55)";
-          circle.style.borderColor = "rgba(56, 189, 248, 1)";
-          circle.style.backgroundColor = "rgba(56, 189, 248, 0.25)";
-        }
-
-        breathTimer = setTimeout(() => {
-          if (!isPacerRunning) return;
-          // Phase 3: Long Exhale (6.5s)
-          if (label) label.innerText = getRegText('sigh_step3');
-          if (sub) sub.innerText = "Mund • Ganz entspannt loslassen...";
-          if (timer) timer.innerText = "6.5s";
-          if (circle) {
-            circle.style.transform = "scale(0.85)";
-            circle.style.borderColor = "rgba(168, 85, 247, 0.7)";
-            circle.style.backgroundColor = "rgba(168, 85, 247, 0.1)";
+        phaseIdx++;
+        if (phaseIdx >= pattern.phases.length) {
+          phaseIdx = 0;
+          breathCyclesCompleted++;
+          if (typeof playProceduralSound === 'function' && breathCyclesCompleted % 3 === 0) {
+            playProceduralSound(3);
           }
-
-          breathTimer = setTimeout(cycle, 6500);
-        }, 1200);
-      }, 2500);
+        }
+        runPhase();
+      }, ph.duration);
     }
 
-    cycle();
+    runPhase();
   }
 
   function stopBreathPacer() {
@@ -539,7 +403,6 @@
   }
 
   // --- 2. BILATERAL STIMULATION PACER ---
-  let isBilateralRunning = false;
   function toggleBilateralPacing() {
     if (isBilateralRunning) stopBilateralPacing();
     else startBilateralPacing();
@@ -621,10 +484,7 @@
     } else {
       groundingStep = 1;
       if (typeof showToast === 'function') {
-        showToast(typeof tr === 'function' ? tr({
-          de: "✨ Erdung abgeschlossen! Spüre die Stabilität unter deinen Füßen.",
-          en: "✨ Grounding complete! Notice the stability beneath your feet."
-        }) : "✨ Erdung abgeschlossen!");
+        showToast("✨ Erdung abgeschlossen! Spüre die Stabilität unter deinen Füßen.");
       }
     }
     renderGroundingStep();
@@ -652,7 +512,7 @@
 
     if (btn) btn.innerHTML = `<i data-lucide="pause" class="w-4 h-4"></i> <span>Stopp</span>`;
     if (statusEl) statusEl.innerText = getRegText('shake_running');
-    if (ring) ring.classList.add('animate-pulse');
+    if (ring) ring.classList.add('border-teal-400/60');
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
 
     shakeInterval = setInterval(() => {
@@ -663,10 +523,7 @@
         if (statusEl) statusEl.innerText = getRegText('shake_done');
         playSoftChime();
         if (typeof showToast === 'function') {
-          showToast(typeof tr === 'function' ? tr({
-            de: "🌊 60s Shake-Out beendet! Dein Körper baut Stresshormone spürbar ab.",
-            en: "🌊 60s Shake-Out finished! Your body is actively releasing stress hormones."
-          }) : "🌊 Shake-Out beendet!");
+          showToast("🌊 60s Shake-Out beendet! Dein Körper baut Stresshormone spürbar ab.");
         }
       }
     }, 1000);
@@ -684,7 +541,7 @@
     const ring = document.getElementById('reg-shake-ring');
     if (btn) btn.innerHTML = `<i data-lucide="play" class="w-4 h-4"></i> <span>${getRegText('shake_start')}</span>`;
     if (countEl) countEl.innerText = `${shakeTimeRemaining}s`;
-    if (ring) ring.classList.remove('animate-pulse');
+    if (ring) ring.classList.remove('border-teal-400/60');
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
   }
 
@@ -725,8 +582,6 @@
       osc.start();
       activeAudioOsc = osc;
     } else if (type === 'theta') {
-      // 6 Hz binaural beat (Carrier 216 Hz & 222 Hz)
-      const merger = ctx.createChannelMerger(2);
       const oscL = ctx.createOscillator();
       const oscR = ctx.createOscillator();
       oscL.type = 'sine';
@@ -740,7 +595,6 @@
       oscR.start();
       activeAudioOsc = { stop: () => { oscL.stop(); oscR.stop(); } };
     } else if (type === 'ocean') {
-      // Procedural soft pink/brown noise wave
       const bufferSize = ctx.sampleRate * 2;
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -873,6 +727,7 @@
     openModal: openRegulationModal,
     closeModal: closeRegulationModal,
     switchTab: switchRegulationTab,
+    setPattern: setBreathPattern,
     togglePacer: toggleBreathPacer,
     toggleBilateral: toggleBilateralPacing,
     nextGrounding: nextGroundingStep,
@@ -880,7 +735,8 @@
     toggleShake: toggleShakeTimer,
     playFrequency: playBioFrequency,
     stopAudio: stopBioAudio,
-    selectSUD: selectSUDLevel
+    selectSUD: selectSUDLevel,
+    BREATH_PATTERNS
   };
 
   if (typeof window !== 'undefined') {

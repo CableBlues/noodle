@@ -47,7 +47,7 @@ function renderRoutinePresetsModalContent() {
 
   // Tab Header translations
   const tabs = [
-    { id: 'presets', label: curL === 'de' ? '✨ Lifestyle-Presets' : (curL === 'es' ? '✨ Ajustes' : (curL === 'fr' ? '✨ Préréglages' : (curL === 'it' ? '✨ Preset' : (curL === 'el' ? '✨ Πρότυπα' : '✨ Routine Presets')))), icon: 'sparkles' },
+    { id: 'presets', label: curL === 'de' ? '📋 Lifestyle-Presets' : (curL === 'es' ? '📋 Ajustes' : (curL === 'fr' ? '📋 Préréglages' : (curL === 'it' ? '📋 Preset' : (curL === 'el' ? '📋 Πρότυπα' : '📋 Routine Presets')))), icon: 'layers' },
     { id: 'custom', label: curL === 'de' ? '🛠️ Standards anpassen' : (curL === 'es' ? '🛠️ Personalizar' : (curL === 'fr' ? '🛠️ Personnaliser' : (curL === 'it' ? '🛠️ Personalizza' : (curL === 'el' ? '🛠️ Προσαρμογή' : '🛠️ Custom Defaults')))), icon: 'sliders' },
     { id: 'suggestions', label: curL === 'de' ? '💡 Inspiration & Ideen' : (curL === 'es' ? '💡 Ideas' : (curL === 'fr' ? '💡 Idées' : (curL === 'it' ? '💡 Ispirazione' : (curL === 'el' ? '💡 Ιδέες' : '💡 Task Inspiration')))), icon: 'lightbulb' }
   ];
@@ -283,7 +283,7 @@ function renderRoutinePresetsModalContent() {
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 p-0.5 shadow-md flex items-center justify-center text-white">
             <div class="w-full h-full bg-[#111118]/80 rounded-[14px] flex items-center justify-center">
-              <i data-lucide="sparkles" class="w-4 h-4 text-purple-300"></i>
+              <i data-lucide="lightbulb" class="w-4 h-4 text-purple-300"></i>
             </div>
           </div>
           <div>

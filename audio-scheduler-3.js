@@ -527,6 +527,160 @@ var HYPNOTIC_NOTES = [
   196.00, 246.94, 293.66, 392.00, 493.88, 587.33, 493.88, 293.66
 ];
 
+// 🎹 SYNTHWAVE / RETROWAVE POLYPHONIC PAD
+function playSynthwavePad(time, notes, dur = 1.2, vol = 0.26) {
+  if (!audioCtx || !soundGainNode) return;
+  try {
+    var v = (vol / notes.length) * (soundMasterVolume || 0.5);
+    notes.forEach((freq, idx) => {
+      var t = time + (idx * 0.008);
+      var osc1 = audioCtx.createOscillator();
+      var osc2 = audioCtx.createOscillator();
+      var filter = audioCtx.createBiquadFilter();
+      var gain = audioCtx.createGain();
+
+      osc1.type = 'sawtooth';
+      osc1.frequency.setValueAtTime(freq, t);
+      osc2.type = 'sawtooth';
+      osc2.frequency.setValueAtTime(freq * 1.006, t);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(1200, t);
+      filter.frequency.exponentialRampToValueAtTime(450, t + dur);
+      filter.Q.setValueAtTime(2.5, t);
+
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(v, t + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gain);
+      gain.connect(soundGainNode);
+
+      osc1.start(t);
+      osc2.start(t);
+      osc1.stop(t + dur + 0.05);
+      osc2.stop(t + dur + 0.05);
+      activeNodes.push(osc1, osc2);
+    });
+  } catch(e) { console.warn('playSynthwavePad error:', e); }
+}
+
+// 🔔 MEMPHIS COWBELL / PHONK BELL
+function playPhonkCowbell(time, freq = 587.33, vol = 0.28) {
+  if (!audioCtx || !soundGainNode) return;
+  try {
+    var osc1 = audioCtx.createOscillator();
+    var osc2 = audioCtx.createOscillator();
+    var filter = audioCtx.createBiquadFilter();
+    var gain = audioCtx.createGain();
+
+    osc1.type = 'square';
+    osc1.frequency.setValueAtTime(freq, time);
+
+    osc2.type = 'square';
+    osc2.frequency.setValueAtTime(freq * 1.48, time);
+
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(freq * 1.2, time);
+    filter.Q.setValueAtTime(6.0, time);
+
+    var v = vol * (soundMasterVolume || 0.5);
+    gain.gain.setValueAtTime(v, time);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + 0.24);
+
+    osc1.connect(filter);
+    osc2.connect(filter);
+    filter.connect(gain);
+    gain.connect(soundGainNode);
+
+    osc1.start(time);
+    osc2.start(time);
+    osc1.stop(time + 0.26);
+    osc2.stop(time + 0.26);
+    activeNodes.push(osc1, osc2);
+  } catch(e) { console.warn('playPhonkCowbell error:', e); }
+}
+
+// 🔊 808 SUB BASS / GLIDE
+function play808SubBass(time, startFreq = 85, endFreq = 42, dur = 0.45, vol = 0.5) {
+  if (!audioCtx || !soundGainNode) return;
+  try {
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    var filter = audioCtx.createBiquadFilter();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(startFreq, time);
+    osc.frequency.exponentialRampToValueAtTime(endFreq, time + 0.08);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(220, time);
+
+    var v = vol * (soundMasterVolume || 0.5);
+    gain.gain.setValueAtTime(v, time);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(soundGainNode);
+
+    osc.start(time);
+    osc.stop(time + dur + 0.02);
+    activeNodes.push(osc);
+  } catch(e) { console.warn('play808SubBass error:', e); }
+}
+
+// 🪩 DEEP HOUSE ORGAN BASS
+function playHouseBass(time, freq, dur = 0.22, vol = 0.38) {
+  if (!audioCtx || !soundGainNode) return;
+  try {
+    var osc1 = audioCtx.createOscillator();
+    var osc2 = audioCtx.createOscillator();
+    var filter = audioCtx.createBiquadFilter();
+    var gain = audioCtx.createGain();
+
+    osc1.type = 'triangle';
+    osc1.frequency.setValueAtTime(freq, time);
+
+    osc2.type = 'sine';
+    osc2.frequency.setValueAtTime(freq * 2, time);
+
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(480, time);
+    filter.frequency.exponentialRampToValueAtTime(140, time + dur);
+    filter.Q.setValueAtTime(3.0, time);
+
+    var v = vol * (soundMasterVolume || 0.5);
+    gain.gain.setValueAtTime(v, time);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+
+    osc1.connect(filter);
+    osc2.connect(filter);
+    filter.connect(gain);
+    gain.connect(soundGainNode);
+
+    osc1.start(time);
+    osc2.start(time);
+    osc1.stop(time + dur + 0.02);
+    osc2.stop(time + dur + 0.02);
+    activeNodes.push(osc1, osc2);
+  } catch(e) { console.warn('playHouseBass error:', e); }
+}
+
+var SYNTHWAVE_PAD_PROGRESSION = [
+  [220.00, 261.63, 329.63, 392.00], // Am7
+  [174.61, 220.00, 261.63, 329.63], // Fmaj7
+  [130.81, 164.81, 196.00, 246.94], // Cmaj7
+  [196.00, 246.94, 293.66, 392.00]  // G
+];
+
+var PHONK_COWBELL_MELODY = [
+  587.33, 0, 587.33, 698.46, 0, 587.33, 523.25, 0,
+  587.33, 0, 783.99, 698.46, 0, 587.33, 440.00, 523.25
+];
+
 // --- 16-STEP LOOKAHEAD STEP DISPATCHER ---
 
 function scheduleBeat16thStep(step, time) {
@@ -559,7 +713,41 @@ function scheduleBeat16thStep(step, time) {
     // Deep Sub Bass
     if (step % 8 === 0) playSynthBass(time, 43.65, 0.5, 0.45); // F0 Sub
 
-  // 3. 🌴 AFROBEATS (102 BPM Standard)
+  // 3. 🌆 SYNTHWAVE / RETROWAVE (110 BPM Standard)
+  } else if (st === 'synthwave') {
+    // Punchy 80s Kick
+    if (step === 0 || step === 6 || step === 8 || step === 10) playDrumKick(time, true, 140, 0.25, 0.48);
+    // Gated 80s Snare on 4, 12
+    if (step === 4 || step === 12) playDrumSnare(time, false, 0.42);
+    // 16th Hi-Hats with 8th accents
+    playDrumHiHat(time, false, false, step % 2 === 0 ? 0.22 : 0.12);
+    if (step === 2 || step === 10 || step === 14) playDrumHiHat(time, true, false, 0.18);
+    // 16th Rolling Synth Bassline
+    var swBass = [55, 55, 55, 55, 43.65, 43.65, 43.65, 43.65, 65.41, 65.41, 65.41, 65.41, 48.99, 48.99, 48.99, 48.99];
+    playSynthBass(time, swBass[step], 0.15, 0.32);
+    // Atmospheric Synth Pad Swells on 0 and 8
+    if (step === 0 || step === 8) {
+      var padChord = SYNTHWAVE_PAD_PROGRESSION[(step === 0 ? 0 : 1)];
+      playSynthwavePad(time, padChord, 1.4, 0.25);
+    }
+
+  // 4. 🪩 DEEP HOUSE GROOVE (124 BPM Standard)
+  } else if (st === 'house') {
+    // 4-on-the-floor Kick
+    if (step % 4 === 0) playDrumKick(time, true, 135, 0.26, 0.52);
+    // 909 Open Hat on offbeats
+    if (step % 4 === 2) playDrumHiHat(time, true, false, 0.32);
+    // Shuffled closed hats
+    if (step % 2 === 1) playDrumHiHat(time, false, false, 0.16);
+    // 909 Clap on 4, 12
+    if (step === 4 || step === 12) playDrumSnare(time, true, 0.36);
+    // Bouncy Deep House Bass
+    var houseBassSteps = [65.41, 0, 0, 65.41, 0, 0, 77.78, 0, 87.31, 0, 0, 65.41, 0, 58.27, 0, 0];
+    if (houseBassSteps[step] > 0) {
+      playHouseBass(time, houseBassSteps[step], 0.22, 0.38);
+    }
+
+  // 5. 🌴 AFROBEATS (102 BPM Standard)
   } else if (st === 'afrobeats') {
     // Syncopated Log-Drum / Kick on 0, 6, 10
     if (step === 0 || step === 6 || step === 10) playDrumKick(time, false, 110, 0.32, 0.48);
@@ -570,7 +758,76 @@ function scheduleBeat16thStep(step, time) {
     // Bass Thump
     if (step === 0 || step === 8) playSynthBass(time, 65.4, 0.3, 0.32);
 
-  // 4. 🎷 SWING & JAZZ GROOVE (116 BPM Standard)
+  // 6. 🎤 BOOM-BAP HIP-HOP (92 BPM Standard)
+  } else if (st === 'boombap') {
+    // Punchy Kick on 0, 8, 11
+    if (step === 0 || step === 8 || step === 11) playDrumKick(time, true, 130, 0.3, 0.5);
+    // Crisp Snare on 4, 12
+    if (step === 4 || step === 12) playDrumSnare(time, false, 0.38);
+    // Closed Hat on 8ths
+    if (step % 2 === 0) playDrumHiHat(time, false, false, 0.18);
+    if (step % 4 === 2) playDrumHiHat(time, true, false, 0.12);
+
+  // 7. 💎 CHILL TRAP (140 BPM Standard)
+  } else if (st === 'trap') {
+    // 808 Sub Kick on 0, 7, 10
+    if (step === 0) play808SubBass(time, 130, 48, 0.55, 0.55);
+    if (step === 7) play808SubBass(time, 110, 43.65, 0.4, 0.45);
+    if (step === 10) play808SubBass(time, 120, 55, 0.45, 0.5);
+    // Half-time Snare / Clap on step 8
+    if (step === 8) playDrumSnare(time, true, 0.45);
+    // Fast Hi-Hats with rolling bursts on 12-15
+    if (step >= 12) {
+      playDrumHiHat(time, false, false, 0.24);
+    } else if (step % 2 === 0) {
+      playDrumHiHat(time, false, false, 0.18);
+    }
+    // Moody Trap Bell
+    if (step === 0 || step === 6 || step === 11) {
+      var bellFreqs = [587.33, 523.25, 440.00];
+      playHypnoticNote(time, bellFreqs[step === 0 ? 0 : (step === 6 ? 1 : 2)], 0.35, 0.25);
+    }
+
+  // 8. ☁️ CHILLSTEP / DOWNTEMPO (90 BPM Standard)
+  } else if (st === 'chillstep') {
+    // Heavy slow kick on 0, 10
+    if (step === 0) playDrumKick(time, true, 120, 0.38, 0.52);
+    if (step === 10) playDrumKick(time, false, 105, 0.28, 0.42);
+    // Ambient Half-time Snare with reverb decay on step 8
+    if (step === 8) {
+      playDrumSnare(time, false, 0.38);
+      playDrumHiHat(time, true, true, 0.22);
+    }
+    // Ticking hi-hats
+    if (step % 2 === 0) playDrumHiHat(time, false, false, 0.14);
+    if (step % 4 === 2) playDrumHiHat(time, true, false, 0.1);
+    // Ambient Pad Chords & Sub
+    if (step === 0) {
+      playRhodesChord(time, [130.81, 196.00, 261.63, 329.63], 1.8, 0.3);
+      playSynthBass(time, 32.7, 0.8, 0.45);
+    } else if (step === 8) {
+      playRhodesChord(time, [110.00, 164.81, 220.00, 261.63], 1.6, 0.28);
+      playSynthBass(time, 27.5, 0.7, 0.42);
+    }
+
+  // 9. 🏎️ DRIFT PHONK (135 BPM Standard)
+  } else if (st === 'phonk') {
+    // Punchy 808 Kick on 0, 3, 8, 11
+    if (step === 0 || step === 3 || step === 8 || step === 11) {
+      playDrumKick(time, true, 160, 0.22, 0.55);
+      play808SubBass(time, 120, 48.99, 0.35, 0.45);
+    }
+    // Crunchy Memphis Clap on 4, 12
+    if (step === 4 || step === 12) playDrumSnare(time, true, 0.46);
+    // Riding Hats
+    playDrumHiHat(time, step % 4 === 2, false, 0.18);
+    // Memphis Phonk Cowbell Riff
+    var cowbellPitch = PHONK_COWBELL_MELODY[step];
+    if (cowbellPitch > 0) {
+      playPhonkCowbell(time, cowbellPitch, 0.32);
+    }
+
+  // 10. 🎷 SWING & JAZZ (Fallback)
   } else if (st === 'swing') {
     // Swing Triplet Ride Cymbal (1, 2+, 3, 4+)
     if (step % 4 === 0) playDrumHiHat(time, false, true, 0.3);
@@ -583,31 +840,21 @@ function scheduleBeat16thStep(step, time) {
       playSynthBass(time, walkNotes[(step / 4) % walkNotes.length], 0.35, 0.35);
     }
 
-  // 5. 🎤 BOOM-BAP HIP-HOP (92 BPM Standard)
-  } else if (st === 'boombap') {
-    // Punchy Kick on 0, 8, 11
-    if (step === 0 || step === 8 || step === 11) playDrumKick(time, true, 130, 0.3, 0.5);
-    // Crisp Snare on 4, 12
-    if (step === 4 || step === 12) playDrumSnare(time, false, 0.38);
-    // Closed Hat on 8ths
-    if (step % 2 === 0) playDrumHiHat(time, false, false, 0.18);
-    if (step % 4 === 2) playDrumHiHat(time, true, false, 0.12);
-
-  // 6. 🎹 JAZZ PIANO CHORDS
+  // 11. 🎹 JAZZ PIANO CHORDS
   } else if (st === 'jazz_piano') {
     if (step === 0 || step === 8) {
       var chordIdx = Math.floor(step / 8) % JAZZ_VOICINGS.length;
       playJazzPianoChord(time, JAZZ_VOICINGS[chordIdx], 1.8, 0.35);
     }
 
-  // 7. 🪕 FENDER RHODES CHORDS & LOOPS
+  // 12. 🪕 FENDER RHODES CHORDS & LOOPS
   } else if (st === 'rhodes') {
     if (step === 0 || step === 8) {
       var rIdx = Math.floor(step / 8) % RHODES_PROGRESSIONS.length;
       playRhodesChord(time, RHODES_PROGRESSIONS[rIdx], 1.7, 0.32);
     }
 
-  // 8. 🔮 HYPNOTIC ARPEGGIO RIFF
+  // 13. 🔮 HYPNOTIC ARPEGGIO RIFF
   } else if (st === 'hypnotic_riff') {
     var noteFreq = HYPNOTIC_NOTES[step % HYPNOTIC_NOTES.length];
     playHypnoticNote(time, noteFreq, 0.32, 0.28);
@@ -617,7 +864,7 @@ function scheduleBeat16thStep(step, time) {
 
 function runBeatLookaheadScheduler() {
   if (!audioCtx || !currentSoundType) return;
-  var isBeatType = ['techno', 'dnb', 'afrobeats', 'swing', 'boombap', 'jazz_piano', 'rhodes', 'hypnotic_riff'].includes(currentSoundType);
+  var isBeatType = ['techno', 'dnb', 'afrobeats', 'swing', 'boombap', 'synthwave', 'house', 'trap', 'chillstep', 'phonk', 'jazz_piano', 'rhodes', 'hypnotic_riff'].includes(currentSoundType);
   if (!isBeatType) return;
 
   var secPer16th = (60.0 / (currentBeatBpm || 120)) / 4.0;

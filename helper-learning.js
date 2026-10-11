@@ -1,34 +1,37 @@
-// helper-learning.js: Deep Learning & Intelligent Quiz Engine
-// 100% Serverless, Offline-first, Adaptive Active Recall & Deep Knowledge Synthesis
-// Supports curated packs, dynamic custom topic synthesis, deep explanations & spaced repetition.
+// ============================================================================
+// NOODLE LEARNING HUB: DEEP LEARNING, FLASHCARDS & AI-QUIZ ENGINE
+// ============================================================================
+// 100% Serverless, Offline-First, Spaced Repetition (Leitner/SM-2), 3D Flashcards & Custom Decks
 
 (function() {
   'use strict';
 
-  // ============================================================================
-  // 1. DATA: CURATED DEEP KNOWLEDGE PACKS
-  // ============================================================================
+  const SR_STORAGE_KEY = 'noodle_flashcards_sr_v2';
+  const CUSTOM_PACKS_KEY = 'noodle_custom_learning_packs_v2';
 
+  // --------------------------------------------------------------------------
+  // 1. CURATED DEEP KNOWLEDGE PACKS
+  // --------------------------------------------------------------------------
   const CURATED_LEARNING_PACKS = {
     adhd_neuro: {
       id: 'adhd_neuro',
-      title: 'ADHS, Dopamin & Neurobiologie',
+      title: 'Neuro-Fokus, Dopamin & Kognitionsbiologie',
       icon: '🧠',
       color: 'purple',
-      desc: 'Exekutive Funktionen, Dopamin-Regulation, Reizfilter & Hyperfokus',
+      desc: 'Aktivierungs-Energie, Dopamin-Regulation, Reizfilter & Flow-Zustand',
       level: 'Praxis & Wissenschaft',
       questions: [
         {
           id: 'adhd_1',
-          question: 'Warum fällt Menschen mit ADHS der Start einer Aufgabe oft schwer, selbst wenn sie die Aufgabe erledigen wollen?',
+          question: 'Warum fällt der Start einer Aufgabe oft schwer, selbst wenn man sie unbedingt erledigen will?',
           options: [
             'Wegen mangelnder Disziplin und fehlender Willenskraft.',
             'Durch eine veränderte Dopamin-Wiederaufnahme im präfrontalen Kortex, die eine höhere Aktivierungsschwelle (Interest-based Nervous System) erfordert.',
-            'Weil das Kurzzeitgedächtnis bei ADHS grundsätzlich keine Aufgaben speichern kann.',
+            'Weil das Kurzzeitgedächtnis bei hoher Reizdichte keine Aufgaben speichern kann.',
             'Aufgrund eines chronisch überhöhten Serotoninspiegels, der passive Lethargie erzeugt.'
           ],
           correct: 1,
-          explanation: 'Das ADHS-Gehirn arbeitet mit einem „Interest-based Nervous System“: Die Dopamin-Transporter pumpen Dopamin im synaptischen Spalt zu schnell zurück. Ohne echtes Interesse, Dringlichkeit, Neuheit oder Herausforderung fehlt die biochemische Zündung.',
+          explanation: 'Das menschliche Motivationssystem arbeitet oft mit einem „Interest-based Nervous System“: Die Dopamin-Transporter pumpen Dopamin im synaptischen Spalt zu schnell zurück. Ohne echtes Interesse, Dringlichkeit, Neuheit oder Herausforderung fehlt die biochemische Zündung.',
           mnemonic: '💡 Merksatz: „Nicht Willensschwäche, sondern Zündkerzen-Mangel.“ — Dopamin ist der Treibstoff für den Handlungsstart.',
           pitfall: 'Option A verwechselt neurologische Dopamin-Verfügbarkeit fälschlicherweise mit Charakterfragen.'
         },
@@ -42,13 +45,13 @@
             'Ein Zustand, bei dem man während des Schlafs die Orientierung verliert.'
           ],
           correct: 1,
-          explanation: 'ADHS-Gehirne erleben Zeit oft nicht als kontinuierliches Band, sondern binär: Entweder etwas passiert JETZT (und erfordert sofortige Aufmerksamkeit) oder es ist NICHT JETZT (und verschwindet aus dem Arbeitsfokus). Sichtbare Countdown-Timer machen Zeit physisch greifbar.',
+          explanation: 'Das Arbeitsgedächtnis erlebt Zeit oft nicht als kontinuierliches Band, sondern binär: Entweder etwas passiert JETZT oder NICHT JETZT. Sichtbare Countdown-Timer machen Zeit physisch greifbar.',
           mnemonic: '💡 Merksatz: „Mach Zeit sichtbar.“ — Visuelle Balken & Sanduhren überbrücken die Zeitblindheit.',
           pitfall: 'Option C beschreibt reines Daten-Vergessen, nicht das fehlende lineare Zeitgefühl während des Tuns.'
         },
         {
           id: 'adhd_3',
-          question: 'Was ist „Body Doubling“ und warum reduziert es Prokrastination signifikant?',
+          question: 'Was ist „Body Doubling“ (Fokus-Partner) und warum reduziert es Prokrastination signifikant?',
           options: [
             'Das Auslagern von Aufgaben an einen Doppelgänger oder Assistenten.',
             'Die physische oder virtuelle Anwesenheit einer anderen arbeitenden Person, die als sozialer Anker und externer Fokus-Stabilisator dient.',
@@ -56,7 +59,7 @@
             'Eine psychologische Abspaltung bei Überlastung.'
           ],
           correct: 1,
-          explanation: 'Body Doubling nutzt die Spiegelneuronen und den sozialen Bezugsrahmen. Die ruhige Anwesenheit einer anderen Person (ohne Einmischung) signalisiert dem Nervensystem: „Wir sind im Arbeitsmodus“, was den inneren Widerstand senkt.',
+          explanation: 'Co-Working und Body Doubling nutzen die Spiegelneuronen und den sozialen Bezugsrahmen. Die ruhige Anwesenheit einer anderen Person (ohne Einmischung) signalisiert dem Nervensystem: „Wir sind im Arbeitsmodus“, was den inneren Widerstand senkt.',
           mnemonic: '💡 Merksatz: „Geteilte Präsenz halbiert die Reibung.“ — Coworking stabilisiert den Arbeitsfokus.',
           pitfall: 'Option A verwechselt Body Doubling mit Delegation; Option C mit Multitasking.'
         },
@@ -70,9 +73,9 @@
             'Hyperfokus ist ein medizinisches Synonym für Schlaflosigkeit.'
           ],
           correct: 1,
-          explanation: 'ADHS ist kein genereller Mangel an Aufmerksamkeit, sondern eine Dysregulation. Wenn eine Tätigkeit fasziniert, schüttet das Belohnungssystem kontinuierlich Dopamin aus, was zu stundenlanger tiefer Versenkung ohne Ermüdungsgefühl führt.',
+          explanation: 'Tiefe Versenkung (Hyperfokus) ist kein genereller Mangel an Aufmerksamkeit, sondern eine intensive Selektion. Wenn eine Tätigkeit fasziniert, schüttet das Belohnungssystem kontinuierlich Dopamin aus, was zu stundenlanger tiefer Versenkung ohne Ermüdungsgefühl führt.',
           mnemonic: '💡 Merksatz: „Aufmerksamkeits-Flutlicht statt Scheinwerfer.“ — Hyperfokus kanalisiert Energie maximal.',
-          pitfall: 'Option A ist falsch: Hyperfokus lässt sich bei uninteressanten Pflichtaufgaben eben nicht einfach erzwingen.'
+          pitfall: 'Option A ist falsch: Hyperfokus lässt sich bei uninteressanten Pflichtaufgaben nicht einfach erzwingen.'
         },
         {
           id: 'adhd_5',
@@ -84,16 +87,108 @@
             'Entscheidungen immer auf den späten Abend verschieben.'
           ],
           correct: 1,
-          explanation: 'Jede getroffene Entscheidung verbraucht Glukose und neuronale Ressourcen im präfrontalen Kortex. Durch feste Start-Rituale („Automatisierung der Banalitäten“) bleibt die geistige Frische für die eigentlichen Kernaufgaben erhalten.',
+          explanation: 'Jede getroffene Entscheidung verbraucht Glukose und neuronale Ressourcen im präfrontalen Kortex. Durch feste Start-Rituale bleibt die geistige Frische für die eigentlichen Kernaufgaben erhalten.',
           mnemonic: '💡 Merksatz: „Routinen befreien den Geist.“ — Schütze deine Morgen-Entscheidungen.',
           pitfall: 'Option A führt direkt zur Paralyse und verbraucht das Dopamin-Budget vor Arbeitsbeginn.'
         }
       ]
     },
 
+    productivity_science: {
+      id: 'productivity_science',
+      title: 'Produktivitäts- & Fokus-Wissenschaft',
+      icon: '⚡',
+      color: 'amber',
+      desc: 'Time-Blocking, Ultradian Rhythms, Parkinsons Gesetz & Zeigarnik-Effekt',
+      level: 'Wissenschaft & Neurobiologie',
+      questions: [
+        {
+          id: 'prod_1',
+          question: 'Was besagt das „Parkinsonsche Gesetz“ (Parkinson\'s Law) und wie nutzt man es für maximale Produktivität?',
+          options: [
+            'Dass Aufgaben immer mehr Geld kosten als ursprünglich geplant.',
+            'Dass Arbeit sich genau in dem Maße ausdehnt, wie Zeit für ihre Erledigung zur Verfügung steht — Lösung: Künstlich knappe Time-Boxes setzen.',
+            'Dass man nie mehr als 3 Aufgaben pro Tag anfangen darf.',
+            'Dass die Geschwindigkeit der Arbeit vom Alter des Ausführenden abhängt.'
+          ],
+          correct: 1,
+          explanation: 'Wenn man für einen Bericht 2 Wochen einplant, dauert er 2 Wochen (mit Grübeln und Perfektionismus). Gibt man sich ein striktes 3-Stunden-Fenster, zwingt dies das Gehirn zur Konzentration auf das absolut Wesentliche.',
+          mnemonic: '💡 Merksatz: „Arbeit ist wie Gas — sie füllt jeden Raum aus.“ — Verknappe die Box, schärfe den Fokus.',
+          pitfall: 'Option A beschreibt Kosten-Kalkulationsfehler, nicht die zeitliche Ausdehnung von Arbeit.'
+        },
+        {
+          id: 'prod_2',
+          question: 'Wie funktioniert der „Zeigarnik-Effekt“ und wie schützt man sich vor mentalem Brain Fog?',
+          options: [
+            'Das Gehirn erinnert sich besser an erledigte Dinge als an offene.',
+            'Das Arbeitsgedächtnis hält unerledigte, unterbrochene Aufgaben in ständiger unbewusster Wachsamkeit (Open Loops), was Energie raubt — Lösung: Sofort aufschreiben (Brain Dump).',
+            'Ein Zustand, bei dem man Namen von Personen vergisst.',
+            'Dass Pausen die Arbeitsleistung stets verringern.'
+          ],
+          correct: 1,
+          explanation: 'Bluma Zeigarnik entdeckte: Das Gehirn erzeugt kognitive Spannung für alle offenen Schleifen. Sobald man einen konkreten nächsten Schritt aufschreibt, signalisiert man dem Gehirn Sicherheit und beendet den Hintergrund-Energieverbrauch.',
+          mnemonic: '💡 Merksatz: „Dein Gehirn ist eine Denkmaschine, kein Speicher-Stick.“ — Schließe Open Loops auf Papier.',
+          pitfall: 'Option A ist das genaue Gegenteil der Entdeckung von Zeigarnik.'
+        },
+        {
+          id: 'prod_3',
+          question: 'Was sind „Ultradiane Rhythmen“ (Basic Rest-Activity Cycle) im menschlichen Gehirn?',
+          options: [
+            'Schlafzyklen, die nur alle 7 Tage auftreten.',
+            'Biologische 90- bis 120-Minuten-Wellen neuronaler Höchstleistung, gefolgt von einem natürlichen 15-20 Min. Tiefpunkt für Regeneration.',
+            'Tägliche Mahlzeiten-Rhythmen für den Blutzucker.',
+            'Die Anzahl der Herzschläge pro Stunde.'
+          ],
+          correct: 1,
+          explanation: 'Wie im REM-Schlaf pulsiert auch unsere Wach-Aufmerksamkeit in 90-Minuten-Zyklen. Danach sinkt die neuronale Signalstärke; eine 15-minütige echte Pause lädt die Neurotransmitter wieder auf.',
+          mnemonic: '💡 Merksatz: „Surfe auf der 90-Minuten-Welle.“ — Arbeite intensiv im Peak, erhole dich im Tal.',
+          pitfall: 'Option C bezieht sich auf Ernährung, nicht auf die Zyklen des zentralen Nervensystems.'
+        }
+      ]
+    },
+
+    sleep_recovery: {
+      id: 'sleep_recovery',
+      title: 'Schlaf-Biologie & Erholung (NSDR)',
+      icon: '🌙',
+      color: 'indigo',
+      desc: 'Zirkadiane Rhythmik, Adenosin-Druck, Melatonin & Non-Sleep Deep Rest',
+      level: 'Gesundheit & Neurowissenschaft',
+      questions: [
+        {
+          id: 'sleep_1',
+          question: 'Wie reguliert das Molekül „Adenosin“ den Schlafdruck und wie interagiert Koffein damit?',
+          options: [
+            'Adenosin wird nachts gebildet und Koffein zerstört es dauerhaft.',
+            'Adenosin baut sich mit jeder wachen Stunde im Gehirn auf und erzeugt Schlafdruck. Koffein blockiert temporär die Adenosin-Rezeptoren (ohne das Adenosin abzubauen), was nach Abklingen zum Koffein-Crash führt.',
+            'Adenosin ist ein Muskelhormon, das Koffein bindet.',
+            'Adenosin verhindert die Aufnahme von Vitamin D.'
+          ],
+          correct: 1,
+          explanation: 'Koffein ist ein Antagonist: Es besetzt die Adenosin-Rezeptoren wie ein falscher Schlüssel im Schloss. Das Gehirn spürt die Müdigkeit nicht, während sich im Hintergrund immer mehr Adenosin anstaut. Lässt das Koffein nach, flutet das aufgestaute Adenosin die Rezeptoren.',
+          mnemonic: '💡 Merksatz: „Koffein leiht Energie aus der Zukunft, erzeugt aber keine neue.“',
+          pitfall: 'Option A ist falsch: Koffein baut Adenosin nicht ab, sondern maskiert es nur temporär.'
+        },
+        {
+          id: 'sleep_2',
+          question: 'Was ist „NSDR“ (Non-Sleep Deep Rest / Yoga Nidra) und welchen messbaren Effekt hat es auf das Gehirn?',
+          options: [
+            'Ein 8-stündiger Koma-Schlaf.',
+            'Ein 10-20 minütiger geführter Zustand tiefer physischer Entspannung bei wachem Geist, der Dopamin im Striatum regeneriert und neuroplastische Lernspuren konsolidiert.',
+            'Ein Medikament zur Einschlafhilfe.',
+            'Ein Cardio-Intervall-Workout für den Abend.'
+          ],
+          correct: 1,
+          explanation: 'NSDR senkt die Herzfrequenz, schaltet das Gehirn in regenerative Theta-Wellen und beschleunigt das Abspeichern kurz zuvor gelernter Fähigkeiten um ein Vielfaches.',
+          mnemonic: '💡 Merksatz: „Lernen geschieht im Tun, Festigung geschieht in der Ruhe.“',
+          pitfall: 'Option C ist falsch: NSDR ist eine reine physiologische Atem- und Körper-Technik.'
+        }
+      ]
+    },
+
     stoicism_mental_models: {
       id: 'stoicism_mental_models',
-      title: 'Stoizismus & Denkmodelle',
+      title: 'Stoizismus & Mentale Denkmodelle',
       icon: '🏛️',
       color: 'amber',
       desc: 'Dichotomie der Kontrolle, Kritisches Denken & Mentale Heuristiken',
@@ -109,9 +204,9 @@
             'Kontrolle ist eine Illusion, daher ist jedes Handeln sinnlos.'
           ],
           correct: 1,
-          explanation: 'Epiktet lehrte im Enchiridion: Seelenruhe (Ataraxie) entsteht, indem man 100% seiner Energie auf die eigenen Entscheidungen und Haltungen fokussiert, während man externe Umstände und Resultate gelassen annimmt.',
+          explanation: 'Epiktet lehrte: Seelenruhe (Ataraxie) entsteht, indem man 100% seiner Energie auf die eigenen Entscheidungen und Haltungen fokussiert, während man externe Umstände gelassen annimmt.',
           mnemonic: '💡 Merksatz: „Fokus auf den Bogen, nicht auf den Wind.“ — Kontrolliere den Schuss, akzeptiere das Ziel.',
-          pitfall: 'Option C ist der klassische Mythos über Stoizismus; Stoiker unterdrücken Gefühle nicht, sondern bewerten Reize weise.'
+          pitfall: 'Option C ist der klassische Mythos: Stoiker unterdrücken Gefühle nicht, sondern bewerten Reize weise.'
         },
         {
           id: 'stoic_2',
@@ -123,9 +218,9 @@
             'Man wechselt alle 5 Minuten das Thema.'
           ],
           correct: 0,
-          explanation: '„Invert, always invert“: Anstatt zu fragen „Wie werde ich erfolgreich?“, fragt man „Was garantiert mein Scheitern?“ (z. B. Schlafmangel, Unzuverlässigkeit, Impulsivität). Das systematische Vermeiden von Dummheit ist oft leichter als Genialität.',
-          mnemonic: '💡 Merksatz: „Vermeide die Klippe, statt fliegen zu lernen.“ — Vermeidung von Fehlern schlägt Heldentum.',
-          pitfall: 'Option C (reines Toxic Positivity) blendet Risiken aus, während Inversion Risiken präventiv entschärft.'
+          explanation: '„Invert, always invert“: Anstatt zu fragen „Wie werde ich erfolgreich?“, fragt man „Was garantiert mein Scheitern?“. Das systematische Vermeiden von Dummheit ist oft leichter als Genialität.',
+          mnemonic: '💡 Merksatz: „Vermeide die Klippe, statt fliegen zu lernen.“ — Fehlervermeidung schlägt Heldentum.',
+          pitfall: 'Option C (Toxic Positivity) blendet Risiken aus, während Inversion Risiken präventiv entschärft.'
         },
         {
           id: 'stoic_3',
@@ -137,37 +232,9 @@
             'Dass komplexe Erklärungen immer tiefer und wahrer sind als einfache.'
           ],
           correct: 1,
-          explanation: 'Ockhams Rasiermesser schneidet unnötige Spekulationen ab. Wenn jemand nicht sofort antwortet, ist die einfachste Erklärung „beschäftigt oder vergessen“, nicht eine absurde Verschwörung.',
+          explanation: 'Ockhams Rasiermesser schneidet unnötige Spekulationen ab. Die sparsamste und plausibelste Annahme gewinnt.',
           mnemonic: '💡 Merksatz: „Schneide den Spekulations-Ballast ab.“ — Die sparsamste Annahme gewinnt.',
-          pitfall: 'Option D ist ein Denkfehler: Komplexität wird oft fälschlicherweise mit Weisheit verwechselt.'
-        },
-        {
-          id: 'stoic_4',
-          question: 'Was meint das Prinzip „Amor Fati“ (Liebe zum Schicksal)?',
-          options: [
-            'Schicksalsschläge nur mit Zähneknirschen zu ertragen.',
-            'Jedes Ereignis – auch Rückschläge und Hindernisse – nicht nur zu tolerieren, sondern als notwendiges Material für persönliches Wachstum und Charakter zu umarmen.',
-            'Fatalismus: Man glaubt, dass alles vorherbestimmt ist und nichts geändert werden kann.',
-            'Die Liebe zu romantischen Geschichten.'
-          ],
-          correct: 1,
-          explanation: 'Von Nietzsche geprägt und bei Marc Aurel verankert: „Das Hindernis für die Handlung fördert die Handlung. Was im Weg steht, wird zum Weg.“ Rückschläge sind Übungsfelder für Geduld, Mut und Kreativität.',
-          mnemonic: '💡 Merksatz: „Hindernisse sind Brennstoff.“ — Das Feuer verbrennt nicht am Holz, es wächst daran.',
-          pitfall: 'Option C beschreibt passiven Fatalismus, während Amor Fati aktive, freudige Gestaltungskraft ist.'
-        },
-        {
-          id: 'stoic_5',
-          question: 'Was besagt „Hanlons Rasiermesser“ (Hanlon’s Razor)?',
-          options: [
-            'Schreibe niemals der Bosheit zu, was durch Unwissenheit oder Gedankenlosigkeit hinreichend erklärt werden kann.',
-            'Wer zuerst kommt, mahlt zuerst.',
-            'Jeder Mensch handelt immer aus egoistischen Motiven.',
-            'Man sollte niemals mit Fremden sprechen.'
-          ],
-          correct: 0,
-          explanation: 'Menschen machen Fehler aus Hektik, Übermüdung oder Stress – selten aus böser Absicht gegen uns. Diese Heuristik verhindert unnötige Paranoia, Groll und verletzte Gefühle im Alltag.',
-          mnemonic: '💡 Merksatz: „Verzeihe Hektik, vermute nicht Bosheit.“ — Schont Nerven und Beziehungen.',
-          pitfall: 'Option C unterstellt universelle Bosheit/Egoismus – genau das Gegenteil von Hanlons Prinzip.'
+          pitfall: 'Option D ist ein Denkfehler: Komplexität wird fälschlicherweise mit Weisheit verwechselt.'
         }
       ]
     },
@@ -190,7 +257,7 @@
             'Promises blockieren den Browser-Thread synchron bis zur Serverantwort.'
           ],
           correct: 1,
-          explanation: 'Nach jeder Ausführung einer synchronen Task leert die JS-Engine die gesamte Microtask-Queue (Promises, queueMicrotask, MutationObserver). Erst danach wird der nächste Macrotask (setTimeout, setInterval, I/O) aus der Task-Queue entnommen.',
+          explanation: 'Nach jeder Ausführung einer synchronen Task leert die JS-Engine die gesamte Microtask-Queue (Promises, queueMicrotask). Erst danach wird der nächste Macrotask aus der Task-Queue entnommen.',
           mnemonic: '💡 Merksatz: „Microtasks räumen den Tisch ab, bevor die nächste Runde serviert wird.“',
           pitfall: 'Option A ist falsch: setTimeout(..., 0) wartet immer, bis alle anstehenden Promise-Callbacks fertig sind.'
         },
@@ -204,193 +271,112 @@
             'Dass die Schnittstelle in unter 50 Millisekunden antwortet.'
           ],
           correct: 1,
-          explanation: 'Ein idempotent ausgelegter Endpunkt (z. B. DELETE /item/123 oder PUT /user/profile) ändert den Zustand beim 2. oder 10. Aufruf nicht weiter. POST ist typischerweise nicht idempotent (erzeugt mehrfache Ressourcen).',
+          explanation: 'Ein idempotent ausgelegter Endpunkt ändert den Zustand beim 2. oder 10. Aufruf nicht weiter. POST ist typischerweise nicht idempotent.',
           mnemonic: '💡 Merksatz: „Lichtschalter AN: 1x oder 10x drücken = Licht bleibt AN.“',
-          pitfall: 'Option D beschreibt Latenz/Performance, nicht das mathematische Konzept der Zustandskonsistenz.'
-        },
-        {
-          id: 'code_3',
-          question: 'Welches Sicherheitsrisiko wird durch konsequentes HTML-Entity-Escaping und DOMPurify bei Nutzereingaben verhindert?',
-          options: [
-            'Distributed Denial of Service (DDoS)',
-            'Cross-Site Scripting (XSS), bei dem bösartiger JavaScript-Code in den Browser anderer Nutzer injiziert wird.',
-            'SQL-Injection im Backend.',
-            'Physischer Festplattendefekt auf dem Server.'
-          ],
-          correct: 1,
-          explanation: 'Wenn rohe Benutzereingaben unescaped via innerHTML ins DOM gerendert werden, kann ein Angreifer script-Tags oder onload/onerror-Attribute einschleusen und Session-Tokens abgreifen.',
-          mnemonic: '💡 Merksatz: „Traue keinem User-Input: Erst desinfizieren, dann rendern.“',
-          pitfall: 'Option C (SQL Injection) betrifft Datenbankabfragen im Backend, nicht das clientseitige Browser-DOM.'
-        },
-        {
-          id: 'code_4',
-          question: 'Wofür steht das „Single Responsibility Principle“ (SRP) in den SOLID-Prinzipien?',
-          options: [
-            'Jedes Programm darf nur von einem einzigen Entwickler geschrieben werden.',
-            'Ein Modul oder eine Klasse sollte genau einen wohl definierten Grund haben, sich zu ändern (eine einzige Verantwortlichkeit).',
-            'Alle Funktionen müssen in einer einzigen Datei liegen.',
-            'Es darf pro Server nur ein CPU-Kern genutzt werden.'
-          ],
-          correct: 1,
-          explanation: 'SRP verhindert monströse "God Objects". Wenn eine Klasse gleichzeitig UI rendert, Netzwerk-Requests sendet und Daten speichert, führt jede Änderung an einem Teil zu Seiteneffekten im gesamten System.',
-          mnemonic: '💡 Merksatz: „Ein Werkzeug, eine Aufgabe.“ — Trenne Datenlogik von Darstellung.',
-          pitfall: 'Option C ist das Gegenteil von modularer Architektur.'
-        },
-        {
-          id: 'code_5',
-          question: 'Was ist der Hauptvorteil von zustandslosen (stateless) Client-Architekturen mit LocalStorage & P2P gegenüber serverbasierten Sessions?',
-          options: [
-            'Keine Serverkosten, 100% Datenschutz (Zero-Data-Retention auf Fremdservern) und vollkommene Offline-Resilienz.',
-            'Dass Daten automatisch im gesamten Internet öffentlich sichtbar sind.',
-            'Dass JavaScript nicht mehr kompiliert werden muss.',
-            'Dass Bilder eine höhere Auflösung erhalten.'
-          ],
-          correct: 0,
-          explanation: 'Local-First-Apps arbeiten unabhängig von Server-Verfügbarkeiten. Daten bleiben auf dem Gerät des Nutzers, Latenzen sind 0 ms und die App funktioniert im Flugzeug ebenso wie in abgelegenen Regionen.',
-          mnemonic: '💡 Merksatz: „Local-First = Dein Gerät ist die primäre Quelle der Wahrheit.“',
-          pitfall: 'Option B ist falsch: Lokale Speicherung schützt Privatsphäre maximal, statt Daten zu veröffentlichen.'
+          pitfall: 'Option D beschreibt Latenz/Performance, nicht Zustandskonsistenz.'
         }
       ]
     },
 
-    science_universe: {
-      id: 'science_universe',
-      title: 'Kosmos, Quanten & Naturwissenschaften',
-      icon: '🌌',
-      color: 'indigo',
-      desc: 'Quantenmechanik, Entropie, Relativität & biologische Systeme',
-      level: 'Wissenschaft & Natur',
+    cognitive_biases: {
+      id: 'cognitive_biases',
+      title: 'Kognitive Biases & Rationales Entscheiden',
+      icon: '🎯',
+      color: 'rose',
+      desc: 'Confirmation Bias, Dunning-Kruger, Availability & Anchoring',
+      level: 'Psychologie & Kognition',
       questions: [
         {
-          id: 'sci_1',
-          question: 'Was beschreibt der 2. Hauptsatz der Thermodynamik (Entropiesatz) für geschlossene Systeme?',
+          id: 'bias_1',
+          question: 'Was beschreibt der „Confirmation Bias“ (Bestätigungsfehler)?',
           options: [
-            'Energie kann aus dem Nichts erschaffen werden.',
-            'Die Entropie (das Maß für Unordnung bzw. mikroskopische Zustandsvielfalt) nimmt in einem isolierten System spontan niemals ab, sondern strebt ein Maximum an.',
-            'Kälte fließt von selbst in heißere Körper über.',
-            'Die Lichtgeschwindigkeit verdoppelt sich bei sinkender Temperatur.'
+            'Dass man eine Bestätigungs-E-Mail nach einem Kauf erhält.',
+            'Die unbewusste Tendenz, nur Informationen wahrzunehmen und zu suchen, die die eigene bestehende Meinung stützen, während Gegenbeweise ignoriert oder abgewertet werden.',
+            'Die Fähigkeit, mathematische Beweise fehlerfrei zu bestätigen.',
+            'Dass man anderen Menschen grundsätzlich immer zustimmt.'
           ],
           correct: 1,
-          explanation: 'Der 2. Hauptsatz erklärt den Zeitpfeil: Wärme fließt nur von warm nach kalt, ein zerbrochenes Glas setzt sich nicht von selbst zusammen. Ordnung aufrechtzuerhalten erfordert immer kontinuierliche Energiezufuhr (z. B. Aufräumen, biologisches Leben).',
-          mnemonic: '💡 Merksatz: „Ordnung braucht Energie — Unordnung passiert von allein.“',
-          pitfall: 'Option A widerspricht dem 1. Hauptsatz (Energieerhaltungssatz).'
+          explanation: 'Das Gehirn schützt sein bestehendes Weltbild, um kognitive Dissonanz zu vermeiden. Echte Rationalität erfordert das aktive Suchen nach widerlegenden Beweisen (Falsifikation).',
+          mnemonic: '💡 Merksatz: „Suche nach dem Gegenbeweis, nicht nach dem Schulterklopfen.“',
+          pitfall: 'Option D beschreibt soziale Gefälligkeit (People Pleasing), nicht den kognitiven Bestätigungsfehler.'
         },
         {
-          id: 'sci_2',
-          question: 'Was besagt die Heisenbergsche Unschärferelation in der Quantenphysik?',
+          id: 'bias_2',
+          question: 'Was kennzeichnet den „Dunning-Kruger-Effekt“?',
           options: [
-            'Dass Wissenschaftler ungenaue Messgeräte benutzen.',
-            'Dass zwei komplementäre Eigenschaften eines Teilchens (wie Ort und Impuls) prinzipiell nicht gleichzeitig beliebig genau bestimmt werden können.',
-            'Dass alle physikalischen Gesetze reine Schätzungen sind.',
-            'Dass Atome größer sind als Planeten.'
+            'Dass erfahrene Meister sich selbst stark überschätzen.',
+            'Dass Personen mit geringem Wissen in einem Bereich ihre eigene Inkompetenz nicht erkennen und ihr Können drastisch überschätzen, während Experten zu Zweifeln neigen.',
+            'Ein Gesetz über das schnelle Erlernen von Fremdsprachen.',
+            'Eine Technik zur Reduzierung von Arbeitsstress.'
           ],
           correct: 1,
-          explanation: 'Die Unschärfe ist keine technische Messungenauigkeit, sondern eine fundamentale Welle-Teilchen-Natur der Realität. Je exakter der Ort eines Elektrons eingegrenzt wird, desto unbestimmter wird sein Impuls.',
-          mnemonic: '💡 Merksatz: „Je schärfer der Ort, desto unschärfer die Bewegung.“',
-          pitfall: 'Option A verwechselt fundamentale Quanten-Grenzen mit fehlerhaften Messinstrumenten.'
-        },
-        {
-          id: 'sci_3',
-          question: 'Wie erklärt Einsteins Allgemeine Relativitätstheorie das Phänomen der Gravitation?',
-          options: [
-            'Masse und Energie krümmen die vierdimensionale Raumzeit; Körper folgen lediglich den geradesten Linien (Geodäten) in diesem gekrümmten Raum.',
-            'Als unsichtbare Seile, die zwischen Planeten gespannt sind.',
-            'Durch magnetische Abstoßung im Vakuum.',
-            'Durch die Reibung der Planeten an der Atmosphäre des Alls.'
-          ],
-          correct: 0,
-          explanation: '„Die Materie sagt dem Raum, wie er sich krümmen soll; der Raum sagt der Materie, wie sie sich bewegen soll.“ (John Wheeler). Licht wird in der Nähe schwerer Sterne abgelenkt, weil der Raum selbst gekrümmt ist.',
-          mnemonic: '💡 Merksatz: „Masse dellt das Raum-Gewebe ein.“ — Gravitation ist Geometrie.',
-          pitfall: 'Option B & C sind überholte oder physikalisch unhaltbare Vorstellungen.'
-        },
-        {
-          id: 'sci_4',
-          question: 'Warum ist die Zell-Autophagie (Nobelpreis 2016) für die Langlebigkeit so entscheidend?',
-          options: [
-            'Weil sie neue Fettzellen produziert.',
-            'Weil die Zelle beschädigte Proteine, defekte Zellorganellen und Abfallstoffe recycelt und als Bausteine für Erneuerung nutzt.',
-            'Weil sie das Herz schneller schlagen lässt.',
-            'Weil sie das Schlafen überflüssig macht.'
-          ],
-          correct: 1,
-          explanation: 'Autophagie ist die körpereigene Müllabfuhr. Bei Fastenphasen oder Bewegung schaltet die Zelle auf Selbstreinigung um: Toxische Protein-Plaques und alte Mitochondrien werden enzymatisch zerlegt.',
-          mnemonic: '💡 Merksatz: „Zelluläres Recycling statt Müllhalde.“ — Fasten stößt den Hausputz der Zellen an.',
-          pitfall: 'Option A beschreibt Fettaufbau, das Gegenteil des metabolischen Schalters der Autophagie.'
-        },
-        {
-          id: 'sci_5',
-          question: 'Was ist „Quantenverschränkung“ (Quantum Entanglement)?',
-          options: [
-            'Das Verknoten von Kabeln hinter dem Schreibtisch.',
-            'Ein Zustand, bei dem zwei Teilchen so gekoppelt sind, dass die Messung des Zustands des einen instantan den Zustand des anderen bestimmt — unabhängig von der Distanz.',
-            'Eine chemische Bindung zwischen Wasserstoff und Sauerstoff.',
-            'Die Gravitationsanziehung der Erde auf den Mond.'
-          ],
-          correct: 1,
-          explanation: 'Einstein nannte es „spukhafte Fernwirkung“. Zwei verschränkte Photonen bilden ein gemeinsames quantenmechanisches System. Wird der Spin von Teilchen A gemessen, steht der von Teilchen B im selben Augenblick fest.',
-          mnemonic: '💡 Merksatz: „Zwei Seiten derselben Münze, auch Lichtjahre voneinander entfernt.“',
-          pitfall: 'Option C beschreibt kovalente chemische Bindungen, keine Quantenverschränkung.'
-        }
-      ]
-    },
-
-    financial_intelligence: {
-      id: 'financial_intelligence',
-      title: 'Finanzen & Verhaltensökonomik',
-      icon: '📈',
-      color: 'emerald',
-      desc: 'Zinseszins, 72er-Regel, Sunk-Cost-Falle & Risikomanagement',
-      level: 'Wirtschaft & Wohlstand',
-      questions: [
-        {
-          id: 'fin_1',
-          question: 'Wie funktioniert die „72er-Regel“ zur schnellen Berechnung von Zinseszins-Verdopplungen?',
-          options: [
-            'Man teilt 72 durch den jährlichen Zinssatz in Prozent — das Ergebnis ist die ungefähre Anzahl der Jahre bis zur Verdopplung des Kapitals.',
-            'Man muss 72 Jahre lang sparen, um Millionär zu werden.',
-            'Man multipliziert das Einkommen mit 72.',
-            'Man darf maximal 72 Euro pro Monat ausgeben.'
-          ],
-          correct: 0,
-          explanation: 'Bei 7% Rendite verdoppelt sich das Geld in ca. 72 / 7 ≈ 10,3 Jahren. Bei 10% Zinsen in nur 7,2 Jahren. Dies veranschaulicht die gewaltige Hebelkraft des Zinseszins-Effekts über die Zeit.',
-          mnemonic: '💡 Merksatz: „72 / Rendite = Verdopplungsjahre.“ — Schnelle mentale Mathematik für Geld.',
-          pitfall: 'Option B ignoriert Zinssätze und mathematische Exponentialfunktionen.'
-        },
-        {
-          id: 'fin_2',
-          question: 'Was beschreibt die „Sunk Cost Fallacy“ (Versunkene-Kosten-Falle)?',
-          options: [
-            'Dass Schiffe auf dem Meeresgrund an Wert verlieren.',
-            'Die Tendenz, an einem verlustreichen Vorhaben festzuhalten, nur weil man bereits viel Zeit, Geld oder Mühe investiert hat — obwohl die Zukunftsaussichten negativ sind.',
-            'Das automatische Sparen von Cent-Beträgen.',
-            'Eine Steuerbefreiung für gemeinnützige Vereine.'
-          ],
-          correct: 1,
-          explanation: 'Bereits ausgegebenes Geld oder vergangene Zeit sind verloren und können nicht zurückgeholt werden („sunk“). Rationale Entscheidungen müssen ausschließlich zukünftige Kosten und zukünftigen Nutzen bewerten.',
-          mnemonic: '💡 Merksatz: „Gutes Geld nicht schlechtem hinterherwerfen.“ — Vergangene Kosten sind vergangen.',
-          pitfall: 'Option A nimmt die Redewendung wortwörtlich statt als psychologischen Fehlschluss.'
-        },
-        {
-          id: 'fin_3',
-          question: 'Was ist der primäre Zweck eines „Notgroschens“ (Emergency Fund von 3-6 Monatsausgaben)?',
-          options: [
-            'Möglichst hohe spekulative Kursgewinne an der Börse erzielen.',
-            'Psychologische Ruhe und finanzielle Resilienz, um bei plötzlichen Reparaturen oder Jobwechseln nicht zu teuren Konsumkrediten oder Notverkäufen gezwungen zu sein.',
-            'Um am Jahresende Luxusartikel zu kaufen.',
-            'Damit die Bank Gebühren erlassen kann.'
-          ],
-          correct: 1,
-          explanation: 'Ein Notgroschen ist keine Rendite-Anlage, sondern eine emotionale und finanzielle Versicherung. Er schützt das langfristige Investitions-Depot davor, in Markttiefs panisch liquidiert werden zu müssen.',
-          mnemonic: '💡 Merksatz: „Liquidität kauft Seelenruhe.“ — Sicherheit geht vor Rendite.',
-          pitfall: 'Option A verwechselt Notfall-Liquidität auf dem Tagesgeld mit spekulativem Risikokapital.'
+          explanation: 'Um eigene Fehler zu erkennen, benötigt man genau jene Fachkompetenz, die einem Anfänger noch fehlt („Mount Stupid“). Erst mit tieferem Wissen begreift man die wahre Komplexität.',
+          mnemonic: '💡 Merksatz: „Wenig Wissen erzeugt Gewissheit — tiefes Wissen erzeugt Demut.“',
+          pitfall: 'Option A vertauscht die Rollen von Anfängern und Experten.'
         }
       ]
     }
   };
 
-  // ============================================================================
-  // 2. STATE & GENERATOR ENGINE
-  // ============================================================================
+  // --------------------------------------------------------------------------
+  // 2. SPACED REPETITION & LEITNER ENGINE
+  // --------------------------------------------------------------------------
+  const LEITNER_INTERVALS_DAYS = [1, 3, 7, 14, 30]; // Box 1 to 5
+
+  function getSRData() {
+    try {
+      const raw = localStorage.getItem(SR_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  function saveSRData(data) {
+    try {
+      localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(data));
+    } catch (e) {}
+  }
+
+  function rateQuestionSR(questionId, rating) {
+    // rating: 'again' (Box 1), 'good' (+1 Box), 'master' (Box 5)
+    const data = getSRData();
+    const entry = data[questionId] || { box: 1, streak: 0, lastReview: Date.now(), reps: 0 };
+
+    if (rating === 'again') {
+      entry.box = 1;
+      entry.streak = 0;
+    } else if (rating === 'good') {
+      entry.box = Math.min(5, (entry.box || 1) + 1);
+      entry.streak = (entry.streak || 0) + 1;
+    } else if (rating === 'master') {
+      entry.box = 5;
+      entry.streak = (entry.streak || 0) + 3;
+    }
+
+    entry.reps = (entry.reps || 0) + 1;
+    entry.lastReview = Date.now();
+    const daysToAdd = LEITNER_INTERVALS_DAYS[entry.box - 1] || 1;
+    entry.nextReview = Date.now() + (daysToAdd * 24 * 60 * 60 * 1000);
+
+    data[questionId] = entry;
+    saveSRData(data);
+
+    if (typeof showToast === 'function') {
+      showToast(`🧠 Leitner-Box: Stufe ${entry.box}/5 gespeichert (Nächste Wdh: in ${daysToAdd}T)`);
+    }
+
+    if (typeof playProceduralSound === 'function') playProceduralSound(3);
+
+    renderLearningSessionUI();
+    return entry;
+  }
+
+  // --------------------------------------------------------------------------
+  // 3. STATE & LEARNING SESSION CONTROLLER
+  // --------------------------------------------------------------------------
+  let currentLearningMode = 'quiz'; // 'quiz' | 'flashcard' | 'decks'
+  let isFlashcardFlipped = false;
 
   let activeLearningSession = {
     packId: 'adhd_neuro',
@@ -411,7 +397,7 @@
 
   function loadLearningStorage() {
     try {
-      const savedCustom = localStorage.getItem('flow_learning_custom_packs');
+      const savedCustom = localStorage.getItem(CUSTOM_PACKS_KEY);
       if (savedCustom) customPacksStorage = JSON.parse(savedCustom);
 
       const savedMistakes = localStorage.getItem('flow_learning_mistakes');
@@ -423,17 +409,20 @@
 
   function saveLearningStorage() {
     try {
-      localStorage.setItem('flow_learning_custom_packs', JSON.stringify(customPacksStorage));
+      localStorage.setItem(CUSTOM_PACKS_KEY, JSON.stringify(customPacksStorage));
       localStorage.setItem('flow_learning_mistakes', JSON.stringify(activeLearningSession.mistakesArchive));
     } catch (e) {
       console.warn('[LearningHub] Storage save error:', e);
     }
   }
 
-  // ============================================================================
-  // 3. DYNAMIC QUESTION SYNTHESIZER FOR ANY CUSTOM TOPIC
-  // ============================================================================
+  function getAllPacks() {
+    return { ...CURATED_LEARNING_PACKS, ...customPacksStorage };
+  }
 
+  // --------------------------------------------------------------------------
+  // 4. DYNAMIC SYNTHESIZER
+  // --------------------------------------------------------------------------
   function generateDynamicQuestionsForTopic(rawTopic) {
     const topic = (rawTopic || 'Allgemeinwissen').trim();
     const cleanName = topic.charAt(0).toUpperCase() + topic.slice(1);
@@ -479,7 +468,7 @@
         correct: 0,
         explanation: 'Die Feynman-Technik deckt Wissenslücken schonungslos auf: Wer ein Konzept von ' + cleanName + ' nicht in einfachen Worten erklären kann, hat es noch nicht tief verstanden.',
         mnemonic: '💡 Merksatz: „Einfachheit ist das Siegel der Wahrheit.“ — Erkläre es einem Laien.',
-        pitfall: 'Option B (passives Wiederlesen) erzeugt eine trügerische Illusion von Kompetenz (Fluency Illusion).'
+        pitfall: 'Option B (passives Wiederlesen) erzeugt eine trügerische Illusion von Kompetenz.'
       },
       {
         id: 'dyn_' + Date.now() + '_4',
@@ -493,7 +482,7 @@
         correct: 0,
         explanation: 'Nach Anders Ericsson entsteht Spitzenleistung in ' + cleanName + ' durch Deliberate Practice: Man sucht gezielt die Bereiche auf, in denen man noch Fehler macht, und korrigiert sie unmittelbar.',
         mnemonic: '💡 Merksatz: „Übe dort, wo es hakt — nicht dort, wo es glänzt.“',
-        pitfall: 'Passiver Konsum (Option D) trainiert das Wiedererkennen, nicht die aktive Problemlösungskompetenz.'
+        pitfall: 'Passiver Konsum trainiert das Wiedererkennen, nicht die aktive Problemlösungskompetenz.'
       },
       {
         id: 'dyn_' + Date.now() + '_5',
@@ -512,10 +501,9 @@
     ];
   }
 
-  // ============================================================================
-  // 4. MODAL CONTROLLER & UI RENDERING
-  // ============================================================================
-
+  // --------------------------------------------------------------------------
+  // 5. SESSION & CONTROLLER ACTIONS
+  // --------------------------------------------------------------------------
   function openLearningHubModal(customTopic = null) {
     loadLearningStorage();
     const modal = document.getElementById('modal-learning-hub');
@@ -538,9 +526,23 @@
     if (modal) modal.classList.add('hidden');
   }
 
+  function switchLearningMode(mode) {
+    currentLearningMode = mode;
+    isFlashcardFlipped = false;
+    renderLearningSessionUI();
+    if (typeof playProceduralSound === 'function') playProceduralSound(0);
+  }
+
+  function flipFlashcard() {
+    isFlashcardFlipped = !isFlashcardFlipped;
+    renderLearningSessionUI();
+    if (typeof playProceduralSound === 'function') playProceduralSound(6);
+  }
+
   function selectLearningPack(packId) {
-    if (CURATED_LEARNING_PACKS[packId]) {
-      const pack = CURATED_LEARNING_PACKS[packId];
+    const allPacks = getAllPacks();
+    if (allPacks[packId]) {
+      const pack = allPacks[packId];
       activeLearningSession = {
         packId: packId,
         customTopic: null,
@@ -555,6 +557,7 @@
         startTime: Date.now(),
         mistakesArchive: activeLearningSession.mistakesArchive || []
       };
+      isFlashcardFlipped = false;
       renderLearningSessionUI();
     }
   }
@@ -578,6 +581,7 @@
       startTime: Date.now(),
       mistakesArchive: activeLearningSession.mistakesArchive || []
     };
+    isFlashcardFlipped = false;
     renderLearningSessionUI();
   }
 
@@ -605,10 +609,12 @@
     if (isCorrect) {
       activeLearningSession.score++;
       activeLearningSession.xpEarned += 15;
+      rateQuestionSR(currentQ.id, 'good');
       if (typeof window.playCheerfulSuccessJingle === 'function') window.playCheerfulSuccessJingle();
       if (typeof window.triggerHapticFeedback === 'function') window.triggerHapticFeedback([20, 30, 20]);
       if (typeof window.addGamificationXP === 'function') window.addGamificationXP(15, 'Lern-Quiz');
     } else {
+      rateQuestionSR(currentQ.id, 'again');
       if (typeof window.triggerHapticFeedback === 'function') window.triggerHapticFeedback([40]);
       if (!activeLearningSession.mistakesArchive.some(m => m.id === currentQ.id)) {
         activeLearningSession.mistakesArchive.push(currentQ);
@@ -620,6 +626,7 @@
   }
 
   function nextLearningQuestion() {
+    isFlashcardFlipped = false;
     if (activeLearningSession.currentIndex < activeLearningSession.questions.length - 1) {
       activeLearningSession.currentIndex++;
       renderLearningSessionUI();
@@ -629,6 +636,7 @@
   }
 
   function prevLearningQuestion() {
+    isFlashcardFlipped = false;
     if (activeLearningSession.currentIndex > 0) {
       activeLearningSession.currentIndex--;
       renderLearningSessionUI();
@@ -662,6 +670,7 @@
       startTime: Date.now(),
       mistakesArchive: activeLearningSession.mistakesArchive
     };
+    isFlashcardFlipped = false;
     renderLearningSessionUI();
   }
 
@@ -681,34 +690,47 @@
     }
   }
 
-  function transferLearnedTopicToBoard() {
-    const title = activeLearningSession.customTopic 
-      ? '🧠 Wissens-Wiederholung: ' + activeLearningSession.customTopic 
-      : '🧠 Vertiefung: ' + (CURATED_LEARNING_PACKS[activeLearningSession.packId]?.title || 'Lernsession');
+  function speakQuestionAloud() {
+    const currentQ = activeLearningSession.questions[activeLearningSession.currentIndex];
+    if (!currentQ) return;
+    const textToSpeak = isFlashcardFlipped
+      ? (currentQ.explanation + ' ' + (currentQ.mnemonic || ''))
+      : currentQ.question;
 
-    const curState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
-    if (!curState || !curState.items) return;
-
-    const cat = curState.items.weekly ? 'weekly' : 'daily';
-    if (!curState.items[cat]) curState.items[cat] = [];
-
-    const nowISO = new Date().toISOString();
-    curState.items[cat].push({
-      id: 'learn_' + Date.now(),
-      task: title,
-      createdAt: nowISO,
-      updatedAt: nowISO
-    });
-
-    if (typeof saveState === 'function') saveState();
-    if (typeof renderApp === 'function') renderApp();
-    if (typeof showToast === 'function') showToast('✨ Aufgabe ins Board übernommen!');
+    if (typeof speakWithProfile === 'function') {
+      speakWithProfile(textToSpeak, 'mentor');
+      return;
+    }
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined') {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = 'de-DE';
+      window.speechSynthesis.speak(utterance);
+    }
   }
 
-  // ============================================================================
-  // 5. HTML UI BUILDER (FOR MODAL AND EMBEDDED DASHBOARD VIEW)
-  // ============================================================================
+  function createCustomDeck(title, desc, questions) {
+    if (!title || !Array.isArray(questions) || questions.length === 0) return false;
+    loadLearningStorage();
+    const id = 'custom_deck_' + Date.now();
+    customPacksStorage[id] = {
+      id,
+      title,
+      icon: '✨',
+      color: 'amber',
+      desc: desc || 'Eigenes Wissens-Set',
+      level: 'Individuell',
+      questions
+    };
+    saveLearningStorage();
+    selectLearningPack(id);
+    if (typeof showToast === 'function') showToast(`📦 Neues Deck "${title}" erfolgreich gespeichert!`);
+    return id;
+  }
 
+  // --------------------------------------------------------------------------
+  // 6. UI BUILDER (QUIZ, 3D FLASHCARDS, DECKS & LEITNER OVERVIEW)
+  // --------------------------------------------------------------------------
   function renderLearningSessionUI() {
     const containers = [
       document.getElementById('learning-hub-content'),
@@ -721,155 +743,312 @@
     const currentIdx = activeLearningSession.currentIndex;
     const currentQ = activeLearningSession.questions[currentIdx] || activeLearningSession.questions[0];
     const isFinished = activeLearningSession.isFinished;
+    const srData = getSRData();
 
-    let packsHtml = Object.values(CURATED_LEARNING_PACKS).map(pack => {
+    const activeTabClasses = 'bg-gradient-to-r from-purple-600/40 via-pink-600/35 to-purple-600/40 text-white border-purple-400/80 shadow-[0_0_12px_rgba(168,85,247,0.35)] font-bold';
+    const inactiveTabClasses = 'text-gray-400 hover:text-purple-200 border-transparent hover:bg-white/5 font-semibold';
+
+    const allPacks = getAllPacks();
+    let packsHtml = Object.values(allPacks).map(pack => {
       const isActive = activeLearningSession.packId === pack.id && !activeLearningSession.customTopic;
-      return '<button onclick="LearningHubEngine.selectLearningPack(\'' + pack.id + '\')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ' +
+      return '<button onclick="LearningHubEngine.selectLearningPack(\'' + pack.id + '\')" class="px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 cursor-pointer ' +
         (isActive 
           ? 'bg-purple-500/30 text-white border border-purple-400 shadow-sm' 
           : 'bg-white/5 hover:bg-white/10 text-gray-400 hover:text-gray-200 border border-white/5') +
         '">' +
-        '<span>' + pack.icon + '</span>' +
-        '<span class="truncate max-w-[140px]">' + pack.title.split(',')[0] + '</span>' +
+        '<span>' + (pack.icon || '📚') + '</span>' +
+        '<span class="truncate max-w-[130px]">' + pack.title.split(',')[0] + '</span>' +
         '</button>';
     }).join('');
 
     const hasMistakes = activeLearningSession.mistakesArchive && activeLearningSession.mistakesArchive.length > 0;
     if (hasMistakes) {
-      packsHtml += '<button onclick="LearningHubEngine.startMistakesReviewSession()" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 cursor-pointer">' +
+      packsHtml += '<button onclick="LearningHubEngine.startMistakesReviewSession()" class="px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shrink-0 bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 cursor-pointer">' +
         '<span>🔁</span><span>Fehler (' + activeLearningSession.mistakesArchive.length + ')</span></button>';
     }
 
-    let innerContent = '';
+    let modeContent = '';
 
-    if (isFinished) {
-      const pct = Math.round((activeLearningSession.score / totalQ) * 100) || 0;
-      let badgeEmoji = pct >= 80 ? '🌟 Meistergrad' : (pct >= 50 ? '🌱 Guter Fortschritt' : '📖 Wiederholung empfohlen');
-      let badgeColor = pct >= 80 ? 'text-emerald-400' : (pct >= 50 ? 'text-amber-400' : 'text-rose-400');
+    // ========================================================================
+    // TAB 1: INTERAKTIVES QUIZ
+    // ========================================================================
+    if (currentLearningMode === 'quiz') {
+      if (isFinished) {
+        const pct = Math.round((activeLearningSession.score / totalQ) * 100) || 0;
+        let badgeEmoji = pct >= 80 ? '🌟 Meistergrad' : (pct >= 50 ? '🌱 Guter Fortschritt' : '📖 Wiederholung empfohlen');
+        let badgeColor = pct >= 80 ? 'text-emerald-400' : (pct >= 50 ? 'text-amber-400' : 'text-rose-400');
 
-      innerContent = '<div class="space-y-5 animate-fade-in text-left">' +
-        '<div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">' + packsHtml + '</div>' +
-        '<div class="p-6 rounded-3xl bg-gradient-to-br from-[#161624] to-[#0d0d16] border border-purple-500/30 shadow-2xl text-center space-y-4">' +
-          '<div class="w-16 h-16 rounded-3xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-3xl mx-auto shadow-inner">🏆</div>' +
+        modeContent = '<div class="p-6 rounded-3xl bg-gradient-to-br from-[#161624] to-[#0d0d16] border border-purple-500/30 shadow-2xl text-center space-y-4">' +
+          '<div class="w-14 h-14 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-3xl mx-auto shadow-inner">🏆</div>' +
           '<div>' +
             '<span class="text-xs font-mono font-bold uppercase tracking-wider ' + badgeColor + '">' + badgeEmoji + '</span>' +
-            '<h3 class="text-2xl font-black text-white font-display mt-1">Lern-Session erfolgreich!</h3>' +
-            '<p class="text-xs text-gray-400 mt-0.5">Thema: <span class="text-purple-300 font-bold">' + (activeLearningSession.customTopic || CURATED_LEARNING_PACKS[activeLearningSession.packId]?.title) + '</span></p>' +
+            '<h3 class="text-xl font-black text-white font-display mt-1">Lern-Session erfolgreich!</h3>' +
+            '<p class="text-xs text-gray-400 mt-0.5">Thema: <span class="text-purple-300 font-bold">' + (activeLearningSession.customTopic || allPacks[activeLearningSession.packId]?.title) + '</span></p>' +
           '</div>' +
-          '<div class="grid grid-cols-3 gap-2.5 max-w-md mx-auto pt-2">' +
-            '<div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10">' +
+          '<div class="grid grid-cols-3 gap-2 max-w-md mx-auto pt-1">' +
+            '<div class="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10">' +
               '<div class="text-[10px] text-gray-400 font-mono">Ergebnis</div>' +
-              '<div class="text-xl font-black text-white font-display">' + activeLearningSession.score + ' / ' + totalQ + '</div>' +
+              '<div class="text-lg font-black text-white font-display">' + activeLearningSession.score + ' / ' + totalQ + '</div>' +
             '</div>' +
-            '<div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10">' +
+            '<div class="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10">' +
               '<div class="text-[10px] text-gray-400 font-mono">Genauigkeit</div>' +
-              '<div class="text-xl font-black ' + badgeColor + ' font-display">' + pct + '%</div>' +
+              '<div class="text-lg font-black ' + badgeColor + ' font-display">' + pct + '%</div>' +
             '</div>' +
-            '<div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10">' +
+            '<div class="p-2.5 rounded-2xl bg-white/[0.03] border border-white/10">' +
               '<div class="text-[10px] text-gray-400 font-mono">XP Bonus</div>' +
-              '<div class="text-xl font-black text-amber-300 font-display">+' + activeLearningSession.xpEarned + '</div>' +
+              '<div class="text-lg font-black text-amber-300 font-display">+' + activeLearningSession.xpEarned + '</div>' +
             '</div>' +
           '</div>' +
-          '<div class="flex flex-wrap items-center justify-center gap-2 pt-3">' +
-            '<button onclick="LearningHubEngine.restartCurrentPack()" class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition active:scale-95 cursor-pointer shadow-lg shadow-purple-900/30 flex items-center gap-1.5">' +
+          '<div class="flex flex-wrap items-center justify-center gap-2 pt-2">' +
+            '<button onclick="LearningHubEngine.restartCurrentPack()" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition active:scale-95 cursor-pointer shadow-md flex items-center gap-1.5">' +
               '<i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>Erneut üben</span>' +
             '</button>' +
-            '<button onclick="LearningHubEngine.transferLearnedTopicToBoard()" class="px-4 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition active:scale-95 cursor-pointer flex items-center gap-1.5">' +
-              '<i data-lucide="plus" class="w-4 h-4"></i><span>Als Wiederholungs-Task ins Board</span>' +
+            '<button onclick="LearningHubEngine.switchLearningMode(\'flashcard\')" class="px-4 py-2 rounded-xl bg-pink-600/40 hover:bg-pink-600/60 text-pink-200 border border-pink-500/40 text-xs font-bold transition active:scale-95 cursor-pointer flex items-center gap-1.5">' +
+              '<span>🎴 Als Karteikarten wiederholen</span>' +
             '</button>' +
           '</div>' +
-        '</div>' +
-      '</div>';
-    } else if (currentQ) {
-      const answerState = activeLearningSession.answers[currentQ.id];
-      const isAnswered = answerState !== undefined;
-      const isBookmarked = activeLearningSession.bookmarked[currentQ.id];
+        '</div>';
+      } else if (currentQ) {
+        const answerState = activeLearningSession.answers[currentQ.id];
+        const isAnswered = answerState !== undefined;
+        const isBookmarked = activeLearningSession.bookmarked[currentQ.id];
 
-      const optionsHtml = currentQ.options.map((optText, optIdx) => {
-        let btnStyle = 'bg-white/[0.03] hover:bg-white/[0.07] border-white/10 text-gray-200';
-        let icon = '<span class="w-6 h-6 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono font-bold text-gray-400 shrink-0">' + String.fromCharCode(65 + optIdx) + '</span>';
+        const optionsHtml = (currentQ.options || []).map((optText, optIdx) => {
+          let btnStyle = 'bg-white/[0.03] hover:bg-white/[0.07] border-white/10 text-gray-200';
+          let icon = '<span class="w-5 h-5 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono font-bold text-gray-400 shrink-0">' + String.fromCharCode(65 + optIdx) + '</span>';
 
-        if (isAnswered) {
-          if (optIdx === currentQ.correct) {
-            btnStyle = 'bg-emerald-500/20 border-emerald-400 text-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.2)] font-bold';
-            icon = '<span class="w-6 h-6 rounded-lg bg-emerald-500 text-black flex items-center justify-center text-xs font-bold shrink-0">✓</span>';
-          } else if (optIdx === answerState.selected && !answerState.isCorrect) {
-            btnStyle = 'bg-rose-500/20 border-rose-400 text-rose-100 shadow-[0_0_15px_rgba(244,63,94,0.2)] font-bold';
-            icon = '<span class="w-6 h-6 rounded-lg bg-rose-500 text-white flex items-center justify-center text-xs font-bold shrink-0">✕</span>';
-          } else {
-            btnStyle = 'bg-black/40 border-white/5 text-gray-500 opacity-60';
+          if (isAnswered) {
+            if (optIdx === currentQ.correct) {
+              btnStyle = 'bg-emerald-500/20 border-emerald-400 text-emerald-100 shadow-[0_0_15px_rgba(16,185,129,0.2)] font-bold';
+              icon = '<span class="w-5 h-5 rounded-lg bg-emerald-500 text-black flex items-center justify-center text-xs font-bold shrink-0">✓</span>';
+            } else if (optIdx === answerState.selected && !answerState.isCorrect) {
+              btnStyle = 'bg-rose-500/20 border-rose-400 text-rose-100 shadow-[0_0_15px_rgba(244,63,94,0.2)] font-bold';
+              icon = '<span class="w-5 h-5 rounded-lg bg-rose-500 text-white flex items-center justify-center text-xs font-bold shrink-0">✕</span>';
+            } else {
+              btnStyle = 'bg-black/40 border-white/5 text-gray-500 opacity-60';
+            }
           }
+
+          return '<button onclick="LearningHubEngine.handleSelectAnswer(' + optIdx + ')" ' + (isAnswered ? 'disabled' : '') + ' class="w-full p-3 rounded-2xl border ' + btnStyle + ' transition-all duration-200 text-left flex items-center gap-2.5 cursor-pointer active:scale-[0.99] text-xs sm:text-sm">' +
+            icon + '<span class="flex-1 leading-snug">' + optText + '</span></button>';
+        }).join('');
+
+        let explanationHtml = '';
+        if (isAnswered) {
+          explanationHtml = '<div class="p-3.5 rounded-2xl ' + (answerState.isCorrect ? 'bg-emerald-950/40 border-emerald-500/40' : 'bg-rose-950/40 border-rose-500/40') + ' border space-y-2 animate-fade-in text-xs">' +
+            '<div class="flex items-center justify-between font-bold">' +
+              '<span class="' + (answerState.isCorrect ? 'text-emerald-300' : 'text-rose-300') + ' flex items-center gap-1.5 text-xs font-bold">' +
+                (answerState.isCorrect ? '✨ Richtig gelöst!' : '💡 Erklärung & Kernwissen:') +
+              '</span>' +
+              '<button onclick="LearningHubEngine.speakQuestionAloud()" class="text-gray-400 hover:text-white text-[10px] flex items-center gap-1 cursor-pointer font-normal">🔊 Vorlesen</button>' +
+            '</div>' +
+            '<p class="text-gray-200 leading-relaxed text-[11.5px]">' + currentQ.explanation + '</p>' +
+            (currentQ.mnemonic ? '<div class="p-2 bg-black/40 rounded-xl border border-white/10 text-amber-200 text-[11px] font-medium">' + currentQ.mnemonic + '</div>' : '') +
+            (currentQ.pitfall ? '<div class="text-[10.5px] text-gray-400 italic">⚠️ Typischer Fehler: ' + currentQ.pitfall + '</div>' : '') +
+          '</div>';
         }
 
-        return '<button onclick="LearningHubEngine.handleSelectAnswer(' + optIdx + ')" ' + (isAnswered ? 'disabled' : '') + ' class="w-full p-3.5 rounded-2xl border ' + btnStyle + ' transition-all duration-200 text-left flex items-center gap-3 cursor-pointer active:scale-[0.99] text-xs sm:text-sm">' +
-          icon + '<span class="flex-1 leading-snug">' + optText + '</span></button>';
-      }).join('');
+        const progressPct = Math.round(((currentIdx + 1) / totalQ) * 100);
 
-      let explanationHtml = '';
-      if (isAnswered) {
-        explanationHtml = '<div class="p-4 rounded-2xl ' + (answerState.isCorrect ? 'bg-emerald-950/40 border-emerald-500/40' : 'bg-rose-950/40 border-rose-500/40') + ' border space-y-2.5 animate-fade-in text-xs">' +
-          '<div class="flex items-center justify-between font-bold">' +
-            '<span class="' + (answerState.isCorrect ? 'text-emerald-300' : 'text-rose-300') + ' flex items-center gap-1.5 text-sm">' +
-              (answerState.isCorrect ? '✨ Exzellent! Richtig verstanden.' : '💡 Erkenntnisgewinn & Erklärung:') +
-            '</span>' +
-            '<span class="text-[10px] font-mono text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30">Active Recall</span>' +
+        modeContent = '<div class="space-y-3">' +
+          '<div class="space-y-1">' +
+            '<div class="flex items-center justify-between text-xs font-semibold text-gray-400">' +
+              '<div class="flex items-center gap-2">' +
+                '<span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-[10.5px]">Frage ' + (currentIdx + 1) + ' von ' + totalQ + '</span>' +
+                '<span class="text-white font-bold truncate max-w-[200px] text-xs">' + (activeLearningSession.customTopic || allPacks[activeLearningSession.packId]?.title) + '</span>' +
+              '</div>' +
+              '<div class="flex items-center gap-2">' +
+                '<button onclick="LearningHubEngine.speakQuestionAloud()" class="text-gray-400 hover:text-white p-1 cursor-pointer" title="Frage vorlesen">🔊</button>' +
+                '<button onclick="LearningHubEngine.toggleBookmarkCurrentQuestion()" class="p-1 rounded-lg text-gray-400 hover:text-amber-300 transition cursor-pointer" title="' + (isBookmarked ? 'Lesezeichen entfernen' : 'Frage merken') + '">' +
+                  '<i data-lucide="bookmark" class="w-3.5 h-3.5 ' + (isBookmarked ? 'fill-amber-400 text-amber-400' : '') + '"></i>' +
+                '</button>' +
+                '<span class="font-mono text-purple-300 font-bold text-xs">+' + activeLearningSession.xpEarned + ' XP</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">' +
+              '<div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300" style="width: ' + progressPct + '%"></div>' +
+            '</div>' +
           '</div>' +
-          '<p class="text-gray-200 leading-relaxed">' + currentQ.explanation + '</p>' +
-          (currentQ.mnemonic ? '<div class="p-2.5 bg-black/40 rounded-xl border border-white/10 text-amber-200 font-medium">' + currentQ.mnemonic + '</div>' : '') +
-          (currentQ.pitfall ? '<div class="text-[11px] text-gray-400 italic">⚠️ Typischer Fehler: ' + currentQ.pitfall + '</div>' : '') +
+
+          '<div class="p-4 rounded-3xl bg-gradient-to-br from-[#141420] to-[#0f0e18] border border-white/10 shadow-xl space-y-3">' +
+            '<h3 class="text-xs sm:text-sm font-bold text-white leading-snug">' + currentQ.question + '</h3>' +
+            '<div class="space-y-1.5 pt-0.5">' + optionsHtml + '</div>' +
+            explanationHtml +
+          '</div>' +
+
+          '<div class="flex items-center justify-between pt-0.5">' +
+            '<button onclick="LearningHubEngine.prevLearningQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + ' class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 text-gray-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">' +
+              '<i data-lucide="chevron-left" class="w-3.5 h-3.5"></i><span>Zurück</span>' +
+            '</button>' +
+            '<div class="flex items-center gap-2">' +
+              (isAnswered 
+                ? '<button onclick="LearningHubEngine.nextLearningQuestion()" class="px-4 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition active:scale-95 cursor-pointer shadow-md flex items-center gap-1">' +
+                    '<span>' + (currentIdx === totalQ - 1 ? 'Auswertung 🏆' : 'Weiter') + '</span><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></button>'
+                : '<span class="text-[10px] text-gray-400 italic">Antwort wählen...</span>') +
+            '</div>' +
+          '</div>' +
         '</div>';
       }
+    }
 
-      const progressPct = Math.round(((currentIdx + 1) / totalQ) * 100);
+    // ========================================================================
+    // TAB 2: 3D KARTEIKARTEN (FLASHCARDS MIT SPACED REPETITION)
+    // ========================================================================
+    else if (currentLearningMode === 'flashcard') {
+      const qEntry = srData[currentQ.id] || { box: 1, reps: 0 };
+      const daysUntilReview = LEITNER_INTERVALS_DAYS[qEntry.box - 1] || 1;
 
-      innerContent = '<div class="space-y-4 animate-fade-in text-left">' +
-        '<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 border-b border-white/10 pb-3">' +
-          '<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">' + packsHtml + '</div>' +
-          '<div class="flex items-center gap-1.5 shrink-0">' +
-            '<input type="text" id="learning-custom-topic-input" placeholder="Beliebiges Thema..." class="px-2.5 py-1.5 bg-black/50 border border-white/15 rounded-xl text-xs text-white placeholder-gray-500 outline-none focus:border-purple-400 w-36 sm:w-44" onkeydown="if(event.key===\'Enter\') LearningHubEngine.handleCustomTopicSubmit()">' +
-            '<button onclick="LearningHubEngine.handleCustomTopicSubmit()" class="px-2.5 py-1.5 bg-purple-600/40 hover:bg-purple-600/60 text-purple-200 border border-purple-400/50 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1" title="Neues Thema generieren">' +
-              '<i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span>Quiz</span>' +
+      modeContent = '<div class="space-y-3 animate-fade-in">' +
+        '<div class="flex items-center justify-between text-xs font-semibold text-gray-400">' +
+          '<div class="flex items-center gap-2">' +
+            '<span class="px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 font-mono font-bold text-[10.5px]">Karte ' + (currentIdx + 1) + ' von ' + totalQ + '</span>' +
+            '<span class="text-xs px-2 py-0.5 rounded-md bg-white/5 text-amber-300 border border-white/5 font-mono">📦 Box ' + qEntry.box + ' / 5</span>' +
+          '</div>' +
+          '<div class="flex items-center gap-2">' +
+            '<button onclick="LearningHubEngine.speakQuestionAloud()" class="text-gray-400 hover:text-white p-1 cursor-pointer" title="Laut vorlesen">🔊 Vorlesen</button>' +
+            '<button onclick="LearningHubEngine.toggleBookmarkCurrentQuestion()" class="p-1 rounded-lg text-gray-400 hover:text-amber-300 transition cursor-pointer">' +
+              '<i data-lucide="bookmark" class="w-3.5 h-3.5 ' + (activeLearningSession.bookmarked[currentQ.id] ? 'fill-amber-400 text-amber-400' : '') + '"></i>' +
             '</button>' +
           '</div>' +
         '</div>' +
-        '<div class="space-y-1.5">' +
-          '<div class="flex items-center justify-between text-xs font-semibold text-gray-400">' +
-            '<div class="flex items-center gap-2">' +
-              '<span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono font-bold text-[11px]">Frage ' + (currentIdx + 1) + ' von ' + totalQ + '</span>' +
-              '<span class="text-white font-bold truncate max-w-[200px]">' + (activeLearningSession.customTopic || CURATED_LEARNING_PACKS[activeLearningSession.packId]?.title) + '</span>' +
+
+        '<!-- 3D Interactive Flashcard Card -->' +
+        '<div onclick="LearningHubEngine.flipFlashcard()" class="min-h-[190px] p-5 rounded-3xl bg-gradient-to-br ' + (isFlashcardFlipped ? 'from-purple-950/50 via-[#151224] to-[#0e0d18] border-purple-500/40' : 'from-[#141422] to-[#0a0a10] border-white/15') + ' border shadow-2xl flex flex-col justify-between cursor-pointer transition-all duration-300 transform active:scale-[0.99] select-none">' +
+          '<div>' +
+            '<div class="flex items-center justify-between text-[9px] font-bold uppercase tracking-wider ' + (isFlashcardFlipped ? 'text-pink-300' : 'text-gray-400') + ' mb-2">' +
+              '<span>' + (isFlashcardFlipped ? 'Antwort & Erklärung (Rückseite)' : 'Frage / Konzept (Vorderseite)') + '</span>' +
+              '<span>🔄 Klick zum Umdrehen</span>' +
             '</div>' +
-            '<div class="flex items-center gap-2">' +
-              '<button onclick="LearningHubEngine.toggleBookmarkCurrentQuestion()" class="p-1 rounded-lg text-gray-400 hover:text-amber-300 transition cursor-pointer" title="' + (isBookmarked ? 'Lesezeichen entfernen' : 'Frage merken') + '">' +
-                '<i data-lucide="bookmark" class="w-4 h-4 ' + (isBookmarked ? 'fill-amber-400 text-amber-400' : '') + '"></i>' +
+            (isFlashcardFlipped ? (
+              '<div class="space-y-2 text-xs leading-relaxed text-gray-100">' +
+                '<p class="font-medium">' + currentQ.explanation + '</p>' +
+                (currentQ.mnemonic ? '<div class="p-2 bg-black/50 rounded-xl border border-amber-500/30 text-amber-200 text-[11px] font-medium">' + currentQ.mnemonic + '</div>' : '') +
+              '</div>'
+            ) : (
+              '<div class="text-sm sm:text-base font-bold text-white leading-relaxed pt-2">' + currentQ.question + '</div>'
+            )) +
+          '</div>' +
+          '<div class="pt-3 border-t border-white/5 flex items-center justify-between text-[10px] text-gray-500">' +
+            '<span>' + (allPacks[activeLearningSession.packId]?.title || 'Lernkarten') + '</span>' +
+            '<span>Wiederholungen: ' + (qEntry.reps || 0) + '</span>' +
+          '</div>' +
+        '</div>' +
+
+        '<!-- Leitner Rating Action Buttons -->' +
+        (isFlashcardFlipped ? (
+          '<div class="space-y-1.5 animate-fade-in">' +
+            '<div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 text-center">Wie gut wusstest du die Antwort?</div>' +
+            '<div class="grid grid-cols-3 gap-2">' +
+              '<button onclick="LearningHubEngine.rateQuestionSR(\'' + currentQ.id + '\', \'again\'); LearningHubEngine.nextLearningQuestion();" class="py-2 px-1 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 text-xs font-bold transition flex flex-col items-center cursor-pointer shadow-sm">' +
+                '<span>🔴 Nochmal</span>' +
+                '<span class="text-[9px] opacity-75 font-normal">Box 1 (1 Tag)</span>' +
               '</button>' +
-              '<span class="font-mono text-purple-300 font-bold">' + activeLearningSession.score + ' Punkte (+' + activeLearningSession.xpEarned + ' XP)</span>' +
+              '<button onclick="LearningHubEngine.rateQuestionSR(\'' + currentQ.id + '\', \'good\'); LearningHubEngine.nextLearningQuestion();" class="py-2 px-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 text-xs font-bold transition flex flex-col items-center cursor-pointer shadow-sm">' +
+                '<span>🟡 Gut</span>' +
+                '<span class="text-[9px] opacity-75 font-normal">+1 Box (' + daysUntilReview + 'T)</span>' +
+              '</button>' +
+              '<button onclick="LearningHubEngine.rateQuestionSR(\'' + currentQ.id + '\', \'master\'); LearningHubEngine.nextLearningQuestion();" class="py-2 px-1 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition flex flex-col items-center cursor-pointer shadow-sm">' +
+                '<span>🟢 Gemastert</span>' +
+                '<span class="text-[9px] opacity-75 font-normal">Box 5 (30 Tage)</span>' +
+              '</button>' +
             '</div>' +
+          '</div>'
+        ) : (
+          '<div class="flex items-center justify-between pt-1">' +
+            '<button onclick="LearningHubEngine.prevLearningQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + ' class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 text-gray-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">' +
+              '<i data-lucide="chevron-left" class="w-3.5 h-3.5"></i><span>Vorige Karte</span>' +
+            '</button>' +
+            '<button onclick="LearningHubEngine.flipFlashcard()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-xs font-bold transition shadow-md cursor-pointer flex items-center gap-1">' +
+              '<span>Antwort aufdecken 🔄</span>' +
+            '</button>' +
+            '<button onclick="LearningHubEngine.nextLearningQuestion()" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-bold transition flex items-center gap-1 cursor-pointer">' +
+              '<span>Nächste</span><i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>' +
+            '</button>' +
+          '</div>'
+        )) +
+      '</div>';
+    }
+
+    // ========================================================================
+    // TAB 3: DECKS & LEITNER-BOXEN ÜBERSICHT
+    // ========================================================================
+    else if (currentLearningMode === 'decks') {
+      let boxCounts = [0, 0, 0, 0, 0];
+      let totalReviewed = 0;
+      Object.values(srData).forEach(entry => {
+        const b = (entry.box >= 1 && entry.box <= 5) ? entry.box : 1;
+        boxCounts[b - 1]++;
+        totalReviewed++;
+      });
+
+      modeContent = '<div class="space-y-4 animate-fade-in">' +
+        '<!-- Leitner Mastery Box Distribution -->' +
+        '<div class="p-3.5 rounded-2xl bg-[#0d0d16] border border-white/10 space-y-2.5">' +
+          '<div class="flex items-center justify-between text-xs font-bold text-gray-200">' +
+            '<span>🧠 Leitner-Boxen Lernfortschritt</span>' +
+            '<span class="text-purple-300 font-mono text-[11px]">' + totalReviewed + ' Karten im System</span>' +
           '</div>' +
-          '<div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">' +
-            '<div class="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300" style="width: ' + progressPct + '%"></div>' +
+          '<div class="grid grid-cols-5 gap-1.5 text-center text-xs font-mono">' +
+            [1, 2, 3, 4, 5].map(b => `
+              <div class="p-2 rounded-xl bg-white/[0.02] border border-white/5">
+                <div class="text-[9px] text-gray-400">Box ${b}</div>
+                <div class="font-bold text-white">${boxCounts[b - 1]}</div>
+                <div class="text-[8.5px] text-gray-500">${LEITNER_INTERVALS_DAYS[b - 1]}T</div>
+              </div>
+            `).join('') +
           '</div>' +
         '</div>' +
-        '<div class="p-5 rounded-3xl bg-gradient-to-br from-[#141420] to-[#0f0e18] border border-white/10 shadow-xl space-y-4">' +
-          '<h3 class="text-sm sm:text-base font-bold text-white leading-snug">' + currentQ.question + '</h3>' +
-          '<div class="space-y-2 pt-1">' + optionsHtml + '</div>' +
-          explanationHtml +
-        '</div>' +
-        '<div class="flex items-center justify-between pt-1">' +
-          '<button onclick="LearningHubEngine.prevLearningQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + ' class="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 text-gray-300 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">' +
-            '<i data-lucide="chevron-left" class="w-4 h-4"></i><span>Zurück</span>' +
-          '</button>' +
-          '<div class="flex items-center gap-2">' +
-            (isAnswered 
-              ? '<button onclick="LearningHubEngine.nextLearningQuestion()" class="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition active:scale-95 cursor-pointer shadow-lg shadow-purple-900/30 flex items-center gap-1.5">' +
-                  '<span>' + (currentIdx === totalQ - 1 ? 'Auswertung anzeigen 🏆' : 'Nächste Frage') + '</span><i data-lucide="chevron-right" class="w-4 h-4"></i></button>'
-              : '<span class="text-[11px] text-gray-400 italic">Wähle eine Antwort für die Erklärung...</span>') +
+
+        '<!-- Decks Library -->' +
+        '<div class="space-y-2">' +
+          '<div class="text-xs font-bold text-gray-300">📚 Verfügbare Decks (' + Object.keys(allPacks).length + ')</div>' +
+          '<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[220px] overflow-y-auto pr-1">' +
+            Object.values(allPacks).map(pack => `
+              <div onclick="LearningHubEngine.selectLearningPack('${pack.id}'); LearningHubEngine.switchLearningMode('quiz');" class="p-2.5 rounded-2xl border ${activeLearningSession.packId === pack.id ? 'border-purple-500/60 bg-purple-950/20' : 'border-white/5 bg-white/[0.02] hover:border-purple-500/30'} transition cursor-pointer flex flex-col justify-between gap-1 group">
+                <div class="flex items-start justify-between gap-1">
+                  <div class="font-bold text-xs text-white group-hover:text-purple-300 truncate">${pack.icon || '📚'} ${pack.title}</div>
+                  <span class="text-[9px] px-1.5 py-0.5 rounded bg-white/5 text-gray-400 shrink-0 font-mono">${pack.questions.length} Karten</span>
+                </div>
+                <div class="text-[10px] text-gray-400 line-clamp-1">${pack.desc || ''}</div>
+              </div>
+            `).join('') +
           '</div>' +
         '</div>' +
       '</div>';
     }
 
+    // Modal / Container Shell
+    const shellHtml = '<div class="space-y-3.5 text-left">' +
+      '<!-- 3-TAB SUB-NAVIGATION -->' +
+      '<div class="flex items-center bg-black/60 p-1 rounded-2xl border border-white/10 text-xs gap-1 shadow-sm select-none">' +
+        '<button onclick="LearningHubEngine.switchLearningMode(\'quiz\')" class="flex-1 py-1.5 px-2 rounded-xl transition flex items-center justify-center gap-1.5 text-xs cursor-pointer border ' + (currentLearningMode === 'quiz' ? activeTabClasses : inactiveTabClasses) + '">' +
+          '<span>🎯</span><span>Quiz & Test</span>' +
+        '</button>' +
+        '<button onclick="LearningHubEngine.switchLearningMode(\'flashcard\')" class="flex-1 py-1.5 px-2 rounded-xl transition flex items-center justify-center gap-1.5 text-xs cursor-pointer border ' + (currentLearningMode === 'flashcard' ? activeTabClasses : inactiveTabClasses) + '">' +
+          '<span>🎴</span><span>3D Karteikarten</span>' +
+        '</button>' +
+        '<button onclick="LearningHubEngine.switchLearningMode(\'decks\')" class="flex-1 py-1.5 px-2 rounded-xl transition flex items-center justify-center gap-1.5 text-xs cursor-pointer border ' + (currentLearningMode === 'decks' ? activeTabClasses : inactiveTabClasses) + '">' +
+          '<span>📦</span><span>Decks & Leitner</span>' +
+        '</button>' +
+      '</div>' +
+
+      '<!-- Packs Quick Bar & Dynamic Topic Creator -->' +
+      '<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 border-b border-white/10 pb-2.5">' +
+        '<div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar">' + packsHtml + '</div>' +
+        '<div class="flex items-center gap-1.5 shrink-0">' +
+          '<input type="text" id="learning-custom-topic-input" placeholder="Neues Thema eingeben..." class="px-2.5 py-1 bg-black/50 border border-white/15 rounded-xl text-xs text-white placeholder-gray-500 outline-none focus:border-purple-400 w-36 sm:w-44" onkeydown="if(event.key===\'Enter\') LearningHubEngine.handleCustomTopicSubmit()">' +
+          '<button onclick="LearningHubEngine.handleCustomTopicSubmit()" class="px-2.5 py-1 bg-purple-600/40 hover:bg-purple-600/60 text-purple-200 border border-purple-400/50 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1" title="Generieren">' +
+            '<i data-lucide="lightbulb" class="w-3.5 h-3.5"></i><span>Generieren</span>' +
+          '</button>' +
+        '</div>' +
+      '</div>' +
+
+      '<!-- MAIN MODE CONTENT -->' +
+      modeContent +
+    '</div>';
+
     containers.forEach(c => {
-      c.innerHTML = innerContent;
+      c.innerHTML = shellHtml;
     });
 
     renderLucideIcons();
@@ -881,10 +1060,9 @@
     }
   }
 
-  // ============================================================================
-  // 6. GLOBAL EXPORT
-  // ============================================================================
-
+  // --------------------------------------------------------------------------
+  // 7. GLOBAL EXPORTS
+  // --------------------------------------------------------------------------
   const LearningHubEngine = {
     openLearningHubModal,
     closeLearningHubModal,
@@ -897,9 +1075,13 @@
     toggleBookmarkCurrentQuestion,
     startMistakesReviewSession,
     restartCurrentPack,
-    transferLearnedTopicToBoard,
     generateDynamicQuestionsForTopic,
     renderLearningSessionUI,
+    switchLearningMode,
+    flipFlashcard,
+    rateQuestionSR,
+    speakQuestionAloud,
+    createCustomDeck,
     CURATED_LEARNING_PACKS,
     getSession: () => activeLearningSession
   };
@@ -913,9 +1095,14 @@
     window.selectLearningPack = selectLearningPack;
     window.startLearningSessionWithTopic = startLearningSessionWithTopic;
     window.renderLearningHub = renderLearningSessionUI;
+    window.rateQuestionSR = rateQuestionSR;
+    window.getSRData = getSRData;
     window.renderLearningSessionUI = renderLearningSessionUI;
     window.activeLearningSession = activeLearningSession;
     window.customPacksStorage = customPacksStorage;
+    window.switchLearningMode = switchLearningMode;
+    window.flipFlashcard = flipFlashcard;
+    window.createCustomDeck = createCustomDeck;
   }
   if (typeof globalThis !== 'undefined') {
     globalThis.LearningHubEngine = LearningHubEngine;
@@ -928,11 +1115,10 @@
     globalThis.renderLearningHub = renderLearningSessionUI;
     globalThis.renderLearningSessionUI = renderLearningSessionUI;
     globalThis.activeLearningSession = activeLearningSession;
+    globalThis.rateQuestionSR = rateQuestionSR;
+    globalThis.getSRData = getSRData;
+    globalThis.switchLearningMode = switchLearningMode;
+    globalThis.flipFlashcard = flipFlashcard;
+    globalThis.createCustomDeck = createCustomDeck;
   }
-  if (typeof globalThis !== 'undefined') {
-    globalThis.LearningHubEngine = LearningHubEngine;
-    globalThis.openLearningHubModal = openLearningHubModal;
-    globalThis.closeLearningHubModal = closeLearningHubModal;
-  }
-
 })();

@@ -1,184 +1,348 @@
-/* Dynamische Hover-Effekte (ausgelagert aus index.html) */
-    /* 1. INTERAKTIVE ELEMENTE & BUTTONS */
-    html body #app button:not(.mac-dock-btn):not(.mac-tools-trigger),
-    html body #app select,
-    html body #app [role="button"],
-    html body #helper-pick-modal button,
-    html body #helper-steps-modal button,
-    html body #helper-sport-modal button,
-    html body #app .logo-dance {
-      position: relative !important; 
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
-                  box-shadow 0.25s ease, 
-                  border-color 0.25s ease !important;
-      will-change: transform;
-    }
+/* styles-hover.css: High-Tech Launchpad LED & DJ Mixer Interaction Engine */
 
-    html body #app button:not(.mac-dock-btn):not(.mac-tools-trigger):hover,
-    html body #app select:hover,
-    html body #app [role="button"]:hover,
-    html body #helper-pick-modal button:hover,
-    html body #helper-steps-modal button:hover,
-    html body #helper-sport-modal button:hover,
-    html body #app .logo-dance:hover {
-      transform: scale(1.08) translateY(-2px) !important;
-      --tw-scale-x: 1.08 !important;
-      --tw-scale-y: 1.08 !important;
-      --tw-translate-y: -2px !important;
-      
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45), 
-                  0 0 14px var(--accent-border, rgba(139, 92, 246, 0.35)) !important;
-      z-index: 50 !important;
-    }
+/* 1. NOODLE LOGO & CALM AMBIENT INTEGRATION */
+#header-logo-wrapper {
+  position: relative;
+}
 
-    html body #app button:active,
-    html body #app select:active {
-      transform: scale(0.96) translateY(0px) !important;
-    }
+#header-noodle-logo {
+  height: 22.5px !important;
+  display: block !important;
+  object-fit: contain !important;
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-    /* Feinanpassung für kleinste Timer-Optionen */
-    html body #app #timer-trigger-container button:hover {
-      transform: scale(1.06) translateY(-1px) !important;
-    }
+.tools-morph-stage {
+  transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-    /* 2. JEDE LISTEN-SPALTE (Article-Karten) */
-    html body #app main article {
-      position: relative !important;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), 
-                  border-color 0.35s ease, 
-                  box-shadow 0.35s ease, 
-                  background-color 0.35s ease !important;
-      will-change: transform;
-    }
+[data-theme-swatch].ring-2 {
+  box-shadow: 0 0 8px var(--accent) !important;
+  border-color: #ffffff !important;
+}
 
-    html body #app main article:hover {
-      transform: scale(1.015) translateY(-3px) !important;
-      --tw-scale-x: 1.015 !important;
-      --tw-scale-y: 1.015 !important;
-      --tw-translate-y: -3px !important;
-      
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5), 
-                  0 0 20px var(--accent-border, rgba(139, 92, 246, 0.15)) !important;
-      border-color: var(--accent) !important;
-      background-color: rgba(22, 22, 32, 0.96) !important;
-      z-index: 30 !important;
-    }
+/* 2. LAUNCHPAD LED HOVER FOR BUTTONS & CONTROLS */
+html body #app button,
+html body #app select,
+html body #app [role="button"],
+html body .dock-popover-panel button,
+html body .mobile-modal-card button {
+  touch-action: manipulation;
+}
 
-    /* 3. AUFGABEN-EINTRÄGE & MAGNETISCHES DRAG & DROP */
-    html body #app main article div[draggable="true"] {
-      position: relative !important;
-      transition: border-color 0.2s ease, 
-                  background-color 0.2s ease, 
-                  transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.25s ease !important;
-    }
+html body #app button:not(.mac-dock-btn):not(.mac-tools-trigger),
+html body #app select,
+html body #app [role="button"],
+html body .dock-popover-panel button,
+html body .mobile-modal-card button {
+  position: relative !important;
+  transition: transform 0.05s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.05s ease,
+              border-color 0.05s ease,
+              background-color 0.05s ease,
+              color 0.05s ease !important;
+  will-change: transform;
+}
 
-    html body #app main article div[draggable="true"]:hover {
-      border-color: var(--accent-border, rgba(139, 92, 246, 0.4)) !important;
-      background-color: rgba(255, 255, 255, 0.06) !important;
-      transform: translateY(-1px) scale(1.008);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
-      z-index: 40 !important;
-    }
+html body #app button:not(.mac-dock-btn):not(.mac-tools-trigger):not(.tool-orb):not(#panel-header-tools button):hover,
+html body #app select:hover,
+html body #app [role="button"]:hover,
+html body .dock-popover-panel button:not(.tool-orb):hover,
+html body .mobile-modal-card button:hover {
+  transform: translateY(-1px) scale(1.02) !important;
+  border-color: var(--accent) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 10px var(--accent-border) !important;
+  color: #ffffff !important;
+  z-index: 20 !important;
+}
 
-    /* Hochwertiges Drag-Ghosting während des Ziehens */
-    html body #app main article div[draggable="true"].dragging {
-      opacity: 0.35 !important;
-      border: 1.5px dashed var(--accent, #a855f7) !important;
-      background: rgba(168, 85, 247, 0.08) !important;
-      box-shadow: 0 0 16px rgba(168, 85, 247, 0.25) !important;
-      transform: scale(0.98) !important;
-      cursor: grabbing !important;
-    }
+/* Mechanical Click State (Instant Tactile Key Press) */
+html body #app button:active,
+html body #app select:active,
+html body #app [role="button"]:active {
+  transform: scale(0.97) !important;
+  filter: brightness(1.2) !important;
+  transition-duration: 0.02s !important;
+}
 
-    /* Leuchtender Drop-Indikator oben / unten mit flüssiger Lücken-Öffnung */
-    .drag-insert-top {
-      position: relative !important;
-      margin-top: 12px !important;
-      transition: margin 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-    .drag-insert-top::before {
-      content: '';
-      position: absolute;
-      top: -8px;
-      left: 2px;
-      right: 2px;
-      height: 3.5px;
-      background: linear-gradient(90deg, #a855f7, #ec4899);
-      border-radius: 9999px;
-      box-shadow: 0 0 12px rgba(168, 85, 247, 0.95), 0 0 6px #ec4899;
-      z-index: 50;
-      pointer-events: none;
-    }
+/* 3. TASK CARDS: WAVEFORM CUE MARKER & MUTED STATE */
+html body #app main article div[draggable="true"] {
+  position: relative !important;
+  border-left-width: 3.5px !important;
+  transition: border-left-width 0.12s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.14s ease,
+              background-color 0.14s ease,
+              box-shadow 0.14s ease,
+              border-color 0.14s ease !important;
+  cursor: grab;
+}
 
-    .drag-insert-bottom {
-      position: relative !important;
-      margin-bottom: 12px !important;
-      transition: margin 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    }
-    .drag-insert-bottom::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 2px;
-      right: 2px;
-      height: 3.5px;
-      background: linear-gradient(90deg, #a855f7, #ec4899);
-      border-radius: 9999px;
-      box-shadow: 0 0 12px rgba(168, 85, 247, 0.95), 0 0 6px #ec4899;
-      z-index: 50;
-      pointer-events: none;
-    }
+/* Smooth expansion of left Cue strip on hover */
+html body #app main article div[draggable="true"]:hover {
+  border-left-width: 6.5px !important;
+  transform: translateY(-1.5px) scale(1.01) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), 0 0 12px var(--accent-border) !important;
+  z-index: 30 !important;
+}
 
-    /* Interaktiver Griff-Streifen (Zettel-Reiter) */
-    html body #app main article div[draggable="true"] {
-      position: relative;
-      transition: border-left-width 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, transform 0.2s ease, margin 0.15s ease !important;
-      cursor: grab;
-    }
-    html body #app main article div[draggable="true"]:hover {
-      border-left-width: 6.5px !important;
-    }
-    html body #app main article div[draggable="true"]:active {
-      cursor: grabbing;
-    }
+html body #app main article div[draggable="true"]:active {
+  cursor: grabbing !important;
+  transform: scale(0.98) !important;
+}
 
-    /* Magnetisches Aufleuchten der Ziel-Spalte */
-    main article.drag-over {
-      border-color: var(--accent, #a855f7) !important;
-      box-shadow: 0 0 24px var(--accent-border, rgba(168, 85, 247, 0.35)), inset 0 0 16px rgba(168, 85, 247, 0.1) !important;
-      transform: scale(1.015) translateY(-2px) !important;
-    }
+/* Inactive / Done Task Muted State (Mixer Track Mute) */
+main article[data-category="done"] div[draggable="true"],
+main article div[draggable="true"].task-completed,
+main article div[draggable="true"] input[type="checkbox"]:checked ~ span {
+  opacity: 0.38 !important;
+  filter: grayscale(0.35);
+  transition: opacity 0.14s ease, filter 0.14s ease;
+}
 
-    /* Demo-Micro-Animationen (alle 2 Minuten dezent) */
-    @keyframes demo-vertical-slide {
-      0%, 100% { transform: translateY(0) scale(1); box-shadow: none; }
-      40% { transform: translateY(-8px) scale(1.02); box-shadow: 0 8px 20px rgba(168, 85, 247, 0.35); }
-      70% { transform: translateY(4px) scale(1.01); }
-    }
-    .demo-anim-vertical {
-      animation: demo-vertical-slide 1.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
-      border-left-width: 6.5px !important;
-      z-index: 30 !important;
-    }
+main article[data-category="done"] div[draggable="true"]:hover,
+main article div[draggable="true"].task-completed:hover {
+  opacity: 0.85 !important;
+  filter: grayscale(0);
+}
 
-    @keyframes demo-horizontal-slide {
-      0%, 100% { transform: translateX(0) scale(1) rotate(0deg); box-shadow: none; }
-      45% { transform: translateX(20px) scale(1.02) rotate(1deg); box-shadow: 0 10px 25px rgba(236, 72, 153, 0.35); }
-      75% { transform: translateX(-4px) scale(1.005); }
-    }
-    .demo-anim-horizontal {
-      animation: demo-horizontal-slide 1.5s cubic-bezier(0.25, 1, 0.5, 1) !important;
-      border-left-width: 6.5px !important;
-      z-index: 30 !important;
-    }
+/* 4. DRAG & DROP GHOSTING & DROP TARGET GLOW */
+html body #app main article div[draggable="true"].dragging {
+  opacity: 0.35 !important;
+  border: 1.5px dashed var(--accent) !important;
+  background: rgba(137, 207, 240, 0.08) !important;
+  box-shadow: 0 0 16px var(--accent-border) !important;
+  transform: scale(0.98) !important;
+  cursor: grabbing !important;
+}
 
-    @keyframes demo-column-shift {
-      0%, 100% { transform: translateX(0) scale(1); }
-      40% { transform: translateX(12px) translateY(-3px) scale(1.01); box-shadow: 0 12px 28px rgba(168, 85, 247, 0.25); }
-      75% { transform: translateX(-3px); }
-    }
-    .demo-anim-column {
-      animation: demo-column-shift 1.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
-      z-index: 25 !important;
-    }
+main article.drag-over {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 24px var(--accent-border), inset 0 0 16px rgba(137, 207, 240, 0.1) !important;
+  transform: scale(1.015) translateY(-2px) !important;
+}
+
+/* 5. POPOVER & DROPDOWN HOVER STABILITY BRIDGES */
+/* Verhindert Flackern oder unbeabsichtigtes Schließen bei Mausbewegungen über Abstände */
+.dock-popover-panel::before,
+[id^="panel-"]::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -6px;
+  right: -6px;
+  height: 12px;
+  pointer-events: auto;
+  z-index: -1;
+}
+
+/* Task Context & Column Menus Hover Bridge */
+#task-context-dropdown,
+#column-options-dropdown,
+#dropdown-header-workspace,
+#dropdown-manage-columns {
+  will-change: opacity, transform;
+  animation: modal-pop-in 0.12s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 6. GLOBAL TOOLTIP STYLES */
+.noodle-custom-tooltip {
+  position: fixed !important;
+  z-index: 9999999 !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  max-width: 320px;
+  background: rgba(13, 13, 22, 0.96) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 14px rgba(139, 92, 246, 0.25) !important;
+  backdrop-filter: blur(16px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+  border-radius: 9px !important;
+  padding: 4.5px 8.5px !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  color: #f3f4f6 !important;
+  white-space: nowrap !important;
+  line-height: 1.35 !important;
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.02s ease-out, transform 0.02s ease-out !important;
+  will-change: transform, opacity;
+}
+
+.noodle-custom-tooltip.noodle-tooltip-visible {
+  opacity: 1 !important;
+  transform: scale(1) translateY(0) !important;
+}
+
+.noodle-tooltip-shortcut-wrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.noodle-tooltip-kbd {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 4px;
+  padding: 0.5px 4.5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: #c4b5fd;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+  letter-spacing: 0.2px;
+}
+
+.noodle-tooltip-bullet {
+  color: #a78bfa;
+  margin: 0 2px;
+  opacity: 0.9;
+}
+
+/* 7. INTERACTION ENGINE: PEEK & PIN VS. CLICK-ONLY SYSTEM */
+
+/* PEEKING STATE (Temporäre Hover-Vorschau) */
+.dock-popover-panel.noodle-panel-peeking,
+[id^="panel-"].noodle-panel-peeking {
+  border-style: dashed !important;
+  border-color: var(--accent, #a855f7) !important;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.92), 0 0 25px rgba(168, 85, 247, 0.28) !important;
+  animation: noodle-peek-glow 2.5s infinite ease-in-out;
+}
+
+@keyframes noodle-peek-glow {
+  0%, 100% {
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.92), 0 0 18px rgba(168, 85, 247, 0.2);
+  }
+  50% {
+    box-shadow: 0 25px 65px rgba(0, 0, 0, 0.96), 0 0 32px rgba(168, 85, 247, 0.45);
+  }
+}
+
+/* PINNED STATE (Fest eingerastet / Fixiert per Klick) */
+.dock-popover-panel.noodle-panel-pinned,
+[id^="panel-"].noodle-panel-pinned {
+  border-style: solid !important;
+  border-width: 1.5px !important;
+  border-color: var(--accent, #a855f7) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.98), 0 0 38px rgba(168, 85, 247, 0.5) !important;
+}
+
+/* MULTI-WINDOW STUDIO DESK CONTROLS [—] [⛶] [✕] */
+.noodle-win-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 2px 4px;
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+}
+
+.noodle-win-controls {
+  margin-left: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+}
+
+.noodle-win-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.1s ease, color 0.1s ease, border-color 0.1s ease;
+  user-select: none;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #9ca3af;
+  line-height: 1;
+}
+
+.noodle-win-btn:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+  transform: none !important;
+}
+
+.noodle-win-btn:active {
+  transform: scale(0.94) !important;
+}
+
+/* Subtle Hover States */
+.noodle-win-min-btn:hover {
+  color: #cbd5e1 !important;
+}
+
+.noodle-win-max-btn:hover {
+  color: #e2e8f0 !important;
+}
+
+.noodle-win-close-btn:hover {
+  background: rgba(244, 63, 94, 0.2) !important;
+  border-color: rgba(244, 63, 94, 0.4) !important;
+  color: #fecdd3 !important;
+}
+
+/* MINIMIZED LIVE-PILL DOCK */
+.noodle-minimized-dock {
+  background: rgba(10, 10, 16, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 4px 6px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), 0 0 20px rgba(168, 85, 247, 0.2);
+  backdrop-filter: blur(20px);
+}
+
+.noodle-min-pill:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), 0 0 15px rgba(168, 85, 247, 0.35);
+}
+
+/* ACTIVE FOCUSED PANEL GLOW */
+.noodle-panel-focused {
+  border-color: var(--accent, #a855f7) !important;
+  box-shadow: 0 35px 90px rgba(0, 0, 0, 0.98), 0 0 30px rgba(168, 85, 247, 0.4) !important;
+}
+
+/* FULLSCREEN FLOATING EXPANSION MODE */
+.dock-popover-panel.noodle-panel-fullscreen,
+[id^="panel-"].noodle-panel-fullscreen {
+  position: fixed !important;
+  inset: 20px !important;
+  top: 55px !important;
+  width: auto !important;
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  height: calc(100vh - 75px) !important;
+  max-height: calc(100dvh - 75px) !important;
+  z-index: 100050 !important;
+  border-radius: 28px !important;
+  transform: none !important;
+  box-shadow: 0 35px 95px rgba(0, 0, 0, 0.98), 0 0 50px rgba(168, 85, 247, 0.5) !important;
+  overflow-y: auto !important;
+}
+
+/* CLICK-ONLY MODE SPEZIFISCH:
+   Macht Card-Actions für Touch & Klick-Nutzer sofort sichtbar ohne Hover */
+body.mode-click-only main article div[draggable="true"] .group-hover\:opacity-100,
+@media (hover: none) and (pointer: coarse) main article div[draggable="true"] .group-hover\:opacity-100 {
+  opacity: 0.85 !important;
+  pointer-events: auto !important;
+}
+
+/* NEWS TICKER SETTINGS BUTTON & POPOVER ENGINE */
+.ticker-popover-open {
+  max-width: 36px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important;
+}

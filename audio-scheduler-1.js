@@ -611,3 +611,102 @@ function playBossaNote(freq, volMod = 1.0) {
   osc.stop(now + 0.95);
 }
 
+
+// -------------------------------------------------------------
+// 11. SCHEDULER FUER OZEAN-GISCHT, REGEN-TROPFEN & BACH-BLASEN
+// -------------------------------------------------------------
+
+function scheduleOceanSpray() {
+  if (currentSoundType !== 'ocean') return;
+  let timeout = setTimeout(() => {
+    playOceanSpray();
+    scheduleOceanSpray();
+  }, 4000 + Math.random() * 5000);
+  activeTimeouts.push(timeout);
+}
+
+function playOceanSpray() {
+  if (!audioCtx || currentSoundType !== 'ocean') return;
+  const now = audioCtx.currentTime;
+  const source = audioCtx.createBufferSource();
+  source.buffer = getNoiseBuffer('white');
+  
+  const filter = audioCtx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.setValueAtTime(1800 + Math.random() * 800, now);
+  filter.Q.setValueAtTime(2.0, now);
+
+  const gain = audioCtx.createGain();
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(0.06 + Math.random() * 0.04, now + 0.6);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+
+  source.connect(filter);
+  filter.connect(gain);
+  gain.connect(soundGainNode);
+
+  source.start(now);
+  source.stop(now + 2.3);
+}
+
+function scheduleRainDroplets() {
+  if (currentSoundType !== 'rain') return;
+  let timeout = setTimeout(() => {
+    playRainDroplet();
+    scheduleRainDroplets();
+  }, 250 + Math.random() * 700);
+  activeTimeouts.push(timeout);
+}
+
+function playRainDroplet() {
+  if (!audioCtx || currentSoundType !== 'rain') return;
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = 'sine';
+  const startFreq = 1600 + Math.random() * 1200;
+  osc.frequency.setValueAtTime(startFreq, now);
+  osc.frequency.exponentialRampToValueAtTime(startFreq * 0.4, now + 0.035);
+
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(0.04 + Math.random() * 0.03, now + 0.002);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
+
+  osc.connect(gain);
+  gain.connect(soundGainNode);
+
+  osc.start(now);
+  osc.stop(now + 0.045);
+}
+
+function scheduleStreamBubbles() {
+  if (currentSoundType !== 'stream') return;
+  let timeout = setTimeout(() => {
+    playStreamBubble();
+    scheduleStreamBubbles();
+  }, 800 + Math.random() * 1600);
+  activeTimeouts.push(timeout);
+}
+
+function playStreamBubble() {
+  if (!audioCtx || currentSoundType !== 'stream') return;
+  const now = audioCtx.currentTime;
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = 'sine';
+  const startFreq = 600 + Math.random() * 700;
+  osc.frequency.setValueAtTime(startFreq, now);
+  osc.frequency.exponentialRampToValueAtTime(startFreq * 1.5, now + 0.06);
+
+  gain.gain.setValueAtTime(0, now);
+  gain.gain.linearRampToValueAtTime(0.06 + Math.random() * 0.04, now + 0.005);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.07);
+
+  osc.connect(gain);
+  gain.connect(soundGainNode);
+
+  osc.start(now);
+  osc.stop(now + 0.08);
+}

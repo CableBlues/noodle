@@ -9,7 +9,12 @@ var timerTargetEndTime = null;
 
 var timerSoundEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerSoundEnabled') : null) !== 'false';
 var timerVoiceEnabled = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceEnabled') : null) !== 'false';
+var timerVoiceTimeAnnounce = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceTimeAnnounce') : null) !== 'false';
+var timerVoiceMotivation = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerVoiceMotivation') : null) !== 'false';
 var timerAudioMode = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerAudioMode') : null) || 'ambient';
+var selectedTimerSound = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerSelectedSound') : null) || 'lofi';
+var selectedTimerRadio = (typeof localStorage !== 'undefined' ? localStorage.getItem('flowTimerSelectedRadio') : null) || 'groovesalad';
+var selectedTimerMusicIndex = 0;
 var timerVoiceRotationIndex = 0;
 var lastSelectedTimerAmbient = null;
 var currentSpeechSessionId = 0;
@@ -24,7 +29,12 @@ if (typeof window !== 'undefined') {
   window.currentSpeechSessionId = currentSpeechSessionId;
   window.timerSoundEnabled = timerSoundEnabled;
   window.timerVoiceEnabled = timerVoiceEnabled;
+  window.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+  window.timerVoiceMotivation = timerVoiceMotivation;
   window.timerAudioMode = timerAudioMode;
+  window.selectedTimerSound = selectedTimerSound;
+  window.selectedTimerRadio = selectedTimerRadio;
+  window.selectedTimerMusicIndex = selectedTimerMusicIndex;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.timerSeconds = timerSeconds;
@@ -36,7 +46,12 @@ if (typeof globalThis !== 'undefined') {
   globalThis.currentSpeechSessionId = currentSpeechSessionId;
   globalThis.timerSoundEnabled = timerSoundEnabled;
   globalThis.timerVoiceEnabled = timerVoiceEnabled;
+  globalThis.timerVoiceTimeAnnounce = timerVoiceTimeAnnounce;
+  globalThis.timerVoiceMotivation = timerVoiceMotivation;
   globalThis.timerAudioMode = timerAudioMode;
+  globalThis.selectedTimerSound = selectedTimerSound;
+  globalThis.selectedTimerRadio = selectedTimerRadio;
+  globalThis.selectedTimerMusicIndex = selectedTimerMusicIndex;
 }
 
 // Audio-Intervalle für die harmonischen Synthesizer-Loops am Ende
@@ -64,21 +79,37 @@ if (typeof globalThis !== 'undefined') {
 }
 
 // Konstante Liste aller integrierten sanften Ambient-Sounds & Melodien zum Durchmischen
-const TIMER_AMBIENTS = ['piano', 'lofi', 'chimes', 'space', 'guitar', 'singingbowl', 'musicbox', 'breeze', 'campfire', 'birds', 'cafe', 'clock', 'lofi_sunshine', 'summer_meadow', 'bossa_nova'];
+const TIMER_AMBIENTS = ['piano', 'lofi', 'chimes', 'space', 'guitar', 'singingbowl', 'musicbox', 'breeze', 'campfire', 'birds', 'cafe', 'clock', 'lofi_sunshine', 'summer_meadow', 'synthwave'];
 
-// VIELFÄLTIGE NATÜRLICHE STIMMPROFILE: Warm, freundlich, empathisch, nicht roboterhaft
+// VIELFÄLTIGE NATÜRLICHE STIMMPROFILE: Sehr freundlich, warm, wechselnd zwischen Frau, Mann und jungem Kind
 const VOICE_PROFILES = [
-  // 1. FRAUENSTIMMEN (Warm, Sanft, Freundlich, Natürlich)
-  { id: 'female_warm', name: 'Sanfte warme Begleiterin', pitch: 1.02, rate: 0.93, gender: 'female', style: 'warm' },
-  { id: 'female_clear', name: 'Klare freundliche Stimme', pitch: 1.04, rate: 0.94, gender: 'female', style: 'clear' },
-  { id: 'female_zen', name: 'Entspannte Zen-Stimme', pitch: 0.99, rate: 0.91, gender: 'female', style: 'zen' },
-  { id: 'female_dynamic', name: 'Freundliche Motivatorin', pitch: 1.03, rate: 0.95, gender: 'female', style: 'dynamic' },
+  // Turn 0: FRAU (Warm & Sanft)
+  { id: 'female_warm', name: 'Sanfte Begleiterin', category: 'female', gender: 'female', pitch: 1.02, rate: 0.93, style: 'warm', desc: 'Ruhig, herzlich & beruhigend' },
+  // Turn 1: MANN (Tief-warm & Entspannt)
+  { id: 'male_warm', name: 'Warmer Gefährte', category: 'male', gender: 'male', pitch: 0.88, rate: 0.93, style: 'warm', desc: 'Angenehm tief, entspannt & freundschaftlich' },
+  // Turn 2: KIND (Fröhlich & Aufgeweckt)
+  { id: 'child_cheerful', name: 'Fröhliches Kind', category: 'child', gender: 'child', pitch: 1.46, rate: 1.05, style: 'cheerful', desc: 'Hell, gut gelaunt & ansteckend optimistisch' },
 
-  // 2. MÄNNERSTIMMEN (Ruhig, Freundlich, Vertrauensvoll, Natürlich)
-  { id: 'male_calm', name: 'Ruhiger freundlicher Coach', pitch: 0.98, rate: 0.93, gender: 'male', style: 'calm' },
-  { id: 'male_warm', name: 'Warme entspannte Stimme', pitch: 0.96, rate: 0.92, gender: 'male', style: 'warm' },
-  { id: 'male_steady', name: 'Freundlicher Begleiter', pitch: 0.99, rate: 0.94, gender: 'male', style: 'steady' },
-  { id: 'male_coach', name: 'Empathischer Mentor', pitch: 1.00, rate: 0.94, gender: 'male', style: 'coach' }
+  // Turn 3: FRAU (Sonnig & Positiv)
+  { id: 'female_sunny', name: 'Sonnige Optimistin', category: 'female', gender: 'female', pitch: 1.12, rate: 0.98, style: 'sunny', desc: 'Frisch, aufgeweckt & strahlend positiv' },
+  // Turn 4: MANN (Empathischer Mentor)
+  { id: 'male_mentor', name: 'Empathischer Mentor', category: 'male', gender: 'male', pitch: 0.95, rate: 0.92, style: 'mentor', desc: 'Ruhig, weise, verlässlich & geerdet' },
+  // Turn 5: KIND (Kleiner Wirbelwind / sehr jung)
+  { id: 'child_playful', name: 'Kleiner Wirbelwind', category: 'child', gender: 'child', pitch: 1.58, rate: 1.08, style: 'playful', desc: 'Sehr jung, quirlig, niedlich & voller Stolz' },
+
+  // Turn 6: FRAU (Gelassene Zen-Stimme)
+  { id: 'female_zen', name: 'Gelassene Zen-Stimme', category: 'female', gender: 'female', pitch: 0.98, rate: 0.89, style: 'zen', desc: 'Meditativ, sanft & tiefenentspannt' },
+  // Turn 7: MANN (Dynamischer Motivator)
+  { id: 'male_dynamic', name: 'Dynamischer Motivator', category: 'male', gender: 'male', pitch: 1.04, rate: 0.98, style: 'dynamic', desc: 'Sportlich-freundlich, klar & tatkräftig' },
+  // Turn 8: KIND (Kleiner Entdecker)
+  { id: 'child_explorer', name: 'Kleiner Entdecker', category: 'child', gender: 'child', pitch: 1.38, rate: 1.02, style: 'explorer', desc: 'Neugierig, tapfer & eifrig' },
+
+  // Turn 9: FRAU (Herzliche Freundin)
+  { id: 'female_friendly', name: 'Herzliche Freundin', category: 'female', gender: 'female', pitch: 1.06, rate: 0.95, style: 'friendly', desc: 'Zugewandt, ehrlich & wohlwollend' },
+  // Turn 10: MANN (Sanfter Begleiter)
+  { id: 'male_calm', name: 'Sanfter Begleiter', category: 'male', gender: 'male', pitch: 0.92, rate: 0.91, style: 'calm', desc: 'Unaufdringlich, friedvoll & beruhigend' },
+  // Turn 11: KIND (Sanftes Sternchen)
+  { id: 'child_gentle', name: 'Sanftes Sternchen', category: 'child', gender: 'child', pitch: 1.50, rate: 0.96, style: 'gentle', desc: 'Zart, liebevoll & herzerwärmend' }
 ];
 
 let globalVoiceTurnIndex = 0;
@@ -131,14 +162,19 @@ const MOTIVATIONAL_CHUNKS = {
       "Gleich kannst du zufrieden aufblicken."
     ],
     overdue: [
-      "Zeit für eine Pause. Atme tief durch und steh kurz auf.",
-      "Sehr gut gemacht. Gönn deinen Augen jetzt etwas Ruhe.",
-      "Schultern kreisen, kurz strecken und durchatmen.",
-      "Ein Glas Wasser trinken und den Kopf frei machen.",
-      "Klasse Fokus. Jetzt kurz komplett abschalten.",
-      "Guter Block. Mach einen Moment die Augen zu.",
-      "Tritt kurz vom Bildschirm zurück.",
-      "Zeit zum Durchschnaufen. Danke für deine Konzentration!"
+      "Starker Flow! Zieh es mit voller Energie durch.",
+      "Du ziehst es stark durch! Nimm diesen Schwung voll mit.",
+      "Beeindruckende Ausdauer. Du bist gerade unaufhaltsam!",
+      "Großartiger Fokus. Bring deinen Gedanken mit voller Kraft zu Ende.",
+      "Tiefer Flow-Zustand. Du machst das fantastisch, bleib dran!",
+      "Volle Entschlossenheit. Jeder weitere Schritt bringt dich spürbar voran.",
+      "Echtes Durchhaltevermögen. Du hast das Steuer fest in der Hand!",
+      "Fantastischer Antrieb. Mach es in deinem ganz eigenen Tempo.",
+      "Dein Schwung ist großartig. Voll im Tunnel!",
+      "Du machst das spitze! Wenn der Moment passt, hast du dir eine Pause redlich verdient.",
+      "Hervorragender Einsatz. Denk daran: Du darfst dir jederzeit eine wohlverdiente Verschnaufpause gönnen.",
+      "Du gibst alles! Sobald der Gedanke rund ist, kannst du dir ganz entspannt eine Pause schenken.",
+      "Wunderbare Konzentration. Gönn dir ruhig eine Pause, wann immer es sich für dich gut anfühlt."
     ]
   },
   en: {
@@ -183,14 +219,19 @@ const MOTIVATIONAL_CHUNKS = {
       "You can look up with satisfaction in a moment."
     ],
     overdue: [
-      "Time for a break. Take a deep breath and stand up.",
-      "Well done. Give your eyes a well-deserved rest.",
-      "Roll your shoulders, stretch, and let go of tension.",
-      "Drink a glass of water and clear your mind.",
-      "Great focus today. Now switch off completely for a bit.",
-      "Wonderful session. Close your eyes for a moment.",
-      "Step away from the screen and take in the room.",
-      "Time to breathe freely. Thank you for your concentration!"
+      "Strong flow! Keep pushing forward with full energy.",
+      "You are powering through! Ride this momentum all the way.",
+      "Impressive endurance. You are completely in the zone!",
+      "Outstanding focus. Bring this thought to completion with full strength.",
+      "Deep flow state. You are doing fantastic, keep going!",
+      "Complete determination. Every extra step is making a real difference.",
+      "True resilience. You are fully in command!",
+      "Fantastic drive. Move forward at your own pace.",
+      "Great momentum. You are locked in!",
+      "You are doing amazing! Whenever the moment feels right, you have truly earned a break.",
+      "Wonderful effort. Remember: you are always welcome to treat yourself to a well-deserved rest.",
+      "Giving it your all! Once this step feels round, feel free to take a gentle break.",
+      "Superb concentration. Treat yourself to a break whenever it feels right for you."
     ]
   },
   fr: {
@@ -235,14 +276,16 @@ const MOTIVATIONAL_CHUNKS = {
       "Tu pourras savourer ce moment dans un instant."
     ],
     overdue: [
-      "C'est l'heure de la pause. Respire à fond et lève-toi.",
-      "Très beau travail. Accorde un repos bien mérité à tes yeux.",
-      "Fais rouler tes épaules, étire-toi et relâche la pression.",
-      "Bois un verre d'eau et aère-toi l'esprit.",
-      "Superbe concentration. Déconnecte totalement un moment.",
-      "Belle session. Ferme les yeux quelques secondes.",
-      "Éloigne-toi de l'écran et regarde au loin.",
-      "Temps de souffler. Bravo pour ta concentration !"
+      "Superbe élan ! Poursuis avec toute ton énergie.",
+      "Tu avances avec force ! Profite pleinement de ce momentum.",
+      "Endurance impressionnante. Tu es totalement dans le flux !",
+      "Remarquable concentration. Mène cette idée à bien avec force.",
+      "État de flow profond. Tu te débrouilles à merveille, continue !",
+      "Détermination totale. Chaque pas supplémentaire fait la différence.",
+      "Véritable persévérance. Tu maîtrises parfaitement la situation !",
+      "Beau travail ! Quand le moment sera venu, tu auras bien mérité une pause.",
+      "Bel engagement. Souviens-toi que tu peux t'offrir un moment de répit quand tu le souhaites.",
+      "Excellente concentration. Accorde-toi une pause dès que tu le sens."
     ]
   },
   it: {
@@ -287,14 +330,16 @@ const MOTIVATIONAL_CHUNKS = {
       "Tra un momento potrai sentirti molto soddisfatto."
     ],
     overdue: [
-      "È tempo di una pausa. Fai un respiro profondo e alzati.",
-      "Ottimo lavoro. Concedi un meritato riposo agli occhi.",
-      "Ruota le spalle, fai un po' di stretching e rilassati.",
-      "Bevi un bicchiere d'acqua e libera la mente.",
-      "Grande focus. Ora stacca completamente per qualche minuto.",
-      "Sessione splendida. Chiudi gli occhi per un attimo.",
-      "Allontanati dallo schermo e guarda lontano.",
-      "Momento di respirare. Grazie per la tua concentrazione!"
+      "Grande flusso! Continua con tutta la tua energia.",
+      "Stai spingendo forte! Sfrutta appieno questo slancio.",
+      "Resistenza impressionante. Sei completamente nella zona!",
+      "Concentrazione straordinaria. Porta a termine questo pensiero con forza.",
+      "Stato di flow profondo. Stai andando alla grande, avanti così!",
+      "Determinazione totale. Ogni passo in più fa davvero la differenza.",
+      "Vera perseveranza. Hai il pieno controllo!",
+      "Splendido lavoro! Quando il momento è giusto, ti sei meritato una pausa.",
+      "Ottimo impegno. Ricorda che puoi concederti un riposo ben meritato quando vuoi.",
+      "Magnifica concentrazione. Concediti una pausa appena ti fa piacere."
     ]
   },
   es: {
@@ -339,14 +384,16 @@ const MOTIVATIONAL_CHUNKS = {
       "En un momento podrás disfrutar de la satisfacción."
     ],
     overdue: [
-      "Momento de descansar. Respira hondo y ponte de pie.",
-      "Muy buen trabajo. Dale un descanso merecido a tus ojos.",
-      "Mueve los hombros, estírate y suelta la tensión.",
-      "Bebe un vaso de agua y despeja la mente.",
-      "Gran enfoque hoy. Desconecta del todo unos minutos.",
-      "Sesión estupenda. Cierra los ojos un instante.",
-      "Aléjate de la pantalla y mira a lo lejos.",
-      "Hora de respirar aliviado. ¡Gracias por tu concentración!"
+      "¡Gran flujo! Sigue adelante con toda tu energía.",
+      "¡Lo estás logrando con fuerza! Aprovecha al máximo este impulso.",
+      "Resistencia impresionante. ¡Estás totalmente en la zona!",
+      "Enfoque sobresaliente. Lleva esta idea a término con fuerza.",
+      "Profundo estado de flujo. Lo estás haciendo fantástico, ¡adelante!",
+      "Determinación total. Cada paso extra marca una diferencia real.",
+      "Verdadera perseverancia. ¡Tienes el control absoluto!",
+      "¡Estupendo trabajo! Cuando el momento sea propicio, te has ganado un buen descanso.",
+      "Gran entrega. Recuerda que puedes regalarte una merecida pausa cuando lo desees.",
+      "Magnífica concentración. Tómate un respiro cuando sientas que es el momento."
     ]
   },
   el: {
@@ -391,16 +438,17 @@ const MOTIVATIONAL_CHUNKS = {
       "Σε λίγο θα νιώσεις τη γλυκιά ικανοποίηση."
     ],
     overdue: [
-      "Ώρα για διάλειμμα. Πάρε μια βαθιά ανάσα και σήκω για λίγο.",
-      "Πολύ ωραία δουλειά. Χάρισε ξεκούραση στα μάτια σου.",
-      "Κάνε κυκλικές κινήσεις στους ώμους και τεντώσου.",
-      "Πιες ένα ποτήρι δροσερό νερό και καθάρισε το μυαλό σου.",
-      "Υπέροχη εστίαση. Τώρα αποσυνδέσου εντελώς για λίγο.",
-      "Όμορφη συνεδρία. Κλείσε τα μάτια σου για λίγες στιγμές.",
-      "Απομακρύνσου από την οθόνη και κοίταξε μακριά.",
-      "Ώρα να αναπνεύσεις ελεύθερα. Ευχαριστούμε για τη συγκέντρωσή σου!"
+      "Δυνατή ροή! Συνέχισε με όλη σου την ενέργεια.",
+      "Προχωράς με δύναμη! Αξιοποίησε αυτή την ορμή στο έπακρο.",
+      "Εντυπωσιακή αντοχή. Είσαι απόλυτα συγκεντρωμένος!",
+      "Εξαιρετική εστίαση. Ολοκλήρωσε αυτή τη σκέψη με αυτοπεποίθηση.",
+      "Βαθιά κατάσταση ροής. Τα πας περίφημα, συνέχισε δυναμικά!",
+      "Απόλυτη αποφασιστικότητα. Κάθε επιπλέον βήμα σε φέρνει πιο κοντά στον στόχο.",
+      "Πραγματικό πείσμα. Έχεις τον πλήρη έλεγχο!",
+      "Υπέροχη προσπάθεια! Όταν το νιώσεις κατάλληλο, αξίζεις απόλυτα ένα όμορφο διάλειμμα.",
+      "Σπουδαία συγκέντρωση. Θυμήσου ότι μπορείς να κάνεις ένα διάλειμμα όποτε εσύ το επιθυμείς."
     ]
-  }
+  },
 };
 
 // Kurze, herzliche und unaufdringliche Ansagen beim Start einer Fokus-Sitzung
@@ -449,34 +497,614 @@ const SESSION_START_PHRASES = {
   ]
 };
 
-// Ansagen beim Erreichen von 00:00
+// Spezifische Begrüßung mit der verknüpften Aufgabe
+const SESSION_START_TASK_PHRASES = {
+  de: [
+    "Fokuszeit gestartet, {mins} Minuten für: {task}. Ganz in Ruhe anfangen.",
+    "{mins} Minuten Fokus für deine Aufgabe: {task}. Finde deinen eigenen Takt.",
+    "Timer läuft, {mins} Minuten. Dein Ziel ist: {task}. Schritt für Schritt.",
+    "Auf geht's. {mins} Minuten voll konzentriert auf: {task}.",
+    "Fokusblock gestartet für: {task}. Durchatmen und entspannt loslegen."
+  ],
+  en: [
+    "Focus session started, {mins} minutes for: {task}. Begin in your own time.",
+    "{mins} minutes of focus for: {task}. Find your gentle pace.",
+    "Timer running, {mins} minutes on: {task}. Step by step.",
+    "Here we go. {mins} minutes dedicated to: {task}.",
+    "Focus block started on: {task}. Take a breath and ease into it."
+  ],
+  fr: [
+    "Session démarrée, {mins} minutes pour : {task}. Commence tout en douceur.",
+    "{mins} minutes de concentration sur : {task}. Trouve ton propre tempo.",
+    "Minuteur lancé, {mins} minutes pour : {task}. Pas à pas.",
+    "C'est parti pour : {task}. {mins} minutes de travail serein."
+  ],
+  it: [
+    "Sessione avviata, {mins} minuti per: {task}. Comincia con tutta calma.",
+    "{mins} minuti di concentrazione su: {task}. Trova il tuo ritmo naturale.",
+    "Timer avviato, {mins} minuti su: {task}. Un passo alla volta."
+  ],
+  es: [
+    "Sesión iniciada, {mins} minutos para: {task}. Comienza a tu ritmo.",
+    "{mins} minutos de enfoque en: {task}. Encuentra tu compás.",
+    "Temporizador en marcha, {mins} minutos para: {task}. Paso a paso."
+  ],
+  el: [
+    "Η συνεδρία ξεκίνησε, {mins} λεπτά για: {task}. Ξεκίνα με ηρεμία.",
+    "{mins} λεπτά εστίασης στο: {task}. Βρες τον δικό σου ρυθμό.",
+    "Το χρονόμετρο τρέχει για: {task}. Βήμα προς βήμα."
+  ]
+};
+
+// Motivationssprüche, die bei Bedarf die aktive Aufgabe harmonisch einbinden
+const TASK_AWARE_MOTIVATIONS = {
+  de: {
+    start: [
+      "Bleib ganz ruhig bei '{task}'. Nimm dir diesen ersten Schritt vor.",
+      "Guter Einstieg in '{task}'. Lass dich nicht hetzen.",
+      "Komm entspannt in '{task}' an. Du hast die Zeit.",
+      "Konzentrier dich auf den nächsten Schritt von '{task}'.",
+      "Schritt für Schritt an '{task}'. Dein Fokus trägt dich ruhig voran."
+    ],
+    halfway: [
+      "Sehr schöner Rhythmus bei '{task}'. Bleib im Fluss.",
+      "Halbzeit geschafft bei '{task}'. Guter, stetiger Fortschritt.",
+      "Du bist voll drin in '{task}'. Lass es einfach ruhig fließen.",
+      "Schultern kurz lockern und mit klarem Kopf an '{task}' weiterarbeiten.",
+      "Konzentration auf '{task}' läuft gleichmäßig. Sehr schön."
+    ],
+    end: [
+      "Fast geschafft mit '{task}'. Bring diesen Gedanken in Ruhe zu Ende.",
+      "Der Endspurt für '{task}'. Bleib noch kurz aufmerksam.",
+      "Gleich am Ziel mit '{task}'. Sauber zu Ende führen.",
+      "Nur noch ein kleiner Moment für '{task}'. Sehr schön durchgezogen.",
+      "Gleich hast du '{task}' gemeistert."
+    ],
+    overdue: [
+      "Starker Flow bei '{task}'. Zieh es voll durch!",
+      "Du bleibst an '{task}' dran. Fantastischer Einsatz!",
+      "Mitten im Schaffensrausch bei '{task}'. Nutze diese Energie!",
+      "Volle Kraft für '{task}'. Großartig, wie du dich festbeißt!",
+      "Dein Fokus auf '{task}' trägt dich weit voran. Stark!",
+      "Klasse Leistung bei '{task}'. Wenn du magst, hast du dir eine Pause redlich verdient.",
+      "Du hast '{task}' großartig vorangebracht. Gönn dir jederzeit einen Moment zum Durchatmen."
+    ]
+  },
+  en: {
+    start: [
+      "Gently ease into '{task}'. One small step at a time.",
+      "Good start on '{task}'. You have all the time you need.",
+      "Stay centered on '{task}'. Proceed at your own tempo."
+    ],
+    halfway: [
+      "Great steady rhythm on '{task}'. Keep going with ease.",
+      "Halfway through '{task}'. You are in a wonderful groove.",
+      "Smooth progress on '{task}'. Breathe and keep going."
+    ],
+    end: [
+      "Almost done with '{task}'. Wrap up this thought peacefully.",
+      "Final stretch for '{task}'. Bring it to a clean close.",
+      "Near the finish line with '{task}'. Great focus."
+    ],
+    overdue: [
+      "Powerful flow on '{task}'. Keep pushing through!",
+      "Deep focus on '{task}'. Ride this wave of energy!",
+      "Incredible momentum with '{task}'. Keep going strong!",
+      "Outstanding effort on '{task}'. Whenever you're ready, take a well-deserved breather.",
+      "Great progress on '{task}'. Feel free to pause anytime you wish."
+    ]
+  },
+  fr: {
+    start: [
+      "Aborde '{task}' tout en douceur. Un pas après l'autre.",
+      "Bienvenue dans '{task}'. Avance à ton rythme."
+    ],
+    halfway: [
+      "Beau travail sur '{task}'. La concentration est fluide.",
+      "Mi-parcours pour '{task}'. Continue avec cette belle constance."
+    ],
+    end: [
+      "Presque terminé pour '{task}'. Conclus cette étape sereinement.",
+      "Dernière ligne droite sur '{task}'. Bravo pour ton attention."
+    ],
+    overdue: [
+      "Superbe élan sur '{task}'. Fonce avec cette belle énergie !",
+      "Immersion totale dans '{task}'. Continue sur ta lancée !",
+      "Belle détermination sur '{task}'. Tu mérites une pause dès que tu le souhaites."
+    ]
+  },
+  it: {
+    start: [
+      "Affronta '{task}' con calma. Un passo alla volta.",
+      "Ottima partenza per '{task}'. Procedi sereno."
+    ],
+    halfway: [
+      "Ottimo ritmo su '{task}'. Sei ben immerso nel lavoro.",
+      "Metà percorso per '{task}'. Continua così con naturalezza."
+    ],
+    end: [
+      "Quasi completato '{task}'. Concludi con tranquillità.",
+      "Ultimo tratto per '{task}'. Ottima concentrazione."
+    ],
+    overdue: [
+      "Grande slancio su '{task}'. Continua con tutta questa energia!",
+      "Immersione profonda in '{task}'. Sei in pieno ritmo!",
+      "Ottimo lavoro su '{task}'. Concediti pure una pausa appena ne hai voglia."
+    ]
+  },
+  es: {
+    start: [
+      "Entra en '{task}' con calma. Paso a paso.",
+      "Buen comienzo en '{task}'. Tienes todo el tiempo."
+    ],
+    halfway: [
+      "Gran progreso en '{task}'. Mantén este ritmo sereno.",
+      "Mitad del camino en '{task}'. Vas muy bien."
+    ],
+    end: [
+      "Casi listo '{task}'. Remata esta idea con serenidad.",
+      "Recta final para '{task}'. Gran trabajo."
+    ],
+    overdue: [
+      "¡Gran impulso en '{task}'. Sigue adelante con toda la energía!",
+      "Enfoque profundo en '{task}'. ¡Aprovecha este gran ritmo!",
+      "Excelente avance en '{task}'. Puedes tomarte un descanso merecido cuando quieras."
+    ]
+  },
+  el: {
+    start: [
+      "Ξεκίνα το '{task}' με ηρεμία. Ένα βήμα τη φορά."
+    ],
+    halfway: [
+      "Όμορφη ροή στο '{task}'. Συνέχισε αβίαστα."
+    ],
+    end: [
+      "Σχεδόν τελείωσες το '{task}'. Ολοκλήρωσε με φροντίδα."
+    ],
+    overdue: [
+      "Δυνατή ορμή στο '{task}'. Συνέχισε με όλη σου τη δύναμη!",
+      "Βαθιά εστίαση στο '{task}'. Αξιοποίησε αυτόν τον όμορφο ρυθμό!",
+      "Υπέροχη δουλειά στο '{task}'. Μπορείς να πάρεις ένα διάλειμμα όποτε εσύ το θελήσεις."
+    ]
+  }
+};
+
+// Ansagen beim Erreichen von 00:00 (Mut gebend, im Flow weiterziehend)
 const TIME_UP_PHRASES = {
-  de: "Die Zeit ist abgelaufen!",
-  en: "Time is up!",
-  es: "¡El tiempo ha terminado!",
-  el: "Ο χρόνος τελείωσε!",
-  fr: "Le temps est écoulé !",
-  it: "Il tempo è scaduto!"
+  de: [
+    "Fokuszeit gemeistert! Zieh ruhig weiter durch, wenn du im Flow bist.",
+    "Zielzeit erreicht! Bleib im Flow, wenn es gerade so gut läuft.",
+    "Starker Fokusblock! Zieh weiter durch, oder gönn dir gleich eine wohlverdiente Pause."
+  ],
+  en: [
+    "Focus session mastered! Keep flowing if you are in the zone.",
+    "Target time completed! Keep pushing through while momentum is high.",
+    "Great focus block! Keep going strong, or take a peaceful pause whenever you like."
+  ],
+  es: [
+    "¡Tiempo de enfoque completado! Sigue en el flujo si tienes impulso.",
+    "¡Gran bloque de enfoque! Continúa con fuerza o tómate un merecido descanso."
+  ],
+  el: [
+    "Η εστίαση ολοκληρώθηκε με επιτυχία! Συνέχισε στη ροή σου αν έχεις ορμή.",
+    "Υπέροχη συνεδρία! Συνέχισε δυναμικά ή πάρε ένα όμορφο διάλειμμα όποτε θέλεις."
+  ],
+  fr: [
+    "Session de focus accomplie ! Reste dans le flow si tu es bien lancé.",
+    "Superbe concentration ! Continue sur ta lancée, ou accorde-toi une pause bien méritée."
+  ],
+  it: [
+    "Obiettivo di focus raggiunto! Rimani nel flusso se sei ben concentrato.",
+    "Ottima sessione! Continua a pieno ritmo, o concediti una pausa quando vuoi."
+  ]
 };
 
-// Ansagen bei 30 Sekunden Überzeit
+// Ansagen bei 30 Sekunden Verlängerung (positiver Flow)
 const OVERDUE_30S_LABELS = {
-  de: "30 Sekunden über der Zeit.",
-  en: "30 seconds overtime.",
-  es: "30 segundos de exceso.",
-  el: "30 δευτερόλεπτα καθυστέρηση.",
-  fr: "30 secondes de dépassement.",
-  it: "30 secondi di ritardo."
+  de: "30 Sekunden im Flow.",
+  en: "30 seconds in the flow.",
+  es: "30 segundos en el flujo.",
+  el: "30 δευτερόλεπτα στη ροή σου.",
+  fr: "30 secondes en plein flow.",
+  it: "30 secondi nel pieno flusso."
 };
 
-// Ansagen für die Minuten, die über die eingestellte Zeit hinaus verstreichen ("Überzeit")
+// Ansagen für die Minuten, die über die eingestellte Zeit hinaus im Flow gearbeitet werden ("Flow-Verlängerung")
 const OVERDUE_MINUTE_LABELS = {
-  de: (n) => n === 1 ? "1 Minute überzogen" : `${n} Minuten überzogen`,
-  en: (n) => n === 1 ? "1 minute overtime" : `${n} minutes overtime`,
-  es: (n) => n === 1 ? "1 minuto de exceso" : `${n} minutos de exceso`,
-  el: (n) => n === 1 ? "1 λεπτό καθυστέρηση" : `${n} λεπτά καθυστέρηση`,
-  fr: (n) => n === 1 ? "1 minute de dépassement" : `${n} minutes de dépassement`,
-  it: (n) => n === 1 ? "1 minuto di ritardo" : `${n} minuti di ritardo`
+  de: (n) => n === 1 ? "1 Minute Flow-Verlängerung" : `${n} Minuten Flow-Verlängerung`,
+  en: (n) => n === 1 ? "1 minute flow extension" : `${n} minutes flow extension`,
+  es: (n) => n === 1 ? "1 minuto de extensión de flujo" : `${n} minutos de extensión de flujo`,
+  el: (n) => n === 1 ? "1 λεπτό επέκταση ροής" : `${n} λεπτά επέκταση ροής`,
+  fr: (n) => n === 1 ? "1 minute d'extension de flow" : `${n} minutes d'extension de flow`,
+  it: (n) => n === 1 ? "1 minuto di estensione del flusso" : `${n} minuti di estensione del flusso`
+};
+
+// =========================================================================
+// CHRONOMETER / STOPPUHR SPRACH- & MOTIVATIONS-ENGINE
+// =========================================================================
+
+const CHRONOMETER_START_PHRASES = {
+  de: [
+    "Stoppuhr gestartet. Nimm dir alle Zeit der Welt für deinen Fokus.",
+    "Chronometer läuft. Finde deinen eigenen, ruhigen Takt.",
+    "Offene Fokuszeit gestartet. Schritt für Schritt, ganz ohne Zeitdruck.",
+    "Zeiterfassung aktiv. Konzentriere dich entspannt auf das Hier und Jetzt.",
+    "Stoppuhr läuft. Lass deinen Gedanken freien Raum und arbeite im Flow."
+  ],
+  en: [
+    "Stopwatch started. Take all the time you need for your focus.",
+    "Chronometer running. Find your own gentle rhythm without any rush.",
+    "Open focus session started. Step by step, completely pressure-free.",
+    "Time tracking active. Settle peacefully into the present moment.",
+    "Stopwatch running. Give your mind open space and flow naturally."
+  ],
+  fr: [
+    "Chronomètre démarré. Prends tout le temps nécessaire pour ta tâche.",
+    "Session ouverte lancée. Trouve ton propre tempo sans pression.",
+    "Chronomètre actif. Avance pas à pas avec sérénité."
+  ],
+  it: [
+    "Cronometro avviato. Prenditi tutto il tempo che ti serve con calma.",
+    "Sessione aperta iniziata. Trova il tuo ritmo naturale senza fretta.",
+    "Cronometro attivo. Procedi un passo alla volta in serenità."
+  ],
+  es: [
+    "Cronómetro iniciado. Tómate todo el tiempo que necesites con calma.",
+    "Sesión abierta en marcha. Encuentra tu propio ritmo sin ninguna prisa.",
+    "Cronómetro activo. Avanza paso a paso con tranquilidad."
+  ],
+  el: [
+    "Το χρονόμετρο ξεκίνησε. Πάρε όλο τον χρόνο που χρειάζεσαι με ηρεμία.",
+    "Ανοιχτή συνεδρία εστίασης. Βρες τον δικό σου ρυθμό χωρίς καμία βιασύνη.",
+    "Χρονόμετρο ενεργό. Προχώρα βήμα προς βήμα με απόλυτη γαλήνη."
+  ]
+};
+
+const CHRONOMETER_START_TASK_PHRASES = {
+  de: [
+    "Stoppuhr gestartet für: {task}. Nimm dir alle Zeit der Welt.",
+    "Chronometer läuft für: {task}. Finde deinen eigenen, ruhigen Takt.",
+    "Offene Fokuszeit für: {task}. Schritt für Schritt, ganz ohne Druck.",
+    "Zeiterfassung aktiv für: {task}. Konzentrier dich entspannt darauf.",
+    "Auf geht's mit '{task}'. Arbeite voll in deinem eigenen Flow."
+  ],
+  en: [
+    "Stopwatch started for: {task}. Take all the time you need.",
+    "Chronometer running on: {task}. Find your own gentle rhythm.",
+    "Open focus session for: {task}. Step by step, without any rush.",
+    "Time tracking active on: {task}. Settle peacefully into the flow.",
+    "Here we go with '{task}'. Work completely in your own groove."
+  ],
+  fr: [
+    "Chronomètre démarré pour : {task}. Prends tout ton temps.",
+    "Session ouverte pour : {task}. Avance à ton rythme en toute sérénité."
+  ],
+  it: [
+    "Cronometro avviato per: {task}. Prenditi tutto il tempo necessario.",
+    "Sessione aperta su: {task}. Procedi con calma e concentrazione."
+  ],
+  es: [
+    "Cronómetro iniciado para: {task}. Tómate todo el tiempo que necesites.",
+    "Sesión abierta en: {task}. Avanza a tu propio ritmo con tranquilidad."
+  ],
+  el: [
+    "Το χρονόμετρο ξεκίνησε για το: {task}. Πάρε όλο τον χρόνο σου.",
+    "Ανοιχτή συνεδρία για το: {task}. Προχώρα με ηρεμία και καθαρό μυαλό."
+  ]
+};
+
+const CHRONOMETER_MOTIVATIONS = {
+  de: {
+    start: [
+      "Guter Einstieg. Lass dich ganz natürlich in deine Aufgabe sinken.",
+      "Ein ruhiger, stetiger Beginn. Du hast keinen Zeitdruck.",
+      "Schritt für Schritt. Dein Fokus baut sich ganz von alleine auf.",
+      "Atme tief durch und bleib ganz gelassen im Jetzt.",
+      "Der Anfang ist gemacht. Folge einfach deinen Gedanken."
+    ],
+    building: [
+      "Schöner Arbeitsfluss. Du bist gut in die Tiefe gekommen.",
+      "Gleichmäßige Konzentration. Behalte diesen ruhigen Takt bei.",
+      "Guter Rhythmus. Mach es Schritt für Schritt in deinem Tempo.",
+      "Dein Fokus trägt dich stetig voran. Sehr angenehm.",
+      "Schultern kurz entspannen und gelassen im Tunnel bleiben."
+    ],
+    deep_flow: [
+      "Wunderbarer Flow-Zustand. Du bist voll in deinem Element.",
+      "Beeindruckende Ausdauer. Deine Konzentration läuft wie von selbst.",
+      "Tiefe Hingabe an deine Aufgabe. Nimm diesen Schwung voll mit.",
+      "Großartiger Fokus. Jeder Schritt festigt dein Ergebnis.",
+      "Du hast den perfekten Rhythmus gefunden. Bleib entspannt dabei."
+    ],
+    mastery: [
+      "Hervorragende Konzentration! Du ziehst das mit starker Ruhe durch.",
+      "Großartige Ausdauer. Du hast heute schon bemerkenswert viel geschafft.",
+      "Ein meisterhafter Fokusblock. Du bist voll im Schaffensrausch!",
+      "Echtes Durchhaltevermögen. Du hast das Steuer souverän in der Hand.",
+      "Fokussiert, klar und gelassen. Eine Spitzenleistung!"
+    ],
+    ultra_focus: [
+      "Überwältigende Fokusleistung! Du bist heute unaufhaltsam.",
+      "Tiefe Arbeitsphase gemeistert. Denk daran: Du darfst dir jederzeit eine wohlverdiente Pause gönnen.",
+      "Unglaubliche Ausdauer. Gönn dir ruhig eine Verschnaufpause, wann immer es sich gut anfühlt.",
+      "Fantastischer Einsatz. Wenn der nächste Gedanke rund ist, hast du dir ein Päuschen redlich verdient.",
+      "Volle Hingabe. Du machst das spitze!"
+    ]
+  },
+  en: {
+    start: [
+      "Gentle start. Ease naturally into your task.",
+      "Calm and steady beginning. There is no rush at all.",
+      "Step by step. Your focus is building up effortlessly.",
+      "Take a deep breath and settle comfortably into the present moment.",
+      "The start is made. Simply let your thoughts flow."
+    ],
+    building: [
+      "Wonderful flow. You are settling nicely into depth.",
+      "Even concentration. Keep this peaceful rhythm.",
+      "Good groove. Moving forward step by step in your own time.",
+      "Your focus is carrying you smoothly. Very well done.",
+      "Relax your shoulders and stay peacefully in the zone."
+    ],
+    deep_flow: [
+      "Deep flow state. You are completely in your element.",
+      "Impressive endurance. Your concentration is unfolding effortlessly.",
+      "Wonderful dedication to your work. Ride this momentum.",
+      "Great focus. Every step is making solid progress.",
+      "You have found the perfect groove. Stay with it."
+    ],
+    mastery: [
+      "Superb concentration! Seeing this through with calm confidence.",
+      "Outstanding stamina. You have made remarkable progress.",
+      "A masterful block of deep work. Locked in and thriving!",
+      "True resilience. Fully in command and moving forward.",
+      "Focused, clear, and serene. Truly excellent work!"
+    ],
+    ultra_focus: [
+      "Extraordinary focus! You are absolutely unstoppable today.",
+      "Deep immersion achieved. Remember you are welcome to take a restful break whenever ready.",
+      "Incredible endurance. Feel free to treat yourself to a pause whenever it feels right.",
+      "Fantastic dedication. Once this thought feels complete, you have truly earned a break."
+    ]
+  },
+  fr: {
+    start: [
+      "Départ tout en douceur. Installe-toi paisiblement.",
+      "Pas à pas, sans aucune pression de temps."
+    ],
+    building: [
+      "Beau rythme de travail. La concentration s'installe bien.",
+      "Continue avec cette belle sérénité."
+    ],
+    deep_flow: [
+      "Immersion totale. Tu avances de manière remarquable.",
+      "Merveilleuse concentration, continue sur ta lancée !"
+    ],
+    mastery: [
+      "Superbe endurance ! Tu as accompli un travail précieux.",
+      "Excellente maîtrise. Prends une pause dès que tu le souhaites."
+    ],
+    ultra_focus: [
+      "Séance exceptionnelle ! Pense à t'accorder un repos bien mérité."
+    ]
+  },
+  it: {
+    start: [
+      "Partenza serena. Entra con calma nel tuo compito.",
+      "Un passo alla volta, senza alcuna fretta."
+    ],
+    building: [
+      "Ottimo flusso di lavoro. La concentrazione cresce armoniosa.",
+      "Procedi con questo bel ritmo costante."
+    ],
+    deep_flow: [
+      "Pieno stato di flow. Sei completamente nel tuo elemento.",
+      "Splendida concentrazione, avanti così !"
+    ],
+    mastery: [
+      "Resistenza straordinaria ! Hai fatto grandi passi avanti.",
+      "Lavoro magistrale. Concediti pure una pausa quando vuoi."
+    ],
+    ultra_focus: [
+      "Sessione magnifica ! Riposati ogni volta che ne senti il bisogno."
+    ]
+  },
+  es: {
+    start: [
+      "Comienzo tranquilo. Entra en tu tarea con naturalidad.",
+      "Paso a paso, sin ninguna prisa."
+    ],
+    building: [
+      "Buen ritmo constante. La concentración fluye muy bien.",
+      "Sigue adelante con esta serenidad."
+    ],
+    deep_flow: [
+      "Estado de flujo profundo. Estás totalmente en tu elemento.",
+      "¡Gran enfoque! Sigue con este excelente impulso."
+    ],
+    mastery: [
+      "¡Resistencia impresionante! Has avanzado muchísimo.",
+      "Trabajo magistral. Tómate un descanso cuando lo desees."
+    ],
+    ultra_focus: [
+      "¡Sesión sobresaliente! Regálate un buen respiro cuando quieras."
+    ]
+  },
+  el: {
+    start: [
+      "Ήρεμο ξεκίνημα. Μπες στην εργασία σου αβίαστα.",
+      "Βήμα προς βήμα, χωρίς καμία πίεση."
+    ],
+    building: [
+      "Όμορφη ροή. Η συγκέντρωση απλώνεται σταθερά.",
+      "Συνέχισε σε αυτόν τον γαλήνιο ρυθμό."
+    ],
+    deep_flow: [
+      "Βαθιά κατάσταση ροής. Είσαι απόλυτα μέσα στο στοιχείο σου.",
+      "Εξαιρετική εστίαση! Αξιοποίησε αυτόν τον όμορφο παλμό."
+    ],
+    mastery: [
+      "Εντυπωσιακή αντοχή! Έχεις κάνει τεράστια πρόοδο.",
+      "Αριστοτεχνική εργασία. Πάρε διάλειμμα όποτε το επιθυμείς."
+    ],
+    ultra_focus: [
+      "Κορυφαία συνεδρία! Χάρισε στον εαυτό σου μια ανάσα ξεκούρασης."
+    ]
+  }
+};
+
+const TASK_AWARE_CHRONOMETER_MOTIVATIONS = {
+  de: {
+    start: [
+      "Guter Einstieg in '{task}'. Lass dich ganz in Ruhe darauf ein.",
+      "Bleib entspannt bei '{task}'. Schritt für Schritt ganz ohne Druck.",
+      "Schöner Beginn für '{task}'. Dein Fokus trägt dich voran."
+    ],
+    building: [
+      "Gleichmäßiger Arbeitsfluss bei '{task}'. Du kommst gut voran.",
+      "Sehr schöner Rhythmus an '{task}'. Lass es entspannt fließen.",
+      "Guter Fortschritt bei '{task}'. Behalte diesen klaren Takt bei."
+    ],
+    deep_flow: [
+      "Mitten im Flow bei '{task}'. Du machst das fantastisch!",
+      "Tiefe Konzentration auf '{task}'. Nimm diesen Schwung voll mit.",
+      "Starke Ausdauer an '{task}'. Du bist voll im Element."
+    ],
+    mastery: [
+      "Großartiger Einsatz für '{task}'! Bemerkenswert, wie du dranbleibst.",
+      "Du hast '{task}' schon meilenweit vorangebracht. Meisterhafter Fokus!",
+      "Volle Hingabe an '{task}'. Du darfst dir jederzeit eine Pause gönnen."
+    ],
+    ultra_focus: [
+      "Überwältigende Arbeit an '{task}'! Eine herausragende Session.",
+      "Du hast '{task}' meisterhaft vertieft. Gönn dir ein wohlverdientes Durchatmen."
+    ]
+  },
+  en: {
+    start: [
+      "Gently easing into '{task}'. One step at a time.",
+      "Stay centered on '{task}'. Completely at your own tempo."
+    ],
+    building: [
+      "Steady rhythm on '{task}'. Smooth and calm progress.",
+      "Good groove on '{task}'. Let it unfold naturally."
+    ],
+    deep_flow: [
+      "Deep in the flow on '{task}'. You are doing fantastic!",
+      "Wonderful concentration on '{task}'. Ride this momentum."
+    ],
+    mastery: [
+      "Great dedication to '{task}'! You have made huge strides forward.",
+      "Masterful focus on '{task}'. Feel free to pause anytime you wish."
+    ],
+    ultra_focus: [
+      "Exceptional work on '{task}'! Treat yourself to a restful breather whenever ready."
+    ]
+  },
+  fr: {
+    start: ["Départ serein sur '{task}'. Avance pas à pas."],
+    building: ["Beau travail régulier sur '{task}'. Continue ainsi."],
+    deep_flow: ["Excellente immersion dans '{task}'. Tu es parfaitement lancé."],
+    mastery: ["Grand accomplissement sur '{task}'. Prends une pause dès que tu veux."],
+    ultra_focus: ["Session magistrale sur '{task}'. Bravo pour cette belle endurance."]
+  },
+  it: {
+    start: ["Partenza serena su '{task}'. Un passo alla volta."],
+    building: ["Ottimo ritmo costante su '{task}'. Vai benissimo."],
+    deep_flow: ["Immersione totale in '{task}'. Ottimo lavoro!"],
+    mastery: ["Grande dedizione per '{task}'. Concediti una pausa quando vuoi."],
+    ultra_focus: ["Sessione magistrale su '{task}'. Grande perseveranza!"]
+  },
+  es: {
+    start: ["Comienzo sereno en '{task}'. Paso a paso."],
+    building: ["Buen avance constante en '{task}'. Sigue así."],
+    deep_flow: ["Inmersión total en '{task}'. ¡Lo estás haciendo genial!"],
+    mastery: ["Gran dedicación en '{task}'. Puedes descansar cuando lo desees."],
+    ultra_focus: ["Sesión magistral en '{task}'. ¡Felicidades por tanta perseverancia!"]
+  },
+  el: {
+    start: ["Ήρεμη εκκίνηση στο '{task}'. Ένα βήμα τη φορά."],
+    building: ["Σταθερή πρόοδος στο '{task}'. Συνέχισε όμορφα."],
+    deep_flow: ["Απόλυτη ροή στο '{task}'. Τα πας περίφημα!"],
+    mastery: ["Σπουδαία αφοσίωση στο '{task}'. Πάρε διάλειμμα όποτε θέλεις."],
+    ultra_focus: ["Αριστοτεχνική συνεδρία στο '{task}'. Συγχαρητήρια για την αντοχή σου."]
+  }
+};
+
+const CHRONOMETER_STOP_PHRASES = {
+  de: {
+    short: [
+      "Stoppuhr beendet. Guter Einstieg!",
+      "Chronometer gestoppt. Jeder Moment zählt."
+    ],
+    medium: [
+      "Stoppuhr beendet: {mins} Minuten konzentriert gearbeitet. Sehr stark!",
+      "Chronometer beendet: {mins} Minuten im Fokus. Gute Arbeit!",
+      "Fokuszeit gestoppt: {mins} Minuten fokussiert vorangekommen."
+    ],
+    long: [
+      "Großartige Leistung! {mins} Minuten im tiefen Flow gearbeitet. Du hast dir eine Pause redlich verdient.",
+      "Stoppuhr beendet: {mins} Minuten meisterhafter Fokus! Gönn dir etwas Erholung."
+    ],
+    task_medium: [
+      "Stoppuhr beendet: {mins} Minuten konzentriert an '{task}' gearbeitet. Ausgezeichnet!",
+      "Chronometer beendet: {mins} Minuten Fokus auf '{task}'. Stark gemacht!",
+      "Klasse Einsatz! {mins} Minuten fokussiert an '{task}' gearbeitet."
+    ],
+    task_long: [
+      "Stoppuhr beendet: {mins} Minuten Hingabe für '{task}'! Du hast dir eine wohlverdiente Pause verdient.",
+      "Ausgezeichnete Ausdauer bei '{task}'. {mins} Minuten stark durchgezogen!"
+    ]
+  },
+  en: {
+    short: [
+      "Stopwatch stopped. Good start!",
+      "Chronometer finished. Every step counts."
+    ],
+    medium: [
+      "Stopwatch finished: {mins} minutes of focused work. Great job!",
+      "Chronometer stopped: {mins} minutes in focus. Very well done!"
+    ],
+    long: [
+      "Outstanding accomplishment! {mins} minutes of deep flow. You have truly earned a restful break.",
+      "Stopwatch finished: {mins} minutes of masterful focus! Take a peaceful breather."
+    ],
+    task_medium: [
+      "Stopwatch finished: {mins} minutes dedicated to '{task}'. Excellent work!",
+      "Chronometer stopped: {mins} minutes focused on '{task}'. Great job!"
+    ],
+    task_long: [
+      "Stopwatch stopped: {mins} minutes of dedication to '{task}'! You have earned a well-deserved rest."
+    ]
+  },
+  fr: {
+    short: ["Chronomètre arrêté. Bon début !"],
+    medium: ["Chronomètre terminé : {mins} minutes de travail accomplies. Bravo !"],
+    long: ["Superbe session ! {mins} minutes en plein flow. Tu as bien mérité une pause."],
+    task_medium: ["Chronomètre terminé : {mins} minutes consacrées à '{task}'. Excellent travail !"],
+    task_long: ["Chronomètre arrêté : {mins} minutes d'immersion dans '{task}'. Bravo !"]
+  },
+  it: {
+    short: ["Cronometro fermato. Buon inizio !"],
+    medium: ["Cronometro terminato: {mins} minuti di concentrazione. Ottimo lavoro !"],
+    long: ["Splendida sessione ! {mins} minuti nel flusso. Ti sei meritato una pausa."],
+    task_medium: ["Cronometro terminato: {mins} minuti dedicati a '{task}'. Bravissimo !"],
+    task_long: ["Cronometro fermato: {mins} minuti di dedizione a '{task}'. Ottimo lavoro !"]
+  },
+  es: {
+    short: ["Cronómetro detenido. ¡Buen comienzo!"],
+    medium: ["Cronómetro finalizado: {mins} minutos de trabajo enfocado. ¡Buen trabajo!"],
+    long: ["¡Excelente sesión! {mins} minutos en pleno flujo. Te has ganado un buen descanso."],
+    task_medium: ["Cronómetro finalizado: {mins} minutos dedicados a '{task}'. ¡Excelente!"],
+    task_long: ["Cronómetro detenido: {mins} minutos de entrega a '{task}'. ¡Gran trabajo!"]
+  },
+  el: {
+    short: ["Το χρονόμετρο σταμάτησε. Όμορφο ξεκίνημα!"],
+    medium: ["Το χρονόμετρο ολοκληρώθηκε: {mins} λεπτά εστίασης. Πολύ καλή δουλειά!"],
+    long: ["Υπέροχη συνεδρία! {mins} λεπτά στη ροή σου. Αξίζεις απόλυτα ένα διάλειμμα."],
+    task_medium: ["Χρονόμετρο ολοκληρώθηκε: {mins} λεπτά στο '{task}'. Εξαιρετική προσπάθεια!"],
+    task_long: ["Χρονόμετρο σταμάτησε: {mins} λεπτά αφοσίωσης στο '{task}'. Μπράβο σου!"]
+  }
 };
 
 // Zuletzt verwendete Sprüche merken, damit sich innerhalb einer Sitzung nichts unmittelbar wiederholt
@@ -634,10 +1262,19 @@ if (typeof window !== 'undefined') window.duckAllAudioForSpeech = duckAllAudioFo
 if (typeof globalThis !== 'undefined') globalThis.duckAllAudioForSpeech = duckAllAudioForSpeech;
 
 // Globale, hochqualitative Sprach-Synthese mit organischen, menschlich-warmen Stimmen
-function speakWithProfile(text, profileIndex = null) {
-  if (!timerSoundEnabled || timerVoiceEnabled === false) return;
-  if (!('speechSynthesis' in window)) return;
-  if (!text || typeof text !== 'string') return;
+function speakWithProfile(text, profileIndex = null, onComplete = null) {
+  if (!timerSoundEnabled || timerVoiceEnabled === false) {
+    if (typeof onComplete === 'function') setTimeout(onComplete, 50);
+    return;
+  }
+  if (!('speechSynthesis' in window)) {
+    if (typeof onComplete === 'function') setTimeout(onComplete, 50);
+    return;
+  }
+  if (!text || typeof text !== 'string') {
+    if (typeof onComplete === 'function') setTimeout(onComplete, 50);
+    return;
+  }
 
   try {
     if (window.speechSynthesis.paused) {
@@ -658,6 +1295,9 @@ function speakWithProfile(text, profileIndex = null) {
     if (!naturalText) naturalText = text;
 
     const utterance = new SpeechSynthesisUtterance(naturalText);
+    if (typeof window !== 'undefined') {
+      window._activeSpeechUtterance = utterance; // Prevent Chrome garbage collection bug
+    }
     const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
     const langMap = { en: 'en-US', de: 'de-DE', es: 'es-ES', el: 'el-GR', fr: 'fr-FR', it: 'it-IT' };
     const targetLang = langMap[lang] || 'en-US';
@@ -679,7 +1319,6 @@ function speakWithProfile(text, profileIndex = null) {
     const langPrefix = targetLang.split('-')[0].toLowerCase();
     const matchingVoices = allVoices.filter(v => v.lang && v.lang.toLowerCase().replace('_', '-').startsWith(langPrefix));
 
-    // Höchste Priorität für Neural / Natural / Online / Wavenet / Siri / Enhanced / Freundliche Stimmen
     function getVoiceScore(voice) {
       const name = (voice.name || '').toLowerCase();
       let score = 0;
@@ -721,8 +1360,23 @@ function speakWithProfile(text, profileIndex = null) {
       maleKeywords.some(kw => v.name.toLowerCase().includes(kw))
     );
 
+    const childKeywords = [
+      'child', 'kind', 'kid', 'boy', 'girl', 'young', 'junior', 'elli', 'yannick', 'marta', 'audrey', 'alice', 'oliver'
+    ];
+    const childVoices = sortedVoices.filter(v => 
+      childKeywords.some(kw => v.name.toLowerCase().includes(kw))
+    );
+
     let selectedVoice = null;
-    if (profile.gender === 'female' && femaleVoices.length > 0) {
+    if (profile.gender === 'child' || profile.category === 'child') {
+      if (childVoices.length > 0) {
+        selectedVoice = childVoices[Math.abs(profileIndex) % childVoices.length];
+      } else if (femaleVoices.length > 0) {
+        selectedVoice = femaleVoices[Math.abs(profileIndex) % femaleVoices.length];
+      } else if (sortedVoices.length > 0) {
+        selectedVoice = sortedVoices[Math.abs(profileIndex) % sortedVoices.length];
+      }
+    } else if (profile.gender === 'female' && femaleVoices.length > 0) {
       selectedVoice = femaleVoices[Math.abs(profileIndex) % femaleVoices.length];
     } else if (profile.gender === 'male' && maleVoices.length > 0) {
       selectedVoice = maleVoices[Math.abs(profileIndex) % maleVoices.length];
@@ -734,24 +1388,56 @@ function speakWithProfile(text, profileIndex = null) {
       utterance.voice = selectedVoice;
     }
 
-    // 4. Harmonisches Ducking: Hintergrundsounds/Radio sanft abdämpfen und nach Sprache wieder anheben
+    // 3.5 Automatischer Ambient-Sound zu Sprüchen (sofern nicht Musik oder Radio aktiv ist)
+    const isRadioActive = (typeof RadioNewsEngine !== 'undefined' && RadioNewsEngine.isRadioPlaying) || (typeof window !== 'undefined' && window.isRadioPlaying) || (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused);
+    const isMusicActive = (typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused);
+    let autoStartedAmbientForSpeech = false;
+
+    if (!isRadioActive && !isMusicActive) {
+      const isAmbientPlaying = typeof currentSoundType !== 'undefined' && currentSoundType;
+      if (!isAmbientPlaying && typeof playAmbientSound === 'function') {
+        const soundToUse = (typeof selectedTimerSound !== 'undefined' && selectedTimerSound && selectedTimerSound !== 'mix') ? selectedTimerSound : 'lofi';
+        try {
+          playAmbientSound(soundToUse, false);
+          autoStartedAmbientForSpeech = true;
+        } catch (e) {}
+      }
+    }
+
+    // 4. Harmonisches Ducking: Hintergrundsounds sanft abdämpfen und nach Sprache wieder anheben
     duckAllAudioForSpeech(true);
 
     utterance.onstart = () => {
       duckAllAudioForSpeech(true);
     };
 
-    const cleanupDucking = () => {
-      duckAllAudioForSpeech(false);
+    let hasCompleted = false;
+    const finishHandler = () => {
+      if (hasCompleted) return;
+      hasCompleted = true;
+      if (!keepDucked) {
+        duckAllAudioForSpeech(false);
+      }
+      if (autoStartedAmbientForSpeech) {
+        const currentMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+        if (currentMode === 'silent' && (!timerRunning || currentMode === 'silent')) {
+          setTimeout(() => {
+            if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+          }, 1500);
+        }
+      }
+      if (typeof onComplete === 'function') {
+        try { onComplete(); } catch (e) { console.warn('onComplete callback error:', e); }
+      }
     };
 
-    utterance.onend = cleanupDucking;
-    utterance.onerror = cleanupDucking;
+    utterance.onend = finishHandler;
+    utterance.onerror = finishHandler;
 
     const speakSessionToken = currentSpeechSessionId;
     const speakTimeout = setTimeout(() => {
       if (currentSpeechSessionId !== speakSessionToken) {
-        cleanupDucking();
+        finishHandler();
         return;
       }
       try {
@@ -761,7 +1447,7 @@ function speakWithProfile(text, profileIndex = null) {
         window.speechSynthesis.speak(utterance);
       } catch (err) {
         console.warn("speechSynthesis.speak error:", err);
-        cleanupDucking();
+        finishHandler();
       }
     }, 50);
     if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
@@ -769,51 +1455,419 @@ function speakWithProfile(text, profileIndex = null) {
     }
   } catch (e) {
     console.error("Fehler bei der speakWithProfile Ausführung:", e);
-    duckAllAudioForSpeech(false);
+    if (!keepDucked) duckAllAudioForSpeech(false);
+    if (typeof onComplete === 'function') {
+      try { onComplete(); } catch (err) {}
+    }
   }
 }
 
-// Jede Minute und jede Ansage wechselnde Stimmenprofile (Frauen, Männer, Kinder)
-function speakSoftlyDynamic(text, remSec, totSec) {
-  const voiceTurn = globalVoiceTurnIndex++;
-  speakWithProfile(text, voiceTurn);
+// Chaining von Ansagen mit wechselnden Stimmen (z. B. Zeitansage durch Stimme A -> Spruch durch Stimme B)
+function speakVoiceSequence(items, onComplete = null, allowWhenStopped = false) {
+  if (!timerSoundEnabled || timerVoiceEnabled === false) {
+    if (typeof onComplete === 'function') setTimeout(onComplete, 50);
+    return;
+  }
+  if (!items || items.length === 0) {
+    if (typeof onComplete === 'function') setTimeout(onComplete, 50);
+    return;
+  }
+  const validItems = items.filter(it => it && it.text && typeof it.text === 'string' && it.text.trim());
+  if (validItems.length === 0) {
+    if (typeof onComplete === 'function') setTimeout(onComplete, 50);
+    return;
+  }
+
+  const sessionToken = currentSpeechSessionId;
+  let idx = 0;
+
+  function runNext() {
+    const isTimingActive = (typeof timerRunning !== 'undefined' && timerRunning) || (typeof chronometerActive !== 'undefined' && chronometerActive);
+    if (!isTimingActive && !allowWhenStopped) {
+      duckAllAudioForSpeech(false);
+      if (typeof onComplete === 'function') onComplete();
+      return;
+    }
+    if (typeof currentSpeechSessionId !== 'undefined' && currentSpeechSessionId !== sessionToken) {
+      duckAllAudioForSpeech(false);
+      return;
+    }
+    if (idx >= validItems.length) {
+      duckAllAudioForSpeech(false);
+      if (typeof onComplete === 'function') onComplete();
+      return;
+    }
+
+    const item = validItems[idx];
+    const isLast = (idx === validItems.length - 1);
+    idx++;
+
+    const turn = (item.profileIndex !== undefined && item.profileIndex !== null)
+      ? item.profileIndex
+      : globalVoiceTurnIndex++;
+
+    speakWithProfile(item.text, turn, () => {
+      if (isLast) {
+        duckAllAudioForSpeech(false);
+        if (typeof onComplete === 'function') onComplete();
+      } else {
+        // Natürliche, menschliche Atempause zwischen zwei Sprechern (z. B. Zeitansage -> Motivation)
+        const pauseTimer = setTimeout(() => {
+          if (typeof currentSpeechSessionId !== 'undefined' && currentSpeechSessionId !== sessionToken) {
+            duckAllAudioForSpeech(false);
+            return;
+          }
+          runNext();
+        }, 420);
+        if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
+          activeTimeouts.push(pauseTimer);
+        }
+      }
+    }, !isLast);
+  }
+
+  runNext();
 }
 
-// Liefert kontextbezogene, stufenweise angepasste Motivationen (Start: ruhig, Mitte: im Fluss, Ende: Endspurt)
-function getContextMotivation(remSec, totSec) {
+// Jede 2 Minuten und bei Ansagen wechselnde Stimmenprofile
+function speakSoftlyDynamic(text, remSec, totSec, onComplete = null) {
+  if (Array.isArray(text)) {
+    speakVoiceSequence(text, onComplete);
+  } else {
+    speakVoiceSequence([{ text }], onComplete);
+  }
+}
+
+// Interaktive Hörprobe für Timer-Stimmen (Frau, Mann, Kind)
+function previewVoiceCategory(category) {
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
-  const list = MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS['de'];
+  const previews = {
+    de: {
+      female: "Hallo! Ich begleite dich mit Ruhe und Klarheit durch deinen Fokus.",
+      male: "Auf geht's. Ein Schritt nach dem anderen, ganz entspannt.",
+      child: "Du machst das richtig klasse! Ich glaub an dich, zieh weiter durch!"
+    },
+    en: {
+      female: "Hello! I am here to guide you peacefully through your focus.",
+      male: "Let's do this. One step at a time, staying relaxed.",
+      child: "You're doing so great! I believe in you, keep going!"
+    },
+    es: {
+      female: "¡Hola! Te acompaño con calma y claridad en tu enfoque.",
+      male: "Vamos paso a paso, con tranquilidad y confianza.",
+      child: "¡Lo estás haciendo genial! ¡Sigue así con toda la energía!"
+    },
+    fr: {
+      female: "Bonjour ! Je t'accompagne avec douceur et sérénité.",
+      male: "C'est parti. Un pas après l'autre, tout en confiance.",
+      child: "Tu te débrouilles super bien ! Je suis fier de toi, continue !"
+    },
+    it: {
+      female: "Ciao! Ti accompagno con serenità e calma nella concentrazione.",
+      male: "Forza, un passo alla volta con calma e fiducia.",
+      child: "Stai andando alla grande! Credo in te, continua così!"
+    },
+    el: {
+      female: "Γεια σου! Είμαι εδώ για να σε συνοδεύσω με ηρεμία και γαλήνη.",
+      male: "Πάμε δυνατά. Ένα βήμα τη φορά, χωρίς κανένα άγχος.",
+      child: "Τα πας καταπληκτικά! Πιστεύω σε σένα, συνέχισε δυνατά!"
+    }
+  };
+  const text = (previews[lang] && previews[lang][category]) || previews.de[category] || "Hallo!";
+  const matchingProfiles = VOICE_PROFILES.filter(p => p.category === category || p.gender === category);
+  const profile = matchingProfiles[Math.floor(Math.random() * matchingProfiles.length)] || VOICE_PROFILES[0];
+  const profileIndex = VOICE_PROFILES.indexOf(profile);
+  
+  speakWithProfile(text, profileIndex >= 0 ? profileIndex : 0);
+  
+  if (typeof showToast === 'function') {
+    const label = category === 'female' ? '👩 Frauenstimme' : (category === 'male' ? '👨 Männerstimme' : '🧒 Kinderstimme');
+    showToast(`${label}: ${profile.name}`);
+  }
+}
+
+function getTimeUpPhrase(lang = null) {
+  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const phrases = (typeof TIME_UP_PHRASES !== 'undefined' && TIME_UP_PHRASES[currentL]) 
+    ? TIME_UP_PHRASES[currentL] 
+    : (typeof TIME_UP_PHRASES !== 'undefined' ? TIME_UP_PHRASES.de : null);
+  if (Array.isArray(phrases)) {
+    const chosen = pickWithoutImmediateRepeat(phrases, lastMotivationByTier['time_up']);
+    lastMotivationByTier['time_up'] = chosen;
+    return chosen;
+  }
+  return phrases || "Fokuszeit gemeistert! Zieh ruhig weiter durch, wenn du im Flow bist.";
+}
+
+function getOverdueMotivation(lang = null, taskName = '', overdueMins = 0) {
+  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  
+  // Wenn eine Aufgabe aktiv ist, binden wir sie mit hoher Wahrscheinlichkeit natürlich ein
+  if (taskName && typeof taskName === 'string' && taskName.trim() && Math.random() < 0.6) {
+    const taskListObj = (typeof TASK_AWARE_MOTIVATIONS !== 'undefined' && TASK_AWARE_MOTIVATIONS[currentL]) 
+      ? TASK_AWARE_MOTIVATIONS[currentL] 
+      : (typeof TASK_AWARE_MOTIVATIONS !== 'undefined' ? TASK_AWARE_MOTIVATIONS.de : null);
+    const taskTierList = taskListObj ? taskListObj.overdue : null;
+    if (taskTierList && taskTierList.length > 0) {
+      const template = pickWithoutImmediateRepeat(taskTierList, lastMotivationByTier['overdue_task']);
+      lastMotivationByTier['overdue_task'] = template;
+      const cleanTask = taskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
+      return template.replace('{task}', cleanTask);
+    }
+  }
+
+  const list = (typeof MOTIVATIONAL_CHUNKS !== 'undefined' && (MOTIVATIONAL_CHUNKS[currentL] || MOTIVATIONAL_CHUNKS.de))
+    ? (MOTIVATIONAL_CHUNKS[currentL] || MOTIVATIONAL_CHUNKS.de).overdue
+    : [];
+  if (list && list.length > 0) {
+    const chosen = pickWithoutImmediateRepeat(list, lastMotivationByTier['overdue']);
+    lastMotivationByTier['overdue'] = chosen;
+    return chosen;
+  }
+  return "";
+}
+
+function getContextMotivation(remSec, totSec, taskName = '') {
+  const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+  if (remSec <= 0) {
+    return getOverdueMotivation(lang, taskName, Math.abs(Math.floor(remSec / 60)));
+  }
   const pct = totSec > 0 ? (remSec / totSec) * 100 : 0;
   
   let tier = 'end';
   if (pct > 70) tier = 'start';
   else if (pct > 25) tier = 'halfway';
   
+  // Wenn eine Aufgabe aktiv ist, binden wir sie mit 50-60% Wahrscheinlichkeit natürlich ein
+  if (taskName && typeof taskName === 'string' && taskName.trim() && Math.random() < 0.6) {
+    const taskListObj = (typeof TASK_AWARE_MOTIVATIONS !== 'undefined' && TASK_AWARE_MOTIVATIONS[lang]) 
+      ? TASK_AWARE_MOTIVATIONS[lang] 
+      : (typeof TASK_AWARE_MOTIVATIONS !== 'undefined' ? TASK_AWARE_MOTIVATIONS.de : null);
+    const taskTierList = taskListObj ? taskListObj[tier] : null;
+    if (taskTierList && taskTierList.length > 0) {
+      const template = pickWithoutImmediateRepeat(taskTierList, lastMotivationByTier[tier + '_task']);
+      lastMotivationByTier[tier + '_task'] = template;
+      const cleanTask = taskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
+      return template.replace('{task}', cleanTask);
+    }
+  }
+
+  const list = MOTIVATIONAL_CHUNKS[lang] || MOTIVATIONAL_CHUNKS['de'];
   const chosen = pickWithoutImmediateRepeat(list[tier], lastMotivationByTier[tier]);
   lastMotivationByTier[tier] = chosen;
   return chosen;
 }
 
-// Angenehmer, dezenter Glockenton für die Minuten "dazwischen" (kein Sprechen, viel Klang-Varianz)
+// -------------------------------------------------------------------------
+// CHRONOMETER SPEZIFISCHE HELPER-FUNKTIONEN
+// -------------------------------------------------------------------------
+
+function getChronometerTimeAnnouncement(elapsedSec, lang = null) {
+  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const mins = Math.floor(elapsedSec / 60);
+
+  if (mins === 1) {
+    if (currentL === 'de') return "1 Minute im Flow.";
+    if (currentL === 'es') return "1 minuto en el flujo.";
+    if (currentL === 'fr') return "1 minute de concentration.";
+    if (currentL === 'it') return "1 minuto nel flusso.";
+    if (currentL === 'el') return "1 λεπτό στη ροή σου.";
+    return "1 minute in the flow.";
+  }
+  if (mins === 2) {
+    if (currentL === 'de') return "2 Minuten Fokuszeit.";
+    if (currentL === 'es') return "2 minutos de enfoque.";
+    if (currentL === 'fr') return "2 minutes de travail.";
+    if (currentL === 'it') return "2 minuti di concentrazione.";
+    if (currentL === 'el') return "2 λεπτά εστίασης.";
+    return "2 minutes of focus.";
+  }
+  if (mins === 5) {
+    if (currentL === 'de') return "5 Minuten im tiefen Fokus.";
+    if (currentL === 'es') return "5 minutos de concentración profunda.";
+    if (currentL === 'fr') return "5 minutes de concentration profonde.";
+    if (currentL === 'it') return "5 minuti di concentrazione profonda.";
+    if (currentL === 'el') return "5 λεπτά βαθιάς εστίασης.";
+    return "5 minutes of deep focus.";
+  }
+  if (mins === 10) {
+    if (currentL === 'de') return "10 Minuten geschafft.";
+    if (currentL === 'es') return "10 minutos completados.";
+    if (currentL === 'fr') return "10 minutes accomplies.";
+    if (currentL === 'it') return "10 minuti completati.";
+    if (currentL === 'el') return "10 λεπτά συμπληρώθηκαν.";
+    return "10 minutes completed.";
+  }
+  if (mins === 15) {
+    if (currentL === 'de') return "15 Minuten konzentriert im Flow.";
+    if (currentL === 'es') return "15 minutos de flujo continuo.";
+    if (currentL === 'fr') return "15 minutes de concentration soutenue.";
+    if (currentL === 'it') return "15 minuti nel flusso costante.";
+    if (currentL === 'el') return "15 λεπτά συνεχούς ροής.";
+    return "15 minutes of steady flow.";
+  }
+  if (mins === 20) {
+    if (currentL === 'de') return "20 Minuten fokussierte Arbeit.";
+    if (currentL === 'es') return "20 minutos de trabajo enfocado.";
+    if (currentL === 'fr') return "20 minutes de travail concentré.";
+    if (currentL === 'it') return "20 minuti di lavoro focalizzato.";
+    if (currentL === 'el') return "20 λεπτά συγκεντρωμένης εργασίας.";
+    return "20 minutes of focused work.";
+  }
+  if (mins === 25) {
+    if (currentL === 'de') return "25 Minuten erreicht – eine volle Pomodoro-Einheit!";
+    if (currentL === 'es') return "¡25 minutos alcanzados – un bloque Pomodoro completo!";
+    if (currentL === 'fr') return "25 minutes atteintes – une session Pomodoro complète !";
+    if (currentL === 'it') return "25 minuti raggiunti – un blocco Pomodoro completo!";
+    if (currentL === 'el') return "25 λεπτά – μια πλήρης ενότητα Pomodoro!";
+    return "25 minutes reached – a full Pomodoro block!";
+  }
+  if (mins === 30) {
+    if (currentL === 'de') return "30 Minuten tiefer Arbeitsfluss.";
+    if (currentL === 'es') return "30 minutos de trabajo profundo.";
+    if (currentL === 'fr') return "30 minutes d'immersion totale.";
+    if (currentL === 'it') return "30 minuti di flow profondo.";
+    if (currentL === 'el') return "30 λεπτά βαθιάς ροής.";
+    return "30 minutes of deep flow.";
+  }
+  if (mins === 45) {
+    if (currentL === 'de') return "45 Minuten meisterhafter Fokus.";
+    if (currentL === 'es') return "45 minutos de maestría y enfoque.";
+    if (currentL === 'fr') return "45 minutes de concentration magistrale.";
+    if (currentL === 'it') return "45 minuti di eccellente concentrazione.";
+    if (currentL === 'el') return "45 λεπτά κορυφαίας εστίασης.";
+    return "45 minutes of masterful focus.";
+  }
+  if (mins === 60) {
+    if (currentL === 'de') return "60 Minuten erreicht – eine ganze Stunde voller Hingabe!";
+    if (currentL === 'es') return "¡60 minutos – una hora completa de dedicación!";
+    if (currentL === 'fr') return "60 minutes atteintes – une heure entière de dévouement !";
+    if (currentL === 'it') return "60 minuti raggiunti – un'ora intera di dedizione !";
+    if (currentL === 'el') return "60 λεπτά – μια ολόκληρη ώρα αφοσίωσης!";
+    return "60 minutes reached – a full hour of dedication!";
+  }
+
+  // Für alle anderen Minuten
+  if (currentL === 'de') return `${mins} Minuten Fokuszeit erreicht.`;
+  if (currentL === 'es') return `${mins} minutos de enfoque completados.`;
+  if (currentL === 'fr') return `${mins} minutes de travail accomplies.`;
+  if (currentL === 'it') return `${mins} minuti di concentrazione raggiunti.`;
+  if (currentL === 'el') return `${mins} λεπτά εστίασης συμπληρώθηκαν.`;
+  return `${mins} minutes of focus achieved.`;
+}
+
+function getChronometerMotivation(elapsedSec, taskName = '', lang = null) {
+  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const mins = Math.floor(elapsedSec / 60);
+
+  let tier = 'start';
+  if (mins >= 60) tier = 'ultra_focus';
+  else if (mins >= 30) tier = 'mastery';
+  else if (mins >= 15) tier = 'deep_flow';
+  else if (mins >= 5) tier = 'building';
+  else tier = 'start';
+
+  // Task-bezogene Motivation mit 60% Chance bevorzugen
+  if (taskName && typeof taskName === 'string' && taskName.trim() && Math.random() < 0.6) {
+    const taskDict = (typeof TASK_AWARE_CHRONOMETER_MOTIVATIONS !== 'undefined' && TASK_AWARE_CHRONOMETER_MOTIVATIONS[currentL])
+      ? TASK_AWARE_CHRONOMETER_MOTIVATIONS[currentL]
+      : (typeof TASK_AWARE_CHRONOMETER_MOTIVATIONS !== 'undefined' ? TASK_AWARE_CHRONOMETER_MOTIVATIONS.de : null);
+    const list = taskDict ? (taskDict[tier] || taskDict.start) : null;
+    if (list && list.length > 0) {
+      const template = pickWithoutImmediateRepeat(list, lastMotivationByTier['chrono_task_' + tier]);
+      lastMotivationByTier['chrono_task_' + tier] = template;
+      const cleanTask = taskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
+      return template.replace('{task}', cleanTask);
+    }
+  }
+
+  // Allgemeine Chronometer-Motivation
+  const genDict = (typeof CHRONOMETER_MOTIVATIONS !== 'undefined' && CHRONOMETER_MOTIVATIONS[currentL])
+    ? CHRONOMETER_MOTIVATIONS[currentL]
+    : (typeof CHRONOMETER_MOTIVATIONS !== 'undefined' ? CHRONOMETER_MOTIVATIONS.de : null);
+  const list = genDict ? (genDict[tier] || genDict.start) : [];
+  if (list && list.length > 0) {
+    const chosen = pickWithoutImmediateRepeat(list, lastMotivationByTier['chrono_' + tier]);
+    lastMotivationByTier['chrono_' + tier] = chosen;
+    return chosen;
+  }
+  return "";
+}
+
+function getChronometerStopPhrase(elapsedSec, taskName = '', lang = null) {
+  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const mins = Math.max(1, Math.round(elapsedSec / 60));
+  const dict = (typeof CHRONOMETER_STOP_PHRASES !== 'undefined' && CHRONOMETER_STOP_PHRASES[currentL])
+    ? CHRONOMETER_STOP_PHRASES[currentL]
+    : (typeof CHRONOMETER_STOP_PHRASES !== 'undefined' ? CHRONOMETER_STOP_PHRASES.de : null);
+  
+  if (!dict) {
+    return currentL === 'de' ? `Stoppuhr beendet: ${mins} Minuten konzentriert gearbeitet.` : `Stopwatch finished: ${mins} minutes of focused work.`;
+  }
+
+  const cleanTask = taskName ? String(taskName).trim().replace(/^[\d\.\-\*•✓\s]+/, '') : '';
+  let list = [];
+
+  if (cleanTask) {
+    list = (mins >= 20 && dict.task_long) ? dict.task_long : (dict.task_medium || dict.medium);
+  } else {
+    if (mins < 3 && dict.short) list = dict.short;
+    else if (mins >= 20 && dict.long) list = dict.long;
+    else list = dict.medium || dict.short;
+  }
+
+  if (list && list.length > 0) {
+    const template = pickWithoutImmediateRepeat(list, lastMotivationByTier['chrono_stop']);
+    lastMotivationByTier['chrono_stop'] = template;
+    return template.replace('{mins}', mins).replace('{task}', cleanTask);
+  }
+  return currentL === 'de' ? `Stoppuhr beendet: ${mins} Minuten konzentriert gearbeitet.` : `Stopwatch finished: ${mins} minutes of focused work.`;
+}
 
 if (typeof window !== 'undefined') {
+  window.VOICE_PROFILES = VOICE_PROFILES;
+  window.CHRONOMETER_START_PHRASES = CHRONOMETER_START_PHRASES;
+  window.CHRONOMETER_START_TASK_PHRASES = CHRONOMETER_START_TASK_PHRASES;
+  window.CHRONOMETER_MOTIVATIONS = CHRONOMETER_MOTIVATIONS;
+  window.TASK_AWARE_CHRONOMETER_MOTIVATIONS = TASK_AWARE_CHRONOMETER_MOTIVATIONS;
+  window.CHRONOMETER_STOP_PHRASES = CHRONOMETER_STOP_PHRASES;
   window.toggleTimerSound = toggleTimerSound;
   window.updateMuteButtonsUI = updateMuteButtonsUI;
   window.playRandomTimerAmbient = playRandomTimerAmbient;
   window.updateSpeechVoices = updateSpeechVoices;
   window.speakWithProfile = speakWithProfile;
+  window.speakVoiceSequence = speakVoiceSequence;
   window.speakSoftlyDynamic = speakSoftlyDynamic;
+  window.previewVoiceCategory = previewVoiceCategory;
   window.getContextMotivation = getContextMotivation;
+  window.getOverdueMotivation = getOverdueMotivation;
+  window.getTimeUpPhrase = getTimeUpPhrase;
+  window.getChronometerTimeAnnouncement = getChronometerTimeAnnouncement;
+  window.getChronometerMotivation = getChronometerMotivation;
+  window.getChronometerStopPhrase = getChronometerStopPhrase;
   window.getCurrentPresetMinutes = getCurrentPresetMinutes;
 }
 if (typeof globalThis !== 'undefined') {
+  globalThis.VOICE_PROFILES = VOICE_PROFILES;
+  globalThis.CHRONOMETER_START_PHRASES = CHRONOMETER_START_PHRASES;
+  globalThis.CHRONOMETER_START_TASK_PHRASES = CHRONOMETER_START_TASK_PHRASES;
+  globalThis.CHRONOMETER_MOTIVATIONS = CHRONOMETER_MOTIVATIONS;
+  globalThis.TASK_AWARE_CHRONOMETER_MOTIVATIONS = TASK_AWARE_CHRONOMETER_MOTIVATIONS;
+  globalThis.CHRONOMETER_STOP_PHRASES = CHRONOMETER_STOP_PHRASES;
   globalThis.toggleTimerSound = toggleTimerSound;
   globalThis.updateMuteButtonsUI = updateMuteButtonsUI;
   globalThis.playRandomTimerAmbient = playRandomTimerAmbient;
   globalThis.updateSpeechVoices = updateSpeechVoices;
   globalThis.speakWithProfile = speakWithProfile;
+  globalThis.speakVoiceSequence = speakVoiceSequence;
   globalThis.speakSoftlyDynamic = speakSoftlyDynamic;
+  globalThis.previewVoiceCategory = previewVoiceCategory;
   globalThis.getContextMotivation = getContextMotivation;
+  globalThis.getOverdueMotivation = getOverdueMotivation;
+  globalThis.getTimeUpPhrase = getTimeUpPhrase;
+  globalThis.getChronometerTimeAnnouncement = getChronometerTimeAnnouncement;
+  globalThis.getChronometerMotivation = getChronometerMotivation;
+  globalThis.getChronometerStopPhrase = getChronometerStopPhrase;
   globalThis.getCurrentPresetMinutes = getCurrentPresetMinutes;
 }
 

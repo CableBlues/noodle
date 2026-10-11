@@ -113,31 +113,45 @@ function switchImpulseTab(tabName) {
 }
 window.switchImpulseTab = switchImpulseTab;
 
-function handleSoundsMainClick() { togglePanel('audio'); switchAudioTab('ambient'); }
-function handleMusicMainClick() { togglePanel('audio'); switchAudioTab('music'); }
+function handleSoundsMainClick() { openAudioStudioMode('ambient'); }
+function handleMusicMainClick() { openAudioStudioMode('music'); }
+
+function openAudioStudioMode(mode) {
+  if (typeof togglePanel !== 'function') return;
+  const panel = document.getElementById('panel-audio');
+  const isHidden = !panel || panel.classList.contains('hidden');
+  
+  if (typeof window !== 'undefined') window._lastActiveAudioTab = mode;
+  try { localStorage.setItem('flow_last_audio_tab', mode); } catch(e) {}
+
+  if (isHidden) {
+    togglePanel('audio');
+  }
+  if (typeof switchAudioTab === 'function') {
+    switchAudioTab(mode);
+  }
+}
+window.openAudioStudioMode = openAudioStudioMode;
 
 function switchAudioTab(tabName) {
+  if (tabName === 'beats') tabName = 'ambient';
   if (typeof window !== 'undefined') window._lastActiveAudioTab = tabName;
   const tabConfigs = {
     ambient: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition font-medium'
-    },
-    beats: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-purple-100 bg-gradient-to-r from-purple-600/40 via-violet-600/35 to-purple-600/40 border border-purple-400/80 shadow-[0_0_15px_rgba(168,85,247,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-purple-300 hover:bg-purple-500/10 border border-transparent transition font-medium'
+      activeClass: 'flex-1 py-1.5 px-1 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] font-bold',
+      inactiveClass: 'flex-1 py-1.5 px-1 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition font-medium'
     },
     music: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-cyan-100 bg-gradient-to-r from-cyan-600/40 via-sky-600/35 to-cyan-600/40 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 border border-transparent transition font-medium'
+      activeClass: 'flex-1 py-1.5 px-1 rounded-xl text-cyan-100 bg-gradient-to-r from-cyan-600/40 via-sky-600/35 to-cyan-600/40 border border-cyan-400/80 shadow-[0_0_15px_rgba(6,182,212,0.35)] font-bold',
+      inactiveClass: 'flex-1 py-1.5 px-1 rounded-xl text-gray-400 hover:text-cyan-300 hover:bg-cyan-500/10 border border-transparent transition font-medium'
     },
     dj: {
-      activeClass: 'flex-1 py-2 px-1.5 rounded-xl text-amber-100 bg-gradient-to-r from-amber-600/40 via-orange-600/35 to-amber-600/40 border border-amber-400/80 shadow-[0_0_15px_rgba(245,158,11,0.35)] font-bold',
-      inactiveClass: 'flex-1 py-2 px-1.5 rounded-xl text-gray-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent transition font-medium'
+      activeClass: 'flex-1 py-1.5 px-1 rounded-xl text-amber-100 bg-gradient-to-r from-amber-600/40 via-orange-600/35 to-amber-600/40 border border-amber-400/80 shadow-[0_0_15px_rgba(245,158,11,0.35)] font-bold',
+      inactiveClass: 'flex-1 py-1.5 px-1 rounded-xl text-gray-400 hover:text-amber-300 hover:bg-amber-500/10 border border-transparent transition font-medium'
     }
   };
 
-  const tabs = ['ambient', 'beats', 'music', 'dj'];
+  const tabs = ['ambient', 'mixer', 'beats', 'music', 'dj'];
   tabs.forEach(t => {
     const btn = document.getElementById(`audio-tab-btn-${t}`);
     const pane = document.getElementById(`audio-pane-${t}`);
@@ -158,12 +172,40 @@ function switchAudioTab(tabName) {
   const audioPanel = document.getElementById('panel-audio');
   if (audioPanel) {
     audioPanel.setAttribute('data-active-tab', tabName);
+    audioPanel.classList.toggle('is-dj-mode', tabName === 'dj');
     const moodPresetsEl = document.getElementById('audio-studio-mood-presets');
     if (moodPresetsEl) {
       moodPresetsEl.classList.toggle('hidden', tabName === 'dj');
     }
+    const rightMasterFader = document.getElementById('audio-studio-master-fader');
+    if (rightMasterFader) {
+      rightMasterFader.classList.toggle('hidden', tabName === 'dj');
+    }
   }
 
+  const headerIconBadge = document.getElementById('audio-studio-header-icon-badge');
+  const headerSubtextBadge = document.getElementById('audio-studio-subtext-badge');
+  if (headerIconBadge) {
+    if (tabName === 'dj') {
+      headerIconBadge.className = 'w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 shadow-sm shrink-0';
+      headerIconBadge.innerHTML = '<i data-lucide="sliders" class="w-4 h-4"></i>';
+      if (headerSubtextBadge) headerSubtextBadge.textContent = 'DJ';
+    } else if (tabName === 'music') {
+      headerIconBadge.className = 'w-7 h-7 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 shadow-sm shrink-0';
+      headerIconBadge.innerHTML = '<i data-lucide="disc-3" class="w-4 h-4"></i>';
+      if (headerSubtextBadge) headerSubtextBadge.textContent = 'MUSIC';
+    } else {
+      headerIconBadge.className = 'w-7 h-7 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 shadow-sm shrink-0';
+      headerIconBadge.innerHTML = '<i data-lucide="headphones" class="w-4 h-4"></i>';
+      if (headerSubtextBadge) headerSubtextBadge.textContent = 'SOUND';
+    }
+  }
+
+  if (typeof lucide !== 'undefined') lucide.createIcons();
+
+  if (tabName === 'music' && typeof renderMusicPlaylist === 'function') {
+    renderMusicPlaylist();
+  }
   if (tabName === 'dj' && typeof initDjDecks === 'function') {
     initDjDecks();
   }
@@ -228,11 +270,17 @@ document.addEventListener('keydown', (e) => {
     }
     e.preventDefault();
     closeAllPanelsAndModals();
+    // Timer mit Esc zurücksetzen
+    if (typeof resetTimer === 'function') {
+      resetTimer();
+    } else if (typeof stopTimer === 'function') {
+      stopTimer();
+    }
     return;
   }
 
   const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-  if (activeTag === 'input' || activeTag === 'textarea' || (document.activeElement && document.activeElement.isContentEditable)) {
+  if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || (document.activeElement && document.activeElement.isContentEditable)) {
     return;
   }
 
@@ -240,8 +288,24 @@ document.addEventListener('keydown', (e) => {
   const isPickModalOpen = pickModal && !pickModal.classList.contains('hidden');
   const key = e.key.toLowerCase();
 
+  // Space / Leertaste -> Timer pausieren / starten
+  if (e.key === ' ' || e.code === 'Space') {
+    if (isPickModalOpen) {
+      e.preventDefault();
+      if (typeof currentWhatNowChosen !== 'undefined' && currentWhatNowChosen && currentWhatNowChosen.task) {
+        startZenWithTask(currentWhatNowChosen.task, currentWhatNowChosen.cat || 'todo');
+      }
+      return;
+    }
+    e.preventDefault();
+    if (typeof toggleTimer === 'function') {
+      toggleTimer();
+    }
+    return;
+  }
+
   if (isPickModalOpen) {
-    if (e.key === ' ' || e.key === 'Enter') {
+    if (e.key === 'Enter') {
       e.preventDefault();
       if (typeof currentWhatNowChosen !== 'undefined' && currentWhatNowChosen && currentWhatNowChosen.task) {
         startZenWithTask(currentWhatNowChosen.task, currentWhatNowChosen.cat || 'todo');
@@ -520,352 +584,7 @@ function triggerSparkleEffect(x, y) {
 }
 window.triggerSparkleEffect = triggerSparkleEffect;
 
-// COMMAND PALETTE (STRG+K / CMD+K) CONTROLLER
-let commandPaletteActiveIndex = 0;
-let commandPaletteItems = [];
-
-function openCommandPalette() {
-  const modal = document.getElementById('modal-command-palette');
-  const input = document.getElementById('cmd-palette-input');
-  if (!modal || !input) return;
-  modal.classList.remove('hidden');
-  input.value = '';
-  commandPaletteActiveIndex = 0;
-  filterCommandPalette('');
-  setTimeout(() => input.focus(), 30);
-  if (typeof renderLucideIcons === 'function') renderLucideIcons();
-}
-
-function closeCommandPalette() {
-  const modal = document.getElementById('modal-command-palette');
-  if (modal) modal.classList.add('hidden');
-}
-
-function getAvailableCommands() {
-  return [
-    {
-      id: 'timer_25',
-      title: tr({
-        de: '⏱️ Fokus-Timer: 25 Minuten starten',
-        en: '⏱️ Focus Timer: Start 25 minutes',
-        fr: '⏱️ Minuteur Focus : Démarrer 25 minutes',
-        it: '⏱️ Timer Focus: Avvia 25 minuti',
-        es: '⏱️ Temporizador Focus: Iniciar 25 minutos',
-        el: '⏱️ Χρονόμετρο Εστίασης: Έναρξη 25 λεπτά'
-      }),
-      action: () => { if (typeof setTimerMinutes === 'function') setTimerMinutes(25); if (typeof startTimer === 'function') startTimer(); }
-    },
-    {
-      id: 'timer_15',
-      title: tr({
-        de: '⏱️ Fokus-Timer: 15 Minuten Kurz-Sprint',
-        en: '⏱️ Focus Timer: 15-minute quick sprint',
-        fr: '⏱️ Minuteur Focus : Sprint rapide de 15 minutes',
-        it: '⏱️ Timer Focus: Sprint rapido di 15 minuti',
-        es: '⏱️ Temporizador Focus: Sprint rápido de 15 minutos',
-        el: '⏱️ Χρονόμετρο Εστίασης: Γρήγορο σπριντ 15 λεπτών'
-      }),
-      action: () => { if (typeof setTimerMinutes === 'function') setTimerMinutes(15); if (typeof startTimer === 'function') startTimer(); }
-    },
-    {
-      id: 'whatnow',
-      title: tr({
-        de: '💡 Was nun? – Nächste beste Aufgabe wählen',
-        en: '💡 What now? – Pick next best task',
-        fr: '💡 Et maintenant ? – Choisir la meilleure tâche',
-        it: '💡 E adesso? – Scegli la migliore attività',
-        es: '💡 ¿Y ahora qué? – Elegir la mejor tarea',
-        el: '💡 Τι να κάνω; – Επιλογή επόμενης εργασίας'
-      }),
-      action: () => { if (typeof openHelperModal === 'function') openHelperModal('pick'); }
-    },
-    {
-      id: 'brainstorm',
-      title: tr({
-        de: '🧠 Brainstorming Studio – Ideen & Gedanken erfassen',
-        en: '🧠 Brainstorming Studio – Capture ideas & thoughts',
-        fr: '🧠 Brainstorming Studio – Capturer des idées et pensées',
-        it: '🧠 Brainstorming Studio – Cattura idee e pensieri',
-        es: '🧠 Brainstorming Studio – Capturar ideas y pensamientos',
-        el: '🧠 Brainstorming Studio – Καταγραφή ιδεών και σκέψεων'
-      }),
-      action: () => { if (typeof openBrainstormModal === 'function') openBrainstormModal(); }
-    },
-    {
-      id: 'zen',
-      title: tr({
-        de: '👁️ Fokus-Modus (Zen) an / aus',
-        en: '👁️ Focus Mode (Zen) on / off',
-        fr: '👁️ Mode Focus (Zen) activer / désactiver',
-        it: '👁️ Modalità Focus (Zen) attiva / disattiva',
-        es: '👁️ Modo Focus (Zen) activar / desactivar',
-        el: '👁️ Λειτουργία Εστίασης (Zen) ενεργοποίηση'
-      }),
-      action: () => { if (typeof toggleMinimalist === 'function') toggleMinimalist(); }
-    },
-    {
-      id: 'pause_breath',
-      title: tr({
-        de: '🧘 4-4-4 Atem-Fokus (Nervensystem beruhigen)',
-        en: '🧘 4-4-4 Box Breathing (Calm nervous system)',
-        fr: '🧘 Respiration 4-4-4 (Calmer le système nerveux)',
-        it: '🧘 Respirazione 4-4-4 (Calma il sistema nervoso)',
-        es: '🧘 Respiración 4-4-4 (Calmar sistema nervioso)',
-        el: '🧘 Αναπνοή 4-4-4 (Ηρεμία νευρικού συστήματος)'
-      }),
-      action: () => { if (typeof openBreakModal === 'function') openBreakModal('breath'); }
-    },
-    {
-      id: 'regulation',
-      title: tr({
-        de: '🌿 Innere Ruhe & Somatische Regulation (Nervensystem beruhigen)',
-        en: '🌿 Inner Peace & Somatic Regulation (Calm nervous system)',
-        fr: '🌿 Paix Intérieure & Régulation Somatique',
-        it: '🌿 Pace Interiore & Regolazione Somatica',
-        es: '🌿 Paz Interior & Regulación Somática',
-        el: '🌿 Εσωτερική Γαλήνη & Σωματική Ρύθμιση'
-      }),
-      action: () => { if (typeof openRegulationModal === 'function') openRegulationModal('reset'); }
-    },
-    {
-      id: 'dashboard',
-      title: tr({
-        de: '📊 Produktivitäts- & Analyse-Dashboard',
-        en: '📊 Productivity & Analytics Dashboard',
-        fr: '📊 Tableau de bord Productivité & Analyse',
-        it: '📊 Dashboard Produttività & Analisi',
-        es: '📊 Panel de Productividad y Análisis',
-        el: '📊 Πίνακας Παραγωγικότητας & Αναλύσεων'
-      }),
-      action: () => { if (typeof openReportDashboard === 'function') openReportDashboard(); }
-    },
-    {
-      id: 'undo',
-      title: tr({
-        de: '↩️ Letzte Aktion rückgängig machen (Ctrl+Z)',
-        en: '↩️ Undo last action (Ctrl+Z)',
-        fr: '↩️ Annuler la dernière action (Ctrl+Z)',
-        it: '↩️ Annulla ultima azione (Ctrl+Z)',
-        es: '↩️ Deshacer última acción (Ctrl+Z)',
-        el: '↩️ Αναίρεση τελευταίας ενέργειας (Ctrl+Z)'
-      }),
-      action: () => { if (typeof handleUndo === 'function') handleUndo(); }
-    },
-    {
-      id: 'clear_columns',
-      title: tr({
-        de: '🧹 Spalten leeren (Alle Aufgaben im Bereich leeren)',
-        en: '🧹 Clear columns (Clear all tasks in workspace)',
-        fr: '🧹 Vider les colonnes (Vider toutes les tâches)',
-        it: '🧹 Svuota colonne (Svuota tutte le attività)',
-        es: '🧹 Vaciar columnas (Vaciar todas las tareas)',
-        el: '🧹 Άδειασμα στηλών (Άδειασμα όλων των εργασιών)'
-      }),
-      action: () => { if (typeof handleClearAllLists === 'function') handleClearAllLists(); }
-    },
-    {
-      id: 'reset',
-      title: tr({
-        de: '🔄 Board zurücksetzen (Reset)',
-        en: '🔄 Reset board',
-        fr: '🔄 Réinitialiser le tableau',
-        it: '🔄 Ripristina lavagna',
-        es: '🔄 Restablecer tablero',
-        el: '🔄 Επαναφορά πίνακα'
-      }),
-      action: () => { if (typeof handleReset === 'function') handleReset(); }
-    },
-    {
-      id: 'theme_latte',
-      title: '☕ Theme: Oat & Latte (Cozy Milchkaffee & Hafer)',
-      action: () => { setTheme('latte'); }
-    },
-    {
-      id: 'theme_sunset',
-      title: '🌅 Theme: Warm Sunset (Abendsonne & Pfirsich)',
-      action: () => { setTheme('sunset'); }
-    },
-    {
-      id: 'theme_matcha',
-      title: '🍵 Theme: Matcha (Creme & Kräuter-Salbei)',
-      action: () => { setTheme('matcha'); }
-    },
-    {
-      id: 'theme_candlelight',
-      title: '🕯️ Theme: Candlelight (Kerzenschein & Kaminfeuer)',
-      action: () => { setTheme('candlelight'); }
-    },
-    {
-      id: 'theme_honey',
-      title: '🍯 Theme: Honig (Warmes Gold)',
-      action: () => { setTheme('honey'); }
-    },
-    {
-      id: 'theme_sage',
-      title: '🌿 Theme: Salbei (Botanisch Grün)',
-      action: () => { setTheme('sage'); }
-    },
-    {
-      id: 'theme_aurora',
-      title: '🌌 Theme: Aurora (Nacht-Violett)',
-      action: () => { setTheme('aurora'); }
-    },
-    {
-      id: 'theme_ocean',
-      title: '🌊 Theme: Ozean (Meeres-Cyan)',
-      action: () => { setTheme('ocean'); }
-    },
-    {
-      id: 'settings',
-      title: tr({
-        de: '⚙️ Einstellungen, Impressum & Datenschutz',
-        en: '⚙️ Settings, Legal & Privacy',
-        fr: '⚙️ Paramètres, Mentions légales & Confidentialité',
-        it: '⚙️ Impostazioni, Note legali & Privacy',
-        es: '⚙️ Ajustes, Legal y Privacidad',
-        el: '⚙️ Ρυθμίσεις, Νομικά & Απόρρητο'
-      }),
-      action: () => { openSettingsModal('general'); }
-    }
-  ];
-}
-
-function filterCommandPalette(query = '') {
-  const resultsContainer = document.getElementById('cmd-palette-results');
-  if (!resultsContainer) return;
-  resultsContainer.innerHTML = '';
-  const q = (query || '').toLowerCase().trim();
-
-  // 1. Matched Commands
-  const allCommands = getAvailableCommands();
-  const matchedCommands = allCommands.filter(c => c.title.toLowerCase().includes(q));
-
-  // 2. Open Tasks matching query
-  const curItems = typeof getCurrentWorkspaceItems === 'function' ? getCurrentWorkspaceItems() : (typeof state !== 'undefined' ? state.items : {});
-  const matchedTasks = [];
-  if (curItems && typeof curItems === 'object') {
-    Object.keys(curItems).forEach(col => {
-      const items = curItems[col] || [];
-      items.forEach((item, idx) => {
-        const text = typeof item === 'object' ? item.task : item;
-        if (text && (!q || text.toLowerCase().includes(q))) {
-          matchedTasks.push({
-            title: `📌 [${typeof t === 'function' ? t(col) : col}] ${text}`,
-            action: () => {
-              if (typeof startTaskTimerByIndex === 'function') startTaskTimerByIndex(col, idx);
-              else { if (typeof setTimerMinutes === 'function') setTimerMinutes(25); if (typeof startTimer === 'function') startTimer(); }
-            }
-          });
-        }
-      });
-    });
-  }
-
-  const combined = [];
-  if (matchedCommands.length > 0) {
-    combined.push({ isHeader: true, label: typeof t === 'function' ? t('cmd_actions') : 'Schnell-Aktionen' });
-    matchedCommands.slice(0, 7).forEach(c => combined.push({ ...c, isAction: true }));
-  }
-
-  if (matchedTasks.length > 0) {
-    combined.push({ isHeader: true, label: typeof t === 'function' ? t('cmd_tasks') : 'Gefundene Aufgaben' });
-    matchedTasks.slice(0, 8).forEach(t => combined.push({ ...t, isAction: true }));
-  }
-
-  commandPaletteItems = combined.filter(c => c.isAction);
-
-  if (commandPaletteItems.length === 0) {
-    resultsContainer.innerHTML = `
-      <div class="p-6 text-center text-gray-500 text-xs">
-        <i data-lucide="search-x" class="w-6 h-6 mx-auto mb-1 opacity-50"></i>
-        <span>${tr({
-          de: 'Keine passenden Befehle oder Aufgaben gefunden',
-          en: 'No matching commands or tasks found',
-          fr: 'Aucune commande ou tâche correspondante trouvée',
-          it: 'Nessun comando o attività corrispondente trovato',
-          es: 'No se encontraron comandos o tareas coincidentes',
-          el: 'Δεν βρέθηκαν εντολές ή εργασίες'
-        })}</span>
-      </div>
-    `;
-    if (typeof renderLucideIcons === 'function') renderLucideIcons();
-    return;
-  }
-
-  let actionIdx = 0;
-  combined.forEach(item => {
-    if (item.isHeader) {
-      const h = document.createElement('div');
-      h.className = 'px-3 py-1 text-[10px] font-bold text-gray-500 uppercase tracking-wider font-mono';
-      h.innerText = item.label;
-      resultsContainer.appendChild(h);
-    } else {
-      const thisIdx = actionIdx++;
-      const btn = document.createElement('button');
-      btn.id = `cmd-item-${thisIdx}`;
-      btn.className = `w-full px-3 py-2 text-left rounded-xl flex items-center justify-between text-xs transition cursor-pointer ${
-        thisIdx === commandPaletteActiveIndex ? 'bg-purple-600/30 border border-purple-500/40 text-white font-semibold' : 'text-gray-300 hover:bg-white/5 hover:text-white'
-      }`;
-      btn.setAttribute('data-cmd-idx', thisIdx);
-      btn.innerHTML = `
-        <span class="truncate">${escapeHtml(item.title)}</span>
-        <i data-lucide="arrow-right" class="w-3.5 h-3.5 opacity-40 shrink-0"></i>
-      `;
-      btn.onclick = () => {
-        closeCommandPalette();
-        item.action();
-      };
-      resultsContainer.appendChild(btn);
-    }
-  });
-
-  if (typeof renderLucideIcons === 'function') renderLucideIcons();
-}
-
-function handleCommandPaletteKeyDown(e) {
-  if (e.key === 'Escape') {
-    e.preventDefault();
-    closeCommandPalette();
-    return;
-  }
-  if (!commandPaletteItems || commandPaletteItems.length === 0) return;
-
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    commandPaletteActiveIndex = (commandPaletteActiveIndex + 1) % commandPaletteItems.length;
-    updateCommandPaletteHighlight();
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    commandPaletteActiveIndex = (commandPaletteActiveIndex - 1 + commandPaletteItems.length) % commandPaletteItems.length;
-    updateCommandPaletteHighlight();
-  } else if (e.key === 'Enter') {
-    e.preventDefault();
-    const activeItem = commandPaletteItems[commandPaletteActiveIndex];
-    if (activeItem && typeof activeItem.action === 'function') {
-      closeCommandPalette();
-      activeItem.action();
-    }
-  }
-}
-
-function updateCommandPaletteHighlight() {
-  commandPaletteItems.forEach((_, idx) => {
-    const el = document.getElementById(`cmd-item-${idx}`);
-    if (el) {
-      if (idx === commandPaletteActiveIndex) {
-        el.className = 'w-full px-3 py-2 text-left rounded-xl flex items-center justify-between text-xs transition cursor-pointer bg-purple-600/30 border border-purple-500/40 text-white font-semibold';
-        el.scrollIntoView({ block: 'nearest' });
-      } else {
-        el.className = 'w-full px-3 py-2 text-left rounded-xl flex items-center justify-between text-xs transition cursor-pointer text-gray-300 hover:bg-white/5 hover:text-white';
-      }
-    }
-  });
-}
-
-window.openCommandPalette = openCommandPalette;
-window.closeCommandPalette = closeCommandPalette;
-window.filterCommandPalette = filterCommandPalette;
-window.handleCommandPaletteKeyDown = handleCommandPaletteKeyDown;
+// COMMAND PALETTE (STRG+K / CMD+K) CONTROLLER handled by app-command-palette.js
 
 function openSettingsModal(tab = 'general') {
   const modal = document.getElementById('modal-settings');
@@ -1108,63 +827,66 @@ function getSimilarTheme(current) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-const ALL_VALID_THEMES = [
-  'botanical', 'aurora', 'obsidian', 'ocean', 'sage', 'latte',
-  'sunset', 'peach', 'crimson', 'honey', 'cyberpunk', 'matrix',
-  'terracotta', 'royal', 'nebula', 'candlelight', 'matcha'
-];
+var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
 
 const THEME_ALIASES = {
-  'default': 'botanical',
-  'botanic': 'botanical',
-  'eco': 'botanical',
-  'nature': 'botanical',
-  'journal': 'botanical',
-  'handcrafted': 'botanical',
-  'neon-cyber': 'cyberpunk',
-  'synthwave': 'cyberpunk',
+  'default': 'aurora',
+  'fruity': 'fruity-classic',
+  'fruityloops': 'fruity-classic',
+  'flstudio': 'fruity-studio',
+  'fl-studio': 'fruity-studio',
+  'daylight': 'botanical',
+  'paper': 'botanical',
   'aurora-violet': 'aurora',
   'lavender-cloud': 'aurora',
-  'forest': 'matrix',
+  'syntax': 'aurora',
+  'editor': 'aurora',
+  'dark': 'aurora',
+  'matrix': 'botanical',
+  'forest': 'botanical',
+  'matcha': 'botanical',
+  'matcha-sage': 'botanical',
+  'sage': 'botanical',
+  'sage-breeze': 'botanical',
+  'sage-latte': 'botanical',
+  'eco': 'botanical',
+  'nature': 'botanical',
+  'carbon': 'obsidian',
+  'charcoal': 'obsidian',
+  'executive': 'obsidian',
+  'ruby': 'peach',
+  'cyberpunk': 'peach',
+  'neon-cyber': 'peach',
+  'synthwave': 'peach',
+  'sakura': 'peach',
+  'sakura-blossom': 'peach',
+  'peach-cashmere': 'peach',
+  'sunset': 'latte',
+  'warm-sunset': 'latte',
+  'honey': 'latte',
+  'honey-chamomile': 'latte',
+  'cozy-amber': 'latte',
+  'cozy': 'latte',
+  'citrus': 'latte',
+  'amber': 'latte',
+  'oat-latte': 'latte',
+  'coffee': 'latte',
+  'candlelight': 'latte',
+  'cozy-candlelight': 'latte',
+  'fireplace': 'latte',
+  'terracotta-sun': 'latte',
+  'terracotta': 'latte',
+  'cobalt': 'ocean',
   'lagoon': 'ocean',
   'glacier': 'ocean',
   'glacier-frost': 'ocean',
   'holo-chrome': 'ocean',
-  'architect': 'ocean',
-  'amber': 'honey',
-  'honey-chamomile': 'honey',
-  'cozy-amber': 'honey',
-  'cozy': 'honey',
-  'citrus': 'honey',
-  'carbon': 'obsidian',
-  'charcoal': 'obsidian',
-  'executive': 'obsidian',
-  'sakura': 'peach',
-  'sakura-blossom': 'peach',
-  'peach-cashmere': 'peach',
-  'sage-breeze': 'sage',
-  'eucalyptus-dew': 'sage',
-  'matcha-latte': 'matcha',
-  'matcha': 'sage',
-  'matcha-sage': 'sage',
-  'sage-latte': 'sage',
-  'terracotta-sun': 'terracotta',
-  'oat-latte': 'latte',
-  'coffee': 'latte',
-  'warm-sunset': 'sunset',
-  'apricot': 'sunset',
-  'cozy-candlelight': 'candlelight',
-  'candlelight': 'candlelight',
-  'fireplace': 'candlelight',
-  'paper': 'botanical',
-  'white': 'botanical',
-  'light': 'botanical',
-  'daylight': 'botanical'
+  'architect': 'ocean'
 };
 
 function setTheme(theme) {
   if (THEME_ALIASES[theme]) theme = THEME_ALIASES[theme];
-  if (!ALL_VALID_THEMES.includes(theme)) theme = 'botanical';
+  if (!ALL_VALID_THEMES.includes(theme)) theme = 'code-night';
   if (typeof window !== 'undefined') window.currentTheme = theme;
   if (typeof globalThis !== 'undefined') globalThis.currentTheme = theme;
   try { currentTheme = theme; } catch(e) {}
@@ -1172,6 +894,9 @@ function setTheme(theme) {
   if (typeof document !== 'undefined' && document.body) {
     document.body.className = `h-full antialiased flex flex-col font-sans select-none overflow-x-hidden text-[#f4f4f5] theme-${theme}`;
     if (typeof isMinimalist !== 'undefined' && isMinimalist) document.body.classList.add('minimalist');
+  }
+  if (typeof document !== 'undefined' && document.documentElement) {
+    document.documentElement.className = `theme-${theme}`;
   }
   try { localStorage.setItem('flowPlannerTheme', theme); } catch(e) {}
 
@@ -1185,6 +910,9 @@ function setTheme(theme) {
         el.classList.remove('ring-2', 'ring-white', 'scale-110', 'shadow-lg');
       }
     });
+  }
+  if (typeof renderApp === 'function') {
+    try { renderApp(); } catch(e) {}
   }
 }
 
@@ -1227,6 +955,26 @@ function setLanguage(lang) {
   translateUI(); const textEl = document.getElementById('minimal-mode-btn-text');
   if (textEl) { textEl.innerText = isMinimalist ? t('standard_mode') : t('minimal_mode'); }
   updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
+  // 1. Localize News Language independently from Region
+  if (typeof RadioNewsEngine !== 'undefined') {
+    if (typeof RadioNewsEngine.syncAppLanguage === 'function') {
+      RadioNewsEngine.syncAppLanguage(lang);
+    } else if (typeof RadioNewsEngine.initNewsPanel === 'function') {
+      RadioNewsEngine.initNewsPanel();
+    }
+  }
+
+  // 2. Weather: Keep user's real location if detected/custom, or update to language capital if fallback
+  if (typeof localizeWeatherForLanguage === 'function') {
+    localizeWeatherForLanguage(lang);
+  } else if (typeof updateWeatherDisplay === 'function') {
+    updateWeatherDisplay();
+  } else if (typeof window !== 'undefined' && typeof window.localizeWeatherForLanguage === 'function') {
+    window.localizeWeatherForLanguage(lang);
+  } else if (typeof window !== 'undefined' && typeof window.updateWeatherDisplay === 'function') {
+    window.updateWeatherDisplay();
+  }
+
   renderLucideIcons();
 }
 
@@ -1261,32 +1009,163 @@ function translateUI() {
   });
 }
 
+function translateTaskString(taskName, targetLang) {
+  if (!taskName || typeof taskName !== 'string') return taskName;
+  const target = targetLang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
+  const allLangs = ['de', 'en', 'es', 'fr', 'it', 'el'];
+
+  // 1. Check DEFAULT_TASKS_BY_LANG (Personal)
+  const defTasks = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG) || (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null);
+  if (defTasks) {
+    const cats = ['daily', 'weekly', 'occasionally'];
+    for (const cat of cats) {
+      for (const l of allLangs) {
+        const list = defTasks[l]?.[cat];
+        if (Array.isArray(list)) {
+          const idx = list.indexOf(taskName);
+          if (idx !== -1 && defTasks[target]?.[cat]?.[idx]) {
+            return defTasks[target][cat][idx];
+          }
+        }
+      }
+    }
+  }
+
+  // 2. Check DEFAULT_WORK_TASKS_BY_LANG (Work)
+  const defWork = (typeof window !== 'undefined' && window.DEFAULT_WORK_TASKS_BY_LANG) || (typeof DEFAULT_WORK_TASKS_BY_LANG !== 'undefined' ? DEFAULT_WORK_TASKS_BY_LANG : null);
+  if (defWork) {
+    const workCats = ['work_focus', 'work_in_progress', 'work_waiting', 'work_backlog', 'termine', 'notes'];
+    for (const cat of workCats) {
+      for (const l of allLangs) {
+        const list = defWork[l]?.[cat];
+        if (Array.isArray(list)) {
+          const idx = list.indexOf(taskName);
+          if (idx !== -1 && defWork[target]?.[cat]?.[idx]) {
+            return defWork[target][cat][idx];
+          }
+        }
+      }
+    }
+  }
+
+  // 3. Check DEFAULT_STUDY_TASKS_BY_LANG (Study)
+  const defStudy = (typeof window !== 'undefined' && window.DEFAULT_STUDY_TASKS_BY_LANG) || (typeof DEFAULT_STUDY_TASKS_BY_LANG !== 'undefined' ? DEFAULT_STUDY_TASKS_BY_LANG : null);
+  if (defStudy) {
+    const studyCats = ['study_focus', 'study_modules', 'study_submissions', 'study_deep', 'termine', 'notes'];
+    for (const cat of studyCats) {
+      for (const l of allLangs) {
+        const list = defStudy[l]?.[cat];
+        if (Array.isArray(list)) {
+          const idx = list.indexOf(taskName);
+          if (idx !== -1 && defStudy[target]?.[cat]?.[idx]) {
+            return defStudy[target][cat][idx];
+          }
+        }
+      }
+    }
+  }
+
+  // 4. Check ROUTINE_PRESETS
+  const rPresets = (typeof window !== 'undefined' && window.ROUTINE_PRESETS) || (typeof ROUTINE_PRESETS !== 'undefined' ? ROUTINE_PRESETS : null);
+  if (Array.isArray(rPresets)) {
+    for (const preset of rPresets) {
+      if (preset.tasks) {
+        for (const cat in preset.tasks) {
+          const catObj = preset.tasks[cat];
+          if (typeof catObj === 'object') {
+            for (const l of allLangs) {
+              const list = catObj[l];
+              if (Array.isArray(list)) {
+                const idx = list.indexOf(taskName);
+                if (idx !== -1 && catObj[target]?.[idx]) {
+                  return catObj[target][idx];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return taskName;
+}
+window.translateTaskString = translateTaskString;
+
+function translateTaskCollection(collection, targetLang) {
+  if (!collection || typeof collection !== 'object') return collection;
+  for (const cat in collection) {
+    if (Array.isArray(collection[cat])) {
+      collection[cat] = collection[cat].map(item => {
+        if (!item) return item;
+        if (typeof item === 'string') {
+          return translateTaskString(item, targetLang);
+        }
+        if (typeof item === 'object' && item.task) {
+          return {
+            ...item,
+            task: translateTaskString(item.task, targetLang)
+          };
+        }
+        return item;
+      });
+    }
+  }
+  return collection;
+}
+
 function translateUserTasks(fromLang, toLang) {
-  if (fromLang === toLang) return; if (!DEFAULT_TASKS_BY_LANG[fromLang] || !DEFAULT_TASKS_BY_LANG[toLang]) return;
-  saveHistory(); const cats = ['daily', 'weekly', 'occasionally'];
-  cats.forEach(cat => {
-    if (!state.items[cat]) return;
-    state.items[cat] = state.items[cat].map(taskItem => {
-      const taskName = typeof taskItem === 'object' ? taskItem.task : taskItem;
-      const fromList = DEFAULT_TASKS_BY_LANG[fromLang][cat]; const oList = DEFAULT_TASKS_BY_LANG[toLang][cat];
-      const idx = fromList.indexOf(taskName);
-      if (idx !== -1) { const nextVal = oList[idx]; return typeof taskItem === 'object' ? { ...taskItem, task: nextVal } : nextVal; }
-      return taskItem;
-    });
-  });
+  if (fromLang === toLang) return;
+  if (typeof saveHistory === 'function') saveHistory();
+
+  // 1. Translate state.items (Personal workspace)
+  if (state.items) {
+    translateTaskCollection(state.items, toLang);
+  }
+
+  // 2. Translate state.workItems (Work workspace)
+  if (state.workItems) {
+    translateTaskCollection(state.workItems, toLang);
+  }
+
+  // 3. Translate state.studyItems (Study workspace)
+  if (state.studyItems) {
+    translateTaskCollection(state.studyItems, toLang);
+  }
+
+  // 4. Translate state.completedSteps
   if (state.completedSteps) {
     const nextStepsObj = {};
     for (let key in state.completedSteps) {
-      let updatedKey = key;
-      cats.forEach(cat => {
-        const fromList = DEFAULT_TASKS_BY_LANG[fromLang][cat]; const oList = DEFAULT_TASKS_BY_LANG[toLang][cat];
-        const idx = fromList.indexOf(key); if (idx !== -1) updatedKey = oList[idx];
-      });
-      nextStepsObj[updatedKey] = state.completedSteps[key];
+      const translatedKey = translateTaskString(key, toLang);
+      nextStepsObj[translatedKey] = state.completedSteps[key];
     }
     state.completedSteps = nextStepsObj;
   }
-  saveState();
+
+  // 5. Translate completed tasks history
+  ['completedTasks', 'workDone', 'studyDone'].forEach(prop => {
+    if (Array.isArray(state[prop])) {
+      state[prop] = state[prop].map(t => {
+        if (!t) return t;
+        if (typeof t === 'string') return translateTaskString(t, toLang);
+        if (typeof t === 'object' && t.task) {
+          return { ...t, task: translateTaskString(t.task, toLang) };
+        }
+        return t;
+      });
+    }
+  });
+
+  // 6. Translate active focus / timer task
+  if (state.currentFocusTask) {
+    state.currentFocusTask = translateTaskString(state.currentFocusTask, toLang);
+  }
+  if (state.activeTimerTask) {
+    state.activeTimerTask = translateTaskString(state.activeTimerTask, toLang);
+  }
+
+  if (typeof saveState === 'function') saveState();
 }
 
 function toggleMinimalist() {
@@ -1439,100 +1318,7 @@ function handleAddTermin() {
   populateHelperTaskSelect();
 }
 
-function getTaskIconDetails(taskText, category = '') {
-  if (!taskText) return { icon: 'check-circle', color: 'text-purple-400' };
-  const rawTrimmed = String(taskText).trim();
-  if (typeof TASK_ICONS !== 'undefined' && TASK_ICONS[rawTrimmed]) {
-    return { icon: TASK_ICONS[rawTrimmed], color: 'text-purple-300' };
-  }
-  
-  // Unicode-Normalisierung: Entfernt Akzente/Diakritika (z. B. é -> e, ά -> α, ñ -> n) für 100% verlässliche Spracherkennung
-  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-
-  const rules = [
-    // 1. Medikamente / Gesundheit / Arzt
-    { rx: /medi|pill|tablett|vitam|pharmak|arzt|doctor|docteur|dottore|medico|therap|apothek|ordonnan|farmac|φαρμακ|γιατρ|ασθεν/, ic: 'pill', col: 'text-rose-400' },
-    // 2. Zähne / Mundhygiene
-    { rx: /zahn|zahne|dient|tooth|teeth|dent|dond|brush|bross|spazzol|δοντ|βουρτσ/, ic: 'smile', col: 'text-cyan-400' },
-    // 3. Gesicht waschen / Hautpflege
-    { rx: /gesicht|face|visage|viso|προσωπ/, ic: 'smile', col: 'text-cyan-400' },
-    // 4. Herd / Kühlschrank / Ofen / Küche Geräte
-    { rx: /herd|kuhl|fridge|frigo|stov|four|horno|nevera|fornell|refrig|kuehl|backofen|oven|κουζιν|ψυγει/, ic: 'cooking-pot', col: 'text-orange-400' },
-    // 5. Waschbecken / Spiegel / Bad-Armaturen
-    { rx: /waschbeck|sink|lavabo|specch|miroir|espejo|spiegel|νιπτηρ|καθρεφτ/, ic: 'droplets', col: 'text-sky-400' },
-    // 6. Geschirr spülen / Küche / Abwasch
-    { rx: /spul|dish|vaissel|piat|plato|geschirr|spuel|πιατ|abwasch/, ic: 'utensils', col: 'text-emerald-400' },
-    // 7. Wäsche waschen / Waschmaschine
-    { rx: /laund|colad|lessiv|bucat|clothes|linge|roux|ρουχ|πλυντηρ|wasch.*wasch|wasche/, ic: 'washing-machine', col: 'text-indigo-400' },
-    // 8. Wäsche aufhängen / Trocknen
-    { rx: /aufhang|hang|colg|etend|stend|aplon|dry|sech|asciug|απλωμ/, ic: 'shirt', col: 'text-violet-400' },
-    // 9. Duschen / Baden
-    { rx: /dusch|shower|baign|doccia|duch|ντους|μπανι|bath/, ic: 'bath', col: 'text-sky-400' },
-    // 10. Haare / Frisur / Schneiden
-    { rx: /haare|haar|hair|pelo|cabell|cheveux|capell|fris|kour|coiff|tagli|μαλλι|κουρεμ|λουσιμ/, ic: 'scissors', col: 'text-pink-400' },
-    // 11. Nägel / Maniküre
-    { rx: /nagel|nail|ungl|un|ungh|nych|pedicur|manicur|νυχ/, ic: 'scissors', col: 'text-indigo-400' },
-    // 12. Trinken / Wasser / Hydration
-    { rx: /trink|wat|agu|eau|ner|glass|hydrat|bever|bere|boire|νερο|πινω|ποτηρ/, ic: 'glass-water', col: 'text-blue-400' },
-    // 13. Bett / Schlafen / Bettwäsche
-    { rx: /bett|bed|cama|lit|lett|krevat|schlaf|sleep|sommeil|dorm|drap|sabana|lenzuol|κρεβατ|σεντον|υπν/, ic: 'bed', col: 'text-amber-400' },
-    // 14. Aufräumen / Ordnung / Putzen
-    { rx: /aufraum|tidy|orden|rang|riordin|clean|putz|organi|nettoy|limp|puliz|τακτοπ|καθαρισ|οργαν/, ic: 'sparkles', col: 'text-yellow-400' },
-    // 15. Staub wischen / Abstauben
-    { rx: /staub|dust|polv|poussi|spolver|epousset|xesk|ξεσκον/, ic: 'feather', col: 'text-amber-300' },
-    // 16. Staubsaugen / Saugen
-    { rx: /saugen|staubsaug|vacu|aspir|skoupi|σκουπ/, ic: 'tornado', col: 'text-cyan-500' },
-    // 17. Boden wischen / Feuchtwischen
-    { rx: /wisch|mop|freg|sfoug|paviment|sol|σφουγγαρ/, ic: 'droplets', col: 'text-sky-500' },
-    // 18. Bad / WC / Sanitär / Fliesen
-    { rx: /klo|wc|toil|vater|lekan|bad|fliesen|λεκαν/, ic: 'sparkles', col: 'text-teal-500' },
-    // 19. Müll wegbringen / Entsorgung
-    { rx: /mull|trash|basur|poubelle|spazzatur|waste|abfall|skoupid|σκουπιδ|πεταμ/, ic: 'trash-2', col: 'text-rose-500' },
-    // 20. Pfandflaschen / Recycling
-    { rx: /pfand|bottle|bouteill|bottigl|envase|boukal|recycle|recyc|μπουκαλ|ανακυκλ/, ic: 'recycle', col: 'text-emerald-500' },
-    // 21. Kochen / Mahlzeiten / Rezepte
-    { rx: /koch|food|cook|comid|cena|recept|recet|cuisin|cucin|magir|essen|lunch|dinner|breakfast|dejeun|pranz|past|mahlzeit|φαγητ|μαγειρ|γευμα/, ic: 'cooking-pot', col: 'text-orange-400' },
-    // 19. Einkauf / Supermarkt / Laden
-    { rx: /einkauf|shop|compr|achat|spesa|supermarkt|market|store|kauf|epicerie|agor|αγορ|σουπερ/, ic: 'shopping-cart', col: 'text-emerald-400' },
-    // 20. Arbeit / Job / Büro / Termine / Meetings
-    { rx: /arbeit|work|trabaj|travail|lavor|doul|job|office|schreib|mail|call|anruf|meeting|appuntament|rendez|cita|termin|geschaft|δουλει|γραφει/, ic: 'briefcase', col: 'text-amber-500' },
-    // 21. Lesen / Buch / Lernen / Studium / Uni / Vorlesung
-    { rx: /les|book|libr|livr|vivl|lernen|study|etud|stud|buch|diavas|διαβασ|βιβλι|vorlesung|lecture|skript|klausur|exam|abgabe|deadline|seminar|modul|bachelor|master|prof|tutor|ubung|uebung/, ic: 'book-open', col: 'text-violet-400' },
-    // 22. Sport / Fitness / Training / Laufen / Spazieren
-    { rx: /sport|gym|fit|train|gymn|workout|run|laufen|gehen|walk|course|correre|caminar|marcher|exerc|ασκησ|γυμναστ|τρεξιμ/, ic: 'activity', col: 'text-green-400' },
-    // 23. Pause / Ausruhen / Erholen / Meditation
-    { rx: /paus|rest|desc|relax|chill|medit|mindful|repos|ripos|diahleim|διαλειμμ|χαλαρω/, ic: 'moon', col: 'text-indigo-300' },
-    // 24. Lüften / Frische Luft / Durchatmen
-    { rx: /luft|wind|vent|aer|luften|breath|resp|fresch|frisch|αερισμ|αερ/, ic: 'wind', col: 'text-cyan-300' }
-  ];
-
-  for (const r of rules) {
-    if (r.rx.test(norm)) return { icon: r.ic, color: r.col };
-  }
-
-  const defaults = {
-    daily: { icon: 'sun', color: 'text-amber-400' },
-    weekly: { icon: 'calendar-days', color: 'text-purple-400' },
-    todo: { icon: 'list-todo', color: 'text-blue-400' },
-    done: { icon: 'check-circle', color: 'text-emerald-400' },
-    termine: { icon: 'clock', color: 'text-amber-400' },
-    occasionally: { icon: 'calendar-range', color: 'text-pink-400' },
-    notes: { icon: 'sticky-note', color: 'text-yellow-400' },
-    work_focus: { icon: 'target', color: 'text-amber-400' },
-    work_in_progress: { icon: 'zap', color: 'text-blue-400' },
-    work_waiting: { icon: 'hourglass', color: 'text-purple-400' },
-    work_backlog: { icon: 'folder-kanban', color: 'text-indigo-400' },
-    study_focus: { icon: 'target', color: 'text-amber-400' },
-    study_modules: { icon: 'book-open', color: 'text-blue-400' },
-    study_submissions: { icon: 'clock', color: 'text-rose-400' },
-    study_deep: { icon: 'brain', color: 'text-purple-400' }
-  };
-  return defaults[category] || { icon: 'check-circle', color: 'text-purple-400' };
-}
-
-function getTaskIcon(taskText, category = '') { return getTaskIconDetails(taskText, category).icon; }
-window.getTaskIconDetails = getTaskIconDetails;
-window.getTaskIcon = getTaskIcon;
+// Task icon detection handled by data-tasks.js
 
 // ===== KEYBOARD SHORTCUTS MODAL (?) =====
 function openKeyboardShortcuts() {
@@ -1676,11 +1462,7 @@ if (typeof window !== 'undefined') {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     window.deferredPwaPrompt = e;
-    const banner = document.getElementById('pwa-install-banner');
-    if (banner && !sessionStorage.getItem('pwa_dismissed')) {
-      banner.classList.remove('hidden');
-      renderLucideIcons();
-    }
+    // Nie automatisch beim Laden anbieten! Installation wird gezielt im Onboarding und in den Optionen angeboten.
   });
 
   window.addEventListener('appinstalled', () => {
@@ -1688,7 +1470,14 @@ if (typeof window !== 'undefined') {
     const banner = document.getElementById('pwa-install-banner');
     if (banner) banner.classList.add('hidden');
     if (typeof showToast === 'function') {
-      showToast('Noodle erfolgreich installiert! 🎉');
+      showToast(tr({
+        de: 'Noodle erfolgreich installiert! 🎉',
+        en: 'Noodle successfully installed! 🎉',
+        fr: 'Noodle a été installé avec succès ! 🎉',
+        it: 'Noodle installato con successo! 🎉',
+        es: '¡Noodle se ha instalado con éxito! 🎉',
+        el: 'Το Noodle εγκαταστάθηκε επιτυχώς! 🎉'
+      }));
     }
   });
 }
@@ -1696,7 +1485,11 @@ if (typeof window !== 'undefined') {
 function triggerPwaInstall() {
   const banner = document.getElementById('pwa-install-banner');
   if (banner) banner.classList.add('hidden');
-  if (window.deferredPwaPrompt) {
+  if (typeof openInstallModal === 'function') {
+    openInstallModal();
+  } else if (window.AppInstallationHub && typeof window.AppInstallationHub.openInstallModal === 'function') {
+    window.AppInstallationHub.openInstallModal();
+  } else if (window.deferredPwaPrompt) {
     window.deferredPwaPrompt.prompt();
     window.deferredPwaPrompt.userChoice.then((choiceResult) => {
       if (choiceResult.outcome === 'accepted') {
@@ -1706,7 +1499,10 @@ function triggerPwaInstall() {
     });
   } else {
     if (typeof showToast === 'function') {
-      showToast('Installiere Noodle über das Browsermenü („Zum Startbildschirm hinzufügen“)');
+      showToast(tr({
+        de: 'Installiere Noodle über dein Browsermenü („Zum Startbildschirm hinzufügen“ oder „App installieren“)',
+        en: 'Install Noodle via your browser menu ("Add to Home Screen" or "Install App")'
+      }));
     }
   }
 }
@@ -1794,7 +1590,7 @@ function initAmbientFlowCanvas() {
       this.vy = -0.15 - Math.random() * 0.32;
       this.baseAlpha = 0.15 + Math.random() * 0.35;
       this.alpha = this.baseAlpha;
-      this.color = Math.random() > 0.5 ? 'rgba(56, 189, 248,' : 'rgba(192, 132, 252,';
+      this.color = Math.random() > 0.5 ? 'rgba(137, 207, 240,' : 'rgba(192, 132, 252,';
     }
     update() {
       this.x += this.vx;
@@ -1892,34 +1688,7 @@ function initAmbientFlowCanvas() {
 // NATIVE MOBILE NAVIGATION CONTROLLER (5 TABS & FAB)
 // ============================================================================
 
-function switchMobileNavTab(tabName) {
-  document.body.dataset.mobileNav = tabName;
-  localStorage.setItem('flow_active_mobile_tab', tabName);
-
-  // Update Nav-Bar Buttons
-  const navTabs = ['planer', 'focus', 'audio', 'tools'];
-  navTabs.forEach(t => {
-    const btn = document.getElementById(`mob-nav-${t}`);
-    if (btn) {
-      btn.classList.toggle('active', t === tabName);
-    }
-  });
-
-  // Tab-spezifische Initialisierungen
-  if (tabName === 'planer') {
-    const activeCat = document.body.dataset.mobileCat || localStorage.getItem('flowPlannerMobileCategory') || 'daily';
-    if (typeof setMobileCategory === 'function') setMobileCategory(activeCat);
-  } else if (tabName === 'focus') {
-    if (typeof updateTimerDisplay === 'function') updateTimerDisplay();
-  }
-
-  // Scroll nach oben
-  window.scrollTo({ top: 0, behavior: 'instant' });
-
-  if (typeof renderLucideIcons === 'function') renderLucideIcons();
-  else if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
-}
-window.switchMobileNavTab = switchMobileNavTab;
+// switchMobileNavTab handled by app-tasks.js
 
 let selectedMobileQuickAddCat = 'daily';
 let selectedMobileQuickAddPrio = 'normal';
@@ -2138,9 +1907,9 @@ if (typeof window !== 'undefined') {
   window.closeAllPanelsAndModals = closeAllPanelsAndModals;
   window.getTaskIconDetails = getTaskIconDetails;
   window.getTaskIcon = getTaskIcon;
-  window.openCommandPalette = openCommandPalette;
-  window.closeCommandPalette = closeCommandPalette;
-  window.switchMobileNavTab = switchMobileNavTab;
+  if (typeof openCommandPalette !== 'undefined') window.openCommandPalette = openCommandPalette;
+  if (typeof closeCommandPalette !== 'undefined') window.closeCommandPalette = closeCommandPalette;
+  if (typeof switchMobileNavTab !== 'undefined') window.switchMobileNavTab = switchMobileNavTab;
   window.openMobileQuickAddModal = openMobileQuickAddModal;
   window.closeMobileQuickAddModal = closeMobileQuickAddModal;
   window.selectMobileQuickAddCategory = selectMobileQuickAddCategory;
@@ -2156,9 +1925,9 @@ if (typeof globalThis !== 'undefined') {
   globalThis.closeAllPanelsAndModals = closeAllPanelsAndModals;
   globalThis.getTaskIconDetails = getTaskIconDetails;
   globalThis.getTaskIcon = getTaskIcon;
-  globalThis.openCommandPalette = openCommandPalette;
-  globalThis.closeCommandPalette = closeCommandPalette;
-  globalThis.switchMobileNavTab = switchMobileNavTab;
+  if (typeof openCommandPalette !== 'undefined') globalThis.openCommandPalette = openCommandPalette;
+  if (typeof closeCommandPalette !== 'undefined') globalThis.closeCommandPalette = closeCommandPalette;
+  if (typeof switchMobileNavTab !== 'undefined') globalThis.switchMobileNavTab = switchMobileNavTab;
   globalThis.openMobileQuickAddModal = openMobileQuickAddModal;
   globalThis.closeMobileQuickAddModal = closeMobileQuickAddModal;
   globalThis.selectMobileQuickAddCategory = selectMobileQuickAddCategory;

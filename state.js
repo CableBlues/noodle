@@ -12,31 +12,61 @@
  */
 
 // Grundlegende Konfiguration & globale State-Deklarationen
+var ALL_VALID_THEMES = window.ALL_VALID_THEMES = ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
 let currentLang = localStorage.getItem('flowPlannerLanguage') || 'en';
 let rawTheme = localStorage.getItem('flowPlannerTheme') || 'aurora';
-let currentTheme = ['mono-hand', 'parchment', 'minimalist-light', 'terracotta-light'].includes(rawTheme) ? 'aurora' : rawTheme;
+if (!ALL_VALID_THEMES.includes(rawTheme)) {
+  rawTheme = 'code-night';
+  try { localStorage.setItem('flowPlannerTheme', 'code-night'); } catch(e) {}
+}
+let currentTheme = rawTheme;
 let isMinimalist = localStorage.getItem('flowPlannerMinimalist') === 'true';
 let openTaskAddColumns = {};
 let categoriesOrder = null;
 let state = null;
 let historyStack = [];
 
+
+// Helper to ensure 'notes' is positioned before 'termine' if both are present in saved orders
+function reorderNotesBeforeTermine(arr) {
+  if (!Array.isArray(arr)) return arr;
+  const termineIdx = arr.findIndex(([id]) => id === 'termine');
+  const notesIdx = arr.findIndex(([id]) => id === 'notes');
+  if (termineIdx !== -1 && notesIdx !== -1 && notesIdx > termineIdx) {
+    const [notesItem] = arr.splice(notesIdx, 1);
+    arr.splice(termineIdx, 0, notesItem);
+  }
+  return arr;
+}
+
+// Helper to ensure 'todo' is positioned before 'daily' (Heute)
+function reorderTodoBeforeDaily(arr) {
+  if (!Array.isArray(arr)) return arr;
+  const dailyIdx = arr.findIndex(([id]) => id === 'daily');
+  const todoIdx = arr.findIndex(([id]) => id === 'todo');
+  if (dailyIdx !== -1 && todoIdx !== -1 && todoIdx > dailyIdx) {
+    const [todoItem] = arr.splice(todoIdx, 1);
+    arr.splice(dailyIdx, 0, todoItem);
+  }
+  return arr;
+}
+
 function loadCategoriesOrder() {
   try {
     const saved = localStorage.getItem('flowPlannerCategoriesOrder') || localStorage.getItem('flow_categories_order');
-    if (saved) return JSON.parse(saved);
+    if (saved) return reorderTodoBeforeDaily(reorderNotesBeforeTermine(JSON.parse(saved)));
   } catch (e) {
     console.warn('[State] loadCategoriesOrder warning:', e);
   }
   
-  // Standard-Layout
+  // Standard-Layout (To Do vor Heute)
   return [
-    ['daily', 'sun'],
     ['weekly', 'home'],
     ['todo', 'list-todo'],
+    ['daily', 'sun'],
     ['done', 'check-circle-2'],
-    ['termine', 'calendar'],
     ['notes', 'file-text'],
+    ['termine', 'calendar'],
     ['occasionally', 'clock']
   ];
 }
@@ -44,7 +74,7 @@ function loadCategoriesOrder() {
 function loadWorkCategoriesOrder() {
   try {
     const saved = localStorage.getItem('flowPlannerWorkCategoriesOrder') || localStorage.getItem('flow_work_categories_order');
-    if (saved) return JSON.parse(saved);
+    if (saved) return reorderNotesBeforeTermine(JSON.parse(saved));
   } catch (e) {
     console.warn('[State] loadWorkCategoriesOrder warning:', e);
   }
@@ -55,15 +85,15 @@ function loadWorkCategoriesOrder() {
     ['work_waiting', 'hourglass'],
     ['work_backlog', 'folder-kanban'],
     ['done', 'check-circle'],
-    ['termine', 'clock'],
-    ['notes', 'sticky-note']
+    ['notes', 'sticky-note'],
+    ['termine', 'clock']
   ];
 }
 
 function loadStudyCategoriesOrder() {
   try {
     const saved = localStorage.getItem('flowPlannerStudyCategoriesOrder') || localStorage.getItem('flow_study_categories_order');
-    if (saved) return JSON.parse(saved);
+    if (saved) return reorderNotesBeforeTermine(JSON.parse(saved));
   } catch (e) {
     console.warn('[State] loadStudyCategoriesOrder warning:', e);
   }
@@ -74,8 +104,8 @@ function loadStudyCategoriesOrder() {
     ['study_submissions', 'clock'],
     ['study_deep', 'brain'],
     ['done', 'check-circle'],
-    ['termine', 'calendar'],
-    ['notes', 'file-text']
+    ['notes', 'file-text'],
+    ['termine', 'calendar']
   ];
 }
 
@@ -86,8 +116,8 @@ const WORK_CATEGORIES_ORDER = [
   ['work_waiting', 'hourglass'],
   ['work_backlog', 'folder-kanban'],
   ['done', 'check-circle'],
-  ['termine', 'clock'],
-  ['notes', 'sticky-note']
+    ['notes', 'sticky-note'],
+    ['termine', 'clock']
 ];
 
 let studyCategoriesOrder = null;
@@ -97,11 +127,12 @@ const STUDY_CATEGORIES_ORDER = [
   ['study_submissions', 'clock'],
   ['study_deep', 'brain'],
   ['done', 'check-circle'],
-  ['termine', 'calendar'],
-  ['notes', 'file-text']
+    ['notes', 'file-text'],
+    ['termine', 'calendar']
 ];
 
 const DEFAULT_WORK_TASKS_BY_LANG = {
+
   de: {
     work_focus: ['🎯 Wichtigste Tagesaufgabe (Must-Do)', '📧 E-Mails & Prioritäten sortieren (15 Min.)'],
     work_in_progress: ['⚡ Projekt-Konzept ausarbeiten', '📞 Kundenanfrage beantworten'],
@@ -202,6 +233,15 @@ const DEFAULT_STUDY_TASKS_BY_LANG = {
     notes: ['📖 Βιβλιογραφία, σύνδεσμοι βιβλιοθήκης & σημειώσεις...']
   }
 };
+
+if (typeof window !== 'undefined') {
+  window.DEFAULT_WORK_TASKS_BY_LANG = DEFAULT_WORK_TASKS_BY_LANG;
+  window.DEFAULT_STUDY_TASKS_BY_LANG = DEFAULT_STUDY_TASKS_BY_LANG;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.DEFAULT_WORK_TASKS_BY_LANG = DEFAULT_WORK_TASKS_BY_LANG;
+  globalThis.DEFAULT_STUDY_TASKS_BY_LANG = DEFAULT_STUDY_TASKS_BY_LANG;
+}
 
 function createDefaultWorkItems(lang) {
   const curL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'de');
@@ -398,10 +438,15 @@ function saveCustomDefaults(customDefaults) {
 }
 
 function migrateState(raw, lang) {
-  const currentL = lang || (typeof currentLang !== 'undefined' ? currentLang : 'en');
-  const localizedDefaults = (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG[currentL]) 
-    ? DEFAULT_TASKS_BY_LANG[currentL] 
-    : ((typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG['en']) ? DEFAULT_TASKS_BY_LANG['en'] : { daily: [], weekly: [], occasionally: [] });
+  const currentL = lang || (typeof window !== 'undefined' && window.currentLang ? window.currentLang : (typeof currentLang !== 'undefined' ? currentLang : 'de'));
+  const defTasksMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+    ? window.DEFAULT_TASKS_BY_LANG
+    : ((typeof globalThis !== 'undefined' && globalThis.DEFAULT_TASKS_BY_LANG)
+        ? globalThis.DEFAULT_TASKS_BY_LANG
+        : (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null));
+  const localizedDefaults = (defTasksMap && defTasksMap[currentL]) 
+    ? defTasksMap[currentL] 
+    : ((defTasksMap && defTasksMap['de']) ? defTasksMap['de'] : { daily: [], weekly: [], occasionally: [] });
   const customDefaults = getCustomDefaults();
   const initDaily = (customDefaults && Array.isArray(customDefaults.daily)) ? customDefaults.daily : (localizedDefaults.daily || []);
   const initWeekly = (customDefaults && Array.isArray(customDefaults.weekly)) ? customDefaults.weekly : (localizedDefaults.weekly || []);
@@ -439,7 +484,8 @@ function migrateState(raw, lang) {
       shoppingHistory: [],
       cooking: typeof createDefaultCookingState === 'function' ? createDefaultCookingState() : {},
       clarity: { streakDays: 0, lastCheckinDate: null, history: [], savedReasons: [] },
-      userPlan: 'free' // 'free' | 'pro' — Grundlage für spätere Paywall-Logik
+      userPlan: 'free', // 'free' | 'pro' — Grundlage für spätere Paywall-Logik
+      settings: { language: currentL, theme: 'aurora', isMinimalist: false }
     };
   }
 
@@ -485,6 +531,27 @@ function migrateState(raw, lang) {
     } else if (!Array.isArray(s.items.notes)) {
       s.items.notes = [];
     }
+  }
+
+  // Intelligente chronologische Sortierung für Standard-Aufgaben
+  const sortCategoryByDefaults = (list, refList) => {
+    if (!Array.isArray(list) || !Array.isArray(refList) || list.length === 0) return list;
+    return [...list].sort((a, b) => {
+      const taskA = typeof a === 'object' ? (a.task || '') : String(a);
+      const taskB = typeof b === 'object' ? (b.task || '') : String(b);
+      const idxA = refList.indexOf(taskA);
+      const idxB = refList.indexOf(taskB);
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      if (idxA !== -1) return -1;
+      if (idxB !== -1) return 1;
+      return 0;
+    });
+  };
+
+  if (s.items && localizedDefaults) {
+    if (localizedDefaults.daily) s.items.daily = sortCategoryByDefaults(s.items.daily, localizedDefaults.daily);
+    if (localizedDefaults.weekly) s.items.weekly = sortCategoryByDefaults(s.items.weekly, localizedDefaults.weekly);
+    if (localizedDefaults.occasionally) s.items.occasionally = sortCategoryByDefaults(s.items.occasionally, localizedDefaults.occasionally);
   }
 
   // 2. Arrays & Basis-Eigenschaften
@@ -546,6 +613,13 @@ function migrateState(raw, lang) {
     s.clarity.savedReasons = Array.isArray(s.clarity.savedReasons) ? s.clarity.savedReasons : [];
   }
 
+  // 5.5 Settings
+  if (!s.settings || typeof s.settings !== 'object') {
+    s.settings = { language: currentL, theme: 'aurora', isMinimalist: false };
+  } else if (!s.settings.language) {
+    s.settings.language = currentL;
+  }
+
   // 6. Deduplizierung daily tasks (Face washing terms)
   if (Array.isArray(s.items.daily)) {
     const faceWashingTerms = [
@@ -605,14 +679,28 @@ function loadState() {
 }
 
 function setWorkspace(mode) {
-  if (mode !== 'private' && mode !== 'work' && mode !== 'study') return;
+  if (mode !== 'private' && mode !== 'work' && mode !== 'study' && mode !== 'shared') return;
+  
+  if (mode === 'shared' && (!state.workspaces || !state.workspaces.shared)) {
+    if (!state.workspaces) state.workspaces = {};
+    const baseItems = (state.workspaces && state.workspaces.private && state.workspaces.private.items) || state.items || {};
+    state.workspaces.shared = {
+      items: JSON.parse(JSON.stringify(baseItems)),
+      done: [],
+      history: []
+    };
+  }
+
   state.activeWorkspace = mode;
   saveState();
   updateWorkspaceSwitchUI();
   if (typeof renderApp === 'function') renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof showToast === 'function') {
-    if (mode === 'study') {
+    if (mode === 'shared') {
+      const roomName = (typeof CollabEngine !== 'undefined' && CollabEngine.getRoom) ? CollabEngine.getRoom() : 'team-space';
+      showToast(`👥 Gemeinsames Team-Dashboard (#${roomName}) aktiv! Live synchronisiert ⚡`);
+    } else if (mode === 'study') {
       showToast(tr({
         de: '🎓 Studium-Modus aktiviert!',
         en: '🎓 Study Mode activated!',
@@ -647,7 +735,7 @@ window.switchWorkspace = setWorkspace;
 
 function toggleWorkspace() {
   const current = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
-  const nextMode = (current === 'private') ? 'work' : ((current === 'work') ? 'study' : 'private');
+  const nextMode = (current === 'private') ? 'work' : ((current === 'work') ? 'study' : ((current === 'study') ? 'shared' : 'private'));
   setWorkspace(nextMode);
 }
 window.toggleWorkspace = toggleWorkspace;
@@ -664,6 +752,8 @@ window.cancelCloseHeaderWorkspaceDropdown = cancelCloseHeaderWorkspaceDropdown;
 
 function openHeaderWorkspaceDropdown() {
   cancelCloseHeaderWorkspaceDropdown();
+  const colDropdown = document.getElementById('dropdown-manage-columns');
+  if (colDropdown) colDropdown.classList.add('hidden');
   const el = document.getElementById('dropdown-header-workspace');
   if (el) {
     el.classList.remove('hidden');
@@ -672,23 +762,41 @@ function openHeaderWorkspaceDropdown() {
 }
 window.openHeaderWorkspaceDropdown = openHeaderWorkspaceDropdown;
 
-function closeHeaderWorkspaceDropdown() {
-  if (headerWsDropdownTimer) clearTimeout(headerWsDropdownTimer);
-  headerWsDropdownTimer = setTimeout(() => {
-    const el = document.getElementById('dropdown-header-workspace');
+function closeHeaderWorkspaceDropdown(force = false) {
+  if (headerWsDropdownTimer) {
+    clearTimeout(headerWsDropdownTimer);
+    headerWsDropdownTimer = null;
+  }
+  const el = document.getElementById('dropdown-header-workspace');
+  if (force) {
     if (el) el.classList.add('hidden');
-  }, 220);
+    return;
+  }
+  headerWsDropdownTimer = setTimeout(() => {
+    const elTarget = document.getElementById('dropdown-header-workspace');
+    const btn = document.getElementById('header-workspace-wrapper');
+    try {
+      if (elTarget && elTarget.matches(':hover')) return;
+      if (btn && btn.matches(':hover')) return;
+    } catch (e) {}
+    if (elTarget) elTarget.classList.add('hidden');
+  }, 260);
 }
 window.closeHeaderWorkspaceDropdown = closeHeaderWorkspaceDropdown;
 
 function toggleHeaderWorkspaceDropdown(event) {
-  if (event) event.stopPropagation();
+  if (event) {
+    event.stopPropagation();
+    if (event.preventDefault) event.preventDefault();
+  }
+  const colDropdown = document.getElementById('dropdown-manage-columns');
+  if (colDropdown) colDropdown.classList.add('hidden');
   const el = document.getElementById('dropdown-header-workspace');
   if (!el) return;
   if (el.classList.contains('hidden')) {
     openHeaderWorkspaceDropdown();
   } else {
-    el.classList.add('hidden');
+    closeHeaderWorkspaceDropdown(true);
   }
 }
 window.toggleHeaderWorkspaceDropdown = toggleHeaderWorkspaceDropdown;
@@ -702,18 +810,23 @@ function updateWorkspaceSwitchUI() {
   const headerLabel = document.getElementById('header-ws-label');
 
   if (headerBtn && headerIcon && headerLabel) {
-    if (currentWs === 'study') {
+    if (currentWs === 'shared') {
+      const roomName = (typeof CollabEngine !== 'undefined' && CollabEngine.getRoom) ? CollabEngine.getRoom() : 'team';
+      headerIcon.textContent = '👥';
+      headerLabel.textContent = `Team (#${roomName})`;
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-violet-600/30 hover:bg-violet-600/40 border border-violet-400/80 text-violet-100 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_15px_rgba(139,92,246,0.4)] group/ws shrink-0';
+    } else if (currentWs === 'study') {
       headerIcon.textContent = '🎓';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_study') : 'Studium';
-      headerBtn.className = 'px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/25 border border-emerald-500/20 hover:border-emerald-400/60 text-emerald-200/90 hover:text-emerald-100 transition-all duration-200 hover:scale-110 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(16,185,129,0.25)] group/ws shrink-0';
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
     } else if (currentWs === 'work') {
       headerIcon.textContent = '💼';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
-      headerBtn.className = 'px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-blue-500/10 hover:bg-blue-500/25 border border-blue-500/20 hover:border-blue-400/60 text-blue-200/90 hover:text-blue-100 transition-all duration-200 hover:scale-110 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(59,130,246,0.25)] group/ws shrink-0';
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
     } else {
       headerIcon.textContent = '🏠';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_private') : 'Privat';
-      headerBtn.className = 'px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-purple-500/10 hover:bg-purple-500/25 border border-purple-500/20 hover:border-purple-400/60 text-purple-200/90 hover:text-purple-100 transition-all duration-200 hover:scale-110 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs hover:shadow-[0_0_12px_rgba(168,85,247,0.25)] group/ws shrink-0';
+      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
     }
   }
 
@@ -721,9 +834,11 @@ function updateWorkspaceSwitchUI() {
   const optPriv = document.getElementById('header-ws-opt-private');
   const optWork = document.getElementById('header-ws-opt-work');
   const optStudy = document.getElementById('header-ws-opt-study');
+  const optShared = document.getElementById('header-ws-opt-shared');
   if (optPriv) optPriv.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'private' ? 'bg-purple-500/20 border-purple-400/50 text-purple-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
   if (optWork) optWork.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'work' ? 'bg-blue-500/20 border-blue-400/50 text-blue-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
   if (optStudy) optStudy.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'study' ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
+  if (optShared) optShared.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'shared' ? 'bg-violet-600/30 border-violet-400/70 text-violet-100 shadow-[0_0_12px_rgba(139,92,246,0.3)]' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
 
   // 2. SETTINGS / MOBILE TOGGLE FALLBACKS
   const toggleBtn = document.getElementById('btn-workspace-toggle');
@@ -736,7 +851,10 @@ function updateWorkspaceSwitchUI() {
 
   let currentIcon = '🏠';
   let currentLabel = typeof t === 'function' ? t('workspace_private') : 'Privat';
-  if (currentWs === 'work') {
+  if (currentWs === 'shared') {
+    currentIcon = '👥';
+    currentLabel = 'Team-Board';
+  } else if (currentWs === 'work') {
     currentIcon = '💼';
     currentLabel = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
   } else if (currentWs === 'study') {
@@ -747,7 +865,7 @@ function updateWorkspaceSwitchUI() {
   if (iconEl) iconEl.textContent = currentIcon;
   if (textEl) {
     textEl.textContent = currentLabel;
-    textEl.className = currentWs === 'work' ? 'truncate text-blue-300' : (currentWs === 'study' ? 'truncate text-emerald-300' : 'truncate text-purple-300');
+    textEl.className = currentWs === 'shared' ? 'truncate text-violet-300 font-bold' : (currentWs === 'work' ? 'truncate text-blue-300' : (currentWs === 'study' ? 'truncate text-emerald-300' : 'truncate text-purple-300'));
   }
   if (toggleBtn) {
     toggleBtn.title = currentLabel;
@@ -756,7 +874,7 @@ function updateWorkspaceSwitchUI() {
   if (mobileIconEl) mobileIconEl.textContent = currentIcon;
   if (mobileTextEl) {
     mobileTextEl.textContent = currentLabel;
-    mobileTextEl.className = currentWs === 'work' ? 'text-xs font-bold text-blue-300 hidden sm:inline' : (currentWs === 'study' ? 'text-xs font-bold text-emerald-300 hidden sm:inline' : 'text-xs font-bold text-purple-300 hidden sm:inline');
+    mobileTextEl.className = currentWs === 'shared' ? 'text-xs font-bold text-violet-300 hidden sm:inline' : (currentWs === 'work' ? 'text-xs font-bold text-blue-300 hidden sm:inline' : (currentWs === 'study' ? 'text-xs font-bold text-emerald-300 hidden sm:inline' : 'text-xs font-bold text-purple-300 hidden sm:inline'));
   }
   if (mobileToggleBtn) {
     mobileToggleBtn.title = currentLabel;
@@ -850,8 +968,21 @@ function updateUndoUI() {
   const undoBtn = document.getElementById('btn-board-undo');
   if (undoBtn) {
     const hasHistory = Array.isArray(historyStack) && historyStack.length > 0;
-    undoBtn.classList.toggle('hidden', !hasHistory);
     undoBtn.disabled = !hasHistory;
+    if (hasHistory) {
+      undoBtn.classList.remove('opacity-30', 'pointer-events-none', 'grayscale');
+      undoBtn.classList.add('opacity-100');
+      const badge = undoBtn.querySelector('#undo-count-badge');
+      if (badge) {
+        badge.textContent = historyStack.length;
+        badge.classList.remove('hidden');
+      }
+    } else {
+      undoBtn.classList.add('opacity-30', 'pointer-events-none', 'grayscale');
+      undoBtn.classList.remove('opacity-100');
+      const badge = undoBtn.querySelector('#undo-count-badge');
+      if (badge) badge.classList.add('hidden');
+    }
   }
 }
 
@@ -863,18 +994,30 @@ function saveHistory() {
     const activeWorkCats = (typeof window !== 'undefined' && window.workCategoriesOrder) ? window.workCategoriesOrder : (typeof workCategoriesOrder !== 'undefined' ? workCategoriesOrder : null);
     const activeStudyCats = (typeof window !== 'undefined' && window.studyCategoriesOrder) ? window.studyCategoriesOrder : (typeof studyCategoriesOrder !== 'undefined' ? studyCategoriesOrder : null);
 
-    const snapshot = JSON.parse(JSON.stringify(currentState));
+    // Fokussierter Snapshot: Speichert nur Aufgaben- und Listen-Änderungen
+    const listSnapshot = {
+      items: currentState.items ? JSON.parse(JSON.stringify(currentState.items)) : {},
+      done: Array.isArray(currentState.done) ? JSON.parse(JSON.stringify(currentState.done)) : [],
+      workItems: currentState.workItems ? JSON.parse(JSON.stringify(currentState.workItems)) : {},
+      workDone: Array.isArray(currentState.workDone) ? JSON.parse(JSON.stringify(currentState.workDone)) : [],
+      studyItems: currentState.studyItems ? JSON.parse(JSON.stringify(currentState.studyItems)) : {},
+      studyDone: Array.isArray(currentState.studyDone) ? JSON.parse(JSON.stringify(currentState.studyDone)) : [],
+      completedSteps: currentState.completedSteps ? JSON.parse(JSON.stringify(currentState.completedSteps)) : {},
+      customSteps: currentState.customSteps ? JSON.parse(JSON.stringify(currentState.customSteps)) : {},
+      activeWorkspace: currentState.activeWorkspace || 'private'
+    };
+
     if (activeCats) {
-      snapshot._savedCategoriesOrder = JSON.parse(JSON.stringify(activeCats));
+      listSnapshot._savedCategoriesOrder = JSON.parse(JSON.stringify(activeCats));
     }
     if (activeWorkCats) {
-      snapshot._savedWorkCategoriesOrder = JSON.parse(JSON.stringify(activeWorkCats));
+      listSnapshot._savedWorkCategoriesOrder = JSON.parse(JSON.stringify(activeWorkCats));
     }
     if (activeStudyCats) {
-      snapshot._savedStudyCategoriesOrder = JSON.parse(JSON.stringify(activeStudyCats));
+      listSnapshot._savedStudyCategoriesOrder = JSON.parse(JSON.stringify(activeStudyCats));
     }
 
-    stack.push(snapshot);
+    stack.push(listSnapshot);
     if (stack.length > 15) stack.shift();
     historyStack = stack;
     if (typeof window !== 'undefined') window.historyStack = stack;
@@ -908,16 +1051,83 @@ function tr(map) {
 }
 
 function getGermanStandardKey(taskName) {
-  const cats = ['daily', 'weekly', 'occasionally'];
-  for (const cat of cats) {
-    for (const lang of ['de', 'en', 'es', 'el', 'fr', 'it']) {
-      const list = DEFAULT_TASKS_BY_LANG[lang][cat];
-      const idx = list.indexOf(taskName);
-      if (idx !== -1) {
-        return DEFAULT_TASKS_BY_LANG['de'][cat][idx];
+  if (!taskName || typeof taskName !== 'string') return taskName;
+  const allLangs = ['de', 'en', 'es', 'fr', 'it', 'el'];
+
+  // 1. Check DEFAULT_TASKS_BY_LANG
+  const defTasks = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG) || (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null);
+  if (defTasks) {
+    const cats = ['daily', 'weekly', 'occasionally'];
+    for (const cat of cats) {
+      for (const l of allLangs) {
+        const list = defTasks[l]?.[cat];
+        if (Array.isArray(list)) {
+          const idx = list.indexOf(taskName);
+          if (idx !== -1 && defTasks['de']?.[cat]?.[idx]) {
+            return defTasks['de'][cat][idx];
+          }
+        }
       }
     }
   }
+
+  // 2. Check DEFAULT_WORK_TASKS_BY_LANG
+  const defWork = (typeof window !== 'undefined' && window.DEFAULT_WORK_TASKS_BY_LANG) || (typeof DEFAULT_WORK_TASKS_BY_LANG !== 'undefined' ? DEFAULT_WORK_TASKS_BY_LANG : null);
+  if (defWork) {
+    const workCats = ['work_focus', 'work_in_progress', 'work_waiting', 'work_backlog', 'termine', 'notes'];
+    for (const cat of workCats) {
+      for (const l of allLangs) {
+        const list = defWork[l]?.[cat];
+        if (Array.isArray(list)) {
+          const idx = list.indexOf(taskName);
+          if (idx !== -1 && defWork['de']?.[cat]?.[idx]) {
+            return defWork['de'][cat][idx];
+          }
+        }
+      }
+    }
+  }
+
+  // 3. Check DEFAULT_STUDY_TASKS_BY_LANG
+  const defStudy = (typeof window !== 'undefined' && window.DEFAULT_STUDY_TASKS_BY_LANG) || (typeof DEFAULT_STUDY_TASKS_BY_LANG !== 'undefined' ? DEFAULT_STUDY_TASKS_BY_LANG : null);
+  if (defStudy) {
+    const studyCats = ['study_focus', 'study_modules', 'study_submissions', 'study_deep', 'termine', 'notes'];
+    for (const cat of studyCats) {
+      for (const l of allLangs) {
+        const list = defStudy[l]?.[cat];
+        if (Array.isArray(list)) {
+          const idx = list.indexOf(taskName);
+          if (idx !== -1 && defStudy['de']?.[cat]?.[idx]) {
+            return defStudy['de'][cat][idx];
+          }
+        }
+      }
+    }
+  }
+
+  // 4. Check ROUTINE_PRESETS
+  const rPresets = (typeof window !== 'undefined' && window.ROUTINE_PRESETS) || (typeof ROUTINE_PRESETS !== 'undefined' ? ROUTINE_PRESETS : null);
+  if (Array.isArray(rPresets)) {
+    for (const preset of rPresets) {
+      if (preset.tasks) {
+        for (const cat in preset.tasks) {
+          const catObj = preset.tasks[cat];
+          if (typeof catObj === 'object') {
+            for (const l of allLangs) {
+              const list = catObj[l];
+              if (Array.isArray(list)) {
+                const idx = list.indexOf(taskName);
+                if (idx !== -1 && catObj['de']?.[idx]) {
+                  return catObj['de'][idx];
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   return taskName;
 }
 
@@ -931,6 +1141,7 @@ function handleUndo() {
   const popped = stack.pop();
   if (!popped) return;
 
+  // 1. Spalten-Reihenfolge der Listen wiederherstellen falls vorhanden
   if (popped._savedCategoriesOrder) {
     categoriesOrder = JSON.parse(JSON.stringify(popped._savedCategoriesOrder));
     if (typeof window !== 'undefined') window.categoriesOrder = categoriesOrder;
@@ -950,12 +1161,23 @@ function handleUndo() {
     if (typeof saveCategoriesOrder === 'function') saveCategoriesOrder();
   }
 
-  delete popped._savedCategoriesOrder;
-  delete popped._savedWorkCategoriesOrder;
+  // 2. Gezielte Wiederherstellung NUR der Listen & Aufgaben (Items, Done, Steps)
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : state);
+  if (currentState) {
+    if (popped.items) currentState.items = JSON.parse(JSON.stringify(popped.items));
+    if (popped.done) currentState.done = JSON.parse(JSON.stringify(popped.done));
+    if (popped.workItems) currentState.workItems = JSON.parse(JSON.stringify(popped.workItems));
+    if (popped.workDone) currentState.workDone = JSON.parse(JSON.stringify(popped.workDone));
+    if (popped.studyItems) currentState.studyItems = JSON.parse(JSON.stringify(popped.studyItems));
+    if (popped.studyDone) currentState.studyDone = JSON.parse(JSON.stringify(popped.studyDone));
+    if (popped.completedSteps) currentState.completedSteps = JSON.parse(JSON.stringify(popped.completedSteps));
+    if (popped.customSteps) currentState.customSteps = JSON.parse(JSON.stringify(popped.customSteps));
+    
+    state = currentState;
+    if (typeof window !== 'undefined') window.state = state;
+    if (typeof globalThis !== 'undefined') globalThis.state = state;
+  }
 
-  state = popped;
-  if (typeof window !== 'undefined') window.state = state;
-  if (typeof globalThis !== 'undefined') globalThis.state = state;
   historyStack = stack;
   if (typeof window !== 'undefined') window.historyStack = stack;
   if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;
@@ -1003,13 +1225,13 @@ async function handleReset() {
     };
     
     categoriesOrder = [
+      ['weekly', 'home'],
       ['daily', 'sun'],
-      ['weekly', 'calendar-days'],
       ['todo', 'list-todo'],
-      ['done', 'check-circle'],
-      ['termine', 'clock'],
-      ['notes', 'sticky-note'],
-      ['occasionally', 'calendar-range']
+      ['done', 'check-circle-2'],
+    ['notes', 'file-text'],
+    ['termine', 'calendar'],
+      ['occasionally', 'clock']
     ];
     saveCategoriesOrder();
     saveState();
@@ -1035,30 +1257,30 @@ async function handleClearAllLists() {
   if (totalTasks === 0) {
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: 'Die Spalten sind bereits leer! ℹ️',
-        en: 'The columns are already empty! ℹ️',
-        fr: 'Les colonnes sont déjà vides ! ℹ️',
-        it: 'Le colonne sono già vuote! ℹ️',
-        es: '¡Las columnas ya están vacías! ℹ️',
-        el: 'Οι στήλες είναι ήδη άδειες! ℹ️'
+        de: 'Die Karten sind bereits leer! ℹ️',
+        en: 'The cards are already empty! ℹ️',
+        fr: 'Les cartes sont déjà vides ! ℹ️',
+        it: 'Le schede sono già vuote! ℹ️',
+        es: '¡Las tarjetas ya están vacías! ℹ️',
+        el: 'Οι κάρτες είναι ήδη άδειες! ℹ️'
       }));
     }
     return;
   }
 
   const confirmMsg = tr({
-    de: `Möchtest du wirklich alle ${totalTasks} Aufgaben aus allen Spalten dieses Bereichs leeren?`,
-    en: `Do you really want to clear all ${totalTasks} tasks from all columns in this workspace?`,
-    fr: `Veux-tu vraiment vider toutes les ${totalTasks} tâches de toutes les colonnes de cet espace ?`,
-    it: `Vuoi davvero svuotare tutte le ${totalTasks} attività da tutte le colonne di questo spazio?`,
-    es: `¿Seguro que quieres vaciar todas las ${totalTasks} tareas de todas las columnas de este espacio?`,
-    el: `Θέλεις πραγματικά να αδειάσεις όλες τις ${totalTasks} εργασίες από όλες τις στήλες αυτού του χώρου;`
+    de: `Möchtest du wirklich alle ${totalTasks} Aufgaben aus allen Karten dieses Bereichs leeren?`,
+    en: `Do you really want to clear all ${totalTasks} tasks from all cards in this workspace?`,
+    fr: `Veux-tu vraiment vider toutes les ${totalTasks} tâches de toutes les cartes de cet espace ?`,
+    it: `Vuoi davvero svuotare tutte le ${totalTasks} attività da tutte le schede di questo spazio?`,
+    es: `¿Seguro que quieres vaciar todas las ${totalTasks} tareas de todas las tarjetas de este espacio?`,
+    el: `Θέλεις πραγματικά να αδειάσεις όλες τις ${totalTasks} εργασίες από όλες τις κάρτες αυτού του χώρου;`
   });
 
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
-    title: typeof tr === 'function' ? tr({ de: 'Spalten leeren?', en: 'Clear all columns?' }) : 'Spalten leeren?',
+    title: typeof tr === 'function' ? tr({ de: 'Karten leeren?', en: 'Clear all cards?' }) : 'Karten leeren?',
     message: confirmMsg,
-    confirmText: typeof tr === 'function' ? tr({ de: 'Spalten leeren', en: 'Clear columns' }) : 'Spalten leeren',
+    confirmText: typeof tr === 'function' ? tr({ de: 'Karten leeren', en: 'Clear cards' }) : 'Karten leeren',
     isDanger: true,
     icon: 'eraser'
   }) : confirm(confirmMsg);
@@ -1186,18 +1408,25 @@ function reloadDailyTasks(isAuto = false) {
 
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
-    : ((typeof globalThis !== 'undefined' && globalThis.currentLang)
-        ? globalThis.currentLang
-        : (typeof currentLang !== 'undefined' ? currentLang : 'de'));
+    : ((currentState && currentState.settings && currentState.settings.language)
+        ? currentState.settings.language
+        : ((typeof globalThis !== 'undefined' && globalThis.currentLang)
+            ? globalThis.currentLang
+            : (typeof currentLang !== 'undefined' ? currentLang : 'de')));
   
   const customDefaults = getCustomDefaults();
   let dailyTasks = null;
   if (customDefaults && Array.isArray(customDefaults.daily)) {
     dailyTasks = customDefaults.daily;
   } else {
-    const localizedDefaults = (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG[curL]) 
-      ? DEFAULT_TASKS_BY_LANG[curL] 
-      : ((typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG['de']) ? DEFAULT_TASKS_BY_LANG['de'] : { daily: [] });
+    const defTasksMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+      ? window.DEFAULT_TASKS_BY_LANG
+      : ((typeof globalThis !== 'undefined' && globalThis.DEFAULT_TASKS_BY_LANG)
+          ? globalThis.DEFAULT_TASKS_BY_LANG
+          : (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null));
+    const localizedDefaults = (defTasksMap && defTasksMap[curL]) 
+      ? defTasksMap[curL] 
+      : ((defTasksMap && defTasksMap['de']) ? defTasksMap['de'] : { daily: [] });
     dailyTasks = localizedDefaults.daily || [];
   }
 
@@ -1205,9 +1434,14 @@ function reloadDailyTasks(isAuto = false) {
   currentState.items.daily = [...dailyTasks];
 
   if (currentState.workItems) {
-    const workDefaults = (typeof DEFAULT_WORK_TASKS_BY_LANG !== 'undefined' && DEFAULT_WORK_TASKS_BY_LANG[curL])
-      ? DEFAULT_WORK_TASKS_BY_LANG[curL]
-      : (typeof DEFAULT_WORK_TASKS_BY_LANG !== 'undefined' ? DEFAULT_WORK_TASKS_BY_LANG['de'] : { work_focus: [] });
+    const defWorkMap = (typeof window !== 'undefined' && window.DEFAULT_WORK_TASKS_BY_LANG)
+      ? window.DEFAULT_WORK_TASKS_BY_LANG
+      : ((typeof globalThis !== 'undefined' && globalThis.DEFAULT_WORK_TASKS_BY_LANG)
+          ? globalThis.DEFAULT_WORK_TASKS_BY_LANG
+          : (typeof DEFAULT_WORK_TASKS_BY_LANG !== 'undefined' ? DEFAULT_WORK_TASKS_BY_LANG : null));
+    const workDefaults = (defWorkMap && defWorkMap[curL])
+      ? defWorkMap[curL]
+      : ((defWorkMap && defWorkMap['de']) ? defWorkMap['de'] : { work_focus: [] });
     if (workDefaults && workDefaults.work_focus) {
       currentState.workItems.work_focus = [...workDefaults.work_focus];
     }
@@ -1237,18 +1471,25 @@ function reloadWeeklyHouseholdTasks(isAuto = false) {
 
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
-    : ((typeof globalThis !== 'undefined' && globalThis.currentLang)
-        ? globalThis.currentLang
-        : (typeof currentLang !== 'undefined' ? currentLang : 'de'));
+    : ((currentState && currentState.settings && currentState.settings.language)
+        ? currentState.settings.language
+        : ((typeof globalThis !== 'undefined' && globalThis.currentLang)
+            ? globalThis.currentLang
+            : (typeof currentLang !== 'undefined' ? currentLang : 'de')));
   
   const customDefaults = getCustomDefaults();
   let weeklyTasks = null;
   if (customDefaults && Array.isArray(customDefaults.weekly)) {
     weeklyTasks = customDefaults.weekly;
   } else {
-    const localizedDefaults = (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG[curL]) 
-      ? DEFAULT_TASKS_BY_LANG[curL] 
-      : ((typeof DEFAULT_TASKS_BY_LANG !== 'undefined' && DEFAULT_TASKS_BY_LANG['de']) ? DEFAULT_TASKS_BY_LANG['de'] : { weekly: [] });
+    const defTasksMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+      ? window.DEFAULT_TASKS_BY_LANG
+      : ((typeof globalThis !== 'undefined' && globalThis.DEFAULT_TASKS_BY_LANG)
+          ? globalThis.DEFAULT_TASKS_BY_LANG
+          : (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null));
+    const localizedDefaults = (defTasksMap && defTasksMap[curL]) 
+      ? defTasksMap[curL] 
+      : ((defTasksMap && defTasksMap['de']) ? defTasksMap['de'] : { weekly: [] });
     weeklyTasks = localizedDefaults.weekly || [];
   }
 
@@ -1282,23 +1523,23 @@ function checkAutoRollovers() {
 
   let stateModified = false;
 
-  // 1. Täglicher Rollover für Heute (daily / work_focus)
+  // 1. Täglicher Rollover für Heute (daily / work_focus) - Keine täglichen Auto-Downloads mehr
   if (currentState.lastDate && currentState.lastDate !== todayISO) {
-    const prevDate = currentState.lastDate;
-    if (typeof generateReportContent === 'function' && typeof triggerAutomaticDownload === 'function') {
-      try {
-        const { reportText, filename } = generateReportContent('daily', prevDate);
-        triggerAutomaticDownload(reportText, filename);
-      } catch (e) {
-        console.warn('[Rollover] Auto-report warning:', e);
-      }
-    }
     reloadDailyTasks(true);
     stateModified = true;
   }
 
-  // 2. Wöchentlicher Rollover für Haushalt (weekly)
+  // 2. Wöchentlicher Rollover für Haushalt (weekly) & Wöchentlicher automatischer Bericht
   if (currentState.lastWeeklyResetWeek && currentState.lastWeeklyResetWeek !== currentWeekStr) {
+    if (typeof generateReportContent === 'function' && typeof triggerAutomaticDownload === 'function') {
+      try {
+        const lastWeek = currentState.lastWeeklyResetWeek;
+        const { reportText, filename } = generateReportContent('weekly', lastWeek);
+        triggerAutomaticDownload(reportText, filename);
+      } catch (e) {
+        console.warn('[Rollover] Weekly auto-report warning:', e);
+      }
+    }
     reloadWeeklyHouseholdTasks(true);
     stateModified = true;
   }
@@ -1354,10 +1595,12 @@ if (typeof window !== 'undefined') {
   window.WORK_CATEGORIES_ORDER = WORK_CATEGORIES_ORDER;
   window.getCustomDefaults = getCustomDefaults;
   window.saveCustomDefaults = saveCustomDefaults;
+  window.saveCategoriesOrder = saveCategoriesOrder;
   window.t = t;
   window.tr = tr;
 }
 if (typeof globalThis !== 'undefined') {
+  globalThis.saveCategoriesOrder = saveCategoriesOrder;
   globalThis.openTaskAddColumns = openTaskAddColumns;
   globalThis.getYearAndWeek = getYearAndWeek;
   globalThis.reloadDailyTasks = reloadDailyTasks;

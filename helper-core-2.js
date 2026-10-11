@@ -41,11 +41,11 @@ function generateTaskSteps(specificTask) {
       const cleanedText = cleanStepText(stepText);
       
       const stepDiv = document.createElement('div');
-      stepDiv.className = `group flex items-center justify-between gap-2.5 p-2.5 rounded-xl border transition-all duration-200 ${isChecked ? 'bg-white/[0.02] border-white/5 opacity-60' : 'bg-white/[0.04] border-white/10 hover:border-[var(--accent)]/30'} cursor-pointer`;
+      stepDiv.className = `group flex items-center justify-between gap-2.5 p-2.5 rounded-xl border transition-all duration-200 ${isChecked ? 'bg-white/[0.02] border-[#00ff66]/20 opacity-80' : 'bg-white/[0.04] border-white/10 hover:border-[#00f2ff]/40'} cursor-pointer`;
       
       stepDiv.innerHTML = `
         <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleCustomStepCheck('${val.replace(/'/g, "\\'")}', ${idx}, event)" class="w-4 h-4 rounded text-[var(--accent)] cursor-pointer accent-[var(--accent)] shrink-0" />
-        <span class="step-text flex-1 text-xs leading-snug break-words font-medium ${isChecked ? 'line-through text-gray-400' : 'text-gray-200'}" onclick="toggleCustomStepCheck('${val.replace(/'/g, "\\'")}', ${idx}, event)">${cleanedText}</span>
+        <span class="step-text flex-1 text-xs leading-snug break-words font-medium ${isChecked ? 'line-through text-[#00ff66]' : 'text-[#c0caf5]'}" onclick="toggleCustomStepCheck('${val.replace(/'/g, "\\'")}', ${idx}, event)">${cleanedText}</span>
         <button onclick="deleteCustomStep('${val.replace(/'/g, "\\'")}', ${idx}, event)" aria-label="Schritt entfernen" class="opacity-0 group-hover:opacity-100 p-1 text-gray-500 hover:text-red-400 rounded transition cursor-pointer shrink-0" title="Schritt entfernen">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
         </button>

@@ -313,7 +313,7 @@ function renderFeedbackModalContent(isSuccess = false) {
               <span class="text-base shrink-0">📋</span>
               <div>
                 <div class="text-xs font-bold text-white">Modulares Board</div>
-                <div class="text-[10.5px] text-gray-400 leading-snug">Tagesplan, Haushalt & Spalten flexibel anpassen & organisieren.</div>
+                <div class="text-[10.5px] text-gray-400 leading-snug">Tagesplan, Haushalt & Karten flexibel anpassen & organisieren.</div>
               </div>
             </div>
             <div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10 flex items-start gap-2.5">

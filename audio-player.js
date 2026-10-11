@@ -43,6 +43,33 @@ var djDecks = {
   }
 };
 
+// Echte Audio-Tracks für DJ Workstation & Preloaded MP3s
+var BUILTIN_DJ_STEMS = [
+  { id: 'cinematic', name: 'Cinematic Orchestra – Evolution', bpm: 95, file: 'music/Cinematic%20Orchestra%20-%20%20Evolution.mp3', color: 'cyan', emoji: '🎻' },
+  { id: 'death_in_vegas', name: 'Death In Vegas – All That Glitters', bpm: 110, file: 'music/Death%20In%20Vegas%20-%20All%20That%20Glitters.mp3', color: 'purple', emoji: '🎸' },
+  { id: 'dj_cam', name: 'DJ Cam – Lost Kingdom', bpm: 88, file: 'music/DJ%20Cam%20-%20Lost%20Kingdom.mp3', color: 'cyan', emoji: '🎧' },
+  { id: 'indian_rope', name: 'Indian Rope Man – 66 Meters', bpm: 118, file: 'music/Indian%20Rope%20Man%2066%20Meters.mp3', color: 'purple', emoji: '🥁' },
+  { id: 'levitation', name: 'Levitation – More Than Ever People', bpm: 100, file: 'music/Levitation%20-%20More%20Than%20Ever%20People.mp3', color: 'cyan', emoji: '🌊' },
+  { id: 'portishead', name: 'Portishead – Numb', bpm: 78, file: 'music/Portishead%20-%20Numb.mp3', color: 'purple', emoji: '⚡' },
+  { id: 'channel_1', name: 'Cinematic Orch – Channel 1 Suite', bpm: 92, file: 'music/The%20Cinematic%20Orchestra%20-%20Channel%201%20Suite%20(Zero%207%20-%20Late%20Night%20Tales).mp3', color: 'cyan', emoji: '🎹' },
+  { id: 'tricky', name: 'Tricky – Hell Is Around The Corner', bpm: 82, file: 'music/Tricky%20Hell%20Is%20Around%20The%20Corner.mp3', color: 'purple', emoji: '🎤' }
+];
+
+function updateDjPresetDropdowns() {
+  ['a', 'b'].forEach(deckId => {
+    const sel = document.getElementById(`dj-preset-select-${deckId}`);
+    if (!sel) return;
+    const currentVal = sel.value;
+    sel.innerHTML = BUILTIN_DJ_STEMS.map(stem => {
+      return `<option value="${stem.id}">${stem.name}</option>`;
+    }).join('');
+    if (currentVal && BUILTIN_DJ_STEMS.some(s => s.id === currentVal)) {
+      sel.value = currentVal;
+    }
+  });
+}
+window.updateDjPresetDropdowns = updateDjPresetDropdowns;
+
 // ============================================================================
 // 1. FORMATIERUNG & UTILS
 // ============================================================================
@@ -54,21 +81,276 @@ function formatAudioTime(secs) {
 }
 window.formatAudioTime = formatAudioTime;
 
+function getDjCurrentPlayingTrack() {
+  if (djDecks.a && djDecks.a.isPlaying && djDecks.a.track) {
+    return { ...djDecks.a.track, deck: 'a', bpm: djDecks.a.bpm, currentTime: (djDecks.a.audio ? djDecks.a.audio.currentTime : 0) };
+  }
+  if (djDecks.b && djDecks.b.isPlaying && djDecks.b.track) {
+    return { ...djDecks.b.track, deck: 'b', bpm: djDecks.b.bpm, currentTime: (djDecks.b.audio ? djDecks.b.audio.currentTime : 0) };
+  }
+  if (typeof currentPlaylistIndex !== 'undefined' && playlistTracks && playlistTracks[currentPlaylistIndex]) {
+    const t = playlistTracks[currentPlaylistIndex];
+    return { id: t.id, name: t.name || t.fullName, url: t.url, bpm: t.bpm || 120, isPlaying: (typeof isMusicPlaying !== 'undefined' ? isMusicPlaying : false) };
+  }
+  if (BUILTIN_DJ_STEMS && BUILTIN_DJ_STEMS.length > 0) {
+    const s = BUILTIN_DJ_STEMS[0];
+    return { id: s.id, name: s.name, bpm: s.bpm, file: s.file, url: s.file };
+  }
+  return null;
+}
+window.getDjCurrentPlayingTrack = getDjCurrentPlayingTrack;
+
+function playDjSharedTrack(trackData) {
+  if (!trackData) return;
+  const stem = BUILTIN_DJ_STEMS.find(s => s.id === trackData.id || s.name === trackData.name || (trackData.file && s.file === trackData.file));
+  if (stem) {
+    loadDjBuiltinTrack('a', stem.id, true);
+    if (trackData.startedAt && djDecks.a.audio) {
+      const elapsed = (Date.now() - trackData.startedAt) / 1000;
+      if (elapsed > 0 && elapsed < (djDecks.a.audio.duration || 300)) {
+        try { djDecks.a.audio.currentTime = elapsed % (djDecks.a.audio.duration || 180); } catch(e) {}
+      }
+    }
+    return;
+  }
+
+  if (trackData.url || trackData.file) {
+    const targetUrl = trackData.url || trackData.file;
+    const deck = djDecks.a;
+    if (!deck.audio) deck.audio = new Audio();
+    deck.audio.src = targetUrl;
+    deck.track = { id: trackData.id || 'shared_track', name: trackData.name || 'DJ Stream', bpm: trackData.bpm || 120, url: targetUrl };
+    deck.bpm = trackData.bpm || 120;
+    
+    deck.audio.play().then(() => {
+      deck.isPlaying = true;
+      if (trackData.startedAt && deck.audio.duration) {
+        const elapsed = (Date.now() - trackData.startedAt) / 1000;
+        if (elapsed > 0 && elapsed < deck.audio.duration) {
+          try { deck.audio.currentTime = elapsed; } catch(e) {}
+        }
+      }
+      updateDjDeckPlayButtonUI('a');
+      startDjJogAnimation('a');
+    }).catch(e => console.warn('[AudioPlayer] Shared playback note:', e));
+  }
+}
+window.playDjSharedTrack = playDjSharedTrack;
+
 // ============================================================================
-// 2. TAB 3: EIGENE TRACKS / PLAYLIST PLAYER
+// 2. TAB 3: EIGENE TRACKS / PLAYLIST PLAYER & INDEXEDDB AUDIO VAULT
 // ============================================================================
+
+const IDB_AUDIO_DB_NAME = 'noodle_audio_vault';
+const IDB_AUDIO_STORE_NAME = 'user_tracks';
+
+function getAudioVaultDB() {
+  return new Promise((resolve) => {
+    if (typeof indexedDB === 'undefined') return resolve(null);
+    try {
+      const req = indexedDB.open(IDB_AUDIO_DB_NAME, 1);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains(IDB_AUDIO_STORE_NAME)) {
+          db.createObjectStore(IDB_AUDIO_STORE_NAME, { keyPath: 'id' });
+        }
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+    } catch(e) {
+      resolve(null);
+    }
+  });
+}
+
+async function saveTrackToAudioVault(track, file) {
+  const db = await getAudioVaultDB();
+  if (!db) return;
+  try {
+    const tx = db.transaction(IDB_AUDIO_STORE_NAME, 'readwrite');
+    const store = tx.objectStore(IDB_AUDIO_STORE_NAME);
+    store.put({
+      id: track.id || ('usr_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7)),
+      name: track.name,
+      fullName: track.fullName || track.name,
+      duration: track.duration || 0,
+      blob: file,
+      addedAt: Date.now()
+    });
+  } catch(e) {
+    console.warn('[AudioVault] Error saving track:', e);
+  }
+}
+
+async function removeTrackFromAudioVault(trackId) {
+  if (!trackId) return;
+  const db = await getAudioVaultDB();
+  if (!db) return;
+  try {
+    const tx = db.transaction(IDB_AUDIO_STORE_NAME, 'readwrite');
+    const store = tx.objectStore(IDB_AUDIO_STORE_NAME);
+    store.delete(trackId);
+  } catch(e) {
+    console.warn('[AudioVault] Error deleting track:', e);
+  }
+}
+
+async function loadSavedUserAudioTracks() {
+  const db = await getAudioVaultDB();
+  if (!db) return;
+  try {
+    const tx = db.transaction(IDB_AUDIO_STORE_NAME, 'readonly');
+    const store = tx.objectStore(IDB_AUDIO_STORE_NAME);
+    const req = store.getAll();
+    req.onsuccess = () => {
+      const records = req.result || [];
+      if (records.length === 0) return;
+      
+      const loadedTracks = records.map(r => ({
+        id: r.id,
+        name: r.name,
+        fullName: r.fullName,
+        duration: r.duration || null,
+        url: URL.createObjectURL(r.blob),
+        isUserUploaded: true
+      }));
+
+      const existingIds = new Set(playlistTracks.map(t => t.id || t.name));
+      const freshTracks = loadedTracks.filter(t => !existingIds.has(t.id) && !existingIds.has(t.name));
+      
+      if (freshTracks.length > 0) {
+        playlistTracks = playlistTracks.concat(freshTracks);
+        freshTracks.forEach(preloadMusicTrackDuration);
+        renderMusicPlaylist();
+      }
+    };
+  } catch(e) {
+    console.warn('[AudioVault] Error loading saved tracks:', e);
+  }
+}
+
+async function scanMusicFolderTracks() {
+  if (typeof window !== 'undefined' && window.location && window.location.protocol === 'file:') {
+    // Auf file:// Protokoll blockieren Browser CORS-Fetches auf lokale Verzeichnisse/Dateien.
+    // Built-in Stems und DEFAULT_PRELOADED_TRACKS werden sauber genutzt.
+    return;
+  }
+  try {
+    let res = await fetch('music/list.php').catch(() => null);
+    if (!res || !res.ok) {
+      res = await fetch('music/manifest.json').catch(() => null);
+    }
+    if (res && res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.tracks) && data.tracks.length > 0) {
+        const foundTracks = data.tracks;
+        
+        const realTracks = foundTracks.map(t => {
+          let cleanTitle = (t.name || t.fullName || '')
+            .replace(/^🎵\s*/, '')
+            .replace(/\s*-\s*/g, ' – ')
+            .replace(/[_]+/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+          return {
+            id: t.id || ('folder_' + Math.random().toString(36).slice(2, 7)),
+            name: cleanTitle,
+            fullName: t.fullName || cleanTitle,
+            url: t.url,
+            duration: null,
+            isLocalFolder: true
+          };
+        });
+
+        playlistTracks = [...realTracks];
+        if (typeof window !== 'undefined') window.playlistTracks = playlistTracks;
+
+        playlistTracks.forEach(preloadMusicTrackDuration);
+        renderMusicPlaylist();
+
+        BUILTIN_DJ_STEMS.length = 0;
+        realTracks.forEach((t, i) => {
+          const stemId = 'track_stem_' + i;
+          BUILTIN_DJ_STEMS.push({
+            id: stemId,
+            name: t.name,
+            bpm: 120,
+            file: t.url,
+            color: (i % 2 === 0 ? 'cyan' : 'purple'),
+            emoji: '🎵'
+          });
+        });
+
+        updateDjPresetDropdowns();
+
+        if (BUILTIN_DJ_STEMS.length > 0 && (!djDecks.a.track || !djDecks.a.isPlaying)) {
+          loadDjBuiltinTrack('a', BUILTIN_DJ_STEMS[0].id, false);
+        }
+        if (BUILTIN_DJ_STEMS.length > 1 && (!djDecks.b.track || !djDecks.b.isPlaying)) {
+          loadDjBuiltinTrack('b', BUILTIN_DJ_STEMS[1].id, false);
+        }
+      }
+    }
+  } catch(e) {
+    console.warn('[AudioPlayer] Folder scan notice:', e);
+  }
+}
+window.scanMusicFolderTracks = scanMusicFolderTracks;
+
+// Auto-load saved tracks and scan music folder on startup
+if (typeof window !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      loadSavedUserAudioTracks();
+      scanMusicFolderTracks();
+    });
+  } else {
+    loadSavedUserAudioTracks();
+    scanMusicFolderTracks();
+  }
+}
+
+var DEFAULT_PRELOADED_TRACKS = (typeof window !== 'undefined' && Array.isArray(window.DEFAULT_PRELOADED_TRACKS))
+  ? window.DEFAULT_PRELOADED_TRACKS
+  : [
+      { id: 'folder_43696e65', name: 'The Cinematic Orchestra – Evolution', fullName: 'Cinematic Orchestra - Evolution.mp3', url: 'music/Cinematic%20Orchestra%20-%20%20Evolution.mp3', bpm: 95, duration: 388, isPreloaded: true },
+      { id: 'folder_44656174', name: 'Death In Vegas – All That Glitters', fullName: 'Death In Vegas - All That Glitters.mp3', url: 'music/Death%20In%20Vegas%20-%20All%20That%20Glitters.mp3', bpm: 110, duration: 395, isPreloaded: true },
+      { id: 'folder_444a2043', name: 'DJ Cam – Lost Kingdom', fullName: 'DJ Cam - Lost Kingdom.mp3', url: 'music/DJ%20Cam%20-%20Lost%20Kingdom.mp3', bpm: 88, duration: 254, isPreloaded: true },
+      { id: 'folder_496e6469', name: 'Indian Rope Man – 66 Meters', fullName: 'Indian Rope Man 66 Meters.mp3', url: 'music/Indian%20Rope%20Man%2066%20Meters.mp3', bpm: 118, duration: 270, isPreloaded: true },
+      { id: 'folder_4c657669', name: 'Levitation – More Than Ever People', fullName: 'Levitation - More Than Ever People.mp3', url: 'music/Levitation%20-%20More%20Than%20Ever%20People.mp3', bpm: 100, duration: 320, isPreloaded: true },
+      { id: 'folder_506f7274', name: 'Portishead – Numb', fullName: 'Portishead - Numb.mp3', url: 'music/Portishead%20-%20Numb.mp3', bpm: 78, duration: 236, isPreloaded: true },
+      { id: 'folder_54686520', name: 'The Cinematic Orchestra – Channel 1 Suite (Zero 7)', fullName: 'The Cinematic Orchestra - Channel 1 Suite (Zero 7 - Late Night Tales).mp3', url: 'music/The%20Cinematic%20Orchestra%20-%20Channel%201%20Suite%20(Zero%207%20-%20Late%20Night%20Tales).mp3', bpm: 92, duration: 345, isPreloaded: true },
+      { id: 'folder_54726963', name: 'Tricky – Hell Is Around The Corner', fullName: 'Tricky Hell Is Around The Corner.mp3', url: 'music/Tricky%20Hell%20Is%20Around%20The%20Corner.mp3', bpm: 82, duration: 226, isPreloaded: true }
+    ];
+
+if (typeof playlistTracks === 'undefined' || !Array.isArray(playlistTracks) || playlistTracks.length === 0) {
+  playlistTracks = [...DEFAULT_PRELOADED_TRACKS];
+}
+
+function openAudioStudioModal() {
+  if (typeof togglePanel === 'function') togglePanel('audio');
+  scanMusicFolderTracks();
+}
+window.openAudioStudioModal = openAudioStudioModal;
 
 function handleMusicFilesUpload(event) {
   const files = event.target.files;
   if (!files || files.length === 0) return;
 
   const wasEmpty = playlistTracks.length === 0;
-  const newTracks = Array.from(files).map(file => ({
-    url: URL.createObjectURL(file),
-    name: file.name.replace(/\.[^/.]+$/, ''),
-    fullName: file.name,
-    duration: null
-  }));
+  const newTracks = Array.from(files).map((file, i) => {
+    const trackId = 'usr_' + Date.now() + '_' + i + '_' + Math.random().toString(36).slice(2, 6);
+    const track = {
+      id: trackId,
+      url: URL.createObjectURL(file),
+      name: file.name.replace(/\.[^/.]+$/, ''),
+      fullName: file.name,
+      duration: null,
+      isUserUploaded: true
+    };
+    saveTrackToAudioVault(track, file);
+    return track;
+  });
 
   playlistTracks = playlistTracks.concat(newTracks);
   newTracks.forEach(preloadMusicTrackDuration);
@@ -82,7 +364,7 @@ function handleMusicFilesUpload(event) {
       : 0;
     playMusicTrack(currentTrackIndex);
   } else {
-    showToast(`${newTracks.length} Track(s) geladen! 🎧`);
+    showToast(`${newTracks.length} Track(s) dauerhaft gespeichert! 🎧💾`);
   }
   event.target.value = '';
 }
@@ -90,12 +372,19 @@ window.handleMusicFilesUpload = handleMusicFilesUpload;
 window.handleUserSoundFile = handleMusicFilesUpload;
 
 function preloadMusicTrackDuration(track) {
+  if (!track || !track.url) return;
   const probe = new Audio();
   probe.preload = 'metadata';
   probe.addEventListener('loadedmetadata', () => {
     track.duration = probe.duration;
     renderMusicPlaylist();
     updateMusicNowPlayingDisplay();
+  });
+  probe.addEventListener('error', () => {
+    if (!track.duration) {
+      track.duration = 180;
+    }
+    renderMusicPlaylist();
   });
   probe.src = track.url;
 }
@@ -116,7 +405,7 @@ function renderMusicPlaylist() {
     return `
       <div onclick="playMusicTrack(${idx})" class="p-1.5 px-2 rounded-xl border transition flex items-center justify-between gap-2 cursor-pointer ${isSelected ? 'bg-purple-500/20 border-purple-500/40 text-white' : 'bg-black/30 hover:bg-white/5 border-white/5 text-gray-300'}">
         <div class="flex items-center gap-2 min-w-0">
-          <span class="text-[10px] font-mono ${isActive ? 'text-emerald-400 font-bold' : 'text-gray-500'} w-4 shrink-0">${idx + 1}.</span>
+          <span class="text-[10px] font-mono ${isActive ? 'text-[#00ff66] font-bold' : 'text-gray-500'} w-4 shrink-0">${idx + 1}.</span>
           <div class="truncate text-xs font-semibold ${isSelected ? 'text-purple-200' : ''}">${track.name}</div>
         </div>
         <div class="flex items-center gap-2 shrink-0">
@@ -134,12 +423,164 @@ function renderMusicPlaylist() {
 window.renderMusicPlaylist = renderMusicPlaylist;
 window.renderTrackList = renderMusicPlaylist;
 
+let mediaVisualizerAnimFrame = null;
+let mediaAudioSourceNode = null;
+let mediaAnalyserNode = null;
+
+function isVideoFileUrl(url, name) {
+  const testStr = `${url || ''} ${name || ''}`.toLowerCase();
+  return testStr.endsWith('.mp4') || testStr.endsWith('.webm') || testStr.endsWith('.ogg') || testStr.endsWith('.mov') || testStr.endsWith('.mkv') || testStr.includes('video/');
+}
+
+function updateMediaScreenDisplay(isVideo, mediaEl) {
+  const videoEl = document.getElementById('media-video-element');
+  const canvas = document.getElementById('media-audio-visualizer-canvas');
+  const typeBadge = document.getElementById('media-type-badge');
+  const pipBtn = document.getElementById('media-pip-btn');
+
+  if (isVideo && videoEl) {
+    videoEl.classList.remove('hidden');
+    if (canvas) canvas.classList.add('hidden');
+    if (typeBadge) {
+      typeBadge.textContent = 'VIDEO';
+      typeBadge.className = 'px-2 py-0.5 rounded-lg text-[9px] font-mono font-bold bg-black/60 text-emerald-300 border border-emerald-500/40 backdrop-blur-md';
+    }
+    if (pipBtn) pipBtn.classList.remove('hidden');
+  } else {
+    if (videoEl) {
+      videoEl.classList.add('hidden');
+      try { videoEl.pause(); } catch(e) {}
+    }
+    if (canvas) canvas.classList.remove('hidden');
+    if (typeBadge) {
+      typeBadge.textContent = 'AUDIO';
+      typeBadge.className = 'px-2 py-0.5 rounded-lg text-[9px] font-mono font-bold bg-black/60 text-purple-300 border border-purple-500/40 backdrop-blur-md';
+    }
+    startAudioVisualizerLoop();
+  }
+}
+
+function startAudioVisualizerLoop() {
+  const canvas = document.getElementById('media-audio-visualizer-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  if (mediaVisualizerAnimFrame) cancelAnimationFrame(mediaVisualizerAnimFrame);
+
+  let phase = 0;
+  function draw() {
+    if (canvas.classList.contains('hidden')) return;
+    const w = canvas.width = canvas.clientWidth || 300;
+    const h = canvas.height = canvas.clientHeight || 96;
+
+    ctx.fillStyle = '#0a0c12';
+    ctx.fillRect(0, 0, w, h);
+
+    const isPlaying = activeUserAudio && !activeUserAudio.paused;
+    const bars = 36;
+    const barWidth = (w - (bars * 2)) / bars;
+
+    for (let i = 0; i < bars; i++) {
+      const x = i * (barWidth + 2) + 2;
+      let barHeight = 6;
+      if (isPlaying) {
+        const wave = Math.sin(phase + i * 0.35) * 0.5 + 0.5;
+        const wave2 = Math.cos(phase * 1.5 + i * 0.2) * 0.5 + 0.5;
+        barHeight = Math.max(6, (wave * 0.6 + wave2 * 0.4) * (h * 0.72));
+      }
+
+      const grad = ctx.createLinearGradient(0, h, 0, h - barHeight);
+      grad.addColorStop(0, 'rgba(168, 85, 247, 0.2)');
+      grad.addColorStop(0.5, 'rgba(168, 85, 247, 0.85)');
+      grad.addColorStop(1, 'rgba(56, 189, 248, 0.95)');
+
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.roundRect ? ctx.roundRect(x, h - barHeight, barWidth, barHeight, [3, 3, 0, 0]) : ctx.fillRect(x, h - barHeight, barWidth, barHeight);
+      ctx.fill();
+    }
+
+    if (isPlaying) phase += 0.08;
+    mediaVisualizerAnimFrame = requestAnimationFrame(draw);
+  }
+  draw();
+}
+
+function setMediaPlaybackRate(rate) {
+  const r = parseFloat(rate) || 1.0;
+  if (activeUserAudio) activeUserAudio.playbackRate = r;
+  const videoEl = document.getElementById('media-video-element');
+  if (videoEl) videoEl.playbackRate = r;
+}
+window.setMediaPlaybackRate = setMediaPlaybackRate;
+
+async function toggleMediaPip() {
+  const videoEl = document.getElementById('media-video-element');
+  if (!videoEl || videoEl.classList.contains('hidden')) {
+    if (typeof showToast === 'function') showToast('Picture-in-Picture ist nur bei Videos verfügbar 🎬');
+    return;
+  }
+  try {
+    if (document.pictureInPictureElement) {
+      await document.exitPictureInPicture();
+    } else if (videoEl.requestPictureInPicture) {
+      await videoEl.requestPictureInPicture();
+    }
+  } catch(e) {
+    console.warn('[Media] PiP Error:', e);
+  }
+}
+window.toggleMediaPip = toggleMediaPip;
+
+function toggleMediaFullscreen() {
+  const videoEl = document.getElementById('media-video-element');
+  const wrapper = document.getElementById('media-screen-wrapper');
+  const target = (!videoEl.classList.contains('hidden') ? videoEl : wrapper);
+  if (!target) return;
+  if (!document.fullscreenElement) {
+    target.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+window.toggleMediaFullscreen = toggleMediaFullscreen;
+
+function loadOnlineMediaUrl() {
+  const input = document.getElementById('media-stream-url-input');
+  if (!input || !input.value.trim()) return;
+  const url = input.value.trim();
+  const name = url.split('/').pop().split('?')[0] || 'Online Stream';
+  const isVideo = isVideoFileUrl(url, name);
+
+  const trackId = 'online_' + Date.now();
+  const newTrack = {
+    id: trackId,
+    name: '🌐 ' + decodeURIComponent(name),
+    fullName: decodeURIComponent(name),
+    url: url,
+    isVideo: isVideo,
+    duration: null,
+    isOnlineStream: true
+  };
+
+  playlistTracks.unshift(newTrack);
+  input.value = '';
+  renderMusicPlaylist();
+  playMusicTrack(0);
+  if (typeof showToast === 'function') {
+    showToast(`Stream geladen: ${newTrack.name} 🎬`);
+  }
+}
+window.loadOnlineMediaUrl = loadOnlineMediaUrl;
+
 function playMusicTrack(index) {
   if (playlistTracks.length === 0) return;
   if (index < 0 || index >= playlistTracks.length) index = 0;
   currentTrackIndex = index;
 
   const track = playlistTracks[currentTrackIndex];
+  const isVideo = track.isVideo || isVideoFileUrl(track.url, track.name || track.fullName);
 
   if (activeUserAudio) {
     try {
@@ -148,16 +589,32 @@ function playMusicTrack(index) {
     } catch(e) {}
   }
 
-  const audio = new Audio(track.url);
-  audio.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
-  activeUserAudio = audio;
+  let mediaEl;
+  const videoEl = document.getElementById('media-video-element');
 
-  audio.addEventListener('timeupdate', () => {
-    if (activeUserAudio !== audio) return;
-    updateMusicProgressUI(audio);
+  if (isVideo && videoEl) {
+    videoEl.src = track.url;
+    mediaEl = videoEl;
+  } else {
+    mediaEl = new Audio(track.url);
+  }
+
+  const speedSelect = document.getElementById('media-speed-select');
+  if (speedSelect && speedSelect.value) {
+    mediaEl.playbackRate = parseFloat(speedSelect.value) || 1.0;
+  }
+
+  mediaEl.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+  activeUserAudio = mediaEl;
+
+  updateMediaScreenDisplay(isVideo, mediaEl);
+
+  mediaEl.addEventListener('timeupdate', () => {
+    if (activeUserAudio !== mediaEl) return;
+    updateMusicProgressUI(mediaEl);
   });
 
-  audio.addEventListener('ended', () => {
+  mediaEl.addEventListener('ended', () => {
     if (playerRepeatMode === 'one') {
       playMusicTrack(currentTrackIndex);
     } else if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) {
@@ -167,12 +624,26 @@ function playMusicTrack(index) {
     }
   });
 
-  audio.play().then(() => {
+  mediaEl.play().then(() => {
     updateMusicPlayBtnUI(true);
     updateMusicNowPlayingDisplay();
     renderMusicPlaylist();
+    startAudioVisualizerLoop();
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({
+        isPlaying: true,
+        title: track.name || track.fullName || 'Track',
+        sub: 'Musik & Medien',
+        emoji: isVideo ? '🎬' : '🎶',
+        source: 'music'
+      });
+    }
   }).catch(err => {
-    console.warn('[AudioPlayer] Playback error:', err);
+    console.warn('[AudioPlayer] Playback attempt error:', err);
+    updateMusicPlayBtnUI(false);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false });
+    }
   });
 }
 window.playMusicTrack = playMusicTrack;
@@ -188,11 +659,24 @@ function toggleMusicPlayback() {
     activeUserAudio.play().then(() => {
       updateMusicPlayBtnUI(true);
       renderMusicPlaylist();
+      const currentTrack = playlistTracks[currentTrackIndex];
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({
+          isPlaying: true,
+          title: currentTrack ? (currentTrack.name || currentTrack.fullName) : 'Musik',
+          sub: 'Musik & Medien',
+          emoji: '🎶',
+          source: 'music'
+        });
+      }
     }).catch(e => console.warn(e));
   } else {
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
     renderMusicPlaylist();
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert' });
+    }
   }
 }
 window.toggleMusicPlayback = toggleMusicPlayback;
@@ -290,8 +774,11 @@ function removeMusicTrack(idx, event) {
 
   const wasPlaying = idx === curIdx && audioObj && !audioObj.paused;
   const [removedTrack] = tracks.splice(idx, 1);
-  if (removedTrack && removedTrack.url && String(removedTrack.url).startsWith('blob:')) {
-    try { URL.revokeObjectURL(removedTrack.url); } catch(e) {}
+  if (removedTrack) {
+    if (removedTrack.id) removeTrackFromAudioVault(removedTrack.id);
+    if (removedTrack.url && String(removedTrack.url).startsWith('blob:')) {
+      try { URL.revokeObjectURL(removedTrack.url); } catch(e) {}
+    }
   }
 
   if (tracks.length === 0) {
@@ -390,9 +877,64 @@ function switchMusicSourceTab(tab) {
   if (typeof AppStorage !== 'undefined') {
     AppStorage.set('flow_music_active_tab', tab);
   }
+
+  if (tab === 'spotify') {
+    const spotifyContainer = document.getElementById('spotify-embed-container');
+    if (spotifyContainer && !spotifyContainer.querySelector('iframe')) {
+      const saved = (typeof AppStorage !== 'undefined' ? AppStorage.get('flow_spotify_url') : '') || 'https://open.spotify.com/playlist/37i9dQZF1DXdLEN7aqioXM';
+      loadSpotifyEmbed(saved);
+    }
+  } else if (tab === 'youtube') {
+    const ytContainer = document.getElementById('youtube-embed-container');
+    if (ytContainer && !ytContainer.querySelector('iframe')) {
+      const saved = (typeof AppStorage !== 'undefined' ? AppStorage.get('flow_youtube_url') : '') || 'https://www.youtube.com/watch?v=jfKfPfyJRdk';
+      loadYoutubeEmbed(saved);
+    }
+  }
+
   if (typeof renderLucideIcons === 'function') renderLucideIcons();
 }
 window.switchMusicSourceTab = switchMusicSourceTab;
+
+function formatSpotifyEmbedUrl(input) {
+  if (!input) return 'https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM';
+  let str = input.trim();
+  
+  // Strip iframe code if user pasted whole <iframe>
+  const iframeMatch = str.match(/src=["'](.*?)["']/);
+  if (iframeMatch && iframeMatch[1]) {
+    str = iframeMatch[1];
+  }
+
+  // spotify:playlist:ID or spotify:track:ID or spotify:album:ID
+  if (str.startsWith('spotify:')) {
+    const parts = str.split(':');
+    if (parts.length >= 3) {
+      return `https://open.spotify.com/embed/${parts[1]}/${parts[2]}`;
+    }
+  }
+
+  // Clean parameters and query strings from raw URL first
+  const cleanUrl = str.split('?')[0];
+
+  // Regex matching playlist, track, album, episode, artist, show across any localized subdomain (e.g. open.spotify.com/intl-de/playlist/...)
+  const match = cleanUrl.match(/open\.spotify\.com\/(?:[a-zA-Z-]+(?:\/|))?(playlist|track|album|artist|show|episode)\/([a-zA-Z0-9]+)/);
+  if (match && match[1] && match[2]) {
+    return `https://open.spotify.com/embed/${match[1]}/${match[2]}`;
+  }
+
+  // If already open.spotify.com/embed/...
+  if (cleanUrl.includes('open.spotify.com/embed/')) {
+    return cleanUrl;
+  }
+
+  // If plain 22-character alphanumeric ID (standard Spotify 22-char Base62 ID)
+  if (/^[a-zA-Z0-9]{22}$/.test(str)) {
+    return `https://open.spotify.com/embed/playlist/${str}`;
+  }
+
+  return `https://open.spotify.com/embed/playlist/37i9dQZF1DXdLEN7aqioXM`;
+}
 
 function loadSpotifyEmbed(urlOrId) {
   let val = urlOrId;
@@ -400,28 +942,78 @@ function loadSpotifyEmbed(urlOrId) {
     const input = document.getElementById('spotify-url-input');
     val = input ? input.value.trim() : '';
   }
-  if (!val) return;
+  if (!val) {
+    val = 'https://open.spotify.com/playlist/37i9dQZF1DXdLEN7aqioXM';
+  }
 
   const container = document.getElementById('spotify-embed-container');
   if (!container) return;
 
-  let embedUrl = val;
-  if (val.includes('open.spotify.com/')) {
-    embedUrl = val.replace('open.spotify.com/', 'open.spotify.com/embed/');
-  } else if (!val.includes('spotify.com')) {
-    embedUrl = `https://open.spotify.com/embed/playlist/${val}`;
+  const embedUrl = formatSpotifyEmbedUrl(val);
+  const input = document.getElementById('spotify-url-input');
+  if (input && urlOrId) {
+    input.value = urlOrId;
   }
 
   container.innerHTML = `
-    <iframe style="border-radius:16px" src="${embedUrl}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    <iframe style="border-radius:14px" src="${embedUrl}?utm_source=generator&theme=0" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   `;
 
   if (typeof AppStorage !== 'undefined') {
     AppStorage.set('flow_spotify_url', val);
   }
-  showToast('Spotify Playlist geladen! 🟢');
+  if (typeof showToast === 'function') {
+    showToast('Spotify Playlist geladen! 🟢');
+  }
 }
 window.loadSpotifyEmbed = loadSpotifyEmbed;
+
+function formatYoutubeEmbedData(input) {
+  if (!input) return { type: 'video', id: 'jfKfPfyJRdk', listId: null };
+  let str = input.trim();
+
+  // Strip iframe code if user pasted whole <iframe>
+  const iframeMatch = str.match(/src=["'](.*?)["']/);
+  if (iframeMatch && iframeMatch[1]) {
+    str = iframeMatch[1];
+  }
+
+  // Extract playlist ID
+  const playlistMatch = str.match(/[?&]list=([a-zA-Z0-9_-]+)/);
+  const listId = playlistMatch ? playlistMatch[1] : null;
+
+  // Extract video ID from youtube.com, youtu.be, live streams, shorts, embeds
+  const videoMatch = str.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|live\/|shorts\/))([\w-]{11})/);
+  
+  if (videoMatch && videoMatch[1]) {
+    return {
+      type: 'video',
+      id: videoMatch[1],
+      listId: listId
+    };
+  }
+
+  if (listId) {
+    return {
+      type: 'playlist',
+      id: listId
+    };
+  }
+
+  if (/^[\w-]{11}$/.test(str)) {
+    return {
+      type: 'video',
+      id: str,
+      listId: null
+    };
+  }
+
+  return {
+    type: 'video',
+    id: 'jfKfPfyJRdk',
+    listId: null
+  };
+}
 
 function loadYoutubeEmbed(urlOrId) {
   let val = urlOrId;
@@ -429,27 +1021,38 @@ function loadYoutubeEmbed(urlOrId) {
     const input = document.getElementById('youtube-url-input');
     val = input ? input.value.trim() : '';
   }
-  if (!val) return;
+  if (!val) {
+    val = 'https://www.youtube.com/watch?v=jfKfPfyJRdk';
+  }
 
   const container = document.getElementById('youtube-embed-container');
   if (!container) return;
 
-  let videoId = val;
-  const match = val.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
-  if (match && match[1]) {
-    videoId = match[1];
+  const data = formatYoutubeEmbedData(val);
+  const input = document.getElementById('youtube-url-input');
+  if (input && urlOrId) {
+    input.value = urlOrId;
+  }
+
+  let srcUrl = '';
+  if (data.type === 'playlist') {
+    srcUrl = `https://www.youtube.com/embed/videoseries?list=${data.id}&autoplay=1&rel=0`;
+  } else {
+    srcUrl = `https://www.youtube.com/embed/${data.id}?autoplay=1&rel=0&modestbranding=1${data.listId ? '&list=' + data.listId : ''}`;
   }
 
   container.innerHTML = `
     <div class="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 bg-black shadow-lg">
-      <iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      <iframe class="w-full h-full" src="${srcUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
     </div>
   `;
 
   if (typeof AppStorage !== 'undefined') {
     AppStorage.set('flow_youtube_url', val);
   }
-  showToast('YouTube Stream geladen! 🔴');
+  if (typeof showToast === 'function') {
+    showToast('YouTube Stream geladen! 🔴');
+  }
 }
 window.loadYoutubeEmbed = loadYoutubeEmbed;
 window.loadYouTubeEmbed = loadYoutubeEmbed;
@@ -457,15 +1060,6 @@ window.loadYouTubeEmbed = loadYoutubeEmbed;
 // ============================================================================
 // 4. TAB 4: 2-DECK PRO DJ MIXER & AUTOMIX WORKSTATION
 // ============================================================================
-
-// Demo Synthesized Focus Stems
-const BUILTIN_DJ_STEMS = [
-  { id: 'deep_house', name: 'Deep House 126 BPM', bpm: 126, color: 'cyan', emoji: '⚡' },
-  { id: 'lofi_chill', name: 'Lofi Chill 85 BPM', bpm: 85, color: 'purple', emoji: '☕' },
-  { id: 'cyber_wave', name: 'Cyber Wave 128 BPM', bpm: 128, color: 'cyan', emoji: '🌌' },
-  { id: 'tech_groove', name: 'Tech Groove 130 BPM', bpm: 130, color: 'purple', emoji: '🥁' },
-  { id: 'ambient_flow', name: 'Ambient Chill 118 BPM', bpm: 118, color: 'cyan', emoji: '🍃' }
-];
 
 var djAutomix = {
   enabled: false,
@@ -608,7 +1202,7 @@ function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
   if (!deck) return;
 
   const stem = BUILTIN_DJ_STEMS.find(s => s.id === presetKey) || BUILTIN_DJ_STEMS[0];
-  const url = createSyntheticBeatAudio(stem.bpm, stem.id);
+  const syntheticUrl = createSyntheticBeatAudio(stem.bpm, stem.id);
 
   if (deck.audio) {
     try { deck.audio.pause(); } catch(e) {}
@@ -618,7 +1212,8 @@ function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
   }
 
   const track = {
-    url: url,
+    url: stem.file || syntheticUrl,
+    fallbackUrl: syntheticUrl,
     name: stem.name,
     fullName: stem.name,
     isBuiltin: true
@@ -626,9 +1221,21 @@ function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
 
   deck.track = track;
   deck.bpm = stem.bpm;
-  deck.audio = new Audio(track.url);
-  deck.audio.loop = true;
-  deck.audio.playbackRate = deck.pitch;
+  
+  const audio = new Audio(track.url);
+  audio.loop = true;
+  audio.playbackRate = deck.pitch;
+
+  audio.addEventListener('error', () => {
+    if (track.fallbackUrl && audio.src !== track.fallbackUrl) {
+      console.log(`[DJ] MP3 file not found (${track.url}), falling back to synthetic audio for ${stem.name}`);
+      audio.src = track.fallbackUrl;
+      deck.track.url = track.fallbackUrl;
+      if (deck.isPlaying) audio.play().catch(() => {});
+    }
+  });
+
+  deck.audio = audio;
 
   bindDjAudioEvents(deckId);
   updateDjDeckUI(deckId);
@@ -653,12 +1260,16 @@ function handleDjDeckUpload(deckId, event) {
     try { URL.revokeObjectURL(deck.track.url); } catch(e) {}
   }
 
+  const trackId = 'usr_dj_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
   const track = {
+    id: trackId,
     url: URL.createObjectURL(file),
     name: file.name.replace(/\.[^/.]+$/, ''),
     fullName: file.name,
-    isBuiltin: false
+    isBuiltin: false,
+    isUserUploaded: true
   };
+  saveTrackToAudioVault(track, file);
 
   deck.track = track;
   deck.audio = new Audio(track.url);
@@ -667,7 +1278,7 @@ function handleDjDeckUpload(deckId, event) {
   bindDjAudioEvents(deckId);
   updateDjDeckUI(deckId);
 
-  showToast(`Deck ${deckId.toUpperCase()}: "${track.name}" geladen! 🎛️`);
+  showToast(`Deck ${deckId.toUpperCase()}: "${track.name}" geladen & gesichert! 🎛️💾`);
   event.target.value = '';
 }
 window.handleDjDeckUpload = handleDjDeckUpload;
@@ -684,7 +1295,7 @@ function bindDjAudioEvents(deckId) {
     }
 
     deck.jogRotation = (deck.jogRotation + 3) % 360;
-    const jog = document.getElementById(`dj-vinyl-disc-${deckId}`);
+    const jog = document.getElementById(`dj-jog-${deckId}`) || document.getElementById(`dj-vinyl-disc-${deckId}`);
     if (jog && deck.isPlaying) {
       jog.style.transform = `rotate(${deck.jogRotation}deg)`;
     }
@@ -731,10 +1342,20 @@ function updateDjDeckUI(deckId) {
 function updateDjPlayBtnUI(deckId, isPlaying) {
   const btn = document.getElementById(`dj-play-btn-${deckId}`);
   if (btn) {
-    btn.innerHTML = isPlaying ? `<i data-lucide="pause" class="w-3.5 h-3.5"></i>` : `<i data-lucide="play" class="w-3.5 h-3.5"></i>`;
-    btn.classList.toggle('ring-2', isPlaying);
-    btn.classList.toggle('ring-white/50', isPlaying);
+    const isDeckA = deckId === 'a';
+    if (isPlaying) {
+      btn.innerHTML = `<i data-lucide="pause" class="w-4 h-4 fill-black"></i><span class="font-black">PAUSE</span>`;
+      btn.className = isDeckA
+        ? 'flex-1 py-2 bg-cyan-400 hover:bg-cyan-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(6,182,212,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-cyan-300'
+        : 'flex-1 py-2 bg-amber-400 hover:bg-amber-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(245,158,11,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-amber-300';
+    } else {
+      btn.innerHTML = `<i data-lucide="play" class="w-4 h-4 fill-black"></i><span class="font-black">PLAY</span>`;
+      btn.className = isDeckA
+        ? 'flex-1 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(6,182,212,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95'
+        : 'flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(245,158,11,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95';
+    }
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
   }
 }
 
@@ -750,11 +1371,23 @@ function toggleDjDeckPlayback(deckId) {
     deck.audio.play().then(() => {
       deck.isPlaying = true;
       updateDjPlayBtnUI(deckId, true);
+      if (typeof updateMiniAudioPlayer === 'function') {
+        updateMiniAudioPlayer({
+          isPlaying: true,
+          title: (deck.track ? (deck.track.name || deck.track.title) : 'Deck ' + deckId.toUpperCase()),
+          sub: `Noodle DJ (${deck.bpm} BPM)`,
+          emoji: '🎧',
+          source: 'dj'
+        });
+      }
     }).catch(e => console.warn(e));
   } else {
     deck.audio.pause();
     deck.isPlaying = false;
     updateDjPlayBtnUI(deckId, false);
+    if (typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ isPlaying: false, sub: 'DJ Pausiert' });
+    }
   }
 }
 window.toggleDjDeckPlayback = toggleDjDeckPlayback;
@@ -870,10 +1503,18 @@ window.setDjCrossfader = setDjCrossfader;
 function toggleDjAutomix() {
   djAutomix.enabled = !djAutomix.enabled;
   const btn = document.getElementById('dj-automix-toggle-btn');
+  const led = document.getElementById('dj-automix-led');
+  const txt = document.getElementById('dj-automix-status-text');
   if (btn) {
     btn.className = djAutomix.enabled
-      ? 'px-2.5 py-1 bg-emerald-500/25 border border-emerald-400/80 text-emerald-200 rounded-xl text-[10px] font-bold transition flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.35)] cursor-pointer'
-      : 'px-2.5 py-1 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 rounded-xl text-[10px] font-medium transition flex items-center gap-1.5 cursor-pointer';
+      ? 'px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 transition cursor-pointer flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.3)]'
+      : 'px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-zinc-800/80 text-zinc-300 hover:text-white border border-zinc-700 transition cursor-pointer flex items-center gap-1.5 shadow-xs';
+  }
+  if (led) {
+    led.className = djAutomix.enabled ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse' : 'w-2 h-2 rounded-full bg-zinc-600';
+  }
+  if (txt) {
+    txt.textContent = djAutomix.enabled ? 'ACTIVE' : 'OFF';
   }
   showToast(djAutomix.enabled ? 'Automix Aktiviert! 🎛️⚡ Nahtloser Übergang' : 'Automix Deaktiviert');
 }
@@ -1138,3 +1779,217 @@ if (typeof globalThis !== 'undefined') {
   globalThis.removeMusicTrack = removeMusicTrack;
 }
 
+
+
+function updateDjVuMeters() {
+  if (typeof document === 'undefined') return;
+  if ((!djDecks.a || !djDecks.a.isPlaying) && (!djDecks.b || !djDecks.b.isPlaying)) return;
+  const djPanel = document.getElementById('panel-audio');
+  if (!djPanel || djPanel.classList.contains('hidden')) return;
+
+  const vuA = document.getElementById('dj-vu-meter-a');
+  const vuB = document.getElementById('dj-vu-meter-b');
+  
+  if (djDecks.a && djDecks.a.isPlaying && vuA) {
+    const h = 25 + Math.random() * 65;
+    vuA.style.height = h + '%';
+  } else if (vuA) {
+    vuA.style.height = '10%';
+  }
+
+  if (djDecks.b && djDecks.b.isPlaying && vuB) {
+    const h = 25 + Math.random() * 65;
+    vuB.style.height = h + '%';
+  } else if (vuB) {
+    vuB.style.height = '10%';
+  }
+}
+if (typeof window !== 'undefined') {
+  setInterval(updateDjVuMeters, 250);
+}
+
+// ============================================================================
+// NOODLE PERSISTENT MINI AUDIO PLAYER ENGINE (BOTTOM-LEFT)
+// ============================================================================
+var currentActiveAudioSource = null; // 'ambient' | 'dj' | 'music' | 'radio' | 'tts' | null
+var isMiniPlayerPlaying = false;
+var miniPlayerCurrentInfo = {
+  title: 'Ambient Sound',
+  sub: 'Aktiv',
+  emoji: '🎵',
+  source: null
+};
+
+function getNoodleSoundDisplayName(type) {
+  const names = {
+    piano: 'Sanftes Piano',
+    lofi: 'Lofi Chords',
+    jazz_piano: 'Jazz Voicings',
+    rhodes: 'Fender Rhodes',
+    guitar: 'Akustik-Gitarre',
+    hypnotic_riff: 'Hypnotic Riff',
+    singingbowl: 'Klangschale',
+    chimes: 'Windspiel',
+    musicbox: 'Spieluhr',
+    campfire: 'Kaminfeuer',
+    birds: 'Waldvögel',
+    breeze: 'Blättersäuseln',
+    cafe: 'Cozy Café',
+    clock: 'Pendeluhr',
+    space: 'Cosmic Ambient',
+    techno: 'Techno 128',
+    dnb: 'Drum & Bass',
+    afrobeats: 'Afrobeats',
+    swing: 'Swing & Jazz',
+    boombap: 'Boom-Bap',
+    bossa_nova: 'Bossa Nova'
+  };
+  return names[type] || type || 'Ambient Sound';
+}
+window.getNoodleSoundDisplayName = getNoodleSoundDisplayName;
+
+function updateMiniAudioPlayer(info) {
+  if (typeof document === 'undefined') return;
+  const playerEl = document.getElementById('noodle-mini-audio-player');
+  if (!playerEl) return;
+
+  if (!info || !info.isPlaying) {
+    // Check if any audio is still active anywhere
+    const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
+    const isBeat = typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying);
+    const isDj = (djDecks.a && djDecks.a.isPlaying) || (djDecks.b && djDecks.b.isPlaying);
+    const isMusic = typeof isMusicPlaying !== 'undefined' && Boolean(isMusicPlaying);
+    const isRadio = typeof window !== 'undefined' && Boolean(window.isRadioPlaying);
+    const isTts = typeof RadioNewsEngine !== 'undefined' && Boolean(RadioNewsEngine.isReading);
+
+    if (!isAmbient && !isBeat && !isDj && !isMusic && !isRadio && !isTts) {
+      playerEl.classList.add('hidden');
+      isMiniPlayerPlaying = false;
+      currentActiveAudioSource = null;
+      return;
+    }
+  }
+
+  if (info) {
+    if (info.title) miniPlayerCurrentInfo.title = info.title;
+    if (info.sub) miniPlayerCurrentInfo.sub = info.sub;
+    if (info.emoji) miniPlayerCurrentInfo.emoji = info.emoji;
+    if (info.source) {
+      miniPlayerCurrentInfo.source = info.source;
+      currentActiveAudioSource = info.source;
+    }
+    isMiniPlayerPlaying = info.isPlaying !== undefined ? Boolean(info.isPlaying) : true;
+  }
+
+  // Update UI Elements
+  playerEl.classList.remove('hidden');
+  const titleEl = document.getElementById('mini-player-track-title');
+  const subEl = document.getElementById('mini-player-track-sub');
+  const emojiEl = document.getElementById('mini-player-source-emoji');
+  const playBtn = document.getElementById('mini-player-playpause-btn');
+  const eqAnim = document.getElementById('mini-player-eq-anim');
+
+  if (titleEl && miniPlayerCurrentInfo.title) titleEl.textContent = miniPlayerCurrentInfo.title;
+  if (subEl && miniPlayerCurrentInfo.sub) subEl.textContent = miniPlayerCurrentInfo.sub;
+  if (emojiEl && miniPlayerCurrentInfo.emoji) emojiEl.textContent = miniPlayerCurrentInfo.emoji;
+
+  if (playBtn) {
+    playBtn.innerHTML = isMiniPlayerPlaying 
+      ? '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>' 
+      : '<svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>';
+  }
+
+  if (eqAnim) {
+    if (isMiniPlayerPlaying) eqAnim.classList.remove('opacity-30');
+    else eqAnim.classList.add('opacity-30');
+  }
+}
+window.updateMiniAudioPlayer = updateMiniAudioPlayer;
+
+function toggleMiniPlayerPlayback() {
+  if (!currentActiveAudioSource) {
+    if (typeof playAmbientSound === 'function') {
+      playAmbientSound(window.lastSelectedSound || 'piano');
+    }
+    return;
+  }
+
+  if (currentActiveAudioSource === 'ambient') {
+    if (typeof currentSoundType !== 'undefined' && currentSoundType) {
+      const savedType = currentSoundType;
+      window._pausedAmbientSound = savedType;
+      if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+      updateMiniAudioPlayer({ isPlaying: false, title: getNoodleSoundDisplayName(savedType), sub: 'Pausiert', emoji: '⏸️' });
+    } else if (window._pausedAmbientSound) {
+      playAmbientSound(window._pausedAmbientSound);
+    }
+  } else if (currentActiveAudioSource === 'radio') {
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleRadioPlayback === 'function') {
+      RadioNewsEngine.toggleRadioPlayback();
+    }
+  } else if (currentActiveAudioSource === 'dj') {
+    if (djDecks.a && djDecks.a.audio) toggleDjDeckPlayback('a');
+    else if (djDecks.b && djDecks.b.audio) toggleDjDeckPlayback('b');
+  } else if (currentActiveAudioSource === 'music') {
+    if (typeof toggleMusicPlayback === 'function') toggleMusicPlayback();
+  } else if (currentActiveAudioSource === 'tts') {
+    if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.toggleNewsReaderPause === 'function') {
+      RadioNewsEngine.toggleNewsReaderPause();
+    }
+  }
+}
+window.toggleMiniPlayerPlayback = toggleMiniPlayerPlayback;
+
+function stopAllMiniPlayerAudio() {
+  if (typeof stopAllSounds === 'function') stopAllSounds();
+  if (typeof stopAllStudioAudio === 'function') stopAllStudioAudio();
+  if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
+  if (typeof RadioNewsEngine !== 'undefined') {
+    if (typeof RadioNewsEngine.stopRadioPlayback === 'function') RadioNewsEngine.stopRadioPlayback();
+    if (typeof RadioNewsEngine.stopNewsReader === 'function') RadioNewsEngine.stopNewsReader();
+  }
+  const playerEl = document.getElementById('noodle-mini-audio-player');
+  if (playerEl) playerEl.classList.add('hidden');
+  isMiniPlayerPlaying = false;
+  currentActiveAudioSource = null;
+  if (typeof showToast === 'function') {
+    showToast(typeof tr === 'function' ? tr({ de: 'Audio beendet ⏹️', en: 'Audio stopped ⏹️' }) : 'Audio beendet ⏹️');
+  }
+}
+window.stopAllMiniPlayerAudio = stopAllMiniPlayerAudio;
+
+function toggleDjProMode() {
+  const proElements = document.querySelectorAll('.dj-pro-only');
+  const btn = document.getElementById('dj-pro-mode-toggle-btn');
+  const isHidden = proElements.length > 0 && proElements[0].classList.contains('hidden');
+  proElements.forEach(el => {
+    if (isHidden) {
+      el.classList.remove('hidden');
+    } else {
+      el.classList.add('hidden');
+    }
+  });
+  if (btn) {
+    btn.innerHTML = isHidden 
+      ? '<span>🎛️ Pro Mixer: An</span>' 
+      : '<span>🎛️ Pro Mixer & FX</span>';
+  }
+}
+window.toggleDjProMode = toggleDjProMode;
+
+function handleMiniPlayerVolume(val) {
+  const vol = parseFloat(val);
+  if (typeof handleStudioMasterVolume === 'function') {
+    handleStudioMasterVolume(vol);
+  }
+  if (typeof soundMasterVolume !== 'undefined') {
+    soundMasterVolume = vol;
+  }
+  if (typeof setMusicPlayerVolume === 'function') {
+    setMusicPlayerVolume(vol);
+  }
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.setRadioVolume === 'function') {
+    RadioNewsEngine.setRadioVolume(vol);
+  }
+}
+window.handleMiniPlayerVolume = handleMiniPlayerVolume;
