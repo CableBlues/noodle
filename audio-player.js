@@ -272,6 +272,13 @@ async function scanMusicFolderTracks() {
         playlistTracks = [...realTracks];
         if (typeof window !== 'undefined') window.playlistTracks = playlistTracks;
 
+        // The list was rebuilt – keep the index pointing at the track that is loaded.
+        if (activeUserAudio && activeUserAudio._trackUrl) {
+          const loadedIdx = playlistTracks.findIndex(t => t.url === activeUserAudio._trackUrl);
+          if (loadedIdx >= 0) currentTrackIndex = loadedIdx;
+        }
+        if (currentTrackIndex >= playlistTracks.length) currentTrackIndex = 0;
+
         playlistTracks.forEach(preloadMusicTrackDuration);
         renderMusicPlaylist();
 
@@ -304,16 +311,18 @@ async function scanMusicFolderTracks() {
 }
 window.scanMusicFolderTracks = scanMusicFolderTracks;
 
-// Auto-load saved tracks and scan music folder on startup
+// Auto-load saved tracks, scan the music folder and cue a random track on startup
 if (typeof window !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      loadSavedUserAudioTracks();
-      scanMusicFolderTracks();
-    });
-  } else {
+  const initMusicLibrary = () => {
     loadSavedUserAudioTracks();
-    scanMusicFolderTracks();
+    Promise.resolve(scanMusicFolderTracks())
+      .catch(() => {})
+      .then(() => { if (typeof cueRandomMusicTrack === 'function') cueRandomMusicTrack(); });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMusicLibrary);
+  } else {
+    initMusicLibrary();
   }
 }
 
@@ -581,6 +590,237 @@ function loadOnlineMediaUrl() {
 }
 window.loadOnlineMediaUrl = loadOnlineMediaUrl;
 
+// ----------------------------------------------------------------------------
+// CROSSFADE ENGINE
+//
+// Tracks blend into each other instead of cutting hard:
+//   • the fade length is user-selectable (0 = off) and persisted,
+//   • the next track is preloaded in the background so the blend starts instantly,
+//   • shortly before a track ends, the next one fades in automatically,
+//   • clicking a track or "next" also fades over.
+// The fade is driven by a timer *and* by the media `timeupdate` events, because
+// browsers heavily throttle timers in background tabs while media events keep firing.
+// ----------------------------------------------------------------------------
+var MUSIC_CROSSFADE_STORAGE_KEY = 'flow_music_crossfade_sec';
+var MUSIC_CROSSFADE_DEFAULT_SEC = 8;
+var musicCrossfadeSeconds = (() => {
+  try {
+    const saved = localStorage.getItem(MUSIC_CROSSFADE_STORAGE_KEY);
+    if (saved !== null && !isNaN(parseFloat(saved))) return Math.max(0, parseFloat(saved));
+  } catch (e) { /* storage unavailable */ }
+  return MUSIC_CROSSFADE_DEFAULT_SEC;
+})();
+var musicActiveFade = null;        // { step(), finish() } of the running crossfade
+var musicUpcoming = null;          // { index, url, shuffle, el } preloaded next track
+var musicRecentlyPlayed = [];      // last played indices, so shuffle avoids quick repeats
+
+/** Some platforms (iOS Safari) ignore element.volume – crossfading is impossible there. */
+var musicCanControlVolume = (() => {
+  try {
+    const probe = new Audio();
+    probe.volume = 0.5;
+    return Math.abs(probe.volume - 0.5) < 0.01;
+  } catch (e) { return false; }
+})();
+
+function getMusicTargetVolume() {
+  return isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+}
+
+function setMusicCrossfadeSeconds(val) {
+  musicCrossfadeSeconds = Math.max(0, Math.min(30, parseFloat(val) || 0));
+  try { localStorage.setItem(MUSIC_CROSSFADE_STORAGE_KEY, String(musicCrossfadeSeconds)); } catch (e) { /* ignore */ }
+  syncMusicCrossfadeSelect();
+  if (typeof showToast === 'function') {
+    showToast(musicCrossfadeSeconds > 0 ? `Überblenden: ${musicCrossfadeSeconds} s 🎚️` : 'Überblenden aus');
+  }
+}
+window.setMusicCrossfadeSeconds = setMusicCrossfadeSeconds;
+
+function syncMusicCrossfadeSelect() {
+  const select = document.getElementById('music-crossfade-select');
+  if (select) select.value = String(musicCrossfadeSeconds);
+  const mobSelect = document.getElementById('mobile-music-crossfade-select');
+  if (mobSelect) mobSelect.value = String(musicCrossfadeSeconds);
+}
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncMusicCrossfadeSelect);
+  else syncMusicCrossfadeSelect();
+}
+
+/** Fully releases an audio element that is no longer needed. */
+function releaseMusicElement(el) {
+  if (!el) return;
+  try {
+    el.pause();
+    if (el.tagName !== 'VIDEO') {
+      el.removeAttribute('src');
+      el.load();
+    }
+  } catch (e) { /* ignore */ }
+}
+
+/** Immediately ends a running crossfade (the outgoing track is silenced). */
+function finishActiveMusicFade() {
+  if (musicActiveFade) musicActiveFade.finish();
+  musicActiveFade = null;
+}
+window.stopMusicCrossfadeTails = finishActiveMusicFade;
+
+/** Equal-power crossfade from `oldEl` to `newEl` over `seconds`. */
+function crossfadeMusicElements(oldEl, newEl, seconds) {
+  finishActiveMusicFade();
+  const durationMs = Math.max(200, seconds * 1000);
+  const startedAt = performance.now();
+  const oldStartVolume = oldEl ? oldEl.volume : 0;
+  let timer = null;
+  let done = false;
+
+  const fade = {
+    step() {
+      if (done) return;
+      const t = Math.min(1, (performance.now() - startedAt) / durationMs);
+      if (activeUserAudio === newEl) newEl.volume = getMusicTargetVolume() * Math.sin(t * Math.PI / 2);
+      if (oldEl) oldEl.volume = Math.max(0, oldStartVolume * Math.cos(t * Math.PI / 2));
+      if (t >= 1) fade.finish();
+    },
+    finish() {
+      if (done) return;
+      done = true;
+      if (timer) clearInterval(timer);
+      if (oldEl) {
+        oldEl.removeEventListener('timeupdate', fade.step);
+        releaseMusicElement(oldEl);
+      }
+      newEl.removeEventListener('timeupdate', fade.step);
+      if (activeUserAudio === newEl) newEl.volume = getMusicTargetVolume();
+      if (musicActiveFade === fade) musicActiveFade = null;
+    }
+  };
+
+  newEl.volume = 0;
+  if (oldEl) oldEl.addEventListener('timeupdate', fade.step);
+  newEl.addEventListener('timeupdate', fade.step);
+  timer = setInterval(fade.step, 50);
+  musicActiveFade = fade;
+}
+
+/** Chooses the index that should play after the current one. */
+function pickNextMusicIndex() {
+  const count = playlistTracks.length;
+  if (count === 0) return -1;
+  if (!isPlayerShuffleEnabled || count === 1) return (currentTrackIndex + 1) % count;
+
+  // Avoid the current track and – where possible – the last few played ones.
+  const avoidCount = Math.min(count - 1, Math.max(1, Math.floor(count / 2)));
+  const avoid = new Set([currentTrackIndex, ...musicRecentlyPlayed.slice(-avoidCount)]);
+  const candidates = [];
+  for (let i = 0; i < count; i++) if (!avoid.has(i)) candidates.push(i);
+  const pool = candidates.length ? candidates : [...Array(count).keys()].filter(i => i !== currentTrackIndex);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/** Preloads the upcoming track so the next crossfade can start without delay. */
+function prepareUpcomingMusicTrack() {
+  if (musicUpcoming && musicUpcoming.el && musicUpcoming.el !== activeUserAudio) releaseMusicElement(musicUpcoming.el);
+  musicUpcoming = null;
+
+  const nextIndex = pickNextMusicIndex();
+  const track = playlistTracks[nextIndex];
+  if (!track || nextIndex === currentTrackIndex) return;
+  if (track.isVideo || isVideoFileUrl(track.url, track.name || track.fullName)) return;
+
+  const el = new Audio();
+  el.preload = 'auto';
+  el.src = track.url;
+  musicUpcoming = { index: nextIndex, url: track.url, shuffle: isPlayerShuffleEnabled, el };
+}
+
+/** Takes the preloaded element if it matches the requested track. */
+function takeUpcomingMusicElement(index, url) {
+  if (musicUpcoming && musicUpcoming.index === index && musicUpcoming.url === url) {
+    const el = musicUpcoming.el;
+    musicUpcoming = null;
+    return el;
+  }
+  return null;
+}
+
+/** Attaches progress / auto-advance listeners exactly once per element. */
+function attachMusicElementListeners(mediaEl) {
+  if (mediaEl._noodleMusicListeners) return;
+  mediaEl._noodleMusicListeners = true;
+
+  mediaEl.addEventListener('timeupdate', () => {
+    if (activeUserAudio !== mediaEl) return;
+    updateMusicProgressUI(mediaEl);
+
+    // Start the crossfade into the next track shortly before this one ends.
+    const fadeSec = musicCrossfadeSeconds;
+    const duration = mediaEl.duration;
+    if (fadeSec <= 0 || !musicCanControlVolume || mediaEl._autoAdvanced || mediaEl.paused) return;
+    if (!isFinite(duration) || duration < fadeSec * 2) return;
+    if (duration - mediaEl.currentTime > fadeSec) return;
+    if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) return;
+
+    mediaEl._autoAdvanced = true;
+    if (playerRepeatMode === 'one') playMusicTrack(currentTrackIndex);
+    else playNextMusicTrack();
+  });
+
+  mediaEl.addEventListener('ended', () => {
+    if (activeUserAudio !== mediaEl || mediaEl._autoAdvanced) return;
+    if (playerRepeatMode === 'one') {
+      playMusicTrack(currentTrackIndex);
+    } else if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) {
+      updateMusicPlayBtnUI(false);
+    } else {
+      playNextMusicTrack();
+    }
+  });
+}
+
+/**
+ * Cues a random track from the music folder (preloaded, not playing), so the
+ * player is always ready – and shows a different track on every visit.
+ */
+function cueRandomMusicTrack() {
+  if (!playlistTracks || playlistTracks.length === 0) return;
+  if (activeUserAudio && !activeUserAudio._cued) return; // user already started something
+
+  const folderIndices = playlistTracks
+    .map((t, i) => ({ t, i }))
+    .filter(({ t }) => (t.isLocalFolder || t.isPreloaded) && !(t.isVideo || isVideoFileUrl(t.url, t.name || t.fullName)))
+    .map(({ i }) => i);
+  const pool = folderIndices.length ? folderIndices : playlistTracks.map((_, i) => i);
+
+  let lastCuedUrl = null;
+  try { lastCuedUrl = localStorage.getItem('flow_music_last_cued'); } catch (e) { /* ignore */ }
+  const fresh = pool.filter(i => playlistTracks[i].url !== lastCuedUrl);
+  const choices = fresh.length ? fresh : pool;
+  const index = choices[Math.floor(Math.random() * choices.length)];
+  const track = playlistTracks[index];
+  if (!track) return;
+
+  if (activeUserAudio && activeUserAudio._cued) releaseMusicElement(activeUserAudio);
+
+  const el = new Audio();
+  el.preload = 'auto';
+  el.src = track.url;
+  el.volume = getMusicTargetVolume();
+  el._cued = true;
+  el._trackUrl = track.url;
+  attachMusicElementListeners(el);
+
+  activeUserAudio = el;
+  currentTrackIndex = index;
+  try { localStorage.setItem('flow_music_last_cued', track.url); } catch (e) { /* ignore */ }
+
+  updateMusicNowPlayingDisplay();
+  renderMusicPlaylist();
+}
+window.cueRandomMusicTrack = cueRandomMusicTrack;
+
 function playMusicTrack(index) {
   if (playlistTracks.length === 0) return;
   if (index < 0 || index >= playlistTracks.length) index = 0;
@@ -589,10 +829,22 @@ function playMusicTrack(index) {
   const track = playlistTracks[currentTrackIndex];
   const isVideo = track.isVideo || isVideoFileUrl(track.url, track.name || track.fullName);
 
-  if (activeUserAudio) {
+  const previousEl = activeUserAudio;
+  const previousWasPlaying = !!(previousEl && !previousEl.paused && !previousEl.ended);
+  const previousIsVideo = !!(previousEl && previousEl.tagName === 'VIDEO');
+  const shouldCrossfade = previousWasPlaying && musicCrossfadeSeconds > 0 && musicCanControlVolume
+    && !isVideo && !previousIsVideo;
+
+  // Re-use the cued / preloaded element when it already holds this track.
+  let reusedEl = null;
+  if (previousEl && previousEl._cued && previousEl._trackUrl === track.url && !isVideo) reusedEl = previousEl;
+  if (!reusedEl && !isVideo) reusedEl = takeUpcomingMusicElement(index, track.url);
+
+  if (previousEl && !shouldCrossfade && previousEl !== reusedEl) {
+    finishActiveMusicFade();
     try {
-      activeUserAudio.pause();
-      activeUserAudio.src = '';
+      previousEl.pause();
+      previousEl.src = '';
     } catch(e) {}
   }
 
@@ -613,8 +865,16 @@ function playMusicTrack(index) {
   if (isVideo && videoEl) {
     videoEl.src = track.url;
     mediaEl = videoEl;
+  } else if (reusedEl) {
+    mediaEl = reusedEl;
   } else {
     mediaEl = new Audio(track.url);
+  }
+  mediaEl._cued = false;
+  mediaEl._autoAdvanced = false;
+  mediaEl._trackUrl = track.url;
+  if (mediaEl === previousEl) {
+    try { mediaEl.currentTime = 0; } catch (e) { /* not seekable yet */ }
   }
 
   const speedSelect = document.getElementById('media-speed-select');
@@ -622,31 +882,26 @@ function playMusicTrack(index) {
     mediaEl.playbackRate = parseFloat(speedSelect.value) || 1.0;
   }
 
-  mediaEl.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+  mediaEl.volume = getMusicTargetVolume();
   activeUserAudio = mediaEl;
+  attachMusicElementListeners(mediaEl);
+
+  if (shouldCrossfade && previousEl !== mediaEl) {
+    crossfadeMusicElements(previousEl, mediaEl, musicCrossfadeSeconds);
+  }
+
+  musicRecentlyPlayed.push(index);
+  if (musicRecentlyPlayed.length > 50) musicRecentlyPlayed.shift();
 
   updateMediaScreenDisplay(isVideo, mediaEl);
 
-  mediaEl.addEventListener('timeupdate', () => {
-    if (activeUserAudio !== mediaEl) return;
-    updateMusicProgressUI(mediaEl);
-  });
-
-  mediaEl.addEventListener('ended', () => {
-    if (playerRepeatMode === 'one') {
-      playMusicTrack(currentTrackIndex);
-    } else if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) {
-      updateMusicPlayBtnUI(false);
-    } else {
-      playNextMusicTrack();
-    }
-  });
-
   mediaEl.play().then(() => {
+    if (activeUserAudio !== mediaEl) return;
     updateMusicPlayBtnUI(true);
     updateMusicNowPlayingDisplay();
     renderMusicPlaylist();
     startAudioVisualizerLoop();
+    prepareUpcomingMusicTrack();
     if (typeof updateMiniAudioPlayer === 'function') {
       updateMiniAudioPlayer({
         isPlaying: true,
@@ -658,6 +913,8 @@ function playMusicTrack(index) {
     }
   }).catch(err => {
     console.warn('[AudioPlayer] Playback attempt error:', err);
+    if (activeUserAudio !== mediaEl) return;
+    finishActiveMusicFade();
     updateMusicPlayBtnUI(false);
     if (typeof updateMiniAudioPlayer === 'function') {
       updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'music' });
@@ -668,6 +925,7 @@ window.playMusicTrack = playMusicTrack;
 window.playTrack = playMusicTrack;
 
 function pauseMusicTrack() {
+  finishActiveMusicFade();
   if (activeUserAudio && !activeUserAudio.paused) {
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
@@ -687,6 +945,7 @@ function pauseMusicTrack() {
 window.pauseMusicTrack = pauseMusicTrack;
 
 function stopMusicTrack() {
+  finishActiveMusicFade();
   if (activeUserAudio) {
     try {
       activeUserAudio.pause();
@@ -709,7 +968,8 @@ function stopMusicTrack() {
 window.stopMusicTrack = stopMusicTrack;
 
 function toggleMusicPlayback() {
-  if (!activeUserAudio) {
+  // A cued (preloaded but never started) track goes through the full start path.
+  if (!activeUserAudio || activeUserAudio._cued) {
     if (playlistTracks.length > 0) playMusicTrack(currentTrackIndex);
     return;
   }
@@ -730,6 +990,7 @@ function toggleMusicPlayback() {
       }
     }).catch(e => console.warn(e));
   } else {
+    finishActiveMusicFade();
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
     renderMusicPlaylist();
@@ -748,17 +1009,17 @@ function toggleMusicPlayback() {
 window.toggleMusicPlayback = toggleMusicPlayback;
 window.togglePlaylistPlayback = toggleMusicPlayback;
 
+/** Skips to the next track – fading over if something is playing. */
 function playNextMusicTrack() {
   if (playlistTracks.length === 0) return;
-  let nextIndex = currentTrackIndex;
-  if (isPlayerShuffleEnabled && playlistTracks.length > 1) {
-    do {
-      nextIndex = Math.floor(Math.random() * playlistTracks.length);
-    } while (nextIndex === currentTrackIndex);
-  } else {
-    nextIndex = currentTrackIndex + 1;
-    if (nextIndex >= playlistTracks.length) nextIndex = 0;
-  }
+  // Prefer the track that is already preloaded in the background (instant blend).
+  const upcoming = musicUpcoming;
+  const upcomingStillValid = upcoming
+    && upcoming.shuffle === isPlayerShuffleEnabled
+    && playlistTracks[upcoming.index]
+    && playlistTracks[upcoming.index].url === upcoming.url
+    && upcoming.index !== currentTrackIndex;
+  const nextIndex = upcomingStillValid ? upcoming.index : pickNextMusicIndex();
   playMusicTrack(nextIndex);
 }
 window.playNextMusicTrack = playNextMusicTrack;
@@ -800,6 +1061,12 @@ function toggleMusicShuffle() {
     btn.className = isPlayerShuffleEnabled
       ? 'p-1 rounded-lg bg-purple-500/30 text-purple-300 border border-purple-400/40 cursor-pointer transition'
       : 'p-1 rounded-lg text-gray-400 hover:text-white transition cursor-pointer';
+  }
+  const mobBtn = document.getElementById('mobile-music-btn-shuffle');
+  if (mobBtn) {
+    mobBtn.className = isPlayerShuffleEnabled
+      ? 'p-1 px-2 rounded-lg text-[10px] bg-purple-500/30 text-purple-200 border border-purple-400/50 flex items-center gap-1 active:scale-95 shadow-xs'
+      : 'p-1 px-2 rounded-lg text-[10px] bg-white/5 text-gray-400 border border-white/10 flex items-center gap-1 active:scale-95';
   }
   showToast(isPlayerShuffleEnabled ? 'Zufallswiedergabe aktiv 🔀' : 'Zufallswiedergabe aus');
 }
@@ -890,6 +1157,13 @@ function updateMusicPlayBtnUI(isPlaying) {
       : '<i data-lucide="play" class="w-3.5 h-3.5"></i>';
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
   }
+  const mobBtn = document.getElementById('mobile-music-play-btn');
+  if (mobBtn) {
+    mobBtn.innerHTML = isPlaying
+      ? '<i data-lucide="pause" class="w-4 h-4"></i>'
+      : '<i data-lucide="play" class="w-4 h-4 ml-0.5"></i>';
+    if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  }
 }
 
 function updateMusicNowPlayingDisplay() {
@@ -899,6 +1173,10 @@ function updateMusicNowPlayingDisplay() {
 
   if (titleEl) {
     titleEl.innerText = track ? track.name : 'Kein Track aktiv';
+  }
+  const mobTitleEl = document.getElementById('mobile-music-now-playing-title');
+  if (mobTitleEl) {
+    mobTitleEl.innerText = track ? track.name : 'Kein Track geladen';
   }
   if (timeEl && track && activeUserAudio) {
     const cur = formatAudioTime(activeUserAudio.currentTime);

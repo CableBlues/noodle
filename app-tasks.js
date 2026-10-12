@@ -2004,28 +2004,78 @@ function stepMobileCategory(direction = 1) {
   setMobileCategory(activeOrder[nextIdx][0]);
 }
 
+/**
+ * Switches the mobile bottom-navigation view (planer / focus / audio / tools).
+ * Any floating panel or modal is closed first, otherwise it would sit on top
+ * of the selected view and the tap would appear to "do nothing".
+ */
 function switchMobileNavTab(tabName) {
   if (!tabName) tabName = 'planer';
   document.body.dataset.mobileNav = tabName;
-  localStorage.setItem('flowPlannerMobileNav', tabName);
+  try {
+    localStorage.setItem('flowPlannerMobileNav', tabName);
+    localStorage.setItem('flow_active_mobile_tab', tabName);
+  } catch (e) { /* storage may be unavailable (private mode) */ }
+
+  // Zen mode hides most of the UI – leave it so the chosen view is visible.
+  try {
+    if (typeof isMinimalist !== 'undefined' && isMinimalist && typeof toggleMinimalist === 'function') {
+      toggleMinimalist();
+    }
+  } catch (e) { /* ignore */ }
+
+  try {
+    if (typeof closeAllPanelsAndModals === 'function') closeAllPanelsAndModals();
+    if (typeof syncHeaderToolsMenuState === 'function') syncHeaderToolsMenuState();
+  } catch (e) { /* ignore */ }
 
   document.querySelectorAll('.mobile-nav-item').forEach(btn => {
-    const isTarget = btn.id === `mob-nav-${tabName}`;
-    btn.classList.toggle('active', isTarget);
+    btn.classList.toggle('active', btn.id === `mob-nav-${tabName}`);
+  });
+  document.querySelectorAll('.mobile-view-pane').forEach(pane => {
+    pane.classList.toggle('mobile-tab-active', pane.id === `mobile-view-${tabName}`);
   });
 
   if (tabName === 'planer') {
     const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
     const curCat = document.body.dataset.mobileCat || (activeOrder[0] ? activeOrder[0][0] : 'daily');
     setMobileCategory(curCat);
+  } else if (tabName === 'focus') {
+    try { if (typeof updateTimerDisplay === 'function') updateTimerDisplay(); } catch (e) { /* ignore */ }
+  } else if (tabName === 'audio') {
+    try { if (typeof updateSoundscapeUI === 'function') updateSoundscapeUI(); } catch (e) { /* ignore */ }
   }
 
+  try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
   if (typeof renderLucideIcons === 'function') renderLucideIcons();
+}
+
+/** Opens the shopping panel directly on the pantry tab (used by the mobile tools view). */
+function openPantryModal() {
+  const panel = document.getElementById('panel-shopping');
+  if (panel && panel.classList.contains('hidden') && typeof togglePanel === 'function') togglePanel('shopping');
+  if (typeof switchShoppingTab === 'function') switchShoppingTab('pantry');
+}
+
+/** Opens the cooking panel directly on the recipes tab (used by the mobile tools view). */
+function openRecipeModal() {
+  const panel = document.getElementById('panel-cooking');
+  if (panel && panel.classList.contains('hidden') && typeof togglePanel === 'function') togglePanel('cooking');
+  if (typeof switchCookingTab === 'function') switchCookingTab('recipes');
+}
+
+/** No-op safety hook: some buttons call this after opening a modal. */
+function closeHubModal() {
+  const hub = document.getElementById('modal-mobile-quick-menu');
+  if (hub) hub.classList.add('hidden');
 }
 
 window.setMobileCategory = setMobileCategory;
 window.stepMobileCategory = stepMobileCategory;
 window.switchMobileNavTab = switchMobileNavTab;
+if (typeof window.openPantryModal !== 'function') window.openPantryModal = openPantryModal;
+if (typeof window.openRecipeModal !== 'function') window.openRecipeModal = openRecipeModal;
+if (typeof window.closeHubModal !== 'function') window.closeHubModal = closeHubModal;
 if (typeof globalThis !== 'undefined') {
   globalThis.setMobileCategory = setMobileCategory;
   globalThis.stepMobileCategory = stepMobileCategory;
@@ -3638,4 +3688,36 @@ if (typeof globalThis !== 'undefined') {
   globalThis.initTaskSpotlightEngine = initTaskSpotlightEngine;
 }
 
- 
+// --------------------------------------------------------------------------
+// Globale Brücken für Mobile Bento-Tiles & Werkzeuge
+// --------------------------------------------------------------------------
+if (typeof window !== 'undefined') {
+  if (typeof window.openShoppingModal !== 'function') {
+    window.openShoppingModal = function() {
+      if (typeof openSupermarketModal === 'function') {
+        openSupermarketModal();
+      } else if (typeof togglePanel === 'function') {
+        togglePanel('shopping');
+      }
+    };
+  }
+  if (typeof window.openSportModal !== 'function') {
+    window.openSportModal = function() {
+      if (typeof openHelperModal === 'function') {
+        openHelperModal('sport');
+      } else if (typeof togglePanel === 'function') {
+        togglePanel('sport');
+      }
+    };
+  }
+  if (typeof window.openBrainstormModal !== 'function') {
+    window.openBrainstormModal = function() {
+      if (typeof openHelperModal === 'function') {
+        openHelperModal('brainstorm');
+      } else {
+        const m = document.getElementById('brainstorm-modal') || document.getElementById('modal-brainstorm');
+        if (m) m.classList.remove('hidden');
+      }
+    };
+  }
+}

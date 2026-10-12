@@ -126,8 +126,9 @@ function startAmbientGeneratorForType(type) {
     // 124 BPM Deep House Groove (4-on-the-floor, 909 Clap, Offbeat Hat & Organ Bass)
     startBeatLookaheadLoop('house', 124);
 
-  } else if (type === 'afrobeats') {
+  } else if (type === 'afrobeats' || type === 'afrobeat') {
     // 102 BPM Afrobeats (Syncopated Log-Drum, Shaker & Rimshots)
+    currentSoundType = 'afrobeats';
     startBeatLookaheadLoop('afrobeats', 102);
 
   } else if (type === 'boombap') {
@@ -161,6 +162,46 @@ function startAmbientGeneratorForType(type) {
   } else if (type === 'hypnotic_riff') {
     // 120 BPM Hypnotic Minimalist Arpeggios & Ostinato Loops
     startBeatLookaheadLoop('hypnotic_riff', 120);
+
+  } else if (type === 'rain') {
+    // Sanfter Regen auf Fensterscheibe (Bandpass-gefiltertes Pink Noise)
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('pink');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(720, audioCtx.currentTime);
+    filter.Q.setValueAtTime(0.9, audioCtx.currentTime);
+    source.connect(filter);
+    filter.connect(soundGainNode);
+    source.start();
+    activeNodes.push(source);
+
+  } else if (type === 'brownnoise') {
+    // Tiefes, warmes Brown Noise zur Reizabschirmung
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('brown');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(220, audioCtx.currentTime);
+    source.connect(filter);
+    filter.connect(soundGainNode);
+    source.start();
+    activeNodes.push(source);
+
+  } else if (type === 'whitenoise') {
+    // Sanftes Pink/White Noise zur Fokus-Maskierung
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('pink');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(1100, audioCtx.currentTime);
+    source.connect(filter);
+    filter.connect(soundGainNode);
+    source.start();
+    activeNodes.push(source);
   }
 }
 

@@ -2030,6 +2030,7 @@
       radioFailoverTimeout = null;
     }
     stopFallbackRadioSignal();
+    stopRadioNowPlayingPolling();
 
     const previousAudio = (isRadioPlaying && radioAudioEl) ? radioAudioEl : null;
     currentStationId = stationId;
@@ -2172,6 +2173,7 @@
           showToast(`📻 ${station.flag} ${station.name}`);
         }
         renderRadioPanelContent();
+        startRadioNowPlayingPolling(station);
       };
 
       // Watchdog: Falls der Stream nach 4.5s noch kein Signal liefert, automatisch nächsten Mirror wählen
@@ -2222,7 +2224,118 @@
     tryStreamCandidate(0);
   }
 
+  // ----------------------------------------------------------------------------
+  // NOW PLAYING – shows the current song title whenever the station exposes it.
+  //
+  // Browsers cannot read ICY metadata straight from the audio stream, so we ask
+  // the broadcaster's public metadata endpoints instead:
+  //   1. SomaFM's songs API (all SomaFM channels)
+  //   2. Icecast's /status-json.xsl on the stream host (CORS-enabled by default)
+  // Stations without such an endpoint simply keep showing "Live Radio".
+  // ----------------------------------------------------------------------------
+  // `var` on purpose: these helpers are hoisted and may run during early init.
+  var NOW_PLAYING_POLL_MS = 20000;
+  var radioNowPlayingTitle = '';
+  var radioNowPlayingTimer = null;
+  var radioNowPlayingStationId = null;
+  var radioMetaUnsupported = new Set(); // stream hosts that returned nothing useful
+
+  async function fetchJsonWithTimeout(url, timeoutMs = 4000) {
+    const ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const timer = ctrl ? setTimeout(() => ctrl.abort(), timeoutMs) : null;
+    try {
+      const res = await fetch(url, { signal: ctrl ? ctrl.signal : undefined, cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+  }
+
+  async function fetchSomaFmTitle(streamUrl) {
+    const match = streamUrl.match(/somafm\.com\/([a-z0-9]+?)(?:-\d+)?(?:-(?:mp3|aac|aacp))?(?:[/?.]|$)/i);
+    if (!match) return '';
+    const channel = match[1];
+    for (const base of ['https://api.somafm.com/songs/', 'https://somafm.com/songs/']) {
+      try {
+        const data = await fetchJsonWithTimeout(`${base}${channel}.json`);
+        const song = data && Array.isArray(data.songs) ? data.songs[0] : null;
+        if (song && (song.title || song.artist)) {
+          return [song.artist, song.title].filter(Boolean).join(' – ');
+        }
+      } catch (e) { /* try next endpoint */ }
+    }
+    return '';
+  }
+
+  async function fetchIcecastTitle(streamUrl) {
+    let parsed;
+    try { parsed = new URL(streamUrl); } catch (e) { return ''; }
+    if (radioMetaUnsupported.has(parsed.origin)) return '';
+    try {
+      const data = await fetchJsonWithTimeout(`${parsed.origin}/status-json.xsl`);
+      let sources = data && data.icestats ? data.icestats.source : null;
+      if (!sources) throw new Error('no sources');
+      if (!Array.isArray(sources)) sources = [sources];
+      const mount = parsed.pathname.replace(/\/+$/, '');
+      const source = sources.find(s => s && s.listenurl && s.listenurl.replace(/\/+$/, '').endsWith(mount))
+        || (sources.length === 1 ? sources[0] : null);
+      if (!source) return '';
+      const title = [source.artist, source.title].filter(Boolean).join(' – ');
+      return String(title || '').trim();
+    } catch (e) {
+      radioMetaUnsupported.add(parsed.origin);
+      return '';
+    }
+  }
+
+  async function resolveRadioNowPlaying(station) {
+    const streamUrl = station.activeStream || station.stream || '';
+    if (!streamUrl) return '';
+    if (/somafm\.com/i.test(streamUrl)) {
+      const soma = await fetchSomaFmTitle(streamUrl);
+      if (soma) return soma;
+    }
+    return fetchIcecastTitle(streamUrl);
+  }
+
+  function applyRadioNowPlaying(title) {
+    radioNowPlayingTitle = title || '';
+    window.radioNowPlayingTitle = radioNowPlayingTitle;
+    updateRadioUIState(isRadioPlaying);
+    if (isRadioPlaying && typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ sub: radioNowPlayingTitle ? `♪ ${radioNowPlayingTitle}` : 'Live Radio' });
+    }
+  }
+
+  async function refreshRadioNowPlaying() {
+    const station = RADIO_STATIONS.find(s => s.id === radioNowPlayingStationId);
+    if (!station || !isRadioPlaying) return;
+    const requestedFor = station.id;
+    let title = '';
+    try { title = await resolveRadioNowPlaying(station); } catch (e) { title = ''; }
+    // Ignore late answers for a station the user already left.
+    if (requestedFor !== radioNowPlayingStationId || !isRadioPlaying) return;
+    if (title !== radioNowPlayingTitle) applyRadioNowPlaying(title);
+  }
+
+  function startRadioNowPlayingPolling(station) {
+    stopRadioNowPlayingPolling();
+    radioNowPlayingStationId = station.id;
+    refreshRadioNowPlaying();
+    radioNowPlayingTimer = setInterval(refreshRadioNowPlaying, NOW_PLAYING_POLL_MS);
+  }
+
+  function stopRadioNowPlayingPolling() {
+    if (radioNowPlayingTimer) clearInterval(radioNowPlayingTimer);
+    radioNowPlayingTimer = null;
+    radioNowPlayingStationId = null;
+    radioNowPlayingTitle = '';
+    window.radioNowPlayingTitle = '';
+  }
+
   function stopRadioPlayback() {
+    stopRadioNowPlayingPolling();
     radioPlaySessionId++;
     if (radioFailoverTimeout) {
       clearTimeout(radioFailoverTimeout);
@@ -2318,9 +2431,11 @@
 
     if (nowPlayingLabel) {
       if (station) {
+        const songSuffix = (isPlaying && radioNowPlayingTitle) ? ` · ♪ ${radioNowPlayingTitle}` : '';
         nowPlayingLabel.textContent = isPlaying 
-          ? `${station.flag || '📻'} ${station.name}` 
+          ? `${station.flag || '📻'} ${station.name}${songSuffix}` 
           : `${station.flag || '📻'} ${station.name} (${typeof tr === 'function' ? tr({ de: 'Pausiert', en: 'Paused' }) : 'Pausiert'})`;
+        nowPlayingLabel.title = nowPlayingLabel.textContent;
       } else {
         nowPlayingLabel.textContent = typeof tr === 'function' ? tr({ de: 'Kein Sender gewählt', en: 'No station selected' }) : 'Kein Sender gewählt';
       }
@@ -2332,6 +2447,39 @@
       } else {
         liveDot.className = 'w-2 h-2 rounded-full bg-gray-500 shadow-sm shrink-0';
       }
+    }
+
+    const mobNowPlayingText = document.getElementById('mobile-radio-now-playing-text');
+    const mobLiveDot = document.getElementById('mobile-radio-live-dot');
+    if (mobNowPlayingText) {
+      if (station) {
+        const songSuffix = (isPlaying && radioNowPlayingTitle) ? ` · ♪ ${radioNowPlayingTitle}` : '';
+        mobNowPlayingText.textContent = isPlaying 
+          ? `${station.flag || '📻'} ${station.name}${songSuffix}` 
+          : `${station.flag || '📻'} ${station.name} (${typeof tr === 'function' ? tr({ de: 'Pausiert', en: 'Paused' }) : 'Pausiert'})`;
+        mobNowPlayingText.title = mobNowPlayingText.textContent;
+      } else {
+        mobNowPlayingText.textContent = typeof tr === 'function' ? tr({ de: 'Kein Sender gewählt', en: 'No station selected' }) : 'Kein Sender gewählt';
+      }
+    }
+    if (mobLiveDot) {
+      mobLiveDot.className = isPlaying
+        ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] shrink-0 animate-pulse'
+        : 'w-2 h-2 rounded-full bg-gray-500 shadow-sm shrink-0';
+    }
+
+    // Mobile 1-Tap Radio Stationen aktiv hervorheben
+    const mobAudioView = document.getElementById('mobile-view-audio');
+    if (mobAudioView) {
+      mobAudioView.querySelectorAll('button[onclick*="playRadioStation"]').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        const match = onclickAttr.match(/['"]([^'"]+)['"]/);
+        const stId = match ? match[1] : '';
+        const isActive = isPlaying && stId === currentStationId;
+        btn.classList.toggle('ring-2', isActive);
+        btn.classList.toggle('ring-sky-400', isActive);
+        btn.classList.toggle('bg-sky-500/20', isActive);
+      });
     }
   }
 

@@ -15,8 +15,33 @@ function adjustPanelPosition(el, panelName) {
   const vw = window.innerWidth || document.documentElement.clientWidth || 1200;
 
   if (isMobile) {
-    el.style.maxHeight = 'calc(100dvh - 110px - env(safe-area-inset-bottom, 0px))';
+    el.style.top = '';
+    el.style.left = '';
+    el.style.right = '';
+    el.style.transform = 'none';
+    el.style.maxHeight = 'calc(100dvh - 118px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))';
     el.style.overflowY = 'auto';
+    el.style.overflowX = 'hidden';
+
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(() => {
+        if (!el || el.classList.contains('hidden')) return;
+        const rect = el.getBoundingClientRect();
+        let shiftX = 0;
+        if (rect.right > vw - 8) {
+          shiftX = (vw - 8) - rect.right;
+        } else if (rect.left < 8) {
+          shiftX = 8 - rect.left;
+        }
+        if (Math.abs(shiftX) > 1) {
+          el.style.transform = `translateX(${Math.round(shiftX)}px)`;
+        }
+        if (rect.bottom > vh - 68) {
+          const availH = Math.max(200, (vh - 68) - Math.max(48, rect.top));
+          el.style.maxHeight = `${availH}px`;
+        }
+      });
+    }
     return;
   }
 
@@ -116,6 +141,7 @@ if (typeof window !== 'undefined') {
 function syncHeaderToolsMenuState() {
   const toolsBtn = document.getElementById('btn-header-tools');
   const toolsWrapper = document.getElementById('header-tools-wrapper');
+  const headerToolsPanel = document.getElementById('panel-header-tools');
   
   const TOOL_PANEL_IDS = [
     'panel-header-tools', 'panel-collab-chat', 'panel-social', 'panel-radio', 'panel-news',
@@ -130,6 +156,13 @@ function syncHeaderToolsMenuState() {
     return el && !el.classList.contains('hidden');
   });
 
+  if (headerToolsPanel) {
+    const hasOpenSub = Array.from(headerToolsPanel.querySelectorAll('.dock-popover-panel')).some(
+      sub => !sub.classList.contains('hidden')
+    );
+    headerToolsPanel.classList.toggle('has-mobile-subpanel-open', hasOpenSub);
+  }
+
   if (toolsBtn) toolsBtn.classList.toggle('is-menu-open', !!isAnyToolOpen);
   if (toolsWrapper) toolsWrapper.classList.toggle('is-menu-open', !!isAnyToolOpen);
   if (typeof document !== 'undefined' && document.body) {
@@ -138,32 +171,46 @@ function syncHeaderToolsMenuState() {
 }
 
 function togglePanel(panelName) {
-  if (panelName === 'header-tools' && typeof window !== 'undefined' && window.innerWidth <= 768) {
-    if (typeof switchMobileNavTab === 'function') {
-      switchMobileNavTab('planer');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
-      return;
-    }
-  }
+  // Themes live inside the settings dropdown – there is no separate #panel-theme.
+  if (panelName === 'theme' || panelName === 'settings') panelName = 'settings-dropdown';
+  const isMobile = typeof window !== 'undefined' && (window.innerWidth || document.documentElement.clientWidth || 0) <= 768;
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab'];
+  const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
+
   if (typeof window !== 'undefined' && window.hoverPanelTimeout) {
     clearTimeout(window.hoverPanelTimeout);
     window.hoverPanelTimeout = null;
   }
   const el = document.getElementById(`panel-${panelName}`);
   if (!el) return;
+
+  // Wenn auf Mobile #panel-header-tools geöffnet ist, aber aktuell nur als unsichtbarer Träger
+  // für ein Unterpanel diente, zeigt ein Klick auf "header-tools" das Hauptmenü wieder an.
+  if (panelName === 'header-tools' && isMobile && !el.classList.contains('hidden') && el.classList.contains('has-mobile-subpanel-open')) {
+    TOOL_SUBPANELS.forEach(sub => {
+      const subEl = document.getElementById(`panel-${sub}`);
+      if (subEl) subEl.classList.add('hidden');
+    });
+    el.classList.remove('has-mobile-subpanel-open');
+    adjustPanelPosition(el, 'header-tools');
+    syncHeaderToolsMenuState();
+    return;
+  }
+
   const isCurrentlyHidden = el.classList.contains('hidden');
 
-  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab'];
-  const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
-
-  // Andere Popover-Panels schließen (gepinnte schwebende Fenster bleiben offen!)
+  // Andere Popover-Panels schließen (auf Mobile immer alle anderen schließen, damit nichts überlappt)
   ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'social', 'radio-news', 'timer-presets', 'health', 'humor-lab'].forEach(p => {
     if (isSubpanelOfTools && p === 'header-tools') return;
     if (p !== panelName) {
       const other = document.getElementById(`panel-${p}`);
-      if (other && !other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
-        other.classList.add('hidden');
+      if (other) {
+        if (isMobile || (!other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen'))) {
+          other.classList.add('hidden');
+          if (isMobile) {
+            other.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+          }
+        }
       }
     }
   });
@@ -175,11 +222,13 @@ function togglePanel(panelName) {
   if (isCurrentlyHidden) { 
     if (isSubpanelOfTools) {
       const headerTools = document.getElementById('panel-header-tools');
-      if (headerTools && headerTools.classList.contains('hidden')) {
+      if (headerTools) {
         headerTools.classList.remove('hidden');
-        headerTools.classList.add('noodle-panel-pinned');
-        adjustPanelPosition(headerTools, 'header-tools');
+        headerTools.classList.add('noodle-panel-pinned', 'has-mobile-subpanel-open');
+        if (!isMobile) adjustPanelPosition(headerTools, 'header-tools');
       }
+    } else if (panelName === 'header-tools') {
+      el.classList.remove('has-mobile-subpanel-open');
     }
     el.classList.remove('hidden'); 
     el.classList.remove('noodle-panel-peeking');
@@ -247,8 +296,8 @@ function togglePanel(panelName) {
       window.NoodleInteractionMode.decoratePanel(el, panelName);
     }
     syncHeaderToolsMenuState();
-  } else if (!isCurrentlyPinned) {
-    // Es war nur eine flüchtige Hover-Vorschau (Peeking):
+  } else if (!isCurrentlyPinned && !isMobile) {
+    // Es war nur eine flüchtige Hover-Vorschau (Peeking) auf Desktop:
     // Der Klick schließt das Panel NICHT, sondern PINNT es jetzt fest!
     if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.pinPanel === 'function') {
       window.NoodleInteractionMode.pinPanel(panelName);
@@ -261,9 +310,16 @@ function togglePanel(panelName) {
     syncHeaderToolsMenuState();
     return;
   } else {
-    // Das Panel war bereits fest gepinnt: Jetzt schließen
+    // Das Panel schließen
     el.classList.add('hidden');
     el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+    if (isMobile && isSubpanelOfTools) {
+      const headerTools = document.getElementById('panel-header-tools');
+      if (headerTools) {
+        headerTools.classList.remove('has-mobile-subpanel-open', 'noodle-panel-peeking', 'noodle-panel-pinned');
+        headerTools.classList.add('hidden');
+      }
+    }
     if (typeof window !== 'undefined') {
       if (window.currentlyOpenPanel === panelName) window.currentlyOpenPanel = null;
       if (window.pinnedPanel === panelName) window.pinnedPanel = null;

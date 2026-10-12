@@ -241,6 +241,10 @@ function playBinauralBeat(type) {
     baseFreq = 150;
     beatDiff = 6; // Theta 6 Hz (4-7 Hz)
     label = 'Theta (6 Hz) · Tiefenmeditation & Intuition';
+  } else if (type === 'delta') {
+    baseFreq = 120;
+    beatDiff = 2; // Delta 2 Hz (0.5-4 Hz)
+    label = 'Delta (2 Hz) · Regeneration & Schlaf';
   } else if (type === 'gamma') {
     baseFreq = 240;
     beatDiff = 40; // Gamma 40 Hz (30-50 Hz)
@@ -522,8 +526,17 @@ function playAmbientSound(type, crossfade = false) {
   initAudioContext();
   if (!audioCtx) return;
 
+  if (typeof type === 'string' && type.startsWith('binaural_')) {
+    const beatType = type.replace('binaural_', '');
+    toggleBinauralBeat(beatType);
+    updateSoundscapeUI();
+    return;
+  }
+
+  const normalizedType = type === 'afrobeat' ? 'afrobeats' : type;
+
   // Wenn der geklickte Sound bereits läuft -> stoppen (Toggle-Funktion)
-  if (currentSoundType === type) {
+  if (currentSoundType === normalizedType) {
     if (typeof stopAllStudioAudio === 'function') {
       stopAllStudioAudio(true);
     } else {
@@ -543,16 +556,16 @@ function playAmbientSound(type, crossfade = false) {
     stopAmbientSound(true);
   }
 
-  currentSoundType = type;
+  currentSoundType = normalizedType;
   soundGainNode = audioCtx.createGain();
   soundGainNode.gain.setValueAtTime(soundMasterVolume * 1.0, audioCtx.currentTime);
   soundGainNode.connect(getMasterAudioDestination() || audioCtx.destination);
 
   // Generatoren anstoßen
-  startAmbientGeneratorForType(type);
+  startAmbientGeneratorForType(normalizedType);
 
   if (typeof updateMiniAudioPlayer === 'function') {
-    const soundTitle = (typeof getNoodleSoundDisplayName === 'function') ? getNoodleSoundDisplayName(type) : type;
+    const soundTitle = (typeof getNoodleSoundDisplayName === 'function') ? getNoodleSoundDisplayName(normalizedType) : normalizedType;
     updateMiniAudioPlayer({
       isPlaying: true,
       title: soundTitle,
@@ -563,7 +576,7 @@ function playAmbientSound(type, crossfade = false) {
   }
 
   updateSoundscapeUI();
-  lastSelectedSound = type;
+  lastSelectedSound = normalizedType;
 }
 
 // Harmonisches Audio-Ducking für Sprachansagen
@@ -1878,7 +1891,8 @@ function updateSoundscapeUI() {
   const sounds = [
     'piano', 'lofi', 'chimes', 'space', 'guitar', 'singingbowl', 'musicbox',
     'breeze', 'campfire', 'birds', 'cafe', 'clock', 'lofi_sunshine', 'summer_meadow',
-    'bossa_nova', 'techno', 'dnb', 'afrobeats', 'swing', 'boombap', 'synthwave', 'house', 'trap', 'chillstep', 'phonk', 'jazz_piano', 'rhodes', 'hypnotic_riff'
+    'bossa_nova', 'techno', 'dnb', 'afrobeats', 'swing', 'boombap', 'synthwave', 'house', 'trap', 'chillstep', 'phonk', 'jazz_piano', 'rhodes', 'hypnotic_riff',
+    'rain', 'brownnoise', 'whitenoise'
   ];
   sounds.forEach(st => {
     const btn = document.getElementById("sound-btn-" + st);
@@ -1890,9 +1904,30 @@ function updateSoundscapeUI() {
       }
     }
   });
+
+  // Mobile Audio View Buttons aktiv hervorheben
+  const mobAudioView = document.getElementById('mobile-view-audio');
+  if (mobAudioView) {
+    mobAudioView.querySelectorAll('button[onclick*="playAmbientSound"], button[onclick*="toggleGenreBeat"]').forEach(btn => {
+      const onclickAttr = btn.getAttribute('onclick') || '';
+      const match = onclickAttr.match(/['"]([^'"]+)['"]/);
+      if (!match) return;
+      const rawId = match[1];
+      const normId = rawId === 'afrobeat' ? 'afrobeats' : rawId;
+      const isActive = (normId.startsWith('binaural_') && activeBinauralBeat === normId.replace('binaural_', '')) ||
+                       (typeof currentSoundType !== 'undefined' && currentSoundType === normId);
+      btn.classList.toggle('ring-2', Boolean(isActive));
+      btn.classList.toggle('ring-purple-400', Boolean(isActive));
+      btn.classList.toggle('shadow-[0_0_14px_rgba(168,85,247,0.4)]', Boolean(isActive));
+    });
+  }
+
   const indicator = document.getElementById('soundscape-indicator');
   const dockSoundBadge = document.getElementById('dock-sound-active-badge');
-  const isAudioActive = (typeof currentSoundType !== 'undefined' && Boolean(currentSoundType)) || (typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying));
+  const mobSoundBadge = document.getElementById('dock-sound-active-badge-mob');
+  const isAudioActive = (typeof currentSoundType !== 'undefined' && Boolean(currentSoundType)) ||
+                        (typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying)) ||
+                        (typeof activeBinauralBeat !== 'undefined' && Boolean(activeBinauralBeat));
   if (indicator) {
     if (isAudioActive) indicator.classList.remove('hidden');
     else indicator.classList.add('hidden');
@@ -1901,11 +1936,46 @@ function updateSoundscapeUI() {
     if (isAudioActive) dockSoundBadge.classList.remove('hidden');
     else dockSoundBadge.classList.add('hidden');
   }
+  if (mobSoundBadge) {
+    if (isAudioActive) mobSoundBadge.classList.remove('hidden');
+    else mobSoundBadge.classList.add('hidden');
+  }
   if (!isAudioActive && typeof updateMiniAudioPlayer === 'function') {
     updateMiniAudioPlayer({ isPlaying: false });
   }
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
+  try {
+    if (typeof updateMusicNowPlayingDisplay === 'function') updateMusicNowPlayingDisplay();
+    if (typeof syncMusicCrossfadeSelect === 'function') syncMusicCrossfadeSelect();
+    if (typeof updateRadioUIState === 'function') {
+      const radioIsActive = (typeof isRadioPlaying !== 'undefined' && isRadioPlaying) || (typeof window !== 'undefined' && window.isRadioPlaying);
+      updateRadioUIState(Boolean(radioIsActive));
+    }
+  } catch (e) {}
+}
+
+function toggleGenreBeat(genre) {
+  const normalized = genre === 'afrobeat' ? 'afrobeats' : genre;
+  playAmbientSound(normalized);
+}
+
+function setSequencerBpm(bpm) {
+  const val = Math.max(40, Math.min(220, parseInt(bpm, 10) || 120));
+  if (typeof setBeatBpm === 'function') {
+    setBeatBpm(val);
+  } else if (typeof window !== 'undefined') {
+    window.currentBeatBpm = val;
+    if (typeof currentBeatBpm !== 'undefined') currentBeatBpm = val;
+  }
+  const mobBpmEl = document.getElementById('mobile-bpm-val');
+  if (mobBpmEl) mobBpmEl.innerText = `${val} BPM`;
+}
+
+function openAudioStudioModal() {
+  if (typeof togglePanel === 'function') {
+    togglePanel('audio');
+  }
 }
 
 function updateMediaSession(title, artist = 'Noodle Focus', album = 'Focus Sound Studio') {
@@ -1958,6 +2028,7 @@ function stopAllSounds() {
       navigator.mediaSession.playbackState = 'none';
     } catch (e) {}
   }
+  updateSoundscapeUI();
 }
 
 if (typeof document !== 'undefined') {
@@ -1986,6 +2057,10 @@ if (typeof window !== 'undefined') {
   window.soundMasterVolume = soundMasterVolume;
   window.getMasterAudioDestination = getMasterAudioDestination;
   window.initAudioContext = initAudioContext;
+  window.playAmbientSound = playAmbientSound;
+  window.toggleGenreBeat = toggleGenreBeat;
+  window.setSequencerBpm = setSequencerBpm;
+  window.openAudioStudioModal = openAudioStudioModal;
   window.playCheerfulSuccessJingle = playCheerfulSuccessJingle;
   window.triggerHapticFeedback = triggerHapticFeedback;
   window.updateSoundscapeUI = updateSoundscapeUI;
@@ -2025,6 +2100,10 @@ if (typeof globalThis !== 'undefined') {
   globalThis.soundMasterVolume = soundMasterVolume;
   globalThis.getMasterAudioDestination = getMasterAudioDestination;
   globalThis.initAudioContext = initAudioContext;
+  globalThis.playAmbientSound = playAmbientSound;
+  globalThis.toggleGenreBeat = toggleGenreBeat;
+  globalThis.setSequencerBpm = setSequencerBpm;
+  globalThis.openAudioStudioModal = openAudioStudioModal;
   globalThis.playCheerfulSuccessJingle = playCheerfulSuccessJingle;
   globalThis.triggerHapticFeedback = triggerHapticFeedback;
   globalThis.updateSoundscapeUI = updateSoundscapeUI;
