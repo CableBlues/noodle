@@ -46,6 +46,13 @@ function adjustPanelPosition(el, panelName) {
   }
 
   // Desktop (> 768px):
+  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.isFloatingDesktopWindow === 'function') {
+    if (window.NoodleInteractionMode.isFloatingDesktopWindow(el, panelName)) {
+      window.NoodleInteractionMode.positionFloatingWindow(el, panelName);
+      return;
+    }
+  }
+
   const toolsPanel = document.getElementById('panel-header-tools');
   const isToolsSubpanel = el.classList.contains('dock-popover-panel') && el.closest('#panel-header-tools');
 
@@ -53,7 +60,6 @@ function adjustPanelPosition(el, panelName) {
   const isZeroScroll = zeroScrollPanels.includes(el.id);
 
   if (isToolsSubpanel && toolsPanel) {
-    // Initial placement at top of tools panel, with full screen headroom
     el.style.top = '0px';
     el.style.maxHeight = `calc(100vh - 32px)`;
     if (isZeroScroll && vh >= 520) {
@@ -61,42 +67,8 @@ function adjustPanelPosition(el, panelName) {
     } else {
       el.style.overflowY = 'auto';
     }
-
-    if (typeof requestAnimationFrame === 'function') {
-      requestAnimationFrame(() => {
-        if (!el || el.classList.contains('hidden')) return;
-        const rect = el.getBoundingClientRect();
-
-        // Check vertical bounds: shift upwards if extending below bottom margin
-        if (rect.bottom > vh - 16) {
-          const overflow = rect.bottom - (vh - 16);
-          const toolsRect = toolsPanel.getBoundingClientRect();
-          const maxShiftUp = Math.max(0, toolsRect.top - 12);
-          const actualShift = Math.min(overflow, maxShiftUp);
-          el.style.top = `-${actualShift}px`;
-        } else {
-          el.style.top = '0px';
-        }
-
-        // Re-measure after vertical shift to ensure height doesn't overflow viewport
-        const postRect = el.getBoundingClientRect();
-        const availableHeight = Math.max(260, vh - Math.max(12, postRect.top) - 16);
-        el.style.maxHeight = `${availableHeight}px`;
-
-        // Check horizontal bounds: ensure panel does not overflow right edge or clip left edge
-        if (postRect.right > vw - 12) {
-          const rightOverflow = postRect.right - (vw - 12);
-          el.style.transform = `translateX(-${rightOverflow}px)`;
-        } else if (postRect.left < 12) {
-          const leftDeficit = 12 - postRect.left;
-          el.style.transform = `translateX(${leftDeficit}px)`;
-        } else {
-          el.style.transform = '';
-        }
-      });
-    }
   } else {
-    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, alarm, etc.)
+    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, etc.)
     el.style.maxHeight = `calc(100vh - 65px)`;
     if (isZeroScroll && vh >= 520) {
       el.style.overflowY = 'hidden';
@@ -157,9 +129,10 @@ function syncHeaderToolsMenuState() {
   });
 
   if (headerToolsPanel) {
-    const hasOpenSub = Array.from(headerToolsPanel.querySelectorAll('.dock-popover-panel')).some(
-      sub => !sub.classList.contains('hidden')
-    );
+    const hasOpenSub = TOOL_PANEL_IDS.filter(id => id !== 'panel-header-tools').some(id => {
+      const sub = document.getElementById(id);
+      return sub && !sub.classList.contains('hidden');
+    });
     headerToolsPanel.classList.toggle('has-mobile-subpanel-open', hasOpenSub);
   }
 
@@ -170,11 +143,11 @@ function syncHeaderToolsMenuState() {
   }
 }
 
-function togglePanel(panelName) {
+function togglePanel(panelName, forceClose = false) {
   // Themes live inside the settings dropdown – there is no separate #panel-theme.
   if (panelName === 'theme' || panelName === 'settings') panelName = 'settings-dropdown';
   const isMobile = typeof window !== 'undefined' && (window.innerWidth || document.documentElement.clientWidth || 0) <= 768;
-  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab'];
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab', 'radio-news'];
   const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
 
   if (typeof window !== 'undefined' && window.hoverPanelTimeout) {
@@ -184,9 +157,23 @@ function togglePanel(panelName) {
   const el = document.getElementById(`panel-${panelName}`);
   if (!el) return;
 
+  // Auf Desktop: Eigenständige Floating-Tool-Fenster über NoodleInteractionMode verwalten (Multi-Window fähig!)
+  if (!isMobile && isSubpanelOfTools && typeof window !== 'undefined' && window.NoodleInteractionMode) {
+    if (forceClose) {
+      window.NoodleInteractionMode.closeWindow(panelName);
+    } else {
+      window.NoodleInteractionMode.openWindow(panelName);
+    }
+    syncHeaderToolsMenuState();
+    return;
+  }
+
+  const activeEvent = (typeof event !== 'undefined' && event) ? event : (typeof window !== 'undefined' ? window.event : null);
+  const clickedInsidePanel = Boolean(activeEvent && activeEvent.target && el.contains(activeEvent.target));
+
   // Wenn auf Mobile #panel-header-tools geöffnet ist, aber aktuell nur als unsichtbarer Träger
   // für ein Unterpanel diente, zeigt ein Klick auf "header-tools" das Hauptmenü wieder an.
-  if (panelName === 'header-tools' && isMobile && !el.classList.contains('hidden') && el.classList.contains('has-mobile-subpanel-open')) {
+  if (!forceClose && !clickedInsidePanel && panelName === 'header-tools' && isMobile && !el.classList.contains('hidden') && el.classList.contains('has-mobile-subpanel-open')) {
     TOOL_SUBPANELS.forEach(sub => {
       const subEl = document.getElementById(`panel-${sub}`);
       if (subEl) subEl.classList.add('hidden');
@@ -199,9 +186,10 @@ function togglePanel(panelName) {
 
   const isCurrentlyHidden = el.classList.contains('hidden');
 
-  // Andere Popover-Panels schließen (auf Mobile immer alle anderen schließen, damit nichts überlappt)
+  // Andere flüchtige Header-Dropdowns schließen (auf Desktop geöffnete Floating-Tools NIEMALS schließen!)
   ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'social', 'radio-news', 'timer-presets', 'health', 'humor-lab'].forEach(p => {
     if (isSubpanelOfTools && p === 'header-tools') return;
+    if (!isMobile && TOOL_SUBPANELS.includes(p)) return;
     if (p !== panelName) {
       const other = document.getElementById(`panel-${p}`);
       if (other) {
@@ -219,13 +207,12 @@ function togglePanel(panelName) {
 
   const isCurrentlyPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
 
-  if (isCurrentlyHidden) { 
-    if (isSubpanelOfTools) {
+  if (isCurrentlyHidden && !forceClose) { 
+    if (isSubpanelOfTools && isMobile) {
       const headerTools = document.getElementById('panel-header-tools');
       if (headerTools) {
         headerTools.classList.remove('hidden');
         headerTools.classList.add('noodle-panel-pinned', 'has-mobile-subpanel-open');
-        if (!isMobile) adjustPanelPosition(headerTools, 'header-tools');
       }
     } else if (panelName === 'header-tools') {
       el.classList.remove('has-mobile-subpanel-open');
@@ -296,9 +283,9 @@ function togglePanel(panelName) {
       window.NoodleInteractionMode.decoratePanel(el, panelName);
     }
     syncHeaderToolsMenuState();
-  } else if (!isCurrentlyPinned && !isMobile) {
+  } else if (!forceClose && !clickedInsidePanel && !isCurrentlyPinned && !isMobile) {
     // Es war nur eine flüchtige Hover-Vorschau (Peeking) auf Desktop:
-    // Der Klick schließt das Panel NICHT, sondern PINNT es jetzt fest!
+    // Der Klick auf den Dock-Trigger schließt das Panel NICHT, sondern PINNT es jetzt fest!
     if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.pinPanel === 'function') {
       window.NoodleInteractionMode.pinPanel(panelName);
     } else {
@@ -312,7 +299,8 @@ function togglePanel(panelName) {
   } else {
     // Das Panel schließen
     el.classList.add('hidden');
-    el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+    el.style.display = '';
+    el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'noodle-panel-minimized', 'noodle-panel-snapped');
     if (isMobile && isSubpanelOfTools) {
       const headerTools = document.getElementById('panel-header-tools');
       if (headerTools) {

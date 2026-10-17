@@ -417,8 +417,11 @@ function closeAllPanelsAndModals() {
 
   // 2. Modal close helpers
   if (typeof closeHelperModal === 'function') closeHelperModal();
+  if (typeof closeCleaningGuideModal === 'function') closeCleaningGuideModal();
   if (typeof closeSportModal === 'function') closeSportModal();
   if (typeof closeSafeSpaceModal === 'function') closeSafeSpaceModal();
+  if (typeof closeClarityModal === 'function') closeClarityModal();
+  if (typeof closeRegulationModal === 'function') closeRegulationModal();
   if (typeof closeCustomItemModal === 'function') closeCustomItemModal();
   if (typeof closePrivacyModal === 'function') closePrivacyModal();
   if (typeof closeArchiveModal === 'function') closeArchiveModal();
@@ -428,6 +431,14 @@ function closeAllPanelsAndModals() {
   if (typeof closeRouletteModal === 'function') closeRouletteModal();
   if (typeof closeReportDashboard === 'function') closeReportDashboard();
   if (typeof closeSettingsModal === 'function') closeSettingsModal();
+  if (typeof closeInstallModal === 'function') closeInstallModal();
+  if (typeof closeUndoHistoryModal === 'function') closeUndoHistoryModal();
+  if (typeof closePostponeTerminModal === 'function') closePostponeTerminModal();
+  if (typeof closeTextImportModal === 'function') closeTextImportModal();
+  if (typeof closeReportExportModal === 'function') closeReportExportModal();
+  if (typeof closeSampleManagerModal === 'function') closeSampleManagerModal();
+  if (typeof closeSupermarketModal === 'function') closeSupermarketModal();
+  if (typeof closeFeierabendModal === 'function') closeFeierabendModal();
   if (typeof closeCommandPalette === 'function') closeCommandPalette();
   if (typeof closeKeyboardShortcuts === 'function') closeKeyboardShortcuts();
   if (typeof closeP2PSyncModal === 'function') closeP2PSyncModal();
@@ -437,6 +448,7 @@ function closeAllPanelsAndModals() {
   if (typeof closeBreakModal === 'function') closeBreakModal();
   if (typeof closeStepsModal === 'function') closeStepsModal();
   if (typeof closeNoteModal === 'function') closeNoteModal();
+  if (typeof closeNoteDetailModal === 'function') closeNoteDetailModal();
   if (typeof closeBrainstormModal === 'function') closeBrainstormModal();
   if (typeof closeLearningHubModal === 'function') closeLearningHubModal();
   if (typeof closeNoteScannerModal === 'function') closeNoteScannerModal();
@@ -449,24 +461,32 @@ function closeAllPanelsAndModals() {
     'brainstorm-modal', 'clarity-modal', 'sample-manager-modal', 'supermarket-modal',
     'feierabend-celebration-modal', 'privacy-legal-modal', 'note-detail-modal',
     'helper-safespace-modal', 'helper-pick-modal', 'helper-sport-modal',
-    'helper-break-modal', 'helper-steps-modal', 'modal-p2p-sync',
+    'helper-break-modal', 'helper-steps-modal', 'helper-cleaning-modal', 'modal-p2p-sync',
     'modal-regulation', 'note-scanner-modal', 'modal-learning-hub',
     'modal-report-dashboard', 'modal-settings', 'modal-command-palette',
     'modal-keyboard-shortcuts', 'text-import-modal', 'report-export-modal',
     'mobile-menu-drawer', 'mobile-tools-sheet', 'modal-mobile-quick-menu',
-    'modal-custom-item', 'modal-dice', 'modal-roulette', 'modal-archive'
+    'modal-custom-item', 'modal-dice', 'modal-roulette', 'modal-archive',
+    'modal-app-install', 'modal-undo-history', 'modal-postpone-termin'
   ];
   modalIds.forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.classList.add('hidden');
+    if (el) {
+      el.classList.add('hidden');
+      el.style.display = '';
+    }
   });
   document.querySelectorAll('.modal, [id$="-modal"], [id*="modal-"], [id*="-modal"]').forEach(el => {
     el.classList.add('hidden');
+    el.style.display = '';
   });
 
   // 4. Close all dock popover panels, dropdowns, context menus, and hover popovers
   const allPanels = document.querySelectorAll('.dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], #task-context-dropdown, #header-sound-volume-popover, .context-menu');
-  allPanels.forEach(p => p.classList.add('hidden'));
+  allPanels.forEach(p => {
+    p.classList.add('hidden');
+    p.style.display = '';
+  });
 
   // 5. Reset active state on mac dock and clear pinned panel state
   if (typeof currentlyOpenPanel !== 'undefined') currentlyOpenPanel = null;

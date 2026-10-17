@@ -148,6 +148,27 @@ const cloudSyncEngine = {
       this.pullState();
       this.startAutoSync();
     }
+
+    // 5. QR-Code / Direkt-Link Snapshot (#p2p=...) beim Öffnen prüfen
+    if (typeof window !== 'undefined' && window.location && window.location.hash && window.location.hash.startsWith('#p2p=')) {
+      try {
+        const encoded = window.location.hash.slice(5);
+        const decoded = P2PDataCodec.decodeState(encoded);
+        if (decoded && typeof window.state === 'object' && window.state) {
+          this.mergeState(window.state, decoded);
+          if (typeof saveState === 'function') saveState(true);
+          if (typeof renderApp === 'function') renderApp();
+          if (typeof history !== 'undefined' && history.replaceState) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+          if (typeof showToast === 'function') {
+            setTimeout(() => showToast('✓ Geräte-Zustand per QR/Sync-Link erfolgreich abgeglichen!'), 400);
+          }
+        }
+      } catch (e) {
+        console.warn('[P2P Sync] Hash import notice:', e);
+      }
+    }
   },
 
   isPendingSync() {
@@ -183,6 +204,8 @@ const cloudSyncEngine = {
       done: s.done || [],
       workItems: s.workItems || {},
       workDone: s.workDone || [],
+      studyItems: s.studyItems || {},
+      studyDone: s.studyDone || [],
       notes: s.notes || [],
       termine: s.termine || [],
       shoppingList: s.shoppingList || [],
@@ -364,12 +387,15 @@ const cloudSyncEngine = {
       return merged;
     }
 
-    // 1. Items & WorkItems (Aufgaben-Kategorien)
+    // 1. Items, WorkItems & StudyItems (Aufgaben-Kategorien)
     if (remoteData.items || localState.items) {
       localState.items = mergeCategoryMap(localState.items, remoteData.items, 'task');
     }
     if (remoteData.workItems || localState.workItems) {
       localState.workItems = mergeCategoryMap(localState.workItems, remoteData.workItems, 'wtask');
+    }
+    if (remoteData.studyItems || localState.studyItems) {
+      localState.studyItems = mergeCategoryMap(localState.studyItems, remoteData.studyItems, 'stask');
     }
 
     // 2. Erledigte Aufgaben
@@ -378,6 +404,9 @@ const cloudSyncEngine = {
     }
     if (remoteData.workDone || localState.workDone) {
       localState.workDone = mergeList(localState.workDone, remoteData.workDone, 'wdone');
+    }
+    if (remoteData.studyDone || localState.studyDone) {
+      localState.studyDone = mergeList(localState.studyDone, remoteData.studyDone, 'sdone');
     }
 
     // 3. Notizen & Termine
@@ -674,6 +703,44 @@ window.cloudSyncEngine = cloudSyncEngine;
 // ============================================================================
 let currentAuthMode = 'login';
 
+function getP2PSyncUrl() {
+  try {
+    const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : {});
+    const encoded = P2PDataCodec.encodeState(currentState);
+    const baseUrl = (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null')
+      ? (window.location.origin + window.location.pathname)
+      : 'https://cableblues.github.io/noodle/';
+    return encoded ? `${baseUrl}#p2p=${encoded}` : baseUrl;
+  } catch (e) {
+    return 'https://cableblues.github.io/noodle/';
+  }
+}
+
+function updateP2PQrDisplay() {
+  if (typeof document === 'undefined') return;
+  const qrImg = document.getElementById('p2p-qr-img');
+  if (!qrImg || typeof MinimalQR === 'undefined') return;
+  const url = getP2PSyncUrl();
+  const svgDataUrl = MinimalQR.generateQRCodeSVG(url, 180);
+  if (svgDataUrl) {
+    qrImg.src = svgDataUrl;
+    qrImg.classList.remove('hidden');
+  }
+}
+window.updateP2PQrDisplay = updateP2PQrDisplay;
+
+function copyP2PSyncLink() {
+  const url = getP2PSyncUrl();
+  if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      if (typeof showToast === 'function') {
+        showToast('🔗 Direkt-Sync-Link in die Zwischenablage kopiert!');
+      }
+    }).catch(() => {});
+  }
+}
+window.copyP2PSyncLink = copyP2PSyncLink;
+
 function openP2PSyncModal(preferredMode = 'login') {
   const modal = document.getElementById('modal-p2p-sync');
   if (modal) {
@@ -687,6 +754,7 @@ function openP2PSyncModal(preferredMode = 'login') {
     }
 
     switchAuthMode(preferredMode || 'login');
+    updateP2PQrDisplay();
 
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }

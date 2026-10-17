@@ -302,8 +302,18 @@ function getCommandPaletteActions() {
       }
     },
     {
+      id: 'cmd-open-sync',
+      title: tr({ de: 'Synchronisation & Geräte-Kopplung (Cloud & QR-Sync)', en: 'Cloud Sync & Device Pairing (QR & Account)' }),
+      category: tr({ de: 'System', en: 'System' }),
+      icon: 'cloud',
+      color: 'text-emerald-400',
+      action: () => {
+        if (typeof openP2PSyncModal === 'function') openP2PSyncModal();
+      }
+    },
+    {
       id: 'cmd-open-settings',
-      title: tr({ de: 'Einstellungen & Synchronisation', en: 'Settings & Sync' }),
+      title: tr({ de: 'Einstellungen & Optionen', en: 'Settings & Options' }),
       category: tr({ de: 'System', en: 'System' }),
       icon: 'settings',
       color: 'text-gray-300',

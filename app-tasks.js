@@ -146,7 +146,7 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
 
     <!-- Farbpalette (unten, extra klein & dezent) -->
     <div class="px-1.5 pt-0.5 pb-0.5">
-      <span class="text-[8px] font-bold text-gray-400 uppercase tracking-wider block mb-1">${tr({ de: 'Farbe 🎨', en: 'Color 🎨', fr: 'Couleur 🎨', it: 'Colore 🎨', es: 'Color 🎨', el: 'Χρώμα 🎨' })}</span>
+      <span class="text-[8px] font-bold text-purple-300 uppercase tracking-wider block mb-1">${tr({ de: 'Farbe 🎨', en: 'Color 🎨', fr: 'Couleur 🎨', it: 'Colore 🎨', es: 'Color 🎨', el: 'Χρώμα 🎨' })}</span>
       <div class="flex items-center gap-1 justify-between">
         <button onclick="setTaskColor('${colId}', ${index}, 'none', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}" class="w-2.5 h-2.5 rounded-full border border-gray-400 bg-transparent hover:scale-125 transition cursor-pointer ${taskColor === 'none' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}"></button>
         <button onclick="setTaskColor('${colId}', ${index}, 'rose', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}" class="w-2.5 h-2.5 rounded-full bg-rose-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'rose' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}"></button>
@@ -497,10 +497,11 @@ function openColumnOptionsMenu(colId, btnEl) {
     `;
   }
 
+  const colHeaderTheme = (typeof COLUMN_THEMES !== 'undefined' && COLUMN_THEMES[colId]) ? COLUMN_THEMES[colId].color : 'text-purple-300';
   dropdown.innerHTML = `
-    <div class="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
-      <span class="truncate max-w-[120px] text-white">${escapeHtml(listTitle)}</span>
-      <span class="text-gray-400 font-mono text-[9px] px-1.5 py-0.2 rounded bg-white/5 border border-white/10">${taskCount}</span>
+    <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider flex items-center justify-between">
+      <span class="truncate max-w-[120px] ${colHeaderTheme}">${escapeHtml(listTitle)}</span>
+      <span class="text-cyan-300 font-mono text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/10 border border-cyan-500/25">${taskCount}</span>
     </div>
     ${actionsHtml}
   `;
@@ -825,8 +826,8 @@ function renderColumnsDropdownContent(dropdown) {
           <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
         </div>
         <div>
-          <h3 class="font-display font-bold text-xs text-white">${tr({ de: 'Karten verwalten', en: 'Manage Cards', es: 'Gestionar tarjetas', fr: 'Gérer les cartes', it: 'Gestisci schede', el: 'Διαχείριση καρτών' })}</h3>
-          <p class="text-[10px] text-gray-400">${wsName}</p>
+          <h3 class="font-display font-bold text-xs text-purple-300">${tr({ de: 'Karten verwalten', en: 'Manage Cards', es: 'Gestionar tarjetas', fr: 'Gérer les cartes', it: 'Gestisci schede', el: 'Διαχείριση καρτών' })}</h3>
+          <p class="text-[10px] text-cyan-300/80">${wsName}</p>
         </div>
       </div>
       <button onclick="closeColumnsDropdown()" class="w-5 h-5 rounded bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs font-bold transition cursor-pointer">✕</button>
@@ -1040,8 +1041,8 @@ function openColumnsManagerModal() {
             <i data-lucide="sliders" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="font-display font-black text-sm text-white">${tr({ de: 'Karten verwalten & Karte hinzufügen', en: 'Manage Cards & Add Card', es: 'Gestionar tarjetas y añadir tarjeta', fr: 'Gérer les cartes et ajouter une carte', it: 'Gestisci schede e aggiungi scheda', el: 'Διαχείριση καρτών & προσθήκη κάρτας' })}</h3>
-            <p class="text-[11px] text-gray-400">${wsName}</p>
+            <h3 class="font-display font-black text-sm text-purple-300">${tr({ de: 'Karten verwalten & Karte hinzufügen', en: 'Manage Cards & Add Card', es: 'Gestionar tarjetas y añadir tarjeta', fr: 'Gérer les cartes et ajouter une carte', it: 'Gestisci schede e aggiungi scheda', el: 'Διαχείριση καρτών & προσθήκη κάρτας' })}</h3>
+            <p class="text-[11px] text-cyan-300/80">${wsName}</p>
           </div>
         </div>
         <button onclick="closeColumnsManagerModal()" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center text-sm font-bold transition cursor-pointer">✕</button>
@@ -1344,22 +1345,33 @@ function quickAddTaskTop(colId, e) {
 }
 
 const COLUMN_THEMES = {
-  daily: { color: 'text-[var(--accent)]', bg: 'bg-[var(--accent)]/15 border-[var(--accent)]/30 shadow-xs' },
-  work_focus: { color: 'text-[#00f2ff]', bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/30 shadow-xs' },
-  study_focus: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
-  weekly: { color: 'text-[#00f2ff]', bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/30 shadow-xs' },
-  work_in_progress: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  study_modules: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  todo: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  work_backlog: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  study_submissions: { color: 'text-[#ff3366]', bg: 'bg-[#ff3366]/15 border-[#ff3366]/30 shadow-xs' },
-  occasionally: { color: 'text-[#ff3366]', bg: 'bg-[#ff3366]/15 border-[#ff3366]/30 shadow-xs' },
-  work_waiting: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
-  study_deep: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
-  done: { color: 'text-[#00ff66]', bg: 'bg-[#00ff66]/15 border-[#00ff66]/30 shadow-xs' },
-  termine: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  notes: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' }
+  daily:             { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  work_focus:        { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  study_focus:       { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  weekly:            { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  work_in_progress:  { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  study_modules:     { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  todo:              { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  work_waiting:      { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' },
+  study_submissions: { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' },
+  work_backlog:      { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  study_deep:        { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  done:              { color: 'text-[#00ff66]',   bg: 'bg-[#00ff66]/15 border-[#00ff66]/35 shadow-xs' },
+  notes:             { color: 'text-[#c084fc]',   bg: 'bg-[#c084fc]/15 border-[#c084fc]/35 shadow-xs' },
+  termine:           { color: 'text-orange-300',  bg: 'bg-orange-500/15 border-orange-400/35 shadow-xs' },
+  occasionally:      { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' }
 };
+
+const COLUMN_THEME_FALLBACK_CYCLE = [
+  { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  { color: 'text-[#00ff66]',   bg: 'bg-[#00ff66]/15 border-[#00ff66]/35 shadow-xs' },
+  { color: 'text-[#c084fc]',   bg: 'bg-[#c084fc]/15 border-[#c084fc]/35 shadow-xs' },
+  { color: 'text-orange-300',  bg: 'bg-orange-500/15 border-orange-400/35 shadow-xs' },
+  { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' },
+  { color: 'text-teal-300',    bg: 'bg-teal-500/15 border-teal-400/35 shadow-xs' }
+];
 
 function getCurrentWorkspaceItems() {
   const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
@@ -1410,6 +1422,8 @@ function renderApp() {
         ? (workCategoriesOrder || (typeof WORK_CATEGORIES_ORDER !== 'undefined' ? WORK_CATEGORIES_ORDER : [])) 
         : (categoriesOrder || (typeof CATEGORIES_ORDER !== 'undefined' ? CATEGORIES_ORDER : []))));
 
+  let prevColumnThemeColor = '';
+
   (activeOrder || []).forEach(([id, iconKey], colIndex) => {
     const isDone = id === 'done'; const isNotes = id === 'notes'; const isTermine = id === 'termine';
     const isDaily = (id === 'daily' || id === 'work_focus' || id === 'study_focus');
@@ -1443,7 +1457,7 @@ function renderApp() {
     } else if (isNotes) {
       const noteCount = (currentItems.notes || []).length;
       countBadgeHTML = `
-        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-xs shrink-0" title="${noteCount} Notizen">
+        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30 shadow-xs shrink-0" title="${noteCount} Notizen">
           ${noteCount}
         </span>
       `;
@@ -1518,7 +1532,18 @@ function renderApp() {
       notes: 'file-text'
     };
     const finalIcon = COLUMN_ICONS_DEFAULT[id] || iconKey || 'layers';
-    const theme = COLUMN_THEMES[id] || { color: 'text-[var(--accent-light)]', bg: 'bg-white/5 border-white/10 shadow-xs' };
+    let theme = COLUMN_THEMES[id] || COLUMN_THEME_FALLBACK_CYCLE[colIndex % COLUMN_THEME_FALLBACK_CYCLE.length];
+    if (theme.color === prevColumnThemeColor) {
+      for (let tIdx = 0; tIdx < COLUMN_THEME_FALLBACK_CYCLE.length; tIdx++) {
+        const candidate = COLUMN_THEME_FALLBACK_CYCLE[(colIndex + tIdx + 1) % COLUMN_THEME_FALLBACK_CYCLE.length];
+        if (candidate.color !== prevColumnThemeColor) {
+          theme = candidate;
+          break;
+        }
+      }
+    }
+    prevColumnThemeColor = theme.color;
+
     const hasDice = (id === 'daily' || id === 'weekly' || id === 'todo' || id === 'occasionally' || id === 'work_focus' || id === 'work_in_progress' || id === 'work_backlog' || id === 'work_waiting' || id === 'study_focus' || id === 'study_modules' || id === 'study_submissions' || id === 'study_deep');
 
     let columnIconHTML = '';
@@ -1542,7 +1567,7 @@ function renderApp() {
       <div class="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-white/[0.04]">
         <div class="flex items-center gap-1.5 select-none min-w-0 flex-1 cursor-grab active:cursor-grabbing" title="${tr({ de: 'Spalte durch Ziehen neu anordnen', en: 'Drag to reorder column', fr: 'Glisser pour réorganiser la colonne', it: 'Trascina per riordinare la colonna', es: 'Arrastrar para reordenar columna', el: 'Σύρετε για αναδιάταξη στήλης' })}">
           ${columnIconHTML}
-          <h2 class="text-gray-200 hover:text-white font-bold font-display text-[10.5px] 2xl:text-xs tracking-tight uppercase transition whitespace-nowrap overflow-hidden text-ellipsis min-w-0" title="${catName}">
+          <h2 class="${theme.color} hover:brightness-125 font-bold font-display text-[10.5px] 2xl:text-xs tracking-tight uppercase transition whitespace-nowrap overflow-hidden text-ellipsis min-w-0" title="${catName}">
             ${catName}
           </h2>
         </div>
@@ -1565,7 +1590,7 @@ function renderApp() {
             </svg>
           </button>
           ${isNotes ? `
-            <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-white font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
+            <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-purple-200 font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
               <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
                 <circle cx="12" cy="13" r="4"/>
@@ -1581,7 +1606,7 @@ function renderApp() {
       const validDoneList = (doneList || []).filter(Boolean);
       validDoneList.slice().reverse().forEach((item, idx) => {
         const itemDiv = document.createElement('div');
-        itemDiv.className = 'group p-1.5 px-2.5 text-[11px] min-h-[28px] text-gray-400 hover:text-white border border-dashed border-slate-700/80 hover:border-purple-500 rounded-lg bg-slate-800/25 hover:bg-purple-950/20 cursor-pointer font-medium transition flex items-center justify-between gap-1 animate-fade-in';
+        itemDiv.className = 'group p-1.5 px-2.5 text-[11px] min-h-[28px] text-gray-400 hover:text-emerald-200 border border-dashed border-slate-700/80 hover:border-purple-500 rounded-lg bg-slate-800/25 hover:bg-purple-950/20 cursor-pointer font-medium transition flex items-center justify-between gap-1 animate-fade-in';
         itemDiv.onclick = () => handleRestoreDoneTask(idx);
         itemDiv.title = tr({ de: 'Zurück in die Karte verschieben', en: 'Restore task to board', fr: 'Restaurer la tâche', it: 'Ripristina attività', es: 'Restaurar tarea', el: 'Επαναφορά εργασίας' });
         const itemTaskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
@@ -1591,9 +1616,18 @@ function renderApp() {
       });
     } else if (isNotes) {
       const notesList = currentItems.notes || [];
+      const NOTE_STYLE_CYCLE = [
+        { border: 'border-[#c084fc]', bg: 'bg-[#c084fc]/10 hover:bg-[#c084fc]/20', text: 'text-[#c084fc]' },
+        { border: 'border-[#89cff0]', bg: 'bg-[#89cff0]/10 hover:bg-[#89cff0]/20', text: 'text-[#89cff0]' },
+        { border: 'border-[#fbbf24]', bg: 'bg-[#fbbf24]/10 hover:bg-[#fbbf24]/20', text: 'text-[#fbbf24]' },
+        { border: 'border-[#4ade80]', bg: 'bg-[#4ade80]/10 hover:bg-[#4ade80]/20', text: 'text-[#4ade80]' },
+        { border: 'border-[#f472b6]', bg: 'bg-[#f472b6]/10 hover:bg-[#f472b6]/20', text: 'text-[#f472b6]' },
+        { border: 'border-[#fb923c]', bg: 'bg-[#fb923c]/10 hover:bg-[#fb923c]/20', text: 'text-[#fb923c]' }
+      ];
       notesList.forEach((note, index) => {
         const noteText = typeof note === 'object' ? note.task : note;
         const safeNoteEscaped = escapeHtml(noteText);
+        const nStyle = NOTE_STYLE_CYCLE[index % NOTE_STYLE_CYCLE.length];
         const itemDiv = document.createElement('div');
         itemDiv.draggable = true;
         itemDiv.ondragstart = (e) => handleDragStart(e, 'notes', index);
@@ -1601,13 +1635,13 @@ function renderApp() {
         itemDiv.ondragleave = (e) => handleDragLeave(e);
         itemDiv.ondragend = (e) => handleDragEnd(e);
         itemDiv.ondrop = (e) => handleItemDrop(e, 'notes', index);
-        itemDiv.className = `group relative w-full h-auto min-h-[32px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] border-[#c084fc] bg-[#c084fc]/10 hover:bg-[#c084fc]/20 text-[#c084fc] font-medium transition-all duration-150 ease-out rounded-xl shadow-xs cursor-pointer`;
+        itemDiv.className = `group relative w-full h-auto min-h-[32px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] ${nStyle.border} ${nStyle.bg} ${nStyle.text} font-medium transition-all duration-150 ease-out rounded-xl shadow-xs cursor-pointer`;
         itemDiv.onclick = () => openNoteDetailModal(index);
         
         itemDiv.innerHTML = `
           <div class="flex items-center gap-1.5 flex-1 min-w-0 pr-2 pointer-events-none">
-            <i data-lucide="sticky-note" class="w-3.5 h-3.5 text-[#c084fc] shrink-0"></i>
-            <span class="text-xs text-[var(--text-main)] font-normal leading-snug break-normal whitespace-normal flex-1 select-text" title="${safeNoteEscaped}">${safeNoteEscaped}</span>
+            <i data-lucide="sticky-note" class="w-3.5 h-3.5 ${nStyle.text} shrink-0"></i>
+            <span class="text-xs ${nStyle.text} font-normal leading-snug break-normal whitespace-normal flex-1 select-text" title="${safeNoteEscaped}">${safeNoteEscaped}</span>
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-0.5 rounded-lg shadow-md z-40 backdrop-blur-md" onclick="event.stopPropagation()">
             <button onclick="openNoteDetailModal(${index}, event)" aria-label="${tr({ de: 'Notiz öffnen & bearbeiten', en: 'Open & edit note', fr: 'Ouvrir et modifier la note', it: 'Apri e modifica nota', es: 'Abrir y editar nota', el: 'Άνοιγμα & επεξεργασία σημείωσης' })}" class="p-1 text-amber-400 hover:text-amber-300 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Notiz öffnen & bearbeiten', en: 'Open & edit note', fr: 'Ouvrir et modifier la note', it: 'Apri e modifica nota', es: 'Abrir y editar nota', el: 'Άνοιγμα & επεξεργασία σημείωσης' })}">
@@ -1626,7 +1660,7 @@ function renderApp() {
 
       const addBtn = document.createElement('button');
       addBtn.onclick = () => { openTaskAddColumns['notes'] = true; renderApp(); };
-      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#c084fc]/30 bg-[#c084fc]/5 hover:bg-[#c084fc]/15 hover:border-[#c084fc]/60 text-center text-xs text-[#c084fc] hover:text-white font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#c084fc]/30 bg-[#c084fc]/5 hover:bg-[#c084fc]/15 hover:border-[#c084fc]/60 text-center text-xs text-[#c084fc] hover:text-purple-200 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
       addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-[#c084fc] group-hover/addbtn:scale-110 transition-transform')}<span>${tr({ de: 'Notiz hinzufügen', en: 'Add note', es: 'Añadir nota', el: 'Προσθήκη σημείωσης', fr: 'Ajouter une note', it: 'Aggiungi nota' })}</span>`;
 
       const addInput = document.createElement('textarea');
@@ -1665,10 +1699,19 @@ function renderApp() {
         if (!a.date && !b.date) return 0; if (!a.date) return 1; if (!b.date) return -1;
         return `${a.date} ${a.time || '00:00'}`.localeCompare(`${b.date} ${b.time || '00:00'}`);
       });
-      itemsWithMeta.forEach((item) => {
+      const TERMIN_OPEN_PALETTE = [
+        { border: 'border-[#89cff0]', bg: 'bg-[#89cff0]/12', text: 'text-[#89cff0]', badge: 'bg-[#89cff0]/20 text-[#89cff0] border-[#89cff0]/30' },
+        { border: 'border-[#fb923c]', bg: 'bg-[#fb923c]/12', text: 'text-[#fb923c]', badge: 'bg-[#fb923c]/20 text-[#fb923c] border-[#fb923c]/30' },
+        { border: 'border-[#c084fc]', bg: 'bg-[#c084fc]/12', text: 'text-[#c084fc]', badge: 'bg-[#c084fc]/20 text-[#c084fc] border-[#c084fc]/30' },
+        { border: 'border-[#2dd4bf]', bg: 'bg-[#2dd4bf]/12', text: 'text-[#2dd4bf]', badge: 'bg-[#2dd4bf]/20 text-[#2dd4bf] border-[#2dd4bf]/30' },
+        { border: 'border-[#fbbf24]', bg: 'bg-[#fbbf24]/12', text: 'text-[#fbbf24]', badge: 'bg-[#fbbf24]/20 text-[#fbbf24] border-[#fbbf24]/30' },
+        { border: 'border-[#f472b6]', bg: 'bg-[#f472b6]/12', text: 'text-[#f472b6]', badge: 'bg-[#f472b6]/20 text-[#f472b6] border-[#f472b6]/30' }
+      ];
+      itemsWithMeta.forEach((item, tSortIdx) => {
         const originalIndex = item.originalIdx;
         const isToday = item.date === todayISO;
         const status = item.status || 'open';
+        const openTheme = TERMIN_OPEN_PALETTE[tSortIdx % TERMIN_OPEN_PALETTE.length];
         let fullDateString = "No Date";
         if (item.date) {
           try {
@@ -1684,10 +1727,10 @@ function renderApp() {
         let locHTML = item.location ? `<span class="text-[9px] text-[#D4D4D4] truncate max-w-[85px] inline-flex items-center gap-0.5">${svgFn('map-pin', 'w-3 h-3 shrink-0 text-[#D4D4D4]')}${escapeHtml(item.location)}</span>` : '';
 
         // Status Styling & Badges
-        let statusBorderBg = isToday ? 'border-[#89cff0] bg-[#89cff0]/10' : 'border-[#89cff0]/40 bg-white/[0.035]';
+        let statusBorderBg = isToday ? `${openTheme.border} ${openTheme.bg}` : `${openTheme.border} ${openTheme.bg}`;
         let statusBadgeHTML = '';
 
-                if (status === 'stattgefunden') {
+        if (status === 'stattgefunden') {
           statusBorderBg = 'border-[#00ff66] bg-[#00ff66]/10 text-[#00ff66]';
           statusBadgeHTML = `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]/40 shrink-0"><i data-lucide="check-check" class="w-3 h-3 text-[#00ff66]"></i><span>${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Effectué', it: 'Svolto', es: 'Realizado', el: 'Πραγματοποιήθηκε' })}</span></span>`;
         } else if (status === 'nicht_stattgefunden') {
@@ -1705,14 +1748,14 @@ function renderApp() {
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-14 select-none">
             <button onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-lime-400 bg-lime-500/20 text-lime-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : 'border-[#89cff0]/40 bg-[#89cff0]/10 hover:border-lime-400 hover:bg-lime-500/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-lime-400 bg-lime-500/20 text-lime-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : `${openTheme.border} ${openTheme.bg} hover:border-lime-400 hover:bg-lime-500/20`))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${status === 'stattgefunden' 
                   ? svgFn('check', 'w-3.5 h-3.5 text-lime-400')
                   : (status === 'nicht_stattgefunden' 
                     ? svgFn('x', 'w-3.5 h-3.5 text-[#C586C0]')
                     : (status === 'verschoben' 
                       ? svgFn('calendar-sync', 'w-3.5 h-3.5 text-[#C586C0]')
-                      : `${svgFn('clock', 'task-default-icon w-3.5 h-3.5 text-[#89cff0] transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50')}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
+                      : `${svgFn('clock', `task-default-icon w-3.5 h-3.5 ${openTheme.text} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
                     )
                   )
                 }
@@ -1720,12 +1763,12 @@ function renderApp() {
             </button>
             <div class="flex flex-col min-w-0 flex-1 cursor-pointer" onclick="editTermin(${originalIndex}, event)">
               <div class="flex items-center gap-1.5 min-w-0 flex-wrap">
-                <span class="text-xs leading-snug font-semibold ${status === 'stattgefunden' ? 'text-[#00ff66] line-through opacity-90' : (status === 'nicht_stattgefunden' ? 'text-[#C586C0] line-through opacity-80' : (status === 'verschoben' ? 'text-[#C586C0]' : 'text-[#569CD6]'))} break-normal whitespace-normal">${escapeHtml(item.task || item.name || 'Termin')}</span>
-                ${item.time ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-[#89cff0]/20 text-[#89cff0] border border-[#89cff0]/30 shrink-0">${escapeHtml(item.time)}</span>` : ''}
+                <span class="text-xs leading-snug font-semibold ${status === 'stattgefunden' ? 'text-[#00ff66] line-through opacity-90' : (status === 'nicht_stattgefunden' ? 'text-[#C586C0] line-through opacity-80' : (status === 'verschoben' ? 'text-[#C586C0]' : openTheme.text))} break-normal whitespace-normal">${escapeHtml(item.task || item.name || 'Termin')}</span>
+                ${item.time ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold border shrink-0 ${openTheme.badge}">${escapeHtml(item.time)}</span>` : ''}
                 ${statusBadgeHTML}
               </div>
               <div class="flex items-center gap-1.5 mt-0.5">
-                <span class="text-[9px] font-mono text-[#89cff0]">${escapeHtml(fullDateString)}</span>
+                <span class="text-[9px] font-mono ${openTheme.text}">${escapeHtml(fullDateString)}</span>
                 ${locHTML}
               </div>
             </div>
@@ -1741,9 +1784,9 @@ function renderApp() {
       const isFormOpen = (typeof isTerminFormOpen !== 'undefined') ? isTerminFormOpen : (window.isTerminFormOpen || false);
       if (!isFormOpen) {
         const btnEl = document.createElement('button'); btnEl.onclick = () => toggleTerminForm(true);
-        btnEl.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#89cff0]/30 bg-[#89cff0]/5 hover:bg-[#89cff0]/15 hover:border-[#89cff0]/60 text-center text-xs text-[#89cff0] hover:text-white font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+        btnEl.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-orange-400/35 bg-orange-500/5 hover:bg-orange-500/15 hover:border-orange-400/60 text-center text-xs text-orange-300 hover:text-orange-200 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
         const btnT = t('appointment_new_btn') || tr({ de: 'Neuer Termin', en: 'New appointment', es: 'Nueva cita', el: 'Νέο ραντεβού', fr: 'Nouveau rendez-vous', it: 'Nuovo appuntamento' });
-        btnEl.innerHTML = `${svgFn('calendar-plus', 'w-3.5 h-3.5 text-[#89cff0] group-hover/addbtn:scale-110 transition-transform')}<span>${btnT}</span>`;
+        btnEl.innerHTML = `${svgFn('calendar-plus', 'w-3.5 h-3.5 text-orange-300 group-hover/addbtn:scale-110 transition-transform')}<span>${btnT}</span>`;
         listEl.appendChild(btnEl);
       } else {
         const formDiv = document.createElement('div'); formDiv.className = 'mt-1 p-3 bg-[#0e0e14] border border-[var(--accent)]/40 rounded-xl flex flex-col gap-2 shadow-lg';
@@ -1762,16 +1805,16 @@ function renderApp() {
         formDiv.innerHTML = `
           <div class="flex items-center justify-between text-xs font-bold text-amber-300">
             <span class="flex items-center gap-1.5">${svgFn('calendar', 'w-3.5 h-3.5')} ${formT}</span>
-            <button onclick="toggleTerminForm(false)" aria-label="Termin-Formular schließen" class="text-gray-400 hover:text-white p-0.5 cursor-pointer text-xs">✕</button>
+            <button onclick="toggleTerminForm(false)" aria-label="Termin-Formular schließen" class="text-gray-400 hover:text-amber-200 p-0.5 cursor-pointer text-xs">✕</button>
           </div>
           <input type="text" id="add-termin-title" placeholder="${nameT}" class="w-full p-2 bg-black/60 border border-white/15 rounded-lg text-xs text-white outline-none focus:border-[var(--accent)] font-semibold placeholder:text-gray-500 mb-2" />
           <input type="text" id="add-termin-location" placeholder="${locPlaceholder}" class="w-full p-2 bg-black/60 border border-white/15 rounded-lg text-xs text-white outline-none focus:border-[var(--accent)] font-semibold placeholder:text-gray-500 mb-2" />
           <div class="grid grid-cols-2 gap-2 mb-2">
-            <div><label class="text-[10px] text-gray-400 mb-0.5 block font-medium">${dateT}</label><input type="date" id="add-termin-date" value="${dateValue}" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
-            <div><label class="text-[10px] text-gray-400 mb-0.5 block font-medium">${timeT}</label><input type="time" id="add-termin-time" value="10:00" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
+            <div><label class="text-[10px] text-cyan-300 mb-0.5 block font-medium">${dateT}</label><input type="date" id="add-termin-date" value="${dateValue}" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
+            <div><label class="text-[10px] text-purple-300 mb-0.5 block font-medium">${timeT}</label><input type="time" id="add-termin-time" value="10:00" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
           </div>
           <div class="mb-2">
-            <label class="text-[10px] text-gray-400 mb-0.5 block font-medium">Status:</label>
+            <label class="text-[10px] text-emerald-300 mb-0.5 block font-medium">Status:</label>
             <select id="add-termin-status" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer font-semibold">
               <option value="open">⚪ ${tr({ de: 'Offen', en: 'Open', fr: 'Ouvert', it: 'Aperto', es: 'Abierto', el: 'Ανοιχτό' })}</option>
               <option value="stattgefunden">🟢 ${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Eu lieu', it: 'Avvenuto', es: 'Asistido', el: 'Πραγματοποιήθηκε' })}</option>
@@ -1799,12 +1842,25 @@ function renderApp() {
       }
     } else {
       const validCategoryItems = (currentItems[id] || []).filter(Boolean);
+      const TASK_CYCLE_KEYS = ['rose', 'sky', 'emerald', 'orange', 'purple', 'cyan', 'gold', 'mint', 'lavender'];
+      let prevTaskBorder = '';
       validCategoryItems.forEach((task, index) => {
         const taskObj = (typeof task === 'object' && task !== null) ? task : { task: String(task || '') };
         const taskText = taskObj.task || '';
         if (!taskText) return;
         const taskColor = taskObj.color || 'none';
-        const colorStyle = getSemanticTaskStyle(taskText, id, taskColor);
+        let colorStyle = getSemanticTaskStyle(taskText, id, taskColor);
+        if (taskColor === 'none' && colorStyle.border === prevTaskBorder) {
+          for (let cIdx = 0; cIdx < TASK_CYCLE_KEYS.length; cIdx++) {
+            const altKey = TASK_CYCLE_KEYS[(index + colIndex + cIdx) % TASK_CYCLE_KEYS.length];
+            const altStyle = TASK_COLOR_MAP[altKey];
+            if (altStyle && altStyle.border !== prevTaskBorder) {
+              colorStyle = altStyle;
+              break;
+            }
+          }
+        }
+        prevTaskBorder = colorStyle.border;
         const iconDetails = (typeof getTaskIconDetails === 'function') ? getTaskIconDetails(taskText, id) : { icon: 'check-circle', color: 'text-purple-400' };
         const isTaskActive = (typeof activeTimerTask !== 'undefined' && activeTimerTask && activeTimerTask.category === id && activeTimerTask.index === index);
         const itemDiv = document.createElement('div');
@@ -1844,7 +1900,7 @@ function renderApp() {
                 ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
               </span>
             </button>
-            <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
+            <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:brightness-125 break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-all duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
             ${recurrenceBadge}
             ${toolBadgesHTML}
           </div>
@@ -2546,15 +2602,17 @@ function showPanelHover(panelName, delay = 180) {
       'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'timer-presets',
       'audio', 'daily', 'logo-guide', 'collab-chat', 'radio-news', 'health', 'humor-lab'
     ];
-    const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
+    const TOOL_SUBPANELS_EXT = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab', 'radio-news'];
+    const isSubpanelOfTools = TOOL_SUBPANELS_EXT.includes(panelName);
 
     ALL_POPOVER_PANELS.forEach(p => {
-      // Wenn wir ein Tool-Untermenü öffnen, darf das übergeordnete Tools-Menü nicht geschlossen werden!
       if (isSubpanelOfTools && p === 'header-tools') return;
+      if (TOOL_SUBPANELS_EXT.includes(p)) return;
       if (p !== panelName && p !== pinnedPanel) {
-        // Falls wir im Header-Tools Hub sind, nur andere Tool-Flyouts schließen, nicht aber fremde Panels
         const other = document.getElementById(`panel-${p}`);
-        if (other) other.classList.add('hidden');
+        if (other && !other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
+          other.classList.add('hidden');
+        }
       }
     });
 

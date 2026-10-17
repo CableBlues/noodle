@@ -49,46 +49,51 @@ html body .mobile-modal-card button {
   will-change: transform;
 }
 
-html body #app button:not(.mac-dock-btn):not(.mac-tools-trigger):not(.tool-orb):not(#panel-header-tools button):hover,
+html body #app button:not(.mac-dock-btn):not(.mac-tools-trigger):not(.tool-orb):hover,
 html body #app select:hover,
 html body #app [role="button"]:hover,
 html body .dock-popover-panel button:not(.tool-orb):hover,
 html body .mobile-modal-card button:hover {
-  /* Ruhiger Hover: keine Skalierung, kein Leuchten – nur dezente Kontur */
-  border-color: rgba(255, 255, 255, 0.22) !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  /* Sofortiges Aufhellen, leichte Vergrößerung & Glow beim Drüberfahren */
+  filter: brightness(1.18) saturate(1.15);
+  transform: translateY(-1px) scale(1.02) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), 0 0 10px var(--accent-border) !important;
   z-index: 20 !important;
 }
 
-/* Klick-Feedback: kurz und unaufdringlich */
+/* Klick-Feedback: Sofortiges physisches Eindrücken */
 html body #app button:active,
 html body #app select:active,
 html body #app [role="button"]:active {
-  transform: scale(0.98) !important;
-  transition-duration: 0.05s !important;
+  transform: translateY(0px) scale(0.96) !important;
+  filter: brightness(0.95) !important;
+  transition-duration: 0.03s !important;
 }
 
 /* 3. TASK CARDS: WAVEFORM CUE MARKER & MUTED STATE */
 html body #app main article div[draggable="true"] {
   position: relative !important;
-  border-left-width: 3px !important;
-  transition: transform 0.14s ease,
-              background-color 0.14s ease,
-              box-shadow 0.14s ease,
-              border-color 0.14s ease !important;
+  border-left-width: 3.5px !important;
+  transition: transform 0.06s cubic-bezier(0.16, 1, 0.3, 1),
+              border-left-width 0.08s ease,
+              background-color 0.06s ease,
+              box-shadow 0.06s ease,
+              border-color 0.06s ease !important;
   cursor: grab;
 }
 
-/* Ruhiger Karten-Hover: minimal anheben, weicher Schatten, kein Leuchten */
+/* Waveform-Cue-Strip dehnt sich beim Hover von 3.5px auf 6.5px aus + Karte hebt sich ab */
 html body #app main article div[draggable="true"]:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35) !important;
+  border-left-width: 6.5px !important;
+  transform: translateY(-1.5px) scale(1.01) !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), 0 0 12px var(--accent-border) !important;
+  filter: brightness(1.08);
   z-index: 30 !important;
 }
 
 html body #app main article div[draggable="true"]:active {
   cursor: grabbing !important;
-  transform: scale(0.99) !important;
+  transform: scale(0.98) !important;
 }
 
 /* Inactive / Done Task Muted State (Mixer Track Mute) */
@@ -106,20 +111,20 @@ main article div[draggable="true"].task-completed:hover {
   filter: grayscale(0);
 }
 
-/* 4. DRAG & DROP: klares, ruhiges Feedback */
+/* 4. DRAG & DROP MAGNETIC SNAP FEEDBACK */
 html body #app main article div[draggable="true"].dragging {
-  opacity: 0.4 !important;
-  border: 1px dashed rgba(255, 255, 255, 0.3) !important;
-  background: rgba(255, 255, 255, 0.03) !important;
+  opacity: 0.35 !important;
+  border: 1.5px dashed var(--accent-light) !important;
+  background: rgba(168, 85, 247, 0.08) !important;
   box-shadow: none !important;
-  transform: scale(0.99) !important;
+  transform: scale(0.98) !important;
   cursor: grabbing !important;
 }
 
 main article.drag-over {
-  border-color: rgba(255, 255, 255, 0.28) !important;
-  background-color: rgba(255, 255, 255, 0.02) !important;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08) !important;
+  border-color: var(--accent-light) !important;
+  background-color: rgba(168, 85, 247, 0.05) !important;
+  box-shadow: inset 0 0 24px rgba(168, 85, 247, 0.15), 0 0 20px var(--accent-border) !important;
 }
 
 /* 5. POPOVER & DROPDOWN HOVER STABILITY BRIDGES */
@@ -221,105 +226,165 @@ main article.drag-over {
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* MULTI-WINDOW STUDIO DESK CONTROLS [—] [⛶] [✕] */
-.noodle-win-controls {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 2px 4px;
-  border-radius: 12px;
-  backdrop-filter: blur(12px);
-}
-
+/* MULTI-WINDOW STUDIO DESK CONTROLS [—] [□] [✕] (Deutlich sichtbar im Desktop-Popup-Stil) */
 .noodle-win-controls {
   margin-left: auto !important;
-  display: flex !important;
+  display: inline-flex !important;
   align-items: center !important;
-  gap: 3px !important;
+  gap: 5px !important;
+  background: rgba(12, 13, 22, 0.92) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.24) !important;
+  padding: 3px 5px !important;
+  border-radius: 11px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55) !important;
+  backdrop-filter: blur(14px);
+  flex-shrink: 0 !important;
+  z-index: 30;
 }
 
 .noodle-win-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 6px;
-  font-size: 10.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.1s ease, color 0.1s ease, border-color 0.1s ease;
-  user-select: none;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #9ca3af;
-  line-height: 1;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 28px !important;
+  height: 24px !important;
+  border-radius: 7px !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  transition: all 0.14s ease !important;
+  user-select: none !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.18) !important;
+  color: #f1f5f9 !important;
+  line-height: 1 !important;
 }
 
 .noodle-win-btn:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
-  color: #ffffff !important;
-  transform: none !important;
+  transform: translateY(-1px) !important;
 }
 
 .noodle-win-btn:active {
-  transform: scale(0.94) !important;
+  transform: scale(0.93) !important;
 }
 
-/* Subtle Hover States */
+/* Distinct, High-Contrast Hover States for [—] [□] [✕] */
+.noodle-win-min-btn {
+  color: #7dd3fc !important;
+  border-color: rgba(56, 189, 248, 0.32) !important;
+}
 .noodle-win-min-btn:hover {
-  color: #cbd5e1 !important;
+  background: rgba(56, 189, 248, 0.25) !important;
+  border-color: #38bdf8 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.45) !important;
 }
 
+.noodle-win-max-btn {
+  color: #d8b4fe !important;
+  border-color: rgba(168, 85, 247, 0.35) !important;
+}
 .noodle-win-max-btn:hover {
-  color: #e2e8f0 !important;
+  background: rgba(168, 85, 247, 0.28) !important;
+  border-color: #c084fc !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.45) !important;
 }
 
+.noodle-win-close-btn {
+  color: #fda4af !important;
+  border-color: rgba(244, 63, 94, 0.38) !important;
+}
 .noodle-win-close-btn:hover {
-  background: rgba(244, 63, 94, 0.2) !important;
-  border-color: rgba(244, 63, 94, 0.4) !important;
-  color: #fecdd3 !important;
+  background: rgba(244, 63, 94, 0.85) !important;
+  border-color: #fb7185 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 12px rgba(244, 63, 94, 0.6) !important;
+}
+
+/* Draggable Window Header Bar */
+.noodle-draggable-header {
+  cursor: grab;
+  user-select: none;
+}
+.noodle-draggable-header:active,
+.noodle-draggable-header.is-dragging {
+  cursor: grabbing;
+}
+
+/* Dedicated Fallback Window Titlebar (for dynamic panels) */
+.noodle-window-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 10px 8px 10px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  border-radius: 12px 12px 0 0;
+}
+
+/* DESKTOP FLOATING POPUP WINDOWS (Non-blocking background so multiple tools & modals work together) */
+@media (min-width: 769px) {
+  .noodle-floating-modal-backdrop {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    pointer-events: none !important;
+  }
+
+  .noodle-floating-modal-card {
+    pointer-events: auto !important;
+    position: fixed !important;
+    margin: 0 !important;
+    max-height: calc(100vh - 76px) !important;
+    max-height: calc(100dvh - 76px) !important;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.88), 0 0 0 1.5px rgba(255, 255, 255, 0.2) !important;
+  }
 }
 
 /* MINIMIZED LIVE-PILL DOCK */
 .noodle-minimized-dock {
-  background: rgba(10, 10, 16, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 4px 6px;
+  background: rgba(10, 10, 16, 0.94);
+  border: 1.5px solid rgba(168, 85, 247, 0.35);
+  padding: 5px 8px;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(16px);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(18px);
 }
 
 .noodle-min-pill:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
 
-/* AKTIVES FENSTER: etwas hellere Kontur statt Leuchten */
-.noodle-panel-focused {
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65) !important;
+/* AKTIVES FENSTER: klare Fokus-Kontur */
+.noodle-panel-focused,
+.noodle-panel-focused > .noodle-floating-modal-card {
+  border-color: rgba(168, 85, 247, 0.45) !important;
+  box-shadow: 0 28px 75px rgba(0, 0, 0, 0.88), 0 0 0 1.5px rgba(168, 85, 247, 0.4) !important;
 }
 
-/* FULLSCREEN FLOATING EXPANSION MODE */
+/* FULLSCREEN FLOATING EXPANSION MODE (Tools & Popup Modals) */
 .dock-popover-panel.noodle-panel-fullscreen,
-[id^="panel-"].noodle-panel-fullscreen {
+[id^="panel-"].noodle-panel-fullscreen,
+.noodle-panel-fullscreen > .noodle-floating-modal-card,
+.noodle-floating-modal-card.noodle-panel-fullscreen {
   position: fixed !important;
-  inset: 20px !important;
-  top: 55px !important;
-  width: auto !important;
-  max-width: 1280px !important;
-  margin: 0 auto !important;
-  height: calc(100vh - 75px) !important;
-  max-height: calc(100dvh - 75px) !important;
-  z-index: 100050 !important;
-  border-radius: 20px !important;
-  transform: none !important;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7) !important;
+  top: 52px !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: min(1260px, calc(100vw - 32px)) !important;
+  max-width: min(1260px, calc(100vw - 32px)) !important;
+  margin: 0 !important;
+  height: calc(100vh - 72px) !important;
+  max-height: calc(100dvh - 72px) !important;
+  z-index: 100060 !important;
+  border-radius: 22px !important;
+  transform: translateX(-50%) !important;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.88), 0 0 0 1.5px rgba(168, 85, 247, 0.45) !important;
   overflow-y: auto !important;
 }
 
