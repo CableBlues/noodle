@@ -392,7 +392,7 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
 
   data.steps.forEach((step, idx) => {
     if (!activeCleaningCompletedSteps[step.id]) {
-      const taskText = `🧹 ${step.title.split('(')[0].trim()}`;
+      const taskText = step.title.split('(')[0].trim();
       const exists = curState.items[cat].some(item => (typeof item === 'object' ? item.task === taskText : item === taskText));
       if (!exists) {
         curState.items[cat].push({
@@ -412,12 +412,12 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
   closeCleaningGuideModal();
   if (typeof showToast === 'function') {
     const msg = tr({
-      en: `✨ Added ${addedCount} steps to your board!`,
-      de: `✨ ${addedCount} Schritte in dein Board übernommen!`,
-      fr: `✨ ${addedCount} étapes ajoutées à votre tableau !`,
-      it: `✨ ${addedCount} passaggi aggiunti alla tua bacheca!`,
-      es: `✨ ¡${addedCount} pasos agregados a tu tablero!`,
-      el: `✨ Προστέθηκαν ${addedCount} βήματα στον πίνακά σου!`
+      en: `Added ${addedCount} steps to board.`,
+      de: `${addedCount} Schritte in das Board übernommen.`,
+      fr: `${addedCount} étapes ajoutées au tableau.`,
+      it: `${addedCount} passaggi aggiunti alla bacheca.`,
+      es: `${addedCount} pasos agregados al tablero.`,
+      el: `Προστέθηκαν ${addedCount} βήματα στον πίνακα.`
     });
     showToast(msg);
   }

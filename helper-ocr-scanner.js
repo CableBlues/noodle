@@ -74,11 +74,11 @@ function renderScannerActionButtons() {
     container.innerHTML = `
       <div class="flex flex-wrap items-center gap-2 justify-end w-full">
         <select id="scanner-brainstorm-tag" class="bg-black/60 border border-teal-500/40 rounded-xl px-2.5 py-2 text-xs font-bold text-teal-300 outline-none cursor-pointer shadow-sm">
-          <option value="idea">💡 Als Ideen</option>
-          <option value="quickwin">⚡ Als Quick Wins</option>
-          <option value="project">🚀 Als Projekte</option>
-          <option value="question">❓ Als Fragen</option>
-          <option value="goal">🎯 Als Ziele</option>
+          <option value="idea">Als Ideen</option>
+          <option value="quickwin">Als Quick Wins</option>
+          <option value="project">Als Projekte</option>
+          <option value="question">Als Fragen</option>
+          <option value="goal">Als Ziele</option>
         </select>
         <button onclick="importScannedTextToBrainstorm()" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-black font-bold text-xs shadow-lg transition cursor-pointer flex items-center gap-1.5 active:scale-95">
           <i data-lucide="lightbulb" class="w-4 h-4"></i>
@@ -150,8 +150,8 @@ async function startScannerCamera() {
     console.warn('[Scanner] Camera error:', err);
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: '📷 Kamerazugriff nicht verfügbar oder abgelehnt. Bitte Foto hochladen.',
-        en: '📷 Camera access not available or denied. Please upload a photo.'
+        de: 'Kamerazugriff nicht verfügbar oder abgelehnt.',
+        en: 'Camera access not available or denied.'
       }));
     }
   }
@@ -413,17 +413,17 @@ async function runOcrOnScannedImage() {
         resultTextarea.value = cleaned;
       }
       if (progressBar) progressBar.style.width = '100%';
-      if (progressText) progressText.innerText = '✅ Handschrift erfolgreich erkannt!';
+      if (progressText) progressText.innerText = 'Handschrift erkannt.';
       
       if (typeof showToast === 'function') {
-        showToast(tr({ de: '✨ Handschriftliche Notiz erkannt!', en: '✨ Handwritten note recognized!' }));
+        showToast(tr({ de: 'Handschriftliche Notiz erkannt.', en: 'Handwritten note recognized.' }));
       }
     } else {
       throw new Error('Tesseract script not available');
     }
   } catch (err) {
     console.warn('[Scanner] OCR fallback triggered:', err);
-    if (progressText) progressText.innerText = 'ℹ️ Bild geladen (Handschrift bitte kurz prüfen/ergänzen)';
+    if (progressText) progressText.innerText = 'Bild geladen (Handschrift bitte kurz prüfen/ergänzen)';
     if (resultTextarea && !resultTextarea.value.trim()) {
       resultTextarea.value = '• Gescannte Notiz (' + new Date().toLocaleDateString() + ')\n';
     }
@@ -505,8 +505,8 @@ function importScannedTextToNotes(targetType = 'notes') {
     closeNoteScannerModal();
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: '📝 Scan in Notiz eingefügt!',
-        en: '📝 Scan inserted into note!'
+        de: 'Scan in Notiz eingefügt.',
+        en: 'Scan inserted into note.'
       }));
     }
     return;
@@ -527,8 +527,8 @@ function importScannedTextToNotes(targetType = 'notes') {
     if (typeof renderApp === 'function') renderApp();
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: `🚀 ${lines.length} Aufgaben in To-Do Spalte angelegt!`,
-        en: `🚀 ${lines.length} tasks added to To-Do!`
+        de: `${lines.length} Aufgaben in To-Do Spalte angelegt.`,
+        en: `${lines.length} tasks added to To-Do.`
       }));
     }
   } else {
@@ -542,8 +542,8 @@ function importScannedTextToNotes(targetType = 'notes') {
     if (typeof renderApp === 'function') renderApp();
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: '📝 Notiz aus Scan erfolgreich gespeichert!',
-        en: '📝 Note from scan successfully saved!'
+        de: 'Notiz aus Scan gespeichert.',
+        en: 'Note from scan saved.'
       }));
     }
   }

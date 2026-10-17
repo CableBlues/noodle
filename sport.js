@@ -62,7 +62,7 @@ function clearAllMovementHistory() {
     localStorage.removeItem(MOVEMENT_HISTORY_KEY);
     renderMovementHistoryUI();
     if (typeof showToast === 'function') {
-      showToast('🗑️ Bewegungs-Tagebuch geleert');
+      showToast('Bewegungs-Tagebuch geleert.');
     }
   } catch (e) {}
 }
@@ -869,7 +869,8 @@ function updateMovementStatsBadge() {
   const badge = document.getElementById('sport-stats-badge');
   if (!badge) return;
   const stats = getMovementStats();
-  badge.innerHTML = `🔥 ${stats.totalMinutes} Min · ${stats.completedWorkouts} Workouts`;
+  badge.innerHTML = `<span class="flex items-center gap-1"><i data-lucide="flame" class="w-3 h-3 text-lime-400"></i><span>${stats.totalMinutes} Min · ${stats.completedWorkouts} Workouts</span></span>`;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // =========================================================================
@@ -1234,11 +1235,11 @@ function toggleWorkoutAudio(type) {
   if (activeRoutineAudio === type) {
     if (typeof stopAmbientSound === 'function') stopAmbientSound();
     activeRoutineAudio = 'none';
-    showToast('🎵 Workout-Sound stummgeschaltet');
+    showToast('Workout-Sound stummgeschaltet.');
   } else {
     activeRoutineAudio = type;
     playAmbientSound(type === 'beats' ? 'synth' : type === 'lofi' ? 'cafe' : 'stream', true);
-    showToast(`🎵 Workout-Sound: ${type}`);
+    showToast(`Workout-Sound: ${type}`);
   }
 }
 
@@ -1310,12 +1311,6 @@ function completeWorkoutRoutine() {
 
   if (typeof playProceduralSound === 'function') {
     playProceduralSound(0);
-  }
-  if (typeof triggerConfetti === 'function') {
-    triggerConfetti();
-  }
-  if (typeof showPraise === 'function') {
-    showPraise();
   }
 
   showToast(getSportT('workout_completed'));

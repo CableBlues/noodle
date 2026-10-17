@@ -79,22 +79,13 @@
   <!-- App-Oberfläche (Header, Panels, Modals) -->
   <div id="app" class="min-h-screen max-w-[1920px] w-full mx-auto flex flex-col p-3 md:p-5 select-none justify-between relative">
 
-    <!-- AMBIENT DYNAMIC BACKGROUND AURORA & IDLE PARTICLES -->
-    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden">
-      <div class="ambient-orb ambient-orb-1"></div>
-      <div class="ambient-orb ambient-orb-2"></div>
-      <div class="ambient-orb ambient-orb-3"></div>
-      <canvas id="ambient-flow-canvas" class="w-full h-full opacity-60"></canvas>
+    <!-- AMBIENT BACKGROUND CONTAINER (Clean & Calm) -->
+    <div class="fixed inset-0 pointer-events-none z-[-1] overflow-hidden hidden" aria-hidden="true">
+      <canvas id="ambient-flow-canvas" class="hidden"></canvas>
     </div>
 
         <!-- HEADER BAR (Schlanke Höhe, schwebende Zentrierung mit Trennlinien) -->
     <header class="relative z-[9999] flex flex-nowrap items-center justify-between gap-2 sm:gap-3 md:gap-4 mt-1 sm:mt-1.5 mb-2 sm:mb-2 w-full px-2.5 sm:px-3.5 py-1.5 md:py-2 rounded-2xl backdrop-blur-xl shadow-2xl">
-      <!-- Subtile Wave-Bewegung im Hintergrund -->
-      <div class="absolute inset-0 overflow-hidden rounded-2xl pointer-events-none opacity-20 zen-hide">
-        <svg class="absolute bottom-[-10px] left-0 w-[200%] h-[40px] water-wave-element" viewBox="0 0 1200 120" preserveAspectRatio="none">
-          <path d="M0,60 C150,90 350,30 600,60 C850,90 1050,30 1200,60 L1200,120 L0,120 Z" fill="rgba(56, 189, 248, 0.2)"></path>
-        </svg>
-      </div>
 
       <!-- ====================================================================== -->
       <!-- 1. LINKE ZONE: [TOOLS/LOGO BUTTON (MIT HOVER)] + [SUCHE] -->
@@ -102,47 +93,44 @@
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <!-- 1. Kombinierter NOODLE TOOLS & LOGO BUTTON (Ganz links) -->
         <div class="relative flex items-center shrink-0" id="header-tools-wrapper" onmouseenter="showPanelHover('header-tools', 0)" onmouseleave="hidePanelHover('header-tools')">
-          <button id="btn-header-tools" onclick="togglePanel('header-tools')" class="flow-logo-container relative inline-flex items-center gap-1 sm:gap-1.5 h-[38px] px-2.5 sm:px-3 rounded-xl bg-[#12101e]/85 hover:bg-[#1a162b]/95 border border-purple-400/40 hover:border-purple-400/80 shadow-[0_2px_10px_rgba(0,0,0,0.45),0_0_14px_rgba(168,85,247,0.3),inset_0_1px_1px_rgba(255,255,255,0.2)] hover:shadow-[0_4px_22px_rgba(0,0,0,0.6),0_0_22px_rgba(168,85,247,0.55),0_0_35px_rgba(192,132,252,0.35),inset_0_1px_2px_rgba(255,255,255,0.3)] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 cursor-pointer overflow-hidden backdrop-blur-md" title="Noodle Tools" data-noodle-tooltip="Noodle Tools" aria-label="Noodle Tools">
-            <!-- Shimmer sweep effect -->
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover/logo:translate-x-full transition-transform duration-1000 ease-out pointer-events-none"></div>
-            
-            <!-- Gemeinsam schwebende & leuchtende Einheit (Tools-Icon + Logo) -->
+          <button id="btn-header-tools" onclick="togglePanel('header-tools')" class="flow-logo-container relative inline-flex items-center gap-1 sm:gap-1.5 h-[38px] px-2.5 sm:px-3 rounded-xl bg-[#13131c]/90 hover:bg-[#1a1a26] border border-white/10 hover:border-white/20 shadow-md active:scale-95 transition-all duration-200 group/logo select-none shrink-0 cursor-pointer backdrop-blur-md" title="Noodle Tools" data-noodle-tooltip="Noodle Tools" aria-label="Noodle Tools">
+            <!-- Gemeinsam schwebende Einheit (Tools-Icon + Logo) -->
             <div class="relative flex items-center justify-center noodle-logo-animated">
               <!-- 1.1 Integriertes Tools-Icon (Links direkt vor dem 'n') -->
               <div class="relative w-7 h-7 -mr-0.5 sm:-mr-1 flex items-center justify-center tools-morph-stage shrink-0">
-                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" class="w-[21px] h-[21px] tools-icon-spin-anim drop-shadow-[0_0_8px_rgba(168,85,247,0.4)]">
-                  <rect x="3" y="3" width="7.5" height="7.5" rx="2" fill="#3b82f6" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
-                  <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" fill="#ea4335" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
-                  <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" fill="#fbbc05" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
-                  <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" fill="#34a853" stroke="rgba(255,255,255,0.4)" stroke-width="0.75"/>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="w-5 h-5 opacity-90 group-hover/logo:opacity-100 transition-opacity">
+                  <rect x="3" y="3" width="7.5" height="7.5" rx="2" fill="#3b82f6" stroke="rgba(255,255,255,0.25)" stroke-width="0.75"/>
+                  <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" fill="#ea4335" stroke="rgba(255,255,255,0.25)" stroke-width="0.75"/>
+                  <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" fill="#fbbc05" stroke="rgba(255,255,255,0.25)" stroke-width="0.75"/>
+                  <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" fill="#34a853" stroke="rgba(255,255,255,0.25)" stroke-width="0.75"/>
                 </svg>
               </div>
 
-              <!-- 1.2 Noodle Logo & Wechselnder Subtext: STUDIO -> TOOLS bei Hover & Menü-Offen -->
+              <!-- 1.2 Noodle Logo & Subtext -->
               <div class="relative flex flex-col items-center justify-center shrink-0 pl-0.5">
                 <div class="relative overflow-hidden flex items-center justify-center">
-                  <img id="header-noodle-logo" src="logo-noodle.png" alt="Noodle" class="h-[23.5px] w-auto max-w-none object-contain select-none pointer-events-none transition-transform duration-300 group-hover/logo:scale-108" />
+                  <img id="header-noodle-logo" src="logo-noodle.png" alt="Noodle" class="h-[23.5px] w-auto max-w-none object-contain select-none pointer-events-none transition-transform duration-200 group-hover/logo:scale-105" />
                 </div>
-                <!-- Animierter Subline-Container: STUDIO fadet/slidet raus, TOOLS fadet/slidet rein -->
+                <!-- Subline-Container -->
                 <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
-                  <span class="noodle-studio-badge badge-studio absolute inset-0 flex items-center justify-center text-[8px] font-black font-display tracking-[0.3em] uppercase leading-none select-none">STUDIO</span>
-                  <span class="noodle-studio-badge badge-tools absolute inset-0 flex items-center justify-center text-[8px] font-black font-display tracking-[0.25em] uppercase leading-none select-none">TOOLS</span>
+                  <span class="noodle-studio-badge badge-studio absolute inset-0 flex items-center justify-center text-[8px] font-bold font-display tracking-[0.25em] text-gray-400 uppercase leading-none select-none">STUDIO</span>
+                  <span class="noodle-studio-badge badge-tools absolute inset-0 flex items-center justify-center text-[8px] font-bold font-display tracking-[0.2em] text-gray-300 uppercase leading-none select-none">TOOLS</span>
                 </div>
               </div>
             </div>
           </button>
 
           <!-- TOOLS SPHERES POPOVER DROPDOWN -->
-          <div id="panel-header-tools" onmouseenter="showPanelHover('header-tools')" onmouseleave="hidePanelHover('header-tools')" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+6px)] left-0 z-[150] w-[360px] sm:w-[395px] bg-[#0c0b14]/98 border border-purple-500/40 p-2.5 sm:p-3 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_35px_rgba(168,85,247,0.25)] backdrop-blur-2xl ring-1 ring-purple-500/30 flex flex-col gap-2 sm:gap-2.5 text-left animate-fade-in cursor-default">
+          <div id="panel-header-tools" onmouseenter="showPanelHover('header-tools')" onmouseleave="hidePanelHover('header-tools')" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+6px)] left-0 z-[150] w-[360px] sm:w-[395px] bg-[#111118]/98 border border-white/10 p-2.5 sm:p-3 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col gap-2 sm:gap-2.5 text-left animate-fade-in cursor-default">
             
             <!-- 1. ALLTAG & LIFESTYLE -->
-            <div class="p-2 sm:p-2.5 rounded-2xl bg-emerald-950/20 hover:bg-emerald-950/30 border border-emerald-500/30 hover:border-emerald-500/45 transition-all shadow-inner space-y-1.5">
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 transition-colors space-y-1.5">
               <div class="flex items-center justify-between px-1">
-                <div class="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-emerald-400 font-display">
-                  <i data-lucide="home" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400"></i>
+                <div class="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-400 font-display">
+                  <i data-lucide="home" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400"></i>
                   <span data-i18n="tools_section_household_daily">Alltag & Lifestyle</span>
                 </div>
-                <button onclick="togglePanel('header-tools')" aria-label="Tools Menü schließen" class="text-emerald-400/80 hover:text-emerald-200 text-xs font-bold p-0.5 px-1 rounded-lg hover:bg-emerald-500/20 transition cursor-pointer">✕</button>
+                <button onclick="togglePanel('header-tools')" aria-label="Tools Menü schließen" class="text-gray-400 hover:text-white text-xs font-bold p-0.5 px-1.5 rounded-lg hover:bg-white/10 transition cursor-pointer">✕</button>
               </div>
               <div class="grid grid-cols-4 gap-2 sm:gap-2.5 pt-0.5">
 
@@ -221,16 +209,16 @@
 
                       <!-- Quick Essentials Chips (Dezente Schnellauswahl) -->
                       <div class="flex gap-1 overflow-x-auto pb-0.5 no-scrollbar shrink-0 opacity-80 hover:opacity-100 transition-opacity" id="shop-quick-chips">
-                        <button onclick="handleAddShoppingItem('Milch')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_milk">🥛 Milch</button>
-                        <button onclick="handleAddShoppingItem('Eier')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_eggs">🥚 Eier</button>
-                        <button onclick="handleAddShoppingItem('Brot')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_bread">🍞 Brot</button>
-                        <button onclick="handleAddShoppingItem('Butter')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_butter">🧈 Butter</button>
-                        <button onclick="handleAddShoppingItem('Äpfel')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_apples">🍎 Äpfel</button>
-                        <button onclick="handleAddShoppingItem('Bananen')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_bananas">🍌 Bananen</button>
-                        <button onclick="handleAddShoppingItem('Kaffee')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_coffee">☕ Kaffee</button>
-                        <button onclick="handleAddShoppingItem('Nudeln')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_pasta">🍝 Nudeln</button>
-                        <button onclick="handleAddShoppingItem('Käse')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_cheese">🧀 Käse</button>
-                        <button onclick="handleAddShoppingItem('Zwiebeln')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_onions">🧅 Zwiebeln</button>
+                        <button onclick="handleAddShoppingItem('Milch')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_milk">Milch</button>
+                        <button onclick="handleAddShoppingItem('Eier')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_eggs">Eier</button>
+                        <button onclick="handleAddShoppingItem('Brot')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_bread">Brot</button>
+                        <button onclick="handleAddShoppingItem('Butter')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_butter">Butter</button>
+                        <button onclick="handleAddShoppingItem('Äpfel')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_apples">Äpfel</button>
+                        <button onclick="handleAddShoppingItem('Bananen')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_bananas">Bananen</button>
+                        <button onclick="handleAddShoppingItem('Kaffee')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_coffee">Kaffee</button>
+                        <button onclick="handleAddShoppingItem('Nudeln')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_pasta">Nudeln</button>
+                        <button onclick="handleAddShoppingItem('Käse')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_cheese">Käse</button>
+                        <button onclick="handleAddShoppingItem('Zwiebeln')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_onions">Zwiebeln</button>
                       </div>
 
                       <!-- Smart Deal-Radar Matching Banner (Dynamisch) -->
@@ -417,13 +405,13 @@
             </div>
 
             <!-- Trennlinie 1 -->
-            <div class="h-px w-full bg-gradient-to-r from-transparent via-purple-500/40 via-pink-500/40 to-transparent"></div>
+            <div class="h-px w-full bg-white/5"></div>
 
             <!-- 2. SOUND & MUSIK -->
-            <div class="p-2 sm:p-2.5 rounded-2xl bg-purple-950/20 hover:bg-purple-950/30 border border-purple-500/30 hover:border-purple-500/45 transition-all shadow-inner space-y-1.5">
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 transition-colors space-y-1.5">
               <div class="flex items-center justify-between px-1">
-                <div class="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-purple-400 font-display">
-                  <i data-lucide="headphones" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-400"></i>
+                <div class="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-400 font-display">
+                  <i data-lucide="headphones" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400"></i>
                   <span>Sound & Musik</span>
                 </div>
               </div>
@@ -498,39 +486,39 @@
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
                       <button onclick="playAmbientSound('piano')" id="sound-btn-piano" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🎹</span>
+                        <i data-lucide="music" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_piano">Sanftes Piano</span>
                       </button>
                       <button onclick="playAmbientSound('lofi')" id="sound-btn-lofi" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🎶</span>
+                        <i data-lucide="disc" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_lofi">Lofi Chords</span>
                       </button>
                       <button onclick="playAmbientSound('jazz_piano')" id="sound-btn-jazz_piano" class="p-1.5 px-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🎹</span>
+                        <i data-lucide="music-2" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_jazz_piano">Jazz Voicings</span>
                       </button>
                       <button onclick="playAmbientSound('rhodes')" id="sound-btn-rhodes" class="p-1.5 px-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🪕</span>
+                        <i data-lucide="radio" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_rhodes">Fender Rhodes</span>
                       </button>
                       <button onclick="playAmbientSound('guitar')" id="sound-btn-guitar" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🪕</span>
+                        <i data-lucide="music" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_guitar">Akustik-Gitarre</span>
                       </button>
                       <button onclick="playAmbientSound('hypnotic_riff')" id="sound-btn-hypnotic_riff" class="p-1.5 px-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🔮</span>
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cyan-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_hypnotic_riff">Hypnotic Riff</span>
                       </button>
                       <button onclick="playAmbientSound('singingbowl')" id="sound-btn-singingbowl" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🥣</span>
+                        <i data-lucide="bell" class="w-3.5 h-3.5 text-teal-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_singingbowl">Klangschale</span>
                       </button>
                       <button onclick="playAmbientSound('chimes')" id="sound-btn-chimes" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🎐</span>
+                        <i data-lucide="wind" class="w-3.5 h-3.5 text-teal-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_chimes">Windspiel</span>
                       </button>
                       <button onclick="playAmbientSound('musicbox')" id="sound-btn-musicbox" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🌙</span>
+                        <i data-lucide="moon" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_musicbox">Spieluhr</span>
                       </button>
                     </div>
@@ -544,27 +532,27 @@
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
                       <button onclick="playAmbientSound('campfire')" id="sound-btn-campfire" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🔥</span>
+                        <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_campfire">Kaminfeuer</span>
                       </button>
                       <button onclick="playAmbientSound('birds')" id="sound-btn-birds" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🐦</span>
+                        <i data-lucide="feather" class="w-3.5 h-3.5 text-emerald-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_birds">Waldvögel</span>
                       </button>
                       <button onclick="playAmbientSound('breeze')" id="sound-btn-breeze" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🍃</span>
+                        <i data-lucide="wind" class="w-3.5 h-3.5 text-emerald-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_breeze">Blättersäuseln</span>
                       </button>
                       <button onclick="playAmbientSound('cafe')" id="sound-btn-cafe" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">☕</span>
+                        <i data-lucide="coffee" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_cafe">Cozy Café</span>
                       </button>
                       <button onclick="playAmbientSound('clock')" id="sound-btn-clock" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🕰️</span>
+                        <i data-lucide="clock" class="w-3.5 h-3.5 text-cyan-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_clock">Pendeluhr</span>
                       </button>
                       <button onclick="playAmbientSound('space')" id="sound-btn-space" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🌌</span>
+                        <i data-lucide="compass" class="w-3.5 h-3.5 text-indigo-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_space">Cosmic Ambient</span>
                       </button>
                     </div>
@@ -581,27 +569,27 @@
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
                       <button onclick="playAmbientSound('techno')" id="sound-btn-techno" class="p-1.5 px-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">⚡</span>
+                        <i data-lucide="zap" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_techno">Techno 128</span>
                       </button>
                       <button onclick="playAmbientSound('dnb')" id="sound-btn-dnb" class="p-1.5 px-2 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🥁</span>
+                        <i data-lucide="activity" class="w-3.5 h-3.5 text-rose-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_dnb">Drum & Bass</span>
                       </button>
                       <button onclick="playAmbientSound('afrobeats')" id="sound-btn-afrobeats" class="p-1.5 px-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🌴</span>
+                        <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_afrobeats">Afrobeats</span>
                       </button>
                       <button onclick="playAmbientSound('swing')" id="sound-btn-swing" class="p-1.5 px-2 bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🎷</span>
+                        <i data-lucide="disc" class="w-3.5 h-3.5 text-teal-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_swing">Swing & Jazz</span>
                       </button>
                       <button onclick="playAmbientSound('boombap')" id="sound-btn-boombap" class="p-1.5 px-2 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🎤</span>
+                        <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_boombap">Boom-Bap</span>
                       </button>
                       <button onclick="playAmbientSound('bossa_nova')" id="sound-btn-bossa_nova" class="p-1.5 px-2 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
-                        <span class="text-xs shrink-0">🎸</span>
+                        <i data-lucide="music-2" class="w-3.5 h-3.5 text-rose-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_bossa_nova">Bossa Nova</span>
                       </button>
                     </div>
@@ -924,28 +912,28 @@
                           <span class="text-[8px] text-zinc-400 bg-black/60 px-1 py-0.2 rounded border border-zinc-800">1-SHOT</span>
                         </div>
                         <div class="grid grid-cols-3 gap-1">
-                          <button onclick="triggerDjFx('riser')" class="dj-fx-pad-pro py-1 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-cyan-500/20 border border-zinc-700/80 hover:border-cyan-500/50 text-cyan-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
-                            <span class="text-sm">🌪️</span>
+                          <button onclick="triggerDjFx('riser')" class="dj-fx-pad-pro py-1.5 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-cyan-500/20 border border-zinc-700/80 hover:border-cyan-500/50 text-cyan-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
+                            <i data-lucide="trending-up" class="w-3.5 h-3.5 text-cyan-400 mb-0.5"></i>
                             <span class="text-[8.5px]">Riser</span>
                           </button>
-                          <button onclick="triggerDjFx('horn')" class="dj-fx-pad-pro py-1 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-amber-500/20 border border-zinc-700/80 hover:border-amber-500/50 text-amber-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
-                            <span class="text-sm">🎺</span>
+                          <button onclick="triggerDjFx('horn')" class="dj-fx-pad-pro py-1.5 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-amber-500/20 border border-zinc-700/80 hover:border-amber-500/50 text-amber-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
+                            <i data-lucide="volume-2" class="w-3.5 h-3.5 text-amber-400 mb-0.5"></i>
                             <span class="text-[8.5px]">Horn</span>
                           </button>
-                          <button onclick="triggerDjFx('laser')" class="dj-fx-pad-pro py-1 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-rose-500/20 border border-zinc-700/80 hover:border-rose-500/50 text-rose-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
-                            <span class="text-sm">⚡</span>
+                          <button onclick="triggerDjFx('laser')" class="dj-fx-pad-pro py-1.5 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-rose-500/20 border border-zinc-700/80 hover:border-rose-500/50 text-rose-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
+                            <i data-lucide="zap" class="w-3.5 h-3.5 text-rose-400 mb-0.5"></i>
                             <span class="text-[8.5px]">Laser</span>
                           </button>
-                          <button onclick="triggerDjFx('brake')" class="dj-fx-pad-pro py-1 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-orange-500/20 border border-zinc-700/80 hover:border-orange-500/50 text-orange-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
-                            <span class="text-sm">🛑</span>
+                          <button onclick="triggerDjFx('brake')" class="dj-fx-pad-pro py-1.5 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-orange-500/20 border border-zinc-700/80 hover:border-orange-500/50 text-orange-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
+                            <i data-lucide="pause-circle" class="w-3.5 h-3.5 text-orange-400 mb-0.5"></i>
                             <span class="text-[8.5px]">Brake</span>
                           </button>
-                          <button onclick="triggerDjFx('echo')" class="dj-fx-pad-pro py-1 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-emerald-500/20 border border-zinc-700/80 hover:border-emerald-500/50 text-emerald-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
-                            <span class="text-sm">🌊</span>
+                          <button onclick="triggerDjFx('echo')" class="dj-fx-pad-pro py-1.5 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-emerald-500/20 border border-zinc-700/80 hover:border-emerald-500/50 text-emerald-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
+                            <i data-lucide="repeat" class="w-3.5 h-3.5 text-emerald-400 mb-0.5"></i>
                             <span class="text-[8.5px]">Echo</span>
                           </button>
-                          <button onclick="triggerDjFx('drop')" class="dj-fx-pad-pro py-1 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-purple-500/20 border border-zinc-700/80 hover:border-purple-500/50 text-purple-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
-                            <span class="text-sm">💥</span>
+                          <button onclick="triggerDjFx('drop')" class="dj-fx-pad-pro py-1.5 px-0.5 rounded-lg bg-zinc-800/80 hover:bg-purple-500/20 border border-zinc-700/80 hover:border-purple-500/50 text-purple-200 text-[9px] font-bold cursor-pointer flex flex-col items-center shadow-xs transition active:scale-90">
+                            <i data-lucide="disc" class="w-3.5 h-3.5 text-purple-400 mb-0.5"></i>
                             <span class="text-[8.5px]">Drop</span>
                           </button>
                         </div>
@@ -1241,13 +1229,13 @@
             </div>
 
             <!-- Trennlinie 2 -->
-            <div class="h-px w-full bg-gradient-to-r from-transparent via-rose-500/40 via-teal-500/40 to-transparent"></div>
+            <div class="h-px w-full bg-white/5"></div>
 
             <!-- 3. KÖRPER & GEIST (Gesundheit vor Bewegung) -->
-            <div class="p-2 sm:p-2.5 rounded-2xl bg-rose-950/20 hover:bg-rose-950/30 border border-rose-500/30 hover:border-rose-500/45 transition-all shadow-inner space-y-1.5">
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 transition-colors space-y-1.5">
               <div class="flex items-center justify-between px-1">
-                <div class="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-rose-300 font-display">
-                  <i data-lucide="heart-pulse" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-400"></i>
+                <div class="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-400 font-display">
+                  <i data-lucide="heart-pulse" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400"></i>
                   <span data-i18n="tools_section_body_mind">Körper & Geist</span>
                 </div>
               </div>
@@ -1300,62 +1288,46 @@
             </div>
 
             <!-- Trennlinie 3 -->
-            <div class="h-px w-full bg-gradient-to-r from-transparent via-amber-500/40 via-violet-500/40 to-transparent"></div>
+            <div class="h-px w-full bg-white/5"></div>
 
-            <!-- 4. WISSEN, CHAT & SOCIAL -->
-            <div class="p-2 sm:p-2.5 rounded-2xl bg-amber-950/20 hover:bg-amber-950/30 border border-amber-500/30 hover:border-amber-500/45 transition-all shadow-inner space-y-1.5">
+            <!-- 4. WISSEN & KOLLABORATION -->
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 transition-colors space-y-1.5">
               <div class="flex items-center justify-between px-1">
-                <div class="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-amber-400 font-display">
-                  <i data-lucide="lightbulb" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400"></i>
-                  <span data-i18n="tools_section_knowledge_social">Wissen, Chat & Social</span>
+                <div class="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-semibold uppercase tracking-wider text-gray-400 font-display">
+                  <i data-lucide="book-open" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-400"></i>
+                  <span data-i18n="tools_section_knowledge_collab">Wissen & Kollaboration</span>
                 </div>
               </div>
               <div class="grid grid-cols-4 gap-2 sm:gap-2.5 pt-0.5">
 
-                <!-- 1. Lernen & Quiz-Labor Sphere (Blue) -->
+                <!-- 1. Lernen & Quiz-Labor Sphere (Lime) -->
                 <div class="relative flex flex-col items-center">
                   <button onclick="openLearningHubModal(); togglePanel('header-tools');" class="tool-orb tool-orb-learning flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Wissens- & Quiz-Labor">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-lime-500/25 to-emerald-600/20 border border-lime-400/40 hover:border-lime-300 flex items-center justify-center text-lime-300 shadow-[0_0_12px_rgba(59,130,246,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-lime-500/25 to-emerald-600/20 border border-lime-400/40 hover:border-lime-300 flex items-center justify-center text-lime-300 shadow-[0_0_12px_rgba(132,204,22,0.15)] group-hover/orb:scale-105 transition-all duration-200">
                       <i data-lucide="graduation-cap" class="w-5 h-5 text-lime-300"></i>
                     </div>
                     <span class="tool-orb-label text-[9.5px] font-bold text-lime-300 group-hover/orb:text-lime-200 transition-colors" data-i18n="tool_learning">Lernen</span>
                   </button>
                 </div>
 
-                <!-- 2. Fun-Labor Sphere (Fuchsia) -->
+                <!-- 2. OCR Notiz- & Dokumenten-Scanner (Cyan) -->
                 <div class="relative flex flex-col items-center">
-                  <button onclick="togglePanel('humor-lab')" class="tool-orb tool-orb-humor flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Fun-Labor: Soundboard, Witze & Anti-Stress FX">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-fuchsia-500/25 to-pink-600/20 border border-fuchsia-400/40 hover:border-fuchsia-300 flex items-center justify-center text-fuchsia-300 shadow-[0_0_12px_rgba(217,70,239,0.15)] group-hover/orb:scale-105 transition-all duration-200">
-                      <i data-lucide="smile" class="w-5 h-5 text-fuchsia-300"></i>
+                  <button onclick="openNoteScannerModal('notes'); togglePanel('header-tools');" class="tool-orb tool-orb-scanner flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Dokumenten- & Notizen-Scanner (OCR)">
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-cyan-500/25 to-teal-600/20 border border-cyan-400/40 hover:border-cyan-300 flex items-center justify-center text-cyan-300 shadow-[0_0_12px_rgba(6,182,212,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+                      <i data-lucide="scan-text" class="w-5 h-5 text-cyan-300"></i>
                     </div>
-                    <span class="tool-orb-label text-[9.5px] font-bold text-fuchsia-300 group-hover/orb:text-fuchsia-200 transition-colors" data-i18n="tool_humor">Fun-Labor</span>
+                    <span class="tool-orb-label text-[9.5px] font-bold text-cyan-300 group-hover/orb:text-cyan-200 transition-colors" data-i18n="tool_scanner">Scanner</span>
                   </button>
-                  <div id="panel-humor-lab" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[440px] max-w-[95vw] bg-[#120a16]/98 border border-pink-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in overflow-hidden">
-                    <div id="panel-humor-lab-content"></div>
-                  </div>
                 </div>
 
-                <!-- 3. Social Media Hub Sphere (Rose/Pink) -->
-                <div class="relative flex flex-col items-center">
-                  <button onclick="togglePanel('social'); if(window.SocialHubEngine) SocialHubEngine.render();" class="tool-orb tool-orb-social flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Social Media Hub (Instagram, Facebook, TikTok & Co)">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500/25 to-sky-600/20 border border-blue-400/40 hover:border-blue-300 flex items-center justify-center text-blue-300 shadow-[0_0_12px_rgba(244,63,94,0.15)] group-hover/orb:scale-105 transition-all duration-200 relative">
-                      <i data-lucide="share-2" class="w-5 h-5 text-blue-300"></i>
-                    </div>
-                    <span class="tool-orb-label text-[9.5px] font-bold text-blue-300 group-hover/orb:text-blue-200 transition-colors" data-i18n="tool_social">Social</span>
-                  </button>
-                  <div id="panel-social" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[460px] max-w-[95vw] bg-[#120a16]/98 border border-pink-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in max-h-[85vh] overflow-y-auto custom-scrollbar">
-                    <div id="panel-social-content"></div>
-                  </div>
-                </div>
-
-                <!-- 4. Team Chat Sphere (Violet) -->
+                <!-- 3. Team Chat Sphere (Violet) -->
                 <div class="relative flex flex-col items-center">
                   <button onclick="togglePanel('collab-chat')" class="tool-orb tool-orb-chat flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Team Chat & Kollaboration">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500/25 to-orange-600/20 border border-amber-400/40 hover:border-amber-300 flex items-center justify-center text-amber-300 shadow-[0_0_12px_rgba(139,92,246,0.15)] group-hover/orb:scale-105 transition-all duration-200 relative">
-                      <i data-lucide="message-square" class="w-5 h-5 text-amber-300"></i>
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-500/25 to-purple-600/20 border border-violet-400/40 hover:border-violet-300 flex items-center justify-center text-violet-300 shadow-[0_0_12px_rgba(139,92,246,0.15)] group-hover/orb:scale-105 transition-all duration-200 relative">
+                      <i data-lucide="message-square" class="w-5 h-5 text-violet-300"></i>
                       <span id="collab-unread-badge" class="hidden px-1.5 py-0.5 rounded-full bg-rose-500 text-white font-mono text-[8px] font-bold absolute -top-1 -right-1 shadow-sm"></span>
                     </div>
-                    <span class="tool-orb-label text-[9.5px] font-bold text-amber-300 group-hover/orb:text-amber-200 transition-colors" data-i18n="tool_chat">Chat</span>
+                    <span class="tool-orb-label text-[9.5px] font-bold text-violet-300 group-hover/orb:text-violet-200 transition-colors" data-i18n="tool_chat">Chat</span>
                   </button>
                   <div id="panel-collab-chat" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[370px] sm:w-[420px] max-w-[95vw] bg-[#0e0e17]/98 border border-violet-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in">
                     <!-- Header -->
@@ -1416,39 +1388,43 @@
                       </div>
 
                       <!-- DJ Active Live Banner -->
-                      <div id="collab-dj-active-banner" class="hidden flex items-center justify-between px-2.5 py-1.5 rounded-xl bg-gradient-to-r from-violet-950/80 via-fuchsia-950/70 to-indigo-950/80 border border-fuchsia-500/40 shadow-inner">
+                      <div id="collab-dj-active-banner" class="hidden flex items-center justify-between px-2.5 py-1.5 rounded-xl bg-[#16122b]/80 border border-white/10 shadow-inner">
                         <div class="flex items-center gap-2 overflow-hidden">
-                          <span class="text-base animate-spin" style="animation-duration: 4s;">💿</span>
+                          <i data-lucide="disc" class="w-4 h-4 text-fuchsia-400 shrink-0"></i>
                           <div class="truncate">
                             <div class="text-[9px] font-mono text-fuchsia-300 font-bold tracking-wider uppercase flex items-center gap-1">
-                              <span>🎧 DJ Stream Live</span>
-                              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                              <span>Audio-Stream Live</span>
+                              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                             </div>
                             <div id="collab-dj-banner-track" class="text-[11px] text-white font-medium truncate">Track Name</div>
                           </div>
                         </div>
                         <div class="flex items-center gap-1 shrink-0">
-                          <button onclick="CollabEngine.syncSharedDjTrack()" class="px-2 py-0.5 rounded-lg bg-fuchsia-500/30 hover:bg-fuchsia-500/50 border border-fuchsia-400/40 text-[10px] text-white font-semibold transition cursor-pointer flex items-center gap-1" title="Mit-Streamen / Sync">
-                            <span>🔊 Sync</span>
+                          <button onclick="CollabEngine.syncSharedDjTrack()" class="px-2 py-0.5 rounded-lg bg-fuchsia-500/20 hover:bg-fuchsia-500/40 border border-fuchsia-400/30 text-[10px] text-white font-semibold transition cursor-pointer flex items-center gap-1" title="Mit-Streamen / Sync">
+                            <i data-lucide="radio" class="w-3 h-3 text-fuchsia-300"></i>
+                            <span>Sync</span>
                           </button>
-                          <button id="collab-dj-banner-stop-btn" onclick="CollabEngine.stopSharedDjSession()" class="hidden px-1.5 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 text-[10px] text-rose-300 font-semibold transition cursor-pointer" title="DJ-Session beenden">
-                            <span>⏹ Stop</span>
+                          <button id="collab-dj-banner-stop-btn" onclick="CollabEngine.stopSharedDjSession()" class="hidden px-1.5 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/40 border border-rose-500/40 text-[10px] text-rose-300 font-semibold transition cursor-pointer" title="Session beenden">
+                            <i data-lucide="square" class="w-3 h-3 text-rose-300"></i>
+                            <span>Stop</span>
                           </button>
                         </div>
                       </div>
 
                       <!-- Shared Team Dashboard Quick Actions -->
-                      <div class="flex items-center justify-between px-2 py-1 rounded-xl bg-violet-950/30 border border-violet-500/20">
+                      <div class="flex items-center justify-between px-2 py-1 rounded-xl bg-violet-950/30 border border-white/10">
                         <div class="flex items-center gap-1.5 text-[9.5px] text-violet-300 font-medium">
                           <i data-lucide="layout-dashboard" class="w-3.5 h-3.5 text-violet-400"></i>
                           <span data-i18n="collab_team_dashboard">Team-Dashboard:</span>
                         </div>
                         <div class="flex items-center gap-1">
                           <button onclick="CollabEngine.shareCurrentBoardWithTeam()" class="px-2 py-0.5 rounded-lg bg-violet-500/20 hover:bg-violet-500/40 border border-violet-500/30 text-[9px] text-violet-200 font-bold transition cursor-pointer flex items-center gap-1" title="Aktuelles Board mit Team teilen">
-                            <span data-i18n="collab_share_board">📤 Board teilen</span>
+                            <i data-lucide="share" class="w-3 h-3"></i>
+                            <span data-i18n="collab_share_board">Board teilen</span>
                           </button>
                           <button onclick="CollabEngine.switchToSharedBoard()" class="px-2 py-0.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/40 border border-indigo-500/30 text-[9px] text-indigo-200 font-bold transition cursor-pointer flex items-center gap-1" title="Zum gemeinsamen Team-Board wechseln">
-                            <span data-i18n="collab_team_board">👥 Team-Board</span>
+                            <i data-lucide="users" class="w-3 h-3"></i>
+                            <span data-i18n="collab_team_board">Team-Board</span>
                           </button>
                         </div>
                       </div>
@@ -1460,13 +1436,13 @@
 
                       <!-- Quick Messenger Share Strip (WhatsApp, Signal, Viber, Messenger, Telegram) -->
                       <div class="flex items-center justify-between px-1 py-1 border-t border-white/5 bg-white/[0.02] rounded-xl">
-                        <span class="text-[8.5px] font-mono text-violet-300/80 uppercase font-bold" data-i18n="collab_quick_share">⚡ Schnell teilen:</span>
+                        <span class="text-[8.5px] font-mono text-gray-400 uppercase font-bold" data-i18n="collab_quick_share">Schnell teilen:</span>
                         <div class="flex items-center gap-1">
-                          <button onclick="CollabEngine.shareToMessenger('whatsapp')" class="px-1.5 py-0.5 rounded-md bg-emerald-500/15 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="WhatsApp">💬 WA</button>
-                          <button onclick="CollabEngine.shareToMessenger('signal')" class="px-1.5 py-0.5 rounded-md bg-blue-500/15 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="Signal">🔒 Signal</button>
-                          <button onclick="CollabEngine.shareToMessenger('viber')" class="px-1.5 py-0.5 rounded-md bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="Viber">🟣 Viber</button>
-                          <button onclick="CollabEngine.shareToMessenger('messenger')" class="px-1.5 py-0.5 rounded-md bg-indigo-500/15 hover:bg-indigo-500/30 border border-indigo-500/30 text-indigo-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="Messenger">⚡ FB</button>
-                          <button onclick="CollabEngine.shareToMessenger('telegram')" class="px-1.5 py-0.5 rounded-md bg-sky-500/15 hover:bg-sky-500/30 border border-sky-500/30 text-sky-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="Telegram">✈️ TG</button>
+                          <button onclick="CollabEngine.shareToMessenger('whatsapp')" class="px-1.5 py-0.5 rounded-md bg-emerald-500/15 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="WhatsApp">WA</button>
+                          <button onclick="CollabEngine.shareToMessenger('signal')" class="px-1.5 py-0.5 rounded-md bg-blue-500/15 hover:bg-blue-500/30 border border-blue-500/30 text-blue-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="Signal">Signal</button>
+                          <button onclick="CollabEngine.shareToMessenger('viber')" class="px-1.5 py-0.5 rounded-md bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="Viber">Viber</button>
+                          <button onclick="CollabEngine.shareToMessenger('messenger')" class="px-1.5 py-0.5 rounded-md bg-indigo-500/15 hover:bg-indigo-500/30 border border-indigo-500/30 text-indigo-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="Messenger">FB</button>
+                          <button onclick="CollabEngine.shareToMessenger('telegram')" class="px-1.5 py-0.5 rounded-md bg-sky-500/15 hover:bg-sky-500/30 border border-sky-500/30 text-sky-300 text-[9.5px] font-bold transition flex items-center gap-0.5 cursor-pointer" title="Telegram">TG</button>
                         </div>
                       </div>
 
@@ -1475,18 +1451,18 @@
 
                       <!-- Quick-Action Status Chips Toolbar -->
                       <div class="flex items-center gap-1 overflow-x-auto pb-1 no-scrollbar pt-1 border-t border-white/5">
-                        <button onclick="CollabEngine.sendQuickChip('🚀 Starte jetzt einen Fokus-Sprint!')" class="px-2 py-0.5 rounded-lg bg-violet-500/15 hover:bg-violet-500/30 border border-violet-500/30 text-[10px] text-violet-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">🚀 Fokus-Sprint</button>
-                        <button onclick="CollabEngine.sendQuickChip('☕ Bin kurz in der Kaffeepause (5 Min)')" class="px-2 py-0.5 rounded-lg bg-amber-500/15 hover:bg-amber-500/30 border border-amber-500/30 text-[10px] text-amber-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">☕ Kaffeepause</button>
-                        <button onclick="CollabEngine.sendQuickChip('💡 Habe eine neue Idee aufs Board gepinnt!')" class="px-2 py-0.5 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/30 border border-emerald-500/30 text-[10px] text-emerald-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">💡 Neue Idee</button>
-                        <button onclick="CollabEngine.sendQuickChip('✅ Aufgabe erfolgreich abgeschlossen!')" class="px-2 py-0.5 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/30 border border-cyan-500/30 text-[10px] text-cyan-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">✅ Erledigt</button>
-                        <button onclick="CollabEngine.sendQuickChip('🔥 Bitte kurz drüberschauen, wichtig!')" class="px-2 py-0.5 rounded-lg bg-rose-500/15 hover:bg-rose-500/30 border border-rose-500/30 text-[10px] text-rose-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">🔥 Wichtig</button>
+                        <button onclick="CollabEngine.sendQuickChip('Starte jetzt einen Fokus-Sprint.')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] text-gray-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">Fokus-Sprint</button>
+                        <button onclick="CollabEngine.sendQuickChip('Bin kurz in der Kaffeepause (5 Min).')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] text-gray-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">Kaffeepause</button>
+                        <button onclick="CollabEngine.sendQuickChip('Habe eine neue Idee aufs Board gepinnt.')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] text-gray-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">Neue Idee</button>
+                        <button onclick="CollabEngine.sendQuickChip('Aufgabe erfolgreich abgeschlossen.')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] text-gray-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">Erledigt</button>
+                        <button onclick="CollabEngine.sendQuickChip('Wichtig: Bitte kurz drüberschauen.')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[10px] text-gray-200 font-medium transition cursor-pointer whitespace-nowrap shrink-0">Wichtig</button>
                       </div>
 
                       <!-- Voice Recording Status Bar -->
-                      <div id="collab-voice-record-bar" class="hidden flex items-center justify-between px-2.5 py-1.5 rounded-xl bg-rose-950/60 border border-rose-500/40 animate-pulse">
+                      <div id="collab-voice-record-bar" class="hidden flex items-center justify-between px-2.5 py-1.5 rounded-xl bg-rose-950/60 border border-rose-500/40">
                         <div class="flex items-center gap-2">
-                          <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
-                          <span class="text-[10px] font-mono text-rose-200">🎙️ Aufnahme: <span id="collab-voice-record-timer">00:00</span></span>
+                          <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                          <span class="text-[10px] font-mono text-rose-200">Aufnahme: <span id="collab-voice-record-timer">00:00</span></span>
                         </div>
                         <div class="flex items-center gap-1.5">
                           <button onclick="CollabEngine.cancelVoiceRecording()" class="px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-[10px] text-gray-300 transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
@@ -1496,14 +1472,14 @@
 
                       <!-- Input & Send Area -->
                       <div class="flex items-center gap-1.5 pt-1 border-t border-white/10">
-                        <button onclick="CollabEngine.openDjSharePicker()" class="p-1.5 rounded-xl bg-fuchsia-500/15 hover:bg-fuchsia-500/30 border border-fuchsia-500/30 text-fuchsia-300 hover:text-white transition cursor-pointer shrink-0" title="DJ Musik für alle auflegen">
-                          <span class="text-sm leading-none">🎧</span>
+                        <button onclick="CollabEngine.openDjSharePicker()" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white transition cursor-pointer shrink-0" title="Audio mit Team teilen">
+                          <i data-lucide="headphones" class="w-3.5 h-3.5"></i>
                         </button>
                         <button onclick="CollabEngine.startVoiceRecording()" class="p-1.5 rounded-xl bg-rose-500/15 hover:bg-rose-500/30 border border-rose-500/30 text-rose-300 hover:text-white transition cursor-pointer shrink-0" title="Sprachnachricht aufnehmen">
                           <i data-lucide="mic" class="w-3.5 h-3.5"></i>
                         </button>
                         <input type="text" id="collab-chat-input" placeholder="Nachricht an Team schreiben..." oninput="CollabEngine.sendTyping()" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();const v=this.value.trim();if(v){CollabEngine.sendMessage(v);this.value='';}}" class="flex-1 bg-black/50 border border-white/10 focus:border-violet-500/60 rounded-xl px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none transition">
-                        <button onclick="const inp=document.getElementById('collab-chat-input');if(inp&&inp.value.trim()){CollabEngine.sendMessage(inp.value.trim());inp.value='';}" class="p-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white rounded-xl transition cursor-pointer shadow-sm active:scale-95 flex items-center justify-center shrink-0" title="Senden">
+                        <button onclick="const inp=document.getElementById('collab-chat-input');if(inp&&inp.value.trim()){CollabEngine.sendMessage(inp.value.trim());inp.value='';}" class="p-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition cursor-pointer shadow-sm active:scale-95 flex items-center justify-center shrink-0" title="Senden">
                           <i data-lucide="send" class="w-3.5 h-3.5"></i>
                         </button>
                       </div>
@@ -1513,17 +1489,20 @@
                     <div id="collab-pane-messengers" class="hidden flex flex-col gap-2.5">
                       <!-- Quick Context Presets -->
                       <div class="flex items-center justify-between">
-                        <span class="text-[9.5px] font-mono text-gray-400 uppercase tracking-wider" data-i18n="collab_quick_context">⚡ Schnell-Kontext einfügen:</span>
+                        <span class="text-[9.5px] font-mono text-gray-400 uppercase tracking-wider" data-i18n="collab_quick_context">Schnell-Kontext einfügen:</span>
                       </div>
                       <div class="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar">
-                        <button onclick="CollabEngine.insertQuickContext('focus')" class="px-2 py-1 rounded-lg bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-[10.5px] text-purple-200 font-medium transition cursor-pointer whitespace-nowrap flex items-center gap-1 shrink-0">
-                          <span>⏱️ Fokus-Sprint</span>
+                        <button onclick="CollabEngine.insertQuickContext('focus')" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[10.5px] text-gray-200 font-medium transition cursor-pointer whitespace-nowrap flex items-center gap-1 shrink-0">
+                          <i data-lucide="timer" class="w-3 h-3 text-purple-400"></i>
+                          <span>Fokus-Sprint</span>
                         </button>
-                        <button onclick="CollabEngine.insertQuickContext('tasks')" class="px-2 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/30 border border-emerald-500/30 text-[10.5px] text-emerald-200 font-medium transition cursor-pointer whitespace-nowrap flex items-center gap-1 shrink-0">
-                          <span>📋 Aufgaben</span>
+                        <button onclick="CollabEngine.insertQuickContext('tasks')" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[10.5px] text-gray-200 font-medium transition cursor-pointer whitespace-nowrap flex items-center gap-1 shrink-0">
+                          <i data-lucide="check-square" class="w-3 h-3 text-emerald-400"></i>
+                          <span>Aufgaben</span>
                         </button>
-                        <button onclick="CollabEngine.insertQuickContext('invite')" class="px-2 py-1 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/30 border border-cyan-500/30 text-[10.5px] text-cyan-200 font-medium transition cursor-pointer whitespace-nowrap flex items-center gap-1 shrink-0">
-                          <span>🔗 Einladung</span>
+                        <button onclick="CollabEngine.insertQuickContext('invite')" class="px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-[10.5px] text-gray-200 font-medium transition cursor-pointer whitespace-nowrap flex items-center gap-1 shrink-0">
+                          <i data-lucide="link" class="w-3 h-3 text-cyan-400"></i>
+                          <span>Einladung</span>
                         </button>
                       </div>
 
@@ -1538,47 +1517,47 @@
 
                       <!-- Messengers Launcher Grid -->
                       <div>
-                        <div class="text-[9.5px] font-mono text-gray-400 uppercase tracking-wider mb-1.5" data-i18n="collab_share_one_click">Mit 1 Klick teilen an:</div>
+                        <div class="text-[9.5px] font-mono text-gray-400 uppercase tracking-wider mb-1.5" data-i18n="collab_share_one_click">Teilen an:</div>
                         <div class="grid grid-cols-4 gap-1.5">
                           <!-- WhatsApp -->
-                          <button onclick="CollabEngine.shareToMessenger('whatsapp')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/25 border border-emerald-500/30 hover:border-emerald-400/60 transition group cursor-pointer" title="WhatsApp">
-                            <span class="text-base mb-0.5">💬</span>
-                            <span class="text-[10px] font-bold text-emerald-300 group-hover:text-emerald-100">WhatsApp</span>
+                          <button onclick="CollabEngine.shareToMessenger('whatsapp')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition group cursor-pointer" title="WhatsApp">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400 mb-0.5"></i>
+                            <span class="text-[10px] font-bold text-gray-300 group-hover:text-white">WhatsApp</span>
                           </button>
                           <!-- Signal -->
-                          <button onclick="CollabEngine.shareToMessenger('signal')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-blue-500/10 hover:bg-blue-500/25 border border-blue-500/30 hover:border-blue-400/60 transition group cursor-pointer" title="Signal">
-                            <span class="text-base mb-0.5">🔒</span>
-                            <span class="text-[10px] font-bold text-blue-300 group-hover:text-blue-100">Signal</span>
+                          <button onclick="CollabEngine.shareToMessenger('signal')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition group cursor-pointer" title="Signal">
+                            <i data-lucide="shield" class="w-4 h-4 text-blue-400 mb-0.5"></i>
+                            <span class="text-[10px] font-bold text-gray-300 group-hover:text-white">Signal</span>
                           </button>
                           <!-- Viber -->
-                          <button onclick="CollabEngine.shareToMessenger('viber')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-purple-500/10 hover:bg-purple-500/25 border border-purple-500/30 hover:border-purple-400/60 transition group cursor-pointer" title="Viber">
-                            <span class="text-base mb-0.5">🟣</span>
-                            <span class="text-[10px] font-bold text-purple-300 group-hover:text-purple-100">Viber</span>
+                          <button onclick="CollabEngine.shareToMessenger('viber')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition group cursor-pointer" title="Viber">
+                            <i data-lucide="phone-call" class="w-4 h-4 text-purple-400 mb-0.5"></i>
+                            <span class="text-[10px] font-bold text-gray-300 group-hover:text-white">Viber</span>
                           </button>
                           <!-- Messenger -->
-                          <button onclick="CollabEngine.shareToMessenger('messenger')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-indigo-500/10 hover:bg-indigo-500/25 border border-indigo-500/30 hover:border-indigo-400/60 transition group cursor-pointer" title="Facebook Messenger">
-                            <span class="text-base mb-0.5">⚡</span>
-                            <span class="text-[10px] font-bold text-indigo-300 group-hover:text-indigo-100">Messenger</span>
+                          <button onclick="CollabEngine.shareToMessenger('messenger')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition group cursor-pointer" title="Facebook Messenger">
+                            <i data-lucide="message-square" class="w-4 h-4 text-indigo-400 mb-0.5"></i>
+                            <span class="text-[10px] font-bold text-gray-300 group-hover:text-white">Messenger</span>
                           </button>
                           <!-- Telegram -->
-                          <button onclick="CollabEngine.shareToMessenger('telegram')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-sky-500/10 hover:bg-sky-500/25 border border-sky-500/30 hover:border-sky-400/60 transition group cursor-pointer" title="Telegram">
-                            <span class="text-base mb-0.5">✈️</span>
-                            <span class="text-[10px] font-bold text-sky-300 group-hover:text-sky-100">Telegram</span>
+                          <button onclick="CollabEngine.shareToMessenger('telegram')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition group cursor-pointer" title="Telegram">
+                            <i data-lucide="send" class="w-4 h-4 text-sky-400 mb-0.5"></i>
+                            <span class="text-[10px] font-bold text-gray-300 group-hover:text-white">Telegram</span>
                           </button>
                           <!-- Discord -->
-                          <button onclick="CollabEngine.shareToMessenger('discord')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-violet-500/10 hover:bg-violet-500/25 border border-violet-500/30 hover:border-violet-400/60 transition group cursor-pointer" title="Discord">
-                            <span class="text-base mb-0.5">🎮</span>
-                            <span class="text-[10px] font-bold text-violet-300 group-hover:text-violet-100">Discord</span>
+                          <button onclick="CollabEngine.shareToMessenger('discord')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition group cursor-pointer" title="Discord">
+                            <i data-lucide="gamepad-2" class="w-4 h-4 text-violet-400 mb-0.5"></i>
+                            <span class="text-[10px] font-bold text-gray-300 group-hover:text-white">Discord</span>
                           </button>
                           <!-- Slack -->
-                          <button onclick="CollabEngine.shareToMessenger('slack')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-pink-500/10 hover:bg-pink-500/25 border border-pink-500/30 hover:border-pink-400/60 transition group cursor-pointer" title="Slack">
-                            <span class="text-base mb-0.5">💼</span>
-                            <span class="text-[10px] font-bold text-pink-300 group-hover:text-pink-100">Slack</span>
+                          <button onclick="CollabEngine.shareToMessenger('slack')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition group cursor-pointer" title="Slack">
+                            <i data-lucide="briefcase" class="w-4 h-4 text-pink-400 mb-0.5"></i>
+                            <span class="text-[10px] font-bold text-gray-300 group-hover:text-white">Slack</span>
                           </button>
                           <!-- MS Teams -->
-                          <button onclick="CollabEngine.shareToMessenger('teams')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 hover:border-cyan-400/60 transition group cursor-pointer" title="Microsoft Teams">
-                            <span class="text-base mb-0.5">👥</span>
-                            <span class="text-[10px] font-bold text-cyan-300 group-hover:text-cyan-100">Teams</span>
+                          <button onclick="CollabEngine.shareToMessenger('teams')" class="flex flex-col items-center justify-center p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 transition group cursor-pointer" title="Microsoft Teams">
+                            <i data-lucide="users" class="w-4 h-4 text-cyan-400 mb-0.5"></i>
+                            <span class="text-[10px] font-bold text-gray-300 group-hover:text-white">Teams</span>
                           </button>
                         </div>
                       </div>
@@ -1604,29 +1583,69 @@
                       <div>
                         <div class="text-[9.5px] font-mono text-gray-400 uppercase tracking-wider mb-1.5" data-i18n="collab_choose_app">App auswählen zum Starten:</div>
                         <div class="grid grid-cols-2 gap-1.5">
-                          <button onclick="CollabEngine.openDirectChat('whatsapp', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="flex items-center gap-2 p-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-200 text-xs font-semibold transition cursor-pointer">
-                            <span class="text-base">💬</span>
+                          <button onclick="CollabEngine.openDirectChat('whatsapp', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="flex items-center gap-2 p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-200 text-xs font-semibold transition cursor-pointer">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i>
                             <span>WhatsApp Chat</span>
                           </button>
-                          <button onclick="CollabEngine.openDirectChat('signal', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="flex items-center gap-2 p-2 rounded-xl bg-blue-500/15 hover:bg-blue-500/30 border border-blue-500/30 text-blue-200 text-xs font-semibold transition cursor-pointer">
-                            <span class="text-base">🔒</span>
+                          <button onclick="CollabEngine.openDirectChat('signal', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="flex items-center gap-2 p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-200 text-xs font-semibold transition cursor-pointer">
+                            <i data-lucide="shield" class="w-4 h-4 text-blue-400"></i>
                             <span>Signal Chat</span>
                           </button>
-                          <button onclick="CollabEngine.openDirectChat('viber', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="flex items-center gap-2 p-2 rounded-xl bg-purple-500/15 hover:bg-purple-500/30 border border-purple-500/30 text-purple-200 text-xs font-semibold transition cursor-pointer">
-                            <span class="text-base">🟣</span>
+                          <button onclick="CollabEngine.openDirectChat('viber', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="flex items-center gap-2 p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-200 text-xs font-semibold transition cursor-pointer">
+                            <i data-lucide="phone-call" class="w-4 h-4 text-purple-400"></i>
                             <span>Viber Chat</span>
                           </button>
-                          <button onclick="CollabEngine.openDirectChat('messenger', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="flex items-center gap-2 p-2 rounded-xl bg-indigo-500/15 hover:bg-indigo-500/30 border border-indigo-500/30 text-indigo-200 text-xs font-semibold transition cursor-pointer">
-                            <span class="text-base">⚡</span>
+                          <button onclick="CollabEngine.openDirectChat('messenger', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="flex items-center gap-2 p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-200 text-xs font-semibold transition cursor-pointer">
+                            <i data-lucide="message-square" class="w-4 h-4 text-indigo-400"></i>
                             <span>Messenger</span>
                           </button>
-                          <button onclick="CollabEngine.openDirectChat('telegram', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="col-span-2 flex items-center justify-center gap-2 p-2 rounded-xl bg-sky-500/15 hover:bg-sky-500/30 border border-sky-500/30 text-sky-200 text-xs font-semibold transition cursor-pointer">
-                            <span class="text-base">✈️</span>
+                          <button onclick="CollabEngine.openDirectChat('telegram', document.getElementById('collab-direct-contact').value, document.getElementById('collab-direct-message').value)" class="col-span-2 flex items-center justify-center gap-2 p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-200 text-xs font-semibold transition cursor-pointer">
+                            <i data-lucide="send" class="w-4 h-4 text-sky-400"></i>
                             <span>Telegram Chat</span>
                           </button>
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                <!-- 4. Labs (Fun-Labor & Social Creator Hub) -->
+                <div class="relative flex flex-col items-center">
+                  <button onclick="togglePanel('labs-menu')" class="tool-orb tool-orb-labs flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Labs: Fun-Labor & Social Creator Hub">
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-fuchsia-500/25 to-pink-600/20 border border-fuchsia-400/40 hover:border-fuchsia-300 flex items-center justify-center text-fuchsia-300 shadow-[0_0_12px_rgba(217,70,239,0.15)] group-hover/orb:scale-105 transition-all duration-200">
+                      <i data-lucide="flask-conical" class="w-5 h-5 text-fuchsia-300"></i>
+                    </div>
+                    <span class="tool-orb-label text-[9.5px] font-bold text-fuchsia-300 group-hover/orb:text-fuchsia-200 transition-colors" data-i18n="tool_labs">Labs</span>
+                  </button>
+                  <div id="panel-labs-menu" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[260px] bg-[#111118]/98 border border-white/10 p-3 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col gap-2 text-left z-[150] animate-fade-in">
+                    <div class="text-[10px] uppercase font-bold text-gray-400 px-1 border-b border-white/10 pb-1.5 flex items-center gap-1.5">
+                      <i data-lucide="flask-conical" class="w-3.5 h-3.5 text-fuchsia-400"></i>
+                      <span>Experimental Labs</span>
+                    </div>
+                    <button onclick="togglePanel('labs-menu'); togglePanel('humor-lab');" class="flex items-center gap-2.5 p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition text-left cursor-pointer">
+                      <div class="w-7 h-7 rounded-lg bg-fuchsia-500/20 text-fuchsia-300 flex items-center justify-center shrink-0">
+                        <i data-lucide="smile" class="w-4 h-4"></i>
+                      </div>
+                      <div>
+                        <div class="text-xs font-bold text-white">Fun-Labor</div>
+                        <div class="text-[9px] text-gray-400">Soundboard & FX</div>
+                      </div>
+                    </button>
+                    <button onclick="togglePanel('labs-menu'); togglePanel('social'); if(window.SocialHubEngine) SocialHubEngine.render();" class="flex items-center gap-2.5 p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] transition text-left cursor-pointer">
+                      <div class="w-7 h-7 rounded-lg bg-pink-500/20 text-pink-300 flex items-center justify-center shrink-0">
+                        <i data-lucide="share-2" class="w-4 h-4"></i>
+                      </div>
+                      <div>
+                        <div class="text-xs font-bold text-white">Social Hub</div>
+                        <div class="text-[9px] text-gray-400">Post-Planer & Formate</div>
+                      </div>
+                    </button>
+                  </div>
+                  <div id="panel-humor-lab" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[440px] max-w-[95vw] bg-[#111118]/98 border border-white/10 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in overflow-hidden">
+                    <div id="panel-humor-lab-content"></div>
+                  </div>
+                  <div id="panel-social" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[460px] max-w-[95vw] bg-[#111118]/98 border border-white/10 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in max-h-[85vh] overflow-y-auto custom-scrollbar">
+                    <div id="panel-social-content"></div>
                   </div>
                 </div>
 
@@ -1687,19 +1706,19 @@
 
         <!-- Fokus-Timer (Klick-basiertes Cockpit & Zeitsteuerung) -->
         <div class="relative flex items-center bg-transparent shrink-0" id="timer-wrapper">
-          <div id="timer-trigger-container" class="flex items-center gap-2 h-[38px] px-2.5 bg-black/30 border border-white/10 rounded-xl shadow-sm transition-all duration-300">
-            <!-- Zeit-Anzeige (Klick = Start/Pause, Doppelklick/Rechtsklick = Cockpit) -->
-            <div onclick="toggleTimer()" class="flex flex-col items-center justify-center min-w-[46px] cursor-pointer group/timer-click" title="Klicken: Start/Pause [T] · Rechts: Presets" data-i18n-title="timer_click_toggle_tooltip">
+          <div id="timer-trigger-container" class="flex items-center gap-1.5 sm:gap-2 h-[38px] px-2 sm:px-2.5 bg-black/30 border border-white/10 rounded-xl shadow-sm transition-all duration-300">
+            <!-- Timer-Einstellungen / Presets Button (Links von der Zeit, dezent & eindeutig) -->
+            <button id="btn-timer-presets" type="button" onclick="event.stopPropagation(); toggleTimerPresetMenu(event);" class="w-6 h-6 rounded-lg bg-white/[0.04] hover:bg-white/12 border border-white/10 hover:border-white/25 text-gray-400 hover:text-gray-100 transition-all duration-150 active:scale-95 flex items-center justify-center cursor-pointer shrink-0 group/tset" title="Timer-Einstellungen & Dauer wählen" aria-label="Timer-Einstellungen">
+              <i data-lucide="sliders-horizontal" class="w-3 h-3 text-gray-400 group-hover/tset:text-white transition-colors"></i>
+            </button>
+
+            <!-- Zeit-Anzeige (Klick = Start/Pause, Rechtsklick = Einstellungen) -->
+            <div onclick="toggleTimer()" oncontextmenu="event.preventDefault(); toggleTimerPresetMenu(event);" class="flex flex-col items-center justify-center min-w-[46px] cursor-pointer group/timer-click" title="Klicken: Start/Pause [T] · Rechtsklick: Timer-Einstellungen" data-i18n-title="timer_click_toggle_tooltip">
               <span id="timer-display" class="font-display font-black text-xs md:text-sm tracking-wider text-[var(--accent-light)] group-hover/timer-click:text-lime-300 leading-none transition-colors select-none">02:00</span>
               <div class="w-full h-1 bg-white/10 rounded-full mt-0.5 overflow-hidden">
                 <div id="timer-progress-bar" class="h-full bg-[var(--accent)] transition-all duration-300" style="width: 100%"></div>
               </div>
             </div>
-
-            <!-- Presets Cockpit Button (Klick öffnet Presets) -->
-            <button onclick="event.stopPropagation(); toggleTimerPresetMenu(event);" class="p-1 rounded-lg hover:bg-white/10 text-purple-300/80 hover:text-white transition cursor-pointer" title="Fokus-Dauer wählen (Presets)">
-              <i data-lucide="sliders-horizontal" class="w-3.5 h-3.5"></i>
-            </button>
 
             <!-- Versteckter Sync-State für Skripte -->
             <input type="hidden" id="timer-preset-select-real" value="2">
@@ -1886,17 +1905,19 @@
 
             <!-- Category Pills Selector (3 distinct non-repeating categories) -->
             <div class="grid grid-cols-3 gap-1 p-1 bg-black/40 border border-white/5 rounded-2xl text-[10px] font-bold">
-              <button id="pause-dropdown-tab-breath" onclick="switchPauseDropdownTab('breath')" class="py-1.5 px-1 rounded-xl bg-sky-500/20 text-sky-200 border border-sky-400/40 font-bold transition text-center cursor-pointer"><span data-i18n="pause_tab_breath">🌬️ Atem</span></button>
-              <button id="pause-dropdown-tab-sensory" onclick="switchPauseDropdownTab('sensory')" class="py-1.5 px-1 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition text-center cursor-pointer"><span data-i18n="pause_tab_sensory">⚓ Reset</span></button>
-              <button id="pause-dropdown-tab-body" onclick="switchPauseDropdownTab('body')" class="py-1.5 px-1 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition text-center cursor-pointer"><span data-i18n="pause_tab_body">🧘 Körper</span></button>
+              <button id="pause-dropdown-tab-breath" onclick="switchPauseDropdownTab('breath')" class="py-1.5 px-1 rounded-xl bg-sky-500/20 text-sky-200 border border-sky-400/40 font-bold transition text-center cursor-pointer"><span data-i18n="pause_tab_breath">Atem</span></button>
+              <button id="pause-dropdown-tab-sensory" onclick="switchPauseDropdownTab('sensory')" class="py-1.5 px-1 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition text-center cursor-pointer"><span data-i18n="pause_tab_sensory">Reset</span></button>
+              <button id="pause-dropdown-tab-body" onclick="switchPauseDropdownTab('body')" class="py-1.5 px-1 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 transition text-center cursor-pointer"><span data-i18n="pause_tab_body">Körper</span></button>
             </div>
 
             <!-- PANE 1: ATEM & NERVENSYSTEM -->
             <div id="pause-dropdown-pane-breath" class="space-y-1.5">
               <!-- 4-4-4 Box Breathing -->
               <button onclick="openBreakModal('breath', '444'); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-2.5 bg-sky-500/10 hover:bg-sky-500/25 active:scale-95 border border-sky-400/30 text-left text-xs font-bold rounded-xl text-sky-200 transition flex items-center justify-between group/pbtn cursor-pointer">
-                <div class="flex items-center gap-2">
-                  <span class="text-base">📦</span>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-sky-500/20 border border-sky-400/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="box" class="w-3.5 h-3.5 text-sky-300"></i>
+                  </div>
                   <div>
                     <div data-i18n="pause_444_title" class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-sky-200">4-4-4 Box-Atmung</div>
                     <div data-i18n="pause_444_desc" class="text-[9px] text-gray-400 font-normal">Navy SEAL Fokus & Stressabbau in 60s</div>
@@ -1906,8 +1927,10 @@
               </button>
               <!-- 4-7-8 Deep Calm -->
               <button onclick="openBreakModal('breath', '478'); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-2.5 bg-purple-500/10 hover:bg-purple-500/25 active:scale-95 border border-purple-500/25 text-left text-xs font-bold rounded-xl text-purple-200 transition flex items-center justify-between group/pbtn cursor-pointer">
-                <div class="flex items-center gap-2">
-                  <span class="text-base">🌙</span>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-purple-500/20 border border-purple-400/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="moon" class="w-3.5 h-3.5 text-purple-300"></i>
+                  </div>
                   <div>
                     <div data-i18n="pause_478_title" class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-purple-200">4-7-8 Tiefenruhe</div>
                     <div data-i18n="pause_478_desc" class="text-[9px] text-gray-400 font-normal">Senkt Herzfrequenz & Cortisol</div>
@@ -1917,8 +1940,10 @@
               </button>
               <!-- Physiologischer Seufzer -->
               <button onclick="openBreakModal('breath', 'sigh'); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-2.5 bg-sky-500/10 hover:bg-sky-500/25 active:scale-95 border border-sky-500/25 text-left text-xs font-bold rounded-xl text-sky-200 transition flex items-center justify-between group/pbtn cursor-pointer">
-                <div class="flex items-center gap-2">
-                  <span class="text-base">😮‍💨</span>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-sky-500/20 border border-sky-400/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="wind" class="w-3.5 h-3.5 text-sky-300"></i>
+                  </div>
                   <div>
                     <div data-i18n="pause_sigh_title" class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-sky-200">Physiologischer Seufzer</div>
                     <div data-i18n="pause_sigh_desc" class="text-[9px] text-gray-400 font-normal">Schnellster biologischer Nerven-Reset (30s)</div>
@@ -1932,8 +1957,10 @@
             <div id="pause-dropdown-pane-sensory" class="hidden space-y-1.5">
               <!-- 5-4-3-2-1 Grounding -->
               <button onclick="openBreakModal('grounding'); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-2.5 bg-sky-500/10 hover:bg-sky-500/25 active:scale-95 border border-sky-400/30 text-left text-xs font-bold rounded-xl text-sky-200 transition flex items-center justify-between group/pbtn cursor-pointer">
-                <div class="flex items-center gap-2">
-                  <span class="text-base">⚓</span>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-sky-500/20 border border-sky-400/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="anchor" class="w-3.5 h-3.5 text-sky-300"></i>
+                  </div>
                   <div>
                     <div data-i18n="pause_54321_title" class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-sky-200">5-4-3-2-1 Erdungs-Anker</div>
                     <div data-i18n="pause_54321_desc" class="text-[9px] text-gray-400 font-normal">Stoppt Grübeln & holt in die Realität</div>
@@ -1943,8 +1970,10 @@
               </button>
               <!-- 20-20-20 Eye Rest & Palming -->
               <button onclick="openBreakModal('eyes'); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-2.5 bg-amber-500/10 hover:bg-amber-500/25 active:scale-95 border border-amber-500/25 text-left text-xs font-bold rounded-xl text-amber-200 transition flex items-center justify-between group/pbtn cursor-pointer">
-                <div class="flex items-center gap-2">
-                  <span class="text-base">👀</span>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-400/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="eye" class="w-3.5 h-3.5 text-amber-300"></i>
+                  </div>
                   <div>
                     <div data-i18n="pause_eyes_title" class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-amber-200">20-20-20 Augen-Pause & Palming</div>
                     <div data-i18n="pause_eyes_desc" class="text-[9px] text-gray-400 font-normal">20s Bildschirm-Erholung & warme Handflächen</div>
@@ -1954,8 +1983,10 @@
               </button>
               <!-- Dopamin Detox -->
               <button onclick="startDopamineDetoxTimer(60); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-2.5 bg-rose-500/10 hover:bg-rose-500/25 active:scale-95 border border-rose-500/25 text-left text-xs font-bold rounded-xl text-rose-200 transition flex items-center justify-between group/pbtn cursor-pointer">
-                <div class="flex items-center gap-2">
-                  <span class="text-base">🧘‍♀️</span>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-rose-500/20 border border-rose-400/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-rose-300"></i>
+                  </div>
                   <div>
                     <div data-i18n="pause_detox_title" class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-rose-200">60s Dopamin-Detox (Stille)</div>
                     <div data-i18n="pause_detox_desc" class="text-[9px] text-gray-400 font-normal">Reizfreie Gedankenpause ohne Bildschirm</div>
@@ -1969,8 +2000,10 @@
             <div id="pause-dropdown-pane-body" class="hidden space-y-1.5">
               <!-- Desk & Neck Stretch -->
               <button onclick="openBreakModal('stretch'); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-2.5 bg-emerald-500/10 hover:bg-emerald-500/25 active:scale-95 border border-emerald-500/25 text-left text-xs font-bold rounded-xl text-emerald-200 transition flex items-center justify-between group/pbtn cursor-pointer">
-                <div class="flex items-center gap-2">
-                  <span class="text-base">🙆</span>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="activity" class="w-3.5 h-3.5 text-emerald-300"></i>
+                  </div>
                   <div>
                     <div class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-emerald-200">Schreibtisch- & Nacken-Stretch</div>
                     <div class="text-[9px] text-gray-400 font-normal">2 Min. sanftes Lockern der Schultern</div>
@@ -1980,8 +2013,10 @@
               </button>
               <!-- Power Shake-Out -->
               <button onclick="openBreakModal('body'); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-2.5 bg-amber-500/10 hover:bg-amber-500/25 active:scale-95 border border-amber-500/25 text-left text-xs font-bold rounded-xl text-amber-200 transition flex items-center justify-between group/pbtn cursor-pointer">
-                <div class="flex items-center gap-2">
-                  <span class="text-base">⚡</span>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-amber-500/20 border border-amber-400/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-300"></i>
+                  </div>
                   <div>
                     <div class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-amber-200">Power Shake-Out</div>
                     <div class="text-[9px] text-gray-400 font-normal" data-i18n="safespace_relieve_inertia">Löst körperliche Starre & Trägheit</div>
@@ -1991,8 +2026,10 @@
               </button>
               <!-- Hydration Reminder -->
               <button onclick="showToast(tr({de:'💧 Trinkpause! Ein großes Glas frisches Wasser trinken und tief durchatmen.', en:'💧 Hydration break! Drink a large glass of fresh water and breathe deeply.'})); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-2.5 bg-sky-500/10 hover:bg-sky-500/25 active:scale-95 border border-sky-400/30 text-left text-xs font-bold rounded-xl text-sky-200 transition flex items-center justify-between group/pbtn cursor-pointer">
-                <div class="flex items-center gap-2">
-                  <span class="text-base">💧</span>
+                <div class="flex items-center gap-2.5">
+                  <div class="w-7 h-7 rounded-lg bg-sky-500/20 border border-sky-400/30 flex items-center justify-center shrink-0">
+                    <i data-lucide="droplet" class="w-3.5 h-3.5 text-sky-300"></i>
+                  </div>
                   <div>
                     <div class="leading-none mb-0.5 font-bold text-white group-hover/pbtn:text-sky-200">Wasser & Frischekick</div>
                     <div class="text-[9px] text-gray-400 font-normal">Hydriert Gehirn & steigert Konzentration</div>
@@ -2006,7 +2043,7 @@
             <!-- Footer: Vollbild Studio Button -->
             <div class="border-t border-white/10 pt-2">
               <button onclick="openSafeSpaceModal(); document.getElementById('panel-pause-dropdown').classList.add('hidden');" class="w-full py-2 px-3 bg-gradient-to-r from-sky-500/20 via-cyan-500/20 to-sky-500/20 hover:from-sky-500/30 hover:to-cyan-500/30 border border-sky-400/40 text-sky-200 hover:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
-                <span>✨</span>
+                <i data-lucide="maximize-2" class="w-3.5 h-3.5 text-sky-300"></i>
                 <span data-i18n="safespace_open_fullscreen">Vollbild Recovery Studio öffnen ↗</span>
               </button>
             </div>
@@ -2076,7 +2113,7 @@
               <!-- SECTION 1: SPRACHE (Kompakte Flaggen-Leiste) -->
               <div class="space-y-1">
                 <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 font-mono flex items-center justify-between" data-i18n="settings_section_lang">
-                  <span data-i18n="quick_lang_select">🌐 Sprache wählen</span>
+                  <span data-i18n="quick_lang_select">Sprache wählen</span>
                 </div>
                 <div class="grid grid-cols-6 gap-1 p-1 bg-black/40 border border-white/10 rounded-xl shadow-inner">
                   <button onclick="setLanguage('de')" class="h-6.5 rounded-lg bg-white/[0.03] hover:bg-white/[0.12] active:scale-90 text-sm flex items-center justify-center transition-all hover:scale-105 cursor-pointer border border-transparent hover:border-purple-400/40" title="Deutsch">🇩🇪</button>
@@ -2091,47 +2128,47 @@
               <!-- SECTION 1.5: THEMES (10 kreisrunde Farbpunkte) -->
               <div class="space-y-1 pt-1 border-t border-white/5">
                 <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 font-mono flex items-center justify-between">
-                  <span data-i18n="settings_section_theme">🎨 Farbschema</span>
+                  <span data-i18n="settings_section_theme">Farbschema</span>
                 </div>
                 <div class="grid grid-cols-5 gap-1.5 p-1.5 bg-black/40 border border-white/10 rounded-xl shadow-inner items-center justify-items-center">
-                  <!-- 1. 🌿 Botanical -->
-                  <button onclick="setTheme('botanical')" data-theme-swatch="botanical" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-emerald-700 via-green-500 to-lime-300 border border-emerald-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="🌿 Botanical Journal"></button>
-                  <!-- 2. 🌌 Aurora -->
-                  <button onclick="setTheme('aurora')" data-theme-swatch="aurora" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-purple-800 via-purple-500 to-pink-400 border border-purple-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="🌌 Aurora Borealis"></button>
-                  <!-- 3. 🖤 Obsidian -->
-                  <button onclick="setTheme('obsidian')" data-theme-swatch="obsidian" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-slate-950 via-zinc-700 to-slate-200 border border-zinc-500/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="🖤 Obsidian Stealth"></button>
-                  <!-- 4. 🌊 Ocean -->
-                  <button onclick="setTheme('ocean')" data-theme-swatch="ocean" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-cyan-800 via-cyan-500 to-sky-300 border border-cyan-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="🌊 Oceanic Abyss"></button>
-                  <!-- 5. ☕ Latte -->
-                  <button onclick="setTheme('latte')" data-theme-swatch="latte" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-amber-950 via-amber-700 to-amber-200 border border-amber-500/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="☕ Oat & Latte"></button>
-                  <!-- 6. 🌅 Sunset -->
-                  <button onclick="setTheme('sunset')" data-theme-swatch="sunset" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-orange-800 via-rose-500 to-amber-200 border border-orange-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="🌅 Warm Sunset"></button>
-                  <!-- 7. 🌸 Sakura -->
-                  <button onclick="setTheme('peach')" data-theme-swatch="peach" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-pink-800 via-rose-400 to-pink-200 border border-pink-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="🌸 Tokyo Sakura"></button>
-                  <!-- 8. ⚡ Cyberpunk -->
-                  <button onclick="setTheme('cyberpunk')" data-theme-swatch="cyberpunk" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-fuchsia-600 via-pink-500 to-cyan-400 border border-fuchsia-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="⚡ Cyberpunk Neon"></button>
-                  <!-- 9. 🎹 Fruity Classic -->
-                  <button onclick="setTheme('fruity-classic')" data-theme-swatch="fruity-classic" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-zinc-800 via-lime-600 to-orange-500 border border-lime-400/70 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="🎹 Fruity Classic"></button>
-                  <!-- 10. 🎛️ Fruity Studio -->
-                  <button onclick="setTheme('fruity-studio')" data-theme-swatch="fruity-studio" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-slate-900 via-cyan-600 to-amber-400 border border-cyan-400/70 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="🎛️ Fruity Studio"></button>
+                  <!-- 1. Botanical -->
+                  <button onclick="setTheme('botanical')" data-theme-swatch="botanical" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-emerald-700 via-green-500 to-lime-300 border border-emerald-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Botanical Journal"></button>
+                  <!-- 2. Aurora -->
+                  <button onclick="setTheme('aurora')" data-theme-swatch="aurora" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-purple-800 via-purple-500 to-pink-400 border border-purple-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Aurora Borealis"></button>
+                  <!-- 3. Obsidian -->
+                  <button onclick="setTheme('obsidian')" data-theme-swatch="obsidian" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-slate-950 via-zinc-700 to-slate-200 border border-zinc-500/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Obsidian Stealth"></button>
+                  <!-- 4. Ocean -->
+                  <button onclick="setTheme('ocean')" data-theme-swatch="ocean" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-cyan-800 via-cyan-500 to-sky-300 border border-cyan-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Oceanic Abyss"></button>
+                  <!-- 5. Latte -->
+                  <button onclick="setTheme('latte')" data-theme-swatch="latte" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-amber-950 via-amber-700 to-amber-200 border border-amber-500/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Oat & Latte"></button>
+                  <!-- 6. Sunset -->
+                  <button onclick="setTheme('sunset')" data-theme-swatch="sunset" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-orange-800 via-rose-500 to-amber-200 border border-orange-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Warm Sunset"></button>
+                  <!-- 7. Sakura -->
+                  <button onclick="setTheme('peach')" data-theme-swatch="peach" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-pink-800 via-rose-400 to-pink-200 border border-pink-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Tokyo Sakura"></button>
+                  <!-- 8. Cyberpunk -->
+                  <button onclick="setTheme('cyberpunk')" data-theme-swatch="cyberpunk" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-fuchsia-600 via-pink-500 to-cyan-400 border border-fuchsia-400/60 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Cyberpunk Neon"></button>
+                  <!-- 9. Fruity Classic -->
+                  <button onclick="setTheme('fruity-classic')" data-theme-swatch="fruity-classic" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-zinc-800 via-lime-600 to-orange-500 border border-lime-400/70 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Fruity Classic"></button>
+                  <!-- 10. Fruity Studio -->
+                  <button onclick="setTheme('fruity-studio')" data-theme-swatch="fruity-studio" class="w-[21px] h-[21px] rounded-full bg-gradient-to-tr from-slate-900 via-cyan-600 to-amber-400 border border-cyan-400/70 hover:scale-110 active:scale-90 transition-all cursor-pointer shadow-xs relative" title="Fruity Studio"></button>
                 </div>
               </div>
 
               <!-- SECTION 2: INTERAKTIONS-MODUS (Workspace Dock vs. Kompakt vs. Turbo Hover) -->
               <div class="space-y-1.5 pt-1 border-t border-white/5">
                 <div class="text-[9px] font-bold uppercase tracking-wider text-gray-400 font-mono flex items-center justify-between">
-                  <span data-i18n="settings_section_interaction">🖱️ Workspace & Panels</span>
+                  <span data-i18n="settings_section_interaction">Workspace & Panels</span>
                   <span id="interaction-mode-badge" class="text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30">Workspace Dock</span>
                 </div>
                 <div class="grid grid-cols-3 gap-1 p-1 bg-black/40 border border-white/10 rounded-xl shadow-inner">
                   <button id="btn-mode-peek-pin" onclick="setInteractionMode('multi-window')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-purple-600 text-white shadow-md border border-purple-400/40" title="Tools öffnen & Docking an die Taskleiste">
-                    <span data-i18n="mode_studio_short">◨ Studio</span>
+                    <span data-i18n="mode_studio_short">Studio</span>
                   </button>
                   <button id="btn-mode-click-only" onclick="setInteractionMode('click-only')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-white/[0.03] text-gray-400 hover:text-white border border-transparent" title="Panels öffnen zentriert als kompaktes Popup">
-                    <span data-i18n="mode_compact_short">🗗 Kompakt</span>
+                    <span data-i18n="mode_compact_short">Kompakt</span>
                   </button>
-                  <button id="btn-mode-turbo" onclick="setInteractionMode('turbo')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-white/[0.03] text-amber-300 hover:text-white border border-transparent" title="Sehr schneller Hover (wie Edge Tabs) für ungeduldige Power-User">
-                    <span data-i18n="mode_turbo_short">⚡ Turbo</span>
+                  <button id="btn-mode-turbo" onclick="setInteractionMode('turbo')" class="py-1.5 px-1.5 rounded-lg text-[9.5px] font-bold flex items-center justify-center gap-1 transition cursor-pointer bg-white/[0.03] text-amber-300 hover:text-white border border-transparent" title="Sehr schneller Hover für unterbrechungsfreien Wechsel">
+                    <span data-i18n="mode_turbo_short">Turbo</span>
                   </button>
                 </div>
               </div>
@@ -2185,18 +2222,18 @@
           <!-- Workspace Dropdown -->
           <div id="dropdown-header-workspace" class="hidden absolute left-0 top-[calc(100%+6px)] z-[350] w-52 p-2 bg-[#12111e]/98 border border-[#c084fc]/40 rounded-2xl shadow-2xl backdrop-blur-2xl text-white space-y-1 animate-fade-in" onclick="event.stopPropagation()">
             <button id="header-ws-opt-private" onclick="setWorkspace('private'); closeHeaderWorkspaceDropdown(true);" class="w-full p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer hover:bg-white/10 text-gray-200 text-xs font-semibold">
-              <span class="text-base">🏠</span> <span data-i18n="workspace_private">Privat</span>
+              <i data-lucide="home" class="w-4 h-4 text-purple-300"></i> <span data-i18n="workspace_private">Privat</span>
             </button>
             <button id="header-ws-opt-work" onclick="setWorkspace('work'); closeHeaderWorkspaceDropdown(true);" class="w-full p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer hover:bg-white/10 text-gray-200 text-xs font-semibold">
-              <span class="text-base">💼</span> <span data-i18n="workspace_work">Arbeit</span>
+              <i data-lucide="briefcase" class="w-4 h-4 text-purple-300"></i> <span data-i18n="workspace_work">Arbeit</span>
             </button>
             <button id="header-ws-opt-study" onclick="setWorkspace('study'); closeHeaderWorkspaceDropdown(true);" class="w-full p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer hover:bg-white/10 text-gray-200 text-xs font-semibold">
-              <span class="text-base">🎓</span> <span data-i18n="workspace_study">Studium</span>
+              <i data-lucide="graduation-cap" class="w-4 h-4 text-purple-300"></i> <span data-i18n="workspace_study">Studium</span>
             </button>
             <div class="my-1 border-t border-white/10"></div>
             <button id="header-ws-opt-shared" onclick="setWorkspace('shared'); closeHeaderWorkspaceDropdown(true);" class="w-full p-2 rounded-xl text-left flex items-center justify-between transition cursor-pointer hover:bg-violet-500/20 text-violet-200 text-xs font-semibold">
               <div class="flex items-center gap-2.5">
-                <span class="text-base">👥</span>
+                <i data-lucide="users" class="w-4 h-4 text-violet-300"></i>
                 <div>
                   <div class="font-bold text-white leading-tight">Team-Board</div>
                   <div class="text-[9px] text-violet-300/80 font-mono">Live Sync (#team-space)</div>
@@ -2213,7 +2250,7 @@
 
         <!-- 1.2 KARTEN ANPASSEN (Customize Cards - Reiner Klick-Modus) -->
         <div id="columns-menu-wrapper" class="relative">
-          <button id="btn-board-columns" onclick="toggleColumnsDropdown(event)" class="px-2.5 py-1.5 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/25 border border-[#c084fc]/35 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1.5 text-[11px] font-bold cursor-pointer shadow-xs group/cols shrink-0" title="Karten anpassen & Karte hinzufügen (Reihenfolge, Ein-/Ausblenden, Neue Karte) ⚙️">
+          <button id="btn-board-columns" onclick="toggleColumnsDropdown(event)" class="px-2.5 py-1.5 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/25 border border-[#c084fc]/35 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1.5 text-[11px] font-bold cursor-pointer shadow-xs group/cols shrink-0" title="Karten anpassen & Karte hinzufügen">
             <i data-lucide="sliders" class="w-3.5 h-3.5 text-[#c084fc] group-hover/cols:rotate-90 transition-transform"></i>
             <span class="text-[10px] sm:text-[11px] hidden lg:inline" data-i18n="board_columns">Karten</span>
           </button>
@@ -2225,12 +2262,18 @@
         </div>
 
         <!-- 1.3 SPALTEN LEEREN (Clear - Beruhigter Sekundär-Look) -->
-        <button id="btn-board-clear" onclick="handleClearAllLists()" class="p-1 px-1.5 sm:px-2 rounded-xl bg-white/5 hover:bg-rose-500/15 border border-white/10 hover:border-rose-500/40 text-gray-400 hover:text-rose-300 transition-all duration-200 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs group/clear shrink-0" title="Alle Aufgaben in den Karten leeren 🗑️" data-i18n-title="title_clear_lists" aria-label="Karten leeren">
+        <button id="btn-board-clear" onclick="handleClearAllLists()" class="p-1 px-1.5 sm:px-2 rounded-xl bg-white/5 hover:bg-rose-500/15 border border-white/10 hover:border-rose-500/40 text-gray-400 hover:text-rose-300 transition-all duration-200 active:scale-95 flex items-center gap-1 text-[11px] font-medium cursor-pointer shadow-xs group/clear shrink-0" title="Alle Aufgaben in den Karten leeren" data-i18n-title="title_clear_lists" aria-label="Karten leeren">
           <i data-lucide="eraser" class="w-3.5 h-3.5 text-gray-400 group-hover/clear:text-rose-400 transition-colors"></i>
           <span class="text-[10px] sm:text-[11px] hidden xl:inline" data-i18n="board_clear_lists">Leeren</span>
         </button>
 
-        <!-- 1.4 ANLEITUNGEN TICKER (Links nach Karten leeren - Ohne Rahmen & Buttons, genau wie Newsticker rechts) -->
+        <!-- 1.3b RESET BUTTON (NACH KARTEN LEEREN - MIT TEXT) -->
+        <button id="btn-board-reset" onclick="handleReset()" class="p-1 px-1.5 sm:px-2.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/30 border border-amber-400/40 hover:border-amber-300 text-amber-300 hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-xs group/reset shrink-0" title="Board zurücksetzen (Reset)" data-i18n-title="title_reset" aria-label="Board zurücksetzen">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-amber-300 group-hover/reset:text-white group-hover/reset:-rotate-45 transition-transform"></i>
+          <span id="txt-btn-reset" class="text-[10px] sm:text-[11px]" data-i18n="board_reset">Reset</span>
+        </button>
+
+        <!-- 1.4 ANLEITUNGEN TICKER (Links nach Reset - Ohne Rahmen & Buttons, genau wie Newsticker rechts) -->
         <div id="board-instruction-ticker-bar" class="hidden sm:flex items-center min-w-0 max-w-full flex-1 relative select-none transition-opacity duration-300 opacity-0 pointer-events-none" onmouseenter="RadioNewsEngine.pauseInstructionHover()" onmouseleave="RadioNewsEngine.resumeInstructionHover()">
           <div id="board-instruction-ticker-track" class="inline-flex items-center gap-1.5 max-w-full min-w-0 cursor-pointer overflow-visible px-1" onclick="RadioNewsEngine.handleInstructionClick(event)">
             <span id="board-instruction-ticker-text" class="font-bold tracking-wide font-display text-[11px] sm:text-[12px] whitespace-normal sm:whitespace-nowrap hover:underline py-0.5 inline-block" style="color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);">
@@ -2242,9 +2285,9 @@
       <!-- 2. MITTE (Flex-Spacer) -->
       <div class="min-w-[4px] sm:min-w-[8px] shrink"></div>
 
-      <!-- 3. RECHTS: [LIVE NEWS TICKER] [OPTIONEN-ICON STETS SICHTBAR] [Undo] [Reset] -->
+      <!-- 3. RECHTS: [LIVE NEWS TICKER] [OPTIONEN-ICON STETS SICHTBAR] [Undo] -->
       <div class="flex items-center gap-1 sm:gap-1.5 min-w-0 flex-1 justify-end flex-nowrap shrink">
-        <!-- 3.0 LIVE NACHRICHTEN TICKER (RECHTS VOR OPTIONEN-ICON & UNDO) -->
+        <!-- 3.0 LIVE NACHRICHTEN TICKER (RECHTS VOR OPTIONEN-ICON) -->
         <div id="board-news-ticker-bar" class="flex items-center justify-end gap-1.5 sm:gap-2 min-w-0 flex-1 max-w-[400px] sm:max-w-[560px] md:max-w-[760px] lg:max-w-[960px] xl:max-w-[1200px] relative group select-none transition-opacity duration-300 shrink" onmouseenter="RadioNewsEngine.pauseTickerOnHover()" onmouseleave="RadioNewsEngine.resumeTickerOnHover()">
           
           <!-- 1. Headline Text Viewport (Nimmt flexiblen Platz ein) -->
@@ -2333,17 +2376,10 @@
 
         </div>
 
-        <!-- 3.1 UNDO BUTTON (VOR RESET) -->
-        <button id="btn-board-undo" onclick="handleUndo()" oncontextmenu="event.preventDefault(); openUndoHistoryModal();" class="p-1 px-1.5 sm:px-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/25 border border-cyan-500/30 hover:border-cyan-400 text-cyan-300 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_10px_rgba(6,182,212,0.15)] group/undo shrink-0 relative opacity-30 pointer-events-none grayscale" title="Letzte Aktion rückgängig machen (Strg+Z / Rechtsklick für genauen Verlauf)" data-i18n-title="undo_action_title" aria-label="Rückgängig">
-          <i data-lucide="undo-2" class="w-3.5 h-3.5 text-cyan-300 group-hover/undo:-rotate-45 transition-transform"></i>
-          <span class="text-[10px] sm:text-[11px] hidden xl:inline" data-i18n="undo_action">Undo</span>
-          <span id="undo-count-badge" class="hidden absolute -top-1 -right-1 px-1 py-0.2 rounded-full bg-[#00f2ff] text-black text-[8px] font-mono font-black leading-none shadow-sm"></span>
-        </button>
-
-        <!-- 3.2 RESET BUTTON (NACH UNDO) -->
-        <button id="btn-board-reset" onclick="handleReset()" class="p-1 px-1.5 sm:px-2 rounded-xl bg-[#ff7a00]/10 hover:bg-[#ff7a00]/25 border border-[#ff7a00]/30 hover:border-[#ff7a00] text-[#ff7a00] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_10px_rgba(255,122,0,0.2)] group/reset shrink-0" title="Board zurücksetzen (Reset)" data-i18n-title="title_reset" aria-label="Board zurücksetzen">
-          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-[#ff7a00] group-hover/reset:-rotate-90 transition-transform"></i>
-          <span class="text-[10px] sm:text-[11px] hidden xl:inline" data-i18n="board_reset">Reset</span>
+        <!-- 3.1 UNDO BUTTON (GANZ RECHTS IN DER ZEILE - NUR ICON, SCHÖNE FARBE) -->
+        <button id="btn-board-undo" onclick="handleUndo()" oncontextmenu="event.preventDefault(); openUndoHistoryModal();" class="h-6 w-6 sm:h-7 sm:w-7 rounded-xl bg-sky-500/20 hover:bg-sky-500/35 border border-sky-400/50 hover:border-sky-300 text-sky-300 hover:text-white transition-all duration-200 flex items-center justify-center cursor-pointer shadow-[0_0_12px_rgba(56,189,248,0.2)] group/undo shrink-0 relative opacity-40 pointer-events-none" title="Letzte Aktion rückgängig machen (Strg+Z / Rechtsklick für genauen Verlauf)" data-i18n-title="undo_action_title" aria-label="Rückgängig">
+          <i data-lucide="undo-2" class="w-3.5 h-3.5 text-sky-300 group-hover/undo:text-white group-hover/undo:-translate-x-0.5 transition-transform"></i>
+          <span id="undo-count-badge" class="hidden absolute -top-1.5 -right-1.5 px-1 py-0.2 rounded-full bg-sky-400 text-slate-950 text-[8px] font-mono font-extrabold leading-none shadow-sm"></span>
         </button>
       </div>
     </div>
@@ -2358,8 +2394,8 @@
     <!-- FLOATING BOTTOM-RIGHT (integriert in Karten anpassen; Fallback Container) -->
     <div id="floating-add-list-container" class="hidden fixed bottom-3 right-3 sm:bottom-4 sm:right-4 z-40 select-none">
       <div class="relative flex items-center">
-        <button id="btn-add-list-bottom" onclick="toggleAddListPopover(event)" class="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-2xl bg-[#141422]/95 hover:bg-purple-600/30 border border-purple-500/40 hover:border-purple-400 text-gray-200 hover:text-white transition flex items-center gap-2 text-xs font-bold cursor-pointer shadow-[0_8px_30px_rgba(0,0,0,0.6),0_0_20px_rgba(168,85,247,0.25)] backdrop-blur-xl active:scale-95 group/addlist" title="Neue Liste erstellen">
-          <i data-lucide="plus" class="w-4 h-4 text-purple-400 group-hover/addlist:scale-110 transition-transform"></i>
+        <button id="btn-add-list-bottom" onclick="toggleAddListPopover(event)" class="px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl bg-[#14141c]/95 hover:bg-[#1c1c26] border border-white/10 hover:border-white/20 text-gray-200 hover:text-white transition-colors flex items-center gap-2 text-xs font-semibold cursor-pointer shadow-lg backdrop-blur-xl active:scale-95" title="Neue Liste erstellen">
+          <i data-lucide="plus" class="w-4 h-4 text-gray-400"></i>
           <span class="font-bold" data-i18n="shop_add_list_btn">Liste hinzufügen</span>
         </button>
 
@@ -2376,17 +2412,17 @@
           <div class="flex items-center justify-between gap-1 text-[11px] text-gray-300">
             <span class="text-gray-400 text-[10px]">Symbol:</span>
             <select id="select-new-list-icon" class="px-2 py-1 bg-black/40 border border-white/15 text-xs text-gray-200 rounded-lg focus:outline-none focus:border-purple-400">
-              <option value="layers">🗂️ Standard</option>
-              <option value="list-todo">📝 Todo</option>
-              <option value="lightbulb">💡 Highlights</option>
-              <option value="target">🎯 Fokus</option>
-              <option value="zap">⚡ Sprint</option>
-              <option value="bookmark">🔖 Gemerkt</option>
-              <option value="folder">📁 Projekt</option>
-              <option value="heart" data-i18n="shop_cat_wishes">❤️ Wünsche</option>
-              <option value="shopping-bag">🛍️ Shopping</option>
-              <option value="code">💻 Code</option>
-              <option value="book-open">📚 Lernen</option>
+              <option value="layers">Standard</option>
+              <option value="list-todo">Todo</option>
+              <option value="lightbulb">Highlights</option>
+              <option value="target">Fokus</option>
+              <option value="zap">Sprint</option>
+              <option value="bookmark">Gemerkt</option>
+              <option value="folder">Projekt</option>
+              <option value="heart" data-i18n="shop_cat_wishes">Wünsche</option>
+              <option value="shopping-bag">Shopping</option>
+              <option value="code">Code</option>
+              <option value="book-open">Lernen</option>
             </select>
           </div>
           <div class="flex items-center gap-2 pt-1">
@@ -2478,10 +2514,10 @@
             Sound:
           </span>
           <div class="flex items-center gap-1 overflow-x-auto py-0.5">
-            <button onclick="playAmbientSound('birds')" class="px-2 py-1 bg-white/5 hover:bg-emerald-500/20 text-gray-300 hover:text-emerald-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0" data-i18n="sound_birds">🐦 Vögel</button>
-            <button onclick="playAmbientSound('campfire')" class="px-2 py-1 bg-white/5 hover:bg-amber-500/20 text-gray-300 hover:text-amber-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">🔥 Feuer</button>
-            <button onclick="playAmbientSound('binaural_alpha')" class="px-2 py-1 bg-white/5 hover:bg-purple-500/20 text-gray-300 hover:text-purple-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">🧠 Alpha Beats</button>
-            <button onclick="playAmbientSound('whitenoise')" class="px-2 py-1 bg-white/5 hover:bg-zinc-500/20 text-gray-300 hover:text-white rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">📻 White Noise</button>
+            <button onclick="playAmbientSound('birds')" class="px-2 py-1 bg-white/5 hover:bg-emerald-500/20 text-gray-300 hover:text-emerald-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0" data-i18n="sound_birds">Vögel</button>
+            <button onclick="playAmbientSound('campfire')" class="px-2 py-1 bg-white/5 hover:bg-amber-500/20 text-gray-300 hover:text-amber-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">Feuer</button>
+            <button onclick="playAmbientSound('binaural_alpha')" class="px-2 py-1 bg-white/5 hover:bg-purple-500/20 text-gray-300 hover:text-purple-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">Alpha Beats</button>
+            <button onclick="playAmbientSound('whitenoise')" class="px-2 py-1 bg-white/5 hover:bg-zinc-500/20 text-gray-300 hover:text-white rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">White Noise</button>
             <button onclick="stopAmbientSound()" class="p-1 text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition cursor-pointer shrink-0" title="Sound stoppen">
               <i data-lucide="volume-x" class="w-3.5 h-3.5"></i>
             </button>
@@ -2492,8 +2528,8 @@
         <div class="w-full max-w-lg relative">
           <div class="flex items-center gap-2 p-2 bg-amber-500/5 border border-amber-500/20 rounded-2xl">
             <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400 shrink-0 ml-1"></i>
-            <input type="text" id="zen-distraction-input" onkeydown="handleZenDistractionInput(event)" placeholder="Gedanken parken: Idee oder Ablenkung tippen (Enter) ➔ landet in Notizen..." class="flex-1 bg-transparent border-0 text-xs text-amber-100 placeholder:text-amber-300/40 outline-none font-medium" />
-            <button onclick="submitZenDistraction()" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-[10px] font-bold rounded-lg transition cursor-pointer shrink-0">Parken 📌</button>
+            <input type="text" id="zen-distraction-input" onkeydown="handleZenDistractionInput(event)" placeholder="Gedanken parken: Idee oder Notiz tippen (Enter)..." class="flex-1 bg-transparent border-0 text-xs text-amber-100 placeholder:text-amber-300/40 outline-none font-medium" />
+            <button onclick="submitZenDistraction()" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-[10px] font-semibold rounded-lg transition cursor-pointer shrink-0">Parken</button>
           </div>
         </div>
 
@@ -2825,65 +2861,75 @@
     <div id="mobile-view-tools" class="mobile-view-pane select-none">
       <div class="p-4 max-w-md mx-auto space-y-3">
         
-        <div class="text-xs font-black uppercase tracking-wider text-gray-400 mb-1" data-i18n="mobile_tools_section">
-          🛠️ Lifestyle & Productivity
+        <div class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1" data-i18n="mobile_tools_section">
+          Tools & Lifestyle
         </div>
 
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-2.5">
           
-          <!-- Brainstorming Studio 🧠 -->
-          <div onclick="openBrainstormModal()" class="p-4 rounded-2xl bg-gradient-to-br from-orange-950/50 to-[#12121a] border border-orange-500/40 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <!-- Brainstorming Studio -->
+          <div onclick="openBrainstormModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">🧠</span>
-              <span class="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300 text-[10px] font-bold" data-i18n="mobile_brainstorm_badge">Ideen</span>
+              <div class="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-500/25 flex items-center justify-center text-amber-300">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_brainstorm_badge">Ideen</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight">Brainstorming</h4>
-              <p class="text-[10px] text-orange-300 mt-0.5">Voice & Board-Transfer</p>
+              <p class="text-[10px] text-gray-400 mt-0.5">Voice & Board</p>
             </div>
           </div>
 
-          <!-- Live-Sync ⚡ -->
-          <div onclick="openP2PSyncModal()" class="p-4 rounded-2xl bg-gradient-to-br from-emerald-950/50 to-[#12121a] border border-emerald-500/40 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <!-- Live-Sync -->
+          <div onclick="openP2PSyncModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">📱</span>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold" data-i18n="mobile_tools_sync_badge">Auto-Sync</span>
+              <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center text-emerald-300">
+                <i data-lucide="cloud" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_sync_badge">Sync</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_sync_title">Konto & Sync</h4>
-              <p class="text-[10px] text-emerald-400 mt-0.5" data-i18n="mobile_tools_sync_sub">Multi-Device ↔ Cloud</p>
+              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_sync_sub">Multi-Device ↔ Cloud</p>
             </div>
           </div>
 
-          <!-- Klarheit & Reflexion 🔮 -->
-          <div onclick="openClarityModal()" class="p-4 rounded-2xl bg-gradient-to-br from-indigo-950/50 to-[#12121a] border border-indigo-500/40 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <!-- Klarheit & Reflexion -->
+          <div onclick="openClarityModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">🔮</span>
-              <span class="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 text-[10px] font-bold" data-i18n="mobile_clarity_badge">Klarheit</span>
+              <div class="w-8 h-8 rounded-xl bg-indigo-500/15 border border-indigo-500/25 flex items-center justify-center text-indigo-300">
+                <i data-lucide="anchor" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_clarity_badge">Klarheit</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight">Impulskontrolle</h4>
-              <p class="text-[10px] text-indigo-300 mt-0.5">Reflexion & Fragen</p>
+              <p class="text-[10px] text-gray-400 mt-0.5">Reflexion & Fragen</p>
             </div>
           </div>
 
-          <!-- Safe Space 🧘 -->
-          <div onclick="openSafeSpaceModal()" class="p-4 rounded-2xl bg-gradient-to-br from-teal-950/50 to-[#12121a] border border-teal-500/40 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <!-- Safe Space -->
+          <div onclick="openSafeSpaceModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">🧘</span>
-              <span class="px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 text-[10px] font-bold" data-i18n="mobile_zen_badge">Zen</span>
+              <div class="w-8 h-8 rounded-xl bg-teal-500/15 border border-teal-500/25 flex items-center justify-center text-teal-300">
+                <i data-lucide="shield" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_zen_badge">Pause</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight">Safe Space</h4>
-              <p class="text-[10px] text-teal-300 mt-0.5" data-i18n="safespace_breath_calm">Atemübung & Ruhe</p>
+              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="safespace_breath_calm">Atemübung & Ruhe</p>
             </div>
           </div>
 
           <!-- Einkauf -->
-          <div onclick="openShoppingModal()" class="p-4 rounded-2xl bg-gradient-to-br from-teal-950/50 to-[#12121a] border border-teal-500/30 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <div onclick="openShoppingModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">🛒</span>
-              <span class="px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 text-[10px] font-bold" data-i18n="mobile_tools_shop_badge">Loot</span>
+              <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center text-emerald-300">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_shop_badge">Liste</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_shop_title">Einkaufsliste</h4>
@@ -2892,46 +2938,54 @@
           </div>
 
           <!-- Grundreinigung & Putz-Guide -->
-          <div onclick="if(typeof openCleaningGuideModal==='function') openCleaningGuideModal(); closeHubModal();" class="p-4 rounded-2xl bg-gradient-to-br from-emerald-950/50 to-[#12121a] border border-emerald-500/40 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <div onclick="if(typeof openCleaningGuideModal==='function') openCleaningGuideModal(); closeHubModal();" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">🧹</span>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold" data-i18n="clean_guide_title_short">Putz-Guide</span>
+              <div class="w-8 h-8 rounded-xl bg-cyan-500/15 border border-cyan-500/25 flex items-center justify-center text-cyan-300">
+                <i data-lucide="brush" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="clean_guide_title_short">Putz-Guide</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight" data-i18n="clean_guide_title">Grundreinigung</h4>
-              <p class="text-[10px] text-emerald-300 mt-0.5">4 Modi & Timer</p>
+              <p class="text-[10px] text-gray-400 mt-0.5">4 Modi & Timer</p>
             </div>
           </div>
 
           <!-- Vorratskammer -->
-          <div onclick="openPantryModal()" class="p-4 rounded-2xl bg-gradient-to-br from-lime-950/50 to-[#12121a] border border-lime-500/30 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <div onclick="openPantryModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">🥫</span>
-              <span class="px-2 py-0.5 rounded-full bg-lime-500/20 text-lime-300 text-[10px] font-bold" data-i18n="mobile_pantry_badge">Vorrat</span>
+              <div class="w-8 h-8 rounded-xl bg-lime-500/15 border border-lime-500/25 flex items-center justify-center text-lime-300">
+                <i data-lucide="package" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_pantry_badge">Vorrat</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight">Vorratskammer</h4>
-              <p class="text-[10px] text-lime-300 mt-0.5">Bestand & Ablauf</p>
+              <p class="text-[10px] text-gray-400 mt-0.5">Bestand & Ablauf</p>
             </div>
           </div>
 
           <!-- Kochen -->
-          <div onclick="openRecipeModal()" class="p-4 rounded-2xl bg-gradient-to-br from-amber-950/50 to-[#12121a] border border-amber-500/30 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <div onclick="openRecipeModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">🍳</span>
-              <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold" data-i18n="mobile_tools_cook_badge">Rezepte</span>
+              <div class="w-8 h-8 rounded-xl bg-orange-500/15 border border-orange-500/25 flex items-center justify-center text-orange-300">
+                <i data-lucide="utensils" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_cook_badge">Rezepte</span>
             </div>
             <div>
-              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_cook_title">Smart Cooking</h4>
+              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_cook_title">Kochen</h4>
               <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_cook_sub">Schritt für Schritt</p>
             </div>
           </div>
 
           <!-- Sport -->
-          <div onclick="openSportModal()" class="p-4 rounded-2xl bg-gradient-to-br from-orange-950/50 to-[#12121a] border border-orange-500/30 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <div onclick="openSportModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">🏃</span>
-              <span class="px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300 text-[10px] font-bold" data-i18n="mobile_tools_sport_badge">Aktiv</span>
+              <div class="w-8 h-8 rounded-xl bg-lime-500/15 border border-lime-500/25 flex items-center justify-center text-lime-300">
+                <i data-lucide="activity" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_sport_badge">Bewegung</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_sport_title">Bewegungspause</h4>
@@ -2940,10 +2994,12 @@
           </div>
 
           <!-- Wecker & Erinnerung -->
-          <div onclick="openAlarmModal()" class="p-4 rounded-2xl bg-gradient-to-br from-pink-950/50 to-[#12121a] border border-pink-500/30 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <div onclick="openAlarmModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">⏰</span>
-              <span class="px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-300 text-[10px] font-bold" data-i18n="mobile_tools_alarm_badge">Alarm</span>
+              <div class="w-8 h-8 rounded-xl bg-pink-500/15 border border-pink-500/25 flex items-center justify-center text-pink-300">
+                <i data-lucide="bell" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_alarm_badge">Alarm</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_alarm_title">Wecker & Timer</h4>
@@ -2951,42 +3007,49 @@
             </div>
           </div>
 
-          <!-- Deep Learning & Quiz 🎓 -->
-          <div onclick="openLearningHubModal()" class="p-4 rounded-2xl bg-gradient-to-br from-amber-950/50 to-[#12121a] border border-amber-500/40 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <!-- Deep Learning & Quiz -->
+          <div onclick="openLearningHubModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">🎓</span>
-              <span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold" data-i18n="mobile_learning_badge">Quiz & XP</span>
+              <div class="w-8 h-8 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-300">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_learning_badge">Lernen</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight">Wissens-Labor</h4>
-              <p class="text-[10px] text-amber-300 mt-0.5">Themen & Multiple-Choice</p>
+              <p class="text-[10px] text-gray-400 mt-0.5">Themen & Quiz</p>
             </div>
           </div>
 
-
           <!-- "Was nun?" Helper -->
-          <div onclick="openWhatNowModal()" class="p-4 rounded-2xl bg-gradient-to-br from-rose-950/50 to-[#12121a] border border-rose-500/40 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <div onclick="openWhatNowModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">💡</span>
-              <span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-bold" data-i18n="mobile_tools_whatnow_badge">Impuls</span>
+              <div class="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-500/25 flex items-center justify-center text-amber-300">
+                <i data-lucide="lightbulb" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_whatnow_badge">Impuls</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_whatnow_title">Was nun?</h4>
-              <p class="text-[10px] text-rose-300 mt-0.5" data-i18n="mobile_tools_whatnow_sub">Zufalls-Entscheider</p>
+              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_whatnow_sub">Nächste Aufgabe</p>
             </div>
           </div>
 
           <!-- Schnellmenü & Themes -->
-          <div onclick="openMobileQuickMenu()" class="p-4 rounded-2xl bg-gradient-to-br from-purple-950/50 to-[#12121a] border border-purple-500/40 shadow-lg cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
+          <div onclick="openMobileQuickMenu()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
             <div class="flex items-center justify-between">
-              <span class="text-2xl">⚡</span>
-              <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[10px] font-bold" data-i18n="mobile_tools_opt_badge">Optionen</span>
+              <div class="w-8 h-8 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center text-purple-300">
+                <i data-lucide="sliders" class="w-4 h-4"></i>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_opt_badge">Optionen</span>
             </div>
             <div>
               <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_opt_title">Design & Sprache</h4>
-              <p class="text-[10px] text-purple-300 mt-0.5" data-i18n="mobile_tools_opt_sub">Themes & Backup</p>
+              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_opt_sub">Themes & Backup</p>
             </div>
           </div>
+
+        </div>
 
         </div>
 
@@ -3014,8 +3077,8 @@
     </nav>
 
   </div>
-  <div id="praise-overlay" class="hidden fixed inset-0 z-[100000] flex items-start justify-center pt-[10vh] pointer-events-none">
-    <div id="praise-card" class="px-8 py-4 rounded-2xl bg-[#111116]/95 border-2 border-[var(--accent)] shadow-[0_8px_30px_rgba(139,92,246,0.3)] text-white text-[22px] font-bold font-display text-center backdrop-blur-md max-w-[90%] break-words"></div>
+  <div id="praise-overlay" class="hidden fixed inset-x-0 bottom-6 z-[100000] flex items-center justify-center pointer-events-none px-4">
+    <div id="praise-card" class="px-4 py-2 rounded-xl bg-[#111118]/95 border border-white/10 shadow-xl text-gray-200 text-xs font-medium text-center backdrop-blur-md max-w-sm break-words transition-all"></div>
   </div>
 
   <!-- TOAST ALERTS OVERLAY -->
@@ -3032,7 +3095,9 @@
 
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div class="flex items-center gap-2">
-          <span class="text-lg">⚡</span>
+          <div class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center">
+            <i data-lucide="menu" class="w-4 h-4"></i>
+          </div>
           <div>
             <h3 class="text-white font-bold text-sm font-display" data-i18n="mobile_quick_title">Quick Menu & Options</h3>
             <p class="text-[10px] text-gray-400" data-i18n="mobile_quick_desc">Essential functions on the go</p>
@@ -3047,7 +3112,9 @@
       <div class="grid grid-cols-2 gap-2.5 text-xs font-semibold">
         <!-- 1. Handy Live-Sync -->
         <button onclick="closeMobileQuickMenu(); openP2PSyncModal();" class="p-3 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">📱</span>
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0">
+            <i data-lucide="smartphone" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_sync_title">Live-Sync</div>
             <div class="text-[9px] text-emerald-400" data-i18n="mobile_quick_sync_sub">QR & P2P Transfer</div>
@@ -3056,7 +3123,9 @@
 
         <!-- 2. Audio Studio & Beats -->
         <button onclick="closeMobileQuickMenu(); openAudioStudioModal();" class="p-3 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">🎧</span>
+          <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0">
+            <i data-lucide="headphones" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_audio_title">Audio Studio</div>
             <div class="text-[9px] text-purple-300" data-i18n="mobile_quick_audio_sub">Soundscapes & Beats</div>
@@ -3065,7 +3134,9 @@
 
         <!-- 3. Live-Radio & News -->
         <button onclick="closeMobileQuickMenu(); togglePanel('radio');" class="p-3 rounded-2xl bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-sky-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">📻</span>
+          <div class="w-8 h-8 rounded-xl bg-sky-500/20 text-sky-300 flex items-center justify-center shrink-0">
+            <i data-lucide="radio" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_radio_title">Live-Radio</div>
             <div class="text-[9px] text-sky-300" data-i18n="mobile_quick_radio_sub">Sender & Ticker</div>
@@ -3074,7 +3145,9 @@
 
         <!-- 4. Wecker & Alarme -->
         <button onclick="closeMobileQuickMenu(); openAlarmModal();" class="p-3 rounded-2xl bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/30 text-pink-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">⏰</span>
+          <div class="w-8 h-8 rounded-xl bg-pink-500/20 text-pink-300 flex items-center justify-center shrink-0">
+            <i data-lucide="bell" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_alarm_title">Wecker & Timer</div>
             <div class="text-[9px] text-pink-300" data-i18n="mobile_quick_alarm_sub">Alarme & Töne</div>
@@ -3083,7 +3156,9 @@
 
         <!-- 5. Statistik & Dashboard -->
         <button onclick="closeMobileQuickMenu(); openReportDashboard();" class="p-3 rounded-2xl bg-lime-500/10 hover:bg-lime-500/20 border border-lime-500/30 text-lime-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">📊</span>
+          <div class="w-8 h-8 rounded-xl bg-lime-500/20 text-lime-300 flex items-center justify-center shrink-0">
+            <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_stats_title">Stats</div>
             <div class="text-[9px] text-lime-300" data-i18n="mobile_quick_stats_sub">Weekly insights</div>
@@ -3092,7 +3167,9 @@
 
         <!-- 6. Themes / Design -->
         <button onclick="closeMobileQuickMenu(); togglePanel('theme');" class="p-3 rounded-2xl bg-fuchsia-500/10 hover:bg-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">🎨</span>
+          <div class="w-8 h-8 rounded-xl bg-fuchsia-500/20 text-fuchsia-300 flex items-center justify-center shrink-0">
+            <i data-lucide="palette" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_theme_title">Color Theme</div>
             <div class="text-[9px] text-fuchsia-300" data-i18n="mobile_quick_theme_sub">16 Themes</div>
@@ -3101,7 +3178,9 @@
 
         <!-- 7. Inspiration & Was nun? -->
         <button onclick="closeMobileQuickMenu(); openHelperModal('pick');" class="p-3 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">💡</span>
+          <div class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0">
+            <i data-lucide="lightbulb" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_whatnow_title">What now?</div>
             <div class="text-[9px] text-amber-300" data-i18n="mobile_quick_whatnow_sub">Random prompt</div>
@@ -3110,7 +3189,9 @@
 
         <!-- 8. Reizpause & Erholung -->
         <button onclick="closeMobileQuickMenu(); openBreakModal('breath');" class="p-3 rounded-2xl bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 text-teal-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">🧘</span>
+          <div class="w-8 h-8 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center shrink-0">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_break_title">Sensory Break</div>
             <div class="text-[9px] text-teal-300" data-i18n="mobile_quick_break_sub">Breathing & Calm</div>
@@ -3119,7 +3200,9 @@
 
         <!-- 9. Team Chat & Kollaboration -->
         <button onclick="closeMobileQuickMenu(); togglePanel('collab-chat');" class="p-3 rounded-2xl bg-violet-500/10 hover:bg-violet-500/20 border border-violet-500/30 text-violet-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">💬</span>
+          <div class="w-8 h-8 rounded-xl bg-violet-500/20 text-violet-300 flex items-center justify-center shrink-0">
+            <i data-lucide="message-square" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight">Team Chat</div>
             <div class="text-[9px] text-violet-300">Live & Rooms</div>
@@ -3128,7 +3211,9 @@
 
         <!-- Social Media Hub -->
         <button onclick="closeMobileQuickMenu(); togglePanel('social');" class="p-3 rounded-2xl bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/30 text-pink-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">📱</span>
+          <div class="w-8 h-8 rounded-xl bg-pink-500/20 text-pink-300 flex items-center justify-center shrink-0">
+            <i data-lucide="share-2" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight">Social Hub</div>
             <div class="text-[9px] text-pink-300">Insta, FB, TikTok & Co</div>
@@ -3137,7 +3222,9 @@
 
         <!-- 10. Plan speichern (Backup) -->
         <button onclick="closeMobileQuickMenu(); handleSaveJson();" class="p-3 rounded-2xl bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 text-blue-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">💾</span>
+          <div class="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-300 flex items-center justify-center shrink-0">
+            <i data-lucide="hard-drive" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_save_title">Save Plan</div>
             <div class="text-[9px] text-blue-400">JSON Backup</div>
@@ -3146,7 +3233,9 @@
 
         <!-- 11. Einstellungen & Optionen -->
         <button onclick="closeMobileQuickMenu(); openSettingsModal();" class="p-3 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/15 text-gray-200 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">⚙️</span>
+          <div class="w-8 h-8 rounded-xl bg-white/10 text-gray-200 flex items-center justify-center shrink-0">
+            <i data-lucide="settings" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_settings_title">Settings</div>
             <div class="text-[9px] text-gray-400" data-i18n="mobile_quick_settings_sub">Options & Privacy</div>
@@ -3155,7 +3244,9 @@
 
         <!-- 12. App installieren -->
         <button onclick="closeMobileQuickMenu(); triggerPwaInstall();" class="p-3 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <span class="text-xl">📲</span>
+          <div class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0">
+            <i data-lucide="download" class="w-4 h-4"></i>
+          </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_install_title">App installieren</div>
             <div class="text-[9px] text-amber-400" data-i18n="mobile_quick_install_sub">PWA Desktop & Mobile</div>
@@ -3191,13 +3282,13 @@
 
       <!-- 2 Fokussierte Haupt-Tabs -->
       <div class="grid grid-cols-2 gap-1.5 p-1 bg-black/40 border border-white/10 rounded-2xl mb-4 text-[11px] font-bold">
-        <button id="whatnow-tab-suggestion" onclick="switchWhatNowTab('suggestion')" class="py-2 px-3 rounded-xl bg-gradient-to-r from-orange-500/25 to-amber-600/25 border border-orange-400/40 text-orange-200 text-center transition cursor-pointer flex items-center justify-center gap-2 shadow-sm">
-          <span>🎯</span>
-          <span data-i18n="pick_tab_suggestion">Smarter Fokus-Vorschlag</span>
+        <button id="whatnow-tab-suggestion" onclick="switchWhatNowTab('suggestion')" class="py-2 px-3 rounded-xl bg-gradient-to-r from-orange-500/25 to-amber-600/25 border border-orange-400/40 text-orange-200 text-center transition cursor-pointer flex items-center justify-center gap-1.5 shadow-sm">
+          <i data-lucide="crosshair" class="w-3.5 h-3.5 text-orange-400"></i>
+          <span data-i18n="pick_tab_suggestion">Fokus-Vorschlag</span>
         </button>
-        <button id="whatnow-tab-dilemma" onclick="switchWhatNowTab('dilemma')" class="py-2 px-3 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-2 border border-transparent">
-          <span>⚖️</span>
-          <span data-i18n="pick_tab_dilemma">A vs. B Dilemma-Löser</span>
+        <button id="whatnow-tab-dilemma" onclick="switchWhatNowTab('dilemma')" class="py-2 px-3 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-1.5 border border-transparent">
+          <i data-lucide="scale" class="w-3.5 h-3.5"></i>
+          <span data-i18n="pick_tab_dilemma">A vs. B Entscheidung</span>
         </button>
       </div>
 
@@ -3209,20 +3300,20 @@
         <!-- Energie- / Zeit-Filter -->
         <div class="grid grid-cols-4 gap-1 p-1 bg-white/[0.03] border border-white/10 rounded-2xl">
           <button onclick="setWhatNowEnergyLevel('low')" id="whatnow-energy-low" class="py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-gray-400 hover:text-white transition cursor-pointer flex flex-col items-center gap-0.5 border border-transparent">
-            <span data-i18n="pick_energy_low">🔋 Quick Win</span>
+            <span data-i18n="pick_energy_low">Kurz</span>
             <span class="text-[8px] font-mono opacity-60">2-5 Min</span>
           </button>
           <button onclick="setWhatNowEnergyLevel('med')" id="whatnow-energy-med" class="py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-orange-200 bg-orange-500/20 border border-orange-500/40 transition cursor-pointer flex flex-col items-center gap-0.5 shadow-sm">
-            <span data-i18n="pick_energy_med">⚡ Fokus</span>
+            <span data-i18n="pick_energy_med">Fokus</span>
             <span class="text-[8px] font-mono opacity-80">15-25 Min</span>
           </button>
           <button onclick="setWhatNowEnergyLevel('high')" id="whatnow-energy-high" class="py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-gray-400 hover:text-white transition cursor-pointer flex flex-col items-center gap-0.5 border border-transparent">
-            <span data-i18n="pick_energy_high">🔥 Deep Work</span>
+            <span data-i18n="pick_energy_high">Deep Work</span>
             <span class="text-[8px] font-mono opacity-60">45+ Min</span>
           </button>
           <button onclick="setWhatNowEnergyLevel('random')" id="whatnow-energy-random" class="py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-gray-400 hover:text-white transition cursor-pointer flex flex-col items-center gap-0.5 border border-transparent">
-            <span data-i18n="pick_energy_random">🎲 Random</span>
-            <span class="text-[8px] font-mono opacity-60">Zufall</span>
+            <span data-i18n="pick_energy_random">Zufall</span>
+            <span class="text-[8px] font-mono opacity-60">Random</span>
           </button>
         </div>
 
@@ -3245,8 +3336,8 @@
       <!-- ========================================== -->
       <div id="whatnow-pane-dilemma" class="hidden space-y-3.5">
         <div class="p-3 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-[11px] text-orange-200/90 leading-relaxed flex items-center gap-2">
-          <span class="text-base shrink-0">🪙</span>
-          <span data-i18n="pick_dilemma_hint">Zwischen zwei Dingen gefangen? Lass den Münzwurf entscheiden – dein Bauchgefühl merkt sofort, ob du mit dem Ergebnis zufrieden bist!</span>
+          <i data-lucide="scale" class="w-4 h-4 text-orange-400 shrink-0"></i>
+          <span data-i18n="pick_dilemma_hint">Zwischen zwei Optionen unentschlossen? Lass den Münzwurf entscheiden – dein Bauchgefühl reagiert sofort auf das Ergebnis.</span>
         </div>
 
         <div class="space-y-2">
@@ -3261,7 +3352,7 @@
         </div>
 
         <button onclick="flipWhatNowDilemma()" class="w-full py-2.5 px-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-black font-black text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer active:scale-95">
-          <span class="text-sm">🪙</span>
+          <i data-lucide="circle-dot" class="w-4 h-4"></i>
           <span data-i18n="pick_coin_flip">Münze werfen & entscheiden</span>
         </button>
 
@@ -3296,9 +3387,9 @@
 
         <!-- Live Stats Pill -->
         <div id="sport-stats-badge" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 rounded-xl text-[10px] text-gray-300 font-mono">
-          <span>⚡ <strong class="text-lime-300">0</strong> Sessions</span>
+          <span class="flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3 text-lime-400"></i> <strong class="text-lime-300">0</strong> Sessions</span>
           <span class="text-gray-600">|</span>
-          <span>⏱️ <strong class="text-lime-300">0</strong>m</span>
+          <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3 text-lime-400"></i> <strong class="text-lime-300">0</strong>m</span>
         </div>
       </div>
 
@@ -3341,7 +3432,7 @@
           <div class="p-3 bg-white/[0.02] border border-white/10 rounded-2xl space-y-3">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div>
-                <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_duration_scope">⏱️ Dauer / Umfang</label>
+                <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_duration_scope">Dauer / Umfang</label>
                 <select id="sport-builder-duration" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
                   <option value="3" data-i18n="sport_opt_3min">3 Min. · 3 Übungen (Express)</option>
                   <option value="5" selected data-i18n="sport_opt_5min">5 Min. · 5 Übungen (Optimal)</option>
@@ -3351,26 +3442,26 @@
                 </select>
               </div>
               <div>
-                <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_focus_zone">🎯 Fokus-Zone</label>
+                <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_focus_zone">Fokus-Zone</label>
                 <select id="sport-builder-zone" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
-                  <option value="all" selected data-i18n="sport_zone_fullbody">🌟 Ausgewogener Ganzkörper-Mix</option>
-                  <option value="mobility">🪑 Desk-Mobility & Nacken-Reset</option>
-                  <option value="core" data-i18n="sport_zone_core">🔥 Core & Rumpfstabilität</option>
-                  <option value="legs" data-i18n="sport_zone_legs_nojump">🦵 Beine & Gesäß (Ohne Springen)</option>
-                  <option value="upper" data-i18n="sport_zone_upper">💪 Oberkörper & Haltung</option>
-                  <option value="full">🤸 Cardio-Flow (Low Impact)</option>
+                  <option value="all" selected data-i18n="sport_zone_fullbody">Ausgewogener Ganzkörper-Mix</option>
+                  <option value="mobility">Desk-Mobility & Nacken-Reset</option>
+                  <option value="core" data-i18n="sport_zone_core">Core & Rumpfstabilität</option>
+                  <option value="legs" data-i18n="sport_zone_legs_nojump">Beine & Gesäß (Ohne Springen)</option>
+                  <option value="upper" data-i18n="sport_zone_upper">Oberkörper & Haltung</option>
+                  <option value="full">Cardio-Flow (Low Impact)</option>
                 </select>
               </div>
               <div>
-                <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_available_equip">🪑 Verfügbares Equipment</label>
+                <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_available_equip">Verfügbares Equipment</label>
                 <select id="sport-builder-equip" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
-                  <option value="all" selected>✨ Alles (Bodyweight, Stuhl, Wand, Matte)</option>
-                  <option value="none">🚫 Rein Bodyweight (Kein Equipment)</option>
-                  <option value="chair">🪑 Nur Schreibtischstuhl / Wand</option>
+                  <option value="all" selected>Alles (Bodyweight, Stuhl, Wand, Matte)</option>
+                  <option value="none">Rein Bodyweight (Kein Equipment)</option>
+                  <option value="chair">Nur Schreibtischstuhl / Wand</option>
                 </select>
               </div>
               <div>
-                <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_interval_timing">⚡ Intervall-Taktung (Übung/Pause)</label>
+                <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_interval_timing">Intervall-Taktung (Übung/Pause)</label>
                 <select id="sport-builder-interval" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
                   <option value="30_15">30s Aktiv / 15s Pause (Sanft)</option>
                   <option value="45_15" selected>45s Aktiv / 15s Pause (Standard)</option>
@@ -3385,7 +3476,7 @@
               <input type="checkbox" id="sport-builder-quiet" checked onchange="updateCustomWorkoutPreview()" class="w-4 h-4 rounded text-lime-500 focus:ring-lime-400 cursor-pointer accent-lime-500">
               <div class="text-left min-w-0">
                 <span class="text-xs font-bold text-gray-200 flex items-center gap-1.5">
-                  <span data-i18n="sport_quiet_apartment">🛋️ 100% Nachbarschafts-Freundlich</span>
+                  <span data-i18n="sport_quiet_apartment">Nachbarschafts-Freundlich</span>
                   <span class="text-[9px] px-1.5 py-0.2 rounded-md bg-lime-500/20 text-lime-300 font-mono font-bold" data-i18n="sport_whisper_quiet">Flüsterleise</span>
                 </span>
                 <p class="text-[10px] text-gray-400 leading-tight"><span data-i18n="sport_quiet_desc">Kein Springen, kein Trittschall, geräuschlos auf Teppich oder Parkett.</span></p>

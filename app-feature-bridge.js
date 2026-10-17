@@ -28,26 +28,29 @@
     const taskText = String(taskObj.task || taskObj.title || taskObj.name || '').trim();
     const explicitLinks = taskObj.toolLinks || {};
 
-    // 1. Expliziter Timer oder Regex-Dauer / @timer
-    if (explicitLinks.timer) {
-      links.push({
-        type: 'timer',
-        icon: 'timer',
-        label: explicitLinks.timer.label || `${explicitLinks.timer.minutes || 25}m Timer`,
-        color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
-        data: explicitLinks.timer
-      });
-    } else {
-      const timerMatch = taskText.match(/@timer\s*(\d+)?m?/i) || taskText.match(/\b(\d{1,3})\s*(?:min|minute|minuten|m)\b/i);
-      if (timerMatch) {
-        const mins = parseInt(timerMatch[1], 10) || 25;
+    // 1. Expliziter Timer oder @timer Tag (kein automatischer Regex-Button bei "5min aufräumen" etc.)
+    const is5MinCleanTask = /^5\s*min/i.test(taskText) && /(aufräum|aufraeum|tidy|recoger|rangement|riordino|τακτοποίηση)/i.test(taskText);
+    if (!is5MinCleanTask) {
+      if (explicitLinks.timer) {
         links.push({
           type: 'timer',
           icon: 'timer',
-          label: `${mins}m Fokus`,
+          label: explicitLinks.timer.label || `${explicitLinks.timer.minutes || 25}m Timer`,
           color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
-          data: { minutes: mins }
+          data: explicitLinks.timer
         });
+      } else {
+        const timerMatch = taskText.match(/@timer\s*(\d+)?m?/i);
+        if (timerMatch) {
+          const mins = parseInt(timerMatch[1], 10) || 25;
+          links.push({
+            type: 'timer',
+            icon: 'timer',
+            label: `${mins}m Fokus`,
+            color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
+            data: { minutes: mins }
+          });
+        }
       }
     }
 

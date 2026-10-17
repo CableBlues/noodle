@@ -18,34 +18,34 @@ if (typeof window !== 'undefined') {
 // 6-LANGUAGE DEFAULT LIST DICTIONARY (Full Rich Standard Routine)
 const DEFAULT_TASKS_BY_LANG = {
   de: {
-    daily: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', 'Wichtigste Aufgabe (Fokus)', 'Kochen', '10 Min. Abend-Aufräumen', 'Duschen', 'Zähne abends'],
-    weekly: ['Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
-    occasionally: ['Haare schneiden', 'Haare waschen', 'Nägel schneiden', 'Bettwäsche tauschen', 'Herd & Kühlschrank putzen', 'Türe/Fenster putzen']
+    daily: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', '5min aufräumen', 'Zähne abends'],
+    weekly: ['Aufräumen', 'Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
+    occasionally: ['Duschen', 'Kochen', 'Aufräumen', 'Haare schneiden', 'Haare waschen', 'Nägel schneiden', 'Bettwäsche tauschen', 'Herd & Kühlschrank putzen', 'Türe/Fenster putzen']
   },
   en: {
-    daily: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', 'Key Priority (Focus)', 'Cook a meal', '10 min. Evening Tidy-up', 'Take a shower', 'Brush teeth (evening)'],
-    weekly: ['Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
-    occasionally: ['Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows']
+    daily: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', '5 min tidy-up', 'Brush teeth (evening)'],
+    weekly: ['Tidy up', 'Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
+    occasionally: ['Take a shower', 'Cook a meal', 'Tidy up', 'Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows']
   },
   es: {
-    daily: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', 'Prioridad clave (Foco)', 'Cocinar', '10 min recogida nocturna', 'Ducharse', 'Cepillarse los dientes (noche)'],
-    weekly: ['Lavar los platos', 'Hacer la colada', 'Colgar la ropa', 'Limpiar el lavabo y espejo', 'Azulejos y bañera', 'Limpiar el váter', 'Quitar el polvo', 'Pasar la aspiradora', 'Fregar el suelo', 'Sacar la basura', 'Llevar botellas retornables'],
-    occasionally: ['Cortarse el pelo', 'Lavarse el pelo', 'Cortarse las uñas', 'Cambiar las sábanas', 'Limpiar cocina y nevera', 'Limpiar puertas y ventanas']
+    daily: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', '5 min recoger', 'Cepillarse los dientes (noche)'],
+    weekly: ['Ordenar', 'Lavar los platos', 'Hacer la colada', 'Colgar la ropa', 'Limpiar el lavabo y espejo', 'Azulejos y bañera', 'Limpiar el váter', 'Quitar el polvo', 'Pasar la aspiradora', 'Fregar el suelo', 'Sacar la basura', 'Llevar botellas retornables'],
+    occasionally: ['Ducharse', 'Cocinar', 'Ordenar', 'Cortarse el pelo', 'Lavarse el pelo', 'Cortarse las uñas', 'Cambiar las sábanas', 'Limpiar cocina y nevera', 'Limpiar puertas y ventanas']
   },
   el: {
-    daily: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', 'Κύρια προτεραιότητα (Focus)', 'Μαγειρική', '10 λ. βραδινή τακτοποίηση', 'Ντους', 'Πλύσιμο δοντιών (βράδυ)'],
-    weekly: ['Πλύσιμο πιάτων', 'Πλύσιμο ρούχων', 'Άπλωμα ρούχων', 'Καθαρισμός νιπτήρα & καθρέφτη', 'Πλακάκια & μπανιέρα', 'Καθαρισμός λεκάνης', 'Ξεσκόνισμα', 'Σκούπισμα', 'Σφουγγάρισμα', 'Πέταμα σκουπιδιών', 'Επιστροφή άδειων μπουκαλιών'],
-    occasionally: ['Κούρεμα', 'Λούσιμο', 'Κόψιμο νυχιών', 'Αλλαγή σεντονιών', 'Καθαρισμός κουζίνας & ψυγείου', 'Καθαρισμός πορτών & παραθύρων']
+    daily: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', '5 λ. τακτοποίηση', 'Πλύσιμο δοντιών (βράδυ)'],
+    weekly: ['Τακτοποίηση', 'Πλύσιμο πιάτων', 'Πλύσιμο ρούχων', 'Άπλωμα ρούχων', 'Καθαρισμός νιπτήρα & καθρέφτη', 'Πλακάκια & μπανιέρα', 'Καθαρισμός λεκάνης', 'Ξεσκόνισμα', 'Σκούπισμα', 'Σφουγγάρισμα', 'Πέταμα σκουπιδιών', 'Επιστροφή άδειων μπουκαλιών'],
+    occasionally: ['Ντους', 'Μαγειρική', 'Τακτοποίηση', 'Κούρεμα', 'Λούσιμο', 'Κόψιμο νυχιών', 'Αλλαγή σεντονιών', 'Καθαρισμός κουζίνας & ψυγείου', 'Καθαρισμός πορτών & παραθύρων']
   },
   fr: {
-    daily: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', 'Priorité clé (Focus)', 'Préparer un repas', '10 min rangement du soir', 'Prendre une douche', 'Brossage des dents (soir)'],
-    weekly: ['Faire la vaisselle', 'Faire une lessive', 'Étendre le linge', 'Nettoyer lavabo & armoire à miroir', 'Carrelage & baignoire', 'Nettoyer les toilettes', 'Épousseter', 'Passer l\'aspirateur', 'Laver le sol', 'Sortir les poubelles', 'Rapporter les bouteilles consignées'],
-    occasionally: ['Se couper les cheveux', 'Se laver les cheveux', 'Se couper les ongles', 'Changer les draps', 'Nettoyer cuisinière & réfrigérateur', 'Nettoyer portes & fenêtres']
+    daily: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', '5 min de rangement', 'Brossage des dents (soir)'],
+    weekly: ['Rangement', 'Faire la vaisselle', 'Faire une lessive', 'Étendre le linge', 'Nettoyer lavabo & armoire à miroir', 'Carrelage & baignoire', 'Nettoyer les toilettes', 'Épousseter', 'Passer l\'aspirateur', 'Laver le sol', 'Sortir les poubelles', 'Rapporter les bouteilles consignées'],
+    occasionally: ['Prendre une douche', 'Préparer un repas', 'Rangement', 'Se couper les cheveux', 'Se laver les cheveux', 'Se couper les ongles', 'Changer les draps', 'Nettoyer cuisinière & réfrigérateur', 'Nettoyer portes & fenêtres']
   },
   it: {
-    daily: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', 'Priorità chiave (Focus)', 'Preparare un pasto', '10 min riordino serale', 'Fare la doccia', 'Lavare i denti (sera)'],
-    weekly: ['Lavare i piatti', 'Fare il bucato', 'Stendere il bucato', 'Pulire lavandino e armadietto specchio', 'Piastrelle e vasca', 'Pulire il WC', 'Spolverare', 'Passare l\'aspirapolvere', 'Lavare i pavimenti', 'Portare fuori la spazzatura', 'Riportare le bottiglie con vuoto a rendere'],
-    occasionally: ['Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre']
+    daily: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', '5 min riordino', 'Lavare i denti (sera)'],
+    weekly: ['Riordinare', 'Lavare i piatti', 'Fare il bucato', 'Stendere il bucato', 'Pulire lavandino e armadietto specchio', 'Piastrelle e vasca', 'Pulire il WC', 'Spolverare', 'Passare l\'aspirapolvere', 'Lavare i pavimenti', 'Portare fuori la spazzatura', 'Riportare le bottiglie con vuoto a rendere'],
+    occasionally: ['Fare la doccia', 'Preparare un pasto', 'Riordinare', 'Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre']
   }
 };
 
@@ -106,10 +106,10 @@ const CATEGORIES = [
   ['weekly', 'calendar-days'],
   ['todo', 'list-todo'],
   ['daily', 'sun'],
-  ['termine', 'clock'],
-  ['occasionally', 'calendar-range'],
   ['notes', 'sticky-note'],
-  ['done', 'check-circle']
+  ['termine', 'clock'],
+  ['done', 'check-circle'],
+  ['occasionally', 'calendar-range']
 ];
 
 const TASK_ICONS = {
@@ -140,7 +140,7 @@ const TASK_ICONS = {
   'Türe/Fenster putzen': 'sparkles', 'Cleaning doors & windows': 'sparkles', 'Limpiar puertas y ventanas': 'sparkles', 'Καθαρισμός πορτών & παραθύρων': 'sparkles', 'Nettoyer portes & fenêtres': 'sparkles', 'Pulire porte e finestre': 'sparkles',
   'Herd & Kühlschrank putzen': 'cooking-pot', 'Cleaning stove & fridge': 'cooking-pot', 'Limpiar cocina y nevera': 'cooking-pot', 'Καθαρισμός κουζίνας & ψυγείου': 'cooking-pot', 'Nettoyer cuisinière & frigo': 'cooking-pot', 'Pulire fornelli e frigo': 'cooking-pot',
   'Wichtigste Aufgabe (Fokus)': 'target', 'Key Priority (Focus)': 'target', 'Prioridad clave (Foco)': 'target', 'Priorité clé (Focus)': 'target', 'Priorità chiave (Focus)': 'target', 'Κύρια προτεραιότητα (Focus)': 'target',
-  '10 Min. Abend-Aufräumen': 'sparkles', '10 min. Evening Tidy-up': 'sparkles', '10 min recogida nocturna': 'sparkles', '10 min rangement du soir': 'sparkles', '10 min riordino serale': 'sparkles', '10 λ. βραδινή τακτοποίηση': 'sparkles',
+  '5min aufräumen': '', '5 min aufräumen': '', '5 min tidy-up': '', '5 min recoger': '', '5 min de rangement': '', '5 min riordino': '', '5 λ. τακτοποίηση': '', '10 min. Evening Tidy-up': 'sparkles', '10 min recogida nocturna': 'sparkles', '10 min rangement du soir': 'sparkles', '10 min riordino serale': 'sparkles', '10 λ. βραδινή τακτοποίηση': 'sparkles',
   'Großes Glas Wasser trinken': 'glass-water', 'Drink large glass of water': 'glass-water', 'Beber un gran vaso de agua': 'glass-water', 'Boire un grand verre d\'eau': 'glass-water', 'Bere un grande bicchiere d\'acqua': 'glass-water', 'Μεγάλο ποτήρι νερό': 'glass-water',
   'Pflanzen gießen': 'droplets', 'Water plants': 'droplets', 'Regar las plantas': 'droplets', 'Arroser les plantes': 'droplets', 'Annaffiare le piante': 'droplets', 'Πότισμα φυτών': 'droplets',
   'Digitales Aufräumen (Desktop/Downloads)': 'folder-kanban', 'Digital declutter (desktop/downloads)': 'folder-kanban', 'Limpieza digital (escritorio/descargas)': 'folder-kanban', 'Tri numérique (bureau/téléchargements)': 'folder-kanban', 'Decluttering digitale (desktop/download)': 'folder-kanban', 'Ψηφιακό ξεκαθάρισμα': 'folder-kanban',
@@ -182,28 +182,28 @@ const ROUTINE_PRESETS = [
     color: 'from-purple-500 to-indigo-500',
     tasks: {
       daily: {
-        de: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', 'Wichtigste Aufgabe (Fokus)', 'Kochen', '10 Min. Abend-Aufräumen', 'Duschen', 'Zähne abends'],
-        en: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', 'Key Priority (Focus)', 'Cook a meal', '10 min. Evening Tidy-up', 'Take a shower', 'Brush teeth (evening)'],
-        es: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', 'Prioridad clave (Foco)', 'Cocinar', '10 min recogida nocturna', 'Ducharse', 'Cepillarse los dientes (noche)'],
-        fr: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', 'Priorité clé (Focus)', 'Préparer un repas', '10 min rangement du soir', 'Prendre une douche', 'Brossage des dents (soir)'],
-        it: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', 'Priorità chiave (Focus)', 'Preparare un pasto', '10 min riordino serale', 'Fare la doccia', 'Lavare i denti (sera)'],
-        el: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', 'Κύρια προτεραιότητα (Focus)', 'Μαγειρική', '10 λ. βραδινή τακτοποίηση', 'Ντους', 'Πλύσιμο δοντιών (βράδυ)']
+        de: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', '5min aufräumen', 'Zähne abends'],
+        en: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', '5 min tidy-up', 'Brush teeth (evening)'],
+        es: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', '5 min recoger', 'Cepillarse los dientes (noche)'],
+        fr: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', '5 min de rangement', 'Brossage des dents (soir)'],
+        it: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', '5 min riordino', 'Lavare i denti (sera)'],
+        el: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', '5 λ. τακτοποίηση', 'Πλύσιμο δοντιών (βράδυ)']
       },
       weekly: {
-        de: ['Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
-        en: ['Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
-        es: ['Lavar los platos', 'Hacer la colada', 'Colgar la ropa', 'Limpiar el lavabo y espejo', 'Azulejos y bañera', 'Limpiar el váter', 'Quitar el polvo', 'Pasar la aspiradora', 'Fregar el suelo', 'Sacar la basura', 'Llevar botellas retornables'],
-        fr: ['Faire la vaisselle', 'Faire une lessive', 'Étendre le linge', 'Nettoyer lavabo & armoire à miroir', 'Carrelage & baignoire', 'Nettoyer les toilettes', 'Épousseter', 'Passer l\'aspirateur', 'Laver le sol', 'Sortir les poubelles', 'Rapporter les bouteilles consignées'],
-        it: ['Lavare i piatti', 'Fare il bucato', 'Stendere il bucato', 'Pulire lavandino e armadietto specchio', 'Piastrelle e vasca', 'Pulire il WC', 'Spolverare', 'Passare l\'aspirapolvere', 'Lavare i pavimenti', 'Portare fuori la spazzatura', 'Riportare le bottiglie con vuoto a rendere'],
-        el: ['Πλύσιμο πιάτων', 'Πλύσιμο ρούχων', 'Άπλωμα ρούχων', 'Καθαρισμός νιπτήρα & καθρέφτη', 'Πλακάκια & μπανιέρα', 'Καθαρισμός λεκάνης', 'Ξεσκόνισμα', 'Σκούπισμα', 'Σφουγγάρισμα', 'Πέταμα σκουπιδιών', 'Επιστροφή άδειων μπουκαλιών']
+        de: ['Aufräumen', 'Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
+        en: ['Tidy up', 'Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
+        es: ['Ordenar', 'Lavar los platos', 'Hacer la colada', 'Colgar la ropa', 'Limpiar el lavabo y espejo', 'Azulejos y bañera', 'Limpiar el váter', 'Quitar el polvo', 'Pasar la aspiradora', 'Fregar el suelo', 'Sacar la basura', 'Llevar botellas retornables'],
+        fr: ['Rangement', 'Faire la vaisselle', 'Faire une lessive', 'Étendre le linge', 'Nettoyer lavabo & armoire à miroir', 'Carrelage & baignoire', 'Nettoyer les toilettes', 'Épousseter', 'Passer l\'aspirateur', 'Laver le sol', 'Sortir les poubelles', 'Rapporter les bouteilles consignées'],
+        it: ['Riordinare', 'Lavare i piatti', 'Fare il bucato', 'Stendere il bucato', 'Pulire lavandino e armadietto specchio', 'Piastrelle e vasca', 'Pulire il WC', 'Spolverare', 'Passare l\'aspirapolvere', 'Lavare i pavimenti', 'Portare fuori la spazzatura', 'Riportare le bottiglie con vuoto a rendere'],
+        el: ['Τακτοποίηση', 'Πλύσιμο πιάτων', 'Πλύσιμο ρούχων', 'Άπλωμα ρούχων', 'Καθαρισμός νιπτήρα & καθρέφτη', 'Πλακάκια & μπανιέρα', 'Καθαρισμός λεκάνης', 'Ξεσκόνισμα', 'Σκούπισμα', 'Σφουγγάρισμα', 'Πέταμα σκουπιδιών', 'Επιστροφή άδειων μπουκαλιών']
       },
       occasionally: {
-        de: ['Haare schneiden', 'Haare waschen', 'Nägel schneiden', 'Bettwäsche tauschen', 'Herd & Kühlschrank putzen', 'Türe/Fenster putzen'],
-        en: ['Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows'],
-        es: ['Cortarse el pelo', 'Lavarse el pelo', 'Cortarse las uñas', 'Cambiar las sábanas', 'Limpiar cocina y nevera', 'Limpiar puertas y ventanas'],
-        fr: ['Se couper les cheveux', 'Se laver les cheveux', 'Se couper les ongles', 'Changer les draps', 'Nettoyer cuisinière & réfrigérateur', 'Nettoyer portes & fenêtres'],
-        it: ['Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre'],
-        el: ['Κούρεμα', 'Λούσιμο', 'Κόψιμο νυχιών', 'Αλλαγή σεντονιών', 'Καθαρισμός κουζίνας & ψυγείου', 'Καθαρισμός πορτών & παραθύρων']
+        de: ['Duschen', 'Kochen', 'Aufräumen', 'Haare schneiden', 'Haare waschen', 'Nägel schneiden', 'Bettwäsche tauschen', 'Herd & Kühlschrank putzen', 'Türe/Fenster putzen'],
+        en: ['Take a shower', 'Cook a meal', 'Tidy up', 'Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows'],
+        es: ['Ducharse', 'Cocinar', 'Ordenar', 'Cortarse el pelo', 'Lavarse el pelo', 'Cortarse las uñas', 'Cambiar las sábanas', 'Limpiar cocina y nevera', 'Limpiar puertas y ventanas'],
+        fr: ['Prendre une douche', 'Préparer un repas', 'Rangement', 'Se couper les cheveux', 'Se laver les cheveux', 'Se couper les ongles', 'Changer les draps', 'Nettoyer cuisinière & réfrigérateur', 'Nettoyer portes & fenêtres'],
+        it: ['Fare la doccia', 'Preparare un pasto', 'Riordinare', 'Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre'],
+        el: ['Ντους', 'Μαγειρική', 'Τακτοποίηση', 'Κούρεμα', 'Λούσιμο', 'Κόψιμο νυχιών', 'Αλλαγή σεντονιών', 'Καθαρισμός κουζίνας & ψυγείου', 'Καθαρισμός πορτών & παραθύρων']
       }
     }
   },
@@ -237,12 +237,12 @@ const ROUTINE_PRESETS = [
     color: 'from-teal-500 to-emerald-500',
     tasks: {
       daily: {
-        de: ['Zähne morgens', 'Bett machen', 'Wichtigste Aufgabe (Fokus)', 'Zähne abends'],
-        en: ['Brush teeth (morning)', 'Make bed', 'Key Priority (Focus)', 'Brush teeth (evening)'],
-        es: ['Cepillarse los dientes (mañana)', 'Hacer la cama', 'Prioridad clave (Foco)', 'Cepillarse los dientes (noche)'],
-        fr: ['Brossage des dents (matin)', 'Faire le lit', 'Priorité clé (Focus)', 'Brossage des dents (soir)'],
-        it: ['Lavare i denti (mattina)', 'Rifare il letto', 'Priorità chiave (Focus)', 'Lavare i denti (sera)'],
-        el: ['Πλύσιμο δοντιών (πρωί)', 'Στρώσιμο κρεβατιού', 'Κύρια προτεραιότητα (Focus)', 'Πλύσιμο δοντιών (βράδυ)']
+        de: ['Zähne morgens', 'Bett machen', 'Zähne abends'],
+        en: ['Brush teeth (morning)', 'Make bed', 'Brush teeth (evening)'],
+        es: ['Cepillarse los dientes (mañana)', 'Hacer la cama', 'Cepillarse los dientes (noche)'],
+        fr: ['Brossage des dents (matin)', 'Faire le lit', 'Brossage des dents (soir)'],
+        it: ['Lavare i denti (mattina)', 'Rifare il letto', 'Lavare i denti (sera)'],
+        el: ['Πλύσιμο δοντιών (πρωί)', 'Στρώσιμο κρεβατιού', 'Πλύσιμο δοντιών (βράδυ)']
       },
       weekly: {
         de: ['Staubsaugen', 'Geschirr spülen', 'Wäsche waschen', 'Müll wegbringen'],
@@ -292,12 +292,12 @@ const ROUTINE_PRESETS = [
     color: 'from-amber-500 to-rose-500',
     tasks: {
       daily: {
-        de: ['Großes Glas Wasser trinken', 'Medis', 'Zähne morgens', 'Fenster 5 Min. aufreißen', '1 Wichtigste Aufgabe (Fokus)', '5 Min. Reset nach Arbeit', '10 Min. Abend-Aufräumen', 'Zähne abends'],
-        en: ['Drink large glass of water', 'Meds', 'Brush teeth (morning)', 'Open window for 5 mins', '1 Main Focus Task', '5 min post-work reset', '10 min. Evening Tidy-up', 'Brush teeth (evening)'],
-        es: ['Beber un gran vaso de agua', 'Medicación', 'Cepillarse los dientes (mañana)', 'Abrir ventana 5 min', '1 Tarea clave (Foco)', '5 min reseteo post-trabajo', '10 min recogida nocturna', 'Cepillarse los dientes (noche)'],
-        fr: ['Boire un grand verre d\'eau', 'Médicaments', 'Brossage des dents (matin)', 'Ouvrir la fenêtre 5 min', '1 Tâche Focus Principale', '5 min pause reset après travail', '10 min rangement du soir', 'Brossage des dents (soir)'],
-        it: ['Bere un grande bicchiere d\'acqua', 'Farmaci', 'Lavare i denti (mattina)', 'Aprire finestra 5 min', '1 Attività Chiave (Focus)', '5 min reset post-lavoro', '10 min riordino serale', 'Lavare i denti (sera)'],
-        el: ['Μεγάλο ποτήρι νερό', 'Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Άνοιγμα παραθύρου 5 λ.', '1 Κύρια εργασία εστίασης', '5 λ. αποφόρτιση μετά τη δουλειά', '10 λ. βραδινή τακτοποίηση', 'Πλύσιμο δοντιών (βράδυ)']
+        de: ['Großes Glas Wasser trinken', 'Medis', 'Zähne morgens', 'Fenster 5 Min. aufreißen', '5 Min. Reset nach Arbeit', '5min aufräumen', 'Zähne abends'],
+        en: ['Drink large glass of water', 'Meds', 'Brush teeth (morning)', 'Open window for 5 mins', '5 min post-work reset', '5 min tidy-up', 'Brush teeth (evening)'],
+        es: ['Beber un gran vaso de agua', 'Medicación', 'Cepillarse los dientes (mañana)', 'Abrir ventana 5 min', '5 min reseteo post-trabajo', '5 min recoger', 'Cepillarse los dientes (noche)'],
+        fr: ['Boire un grand verre d\'eau', 'Médicaments', 'Brossage des dents (matin)', 'Ouvrir la fenêtre 5 min', '5 min pause reset après travail', '5 min de rangement', 'Brossage des dents (soir)'],
+        it: ['Bere un grande bicchiere d\'acqua', 'Farmaci', 'Lavare i denti (mattina)', 'Aprire finestra 5 min', '5 min reset post-lavoro', '5 min riordino', 'Lavare i denti (sera)'],
+        el: ['Μεγάλο ποτήρι νερό', 'Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Άνοιγμα παραθύρου 5 λ.', '5 λ. αποφόρτιση μετά τη δουλειά', '5 λ. τακτοποίηση', 'Πλύσιμο δοντιών (βράδυ)']
       },
       weekly: {
         de: ['15 Min. Turbo-Staubsaugen', '1 Waschladung waschen & aufhängen', 'Klo kurz reinigen', 'Müllbeutel vor die Tür', 'Pfandflaschen sammeln'],
@@ -504,7 +504,7 @@ const TASK_SUGGESTIONS_CATALOG = {
       el: '🌙 Βραδινή Ρουτίνα & Χαλάρωση'
     },
     items: [
-      { de: '10 Min. Abend-Aufräumen', en: '10 min. Evening Tidy-up', es: '10 min recogida nocturna', fr: '10 min rangement du soir', it: '10 min riordino serale', el: '10 λ. βραδινή τακτοποίηση' },
+      { de: '5min aufräumen', en: '5 min tidy up', es: '5 min recogida nocturna', fr: '5 min rangement du soir', it: '5 min riordino serale', el: '5 λ. βραδινή τακτοποίηση' },
       { de: 'Zähne abends', en: 'Brush teeth (evening)', es: 'Cepillarse los dientes (noche)', fr: 'Brossage des dents (soir)', it: 'Lavare i denti (sera)', el: 'Πλύσιμο δοντιών (βράδυ)' },
       { de: 'Bildschirm-Pause (30 Min. vor Schlaf)', en: 'Screen-free time (30 min before bed)', es: 'Pausa de pantallas antes de dormir', fr: 'Pause écran (30 min avant sommeil)', it: 'Pausa schermi prima di dormire', el: 'Χωρίς οθόνες (30 λ. πριν τον ύπνο)' },
       { de: 'Buch / Kapitel lesen', en: 'Read a book / chapter', es: 'Leer un libro / capítulo', fr: 'Lire un livre / chapitre', it: 'Leggere un libro / capitolo', el: 'Διάβασμα βιβλίου' },
@@ -557,11 +557,17 @@ if (typeof globalThis !== 'undefined') {
 function getTaskIconDetails(taskText, category = '') {
   if (!taskText) return { icon: 'check-circle', color: 'text-purple-400' };
   const rawTrimmed = String(taskText).trim();
-  if (typeof TASK_ICONS !== 'undefined' && TASK_ICONS && TASK_ICONS[rawTrimmed]) {
+  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  // "5min aufräumen": kein extra Icon dazu im Button
+  if (/^5\s*min(\.|\s)?.*aufraum/i.test(norm) || norm === '5min aufraumen' || norm === '5 min aufraumen' || norm.includes('5min aufraum') || norm.includes('5 min aufraum')) {
+    return { icon: '', color: '' };
+  }
+
+  if (typeof TASK_ICONS !== 'undefined' && TASK_ICONS && TASK_ICONS[rawTrimmed] !== undefined) {
+    if (!TASK_ICONS[rawTrimmed]) return { icon: '', color: '' };
     return { icon: TASK_ICONS[rawTrimmed], color: 'text-purple-300' };
   }
-  
-  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
   const rules = [
     { rx: /medi|pill|tablett|vitam|pharmak|arzt|doctor|docteur|dottore|medico|therap|apothek|ordonnan|farmac|φαρμακ|γιατρ|ασθεν/, ic: 'pill', col: 'text-rose-400' },

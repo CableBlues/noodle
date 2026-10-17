@@ -1704,7 +1704,7 @@ function renderApp() {
         itemDiv.onclick = () => editTermin(originalIndex);
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-14 select-none">
-            <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
+            <button onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
               <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-lime-400 bg-lime-500/20 text-lime-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : 'border-[#89cff0]/40 bg-[#89cff0]/10 hover:border-lime-400 hover:bg-lime-500/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${status === 'stattgefunden' 
                   ? svgFn('check', 'w-3.5 h-3.5 text-lime-400')
@@ -1829,14 +1829,18 @@ function renderApp() {
           : '';
         const editTooltip = tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' });
         const completeTooltip = tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' });
-        const toolBadgesHTML = (typeof renderTaskToolBadgesHTML === 'function')
+        const is5MinClean = taskText.trim().toLowerCase() === '5min aufräumen' || taskText.trim().toLowerCase() === '5 min aufräumen' || !iconDetails.icon;
+        const toolBadgesHTML = (!is5MinClean && typeof renderTaskToolBadgesHTML === 'function')
           ? renderTaskToolBadgesHTML(taskObj, id, index)
           : '';
+        const checkIconInner = (is5MinClean || !iconDetails.icon)
+          ? ''
+          : svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`);
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none flex-wrap">
-            <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
+            <button onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
               <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-lime-400 hover:bg-lime-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
-                ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
+                ${checkIconInner}
                 ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
               </span>
             </button>
@@ -1845,9 +1849,6 @@ function renderApp() {
             ${toolBadgesHTML}
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
-            <button onclick="startTaskTimerByIndex('${id}', ${index}, event)" aria-label="${tr({ de: 'Timer für diese Aufgabe starten', en: 'Start timer for this task', fr: 'Lancer le minuteur', it: 'Avvia timer per questa attività', es: 'Iniciar temporizador', el: 'Εκκίνηση χρονοδιακόπτη' })}" class="p-1 px-1.5 text-amber-300 hover:text-white bg-[#1a1a28] hover:bg-amber-500/30 border border-white/20 hover:border-amber-400/50 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Fokus-Timer starten', en: 'Start focus timer', fr: 'Lancer le minuteur', it: 'Avvia timer', es: 'Iniciar temporizador', el: 'Εκκίνηση Timer' })}">
-              ${svgFn('timer', 'w-3.5 h-3.5 text-amber-400 hover:text-amber-200')}
-            </button>
             <button onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Timer, Chrono, Steps, etc.)', en: 'Options (Timer, Chrono, Steps, etc.)', fr: 'Options (Minuteur, Chrono, Steps, etc.)', it: 'Opzioni (Timer, Cronometro, Steps, etc.)', es: 'Opciones (Timer, Crono, Steps, etc.)', el: 'Επιλογές (Timer, Chrono, Steps)' })}">
               ${svgFn('more-horizontal', 'w-3.5 h-3.5 text-gray-200 hover:text-white')}
             </button>
@@ -2149,27 +2150,23 @@ function handleCompleteTask(category, index, event) {
         s.done.push(doneEntry);
       }
     }
+    if (category === 'occasionally' && (taskText.toLowerCase().includes('aufraum') || taskText.toLowerCase().includes('tidy'))) {
+      s.lastOccasionalAufräumenDoneDate = todayStr;
+    }
   }
 
   if (state && state.completedSteps) delete state.completedSteps[taskText];
 
-  if (typeof setThemeSlow === 'function' && typeof getSimilarTheme === 'function') {
-    setThemeSlow(getSimilarTheme(currentTheme));
-  }
   saveState();
 
   if (typeof CollabEngine !== 'undefined') {
-    CollabEngine.broadcastBoardEvent(`hat Aufgabe erledigt: "${taskText.substring(0, 32)}" ✅`);
+    CollabEngine.broadcastBoardEvent(`hat Aufgabe erledigt: "${taskText.substring(0, 32)}"`);
   }
   if (typeof showPraise === 'function') showPraise();
 
-  // Instant sensory feedback
-  if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback();
-  if (typeof triggerSparkleEffect === 'function') triggerSparkleEffect(clientX, clientY);
+  // Dezentes haptisches und taktiles Feedback
+  if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
   if (typeof playTactileClickSound === 'function') playTactileClickSound();
-  if (typeof playCheerfulSuccessJingle === 'function') playCheerfulSuccessJingle();
-  if (typeof triggerCelebrationParticles === 'function') triggerCelebrationParticles(clientX, clientY);
-  if (typeof spawnFloatingBubbles === 'function') spawnFloatingBubbles(event);
 
   renderApp();
   if (typeof updateZenView === 'function') updateZenView();
@@ -2252,6 +2249,10 @@ function deleteTask(category, index, event) {
   }
 
   if (curItems[category]) curItems[category].splice(index, 1);
+  if (category === 'occasionally' && String(taskText).toLowerCase().includes('aufraum')) {
+    const sState = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+    if (sState) sState.lastOccasionalAufräumenDoneDate = new Date().toISOString().split('T')[0];
+  }
   if (taskText && state.completedSteps) delete state.completedSteps[taskText];
   saveState();
   showToast(t('toast_task_deleted'), { undo: true, duration: 5000 });
@@ -2356,6 +2357,8 @@ function rebindListDragHandlers(colId) {
     }
     const checkBtn = itemDiv.querySelector('.task-check-btn');
     if (checkBtn) {
+      checkBtn.onpointerdown = (e) => e.stopPropagation();
+      checkBtn.onmousedown = (e) => e.stopPropagation();
       checkBtn.onclick = (e) => handleCompleteTask(colId, idx, e);
       const completeTooltip = (typeof tr === 'function')
         ? tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' })

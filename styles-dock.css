@@ -184,45 +184,48 @@
 
 .tool-orb:hover .tool-orb-label,
 .tool-orb:hover > span:not([id]) {
-  filter: brightness(1.25) !important;
-  text-shadow: 0 0 10px var(--orb-glow, rgba(244, 63, 94, 0.55)) !important;
+  filter: brightness(1.15) !important;
+  text-shadow: none !important;
 }
 
 /* Spheres Styling - Prominent, Clear & Modern */
 .tool-orb .tool-orb-sphere {
-  width: 48px !important;
-  height: 48px !important;
-  border-radius: 15px !important;
-  border-width: 1.5px !important;
-  border-color: var(--orb-col, #f43f5e) !important;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 14px !important;
+  border-width: 1px !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
   color: var(--orb-col, #f43f5e) !important;
-  box-shadow: 0 0 14px var(--orb-glow, rgba(244, 63, 94, 0.35)) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .tool-orb:hover .tool-orb-sphere {
-  box-shadow: 0 0 22px var(--orb-glow, rgba(244, 63, 94, 0.6)), inset 0 0 12px var(--orb-glow, rgba(244, 63, 94, 0.4)) !important;
-  transform: scale(1.08) translateY(-2px) !important;
+  border-color: var(--orb-col, #f43f5e) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+  transform: translateY(-1.5px) !important;
 }
 
 /* ==========================================================================
-   HEADER ACTIONS: PAUSE (BABYBLAU #38bdf8) & STATISTIK (LILA #c084fc)
+   HEADER ACTIONS: PAUSE & STATISTIK (CALM ACCENTS)
    ========================================================================== */
 #header-btn-pause-container button {
-  background-color: rgba(56, 189, 248, 0.15) !important;
-  border: 1px solid rgba(56, 189, 248, 0.5) !important;
-  color: #7dd3fc !important;
-  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #94a3b8 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
 #header-btn-pause-container button:hover {
-  background-color: rgba(56, 189, 248, 0.28) !important;
-  border-color: #38bdf8 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.45) !important;
+  background-color: rgba(56, 189, 248, 0.12) !important;
+  border-color: rgba(56, 189, 248, 0.35) !important;
+  color: #bae6fd !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
 }
 
 #header-btn-pause-container button svg,
@@ -235,9 +238,9 @@
 }
 
 #header-btn-pause-container button span {
-  color: #7dd3fc !important;
+  color: #cbd5e1 !important;
   display: inline-block !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
 }
 
 #header-btn-pause-container button:hover span {
@@ -245,17 +248,17 @@
 }
 
 #header-btn-report-container button {
-  background-color: rgba(168, 85, 247, 0.15) !important;
-  border: 1px solid rgba(168, 85, 247, 0.5) !important;
-  color: #d8b4fe !important;
-  box-shadow: 0 0 14px rgba(168, 85, 247, 0.25) !important;
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #94a3b8 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
 #header-btn-report-container button:hover {
-  background-color: rgba(168, 85, 247, 0.28) !important;
-  border-color: #a855f7 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 18px rgba(168, 85, 247, 0.45) !important;
+  background-color: rgba(168, 85, 247, 0.12) !important;
+  border-color: rgba(168, 85, 247, 0.35) !important;
+  color: #e9d5ff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
 }
 
 #header-btn-report-container button i,
@@ -267,9 +270,9 @@
 
 #header-btn-report-container button span,
 #header-btn-report-container #btn-label-report {
-  color: #d8b4fe !important;
+  color: #cbd5e1 !important;
   display: inline-block !important;
-  font-weight: 700 !important;
+  font-weight: 600 !important;
 }
 
 #header-btn-report-container button:hover span,

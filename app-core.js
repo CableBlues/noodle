@@ -248,17 +248,8 @@ window.switchDailyTab = switchDailyTab;
 
 // Performance: MutationObserver komplett entfernt, da redundant und Hauptursache für UI-Verzögerungen.
 
-let activeDancingSpecialButton = 'whatnow'; let currentPremiumDanceIndex = 0;
-const premiumDances = ['premium-glow-btn', 'animate-premium-heartbeat', 'animate-premium-orbit', 'animate-premium-float', 'animate-premium-shimmer'];
-
 function rotatePremiumDance() {
-  const activeBtn = activeDancingSpecialButton === 'whatnow' ? document.getElementById('btn-whatnow-dance') : document.getElementById('btn-focus-mode');
-  const inactiveBtn = activeDancingSpecialButton === 'whatnow' ? document.getElementById('btn-focus-mode') : document.getElementById('btn-whatnow-dance');
-  if (inactiveBtn) { premiumDances.forEach(c => inactiveBtn.classList.remove(c)); inactiveBtn.classList.add('bg-purple-500/10', 'border-purple-500/30'); }
-  if (activeBtn) {
-    premiumDances.forEach(c => activeBtn.classList.remove(c)); activeBtn.classList.remove('bg-purple-500/10', 'border-purple-500/30');
-    currentPremiumDanceIndex = (currentPremiumDanceIndex + 1) % premiumDances.length; activeBtn.classList.add(premiumDances[currentPremiumDanceIndex]);
-  }
+  // Neutralized for calm dark design system
 }
 
 document.addEventListener('keydown', (e) => {
@@ -447,6 +438,8 @@ function closeAllPanelsAndModals() {
   if (typeof closeStepsModal === 'function') closeStepsModal();
   if (typeof closeNoteModal === 'function') closeNoteModal();
   if (typeof closeBrainstormModal === 'function') closeBrainstormModal();
+  if (typeof closeLearningHubModal === 'function') closeLearningHubModal();
+  if (typeof closeNoteScannerModal === 'function') closeNoteScannerModal();
   if (typeof toggleTerminForm === 'function') toggleTerminForm(false);
   if (typeof closeTaskOptionsMenu === 'function') closeTaskOptionsMenu();
   if (typeof hideSoundHoverSlider === 'function') hideSoundHoverSlider();
@@ -457,7 +450,7 @@ function closeAllPanelsAndModals() {
     'feierabend-celebration-modal', 'privacy-legal-modal', 'note-detail-modal',
     'helper-safespace-modal', 'helper-pick-modal', 'helper-sport-modal',
     'helper-break-modal', 'helper-steps-modal', 'modal-p2p-sync',
-    'modal-regulation',
+    'modal-regulation', 'note-scanner-modal', 'modal-learning-hub',
     'modal-report-dashboard', 'modal-settings', 'modal-command-palette',
     'modal-keyboard-shortcuts', 'text-import-modal', 'report-export-modal',
     'mobile-menu-drawer', 'mobile-tools-sheet', 'modal-mobile-quick-menu',

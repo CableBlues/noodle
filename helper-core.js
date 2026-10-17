@@ -467,18 +467,20 @@ function pickRandomTask() {
 
   if (!chosen) {
     const doneMsg = tr({ 
-      de: '🎉 Alle Aufgaben für heute erledigt! Fantastisch, genieß deinen Tag!', 
-      en: '🎉 All tasks completed! Fantastic, enjoy your day!', 
-      es: '🎉 ¡Todas las tareas completadas! ¡Disfruta de tu día!', 
-      el: '🎉 Όλες οι εργασίες ολοκληρώθηκαν! Απολαύστε τη μέρα σας!' 
+      de: 'Alle Aufgaben für heute erledigt. Gute Arbeit!', 
+      en: 'All tasks for today completed. Well done!', 
+      es: 'Todas las tareas completadas. ¡Buen trabajo!', 
+      el: 'Όλες οι εργασίες ολοκληρώθηκαν. Καλή δουλειά!' 
     });
 
     box.className = "p-6 rounded-2xl bg-black/40 border border-emerald-500/30 text-center space-y-3";
     box.innerHTML = `
-      <div class="text-3xl animate-bounce">🏆</div>
+      <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center justify-center mx-auto shadow-sm">
+        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+      </div>
       <div class="text-emerald-300 font-display font-bold text-sm leading-snug">${doneMsg}</div>
       <button onclick="startZenWithTask('Freie Fokus-Session', 'todo')" class="mt-2 py-2 px-4 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-bold transition cursor-pointer">
-        Freie Fokus-Session starten 🧘
+        Freie Fokus-Session starten
       </button>
     `;
     activeTimerTask = "";
@@ -491,7 +493,7 @@ function pickRandomTask() {
   updateActiveTimerLabels();
 
   // Ermittle den ersten Kickstart-Schritt
-  let firstStep = "Schritt 1: Bereite deinen Arbeitsplatz vor und starte für 2 Minuten.";
+  let firstStep = "Arbeitsplatz vorbereiten und für 2 Minuten fokussieren.";
   const steps = getTaskStepsList(chosen.task);
   if (steps && steps.length > 0) {
     firstStep = cleanStepText(steps[0]);
@@ -500,49 +502,49 @@ function pickRandomTask() {
   const safeTask = chosen.task.replace(/'/g, "\\'");
   const catLabel = typeof t === 'function' ? t(chosen.cat) : chosen.cat;
 
-  box.className = "p-5 rounded-2xl bg-gradient-to-br from-[#16121c] to-[#0d0d14] border border-amber-500/35 shadow-xl space-y-4 text-left transition-all duration-300";
+  box.className = "p-5 rounded-2xl bg-[#14141e] border border-white/10 shadow-xl space-y-4 text-left transition-all duration-300";
   box.innerHTML = `
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-1.5 flex-wrap">
-        <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold text-[10px] uppercase tracking-wider font-mono">
+        <span class="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 font-semibold text-[10px] uppercase tracking-wider font-mono">
           ${escapeHtml(catLabel)}
         </span>
-        <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-[10px] font-mono">
-          ⏱️ ~${chosen.estMinutes} Min
+        <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[10px] font-mono">
+          ~${chosen.estMinutes} Min
         </span>
       </div>
-      <span class="text-[9px] px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/25 text-amber-300 font-semibold font-mono">
-        ${escapeHtml(chosen.reasonLabel)}
+      <span class="text-[9px] px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-gray-300 font-medium font-mono">
+        ${escapeHtml(chosen.reasonLabel.replace(/[💡📌🔥🪜]/g, '').trim())}
       </span>
     </div>
 
     <!-- Task Title -->
     <div>
-      <h2 class="text-xl sm:text-2xl font-display font-black text-white leading-tight tracking-tight break-words">
+      <h2 class="text-xl sm:text-2xl font-display font-bold text-white leading-tight tracking-tight break-words">
         ${escapeHtml(chosen.task)}
       </h2>
       <div class="mt-2.5 flex items-start gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 font-medium">
-        <span class="text-amber-400 shrink-0">🪜</span>
-        <span class="leading-relaxed"><strong class="text-white">Kickstart-Schritt:</strong> ${escapeHtml(firstStep)}</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-amber-400 mt-0.5 shrink-0"></i>
+        <span class="leading-relaxed"><strong class="text-white">Erster Schritt:</strong> ${escapeHtml(firstStep)}</span>
       </div>
     </div>
 
     <!-- Primary Action Buttons -->
     <div class="space-y-2 pt-1">
-      <button onclick="startZenWithTask('${safeTask}', '${chosen.cat}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-black text-xs rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.25)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
+      <button onclick="startZenWithTask('${safeTask}', '${chosen.cat}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-bold text-xs rounded-xl shadow-md transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
         <i data-lucide="play" class="w-4 h-4 fill-black"></i>
-        <span>Im Fokus starten [Space] 🧘</span>
+        <span>Fokus starten [Space]</span>
       </button>
 
       <div class="grid grid-cols-2 gap-2">
-        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
+        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
           <i data-lucide="timer" class="w-3.5 h-3.5 text-amber-400"></i>
           <span>2-Min Start</span>
         </button>
 
-        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2.5 px-3 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren (+XP)">
+        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2.5 px-3 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren">
           <i data-lucide="check" class="w-3.5 h-3.5"></i>
-          <span>Erledigt (+XP)</span>
+          <span>Erledigt</span>
         </button>
       </div>
     </div>

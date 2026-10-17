@@ -60,19 +60,19 @@
       let msg = '';
       if (mode === 'turbo') {
         msg = typeof tr === 'function' ? tr({
-          de: '⚡ Turbo-Hover aktiv: Blitzschneller Wechsel & ultraschnelle Reaktionen (Edge-Style)',
-          en: '⚡ Turbo Hover active: Lightning-fast hover switching & instant responsiveness (Edge style)'
-        }) : '⚡ Turbo-Hover aktiv: Blitzschneller Wechsel & ultraschnelle Reaktionen';
+          de: 'Turbo-Modus aktiv: Schneller Wechsel & Reaktionen',
+          en: 'Turbo mode active: Instant hover switching & responsiveness'
+        }) : 'Turbo-Modus aktiv: Schneller Wechsel & Reaktionen';
       } else if (mode === 'click-only') {
         msg = typeof tr === 'function' ? tr({
-          de: '🗗 Kompakt-Modus aktiv: Panels öffnen zentriert per Klick',
-          en: '🗗 Compact mode active: Panels open centered on click'
-        }) : '🗗 Kompakt-Modus aktiv: Panels öffnen zentriert per Klick';
+          de: 'Kompakt-Modus aktiv: Panels öffnen per Klick',
+          en: 'Compact mode active: Panels open on click'
+        }) : 'Kompakt-Modus aktiv: Panels öffnen per Klick';
       } else {
         msg = typeof tr === 'function' ? tr({
-          de: '◨ Workspace Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen',
-          en: '◨ Workspace Studio active: Minimize [—], maximize [⛶] & run tools in parallel'
-        }) : '◨ Workspace Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen';
+          de: 'Studio-Modus aktiv: Fenster minimieren, maximieren & parallel nutzen',
+          en: 'Studio mode active: Minimize, maximize & run tools in parallel'
+        }) : 'Studio-Modus aktiv: Fenster minimieren, maximieren & parallel nutzen';
       }
       showToast(msg);
     }
@@ -103,13 +103,13 @@
 
     if (badge) {
       if (mode === 'turbo') {
-        badge.textContent = '⚡ Turbo Hover';
+        badge.textContent = 'Turbo';
         badge.className = 'text-[8.5px] font-mono font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded border border-amber-500/40 shadow-xs';
       } else if (mode === 'click-only') {
         badge.textContent = 'Kompakt';
         badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
       } else {
-        badge.textContent = 'Workspace Studio';
+        badge.textContent = 'Studio';
         badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
       }
     }
@@ -125,60 +125,61 @@
   function getPanelMeta(panelName) {
     const cleanName = panelName.replace(/^(panel-|modal-|helper-)/, '');
     const metas = {
-      'shopping': { title: 'Einkaufsliste', icon: '🛒', short: 'Einkauf', color: 'text-emerald-400', getSummary: () => {
+      'shopping': { title: 'Einkaufsliste', lucide: 'shopping-bag', short: 'Einkauf', color: 'text-emerald-400', getSummary: () => {
         const countEl = document.getElementById('shop-badge-count');
         const count = countEl && !countEl.classList.contains('hidden') ? countEl.textContent : '0';
         return `${count} Artikel auf der Liste`;
       }},
-      'cooking': { title: 'Koch-Studio', icon: '🍳', short: 'Kochen', color: 'text-amber-400', getSummary: () => 'Smarte Rezepte & Zubereitung' },
-      'clean-guide': { title: 'Putz-Guide', icon: '✨', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
-      'cleaning-guide': { title: 'Putz-Guide', icon: '✨', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
-      'alarm': { title: 'Wecker & Timer', icon: '⏱️', short: 'Timer', color: 'text-rose-400', getSummary: () => {
+      'cooking': { title: 'Koch-Studio', lucide: 'utensils', short: 'Kochen', color: 'text-amber-400', getSummary: () => 'Smarte Rezepte & Zubereitung' },
+      'clean-guide': { title: 'Putz-Guide', lucide: 'sparkles', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
+      'cleaning-guide': { title: 'Putz-Guide', lucide: 'sparkles', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
+      'alarm': { title: 'Wecker & Timer', lucide: 'bell', short: 'Timer', color: 'text-rose-400', getSummary: () => {
         const timerEl = document.getElementById('timer-display');
         return timerEl ? `Timer: ${timerEl.textContent.trim()}` : 'Wecker & Countdown aktiv';
       }},
       
-      'audio': { title: 'Sound Center', icon: '🎧', short: 'Sound', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Entspannung' },
-      'radio': { title: 'Radio Stream', icon: '📻', short: 'Radio', color: 'text-pink-400', getSummary: () => 'Live-Sender & Streams' },
-      'news': { title: 'News Briefing', icon: '📰', short: 'News', color: 'text-purple-400', getSummary: () => 'Weltweite & lokale Nachrichten' },
-      'sample-manager': { title: 'Sample Manager', icon: '🎛️', short: 'Samples', color: 'text-violet-400', getSummary: () => 'Eigene DJ-Samples verwalten' },
+      'audio': { title: 'Sound Center', lucide: 'headphones', short: 'Sound', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Entspannung' },
+      'radio': { title: 'Radio Stream', lucide: 'radio', short: 'Radio', color: 'text-pink-400', getSummary: () => 'Live-Sender & Streams' },
+      'news': { title: 'News Briefing', lucide: 'newspaper', short: 'News', color: 'text-purple-400', getSummary: () => 'Weltweite & lokale Nachrichten' },
+      'sample-manager': { title: 'Sample Manager', lucide: 'sliders', short: 'Samples', color: 'text-violet-400', getSummary: () => 'Eigene DJ-Samples verwalten' },
 
-      'health': { title: 'Gesundheit & Vital', icon: '❤️', short: 'Health', color: 'text-rose-400', getSummary: () => 'Wasser, Puls & Vorsorge' },
-      'humor-lab': { title: 'Humor Lab', icon: '🎭', short: 'Humor', color: 'text-yellow-400', getSummary: () => 'Gute Laune & Minispiele' },
-      'brainstorm': { title: 'Brainstorming Hub', icon: '💡', short: 'Brainstorm', color: 'text-amber-300', getSummary: () => 'Gedankenblitze & Ideen-Board' },
-      'inspiration': { title: 'Inspiration & Zitate', icon: '✨', short: 'Ideen', color: 'text-amber-300', getSummary: () => 'Tages-Zitate & Motivation' },
-      'clarity': { title: 'Clarity Gedanken', icon: '🧠', short: 'Clarity', color: 'text-indigo-300', getSummary: () => 'Gedanken sortieren & Klarheit' },
+      'health': { title: 'Gesundheit & Vital', lucide: 'heart', short: 'Health', color: 'text-rose-400', getSummary: () => 'Wasser, Puls & Vorsorge' },
+      'humor-lab': { title: 'Fun-Labor', lucide: 'smile', short: 'Fun', color: 'text-yellow-400', getSummary: () => 'Entlastung & Soundboard' },
+      'brainstorm': { title: 'Brainstorming Hub', lucide: 'lightbulb', short: 'Brainstorm', color: 'text-amber-300', getSummary: () => 'Gedankenblitze & Ideen-Board' },
+      'inspiration': { title: 'Inspiration & Zitate', lucide: 'sparkles', short: 'Ideen', color: 'text-amber-300', getSummary: () => 'Tages-Zitate & Motivation' },
+      'clarity': { title: 'Clarity Gedanken', lucide: 'brain', short: 'Clarity', color: 'text-indigo-300', getSummary: () => 'Gedanken sortieren & Klarheit' },
 
-      'pick': { title: 'Was Jetzt?', icon: '🎲', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Zufalls-Entscheidungshilfe' },
-      'whatnow': { title: 'Was Jetzt?', icon: '🎲', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Zufalls-Entscheidungshilfe' },
-      'sport': { title: 'Sport & Bewegung', icon: '🏃', short: 'Sport', color: 'text-green-400', getSummary: () => '7-Minuten Workout & Dehnen' },
-      'safespace': { title: 'Safe Space', icon: '🛡️', short: 'Safe Space', color: 'text-cyan-300', getSummary: () => 'Ruheort & Beruhigung' },
-      'dice': { title: 'Würfel Studio', icon: '🎲', short: 'Würfel', color: 'text-purple-300', getSummary: () => '3D-Würfel für Entscheidungen' },
-      'roulette': { title: 'Entscheidungs-Rad', icon: '🎯', short: 'Roulette', color: 'text-rose-300', getSummary: () => 'Glücksrad für Aufgaben' },
-      'regulation': { title: 'Regulation Studio', icon: '🧘', short: 'Regulation', color: 'text-teal-300', getSummary: () => 'Nervensystem regulieren' },
-      'ocr-scanner': { title: 'OCR Scanner', icon: '📷', short: 'Scanner', color: 'text-blue-300', getSummary: () => 'Texte & Rechnungen scannen' },
-      'supermarket': { title: 'Supermarkt-Modus', icon: '🏬', short: 'Markt', color: 'text-emerald-400', getSummary: () => 'Vollbild Einkaufsmodus' },
-      'p2p-sync': { title: 'P2P Synchronisierung', icon: '🔄', short: 'Sync', color: 'text-emerald-300', getSummary: () => 'Echtzeit-Gerätekopplung' },
-      'app-install': { title: 'App Installation & Setup', icon: '💻', short: 'Install', color: 'text-purple-300', getSummary: () => 'Windows, Mac, Android, Linux & Offline' },
-      'settings': { title: 'Optionen & Einstellungen', icon: '⚙️', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
+      'pick': { title: 'Entscheidungshilfe', lucide: 'lightbulb', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Nächster Fokus-Schritt' },
+      'whatnow': { title: 'Entscheidungshilfe', lucide: 'lightbulb', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Nächster Fokus-Schritt' },
+      'sport': { title: 'Bewegungspause', lucide: 'activity', short: 'Sport', color: 'text-green-400', getSummary: () => 'Micro-Workouts & Dehnen' },
+      'safespace': { title: 'Safe Space', lucide: 'shield', short: 'Safe Space', color: 'text-cyan-300', getSummary: () => 'Ruheort & Beruhigung' },
+      'dice': { title: 'Würfel Studio', lucide: 'dices', short: 'Würfel', color: 'text-purple-300', getSummary: () => 'Zufalls-Entscheidung' },
+      'roulette': { title: 'Entscheidungs-Rad', lucide: 'disc', short: 'Roulette', color: 'text-rose-300', getSummary: () => 'Glücksrad für Aufgaben' },
+      'regulation': { title: 'Regulation Studio', lucide: 'wind', short: 'Regulation', color: 'text-teal-300', getSummary: () => 'Nervensystem regulieren' },
+      'ocr-scanner': { title: 'OCR Scanner', lucide: 'scan-text', short: 'Scanner', color: 'text-blue-300', getSummary: () => 'Texte & Notizen scannen' },
+      'supermarket': { title: 'Supermarkt-Modus', lucide: 'shopping-bag', short: 'Markt', color: 'text-emerald-400', getSummary: () => 'Vollbild Einkaufsmodus' },
+      'p2p-sync': { title: 'P2P Synchronisierung', lucide: 'refresh-cw', short: 'Sync', color: 'text-emerald-300', getSummary: () => 'Echtzeit-Gerätekopplung' },
+      'app-install': { title: 'App Installation & Setup', lucide: 'download', short: 'Install', color: 'text-purple-300', getSummary: () => 'Windows, Mac, Android, Linux & Offline' },
+      'settings': { title: 'Optionen & Einstellungen', lucide: 'settings', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
 
-      'weather': { title: 'Wetter', icon: '🌤️', short: 'Wetter', color: 'text-sky-400', getSummary: () => {
+      'weather': { title: 'Wetter', lucide: 'cloud-sun', short: 'Wetter', color: 'text-sky-400', getSummary: () => {
         const tempEl = document.getElementById('weather-current-temp');
         return tempEl ? `${tempEl.textContent.trim()} • Wetterbericht` : 'Live-Wetter & Vorhersage';
       }},
-      'calendar-dropdown': { title: 'Kalender & Termine', icon: '📅', short: 'Kalender', color: 'text-blue-400', getSummary: () => 'Monatsübersicht & Fristen' },
-      'pause-dropdown': { title: 'Pausen-Hub', icon: '🧘', short: 'Pause', color: 'text-teal-300', getSummary: () => 'Atemübungen & Entspannung' },
-      'report': { title: 'Statistiken', icon: '📊', short: 'Stats', color: 'text-emerald-400', getSummary: () => 'Tages- & Wochenauswertung' },
-      'settings-dropdown': { title: 'Optionen', icon: '⚙️', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
-      'timer-presets': { title: 'Fokus-Cockpit', icon: '⚡', short: 'Fokus', color: 'text-purple-300', getSummary: () => 'Pomodoro, Flow & Deep Work' },
-      'header-tools': { title: 'Tools Hub', icon: '🎛️', short: 'Tools', color: 'text-purple-400', getSummary: () => 'Alle 20+ Noodle Studio Werkzeuge' },
-      'social': { title: 'Community & Collab', icon: '👥', short: 'Social', color: 'text-indigo-400', getSummary: () => 'Live-Zusammenarbeit & Sync' },
-      'collab-chat': { title: 'Team Chat', icon: '💬', short: 'Chat', color: 'text-cyan-400', getSummary: () => 'Live-Teamchat' }
+      'calendar-dropdown': { title: 'Kalender & Termine', lucide: 'calendar', short: 'Kalender', color: 'text-blue-400', getSummary: () => 'Monatsübersicht & Fristen' },
+      'pause-dropdown': { title: 'Pausen-Hub', lucide: 'wind', short: 'Pause', color: 'text-teal-300', getSummary: () => 'Atemübungen & Entspannung' },
+      'report': { title: 'Statistiken', lucide: 'bar-chart-2', short: 'Stats', color: 'text-emerald-400', getSummary: () => 'Tages- & Wochenauswertung' },
+      'settings-dropdown': { title: 'Optionen', lucide: 'settings', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
+      'timer-presets': { title: 'Fokus-Cockpit', lucide: 'zap', short: 'Fokus', color: 'text-purple-300', getSummary: () => 'Pomodoro, Flow & Deep Work' },
+      'header-tools': { title: 'Tools Hub', lucide: 'layout-grid', short: 'Tools', color: 'text-purple-400', getSummary: () => 'Noodle Studio Werkzeuge' },
+      'labs-menu': { title: 'Labs', lucide: 'flask-conical', short: 'Labs', color: 'text-fuchsia-300', getSummary: () => 'Experimental Labs & Tools' },
+      'social': { title: 'Social Creator Hub', lucide: 'share-2', short: 'Social', color: 'text-indigo-400', getSummary: () => 'Post-Planer & Formate' },
+      'collab-chat': { title: 'Team Chat', lucide: 'message-square', short: 'Chat', color: 'text-cyan-400', getSummary: () => 'Live-Teamchat' }
     };
 
     return metas[cleanName] || metas[panelName] || {
       title: cleanName.replace(/-/g, ' ').toUpperCase(),
-      icon: '🗗',
+      lucide: 'layout',
       short: cleanName.substring(0, 8),
       color: 'text-purple-300',
       getSummary: () => 'Aktiv im Studio'
@@ -234,25 +235,26 @@
       pill.setAttribute('data-min-panel', panelName);
 
       const summaryText = typeof meta.getSummary === 'function' ? meta.getSummary() : 'Aktiv';
+      const iconKey = meta.lucide || 'layout';
 
       pill.innerHTML = `
-        <span class="text-sm">${meta.icon}</span>
+        <i data-lucide="${iconKey}" class="w-3.5 h-3.5 ${meta.color}"></i>
         <span class="font-bold text-[11px] ${meta.color}">${meta.short}</span>
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5"></span>
         <button class="noodle-min-close-btn ml-1 w-4 h-4 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 text-[9px] transition" title="Schließen">✕</button>
 
         <!-- Windows-Style Hover Thumbnail Preview Card -->
-        <div class="noodle-taskbar-preview-card hidden group-hover/pill:flex absolute bottom-[calc(100%+10px)] right-0 w-64 p-3 rounded-2xl bg-[#12111c]/98 border border-purple-500/40 shadow-2xl backdrop-blur-2xl flex-col gap-1.5 text-left z-[100090] animate-fade-in pointer-events-none">
+        <div class="noodle-taskbar-preview-card hidden group-hover/pill:flex absolute bottom-[calc(100%+10px)] right-0 w-64 p-3 rounded-2xl bg-[#12111c]/98 border border-white/10 shadow-2xl backdrop-blur-2xl flex-col gap-1.5 text-left z-[100090] animate-fade-in pointer-events-none">
           <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <div class="flex items-center gap-1.5">
-              <span class="text-base">${meta.icon}</span>
+              <i data-lucide="${iconKey}" class="w-4 h-4 ${meta.color}"></i>
               <span class="font-bold text-xs text-white">${meta.title}</span>
             </div>
             <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300">Live</span>
           </div>
           <p class="text-[11px] text-gray-300 leading-snug">${summaryText}</p>
-          <div class="text-[9.5px] text-purple-400/80 font-medium pt-0.5 flex items-center gap-1">
-            <span>🖱️ Klick zum Wiederherstellen</span>
+          <div class="text-[9.5px] text-gray-400 font-medium pt-0.5 flex items-center gap-1">
+            <span>Klick zum Wiederherstellen</span>
           </div>
         </div>
       `;
@@ -268,6 +270,10 @@
 
       dock.appendChild(pill);
     });
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try { lucide.createIcons({ root: dock }); } catch(e){}
+    }
   }
 
   function openWindow(panelName) {
@@ -319,7 +325,7 @@
     if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('medium');
     if (typeof showToast === 'function') {
       const meta = getPanelMeta(panelName);
-      showToast(`${meta.icon} ${meta.title} minimiert`);
+      showToast(`${meta.title} minimiert`);
     }
   }
 
@@ -584,6 +590,7 @@
   window.closeWindow = closeWindow;
   window.togglePanelFullscreen = toggleFullscreen;
   window.togglePinPanel = togglePanel;
+  window.togglePanel = togglePanel;
   window.bringWindowToFront = bringWindowToFront;
 
 })();

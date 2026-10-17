@@ -799,7 +799,7 @@ function generateComprehensiveReportText() {
   text += `Erstellt am: ${dateStr}\n`;
   text += `========================================\n\n`;
 
-  text += `📅 1. HEUTE (${todayISO})\n`;
+  text += `1. HEUTE (${todayISO})\n`;
   text += `----------------------------------------\n`;
   text += `• Erledigte Aufgaben heute: ${doneToday.length}\n`;
   if (doneToday.length > 0) {
@@ -811,14 +811,14 @@ function generateComprehensiveReportText() {
   }
   text += `\n`;
 
-  text += `🏆 2. WOCHEN-ÜBERSICHT (Letzte 7 Tage)\n`;
+  text += `2. WOCHEN-ÜBERSICHT (Letzte 7 Tage)\n`;
   text += `----------------------------------------\n`;
   text += `• Gesamte Aufgaben in 7 Tagen: ${doneWeek.length}\n`;
   text += `• Davon Tagesaufgaben: ${doneWeek.filter(t => t.origin === 'daily').length}\n`;
   text += `• Davon Haushaltsaufgaben: ${doneWeek.filter(t => t.origin === 'weekly').length}\n`;
   text += `• Davon To-Dos / Sonstiges: ${doneWeek.filter(t => t.origin === 'todo' || t.origin === 'notes').length}\n\n`;
 
-  text += `🧹 3. HAUSHALTSAUFGABEN (Status dieser Woche)\n`;
+  text += `3. HAUSHALTSAUFGABEN (Status dieser Woche)\n`;
   text += `----------------------------------------\n`;
   text += `• Abgeschlossen diese Woche: ${weeklyDoneThisWeek.length} von ${weeklyDoneThisWeek.length + weeklyItems.length}\n`;
   if (weeklyDoneThisWeek.length > 0) {
@@ -832,12 +832,12 @@ function generateComprehensiveReportText() {
   }
   text += `\n`;
 
-  text += `📈 4. MONATS-ÜBERSICHT (Letzte 30 Tage)\n`;
+  text += `4. MONATS-ÜBERSICHT (Letzte 30 Tage)\n`;
   text += `----------------------------------------\n`;
   text += `• Gesamte Aufgaben in 30 Tagen: ${doneMonth.length}\n`;
   text += `• Durchschnitt pro Tag: ${(doneMonth.length / 30).toFixed(1)} Aufgaben\n\n`;
 
-  text += `📌 5. AKTUELLE OFFENE AUFGABEN & NOTIZEN\n`;
+  text += `5. AKTUELLE OFFENE AUFGABEN & NOTIZEN\n`;
   text += `----------------------------------------\n`;
   text += `• Offene Tagesaufgaben: ${(state.items.daily || []).length}\n`;
   text += `• Offene To-Dos: ${(state.items.todo || []).length}\n`;
@@ -848,7 +848,7 @@ function generateComprehensiveReportText() {
   text += `• Gespeicherte Notizen: ${(state.items.notes || []).length}\n`;
   (state.items.notes || []).forEach((n, idx) => {
     const name = typeof n === 'object' ? n.task : n;
-    text += `  📝 [${idx + 1}] ${name}\n`;
+    text += `  [${idx + 1}] ${name}\n`;
   });
 
   text += `\n========================================\n`;
@@ -876,10 +876,10 @@ function copyReportText() {
   const text = generateComprehensiveReportText();
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      showToast(tr({ de: '📋 Bericht in Zwischenablage kopiert!', en: '📋 Report copied to clipboard!' }));
+      showToast(tr({ de: 'Bericht in Zwischenablage kopiert.', en: 'Report copied to clipboard.' }));
     });
   } else {
-    showToast(tr({ de: 'Bericht markiert – drücke Strg+C!', en: 'Report selected – press Ctrl+C!' }));
+    showToast(tr({ de: 'Bericht markiert – Strg+C drücken.', en: 'Report selected – press Ctrl+C.' }));
   }
 }
 
@@ -895,7 +895,7 @@ function downloadReportFile() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast(tr({ de: '💾 Bericht als Datei heruntergeladen!', en: '💾 Report file downloaded!' }));
+  showToast(tr({ de: 'Bericht heruntergeladen.', en: 'Report file downloaded.' }));
 }
 
 function printReport() {

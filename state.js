@@ -62,22 +62,35 @@ function reorderTodoBeforeDaily(arr) {
   return arr;
 }
 
+// Helper to ensure 'done' (Erledigt) is positioned before 'occasionally' (Gelegentlich)
+function reorderDoneBeforeOccasionally(arr) {
+  if (!Array.isArray(arr)) return arr;
+  const doneIdx = arr.findIndex(([id]) => id === 'done');
+  const occIdx = arr.findIndex(([id]) => id === 'occasionally');
+  if (doneIdx !== -1 && occIdx !== -1 && doneIdx !== occIdx - 1) {
+    const [doneItem] = arr.splice(doneIdx, 1);
+    const newOccIdx = arr.findIndex(([id]) => id === 'occasionally');
+    arr.splice(newOccIdx, 0, doneItem);
+  }
+  return arr;
+}
+
 function loadCategoriesOrder() {
   try {
     const saved = localStorage.getItem('flowPlannerCategoriesOrder') || localStorage.getItem('flow_categories_order');
-    if (saved) return reorderTodoBeforeDaily(reorderNotesBeforeTermine(JSON.parse(saved)));
+    if (saved) return reorderDoneBeforeOccasionally(reorderTodoBeforeDaily(reorderNotesBeforeTermine(JSON.parse(saved))));
   } catch (e) {
     console.warn('[State] loadCategoriesOrder warning:', e);
   }
   
-  // Standard-Layout (To Do vor Heute)
+  // Standard-Layout (To Do vor Heute, Erledigt vor Gelegentlich)
   return [
     ['weekly', 'home'],
     ['todo', 'list-todo'],
     ['daily', 'sun'],
-    ['done', 'check-circle-2'],
     ['notes', 'file-text'],
     ['termine', 'calendar'],
+    ['done', 'check-circle-2'],
     ['occasionally', 'clock']
   ];
 }
@@ -669,6 +682,105 @@ function migrateState(raw, lang) {
     });
   }
 
+  // 8. Migration: "10 Minuten abends aufräumen" / "10 Min. Abend-Aufräumen" -> "5min aufräumen"
+  const renameTidyUpTask = (list) => {
+    if (!Array.isArray(list)) return;
+    list.forEach((item, i) => {
+      const taskText = typeof item === 'object' && item !== null ? item.task : String(item || '');
+      if (/10\s*min.*abend.*aufraum/i.test(taskText) || /10\s*minuten.*abends.*aufraum/i.test(taskText) || /10\s*min.*evening.*tidy/i.test(taskText)) {
+        if (typeof item === 'string') {
+          list[i] = '5min aufräumen';
+        } else if (typeof item === 'object' && item) {
+          item.task = '5min aufräumen';
+        }
+      }
+    });
+  };
+  if (s.items) {
+    Object.values(s.items).forEach(renameTidyUpTask);
+  }
+  if (Array.isArray(s.done)) {
+    renameTidyUpTask(s.done);
+  }
+  if (s.workspaces) {
+    Object.values(s.workspaces).forEach(ws => {
+      if (ws && ws.items) Object.values(ws.items).forEach(renameTidyUpTask);
+      if (ws && Array.isArray(ws.done)) renameTidyUpTask(ws.done);
+    });
+  }
+
+  // 9. Duschen vom täglich weg machen und ins Gelegentlich rein
+  if (s.items && Array.isArray(s.items.daily)) {
+    const isShower = (t) => {
+      const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+      return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
+    };
+    const showerIndex = s.items.daily.findIndex(isShower);
+    if (showerIndex !== -1) {
+      s.items.daily.splice(showerIndex, 1);
+    }
+  }
+  if (s.items) {
+    if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+    const hasShower = s.items.occasionally.some(t => {
+      const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+      return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
+    });
+    if (!hasShower) {
+      s.items.occasionally.unshift('Duschen');
+    }
+  }
+
+  // 10. Aufräumen muss bei Haushalt (weekly) bleiben & in Gelegentlich (3-Tage-Zyklus)
+  if (s.items) {
+    if (!Array.isArray(s.items.weekly)) s.items.weekly = [];
+    const hasWeeklyClean = s.items.weekly.some(t => {
+      const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+      return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
+    });
+    if (!hasWeeklyClean) {
+      s.items.weekly.unshift('Aufräumen');
+    }
+
+    if (typeof checkOccasionalAufräumen === 'function') {
+      checkOccasionalAufräumen(s);
+    }
+  }
+
+  // 11. Wichtigste Aufgabe & Kochen von Täglich (Heute) entfernen, Kochen in Gelegentlich verschieben
+  const isFocusOrCookingInDaily = (t) => {
+    const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+    return /^(1\s*)?(wichtigste aufgabe(\s*\(fokus\))?|key priority(\s*\(focus\))?|1 main focus task|prioridad clave(\s*\(foco\))?|1 tarea clave(\s*\(foco\))?|priorité clé(\s*\(focus\))?|1 tâche focus principale|priorità chiave(\s*\(focus\))?|1 attività chiave(\s*\(focus\))?|κύρια προτεραιότητα(\s*\(focus\))?|1 κύρια εργασία εστίασης|kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
+  };
+  if (s.items && Array.isArray(s.items.daily)) {
+    s.items.daily = s.items.daily.filter(t => !isFocusOrCookingInDaily(t));
+  }
+  if (s.items) {
+    if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+    const hasCooking = s.items.occasionally.some(t => {
+      const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+      return /^(kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
+    });
+    if (!hasCooking) {
+      const showerIdx = s.items.occasionally.findIndex(t => {
+        const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+        return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text);
+      });
+      if (showerIdx !== -1) {
+        s.items.occasionally.splice(showerIdx + 1, 0, 'Kochen');
+      } else {
+        s.items.occasionally.unshift('Kochen');
+      }
+    }
+  }
+  if (customDefaults && Array.isArray(customDefaults.daily)) {
+    const beforeLen = customDefaults.daily.length;
+    customDefaults.daily = customDefaults.daily.filter(t => !isFocusOrCookingInDaily(t));
+    if (customDefaults.daily.length !== beforeLen) {
+      saveCustomDefaults(customDefaults);
+    }
+  }
+
   return s;
 }
 
@@ -983,7 +1095,7 @@ function updateUndoUI() {
   if (undoBtn) {
     undoBtn.disabled = !hasHistory;
     if (hasHistory) {
-      undoBtn.classList.remove('opacity-30', 'pointer-events-none', 'grayscale');
+      undoBtn.classList.remove('opacity-40', 'opacity-30', 'pointer-events-none', 'grayscale');
       undoBtn.classList.add('opacity-100');
       const badge = undoBtn.querySelector('#undo-count-badge');
       if (badge) {
@@ -991,8 +1103,8 @@ function updateUndoUI() {
         badge.classList.remove('hidden');
       }
     } else {
-      undoBtn.classList.add('opacity-30', 'pointer-events-none', 'grayscale');
-      undoBtn.classList.remove('opacity-100');
+      undoBtn.classList.add('opacity-40', 'pointer-events-none');
+      undoBtn.classList.remove('opacity-100', 'grayscale');
       const badge = undoBtn.querySelector('#undo-count-badge');
       if (badge) badge.classList.add('hidden');
     }
@@ -1439,11 +1551,11 @@ async function handleReset() {
     
     categoriesOrder = [
       ['weekly', 'home'],
-      ['daily', 'sun'],
       ['todo', 'list-todo'],
+      ['daily', 'sun'],
+      ['notes', 'file-text'],
+      ['termine', 'calendar'],
       ['done', 'check-circle-2'],
-    ['notes', 'file-text'],
-    ['termine', 'calendar'],
       ['occasionally', 'clock']
     ];
     saveCategoriesOrder();
@@ -1614,11 +1726,57 @@ function copyNoteText(noteIndex, event) {
   }).catch(() => {});
 }
 
+function checkOccasionalAufräumen(s) {
+  if (!s || !s.items) return;
+  if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+  const hasClean = s.items.occasionally.some(item => {
+    const text = typeof item === 'object' ? (item.task || '') : String(item || '');
+    return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
+  });
+
+  if (!hasClean) {
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (!s.lastOccasionalAufräumenDoneDate) {
+      s.items.occasionally.push('Aufräumen');
+    } else {
+      const lastDate = new Date(s.lastOccasionalAufräumenDoneDate);
+      const todayDate = new Date(todayStr);
+      const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+      if (diffDays >= 3) {
+        s.items.occasionally.push('Aufräumen');
+        s.lastOccasionalAufräumenDoneDate = null;
+      }
+    }
+  }
+}
+window.checkOccasionalAufräumen = checkOccasionalAufräumen;
+
 function reloadDailyTasks(isAuto = false) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
   if (!currentState) return;
   if (!isAuto && typeof saveHistory === 'function') saveHistory();
 
+  // 1. Tägliche Aufgaben jeden Tag von der Erledigt-Karte löschen, den Rest lassen
+  if (Array.isArray(currentState.done)) {
+    currentState.done = currentState.done.filter(item => {
+      const orig = (typeof item === 'object' && item !== null) ? item.origin : null;
+      return orig !== 'daily';
+    });
+  }
+  if (Array.isArray(currentState.workDone)) {
+    currentState.workDone = currentState.workDone.filter(item => {
+      const orig = (typeof item === 'object' && item !== null) ? item.origin : null;
+      return orig !== 'work_focus';
+    });
+  }
+  if (Array.isArray(currentState.studyDone)) {
+    currentState.studyDone = currentState.studyDone.filter(item => {
+      const orig = (typeof item === 'object' && item !== null) ? item.origin : null;
+      return orig !== 'study_focus';
+    });
+  }
+
+  // 2. Tägliche Aufgaben neu laden
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
     : ((currentState && currentState.settings && currentState.settings.language)
@@ -1660,6 +1818,9 @@ function reloadDailyTasks(isAuto = false) {
     }
   }
 
+  // 3. Gelegentlich Aufräumen (jeden 3. Tag wenn gelöscht)
+  checkOccasionalAufräumen(currentState);
+
   currentState.lastDate = new Date().toISOString().split('T')[0];
   saveState();
   if (typeof renderApp === 'function') renderApp();
@@ -1681,6 +1842,17 @@ function reloadWeeklyHouseholdTasks(isAuto = false) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
   if (!currentState) return;
   if (!isAuto && typeof saveHistory === 'function') saveHistory();
+
+  // Wöchentlicher Reset: Die verbliebenen Aufgaben aus der Erledigt-Karte leeren
+  if (Array.isArray(currentState.done)) {
+    currentState.done = [];
+  }
+  if (Array.isArray(currentState.workDone)) {
+    currentState.workDone = [];
+  }
+  if (Array.isArray(currentState.studyDone)) {
+    currentState.studyDone = [];
+  }
 
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
@@ -1740,6 +1912,8 @@ function checkAutoRollovers() {
   if (currentState.lastDate && currentState.lastDate !== todayISO) {
     reloadDailyTasks(true);
     stateModified = true;
+  } else {
+    checkOccasionalAufräumen(currentState);
   }
 
   // 2. Wöchentlicher Rollover für Haushalt (weekly) & Wöchentlicher automatischer Bericht
