@@ -1579,25 +1579,15 @@ function renderApp() {
         </div>
       </div>
       <div id="list-${id}" class="flex flex-col gap-1.5 flex-1 min-h-[100px] overflow-y-auto py-0.5 px-0.5 custom-scrollbar"></div>
-      ${(!isDone) ? `
-        <div class="flex items-center justify-between pt-1 px-0.5 mt-auto border-t border-white/[0.03]">
-          <button onclick="openTextImportModal('${id}', event)" aria-label="${isNotes ? 'Notizen importieren' : (isTermine ? 'Termine importieren' : 'Aufgaben importieren')}" class="p-1 rounded-md bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 text-gray-500 hover:text-gray-200 opacity-40 hover:opacity-100 transition-all duration-200 cursor-pointer flex items-center justify-center shrink-0" title="${isNotes ? tr({ de: 'Notizen importieren (.txt, .md, .csv, .json oder Zwischenablage)', en: 'Import notes (.txt, .md, .csv, .json or clipboard)', es: 'Importar notas (.txt, .md, .csv, .json o portapapeles)', el: 'Εισαγωγή σημειώσεων (.txt, .md, .csv, .json ή πρόχειρο)', fr: 'Importer des notes (.txt, .md, .csv, .json ou presse-papiers)', it: 'Importa note (.txt, .md, .csv, .json o appunti)' }) : (isTermine ? tr({ de: 'Termine aus Kalenderdatei (.ics) oder Text importieren', en: 'Import appointments from calendar file (.ics) or text', es: 'Importar citas desde archivo (.ics) o texto', el: 'Εισαγωγή ραντεβού από ημερολόγιο (.ics) ή κείμενο', fr: 'Importer des rendez-vous depuis un fichier (.ics) ou texte', it: 'Importa appuntamenti da file (.ics) o testo' }) : tr({ de: 'Aufgaben importieren (.txt, .md, .csv, .json oder Zwischenablage)', en: 'Import tasks (.txt, .md, .csv, .json or clipboard)', es: 'Importar tareas (.txt, .md, .csv, .json o portapapeles)', el: 'Εισαγωγή εργασιών (.txt, .md, .csv, .json ή πρόχειρο)', fr: 'Importer des tâches (.txt, .md, .csv, .json ou presse-papiers)', it: 'Importa attività (.txt, .md, .csv, .json o appunti)' }))}">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="12" y1="18" x2="12" y2="12"/>
-              <polyline points="9 15 12 12 15 15"/>
+      ${(!isDone && isNotes) ? `
+        <div class="flex items-center justify-end pt-1 px-0.5 mt-auto border-t border-white/[0.03]">
+          <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-purple-200 font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
             </svg>
+            <span>Scan</span>
           </button>
-          ${isNotes ? `
-            <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-purple-200 font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                <circle cx="12" cy="13" r="4"/>
-              </svg>
-              <span>Scan</span>
-            </button>
-          ` : ''}
         </div>
       ` : ''}
     `;
@@ -2218,7 +2208,14 @@ function handleCompleteTask(category, index, event) {
   if (typeof CollabEngine !== 'undefined') {
     CollabEngine.broadcastBoardEvent(`hat Aufgabe erledigt: "${taskText.substring(0, 32)}"`);
   }
+  
+  // Positives Feedback: Schnelles Text-Lob & angenehmer Sound-Chime (KEINE Sprachausgabe, KEIN Konfetti-Gewitter)
   if (typeof showPraise === 'function') showPraise();
+  if (typeof playCheerfulSuccessJingle === 'function') {
+    playCheerfulSuccessJingle();
+  } else if (typeof playProceduralSound === 'function') {
+    playProceduralSound(3);
+  }
 
   // Dezentes haptisches und taktiles Feedback
   if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
@@ -2760,8 +2757,10 @@ document.addEventListener('pointerdown', (e) => {
   // 1. Wenn der Klick innerhalb des Tools-Hubs oder seines Wrappers ist: niemals schließen!
   const toolsPanel = document.getElementById('panel-header-tools');
   const toolsWrapper = document.getElementById('header-tools-wrapper');
+  const arrowBtn = document.getElementById('btn-dashboard-arrow-toggle');
   if (toolsPanel && toolsPanel.contains(e.target)) return;
   if (toolsWrapper && toolsWrapper.contains(e.target)) return;
+  if (arrowBtn && arrowBtn.contains(e.target)) return;
 
   const activeName = (typeof window !== 'undefined' && window.pinnedPanel) || pinnedPanel || currentlyOpenPanel;
   if (!activeName) return;
@@ -3781,4 +3780,108 @@ if (typeof window !== 'undefined') {
       }
     };
   }
+
+  // --------------------------------------------------------------------------
+  // Tabellen verwalten & Dashboard Overlay Handlers
+  // --------------------------------------------------------------------------
+  window.toggleManageTablesDropdown = function(event) {
+    if (event) event.stopPropagation();
+    const dropdown = document.getElementById('dropdown-manage-tables');
+    if (!dropdown) return;
+    const isHidden = dropdown.classList.contains('hidden');
+    if (isHidden) {
+      dropdown.classList.remove('hidden');
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    } else {
+      dropdown.classList.add('hidden');
+    }
+  };
+
+  window.closeManageTablesDropdown = function() {
+    const dropdown = document.getElementById('dropdown-manage-tables');
+    if (dropdown) dropdown.classList.add('hidden');
+  };
+
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('dropdown-manage-tables');
+      const btn = document.getElementById('btn-board-manage-tables');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (!dropdown.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          dropdown.classList.add('hidden');
+        }
+      }
+      const wsDropdown = document.getElementById('dropdown-header-workspace');
+      const wsBtn = document.getElementById('btn-header-workspace');
+      if (wsDropdown && !wsDropdown.classList.contains('hidden')) {
+        if (!wsDropdown.contains(e.target) && (!wsBtn || !wsBtn.contains(e.target))) {
+          wsDropdown.classList.add('hidden');
+        }
+      }
+    });
+  }
+
+  window.updateDashboardArrowUI = function(isOpen) {
+    const btn = document.getElementById('btn-dashboard-arrow-toggle');
+    if (!btn) return;
+    const isCurrentlyOpen = typeof isOpen === 'boolean' ? isOpen : (() => {
+      const p = document.getElementById('panel-header-tools');
+      return p && !p.classList.contains('hidden');
+    })();
+
+    const iconName = isCurrentlyOpen ? 'chevron-left' : 'chevron-right';
+    const hoverClass = isCurrentlyOpen ? 'group-hover/arrow:-translate-x-0.5' : 'group-hover/arrow:translate-x-0.5';
+    btn.setAttribute('title', isCurrentlyOpen ? 'Tools-Menü schließen' : 'Tools-Menü öffnen');
+    btn.setAttribute('aria-expanded', isCurrentlyOpen ? 'true' : 'false');
+    btn.innerHTML = `<i id="dashboard-arrow-icon" data-lucide="${iconName}" class="w-5 h-5 transition-transform duration-300 ${hoverClass}"></i>`;
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try {
+        lucide.createIcons({ root: btn });
+      } catch (err) {
+        lucide.createIcons();
+      }
+    }
+  };
+
+  window.toggleDashboardOverlay = function(e) {
+    if (e) {
+      try {
+        if (typeof e.preventDefault === 'function') e.preventDefault();
+        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+      } catch (err) {}
+    }
+    const panel = document.getElementById('panel-header-tools');
+    if (!panel) return;
+
+    const isCurrentlyOpen = !panel.classList.contains('hidden');
+    if (isCurrentlyOpen) {
+      panel.classList.add('hidden');
+      panel.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+      if (typeof window !== 'undefined') {
+        if (window.pinnedPanel === 'header-tools') window.pinnedPanel = null;
+        if (window.currentlyOpenPanel === 'header-tools') window.currentlyOpenPanel = null;
+      }
+      if (typeof window.updateDashboardArrowUI === 'function') {
+        window.updateDashboardArrowUI(false);
+      }
+    } else {
+      panel.classList.remove('hidden');
+      panel.classList.add('noodle-panel-pinned');
+      panel.classList.remove('noodle-panel-peeking');
+      if (typeof window !== 'undefined') {
+        window.pinnedPanel = 'header-tools';
+        window.currentlyOpenPanel = 'header-tools';
+      }
+      if (typeof adjustPanelPosition === 'function') {
+        adjustPanelPosition(panel, 'header-tools');
+      }
+      if (typeof window.updateDashboardArrowUI === 'function') {
+        window.updateDashboardArrowUI(true);
+      }
+    }
+
+    if (typeof syncHeaderToolsMenuState === 'function') {
+      syncHeaderToolsMenuState();
+    }
+  };
 }

@@ -141,13 +141,24 @@ function syncHeaderToolsMenuState() {
   if (typeof document !== 'undefined' && document.body) {
     document.body.classList.toggle('has-tool-panel-open', !!isAnyToolOpen);
   }
+
+  const isToolsPanelOpen = headerToolsPanel && !headerToolsPanel.classList.contains('hidden');
+  if (typeof window !== 'undefined' && typeof window.updateDashboardArrowUI === 'function') {
+    window.updateDashboardArrowUI(!!isToolsPanelOpen);
+  }
 }
 
 function togglePanel(panelName, forceClose = false) {
   // Themes live inside the settings dropdown – there is no separate #panel-theme.
   if (panelName === 'theme' || panelName === 'settings') panelName = 'settings-dropdown';
+  if (panelName === 'dj' || panelName === 'music' || panelName === 'ambient' || panelName === 'sounds') {
+    if (typeof openAudioStudioMode === 'function') {
+      return openAudioStudioMode(panelName === 'sounds' ? 'ambient' : panelName);
+    }
+    panelName = 'audio';
+  }
   const isMobile = typeof window !== 'undefined' && (window.innerWidth || document.documentElement.clientWidth || 0) <= 768;
-  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab', 'radio-news'];
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab', 'radio-news', 'dj', 'music', 'ambient', 'sounds'];
   const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
 
   if (typeof window !== 'undefined' && window.hoverPanelTimeout) {
@@ -162,7 +173,7 @@ function togglePanel(panelName, forceClose = false) {
     if (forceClose) {
       window.NoodleInteractionMode.closeWindow(panelName);
     } else {
-      window.NoodleInteractionMode.openWindow(panelName);
+      window.NoodleInteractionMode.togglePanel(panelName);
     }
     syncHeaderToolsMenuState();
     return;

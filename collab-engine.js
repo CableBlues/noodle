@@ -618,7 +618,6 @@ const CollabEngine = (function() {
     document.body.insertAdjacentHTML('beforeend', html);
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
-  }
 
   function closeDjSharePicker() {
     const el = document.getElementById('collab-dj-picker-modal');

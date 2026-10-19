@@ -40,7 +40,8 @@
   const FLOATING_TOOL_NAMES = new Set([
     'shopping', 'cooking', 'radio', 'news', 'audio', 'alarm',
     'daily', 'impulse', 'inspiration', 'collab-chat', 'social',
-    'health', 'humor-lab', 'radio-news'
+    'health', 'humor-lab', 'radio-news',
+    'dj', 'music', 'ambient', 'sounds'
   ]);
 
   const TRANSIENT_DROPDOWN_NAMES = new Set([
@@ -163,6 +164,10 @@
       }},
       
       'audio': { title: 'Sound Center', lucide: 'headphones', short: 'Sound', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Entspannung' },
+      'ambient': { title: 'Ambient & Sounds', lucide: 'headphones', short: 'Sounds', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Naturklänge' },
+      'sounds': { title: 'Ambient & Sounds', lucide: 'headphones', short: 'Sounds', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Naturklänge' },
+      'music': { title: 'Musik & Medien', lucide: 'disc-3', short: 'Music', color: 'text-sky-400', getSummary: () => 'Eigene Tracks & Playlists' },
+      'dj': { title: 'Noodle DJ Workstation', lucide: 'sliders', short: 'DJ', color: 'text-amber-400', getSummary: () => '2-Deck Mixer & FX' },
       'radio': { title: 'Radio Stream', lucide: 'radio', short: 'Radio', color: 'text-pink-400', getSummary: () => 'Live-Sender & Streams' },
       'news': { title: 'News Briefing', lucide: 'newspaper', short: 'News', color: 'text-purple-400', getSummary: () => 'Weltweite & lokale Nachrichten' },
       'sample-manager': { title: 'Sample Manager', lucide: 'sliders', short: 'Samples', color: 'text-violet-400', getSummary: () => 'Beispiel-Aufgaben verwalten' },
@@ -221,6 +226,9 @@
   function getPanelElement(panelName) {
     if (!panelName) return null;
     const clean = normalizePanelName(panelName);
+    if (clean === 'dj' || clean === 'music' || clean === 'ambient' || clean === 'sounds' || clean === 'media') {
+      return document.getElementById('panel-audio');
+    }
     return document.getElementById(panelName) ||
            document.getElementById(`panel-${panelName}`) ||
            document.getElementById(`modal-${panelName}`) ||
@@ -521,10 +529,15 @@
     if (launchedCleanName === 'header-tools') return;
     const headerTools = document.getElementById('panel-header-tools');
     if (headerTools && !headerTools.classList.contains('hidden')) {
-      const isMobile = typeof window !== 'undefined' && (window.innerWidth || document.documentElement.clientWidth || 0) <= 768;
-      if (!isMobile) {
-        headerTools.classList.add('hidden');
-        headerTools.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'has-mobile-subpanel-open');
+      headerTools.classList.add('hidden');
+      headerTools.style.removeProperty('display');
+      headerTools.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'has-mobile-subpanel-open');
+      if (typeof window !== 'undefined') {
+        if (window.pinnedPanel === 'header-tools') window.pinnedPanel = null;
+        if (window.currentlyOpenPanel === 'header-tools') window.currentlyOpenPanel = null;
+      }
+      if (typeof window.updateDashboardArrowUI === 'function') {
+        window.updateDashboardArrowUI(false);
       }
     }
   }
@@ -546,6 +559,7 @@
     el.style.removeProperty('display');
     const winBox = getMovableWindowBox(el);
     if (winBox && winBox !== el) {
+      winBox.classList.remove('hidden');
       winBox.style.removeProperty('display');
     }
     el.classList.add('noodle-panel-pinned');
@@ -581,11 +595,11 @@
     if (clean === 'radio' && typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.initRadioPanel === 'function') {
       RadioNewsEngine.initRadioPanel();
     }
-    if (clean === 'audio') {
-      const savedTab = (typeof window !== 'undefined' && window._lastActiveAudioTab)
-        ? window._lastActiveAudioTab
-        : (localStorage.getItem('flow_last_audio_tab') || 'ambient');
-      if (typeof switchAudioTab === 'function') switchAudioTab(savedTab);
+    if (clean === 'audio' || clean === 'dj' || clean === 'music' || clean === 'ambient' || clean === 'sounds') {
+      const targetTab = (clean === 'dj' || clean === 'music' || clean === 'ambient')
+        ? clean
+        : (clean === 'sounds' ? 'ambient' : (window._lastActiveAudioTab || localStorage.getItem('flow_last_audio_tab') || 'ambient'));
+      if (typeof switchAudioTab === 'function') switchAudioTab(targetTab);
     }
     if (clean === 'collab-chat' && typeof CollabEngine !== 'undefined') {
       if (typeof CollabEngine.renderChatMessages === 'function') CollabEngine.renderChatMessages();
@@ -617,11 +631,12 @@
 
     el.classList.add('hidden', 'noodle-panel-minimized');
     el.classList.remove('noodle-panel-focused');
-    el.style.setProperty('display', 'none', 'important');
+    el.style.removeProperty('display');
 
     const winBox = getMovableWindowBox(el);
     if (winBox && winBox !== el) {
-      winBox.style.setProperty('display', 'none', 'important');
+      winBox.classList.add('hidden');
+      winBox.style.removeProperty('display');
     }
 
     minimizedWindows.add(clean);
@@ -696,12 +711,13 @@
     const el = getPanelElement(panelName);
     if (el) {
       el.classList.add('hidden');
-      el.style.setProperty('display', 'none', 'important');
+      el.style.removeProperty('display');
       el.classList.remove('noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'noodle-panel-peeking', 'noodle-panel-minimized', 'noodle-panel-snapped');
       const winBox = getMovableWindowBox(el);
       if (winBox && winBox !== el) {
+        winBox.classList.add('hidden');
         winBox.classList.remove('noodle-panel-fullscreen');
-        winBox.style.setProperty('display', 'none', 'important');
+        winBox.style.removeProperty('display');
       }
       if (el.id) {
         activeWindows.delete(el.id);
@@ -725,7 +741,7 @@
       if (headerTools) {
         headerTools.classList.remove('has-mobile-subpanel-open', 'noodle-panel-peeking', 'noodle-panel-pinned');
         headerTools.classList.add('hidden');
-        headerTools.style.setProperty('display', 'none', 'important');
+        headerTools.style.removeProperty('display');
       }
     }
     const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
@@ -784,6 +800,25 @@
     }
 
     if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
+  }
+
+  function closeAllWindows() {
+    const list = Array.from(new Set([...activeWindows, ...minimizedWindows]));
+    list.forEach(w => {
+      try { closeWindow(w); } catch (e) {}
+    });
+    if (typeof document !== 'undefined') {
+      document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window').forEach(box => {
+        box.classList.add('hidden');
+        box.style.removeProperty('display');
+      });
+    }
+    activeWindows.clear();
+    minimizedWindows.clear();
+    updateMinimizedDockUI();
+    if (typeof syncHeaderToolsMenuState === 'function') {
+      try { syncHeaderToolsMenuState(); } catch (e) {}
+    }
   }
 
   function togglePanel(panelName, event) {
@@ -1016,15 +1051,12 @@
     applyModeClasses(currentMode);
     portalToolPanelsToBody();
 
-    // ESC schließt das aktive fokussierte Fenster
+    // ESC schließt alle offenen Fenster & Tools
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        const focused = document.querySelector('.noodle-panel-focused');
-        if (focused && focused.id && !focused.classList.contains('hidden')) {
-          closeWindow(normalizePanelName(focused.id));
-        }
+      if (e.key === 'Escape' || e.code === 'Escape') {
+        closeAllWindows();
       }
-    });
+    }, true);
 
     const scanAndDecorate = () => {
       portalToolPanelsToBody();
@@ -1086,6 +1118,7 @@
     restoreWindow,
     toggleFullscreen,
     closeWindow,
+    closeAllWindows,
     togglePanel,
     bringWindowToFront,
     decoratePanel,
@@ -1103,6 +1136,8 @@
   window.minimizeWindow = minimizeWindow;
   window.restoreWindow = restoreWindow;
   window.closeWindow = closeWindow;
+  window.closeAllWindows = closeAllWindows;
+  window.closeAllToolWindows = closeAllWindows;
   window.toggleFullscreen = toggleFullscreen;
   window.togglePanelFullscreen = toggleFullscreen;
   window.togglePinPanel = togglePanel;

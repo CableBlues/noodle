@@ -576,8 +576,8 @@ function renderTimerCockpitContent() {
             <div class="h-24 flex items-center justify-center py-1">
               <input type="range" min="0" max="1" step="0.02" value="${isMuted ? 0 : masterVol}" 
                      oninput="handleHeaderVolumeInput(this.value)" 
-                     class="h-20 w-1.5 accent-purple-400 cursor-pointer [writing-mode:bt-lr] [-webkit-appearance:slider-vertical]" 
-                     style="-webkit-appearance: slider-vertical; writing-mode: bt-lr;">
+                     class="h-20 w-1.5 accent-purple-400 cursor-pointer" 
+                     style="writing-mode: vertical-lr; direction: rtl;">
             </div>
             <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="text-[8.5px] font-mono font-bold px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition cursor-pointer">
               ${isMuted ? 'Unmute' : 'Mute'}
@@ -632,30 +632,30 @@ function renderTimerCockpitContent() {
       </div>
     `}
 
-    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO · STILLE) -->
-    <div class="p-2.5 rounded-2xl bg-gradient-to-b from-teal-950/30 to-indigo-950/30 border border-teal-500/35 shadow-inner flex flex-col gap-2">
+    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO · STILLE) - VISUELL DEUTLICH HERVORGEHOBEN -->
+    <div class="p-3 rounded-2xl bg-gradient-to-br from-teal-950/60 via-purple-950/40 to-black/80 border-2 border-teal-400/60 shadow-[0_0_20px_rgba(20,184,166,0.25)] ring-1 ring-white/10 flex flex-col gap-2.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-teal-200 font-display flex items-center gap-1.5">
-          <i data-lucide="volume-2" class="w-3.5 h-3.5 text-teal-400"></i>
+        <span class="text-xs font-black text-teal-200 font-display flex items-center gap-2 drop-shadow-sm">
+          <i data-lucide="headphones" class="w-4 h-4 text-teal-300"></i>
           <span>Hintergrund-Audio</span>
         </span>
-        <span class="text-[9px] font-mono text-teal-300 bg-teal-500/20 px-1.5 py-0.2 rounded border border-teal-500/30 font-bold uppercase tracking-wider">
+        <span class="text-[10px] font-mono text-teal-100 bg-teal-500/35 px-2 py-0.5 rounded-full border border-teal-400/80 font-bold uppercase tracking-wider shadow-sm">
           ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : (currentAudioMode === 'radio' ? '📻 Radio' : '🔇 Stille'))}
         </span>
       </div>
 
-      <!-- 4 Haupt-Modi -->
-      <div class="grid grid-cols-4 gap-1">
-        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-gradient-to-r from-teal-600/50 to-emerald-600/50 border-teal-400 text-white shadow-[0_0_10px_rgba(20,184,166,0.35)] ring-1 ring-teal-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+      <!-- 4 Haupt-Modi mit hoher Sichtbarkeit -->
+      <div class="grid grid-cols-4 gap-1.5">
+        <button onclick="setTimerAudioMode('ambient');" class="py-2 px-1 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-gradient-to-r from-teal-500 to-emerald-500 border-teal-300 text-black shadow-[0_0_15px_rgba(20,184,166,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
           🌿 Sounds
         </button>
-        <button onclick="setTimerAudioMode('music');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-gradient-to-r from-purple-600/50 to-indigo-600/50 border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.35)] ring-1 ring-purple-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('music');" class="py-2 px-1 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-gradient-to-r from-purple-500 to-indigo-500 border-purple-300 text-white shadow-[0_0_15px_rgba(168,85,247,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
           🎵 Musik
         </button>
-        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-gradient-to-r from-sky-600/50 to-cyan-600/50 border-cyan-400 text-white shadow-[0_0_10px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('radio');" class="py-2 px-1 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-gradient-to-r from-sky-500 to-cyan-500 border-cyan-300 text-black shadow-[0_0_15px_rgba(6,182,212,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
           📻 Radio
         </button>
-        <button onclick="setTimerAudioMode('silent');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'silent' ? 'bg-white/15 border-white/30 text-white font-bold shadow-sm' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('silent');" class="py-2 px-1 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'silent' ? 'bg-white/25 border-white/60 text-white shadow-md ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-400 hover:text-white hover:bg-white/10'}">
           🔇 Stille
         </button>
       </div>

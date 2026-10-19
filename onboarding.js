@@ -12,84 +12,88 @@ let onboardingCurrentStep = 0;
 const ONBOARDING_STEPS = [
   {
     title: {
-      de: "Willkommen bei Noodle! 🍜",
-      en: "Welcome to Noodle! 🍜"
+      de: "Willkommen bei Noodle Studio! 🍜",
+      en: "Welcome to Noodle Studio! 🍜"
     },
     subtitle: {
       de: "Dein strukturierter Begleiter für Alltag, Fokus & Produktivität",
       en: "Your structured companion for daily tasks, focus & productivity"
     },
-    icon: "lightbulb",
+    icon: "sparkles",
     color: "from-purple-500 to-pink-500",
-    badge: "1 / 4",
+    badge: "1 / 5",
     description: {
-      de: "Noodle verbindet flexibles Aufgabenmanagement mit integrierten Audio-Tools, Timern und praktischen Alltags-Modulen in einer übersichtlichen Oberfläche.",
-      en: "Noodle combines flexible task management with integrated audio tools, timers, and daily utilities in a clean interface."
+      de: "Noodle verbindet intelligentes Aufgabenmanagement mit 3D-Ästhetik, harmonischer Audio-Steuerung und reaktionsschnellen Werkzeugen in einer harmonischen, viewport-optimierten Ansicht.",
+      en: "Noodle combines intelligent task management with 3D depth, harmonic audio control, and responsive tools tailored perfectly to your screen."
     }
   },
   {
     title: {
-      de: "Dein modulares Board 📋",
-      en: "Your Modular Board 📋"
+      de: "Tabellen verwalten & 3D-Board 📋",
+      en: "Manage Tables & 3D Board 📋"
     },
     subtitle: {
-      de: "Aufgaben, Termine & Notizen mühelos ordnen",
-      en: "Organize tasks, appointments & notes with ease"
+      de: "Ein Klick: Tabellen leeren, automatisch füllen oder anpassen",
+      en: "One click: clear tables, autofill, or customize cards"
     },
-    icon: "layout-grid",
-    color: "from-cyan-500 to-teal-500",
-    badge: "2 / 4",
+    icon: "table-properties",
+    color: "from-teal-500 to-emerald-500",
+    badge: "2 / 5",
     description: {
-      de: "Organisiere deine Aufgaben in Tages- und Wochenspalten. Du kannst Spalten per Drag & Drop verschieben, eigene Spalten anlegen und Aufgaben mit Prioritätsfarben oder Wiederholungen 🔁 versehen.",
-      en: "Manage tasks across daily and weekly columns. Reorder via drag & drop, create custom columns, and add priority colors or recurrences 🔁."
+      de: "Über den neuen Button „Tabellen verwalten“ leerst du dein Board im Handumdrehen, befüllst es mit smarten Vorschlägen oder passt Karten an. Der Workspace-Umschalter sitzt griffbereit ganz oben links.",
+      en: "Use the new 'Manage Tables' button to quickly clear, autofill with smart routines, or customize cards. The workspace switcher sits at the top-left."
     }
   },
   {
     title: {
-      de: "Eigene Routinen & Standards ✨",
-      en: "Custom Routines & Lifestyle Presets ✨"
+      de: "„Was nun?“ & Instant-Start ⚡",
+      en: "“What Now?” & Instant Start ⚡"
     },
     subtitle: {
-      de: "Passend für deinen Alltag: Minimalist, Reizfilter-Fokus oder Deep Work",
-      en: "Tailored to your lifestyle: Minimalist, Low-Stimulus Flow or Deep Work"
+      de: "Keine Entscheidungsblockaden: Heute fällige Aufgaben & Steps",
+      en: "Overcome inertia: Today's tasks & guided flow"
     },
-    icon: "sliders",
-    color: "from-amber-500 to-rose-500",
-    badge: "3 / 4",
-    actionButton: true,
+    icon: "zap",
+    color: "from-amber-500 to-yellow-500",
+    badge: "3 / 5",
     description: {
-      de: "Wähle vorkonfigurierte Routine-Standards oder erstelle deine eigene Vorlage. Beim Neuladen des Tagesplans erscheinen genau deine gewählten Aufgaben!",
-      en: "Pick a preconfigured lifestyle preset or create your custom default template. Your chosen tasks will load every day!"
+      de: "Die „Was nun?“-Funktion schlägt dir ausschließlich Aufgaben und Termine vor, die heute relevant sind. Mit dem ⚡ Instant-Start beginnt dein geführter Ablauf mit passendem Timer und sofortigen Einzelschritten.",
+      en: "The 'What Now?' assistant filters exclusively for today's tasks and appointments. Instant-Start kicks off a guided flow with matched timers and steps."
     }
   },
   {
     title: {
-      de: "100% Offline & Datenhoheit 🛡️",
-      en: "100% Offline & Data Privacy 🛡️",
-      fr: "100% Hors-ligne & Souveraineté des données 🛡️",
-      it: "100% Offline & Sovranità dei dati 🛡️",
-      es: "100% Offline & Privacidad de datos 🛡️",
-      el: "100% Εκτός σύνδεσης & Προστασία δεδομένων 🛡️"
+      de: "Audio-Studio & Minimalistische Suche 🎧",
+      en: "Audio Studio & Instant Search 🎧"
     },
     subtitle: {
-      de: "Deine Daten gehören dir — jederzeit sicher",
-      en: "Your data stays yours — always safe and resilient",
-      fr: "Vos données vous appartiennent — toujours en sécurité",
-      it: "I tuoi dati appartengono a te — sempre al sicuro",
-      es: "Tus datos te pertenecen — siempre seguros",
-      el: "Τα δεδομένα σας ανήκουν σε εσάς — πάντα ασφαλή"
+      de: "Vertikaler Lautstärkeregler, harmonischer Mix & Blitzsuche",
+      en: "Vertical volume slider, harmonic mix & instant search"
+    },
+    icon: "headphones",
+    color: "from-sky-500 to-cyan-500",
+    badge: "4 / 5",
+    description: {
+      de: "Schalte den Ton stumm, ohne dass er beim Entstummen ungefragt losspielt. Regle die Lautstärke vertikal. Mit [Strg+K] durchsuchst du ab dem ersten Buchstaben blitzschnell alle Aufgaben ohne Duplikate.",
+      en: "Mute/unmute cleanly without unexpected auto-play. Control volume vertically. Press [Ctrl+K] for instant deduplicated search from the very first keypress."
+    }
+  },
+  {
+    title: {
+      de: "Echtzeit-Synchronisation & Offline-Schutz 🛡️",
+      en: "Real-time Sync & 100% Offline 🛡️"
+    },
+    subtitle: {
+      de: "Alle Geräte live synchronisiert — 100% DSGVO-konform",
+      en: "All devices synced in real time — 100% GDPR compliant"
     },
     icon: "shield-check",
     color: "from-emerald-500 to-teal-500",
-    badge: "4 / 4",
+    badge: "5 / 5",
     installButton: true,
     description: {
-      de: "Alle Daten bleiben lokal auf deinem Gerät gespeichert. Installiere Noodle als App auf deinem Desktop oder Smartphone für blitzschnellen Schnellzugriff ohne Adressleiste!",
-      en: "All data stays stored locally on your device. Install Noodle as an app on your desktop or smartphone for lightning-fast access without address bars!",
-      fr: "Toutes les données restent stockées localement sur votre appareil. Installez Noodle comme application sur votre ordinateur ou smartphone pour un accès ultra-rapide !",
-      it: "Tutti i dati rimangono salvati localmente sul tuo dispositivo. Installa Noodle come app su desktop o smartphone per un accesso immediato!",
-      es: "Todos los datos se guardan localmente en tu dispositivo. ¡Instala Noodle como aplicación en tu PC o smartphone para un acceso ultra rápido!",
-      el: "Όλα τα δεδομένα παραμένουν τοπικά αποθηκευμένα στη συσκευή σας. Εγκαταστήστε το Noodle ως εφαρμογή στον υπολογιστή ή το κινητό σας για άμεση πρόσβαση!"
+      de: "Jede Änderung wird unverzüglich über alle deine Geräte synchronisiert. Installiere Noodle als App auf deinem Desktop oder Smartphone für blitzschnellen Schnellzugriff!",
+      en: "Every update syncs live across your devices. Install Noodle as an app on desktop or mobile for instant offline-ready access!"
     }
   }
 ];

@@ -219,12 +219,16 @@ window.confirmModal = showConfirmDialog;
 if (typeof document !== 'undefined') {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      PanelManager.closeAll();
-      ModalManager.closeAll();
-      const wsEl = document.getElementById('dropdown-header-workspace');
-      if (wsEl) wsEl.classList.add('hidden');
-      const colsEl = document.getElementById('dropdown-manage-columns');
-      if (colsEl) colsEl.classList.add('hidden');
+      if (typeof window.closeAllPanelsAndModals === 'function') {
+        window.closeAllPanelsAndModals();
+      } else {
+        PanelManager.closeAll();
+        ModalManager.closeAll();
+        const wsEl = document.getElementById('dropdown-header-workspace');
+        if (wsEl) wsEl.classList.add('hidden');
+        const colsEl = document.getElementById('dropdown-manage-columns');
+        if (colsEl) colsEl.classList.add('hidden');
+      }
     }
   });
 }

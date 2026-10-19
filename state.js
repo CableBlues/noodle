@@ -937,31 +937,35 @@ function updateWorkspaceSwitchUI() {
       const roomName = (typeof CollabEngine !== 'undefined' && CollabEngine.getRoom) ? CollabEngine.getRoom() : 'team';
       headerIcon.textContent = '👥';
       headerLabel.textContent = `Team (#${roomName})`;
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-violet-600/30 hover:bg-violet-600/40 border border-violet-400/80 text-violet-100 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_15px_rgba(139,92,246,0.4)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-violet-500/20 hover:bg-violet-500/30 border border-violet-400/40 text-violet-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = `Team-Board (#${roomName})`;
     } else if (currentWs === 'study') {
       headerIcon.textContent = '🎓';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_study') : 'Studium';
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-amber-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = typeof t === 'function' ? t('workspace_study') : 'Studium';
     } else if (currentWs === 'work') {
       headerIcon.textContent = '💼';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/30 text-cyan-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
     } else {
       headerIcon.textContent = '🏠';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_private') : 'Privat';
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-400/30 text-purple-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = typeof t === 'function' ? t('workspace_private') : 'Privat';
     }
   }
 
-  // Active option highlight inside Header Dropdown (Solid backgrounds to avoid overlap artifacts)
+  // Active option highlight inside Header Dropdown (Dezent & aufgeräumt)
   const optPriv = document.getElementById('header-ws-opt-private');
   const optWork = document.getElementById('header-ws-opt-work');
   const optStudy = document.getElementById('header-ws-opt-study');
   const optShared = document.getElementById('header-ws-opt-shared');
-  if (optPriv) optPriv.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'private' ? 'bg-purple-500/20 border-purple-400/50 text-purple-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
-  if (optWork) optWork.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'work' ? 'bg-blue-500/20 border-blue-400/50 text-blue-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
-  if (optStudy) optStudy.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'study' ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
-  if (optShared) optShared.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'shared' ? 'bg-violet-600/30 border-violet-400/70 text-violet-100 shadow-[0_0_12px_rgba(139,92,246,0.3)]' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
+  if (optPriv) optPriv.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs border ${currentWs === 'private' ? 'bg-purple-500/15 border-purple-400/35 text-purple-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
+  if (optWork) optWork.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs border ${currentWs === 'work' ? 'bg-cyan-500/15 border-cyan-400/35 text-cyan-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
+  if (optStudy) optStudy.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs border ${currentWs === 'study' ? 'bg-amber-500/15 border-amber-400/35 text-amber-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
+  if (optShared) optShared.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center justify-between transition cursor-pointer text-xs border ${currentWs === 'shared' ? 'bg-violet-500/20 border-violet-400/40 text-violet-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
 
   // 2. SETTINGS / MOBILE TOGGLE FALLBACKS
   const toggleBtn = document.getElementById('btn-workspace-toggle');

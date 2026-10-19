@@ -52,10 +52,10 @@
 #panel-header-tools::before {
   content: '';
   position: absolute;
-  top: -24px;
+  top: -26px;
   left: -20px;
   right: -20px;
-  height: 30px;
+  height: 32px;
   background: transparent;
   pointer-events: auto;
 }
@@ -63,7 +63,7 @@
 @media (max-width: 768px) {
   #panel-header-tools {
     position: fixed !important;
-    top: calc(48px + env(safe-area-inset-top, 0px)) !important;
+    top: calc(56px + env(safe-area-inset-top, 0px)) !important;
     left: 8px !important;
     right: 8px !important;
     bottom: auto !important;

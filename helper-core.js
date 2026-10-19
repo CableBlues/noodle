@@ -373,6 +373,14 @@ function pickRandomTask() {
       // Status ueberpruefen (z.B. bei Terminen)
       if (isObj && (rawItem.status === 'stattgefunden' || rawItem.status === 'nicht_stattgefunden')) return;
 
+      // Termin-Filterung: Zukuenftige Termine duerfen NIEMALS einbezogen werden, ausschliesslich HEUTE!
+      const itemDate = isObj ? (rawItem.date || '') : '';
+      if (cat === 'termine') {
+        if (!itemDate || itemDate !== todayISO) return;
+      } else if (itemDate && itemDate > todayISO) {
+        return;
+      }
+
       // Berechne Teilschritte
       let stepsCompleted = 0;
       let totalSteps = 0;
@@ -393,7 +401,6 @@ function pickRandomTask() {
       let reasonLabel = '💡 Smarter Fokus-Vorschlag';
 
       // 1. Termine/Deadlines von heute
-      const itemDate = isObj ? (rawItem.date || '') : '';
       if (cat === 'termine' || itemDate === todayISO) {
         score += 80;
         reasonKey = 'due_today';
@@ -492,15 +499,40 @@ function pickRandomTask() {
   activeTimerTask = chosen.task;
   updateActiveTimerLabels();
 
-  // Ermittle den ersten Kickstart-Schritt
+  // Ermittle Teilschritte
+  const steps = (typeof getTaskStepsList === 'function') ? getTaskStepsList(chosen.task) : [];
+  const completedIndices = (state.completedSteps && state.completedSteps[chosen.task]) ? state.completedSteps[chosen.task] : [];
   let firstStep = "Arbeitsplatz vorbereiten und für 2 Minuten fokussieren.";
-  const steps = getTaskStepsList(chosen.task);
   if (steps && steps.length > 0) {
-    firstStep = cleanStepText(steps[0]);
+    firstStep = (typeof cleanStepText === 'function') ? cleanStepText(steps[0]) : steps[0];
   }
 
   const safeTask = chosen.task.replace(/'/g, "\\'");
   const catLabel = typeof t === 'function' ? t(chosen.cat) : chosen.cat;
+
+  let stepsListHtml = '';
+  if (steps && steps.length > 0) {
+    stepsListHtml = `
+      <div class="mt-3 pt-2.5 border-t border-white/10 space-y-1.5">
+        <div class="flex items-center justify-between text-[10px] text-purple-300 font-bold uppercase tracking-wider">
+          <span class="flex items-center gap-1"><i data-lucide="footprints" class="w-3 h-3 text-purple-400"></i> Teilschritte (${completedIndices.length}/${steps.length})</span>
+          <span class="text-[9px] text-gray-400">Direkt anklickbar</span>
+        </div>
+        <div class="space-y-1 max-h-32 overflow-y-auto pr-1 custom-scrollbar">
+          ${steps.map((st, sIdx) => {
+            const isDone = completedIndices.includes(sIdx);
+            const clText = (typeof cleanStepText === 'function') ? cleanStepText(st) : st;
+            return `
+              <div onclick="if(typeof toggleCustomStepCheck==='function'){toggleCustomStepCheck('${safeTask}', ${sIdx}, event); pickRandomTask();}" class="flex items-center gap-2 p-1.5 rounded-lg bg-black/40 hover:bg-white/5 border border-white/5 transition cursor-pointer text-left">
+                <input type="checkbox" ${isDone ? 'checked' : ''} onclick="event.stopPropagation(); if(typeof toggleCustomStepCheck==='function'){toggleCustomStepCheck('${safeTask}', ${sIdx}, event); pickRandomTask();}" class="w-3.5 h-3.5 accent-amber-400 rounded cursor-pointer shrink-0" />
+                <span class="text-[11px] leading-snug break-words ${isDone ? 'line-through text-emerald-400 opacity-60' : 'text-gray-200'}">${escapeHtml(clText)}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
 
   box.className = "p-5 rounded-2xl bg-[#14141e] border border-white/10 shadow-xl space-y-4 text-left transition-all duration-300";
   box.innerHTML = `
@@ -529,11 +561,13 @@ function pickRandomTask() {
       </div>
     </div>
 
-    <!-- Primary Action Buttons -->
+    ${stepsListHtml}
+
+    <!-- Primary Action Buttons & Instant-Start -->
     <div class="space-y-2 pt-1">
-      <button onclick="startZenWithTask('${safeTask}', '${chosen.cat}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-bold text-xs rounded-xl shadow-md transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
-        <i data-lucide="play" class="w-4 h-4 fill-black"></i>
-        <span>Fokus starten [Space]</span>
+      <button onclick="startInstantGuidedFlow('${safeTask}', '${chosen.cat}', ${chosen.estMinutes})" class="w-full py-3 px-4 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-black font-extrabold text-xs rounded-xl shadow-[0_0_15px_rgba(251,191,36,0.35)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
+        <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
+        <span>⚡ Instant-Start (Geführter Ablauf)</span>
       </button>
 
       <div class="grid grid-cols-2 gap-2">
@@ -551,6 +585,31 @@ function pickRandomTask() {
   `;
   if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
+
+/**
+ * Startet den geführten Instant-Start Modus fuer ungeduldige Nutzer:
+ * Stellt den passenden Timer ein, schaltet in den Fokus und verbindet zur naechsten Aufgabe nach Abschluss.
+ */
+function startInstantGuidedFlow(taskName, category, estMinutes = 20) {
+  if (typeof window !== 'undefined') window._isGuidedFlowActive = true;
+  if (typeof setTimerPreset === 'function') {
+    const minutesToSet = Math.max(2, Math.min(60, estMinutes || 20));
+    setTimerPreset(minutesToSet);
+  }
+  if (typeof startZenWithTask === 'function') {
+    startZenWithTask(taskName, category);
+  } else if (typeof startTimer === 'function') {
+    startTimer();
+  }
+  if (typeof closeHelperModal === 'function') closeHelperModal();
+  if (typeof showToast === 'function') {
+    showToast(tr({
+      de: `⚡ Instant-Ablauf gestartet: ${taskName} (${estMinutes} Min.)`,
+      en: `⚡ Instant flow started: ${taskName} (${estMinutes} min.)`
+    }));
+  }
+}
+if (typeof window !== 'undefined') window.startInstantGuidedFlow = startInstantGuidedFlow;
 
 
 

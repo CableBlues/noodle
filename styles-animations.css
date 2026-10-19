@@ -1303,8 +1303,6 @@ body.has-tool-panel-open .badge-tools {
 .vertical-volume-fader {
   writing-mode: vertical-lr !important;
   direction: rtl !important;
-  -webkit-appearance: slider-vertical !important;
-  appearance: slider-vertical !important;
   width: 14px !important;
   max-width: 14px !important;
   padding: 0 !important;
@@ -1352,8 +1350,8 @@ body.has-tool-panel-open .badge-tools {
 
 /* Custom DJ Sliders */
 input[type="range"].dj-slider-vert {
-  -webkit-appearance: slider-vertical;
-  appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
   width: 14px;
   height: 52px;
   background: #09090f;

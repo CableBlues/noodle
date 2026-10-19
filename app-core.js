@@ -115,18 +115,48 @@ function handleSoundsMainClick() { openAudioStudioMode('ambient'); }
 function handleMusicMainClick() { openAudioStudioMode('music'); }
 
 function openAudioStudioMode(mode) {
-  if (typeof togglePanel !== 'function') return;
-  const panel = document.getElementById('panel-audio');
-  const isHidden = !panel || panel.classList.contains('hidden');
-  
+  if (typeof mode !== 'string') mode = 'ambient';
+  if (mode === 'beats') mode = 'ambient';
   if (typeof window !== 'undefined') window._lastActiveAudioTab = mode;
   try { localStorage.setItem('flow_last_audio_tab', mode); } catch(e) {}
 
-  if (isHidden) {
-    togglePanel('audio');
+  const panel = document.getElementById('panel-audio');
+  if (!panel) return;
+
+  const isCurrentlyOpen = !panel.classList.contains('hidden') && panel.style.display !== 'none';
+  const currentTab = panel.getAttribute('data-active-tab') || 'ambient';
+
+  // Wenn dasselbe Tab bereits aktiv und offen ist -> Umschalten / Schließen
+  if (isCurrentlyOpen && currentTab === mode) {
+    if (typeof window.NoodleInteractionMode !== 'undefined' && typeof window.NoodleInteractionMode.closeWindow === 'function') {
+      window.NoodleInteractionMode.closeWindow('audio');
+    } else if (typeof togglePanel === 'function') {
+      togglePanel('audio', true);
+    } else {
+      panel.classList.add('hidden');
+      panel.style.removeProperty('display');
+    }
+    return;
   }
+
+  // Panel öffnen / sichtbar machen
+  if (typeof window.NoodleInteractionMode !== 'undefined' && typeof window.NoodleInteractionMode.openWindow === 'function') {
+    window.NoodleInteractionMode.openWindow('audio');
+  } else if (typeof togglePanel === 'function') {
+    togglePanel('audio');
+  } else {
+    panel.classList.remove('hidden');
+    panel.style.removeProperty('display');
+  }
+
+  // Auf gewünschten Tab umschalten & initialisieren
   if (typeof switchAudioTab === 'function') {
     switchAudioTab(mode);
+  }
+
+  // Vordergrund & Fokus sicherstellen
+  if (typeof window.NoodleInteractionMode !== 'undefined' && typeof window.NoodleInteractionMode.bringWindowToFront === 'function') {
+    window.NoodleInteractionMode.bringWindowToFront('audio');
   }
 }
 window.openAudioStudioMode = openAudioStudioMode;
@@ -252,19 +282,14 @@ function rotatePremiumDance() {
   // Neutralized for calm dark design system
 }
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
+// Globaler Tastatur- & Shortcut-Handler
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' || e.code === 'Escape') {
     if (document.activeElement && typeof document.activeElement.blur === 'function') {
-      document.activeElement.blur();
+      try { document.activeElement.blur(); } catch(err) {}
     }
     e.preventDefault();
     closeAllPanelsAndModals();
-    // Timer mit Esc zurücksetzen
-    if (typeof resetTimer === 'function') {
-      resetTimer();
-    } else if (typeof stopTimer === 'function') {
-      stopTimer();
-    }
     return;
   }
 
@@ -415,7 +440,22 @@ function closeAllPanelsAndModals() {
     taskMenuCloseTimer = null;
   }
 
-  // 2. Modal close helpers
+  // 2. Close all floating desktop tool windows (Shopping, Cooking, Radio, Audio/DJ, News, Alarm, Daily, Impulse, etc.)
+  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.closeAllWindows === 'function') {
+    try { window.NoodleInteractionMode.closeAllWindows(); } catch(e) {}
+  }
+  if (typeof closeAllToolWindows === 'function') {
+    try { closeAllToolWindows(); } catch(e) {}
+  }
+  if (typeof closeAllWindows === 'function') {
+    try { closeAllWindows(); } catch(e) {}
+  }
+  document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window').forEach(box => {
+    box.classList.add('hidden');
+    box.style.removeProperty('display');
+  });
+
+  // 3. Modal close helpers
   if (typeof closeHelperModal === 'function') closeHelperModal();
   if (typeof closeCleaningGuideModal === 'function') closeCleaningGuideModal();
   if (typeof closeSportModal === 'function') closeSportModal();
@@ -456,7 +496,7 @@ function closeAllPanelsAndModals() {
   if (typeof closeTaskOptionsMenu === 'function') closeTaskOptionsMenu();
   if (typeof hideSoundHoverSlider === 'function') hideSoundHoverSlider();
 
-  // 3. Close all specific and generic modal elements
+  // 4. Close all specific and generic modal elements
   const modalIds = [
     'brainstorm-modal', 'clarity-modal', 'sample-manager-modal', 'supermarket-modal',
     'feierabend-celebration-modal', 'privacy-legal-modal', 'note-detail-modal',
@@ -467,7 +507,8 @@ function closeAllPanelsAndModals() {
     'modal-keyboard-shortcuts', 'text-import-modal', 'report-export-modal',
     'mobile-menu-drawer', 'mobile-tools-sheet', 'modal-mobile-quick-menu',
     'modal-custom-item', 'modal-dice', 'modal-roulette', 'modal-archive',
-    'modal-app-install', 'modal-undo-history', 'modal-postpone-termin'
+    'modal-app-install', 'modal-undo-history', 'modal-postpone-termin',
+    'app-confirm-modal', 'confirm-dialog-modal'
   ];
   modalIds.forEach(id => {
     const el = document.getElementById(id);
@@ -476,19 +517,42 @@ function closeAllPanelsAndModals() {
       el.style.display = '';
     }
   });
-  document.querySelectorAll('.modal, [id$="-modal"], [id*="modal-"], [id*="-modal"]').forEach(el => {
+  document.querySelectorAll('.modal, [id$="-modal"], [id*="modal-"], [id*="-modal"], .app-modal').forEach(el => {
     el.classList.add('hidden');
     el.style.display = '';
   });
 
-  // 4. Close all dock popover panels, dropdowns, context menus, and hover popovers
-  const allPanels = document.querySelectorAll('.dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], #task-context-dropdown, #header-sound-volume-popover, .context-menu');
+  // 5. Close all subheader and header dropdowns, tools hub and popovers
+  const subheaderDropdowns = [
+    'dropdown-header-workspace', 'dropdown-manage-tables', 'dropdown-manage-columns',
+    'popover-add-list', 'floating-add-list-container', 'panel-header-tools',
+    'header-sound-volume-popover', 'weather-search-results', 'cmd-palette-results',
+    'panel-search', 'panel-settings-dropdown', 'panel-calendar-dropdown',
+    'panel-weather', 'panel-pause-dropdown', 'panel-timer-presets', 'panel-feedback',
+    'panel-report', 'panel-labs-menu', 'panel-news'
+  ];
+  subheaderDropdowns.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('hidden');
+      el.style.display = '';
+      el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+    }
+  });
+
+  // 6. Close all dock popover panels, dropdowns, context menus, and hover popovers
+  const allPanels = document.querySelectorAll('.dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], [id$="-popover"], #task-context-dropdown, #header-sound-volume-popover, .context-menu');
   allPanels.forEach(p => {
     p.classList.add('hidden');
     p.style.display = '';
+    p.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
   });
 
-  // 5. Reset active state on mac dock and clear pinned panel state
+  // 7. PanelManager & ModalManager Fallback
+  if (typeof PanelManager !== 'undefined' && typeof PanelManager.closeAll === 'function') PanelManager.closeAll();
+  if (typeof ModalManager !== 'undefined' && typeof ModalManager.closeAll === 'function') ModalManager.closeAll();
+
+  // 8. Reset active state on mac dock and clear pinned panel state
   if (typeof currentlyOpenPanel !== 'undefined') currentlyOpenPanel = null;
   if (typeof window !== 'undefined') {
     window.currentlyOpenPanel = null;
@@ -498,7 +562,7 @@ function closeAllPanelsAndModals() {
   const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
   if (dockContainer) dockContainer.classList.remove('is-active');
 
-  // 6. Close all open inline add inputs
+  // 9. Close all open inline add inputs
   if (typeof openTaskAddColumns !== 'undefined' && typeof openTaskAddColumns === 'object') {
     let reRenderNeeded = false;
     Object.keys(openTaskAddColumns).forEach(k => {
@@ -510,6 +574,19 @@ function closeAllPanelsAndModals() {
     if (reRenderNeeded && typeof renderApp === 'function') {
       renderApp();
     }
+  }
+
+  // 10. Blur active element so focus does not stay trapped in inputs
+  if (typeof document !== 'undefined' && document.activeElement && typeof document.activeElement.blur === 'function') {
+    try { document.activeElement.blur(); } catch(e) {}
+  }
+
+  // 11. Synchronize UI indicators (dashboard arrow flips back to chevron-right)
+  if (typeof window !== 'undefined' && typeof window.updateDashboardArrowUI === 'function') {
+    window.updateDashboardArrowUI(false);
+  }
+  if (typeof syncHeaderToolsMenuState === 'function') {
+    try { syncHeaderToolsMenuState(); } catch(e) {}
   }
 }
 window.closeAllPanelsAndModals = closeAllPanelsAndModals;
@@ -1540,6 +1617,21 @@ if (typeof document !== 'undefined') {
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
       e.preventDefault();
       if (typeof openCommandPalette === 'function') openCommandPalette();
+      return;
+    }
+
+    // Escape -> Close active popovers and dropdowns
+    if (e.key === 'Escape') {
+      if (typeof closeManageTablesDropdown === 'function') closeManageTablesDropdown();
+      if (typeof closeHeaderWorkspaceDropdown === 'function') closeHeaderWorkspaceDropdown(true);
+      const toolsPanel = document.getElementById('panel-header-tools');
+      if (toolsPanel && !toolsPanel.classList.contains('hidden')) {
+        if (typeof toggleDashboardOverlay === 'function') toggleDashboardOverlay();
+        else toolsPanel.classList.add('hidden');
+      }
+      const soundVol = document.getElementById('header-sound-volume-popover');
+      if (soundVol && !soundVol.classList.contains('hidden')) soundVol.classList.add('hidden');
+      if (typeof closeAllPanelsAndModals === 'function') closeAllPanelsAndModals();
       return;
     }
 

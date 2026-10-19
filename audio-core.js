@@ -580,7 +580,7 @@ function playAmbientSound(type, crossfade = false) {
 }
 
 // Harmonisches Audio-Ducking für Sprachansagen
-function duckAmbientVolume(ratio = 0.18) {
+function duckAmbientVolume(ratio = 0.58) {
   if (soundGainNode && audioCtx) {
     try {
       const now = audioCtx.currentTime;
@@ -1589,7 +1589,7 @@ window.updateAudioStudioHeader = updateAudioStudioHeader;
 function isAnyAudioPlaying() {
   const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
   const isMusic = typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused;
-  const isDj = typeof djDecks !== 'undefined' && djDecks && (djDecks.a?.isPlaying || djDecks.b?.isPlaying);
+  const isDj = typeof djDecks !== 'undefined' && djDecks && ((djDecks.a?.audio && !djDecks.a.audio.paused) || (djDecks.b?.audio && !djDecks.b.audio.paused) || Boolean(djDecks.a?.isPlaying) || Boolean(djDecks.b?.isPlaying));
   const isRadio = (typeof window !== 'undefined' && Boolean(window.isRadioPlaying)) || 
                   (typeof isRadioPlaying !== 'undefined' && Boolean(isRadioPlaying)) ||
                   (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused);
@@ -1636,13 +1636,24 @@ function toggleMasterSound() {
       window._lastPlayedSound = currentSoundType;
     }
     stopAllStudioAudio();
+    isPlayerMuted = true;
+    if (typeof applyDjVolumes === 'function') applyDjVolumes();
+    if (typeof showToast === 'function') {
+      showToast(tr({ de: 'Ton stummgeschaltet 🔇', en: 'Sound muted 🔇', fr: 'Son coupé 🔇', it: 'Audio disattivato 🔇', es: 'Sonido silenciado 🔇', el: 'Σίγαση ήχου 🔇' }));
+    }
   } else {
-    const soundToPlay = window._lastPlayedSound || 'lofi';
-    if (typeof playAmbientSound === 'function') {
-      playAmbientSound(soundToPlay);
+    // Unmute: Ton reaktivieren, aber KEINEN Track automatisch starten! Wiedergabe bleibt pausiert
+    isPlayerMuted = false;
+    if (typeof applyDjVolumes === 'function') applyDjVolumes();
+    if (soundGainNode && audioCtx) {
+      try {
+        const now = audioCtx.currentTime;
+        soundGainNode.gain.cancelScheduledValues(now);
+        soundGainNode.gain.setValueAtTime(soundMasterVolume, now);
+      } catch (e) {}
     }
     if (typeof showToast === 'function') {
-      showToast(tr({ de: 'Sound aktiviert 🔊', en: 'Sound active 🔊', fr: 'Son activé 🔊', it: 'Suono attivato 🔊', es: 'Sonido activado 🔊', el: 'Ήχος ενεργός 🔊' }));
+      showToast(tr({ de: 'Stummschaltung aufgehoben 🔊 (Bereit)', en: 'Unmuted 🔊 (Ready)', fr: 'Son réactivé 🔊', it: 'Audio riattivato 🔊', es: 'Sonido activado 🔊', el: 'Ήχος ενεργός 🔊' }));
     }
   }
   updateHeaderSoundBtnUI();
@@ -1733,8 +1744,9 @@ function handleHeaderVolumeInput(val) {
     } catch(e) {}
   }
 
-  // 2. Media Player Pegel synchronisieren
+  // 2. Media Player & DJ Decks Pegel synchronisieren
   if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(soundMasterVolume);
+  if (typeof applyDjVolumes === 'function') applyDjVolumes();
   if (activeUserAudio) {
     try { activeUserAudio.volume = isPlayerMuted ? 0 : Math.max(0, Math.min(1, soundMasterVolume)); } catch(e) {}
   }

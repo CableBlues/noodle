@@ -429,12 +429,26 @@ function filterCommandPalette(query) {
   const allActions = getCommandPaletteActions();
   const q = (query || '').trim().toLowerCase();
 
+  // Deduplizierung basierend auf bereinigtem Titel
+  const seenTitles = new Set();
+  const deduplicatedActions = [];
+  allActions.forEach(action => {
+    const key = (action.title || '').trim().toLowerCase();
+    if (!seenTitles.has(key)) {
+      seenTitles.add(key);
+      deduplicatedActions.push(action);
+    }
+  });
+
   if (!q) {
-    commandPaletteFilteredItems = allActions.slice(0, 30);
+    commandPaletteFilteredItems = deduplicatedActions.slice(0, 20);
   } else {
-    commandPaletteFilteredItems = allActions.filter(item => {
-      return item.title.toLowerCase().includes(q) || item.category.toLowerCase().includes(q);
-    }).slice(0, 30);
+    // Sofortsuche ab dem 1. Buchstaben ohne inhaltliche Wiederholungen
+    commandPaletteFilteredItems = deduplicatedActions.filter(item => {
+      const matchTitle = (item.title || '').toLowerCase().includes(q);
+      const matchCat = (item.category || '').toLowerCase().includes(q);
+      return matchTitle || matchCat;
+    }).slice(0, 25);
   }
 
   commandPaletteSelectedIndex = 0;

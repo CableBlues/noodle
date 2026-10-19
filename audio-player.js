@@ -1433,46 +1433,10 @@ var djAudioNodes = {
 };
 
 function setupDjAudioNodes(deckId) {
-  if (typeof initAudioContext === 'function') initAudioContext();
-  const ctx = (typeof audioCtx !== 'undefined' && audioCtx) ? audioCtx : (typeof window !== 'undefined' ? window.audioCtx : null);
-  const deck = djDecks[deckId];
-  if (!ctx || !deck || !deck.audio) return;
-
-  if (djAudioNodes[deckId].source) return;
-
-  try {
-    const source = ctx.createMediaElementSource(deck.audio);
-    const lowNode = ctx.createBiquadFilter();
-    lowNode.type = 'lowshelf';
-    lowNode.frequency.value = 250;
-    lowNode.gain.value = (deck.low - 1.0) * 12;
-
-    const midNode = ctx.createBiquadFilter();
-    midNode.type = 'peaking';
-    midNode.frequency.value = 1000;
-    midNode.Q.value = 1.0;
-    midNode.gain.value = (deck.mid - 1.0) * 12;
-
-    const highNode = ctx.createBiquadFilter();
-    highNode.type = 'highshelf';
-    highNode.frequency.value = 4000;
-    highNode.gain.value = (deck.high - 1.0) * 12;
-
-    const gainNode = ctx.createGain();
-    const dest = (typeof getMasterAudioDestination === 'function') ? (getMasterAudioDestination() || ctx.destination) : ctx.destination;
-
-    source.connect(lowNode);
-    lowNode.connect(midNode);
-    midNode.connect(highNode);
-    highNode.connect(gainNode);
-    gainNode.connect(dest);
-
-    djAudioNodes[deckId] = { source, lowNode, midNode, highNode, gainNode };
-    applyDjVolumes();
-  } catch (err) {
-    // MediaElementAudioSourceNode can fail if CORS or already connected
-  }
+  // Direkte, zuverlässige HTML5-Audiowiedergabe ohne CORS-bedingte WebAudio-Stille
+  applyDjVolumes();
 }
+window.setupDjAudioNodes = setupDjAudioNodes;
 
 function initDjDecks() {
   updateDjPresetDropdowns();
@@ -1731,10 +1695,14 @@ function toggleDjDeckPlayback(deckId) {
     return;
   }
 
-  setupDjAudioNodes(deckId);
+  applyDjVolumes();
 
   if (deck.audio.paused) {
     if (typeof initAudioContext === 'function') initAudioContext();
+    if (deck.audio.volume === 0 && (typeof isPlayerMuted === 'undefined' || !isPlayerMuted)) {
+      applyDjVolumes();
+      if (deck.audio.volume === 0) deck.audio.volume = 0.5;
+    }
     deck.audio.play().then(() => {
       deck.isPlaying = true;
       updateDjPlayBtnUI(deckId, true);
@@ -1747,7 +1715,12 @@ function toggleDjDeckPlayback(deckId) {
           source: 'dj'
         });
       }
-    }).catch(e => console.warn(e));
+      if (typeof updateHeaderSoundBtnUI === 'function') {
+        updateHeaderSoundBtnUI();
+      }
+    }).catch(e => {
+      console.warn('[NoodleDJ] Playback error:', e);
+    });
   } else {
     deck.audio.pause();
     deck.isPlaying = false;
@@ -1758,9 +1731,25 @@ function toggleDjDeckPlayback(deckId) {
         updateMiniAudioPlayer({ isPlaying: false, sub: 'DJ Pausiert' });
       }
     }
+    if (typeof updateHeaderSoundBtnUI === 'function') {
+      updateHeaderSoundBtnUI();
+    }
   }
 }
 window.toggleDjDeckPlayback = toggleDjDeckPlayback;
+
+function pauseDjDeck(deckId) {
+  const deck = djDecks[deckId];
+  if (deck && deck.audio && !deck.audio.paused) {
+    deck.audio.pause();
+    deck.isPlaying = false;
+    updateDjPlayBtnUI(deckId, false);
+    if (typeof updateHeaderSoundBtnUI === 'function') {
+      updateHeaderSoundBtnUI();
+    }
+  }
+}
+window.pauseDjDeck = pauseDjDeck;
 
 function setDjMainCue(deckId, event) {
   if (event) event.preventDefault();
@@ -1910,26 +1899,39 @@ window.resetDjEq = resetDjEq;
 var currentDjCrossfaderPos = 0.5;
 
 function applyDjVolumes() {
-  const x = currentDjCrossfaderPos;
+  const x = Math.max(0, Math.min(1, parseFloat(currentDjCrossfaderPos) || 0.5));
+  // Equal-Power Crossfader Curve (Constant acoustic energy across transition)
   const gainA = Math.cos(x * 0.5 * Math.PI);
   const gainB = Math.sin(x * 0.5 * Math.PI);
-  const master = (typeof soundMasterVolume === 'number') ? soundMasterVolume : 0.5;
 
-  const targetVolA = Math.max(0, Math.min(1, gainA * (djDecks.a.volume ?? 1.0) * master));
-  const targetVolB = Math.max(0, Math.min(1, gainB * (djDecks.b.volume ?? 1.0) * master));
+  const isMuted = (typeof isPlayerMuted !== 'undefined' && Boolean(isPlayerMuted));
+  const master = isMuted ? 0 : ((typeof soundMasterVolume === 'number') ? soundMasterVolume : 0.5);
 
-  if (djAudioNodes.a && djAudioNodes.a.gainNode) {
-    djAudioNodes.a.gainNode.gain.value = targetVolA;
-  } else if (djDecks.a && djDecks.a.audio) {
-    djDecks.a.audio.volume = targetVolA;
+  const volA = Math.max(0, Math.min(1, gainA * (djDecks.a?.volume ?? 1.0) * master));
+  const volB = Math.max(0, Math.min(1, gainB * (djDecks.b?.volume ?? 1.0) * master));
+
+  if (djDecks.a && djDecks.a.audio) {
+    try {
+      djDecks.a.audio.volume = volA;
+      djDecks.a.audio.muted = isMuted;
+    } catch (e) {}
   }
 
-  if (djAudioNodes.b && djAudioNodes.b.gainNode) {
-    djAudioNodes.b.gainNode.gain.value = targetVolB;
-  } else if (djDecks.b && djDecks.b.audio) {
-    djDecks.b.audio.volume = targetVolB;
+  if (djDecks.b && djDecks.b.audio) {
+    try {
+      djDecks.b.audio.volume = volB;
+      djDecks.b.audio.muted = isMuted;
+    } catch (e) {}
+  }
+
+  if (djAudioNodes && djAudioNodes.a && djAudioNodes.a.gainNode) {
+    try { djAudioNodes.a.gainNode.gain.value = volA; } catch (e) {}
+  }
+  if (djAudioNodes && djAudioNodes.b && djAudioNodes.b.gainNode) {
+    try { djAudioNodes.b.gainNode.gain.value = volB; } catch (e) {}
   }
 }
+window.applyDjVolumes = applyDjVolumes;
 
 function setDjCrossfader(val) {
   currentDjCrossfaderPos = parseFloat(val);
