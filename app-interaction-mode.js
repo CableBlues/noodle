@@ -543,6 +543,11 @@
     updateMinimizedDockUI();
 
     el.classList.remove('hidden', 'noodle-panel-peeking', 'noodle-panel-minimized');
+    el.style.removeProperty('display');
+    const winBox = getMovableWindowBox(el);
+    if (winBox && winBox !== el) {
+      winBox.style.removeProperty('display');
+    }
     el.classList.add('noodle-panel-pinned');
 
     // Dynamic Render Callbacks first, then decorate so controls are never overwritten
@@ -603,14 +608,22 @@
   }
 
   function minimizeWindow(panelName, event) {
-    if (event) event.stopPropagation();
+    if (event) {
+      try { event.preventDefault(); event.stopPropagation(); } catch (e) {}
+    }
     const clean = normalizePanelName(panelName);
     const el = getPanelElement(panelName);
     if (!el) return;
 
     el.classList.add('hidden', 'noodle-panel-minimized');
     el.classList.remove('noodle-panel-focused');
-    el.style.display = '';
+    el.style.setProperty('display', 'none', 'important');
+
+    const winBox = getMovableWindowBox(el);
+    if (winBox && winBox !== el) {
+      winBox.style.setProperty('display', 'none', 'important');
+    }
+
     minimizedWindows.add(clean);
     activeWindows.add(clean);
 
@@ -631,6 +644,13 @@
     minimizedWindows.delete(panelName);
     minimizedWindows.delete(clean);
     el.classList.remove('hidden', 'noodle-panel-minimized');
+    el.style.removeProperty('display');
+
+    const winBox = getMovableWindowBox(el);
+    if (winBox && winBox !== el) {
+      winBox.style.removeProperty('display');
+    }
+
     el.classList.add('noodle-panel-pinned');
 
     updateMinimizedDockUI();
@@ -643,7 +663,9 @@
   }
 
   function toggleFullscreen(panelName, event) {
-    if (event) event.stopPropagation();
+    if (event) {
+      try { event.preventDefault(); event.stopPropagation(); } catch (e) {}
+    }
     const clean = normalizePanelName(panelName);
     const el = getPanelElement(panelName);
     if (!el) return;
@@ -667,16 +689,19 @@
   let _isClosingWindow = false;
 
   function closeWindow(panelName, event) {
-    if (event) event.stopPropagation();
+    if (event) {
+      try { event.preventDefault(); event.stopPropagation(); } catch (e) {}
+    }
     const clean = normalizePanelName(panelName);
     const el = getPanelElement(panelName);
     if (el) {
       el.classList.add('hidden');
-      el.style.display = '';
+      el.style.setProperty('display', 'none', 'important');
       el.classList.remove('noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'noodle-panel-peeking', 'noodle-panel-minimized', 'noodle-panel-snapped');
       const winBox = getMovableWindowBox(el);
       if (winBox && winBox !== el) {
         winBox.classList.remove('noodle-panel-fullscreen');
+        winBox.style.setProperty('display', 'none', 'important');
       }
       if (el.id) {
         activeWindows.delete(el.id);
@@ -700,6 +725,7 @@
       if (headerTools) {
         headerTools.classList.remove('has-mobile-subpanel-open', 'noodle-panel-peeking', 'noodle-panel-pinned');
         headerTools.classList.add('hidden');
+        headerTools.style.setProperty('display', 'none', 'important');
       }
     }
     const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
@@ -716,6 +742,7 @@
           'pick': () => typeof closeHelperModal === 'function' && closeHelperModal(),
           'steps': () => typeof closeHelperModal === 'function' && closeHelperModal(),
           'cleaning': () => typeof closeCleaningGuideModal === 'function' && closeCleaningGuideModal(),
+          'clean-guide': () => typeof closeCleaningGuideModal === 'function' && closeCleaningGuideModal(),
           'sport': () => typeof closeSportModal === 'function' && closeSportModal(),
           'break': () => typeof closeBreakModal === 'function' && closeBreakModal(),
           'safespace': () => typeof closeSafeSpaceModal === 'function' && closeSafeSpaceModal(),
@@ -741,7 +768,12 @@
           'command-palette': () => typeof closeCommandPalette === 'function' && closeCommandPalette(),
           'keyboard-shortcuts': () => typeof closeKeyboardShortcuts === 'function' && closeKeyboardShortcuts(),
           'dice': () => typeof closeDiceModal === 'function' && closeDiceModal(),
-          'roulette': () => typeof closeRouletteModal === 'function' && closeRouletteModal()
+          'roulette': () => typeof closeRouletteModal === 'function' && closeRouletteModal(),
+          'custom-item': () => typeof closeCustomItemModal === 'function' && closeCustomItemModal(),
+          'archive': () => typeof closeArchiveModal === 'function' && closeArchiveModal(),
+          'export': () => typeof closeExportModal === 'function' && closeExportModal(),
+          'import': () => typeof closeImportModal === 'function' && closeImportModal(),
+          'news': () => typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopNewsReader === 'function' && RadioNewsEngine.stopNewsReader()
         };
         if (modalCleanupMap[clean]) {
           modalCleanupMap[clean]();
@@ -755,7 +787,9 @@
   }
 
   function togglePanel(panelName, event) {
-    if (event) event.stopPropagation();
+    if (event) {
+      try { event.stopPropagation(); } catch (e) {}
+    }
     const clean = normalizePanelName(panelName);
     const el = getPanelElement(panelName);
     if (!el) return;
@@ -765,14 +799,12 @@
       return;
     }
 
-    const isVisible = !el.classList.contains('hidden');
+    const isVisible = !el.classList.contains('hidden') && el.style.display !== 'none';
     if (isVisible) {
       if (el.classList.contains('noodle-panel-peeking')) {
         openWindow(clean);
-      } else if (el.classList.contains('noodle-panel-focused') || TRANSIENT_DROPDOWN_NAMES.has(clean)) {
-        closeWindow(clean);
       } else {
-        bringWindowToFront(clean);
+        closeWindow(clean);
       }
     } else {
       openWindow(clean);
