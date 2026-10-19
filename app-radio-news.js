@@ -2035,6 +2035,12 @@
     const previousAudio = (isRadioPlaying && radioAudioEl) ? radioAudioEl : null;
     currentStationId = stationId;
     localStorage.setItem('flow_radio_station', stationId);
+    if (typeof window !== 'undefined') window.selectedTimerRadio = stationId;
+    if (typeof globalThis !== 'undefined') globalThis.selectedTimerRadio = stationId;
+    try { localStorage.setItem('flowTimerSelectedRadio', stationId); } catch(e) {}
+    if (typeof renderTimerCockpitContent === 'function') {
+      try { renderTimerCockpitContent(); } catch(e) {}
+    }
 
     if (isSpeakingQueue) stopNewsReader();
 
@@ -4279,6 +4285,48 @@
     }
   }
 
+  const RADIO_GENRES = [
+    { id: 'all', label: 'Alle Sender' },
+    { id: 'focus', label: '🧘 Fokus & Chill' },
+    { id: 'independent', label: '📻 Freie Radios' },
+    { id: 'news', label: '🎙️ News & Info' },
+    { id: 'music', label: '🎶 Musik' }
+  ];
+  let radioFilterCategory = 'all';
+  let radioSearchQuery = '';
+
+  function setRadioCategory(catId) {
+    radioFilterCategory = catId;
+    renderRadioPanelContent();
+  }
+
+  function setRadioSearchQuery(query) {
+    radioSearchQuery = (query || '').toLowerCase().trim();
+    const clearBtn = document.getElementById('radio-search-clear-btn');
+    if (clearBtn) {
+      if (radioSearchQuery) {
+        clearBtn.classList.remove('hidden');
+        clearBtn.classList.add('flex');
+      } else {
+        clearBtn.classList.add('hidden');
+        clearBtn.classList.remove('flex');
+      }
+    }
+    renderRadioPanelContent();
+  }
+
+  function clearRadioSearch() {
+    radioSearchQuery = '';
+    const input = document.getElementById('radio-search-input');
+    if (input) input.value = '';
+    const clearBtn = document.getElementById('radio-search-clear-btn');
+    if (clearBtn) {
+      clearBtn.classList.add('hidden');
+      clearBtn.classList.remove('flex');
+    }
+    renderRadioPanelContent();
+  }
+
   function getOrderedRadioStations() {
     const reg = currentRegion || 'de';
     const appLang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'de';
@@ -4311,57 +4359,112 @@
     ]);
     const internationalStations = RADIO_STATIONS.filter(s => !alreadyIncludedIds.has(s.id));
 
-    return [
+    let list = [
       ...ambientStations,
       ...regionStations,
       ...langStations,
       ...internationalStations
     ];
+
+    if (radioFilterCategory && radioFilterCategory !== 'all') {
+      list = list.filter(s => s.category === radioFilterCategory);
+    }
+
+    if (radioSearchQuery) {
+      list = list.filter(s => {
+        const name = (s.name || '').toLowerCase();
+        const desc = (s.desc || '').toLowerCase();
+        const country = (s.country || '').toLowerCase();
+        const query = (s.searchQuery || '').toLowerCase();
+        return name.includes(radioSearchQuery) || desc.includes(radioSearchQuery) || country.includes(radioSearchQuery) || query.includes(radioSearchQuery);
+      });
+    }
+
+    return list;
   }
 
   function renderRadioPanelContent() {
+    // 1. Timer-Kopplung Status Badge aktualisieren
+    const timerConnEl = document.getElementById('radio-timer-connected-station');
+    if (timerConnEl) {
+      const activeSt = RADIO_STATIONS.find(s => s.id === currentStationId);
+      timerConnEl.textContent = activeSt ? `${activeSt.flag || '📻'} ${activeSt.name}` : 'SomaFM Drone Zone';
+    }
+
+    // 2. Genre-Pills aktualisieren
+    const pillsContainer = document.getElementById('radio-category-pills');
+    if (pillsContainer) {
+      pillsContainer.innerHTML = RADIO_GENRES.map(g => {
+        const isActive = g.id === radioFilterCategory;
+        const count = g.id === 'all' 
+          ? RADIO_STATIONS.length 
+          : RADIO_STATIONS.filter(s => s.category === g.id).length;
+        return `
+          <button type="button" onclick="RadioNewsEngine.setRadioCategory('${g.id}')" class="px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shrink-0 cursor-pointer active:scale-95 ${isActive ? 'bg-rose-500/30 text-rose-100 border border-rose-400/60 shadow-xs' : 'bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 border border-white/10'}">
+            <span>${g.label}</span>
+            <span class="text-[9px] font-mono px-1 rounded-md ${isActive ? 'bg-rose-400 text-slate-950 font-black' : 'bg-white/10 text-gray-400'}">${count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
     const container = document.getElementById('radio-stations-list');
     if (!container) return;
 
     const orderedStations = getOrderedRadioStations();
 
-    container.innerHTML = orderedStations.map(s => {
-      const isCurrent = s.id === currentStationId;
-      const isLive = isCurrent && isRadioPlaying;
+    const countBadge = document.getElementById('radio-stations-count');
+    if (countBadge) {
+      countBadge.textContent = `${orderedStations.length} Sender`;
+    }
 
-      return `
-        <div onclick="RadioNewsEngine.playRadioStation('${s.id}')" class="p-2.5 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-3 group ${
-          isCurrent 
-            ? 'bg-purple-500/15 border-purple-500/40 shadow-sm' 
-            : 'bg-white/[0.02] hover:bg-white/[0.05] border-white/8'
-        }">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-8 h-8 rounded-xl flex items-center justify-center text-base shrink-0 ${
-              isCurrent ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-white/5 text-gray-300 border border-white/10'
-            }">
-              <span>${s.logo}</span>
-            </div>
-            <div class="min-w-0">
-              <div class="flex items-center gap-1.5">
-                <span class="text-xs font-bold text-white group-hover:text-purple-200 transition truncate">${s.name}</span>
-                <span class="text-[10px]">${s.flag}</span>
-                ${isLive ? '<span class="px-1.5 py-0.2 rounded text-[8px] font-mono font-bold bg-purple-500 text-white animate-pulse">LIVE</span>' : ''}
-              </div>
-              <p class="text-[10px] text-gray-400 truncate">${s.desc}</p>
-            </div>
-          </div>
-          <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition active:scale-95 ${
-            isLive 
-              ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-md' 
-              : isCurrent 
-                ? 'bg-purple-500/20 text-purple-300 group-hover:bg-purple-500 group-hover:text-white' 
-                : 'bg-white/5 text-gray-400 group-hover:bg-white/20 group-hover:text-white'
-          }" title="${isLive ? 'Sender stoppen' : 'Sender abspielen'}">
-            <i data-lucide="${isLive ? 'square' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
-          </button>
+    if (orderedStations.length === 0) {
+      container.innerHTML = `
+        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/10 text-center text-xs text-gray-400 flex flex-col items-center gap-1.5">
+          <i data-lucide="search-x" class="w-5 h-5 text-gray-500"></i>
+          <span>Kein Sender gefunden für "${typeof escapeHtml === 'function' ? escapeHtml(radioSearchQuery) : radioSearchQuery}"</span>
+          <button type="button" onclick="RadioNewsEngine.clearRadioSearch(); RadioNewsEngine.setRadioCategory('all');" class="text-rose-300 hover:underline text-[11px] mt-1 cursor-pointer">Filter zurücksetzen</button>
         </div>
       `;
-    }).join('');
+    } else {
+      container.innerHTML = orderedStations.map(s => {
+        const isCurrent = s.id === currentStationId;
+        const isLive = isCurrent && isRadioPlaying;
+
+        return `
+          <div onclick="RadioNewsEngine.playRadioStation('${s.id}')" class="p-2.5 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-3 group ${
+            isCurrent 
+              ? 'bg-gradient-to-r from-rose-500/20 to-purple-500/15 border-rose-400/50 shadow-md ring-1 ring-rose-400/30' 
+              : 'bg-white/[0.02] hover:bg-white/[0.06] border-white/8 hover:border-white/15'
+          }">
+            <div class="flex items-center gap-2.5 min-w-0">
+              <div class="w-8 h-8 rounded-xl flex items-center justify-center text-base shrink-0 ${
+                isCurrent ? 'bg-rose-500/25 text-rose-200 border border-rose-400/40 shadow-sm' : 'bg-white/5 text-gray-300 border border-white/10'
+              }">
+                <span>${s.logo}</span>
+              </div>
+              <div class="min-w-0">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-xs font-bold text-white group-hover:text-rose-200 transition truncate">${s.name}</span>
+                  <span class="text-[10px]">${s.flag}</span>
+                  ${isLive ? '<span class="px-1.5 py-0.2 rounded text-[8px] font-mono font-bold bg-rose-500 text-white animate-pulse">LIVE</span>' : (isCurrent ? '<span class="px-1.5 py-0.2 rounded text-[8px] font-mono font-bold bg-cyan-500/30 text-cyan-200 border border-cyan-400/40">⏱️ TIMER</span>' : '')}
+                </div>
+                <p class="text-[10px] text-gray-400 truncate">${s.desc}</p>
+              </div>
+            </div>
+            <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition active:scale-95 ${
+              isLive 
+                ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-md ring-2 ring-white/30' 
+                : isCurrent 
+                  ? 'bg-rose-500/30 text-rose-200 border border-rose-400/40 group-hover:bg-rose-500 group-hover:text-white' 
+                  : 'bg-white/5 text-gray-400 group-hover:bg-white/20 group-hover:text-white'
+            }" title="${isLive ? 'Sender stoppen' : 'Sender abspielen & für Timer wählen'}">
+              <i data-lucide="${isLive ? 'square' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
 
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: container });
   }
@@ -4473,6 +4576,10 @@
     getStationStreamCandidates,
     getCurrentStationId: () => currentStationId,
     isRadioPlaying: () => isRadioPlaying,
+    setRadioCategory,
+    setRadioSearchQuery,
+    clearRadioSearch,
+    renderRadioPanelContent,
     // News Reader (TTS)
     startNewsReader,
     toggleAllNewsReader,

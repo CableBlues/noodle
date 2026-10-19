@@ -1807,9 +1807,6 @@ let soundHoverSliderTimer = null;
 let soundVolumePinned = false;
 
 function showSoundHoverSlider() {
-  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
-    if (window.NoodleInteractionMode.getMode() === 'click-only') return;
-  }
   if (soundHoverSliderTimer) {
     clearTimeout(soundHoverSliderTimer);
     soundHoverSliderTimer = null;

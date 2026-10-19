@@ -557,7 +557,37 @@ async function clearColumnTasks(colId, e) {
   const entry = (activeOrder || []).find(([id]) => id === colId);
   const listTitle = (entry && entry[2]) || t(colId);
 
-  saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} Aufgaben)`);
+  let entityUnitDe = taskCount === 1 ? 'Aufgabe' : 'Aufgaben';
+  let entityUnitEn = taskCount === 1 ? 'task' : 'tasks';
+  let entityUnitFr = taskCount === 1 ? 'tâche' : 'tâches';
+  let entityUnitIt = taskCount === 1 ? 'attività' : 'attività';
+  let entityUnitEs = taskCount === 1 ? 'tarea' : 'tareas';
+  let entityUnitEl = taskCount === 1 ? 'εργασία' : 'εργασίες';
+
+  if (colId === 'notes') {
+    entityUnitDe = taskCount === 1 ? 'Notiz' : 'Notizen';
+    entityUnitEn = taskCount === 1 ? 'note' : 'notes';
+    entityUnitFr = taskCount === 1 ? 'note' : 'notes';
+    entityUnitIt = taskCount === 1 ? 'nota' : 'note';
+    entityUnitEs = taskCount === 1 ? 'nota' : 'notas';
+    entityUnitEl = taskCount === 1 ? 'σημείωση' : 'σημειώσεις';
+  } else if (colId === 'termine') {
+    entityUnitDe = taskCount === 1 ? 'Termin' : 'Termine';
+    entityUnitEn = taskCount === 1 ? 'appointment' : 'appointments';
+    entityUnitFr = taskCount === 1 ? 'rendez-vous' : 'rendez-vous';
+    entityUnitIt = taskCount === 1 ? 'appuntamento' : 'appuntamenti';
+    entityUnitEs = taskCount === 1 ? 'cita' : 'citas';
+    entityUnitEl = taskCount === 1 ? 'ραντεβού' : 'ραντεβού';
+  } else if (isDone) {
+    entityUnitDe = taskCount === 1 ? 'erledigter Eintrag' : 'erledigte Einträge';
+    entityUnitEn = taskCount === 1 ? 'completed item' : 'completed items';
+    entityUnitFr = taskCount === 1 ? 'élément terminé' : 'éléments terminés';
+    entityUnitIt = taskCount === 1 ? 'elemento completato' : 'elementi completati';
+    entityUnitEs = taskCount === 1 ? 'elemento completado' : 'elementos completados';
+    entityUnitEl = taskCount === 1 ? 'ολοκληρωμένο στοιχείο' : 'ολοκληρωμένα στοιχεία';
+  }
+
+  saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} ${entityUnitDe})`);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
   if (typeof trackCategoryClear === 'function') {
     trackCategoryClear(colId, ws, taskList);
@@ -583,12 +613,12 @@ async function clearColumnTasks(colId, e) {
   if (typeof updateZenView === 'function') updateZenView();
 
   showToast(tr({
-    de: `Spalte "${listTitle}" geleert (${taskCount} Aufgaben) 🗑️`,
-    en: `Column "${listTitle}" cleared (${taskCount} tasks) 🗑️`,
-    fr: `Colonne "${listTitle}" vidée (${taskCount} tâches) 🗑️`,
-    it: `Colonna "${listTitle}" svuotata (${taskCount} attività) 🗑️`,
-    es: `Columna "${listTitle}" vaciada (${taskCount} tareas) 🗑️`,
-    el: `Η στήλη "${listTitle}" άδειασε (${taskCount} εργασίες) 🗑️`
+    de: `Spalte "${listTitle}" geleert (${taskCount} ${entityUnitDe}) 🗑️`,
+    en: `Column "${listTitle}" cleared (${taskCount} ${entityUnitEn}) 🗑️`,
+    fr: `Colonne "${listTitle}" vidée (${taskCount} ${entityUnitFr}) 🗑️`,
+    it: `Colonna "${listTitle}" svuotata (${taskCount} ${entityUnitIt}) 🗑️`,
+    es: `Columna "${listTitle}" vaciada (${taskCount} ${entityUnitEs}) 🗑️`,
+    el: `Η στήλη "${listTitle}" άδειασε (${taskCount} ${entityUnitEl}) 🗑️`
   }), { undo: true, duration: 5000 });
 }
 
@@ -600,11 +630,52 @@ async function archiveColumnTasks(colId, e) {
   const taskList = isDone ? (getCurrentWorkspaceDone() || []) : (curItems[colId] || []);
   const taskCount = taskList.length;
   if (taskCount === 0) {
-    showToast(tr({ de: 'Keine Aufgaben zum Archivieren vorhanden! ℹ️', en: 'No tasks to archive! ℹ️', fr: 'Aucune tâche à archiver ! ℹ️', it: 'Nessuna attività da archiviare! ℹ️', es: '¡No hay tareas para archivar! ℹ️', el: 'Δεν υπάρχουν εργασίες για αρχειοθέτηση! ℹ️' }));
+    showToast(tr({
+      de: colId === 'notes' ? 'Keine Notizen zum Archivieren vorhanden! ℹ️' : (colId === 'termine' ? 'Keine Termine zum Archivieren vorhanden! ℹ️' : 'Keine Aufgaben zum Archivieren vorhanden! ℹ️'),
+      en: colId === 'notes' ? 'No notes to archive! ℹ️' : (colId === 'termine' ? 'No appointments to archive! ℹ️' : 'No tasks to archive! ℹ️'),
+      fr: colId === 'notes' ? 'Aucune note à archiver ! ℹ️' : (colId === 'termine' ? 'Aucun rendez-vous à archiver ! ℹ️' : 'Aucune tâche à archiver ! ℹ️'),
+      it: colId === 'notes' ? 'Nessuna nota da archiviare! ℹ️' : (colId === 'termine' ? 'Nessun appuntamento da archiviare! ℹ️' : 'Nessuna attività da archiviare! ℹ️'),
+      es: colId === 'notes' ? '¡No hay notas para archivar! ℹ️' : (colId === 'termine' ? '¡No hay citas para archivar! ℹ️' : '¡No hay tareas para archivar! ℹ️'),
+      el: colId === 'notes' ? 'Δεν υπάρχουν σημειώσεις για αρχειοθέτηση! ℹ️' : (colId === 'termine' ? 'Δεν υπάρχουν ραντεβού για αρχειοθέτηση! ℹ️' : 'Δεν υπάρχουν εργασίες για αρχειοθέτηση! ℹ️')
+    }));
     return;
   }
   
-  saveHistory();
+  const activeOrder = getActiveCategoriesOrder();
+  const entry = (activeOrder || []).find(([id]) => id === colId);
+  const listTitle = (entry && entry[2]) || t(colId);
+
+  let entityUnitDe = taskCount === 1 ? 'Aufgabe' : 'Aufgaben';
+  let entityUnitEn = taskCount === 1 ? 'task' : 'tasks';
+  let entityUnitFr = taskCount === 1 ? 'tâche' : 'tâches';
+  let entityUnitIt = taskCount === 1 ? 'attività' : 'attività';
+  let entityUnitEs = taskCount === 1 ? 'tarea' : 'tareas';
+  let entityUnitEl = taskCount === 1 ? 'εργασία' : 'εργασίες';
+
+  if (colId === 'notes') {
+    entityUnitDe = taskCount === 1 ? 'Notiz' : 'Notizen';
+    entityUnitEn = taskCount === 1 ? 'note' : 'notes';
+    entityUnitFr = taskCount === 1 ? 'note' : 'notes';
+    entityUnitIt = taskCount === 1 ? 'nota' : 'note';
+    entityUnitEs = taskCount === 1 ? 'nota' : 'notas';
+    entityUnitEl = taskCount === 1 ? 'σημείωση' : 'σημειώσεις';
+  } else if (colId === 'termine') {
+    entityUnitDe = taskCount === 1 ? 'Termin' : 'Termine';
+    entityUnitEn = taskCount === 1 ? 'appointment' : 'appointments';
+    entityUnitFr = taskCount === 1 ? 'rendez-vous' : 'rendez-vous';
+    entityUnitIt = taskCount === 1 ? 'appuntamento' : 'appuntamenti';
+    entityUnitEs = taskCount === 1 ? 'cita' : 'citas';
+    entityUnitEl = taskCount === 1 ? 'ραντεβού' : 'ραντεβού';
+  } else if (isDone) {
+    entityUnitDe = taskCount === 1 ? 'erledigter Eintrag' : 'erledigte Einträge';
+    entityUnitEn = taskCount === 1 ? 'completed item' : 'completed items';
+    entityUnitFr = taskCount === 1 ? 'élément terminé' : 'éléments terminés';
+    entityUnitIt = taskCount === 1 ? 'elemento completato' : 'elementi completati';
+    entityUnitEs = taskCount === 1 ? 'elemento completado' : 'elementos completados';
+    entityUnitEl = taskCount === 1 ? 'ολοκληρωμένο στοιχείο' : 'ολοκληρωμένα στοιχεία';
+  }
+
+  saveHistory(`Archiviert: "${listTitle}" (${taskCount} ${entityUnitDe})`);
   if (!Array.isArray(state.archive)) state.archive = [];
   
   const now = new Date();
@@ -638,17 +709,13 @@ async function archiveColumnTasks(colId, e) {
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof updateZenView === 'function') updateZenView();
 
-  const activeOrder = getActiveCategoriesOrder();
-  const entry = (activeOrder || []).find(([id]) => id === colId);
-  const listTitle = (entry && entry[2]) || t(colId);
-
   showToast(tr({
-    de: `${taskCount} Aufgaben aus "${listTitle}" ins Archiv verschoben 📦`,
-    en: `${taskCount} tasks from "${listTitle}" moved to archive 📦`,
-    fr: `${taskCount} tâches de "${listTitle}" archivées 📦`,
-    it: `${taskCount} attività da "${listTitle}" archiviate 📦`,
-    es: `${taskCount} tareas de "${listTitle}" archivadas 📦`,
-    el: `${taskCount} εργασίες από "${listTitle}" αρχειοθετήθηκαν 📦`
+    de: `${taskCount} ${entityUnitDe} aus "${listTitle}" ins Archiv verschoben 📦`,
+    en: `${taskCount} ${entityUnitEn} from "${listTitle}" moved to archive 📦`,
+    fr: `${taskCount} ${entityUnitFr} de "${listTitle}" archivé(s) 📦`,
+    it: `${taskCount} ${entityUnitIt} da "${listTitle}" archiviati 📦`,
+    es: `${taskCount} ${entityUnitEs} de "${listTitle}" archivado(s) 📦`,
+    el: `${taskCount} ${entityUnitEl} από "${listTitle}" αρχειοθετήθηκαν 📦`
   }), { undo: true, duration: 5000 });
 }
 
@@ -695,11 +762,23 @@ function clearCompletedInColumn(colId, e) {
       }), { undo: true, duration: 5000 });
       return;
     }
-    showToast(tr({ de: 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️', en: 'No completed tasks found to clear ℹ️', fr: 'Aucune tâche terminée trouvée à nettoyer ℹ️', it: 'Nessuna attività completata trovata da eliminare ℹ️', es: 'No se encontraron tareas completadas para limpiar ℹ️', el: 'Δεν βρέθηκαν ολοκληρωμένες εργασίες για εκκαθάριση ℹ️' }));
+    showToast(tr({
+      de: colId === 'termine' ? 'Keine vergangenen Termine zum Aufräumen gefunden ℹ️' : (colId === 'notes' ? 'Keine Notizen zum Aufräumen gefunden ℹ️' : 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️'),
+      en: colId === 'termine' ? 'No passed appointments found to clear ℹ️' : (colId === 'notes' ? 'No notes found to clear ℹ️' : 'No completed tasks found to clear ℹ️'),
+      fr: colId === 'termine' ? 'Aucun rendez-vous passé trouvé à nettoyer ℹ️' : (colId === 'notes' ? 'Aucune note trouvée à nettoyer ℹ️' : 'Aucune tâche terminée trouvée à nettoyer ℹ️'),
+      it: colId === 'termine' ? 'Nessun appuntamento passato trovato da eliminare ℹ️' : (colId === 'notes' ? 'Nessuna nota trovata da eliminare ℹ️' : 'Nessuna attività completata trovata da eliminare ℹ️'),
+      es: colId === 'termine' ? 'No se encontraron citas pasadas para limpiar ℹ️' : (colId === 'notes' ? 'No se encontraron notas para limpiar ℹ️' : 'No se encontraron tareas completadas para limpiar ℹ️'),
+      el: colId === 'termine' ? 'Δεν βρέθηκαν ολοκληρωμένα ραντεβού για εκκαθάριση ℹ️' : (colId === 'notes' ? 'Δεν βρέθηκαν σημειώσεις για εκκαθάριση ℹ️' : 'Δεν βρέθηκαν ολοκληρωμένες εργασίες για εκκαθάριση ℹ️')
+    }));
     return;
   }
 
-  saveHistory();
+  const activeOrder = getActiveCategoriesOrder();
+  const entry = (activeOrder || []).find(([id]) => id === colId);
+  const listTitle = (entry && entry[2]) || t(colId);
+  const entityName = colId === 'termine' ? 'abgeschlossene Termine' : (colId === 'notes' ? 'Notizen' : 'erledigte Aufgaben');
+  saveHistory(`Aufgeräumt: "${listTitle}" (${completedIndices.length} ${entityName})`);
+
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
   const removedTasks = list.filter((item, idx) => completedIndices.includes(idx));
   removedTasks.forEach(item => {
@@ -717,8 +796,8 @@ function clearCompletedInColumn(colId, e) {
   if (typeof updateZenView === 'function') updateZenView();
 
   showToast(tr({
-    de: `${completedIndices.length} erledigte Aufgaben aufgeräumt 🧹`,
-    en: `${completedIndices.length} completed tasks cleared 🧹`
+    de: `${completedIndices.length} ${colId === 'termine' ? 'abgeschlossene Termine' : (colId === 'notes' ? 'Notizen' : 'erledigte Aufgaben')} aufgeräumt 🧹`,
+    en: `${completedIndices.length} ${colId === 'termine' ? 'completed appointments' : (colId === 'notes' ? 'notes' : 'completed tasks')} cleared 🧹`
   }), { undo: true, duration: 5000 });
 }
 
@@ -1122,7 +1201,12 @@ function openColumnsManagerModal() {
                     <p class="text-xs font-bold text-gray-200 truncate">${escapeHtml(label)}</p>
                     ${isCustom ? `<span class="text-[9px] px-1.5 py-0.5 bg-purple-500/20 text-purple-300 rounded font-medium border border-purple-500/30">Custom</span>` : ''}
                   </div>
-                  <p class="text-[10px] text-gray-400 font-mono">${count} ${tr({ de: 'Aufgaben', en: 'tasks', fr: 'tâches', it: 'attività', es: 'tareas', el: 'εργασίες' })}</p>
+                  <p class="text-[10px] text-gray-400 font-mono">${count} ${
+                    id === 'notes' ? tr({ de: count === 1 ? 'Notiz' : 'Notizen', en: count === 1 ? 'note' : 'notes', fr: count === 1 ? 'note' : 'notes', it: count === 1 ? 'nota' : 'note', es: count === 1 ? 'nota' : 'notas', el: count === 1 ? 'σημείωση' : 'σημειώσεις' }) :
+                    (id === 'termine' ? tr({ de: count === 1 ? 'Termin' : 'Termine', en: count === 1 ? 'appointment' : 'appointments', fr: count === 1 ? 'rendez-vous' : 'rendez-vous', it: count === 1 ? 'appuntamento' : 'appuntamenti', es: count === 1 ? 'cita' : 'citas', el: count === 1 ? 'ραντεβού' : 'ραντεβού' }) :
+                    (id === 'done' ? tr({ de: count === 1 ? 'Eintrag' : 'Einträge', en: count === 1 ? 'item' : 'items', fr: count === 1 ? 'élément' : 'éléments', it: count === 1 ? 'elemento' : 'elementi', es: count === 1 ? 'elemento' : 'elementos', el: count === 1 ? 'στοιχείο' : 'στοιχεία' }) :
+                    tr({ de: count === 1 ? 'Aufgabe' : 'Aufgaben', en: count === 1 ? 'task' : 'tasks', fr: count === 1 ? 'tâche' : 'tâches', it: count === 1 ? 'attività' : 'attività', es: count === 1 ? 'tarea' : 'tareas', el: count === 1 ? 'εργασία' : 'εργασίες' })))
+                  }</p>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
@@ -1693,10 +1777,11 @@ function renderApp() {
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey && addInput.value.trim()) {
           e.preventDefault();
-          saveHistory();
+          const noteText = addInput.value.trim();
+          saveHistory(`Notiz hinzugefügt: "${noteText.length > 25 ? noteText.substring(0, 22) + '...' : noteText}"`);
           const curItems = getCurrentWorkspaceItems();
           if (!curItems.notes) curItems.notes = [];
-          curItems.notes.push(addInput.value.trim());
+          curItems.notes.push(noteText);
           addInput.value = '';
           openTaskAddColumns['notes'] = false;
           saveState(); renderApp();
@@ -1945,7 +2030,10 @@ function renderApp() {
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && addInput.value.trim()) {
           const taskText = addInput.value.trim();
-          saveHistory(`Aufgabe hinzugefügt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
+          let addLabel = 'Aufgabe hinzugefügt';
+          if (id === 'notes') addLabel = 'Notiz hinzugefügt';
+          else if (id === 'termine') addLabel = 'Termin hinzugefügt';
+          saveHistory(`${addLabel}: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
           const taskObj = (typeof ensureItemIdentity === 'function') 
             ? ensureItemIdentity(taskText, `task_${id}`)
             : { task: taskText };
@@ -1966,12 +2054,15 @@ function renderApp() {
         const submitAddBtn = document.createElement('button');
         submitAddBtn.type = 'button';
         submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-lime-500/20 hover:bg-lime-500/35 text-lime-300 border border-lime-500/40 hover:border-lime-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
-        submitAddBtn.title = tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)', fr: 'Ajouter une tâche (Entrée)', it: 'Aggiungi attività (Invio)', es: 'Añadir tarea (Enter)', el: 'Προσθήκη εργασίας (Enter)' });
+        submitAddBtn.title = id === 'notes' ? tr({ de: 'Notiz hinzufügen (Enter)', en: 'Add note (Enter)', fr: 'Ajouter une note (Entrée)', it: 'Aggiungi nota (Invio)', es: 'Añadir nota (Enter)', el: 'Προσθήκη σημείωσης (Enter)' }) : (id === 'termine' ? tr({ de: 'Termin hinzufügen (Enter)', en: 'Add appointment (Enter)', fr: 'Ajouter un rendez-vous (Entrée)', it: 'Aggiungi appuntamento (Invio)', es: 'Añadir cita (Enter)', el: 'Προσθήκη ραντεβού (Enter)' }) : tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)', fr: 'Ajouter une tâche (Entrée)', it: 'Aggiungi attività (Invio)', es: 'Añadir tarea (Enter)', el: 'Προσθήκη εργασίας (Enter)' }));
         submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-300')}`;
         submitAddBtn.onclick = () => {
           if (addInput.value.trim()) {
-            saveHistory();
             const taskText = addInput.value.trim();
+            let addLabel = 'Aufgabe hinzugefügt';
+            if (id === 'notes') addLabel = 'Notiz hinzugefügt';
+            else if (id === 'termine') addLabel = 'Termin hinzugefügt';
+            saveHistory(`${addLabel}: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
             const taskObj = (typeof ensureItemIdentity === 'function') 
               ? ensureItemIdentity(taskText, `task_${id}`)
               : { task: taskText };
@@ -2192,7 +2283,17 @@ function handleCompleteTask(category, index, event) {
     taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
   }
 
-  saveHistory(`Aufgabe erledigt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
+  let doneAction = 'Aufgabe erledigt';
+  let collabAction = 'hat Aufgabe erledigt';
+  if (category === 'notes') {
+    doneAction = 'Notiz abgehakt';
+    collabAction = 'hat Notiz abgehakt';
+  } else if (category === 'termine') {
+    doneAction = 'Termin abgeschlossen';
+    collabAction = 'hat Termin abgeschlossen';
+  }
+
+  saveHistory(`${doneAction}: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
   const ws = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
   if (typeof trackItemDeletion === 'function') {
     trackItemDeletion(rawTask, category, ws);
@@ -2246,7 +2347,7 @@ function handleCompleteTask(category, index, event) {
   }
 
   if (typeof CollabEngine !== 'undefined') {
-    CollabEngine.broadcastBoardEvent(`hat Aufgabe erledigt: "${taskText.substring(0, 32)}"`);
+    CollabEngine.broadcastBoardEvent(`${collabAction}: "${taskText.substring(0, 32)}"`);
   }
   
   // Positives Feedback: Schnelles Text-Lob & angenehmer Sound-Chime (KEINE Sprachausgabe, KEIN Konfetti-Gewitter)
@@ -2331,9 +2432,45 @@ function deleteTask(category, index, event) {
   if (event) event.stopPropagation();
   const curItems = getCurrentWorkspaceItems();
   const taskObj = curItems[category]?.[index];
-  const taskText = typeof taskObj === 'object' ? taskObj?.task : taskObj;
-  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Aufgabe';
-  saveHistory(`Aufgabe gelöscht: ${snippet}`);
+  const taskText = typeof taskObj === 'object' ? (taskObj?.task || taskObj?.name || '') : String(taskObj || '');
+  
+  let entityLabel = 'Aufgabe';
+  let toastMsg = t('toast_task_deleted');
+  
+  if (category === 'notes') {
+    entityLabel = 'Notiz';
+    toastMsg = t('toast_note_deleted') || (typeof tr === 'function' ? tr({
+      de: 'Notiz gelöscht.',
+      en: 'Note deleted.',
+      fr: 'Note supprimée.',
+      it: 'Nota eliminata.',
+      es: 'Nota eliminada.',
+      el: 'Η σημείωση διαγράφηκε.'
+    }) : 'Notiz gelöscht.');
+  } else if (category === 'termine') {
+    entityLabel = 'Termin';
+    toastMsg = t('toast_termin_deleted') || (typeof tr === 'function' ? tr({
+      de: 'Termin gelöscht.',
+      en: 'Appointment deleted.',
+      fr: 'Rendez-vous supprimé.',
+      it: 'Appuntamento eliminato.',
+      es: 'Cita eliminada.',
+      el: 'Το ραντεβού διαγράφηκε.'
+    }) : 'Termin gelöscht.');
+  } else if (category === 'done') {
+    entityLabel = 'Erledigte Aufgabe';
+    toastMsg = (typeof tr === 'function') ? tr({
+      de: 'Erledigte Aufgabe gelöscht.',
+      en: 'Completed task deleted.',
+      fr: 'Tâche terminée supprimée.',
+      it: 'Attività completata eliminata.',
+      es: 'Tarea completada eliminada.',
+      el: 'Η ολοκληρωμένη εργασία διαγράφηκε.'
+    }) : 'Erledigte Aufgabe gelöscht.';
+  }
+
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : entityLabel;
+  saveHistory(`${entityLabel} gelöscht: ${snippet}`);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
   if (typeof trackItemDeletion === 'function') {
     trackItemDeletion(taskObj, category, ws);
@@ -2349,7 +2486,7 @@ function deleteTask(category, index, event) {
   if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
     cloudSyncEngine.triggerImmediatePush();
   }
-  showToast(t('toast_task_deleted'), { undo: true, duration: 5000 });
+  showToast(toastMsg, { undo: true, duration: 5000 });
   renderApp();
   updateZenView();
   populateHelperTaskSelect();
@@ -2362,8 +2499,21 @@ function handleRestoreDoneTask(doneIndex) {
   const reversedIndex = curDone.length - 1 - doneIndex;
   const item = curDone[reversedIndex]; if (!item) return;
   const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
-  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Erledigte Aufgabe';
-  saveHistory(`Erledigte wiederhergestellt: ${snippet}`);
+  const originCat = item && item.origin ? item.origin : 'daily';
+
+  let entityLabel = 'Aufgabe';
+  let restoreToast = t('toast_task_restored') || 'Aufgabe wiederhergestellt ↩️';
+
+  if (originCat === 'notes') {
+    entityLabel = 'Notiz';
+    restoreToast = t('toast_note_restored') || 'Notiz wiederhergestellt ↩️';
+  } else if (originCat === 'termine') {
+    entityLabel = 'Termin';
+    restoreToast = t('toast_termin_restored') || 'Termin wiederhergestellt ↩️';
+  }
+
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : entityLabel;
+  saveHistory(`${entityLabel} wiederhergestellt: ${snippet}`);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
   if (typeof trackItemDeletion === 'function') {
     trackItemDeletion(item, 'done', ws);
@@ -2380,7 +2530,7 @@ function handleRestoreDoneTask(doneIndex) {
   if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
     cloudSyncEngine.triggerImmediatePush();
   }
-  showToast(t('toast_task_restored') || tr({ de: 'Aufgabe wiederhergestellt ↩️', en: 'Task restored ↩️', fr: 'Tâche restaurée ↩️', it: 'Attività ripristinata ↩️', es: 'Tarea restaurada ↩️', el: 'Εργασία επαναφέρθηκε ↩️' }));
+  showToast(restoreToast);
   renderApp();
   if (typeof updateZenView === 'function') updateZenView();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
@@ -2554,8 +2704,11 @@ function handleItemDrop(e, targetCategory, targetIndex) {
   let insertIdx = isTopHalf ? targetIndex : targetIndex + 1;
   const rawItem = curItems[srcCat][srcIdx];
   const itemText = (typeof rawItem === 'object' && rawItem !== null) ? (rawItem.task || rawItem.name || '') : String(rawItem || '');
-  const snippet = itemText ? `"${itemText.length > 20 ? itemText.substring(0, 18) + '...' : itemText}"` : 'Aufgabe';
-  saveHistory(`Aufgabe verschoben: ${snippet}`);
+  let entityLabel = 'Aufgabe';
+  if (srcCat === 'notes') entityLabel = 'Notiz';
+  else if (srcCat === 'termine') entityLabel = 'Termin';
+  const snippet = itemText ? `"${itemText.length > 20 ? itemText.substring(0, 18) + '...' : itemText}"` : entityLabel;
+  saveHistory(`${entityLabel} verschoben: ${snippet}`);
   const [item] = curItems[srcCat].splice(srcIdx, 1);
   if (srcCat === targetCategory && srcIdx < insertIdx) {
     insertIdx--;
@@ -2584,7 +2737,13 @@ function handleDrop(e, targetCategory) {
   if (!curItems[srcCat] || !curItems[targetCategory]) return;
   
   const insertIdx = curItems[targetCategory].length;
-  saveHistory();
+  const rawDropItem = curItems[srcCat][srcIdx];
+  const dropItemText = (typeof rawDropItem === 'object' && rawDropItem !== null) ? (rawDropItem.task || rawDropItem.name || '') : String(rawDropItem || '');
+  let dropEntityLabel = 'Aufgabe';
+  if (srcCat === 'notes') dropEntityLabel = 'Notiz';
+  else if (srcCat === 'termine') dropEntityLabel = 'Termin';
+  const dropSnippet = dropItemText ? `"${dropItemText.length > 20 ? dropItemText.substring(0, 18) + '...' : dropItemText}"` : dropEntityLabel;
+  saveHistory(`${dropEntityLabel} verschoben: ${dropSnippet}`);
   const [item] = curItems[srcCat].splice(srcIdx, 1);
   curItems[targetCategory].push(item);
   draggedItemInfo = null;
@@ -2604,11 +2763,6 @@ let hoverPanelHideTimeout = null;
 // syncHeaderToolsMenuState handled by app-reports.js
 
 function showPanelHover(panelName, delay = 180) {
-  // Wenn im Click-Only Modus: keine automatische Hover-Vorschau öffnen!
-  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
-    if (window.NoodleInteractionMode.getMode() === 'click-only') return;
-  }
-
   if (hoverPanelHideTimeout) {
     clearTimeout(hoverPanelHideTimeout);
     hoverPanelHideTimeout = null;
@@ -2740,12 +2894,8 @@ function showPanelHover(panelName, delay = 180) {
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
 
-  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
-                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
-  
-  // Im Turbo-Modus reagieren Panels blitzschnell wie Edge-Tabs (40ms statt 180ms)
-  const defaultDelay = isTurbo ? 35 : 180;
-  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? (isTurbo ? Math.min(delay, 35) : delay) : defaultDelay;
+  const defaultDelay = 180;
+  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? delay : defaultDelay;
   hoverPanelShowTimeout = setTimeout(executeShow, effectiveDelay);
 }
 window.showPanelHover = showPanelHover;
@@ -2760,9 +2910,7 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     hoverPanelHideTimeout = null;
   }
 
-  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
-                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
-  const effectiveGrace = isTurbo ? Math.min(gracePeriod, 80) : gracePeriod;
+  const effectiveGrace = gracePeriod;
 
   const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
   if (isPinned) return;
@@ -3104,7 +3252,7 @@ function saveNoteDetailModal() {
   if (index >= 0 && curItems.notes && curItems.notes[index] !== undefined) {
     const val = textarea ? textarea.value.trim() : '';
     if (val) {
-      saveHistory();
+      saveHistory(`Notiz aktualisiert: "${val.length > 25 ? val.substring(0, 22) + '...' : val}"`);
       curItems.notes[index] = val;
       saveState();
       renderApp();
@@ -3145,18 +3293,38 @@ function deleteCurrentNoteDetail() {
   }
 }
 
-function copyTaskText(text, event) {
+function copyTaskText(text, event, cat) {
   if (event) event.stopPropagation();
   if (!text) return;
   navigator.clipboard?.writeText(text).then(() => {
-    showToast(tr({
-      de: 'Aufgabentext kopiert! 📋',
-      en: 'Task text copied! 📋',
-      es: '¡Texto de tarea copiado! 📋',
-      el: 'Το κείμενο αντιγράφηκε! 📋',
-      fr: 'Texte copié ! 📋',
-      it: 'Testo copiato! 📋'
-    }));
+    if (cat === 'notes') {
+      showToast(tr({
+        de: 'Notiz kopiert! 📋',
+        en: 'Note copied! 📋',
+        es: '¡Nota copiada! 📋',
+        el: 'Η σημείωση αντιγράφηκε! 📋',
+        fr: 'Note copiée ! 📋',
+        it: 'Nota copiata! 📋'
+      }));
+    } else if (cat === 'termine') {
+      showToast(tr({
+        de: 'Termin kopiert! 📋',
+        en: 'Appointment copied! 📋',
+        es: '¡Cita copiada! 📋',
+        el: 'Το ραντεβού αντιγράφηκε! 📋',
+        fr: 'Rendez-vous copié ! 📋',
+        it: 'Appuntamento copiato! 📋'
+      }));
+    } else {
+      showToast(tr({
+        de: 'Aufgabentext kopiert! 📋',
+        en: 'Task text copied! 📋',
+        es: '¡Texto de tarea copiado! 📋',
+        el: 'Το κείμενο αντιγράφηκε! 📋',
+        fr: 'Texte copié ! 📋',
+        it: 'Testo copiato! 📋'
+      }));
+    }
   }).catch(() => {});
 }
 window.copyTaskText = copyTaskText;
@@ -3167,7 +3335,7 @@ function copyTaskTextByIndex(cat, index, event) {
   const item = curItems[cat]?.[index];
   if (!item) return;
   const text = typeof item === 'object' ? item.task : item;
-  copyTaskText(text, event);
+  copyTaskText(text, event, cat);
 }
 window.copyTaskTextByIndex = copyTaskTextByIndex;
 
@@ -3226,7 +3394,10 @@ function editTaskInline(cat, index, event) {
     
     const newText = span.textContent.trim();
     if (save && newText && newText !== originalText) {
-      saveHistory();
+      let entityLabel = 'Aufgabe';
+      if (cat === 'notes') entityLabel = 'Notiz';
+      else if (cat === 'termine') entityLabel = 'Termin';
+      saveHistory(`${entityLabel} bearbeitet: "${newText.length > 20 ? newText.substring(0, 18) + '...' : newText}"`);
       if (typeof curItems[cat][index] === 'object') {
         curItems[cat][index].task = newText;
         curItems[cat][index].updatedAt = new Date().toISOString();
@@ -3241,14 +3412,34 @@ function editTaskInline(cat, index, event) {
       span.innerHTML = safeEscaped.replace(/ &amp; /g, '&nbsp;&amp; ').replace(/ & /g, '&nbsp;& ');
       span.title = `${newText} (${tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' })})`;
       if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
-      showToast(tr({
-        de: 'Aufgabe aktualisiert ✏️',
-        en: 'Task updated ✏️',
-        fr: 'Tâche mise à jour ✏️',
-        it: 'Attività aggiornata ✏️',
-        es: 'Tarea actualizada ✏️',
-        el: 'Η εργασία ενημερώθηκε ✏️'
-      }));
+      if (cat === 'notes') {
+        showToast(tr({
+          de: 'Notiz aktualisiert ✏️',
+          en: 'Note updated ✏️',
+          fr: 'Note mise à jour ✏️',
+          it: 'Nota aggiornata ✏️',
+          es: 'Nota actualizada ✏️',
+          el: 'Η σημείωση ενημερώθηκε ✏️'
+        }));
+      } else if (cat === 'termine') {
+        showToast(tr({
+          de: 'Termin aktualisiert ✏️',
+          en: 'Appointment updated ✏️',
+          fr: 'Rendez-vous mis à jour ✏️',
+          it: 'Appuntamento aggiornato ✏️',
+          es: 'Cita actualizada ✏️',
+          el: 'Το ραντεβού ενημερώθηκε ✏️'
+        }));
+      } else {
+        showToast(tr({
+          de: 'Aufgabe aktualisiert ✏️',
+          en: 'Task updated ✏️',
+          fr: 'Tâche mise à jour ✏️',
+          it: 'Attività aggiornata ✏️',
+          es: 'Tarea actualizada ✏️',
+          el: 'Η εργασία ενημερώθηκε ✏️'
+        }));
+      }
     } else {
       const safeEscaped = escapeHtml(originalText);
       span.innerHTML = safeEscaped.replace(/ &amp; /g, '&nbsp;&amp; ').replace(/ & /g, '&nbsp;& ');
@@ -3852,6 +4043,9 @@ if (typeof window !== 'undefined') {
     if (dropdown) dropdown.classList.add('hidden');
   };
 
+  window.toggleManageCardsDropdown = window.toggleManageTablesDropdown;
+  window.closeManageCardsDropdown = window.closeManageTablesDropdown;
+
   if (typeof document !== 'undefined') {
     document.addEventListener('click', (e) => {
       const dropdown = document.getElementById('dropdown-manage-tables');
@@ -3934,4 +4128,248 @@ if (typeof window !== 'undefined') {
       syncHeaderToolsMenuState();
     }
   };
+
+  // --------------------------------------------------------------------------
+  // Custom Template Builder Controller
+  // --------------------------------------------------------------------------
+  let templateBuilderWorkingCopy = null;
+  let templateBuilderActiveCategory = 'daily';
+
+  const TEMPLATE_BUILDER_CATS = [
+    { id: 'daily', label: 'Tagesroutine', icon: 'sun', color: 'text-amber-400' },
+    { id: 'weekly', label: 'Wöchentlich', icon: 'home', color: 'text-emerald-400' },
+    { id: 'occasionally', label: 'Gelegentlich', icon: 'clock', color: 'text-purple-400' },
+    { id: 'todo', label: 'To-Do', icon: 'list-todo', color: 'text-sky-400' }
+  ];
+
+  const TEMPLATE_SUGGESTIONS_EXTRA = {
+    daily: [
+      '1 Glas Wasser trinken', '10 Min Spaziergang', 'Dehnen & Bewegen',
+      'Tagesfokus notieren', 'Schreibtisch aufräumen', 'Vitamine / Frisches Obst',
+      'Abend-Reflexion', 'Lüften vor dem Schlafen', 'Frühstück genießen'
+    ],
+    weekly: [
+      'Einkaufsliste schreiben', 'Kühlschrank auswischen', 'Pflanzen gießen',
+      'Briefkasten leeren & Post', 'Bettwäsche wechseln', 'Handtücher waschen',
+      'Mülleimer auswaschen', 'Wochenziel überprüfen', 'Papierkram abheften'
+    ],
+    occasionally: [
+      'Kleiderschrank ausmisten', 'Backofen reinigen', 'Dokumente abheften',
+      'Backup erstellen', 'Fahrrad / Auto checken', 'Vorräte prüfen & auffüllen',
+      'Kühlschrank abtauen', 'Spenden aussortieren'
+    ],
+    todo: [
+      'Wichtige E-Mail beantworten', 'Termin vereinbaren', 'Rechnung begleichen',
+      'Dringenden Anruf tätigen', 'Paket versenden / abholen', 'Unterlagen ordnen'
+    ]
+  };
+
+  function getBaseDefaultsForLang() {
+    const lang = (typeof currentLang !== 'undefined' ? currentLang : 'de');
+    const defMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+      ? window.DEFAULT_TASKS_BY_LANG
+      : ((typeof DEFAULT_TASKS_BY_LANG !== 'undefined') ? DEFAULT_TASKS_BY_LANG : {});
+    const base = defMap[lang] || defMap['de'] || { daily: [], weekly: [], occasionally: [] };
+    return {
+      daily: Array.isArray(base.daily) ? [...base.daily] : [],
+      weekly: Array.isArray(base.weekly) ? [...base.weekly] : [],
+      occasionally: Array.isArray(base.occasionally) ? [...base.occasionally] : [],
+      todo: []
+    };
+  }
+
+  function openTemplateBuilderModal() {
+    const modal = document.getElementById('modal-template-builder');
+    if (!modal) return;
+
+    const savedDefaults = typeof getCustomDefaults === 'function' ? getCustomDefaults() : null;
+    const baseDefaults = getBaseDefaultsForLang();
+
+    templateBuilderWorkingCopy = {
+      daily: (savedDefaults && Array.isArray(savedDefaults.daily)) ? [...savedDefaults.daily] : [...baseDefaults.daily],
+      weekly: (savedDefaults && Array.isArray(savedDefaults.weekly)) ? [...savedDefaults.weekly] : [...baseDefaults.weekly],
+      occasionally: (savedDefaults && Array.isArray(savedDefaults.occasionally)) ? [...savedDefaults.occasionally] : [...baseDefaults.occasionally],
+      todo: (savedDefaults && Array.isArray(savedDefaults.todo)) ? [...savedDefaults.todo] : [...baseDefaults.todo]
+    };
+
+    templateBuilderActiveCategory = 'daily';
+    modal.classList.remove('hidden');
+    renderTemplateBuilderUI();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  }
+
+  function closeTemplateBuilderModal() {
+    const modal = document.getElementById('modal-template-builder');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function setTemplateBuilderCategory(catId) {
+    if (!TEMPLATE_BUILDER_CATS.some(c => c.id === catId)) return;
+    templateBuilderActiveCategory = catId;
+    renderTemplateBuilderUI();
+  }
+
+  function addCustomTaskToTemplate() {
+    const input = document.getElementById('template-builder-custom-input');
+    if (!input || !templateBuilderWorkingCopy) return;
+    const val = input.value.trim();
+    if (!val) return;
+
+    const list = templateBuilderWorkingCopy[templateBuilderActiveCategory] || [];
+    if (!list.includes(val)) {
+      list.push(val);
+      templateBuilderWorkingCopy[templateBuilderActiveCategory] = list;
+    }
+    input.value = '';
+    input.focus();
+    renderTemplateBuilderUI();
+  }
+
+  function toggleTaskInTemplate(taskName) {
+    if (!templateBuilderWorkingCopy || !taskName) return;
+    const list = templateBuilderWorkingCopy[templateBuilderActiveCategory] || [];
+    const idx = list.indexOf(taskName);
+    if (idx !== -1) {
+      list.splice(idx, 1);
+    } else {
+      list.push(taskName);
+    }
+    templateBuilderWorkingCopy[templateBuilderActiveCategory] = list;
+    renderTemplateBuilderUI();
+  }
+
+  function removeTaskFromTemplate(taskName) {
+    if (!templateBuilderWorkingCopy || !taskName) return;
+    const list = templateBuilderWorkingCopy[templateBuilderActiveCategory] || [];
+    templateBuilderWorkingCopy[templateBuilderActiveCategory] = list.filter(t => t !== taskName);
+    renderTemplateBuilderUI();
+  }
+
+  function resetTemplateBuilderToDefault() {
+    templateBuilderWorkingCopy = getBaseDefaultsForLang();
+    renderTemplateBuilderUI();
+    if (typeof showToast === 'function') {
+      showToast('Standard-Vorschläge wiederhergestellt');
+    }
+  }
+
+  function saveTemplateBuilder(applyImmediately = false) {
+    if (!templateBuilderWorkingCopy) return;
+
+    if (typeof saveCustomDefaults === 'function') {
+      saveCustomDefaults(templateBuilderWorkingCopy);
+    }
+
+    if (applyImmediately) {
+      if (typeof saveHistory === 'function') saveHistory();
+      if (typeof state !== 'undefined' && state) {
+        if (!state.items) state.items = {};
+        state.items.daily = [...(templateBuilderWorkingCopy.daily || [])];
+        state.items.weekly = [...(templateBuilderWorkingCopy.weekly || [])];
+        state.items.occasionally = [...(templateBuilderWorkingCopy.occasionally || [])];
+        state.items.todo = [...(templateBuilderWorkingCopy.todo || [])];
+        if (typeof saveState === 'function') saveState();
+        if (typeof renderApp === 'function') renderApp();
+        if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+        if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+          cloudSyncEngine.triggerImmediatePush();
+        }
+      }
+      if (typeof showToast === 'function') {
+        showToast('Vorlage gespeichert & sofort angewendet! ✨');
+      }
+    } else {
+      if (typeof showToast === 'function') {
+        showToast('Eigene Vorlage gespeichert! ✨');
+      }
+    }
+
+    closeTemplateBuilderModal();
+  }
+
+  function renderTemplateBuilderUI() {
+    if (!templateBuilderWorkingCopy) return;
+    const activeCat = templateBuilderActiveCategory;
+    const currentTasks = templateBuilderWorkingCopy[activeCat] || [];
+
+    // 1. Render Tabs
+    const tabsContainer = document.getElementById('template-builder-tabs');
+    if (tabsContainer) {
+      tabsContainer.innerHTML = TEMPLATE_BUILDER_CATS.map(c => {
+        const count = (templateBuilderWorkingCopy[c.id] || []).length;
+        const isActive = c.id === activeCat;
+        return `
+          <button type="button" onclick="setTemplateBuilderCategory('${c.id}')" class="py-1.5 px-2 rounded-lg font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${isActive ? 'bg-sky-500/25 text-white border border-sky-400/50 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'}">
+            <i data-lucide="${c.icon}" class="w-3.5 h-3.5 ${c.color}"></i>
+            <span class="truncate">${c.label}</span>
+            <span class="text-[9px] font-mono px-1 rounded-full ${isActive ? 'bg-sky-400 text-slate-950 font-black' : 'bg-white/10 text-gray-300'}">${count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // 2. Count Badge
+    const countBadge = document.getElementById('template-builder-count-badge');
+    if (countBadge) {
+      countBadge.textContent = `${currentTasks.length} Aufgabe${currentTasks.length === 1 ? '' : 'n'}`;
+    }
+
+    // 3. Render Selected Task Chips
+    const chipsContainer = document.getElementById('template-builder-selected-chips');
+    if (chipsContainer) {
+      if (currentTasks.length === 0) {
+        chipsContainer.innerHTML = `
+          <span class="text-xs text-gray-400 italic py-1 px-1">
+            Noch keine Aufgaben in dieser Kategorie. Wähle unten Vorschläge aus oder tippe eigene Aufgaben ein.
+          </span>
+        `;
+      } else {
+        chipsContainer.innerHTML = currentTasks.map(task => {
+          const safeTask = String(task).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+          return `
+            <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-xl bg-sky-500/15 border border-sky-400/40 text-sky-100 text-xs font-medium animate-fade-in group">
+              <span class="truncate max-w-[220px]">${task}</span>
+              <button type="button" onclick="removeTaskFromTemplate('${safeTask}')" class="w-4 h-4 rounded-full flex items-center justify-center text-sky-300 hover:text-rose-300 hover:bg-rose-500/20 transition cursor-pointer" title="Entfernen">
+                ✕
+              </button>
+            </span>
+          `;
+        }).join('');
+      }
+    }
+
+    // 4. Render Suggestions
+    const suggestionsContainer = document.getElementById('template-builder-suggestions');
+    if (suggestionsContainer) {
+      const baseDefaults = getBaseDefaultsForLang();
+      const baseList = baseDefaults[activeCat] || [];
+      const extraList = TEMPLATE_SUGGESTIONS_EXTRA[activeCat] || [];
+      const combinedSuggestions = Array.from(new Set([...baseList, ...extraList]));
+
+      suggestionsContainer.innerHTML = combinedSuggestions.map(s => {
+        const isSelected = currentTasks.includes(s);
+        const safeTask = String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        return `
+          <button type="button" onclick="toggleTaskInTemplate('${safeTask}')" class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-xl text-xs transition cursor-pointer active:scale-95 ${isSelected ? 'bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 font-bold shadow-xs' : 'bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+            <i data-lucide="${isSelected ? 'check' : 'plus'}" class="w-3 h-3 ${isSelected ? 'text-emerald-400' : 'text-gray-400'}"></i>
+            <span>${s}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  window.openTemplateBuilderModal = openTemplateBuilderModal;
+  window.closeTemplateBuilderModal = closeTemplateBuilderModal;
+  window.setTemplateBuilderCategory = setTemplateBuilderCategory;
+  window.addCustomTaskToTemplate = addCustomTaskToTemplate;
+  window.toggleTaskInTemplate = toggleTaskInTemplate;
+  window.removeTaskFromTemplate = removeTaskFromTemplate;
+  window.resetTemplateBuilderToDefault = resetTemplateBuilderToDefault;
+  window.saveTemplateBuilder = saveTemplateBuilder;
+  window.renderTemplateBuilderUI = renderTemplateBuilderUI;
 }

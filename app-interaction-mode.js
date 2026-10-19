@@ -54,89 +54,15 @@
     'feierabend-celebration-modal'
   ]);
 
-  function applyModeClasses(mode) {
+  function applyModeClasses() {
     if (typeof document === 'undefined' || !document.body) return;
-    document.body.classList.toggle('mode-multi-window', mode === 'multi-window');
-    document.body.classList.toggle('mode-click-only', mode === 'click-only');
-    document.body.classList.toggle('mode-turbo', mode === 'turbo');
-    document.body.classList.toggle('mode-fast-hover', mode === 'turbo');
-    updateSettingsUI(mode);
+    document.body.classList.add('mode-multi-window');
+    document.body.classList.remove('mode-click-only', 'mode-turbo', 'mode-fast-hover');
   }
 
-  function setInteractionMode(mode, showNotification = true) {
-    if (mode === 'peek-pin') mode = 'multi-window';
-    if (mode !== 'click-only' && mode !== 'multi-window' && mode !== 'turbo') return;
-    currentMode = mode;
-    try {
-      localStorage.setItem(STORAGE_KEY, mode);
-    } catch (e) {}
-
-    applyModeClasses(mode);
-
-    if (showNotification && typeof showToast === 'function') {
-      let msg = '';
-      if (mode === 'turbo') {
-        msg = typeof tr === 'function' ? tr({
-          de: 'Turbo-Modus aktiv: Schneller Wechsel & Reaktionen',
-          en: 'Turbo mode active: Instant hover switching & responsiveness'
-        }) : 'Turbo-Modus aktiv: Schneller Wechsel & Reaktionen';
-      } else if (mode === 'click-only') {
-        msg = typeof tr === 'function' ? tr({
-          de: 'Kompakt-Modus aktiv: Panels öffnen per Klick',
-          en: 'Compact mode active: Panels open on click'
-        }) : 'Kompakt-Modus aktiv: Panels öffnen per Klick';
-      } else {
-        msg = typeof tr === 'function' ? tr({
-          de: 'Studio-Modus aktiv: Fenster minimieren, maximieren & parallel nutzen',
-          en: 'Studio mode active: Minimize, maximize & run tools in parallel'
-        }) : 'Studio-Modus aktiv: Fenster minimieren, maximieren & parallel nutzen';
-      }
-      showToast(msg);
-    }
-
-    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
-    window.dispatchEvent(new CustomEvent('noodle-interaction-mode-changed', { detail: { mode } }));
-  }
-
-  function updateSettingsUI(mode) {
-    const btnMulti = document.getElementById('btn-mode-peek-pin');
-    const btnClick = document.getElementById('btn-mode-click-only');
-    const btnTurbo = document.getElementById('btn-mode-turbo');
-    const badge = document.getElementById('interaction-mode-badge');
-
-    const activeClasses = 'bg-purple-600 text-white font-bold shadow-md border border-purple-400/40';
-    const activeTurboClasses = 'bg-gradient-to-r from-amber-500 to-orange-500 text-black font-black shadow-[0_0_12px_rgba(245,158,11,0.4)] border border-amber-300';
-    const inactiveClasses = 'bg-white/[0.03] text-gray-400 hover:text-white border border-transparent';
-
-    if (btnMulti) {
-      btnMulti.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'multi-window' ? activeClasses : inactiveClasses}`;
-    }
-    if (btnClick) {
-      btnClick.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'click-only' ? activeClasses : inactiveClasses}`;
-    }
-    if (btnTurbo) {
-      btnTurbo.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'turbo' ? activeTurboClasses : inactiveClasses}`;
-    }
-
-    if (badge) {
-      if (mode === 'turbo') {
-        badge.textContent = 'Turbo';
-        badge.className = 'text-[8.5px] font-mono font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded border border-amber-500/40 shadow-xs';
-      } else if (mode === 'click-only') {
-        badge.textContent = 'Kompakt';
-        badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
-      } else {
-        badge.textContent = 'Studio';
-        badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
-      }
-    }
-
-    const modalRadioPeek = document.getElementById('modal-radio-mode-peek');
-    const modalRadioClick = document.getElementById('modal-radio-mode-click');
-    const modalRadioTurbo = document.getElementById('modal-radio-mode-turbo');
-    if (modalRadioPeek) modalRadioPeek.checked = (mode === 'multi-window');
-    if (modalRadioClick) modalRadioClick.checked = (mode === 'click-only');
-    if (modalRadioTurbo) modalRadioTurbo.checked = (mode === 'turbo');
+  function setInteractionMode() {
+    // Interaktionsmodi Studio / Kompakt / Turbo wurden entfernt; Standard ist Multi-Window
+    applyModeClasses();
   }
 
   function normalizePanelName(panelName) {
@@ -1070,33 +996,6 @@
     scanAndDecorate();
     setTimeout(scanAndDecorate, 300);
     setupDOMObserver();
-    setupTurboHoverListeners();
-  }
-
-  // Edge-Tab Style Fast Hover Listener für Tabs & Workspaces
-  function setupTurboHoverListeners() {
-    if (typeof document === 'undefined') return;
-
-    document.addEventListener('mouseover', (e) => {
-      if (currentMode !== 'turbo') return;
-      
-      const tabBtn = e.target.closest('.mobile-tab-btn[data-cat]');
-      if (tabBtn && tabBtn.dataset && tabBtn.dataset.cat) {
-        const cat = tabBtn.dataset.cat;
-        if (typeof window.setMobileCategory === 'function' && document.body.dataset.mobileCat !== cat) {
-          window.setMobileCategory(cat);
-        }
-        return;
-      }
-
-      const wsBtn = e.target.closest('#dropdown-header-workspace button[id^="header-ws-opt-"]');
-      if (wsBtn) {
-        const wsId = wsBtn.id.replace('header-ws-opt-', '');
-        if (wsId && typeof window.setWorkspace === 'function' && window.state && window.state.activeWorkspace !== wsId) {
-          window.setWorkspace(wsId);
-        }
-      }
-    }, { passive: true });
   }
 
   if (document.readyState === 'loading') {
@@ -1124,7 +1023,7 @@
     decoratePanel,
     positionFloatingWindow,
     isFloatingDesktopWindow,
-    updateSettingsUI,
+    updateSettingsUI: () => {},
     pinPanel: openWindow,
     unpinPanel: closeWindow,
     togglePin: togglePanel

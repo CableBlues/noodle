@@ -494,10 +494,12 @@ function closeAllPanelsAndModals() {
   if (typeof closeNoteScannerModal === 'function') closeNoteScannerModal();
   if (typeof toggleTerminForm === 'function') toggleTerminForm(false);
   if (typeof closeTaskOptionsMenu === 'function') closeTaskOptionsMenu();
+  if (typeof closeTemplateBuilderModal === 'function') closeTemplateBuilderModal();
   if (typeof hideSoundHoverSlider === 'function') hideSoundHoverSlider();
 
   // 4. Close all specific and generic modal elements
   const modalIds = [
+    'modal-template-builder',
     'brainstorm-modal', 'clarity-modal', 'sample-manager-modal', 'supermarket-modal',
     'feierabend-celebration-modal', 'privacy-legal-modal', 'note-detail-modal',
     'helper-safespace-modal', 'helper-pick-modal', 'helper-sport-modal',
@@ -1476,14 +1478,14 @@ function handleRestoreBackupFile(event) {
   reader.onload = async function(e) {
     try {
       const data = JSON.parse(e.target.result);
-      if (!data || (!data.items && !data.daily && !Array.isArray(data))) {
+      if (!data) {
         throw new Error('Ungültiges Noodle Backup-Format');
       }
 
       const msg = typeof tr === 'function' ? tr({
-        de: 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden aktualisiert.',
-        en: 'Do you really want to restore this backup? Existing data will be updated.'
-      }) : 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden aktualisiert.';
+        de: 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden ersetzt.',
+        en: 'Do you really want to restore this backup? Existing data will be replaced.'
+      }) : 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden ersetzt.';
 
       const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
         title: typeof tr === 'function' ? tr({ de: 'Backup wiederherstellen?', en: 'Restore Backup?' }) : 'Backup wiederherstellen?',
@@ -1494,24 +1496,40 @@ function handleRestoreBackupFile(event) {
       }) : confirm(msg);
 
       if (confirmed) {
-        if (data.items) {
-          items = data.items;
-          localStorage.setItem('flow_items_v2', JSON.stringify(items));
+        const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+        const migrated = (typeof migrateState === 'function') ? migrateState(data, lang) : data;
+        const nowISO = new Date().toISOString();
+        migrated._backupRestoredAt = nowISO;
+        migrated.updatedAt = nowISO;
+
+        if (typeof state !== 'undefined') {
+          state = migrated;
         }
-        if (data.categoriesOrder && Array.isArray(data.categoriesOrder)) {
-          categoriesOrder = data.categoriesOrder;
-          localStorage.setItem('flow_categories_order', JSON.stringify(categoriesOrder));
-        }
-        if (data.historyScreenshots && Array.isArray(data.historyScreenshots)) {
-          saveHistoryScreenshots(data.historyScreenshots);
+        if (typeof window !== 'undefined') {
+          window.state = migrated;
         }
 
-        if (typeof renderBoard === 'function') renderBoard();
-        if (typeof renderLucideIcons === 'function') renderLucideIcons();
+        if (migrated.categoriesOrder && Array.isArray(migrated.categoriesOrder)) {
+          if (typeof categoriesOrder !== 'undefined') categoriesOrder = migrated.categoriesOrder;
+          if (typeof saveCategoriesOrder === 'function') saveCategoriesOrder();
+        }
+
+        if (typeof saveState === 'function') saveState();
+
+        if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+          cloudSyncEngine.triggerImmediatePush();
+        }
+
+        if (typeof renderApp === 'function') renderApp();
+        if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+        if (typeof updateZenView === 'function') updateZenView();
         if (typeof closeSettingsModal === 'function') closeSettingsModal();
 
         if (typeof showToast === 'function') {
-          showToast('Backup erfolgreich wiederhergestellt! ✨');
+          showToast(tr({
+            de: 'Backup erfolgreich wiederhergestellt! ✨',
+            en: 'Backup restored successfully! ✨'
+          }));
         }
       }
     } catch (err) {
@@ -1519,9 +1537,9 @@ function handleRestoreBackupFile(event) {
         showToast('Fehler beim Wiederherstellen: ' + err.message);
       }
     }
+    event.target.value = '';
   };
   reader.readAsText(file);
-  event.target.value = '';
 }
 window.handleRestoreBackupFile = handleRestoreBackupFile;
 

@@ -1679,20 +1679,20 @@ if (typeof window !== 'undefined') {
 
 async function handleReset() {
   const confirmMsg = tr({
-    de: 'Möchtest du den gesamten Plan wirklich zurücksetzen?',
-    en: 'Do you really want to reset your entire plan?',
-    fr: 'Veux-tu vraiment réinitialiser tout le plan ?',
-    it: 'Vuoi davvero reimpostare l\'intero piano?',
-    es: '¿Seguro que quieres reiniciar todo el plan?',
-    el: 'Θέλεις πραγματικά να επαναφέρεις ολόκληρο το πλάνο σου;'
+    de: 'Möchtest du die Vorlage mit empfohlenen Routinen & Karten laden? (Bestehende Aufgaben werden ersetzt)',
+    en: 'Do you want to load the template with recommended routines & cards? (Existing tasks will be replaced)',
+    fr: 'Veux-tu charger le modèle avec les routines et cartes recommandées ?',
+    it: 'Vuoi caricare il modello con le routine e schede consigliate?',
+    es: '¿Quieres cargar la plantilla con las rutinas y tarjetas recomendadas?',
+    el: 'Θέλεις να φορτώσεις το πρότυπο με τις προτεινόμενες ρουτίνες και κάρτες;'
   });
   
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
-    title: typeof tr === 'function' ? tr({ de: 'Plan zurücksetzen?', en: 'Reset Plan?' }) : 'Plan zurücksetzen?',
+    title: typeof tr === 'function' ? tr({ de: 'Vorlage laden?', en: 'Load Template?' }) : 'Vorlage laden?',
     message: confirmMsg,
-    confirmText: typeof tr === 'function' ? tr({ de: 'Zurücksetzen', en: 'Reset' }) : 'Zurücksetzen',
-    isDanger: true,
-    icon: 'trash-2'
+    confirmText: typeof tr === 'function' ? tr({ de: 'Vorlage laden', en: 'Load Template' }) : 'Vorlage laden',
+    isDanger: false,
+    icon: 'layout-template'
   }) : confirm(confirmMsg);
 
   if (confirmed) {
@@ -1701,13 +1701,22 @@ async function handleReset() {
     if (typeof trackAllListsClear === 'function') {
       trackAllListsClear(ws, state.items, state.done);
     }
+    const customDefaults = getCustomDefaults();
     const localizedDefaults = DEFAULT_TASKS_BY_LANG[currentLang] || DEFAULT_TASKS_BY_LANG['en'] || DEFAULT_TASKS_BY_LANG['de'];
+    const dailyTasks = (customDefaults && Array.isArray(customDefaults.daily)) ? [...customDefaults.daily] : [...(localizedDefaults.daily || [])];
+    const weeklyTasks = (customDefaults && Array.isArray(customDefaults.weekly)) ? [...customDefaults.weekly] : [...(localizedDefaults.weekly || [])];
+    const occasionallyTasks = (customDefaults && Array.isArray(customDefaults.occasionally)) ? [...customDefaults.occasionally] : [...(localizedDefaults.occasionally || [])];
+    const todoTasks = (customDefaults && Array.isArray(customDefaults.todo)) ? [...customDefaults.todo] : [];
+
+    const nowISO = new Date().toISOString();
     state = {
-      version: 3, lastDate: new Date().toISOString().split('T')[0],
+      version: 3, lastDate: nowISO.split('T')[0],
       _tombstones: state._tombstones || {},
       _clearedAt: state._clearedAt || {},
+      _backupRestoredAt: nowISO,
+      updatedAt: nowISO,
       _migrationV3TasksPlaced: true,
-      items: { daily: [...localizedDefaults.daily], weekly: [...localizedDefaults.weekly], occasionally: [...localizedDefaults.occasionally], todo: [], termine: [], notes: [] },
+      items: { daily: dailyTasks, weekly: weeklyTasks, occasionally: occasionallyTasks, todo: todoTasks, termine: [], notes: [] },
       done: [], archive: [], streak: 0, completedSteps: {}, customSteps: {},
       shoppingList: [], shoppingHistory: [],
       cooking: createDefaultCookingState(),
@@ -1729,7 +1738,15 @@ async function handleReset() {
       cloudSyncEngine.triggerImmediatePush();
     }
     
-    showToast(t('toast_reset_success'));
+    const toastMsg = typeof tr === 'function' ? tr({
+      de: 'Vorlage erfolgreich geladen ✨',
+      en: 'Template loaded successfully ✨',
+      fr: 'Modèle chargé avec succès ✨',
+      it: 'Modello caricato con successo ✨',
+      es: 'Plantilla cargada con éxito ✨',
+      el: 'Το πρότυπο φορτώθηκε με επιτυχία ✨'
+    }) : 'Vorlage erfolgreich geladen ✨';
+    showToast(toastMsg);
     renderApp();
     populateHelperTaskSelect();
   }
@@ -1795,6 +1812,7 @@ async function handleClearAllLists() {
     } else {
       state.done = [];
     }
+    state.updatedAt = new Date().toISOString();
     saveState();
     if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
       cloudSyncEngine.triggerImmediatePush();
@@ -1804,12 +1822,12 @@ async function handleClearAllLists() {
     if (typeof updateZenView === 'function') updateZenView();
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: `🧹 Alle Spalten geleert (${totalTasks} Aufgaben entfernt)`,
-        en: `🧹 All columns cleared (${totalTasks} tasks removed)`,
-        fr: `🧹 Toutes les colonnes vidées (${totalTasks} tâches supprimées)`,
-        it: `🧹 Tutte le colonne svuotate (${totalTasks} attività rimosse)`,
-        es: `🧹 Todas las columnas vaciadas (${totalTasks} tareas eliminadas)`,
-        el: `🧹 Όλες οι στήλες άδειασαν (${totalTasks} εργασίες αφαιρέθηκαν)`
+        de: `🧹 Alle Spalten geleert (${totalTasks} Einträge entfernt)`,
+        en: `🧹 All columns cleared (${totalTasks} items removed)`,
+        fr: `🧹 Toutes les colonnes vidées (${totalTasks} éléments supprimés)`,
+        it: `🧹 Tutte le colonne svuotate (${totalTasks} elementi rimossi)`,
+        es: `🧹 Todas las columnas vaciadas (${totalTasks} elementos eliminados)`,
+        el: `🧹 Όλες οι στήλες άδειασαν (${totalTasks} στοιχεία αφαιρέθηκαν)`
       }));
     }
   }
@@ -1870,9 +1888,10 @@ function handleOpenFile(e) {
 function convertNoteToTask(noteIndex, targetCategory = 'todo', event) {
   if (event) event.stopPropagation();
   if (!state.items.notes || !state.items.notes[noteIndex]) return;
-  saveHistory();
   const [noteItem] = state.items.notes.splice(noteIndex, 1);
   const noteText = typeof noteItem === 'object' ? noteItem.task : noteItem;
+  const snippet = noteText ? `"${noteText.length > 20 ? noteText.substring(0, 18) + '...' : noteText}"` : 'Notiz';
+  saveHistory(`Notiz in Aufgabe umgewandelt: ${snippet}`);
   if (!state.items[targetCategory]) state.items[targetCategory] = [];
   state.items[targetCategory].push(noteText);
   saveState();
