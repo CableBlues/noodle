@@ -707,6 +707,7 @@ function switchSettingsTab(tabName) {
     }
   });
   if (tabName === 'history') renderHistoryGallery();
+  if (tabName === 'privacy' && typeof updateUmamiOptOutUI === 'function') updateUmamiOptOutUI();
   renderLucideIcons();
 }
 

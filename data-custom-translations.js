@@ -9,6 +9,7 @@ if (typeof window.TRANSLATIONS === 'undefined') { window.TRANSLATIONS = {}; }
 
 const customTranslations = {
   "en": {
+    "mobile_nav_menu": "Menu",
     "pick_tab_suggestion": "Focus Suggestion",
     "pick_tab_dilemma": "A vs B Decider",
     "pick_tab_braindump": "Clear Mind",
@@ -1059,6 +1060,7 @@ const customTranslations = {
     "step_choose_placeholder": "Select step"
   },
   "de": {
+    "mobile_nav_menu": "Menü",
     "pick_tab_suggestion": "Fokus-Vorschlag",
     "pick_tab_dilemma": "A vs. B Entscheider",
     "pick_tab_braindump": "Kopf leeren",
@@ -2109,6 +2111,7 @@ const customTranslations = {
     "step_choose_placeholder": "Schritt wählen"
   },
   "fr": {
+    "mobile_nav_menu": "Menu",
     "pick_tab_suggestion": "Suggestion de focus",
     "pick_tab_dilemma": "Décideur A vs B",
     "pick_tab_braindump": "Vider l'esprit",
@@ -3159,6 +3162,7 @@ const customTranslations = {
     "step_choose_placeholder": "Sélectionner une étape"
   },
   "it": {
+    "mobile_nav_menu": "Menu",
     "pick_tab_suggestion": "Suggerimento focus",
     "pick_tab_dilemma": "Decisore A vs B",
     "pick_tab_braindump": "Svuota la mente",
@@ -4209,6 +4213,7 @@ const customTranslations = {
     "step_choose_placeholder": "Seleziona passo"
   },
   "es": {
+    "mobile_nav_menu": "Menú",
     "pick_tab_suggestion": "Sugerencia de enfoque",
     "pick_tab_dilemma": "Decisor A vs B",
     "pick_tab_braindump": "Vaciar la mente",
@@ -5259,6 +5264,7 @@ const customTranslations = {
     "step_choose_placeholder": "Seleccionar paso"
   },
   "el": {
+    "mobile_nav_menu": "Μενού",
     "pick_tab_suggestion": "Πρόταση εστίασης",
     "pick_tab_dilemma": "Αποφασιστής A vs B",
     "pick_tab_braindump": "Άδειασμα μυαλού",

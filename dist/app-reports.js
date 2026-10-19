@@ -1,3 +1,12 @@
+/**
+ * @file app-reports.js
+ * @module ReportsAndPanelPositioning
+ * @description
+ * Viewport-abhängige Positionierung von Popover-Panels (`adjustPanelPosition`)
+ * sowie Produktivitäts-Auswertungen, Aktivitäts-Heatmaps, Wochenbilanzen und
+ * hochauflösender Bildexport (`exportReportAsImage` via `html2canvas`).
+ */
+
 function adjustPanelPosition(el, panelName) {
   if (!el || typeof window === 'undefined' || typeof document === 'undefined') return;
 
@@ -6,12 +15,44 @@ function adjustPanelPosition(el, panelName) {
   const vw = window.innerWidth || document.documentElement.clientWidth || 1200;
 
   if (isMobile) {
-    el.style.maxHeight = 'calc(100dvh - 110px - env(safe-area-inset-bottom, 0px))';
+    el.style.top = '';
+    el.style.left = '';
+    el.style.right = '';
+    el.style.transform = 'none';
+    el.style.maxHeight = 'calc(100dvh - 118px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))';
     el.style.overflowY = 'auto';
+    el.style.overflowX = 'hidden';
+
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(() => {
+        if (!el || el.classList.contains('hidden')) return;
+        const rect = el.getBoundingClientRect();
+        let shiftX = 0;
+        if (rect.right > vw - 8) {
+          shiftX = (vw - 8) - rect.right;
+        } else if (rect.left < 8) {
+          shiftX = 8 - rect.left;
+        }
+        if (Math.abs(shiftX) > 1) {
+          el.style.transform = `translateX(${Math.round(shiftX)}px)`;
+        }
+        if (rect.bottom > vh - 68) {
+          const availH = Math.max(200, (vh - 68) - Math.max(48, rect.top));
+          el.style.maxHeight = `${availH}px`;
+        }
+      });
+    }
     return;
   }
 
   // Desktop (> 768px):
+  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.isFloatingDesktopWindow === 'function') {
+    if (window.NoodleInteractionMode.isFloatingDesktopWindow(el, panelName)) {
+      window.NoodleInteractionMode.positionFloatingWindow(el, panelName);
+      return;
+    }
+  }
+
   const toolsPanel = document.getElementById('panel-header-tools');
   const isToolsSubpanel = el.classList.contains('dock-popover-panel') && el.closest('#panel-header-tools');
 
@@ -19,7 +60,6 @@ function adjustPanelPosition(el, panelName) {
   const isZeroScroll = zeroScrollPanels.includes(el.id);
 
   if (isToolsSubpanel && toolsPanel) {
-    // Initial placement at top of tools panel, with full screen headroom
     el.style.top = '0px';
     el.style.maxHeight = `calc(100vh - 32px)`;
     if (isZeroScroll && vh >= 520) {
@@ -27,42 +67,8 @@ function adjustPanelPosition(el, panelName) {
     } else {
       el.style.overflowY = 'auto';
     }
-
-    if (typeof requestAnimationFrame === 'function') {
-      requestAnimationFrame(() => {
-        if (!el || el.classList.contains('hidden')) return;
-        const rect = el.getBoundingClientRect();
-
-        // Check vertical bounds: shift upwards if extending below bottom margin
-        if (rect.bottom > vh - 16) {
-          const overflow = rect.bottom - (vh - 16);
-          const toolsRect = toolsPanel.getBoundingClientRect();
-          const maxShiftUp = Math.max(0, toolsRect.top - 12);
-          const actualShift = Math.min(overflow, maxShiftUp);
-          el.style.top = `-${actualShift}px`;
-        } else {
-          el.style.top = '0px';
-        }
-
-        // Re-measure after vertical shift to ensure height doesn't overflow viewport
-        const postRect = el.getBoundingClientRect();
-        const availableHeight = Math.max(260, vh - Math.max(12, postRect.top) - 16);
-        el.style.maxHeight = `${availableHeight}px`;
-
-        // Check horizontal bounds: ensure panel does not overflow right edge or clip left edge
-        if (postRect.right > vw - 12) {
-          const rightOverflow = postRect.right - (vw - 12);
-          el.style.transform = `translateX(-${rightOverflow}px)`;
-        } else if (postRect.left < 12) {
-          const leftDeficit = 12 - postRect.left;
-          el.style.transform = `translateX(${leftDeficit}px)`;
-        } else {
-          el.style.transform = '';
-        }
-      });
-    }
   } else {
-    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, alarm, etc.)
+    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, etc.)
     el.style.maxHeight = `calc(100vh - 65px)`;
     if (isZeroScroll && vh >= 520) {
       el.style.overflowY = 'hidden';
@@ -107,6 +113,7 @@ if (typeof window !== 'undefined') {
 function syncHeaderToolsMenuState() {
   const toolsBtn = document.getElementById('btn-header-tools');
   const toolsWrapper = document.getElementById('header-tools-wrapper');
+  const headerToolsPanel = document.getElementById('panel-header-tools');
   
   const TOOL_PANEL_IDS = [
     'panel-header-tools', 'panel-collab-chat', 'panel-social', 'panel-radio', 'panel-news',
@@ -121,40 +128,88 @@ function syncHeaderToolsMenuState() {
     return el && !el.classList.contains('hidden');
   });
 
+  if (headerToolsPanel) {
+    const hasOpenSub = TOOL_PANEL_IDS.filter(id => id !== 'panel-header-tools').some(id => {
+      const sub = document.getElementById(id);
+      return sub && !sub.classList.contains('hidden');
+    });
+    headerToolsPanel.classList.toggle('has-mobile-subpanel-open', hasOpenSub);
+  }
+
   if (toolsBtn) toolsBtn.classList.toggle('is-menu-open', !!isAnyToolOpen);
   if (toolsWrapper) toolsWrapper.classList.toggle('is-menu-open', !!isAnyToolOpen);
   if (typeof document !== 'undefined' && document.body) {
     document.body.classList.toggle('has-tool-panel-open', !!isAnyToolOpen);
   }
+
+  const isToolsPanelOpen = headerToolsPanel && !headerToolsPanel.classList.contains('hidden');
+  if (typeof window !== 'undefined' && typeof window.updateDashboardArrowUI === 'function') {
+    window.updateDashboardArrowUI(!!isToolsPanelOpen);
+  }
 }
 
-function togglePanel(panelName) {
-  if (panelName === 'header-tools' && typeof window !== 'undefined' && window.innerWidth <= 768) {
-    if (typeof switchMobileNavTab === 'function') {
-      switchMobileNavTab('planer');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
-      return;
+function togglePanel(panelName, forceClose = false) {
+  // Themes live inside the settings dropdown – there is no separate #panel-theme.
+  if (panelName === 'theme' || panelName === 'settings') panelName = 'settings-dropdown';
+  if (panelName === 'dj' || panelName === 'music' || panelName === 'ambient' || panelName === 'sounds') {
+    if (typeof openAudioStudioMode === 'function') {
+      return openAudioStudioMode(panelName === 'sounds' ? 'ambient' : panelName);
     }
+    panelName = 'audio';
   }
+  const isMobile = typeof window !== 'undefined' && (window.innerWidth || document.documentElement.clientWidth || 0) <= 768;
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab', 'radio-news', 'dj', 'music', 'ambient', 'sounds'];
+  const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
+
   if (typeof window !== 'undefined' && window.hoverPanelTimeout) {
     clearTimeout(window.hoverPanelTimeout);
     window.hoverPanelTimeout = null;
   }
   const el = document.getElementById(`panel-${panelName}`);
   if (!el) return;
+
+  // Auf Desktop: Eigenständige Floating-Tool-Fenster über NoodleInteractionMode verwalten (Multi-Window fähig!)
+  if (!isMobile && isSubpanelOfTools && typeof window !== 'undefined' && window.NoodleInteractionMode) {
+    if (forceClose) {
+      window.NoodleInteractionMode.closeWindow(panelName);
+    } else {
+      window.NoodleInteractionMode.togglePanel(panelName);
+    }
+    syncHeaderToolsMenuState();
+    return;
+  }
+
+  const activeEvent = (typeof event !== 'undefined' && event) ? event : (typeof window !== 'undefined' ? window.event : null);
+  const clickedInsidePanel = Boolean(activeEvent && activeEvent.target && el.contains(activeEvent.target));
+
+  // Wenn auf Mobile #panel-header-tools geöffnet ist, aber aktuell nur als unsichtbarer Träger
+  // für ein Unterpanel diente, zeigt ein Klick auf "header-tools" das Hauptmenü wieder an.
+  if (!forceClose && !clickedInsidePanel && panelName === 'header-tools' && isMobile && !el.classList.contains('hidden') && el.classList.contains('has-mobile-subpanel-open')) {
+    TOOL_SUBPANELS.forEach(sub => {
+      const subEl = document.getElementById(`panel-${sub}`);
+      if (subEl) subEl.classList.add('hidden');
+    });
+    el.classList.remove('has-mobile-subpanel-open');
+    adjustPanelPosition(el, 'header-tools');
+    syncHeaderToolsMenuState();
+    return;
+  }
+
   const isCurrentlyHidden = el.classList.contains('hidden');
 
-  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab'];
-  const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
-
-  // Andere Popover-Panels schließen (gepinnte schwebende Fenster bleiben offen!)
+  // Andere flüchtige Header-Dropdowns schließen (auf Desktop geöffnete Floating-Tools NIEMALS schließen!)
   ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'social', 'radio-news', 'timer-presets', 'health', 'humor-lab'].forEach(p => {
     if (isSubpanelOfTools && p === 'header-tools') return;
+    if (!isMobile && TOOL_SUBPANELS.includes(p)) return;
     if (p !== panelName) {
       const other = document.getElementById(`panel-${p}`);
-      if (other && !other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
-        other.classList.add('hidden');
+      if (other) {
+        if (isMobile || (!other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen'))) {
+          other.classList.add('hidden');
+          if (isMobile) {
+            other.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+          }
+        }
       }
     }
   });
@@ -163,14 +218,15 @@ function togglePanel(panelName) {
 
   const isCurrentlyPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
 
-  if (isCurrentlyHidden) { 
-    if (isSubpanelOfTools) {
+  if (isCurrentlyHidden && !forceClose) { 
+    if (isSubpanelOfTools && isMobile) {
       const headerTools = document.getElementById('panel-header-tools');
-      if (headerTools && headerTools.classList.contains('hidden')) {
+      if (headerTools) {
         headerTools.classList.remove('hidden');
-        headerTools.classList.add('noodle-panel-pinned');
-        adjustPanelPosition(headerTools, 'header-tools');
+        headerTools.classList.add('noodle-panel-pinned', 'has-mobile-subpanel-open');
       }
+    } else if (panelName === 'header-tools') {
+      el.classList.remove('has-mobile-subpanel-open');
     }
     el.classList.remove('hidden'); 
     el.classList.remove('noodle-panel-peeking');
@@ -238,9 +294,9 @@ function togglePanel(panelName) {
       window.NoodleInteractionMode.decoratePanel(el, panelName);
     }
     syncHeaderToolsMenuState();
-  } else if (!isCurrentlyPinned) {
-    // Es war nur eine flüchtige Hover-Vorschau (Peeking):
-    // Der Klick schließt das Panel NICHT, sondern PINNT es jetzt fest!
+  } else if (!forceClose && !clickedInsidePanel && !isCurrentlyPinned && !isMobile) {
+    // Es war nur eine flüchtige Hover-Vorschau (Peeking) auf Desktop:
+    // Der Klick auf den Dock-Trigger schließt das Panel NICHT, sondern PINNT es jetzt fest!
     if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.pinPanel === 'function') {
       window.NoodleInteractionMode.pinPanel(panelName);
     } else {
@@ -252,9 +308,17 @@ function togglePanel(panelName) {
     syncHeaderToolsMenuState();
     return;
   } else {
-    // Das Panel war bereits fest gepinnt: Jetzt schließen
+    // Das Panel schließen
     el.classList.add('hidden');
-    el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+    el.style.display = '';
+    el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'noodle-panel-minimized', 'noodle-panel-snapped');
+    if (isMobile && isSubpanelOfTools) {
+      const headerTools = document.getElementById('panel-header-tools');
+      if (headerTools) {
+        headerTools.classList.remove('has-mobile-subpanel-open', 'noodle-panel-peeking', 'noodle-panel-pinned');
+        headerTools.classList.add('hidden');
+      }
+    }
     if (typeof window !== 'undefined') {
       if (window.currentlyOpenPanel === panelName) window.currentlyOpenPanel = null;
       if (window.pinnedPanel === panelName) window.pinnedPanel = null;
@@ -408,16 +472,16 @@ function renderWeeklyChart(targetElementId = 'report-weekly-chart', totalElement
   last7Days.forEach(day => {
     const pct = Math.max(8, (day.count / maxCount) * 100);
     const isToday = day.date === now.toISOString().split('T')[0];
-    const barCol = isToday ? 'bg-lime-400 shadow-[0_0_12px_rgba(132,204,22,0.6)]' : 'bg-[#00f2ff] hover:bg-lime-400';
-    const barBg = isToday ? 'bg-lime-500/20 border-lime-400/40' : 'bg-white/[0.04] border-white/10';
+    const barCol = isToday ? 'bg-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.5)]' : 'bg-[#00f2ff] hover:bg-emerald-400';
+    const barBg = isToday ? 'bg-emerald-500/20 border-emerald-400/40' : 'bg-white/[0.04] border-white/10';
     const barWrapper = document.createElement('div');
     barWrapper.className = `flex flex-col items-center justify-end gap-1 flex-1 ${isDashboard ? 'max-w-[54px]' : 'max-w-[40px]'}`;
     barWrapper.innerHTML = `
-      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-lime-300' : 'text-white') : 'text-gray-500'}">${day.count}</span>
+      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-emerald-300' : 'text-white') : 'text-gray-500'}">${day.count}</span>
       <div class="${isDashboard ? 'w-7 h-20' : 'w-5 h-11'} ${barBg} border rounded-xl relative flex items-end overflow-hidden cursor-pointer transition-transform hover:scale-105" title="${day.date}: ${day.count} erledigt">
         <div class="w-full ${barCol} transition-all duration-500 rounded-t" style="height: ${pct}%"></div>
       </div>
-      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-lime-300 font-extrabold' : 'text-gray-400'}">${day.label}</span>
+      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-emerald-300 font-extrabold' : 'text-gray-400'}">${day.label}</span>
     `;
     chartEl.appendChild(barWrapper);
   });
@@ -431,7 +495,7 @@ function updateReportPanel() {
       <div class="grid grid-cols-3 gap-2">
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="completed_stat">Erledigt</div>
-          <div id="report-today-count" class="text-lg font-black font-display text-lime-300">0</div>
+          <div id="report-today-count" class="text-lg font-black font-display text-emerald-400">0</div>
         </div>
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="focus_time">Fokus</div>
@@ -734,7 +798,7 @@ function generateComprehensiveReportText() {
   text += `Erstellt am: ${dateStr}\n`;
   text += `========================================\n\n`;
 
-  text += `📅 1. HEUTE (${todayISO})\n`;
+  text += `1. HEUTE (${todayISO})\n`;
   text += `----------------------------------------\n`;
   text += `• Erledigte Aufgaben heute: ${doneToday.length}\n`;
   if (doneToday.length > 0) {
@@ -746,14 +810,14 @@ function generateComprehensiveReportText() {
   }
   text += `\n`;
 
-  text += `🏆 2. WOCHEN-ÜBERSICHT (Letzte 7 Tage)\n`;
+  text += `2. WOCHEN-ÜBERSICHT (Letzte 7 Tage)\n`;
   text += `----------------------------------------\n`;
   text += `• Gesamte Aufgaben in 7 Tagen: ${doneWeek.length}\n`;
   text += `• Davon Tagesaufgaben: ${doneWeek.filter(t => t.origin === 'daily').length}\n`;
   text += `• Davon Haushaltsaufgaben: ${doneWeek.filter(t => t.origin === 'weekly').length}\n`;
   text += `• Davon To-Dos / Sonstiges: ${doneWeek.filter(t => t.origin === 'todo' || t.origin === 'notes').length}\n\n`;
 
-  text += `🧹 3. HAUSHALTSAUFGABEN (Status dieser Woche)\n`;
+  text += `3. HAUSHALTSAUFGABEN (Status dieser Woche)\n`;
   text += `----------------------------------------\n`;
   text += `• Abgeschlossen diese Woche: ${weeklyDoneThisWeek.length} von ${weeklyDoneThisWeek.length + weeklyItems.length}\n`;
   if (weeklyDoneThisWeek.length > 0) {
@@ -767,12 +831,12 @@ function generateComprehensiveReportText() {
   }
   text += `\n`;
 
-  text += `📈 4. MONATS-ÜBERSICHT (Letzte 30 Tage)\n`;
+  text += `4. MONATS-ÜBERSICHT (Letzte 30 Tage)\n`;
   text += `----------------------------------------\n`;
   text += `• Gesamte Aufgaben in 30 Tagen: ${doneMonth.length}\n`;
   text += `• Durchschnitt pro Tag: ${(doneMonth.length / 30).toFixed(1)} Aufgaben\n\n`;
 
-  text += `📌 5. AKTUELLE OFFENE AUFGABEN & NOTIZEN\n`;
+  text += `5. AKTUELLE OFFENE AUFGABEN & NOTIZEN\n`;
   text += `----------------------------------------\n`;
   text += `• Offene Tagesaufgaben: ${(state.items.daily || []).length}\n`;
   text += `• Offene To-Dos: ${(state.items.todo || []).length}\n`;
@@ -783,7 +847,7 @@ function generateComprehensiveReportText() {
   text += `• Gespeicherte Notizen: ${(state.items.notes || []).length}\n`;
   (state.items.notes || []).forEach((n, idx) => {
     const name = typeof n === 'object' ? n.task : n;
-    text += `  📝 [${idx + 1}] ${name}\n`;
+    text += `  [${idx + 1}] ${name}\n`;
   });
 
   text += `\n========================================\n`;
@@ -811,10 +875,10 @@ function copyReportText() {
   const text = generateComprehensiveReportText();
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      showToast(tr({ de: '📋 Bericht in Zwischenablage kopiert!', en: '📋 Report copied to clipboard!' }));
+      showToast(tr({ de: 'Bericht in Zwischenablage kopiert.', en: 'Report copied to clipboard.' }));
     });
   } else {
-    showToast(tr({ de: 'Bericht markiert – drücke Strg+C!', en: 'Report selected – press Ctrl+C!' }));
+    showToast(tr({ de: 'Bericht markiert – Strg+C drücken.', en: 'Report selected – press Ctrl+C.' }));
   }
 }
 
@@ -830,7 +894,7 @@ function downloadReportFile() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast(tr({ de: '💾 Bericht als Datei heruntergeladen!', en: '💾 Report file downloaded!' }));
+  showToast(tr({ de: 'Bericht heruntergeladen.', en: 'Report file downloaded.' }));
 }
 
 function printReport() {

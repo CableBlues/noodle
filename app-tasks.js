@@ -1566,8 +1566,8 @@ function renderApp() {
     const svgFn = (typeof getLucideSvg === 'function') ? getLucideSvg : ((name, cls) => `<i data-lucide="${name}" class="${cls}"></i>`);
     if (isDone) {
       countBadgeHTML = `
-        <div class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-lime-500/15 text-lime-300 border border-lime-500/30 shadow-xs flex items-center gap-1 shrink-0" title="${doneList.length} erledigte Aufgaben">
-          ${svgFn('check', 'w-3 h-3 text-lime-400')}
+        <div class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-xs flex items-center gap-1 shrink-0" title="${doneList.length} erledigte Aufgaben">
+          ${svgFn('check', 'w-3 h-3 text-emerald-400')}
           <span>${doneList.length}</span>
         </div>
       `;
@@ -1582,7 +1582,7 @@ function renderApp() {
       let badgeStyle = 'bg-white/5 text-gray-400 border-white/10';
       let checkSuffix = '';
       if (isComplete) {
-        badgeStyle = 'bg-lime-500/20 text-lime-300 border-lime-500/40 shadow-[0_0_10px_rgba(132,204,22,0.25)]';
+        badgeStyle = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.25)]';
         checkSuffix = ' ✓';
       } else if (doneInCat > 0) {
         badgeStyle = 'bg-[var(--accent)]/15 text-[var(--accent-light)] border-[var(--accent)]/30';
@@ -1677,7 +1677,7 @@ function renderApp() {
     article.innerHTML = `
       ${(!isDone && !isNotes) ? `
         <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-white/[0.04] overflow-hidden pointer-events-none">
-          <div class="h-full bg-gradient-to-r from-[var(--accent)] via-cyan-400 to-lime-400 transition-all duration-500 ${isComplete ? 'shadow-[0_0_12px_rgba(132,204,22,0.8)]' : ''}" style="width: ${pct}%"></div>
+          <div class="h-full bg-gradient-to-r from-[var(--accent)] via-cyan-400 to-emerald-400 transition-all duration-500 ${isComplete ? 'shadow-[0_0_12px_rgba(52,211,153,0.8)]' : ''}" style="width: ${pct}%"></div>
         </div>
       ` : ''}
       
@@ -1856,14 +1856,14 @@ function renderApp() {
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-14 select-none">
             <button onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-lime-400 bg-lime-500/20 text-lime-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : `${openTheme.border} ${openTheme.bg} hover:border-lime-400 hover:bg-lime-500/20`))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : `${openTheme.border} ${openTheme.bg} hover:border-emerald-400 hover:bg-emerald-500/20`))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${status === 'stattgefunden' 
-                  ? svgFn('check', 'w-3.5 h-3.5 text-lime-400')
+                  ? svgFn('check', 'w-3.5 h-3.5 text-emerald-400')
                   : (status === 'nicht_stattgefunden' 
                     ? svgFn('x', 'w-3.5 h-3.5 text-[#C586C0]')
                     : (status === 'verschoben' 
                       ? svgFn('calendar-sync', 'w-3.5 h-3.5 text-[#C586C0]')
-                      : `${svgFn('clock', `task-default-icon w-3.5 h-3.5 ${openTheme.text} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
+                      : `${svgFn('clock', `task-default-icon w-3.5 h-3.5 ${openTheme.text} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-emerald-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
                     )
                   )
                 }
@@ -2003,9 +2003,9 @@ function renderApp() {
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none flex-wrap">
             <button onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-lime-400 hover:bg-lime-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-emerald-400 hover:bg-emerald-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${checkIconInner}
-                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
+                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-emerald-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
               </span>
             </button>
             <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:brightness-125 break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-all duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
@@ -2021,12 +2021,12 @@ function renderApp() {
         listEl.appendChild(itemDiv);
       });
       const addBtn = document.createElement('button'); addBtn.onclick = () => { openTaskAddColumns[id] = true; renderApp(); };
-      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-white/15 bg-white/[0.02] hover:bg-white/[0.06] hover:border-lime-400/50 hover:text-lime-300 text-center text-xs text-gray-400 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
-      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-400 group-hover/addbtn:scale-110 group-hover/addbtn:text-lime-300 transition-transform')}<span>${t('add')}</span>`;
+      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-white/15 bg-white/[0.02] hover:bg-white/[0.06] hover:border-emerald-400/50 hover:text-emerald-300 text-center text-xs text-gray-400 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-emerald-400 group-hover/addbtn:scale-110 group-hover/addbtn:text-emerald-300 transition-transform')}<span>${t('add')}</span>`;
 
       const addInput = document.createElement('input'); addInput.type = 'text';
       addInput.placeholder = t('add');
-      addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-lime-500/50 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-lime-400 focus:shadow-[0_0_12px_rgba(132,204,22,0.25)] transition cursor-text font-semibold text-white shadow-inner';
+      addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-emerald-500/40 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_12px_rgba(16,185,129,0.25)] transition cursor-text font-semibold text-white shadow-inner';
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && addInput.value.trim()) {
           const taskText = addInput.value.trim();
@@ -2053,9 +2053,9 @@ function renderApp() {
 
         const submitAddBtn = document.createElement('button');
         submitAddBtn.type = 'button';
-        submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-lime-500/20 hover:bg-lime-500/35 text-lime-300 border border-lime-500/40 hover:border-lime-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
+        submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
         submitAddBtn.title = id === 'notes' ? tr({ de: 'Notiz hinzufügen (Enter)', en: 'Add note (Enter)', fr: 'Ajouter une note (Entrée)', it: 'Aggiungi nota (Invio)', es: 'Añadir nota (Enter)', el: 'Προσθήκη σημείωσης (Enter)' }) : (id === 'termine' ? tr({ de: 'Termin hinzufügen (Enter)', en: 'Add appointment (Enter)', fr: 'Ajouter un rendez-vous (Entrée)', it: 'Aggiungi appuntamento (Invio)', es: 'Añadir cita (Enter)', el: 'Προσθήκη ραντεβού (Enter)' }) : tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)', fr: 'Ajouter une tâche (Entrée)', it: 'Aggiungi attività (Invio)', es: 'Añadir tarea (Enter)', el: 'Προσθήκη εργασίας (Enter)' }));
-        submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-300')}`;
+        submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-emerald-300')}`;
         submitAddBtn.onclick = () => {
           if (addInput.value.trim()) {
             const taskText = addInput.value.trim();
@@ -2207,6 +2207,11 @@ function switchMobileNavTab(tabName) {
     pane.classList.toggle('mobile-tab-active', pane.id === `mobile-view-${tabName}`);
   });
 
+  if (tabName === 'menu') {
+    if (typeof openMobileMenuDrawer === 'function') openMobileMenuDrawer();
+    return;
+  }
+
   if (tabName === 'planer') {
     const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
     const curCat = document.body.dataset.mobileCat || (activeOrder[0] ? activeOrder[0][0] : 'daily');
@@ -2215,6 +2220,8 @@ function switchMobileNavTab(tabName) {
     try { if (typeof updateTimerDisplay === 'function') updateTimerDisplay(); } catch (e) { /* ignore */ }
   } else if (tabName === 'audio') {
     try { if (typeof updateSoundscapeUI === 'function') updateSoundscapeUI(); } catch (e) { /* ignore */ }
+  } else if (tabName === 'tools') {
+    try { if (typeof renderLucideIcons === 'function') renderLucideIcons(); } catch (e) { /* ignore */ }
   }
 
   try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }

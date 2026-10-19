@@ -1,5 +1,11 @@
-/* --- data-tasks-steps-1.js --- */
-// data-tasks-steps-1.js: Hochwertige, professionelle & verständliche Schritt-für-Schritt-Anleitungen (Teil 1: Daily Basics)
+﻿/* --- data-tasks-steps-1.js --- */
+/**
+ * @file data-tasks-steps-1.js
+ * @module DataTaskStepsDaily
+ * @description
+ * Mehrsprachige Schritt-für-Schritt-Anleitungen (Micro-Steps) für grundlegende
+ * tägliche Routinen (`DE`, `EN`, `ES`, `EL`, `FR`, `IT`).
+ */
 const TASK_STEPS_DATABASE_PART1 = {
   'Medis': {
     de: [
@@ -367,7 +373,13 @@ globalThis.TASK_STEPS_DATABASE_PART1 = TASK_STEPS_DATABASE_PART1;
 
 
 /* --- data-tasks-steps-2.js --- */
-// data-tasks-steps-2.js: Hochwertige, professionelle & verständliche Schritt-für-Schritt-Anleitungen (Teil 2: Haushalt & Reinigung)
+/**
+ * @file data-tasks-steps-2.js
+ * @module DataTaskStepsHousehold
+ * @description
+ * Mehrsprachige Schritt-für-Schritt-Anleitungen (Micro-Steps) für Haushalts-,
+ * Ordnungs- und Reinigungsaufgaben (`DE`, `EN`, `ES`, `EL`, `FR`, `IT`).
+ */
 const TASK_STEPS_DATABASE_PART2 = {
   'Aufräumen': {
     de: [
@@ -870,7 +882,13 @@ globalThis.TASK_STEPS_DATABASE_PART2 = TASK_STEPS_DATABASE_PART2;
 
 
 /* --- data-tasks-steps-3.js --- */
-// data-tasks-steps-3.js: Hochwertige, professionelle & verständliche Schritt-für-Schritt-Anleitungen (Teil 3: Entsorgung, Selfcare & Intensiv)
+/**
+ * @file data-tasks-steps-3.js
+ * @module DataTaskStepsSelfcareAndMaintenance
+ * @description
+ * Mehrsprachige Schritt-für-Schritt-Anleitungen (Micro-Steps) für Entsorgung,
+ * Körperpflege und periodische Wohnungsarbeiten (`DE`, `EN`, `ES`, `EL`, `FR`, `IT`).
+ */
 const TASK_STEPS_DATABASE_PART3 = {
   'Müll wegbringen': {
     de: [
@@ -1238,6 +1256,15 @@ globalThis.TASK_STEPS_DATABASE_PART3 = TASK_STEPS_DATABASE_PART3;
 
 
 /* --- data-tasks.js --- */
+/**
+ * @file data-tasks.js
+ * @module DataDefaultTasks
+ * @description
+ * Zentrale Speicherschlüssel (`STORE_KEY`, `HISTORY_KEY`), mehrsprachige
+ * Standardaufgaben (`DEFAULT_TASKS_BY_LANG`) sowie Zusammenführung der
+ * Teilschritt-Datenbanken (`TASK_STEPS_DATABASE`).
+ */
+
 // CONFIGURATION KEYS FOR LOCALSTORAGE
 var STORE_KEY = (typeof window !== 'undefined' && window.STORE_KEY) || 'flowPlannerV3';
 var HISTORY_KEY = (typeof window !== 'undefined' && window.HISTORY_KEY) || 'flowPlannerV3History';
@@ -1249,34 +1276,34 @@ if (typeof window !== 'undefined') {
 // 6-LANGUAGE DEFAULT LIST DICTIONARY (Full Rich Standard Routine)
 const DEFAULT_TASKS_BY_LANG = {
   de: {
-    daily: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', 'Wichtigste Aufgabe (Fokus)', 'Kochen', '10 Min. Abend-Aufräumen', 'Duschen', 'Zähne abends'],
-    weekly: ['Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
-    occasionally: ['Haare schneiden', 'Haare waschen', 'Nägel schneiden', 'Bettwäsche tauschen', 'Herd & Kühlschrank putzen', 'Türe/Fenster putzen']
+    daily: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', '5min aufräumen', 'Zähne abends'],
+    weekly: ['Aufräumen', 'Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
+    occasionally: ['Duschen', 'Kochen', 'Aufräumen', 'Haare schneiden', 'Haare waschen', 'Nägel schneiden', 'Bettwäsche tauschen', 'Herd & Kühlschrank putzen', 'Türe/Fenster putzen']
   },
   en: {
-    daily: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', 'Key Priority (Focus)', 'Cook a meal', '10 min. Evening Tidy-up', 'Take a shower', 'Brush teeth (evening)'],
-    weekly: ['Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
-    occasionally: ['Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows']
+    daily: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', '5 min tidy-up', 'Brush teeth (evening)'],
+    weekly: ['Tidy up', 'Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
+    occasionally: ['Take a shower', 'Cook a meal', 'Tidy up', 'Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows']
   },
   es: {
-    daily: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', 'Prioridad clave (Foco)', 'Cocinar', '10 min recogida nocturna', 'Ducharse', 'Cepillarse los dientes (noche)'],
-    weekly: ['Lavar los platos', 'Hacer la colada', 'Colgar la ropa', 'Limpiar el lavabo y espejo', 'Azulejos y bañera', 'Limpiar el váter', 'Quitar el polvo', 'Pasar la aspiradora', 'Fregar el suelo', 'Sacar la basura', 'Llevar botellas retornables'],
-    occasionally: ['Cortarse el pelo', 'Lavarse el pelo', 'Cortarse las uñas', 'Cambiar las sábanas', 'Limpiar cocina y nevera', 'Limpiar puertas y ventanas']
+    daily: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', '5 min recoger', 'Cepillarse los dientes (noche)'],
+    weekly: ['Ordenar', 'Lavar los platos', 'Hacer la colada', 'Colgar la ropa', 'Limpiar el lavabo y espejo', 'Azulejos y bañera', 'Limpiar el váter', 'Quitar el polvo', 'Pasar la aspiradora', 'Fregar el suelo', 'Sacar la basura', 'Llevar botellas retornables'],
+    occasionally: ['Ducharse', 'Cocinar', 'Ordenar', 'Cortarse el pelo', 'Lavarse el pelo', 'Cortarse las uñas', 'Cambiar las sábanas', 'Limpiar cocina y nevera', 'Limpiar puertas y ventanas']
   },
   el: {
-    daily: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', 'Κύρια προτεραιότητα (Focus)', 'Μαγειρική', '10 λ. βραδινή τακτοποίηση', 'Ντους', 'Πλύσιμο δοντιών (βράδυ)'],
-    weekly: ['Πλύσιμο πιάτων', 'Πλύσιμο ρούχων', 'Άπλωμα ρούχων', 'Καθαρισμός νιπτήρα & καθρέφτη', 'Πλακάκια & μπανιέρα', 'Καθαρισμός λεκάνης', 'Ξεσκόνισμα', 'Σκούπισμα', 'Σφουγγάρισμα', 'Πέταμα σκουπιδιών', 'Επιστροφή άδειων μπουκαλιών'],
-    occasionally: ['Κούρεμα', 'Λούσιμο', 'Κόψιμο νυχιών', 'Αλλαγή σεντονιών', 'Καθαρισμός κουζίνας & ψυγείου', 'Καθαρισμός πορτών & παραθύρων']
+    daily: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', '5 λ. τακτοποίηση', 'Πλύσιμο δοντιών (βράδυ)'],
+    weekly: ['Τακτοποίηση', 'Πλύσιμο πιάτων', 'Πλύσιμο ρούχων', 'Άπλωμα ρούχων', 'Καθαρισμός νιπτήρα & καθρέφτη', 'Πλακάκια & μπανιέρα', 'Καθαρισμός λεκάνης', 'Ξεσκόνισμα', 'Σκούπισμα', 'Σφουγγάρισμα', 'Πέταμα σκουπιδιών', 'Επιστροφή άδειων μπουκαλιών'],
+    occasionally: ['Ντους', 'Μαγειρική', 'Τακτοποίηση', 'Κούρεμα', 'Λούσιμο', 'Κόψιμο νυχιών', 'Αλλαγή σεντονιών', 'Καθαρισμός κουζίνας & ψυγείου', 'Καθαρισμός πορτών & παραθύρων']
   },
   fr: {
-    daily: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', 'Priorité clé (Focus)', 'Préparer un repas', '10 min rangement du soir', 'Prendre une douche', 'Brossage des dents (soir)'],
-    weekly: ['Faire la vaisselle', 'Faire une lessive', 'Étendre le linge', 'Nettoyer lavabo & armoire à miroir', 'Carrelage & baignoire', 'Nettoyer les toilettes', 'Épousseter', 'Passer l\'aspirateur', 'Laver le sol', 'Sortir les poubelles', 'Rapporter les bouteilles consignées'],
-    occasionally: ['Se couper les cheveux', 'Se laver les cheveux', 'Se couper les ongles', 'Changer les draps', 'Nettoyer cuisinière & réfrigérateur', 'Nettoyer portes & fenêtres']
+    daily: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', '5 min de rangement', 'Brossage des dents (soir)'],
+    weekly: ['Rangement', 'Faire la vaisselle', 'Faire une lessive', 'Étendre le linge', 'Nettoyer lavabo & armoire à miroir', 'Carrelage & baignoire', 'Nettoyer les toilettes', 'Épousseter', 'Passer l\'aspirateur', 'Laver le sol', 'Sortir les poubelles', 'Rapporter les bouteilles consignées'],
+    occasionally: ['Prendre une douche', 'Préparer un repas', 'Rangement', 'Se couper les cheveux', 'Se laver les cheveux', 'Se couper les ongles', 'Changer les draps', 'Nettoyer cuisinière & réfrigérateur', 'Nettoyer portes & fenêtres']
   },
   it: {
-    daily: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', 'Priorità chiave (Focus)', 'Preparare un pasto', '10 min riordino serale', 'Fare la doccia', 'Lavare i denti (sera)'],
-    weekly: ['Lavare i piatti', 'Fare il bucato', 'Stendere il bucato', 'Pulire lavandino e armadietto specchio', 'Piastrelle e vasca', 'Pulire il WC', 'Spolverare', 'Passare l\'aspirapolvere', 'Lavare i pavimenti', 'Portare fuori la spazzatura', 'Riportare le bottiglie con vuoto a rendere'],
-    occasionally: ['Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre']
+    daily: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', '5 min riordino', 'Lavare i denti (sera)'],
+    weekly: ['Riordinare', 'Lavare i piatti', 'Fare il bucato', 'Stendere il bucato', 'Pulire lavandino e armadietto specchio', 'Piastrelle e vasca', 'Pulire il WC', 'Spolverare', 'Passare l\'aspirapolvere', 'Lavare i pavimenti', 'Portare fuori la spazzatura', 'Riportare le bottiglie con vuoto a rendere'],
+    occasionally: ['Fare la doccia', 'Preparare un pasto', 'Riordinare', 'Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre']
   }
 };
 
@@ -1337,10 +1364,10 @@ const CATEGORIES = [
   ['weekly', 'calendar-days'],
   ['todo', 'list-todo'],
   ['daily', 'sun'],
-  ['termine', 'clock'],
-  ['occasionally', 'calendar-range'],
   ['notes', 'sticky-note'],
-  ['done', 'check-circle']
+  ['termine', 'clock'],
+  ['done', 'check-circle'],
+  ['occasionally', 'calendar-range']
 ];
 
 const TASK_ICONS = {
@@ -1371,7 +1398,7 @@ const TASK_ICONS = {
   'Türe/Fenster putzen': 'sparkles', 'Cleaning doors & windows': 'sparkles', 'Limpiar puertas y ventanas': 'sparkles', 'Καθαρισμός πορτών & παραθύρων': 'sparkles', 'Nettoyer portes & fenêtres': 'sparkles', 'Pulire porte e finestre': 'sparkles',
   'Herd & Kühlschrank putzen': 'cooking-pot', 'Cleaning stove & fridge': 'cooking-pot', 'Limpiar cocina y nevera': 'cooking-pot', 'Καθαρισμός κουζίνας & ψυγείου': 'cooking-pot', 'Nettoyer cuisinière & frigo': 'cooking-pot', 'Pulire fornelli e frigo': 'cooking-pot',
   'Wichtigste Aufgabe (Fokus)': 'target', 'Key Priority (Focus)': 'target', 'Prioridad clave (Foco)': 'target', 'Priorité clé (Focus)': 'target', 'Priorità chiave (Focus)': 'target', 'Κύρια προτεραιότητα (Focus)': 'target',
-  '10 Min. Abend-Aufräumen': 'sparkles', '10 min. Evening Tidy-up': 'sparkles', '10 min recogida nocturna': 'sparkles', '10 min rangement du soir': 'sparkles', '10 min riordino serale': 'sparkles', '10 λ. βραδινή τακτοποίηση': 'sparkles',
+  '5min aufräumen': '', '5 min aufräumen': '', '5 min tidy-up': '', '5 min recoger': '', '5 min de rangement': '', '5 min riordino': '', '5 λ. τακτοποίηση': '', '10 min. Evening Tidy-up': 'sparkles', '10 min recogida nocturna': 'sparkles', '10 min rangement du soir': 'sparkles', '10 min riordino serale': 'sparkles', '10 λ. βραδινή τακτοποίηση': 'sparkles',
   'Großes Glas Wasser trinken': 'glass-water', 'Drink large glass of water': 'glass-water', 'Beber un gran vaso de agua': 'glass-water', 'Boire un grand verre d\'eau': 'glass-water', 'Bere un grande bicchiere d\'acqua': 'glass-water', 'Μεγάλο ποτήρι νερό': 'glass-water',
   'Pflanzen gießen': 'droplets', 'Water plants': 'droplets', 'Regar las plantas': 'droplets', 'Arroser les plantes': 'droplets', 'Annaffiare le piante': 'droplets', 'Πότισμα φυτών': 'droplets',
   'Digitales Aufräumen (Desktop/Downloads)': 'folder-kanban', 'Digital declutter (desktop/downloads)': 'folder-kanban', 'Limpieza digital (escritorio/descargas)': 'folder-kanban', 'Tri numérique (bureau/téléchargements)': 'folder-kanban', 'Decluttering digitale (desktop/download)': 'folder-kanban', 'Ψηφιακό ξεκαθάρισμα': 'folder-kanban',
@@ -1413,28 +1440,28 @@ const ROUTINE_PRESETS = [
     color: 'from-purple-500 to-indigo-500',
     tasks: {
       daily: {
-        de: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', 'Wichtigste Aufgabe (Fokus)', 'Kochen', '10 Min. Abend-Aufräumen', 'Duschen', 'Zähne abends'],
-        en: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', 'Key Priority (Focus)', 'Cook a meal', '10 min. Evening Tidy-up', 'Take a shower', 'Brush teeth (evening)'],
-        es: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', 'Prioridad clave (Foco)', 'Cocinar', '10 min recogida nocturna', 'Ducharse', 'Cepillarse los dientes (noche)'],
-        fr: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', 'Priorité clé (Focus)', 'Préparer un repas', '10 min rangement du soir', 'Prendre une douche', 'Brossage des dents (soir)'],
-        it: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', 'Priorità chiave (Focus)', 'Preparare un pasto', '10 min riordino serale', 'Fare la doccia', 'Lavare i denti (sera)'],
-        el: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', 'Κύρια προτεραιότητα (Focus)', 'Μαγειρική', '10 λ. βραδινή τακτοποίηση', 'Ντους', 'Πλύσιμο δοντιών (βράδυ)']
+        de: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', '5min aufräumen', 'Zähne abends'],
+        en: ['Meds', 'Brush teeth (morning)', 'Wash face', 'Make bed', 'Air out room', '5 min tidy-up', 'Brush teeth (evening)'],
+        es: ['Medicación', 'Cepillarse los dientes (mañana)', 'Lavarse la cara', 'Hacer la cama', 'Ventilar', '5 min recoger', 'Cepillarse los dientes (noche)'],
+        fr: ['Médicaments', 'Brossage des dents (matin)', 'Se laver le visage', 'Faire le lit', 'Aérer la pièce', '5 min de rangement', 'Brossage des dents (soir)'],
+        it: ['Farmaci', 'Lavare i denti (mattina)', 'Lavarsi la faccia', 'Rifare il letto', 'Arieggiare la stanza', '5 min riordino', 'Lavare i denti (sera)'],
+        el: ['Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Πλύσιμο προσώπου', 'Στρώσιμο κρεβατιού', 'Αερισμός χώρου', '5 λ. τακτοποίηση', 'Πλύσιμο δοντιών (βράδυ)']
       },
       weekly: {
-        de: ['Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
-        en: ['Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
-        es: ['Lavar los platos', 'Hacer la colada', 'Colgar la ropa', 'Limpiar el lavabo y espejo', 'Azulejos y bañera', 'Limpiar el váter', 'Quitar el polvo', 'Pasar la aspiradora', 'Fregar el suelo', 'Sacar la basura', 'Llevar botellas retornables'],
-        fr: ['Faire la vaisselle', 'Faire une lessive', 'Étendre le linge', 'Nettoyer lavabo & armoire à miroir', 'Carrelage & baignoire', 'Nettoyer les toilettes', 'Épousseter', 'Passer l\'aspirateur', 'Laver le sol', 'Sortir les poubelles', 'Rapporter les bouteilles consignées'],
-        it: ['Lavare i piatti', 'Fare il bucato', 'Stendere il bucato', 'Pulire lavandino e armadietto specchio', 'Piastrelle e vasca', 'Pulire il WC', 'Spolverare', 'Passare l\'aspirapolvere', 'Lavare i pavimenti', 'Portare fuori la spazzatura', 'Riportare le bottiglie con vuoto a rendere'],
-        el: ['Πλύσιμο πιάτων', 'Πλύσιμο ρούχων', 'Άπλωμα ρούχων', 'Καθαρισμός νιπτήρα & καθρέφτη', 'Πλακάκια & μπανιέρα', 'Καθαρισμός λεκάνης', 'Ξεσκόνισμα', 'Σκούπισμα', 'Σφουγγάρισμα', 'Πέταμα σκουπιδιών', 'Επιστροφή άδειων μπουκαλιών']
+        de: ['Aufräumen', 'Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
+        en: ['Tidy up', 'Washing dishes', 'Washing laundry', 'Hanging up laundry', 'Cleaning sink & mirror cabinet', 'Tiles & bathtub', 'Cleaning the toilet', 'Dusting', 'Vacuuming', 'Mopping', 'Taking out the trash', 'Returning deposit bottles'],
+        es: ['Ordenar', 'Lavar los platos', 'Hacer la colada', 'Colgar la ropa', 'Limpiar el lavabo y espejo', 'Azulejos y bañera', 'Limpiar el váter', 'Quitar el polvo', 'Pasar la aspiradora', 'Fregar el suelo', 'Sacar la basura', 'Llevar botellas retornables'],
+        fr: ['Rangement', 'Faire la vaisselle', 'Faire une lessive', 'Étendre le linge', 'Nettoyer lavabo & armoire à miroir', 'Carrelage & baignoire', 'Nettoyer les toilettes', 'Épousseter', 'Passer l\'aspirateur', 'Laver le sol', 'Sortir les poubelles', 'Rapporter les bouteilles consignées'],
+        it: ['Riordinare', 'Lavare i piatti', 'Fare il bucato', 'Stendere il bucato', 'Pulire lavandino e armadietto specchio', 'Piastrelle e vasca', 'Pulire il WC', 'Spolverare', 'Passare l\'aspirapolvere', 'Lavare i pavimenti', 'Portare fuori la spazzatura', 'Riportare le bottiglie con vuoto a rendere'],
+        el: ['Τακτοποίηση', 'Πλύσιμο πιάτων', 'Πλύσιμο ρούχων', 'Άπλωμα ρούχων', 'Καθαρισμός νιπτήρα & καθρέφτη', 'Πλακάκια & μπανιέρα', 'Καθαρισμός λεκάνης', 'Ξεσκόνισμα', 'Σκούπισμα', 'Σφουγγάρισμα', 'Πέταμα σκουπιδιών', 'Επιστροφή άδειων μπουκαλιών']
       },
       occasionally: {
-        de: ['Haare schneiden', 'Haare waschen', 'Nägel schneiden', 'Bettwäsche tauschen', 'Herd & Kühlschrank putzen', 'Türe/Fenster putzen'],
-        en: ['Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows'],
-        es: ['Cortarse el pelo', 'Lavarse el pelo', 'Cortarse las uñas', 'Cambiar las sábanas', 'Limpiar cocina y nevera', 'Limpiar puertas y ventanas'],
-        fr: ['Se couper les cheveux', 'Se laver les cheveux', 'Se couper les ongles', 'Changer les draps', 'Nettoyer cuisinière & réfrigérateur', 'Nettoyer portes & fenêtres'],
-        it: ['Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre'],
-        el: ['Κούρεμα', 'Λούσιμο', 'Κόψιμο νυχιών', 'Αλλαγή σεντονιών', 'Καθαρισμός κουζίνας & ψυγείου', 'Καθαρισμός πορτών & παραθύρων']
+        de: ['Duschen', 'Kochen', 'Aufräumen', 'Haare schneiden', 'Haare waschen', 'Nägel schneiden', 'Bettwäsche tauschen', 'Herd & Kühlschrank putzen', 'Türe/Fenster putzen'],
+        en: ['Take a shower', 'Cook a meal', 'Tidy up', 'Cutting hair', 'Washing hair', 'Clipping nails', 'Changing bedsheets', 'Cleaning stove & fridge', 'Cleaning doors & windows'],
+        es: ['Ducharse', 'Cocinar', 'Ordenar', 'Cortarse el pelo', 'Lavarse el pelo', 'Cortarse las uñas', 'Cambiar las sábanas', 'Limpiar cocina y nevera', 'Limpiar puertas y ventanas'],
+        fr: ['Prendre une douche', 'Préparer un repas', 'Rangement', 'Se couper les cheveux', 'Se laver les cheveux', 'Se couper les ongles', 'Changer les draps', 'Nettoyer cuisinière & réfrigérateur', 'Nettoyer portes & fenêtres'],
+        it: ['Fare la doccia', 'Preparare un pasto', 'Riordinare', 'Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre'],
+        el: ['Ντους', 'Μαγειρική', 'Τακτοποίηση', 'Κούρεμα', 'Λούσιμο', 'Κόψιμο νυχιών', 'Αλλαγή σεντονιών', 'Καθαρισμός κουζίνας & ψυγείου', 'Καθαρισμός πορτών & παραθύρων']
       }
     }
   },
@@ -1468,12 +1495,12 @@ const ROUTINE_PRESETS = [
     color: 'from-teal-500 to-emerald-500',
     tasks: {
       daily: {
-        de: ['Zähne morgens', 'Bett machen', 'Wichtigste Aufgabe (Fokus)', 'Zähne abends'],
-        en: ['Brush teeth (morning)', 'Make bed', 'Key Priority (Focus)', 'Brush teeth (evening)'],
-        es: ['Cepillarse los dientes (mañana)', 'Hacer la cama', 'Prioridad clave (Foco)', 'Cepillarse los dientes (noche)'],
-        fr: ['Brossage des dents (matin)', 'Faire le lit', 'Priorité clé (Focus)', 'Brossage des dents (soir)'],
-        it: ['Lavare i denti (mattina)', 'Rifare il letto', 'Priorità chiave (Focus)', 'Lavare i denti (sera)'],
-        el: ['Πλύσιμο δοντιών (πρωί)', 'Στρώσιμο κρεβατιού', 'Κύρια προτεραιότητα (Focus)', 'Πλύσιμο δοντιών (βράδυ)']
+        de: ['Zähne morgens', 'Bett machen', 'Zähne abends'],
+        en: ['Brush teeth (morning)', 'Make bed', 'Brush teeth (evening)'],
+        es: ['Cepillarse los dientes (mañana)', 'Hacer la cama', 'Cepillarse los dientes (noche)'],
+        fr: ['Brossage des dents (matin)', 'Faire le lit', 'Brossage des dents (soir)'],
+        it: ['Lavare i denti (mattina)', 'Rifare il letto', 'Lavare i denti (sera)'],
+        el: ['Πλύσιμο δοντιών (πρωί)', 'Στρώσιμο κρεβατιού', 'Πλύσιμο δοντιών (βράδυ)']
       },
       weekly: {
         de: ['Staubsaugen', 'Geschirr spülen', 'Wäsche waschen', 'Müll wegbringen'],
@@ -1523,12 +1550,12 @@ const ROUTINE_PRESETS = [
     color: 'from-amber-500 to-rose-500',
     tasks: {
       daily: {
-        de: ['Großes Glas Wasser trinken', 'Medis', 'Zähne morgens', 'Fenster 5 Min. aufreißen', '1 Wichtigste Aufgabe (Fokus)', '5 Min. Reset nach Arbeit', '10 Min. Abend-Aufräumen', 'Zähne abends'],
-        en: ['Drink large glass of water', 'Meds', 'Brush teeth (morning)', 'Open window for 5 mins', '1 Main Focus Task', '5 min post-work reset', '10 min. Evening Tidy-up', 'Brush teeth (evening)'],
-        es: ['Beber un gran vaso de agua', 'Medicación', 'Cepillarse los dientes (mañana)', 'Abrir ventana 5 min', '1 Tarea clave (Foco)', '5 min reseteo post-trabajo', '10 min recogida nocturna', 'Cepillarse los dientes (noche)'],
-        fr: ['Boire un grand verre d\'eau', 'Médicaments', 'Brossage des dents (matin)', 'Ouvrir la fenêtre 5 min', '1 Tâche Focus Principale', '5 min pause reset après travail', '10 min rangement du soir', 'Brossage des dents (soir)'],
-        it: ['Bere un grande bicchiere d\'acqua', 'Farmaci', 'Lavare i denti (mattina)', 'Aprire finestra 5 min', '1 Attività Chiave (Focus)', '5 min reset post-lavoro', '10 min riordino serale', 'Lavare i denti (sera)'],
-        el: ['Μεγάλο ποτήρι νερό', 'Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Άνοιγμα παραθύρου 5 λ.', '1 Κύρια εργασία εστίασης', '5 λ. αποφόρτιση μετά τη δουλειά', '10 λ. βραδινή τακτοποίηση', 'Πλύσιμο δοντιών (βράδυ)']
+        de: ['Großes Glas Wasser trinken', 'Medis', 'Zähne morgens', 'Fenster 5 Min. aufreißen', '5 Min. Reset nach Arbeit', '5min aufräumen', 'Zähne abends'],
+        en: ['Drink large glass of water', 'Meds', 'Brush teeth (morning)', 'Open window for 5 mins', '5 min post-work reset', '5 min tidy-up', 'Brush teeth (evening)'],
+        es: ['Beber un gran vaso de agua', 'Medicación', 'Cepillarse los dientes (mañana)', 'Abrir ventana 5 min', '5 min reseteo post-trabajo', '5 min recoger', 'Cepillarse los dientes (noche)'],
+        fr: ['Boire un grand verre d\'eau', 'Médicaments', 'Brossage des dents (matin)', 'Ouvrir la fenêtre 5 min', '5 min pause reset après travail', '5 min de rangement', 'Brossage des dents (soir)'],
+        it: ['Bere un grande bicchiere d\'acqua', 'Farmaci', 'Lavare i denti (mattina)', 'Aprire finestra 5 min', '5 min reset post-lavoro', '5 min riordino', 'Lavare i denti (sera)'],
+        el: ['Μεγάλο ποτήρι νερό', 'Φάρμακα', 'Πλύσιμο δοντιών (πρωί)', 'Άνοιγμα παραθύρου 5 λ.', '5 λ. αποφόρτιση μετά τη δουλειά', '5 λ. τακτοποίηση', 'Πλύσιμο δοντιών (βράδυ)']
       },
       weekly: {
         de: ['15 Min. Turbo-Staubsaugen', '1 Waschladung waschen & aufhängen', 'Klo kurz reinigen', 'Müllbeutel vor die Tür', 'Pfandflaschen sammeln'],
@@ -1735,7 +1762,7 @@ const TASK_SUGGESTIONS_CATALOG = {
       el: '🌙 Βραδινή Ρουτίνα & Χαλάρωση'
     },
     items: [
-      { de: '10 Min. Abend-Aufräumen', en: '10 min. Evening Tidy-up', es: '10 min recogida nocturna', fr: '10 min rangement du soir', it: '10 min riordino serale', el: '10 λ. βραδινή τακτοποίηση' },
+      { de: '5min aufräumen', en: '5 min tidy up', es: '5 min recogida nocturna', fr: '5 min rangement du soir', it: '5 min riordino serale', el: '5 λ. βραδινή τακτοποίηση' },
       { de: 'Zähne abends', en: 'Brush teeth (evening)', es: 'Cepillarse los dientes (noche)', fr: 'Brossage des dents (soir)', it: 'Lavare i denti (sera)', el: 'Πλύσιμο δοντιών (βράδυ)' },
       { de: 'Bildschirm-Pause (30 Min. vor Schlaf)', en: 'Screen-free time (30 min before bed)', es: 'Pausa de pantallas antes de dormir', fr: 'Pause écran (30 min avant sommeil)', it: 'Pausa schermi prima di dormire', el: 'Χωρίς οθόνες (30 λ. πριν τον ύπνο)' },
       { de: 'Buch / Kapitel lesen', en: 'Read a book / chapter', es: 'Leer un libro / capítulo', fr: 'Lire un livre / chapitre', it: 'Leggere un libro / capitolo', el: 'Διάβασμα βιβλίου' },
@@ -1788,11 +1815,17 @@ if (typeof globalThis !== 'undefined') {
 function getTaskIconDetails(taskText, category = '') {
   if (!taskText) return { icon: 'check-circle', color: 'text-purple-400' };
   const rawTrimmed = String(taskText).trim();
-  if (typeof TASK_ICONS !== 'undefined' && TASK_ICONS && TASK_ICONS[rawTrimmed]) {
+  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+
+  // "5min aufräumen": kein extra Icon dazu im Button
+  if (/^5\s*min(\.|\s)?.*aufraum/i.test(norm) || norm === '5min aufraumen' || norm === '5 min aufraumen' || norm.includes('5min aufraum') || norm.includes('5 min aufraum')) {
+    return { icon: '', color: '' };
+  }
+
+  if (typeof TASK_ICONS !== 'undefined' && TASK_ICONS && TASK_ICONS[rawTrimmed] !== undefined) {
+    if (!TASK_ICONS[rawTrimmed]) return { icon: '', color: '' };
     return { icon: TASK_ICONS[rawTrimmed], color: 'text-purple-300' };
   }
-  
-  const norm = rawTrimmed.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
   const rules = [
     { rx: /medi|pill|tablett|vitam|pharmak|arzt|doctor|docteur|dottore|medico|therap|apothek|ordonnan|farmac|φαρμακ|γιατρ|ασθεν/, ic: 'pill', col: 'text-rose-400' },
@@ -1861,7 +1894,12 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- data-translations-1.js --- */
-// data-translations-1.js: Complete translations for English, German and French
+/**
+ * @file data-translations-1.js
+ * @module DataTranslationsPart1
+ * @description
+ * Vollständige UI-Lokalisierungswörterbücher für Englisch (`en`), Deutsch (`de`) und Französisch (`fr`).
+ */
 const TRANSLATIONS_PART1 = {
   "en": {
     "add": "Add task",
@@ -1898,7 +1936,7 @@ const TRANSLATIONS_PART1 = {
     "board_undo": "Undo",
     "boost_btn": "Spark",
     "boost_desc": "Stuck in analysis paralysis? Try this 30-second micro-action to reset momentum:",
-    "boost_new": "Another Idea 🔄",
+    "boost_new": "Another Idea",
     "boost_placeholder": "Click below to generate an instant action impulse!",
     "brainstorm_clear": "Clear",
     "brainstorm_input_placeholder": "Type or speak your thoughts & ideas freely here...",
@@ -1935,7 +1973,7 @@ const TRANSLATIONS_PART1 = {
     "clean_express_title": "15-Min Blitz Reset",
     "clean_guide_title": "Deep Cleaning & Guide",
     "clean_guide_title_short": "Cleaning",
-    "clean_open_guide": "Open Interactive Cleaning Guide 🚀",
+    "clean_open_guide": "Open Interactive Cleaning Guide",
     "clean_standard_desc": "Kitchen, bath & floors thoroughly",
     "clean_standard_title": "45-Min Standard Clean",
     "cmd_actions": "Quick Actions",
@@ -1959,14 +1997,14 @@ const TRANSLATIONS_PART1 = {
     "confirm_delete_column": "Are you sure you want to delete this card and all its tasks?",
     "cook_add_ingredient": "Add",
     "cook_add_ingredient_placeholder": "Enter an ingredient (e.g. Pasta, Eggs)...",
-    "cook_add_to_shop": "Add missing ingredients to shopping list 🛒",
+    "cook_add_to_shop": "Add missing ingredients to shopping list",
     "cook_ingredients": "Your Pantry",
     "cook_pantry_empty": "Your pantry is empty. Add ingredients above!",
     "cook_placeholder_empty": "Add pantry ingredients above to receive tailored recipe suggestions.",
     "cook_quick_staples": "Quick Staples",
     "cook_recipe_ingredients": "Required Ingredients",
     "cook_steps": "Instructions",
-    "cook_suggest": "Suggest Recipe 🍳",
+    "cook_suggest": "Suggest Recipe",
     "cook_suggestion_title": "Recipe Suggestion",
     "cook_tags": "Tags",
     "cook_time": "Time",
@@ -1996,12 +2034,12 @@ const TRANSLATIONS_PART1 = {
     "dock_weather": "Weather",
     "dock_workout": "Workout",
     "done": "Done",
-    "dopamine_kick_completed_toast": "Dopamine kick completed! Great job starting.",
-    "dopamine_kick_done": "Done! 🎉 (+25 XP)",
-    "dopamine_kick_other": "Different Action 🔄",
-    "dopamine_kick_start": "⚡ Give me one!",
-    "dopamine_kick_success_log": "⚡ Dopamine kick completed:",
-    "dopamine_kick_title": "Ready for a quick dopamine kick? ⚡",
+    "dopamine_kick_completed_toast": "Momentum spark completed.",
+    "dopamine_kick_done": "Done",
+    "dopamine_kick_other": "Different Action",
+    "dopamine_kick_start": "Start Spark",
+    "dopamine_kick_success_log": "Spark completed:",
+    "dopamine_kick_title": "Quick Action Spark",
     "dropdown_placeholder": "-- Select a task from your board --",
     "evening_peak": "Evening (18:00 - 24:00)",
     "export_image": "Export as Image (PNG)",
@@ -2097,8 +2135,8 @@ const TRANSLATIONS_PART1 = {
     "mobile_tools_opt_badge": "Options",
     "mobile_tools_opt_sub": "Themes & Backup",
     "mobile_tools_opt_title": "Design & Language",
-    "mobile_tools_section": "🛠️ Lifestyle & Productivity",
-    "mobile_tools_shop_badge": "Loot",
+    "mobile_tools_section": "Lifestyle & Productivity",
+    "mobile_tools_shop_badge": "Items",
     "mobile_tools_shop_sub": "Items & Quantities",
     "mobile_tools_shop_title": "Shopping List",
     "mobile_tools_sport_badge": "Active",
@@ -2211,7 +2249,7 @@ const TRANSLATIONS_PART1 = {
     "settings": "Options",
     "settings_btn_fullscreen": "Full view ↗",
     "settings_dropdown_title": "Settings",
-    "settings_feedback": "Feedback ❤️",
+    "settings_feedback": "Feedback",
     "settings_header_layout": "Header Layout",
     "settings_modal_subtitle": "Configuration, privacy policy and open-source licenses",
     "settings_modal_title": "Settings & Legal Compliance",
@@ -2219,10 +2257,10 @@ const TRANSLATIONS_PART1 = {
     "settings_onboarding_title": "App Introduction & Tour",
     "settings_p2p_sync": "Device Sync",
     "settings_privacy_btn": "Privacy",
-    "settings_section_lang": "🌐 Select Language",
-    "settings_section_theme": "🎨 Farbschema",
-    "settings_start_tour_btn": "Start Tour 🚀",
-    "settings_tour": "Tour 🚀",
+    "settings_section_lang": "Select Language",
+    "settings_section_theme": "Color Theme",
+    "settings_start_tour_btn": "Start Tour",
+    "settings_tour": "Tour",
     "shop_add_btn": "Add",
     "shop_add_placeholder": "Add item (e.g. 2x oat milk, bread)...",
     "shop_clear": "Clear",
@@ -2310,11 +2348,11 @@ const TRANSLATIONS_PART1 = {
     "study_focus": "Study Focus & Goal",
     "study_modules": "Modules & Lectures",
     "study_submissions": "Assignments & Deadlines",
-    "supermarket_mode_btn": "Supermarket Mode 🛒",
-    "supermarket_title": "Supermarket Mode 🛒",
+    "supermarket_mode_btn": "Supermarket Mode",
+    "supermarket_title": "Supermarket Mode",
     "sync_desc": "Back up your plan and seamlessly sync it across all your devices (PC, Tablet, Phone).",
     "sync_modal_sub": "Seamless across PC, Tablet & Phone",
-    "sync_modal_title": "Device & Cloud Sync ⚡",
+    "sync_modal_title": "Device & Cloud Sync",
     "sync_title": "Device Sync (PC, Tablet, Phone)",
     "tab_general": "General",
     "tab_history": "Version History",
@@ -2374,8 +2412,8 @@ const TRANSLATIONS_PART1 = {
     "toast_task_restored": "Task restored.",
     "toast_tasks_restored": "Default tasks restored successfully!",
     "toast_undo_applied": "Last action undone.",
-    "toast_zen_active": "🧘 Focus Mode activated (Zen View)",
-    "toast_zen_inactive": "📋 Returned to Standard View",
+    "toast_zen_active": "Focus Mode activated",
+    "toast_zen_inactive": "Returned to Standard View",
     "todo": "To-do",
     "tools_chat_desc": "Live Exchange & P2P",
     "tools_chat_title": "Team Space Chat",
@@ -2389,6 +2427,9 @@ const TRANSLATIONS_PART1 = {
     "tools_section_body_mind": "Body & Mind",
     "tools_section_help": "Help & Dialogue",
     "tools_section_spheres": "Specialized Spheres",
+    "tools_section_knowledge_collab": "Knowledge & Collab",
+    "tool_scanner": "Scanner",
+    "tool_labs": "Labs",
     "tools_tour_badge": "Tour",
     "tools_tour_desc": "Interactive Onboarding",
     "undo_action_title": "Undo last action (Ctrl+Z)",
@@ -2398,10 +2439,10 @@ const TRANSLATIONS_PART1 = {
     "weather_unit_tooltip": "Toggle unit (°C / °F)",
     "weekly": "Household",
     "whatnow": "What now?",
-    "whatnow_high": "🔥 High Focus",
-    "whatnow_kickstart": "🪜 Kickstart",
-    "whatnow_low": "🔋 Low (2-5m)",
-    "whatnow_med": "⚡ Normal",
+    "whatnow_high": "High Focus",
+    "whatnow_kickstart": "Kickstart",
+    "whatnow_low": "Quick (2-5m)",
+    "whatnow_med": "Medium (15-25m)",
     "whatnow_tab_suggestion": "Suggestion",
     "whatnow_tooltip": "What should I do next? (Decision helper) [W]",
     "work_backlog": "Backlog",
@@ -2448,7 +2489,7 @@ const TRANSLATIONS_PART1 = {
     "board_undo": "Rückgängig",
     "boost_btn": "Impuls",
     "boost_desc": "Festgefahren? Probiere diese 30-Sekunden-Aktion aus, um wieder in Schwung zu kommen:",
-    "boost_new": "Neuer Impuls 🔄",
+    "boost_new": "Neuer Impuls",
     "boost_placeholder": "Klicke unten, um einen sofortigen Handlungsimpuls zu erhalten!",
     "brainstorm_clear": "Leeren",
     "brainstorm_input_placeholder": "Schreibe oder sprich deine Gedanken & Ideen hier frei auf...",
@@ -2485,7 +2526,7 @@ const TRANSLATIONS_PART1 = {
     "clean_express_title": "15-Min Blitz-Reset",
     "clean_guide_title": "Grundreinigung & Putz-Guide",
     "clean_guide_title_short": "Putz-Guide",
-    "clean_open_guide": "Interaktiven Putz-Guide öffnen 🚀",
+    "clean_open_guide": "Interaktiven Putz-Guide öffnen",
     "clean_standard_desc": "Küche, Bad & Böden gründlich reinigen",
     "clean_standard_title": "45-Min Standard-Putz",
     "cmd_actions": "Schnellaktionen",
@@ -2509,14 +2550,14 @@ const TRANSLATIONS_PART1 = {
     "confirm_delete_column": "Möchtest du diese Karte und alle darin enthaltenen Aufgaben wirklich löschen?",
     "cook_add_ingredient": "Hinzufügen",
     "cook_add_ingredient_placeholder": "Zutat eingeben (z.B. Nudeln, Eier)...",
-    "cook_add_to_shop": "Fehlende Zutaten auf Einkaufsliste setzen 🛒",
+    "cook_add_to_shop": "Fehlende Zutaten auf Einkaufsliste setzen",
     "cook_ingredients": "Dein Vorrat",
     "cook_pantry_empty": "Dein Vorrat ist leer. Füge oben Zutaten hinzu!",
     "cook_placeholder_empty": "Trage deine Zutaten ein, um passende Rezeptvorschläge zu erhalten.",
     "cook_quick_staples": "Schnelle Vorratszutaten",
     "cook_recipe_ingredients": "Benötigte Zutaten",
     "cook_steps": "Zubereitungsschritte",
-    "cook_suggest": "Rezept vorschlagen 🍳",
+    "cook_suggest": "Rezept vorschlagen",
     "cook_suggestion_title": "Rezept-Vorschlag",
     "cook_tags": "Tags",
     "cook_time": "Zeit",
@@ -2546,12 +2587,12 @@ const TRANSLATIONS_PART1 = {
     "dock_weather": "Wetter",
     "dock_workout": "Workout",
     "done": "Erledigt",
-    "dopamine_kick_completed_toast": "Dopamin-Kick abgeschlossen! Starker Start.",
-    "dopamine_kick_done": "Erledigt! 🎉 (+25 XP)",
-    "dopamine_kick_other": "Andere Aktion 🔄",
-    "dopamine_kick_start": "⚡ Gib mir einen!",
-    "dopamine_kick_success_log": "⚡ Dopamin-Kick ausgeführt:",
-    "dopamine_kick_title": "Lust auf einen schnellen Dopamin-Kick? ⚡",
+    "dopamine_kick_completed_toast": "Impuls abgeschlossen.",
+    "dopamine_kick_done": "Erledigt",
+    "dopamine_kick_other": "Anderer Impuls",
+    "dopamine_kick_start": "Impuls starten",
+    "dopamine_kick_success_log": "Impuls ausgeführt:",
+    "dopamine_kick_title": "Kurzer Handlungsimpuls",
     "dropdown_placeholder": "-- Wähle eine Aufgabe aus deinem Plan --",
     "evening_peak": "Abend (18:00 - 24:00)",
     "export_image": "Als Bild sichern (PNG)",
@@ -2647,8 +2688,8 @@ const TRANSLATIONS_PART1 = {
     "mobile_tools_opt_badge": "Optionen",
     "mobile_tools_opt_sub": "Themes & Backup",
     "mobile_tools_opt_title": "Design & Sprache",
-    "mobile_tools_section": "🛠️ Lifestyle & Produktivität",
-    "mobile_tools_shop_badge": "Loot",
+    "mobile_tools_section": "Lifestyle & Produktivität",
+    "mobile_tools_shop_badge": "Einkauf",
     "mobile_tools_shop_sub": "Kategorien & Mengen",
     "mobile_tools_shop_title": "Einkaufsliste",
     "mobile_tools_sport_badge": "Aktiv",
@@ -2761,7 +2802,7 @@ const TRANSLATIONS_PART1 = {
     "settings": "Optionen",
     "settings_btn_fullscreen": "Vollbild ↗",
     "settings_dropdown_title": "Einstellungen",
-    "settings_feedback": "Feedback ❤️",
+    "settings_feedback": "Feedback",
     "settings_header_layout": "Header-Layout",
     "settings_modal_subtitle": "Konfiguration, Datenschutzerklärung und Open-Source-Lizenzen",
     "settings_modal_title": "Einstellungen & Rechtliches",
@@ -2769,10 +2810,10 @@ const TRANSLATIONS_PART1 = {
     "settings_onboarding_title": "App-Einführung & Onboarding-Tour",
     "settings_p2p_sync": "Geräte-Sync",
     "settings_privacy_btn": "Datenschutz",
-    "settings_section_lang": "🌐 Sprache wählen",
-    "settings_section_theme": "🎨 Farbschema",
-    "settings_start_tour_btn": "Tour jetzt starten 🚀",
-    "settings_tour": "Einführung 🚀",
+    "settings_section_lang": "Sprache wählen",
+    "settings_section_theme": "Farbschema",
+    "settings_start_tour_btn": "Tour jetzt starten",
+    "settings_tour": "Einführung",
     "shop_add_btn": "Hinzufügen",
     "shop_add_placeholder": "Artikel hinzufügen (z.B. 2x Hafermilch, Brot)...",
     "shop_clear": "Leeren",
@@ -2860,11 +2901,11 @@ const TRANSLATIONS_PART1 = {
     "study_focus": "Lernfokus & Ziel",
     "study_modules": "Module & Vorlesungen",
     "study_submissions": "Abgaben & Deadlines",
-    "supermarket_mode_btn": "Supermarkt-Modus 🛒",
-    "supermarket_title": "Supermarkt-Modus 🛒",
+    "supermarket_mode_btn": "Supermarkt-Modus",
+    "supermarket_title": "Supermarkt-Modus",
     "sync_desc": "Sichere deinen Plan und nutze ihn nahtlos auf all deinen Geräten (PC, Tablet & Handy).",
     "sync_modal_sub": "PC, Laptop, Tablet & Handy synchron",
-    "sync_modal_title": "Geräte- & Cloud-Sync ⚡",
+    "sync_modal_title": "Geräte- & Cloud-Sync",
     "sync_title": "Geräte-Sync (PC, Tablet & Handy)",
     "tab_general": "Allgemein",
     "tab_history": "Versionshistorie",
@@ -2924,8 +2965,8 @@ const TRANSLATIONS_PART1 = {
     "toast_task_restored": "Aufgabe wurde wiederhergestellt.",
     "toast_tasks_restored": "Standard-Aufgaben wurden erfolgreich wiederhergestellt!",
     "toast_undo_applied": "Letzter Schritt wurde rückgängig gemacht.",
-    "toast_zen_active": "🧘 Fokus-Modus aktiviert (Zen-Ansicht)",
-    "toast_zen_inactive": "📋 Zurück zur Standardansicht",
+    "toast_zen_active": "Fokus-Modus aktiviert",
+    "toast_zen_inactive": "Zurück zur Standardansicht",
     "todo": "To-do",
     "tools_chat_desc": "Live-Austausch & P2P",
     "tools_chat_title": "Team Space Chat",
@@ -2939,6 +2980,9 @@ const TRANSLATIONS_PART1 = {
     "tools_section_body_mind": "Körper & Geist",
     "tools_section_help": "Hilfe & Dialog",
     "tools_section_spheres": "Spezialisierte Sphären",
+    "tools_section_knowledge_collab": "Wissen & Kollaboration",
+    "tool_scanner": "Scanner",
+    "tool_labs": "Labs",
     "tools_tour_badge": "Tour",
     "tools_tour_desc": "Interaktive Einführung",
     "undo_action_title": "Letzte Aktion rückgängig machen (Strg+Z)",
@@ -2948,10 +2992,10 @@ const TRANSLATIONS_PART1 = {
     "weather_unit_tooltip": "Einheit wechseln (°C / °F)",
     "weekly": "Haushalt",
     "whatnow": "Was nun?",
-    "whatnow_high": "🔥 High Focus",
-    "whatnow_kickstart": "🪜 Kickstart",
-    "whatnow_low": "🔋 Wenig (2-5m)",
-    "whatnow_med": "⚡ Normal",
+    "whatnow_high": "Hoher Fokus",
+    "whatnow_kickstart": "Kickstart",
+    "whatnow_low": "Kurz (2-5m)",
+    "whatnow_med": "Mittel (15-25m)",
     "whatnow_tab_suggestion": "Vorschlag",
     "whatnow_tooltip": "Was soll ich als Nächstes tun? (Entscheidungshilfe) [W]",
     "work_backlog": "Backlog",
@@ -3197,7 +3241,7 @@ const TRANSLATIONS_PART1 = {
     "mobile_tools_opt_badge": "Options",
     "mobile_tools_opt_sub": "Thèmes & Sauvegarde",
     "mobile_tools_opt_title": "Design & Langue",
-    "mobile_tools_section": "🛠️ Lifestyle & Productivité",
+    "mobile_tools_section": "Lifestyle & Productivité",
     "mobile_tools_shop_badge": "Courses",
     "mobile_tools_shop_sub": "Articles & Quantités",
     "mobile_tools_shop_title": "Liste de Courses",
@@ -3311,7 +3355,7 @@ const TRANSLATIONS_PART1 = {
     "settings": "Options",
     "settings_btn_fullscreen": "Plein écran ↗",
     "settings_dropdown_title": "Paramètres",
-    "settings_feedback": "Avis ❤️",
+    "settings_feedback": "Avis",
     "settings_header_layout": "Disposition En-tête",
     "settings_modal_subtitle": "Configuration, politique de confidentialité et licences libres",
     "settings_modal_title": "Paramètres & Mentions Légales",
@@ -3319,10 +3363,10 @@ const TRANSLATIONS_PART1 = {
     "settings_onboarding_title": "Introduction & Visite guidée",
     "settings_p2p_sync": "Sync Appareils",
     "settings_privacy_btn": "Confidentialité",
-    "settings_section_lang": "🌐 Choisir la Langue",
-    "settings_section_theme": "🎨 Thème de Couleur",
-    "settings_start_tour_btn": "Lancer la visite 🚀",
-    "settings_tour": "Visite 🚀",
+    "settings_section_lang": "Choisir la Langue",
+    "settings_section_theme": "Thème de Couleur",
+    "settings_start_tour_btn": "Lancer la visite",
+    "settings_tour": "Visite",
     "shop_add_btn": "Ajouter",
     "shop_add_placeholder": "Ajouter un article (ex. 2x lait d'avoine, pain)...",
     "shop_clear": "Vider",
@@ -3474,8 +3518,8 @@ const TRANSLATIONS_PART1 = {
     "toast_task_restored": "Tâche restaurée.",
     "toast_tasks_restored": "Les tâches par défaut ont été restaurées !",
     "toast_undo_applied": "Dernière action annulée.",
-    "toast_zen_active": "🧘 Mode Focus activé (Vue Zen)",
-    "toast_zen_inactive": "📋 Retour à la vue standard",
+    "toast_zen_active": "Mode Focus activé (Vue Zen)",
+    "toast_zen_inactive": "Retour à la vue standard",
     "todo": "À faire",
     "tools_chat_desc": "Échanges en direct & P2P",
     "tools_chat_title": "Chat d'Espace d'Équipe",
@@ -3489,6 +3533,9 @@ const TRANSLATIONS_PART1 = {
     "tools_section_body_mind": "Corps & Esprit",
     "tools_section_help": "Aide & Dialogue",
     "tools_section_spheres": "Sphères Spécialisées",
+    "tools_section_knowledge_collab": "Savoir & Collaboration",
+    "tool_scanner": "Scanner",
+    "tool_labs": "Labs",
     "tools_tour_badge": "Visite",
     "tools_tour_desc": "Visite interactive",
     "undo_action_title": "Annuler la dernière action (Ctrl+Z)",
@@ -3520,7 +3567,12 @@ if (typeof globalThis !== 'undefined') { globalThis.TRANSLATIONS_PART1 = TRANSLA
 
 
 /* --- data-translations-2.js --- */
-// data-translations-2.js: Complete translations for Italian, Spanish and Greek
+/**
+ * @file data-translations-2.js
+ * @module DataTranslationsPart2
+ * @description
+ * Vollständige UI-Lokalisierungswörterbücher für Italienisch (`it`), Spanisch (`es`) und Griechisch (`el`).
+ */
 const TRANSLATIONS_PART2 = {
   "it": {
     "add": "Aggiungi attività",
@@ -3756,7 +3808,7 @@ const TRANSLATIONS_PART2 = {
     "mobile_tools_opt_badge": "Opzioni",
     "mobile_tools_opt_sub": "Temi & Backup",
     "mobile_tools_opt_title": "Design & Lingua",
-    "mobile_tools_section": "🛠️ Stile di vita & Produttività",
+    "mobile_tools_section": "Stile di vita & Produttività",
     "mobile_tools_shop_badge": "Spesa",
     "mobile_tools_shop_sub": "Categorie & Quantità",
     "mobile_tools_shop_title": "Lista della Spesa",
@@ -3870,7 +3922,7 @@ const TRANSLATIONS_PART2 = {
     "settings": "Opzioni",
     "settings_btn_fullscreen": "Schermo intero ↗",
     "settings_dropdown_title": "Impostazioni",
-    "settings_feedback": "Feedback ❤️",
+    "settings_feedback": "Feedback",
     "settings_header_layout": "Layout Intestazione",
     "settings_modal_subtitle": "Configurazione, informativa privacy e licenze open-source",
     "settings_modal_title": "Impostazioni & Conformità",
@@ -3878,10 +3930,10 @@ const TRANSLATIONS_PART2 = {
     "settings_onboarding_title": "Introduzione & Tour dell'App",
     "settings_p2p_sync": "Sync Dispositivi",
     "settings_privacy_btn": "Privacy",
-    "settings_section_lang": "🌐 Scegli Lingua",
-    "settings_section_theme": "🎨 Tema Colore",
-    "settings_start_tour_btn": "Avvia il Tour 🚀",
-    "settings_tour": "Guida 🚀",
+    "settings_section_lang": "Scegli Lingua",
+    "settings_section_theme": "Tema Colore",
+    "settings_start_tour_btn": "Avvia il Tour",
+    "settings_tour": "Guida",
     "shop_add_btn": "Aggiungi",
     "shop_add_placeholder": "Aggiungi articolo (es. 2x latte d'avena, pane)...",
     "shop_clear": "Svuota",
@@ -4033,8 +4085,8 @@ const TRANSLATIONS_PART2 = {
     "toast_task_restored": "Attività ripristinata.",
     "toast_tasks_restored": "Le attività predefinite sono state ripristinate con successo!",
     "toast_undo_applied": "Ultima azione annullata.",
-    "toast_zen_active": "🧘 Modalità Focus attivata (Vista Zen)",
-    "toast_zen_inactive": "📋 Ritorno alla vista standard",
+    "toast_zen_active": "Modalità Focus attivata (Vista Zen)",
+    "toast_zen_inactive": "Ritorno alla vista standard",
     "todo": "Da fare",
     "tools_chat_desc": "Scambio live & P2P",
     "tools_chat_title": "Chat Spazio Team",
@@ -4048,6 +4100,9 @@ const TRANSLATIONS_PART2 = {
     "tools_section_body_mind": "Corpo & Mente",
     "tools_section_help": "Aiuto & Dialogo",
     "tools_section_spheres": "Sfere Specializzate",
+    "tools_section_knowledge_collab": "Conoscenza & Collaborazione",
+    "tool_scanner": "Scanner",
+    "tool_labs": "Labs",
     "tools_tour_badge": "Tour",
     "tools_tour_desc": "Guida interattiva",
     "undo_action_title": "Annulla ultima azione (Ctrl+Z)",
@@ -4306,7 +4361,7 @@ const TRANSLATIONS_PART2 = {
     "mobile_tools_opt_badge": "Opciones",
     "mobile_tools_opt_sub": "Temas y Copia",
     "mobile_tools_opt_title": "Diseño e Idioma",
-    "mobile_tools_section": "🛠️ Estilo de vida y Productividad",
+    "mobile_tools_section": "Estilo de vida y Productividad",
     "mobile_tools_shop_badge": "Compras",
     "mobile_tools_shop_sub": "Categorías y Cantidades",
     "mobile_tools_shop_title": "Lista de Compras",
@@ -4420,7 +4475,7 @@ const TRANSLATIONS_PART2 = {
     "settings": "Opciones",
     "settings_btn_fullscreen": "Pantalla completa ↗",
     "settings_dropdown_title": "Ajustes",
-    "settings_feedback": "Opinión ❤️",
+    "settings_feedback": "Opinión",
     "settings_header_layout": "Diseño de Cabecera",
     "settings_modal_subtitle": "Configuración, política de privacidad y licencias de código abierto",
     "settings_modal_title": "Ajustes y Cumplimiento Legal",
@@ -4428,10 +4483,10 @@ const TRANSLATIONS_PART2 = {
     "settings_onboarding_title": "Introducción y Tour de la App",
     "settings_p2p_sync": "Sync Dispositivos",
     "settings_privacy_btn": "Privacidad",
-    "settings_section_lang": "🌐 Elegir Idioma",
-    "settings_section_theme": "🎨 Tema de Color",
-    "settings_start_tour_btn": "Iniciar Tour 🚀",
-    "settings_tour": "Guía 🚀",
+    "settings_section_lang": "Elegir Idioma",
+    "settings_section_theme": "Tema de Color",
+    "settings_start_tour_btn": "Iniciar Tour",
+    "settings_tour": "Guía",
     "shop_add_btn": "Añadir",
     "shop_add_placeholder": "Añadir artículo (ej. 2x leche de avena, pan)...",
     "shop_clear": "Vaciar",
@@ -4583,8 +4638,8 @@ const TRANSLATIONS_PART2 = {
     "toast_task_restored": "Tarea restaurada.",
     "toast_tasks_restored": "¡Tareas predeterminadas restauradas con éxito!",
     "toast_undo_applied": "Última acción deshecha.",
-    "toast_zen_active": "🧘 Modo Enfoque activado (Vista Zen)",
-    "toast_zen_inactive": "📋 Regreso a la vista estándar",
+    "toast_zen_active": "Modo Enfoque activado (Vista Zen)",
+    "toast_zen_inactive": "Regreso a la vista estándar",
     "todo": "Por hacer",
     "tools_chat_desc": "Intercambio en vivo y P2P",
     "tools_chat_title": "Chat de Espacio de Equipo",
@@ -4598,6 +4653,9 @@ const TRANSLATIONS_PART2 = {
     "tools_section_body_mind": "Cuerpo y Mente",
     "tools_section_help": "Ayuda y Diálogo",
     "tools_section_spheres": "Esferas Especializadas",
+    "tools_section_knowledge_collab": "Conocimiento y Colaboración",
+    "tool_scanner": "Escáner",
+    "tool_labs": "Labs",
     "tools_tour_badge": "Tour",
     "tools_tour_desc": "Guía interactiva",
     "undo_action_title": "Deshacer última acción (Ctrl+Z)",
@@ -4856,7 +4914,7 @@ const TRANSLATIONS_PART2 = {
     "mobile_tools_opt_badge": "Επιλογές",
     "mobile_tools_opt_sub": "Θέματα & Αντίγραφα",
     "mobile_tools_opt_title": "Εμφάνιση & Γλώσσα",
-    "mobile_tools_section": "🛠️ Τρόπος Ζωής & Παραγωγικότητα",
+    "mobile_tools_section": "Τρόπος Ζωής & Παραγωγικότητα",
     "mobile_tools_shop_badge": "Ψώνια",
     "mobile_tools_shop_sub": "Κατηγορίες & Ποσότητες",
     "mobile_tools_shop_title": "Λίστα Αγορών",
@@ -4970,7 +5028,7 @@ const TRANSLATIONS_PART2 = {
     "settings": "Επιλογές",
     "settings_btn_fullscreen": "Πλήρης προβολή ↗",
     "settings_dropdown_title": "Ρυθμίσεις",
-    "settings_feedback": "Σχόλια ❤️",
+    "settings_feedback": "Σχόλια",
     "settings_header_layout": "Διάταξη Επικεφαλίδας",
     "settings_modal_subtitle": "Διαμόρφωση, πολιτική απορρήτου και άδειες ανοιχτού κώδικα",
     "settings_modal_title": "Ρυθμίσεις & Νομική Συμμόρφωση",
@@ -4978,10 +5036,10 @@ const TRANSLATIONS_PART2 = {
     "settings_onboarding_title": "Εισαγωγή & Περιήγηση Εφαρμογής",
     "settings_p2p_sync": "Συγχρονισμός Συσκευών",
     "settings_privacy_btn": "Προστασία Δεδομένων",
-    "settings_section_lang": "🌐 Επιλογή Γλώσσας",
-    "settings_section_theme": "🎨 Χρωματικό Θέμα",
-    "settings_start_tour_btn": "Έναρξη Περιήγησης 🚀",
-    "settings_tour": "Ξενάγηση 🚀",
+    "settings_section_lang": "Επιλογή Γλώσσας",
+    "settings_section_theme": "Χρωματικό Θέμα",
+    "settings_start_tour_btn": "Έναρξη Περιήγησης",
+    "settings_tour": "Ξενάγηση",
     "shop_add_btn": "Προσθήκη",
     "shop_add_placeholder": "Προσθήκη προϊόντος (π.χ. 2x γάλα βρώμης, ψωμί)...",
     "shop_clear": "Καθαρισμός",
@@ -5133,8 +5191,8 @@ const TRANSLATIONS_PART2 = {
     "toast_task_restored": "Η εργασία επαναφέρθηκε.",
     "toast_tasks_restored": "Οι προεπιλεγμένες εργασίες επαναφέρθηκαν με επιτυχία!",
     "toast_undo_applied": "Η τελευταία ενέργεια αναιρέθηκε.",
-    "toast_zen_active": "🧘 Ενεργοποιήθηκε η Λειτουργία Εστίασης (Προβολή Zen)",
-    "toast_zen_inactive": "📋 Επιστροφή στη βασική προβολή",
+    "toast_zen_active": "Ενεργοποιήθηκε η Λειτουργία Εστίασης (Προβολή Zen)",
+    "toast_zen_inactive": "Επιστροφή στη βασική προβολή",
     "todo": "Εκκρεμότητες",
     "tools_chat_desc": "Ζωντανή ανταλλαγή & P2P",
     "tools_chat_title": "Συνομιλία Χώρου Ομάδας",
@@ -5148,6 +5206,9 @@ const TRANSLATIONS_PART2 = {
     "tools_section_body_mind": "Σώμα & Πνεύμα",
     "tools_section_help": "Βοήθεια & Διάλογος",
     "tools_section_spheres": "Εξειδικευμένες Σφαίρες",
+    "tools_section_knowledge_collab": "Γνώση & Συνεργασία",
+    "tool_scanner": "Σαρωτής",
+    "tool_labs": "Labs",
     "tools_tour_badge": "Περιήγηση",
     "tools_tour_desc": "Διαδραστική ξενάγηση",
     "undo_action_title": "Αναίρεση τελευταίας ενέργειας (Ctrl+Z)",
@@ -5179,6 +5240,14 @@ if (typeof globalThis !== 'undefined') { globalThis.TRANSLATIONS_PART2 = TRANSLA
 
 
 /* --- data-translations.js --- */
+/**
+ * @file data-translations.js
+ * @module DataTranslationsAggregator
+ * @description
+ * Führt die Sprachpakete `TRANSLATIONS_PART1` (`en`, `de`, `fr`) und
+ * `TRANSLATIONS_PART2` (`it`, `es`, `el`) im globalen Objekt `TRANSLATIONS` zusammen.
+ */
+
 const TRANSLATIONS = Object.assign({},
   typeof TRANSLATIONS_PART1 !== 'undefined' ? TRANSLATIONS_PART1 : {},
   typeof TRANSLATIONS_PART2 !== 'undefined' ? TRANSLATIONS_PART2 : {}
@@ -5189,11 +5258,18 @@ if (typeof globalThis !== 'undefined') globalThis.TRANSLATIONS = TRANSLATIONS;
 
 
 /* --- data-custom-translations.js --- */
-// data-custom-translations.js: Synchronized custom translations
+/**
+ * @file data-custom-translations.js
+ * @module DataCustomTranslations
+ * @description
+ * Erweiterte Lokalisierungsschlüssel für Fachmodule (Workout-Baukasten, Entscheidungs-Assistent,
+ * Rezept-Studio, Einkaufs-Abteilungen und Einstellungen) in allen sechs unterstützten Sprachen.
+ */
 if (typeof window.TRANSLATIONS === 'undefined') { window.TRANSLATIONS = {}; }
 
 const customTranslations = {
   "en": {
+    "mobile_nav_menu": "Menu",
     "pick_tab_suggestion": "Focus Suggestion",
     "pick_tab_dilemma": "A vs B Decider",
     "pick_tab_braindump": "Clear Mind",
@@ -6008,9 +6084,13 @@ const customTranslations = {
     "toast_import_error": "Failed to read the backup file.",
     "toast_import_success": "Plan successfully imported!",
     "toast_no_undo": "No actions to undo.",
-    "toast_reset_success": "Your board has been reset to defaults.",
+    "toast_reset_success": "Template loaded successfully ✨",
     "toast_task_deleted": "Task deleted.",
     "toast_task_restored": "Task restored.",
+    "toast_note_deleted": "Note deleted.",
+    "toast_note_restored": "Note restored.",
+    "toast_termin_deleted": "Appointment deleted.",
+    "toast_termin_restored": "Appointment restored.",
     "toast_tasks_restored": "Default tasks restored successfully!",
     "toast_undo_applied": "Last action undone.",
     "toast_zen_active": "🧘 Focus Mode activated (Zen View)",
@@ -6240,6 +6320,7 @@ const customTranslations = {
     "step_choose_placeholder": "Select step"
   },
   "de": {
+    "mobile_nav_menu": "Menü",
     "pick_tab_suggestion": "Fokus-Vorschlag",
     "pick_tab_dilemma": "A vs. B Entscheider",
     "pick_tab_braindump": "Kopf leeren",
@@ -7054,9 +7135,13 @@ const customTranslations = {
     "toast_import_error": "Das Laden der Datei ist leider fehlgeschlagen.",
     "toast_import_success": "Dein Plan wurde erfolgreich geladen!",
     "toast_no_undo": "Keine Aktionen zum Rückgängigmachen vorhanden.",
-    "toast_reset_success": "Dein Plan wurde komplett zurückgesetzt.",
+    "toast_reset_success": "Vorlage erfolgreich geladen ✨",
     "toast_task_deleted": "Aufgabe gelöscht.",
     "toast_task_restored": "Aufgabe wurde wiederhergestellt.",
+    "toast_note_deleted": "Notiz gelöscht.",
+    "toast_note_restored": "Notiz wurde wiederhergestellt.",
+    "toast_termin_deleted": "Termin gelöscht.",
+    "toast_termin_restored": "Termin wurde wiederhergestellt.",
     "toast_tasks_restored": "Standard-Aufgaben wurden erfolgreich wiederhergestellt!",
     "toast_undo_applied": "Letzter Schritt wurde rückgängig gemacht.",
     "toast_zen_active": "🧘 Fokus-Modus aktiviert (Zen-Ansicht)",
@@ -7286,6 +7371,7 @@ const customTranslations = {
     "step_choose_placeholder": "Schritt wählen"
   },
   "fr": {
+    "mobile_nav_menu": "Menu",
     "pick_tab_suggestion": "Suggestion de focus",
     "pick_tab_dilemma": "Décideur A vs B",
     "pick_tab_braindump": "Vider l'esprit",
@@ -8103,6 +8189,10 @@ const customTranslations = {
     "toast_reset_success": "Ton plan a été entièrement réinitialisé.",
     "toast_task_deleted": "Tâche supprimée.",
     "toast_task_restored": "Tâche restaurée.",
+    "toast_note_deleted": "Note supprimée.",
+    "toast_note_restored": "Note restaurée.",
+    "toast_termin_deleted": "Rendez-vous supprimé.",
+    "toast_termin_restored": "Rendez-vous restauré.",
     "toast_tasks_restored": "Les tâches par défaut ont été restaurées !",
     "toast_undo_applied": "Dernière action annulée.",
     "toast_zen_active": "🧘 Mode Focus activé (Vue Zen)",
@@ -8332,6 +8422,7 @@ const customTranslations = {
     "step_choose_placeholder": "Sélectionner une étape"
   },
   "it": {
+    "mobile_nav_menu": "Menu",
     "pick_tab_suggestion": "Suggerimento focus",
     "pick_tab_dilemma": "Decisore A vs B",
     "pick_tab_braindump": "Svuota la mente",
@@ -9149,6 +9240,10 @@ const customTranslations = {
     "toast_reset_success": "Il tuo piano è stato ripristinato ai valori predefiniti.",
     "toast_task_deleted": "Attività eliminata.",
     "toast_task_restored": "Attività ripristinata.",
+    "toast_note_deleted": "Nota eliminata.",
+    "toast_note_restored": "Nota ripristinata.",
+    "toast_termin_deleted": "Appuntamento eliminato.",
+    "toast_termin_restored": "Appuntamento ripristinato.",
     "toast_tasks_restored": "Le attività predefinite sono state ripristinate con successo!",
     "toast_undo_applied": "Ultima azione annullata.",
     "toast_zen_active": "🧘 Modalità Focus attivata (Vista Zen)",
@@ -9378,6 +9473,7 @@ const customTranslations = {
     "step_choose_placeholder": "Seleziona passo"
   },
   "es": {
+    "mobile_nav_menu": "Menú",
     "pick_tab_suggestion": "Sugerencia de enfoque",
     "pick_tab_dilemma": "Decisor A vs B",
     "pick_tab_braindump": "Vaciar la mente",
@@ -10195,6 +10291,10 @@ const customTranslations = {
     "toast_reset_success": "Tu plan se ha restablecido a los valores predeterminados.",
     "toast_task_deleted": "Tarea eliminada.",
     "toast_task_restored": "Tarea restaurada.",
+    "toast_note_deleted": "Nota eliminada.",
+    "toast_note_restored": "Nota restaurada.",
+    "toast_termin_deleted": "Cita eliminada.",
+    "toast_termin_restored": "Cita restaurada.",
     "toast_tasks_restored": "¡Tareas predeterminadas restauradas con éxito!",
     "toast_undo_applied": "Última acción deshecha.",
     "toast_zen_active": "🧘 Modo Enfoque activado (Vista Zen)",
@@ -10424,6 +10524,7 @@ const customTranslations = {
     "step_choose_placeholder": "Seleccionar paso"
   },
   "el": {
+    "mobile_nav_menu": "Μενού",
     "pick_tab_suggestion": "Πρόταση εστίασης",
     "pick_tab_dilemma": "Αποφασιστής A vs B",
     "pick_tab_braindump": "Άδειασμα μυαλού",
@@ -11241,6 +11342,10 @@ const customTranslations = {
     "toast_reset_success": "Το πλάνο σου επανήλθε στις προεπιλογές.",
     "toast_task_deleted": "Η εργασία διαγράφηκε.",
     "toast_task_restored": "Η εργασία επαναφέρθηκε.",
+    "toast_note_deleted": "Η σημείωση διαγράφηκε.",
+    "toast_note_restored": "Η σημείωση επαναφέρθηκε.",
+    "toast_termin_deleted": "Το ραντεβού διαγράφηκε.",
+    "toast_termin_restored": "Το ραντεβού επαναφέρθηκε.",
     "toast_tasks_restored": "Οι προεπιλεγμένες εργασίες επαναφέρθηκαν με επιτυχία!",
     "toast_undo_applied": "Η τελευταία ενέργεια αναιρέθηκε.",
     "toast_zen_active": "🧘 Ενεργοποιήθηκε η Λειτουργία Εστίασης (Προβολή Zen)",
@@ -11491,6 +11596,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- data-extras.js --- */
+/**
+ * @file data-extras.js
+ * @module DataBreakAndMotivationTips
+ * @description
+ * Kuratierte mehrsprachige Pausen-Impulse (`BREAK_TIPS`) und Motivations-Sätze
+ * für das Pausen-Modal und die Sprachausgabe.
+ */
+
 const BREAK_TIPS = {
   de: [
     "Mache 5 Kniebeugen oder strecke deinen Körper einmal kräftig durch!",
@@ -11858,8 +11971,15 @@ const BOOST_ACTIVITIES = {
 
 
 /* --- config.js --- */
-// config.js - Zentrale Konfiguration für Noodle (Supabase & Sync API)
-// ============================================================================
+/**
+ * @file config.js
+ * @module Config
+ * @description
+ * Zentrale Laufzeitkonfiguration für Noodle Studio.
+ * Definiert API-Endpunkte für die optionale Cloud-Synchronisation (Supabase),
+ * Synchronisationsintervalle sowie Feature-Flags. Kann für Self-Hosting-Instanzen
+ * über `localStorage` (`noodle_custom_config`) oder Window-Variablen überschrieben werden.
+ */
 
 (function() {
   const DEFAULT_CONFIG = {
@@ -11941,12 +12061,9 @@ const FlowAuth = (function() {
     if (typeof window !== 'undefined' && window.FLOW_CONFIG) {
       return window.FLOW_CONFIG;
     }
-    // BUGFIX: Vorher wurde hier stillschweigend eine tote Fallback-URL mit
-    // Dummy-Schlüssel zurückgegeben (Rest aus der "Flow Organiser"-Zeit).
-    // Da init() ohnehin niemals einen Client mit fehlender/ungültiger Config
-    // erstellt, ist eine klare Diagnosemeldung hier sinnvoller als ein
-    // stiller, nie erreichbarer Platzhalter-Wert.
-    console.error('[FlowAuth] FLOW_CONFIG wurde nicht gefunden. Bitte prüfen, ob config.js korrekt VOR auth-engine.js geladen wird – ohne gültige Konfiguration sind Login und Cloud-Sync nicht möglich.');
+    // Falls config.js nicht geladen wurde, geben wir leere Endpunkte zurück,
+    // damit init() kontrolliert in den lokalen Offline-Modus übergeht.
+    console.error('[FlowAuth] FLOW_CONFIG wurde nicht gefunden. Bitte prüfen, ob config.js vor auth-engine.js eingebunden ist.');
     return { SUPABASE_URL: null, SUPABASE_ANON_KEY: null };
   }
 
@@ -12383,15 +12500,14 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- storage.js --- */
 /**
- * ============================================================================
- * Noodle - Speicherabstraktion & Resilienz-Vault (storage.js)
- * ============================================================================
- * Stellt eine ausfallsichere Speicherschicht (`AppStorage`) bereit:
- * - Schneller synchroner Zugriff via localStorage
- * - Automatischer asynchroner IndexedDB-Sicherheitsspiegel (`IDB_VAULT`)
- * - Robuster Schutz gegen Safari/iOS Storage-Eviction
- * - Sichere JSON-Serialisierung mit Fallback-Garantie
- * ============================================================================
+ * @file storage.js
+ * @module StorageAbstraction
+ * @description
+ * Dual-Storage Resilienz-Vault (`AppStorage`):
+ * - Synchroner Primärzugriff über `localStorage` für verzögerungsfreies UI-Rendering
+ * - Asynchroner IndexedDB-Sicherheitsspiegel (`IDB_VAULT`) gegen Browser-Storage-Eviction (z. B. Safari ITP)
+ * - Automatische Wiederherstellung (`hydrateFromVault`) beim App-Start
+ * - Sichere JSON-Serialisierung und Quota-Überwachung
  */
 
 // 1. IndexedDB Vault (Asynchroner Sicherheitsspiegel gegen Safari/Mobile Eviction)
@@ -12598,27 +12714,23 @@ const AppStorage = {
     }
   },
 
-  // Resilienz-Prüfung bei App-Start: Stellt Daten wieder her, falls Safari/Android localStorage geleert hat oder Daten beschädigt sind
+  // Resilienz-Prüfung bei App-Start: Stellt Daten still im Hintergrund wieder her, falls Browser-Storage (z. B. Safari ITP) geleert wurde
   async initResilience() {
     try {
       if (typeof localStorage === 'undefined') return false;
       let hasValidData = false;
+      const primaryKey = (typeof window !== 'undefined' && window.STORE_KEY) || 'flowPlannerV3';
+      const rawPrimary = localStorage.getItem(primaryKey);
       const rawV3 = localStorage.getItem('flow_state_v3');
       const rawV2 = localStorage.getItem('flow_items_v2');
 
-      if (rawV3) {
+      const candidateRaw = rawPrimary || rawV3 || rawV2;
+      if (candidateRaw) {
         try {
-          const parsed = JSON.parse(rawV3);
-          if (parsed && typeof parsed === 'object' && (parsed.items || parsed.done || parsed.workItems)) {
+          const parsed = JSON.parse(candidateRaw);
+          if (parsed && typeof parsed === 'object') {
             hasValidData = true;
           }
-        } catch (parseErr) {
-          hasValidData = false;
-        }
-      } else if (rawV2) {
-        try {
-          const parsed = JSON.parse(rawV2);
-          if (parsed && typeof parsed === 'object') hasValidData = true;
         } catch (parseErr) {
           hasValidData = false;
         }
@@ -12627,7 +12739,7 @@ const AppStorage = {
       if (!hasValidData) {
         const idbKeys = await IDB_VAULT.getAllKeys();
         if (idbKeys && idbKeys.length > 0) {
-          console.log('[AppStorage] LocalStorage war leer oder beschädigt – stelle aus IndexedDB Vault wieder her...');
+          let restoredPrimary = false;
           for (const key of idbKeys) {
             const val = await IDB_VAULT.get(key);
             if (val !== null && val !== undefined) {
@@ -12636,10 +12748,15 @@ const AppStorage = {
               } else {
                 localStorage.setItem(key, JSON.stringify(val));
               }
+              if (key === primaryKey || key === 'flow_state_v3') {
+                restoredPrimary = true;
+              }
             }
           }
-          if (typeof window !== 'undefined' && typeof window.showToast === 'function') {
-            window.showToast('Daten erfolgreich aus sicherem Speicher wiederhergestellt! 🛡️');
+          if (restoredPrimary && typeof loadState === 'function' && typeof renderApp === 'function') {
+            state = loadState();
+            if (typeof window !== 'undefined') window.state = state;
+            renderApp();
           }
           return true;
         }
@@ -12733,16 +12850,15 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- state.js --- */
 /**
- * ============================================================================
- * Noodle - State Management & Datenpersistenz (state.js)
- * ============================================================================
- * Verwaltet den gesamten reaktiven Zustand der Applikation:
- * - Aufgaben-Listen (Personal & Work Workspace)
- * - Erledigte Aufgaben, Archiv & Wiederherstellung
- * - Historie & Undo-Stack (bis zu 20 Schritte)
- * - Schema-Versionierung & automatische Migrationen
- * - Fallback-Trimming bei QuotaExceeded-Fehlern
- * ============================================================================
+ * @file state.js
+ * @module StateManager
+ * @description
+ * Zentrales State-Management & Datenpersistenz:
+ * - Reaktive Aufgaben-Listen für getrennte Workspaces (Personal & Work)
+ * - Erledigte Aufgaben, Archiv, Tombstone-Tracking & Wiederherstellung
+ * - Transaktionaler History- & Undo-Stack (bis zu 20 Snapshots)
+ * - Schema-Versionierung, Daten-Sanitizing & automatische Migrationen
+ * - Automatische Speicherbereinigung bei `QuotaExceededError`
  */
 
 // Grundlegende Konfiguration & globale State-Deklarationen
@@ -12797,22 +12913,35 @@ function reorderTodoBeforeDaily(arr) {
   return arr;
 }
 
+// Helper to ensure 'done' (Erledigt) is positioned before 'occasionally' (Gelegentlich)
+function reorderDoneBeforeOccasionally(arr) {
+  if (!Array.isArray(arr)) return arr;
+  const doneIdx = arr.findIndex(([id]) => id === 'done');
+  const occIdx = arr.findIndex(([id]) => id === 'occasionally');
+  if (doneIdx !== -1 && occIdx !== -1 && doneIdx !== occIdx - 1) {
+    const [doneItem] = arr.splice(doneIdx, 1);
+    const newOccIdx = arr.findIndex(([id]) => id === 'occasionally');
+    arr.splice(newOccIdx, 0, doneItem);
+  }
+  return arr;
+}
+
 function loadCategoriesOrder() {
   try {
     const saved = localStorage.getItem('flowPlannerCategoriesOrder') || localStorage.getItem('flow_categories_order');
-    if (saved) return reorderTodoBeforeDaily(reorderNotesBeforeTermine(JSON.parse(saved)));
+    if (saved) return reorderDoneBeforeOccasionally(reorderTodoBeforeDaily(reorderNotesBeforeTermine(JSON.parse(saved))));
   } catch (e) {
     console.warn('[State] loadCategoriesOrder warning:', e);
   }
   
-  // Standard-Layout (To Do vor Heute)
+  // Standard-Layout (To Do vor Heute, Erledigt vor Gelegentlich)
   return [
     ['weekly', 'home'],
     ['todo', 'list-todo'],
     ['daily', 'sun'],
-    ['done', 'check-circle-2'],
     ['notes', 'file-text'],
     ['termine', 'calendar'],
+    ['done', 'check-circle-2'],
     ['occasionally', 'clock']
   ];
 }
@@ -13130,7 +13259,9 @@ function trackTombstone(id) {
   if (!currentState._tombstones || typeof currentState._tombstones !== 'object') {
     currentState._tombstones = {};
   }
-  currentState._tombstones[id] = new Date().toISOString();
+  const nowISO = new Date().toISOString();
+  currentState._tombstones[String(id)] = nowISO;
+  currentState.updatedAt = nowISO;
 }
 
 function clearTombstone(id) {
@@ -13140,6 +13271,105 @@ function clearTombstone(id) {
     delete currentState._tombstones[id];
   }
 }
+
+function trackItemDeletion(item, category = 'task', ws = 'private') {
+  if (!item) return;
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState) return;
+  if (!currentState._tombstones || typeof currentState._tombstones !== 'object') {
+    currentState._tombstones = {};
+  }
+  const nowISO = new Date().toISOString();
+  currentState.updatedAt = nowISO;
+
+  // 1. Explizite ID speichern
+  if (typeof item === 'object' && item !== null && item.id) {
+    currentState._tombstones[String(item.id)] = nowISO;
+  }
+
+  // 2. Text- / Content-Hash erzeugen und in allen Prefix-Formen tombstonen
+  const itemText = (typeof item === 'object' && item !== null)
+    ? (item.task || item.name || item.text || item.title || JSON.stringify(item))
+    : String(item || '');
+
+  if (itemText && typeof computeStringHash === 'function') {
+    const hash = computeStringHash(itemText);
+    const prefix = ws === 'work' ? 'wtask' : (ws === 'study' ? 'stask' : 'task');
+    currentState._tombstones[`${prefix}_${category}_h${hash}`] = nowISO;
+    currentState._tombstones[`task_${category}_h${hash}`] = nowISO;
+    currentState._tombstones[`${category}_h${hash}`] = nowISO;
+    currentState._tombstones[`hash_${hash}`] = nowISO;
+    if (category === 'done' || category === 'workDone' || category === 'studyDone') {
+      currentState._tombstones[`done_h${hash}`] = nowISO;
+      currentState._tombstones[`wdone_h${hash}`] = nowISO;
+      currentState._tombstones[`sdone_h${hash}`] = nowISO;
+    }
+  }
+}
+
+function clearItemTombstone(item, category = 'task', ws = 'private') {
+  if (!item) return;
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState || !currentState._tombstones) return;
+
+  if (typeof item === 'object' && item !== null && item.id) {
+    delete currentState._tombstones[String(item.id)];
+  }
+
+  const itemText = (typeof item === 'object' && item !== null)
+    ? (item.task || item.name || item.text || item.title || JSON.stringify(item))
+    : String(item || '');
+
+  if (itemText && typeof computeStringHash === 'function') {
+    const hash = computeStringHash(itemText);
+    const prefix = ws === 'work' ? 'wtask' : (ws === 'study' ? 'stask' : 'task');
+    delete currentState._tombstones[`${prefix}_${category}_h${hash}`];
+    delete currentState._tombstones[`task_${category}_h${hash}`];
+    delete currentState._tombstones[`${category}_h${hash}`];
+    delete currentState._tombstones[`hash_${hash}`];
+    delete currentState._tombstones[`done_h${hash}`];
+    delete currentState._tombstones[`wdone_h${hash}`];
+    delete currentState._tombstones[`sdone_h${hash}`];
+  }
+}
+
+function trackCategoryClear(colId, ws = 'private', itemsToClear = []) {
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState) return;
+  const nowISO = new Date().toISOString();
+  currentState._clearedAt = currentState._clearedAt || {};
+  currentState._clearedAt[`${ws}_${colId}`] = nowISO;
+  currentState.updatedAt = nowISO;
+
+  if (Array.isArray(itemsToClear)) {
+    itemsToClear.forEach(item => {
+      trackItemDeletion(item, colId, ws);
+    });
+  }
+}
+
+function trackAllListsClear(ws = 'private', curItems = {}, curDone = []) {
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState) return;
+  const nowISO = new Date().toISOString();
+  currentState._clearedAt = currentState._clearedAt || {};
+  currentState._clearedAt[`${ws}__all`] = nowISO;
+  currentState.updatedAt = nowISO;
+
+  if (curItems && typeof curItems === 'object') {
+    Object.entries(curItems).forEach(([colId, list]) => {
+      if (Array.isArray(list)) {
+        currentState._clearedAt[`${ws}_${colId}`] = nowISO;
+        list.forEach(item => trackItemDeletion(item, colId, ws));
+      }
+    });
+  }
+  if (Array.isArray(curDone)) {
+    currentState._clearedAt[`${ws}_done`] = nowISO;
+    curDone.forEach(item => trackItemDeletion(item, 'done', ws));
+  }
+}
+
 
 
 function getYearAndWeek(date = new Date()) {
@@ -13404,6 +13634,109 @@ function migrateState(raw, lang) {
     });
   }
 
+  // 8. Migration: "10 Minuten abends aufräumen" / "10 Min. Abend-Aufräumen" -> "5min aufräumen"
+  const renameTidyUpTask = (list) => {
+    if (!Array.isArray(list)) return;
+    list.forEach((item, i) => {
+      const taskText = typeof item === 'object' && item !== null ? item.task : String(item || '');
+      if (/10\s*min.*abend.*aufraum/i.test(taskText) || /10\s*minuten.*abends.*aufraum/i.test(taskText) || /10\s*min.*evening.*tidy/i.test(taskText)) {
+        if (typeof item === 'string') {
+          list[i] = '5min aufräumen';
+        } else if (typeof item === 'object' && item) {
+          item.task = '5min aufräumen';
+        }
+      }
+    });
+  };
+  if (s.items) {
+    Object.values(s.items).forEach(renameTidyUpTask);
+  }
+  if (Array.isArray(s.done)) {
+    renameTidyUpTask(s.done);
+  }
+  if (s.workspaces) {
+    Object.values(s.workspaces).forEach(ws => {
+      if (ws && ws.items) Object.values(ws.items).forEach(renameTidyUpTask);
+      if (ws && Array.isArray(ws.done)) renameTidyUpTask(ws.done);
+    });
+  }
+
+  // 9. Duschen / 10. Aufräumen / 11. Kochen (nur bei Erst-Migration von < v3)
+  const isV3Clean = !!(raw && raw.version >= 3 && raw._migrationV3TasksPlaced);
+  if (!isV3Clean) {
+    if (s.items && Array.isArray(s.items.daily)) {
+      const isShower = (t) => {
+        const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+        return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
+      };
+      const showerIndex = s.items.daily.findIndex(isShower);
+      if (showerIndex !== -1) {
+        s.items.daily.splice(showerIndex, 1);
+      }
+    }
+    if (s.items) {
+      if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+      const hasShower = s.items.occasionally.some(t => {
+        const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+        return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
+      });
+      if (!hasShower && !raw) {
+        s.items.occasionally.unshift('Duschen');
+      }
+    }
+
+    // 10. Aufräumen muss bei Haushalt (weekly) bleiben & in Gelegentlich (3-Tage-Zyklus)
+    if (s.items) {
+      if (!Array.isArray(s.items.weekly)) s.items.weekly = [];
+      const hasWeeklyClean = s.items.weekly.some(t => {
+        const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+        return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
+      });
+      if (!hasWeeklyClean && !raw) {
+        s.items.weekly.unshift('Aufräumen');
+      }
+
+      if (typeof checkOccasionalAufräumen === 'function') {
+        checkOccasionalAufräumen(s);
+      }
+    }
+
+    // 11. Wichtigste Aufgabe & Kochen von Täglich (Heute) entfernen, Kochen in Gelegentlich verschieben
+    const isFocusOrCookingInDaily = (t) => {
+      const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+      return /^(1\s*)?(wichtigste aufgabe(\s*\(fokus\))?|key priority(\s*\(focus\))?|1 main focus task|prioridad clave(\s*\(foco\))?|1 tarea clave(\s*\(foco\))?|priorité clé(\s*\(focus\))?|1 tâche focus principale|priorità chiave(\s*\(focus\))?|1 attività chiave(\s*\(focus\))?|κύρια προτεραιότητα(\s*\(focus\))?|1 κύρια εργασία εστίασης|kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
+    };
+    if (s.items && Array.isArray(s.items.daily)) {
+      s.items.daily = s.items.daily.filter(t => !isFocusOrCookingInDaily(t));
+    }
+    if (s.items) {
+      if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+      const hasCooking = s.items.occasionally.some(t => {
+        const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+        return /^(kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
+      });
+      if (!hasCooking && !raw) {
+        const showerIdx = s.items.occasionally.findIndex(t => {
+          const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+          return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text);
+        });
+        if (showerIdx !== -1) {
+          s.items.occasionally.splice(showerIdx + 1, 0, 'Kochen');
+        } else {
+          s.items.occasionally.unshift('Kochen');
+        }
+      }
+    }
+    if (customDefaults && Array.isArray(customDefaults.daily)) {
+      const beforeLen = customDefaults.daily.length;
+      customDefaults.daily = customDefaults.daily.filter(t => !isFocusOrCookingInDaily(t));
+      if (customDefaults.daily.length !== beforeLen) {
+        saveCustomDefaults(customDefaults);
+      }
+    }
+  }
+
+  s._migrationV3TasksPlaced = true;
   return s;
 }
 
@@ -13560,31 +13893,35 @@ function updateWorkspaceSwitchUI() {
       const roomName = (typeof CollabEngine !== 'undefined' && CollabEngine.getRoom) ? CollabEngine.getRoom() : 'team';
       headerIcon.textContent = '👥';
       headerLabel.textContent = `Team (#${roomName})`;
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-violet-600/30 hover:bg-violet-600/40 border border-violet-400/80 text-violet-100 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_15px_rgba(139,92,246,0.4)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-violet-500/20 hover:bg-violet-500/30 border border-violet-400/40 text-violet-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = `Team-Board (#${roomName})`;
     } else if (currentWs === 'study') {
       headerIcon.textContent = '🎓';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_study') : 'Studium';
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-amber-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = typeof t === 'function' ? t('workspace_study') : 'Studium';
     } else if (currentWs === 'work') {
       headerIcon.textContent = '💼';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/30 text-cyan-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
     } else {
       headerIcon.textContent = '🏠';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_private') : 'Privat';
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-400/30 text-purple-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = typeof t === 'function' ? t('workspace_private') : 'Privat';
     }
   }
 
-  // Active option highlight inside Header Dropdown (Solid backgrounds to avoid overlap artifacts)
+  // Active option highlight inside Header Dropdown (Dezent & aufgeräumt)
   const optPriv = document.getElementById('header-ws-opt-private');
   const optWork = document.getElementById('header-ws-opt-work');
   const optStudy = document.getElementById('header-ws-opt-study');
   const optShared = document.getElementById('header-ws-opt-shared');
-  if (optPriv) optPriv.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'private' ? 'bg-purple-500/20 border-purple-400/50 text-purple-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
-  if (optWork) optWork.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'work' ? 'bg-blue-500/20 border-blue-400/50 text-blue-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
-  if (optStudy) optStudy.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'study' ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
-  if (optShared) optShared.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'shared' ? 'bg-violet-600/30 border-violet-400/70 text-violet-100 shadow-[0_0_12px_rgba(139,92,246,0.3)]' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
+  if (optPriv) optPriv.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs border ${currentWs === 'private' ? 'bg-purple-500/15 border-purple-400/35 text-purple-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
+  if (optWork) optWork.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs border ${currentWs === 'work' ? 'bg-cyan-500/15 border-cyan-400/35 text-cyan-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
+  if (optStudy) optStudy.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs border ${currentWs === 'study' ? 'bg-amber-500/15 border-amber-400/35 text-amber-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
+  if (optShared) optShared.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center justify-between transition cursor-pointer text-xs border ${currentWs === 'shared' ? 'bg-violet-500/20 border-violet-400/40 text-violet-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
 
   // 2. SETTINGS / MOBILE TOGGLE FALLBACKS
   const toggleBtn = document.getElementById('btn-workspace-toggle');
@@ -13656,6 +13993,9 @@ let syncEngineDebounceTimer = null;
 
 function saveState(skipP2PSync = false) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
+  if (currentState) {
+    currentState.updatedAt = new Date().toISOString();
+  }
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify(currentState));
     if (typeof IDB_VAULT !== 'undefined' && IDB_VAULT && typeof IDB_VAULT.set === 'function') {
@@ -13718,7 +14058,7 @@ function updateUndoUI() {
   if (undoBtn) {
     undoBtn.disabled = !hasHistory;
     if (hasHistory) {
-      undoBtn.classList.remove('opacity-30', 'pointer-events-none', 'grayscale');
+      undoBtn.classList.remove('opacity-40', 'opacity-30', 'pointer-events-none', 'grayscale');
       undoBtn.classList.add('opacity-100');
       const badge = undoBtn.querySelector('#undo-count-badge');
       if (badge) {
@@ -13726,8 +14066,8 @@ function updateUndoUI() {
         badge.classList.remove('hidden');
       }
     } else {
-      undoBtn.classList.add('opacity-30', 'pointer-events-none', 'grayscale');
-      undoBtn.classList.remove('opacity-100');
+      undoBtn.classList.add('opacity-40', 'pointer-events-none');
+      undoBtn.classList.remove('opacity-100', 'grayscale');
       const badge = undoBtn.querySelector('#undo-count-badge');
       if (badge) badge.classList.add('hidden');
     }
@@ -13944,6 +14284,52 @@ function applyHistorySnapshot(popped) {
   // 2. Gezielte Wiederherstellung NUR der Listen & Aufgaben (Items, Done, Steps)
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : state);
   if (currentState) {
+    const ws = currentState.activeWorkspace || 'private';
+    const nowISO = new Date().toISOString();
+    currentState._clearedAt = currentState._clearedAt || {};
+    currentState.updatedAt = nowISO;
+
+    const collectTexts = (itemsObj) => {
+      const set = new Set();
+      if (!itemsObj || typeof itemsObj !== 'object') return set;
+      Object.values(itemsObj).forEach(list => {
+        if (Array.isArray(list)) {
+          list.forEach(it => {
+            const txt = typeof it === 'object' && it ? (it.task || it.name || it.id || '') : String(it || '');
+            if (txt) set.add(txt);
+          });
+        }
+      });
+      return set;
+    };
+
+    if (popped.items && currentState.items) {
+      const poppedTexts = collectTexts(popped.items);
+      Object.entries(currentState.items).forEach(([colId, list]) => {
+        if (Array.isArray(list)) {
+          list.forEach(it => {
+            const txt = typeof it === 'object' && it ? (it.task || it.name || it.id || '') : String(it || '');
+            if (txt && !poppedTexts.has(txt)) {
+              trackItemDeletion(it, colId, ws);
+            }
+          });
+        }
+      });
+    }
+
+    if (popped.items && typeof popped.items === 'object') {
+      Object.entries(popped.items).forEach(([colId, list]) => {
+        if (Array.isArray(list)) {
+          list.forEach(it => {
+            clearItemTombstone(it, colId, ws);
+            if (typeof it === 'object' && it !== null) {
+              it.updatedAt = nowISO;
+            }
+          });
+        }
+      });
+    }
+
     if (popped.items) currentState.items = JSON.parse(JSON.stringify(popped.items));
     if (popped.done) currentState.done = JSON.parse(JSON.stringify(popped.done));
     if (popped.workItems) currentState.workItems = JSON.parse(JSON.stringify(popped.workItems));
@@ -14144,28 +14530,44 @@ if (typeof window !== 'undefined') {
 
 async function handleReset() {
   const confirmMsg = tr({
-    de: 'Möchtest du den gesamten Plan wirklich zurücksetzen?',
-    en: 'Do you really want to reset your entire plan?',
-    fr: 'Veux-tu vraiment réinitialiser tout le plan ?',
-    it: 'Vuoi davvero reimpostare l\'intero piano?',
-    es: '¿Seguro que quieres reiniciar todo el plan?',
-    el: 'Θέλεις πραγματικά να επαναφέρεις ολόκληρο το πλάνο σου;'
+    de: 'Möchtest du die Vorlage mit empfohlenen Routinen & Karten laden? (Bestehende Aufgaben werden ersetzt)',
+    en: 'Do you want to load the template with recommended routines & cards? (Existing tasks will be replaced)',
+    fr: 'Veux-tu charger le modèle avec les routines et cartes recommandées ?',
+    it: 'Vuoi caricare il modello con le routine e schede consigliate?',
+    es: '¿Quieres cargar la plantilla con las rutinas y tarjetas recomendadas?',
+    el: 'Θέλεις να φορτώσεις το πρότυπο με τις προτεινόμενες ρουτίνες και κάρτες;'
   });
   
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
-    title: typeof tr === 'function' ? tr({ de: 'Plan zurücksetzen?', en: 'Reset Plan?' }) : 'Plan zurücksetzen?',
+    title: typeof tr === 'function' ? tr({ de: 'Vorlage laden?', en: 'Load Template?' }) : 'Vorlage laden?',
     message: confirmMsg,
-    confirmText: typeof tr === 'function' ? tr({ de: 'Zurücksetzen', en: 'Reset' }) : 'Zurücksetzen',
-    isDanger: true,
-    icon: 'trash-2'
+    confirmText: typeof tr === 'function' ? tr({ de: 'Vorlage laden', en: 'Load Template' }) : 'Vorlage laden',
+    isDanger: false,
+    icon: 'layout-template'
   }) : confirm(confirmMsg);
 
   if (confirmed) {
     saveHistory();
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    if (typeof trackAllListsClear === 'function') {
+      trackAllListsClear(ws, state.items, state.done);
+    }
+    const customDefaults = getCustomDefaults();
     const localizedDefaults = DEFAULT_TASKS_BY_LANG[currentLang] || DEFAULT_TASKS_BY_LANG['en'] || DEFAULT_TASKS_BY_LANG['de'];
+    const dailyTasks = (customDefaults && Array.isArray(customDefaults.daily)) ? [...customDefaults.daily] : [...(localizedDefaults.daily || [])];
+    const weeklyTasks = (customDefaults && Array.isArray(customDefaults.weekly)) ? [...customDefaults.weekly] : [...(localizedDefaults.weekly || [])];
+    const occasionallyTasks = (customDefaults && Array.isArray(customDefaults.occasionally)) ? [...customDefaults.occasionally] : [...(localizedDefaults.occasionally || [])];
+    const todoTasks = (customDefaults && Array.isArray(customDefaults.todo)) ? [...customDefaults.todo] : [];
+
+    const nowISO = new Date().toISOString();
     state = {
-      version: 3, lastDate: new Date().toISOString().split('T')[0],
-      items: { daily: [...localizedDefaults.daily], weekly: [...localizedDefaults.weekly], occasionally: [...localizedDefaults.occasionally], todo: [], termine: [], notes: [] },
+      version: 3, lastDate: nowISO.split('T')[0],
+      _tombstones: state._tombstones || {},
+      _clearedAt: state._clearedAt || {},
+      _backupRestoredAt: nowISO,
+      updatedAt: nowISO,
+      _migrationV3TasksPlaced: true,
+      items: { daily: dailyTasks, weekly: weeklyTasks, occasionally: occasionallyTasks, todo: todoTasks, termine: [], notes: [] },
       done: [], archive: [], streak: 0, completedSteps: {}, customSteps: {},
       shoppingList: [], shoppingHistory: [],
       cooking: createDefaultCookingState(),
@@ -14174,17 +14576,28 @@ async function handleReset() {
     
     categoriesOrder = [
       ['weekly', 'home'],
-      ['daily', 'sun'],
       ['todo', 'list-todo'],
+      ['daily', 'sun'],
+      ['notes', 'file-text'],
+      ['termine', 'calendar'],
       ['done', 'check-circle-2'],
-    ['notes', 'file-text'],
-    ['termine', 'calendar'],
       ['occasionally', 'clock']
     ];
     saveCategoriesOrder();
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     
-    showToast(t('toast_reset_success'));
+    const toastMsg = typeof tr === 'function' ? tr({
+      de: 'Vorlage erfolgreich geladen ✨',
+      en: 'Template loaded successfully ✨',
+      fr: 'Modèle chargé avec succès ✨',
+      it: 'Modello caricato con successo ✨',
+      es: 'Plantilla cargada con éxito ✨',
+      el: 'Το πρότυπο φορτώθηκε με επιτυχία ✨'
+    }) : 'Vorlage erfolgreich geladen ✨';
+    showToast(toastMsg);
     renderApp();
     populateHelperTaskSelect();
   }
@@ -14235,6 +14648,9 @@ async function handleClearAllLists() {
 
   if (confirmed) {
     if (typeof saveHistory === 'function') saveHistory();
+    if (typeof trackAllListsClear === 'function') {
+      trackAllListsClear(ws, curItems, curDone);
+    }
     if (curItems && typeof curItems === 'object') {
       Object.keys(curItems).forEach(colId => {
         curItems[colId] = [];
@@ -14247,18 +14663,22 @@ async function handleClearAllLists() {
     } else {
       state.done = [];
     }
+    state.updatedAt = new Date().toISOString();
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     if (typeof renderApp === 'function') renderApp();
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
     if (typeof updateZenView === 'function') updateZenView();
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: `🧹 Alle Spalten geleert (${totalTasks} Aufgaben entfernt)`,
-        en: `🧹 All columns cleared (${totalTasks} tasks removed)`,
-        fr: `🧹 Toutes les colonnes vidées (${totalTasks} tâches supprimées)`,
-        it: `🧹 Tutte le colonne svuotate (${totalTasks} attività rimosse)`,
-        es: `🧹 Todas las columnas vaciadas (${totalTasks} tareas eliminadas)`,
-        el: `🧹 Όλες οι στήλες άδειασαν (${totalTasks} εργασίες αφαιρέθηκαν)`
+        de: `🧹 Alle Spalten geleert (${totalTasks} Einträge entfernt)`,
+        en: `🧹 All columns cleared (${totalTasks} items removed)`,
+        fr: `🧹 Toutes les colonnes vidées (${totalTasks} éléments supprimés)`,
+        it: `🧹 Tutte le colonne svuotate (${totalTasks} elementi rimossi)`,
+        es: `🧹 Todas las columnas vaciadas (${totalTasks} elementos eliminados)`,
+        el: `🧹 Όλες οι στήλες άδειασαν (${totalTasks} στοιχεία αφαιρέθηκαν)`
       }));
     }
   }
@@ -14299,7 +14719,12 @@ function handleOpenFile(e) {
       if (imported) {
         saveHistory();
         state = migrateState(imported, typeof currentLang !== 'undefined' ? currentLang : 'de');
+        state._backupRestoredAt = new Date().toISOString();
+        state.updatedAt = state._backupRestoredAt;
         saveState();
+        if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+          cloudSyncEngine.triggerImmediatePush();
+        }
         showToast(t('toast_import_success'));
         renderApp();
         populateHelperTaskSelect();
@@ -14314,9 +14739,10 @@ function handleOpenFile(e) {
 function convertNoteToTask(noteIndex, targetCategory = 'todo', event) {
   if (event) event.stopPropagation();
   if (!state.items.notes || !state.items.notes[noteIndex]) return;
-  saveHistory();
   const [noteItem] = state.items.notes.splice(noteIndex, 1);
   const noteText = typeof noteItem === 'object' ? noteItem.task : noteItem;
+  const snippet = noteText ? `"${noteText.length > 20 ? noteText.substring(0, 18) + '...' : noteText}"` : 'Notiz';
+  saveHistory(`Notiz in Aufgabe umgewandelt: ${snippet}`);
   if (!state.items[targetCategory]) state.items[targetCategory] = [];
   state.items[targetCategory].push(noteText);
   saveState();
@@ -14349,11 +14775,63 @@ function copyNoteText(noteIndex, event) {
   }).catch(() => {});
 }
 
+function checkOccasionalAufräumen(s) {
+  if (!s || !s.items) return;
+  if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+  const hasClean = s.items.occasionally.some(item => {
+    const text = typeof item === 'object' ? (item.task || '') : String(item || '');
+    return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
+  });
+
+  // Nicht re-injizieren, wenn der Nutzer Aufräumen gelöscht oder die Spalte geleert hat
+  const hash = typeof computeStringHash === 'function' ? computeStringHash('Aufräumen') : 'aufraum';
+  const isDeleted = s._tombstones && (s._tombstones['task_occasionally_h' + hash] || s._tombstones['hash_' + hash]);
+  const isCleared = s._clearedAt && (s._clearedAt['private_occasionally'] || s._clearedAt['private__all']);
+  if (isDeleted || isCleared) return;
+
+  if (!hasClean) {
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (!s.lastOccasionalAufräumenDoneDate) {
+      s.items.occasionally.push('Aufräumen');
+    } else {
+      const lastDate = new Date(s.lastOccasionalAufräumenDoneDate);
+      const todayDate = new Date(todayStr);
+      const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+      if (diffDays >= 3) {
+        s.items.occasionally.push('Aufräumen');
+        s.lastOccasionalAufräumenDoneDate = null;
+      }
+    }
+  }
+}
+window.checkOccasionalAufräumen = checkOccasionalAufräumen;
+
 function reloadDailyTasks(isAuto = false) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
   if (!currentState) return;
   if (!isAuto && typeof saveHistory === 'function') saveHistory();
 
+  // 1. Tägliche Aufgaben jeden Tag von der Erledigt-Karte löschen, den Rest lassen
+  if (Array.isArray(currentState.done)) {
+    currentState.done = currentState.done.filter(item => {
+      const orig = (typeof item === 'object' && item !== null) ? item.origin : null;
+      return orig !== 'daily';
+    });
+  }
+  if (Array.isArray(currentState.workDone)) {
+    currentState.workDone = currentState.workDone.filter(item => {
+      const orig = (typeof item === 'object' && item !== null) ? item.origin : null;
+      return orig !== 'work_focus';
+    });
+  }
+  if (Array.isArray(currentState.studyDone)) {
+    currentState.studyDone = currentState.studyDone.filter(item => {
+      const orig = (typeof item === 'object' && item !== null) ? item.origin : null;
+      return orig !== 'study_focus';
+    });
+  }
+
+  // 2. Tägliche Aufgaben neu laden
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
     : ((currentState && currentState.settings && currentState.settings.language)
@@ -14395,6 +14873,9 @@ function reloadDailyTasks(isAuto = false) {
     }
   }
 
+  // 3. Gelegentlich Aufräumen (jeden 3. Tag wenn gelöscht)
+  checkOccasionalAufräumen(currentState);
+
   currentState.lastDate = new Date().toISOString().split('T')[0];
   saveState();
   if (typeof renderApp === 'function') renderApp();
@@ -14416,6 +14897,17 @@ function reloadWeeklyHouseholdTasks(isAuto = false) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
   if (!currentState) return;
   if (!isAuto && typeof saveHistory === 'function') saveHistory();
+
+  // Wöchentlicher Reset: Die verbliebenen Aufgaben aus der Erledigt-Karte leeren
+  if (Array.isArray(currentState.done)) {
+    currentState.done = [];
+  }
+  if (Array.isArray(currentState.workDone)) {
+    currentState.workDone = [];
+  }
+  if (Array.isArray(currentState.studyDone)) {
+    currentState.studyDone = [];
+  }
 
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
@@ -14475,6 +14967,8 @@ function checkAutoRollovers() {
   if (currentState.lastDate && currentState.lastDate !== todayISO) {
     reloadDailyTasks(true);
     stateModified = true;
+  } else {
+    checkOccasionalAufräumen(currentState);
   }
 
   // 2. Wöchentlicher Rollover für Haushalt (weekly) & Wöchentlicher automatischer Bericht
@@ -14526,6 +15020,10 @@ if (typeof window !== 'undefined') {
   window.ensureItemIdentity = ensureItemIdentity;
   window.trackTombstone = trackTombstone;
   window.clearTombstone = clearTombstone;
+  window.trackItemDeletion = trackItemDeletion;
+  window.clearItemTombstone = clearItemTombstone;
+  window.trackCategoryClear = trackCategoryClear;
+  window.trackAllListsClear = trackAllListsClear;
   window.saveState = saveState;
   window.loadState = loadState;
   window.saveHistory = saveHistory;
@@ -14562,6 +15060,10 @@ if (typeof globalThis !== 'undefined') {
   globalThis.ensureItemIdentity = ensureItemIdentity;
   globalThis.trackTombstone = trackTombstone;
   globalThis.clearTombstone = clearTombstone;
+  globalThis.trackItemDeletion = trackItemDeletion;
+  globalThis.clearItemTombstone = clearItemTombstone;
+  globalThis.trackCategoryClear = trackCategoryClear;
+  globalThis.trackAllListsClear = trackAllListsClear;
   globalThis.saveState = saveState;
   globalThis.loadState = loadState;
   globalThis.saveHistory = saveHistory;
@@ -14585,8 +15087,18 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- sync-engine.js --- */
-// sync-engine.js - Zuverlässige & automatische Synchronisations-Engine für Noodle
-// ============================================================================
+/**
+ * @file sync-engine.js
+ * @module SyncEngine
+ * @description
+ * Synchronisations- und Datenabgleich-Engine für den geräteübergreifenden Betrieb.
+ *
+ * Komponenten:
+ * - `MinimalQR`: Erzeugt SVG-QR-Codes für die direkte Geräte-Kopplung ohne Server-Zwischenspeicher.
+ * - `P2PDataCodec`: Komprimiert und Base64URL-kodiert Arbeitszustände für QR-Payloads.
+ * - `SyncEngine`: Verwaltet den Hintergrundabgleich mit Supabase, Tombstone-basierte
+ *   Konfliktauflösung (Last-Write-Wins auf Elementebene) sowie Offline-Warteschlangen.
+ */
 
 const MinimalQR = (function() {
   function generateQRCodeSVG(text, size = 220) {
@@ -14685,9 +15197,10 @@ const cloudSyncEngine = {
       window.addEventListener('online', () => {
         if (typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
           this.retryCount = 0;
-          this.pullState();
           if (this.isPendingSync()) {
             this.pushState();
+          } else {
+            this.pullState();
           }
         }
       });
@@ -14699,9 +15212,10 @@ const cloudSyncEngine = {
       // 2. Automatischer Sync beim Wiederöffnen / Fokussieren des Tabs
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible' && typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
-          this.pullState();
           if (this.isPendingSync()) {
             this.pushState();
+          } else {
+            this.pullState();
           }
         }
       });
@@ -14724,6 +15238,27 @@ const cloudSyncEngine = {
     if (typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
       this.pullState();
       this.startAutoSync();
+    }
+
+    // 5. QR-Code / Direkt-Link Snapshot (#p2p=...) beim Öffnen prüfen
+    if (typeof window !== 'undefined' && window.location && window.location.hash && window.location.hash.startsWith('#p2p=')) {
+      try {
+        const encoded = window.location.hash.slice(5);
+        const decoded = P2PDataCodec.decodeState(encoded);
+        if (decoded && typeof window.state === 'object' && window.state) {
+          this.mergeState(window.state, decoded);
+          if (typeof saveState === 'function') saveState(true);
+          if (typeof renderApp === 'function') renderApp();
+          if (typeof history !== 'undefined' && history.replaceState) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+          if (typeof showToast === 'function') {
+            setTimeout(() => showToast('✓ Geräte-Zustand per QR/Sync-Link erfolgreich abgeglichen!'), 400);
+          }
+        }
+      } catch (e) {
+        console.warn('[P2P Sync] Hash import notice:', e);
+      }
     }
   },
 
@@ -14751,17 +15286,26 @@ const cloudSyncEngine = {
     } catch (e) {}
   },
 
-  // Vollständige State-Serialisierung (alle Datenbereiche inkl. Tombstones)
+  // Vollständige State-Serialisierung (alle Datenbereiche inkl. Tombstones & Cleared-Timestamps)
   serializeFullState(stateObj) {
     const s = stateObj || {};
+    const itemsCopy = (s.items && typeof s.items === 'object') ? { ...s.items } : {};
+    if (!itemsCopy.notes && Array.isArray(s.notes)) itemsCopy.notes = [...s.notes];
+    if (!itemsCopy.termine && Array.isArray(s.termine)) itemsCopy.termine = [...s.termine];
+
     return {
       _tombstones: s._tombstones || {},
-      items: s.items || {},
+      _clearedAt: s._clearedAt || {},
+      _backupRestoredAt: s._backupRestoredAt || null,
+      updatedAt: s.updatedAt || new Date().toISOString(),
+      items: itemsCopy,
       done: s.done || [],
       workItems: s.workItems || {},
       workDone: s.workDone || [],
-      notes: s.notes || [],
-      termine: s.termine || [],
+      studyItems: s.studyItems || {},
+      studyDone: s.studyDone || [],
+      notes: itemsCopy.notes || s.notes || [],
+      termine: itemsCopy.termine || s.termine || [],
       shoppingList: s.shoppingList || [],
       shoppingHistory: s.shoppingHistory || [],
       shoppingCategories: s.shoppingCategories || [],
@@ -14779,10 +15323,48 @@ const cloudSyncEngine = {
     };
   },
 
-  // Deterministischer, verlustfreier 3-Wege / Item-Level LWW-Merge mit Tombstones
+  // Deterministischer, verlustfreier 3-Wege / Item-Level LWW-Merge mit Tombstones & Cleared-Timestamps
   mergeState(localState, remoteData) {
     if (!localState || !remoteData) return false;
     let modified = false;
+
+    // 0. Vollständige Wiederherstellung (Backup-Restore / Template Reset) Vorrangprüfung
+    const localRestoreTs = localState._backupRestoredAt ? new Date(localState._backupRestoredAt).getTime() : 0;
+    const remoteRestoreTs = remoteData._backupRestoredAt ? new Date(remoteData._backupRestoredAt).getTime() : 0;
+    const localUpTs = localState.updatedAt ? new Date(localState.updatedAt).getTime() : 0;
+    const remoteUpTs = remoteData.updatedAt ? new Date(remoteData.updatedAt).getTime() : 0;
+
+    // Fall A: Remote hat einen neueren Backup-Restore durchgeführt als der lokale Zustand
+    if (remoteRestoreTs > 0 && remoteRestoreTs > localRestoreTs && remoteRestoreTs >= localUpTs) {
+      console.log('[CloudSync] Remote-Backup/Restore erkannt. Lokaler Zustand wird mit wiederhergestelltem Snapshot synchronisiert.');
+      if (remoteData.items) localState.items = JSON.parse(JSON.stringify(remoteData.items));
+      if (remoteData.done) localState.done = JSON.parse(JSON.stringify(remoteData.done));
+      if (remoteData.workItems) localState.workItems = JSON.parse(JSON.stringify(remoteData.workItems));
+      if (remoteData.workDone) localState.workDone = JSON.parse(JSON.stringify(remoteData.workDone));
+      if (remoteData.studyItems) localState.studyItems = JSON.parse(JSON.stringify(remoteData.studyItems));
+      if (remoteData.studyDone) localState.studyDone = JSON.parse(JSON.stringify(remoteData.studyDone));
+      if (remoteData.shoppingList) localState.shoppingList = JSON.parse(JSON.stringify(remoteData.shoppingList));
+      if (remoteData.shoppingHistory) localState.shoppingHistory = JSON.parse(JSON.stringify(remoteData.shoppingHistory));
+      if (remoteData.pantry) localState.pantry = JSON.parse(JSON.stringify(remoteData.pantry));
+      if (remoteData.recipes) localState.recipes = JSON.parse(JSON.stringify(remoteData.recipes));
+      if (remoteData.cookingList) localState.cookingList = JSON.parse(JSON.stringify(remoteData.cookingList));
+      if (remoteData.alarms) localState.alarms = JSON.parse(JSON.stringify(remoteData.alarms));
+      if (remoteData.archive) localState.archive = JSON.parse(JSON.stringify(remoteData.archive));
+      if (remoteData.notes) localState.notes = JSON.parse(JSON.stringify(remoteData.notes));
+      if (remoteData.termine) localState.termine = JSON.parse(JSON.stringify(remoteData.termine));
+      localState._tombstones = remoteData._tombstones ? JSON.parse(JSON.stringify(remoteData._tombstones)) : {};
+      localState._clearedAt = remoteData._clearedAt ? JSON.parse(JSON.stringify(remoteData._clearedAt)) : {};
+      localState._backupRestoredAt = remoteData._backupRestoredAt;
+      localState.updatedAt = remoteData.updatedAt || remoteData._backupRestoredAt;
+      return true;
+    }
+
+    // Fall B: Lokal wurde frisch ein Backup/Vorlage wiederhergestellt, das neuer ist als der Remote-Zustand
+    if (localRestoreTs > 0 && localRestoreTs > remoteRestoreTs && localRestoreTs >= remoteUpTs) {
+      console.log('[CloudSync] Lokaler Backup/Restore ist aktiv und neuer als Remote. Wiederhergestellter Stand bleibt führend.');
+      localState.updatedAt = new Date().toISOString();
+      return true;
+    }
 
     // Helper: Stabile Identität & Zeitstempel sicherstellen
     function computeStringHash(str) {
@@ -14795,26 +15377,31 @@ const cloudSyncEngine = {
       return Math.abs(hash).toString(36);
     }
 
-    function normalizeItem(item, fallbackPrefix = 'item') {
-      if (!item) return null;
-      const nowISO = new Date().toISOString();
+    // WICHTIG: defaultTimestamp stammt aus parentState.updatedAt und ist NIEMALS Date.now(),
+    // damit alte Strings nicht fälschlich neuer als bestehende Tombstones/Clear-Markierungen werden!
+    function normalizeItem(item, fallbackPrefix = 'item', defaultTimestamp = '1970-01-01T00:00:00.000Z') {
+      if (!item && item !== 0) return null;
       if (typeof item === 'string') {
+        const hash = computeStringHash(item);
         return {
-          id: `${fallbackPrefix}_h${computeStringHash(item)}`,
+          id: `${fallbackPrefix}_h${hash}`,
           task: item,
           _wasString: true,
-          createdAt: nowISO,
-          updatedAt: nowISO
+          _hash: hash,
+          createdAt: defaultTimestamp,
+          updatedAt: defaultTimestamp
         };
       }
       if (typeof item === 'object') {
         const copy = { ...item };
+        const itemText = copy.task || copy.name || copy.text || copy.title || JSON.stringify(copy);
+        const hash = computeStringHash(itemText);
+        copy._hash = hash;
         if (!copy.id) {
-          const itemText = copy.task || copy.name || copy.text || copy.title || JSON.stringify(copy);
-          copy.id = `${fallbackPrefix}_h${computeStringHash(itemText)}`;
+          copy.id = `${fallbackPrefix}_h${hash}`;
         }
-        if (!copy.createdAt) copy.createdAt = nowISO;
-        if (!copy.updatedAt) copy.updatedAt = copy.createdAt || nowISO;
+        if (!copy.createdAt) copy.createdAt = defaultTimestamp;
+        if (!copy.updatedAt) copy.updatedAt = copy.createdAt || defaultTimestamp;
         return copy;
       }
       return item;
@@ -14840,10 +15427,87 @@ const cloudSyncEngine = {
     }
     localState._tombstones = mergedTombstones;
 
+    // 1.5 Cleared-At Zeitstempel (Karten/Tabellen-Leeren) beider Seiten zusammenführen
+    const localCleared = (localState._clearedAt && typeof localState._clearedAt === 'object') ? { ...localState._clearedAt } : {};
+    const remoteCleared = (remoteData._clearedAt && typeof remoteData._clearedAt === 'object') ? remoteData._clearedAt : {};
+    const mergedCleared = { ...localCleared };
+
+    for (const [cKey, rTime] of Object.entries(remoteCleared)) {
+      if (!mergedCleared[cKey]) {
+        mergedCleared[cKey] = rTime;
+        modified = true;
+      } else {
+        const lTs = new Date(mergedCleared[cKey]).getTime();
+        const rTs = new Date(rTime).getTime();
+        if (rTs > lTs) {
+          mergedCleared[cKey] = rTime;
+          modified = true;
+        }
+      }
+    }
+    localState._clearedAt = mergedCleared;
+
+    // Helper: Prüfen ob ein Item gelöscht wurde (Tombstone Matching)
+    function isItemTombstoned(item, itemPrefix, categoryKey = '') {
+      if (!item) return false;
+      const possibleKeys = [
+        item.id,
+        item._hash ? `${itemPrefix}_h${item._hash}` : null,
+        item._hash ? `task_${itemPrefix}_h${item._hash}` : null,
+        item._hash && categoryKey ? `${categoryKey}_h${item._hash}` : null,
+        item._hash && categoryKey ? `task_${categoryKey}_h${item._hash}` : null,
+        item._hash && categoryKey ? `wtask_${categoryKey}_h${item._hash}` : null,
+        item._hash && categoryKey ? `stask_${categoryKey}_h${item._hash}` : null,
+        item._hash ? `task_h${item._hash}` : null,
+        item._hash ? `done_h${item._hash}` : null,
+        item._hash ? `wdone_h${item._hash}` : null,
+        item._hash ? `sdone_h${item._hash}` : null,
+        item._hash ? `hash_${item._hash}` : null
+      ].filter(Boolean);
+
+      for (const k of possibleKeys) {
+        if (mergedTombstones[k]) {
+          const delTs = new Date(mergedTombstones[k]).getTime();
+          // Wenn das Item ein String war: Tombstone gilt verbindlich,
+          // da Strings keine nachträglichen Teilbearbeitungen besitzen.
+          if (item._wasString) {
+            return true;
+          }
+          // Für Objekte: Prüfen, ob das Objekt nach dem Löschzeitpunkt gezielt bearbeitet wurde
+          const itemUp = new Date(item.updatedAt || item.createdAt || 0).getTime();
+          if (delTs >= itemUp) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    // Helper: Zeitstempel für Tabellen-Leeren abrufen
+    function getClearedTimestamp(ws, categoryKey) {
+      const keys = [
+        `${ws}_${categoryKey}`,
+        `${ws}__all`,
+        `__all`,
+        categoryKey
+      ];
+      let maxTs = 0;
+      for (const k of keys) {
+        if (mergedCleared[k]) {
+          const ts = new Date(mergedCleared[k]).getTime();
+          if (!isNaN(ts) && ts > maxTs) maxTs = ts;
+        }
+      }
+      return maxTs;
+    }
+
+    const localDefaultTime = localState.updatedAt || localState.clientTimestamp || '1970-01-01T00:00:00.000Z';
+    const remoteDefaultTime = remoteData.updatedAt || remoteData.clientTimestamp || '1970-01-01T00:00:00.000Z';
+
     // Helper: Item-Level LWW Merge für eine Liste
-    function mergeList(localList, remoteList, prefix) {
-      const lArr = Array.isArray(localList) ? localList.map(item => normalizeItem(item, prefix)).filter(Boolean) : [];
-      const rArr = Array.isArray(remoteList) ? remoteList.map(item => normalizeItem(item, prefix)).filter(Boolean) : [];
+    function mergeList(localList, remoteList, prefix, categoryKey = '', ws = 'private') {
+      const lArr = Array.isArray(localList) ? localList.map(item => normalizeItem(item, prefix, localDefaultTime)).filter(Boolean) : [];
+      const rArr = Array.isArray(remoteList) ? remoteList.map(item => normalizeItem(item, prefix, remoteDefaultTime)).filter(Boolean) : [];
 
       const lMap = new Map();
       lArr.forEach(item => { if (item && item.id) lMap.set(item.id, item); });
@@ -14853,21 +15517,30 @@ const cloudSyncEngine = {
 
       const allIds = new Set([...lMap.keys(), ...rMap.keys()]);
       const mergedMap = new Map();
+      const clearTs = getClearedTimestamp(ws, categoryKey);
 
       for (const id of allIds) {
         const lItem = lMap.get(id);
         const rItem = rMap.get(id);
 
-        // Prüfen, ob Item gelöscht wurde
-        if (mergedTombstones[id]) {
-          const delTs = new Date(mergedTombstones[id]).getTime();
+        // 1. Prüfen, ob Item gelöscht wurde (Tombstones)
+        if (isItemTombstoned(lItem || rItem, prefix, categoryKey)) {
+          if (lMap.has(id)) modified = true;
+          continue;
+        }
+
+        // 2. Prüfen, ob Tabelle/Spalte geleert wurde vor Erstellung/Update dieses Items
+        if (clearTs > 0) {
           const lUp = lItem ? new Date(lItem.updatedAt || lItem.createdAt || 0).getTime() : 0;
           const rUp = rItem ? new Date(rItem.updatedAt || rItem.createdAt || 0).getTime() : 0;
-          const maxUp = Math.max(lUp, rUp);
 
-          if (delTs >= maxUp) {
-            // Item ist gelöscht -> nicht in aktiver Liste behalten!
-            if (lMap.has(id)) modified = true;
+          // Lokale Items verwerfen, wenn die Spalte geleert wurde und das Item vor clearTs existierte
+          if (lItem && (lItem._wasString || lUp <= clearTs)) {
+            modified = true;
+            continue;
+          }
+          // Remote Items verwerfen, wenn die Spalte geleert wurde und das Item vor clearTs existierte
+          if (rItem && (rItem._wasString || rUp <= clearTs)) {
             continue;
           }
         }
@@ -14902,7 +15575,7 @@ const cloudSyncEngine = {
       function formatOutput(item) {
         if (!item) return item;
         if (item._wasString) {
-          const extraKeys = Object.keys(item).filter(k => !['_wasString', 'id', 'createdAt', 'updatedAt', 'task'].includes(k));
+          const extraKeys = Object.keys(item).filter(k => !['_wasString', '_hash', 'id', 'createdAt', 'updatedAt', 'task'].includes(k));
           if (extraKeys.length === 0 && typeof item.task === 'string') {
             return item.task;
           }
@@ -14927,75 +15600,98 @@ const cloudSyncEngine = {
       return result;
     }
 
-
     // Helper: Kategorien-Map (z.B. items, workItems) zusammenführen
-    function mergeCategoryMap(localMap, remoteMap, prefix) {
+    function mergeCategoryMap(localMap, remoteMap, prefix, ws = 'private') {
       const merged = {};
       const lObj = (localMap && typeof localMap === 'object') ? localMap : {};
       const rObj = (remoteMap && typeof remoteMap === 'object') ? remoteMap : {};
 
       const allCats = new Set([...Object.keys(lObj), ...Object.keys(rObj)]);
       for (const cat of allCats) {
-        merged[cat] = mergeList(lObj[cat] || [], rObj[cat] || [], `${prefix}_${cat}`);
+        merged[cat] = mergeList(lObj[cat] || [], rObj[cat] || [], `${prefix}_${cat}`, cat, ws);
       }
       return merged;
     }
 
-    // 1. Items & WorkItems (Aufgaben-Kategorien)
+    // Fallbacks für Notizen & Termine auf Root- und Items-Ebene synchronisieren
+    if (remoteData.items && typeof remoteData.items === 'object') {
+      if (!remoteData.items.notes && Array.isArray(remoteData.notes)) remoteData.items.notes = remoteData.notes;
+      if (!remoteData.items.termine && Array.isArray(remoteData.termine)) remoteData.items.termine = remoteData.termine;
+    }
+    if (localState.items && typeof localState.items === 'object') {
+      if (!localState.items.notes && Array.isArray(localState.notes)) localState.items.notes = localState.notes;
+      if (!localState.items.termine && Array.isArray(localState.termine)) localState.items.termine = localState.termine;
+    }
+
+    // 1. Items, WorkItems & StudyItems (Aufgaben-Kategorien inkl. Notes & Termine)
     if (remoteData.items || localState.items) {
-      localState.items = mergeCategoryMap(localState.items, remoteData.items, 'task');
+      localState.items = mergeCategoryMap(localState.items, remoteData.items, 'task', 'private');
+      if (localState.items && localState.items.notes) {
+        localState.notes = [...localState.items.notes];
+      }
+      if (localState.items && localState.items.termine) {
+        localState.termine = [...localState.items.termine];
+      }
     }
     if (remoteData.workItems || localState.workItems) {
-      localState.workItems = mergeCategoryMap(localState.workItems, remoteData.workItems, 'wtask');
+      localState.workItems = mergeCategoryMap(localState.workItems, remoteData.workItems, 'wtask', 'work');
+    }
+    if (remoteData.studyItems || localState.studyItems) {
+      localState.studyItems = mergeCategoryMap(localState.studyItems, remoteData.studyItems, 'stask', 'study');
     }
 
     // 2. Erledigte Aufgaben
     if (remoteData.done || localState.done) {
-      localState.done = mergeList(localState.done, remoteData.done, 'done');
+      localState.done = mergeList(localState.done, remoteData.done, 'done', 'done', 'private');
     }
     if (remoteData.workDone || localState.workDone) {
-      localState.workDone = mergeList(localState.workDone, remoteData.workDone, 'wdone');
+      localState.workDone = mergeList(localState.workDone, remoteData.workDone, 'wdone', 'done', 'work');
+    }
+    if (remoteData.studyDone || localState.studyDone) {
+      localState.studyDone = mergeList(localState.studyDone, remoteData.studyDone, 'sdone', 'done', 'study');
     }
 
-    // 3. Notizen & Termine
+    // 3. Notizen & Termine (Root-Synchronisation)
     if (remoteData.notes || localState.notes) {
-      localState.notes = mergeList(localState.notes, remoteData.notes, 'note');
+      localState.notes = mergeList(localState.notes || [], remoteData.notes || [], 'note', 'notes', 'private');
+      if (localState.items) localState.items.notes = [...localState.notes];
     }
     if (remoteData.termine || localState.termine) {
-      localState.termine = mergeList(localState.termine, remoteData.termine, 'termin');
+      localState.termine = mergeList(localState.termine || [], remoteData.termine || [], 'termin', 'termine', 'private');
+      if (localState.items) localState.items.termine = [...localState.termine];
     }
 
     // 4. Einkaufsliste & Historie
     if (remoteData.shoppingList || localState.shoppingList) {
-      localState.shoppingList = mergeList(localState.shoppingList, remoteData.shoppingList, 'shop');
+      localState.shoppingList = mergeList(localState.shoppingList, remoteData.shoppingList, 'shop', 'shoppingList', 'private');
     }
     if (remoteData.shoppingHistory || localState.shoppingHistory) {
-      localState.shoppingHistory = mergeList(localState.shoppingHistory, remoteData.shoppingHistory, 'shophist');
+      localState.shoppingHistory = mergeList(localState.shoppingHistory, remoteData.shoppingHistory, 'shophist', 'shoppingHistory', 'private');
     }
 
     // 5. Vorrat, Rezepte, Kochen
     if (remoteData.pantry || localState.pantry) {
-      localState.pantry = mergeList(localState.pantry, remoteData.pantry, 'pantry');
+      localState.pantry = mergeList(localState.pantry, remoteData.pantry, 'pantry', 'pantry', 'private');
     }
     if (remoteData.recipes || localState.recipes) {
-      localState.recipes = mergeList(localState.recipes, remoteData.recipes, 'recipe');
+      localState.recipes = mergeList(localState.recipes, remoteData.recipes, 'recipe', 'recipes', 'private');
     }
     if (remoteData.cookingList || localState.cookingList) {
-      localState.cookingList = mergeList(localState.cookingList, remoteData.cookingList, 'cook');
+      localState.cookingList = mergeList(localState.cookingList, remoteData.cookingList, 'cook', 'cookingList', 'private');
     }
 
     // 6. Alarme, Brainstorming, Klarheit, Archiv
     if (remoteData.alarms || localState.alarms) {
-      localState.alarms = mergeList(localState.alarms, remoteData.alarms, 'alarm');
+      localState.alarms = mergeList(localState.alarms, remoteData.alarms, 'alarm', 'alarms', 'private');
     }
     if (remoteData.brainstormIdeas || localState.brainstormIdeas) {
-      localState.brainstormIdeas = mergeList(localState.brainstormIdeas, remoteData.brainstormIdeas, 'idea');
+      localState.brainstormIdeas = mergeList(localState.brainstormIdeas, remoteData.brainstormIdeas, 'idea', 'brainstormIdeas', 'private');
     }
     if (remoteData.clarityLog || localState.clarityLog) {
-      localState.clarityLog = mergeList(localState.clarityLog, remoteData.clarityLog, 'clarity');
+      localState.clarityLog = mergeList(localState.clarityLog, remoteData.clarityLog, 'clarity', 'clarityLog', 'private');
     }
     if (remoteData.archive || localState.archive) {
-      localState.archive = mergeList(localState.archive, remoteData.archive, 'archive');
+      localState.archive = mergeList(localState.archive, remoteData.archive, 'archive', 'archive', 'private');
     }
 
     return modified;
@@ -15022,22 +15718,25 @@ const cloudSyncEngine = {
       const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : {});
       const serializedData = this.serializeFullState(currentState);
 
-      // 1. Supabase Cloud Sync (wenn Supabase authentifiziert ist)
+      // 1. Supabase Cloud Sync (wenn Supabase authentifiziert oder per Pairing-Token gekoppelt ist)
       if (typeof FlowAuth !== 'undefined' && FlowAuth.getSupabaseClient) {
         const supa = FlowAuth.getSupabaseClient();
         const user = FlowAuth.getUser();
-        if (user && user.isTokenOnly) {
-          this.updateSyncUI('synced');
-          return { skipped: true, tokenOnly: true };
-        }
-        if (supa && user && user.id && !user.isTokenOnly) {
+        if (supa && user && user.id) {
           const { error } = await supa.from('flow_sync').upsert({
             user_id: user.id,
             data: serializedData,
             updated_at: new Date().toISOString()
           }, { onConflict: 'user_id' });
 
-          if (error) throw error;
+          if (error) {
+            if (user.isTokenOnly) {
+              console.warn('[CloudSync] Token-only push not permitted by database RLS, relying on local/P2P sync.');
+              this.updateSyncUI('synced');
+              return { skipped: true, tokenOnly: true };
+            }
+            throw error;
+          }
 
           this.clearPendingSync();
           this.retryCount = 0;
@@ -15052,7 +15751,7 @@ const cloudSyncEngine = {
         }
       }
 
-      // Kein voll authentifizierter Supabase-User vorhanden
+      // Kein aktiver Supabase-User vorhanden
       throw new Error('Kein aktives Supabase-Konto. Bitte neu anmelden.');
     } catch (e) {
       console.warn('[CloudSync] Push notice:', e.message);
@@ -15076,17 +15775,29 @@ const cloudSyncEngine = {
     const token = FlowAuth.getSyncToken();
     if (!token) return { skipped: true };
 
+    // Wenn lokale Änderungen ausstehen (Löschen, Leeren, neue Tasks),
+    // müssen diese ZUERST auf den Server übertragen werden, bevor ein Pull läuft!
+    if (this.isPendingSync()) {
+      return await this.pushState();
+    }
+
     this.isSyncing = true;
     this.updateSyncUI('syncing');
 
     try {
-      // 1. Supabase Cloud Sync (wenn Supabase authentifiziert ist)
+      // 1. Supabase Cloud Sync (wenn Supabase authentifiziert oder per Pairing-Token gekoppelt ist)
       if (typeof FlowAuth !== 'undefined' && FlowAuth.getSupabaseClient) {
         const supa = FlowAuth.getSupabaseClient();
         const user = FlowAuth.getUser();
-        if (supa && user && user.id && !user.isTokenOnly) {
+        if (supa && user && user.id) {
           const { data, error } = await supa.from('flow_sync').select('data, updated_at').eq('user_id', user.id).maybeSingle();
-          if (error) throw error;
+          if (error) {
+            if (user.isTokenOnly) {
+              console.warn('[CloudSync] Token-only pull not permitted by database RLS.');
+              return { skipped: true, tokenOnly: true };
+            }
+            throw error;
+          }
 
           if (!data || !data.data) {
             // Noch kein State auf Server -> aktuellen Zustand hochladen
@@ -15157,6 +15868,16 @@ const cloudSyncEngine = {
         }
       }
     }, delay);
+  },
+
+  triggerImmediatePush() {
+    if (typeof FlowAuth === 'undefined' || !FlowAuth.isLoggedIn()) return Promise.resolve({ skipped: true });
+    this.markPendingSync();
+    if (this.syncDebounceTimer) {
+      clearTimeout(this.syncDebounceTimer);
+      this.syncDebounceTimer = null;
+    }
+    return this.pushState();
   },
 
   triggerAutoPush() {
@@ -15251,6 +15972,44 @@ window.cloudSyncEngine = cloudSyncEngine;
 // ============================================================================
 let currentAuthMode = 'login';
 
+function getP2PSyncUrl() {
+  try {
+    const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : {});
+    const encoded = P2PDataCodec.encodeState(currentState);
+    const baseUrl = (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null')
+      ? (window.location.origin + window.location.pathname)
+      : 'https://cableblues.github.io/noodle/';
+    return encoded ? `${baseUrl}#p2p=${encoded}` : baseUrl;
+  } catch (e) {
+    return 'https://cableblues.github.io/noodle/';
+  }
+}
+
+function updateP2PQrDisplay() {
+  if (typeof document === 'undefined') return;
+  const qrImg = document.getElementById('p2p-qr-img');
+  if (!qrImg || typeof MinimalQR === 'undefined') return;
+  const url = getP2PSyncUrl();
+  const svgDataUrl = MinimalQR.generateQRCodeSVG(url, 180);
+  if (svgDataUrl) {
+    qrImg.src = svgDataUrl;
+    qrImg.classList.remove('hidden');
+  }
+}
+window.updateP2PQrDisplay = updateP2PQrDisplay;
+
+function copyP2PSyncLink() {
+  const url = getP2PSyncUrl();
+  if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      if (typeof showToast === 'function') {
+        showToast('🔗 Direkt-Sync-Link in die Zwischenablage kopiert!');
+      }
+    }).catch(() => {});
+  }
+}
+window.copyP2PSyncLink = copyP2PSyncLink;
+
 function openP2PSyncModal(preferredMode = 'login') {
   const modal = document.getElementById('modal-p2p-sync');
   if (modal) {
@@ -15264,6 +16023,7 @@ function openP2PSyncModal(preferredMode = 'login') {
     }
 
     switchAuthMode(preferredMode || 'login');
+    updateP2PQrDisplay();
 
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
@@ -15601,8 +16361,17 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- collab-engine.js --- */
-// collab-engine.js - Real-time Team Collaboration, Live DJ Music Hub, WebRTC Voice & Shared Dashboard Suite
-// ========================================================================================================
+/**
+ * @file collab-engine.js
+ * @module CollabEngine
+ * @description
+ * Echtzeit-Kollaborationsmodul für geteilte Team-Workspaces (`shared`).
+ *
+ * Unterstützt:
+ * - Gemeinsame Aufgaben-Boards über Supabase Realtime und lokale BroadcastChannels
+ * - Präsenz-Anzeige aktiver Teammitglieder und Echtzeit-Chat
+ * - Synchronisierte Live-DJ-Sessions und WebRTC-basierte Sprachräume (Mesh-Topologie)
+ */
 
 const CollabEngine = (function() {
   let activeRoom = 'team-space';
@@ -16104,7 +16873,7 @@ const CollabEngine = (function() {
     });
 
     if (typeof showToast === 'function') {
-      showToast(`🎧 DJ-Stream gestartet! Dein Team kann jetzt synchron mithören.`);
+      showToast('DJ-Stream gestartet.');
     }
   }
 
@@ -16114,7 +16883,7 @@ const CollabEngine = (function() {
       playDjSharedTrack(trackData);
     }
     if (typeof showToast === 'function') {
-      showToast(`🎶 Synchronisiert mit DJ-Stream: ${trackData.name || 'Live Track'}!`);
+      showToast('Synchronisiert mit DJ-Stream: ' + (trackData.name || 'Live Track'));
     }
   }
 
@@ -16127,7 +16896,7 @@ const CollabEngine = (function() {
       sender: user
     });
     if (typeof showToast === 'function') {
-      showToast(`⏹️ DJ-Stream beendet.`);
+      showToast('DJ-Stream beendet.');
     }
   }
 
@@ -16141,66 +16910,66 @@ const CollabEngine = (function() {
   function openDjSharePicker() {
     let html = `
       <div id="collab-dj-picker-modal" class="fixed inset-0 z-[999999] flex items-center justify-center bg-black/75 backdrop-blur-md p-4 animate-fade-in" onclick="if(event.target===this) CollabEngine.closeDjSharePicker();">
-        <div class="w-full max-w-sm bg-[#12121e] border border-cyan-500/40 rounded-3xl p-4 shadow-2xl space-y-3">
+        <div class="w-full max-w-sm bg-[#111118]/98 border border-white/10 rounded-2xl p-4 shadow-2xl space-y-3">
           <div class="flex items-center justify-between border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
-              <span class="text-xl">🎧</span>
+              <i data-lucide="headphones" class="w-4 h-4 text-purple-400"></i>
               <div>
                 <h3 class="text-xs font-bold text-white uppercase tracking-wider">Musik für das Team auflegen</h3>
-                <p class="text-[10px] text-cyan-300">Wähle einen Beat zum Live-Streamen</p>
+                <p class="text-[10px] text-gray-400">Wähle einen Beat zum Streamen</p>
               </div>
             </div>
             <button onclick="CollabEngine.closeDjSharePicker()" class="p-1 text-gray-400 hover:text-white text-xs cursor-pointer">✕</button>
           </div>
 
           <div class="space-y-1.5 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
-            <button onclick="CollabEngine.shareDjTrack('deep_house'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+            <button onclick="CollabEngine.shareDjTrack('deep_house'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 text-left flex items-center justify-between transition cursor-pointer group">
               <div class="flex items-center gap-2.5">
-                <span class="text-lg">⚡</span>
+                <i data-lucide="disc" class="w-4 h-4 text-cyan-400 shrink-0"></i>
                 <div>
                   <div class="text-xs font-bold text-white group-hover:text-cyan-200">Deep House Sunset</div>
-                  <div class="text-[10px] text-cyan-300 font-mono">126 BPM • Driving Energy</div>
+                  <div class="text-[10px] text-gray-400 font-mono">126 BPM • Driving Energy</div>
                 </div>
               </div>
-              <span class="px-2 py-1 bg-cyan-500/20 text-cyan-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+              <span class="px-2 py-1 bg-white/10 text-gray-200 rounded-lg text-[10px] font-bold">Auflegen</span>
             </button>
 
-            <button onclick="CollabEngine.shareDjTrack('lofi_chill'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+            <button onclick="CollabEngine.shareDjTrack('lofi_chill'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 text-left flex items-center justify-between transition cursor-pointer group">
               <div class="flex items-center gap-2.5">
-                <span class="text-lg">☕</span>
+                <i data-lucide="disc" class="w-4 h-4 text-purple-400 shrink-0"></i>
                 <div>
                   <div class="text-xs font-bold text-white group-hover:text-purple-200">Deep Focus Lofi</div>
-                  <div class="text-[10px] text-purple-300 font-mono">85 BPM • Chill Lounge</div>
+                  <div class="text-[10px] text-gray-400 font-mono">85 BPM • Chill Lounge</div>
                 </div>
               </div>
-              <span class="px-2 py-1 bg-purple-500/20 text-purple-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+              <span class="px-2 py-1 bg-white/10 text-gray-200 rounded-lg text-[10px] font-bold">Auflegen</span>
             </button>
 
-            <button onclick="CollabEngine.shareDjTrack('cyber_wave'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+            <button onclick="CollabEngine.shareDjTrack('cyber_wave'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 text-left flex items-center justify-between transition cursor-pointer group">
               <div class="flex items-center gap-2.5">
-                <span class="text-lg">🌌</span>
+                <i data-lucide="disc" class="w-4 h-4 text-pink-400 shrink-0"></i>
                 <div>
                   <div class="text-xs font-bold text-white group-hover:text-pink-200">Synthwave Neon Drive</div>
-                  <div class="text-[10px] text-pink-300 font-mono">128 BPM • Retro Pulse</div>
+                  <div class="text-[10px] text-gray-400 font-mono">128 BPM • Retro Pulse</div>
                 </div>
               </div>
-              <span class="px-2 py-1 bg-pink-500/20 text-pink-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+              <span class="px-2 py-1 bg-white/10 text-gray-200 rounded-lg text-[10px] font-bold">Auflegen</span>
             </button>
 
-            <button onclick="CollabEngine.shareDjTrack('ambient_flow'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+            <button onclick="CollabEngine.shareDjTrack('ambient_flow'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 text-left flex items-center justify-between transition cursor-pointer group">
               <div class="flex items-center gap-2.5">
-                <span class="text-lg">🍃</span>
+                <i data-lucide="disc" class="w-4 h-4 text-emerald-400 shrink-0"></i>
                 <div>
                   <div class="text-xs font-bold text-white group-hover:text-emerald-200">Zen Meditation Flow</div>
-                  <div class="text-[10px] text-emerald-300 font-mono">118 BPM • Calm Wave</div>
+                  <div class="text-[10px] text-gray-400 font-mono">118 BPM • Calm Wave</div>
                 </div>
               </div>
-              <span class="px-2 py-1 bg-emerald-500/20 text-emerald-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+              <span class="px-2 py-1 bg-white/10 text-gray-200 rounded-lg text-[10px] font-bold">Auflegen</span>
             </button>
           </div>
 
           <div class="pt-1 border-t border-white/10 flex items-center justify-between">
-            <button onclick="CollabEngine.openDjWorkstationFromChat(); CollabEngine.closeDjSharePicker();" class="text-[10px] text-violet-400 hover:text-violet-200 underline cursor-pointer">🎛️ Eigene MP3 im DJ-Pult laden</button>
+            <button onclick="CollabEngine.openDjWorkstationFromChat(); CollabEngine.closeDjSharePicker();" class="text-[10px] text-violet-400 hover:text-violet-200 underline cursor-pointer">Eigene MP3 im DJ-Pult laden</button>
             <button onclick="CollabEngine.closeDjSharePicker()" class="px-3 py-1 bg-white/10 hover:bg-white/20 rounded-xl text-xs text-gray-200 font-semibold cursor-pointer">Abbrechen</button>
           </div>
         </div>
@@ -16210,6 +16979,7 @@ const CollabEngine = (function() {
     const existing = document.getElementById('collab-dj-picker-modal');
     if (existing) existing.remove();
     document.body.insertAdjacentHTML('beforeend', html);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
   function closeDjSharePicker() {
@@ -16275,12 +17045,12 @@ const CollabEngine = (function() {
         voiceRoomActive = true;
         updateMicButtonUI();
         if (typeof showToast === 'function') {
-          showToast('🎙️ Mikrofon aktiv! Du bist im Voice-Kanal hörbar.');
+          showToast('Mikrofon aktiv.');
         }
       } catch (err) {
         console.warn('[VoiceChat] Microphone access warning:', err);
         if (typeof showToast === 'function') {
-          showToast('⚠️ Mikrofon-Zugriff verweigert oder nicht verfügbar.');
+          showToast('Mikrofon-Zugriff nicht verfügbar.');
         }
       }
     } else {
@@ -16292,7 +17062,7 @@ const CollabEngine = (function() {
       updateMicButtonUI();
       broadcastSpeakingState(false);
       if (typeof showToast === 'function') {
-        showToast('🔇 Mikrofon stummgeschaltet.');
+        showToast('Mikrofon stummgeschaltet.');
       }
     }
   }
@@ -16354,14 +17124,15 @@ const CollabEngine = (function() {
     if (!micBtn) return;
 
     if (!isMicMuted) {
-      micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-emerald-500 text-black font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition active:scale-95 cursor-pointer';
-      if (micIcon) micIcon.innerHTML = '🎙️';
+      micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-emerald-500 text-black font-bold text-xs flex items-center gap-1.5 transition active:scale-95 cursor-pointer';
+      if (micIcon) micIcon.innerHTML = '<i data-lucide="mic" class="w-3.5 h-3.5"></i>';
       if (micStatus) micStatus.innerText = 'Mic An';
     } else {
       micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 font-semibold text-xs flex items-center gap-1.5 border border-white/10 transition active:scale-95 cursor-pointer';
-      if (micIcon) micIcon.innerHTML = '🔇';
+      if (micIcon) micIcon.innerHTML = '<i data-lucide="mic-off" class="w-3.5 h-3.5"></i>';
       if (micStatus) micStatus.innerText = 'Mic Stumm';
     }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
   // Voice Note Recorder (Sprachnachricht im Chat aufnehmen)
@@ -16496,7 +17267,7 @@ const CollabEngine = (function() {
     const sysMsg = {
       id: `sys_${Date.now()}`,
       isSystem: true,
-      text: `🚀 ${user.name} hat das persönliche Dashboard mit dem Team (#${activeRoom}) geteilt!`,
+      text: `${user.name} hat das Dashboard mit dem Team geteilt (#${activeRoom}).`,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
     chatHistory.push(sysMsg);
@@ -16504,7 +17275,7 @@ const CollabEngine = (function() {
     renderChatMessages();
 
     if (typeof showToast === 'function') {
-      showToast(`📤 Dein Dashboard wurde live mit Raum #${activeRoom} geteilt!`);
+      showToast(`Dashboard mit Raum #${activeRoom} geteilt.`);
     }
   }
 
@@ -16525,7 +17296,7 @@ const CollabEngine = (function() {
       if (state.activeWorkspace === 'shared') {
         if (typeof renderApp === 'function') renderApp();
         if (typeof showToast === 'function') {
-          showToast(`⚡ Team-Dashboard von ${event.sender?.name || 'Teammate'} aktualisiert!`);
+          showToast(`Team-Dashboard von ${event.sender?.name || 'Teammate'} aktualisiert.`);
         }
       }
     }
@@ -16533,7 +17304,7 @@ const CollabEngine = (function() {
 
   function importSharedBoardToPersonal() {
     if (typeof state === 'undefined' || !state.workspaces || !state.workspaces.shared) {
-      if (typeof showToast === 'function') showToast('⚠️ Noch kein geteiltes Team-Dashboard vorhanden.');
+      if (typeof showToast === 'function') showToast('Kein geteiltes Team-Dashboard vorhanden.');
       return;
     }
 
@@ -16547,7 +17318,7 @@ const CollabEngine = (function() {
     if (typeof renderApp === 'function') renderApp();
 
     if (typeof showToast === 'function') {
-      showToast('📥 Team-Dashboard erfolgreich in deinen privaten Bereich kopiert!');
+      showToast('Team-Dashboard in den privaten Bereich kopiert.');
     }
   }
 
@@ -16590,7 +17361,7 @@ const CollabEngine = (function() {
     const sysMsg = {
       id: `sys_${Date.now()}`,
       isSystem: true,
-      text: `📌 Du ${actionText}`,
+      text: `Du ${actionText}`,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
     chatHistory.push(sysMsg);
@@ -16649,7 +17420,7 @@ const CollabEngine = (function() {
 
     connect();
     if (typeof showToast === 'function') {
-      showToast(`🚀 Raum gewechselt: #${clean}`);
+      showToast(`Raum gewechselt: #${clean}`);
     }
   }
 
@@ -16665,7 +17436,7 @@ const CollabEngine = (function() {
     if (navigator && navigator.clipboard) {
       navigator.clipboard.writeText(link).then(() => {
         if (typeof showToast === 'function') {
-          showToast('✓ Team-Link in Zwischenablage kopiert! 📋');
+          showToast('Team-Link in Zwischenablage kopiert.');
         }
       });
     } else {
@@ -16679,7 +17450,7 @@ const CollabEngine = (function() {
         {
           id: `sys_${Date.now()}`,
           isSystem: true,
-          text: `🧹 Chat-Verlauf wurde geleert.`,
+          text: `Chat-Verlauf wurde geleert.`,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ];
@@ -16978,7 +17749,7 @@ const CollabEngine = (function() {
     const indicator = document.getElementById('collab-typing-indicator');
     if (!indicator) return;
 
-    indicator.innerText = `✍️ ${name} schreibt...`;
+    indicator.innerText = `${name} schreibt...`;
     indicator.classList.remove('hidden');
 
     if (typingTimer) clearTimeout(typingTimer);
@@ -17016,8 +17787,8 @@ const CollabEngine = (function() {
     const btnMessengers = document.getElementById('collab-tab-btn-messengers');
     const btnDirect = document.getElementById('collab-tab-btn-direct');
 
-    const activeClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-violet-100 bg-gradient-to-r from-violet-600/40 via-purple-600/35 to-violet-600/40 border border-violet-400/80 shadow-[0_0_15px_rgba(139,92,246,0.35)] text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition';
-    const inactiveClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 border border-transparent transition text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
+    const activeClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-white bg-white/10 border border-white/20 text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition';
+    const inactiveClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
 
     if (btnTeam) btnTeam.className = tab === 'team' ? activeClass : inactiveClass;
     if (btnMessengers) btnMessengers.className = tab === 'messengers' ? activeClass : inactiveClass;
@@ -17046,7 +17817,7 @@ const CollabEngine = (function() {
     const input = document.getElementById('collab-messenger-input');
     let text = (input && input.value.trim()) || '';
     if (!text) {
-      text = `🚀 Schau dir mein Noodle Studio Board an: ${getShareLink()}`;
+      text = `Noodle Studio Board: ${getShareLink()}`;
     }
     return text;
   }
@@ -17064,7 +17835,7 @@ const CollabEngine = (function() {
         url = `sgnl://share?text=${encodeURIComponent(text)}`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text);
-          if (typeof showToast === 'function') showToast('📋 Nachricht kopiert! Signal wird geöffnet...');
+          if (typeof showToast === 'function') showToast('Nachricht kopiert.');
         }
         break;
       case 'viber':
@@ -17075,7 +17846,7 @@ const CollabEngine = (function() {
         url = `https://www.messenger.com/`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text);
-          if (typeof showToast === 'function') showToast('📋 Text kopiert! Öffne Messenger...');
+          if (typeof showToast === 'function') showToast('Text kopiert.');
         }
         break;
       case 'telegram':
@@ -17085,14 +17856,14 @@ const CollabEngine = (function() {
         url = `https://discord.com/app`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text);
-          if (typeof showToast === 'function') showToast('📋 Nachricht für Discord kopiert!');
+          if (typeof showToast === 'function') showToast('Nachricht kopiert.');
         }
         break;
       case 'slack':
         url = `https://slack.com/`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text);
-          if (typeof showToast === 'function') showToast('📋 Nachricht für Slack kopiert!');
+          if (typeof showToast === 'function') showToast('Nachricht kopiert.');
         }
         break;
       case 'teams':
@@ -17115,7 +17886,7 @@ const CollabEngine = (function() {
 
   function openDirectChat(platformKey, targetContact, message) {
     if (!targetContact || !targetContact.trim()) {
-      if (typeof showToast === 'function') showToast('⚠️ Bitte Nummer oder Username eingeben');
+      if (typeof showToast === 'function') showToast('Bitte Nummer oder Username eingeben.');
       return;
     }
 
@@ -17285,10 +18056,17 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- utils-data.js --- */
-// Ausgelagert aus utils.js: TIERED_PRAISES Lobtexte-Datenbank
+/**
+ * @file utils-data.js
+ * @module UtilsData
+ * @description
+ * Mehrsprachige Textdatenbank (`TIERED_PRAISES`) für kontextabhängiges positives Feedback
+ * beim Abschließen von Aufgaben, gestaffelt nach Tagesfortschritt (Stufe 1 bis 4).
+ */
+
 const TIERED_PRAISES = {
   de: {
-    // Stufe 1: Erster Einstieg (1 Aufgabe geschafft)
+    // Stufe 1: Erster Einstieg (1 Aufgabe geschafft - Anlauf & Humor)
     tier1: [
       "Guter Start! Der Anfang ist gemacht. Weiter so!",
       "Schöner Einstieg! Schritt für Schritt geht es voran.",
@@ -17296,9 +18074,32 @@ const TIERED_PRAISES = {
       "Klasse! Ein wunderbarer erster Haken heute.",
       "Sehr gut! Der erste Dominostein ist gefallen. Welcher kommt als nächstes?",
       "Ein schöner, ruhiger Anfang. Geh entspannt zur nächsten Aufgabe über.",
-      "Der erste Haken sitzt. Atme kurz durch und bleib im Fluss!"
+      "Der erste Haken sitzt. Atme kurz durch und bleib im Fluss!",
+      "Boom! Aufgeschoben war gestern, heute wird erledigt.",
+      "Kopf frei, erster Haken sitzt – läuft bei dir!",
+      "Und zack! Der innere Schweinehund sucht schon das Weite.",
+      "Minimaler Aufwand, maximale Genugtuung.",
+      "Ein kleiner Klick für dich, ein großer Schritt für deinen Tag.",
+      "Sauber eingestiegen! Kein Zögern, einfach gemacht.",
+      "So fühlt sich Kontrolle an. Weiter im Takt!",
+      "Die schwerste Hürde ist immer der Anfang – und die hast du genommen.",
+      "Dein Tag hat offiziell Fahrt aufgenommen.",
+      "Aufgabe pulverisiert. Nächste Station: Produktivität!",
+      "Ein Häkchen mehr, eine Sorge weniger.",
+      "Stark! Nicht lange überlegt, einfach angepackt.",
+      "Das war der Zündfunke für den heutigen Tag.",
+      "Und wieder eine Zeile weniger im Kopfchaos.",
+      "Sehr smooth gelöst! Du bist sofort startklar.",
+      "Kalt erwischt: Die Aufgabe hatte keine Chance.",
+      "Schritt eins ist im Kasten. Der Flow klopft schon an.",
+      "Einfach, schnell, erledigt – genau so geht das!",
+      "Erfolgserlebnis freigeschaltet! Auf zum nächsten Ziel.",
+      "Die Liste wird kürzer, die Laune besser.",
+      "Hervorragend begonnen! Lass dich vom Momentum tragen.",
+      "Erledigt und abgehakt. Fühlt sich gut an, oder?",
+      "Perfekter Auftakt! Dein Fokus ist heute messerscharf."
     ],
-    // Stufe 2: Erste Dynamik (2 bis 4 Aufgaben geschafft)
+    // Stufe 2: Erste Dynamik (2 bis 4 Aufgaben geschafft - Tempo & Rhythmus)
     tier2: [
       "Du bist im Rhythmus! Dranbleiben lohnt sich.",
       "Klasse Fortschritt! Jede kleine Aufgabe summiert sich.",
@@ -17306,9 +18107,32 @@ const TIERED_PRAISES = {
       "Sehr fleißig! Spürst du, wie es im Kopf leichter wird?",
       "Wunderbar! Du machst heute tolle Fortschritte.",
       "Dein Fokus stabilisiert sich. Ein Schritt nach dem anderen!",
-      "Sehr diszipliniert. Du hast das heute fest im Griff."
+      "Sehr diszipliniert. Du hast das heute fest im Griff.",
+      "Jetzt rollt die Lawine der Erledigung!",
+      "Wer soll dich jetzt noch stoppen? Niemand!",
+      "Dein Dopamin-Spiegel nickt gerade anerkennend.",
+      "Zwei, drei, vier – Aufgaben verblassen vor deinem Fokus.",
+      "Richtig starker Zug nach vorne. Bleib in dieser Spur!",
+      "Du hast den Arbeitsmodus gemeistert. Respekt!",
+      "Einfach durchgezogen. Das nennt man Macher-Qualität.",
+      "Dein Zukunfts-Ich bedankt sich jetzt schon bei dir.",
+      "Die Aufgaben fallen wie reife Äpfel.",
+      "Volle Kontrolle über die Tabelle. So sieht Struktur aus.",
+      "Du fackelst heute nicht lange – vorbildlich!",
+      "Kein Scrollen, kein Ablenken: Pure Konzentration.",
+      "Das Board lichtet sich spürbar. Genieß das Gefühl!",
+      "Effizienzlevel: Beeindruckend hoch.",
+      "Du räumst heute aber ordentlich auf!",
+      "Gleichmäßige Schritte schlagen jede Hektik.",
+      "Dein Rhythmus sitzt wie ein Schweizer Uhrwerk.",
+      "Ein Häkchen nach dem anderen – pure Entspannung für den Kopf.",
+      "So macht To-Do Spaß: Ruhig, zügig, erledigt.",
+      "Das Momentum gehört heute ganz allein dir.",
+      "Da staunt selbst die Aufgabenliste!",
+      "Super Zugkraft! Du machst Nägel mit Köpfen.",
+      "Stetig, sicher, erfolgreich. Genau die richtige Dosis."
     ],
-    // Stufe 3: Hohe Ausdauer (5 bis 8 Aufgaben geschafft)
+    // Stufe 3: Hohe Ausdauer (5 bis 8 Aufgaben geschafft - Deep Work & Respekt)
     tier3: [
       "Richtig starker Fokus! Du ziehst das super durch.",
       "Klasse Leistung! Du hast heute schon richtig viel bewegt.",
@@ -17316,9 +18140,32 @@ const TIERED_PRAISES = {
       "Hut ab! Du beweist echtes Durchhaltevermögen.",
       "Großartig gemacht! Du bist voll in deinem Element.",
       "Dein Tag nimmt richtig Form an. Sehr inspirierend!",
-      "Hervorragende Arbeit. Du meisterst deine To-Dos heute souverän."
+      "Hervorragende Arbeit. Du meisterst deine To-Dos heute souverän.",
+      "Offizieller Status: Unaufhaltsamer Produktivitäts-Titan!",
+      "Deine Willenskraft heute verdient eine Auszeichnung.",
+      "Du hast heute mehr geschafft als die meisten in einer Woche.",
+      "Tiefer Fokus, null Ablenkung – Meisterklasse!",
+      "Wie eine Dampfwalze durch die To-Do-Liste gerollt.",
+      "Fünf Sterne für dein Durchhaltevermögen heute!",
+      "Du spielst heute in deiner ganz eigenen Liga.",
+      "Aufgaben abarbeiten im Sekundentakt – grandios!",
+      "Dein Schreibtisch ist eine Festung der Konzentration.",
+      "Hier wird heute Geschichte geschrieben – deine persönliche Erfolgsgeschichte.",
+      "Erledigt-Spalte platzt aus allen Nähten. Großartig!",
+      "Echte mentale Ausdauer bewiesen. Chapeau!",
+      "Du bist der Endgegner deiner Aufgabenliste.",
+      "Pure Klarheit im Kopf. Das hast du dir hart erarbeitet.",
+      "Das ist kein Zufall mehr, das ist reine Meisterschaft.",
+      "Unglaubliche Schlagzahl heute. Höchster Respekt!",
+      "Wenn Produktivität eine Kunst wäre, wärst du der Künstler.",
+      "Ein monumentaler Fortschritt für deinen heutigen Tag.",
+      "Keine Kompromisse: Aufgabe gesehen, angepackt, besiegt.",
+      "Du ziehst durch wie ein Profi. Beeindruckend!",
+      "Ein Triumph der Selbstdisziplin über jede Trägheit.",
+      "Dein Fokus brennt heute heller als jede Ablenkung.",
+      "Fantastische Serie! Du hast den Dreh voll raus."
     ],
-    // Stufe 4: Meisterstufe (9+ Aufgaben geschafft)
+    // Stufe 4: Meisterstufe (9+ Aufgaben geschafft - Legende & Feierabend-Bereit)
     tier4: [
       "Sensationell! Du hast heute unglaublich viel geschafft.",
       "Einfach meisterhaft! Du darfst richtig stolz auf dich sein.",
@@ -17326,7 +18173,30 @@ const TIERED_PRAISES = {
       "Absolute Spitzenklasse! Gönn dir ruhig auch mal eine wohlverdiente Pause.",
       "Was für ein produktiver Tag! Du hast heute alles gegeben.",
       "Gigantische Leistung! Dein Kopf darf jetzt langsam in den Feierabend gehen.",
-      "Das war weltklasse! Ein echter Triumph über deine To-Do-Liste."
+      "Das war weltklasse! Ein echter Triumph über deine To-Do-Liste.",
+      "Legendenstatus erreicht! Die Aufgaben verneigen sich vor dir.",
+      "Feierabend-Modus vollends verdient. Du hast heute abgeräumt!",
+      "Ein absolutes Meisterstück an Organisation und Umsetzung.",
+      "Gibt es überhaupt noch offene Aufgaben? Du hast alles rasiert!",
+      "Wenn du heute schläfst, träumt dein Gehirn von reinem Erfolg.",
+      "Über 9 Aufgaben zerlegt – das grenzt an Magie!",
+      "Zeit, die Beine hochzulegen: Du bist der Champion des Tages.",
+      "Pure Vollendung. Mehr Produktivität geht physikalisch kaum.",
+      "Du hast das System durchgespielt. Maximale Belohnung verdient!",
+      "Ein Tag für die Geschichtsbücher deiner Produktivität.",
+      "Halle der Helden: Dein Name steht ganz oben eingraviert.",
+      "Verneigung vor diesem Arbeitsaufwand. Absolut makellos!",
+      "Dein Kopf darf jetzt offiziell in den Chill-Modus schalten.",
+      "Was für eine Glanzleistung! Du hast heute Maßstäbe gesetzt.",
+      "Du hast die Liste nicht nur geschafft – du hast sie dominiert.",
+      "Ein Feuerwerk an Disziplin und Klarheit. Wahnsinn!",
+      "Keine Ausreden, nur Ergebnisse. So sieht Perfektion aus.",
+      "Du hast heute die Messlatte extrem hoch gelegt.",
+      "Gönn dir den besten Feierabend der Welt. Verdienter geht es nicht!",
+      "Ein Monument des Erfolgs. Sei verdammt stolz auf dich!",
+      "Mission erfüllt, alle Ziele pulverisiert. Perfekt!",
+      "Deine Konzentration heute war schlicht weltmeisterlich.",
+      "Und damit ist der Tag gekrönt: Ein rundum vollendetes Meisterwerk!"
     ]
   },
   en: {
@@ -17525,6 +18395,16 @@ const TIERED_PRAISES = {
 
 
 /* --- utils.js --- */
+/**
+ * @file utils.js
+ * @module Utils
+ * @description
+ * Zentrale Hilfs- und Sicherheitsfunktionen der Anwendung:
+ * - XSS-Prävention (`escapeHtml`, `escapeAttr`, `sanitizeUrl`, `sanitizeIdentifier`)
+ * - Lokalisierungs-Helfer (`t`, `tr`)
+ * - Toast-Benachrichtigungen, Haptik-Feedback und Konfetti-Effekte
+ */
+
 // XSS-Schutz: Sichere HTML-Maskierung & URL-Sanitization für Benutzereingaben
 function escapeHtml(str) {
   if (str === null || str === undefined) return '';
@@ -17576,7 +18456,7 @@ if (typeof globalThis !== 'undefined') {
 
 // Zentraler Panel-Manager (für Dropdowns & Werkzeug-Panels)
 const PanelManager = {
-  panels: ['feedback', 'report', 'settings', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'pause-dropdown', 'collab-chat'],
+  panels: ['feedback', 'report', 'settings', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'pause-dropdown', 'collab-chat', 'labs-menu', 'humor-lab', 'social', 'header-tools'],
   open(name) {
     this.panels.forEach(p => {
       const el = document.getElementById(`panel-${p}`);
@@ -17607,6 +18487,14 @@ const PanelManager = {
   }
 };
 window.PanelManager = PanelManager;
+
+function togglePanel(name, event) {
+  if (typeof window.NoodleInteractionMode !== 'undefined' && window.NoodleInteractionMode.togglePanel) {
+    return window.NoodleInteractionMode.togglePanel(name, event);
+  }
+  return PanelManager.toggle(name);
+}
+window.togglePanel = togglePanel;
 
 // Zentraler Modal-Manager (für Dialoge & Overlays)
 const ModalManager = {
@@ -17728,12 +18616,16 @@ window.confirmModal = showConfirmDialog;
 if (typeof document !== 'undefined') {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      PanelManager.closeAll();
-      ModalManager.closeAll();
-      const wsEl = document.getElementById('dropdown-header-workspace');
-      if (wsEl) wsEl.classList.add('hidden');
-      const colsEl = document.getElementById('dropdown-manage-columns');
-      if (colsEl) colsEl.classList.add('hidden');
+      if (typeof window.closeAllPanelsAndModals === 'function') {
+        window.closeAllPanelsAndModals();
+      } else {
+        PanelManager.closeAll();
+        ModalManager.closeAll();
+        const wsEl = document.getElementById('dropdown-header-workspace');
+        if (wsEl) wsEl.classList.add('hidden');
+        const colsEl = document.getElementById('dropdown-manage-columns');
+        if (colsEl) colsEl.classList.add('hidden');
+      }
     }
   });
 }
@@ -17909,18 +18801,22 @@ function showToast(msg, options = {}) {
   
   if (options && options.undo) {
     const undoText = (typeof tr === 'function') 
-      ? tr({ de: 'Rückgängig ↩️', en: 'Undo ↩️', fr: 'Annuler ↩️', it: 'Annulla ↩️', es: 'Deshacer ↩️', el: 'Αναίρεση ↩️' })
-      : 'Rückgängig ↩️';
+      ? tr({ de: 'Rückgängig', en: 'Undo', fr: 'Annuler', it: 'Annulla', es: 'Deshacer', el: 'Αναίρεση' })
+      : 'Rückgängig';
     const safeMsg = escapeHtml(msg);
     const safeUndo = escapeHtml(undoText);
     card.innerHTML = `
       <div class="flex items-center justify-between gap-3">
         <span>${safeMsg}</span>
         <button id="toast-undo-btn" class="px-2.5 py-1 bg-white/20 hover:bg-white/30 text-white font-bold text-xs rounded-xl transition cursor-pointer flex items-center gap-1 border border-white/25 shadow-sm shrink-0">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
           <span>${safeUndo}</span>
         </button>
       </div>
     `;
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try { lucide.createIcons({ root: card }); } catch(e){}
+    }
     const undoBtn = card.querySelector('#toast-undo-btn');
     if (undoBtn) {
       undoBtn.onclick = (e) => {
@@ -18383,7 +19279,7 @@ function showPraise() {
   const todayISO = new Date().toISOString().split('T')[0];
   
   // Zähle die heute erledigten Aufgaben
-  const completedToday = (state.done || []).filter(item => item.date === todayISO).length;
+  const completedToday = (state && state.done ? state.done : []).filter(item => item.date === todayISO).length;
   
   // Bestimme die passende Stufe des Lobes
   let activeTier = 'tier1';
@@ -18396,6 +19292,7 @@ function showPraise() {
   }
   
   const list = (TIERED_PRAISES[lang] || TIERED_PRAISES['de'])[activeTier];
+  if (!list || list.length === 0) return;
   
   // Hole einen zufälligen Spruch aus der gewählten Stufe, ohne den zuletzt gezeigten sofort zu wiederholen
   let praiseIdx = Math.floor(Math.random() * list.length);
@@ -18410,17 +19307,13 @@ function showPraise() {
   const overlay = document.getElementById('praise-overlay');
   const card = document.getElementById('praise-card');
   if (card && overlay) {
-    card.innerText = msg; overlay.classList.remove('hidden');
-    card.style.animation = 'scaleBounce 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-    
-    // VERBESSERUNG: Bleibt nun 5000ms statt 2800ms auf dem Bildschirm
-    setTimeout(() => overlay.classList.add('hidden'), 5000); 
+    card.innerText = msg;
+    overlay.classList.remove('hidden');
+    card.style.animation = 'fadeIn 0.2s ease-out forwards';
+    if (window._praiseTimeout) clearTimeout(window._praiseTimeout);
+    window._praiseTimeout = setTimeout(() => overlay.classList.add('hidden'), 1600); 
   }
-
-  if (typeof speakWithProfile === 'function') {
-    const randomProfileIdx = Math.floor(Math.random() * 12);
-    speakWithProfile(msg, randomProfileIdx);
-  }
+  // Sprachausgabe (speakWithProfile) dauerhaft entfernt für ruhige Produktivität
 }
 
 // Haptisches Feedback für Touch- & Mobilgeräte
@@ -18643,63 +19536,63 @@ function triggerLogoReloadFlow(element) {
 
 const BREAK_CONFIGS = {
   breath: {
-    title: 'Atemtakt-Übung 🧘‍♀️',
+    title: 'Atemtakt-Übung',
     subtitle: '4-4-4 Atmen zur Tiefenentspannung',
     desc: 'Atme 4 Sekunden tief ein, halte 4 Sekunden inne, und atme 4 Sekunden sanft aus. Finde deine innere Ruhe.',
     duration: 120,
     icon: 'wind'
   },
   box: {
-    title: 'Box-Breathing (Atembox) 📦',
+    title: 'Box-Breathing (Atembox)',
     subtitle: 'Strukturierte Vierfach-Atmung',
     desc: 'Bewährte Methode von Profis und Astronauten: Einatmen, Halten, Ausatmen, Halten – jeweils im 4-Sekunden-Takt.',
     duration: 180,
     icon: 'box'
   },
   anchor: {
-    title: 'Erdungs-Anker ⚓',
+    title: 'Erdungs-Anker',
     subtitle: '5-4-3-2-1 Achtsamkeits-Übung',
     desc: 'Nimm bewusst deine Umgebung wahr: 5 Dinge sehen, 4 spüren, 3 hören, 2 riechen, 1 schmecken.',
     duration: 180,
     icon: 'anchor'
   },
   eyes: {
-    title: 'Augen-Entspannung (Palming) 👀',
+    title: 'Augen-Entspannung (Palming)',
     subtitle: 'Wärme für gestresste Bildschirm-Augen',
     desc: 'Reibe deine Hände aneinander, bis sie warm sind, und lege sie sanft und ohne Druck auf deine geschlossenen Augen.',
     duration: 60,
     icon: 'eye'
   },
   stretch: {
-    title: 'Schneller Ganzkörper-Stretch 🧘',
+    title: 'Ganzkörper-Stretch',
     subtitle: 'Muskeln lockern & Energie tanken',
     desc: 'Strecke die Arme weit nach oben, kreise die Schultern und bewege deinen Nacken ganz behutsam von Seite zu Seite.',
     duration: 60,
     icon: 'dumbbell'
   },
   squeeze: {
-    title: 'Nacken- & Schulter-Squeeze 🏋️',
+    title: 'Nacken- & Schulter-Entlastung',
     subtitle: 'Anspannen & bewusst loslassen',
     desc: 'Ziehe deine Schultern für 5 Sekunden fest zu den Ohren hoch – und lass sie beim Ausatmen schlagartig und schwer sinken.',
     duration: 60,
     icon: 'shield'
   },
   tea: {
-    title: '5-Minuten Teepause ☕',
+    title: '5-Minuten Teepause',
     subtitle: 'Bewusste Genuss-Auszeit',
     desc: 'Hole dir ein Glas Wasser oder Tee. Schlürfe langsam und spüre ganz bewusst die Wärme und den Geschmack.',
     duration: 300,
     icon: 'coffee'
   },
   nature: {
-    title: 'Wald-Auszeit (Vogelstimmen) 🐦',
+    title: 'Wald-Auszeit',
     subtitle: 'Akustischer Rückzug ins Grün',
     desc: 'Schließe die Augen, lausche den inneren Naturklängen und stelle dir vor, du sitzt auf einer ruhigen Lichtung im Wald.',
     duration: 180,
     icon: 'trees'
   },
   nap: {
-    title: 'Power Nap (20 Min) 😴',
+    title: 'Power Nap (20 Min)',
     subtitle: 'Kurzschlaf zur Regeneration',
     desc: 'Schließe die Augen, entspanne deinen Körper und gleite für 20 Minuten in einen erholsamen Kurzschlaf.',
     duration: 1200,
@@ -18882,10 +19775,49 @@ function closeMobileToolsSheet() {
   if (sheet) sheet.classList.add('hidden');
 }
 
+function toggleUmamiOptOut() {
+  try {
+    const isCurrentlyOptedOut = localStorage.getItem('umami.disabled') === '1' || localStorage.getItem('noodle_analytics_optout') === 'true';
+    if (isCurrentlyOptedOut) {
+      localStorage.removeItem('umami.disabled');
+      localStorage.removeItem('noodle_analytics_optout');
+    } else {
+      localStorage.setItem('umami.disabled', '1');
+      localStorage.setItem('noodle_analytics_optout', 'true');
+      if (typeof umami !== 'undefined') {
+        try { umami.disabled = true; } catch (e) {}
+      }
+    }
+  } catch (e) {
+    console.warn('Fehler beim Ändern des Umami Opt-Out Status:', e);
+  }
+  updateUmamiOptOutUI();
+}
+
+function updateUmamiOptOutUI() {
+  try {
+    const isOptedOut = localStorage.getItem('umami.disabled') === '1' || localStorage.getItem('noodle_analytics_optout') === 'true';
+    const buttons = document.querySelectorAll('.umami-optout-btn');
+    buttons.forEach(btn => {
+      if (isOptedOut) {
+        btn.innerHTML = '<span class="flex items-center gap-1.5"><i data-lucide="eye-off" class="w-3.5 h-3.5 text-rose-400"></i><span>Analyse ist deaktiviert (Opt-Out aktiv)</span></span>';
+        btn.className = 'umami-optout-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-rose-500/15 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 transition cursor-pointer';
+      } else {
+        btn.innerHTML = '<span class="flex items-center gap-1.5"><i data-lucide="eye" class="w-3.5 h-3.5 text-emerald-400"></i><span>Analyse ist aktiv (anonym, cookie-frei) – Klick für Opt-Out</span></span>';
+        btn.className = 'umami-optout-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition cursor-pointer';
+      }
+    });
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
+    }
+  } catch (e) {}
+}
+
 function openPrivacyModal() {
   const modal = document.getElementById('privacy-legal-modal');
   if (modal) {
     modal.classList.remove('hidden');
+    updateUmamiOptOutUI();
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 }
@@ -18901,6 +19833,12 @@ if (typeof window !== 'undefined') {
   window.ModalManager = ModalManager;
   window.openPrivacyModal = openPrivacyModal;
   window.closePrivacyModal = closePrivacyModal;
+  window.toggleUmamiOptOut = toggleUmamiOptOut;
+  window.updateUmamiOptOutUI = updateUmamiOptOutUI;
+  window.openMobileMenuDrawer = openMobileMenuDrawer;
+  window.closeMobileMenuDrawer = closeMobileMenuDrawer;
+  window.openMobileToolsSheet = openMobileToolsSheet;
+  window.closeMobileToolsSheet = closeMobileToolsSheet;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.escapeHtml = escapeHtml;
@@ -18908,116 +19846,97 @@ if (typeof globalThis !== 'undefined') {
   globalThis.ModalManager = ModalManager;
   globalThis.openPrivacyModal = openPrivacyModal;
   globalThis.closePrivacyModal = closePrivacyModal;
+  globalThis.toggleUmamiOptOut = toggleUmamiOptOut;
+  globalThis.updateUmamiOptOutUI = updateUmamiOptOutUI;
+  globalThis.openMobileMenuDrawer = openMobileMenuDrawer;
+  globalThis.closeMobileMenuDrawer = closeMobileMenuDrawer;
+  globalThis.openMobileToolsSheet = openMobileToolsSheet;
+  globalThis.closeMobileToolsSheet = closeMobileToolsSheet;
+}
+
+// Initialisiere Opt-Out UI Status beim Start
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateUmamiOptOutUI);
+  } else {
+    setTimeout(updateUmamiOptOutUI, 100);
+  }
 }
 
 
 
 
+
 /* --- utils-2.js --- */
-// utils.js Teil 2/2: Praise-Animation, Mini-Kalender & Datum/Streak-Update
+/**
+ * @file utils-2.js
+ * @module UtilsCalendarAndStreaks
+ * @description
+ * Visuelle Belohnungsanimationen (`triggerPraiseAnimation`), interaktiver Mini-Kalender,
+ * Tageswechsel-/Wochen-Reset-Logik sowie Berechnung der täglichen Fokus-Streaks.
+ */
+
 function triggerPraiseAnimation(idx) {
   switch (idx) {
-    case 0: // 1. Konfetti-Explosion
+    case 0: // 1. Dezent kurzes Konfetti
       triggerConfetti();
       break;
-    case 1: // 2. Intensiveres Bildschirmwackeln & Skalierungs-Pop
-      document.body.classList.add('animate-screen-shake');
-      document.body.style.transform = 'scale(1.025)';
-      setTimeout(() => {
-        document.body.classList.remove('animate-screen-shake');
-        document.body.style.transform = 'none';
-      }, 450);
+    case 1: // 2. Subtiler Fokus-Pulse (kein Bildschirmwackeln)
       break;
-    case 2: // 3. Randglühen-Flash (Full Overlay)
+    case 2: // 3. Sanfter Rand-Schimmer (Subtle Glow)
       const flash = document.createElement('div');
-      flash.className = 'fixed inset-0 z-[190000] pointer-events-none animate-glow-flash';
+      flash.className = 'fixed inset-0 z-[190000] pointer-events-none bg-purple-500/[0.04] transition-opacity duration-500';
       document.body.appendChild(flash);
-      setTimeout(() => flash.remove(), 1200);
+      setTimeout(() => {
+        flash.style.opacity = '0';
+        setTimeout(() => flash.remove(), 400);
+      }, 300);
       break;
-    case 3: // 4. Floating Emoji Rain (Thumbs up / Popper)
-      const emojis = ['👍', '🎉', '✔️', '🚀', '🔥', '💪', '🧠', '🎈', '🤩'];
-      for (let i = 0; i < 16; i++) {
-        const el = document.createElement('div');
-        el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-        el.className = 'fixed text-4xl z-[190000] pointer-events-none animate-float-item select-none';
-        el.style.left = `${Math.random() * 90 + 5}vw`;
-        el.style.animationDelay = `${Math.random() * 0.5}s`;
-        document.body.appendChild(el);
-        setTimeout(() => el.remove(), 3200);
-      }
+    case 3: // 4. Subtile Micro-Sparks
+      triggerSparkleEffect(window.innerWidth / 2, window.innerHeight * 0.3);
       break;
-    case 4: // 5. Shimmering Dopamine Bubbles (Schillernde Blasen)
-      for (let i = 0; i < 35; i++) {
+    case 4: // 5. Dezent aufsteigende Lichtpunkte
+      for (let i = 0; i < 8; i++) {
         const bubble = document.createElement('div');
         bubble.className = 'fixed rounded-full pointer-events-none z-[190000]';
-        const size = Math.random() * 45 + 15;
+        const size = Math.random() * 8 + 4;
         bubble.style.width = `${size}px`;
         bubble.style.height = `${size}px`;
-        bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(168, 85, 247, 0.15) 40%, rgba(137, 207, 240, 0.45) 80%, rgba(255, 255, 255, 0) 100%)`;
-        bubble.style.boxShadow = 'inset 0 0 12px rgba(255, 255, 255, 0.65), 0 4px 15px rgba(137, 207, 240, 0.25)';
-        bubble.style.left = `${Math.random() * 100}vw`;
-        bubble.style.bottom = `-60px`;
+        bubble.style.background = 'rgba(168, 85, 247, 0.35)';
+        bubble.style.left = `${Math.random() * 80 + 10}vw`;
+        bubble.style.bottom = `40px`;
         
-        const duration = Math.random() * 2.5 + 2.0;
+        const duration = Math.random() * 1.2 + 0.8;
         bubble.style.transition = `transform ${duration}s cubic-bezier(0.1, 0.8, 0.3, 1), opacity ${duration}s ease-out`;
         document.body.appendChild(bubble);
         
         requestAnimationFrame(() => {
-          bubble.style.transform = `translateY(-${window.innerHeight + 120}px) translateX(${(Math.random() - 0.5) * 200}px) scale(1.4)`;
+          bubble.style.transform = `translateY(-120px) scale(0.5)`;
           bubble.style.opacity = '0';
         });
         
         setTimeout(() => bubble.remove(), duration * 1000);
       }
       break;
-    case 5: // 6. Säulen-Sprung (Column Jump-Bounce)
-      document.querySelectorAll('article').forEach(el => {
-        el.classList.add('animate-spring-bounce');
-        setTimeout(() => el.classList.remove('animate-spring-bounce'), 600);
-      });
+    case 5: // 6. Dezent (kein Säulen-Springen)
       break;
-    case 6: // 7. Regenbogen-Fluss (Rainbow Sweep)
-      const sweep = document.createElement('div');
-      sweep.className = 'fixed inset-0 z-[190000] pointer-events-none animate-rainbow-sweep';
-      document.body.appendChild(sweep);
-      setTimeout(() => sweep.remove(), 1400);
+    case 6: // 7. Subtiler Glanz
       break;
-    case 7: // 8. Sternschnuppen-Staub (Meteor-Shower)
-      for (let i = 0; i < 22; i++) {
+    case 7: // 8. Sternschnuppen-Staub
+      for (let i = 0; i < 8; i++) {
         const spark = document.createElement('div');
-        spark.className = 'fixed w-2 h-2 rounded-full z-[190000] pointer-events-none animate-dust';
+        spark.className = 'fixed w-1.5 h-1.5 rounded-full z-[190000] pointer-events-none animate-dust';
         spark.style.backgroundColor = i % 2 === 0 ? '#10b981' : '#a855f7';
-        spark.style.left = `${Math.random() * 100}vw`;
-        spark.style.top = `0px`;
-        spark.style.animationDelay = `${Math.random() * 0.4}s`;
+        spark.style.left = `${Math.random() * 80 + 10}vw`;
+        spark.style.top = `20px`;
+        spark.style.animationDelay = `${Math.random() * 0.3}s`;
         document.body.appendChild(spark);
-        setTimeout(() => spark.remove(), 1500);
+        setTimeout(() => spark.remove(), 800);
       }
       break;
-    case 8: // 9. Floating Text Pop (Schwebender Fokus-Ausruf)
-      const pop = document.createElement('div');
-      const words = tr({ de: ["KLASSE!", "FLOW!", "PRODUKTIV!", "FOKUS!", "STARK!"], en: ["GREAT!", "FLOW!", "DOPAMINE!", "FOCUS!", "BOOM!"], es: ["GENIAL!", "FLOW!", "PRODUCTIVO!", "ENFOQUE!", "FUERTE!"], el: ["ΤΕΛΕΙΑ!", "FLOW!", "ΠΑΡΑΓΩΓΙΚΟΣ!", "ΕΣΤΙΑΣΗ!", "ΔΥΝΑΤΑ!"], fr: ["GÉNIAL!", "FLOW!", "PRODUCTIF!", "FOCUS!", "FORT!"], it: ["FANTASTICO!", "FLOW!", "PRODUTTIVO!", "FOCUS!", "FORTE!"] });
-      pop.innerText = words[Math.floor(Math.random() * words.length)];
-      pop.className = 'fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-5xl md:text-7xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-500 z-[190000] pointer-events-none scale-0 opacity-0 transition-all duration-700 select-none';
-      pop.style.textShadow = '0 10px 30px rgba(139,92,246,0.3)';
-      document.body.appendChild(pop);
-      requestAnimationFrame(() => {
-        pop.style.transform = 'translate(-50%, -85%) scale(1.2)';
-        pop.style.opacity = '1';
-      });
-      setTimeout(() => {
-        pop.style.opacity = '0';
-        setTimeout(() => pop.remove(), 700);
-      }, 1100);
+    case 8: // 9. Dezent (keine Riesenschrift)
       break;
-    case 9: // 10. Diagonal Lens Flare Sweep (Laser-Blitz)
-      const flare = document.createElement('div');
-      flare.className = 'fixed inset-0 z-[190000] pointer-events-none bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 -translate-x-full transition-transform duration-700 ease-out';
-      document.body.appendChild(flare);
-      requestAnimationFrame(() => {
-        flare.style.transform = 'translateX(200%)';
-      });
-      setTimeout(() => flare.remove(), 800);
+    case 9: // 10. Dezent
       break;
   }
 }
@@ -20016,9 +20935,15 @@ if (typeof document !== 'undefined') {
 
 /* --- audio-core.js --- */
 
-// =========================================================================
-// MULTI-TRACK AMBIENT MIXER & BINAURAL FOCUS FREQUENCIES ENGINE
-// =========================================================================
+/**
+ * @file audio-core.js
+ * @module AudioCore
+ * @description
+ * WebAudio-DSP-Kernmodul für den Mehrspur-Ambient-Mixer und die Erzeugung
+ * binauraler Fokus-Frequenzen (Alpha, Theta, Gamma).
+ * Verwaltet den globalen `AudioContext`, das Master-Gain-Routing, Rauschpuffer
+ * (Weiß/Rosa/Braun) sowie kombinierbare Klang-Presets (`SOUND_MIX_PRESETS`).
+ */
 
 var activeAmbientLayers = {}; // [type]: { source, gainNode, filter, volume }
 var activeBinauralBeat = null; // 'alpha', 'theta', 'gamma', or null
@@ -20252,6 +21177,10 @@ function playBinauralBeat(type) {
     baseFreq = 150;
     beatDiff = 6; // Theta 6 Hz (4-7 Hz)
     label = 'Theta (6 Hz) · Tiefenmeditation & Intuition';
+  } else if (type === 'delta') {
+    baseFreq = 120;
+    beatDiff = 2; // Delta 2 Hz (0.5-4 Hz)
+    label = 'Delta (2 Hz) · Regeneration & Schlaf';
   } else if (type === 'gamma') {
     baseFreq = 240;
     beatDiff = 40; // Gamma 40 Hz (30-50 Hz)
@@ -20533,8 +21462,17 @@ function playAmbientSound(type, crossfade = false) {
   initAudioContext();
   if (!audioCtx) return;
 
+  if (typeof type === 'string' && type.startsWith('binaural_')) {
+    const beatType = type.replace('binaural_', '');
+    toggleBinauralBeat(beatType);
+    updateSoundscapeUI();
+    return;
+  }
+
+  const normalizedType = type === 'afrobeat' ? 'afrobeats' : type;
+
   // Wenn der geklickte Sound bereits läuft -> stoppen (Toggle-Funktion)
-  if (currentSoundType === type) {
+  if (currentSoundType === normalizedType) {
     if (typeof stopAllStudioAudio === 'function') {
       stopAllStudioAudio(true);
     } else {
@@ -20554,16 +21492,16 @@ function playAmbientSound(type, crossfade = false) {
     stopAmbientSound(true);
   }
 
-  currentSoundType = type;
+  currentSoundType = normalizedType;
   soundGainNode = audioCtx.createGain();
   soundGainNode.gain.setValueAtTime(soundMasterVolume * 1.0, audioCtx.currentTime);
   soundGainNode.connect(getMasterAudioDestination() || audioCtx.destination);
 
   // Generatoren anstoßen
-  startAmbientGeneratorForType(type);
+  startAmbientGeneratorForType(normalizedType);
 
   if (typeof updateMiniAudioPlayer === 'function') {
-    const soundTitle = (typeof getNoodleSoundDisplayName === 'function') ? getNoodleSoundDisplayName(type) : type;
+    const soundTitle = (typeof getNoodleSoundDisplayName === 'function') ? getNoodleSoundDisplayName(normalizedType) : normalizedType;
     updateMiniAudioPlayer({
       isPlaying: true,
       title: soundTitle,
@@ -20574,11 +21512,11 @@ function playAmbientSound(type, crossfade = false) {
   }
 
   updateSoundscapeUI();
-  lastSelectedSound = type;
+  lastSelectedSound = normalizedType;
 }
 
 // Harmonisches Audio-Ducking für Sprachansagen
-function duckAmbientVolume(ratio = 0.18) {
+function duckAmbientVolume(ratio = 0.58) {
   if (soundGainNode && audioCtx) {
     try {
       const now = audioCtx.currentTime;
@@ -21587,7 +22525,7 @@ window.updateAudioStudioHeader = updateAudioStudioHeader;
 function isAnyAudioPlaying() {
   const isAmbient = typeof currentSoundType !== 'undefined' && Boolean(currentSoundType);
   const isMusic = typeof activeUserAudio !== 'undefined' && activeUserAudio && !activeUserAudio.paused;
-  const isDj = typeof djDecks !== 'undefined' && djDecks && (djDecks.a?.isPlaying || djDecks.b?.isPlaying);
+  const isDj = typeof djDecks !== 'undefined' && djDecks && ((djDecks.a?.audio && !djDecks.a.audio.paused) || (djDecks.b?.audio && !djDecks.b.audio.paused) || Boolean(djDecks.a?.isPlaying) || Boolean(djDecks.b?.isPlaying));
   const isRadio = (typeof window !== 'undefined' && Boolean(window.isRadioPlaying)) || 
                   (typeof isRadioPlaying !== 'undefined' && Boolean(isRadioPlaying)) ||
                   (typeof window !== 'undefined' && window.radioAudioEl && !window.radioAudioEl.paused);
@@ -21634,13 +22572,24 @@ function toggleMasterSound() {
       window._lastPlayedSound = currentSoundType;
     }
     stopAllStudioAudio();
+    isPlayerMuted = true;
+    if (typeof applyDjVolumes === 'function') applyDjVolumes();
+    if (typeof showToast === 'function') {
+      showToast(tr({ de: 'Ton stummgeschaltet 🔇', en: 'Sound muted 🔇', fr: 'Son coupé 🔇', it: 'Audio disattivato 🔇', es: 'Sonido silenciado 🔇', el: 'Σίγαση ήχου 🔇' }));
+    }
   } else {
-    const soundToPlay = window._lastPlayedSound || 'lofi';
-    if (typeof playAmbientSound === 'function') {
-      playAmbientSound(soundToPlay);
+    // Unmute: Ton reaktivieren, aber KEINEN Track automatisch starten! Wiedergabe bleibt pausiert
+    isPlayerMuted = false;
+    if (typeof applyDjVolumes === 'function') applyDjVolumes();
+    if (soundGainNode && audioCtx) {
+      try {
+        const now = audioCtx.currentTime;
+        soundGainNode.gain.cancelScheduledValues(now);
+        soundGainNode.gain.setValueAtTime(soundMasterVolume, now);
+      } catch (e) {}
     }
     if (typeof showToast === 'function') {
-      showToast(tr({ de: 'Sound aktiviert 🔊', en: 'Sound active 🔊', fr: 'Son activé 🔊', it: 'Suono attivato 🔊', es: 'Sonido activado 🔊', el: 'Ήχος ενεργός 🔊' }));
+      showToast(tr({ de: 'Stummschaltung aufgehoben 🔊 (Bereit)', en: 'Unmuted 🔊 (Ready)', fr: 'Son réactivé 🔊', it: 'Audio riattivato 🔊', es: 'Sonido activado 🔊', el: 'Ήχος ενεργός 🔊' }));
     }
   }
   updateHeaderSoundBtnUI();
@@ -21731,8 +22680,9 @@ function handleHeaderVolumeInput(val) {
     } catch(e) {}
   }
 
-  // 2. Media Player Pegel synchronisieren
+  // 2. Media Player & DJ Decks Pegel synchronisieren
   if (typeof setMusicPlayerVolume === 'function') setMusicPlayerVolume(soundMasterVolume);
+  if (typeof applyDjVolumes === 'function') applyDjVolumes();
   if (activeUserAudio) {
     try { activeUserAudio.volume = isPlayerMuted ? 0 : Math.max(0, Math.min(1, soundMasterVolume)); } catch(e) {}
   }
@@ -21793,9 +22743,6 @@ let soundHoverSliderTimer = null;
 let soundVolumePinned = false;
 
 function showSoundHoverSlider() {
-  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
-    if (window.NoodleInteractionMode.getMode() === 'click-only') return;
-  }
   if (soundHoverSliderTimer) {
     clearTimeout(soundHoverSliderTimer);
     soundHoverSliderTimer = null;
@@ -21889,7 +22836,8 @@ function updateSoundscapeUI() {
   const sounds = [
     'piano', 'lofi', 'chimes', 'space', 'guitar', 'singingbowl', 'musicbox',
     'breeze', 'campfire', 'birds', 'cafe', 'clock', 'lofi_sunshine', 'summer_meadow',
-    'bossa_nova', 'techno', 'dnb', 'afrobeats', 'swing', 'boombap', 'synthwave', 'house', 'trap', 'chillstep', 'phonk', 'jazz_piano', 'rhodes', 'hypnotic_riff'
+    'bossa_nova', 'techno', 'dnb', 'afrobeats', 'swing', 'boombap', 'synthwave', 'house', 'trap', 'chillstep', 'phonk', 'jazz_piano', 'rhodes', 'hypnotic_riff',
+    'rain', 'brownnoise', 'whitenoise'
   ];
   sounds.forEach(st => {
     const btn = document.getElementById("sound-btn-" + st);
@@ -21901,9 +22849,30 @@ function updateSoundscapeUI() {
       }
     }
   });
+
+  // Mobile Audio View Buttons aktiv hervorheben
+  const mobAudioView = document.getElementById('mobile-view-audio');
+  if (mobAudioView) {
+    mobAudioView.querySelectorAll('button[onclick*="playAmbientSound"], button[onclick*="toggleGenreBeat"]').forEach(btn => {
+      const onclickAttr = btn.getAttribute('onclick') || '';
+      const match = onclickAttr.match(/['"]([^'"]+)['"]/);
+      if (!match) return;
+      const rawId = match[1];
+      const normId = rawId === 'afrobeat' ? 'afrobeats' : rawId;
+      const isActive = (normId.startsWith('binaural_') && activeBinauralBeat === normId.replace('binaural_', '')) ||
+                       (typeof currentSoundType !== 'undefined' && currentSoundType === normId);
+      btn.classList.toggle('ring-2', Boolean(isActive));
+      btn.classList.toggle('ring-purple-400', Boolean(isActive));
+      btn.classList.toggle('shadow-[0_0_14px_rgba(168,85,247,0.4)]', Boolean(isActive));
+    });
+  }
+
   const indicator = document.getElementById('soundscape-indicator');
   const dockSoundBadge = document.getElementById('dock-sound-active-badge');
-  const isAudioActive = (typeof currentSoundType !== 'undefined' && Boolean(currentSoundType)) || (typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying));
+  const mobSoundBadge = document.getElementById('dock-sound-active-badge-mob');
+  const isAudioActive = (typeof currentSoundType !== 'undefined' && Boolean(currentSoundType)) ||
+                        (typeof isBeatPlaying !== 'undefined' && Boolean(isBeatPlaying)) ||
+                        (typeof activeBinauralBeat !== 'undefined' && Boolean(activeBinauralBeat));
   if (indicator) {
     if (isAudioActive) indicator.classList.remove('hidden');
     else indicator.classList.add('hidden');
@@ -21912,11 +22881,46 @@ function updateSoundscapeUI() {
     if (isAudioActive) dockSoundBadge.classList.remove('hidden');
     else dockSoundBadge.classList.add('hidden');
   }
+  if (mobSoundBadge) {
+    if (isAudioActive) mobSoundBadge.classList.remove('hidden');
+    else mobSoundBadge.classList.add('hidden');
+  }
   if (!isAudioActive && typeof updateMiniAudioPlayer === 'function') {
     updateMiniAudioPlayer({ isPlaying: false });
   }
   updateAudioStudioHeader();
   updateHeaderSoundBtnUI();
+  try {
+    if (typeof updateMusicNowPlayingDisplay === 'function') updateMusicNowPlayingDisplay();
+    if (typeof syncMusicCrossfadeSelect === 'function') syncMusicCrossfadeSelect();
+    if (typeof updateRadioUIState === 'function') {
+      const radioIsActive = (typeof isRadioPlaying !== 'undefined' && isRadioPlaying) || (typeof window !== 'undefined' && window.isRadioPlaying);
+      updateRadioUIState(Boolean(radioIsActive));
+    }
+  } catch (e) {}
+}
+
+function toggleGenreBeat(genre) {
+  const normalized = genre === 'afrobeat' ? 'afrobeats' : genre;
+  playAmbientSound(normalized);
+}
+
+function setSequencerBpm(bpm) {
+  const val = Math.max(40, Math.min(220, parseInt(bpm, 10) || 120));
+  if (typeof setBeatBpm === 'function') {
+    setBeatBpm(val);
+  } else if (typeof window !== 'undefined') {
+    window.currentBeatBpm = val;
+    if (typeof currentBeatBpm !== 'undefined') currentBeatBpm = val;
+  }
+  const mobBpmEl = document.getElementById('mobile-bpm-val');
+  if (mobBpmEl) mobBpmEl.innerText = `${val} BPM`;
+}
+
+function openAudioStudioModal() {
+  if (typeof togglePanel === 'function') {
+    togglePanel('audio');
+  }
 }
 
 function updateMediaSession(title, artist = 'Noodle Focus', album = 'Focus Sound Studio') {
@@ -21969,6 +22973,7 @@ function stopAllSounds() {
       navigator.mediaSession.playbackState = 'none';
     } catch (e) {}
   }
+  updateSoundscapeUI();
 }
 
 if (typeof document !== 'undefined') {
@@ -21997,6 +23002,10 @@ if (typeof window !== 'undefined') {
   window.soundMasterVolume = soundMasterVolume;
   window.getMasterAudioDestination = getMasterAudioDestination;
   window.initAudioContext = initAudioContext;
+  window.playAmbientSound = playAmbientSound;
+  window.toggleGenreBeat = toggleGenreBeat;
+  window.setSequencerBpm = setSequencerBpm;
+  window.openAudioStudioModal = openAudioStudioModal;
   window.playCheerfulSuccessJingle = playCheerfulSuccessJingle;
   window.triggerHapticFeedback = triggerHapticFeedback;
   window.updateSoundscapeUI = updateSoundscapeUI;
@@ -22036,6 +23045,10 @@ if (typeof globalThis !== 'undefined') {
   globalThis.soundMasterVolume = soundMasterVolume;
   globalThis.getMasterAudioDestination = getMasterAudioDestination;
   globalThis.initAudioContext = initAudioContext;
+  globalThis.playAmbientSound = playAmbientSound;
+  globalThis.toggleGenreBeat = toggleGenreBeat;
+  globalThis.setSequencerBpm = setSequencerBpm;
+  globalThis.openAudioStudioModal = openAudioStudioModal;
   globalThis.playCheerfulSuccessJingle = playCheerfulSuccessJingle;
   globalThis.triggerHapticFeedback = triggerHapticFeedback;
   globalThis.updateSoundscapeUI = updateSoundscapeUI;
@@ -22068,7 +23081,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- audio-generators.js --- */
-// audio-generators.js: Startet die sanften Klangerzeuger & Melodie-Generatoren je nach Sound-Typ
+/**
+ * @file audio-generators.js
+ * @module AudioGenerators
+ * @description
+ * Dispatcher und Synthese-Initialisierung für prozedurale Fokus-Klangwelten.
+ * Startet je nach gewähltem Klangtyp (`type`) die zugehörigen Oszillator-,
+ * Rauschfilter- und Melodie-Scheduler auf dem zentralen WebAudio-Bus.
+ */
 
 function startAmbientGeneratorForType(type) {
   if (!audioCtx) return;
@@ -22189,8 +23209,9 @@ function startAmbientGeneratorForType(type) {
     // 124 BPM Deep House Groove (4-on-the-floor, 909 Clap, Offbeat Hat & Organ Bass)
     startBeatLookaheadLoop('house', 124);
 
-  } else if (type === 'afrobeats') {
+  } else if (type === 'afrobeats' || type === 'afrobeat') {
     // 102 BPM Afrobeats (Syncopated Log-Drum, Shaker & Rimshots)
+    currentSoundType = 'afrobeats';
     startBeatLookaheadLoop('afrobeats', 102);
 
   } else if (type === 'boombap') {
@@ -22224,6 +23245,46 @@ function startAmbientGeneratorForType(type) {
   } else if (type === 'hypnotic_riff') {
     // 120 BPM Hypnotic Minimalist Arpeggios & Ostinato Loops
     startBeatLookaheadLoop('hypnotic_riff', 120);
+
+  } else if (type === 'rain') {
+    // Sanfter Regen auf Fensterscheibe (Bandpass-gefiltertes Pink Noise)
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('pink');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(720, audioCtx.currentTime);
+    filter.Q.setValueAtTime(0.9, audioCtx.currentTime);
+    source.connect(filter);
+    filter.connect(soundGainNode);
+    source.start();
+    activeNodes.push(source);
+
+  } else if (type === 'brownnoise') {
+    // Tiefes, warmes Brown Noise zur Reizabschirmung
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('brown');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(220, audioCtx.currentTime);
+    source.connect(filter);
+    filter.connect(soundGainNode);
+    source.start();
+    activeNodes.push(source);
+
+  } else if (type === 'whitenoise') {
+    // Sanftes Pink/White Noise zur Fokus-Maskierung
+    const source = audioCtx.createBufferSource();
+    source.buffer = getNoiseBuffer('pink');
+    source.loop = true;
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(1100, audioCtx.currentTime);
+    source.connect(filter);
+    filter.connect(soundGainNode);
+    source.start();
+    activeNodes.push(source);
   }
 }
 
@@ -22459,7 +23520,14 @@ function startStreamWaterSound() {
 
 
 /* --- audio-scheduler-1.js --- */
-// audio-scheduler-1.js: Sound-Scheduler fuer sanfte Melodien, Piano, Lofi, Chimes, Klangschalen, Spieluhr & Akustik-Gitarre
+/**
+ * @file audio-scheduler-1.js
+ * @module AudioSchedulerHarmonic
+ * @description
+ * Generative Musik- und Harmonie-Scheduler auf Basis der Web Audio API:
+ * Pentatonisches Neo-Klassik-Piano, Lofi-7th-Tape-Akkorde, Zen-Windspiele,
+ * tibetische Klangschalen, Spieluhr-Melodien und gezupfte Akustikgitarre.
+ */
 
 // -------------------------------------------------------------
 // 1. SANFTES PIANO (PENTATONISCHE NEO-KLASSIK HARMONIEN)
@@ -23188,7 +24256,14 @@ function playStreamBubble() {
 
 
 /* --- audio-scheduler-2.js --- */
-// audio-scheduler-2.js: Sound-Scheduler fuer Train, Arcade, GuitarPad, Monastery
+/**
+ * @file audio-scheduler-2.js
+ * @module AudioSchedulerAtmospheric
+ * @description
+ * Prozedurale Klangsynthese für rhythmische und atmosphärische Umgebungen:
+ * Dampflokomotive (Schienenstoß & Dampf-Filter), Retro-Arcade-Arpeggios,
+ * Ambient-Gitarren-Pads und Kloster-Glocken.
+ */
 
 function scheduleTrainSteamChuffs() {
   if (currentSoundType !== 'train') return;
@@ -23396,7 +24471,14 @@ function playMonasteryOhmChant() {
 
 
 /* --- audio-scheduler-3.js --- */
-// audio-scheduler-3.js: Sound-Scheduler fuer Typewriter, Storm, Frogs + Stop/Volume-Funktionen
+/**
+ * @file audio-scheduler-3.js
+ * @module AudioSchedulerNatureAndControl
+ * @description
+ * Prozedurale Natur- und Akustik-Synthese (Schreibmaschinen-Anschläge, Gewittergrollen,
+ * Nacht-Grillen/Frösche) sowie zentrale Lebenszyklus-Funktionen zum Stoppen,
+ * Ausblenden und Regeln der Master-Lautstärke aller aktiven WebAudio-Generatoren.
+ */
 
 function scheduleTypewriterClicks() {
   if (currentSoundType !== 'keyboard') return;
@@ -24262,7 +25344,14 @@ window.startBeatLookaheadLoop = startBeatLookaheadLoop;
 
 
 /* --- audio-player.js --- */
-// ============================================================================
+/**
+ * @file audio-player.js
+ * @module AudioPlayerAndDjStudio
+ * @description
+ * Integrierter Musik-Player für lokale Audiodateien (`music/manifest.json`) sowie
+ * Dual-Deck-DJ-Mixer (Deck A & Deck B) mit 3-Band-EQ, Pitch/BPM-Anpassung,
+ * Hot-Cues, Beat-Looping, Crossfader und Mini-Audio-Player-Koordination.
+ */
 
 var djDecks = {
   a: {
@@ -24529,6 +25618,13 @@ async function scanMusicFolderTracks() {
         playlistTracks = [...realTracks];
         if (typeof window !== 'undefined') window.playlistTracks = playlistTracks;
 
+        // The list was rebuilt – keep the index pointing at the track that is loaded.
+        if (activeUserAudio && activeUserAudio._trackUrl) {
+          const loadedIdx = playlistTracks.findIndex(t => t.url === activeUserAudio._trackUrl);
+          if (loadedIdx >= 0) currentTrackIndex = loadedIdx;
+        }
+        if (currentTrackIndex >= playlistTracks.length) currentTrackIndex = 0;
+
         playlistTracks.forEach(preloadMusicTrackDuration);
         renderMusicPlaylist();
 
@@ -24548,10 +25644,23 @@ async function scanMusicFolderTracks() {
         updateDjPresetDropdowns();
 
         if (BUILTIN_DJ_STEMS.length > 0 && (!djDecks.a.track || !djDecks.a.isPlaying)) {
-          loadDjBuiltinTrack('a', BUILTIN_DJ_STEMS[0].id, false);
+          const randA = Math.floor(Math.random() * BUILTIN_DJ_STEMS.length);
+          loadDjBuiltinTrack('a', BUILTIN_DJ_STEMS[randA].id, false);
+          const selA = document.getElementById('dj-preset-select-a');
+          if (selA) selA.value = BUILTIN_DJ_STEMS[randA].id;
         }
         if (BUILTIN_DJ_STEMS.length > 1 && (!djDecks.b.track || !djDecks.b.isPlaying)) {
-          loadDjBuiltinTrack('b', BUILTIN_DJ_STEMS[1].id, false);
+          let randB = Math.floor(Math.random() * BUILTIN_DJ_STEMS.length);
+          if (djDecks.a.track && BUILTIN_DJ_STEMS.length > 1) {
+            const curAId = BUILTIN_DJ_STEMS.find(s => s.file === djDecks.a.track.url || s.id === djDecks.a.track.id)?.id;
+            const pool = BUILTIN_DJ_STEMS.filter(s => s.id !== curAId);
+            if (pool.length > 0) {
+              randB = BUILTIN_DJ_STEMS.indexOf(pool[Math.floor(Math.random() * pool.length)]);
+            }
+          }
+          loadDjBuiltinTrack('b', BUILTIN_DJ_STEMS[randB].id, false);
+          const selB = document.getElementById('dj-preset-select-b');
+          if (selB) selB.value = BUILTIN_DJ_STEMS[randB].id;
         }
       }
     }
@@ -24561,16 +25670,18 @@ async function scanMusicFolderTracks() {
 }
 window.scanMusicFolderTracks = scanMusicFolderTracks;
 
-// Auto-load saved tracks and scan music folder on startup
+// Auto-load saved tracks, scan the music folder and cue a random track on startup
 if (typeof window !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      loadSavedUserAudioTracks();
-      scanMusicFolderTracks();
-    });
-  } else {
+  const initMusicLibrary = () => {
     loadSavedUserAudioTracks();
-    scanMusicFolderTracks();
+    Promise.resolve(scanMusicFolderTracks())
+      .catch(() => {})
+      .then(() => { if (typeof cueRandomMusicTrack === 'function') cueRandomMusicTrack(); });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMusicLibrary);
+  } else {
+    initMusicLibrary();
   }
 }
 
@@ -24838,6 +25949,237 @@ function loadOnlineMediaUrl() {
 }
 window.loadOnlineMediaUrl = loadOnlineMediaUrl;
 
+// ----------------------------------------------------------------------------
+// CROSSFADE ENGINE
+//
+// Tracks blend into each other instead of cutting hard:
+//   • the fade length is user-selectable (0 = off) and persisted,
+//   • the next track is preloaded in the background so the blend starts instantly,
+//   • shortly before a track ends, the next one fades in automatically,
+//   • clicking a track or "next" also fades over.
+// The fade is driven by a timer *and* by the media `timeupdate` events, because
+// browsers heavily throttle timers in background tabs while media events keep firing.
+// ----------------------------------------------------------------------------
+var MUSIC_CROSSFADE_STORAGE_KEY = 'flow_music_crossfade_sec';
+var MUSIC_CROSSFADE_DEFAULT_SEC = 8;
+var musicCrossfadeSeconds = (() => {
+  try {
+    const saved = localStorage.getItem(MUSIC_CROSSFADE_STORAGE_KEY);
+    if (saved !== null && !isNaN(parseFloat(saved))) return Math.max(0, parseFloat(saved));
+  } catch (e) { /* storage unavailable */ }
+  return MUSIC_CROSSFADE_DEFAULT_SEC;
+})();
+var musicActiveFade = null;        // { step(), finish() } of the running crossfade
+var musicUpcoming = null;          // { index, url, shuffle, el } preloaded next track
+var musicRecentlyPlayed = [];      // last played indices, so shuffle avoids quick repeats
+
+/** Some platforms (iOS Safari) ignore element.volume – crossfading is impossible there. */
+var musicCanControlVolume = (() => {
+  try {
+    const probe = new Audio();
+    probe.volume = 0.5;
+    return Math.abs(probe.volume - 0.5) < 0.01;
+  } catch (e) { return false; }
+})();
+
+function getMusicTargetVolume() {
+  return isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+}
+
+function setMusicCrossfadeSeconds(val) {
+  musicCrossfadeSeconds = Math.max(0, Math.min(30, parseFloat(val) || 0));
+  try { localStorage.setItem(MUSIC_CROSSFADE_STORAGE_KEY, String(musicCrossfadeSeconds)); } catch (e) { /* ignore */ }
+  syncMusicCrossfadeSelect();
+  if (typeof showToast === 'function') {
+    showToast(musicCrossfadeSeconds > 0 ? `Überblenden: ${musicCrossfadeSeconds} s 🎚️` : 'Überblenden aus');
+  }
+}
+window.setMusicCrossfadeSeconds = setMusicCrossfadeSeconds;
+
+function syncMusicCrossfadeSelect() {
+  const select = document.getElementById('music-crossfade-select');
+  if (select) select.value = String(musicCrossfadeSeconds);
+  const mobSelect = document.getElementById('mobile-music-crossfade-select');
+  if (mobSelect) mobSelect.value = String(musicCrossfadeSeconds);
+}
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncMusicCrossfadeSelect);
+  else syncMusicCrossfadeSelect();
+}
+
+/** Fully releases an audio element that is no longer needed. */
+function releaseMusicElement(el) {
+  if (!el) return;
+  try {
+    el.pause();
+    if (el.tagName !== 'VIDEO') {
+      el.removeAttribute('src');
+      el.load();
+    }
+  } catch (e) { /* ignore */ }
+}
+
+/** Immediately ends a running crossfade (the outgoing track is silenced). */
+function finishActiveMusicFade() {
+  if (musicActiveFade) musicActiveFade.finish();
+  musicActiveFade = null;
+}
+window.stopMusicCrossfadeTails = finishActiveMusicFade;
+
+/** Equal-power crossfade from `oldEl` to `newEl` over `seconds`. */
+function crossfadeMusicElements(oldEl, newEl, seconds) {
+  finishActiveMusicFade();
+  const durationMs = Math.max(200, seconds * 1000);
+  const startedAt = performance.now();
+  const oldStartVolume = oldEl ? oldEl.volume : 0;
+  let timer = null;
+  let done = false;
+
+  const fade = {
+    step() {
+      if (done) return;
+      const t = Math.min(1, (performance.now() - startedAt) / durationMs);
+      if (activeUserAudio === newEl) newEl.volume = getMusicTargetVolume() * Math.sin(t * Math.PI / 2);
+      if (oldEl) oldEl.volume = Math.max(0, oldStartVolume * Math.cos(t * Math.PI / 2));
+      if (t >= 1) fade.finish();
+    },
+    finish() {
+      if (done) return;
+      done = true;
+      if (timer) clearInterval(timer);
+      if (oldEl) {
+        oldEl.removeEventListener('timeupdate', fade.step);
+        releaseMusicElement(oldEl);
+      }
+      newEl.removeEventListener('timeupdate', fade.step);
+      if (activeUserAudio === newEl) newEl.volume = getMusicTargetVolume();
+      if (musicActiveFade === fade) musicActiveFade = null;
+    }
+  };
+
+  newEl.volume = 0;
+  if (oldEl) oldEl.addEventListener('timeupdate', fade.step);
+  newEl.addEventListener('timeupdate', fade.step);
+  timer = setInterval(fade.step, 50);
+  musicActiveFade = fade;
+}
+
+/** Chooses the index that should play after the current one. */
+function pickNextMusicIndex() {
+  const count = playlistTracks.length;
+  if (count === 0) return -1;
+  if (!isPlayerShuffleEnabled || count === 1) return (currentTrackIndex + 1) % count;
+
+  // Avoid the current track and – where possible – the last few played ones.
+  const avoidCount = Math.min(count - 1, Math.max(1, Math.floor(count / 2)));
+  const avoid = new Set([currentTrackIndex, ...musicRecentlyPlayed.slice(-avoidCount)]);
+  const candidates = [];
+  for (let i = 0; i < count; i++) if (!avoid.has(i)) candidates.push(i);
+  const pool = candidates.length ? candidates : [...Array(count).keys()].filter(i => i !== currentTrackIndex);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/** Preloads the upcoming track so the next crossfade can start without delay. */
+function prepareUpcomingMusicTrack() {
+  if (musicUpcoming && musicUpcoming.el && musicUpcoming.el !== activeUserAudio) releaseMusicElement(musicUpcoming.el);
+  musicUpcoming = null;
+
+  const nextIndex = pickNextMusicIndex();
+  const track = playlistTracks[nextIndex];
+  if (!track || nextIndex === currentTrackIndex) return;
+  if (track.isVideo || isVideoFileUrl(track.url, track.name || track.fullName)) return;
+
+  const el = new Audio();
+  el.preload = 'auto';
+  el.src = track.url;
+  musicUpcoming = { index: nextIndex, url: track.url, shuffle: isPlayerShuffleEnabled, el };
+}
+
+/** Takes the preloaded element if it matches the requested track. */
+function takeUpcomingMusicElement(index, url) {
+  if (musicUpcoming && musicUpcoming.index === index && musicUpcoming.url === url) {
+    const el = musicUpcoming.el;
+    musicUpcoming = null;
+    return el;
+  }
+  return null;
+}
+
+/** Attaches progress / auto-advance listeners exactly once per element. */
+function attachMusicElementListeners(mediaEl) {
+  if (mediaEl._noodleMusicListeners) return;
+  mediaEl._noodleMusicListeners = true;
+
+  mediaEl.addEventListener('timeupdate', () => {
+    if (activeUserAudio !== mediaEl) return;
+    updateMusicProgressUI(mediaEl);
+
+    // Start the crossfade into the next track shortly before this one ends.
+    const fadeSec = musicCrossfadeSeconds;
+    const duration = mediaEl.duration;
+    if (fadeSec <= 0 || !musicCanControlVolume || mediaEl._autoAdvanced || mediaEl.paused) return;
+    if (!isFinite(duration) || duration < fadeSec * 2) return;
+    if (duration - mediaEl.currentTime > fadeSec) return;
+    if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) return;
+
+    mediaEl._autoAdvanced = true;
+    if (playerRepeatMode === 'one') playMusicTrack(currentTrackIndex);
+    else playNextMusicTrack();
+  });
+
+  mediaEl.addEventListener('ended', () => {
+    if (activeUserAudio !== mediaEl || mediaEl._autoAdvanced) return;
+    if (playerRepeatMode === 'one') {
+      playMusicTrack(currentTrackIndex);
+    } else if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) {
+      updateMusicPlayBtnUI(false);
+    } else {
+      playNextMusicTrack();
+    }
+  });
+}
+
+/**
+ * Cues a random track from the music folder (preloaded, not playing), so the
+ * player is always ready – and shows a different track on every visit.
+ */
+function cueRandomMusicTrack() {
+  if (!playlistTracks || playlistTracks.length === 0) return;
+  if (activeUserAudio && !activeUserAudio._cued) return; // user already started something
+
+  const folderIndices = playlistTracks
+    .map((t, i) => ({ t, i }))
+    .filter(({ t }) => (t.isLocalFolder || t.isPreloaded) && !(t.isVideo || isVideoFileUrl(t.url, t.name || t.fullName)))
+    .map(({ i }) => i);
+  const pool = folderIndices.length ? folderIndices : playlistTracks.map((_, i) => i);
+
+  let lastCuedUrl = null;
+  try { lastCuedUrl = localStorage.getItem('flow_music_last_cued'); } catch (e) { /* ignore */ }
+  const fresh = pool.filter(i => playlistTracks[i].url !== lastCuedUrl);
+  const choices = fresh.length ? fresh : pool;
+  const index = choices[Math.floor(Math.random() * choices.length)];
+  const track = playlistTracks[index];
+  if (!track) return;
+
+  if (activeUserAudio && activeUserAudio._cued) releaseMusicElement(activeUserAudio);
+
+  const el = new Audio();
+  el.preload = 'auto';
+  el.src = track.url;
+  el.volume = getMusicTargetVolume();
+  el._cued = true;
+  el._trackUrl = track.url;
+  attachMusicElementListeners(el);
+
+  activeUserAudio = el;
+  currentTrackIndex = index;
+  try { localStorage.setItem('flow_music_last_cued', track.url); } catch (e) { /* ignore */ }
+
+  updateMusicNowPlayingDisplay();
+  renderMusicPlaylist();
+}
+window.cueRandomMusicTrack = cueRandomMusicTrack;
+
 function playMusicTrack(index) {
   if (playlistTracks.length === 0) return;
   if (index < 0 || index >= playlistTracks.length) index = 0;
@@ -24846,10 +26188,22 @@ function playMusicTrack(index) {
   const track = playlistTracks[currentTrackIndex];
   const isVideo = track.isVideo || isVideoFileUrl(track.url, track.name || track.fullName);
 
-  if (activeUserAudio) {
+  const previousEl = activeUserAudio;
+  const previousWasPlaying = !!(previousEl && !previousEl.paused && !previousEl.ended);
+  const previousIsVideo = !!(previousEl && previousEl.tagName === 'VIDEO');
+  const shouldCrossfade = previousWasPlaying && musicCrossfadeSeconds > 0 && musicCanControlVolume
+    && !isVideo && !previousIsVideo;
+
+  // Re-use the cued / preloaded element when it already holds this track.
+  let reusedEl = null;
+  if (previousEl && previousEl._cued && previousEl._trackUrl === track.url && !isVideo) reusedEl = previousEl;
+  if (!reusedEl && !isVideo) reusedEl = takeUpcomingMusicElement(index, track.url);
+
+  if (previousEl && !shouldCrossfade && previousEl !== reusedEl) {
+    finishActiveMusicFade();
     try {
-      activeUserAudio.pause();
-      activeUserAudio.src = '';
+      previousEl.pause();
+      previousEl.src = '';
     } catch(e) {}
   }
 
@@ -24870,8 +26224,16 @@ function playMusicTrack(index) {
   if (isVideo && videoEl) {
     videoEl.src = track.url;
     mediaEl = videoEl;
+  } else if (reusedEl) {
+    mediaEl = reusedEl;
   } else {
     mediaEl = new Audio(track.url);
+  }
+  mediaEl._cued = false;
+  mediaEl._autoAdvanced = false;
+  mediaEl._trackUrl = track.url;
+  if (mediaEl === previousEl) {
+    try { mediaEl.currentTime = 0; } catch (e) { /* not seekable yet */ }
   }
 
   const speedSelect = document.getElementById('media-speed-select');
@@ -24879,31 +26241,26 @@ function playMusicTrack(index) {
     mediaEl.playbackRate = parseFloat(speedSelect.value) || 1.0;
   }
 
-  mediaEl.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+  mediaEl.volume = getMusicTargetVolume();
   activeUserAudio = mediaEl;
+  attachMusicElementListeners(mediaEl);
+
+  if (shouldCrossfade && previousEl !== mediaEl) {
+    crossfadeMusicElements(previousEl, mediaEl, musicCrossfadeSeconds);
+  }
+
+  musicRecentlyPlayed.push(index);
+  if (musicRecentlyPlayed.length > 50) musicRecentlyPlayed.shift();
 
   updateMediaScreenDisplay(isVideo, mediaEl);
 
-  mediaEl.addEventListener('timeupdate', () => {
-    if (activeUserAudio !== mediaEl) return;
-    updateMusicProgressUI(mediaEl);
-  });
-
-  mediaEl.addEventListener('ended', () => {
-    if (playerRepeatMode === 'one') {
-      playMusicTrack(currentTrackIndex);
-    } else if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) {
-      updateMusicPlayBtnUI(false);
-    } else {
-      playNextMusicTrack();
-    }
-  });
-
   mediaEl.play().then(() => {
+    if (activeUserAudio !== mediaEl) return;
     updateMusicPlayBtnUI(true);
     updateMusicNowPlayingDisplay();
     renderMusicPlaylist();
     startAudioVisualizerLoop();
+    prepareUpcomingMusicTrack();
     if (typeof updateMiniAudioPlayer === 'function') {
       updateMiniAudioPlayer({
         isPlaying: true,
@@ -24915,6 +26272,8 @@ function playMusicTrack(index) {
     }
   }).catch(err => {
     console.warn('[AudioPlayer] Playback attempt error:', err);
+    if (activeUserAudio !== mediaEl) return;
+    finishActiveMusicFade();
     updateMusicPlayBtnUI(false);
     if (typeof updateMiniAudioPlayer === 'function') {
       updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'music' });
@@ -24925,6 +26284,7 @@ window.playMusicTrack = playMusicTrack;
 window.playTrack = playMusicTrack;
 
 function pauseMusicTrack() {
+  finishActiveMusicFade();
   if (activeUserAudio && !activeUserAudio.paused) {
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
@@ -24944,6 +26304,7 @@ function pauseMusicTrack() {
 window.pauseMusicTrack = pauseMusicTrack;
 
 function stopMusicTrack() {
+  finishActiveMusicFade();
   if (activeUserAudio) {
     try {
       activeUserAudio.pause();
@@ -24966,7 +26327,8 @@ function stopMusicTrack() {
 window.stopMusicTrack = stopMusicTrack;
 
 function toggleMusicPlayback() {
-  if (!activeUserAudio) {
+  // A cued (preloaded but never started) track goes through the full start path.
+  if (!activeUserAudio || activeUserAudio._cued) {
     if (playlistTracks.length > 0) playMusicTrack(currentTrackIndex);
     return;
   }
@@ -24987,6 +26349,7 @@ function toggleMusicPlayback() {
       }
     }).catch(e => console.warn(e));
   } else {
+    finishActiveMusicFade();
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
     renderMusicPlaylist();
@@ -25005,17 +26368,17 @@ function toggleMusicPlayback() {
 window.toggleMusicPlayback = toggleMusicPlayback;
 window.togglePlaylistPlayback = toggleMusicPlayback;
 
+/** Skips to the next track – fading over if something is playing. */
 function playNextMusicTrack() {
   if (playlistTracks.length === 0) return;
-  let nextIndex = currentTrackIndex;
-  if (isPlayerShuffleEnabled && playlistTracks.length > 1) {
-    do {
-      nextIndex = Math.floor(Math.random() * playlistTracks.length);
-    } while (nextIndex === currentTrackIndex);
-  } else {
-    nextIndex = currentTrackIndex + 1;
-    if (nextIndex >= playlistTracks.length) nextIndex = 0;
-  }
+  // Prefer the track that is already preloaded in the background (instant blend).
+  const upcoming = musicUpcoming;
+  const upcomingStillValid = upcoming
+    && upcoming.shuffle === isPlayerShuffleEnabled
+    && playlistTracks[upcoming.index]
+    && playlistTracks[upcoming.index].url === upcoming.url
+    && upcoming.index !== currentTrackIndex;
+  const nextIndex = upcomingStillValid ? upcoming.index : pickNextMusicIndex();
   playMusicTrack(nextIndex);
 }
 window.playNextMusicTrack = playNextMusicTrack;
@@ -25057,6 +26420,12 @@ function toggleMusicShuffle() {
     btn.className = isPlayerShuffleEnabled
       ? 'p-1 rounded-lg bg-purple-500/30 text-purple-300 border border-purple-400/40 cursor-pointer transition'
       : 'p-1 rounded-lg text-gray-400 hover:text-white transition cursor-pointer';
+  }
+  const mobBtn = document.getElementById('mobile-music-btn-shuffle');
+  if (mobBtn) {
+    mobBtn.className = isPlayerShuffleEnabled
+      ? 'p-1 px-2 rounded-lg text-[10px] bg-purple-500/30 text-purple-200 border border-purple-400/50 flex items-center gap-1 active:scale-95 shadow-xs'
+      : 'p-1 px-2 rounded-lg text-[10px] bg-white/5 text-gray-400 border border-white/10 flex items-center gap-1 active:scale-95';
   }
   showToast(isPlayerShuffleEnabled ? 'Zufallswiedergabe aktiv 🔀' : 'Zufallswiedergabe aus');
 }
@@ -25147,6 +26516,13 @@ function updateMusicPlayBtnUI(isPlaying) {
       : '<i data-lucide="play" class="w-3.5 h-3.5"></i>';
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
   }
+  const mobBtn = document.getElementById('mobile-music-play-btn');
+  if (mobBtn) {
+    mobBtn.innerHTML = isPlaying
+      ? '<i data-lucide="pause" class="w-4 h-4"></i>'
+      : '<i data-lucide="play" class="w-4 h-4 ml-0.5"></i>';
+    if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  }
 }
 
 function updateMusicNowPlayingDisplay() {
@@ -25156,6 +26532,10 @@ function updateMusicNowPlayingDisplay() {
 
   if (titleEl) {
     titleEl.innerText = track ? track.name : 'Kein Track aktiv';
+  }
+  const mobTitleEl = document.getElementById('mobile-music-now-playing-title');
+  if (mobTitleEl) {
+    mobTitleEl.innerText = track ? track.name : 'Kein Track geladen';
   }
   if (timeEl && track && activeUserAudio) {
     const cur = formatAudioTime(activeUserAudio.currentTime);
@@ -25392,140 +26772,53 @@ var djAutomix = {
   timer: null
 };
 
+// WebAudio EQ Nodes & Gain chain for Deck A & B
+var djAudioNodes = {
+  a: { source: null, lowNode: null, midNode: null, highNode: null, gainNode: null },
+  b: { source: null, lowNode: null, midNode: null, highNode: null, gainNode: null }
+};
+
+function setupDjAudioNodes(deckId) {
+  // Direkte, zuverlässige HTML5-Audiowiedergabe ohne CORS-bedingte WebAudio-Stille
+  applyDjVolumes();
+}
+window.setupDjAudioNodes = setupDjAudioNodes;
+
 function initDjDecks() {
-  if (!djDecks.a.track) {
-    loadDjBuiltinTrack('a', 'deep_house', false);
-  }
-  if (!djDecks.b.track) {
-    loadDjBuiltinTrack('b', 'lofi_chill', false);
+  updateDjPresetDropdowns();
+  if (!djDecks.a.track || !djDecks.b.track) {
+    loadDjRandomPair(false);
   }
   setDjCrossfader(0.5);
   updateDjDeckUI('a');
   updateDjDeckUI('b');
+  renderDjWaveformMarkers('a');
+  renderDjWaveformMarkers('b');
 }
 window.initDjDecks = initDjDecks;
 
-function createSyntheticBeatAudio(bpm = 124, type = 'techno') {
-  if (typeof initAudioContext === 'function') initAudioContext();
-  const ctx = (typeof audioCtx !== 'undefined' && audioCtx) ? audioCtx : (typeof window !== 'undefined' ? window.audioCtx : null);
-  if (!ctx) return null;
+function loadDjRandomPair(playIfRunning = false) {
+  if (!BUILTIN_DJ_STEMS || BUILTIN_DJ_STEMS.length === 0) return;
+  const count = BUILTIN_DJ_STEMS.length;
+  const idxA = Math.floor(Math.random() * count);
+  let idxB = (idxA + 1 + Math.floor(Math.random() * (count - 1))) % count;
 
-  const sampleRate = ctx.sampleRate || 44100;
-  const barSec = (60 / bpm) * 4;
-  const loopSec = barSec * 4; // 16 beats loop
-  const buffer = ctx.createBuffer(2, Math.floor(sampleRate * loopSec), sampleRate);
-  const left = buffer.getChannelData(0);
-  const right = buffer.getChannelData(1);
+  loadDjBuiltinTrack('a', BUILTIN_DJ_STEMS[idxA].id, false, playIfRunning && djDecks.a.isPlaying);
+  loadDjBuiltinTrack('b', BUILTIN_DJ_STEMS[idxB].id, false, playIfRunning && djDecks.b.isPlaying);
 
-  const beatSec = 60 / bpm;
-  const totalBeats = 16;
-
-  for (let b = 0; b < totalBeats; b++) {
-    const startSample = Math.floor(b * beatSec * sampleRate);
-    
-    // Kick on every beat
-    const kickSamples = Math.floor(0.18 * sampleRate);
-    for (let i = 0; i < kickSamples; i++) {
-      if (startSample + i < left.length) {
-        const t = i / sampleRate;
-        const freq = 130 * Math.exp(-t * 26) + 45;
-        const env = Math.exp(-t * 18);
-        const val = Math.sin(2 * Math.PI * freq * t) * env * 0.75;
-        left[startSample + i] += val;
-        right[startSample + i] += val;
-      }
-    }
-
-    // Hi-Hat on off-beats
-    const hatSample = Math.floor((b + 0.5) * beatSec * sampleRate);
-    const hatLen = Math.floor(0.06 * sampleRate);
-    for (let i = 0; i < hatLen; i++) {
-      if (hatSample + i < left.length) {
-        const env = Math.exp(-(i / sampleRate) * 55);
-        const noise = (Math.random() * 2 - 1) * env * 0.35;
-        left[hatSample + i] += noise;
-        right[hatSample + i] += noise;
-      }
-    }
-
-    // Snare / Clap on beats 2 and 4
-    if (b % 2 === 1) {
-      const snareSamples = Math.floor(0.14 * sampleRate);
-      for (let i = 0; i < snareSamples; i++) {
-        if (startSample + i < left.length) {
-          const t = i / sampleRate;
-          const noise = (Math.random() * 2 - 1) * Math.exp(-t * 28) * 0.45;
-          const tone = Math.sin(2 * Math.PI * 180 * t) * Math.exp(-t * 32) * 0.35;
-          left[startSample + i] += noise + tone;
-          right[startSample + i] += noise + tone;
-        }
-      }
-    }
-  }
-
-  const wavBlob = audioBufferToWavBlob(buffer);
-  return URL.createObjectURL(wavBlob);
+  const selA = document.getElementById('dj-preset-select-a');
+  if (selA) selA.value = BUILTIN_DJ_STEMS[idxA].id;
+  const selB = document.getElementById('dj-preset-select-b');
+  if (selB) selB.value = BUILTIN_DJ_STEMS[idxB].id;
 }
-if (typeof window !== 'undefined') window.createSyntheticBeatAudio = createSyntheticBeatAudio;
-if (typeof globalThis !== 'undefined') globalThis.createSyntheticBeatAudio = createSyntheticBeatAudio;
+window.loadDjRandomPair = loadDjRandomPair;
 
-function audioBufferToWavBlob(buffer) {
-  const numChannels = buffer.numberOfChannels;
-  const sampleRate = buffer.sampleRate;
-  const format = 1;
-  const bitDepth = 16;
-  const bytesPerSample = bitDepth / 8;
-  const blockAlign = numChannels * bytesPerSample;
-
-  const dataLen = buffer.length * blockAlign;
-  const bufferLen = 44 + dataLen;
-  const arrayBuffer = new ArrayBuffer(bufferLen);
-  const view = new DataView(arrayBuffer);
-
-  function writeString(view, offset, string) {
-    for (let i = 0; i < string.length; i++) {
-      view.setUint8(offset + i, string.charCodeAt(i));
-    }
-  }
-
-  writeString(view, 0, 'RIFF');
-  view.setUint32(4, 36 + dataLen, true);
-  writeString(view, 8, 'WAVE');
-  writeString(view, 12, 'fmt ');
-  view.setUint32(16, 16, true);
-  view.setUint16(20, format, true);
-  view.setUint16(22, numChannels, true);
-  view.setUint32(24, sampleRate, true);
-  view.setUint32(28, sampleRate * blockAlign, true);
-  view.setUint16(32, blockAlign, true);
-  view.setUint16(34, bitDepth, true);
-  writeString(view, 36, 'data');
-  view.setUint32(40, dataLen, true);
-
-  const channels = [];
-  for (let i = 0; i < numChannels; i++) {
-    channels.push(buffer.getChannelData(i));
-  }
-
-  let offset = 44;
-  for (let i = 0; i < buffer.length; i++) {
-    for (let ch = 0; ch < numChannels; ch++) {
-      let sample = Math.max(-1, Math.min(1, channels[ch][i]));
-      sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
-      view.setInt16(offset, sample, true);
-      offset += 2;
-    }
-  }
-
-  return new Blob([arrayBuffer], { type: 'audio/wav' });
-}
-
-function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
+function loadDjBuiltinTrack(deckId, presetKey, notify = true, startPlaying = false) {
   const deck = djDecks[deckId];
   if (!deck) return;
 
   const stem = BUILTIN_DJ_STEMS.find(s => s.id === presetKey) || BUILTIN_DJ_STEMS[0];
-  const syntheticUrl = createSyntheticBeatAudio(stem.bpm, stem.id);
+  if (!stem) return;
 
   if (deck.audio) {
     try { deck.audio.pause(); } catch(e) {}
@@ -25535,33 +26828,42 @@ function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
   }
 
   const track = {
-    url: stem.file || syntheticUrl,
-    fallbackUrl: syntheticUrl,
+    id: stem.id,
+    url: stem.file,
     name: stem.name,
     fullName: stem.name,
     isBuiltin: true
   };
 
   deck.track = track;
-  deck.bpm = stem.bpm;
+  deck.bpm = stem.bpm || 120;
+  deck.cueTime = 0;
+  deck.hotCues = [null, null, null, null];
+  deck.loopActive = false;
   
   const audio = new Audio(track.url);
   audio.loop = true;
   audio.playbackRate = deck.pitch;
 
-  audio.addEventListener('error', () => {
-    if (track.fallbackUrl && audio.src !== track.fallbackUrl) {
-      console.log(`[DJ] MP3 file not found (${track.url}), falling back to synthetic audio for ${stem.name}`);
-      audio.src = track.fallbackUrl;
-      deck.track.url = track.fallbackUrl;
-      if (deck.isPlaying) audio.play().catch(() => {});
-    }
-  });
-
   deck.audio = audio;
 
   bindDjAudioEvents(deckId);
   updateDjDeckUI(deckId);
+  renderDjWaveformMarkers(deckId);
+  applyDjVolumes();
+
+  const sel = document.getElementById(`dj-preset-select-${deckId}`);
+  if (sel) sel.value = stem.id;
+
+  if (startPlaying) {
+    audio.play().then(() => {
+      deck.isPlaying = true;
+      updateDjPlayBtnUI(deckId, true);
+    }).catch(() => {});
+  } else {
+    deck.isPlaying = false;
+    updateDjPlayBtnUI(deckId, false);
+  }
 
   if (notify) {
     showToast(`Deck ${deckId.toUpperCase()}: "${stem.name}" geladen! 🎛️`);
@@ -25595,13 +26897,18 @@ function handleDjDeckUpload(deckId, event) {
   saveTrackToAudioVault(track, file);
 
   deck.track = track;
+  deck.cueTime = 0;
+  deck.hotCues = [null, null, null, null];
+  deck.loopActive = false;
   deck.audio = new Audio(track.url);
   deck.audio.playbackRate = deck.pitch;
 
   bindDjAudioEvents(deckId);
   updateDjDeckUI(deckId);
+  renderDjWaveformMarkers(deckId);
+  applyDjVolumes();
 
-  showToast(`Deck ${deckId.toUpperCase()}: "${track.name}" geladen & gesichert! 🎛️💾`);
+  showToast(`Deck ${deckId.toUpperCase()}: "${track.name}" geladen! 🎛️💾`);
   event.target.value = '';
 }
 window.handleDjDeckUpload = handleDjDeckUpload;
@@ -25610,6 +26917,12 @@ function bindDjAudioEvents(deckId) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
 
+  deck.audio.addEventListener('loadedmetadata', () => {
+    const timeEl = document.getElementById(`dj-time-deck-${deckId}`);
+    if (timeEl) timeEl.innerText = `${formatAudioTime(deck.audio.currentTime)} / ${formatAudioTime(deck.audio.duration)}`;
+    renderDjWaveformMarkers(deckId);
+  });
+
   deck.audio.addEventListener('timeupdate', () => {
     if (!deck.audio || !deck.audio.duration) return;
 
@@ -25617,19 +26930,30 @@ function bindDjAudioEvents(deckId) {
       deck.audio.currentTime = deck.loopStart;
     }
 
-    deck.jogRotation = (deck.jogRotation + 3) % 360;
-    const jog = document.getElementById(`dj-jog-${deckId}`) || document.getElementById(`dj-vinyl-disc-${deckId}`);
+    deck.jogRotation = (deck.jogRotation + 2.5) % 360;
+    const jog = document.getElementById(`dj-jog-${deckId}`);
     if (jog && deck.isPlaying) {
       jog.style.transform = `rotate(${deck.jogRotation}deg)`;
     }
 
+    const cur = deck.audio.currentTime;
+    const dur = deck.audio.duration;
+    const pct = dur ? (cur / dur) * 100 : 0;
+
     const timeEl = document.getElementById(`dj-time-deck-${deckId}`);
-    if (timeEl) timeEl.innerText = formatAudioTime(deck.audio.currentTime);
+    if (timeEl) timeEl.innerText = `${formatAudioTime(cur)} / ${formatAudioTime(dur)}`;
+    
     const seekSlider = document.getElementById(`dj-seek-deck-${deckId}`);
-    if (seekSlider) seekSlider.value = (deck.audio.currentTime / deck.audio.duration) * 100 || 0;
+    if (seekSlider) seekSlider.value = pct;
+
+    const playhead = document.getElementById(`dj-playhead-${deckId}`);
+    if (playhead) playhead.style.left = `${pct}%`;
+
+    const progressTint = document.getElementById(`dj-wave-progress-${deckId}`);
+    if (progressTint) progressTint.style.width = `${pct}%`;
 
     if (djAutomix.enabled && !djAutomix.isTransitioning && deck.isPlaying) {
-      const remain = deck.audio.duration - deck.audio.currentTime;
+      const remain = dur - cur;
       if (remain <= (djAutomix.durationSec || 8) && remain > 0.5) {
         triggerDjAutomixNow();
       }
@@ -25645,6 +26969,18 @@ function bindDjAudioEvents(deckId) {
   });
 }
 
+function handleDjWaveformClick(deckId, event) {
+  const deck = djDecks[deckId];
+  if (!deck || !deck.audio || !deck.audio.duration) return;
+  const wrap = document.getElementById(`dj-waveform-wrap-${deckId}`);
+  if (!wrap) return;
+  const rect = wrap.getBoundingClientRect();
+  const clickX = event.clientX - rect.left;
+  const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+  deck.audio.currentTime = ratio * deck.audio.duration;
+}
+window.handleDjWaveformClick = handleDjWaveformClick;
+
 function updateDjDeckUI(deckId) {
   const deck = djDecks[deckId];
   if (!deck) return;
@@ -25658,24 +26994,40 @@ function updateDjDeckUI(deckId) {
   const pitchEl = document.getElementById(`dj-pitch-val-${deckId}`);
   if (pitchEl) {
     const pct = (deck.pitch - 1.0) * 100;
-    pitchEl.innerText = `${pct > 0 ? '+' : ''}${pct.toFixed(1)}%`;
+    pitchEl.innerText = `${pct > 0 ? '+' : ''}${pct.toFixed(1)}% (Reset)`;
   }
 }
 
 function updateDjPlayBtnUI(deckId, isPlaying) {
   const btn = document.getElementById(`dj-play-btn-${deckId}`);
-  if (btn) {
-    const isDeckA = deckId === 'a';
+  const waveformEl = document.getElementById(`dj-waveform-deck-${deckId}`);
+  const isDeckA = deckId === 'a';
+
+  if (waveformEl) {
     if (isPlaying) {
-      btn.innerHTML = `<i data-lucide="pause" class="w-4 h-4 fill-black"></i><span class="font-black">PAUSE</span>`;
-      btn.className = isDeckA
-        ? 'flex-1 py-2 bg-cyan-400 hover:bg-cyan-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(6,182,212,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-cyan-300'
-        : 'flex-1 py-2 bg-amber-400 hover:bg-amber-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(245,158,11,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-amber-300';
+      waveformEl.classList.add('dj-wave-playing');
     } else {
-      btn.innerHTML = `<i data-lucide="play" class="w-4 h-4 fill-black"></i><span class="font-black">PLAY</span>`;
+      waveformEl.classList.remove('dj-wave-playing');
+    }
+  }
+
+  const jog = document.getElementById(`dj-jog-${deckId}`);
+  if (jog) {
+    if (isPlaying) jog.classList.remove('dj-vinyl-paused');
+    else jog.classList.add('dj-vinyl-paused');
+  }
+
+  if (btn) {
+    if (isPlaying) {
+      btn.innerHTML = `<i data-lucide="pause" class="w-3.5 h-3.5 fill-black"></i><span class="font-black">PAUSE</span>`;
       btn.className = isDeckA
-        ? 'flex-1 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(6,182,212,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95'
-        : 'flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(245,158,11,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95';
+        ? 'flex-1 py-1.5 bg-cyan-400 hover:bg-cyan-300 text-black font-black rounded-xl text-[11px] cursor-pointer shadow-[0_0_16px_rgba(6,182,212,0.5)] transition flex items-center justify-center gap-1 active:scale-95 ring-2 ring-cyan-300'
+        : 'flex-1 py-1.5 bg-amber-400 hover:bg-amber-300 text-black font-black rounded-xl text-[11px] cursor-pointer shadow-[0_0_16px_rgba(245,158,11,0.5)] transition flex items-center justify-center gap-1 active:scale-95 ring-2 ring-amber-300';
+    } else {
+      btn.innerHTML = `<i data-lucide="play" class="w-3.5 h-3.5 fill-black"></i><span class="font-black">PLAY</span>`;
+      btn.className = isDeckA
+        ? 'flex-1 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black rounded-xl text-[11px] cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.3)] transition flex items-center justify-center gap-1 active:scale-95'
+        : 'flex-1 py-1.5 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-[11px] cursor-pointer shadow-[0_0_12px_rgba(245,158,11,0.3)] transition flex items-center justify-center gap-1 active:scale-95';
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
@@ -25685,12 +27037,18 @@ function updateDjPlayBtnUI(deckId, isPlaying) {
 function toggleDjDeckPlayback(deckId) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) {
-    loadDjBuiltinTrack(deckId, deckId === 'a' ? 'deep_house' : 'lofi_chill');
+    loadDjRandomPair(false);
     return;
   }
 
+  applyDjVolumes();
+
   if (deck.audio.paused) {
     if (typeof initAudioContext === 'function') initAudioContext();
+    if (deck.audio.volume === 0 && (typeof isPlayerMuted === 'undefined' || !isPlayerMuted)) {
+      applyDjVolumes();
+      if (deck.audio.volume === 0) deck.audio.volume = 0.5;
+    }
     deck.audio.play().then(() => {
       deck.isPlaying = true;
       updateDjPlayBtnUI(deckId, true);
@@ -25703,24 +27061,65 @@ function toggleDjDeckPlayback(deckId) {
           source: 'dj'
         });
       }
-    }).catch(e => console.warn(e));
+      if (typeof updateHeaderSoundBtnUI === 'function') {
+        updateHeaderSoundBtnUI();
+      }
+    }).catch(e => {
+      console.warn('[NoodleDJ] Playback error:', e);
+    });
   } else {
     deck.audio.pause();
     deck.isPlaying = false;
     updateDjPlayBtnUI(deckId, false);
     if (typeof updateMiniAudioPlayer === 'function') {
-      updateMiniAudioPlayer({ isPlaying: false, sub: 'DJ Pausiert' });
+      const otherDeck = djDecks[deckId === 'a' ? 'b' : 'a'];
+      if (!otherDeck || !otherDeck.isPlaying) {
+        updateMiniAudioPlayer({ isPlaying: false, sub: 'DJ Pausiert' });
+      }
+    }
+    if (typeof updateHeaderSoundBtnUI === 'function') {
+      updateHeaderSoundBtnUI();
     }
   }
 }
 window.toggleDjDeckPlayback = toggleDjDeckPlayback;
 
+function pauseDjDeck(deckId) {
+  const deck = djDecks[deckId];
+  if (deck && deck.audio && !deck.audio.paused) {
+    deck.audio.pause();
+    deck.isPlaying = false;
+    updateDjPlayBtnUI(deckId, false);
+    if (typeof updateHeaderSoundBtnUI === 'function') {
+      updateHeaderSoundBtnUI();
+    }
+  }
+}
+window.pauseDjDeck = pauseDjDeck;
+
+function setDjMainCue(deckId, event) {
+  if (event) event.preventDefault();
+  const deck = djDecks[deckId];
+  if (!deck || !deck.audio) return;
+  deck.cueTime = deck.audio.currentTime;
+  renderDjWaveformMarkers(deckId);
+  playDjSfx('cue_click');
+  showToast(`Deck ${deckId.toUpperCase()}: CUE-Punkt bei ${formatAudioTime(deck.cueTime)} gesetzt! 📍`);
+}
+window.setDjMainCue = setDjMainCue;
+
 function cueDjDeck(deckId) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
-  deck.audio.currentTime = deck.cueTime || 0;
-  if (deck.audio.paused) {
-    toggleDjDeckPlayback(deckId);
+  if (!deck.isPlaying) {
+    deck.cueTime = deck.audio.currentTime;
+    renderDjWaveformMarkers(deckId);
+    showToast(`Deck ${deckId.toUpperCase()}: CUE-Punkt bei ${formatAudioTime(deck.cueTime)} gesetzt 📍`);
+  } else {
+    deck.audio.currentTime = deck.cueTime || 0;
+    deck.audio.pause();
+    deck.isPlaying = false;
+    updateDjPlayBtnUI(deckId, false);
   }
   playDjSfx('cue_click');
 }
@@ -25766,6 +27165,13 @@ function setDjPitch(deckId, val) {
 }
 window.setDjPitch = setDjPitch;
 
+function resetDjPitch(deckId) {
+  const slider = document.getElementById(`dj-pitch-slider-${deckId}`);
+  if (slider) slider.value = 0;
+  setDjPitch(deckId, 0);
+}
+window.resetDjPitch = resetDjPitch;
+
 function nudgeDjPitch(deckId, delta) {
   const slider = document.getElementById(`dj-pitch-slider-${deckId}`);
   if (!slider) return;
@@ -25776,45 +27182,110 @@ function nudgeDjPitch(deckId, delta) {
 }
 window.nudgeDjPitch = nudgeDjPitch;
 
+// 2 NORMAL SOUNDREGLER (CHANNEL VOLUME FADERS)
+function setDjDeckVolume(deckId, val) {
+  const deck = djDecks[deckId];
+  if (!deck) return;
+  deck.volume = Math.max(0, Math.min(1, parseFloat(val)));
+
+  const valEl = document.getElementById(`dj-vol-val-${deckId}`);
+  if (valEl) valEl.innerText = `${Math.round(deck.volume * 100)}%`;
+
+  applyDjVolumes();
+}
+window.setDjDeckVolume = setDjDeckVolume;
+
+// SIMPLIFIED, USER-FRIENDLY EQ (BASS / MITTEN / HÖHEN)
 function setDjEq(deckId, type, val) {
   const deck = djDecks[deckId];
   if (!deck) return;
-  const gain = parseFloat(val);
+  const gain = parseFloat(val); // 0 .. 2 (1 = neutral)
   if (type === 'low') deck.low = gain;
   if (type === 'mid') deck.mid = gain;
   if (type === 'high') deck.high = gain;
+
+  const db = Math.round((gain - 1.0) * 12);
+  const dbStr = `${db > 0 ? '+' : ''}${db} dB`;
+  const lbl = document.getElementById(`dj-eq-val-${deckId}-${type}`);
+  if (lbl) lbl.innerText = db === 0 ? '0 dB' : dbStr;
+
+  const nodes = djAudioNodes[deckId];
+  if (nodes) {
+    if (type === 'low' && nodes.lowNode) nodes.lowNode.gain.value = db;
+    if (type === 'mid' && nodes.midNode) nodes.midNode.gain.value = db;
+    if (type === 'high' && nodes.highNode) nodes.highNode.gain.value = db;
+  }
 }
 window.setDjEq = setDjEq;
 
-function setDjFilter(deckId, val) {
+function resetDjEq(deckId) {
   const deck = djDecks[deckId];
   if (!deck) return;
-  deck.filter = parseFloat(val);
-  const label = document.getElementById(`dj-filter-val-${deckId}`);
-  if (label) {
-    if (deck.filter < 0.45) label.innerText = 'LPF';
-    else if (deck.filter > 0.55) label.innerText = 'HPF';
-    else label.innerText = 'OFF';
-  }
-}
-window.setDjFilter = setDjFilter;
+  deck.low = 1.0;
+  deck.mid = 1.0;
+  deck.high = 1.0;
 
-function setDjCrossfader(val) {
-  const x = parseFloat(val);
+  ['low', 'mid', 'high'].forEach(band => {
+    const slider = document.getElementById(`dj-eq-${deckId}-${band}`);
+    if (slider) slider.value = 1.0;
+    const lbl = document.getElementById(`dj-eq-val-${deckId}-${band}`);
+    if (lbl) lbl.innerText = '0 dB';
+  });
+
+  const nodes = djAudioNodes[deckId];
+  if (nodes) {
+    if (nodes.lowNode) nodes.lowNode.gain.value = 0;
+    if (nodes.midNode) nodes.midNode.gain.value = 0;
+    if (nodes.highNode) nodes.highNode.gain.value = 0;
+  }
+  showToast(`Deck ${deckId.toUpperCase()}: EQ zurückgesetzt (Neutral) 🎚️`);
+}
+window.resetDjEq = resetDjEq;
+
+var currentDjCrossfaderPos = 0.5;
+
+function applyDjVolumes() {
+  const x = Math.max(0, Math.min(1, parseFloat(currentDjCrossfaderPos) || 0.5));
+  // Equal-Power Crossfader Curve (Constant acoustic energy across transition)
   const gainA = Math.cos(x * 0.5 * Math.PI);
   const gainB = Math.sin(x * 0.5 * Math.PI);
-  const master = (typeof soundMasterVolume === 'number') ? soundMasterVolume : 0.5;
+
+  const isMuted = (typeof isPlayerMuted !== 'undefined' && Boolean(isPlayerMuted));
+  const master = isMuted ? 0 : ((typeof soundMasterVolume === 'number') ? soundMasterVolume : 0.5);
+
+  const volA = Math.max(0, Math.min(1, gainA * (djDecks.a?.volume ?? 1.0) * master));
+  const volB = Math.max(0, Math.min(1, gainB * (djDecks.b?.volume ?? 1.0) * master));
 
   if (djDecks.a && djDecks.a.audio) {
-    djDecks.a.audio.volume = Math.max(0, Math.min(1, gainA * master));
-  }
-  if (djDecks.b && djDecks.b.audio) {
-    djDecks.b.audio.volume = Math.max(0, Math.min(1, gainB * master));
+    try {
+      djDecks.a.audio.volume = volA;
+      djDecks.a.audio.muted = isMuted;
+    } catch (e) {}
   }
 
+  if (djDecks.b && djDecks.b.audio) {
+    try {
+      djDecks.b.audio.volume = volB;
+      djDecks.b.audio.muted = isMuted;
+    } catch (e) {}
+  }
+
+  if (djAudioNodes && djAudioNodes.a && djAudioNodes.a.gainNode) {
+    try { djAudioNodes.a.gainNode.gain.value = volA; } catch (e) {}
+  }
+  if (djAudioNodes && djAudioNodes.b && djAudioNodes.b.gainNode) {
+    try { djAudioNodes.b.gainNode.gain.value = volB; } catch (e) {}
+  }
+}
+window.applyDjVolumes = applyDjVolumes;
+
+function setDjCrossfader(val) {
+  currentDjCrossfaderPos = parseFloat(val);
+  applyDjVolumes();
+
   const slider = document.getElementById('dj-crossfader-slider');
-  if (slider && parseFloat(slider.value) !== x) {
-    slider.value = x;
+  if (slider && Math.abs(parseFloat(slider.value) - currentDjCrossfaderPos) > 0.005) {
+    slider.value = currentDjCrossfaderPos;
   }
 }
 window.setDjCrossfader = setDjCrossfader;
@@ -25834,7 +27305,7 @@ function toggleDjAutomix() {
       : 'px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-zinc-800/80 text-zinc-300 hover:text-white border border-zinc-700 transition cursor-pointer flex items-center gap-1.5 shadow-xs';
   }
   if (led) {
-    led.className = djAutomix.enabled ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse' : 'w-2 h-2 rounded-full bg-zinc-600';
+    led.className = djAutomix.enabled ? 'w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse' : 'w-1.5 h-1.5 rounded-full bg-zinc-600';
   }
   if (txt) {
     txt.textContent = djAutomix.enabled ? 'ACTIVE' : 'OFF';
@@ -25845,14 +27316,6 @@ window.toggleDjAutomix = toggleDjAutomix;
 
 function setDjAutomixDuration(sec) {
   djAutomix.durationSec = parseInt(sec, 10) || 8;
-  [4, 8, 16].forEach(s => {
-    const b = document.getElementById(`dj-automix-dur-${s}`);
-    if (b) {
-      b.className = (s === djAutomix.durationSec)
-        ? 'px-2 py-0.5 rounded-lg bg-emerald-500/30 text-emerald-200 border border-emerald-400/50 text-[9px] font-bold'
-        : 'px-2 py-0.5 rounded-lg bg-white/5 text-gray-400 hover:text-white border border-white/5 text-[9px] font-medium';
-    }
-  });
 }
 window.setDjAutomixDuration = setDjAutomixDuration;
 
@@ -25860,8 +27323,7 @@ function triggerDjAutomixNow() {
   if (djAutomix.isTransitioning) return;
   djAutomix.isTransitioning = true;
 
-  const slider = document.getElementById('dj-crossfader-slider');
-  const currentPos = slider ? parseFloat(slider.value) : 0.5;
+  const currentPos = currentDjCrossfaderPos;
   const targetDeck = currentPos < 0.5 ? 'b' : 'a';
   const targetPos = targetDeck === 'b' ? 1.0 : 0.0;
   const startPos = currentPos;
@@ -25898,29 +27360,132 @@ function triggerDjAutomixNow() {
 }
 window.triggerDjAutomixNow = triggerDjAutomixNow;
 
+// 100% FUNKTIONALER SHUFFLE BUTTON: Lädt 2 frische unterschiedliche Tracks
 function djShuffleTracks() {
-  const stems = [...BUILTIN_DJ_STEMS].sort(() => Math.random() - 0.5);
-  loadDjBuiltinTrack('a', stems[0].id, false);
-  loadDjBuiltinTrack('b', stems[1].id, false);
-  showToast('DJ Shuffle: Frische Stems & Rhythmen geladen! 🔀');
+  if (!BUILTIN_DJ_STEMS || BUILTIN_DJ_STEMS.length === 0) return;
+  const wasPlayingA = djDecks.a.isPlaying;
+  const wasPlayingB = djDecks.b.isPlaying;
+
+  const count = BUILTIN_DJ_STEMS.length;
+  const curA = djDecks.a.track?.id;
+  const curB = djDecks.b.track?.id;
+
+  let poolA = BUILTIN_DJ_STEMS.filter(s => s.id !== curA && s.id !== curB);
+  if (poolA.length === 0) poolA = BUILTIN_DJ_STEMS;
+  const pickA = poolA[Math.floor(Math.random() * poolA.length)];
+
+  let poolB = BUILTIN_DJ_STEMS.filter(s => s.id !== pickA.id && s.id !== curB);
+  if (poolB.length === 0) poolB = BUILTIN_DJ_STEMS.filter(s => s.id !== pickA.id);
+  if (poolB.length === 0) poolB = BUILTIN_DJ_STEMS;
+  const pickB = poolB[Math.floor(Math.random() * poolB.length)];
+
+  loadDjBuiltinTrack('a', pickA.id, false, wasPlayingA);
+  loadDjBuiltinTrack('b', pickB.id, false, wasPlayingB);
+
+  const selA = document.getElementById('dj-preset-select-a');
+  if (selA) selA.value = pickA.id;
+  const selB = document.getElementById('dj-preset-select-b');
+  if (selB) selB.value = pickB.id;
+
+  showToast(`Zufalls-Tracks geladen: "${pickA.name}" & "${pickB.name}" 🎲🔀`);
 }
 window.djShuffleTracks = djShuffleTracks;
 
 // ============================================================================
-// 6. HOT CUES, LOOPS & JOGWHEEL INTERACTION
+// 6. HOT CUES, LOOPS & WAVEFORM MARKERS
 // ============================================================================
+
+function renderDjWaveformMarkers(deckId) {
+  const container = document.getElementById(`dj-waveform-markers-${deckId}`);
+  const deck = djDecks[deckId];
+  if (!container || !deck || !deck.audio) return;
+
+  const duration = deck.audio.duration;
+  let html = '';
+
+  // 1. Main CUE Marker
+  if (deck.cueTime && duration && deck.cueTime > 0) {
+    const pct = Math.max(0, Math.min(100, (deck.cueTime / duration) * 100));
+    html += `
+      <div class="dj-wave-cue-marker absolute top-0 bottom-0 pointer-events-none" style="left: ${pct}%;">
+        <div class="w-[1.5px] h-full bg-amber-400"></div>
+        <div class="absolute -top-0.5 -translate-x-1/2 px-1 py-0.2 rounded bg-amber-500 text-black text-[7px] font-black font-mono shadow">CUE</div>
+      </div>
+    `;
+  }
+
+  // 2. Hot Cues (0 and 1)
+  deck.hotCues.forEach((time, idx) => {
+    if (time !== null && duration && time >= 0) {
+      const pct = Math.max(0, Math.min(100, (time / duration) * 100));
+      const colorClass = deckId === 'a' ? 'bg-cyan-400 text-black' : 'bg-amber-400 text-black';
+      const borderClass = deckId === 'a' ? 'bg-cyan-400' : 'bg-amber-400';
+      html += `
+        <div class="dj-wave-hotcue-marker absolute top-0 bottom-0 pointer-events-none" style="left: ${pct}%;">
+          <div class="w-[1.5px] h-full ${borderClass}"></div>
+          <div class="absolute bottom-0 -translate-x-1/2 px-1 py-0.2 rounded ${colorClass} text-[7px] font-black font-mono shadow">C${idx + 1}</div>
+        </div>
+      `;
+    }
+  });
+
+  // 3. Active Loop Region
+  if (deck.loopActive && duration && deck.loopEnd > deck.loopStart) {
+    const startPct = Math.max(0, Math.min(100, (deck.loopStart / duration) * 100));
+    const endPct = Math.max(0, Math.min(100, (deck.loopEnd / duration) * 100));
+    const widthPct = Math.max(1, endPct - startPct);
+    html += `
+      <div class="absolute inset-y-0 bg-emerald-500/25 border-x border-emerald-400 pointer-events-none flex items-center justify-center" style="left: ${startPct}%; width: ${widthPct}%;">
+        <span class="text-[7.5px] font-mono font-bold text-emerald-200 bg-black/75 px-1 rounded border border-emerald-500/40">${deck.loopLength}B LOOP</span>
+      </div>
+    `;
+  }
+
+  container.innerHTML = html;
+}
+window.renderDjWaveformMarkers = renderDjWaveformMarkers;
 
 function setDjHotCue(deckId, index) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
   deck.hotCues[index] = deck.audio.currentTime;
+  
   const pad = document.getElementById(`dj-hotcue-btn-${deckId}-${index}`);
   if (pad) {
-    pad.classList.add('bg-amber-400/30', 'border-amber-400', 'text-amber-200');
+    pad.classList.add('bg-cyan-500/30', 'border-cyan-400', 'text-white');
   }
-  showToast(`Deck ${deckId.toUpperCase()}: Hot Cue ${index + 1} bei ${formatAudioTime(deck.audio.currentTime)} gesetzt! 📍`);
+  renderDjWaveformMarkers(deckId);
+  playDjSfx('cue_click');
+  showToast(`Deck ${deckId.toUpperCase()}: CUE ${index + 1} bei ${formatAudioTime(deck.audio.currentTime)} gesetzt! 📍`);
 }
 window.setDjHotCue = setDjHotCue;
+
+function clearSingleDjHotCue(deckId, index, event) {
+  if (event) event.preventDefault();
+  const deck = djDecks[deckId];
+  if (!deck) return;
+  deck.hotCues[index] = null;
+  const pad = document.getElementById(`dj-hotcue-btn-${deckId}-${index}`);
+  if (pad) {
+    pad.classList.remove('bg-cyan-500/30', 'border-cyan-400', 'text-white');
+  }
+  renderDjWaveformMarkers(deckId);
+  showToast(`Deck ${deckId.toUpperCase()}: CUE ${index + 1} gelöscht`);
+}
+window.clearSingleDjHotCue = clearSingleDjHotCue;
+
+function clearDjHotCues(deckId) {
+  const deck = djDecks[deckId];
+  if (!deck) return;
+  deck.hotCues = [null, null, null, null];
+  [0, 1].forEach(idx => {
+    const pad = document.getElementById(`dj-hotcue-btn-${deckId}-${idx}`);
+    if (pad) pad.classList.remove('bg-cyan-500/30', 'border-cyan-400', 'text-white');
+  });
+  renderDjWaveformMarkers(deckId);
+  showToast(`Deck ${deckId.toUpperCase()}: Alle CUEs zurückgesetzt`);
+}
+window.clearDjHotCues = clearDjHotCues;
 
 function jumpDjHotCue(deckId, index) {
   const deck = djDecks[deckId];
@@ -25941,7 +27506,8 @@ function toggleDjLoop(deckId, beats = 4) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
 
-  deck.loopActive = !deck.loopActive;
+  const isCurrentLengthActive = deck.loopActive && deck.loopLength === beats;
+  deck.loopActive = !isCurrentLengthActive;
   deck.loopLength = beats;
 
   if (deck.loopActive) {
@@ -25950,11 +27516,23 @@ function toggleDjLoop(deckId, beats = 4) {
     deck.loopEnd = deck.loopStart + (beatDuration * beats);
   }
 
-  const loopBtn = document.getElementById(`dj-loop-btn-${deckId}-${beats}`);
-  if (loopBtn) {
-    loopBtn.classList.toggle('bg-emerald-500/30', deck.loopActive);
-    loopBtn.classList.toggle('border-emerald-400', deck.loopActive);
+  [4, 8].forEach(b => {
+    const btn = document.getElementById(`dj-loop-btn-${deckId}-${b}`);
+    if (btn) {
+      const active = deck.loopActive && deck.loopLength === b;
+      btn.classList.toggle('bg-emerald-500/35', active);
+      btn.classList.toggle('border-emerald-400', active);
+      btn.classList.toggle('text-emerald-200', active);
+    }
+  });
+
+  const stateLabel = document.getElementById(`dj-loop-state-${deckId}`);
+  if (stateLabel) {
+    stateLabel.innerText = deck.loopActive ? `${beats}B AN` : 'AUS';
+    stateLabel.className = deck.loopActive ? 'text-[8px] font-mono font-bold text-emerald-400' : 'text-[8px] font-mono text-zinc-500';
   }
+
+  renderDjWaveformMarkers(deckId);
   showToast(`Deck ${deckId.toUpperCase()}: ${beats}-Beat Loop ${deck.loopActive ? 'Aktiv 🔁' : 'Aus'}`);
 }
 window.toggleDjLoop = toggleDjLoop;
@@ -25962,7 +27540,7 @@ window.toggleDjLoop = toggleDjLoop;
 function handleDjJogTouch(deckId, delta) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
-  deck.audio.currentTime = Math.max(0, deck.audio.currentTime + delta);
+  deck.audio.currentTime = Math.max(0, deck.audio.currentTime + delta * 0.05);
   playDjSfx('scratch_mini');
 }
 window.handleDjJogTouch = handleDjJogTouch;
@@ -25978,112 +27556,36 @@ function playDjSfx(type) {
   const now = audioCtx.currentTime;
   const dest = (typeof getMasterAudioDestination === 'function') ? (getMasterAudioDestination() || audioCtx.destination) : audioCtx.destination;
 
-  if (type === 'airhorn') {
-    const hornPitches = [466.16, 622.25, 932.33];
-    hornPitches.forEach(freq => {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(freq * 0.96, now);
-      osc.frequency.linearRampToValueAtTime(freq, now + 0.04);
-      osc.frequency.exponentialRampToValueAtTime(freq * 0.85, now + 0.5);
-
-      const vol = 0.28 * (soundMasterVolume || 0.5);
-      gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(vol, now + 0.02);
-      gain.gain.setValueAtTime(vol, now + 0.35);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
-
-      osc.connect(gain);
-      gain.connect(dest);
-      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-      osc.start(now);
-      osc.stop(now + 0.6);
-    });
-    showToast('📢 AIRHORN BLAST!');
-  } else if (type === 'scratch' || type === 'scratch_mini') {
+  if (type === 'scratch_mini') {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     const filter = audioCtx.createBiquadFilter();
 
     osc.type = 'triangle';
-    osc.frequency.setValueAtTime(type === 'scratch_mini' ? 400 : 800, now);
-    osc.frequency.exponentialRampToValueAtTime(140, now + 0.06);
-    osc.frequency.exponentialRampToValueAtTime(1100, now + 0.12);
+    osc.frequency.setValueAtTime(400, now);
+    osc.frequency.exponentialRampToValueAtTime(140, now + 0.04);
+    osc.frequency.exponentialRampToValueAtTime(900, now + 0.08);
 
     filter.type = 'bandpass';
     filter.frequency.setValueAtTime(1000, now);
     filter.Q.setValueAtTime(3, now);
 
-    const vol = (type === 'scratch_mini' ? 0.15 : 0.35) * (soundMasterVolume || 0.5);
+    const vol = 0.12 * (soundMasterVolume || 0.5);
     gain.gain.setValueAtTime(vol, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
 
     osc.connect(filter);
     filter.connect(gain);
     gain.connect(dest);
     osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
     osc.start(now);
-    osc.stop(now + 0.2);
-    if (type !== 'scratch_mini') showToast('⚡ VINYL SCRATCH!');
-  } else if (type === 'laser') {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(2400, now);
-    osc.frequency.exponentialRampToValueAtTime(220, now + 0.3);
-
-    const vol = 0.35 * (soundMasterVolume || 0.5);
-    gain.gain.setValueAtTime(vol, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
-
-    osc.connect(gain);
-    gain.connect(dest);
-    osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-    osc.start(now);
-    osc.stop(now + 0.35);
-    showToast('🚨 LASER SWEEP!');
-  } else if (type === 'subdrop') {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(160, now);
-    osc.frequency.exponentialRampToValueAtTime(34, now + 0.7);
-
-    const vol = 0.55 * (soundMasterVolume || 0.5);
-    gain.gain.setValueAtTime(vol, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
-
-    osc.connect(gain);
-    gain.connect(dest);
-    osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-    osc.start(now);
-    osc.stop(now + 0.9);
-    showToast('💥 808 SUB DROP!');
-  } else if (type === 'riser') {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(100, now);
-    osc.frequency.exponentialRampToValueAtTime(1800, now + 1.2);
-
-    const vol = 0.3 * (soundMasterVolume || 0.5);
-    gain.gain.setValueAtTime(0.01, now);
-    gain.gain.linearRampToValueAtTime(vol, now + 1.0);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.25);
-
-    osc.connect(gain);
-    gain.connect(dest);
-    osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-    osc.start(now);
-    osc.stop(now + 1.3);
-    showToast('🌪️ NOISE RISER!');
+    osc.stop(now + 0.14);
   } else if (type === 'cue_click') {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.type = 'sine';
     osc.frequency.setValueAtTime(880, now);
-    gain.gain.setValueAtTime(0.2 * (soundMasterVolume || 0.5), now);
+    gain.gain.setValueAtTime(0.15 * (soundMasterVolume || 0.5), now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
     osc.connect(gain);
     gain.connect(dest);
@@ -26102,11 +27604,8 @@ if (typeof globalThis !== 'undefined') {
   globalThis.removeMusicTrack = removeMusicTrack;
 }
 
-
-
 function updateDjVuMeters() {
   if (typeof document === 'undefined') return;
-  if ((!djDecks.a || !djDecks.a.isPlaying) && (!djDecks.b || !djDecks.b.isPlaying)) return;
   const djPanel = document.getElementById('panel-audio');
   if (!djPanel || djPanel.classList.contains('hidden')) return;
 
@@ -26114,15 +27613,15 @@ function updateDjVuMeters() {
   const vuB = document.getElementById('dj-vu-meter-b');
   
   if (djDecks.a && djDecks.a.isPlaying && vuA) {
-    const h = 25 + Math.random() * 65;
-    vuA.style.height = h + '%';
+    const h = 25 + Math.random() * 60;
+    vuA.style.height = (h * (djDecks.a.volume ?? 1)) + '%';
   } else if (vuA) {
     vuA.style.height = '10%';
   }
 
   if (djDecks.b && djDecks.b.isPlaying && vuB) {
-    const h = 25 + Math.random() * 65;
-    vuB.style.height = h + '%';
+    const h = 25 + Math.random() * 60;
+    vuB.style.height = (h * (djDecks.b.volume ?? 1)) + '%';
   } else if (vuB) {
     vuB.style.height = '10%';
   }
@@ -26328,7 +27827,14 @@ window.handleMiniPlayerVolume = handleMiniPlayerVolume;
 
 
 /* --- timer-1.js --- */
-// timer.js Teil 1/3: State, Konstanten & Sound/Sprach-Hilfsfunktionen
+/**
+ * @file timer-1.js
+ * @module FocusTimerStateAndVoice
+ * @description
+ * Zustandshaltung, Konfigurations-Persistenz und Sprachausgabe-Steuerung (TTS)
+ * für den integrierten Fokus-Timer. Koordiniert motivierende Zwischenansagen,
+ * Zeitansagen sowie das automatische Audio-Ducking laufender Hintergrundklänge.
+ */
 
 var timerSeconds = 3 * 60; // Standardmäßig auf 3 Minuten initialisiert
 var timerInitialSeconds = 3 * 60;
@@ -27569,16 +29075,16 @@ function duckAllAudioForSpeech(isDucked) {
     speechDuckingTimeout = null;
   }
   if (isDucked) {
-    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.42);
+    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.58);
     if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.duckRadio === 'function') {
       RadioNewsEngine.duckRadio(true);
     } else if (typeof window !== 'undefined' && typeof window.duckRadio === 'function') {
       window.duckRadio(true);
     }
-    // Sicherheits-Timeout: Audio nach 8.5s automatisch wiederherstellen, falls Browser-Event hakt
+    // Harmonischer Sicherheits-Timeout: Audio sanft wiederherstellen, falls Browser-Event hakt
     speechDuckingTimeout = setTimeout(() => {
       duckAllAudioForSpeech(false);
-    }, 8500);
+    }, 3500);
   } else {
     if (typeof restoreAmbientVolume === 'function') restoreAmbientVolume();
     if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.duckRadio === 'function') {
@@ -28212,7 +29718,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- timer-2.js --- */
-// timer.js Teil 2/3: Klingel-/Chime-Logik & Ringing-Modal
+/**
+ * @file timer-2.js
+ * @module FocusTimerChimes
+ * @description
+ * Akustische Signalgeber und End-Modal-Steuerung für den Fokus-Timer.
+ * Synthetisiert acht variierende, sanfte Oszillator-Glockenspiele (`playMinuteChime`)
+ * sowie das Abschluss-Klingelsignal bei abgelaufener Fokus-Sitzung.
+ */
 
 var ringInterval = typeof ringInterval !== 'undefined' ? ringInterval : (typeof window !== 'undefined' ? window.ringInterval : null);
 var ringTimeout = typeof ringTimeout !== 'undefined' ? ringTimeout : (typeof window !== 'undefined' ? window.ringTimeout : null);
@@ -28606,7 +30119,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- timer-3.js --- */
-// timer.js Teil 3/3: Timer-Start/Stop/Pause & UI-Updates
+/**
+ * @file timer-3.js
+ * @module FocusTimerController
+ * @description
+ * Haupt-Steuerlogik des Fokus-Timers (`startTimer`, `pauseTimer`, `stopTimer`, `resetTimer`),
+ * Verknüpfung mit offenen Aufgaben des Kanban-Boards sowie Synchronisation
+ * der Header- und Popover-Anzeigen.
+ */
 var timerHasTriggeredZero = false;
 
 function isTimerSoundActive() {
@@ -28734,7 +30254,10 @@ function playCurrentTimerBackgroundAudio(force = false) {
 
   try {
     if (mode === 'radio') {
-      const station = (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) ? selectedTimerRadio : (localStorage.getItem('flow_radio_station') || 'groovesalad');
+      const station = (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.getCurrentStationId === 'function' && RadioNewsEngine.getCurrentStationId())
+        || (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) 
+        || (typeof localStorage !== 'undefined' ? localStorage.getItem('flow_radio_station') : null) 
+        || 'dronezone';
       if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.playRadioStation === 'function') {
         RadioNewsEngine.playRadioStation(station);
       }
@@ -28805,8 +30328,8 @@ function setTimerAudioMode(mode, specificChoice = null) {
   }
 
   let newMode = mode;
-  if (!specificChoice && currentMode === mode && mode !== 'silent') {
-    newMode = 'silent';
+  if (newMode === 'silent') {
+    newMode = 'ambient';
   }
 
   timerAudioMode = newMode;
@@ -28820,17 +30343,33 @@ function setTimerAudioMode(mode, specificChoice = null) {
   stopTimerBackgroundAudio();
 
   const isTiming = (typeof timerRunning !== 'undefined' && timerRunning) || (typeof chronometerActive !== 'undefined' && chronometerActive);
-  if (isTiming || (specificChoice !== null && newMode !== 'silent')) {
+  if (isTiming || specificChoice !== null) {
     playCurrentTimerBackgroundAudio(true);
   }
 
   renderTimerCockpitContent();
-  const names = { ambient: '🌿 Sounds', music: '🎵 Musik', soundmachine: '🎵 Musik', radio: '📻 Live-Radio', silent: '🔇 Stille' };
+  const names = { ambient: '🌿 Sounds', music: '🎵 Musik', soundmachine: '🎵 Musik', radio: '📻 Live-Radio' };
   if (typeof showToast === 'function') {
     showToast(`Hintergrund: ${names[newMode] || newMode}`);
   }
 }
 window.setTimerAudioMode = setTimerAudioMode;
+
+function openRadioPanelFromTimer() {
+  const panelPresets = document.getElementById('panel-timer-presets');
+  if (panelPresets) panelPresets.classList.add('hidden');
+  if (typeof togglePanel === 'function') {
+    togglePanel('radio');
+  } else {
+    const pr = document.getElementById('panel-radio');
+    if (pr) pr.classList.remove('hidden');
+  }
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.renderRadioPanelContent === 'function') {
+    RadioNewsEngine.renderRadioPanelContent();
+  }
+}
+window.openRadioPanelFromTimer = openRadioPanelFromTimer;
+if (typeof globalThis !== 'undefined') globalThis.openRadioPanelFromTimer = openRadioPanelFromTimer;
 
 function toggleTimerVoiceFeature(feature) {
   if (feature === 'time') {
@@ -28859,7 +30398,7 @@ function toggleTimerVoiceFeature(feature) {
   renderTimerCockpitContent();
   if (typeof showToast === 'function') {
     if (feature === 'time') {
-      showToast(timerVoiceTimeAnnounce ? '⏱️ Zeitansagen: An' : '⏱️ Zeitansagen: Aus');
+      showToast(timerVoiceTimeAnnounce ? '⏱️ Zeitanzeige & Ansagen: An' : '⏱️ Zeitanzeige & Ansagen: Aus');
     } else if (feature === 'motivation') {
       showToast(timerVoiceMotivation ? '💡 Motivationssprüche: An' : '💡 Motivationssprüche: Aus');
     }
@@ -29089,11 +30628,25 @@ function renderTimerCockpitContent() {
 
   const currentMins = Math.round(timerInitialSeconds / 60) || 3;
   const taskTitle = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
-  const openTasks = getAllOpenBoardTasks();
-  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+  let currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+  if (currentAudioMode === 'silent') currentAudioMode = 'ambient';
   const currentSound = (typeof selectedTimerSound !== 'undefined' && selectedTimerSound) ? selectedTimerSound : 'lofi';
-  const currentRadio = (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) ? selectedTimerRadio : 'groovesalad';
+  const currentRadio = (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.getCurrentStationId === 'function' && RadioNewsEngine.getCurrentStationId())
+    || (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) 
+    || (typeof localStorage !== 'undefined' ? localStorage.getItem('flow_radio_station') : null) 
+    || 'dronezone';
   const currentMusicIdx = (typeof selectedTimerMusicIndex === 'number') ? selectedTimerMusicIndex : (typeof currentTrackIndex !== 'undefined' ? currentTrackIndex : 0);
+
+  const allRadioStations = (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.getRadioStations === 'function') 
+    ? RadioNewsEngine.getRadioStations() 
+    : [];
+  const activeStationObj = allRadioStations.find(s => s.id === currentRadio);
+  const activeRadioStationName = activeStationObj 
+    ? `${activeStationObj.flag || '📻'} ${activeStationObj.name}` 
+    : (currentRadio === 'groovesalad' ? '🥗 SomaFM Groove Salad' : '📻 Live Radio');
+  const isRadioLive = (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.isRadioPlaying === 'function')
+    ? RadioNewsEngine.isRadioPlaying()
+    : (typeof window !== 'undefined' && !!window.isRadioPlaying);
 
   const isTimeAnnounce = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
   const isMotivation = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
@@ -29132,15 +30685,6 @@ function renderTimerCockpitContent() {
     { id: 5, label: '🎤 Hell Is Around' }
   ];
 
-  const radioStationsList = [
-    { id: 'groovesalad', label: '🥗 Groove Salad' },
-    { id: 'chillout', label: '☕ Chillout Lounge' },
-    { id: 'defcon', label: '📻 SomaFM Defcon' },
-    { id: 'deepspace', label: '🎧 Deep Space' },
-    { id: 'secretagent', label: '🎶 Secret Agent' },
-    { id: 'lofi', label: '🔊 Lofi Girl' }
-  ];
-
   const masterVol = typeof soundMasterVolume !== 'undefined' ? soundMasterVolume : 0.5;
   const isMuted = (typeof isPlayerMuted !== 'undefined' && isPlayerMuted) || (typeof isTimerSoundActive === 'function' && !isTimerSoundActive());
   const currentVolPct = isMuted ? 0 : Math.round(masterVol * 100);
@@ -29177,8 +30721,8 @@ function renderTimerCockpitContent() {
             <div class="h-24 flex items-center justify-center py-1">
               <input type="range" min="0" max="1" step="0.02" value="${isMuted ? 0 : masterVol}" 
                      oninput="handleHeaderVolumeInput(this.value)" 
-                     class="h-20 w-1.5 accent-purple-400 cursor-pointer [writing-mode:bt-lr] [-webkit-appearance:slider-vertical]" 
-                     style="-webkit-appearance: slider-vertical; writing-mode: bt-lr;">
+                     class="h-20 w-1.5 accent-purple-400 cursor-pointer" 
+                     style="writing-mode: vertical-lr; direction: rtl;">
             </div>
             <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="text-[8.5px] font-mono font-bold px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition cursor-pointer">
               ${isMuted ? 'Unmute' : 'Mute'}
@@ -29233,31 +30777,28 @@ function renderTimerCockpitContent() {
       </div>
     `}
 
-    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO · STILLE) -->
-    <div class="p-2.5 rounded-2xl bg-gradient-to-b from-teal-950/30 to-indigo-950/30 border border-teal-500/35 shadow-inner flex flex-col gap-2">
+    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO) - VISUELL DEUTLICH HERVORGEHOBEN -->
+    <div class="p-3 rounded-2xl bg-gradient-to-br from-teal-950/60 via-purple-950/40 to-black/80 border-2 border-teal-400/60 shadow-[0_0_20px_rgba(20,184,166,0.25)] ring-1 ring-white/10 flex flex-col gap-2.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-teal-200 font-display flex items-center gap-1.5">
-          <i data-lucide="volume-2" class="w-3.5 h-3.5 text-teal-400"></i>
+        <span class="text-xs font-black text-teal-200 font-display flex items-center gap-2 drop-shadow-sm">
+          <i data-lucide="headphones" class="w-4 h-4 text-teal-300"></i>
           <span>Hintergrund-Audio</span>
         </span>
-        <span class="text-[9px] font-mono text-teal-300 bg-teal-500/20 px-1.5 py-0.2 rounded border border-teal-500/30 font-bold uppercase tracking-wider">
-          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : (currentAudioMode === 'radio' ? '📻 Radio' : '🔇 Stille'))}
+        <span class="text-[10px] font-mono text-teal-100 bg-teal-500/35 px-2 py-0.5 rounded-full border border-teal-400/80 font-bold uppercase tracking-wider shadow-sm">
+          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : '📻 Radio')}
         </span>
       </div>
 
-      <!-- 4 Haupt-Modi -->
-      <div class="grid grid-cols-4 gap-1">
-        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-gradient-to-r from-teal-600/50 to-emerald-600/50 border-teal-400 text-white shadow-[0_0_10px_rgba(20,184,166,0.35)] ring-1 ring-teal-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+      <!-- 3 Haupt-Modi mit hoher Sichtbarkeit (ohne Stille) -->
+      <div class="grid grid-cols-3 gap-2">
+        <button onclick="setTimerAudioMode('ambient');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-gradient-to-r from-teal-500 to-emerald-500 border-teal-300 text-black shadow-[0_0_15px_rgba(20,184,166,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
           🌿 Sounds
         </button>
-        <button onclick="setTimerAudioMode('music');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-gradient-to-r from-purple-600/50 to-indigo-600/50 border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.35)] ring-1 ring-purple-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('music');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-gradient-to-r from-purple-500 to-indigo-500 border-purple-300 text-white shadow-[0_0_15px_rgba(168,85,247,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
           🎵 Musik
         </button>
-        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-gradient-to-r from-sky-600/50 to-cyan-600/50 border-cyan-400 text-white shadow-[0_0_10px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('radio');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-gradient-to-r from-sky-500 to-cyan-500 border-cyan-300 text-black shadow-[0_0_15px_rgba(6,182,212,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
           📻 Radio
-        </button>
-        <button onclick="setTimerAudioMode('silent');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'silent' ? 'bg-white/15 border-white/30 text-white font-bold shadow-sm' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          🔇 Stille
         </button>
       </div>
 
@@ -29295,49 +30836,55 @@ function renderTimerCockpitContent() {
       ` : ''}
 
       ${currentAudioMode === 'radio' ? `
-        <div class="pt-1 border-t border-cyan-500/20 flex flex-col gap-1 animate-fade-in">
-          <div class="flex items-center justify-between text-[8.5px] font-mono text-cyan-300/80 px-0.5">
-            <span>Sender wählen:</span>
-            <span class="text-cyan-200 font-bold">${radioStationsList.find(r => r.id === currentRadio)?.label || currentRadio}</span>
+        <div class="pt-2 border-t border-cyan-500/25 flex items-center justify-between gap-2.5 animate-fade-in text-xs bg-cyan-950/25 p-2.5 rounded-xl border border-cyan-500/30">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-2.5 h-2.5 rounded-full ${isRadioLive ? 'bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.9)] animate-pulse' : 'bg-gray-500'} shrink-0"></span>
+            <div class="min-w-0">
+              <div class="text-[9px] font-mono text-cyan-300/80 uppercase font-bold tracking-wider flex items-center gap-1">
+                <i data-lucide="radio" class="w-3 h-3 text-cyan-400"></i>
+                <span>Noodle Radio gekoppelt</span>
+              </div>
+              <div class="text-[11.5px] font-bold text-white truncate" title="${activeRadioStationName}">${activeRadioStationName}</div>
+            </div>
           </div>
-          <div class="grid grid-cols-3 gap-1">
-            ${radioStationsList.map(r => `
-              <button onclick="setTimerAudioMode('radio', '${r.id}');" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentRadio === r.id ? 'bg-cyan-500/30 border-cyan-400 text-white font-bold shadow-xs ring-1 ring-cyan-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${r.label}">
-                ${r.label}
-              </button>
-            `).join('')}
-          </div>
+          <button type="button" onclick="openRadioPanelFromTimer();" class="py-1.5 px-3 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-400/50 text-cyan-200 hover:text-white text-[10.5px] font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0 active:scale-95 shadow-sm" title="Sender im Noodle Radio auswählen">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-cyan-300"></i>
+            <span>Sender wählen ↗</span>
+          </button>
         </div>
       ` : ''}
     </div>
 
-    <!-- 4. SPRACHBEGLEITUNG (ZEITANSAGEN & MOTIVATION) -->
-    <div class="p-2 rounded-2xl bg-indigo-950/25 border border-indigo-500/30 shadow-inner flex flex-col gap-1.5">
+    <!-- 4. SPRACHBEGLEITUNG (ZEITANZEIGE & MOTIVATIONSSPRÜCHE) - KONTRASTREICH & FARBENFROH -->
+    <div class="p-3 rounded-2xl bg-gradient-to-br from-indigo-950/40 via-purple-950/30 to-black/85 border-2 border-indigo-400/40 shadow-[0_0_20px_rgba(99,102,241,0.2)] ring-1 ring-white/10 flex flex-col gap-2.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-indigo-300 font-display flex items-center gap-1.5">
-          <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-400"></i>
+        <span class="text-xs font-black text-indigo-200 font-display flex items-center gap-2 drop-shadow-sm">
+          <i data-lucide="mic" class="w-4 h-4 text-indigo-300"></i>
           <span>Sprachbegleitung & Sprüche</span>
         </span>
-        <span class="text-[9px] font-mono font-bold ${isVoiceActive ? 'text-emerald-300' : 'text-gray-500'}">
+        <span class="text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full border ${isVoiceActive ? 'text-emerald-300 bg-emerald-500/25 border-emerald-400/60 shadow-[0_0_8px_rgba(52,211,153,0.3)]' : 'text-gray-400 bg-black/40 border-white/10'}">
           ${isVoiceActive ? '● Aktiv' : '○ Aus'}
         </span>
       </div>
 
-      <div class="grid grid-cols-2 gap-1.5">
-        <button onclick="toggleTimerVoiceFeature('time');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isTimeAnnounce ? 'bg-gradient-to-r from-indigo-600/40 to-purple-600/40 border-indigo-400/70 text-white shadow-[0_0_10px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="flex items-center gap-1 truncate">
-            <span>⏱️</span>
-            <span class="truncate">Zeitansagen</span>
+      <!-- Zeitanzeige & Motivationssprüche Buttons -->
+      <div class="grid grid-cols-2 gap-2">
+        <!-- 1. ZEITANZEIGE / ZEITANSAGEN (Cyan / Sky) -->
+        <button onclick="toggleTimerVoiceFeature('time');" class="py-2.5 px-3 rounded-xl border-2 text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isTimeAnnounce ? 'bg-gradient-to-r from-cyan-500 to-sky-500 border-cyan-200 text-slate-950 font-black shadow-[0_0_18px_rgba(6,182,212,0.6)] ring-2 ring-white/40' : 'bg-black/60 border-cyan-500/30 text-cyan-200 hover:text-white hover:bg-cyan-950/40'}">
+          <span class="flex items-center gap-1.5 truncate">
+            <span class="text-base leading-none">⏱️</span>
+            <span class="truncate">Zeitanzeige</span>
           </span>
-          <span class="text-[9px] font-mono font-bold ${isTimeAnnounce ? 'text-indigo-200' : 'text-gray-500'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
+          <span class="text-[9.5px] font-mono font-black px-1.5 py-0.5 rounded-md ${isTimeAnnounce ? 'bg-black/30 text-slate-950' : 'bg-white/10 text-cyan-300'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
         </button>
 
-        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isMotivation ? 'bg-gradient-to-r from-purple-600/40 to-pink-600/40 border-pink-400/70 text-white shadow-[0_0_10px_rgba(236,72,153,0.25)] ring-1 ring-pink-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="flex items-center gap-1 truncate">
-            <span>💡</span>
-            <span class="truncate">Motivation</span>
+        <!-- 2. MOTIVATIONSSPRÜCHE (Amber / Warm Gold) -->
+        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-2.5 px-3 rounded-xl border-2 text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isMotivation ? 'bg-gradient-to-r from-amber-400 to-orange-500 border-amber-200 text-slate-950 font-black shadow-[0_0_18px_rgba(245,158,11,0.6)] ring-2 ring-white/40' : 'bg-black/60 border-amber-500/30 text-amber-200 hover:text-white hover:bg-amber-950/40'}">
+          <span class="flex items-center gap-1.5 truncate">
+            <span class="text-base leading-none">💡</span>
+            <span class="truncate">Motivationssprüche</span>
           </span>
-          <span class="text-[9px] font-mono font-bold ${isMotivation ? 'text-pink-200' : 'text-gray-500'}">${isMotivation ? 'AN' : 'AUS'}</span>
+          <span class="text-[9.5px] font-mono font-black px-1.5 py-0.5 rounded-md ${isMotivation ? 'bg-black/30 text-slate-950' : 'bg-white/10 text-amber-300'}">${isMotivation ? 'AN' : 'AUS'}</span>
         </button>
       </div>
 
@@ -30481,9 +32028,16 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- sport.js --- */
 
-// =========================================================================
-// MOVEMENT HISTORY & LOG TRACKING ENGINE
-// =========================================================================
+/**
+ * @file sport.js
+ * @module SportAndMovementEngine
+ * @description
+ * Modulares Bewegungs- und Home-Workout-System (`#helper-sport-modal`):
+ * - Vorgefertigte Kurzprogramme ohne Geräte (Presets)
+ * - Individueller Workout-Baukasten (Dauer, Fokus-Zone, Equipment, Nachbarschafts-Modus)
+ * - Durchsuchbares Übungs-Lexikon und 1–3-Löffel-Einzelimpulse
+ * - Interaktiver Intervall-Player mit Verlaufsspeicherung (`noodle_movement_history_v1`)
+ */
 const MOVEMENT_HISTORY_KEY = 'noodle_movement_history_v1';
 
 function getMovementHistory() {
@@ -30537,7 +32091,7 @@ function clearAllMovementHistory() {
     localStorage.removeItem(MOVEMENT_HISTORY_KEY);
     renderMovementHistoryUI();
     if (typeof showToast === 'function') {
-      showToast('🗑️ Bewegungs-Tagebuch geleert');
+      showToast('Bewegungs-Tagebuch geleert.');
     }
   } catch (e) {}
 }
@@ -30570,7 +32124,7 @@ function renderMovementHistoryUI() {
   listEl.innerHTML = history.map(item => `
     <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 transition flex items-center justify-between gap-3">
       <div class="flex items-center gap-2.5 min-w-0">
-        <div class="w-8 h-8 rounded-xl bg-lime-500/15 border border-lime-500/30 flex items-center justify-center text-lime-300 shrink-0 text-xs">
+        <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0 text-xs">
           🏃
         </div>
         <div class="min-w-0">
@@ -30579,7 +32133,7 @@ function renderMovementHistoryUI() {
         </div>
       </div>
       <div class="flex items-center gap-2 shrink-0">
-        <span class="px-2 py-0.5 rounded-md bg-lime-500/20 text-lime-300 text-[10px] font-mono font-bold border border-lime-500/30">${item.durationMinutes} Min</span>
+        <span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">${item.durationMinutes} Min</span>
         <button onclick="deleteMovementHistoryItem('${item.id}')" class="p-1 rounded-lg text-gray-500 hover:text-rose-400 hover:bg-white/10 transition cursor-pointer" title="Eintrag löschen">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
         </button>
@@ -31324,7 +32878,7 @@ function switchSportTab(tabId) {
     }
     if (btn) {
       if (t === tabId) {
-        btn.className = "flex-1 py-1.5 px-2 rounded-xl font-bold text-xs bg-lime-500/20 text-lime-300 border border-lime-400/50 shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer";
+        btn.className = "flex-1 py-1.5 px-2 rounded-xl font-bold text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer";
       } else {
         btn.className = "flex-1 py-1.5 px-2 rounded-xl font-semibold text-xs text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition flex items-center justify-center gap-1.5 cursor-pointer";
       }
@@ -31344,7 +32898,8 @@ function updateMovementStatsBadge() {
   const badge = document.getElementById('sport-stats-badge');
   if (!badge) return;
   const stats = getMovementStats();
-  badge.innerHTML = `🔥 ${stats.totalMinutes} Min · ${stats.completedWorkouts} Workouts`;
+  badge.innerHTML = `<span class="flex items-center gap-1"><i data-lucide="flame" class="w-3 h-3 text-emerald-400"></i><span>${stats.totalMinutes} Min · ${stats.completedWorkouts} Workouts</span></span>`;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // =========================================================================
@@ -31362,27 +32917,27 @@ function renderWorkoutPresets() {
     const count = preset.exerciseIds.length;
 
     return `
-      <div onclick="startSportPreset('${preset.id}')" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-lime-500/10 border border-white/10 hover:border-lime-500/40 transition-all duration-200 cursor-pointer flex flex-col justify-between gap-2.5 group/card hover:scale-[1.015] active:scale-[0.985] shadow-sm">
+      <div onclick="startSportPreset('${preset.id}')" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-all duration-200 cursor-pointer flex flex-col justify-between gap-2.5 group/card hover:scale-[1.015] active:scale-[0.985] shadow-sm">
         <div class="flex items-start justify-between gap-2">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-xl bg-lime-500/15 border border-lime-500/30 flex items-center justify-center text-lime-300 group-hover/card:scale-110 transition-transform">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-300 group-hover/card:scale-110 transition-transform">
               <i data-lucide="${preset.icon}" class="w-4 h-4"></i>
             </div>
             <div>
-              <h4 class="text-xs font-bold text-white group-hover/card:text-lime-200 transition-colors font-display">${title}</h4>
+              <h4 class="text-xs font-bold text-white group-hover/card:text-emerald-200 transition-colors font-display">${title}</h4>
               <p class="text-[10px] text-gray-400 line-clamp-1">${subtitle}</p>
             </div>
           </div>
-          <span class="px-2 py-0.5 rounded-full bg-lime-500/20 text-lime-300 text-[10px] font-mono font-bold border border-lime-500/30 shrink-0">${preset.durationMin} Min</span>
+          <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30 shrink-0">${preset.durationMin} Min</span>
         </div>
 
         <div class="flex items-center justify-between pt-2 border-t border-white/5 text-[10px] text-gray-400">
           <span class="flex items-center gap-1">
-            <i data-lucide="layers" class="w-3 h-3 text-lime-400"></i>
+            <i data-lucide="layers" class="w-3 h-3 text-emerald-400"></i>
             <span>${count} Übungen · ${preset.workSec}s / ${preset.restSec}s</span>
           </span>
-          <button class="px-2.5 py-1 rounded-lg bg-lime-500 hover:bg-lime-400 text-black font-bold text-[10px] transition flex items-center gap-1 shadow-sm">
-            <i data-lucide="play" class="w-3 h-3 fill-black"></i>
+          <button class="px-2.5 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] transition flex items-center gap-1 shadow-sm">
+            <i data-lucide="play" class="w-3 h-3 fill-slate-950"></i>
             <span>Start</span>
           </button>
         </div>
@@ -31448,7 +33003,7 @@ function updateCustomWorkoutPreview() {
     return `
       <div class="p-2 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between gap-2 text-xs">
         <div class="flex items-center gap-2 min-w-0">
-          <span class="w-5 h-5 rounded-md bg-lime-500/20 text-lime-300 font-mono text-[10px] font-bold flex items-center justify-center shrink-0">${i + 1}</span>
+          <span class="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold flex items-center justify-center shrink-0">${i + 1}</span>
           <span class="font-semibold text-gray-200 truncate">${name}</span>
         </div>
         <span class="text-[9.5px] font-mono text-gray-400 shrink-0">${muscle}</span>
@@ -31538,17 +33093,17 @@ function renderExerciseLibrary() {
       : tr({ de: '⚡ Körpergewicht', en: '⚡ Bodyweight', fr: '⚡ Poids du corps', it: '⚡ Corpo libero', es: '⚡ Peso corporal', el: '⚡ Σωματικό βάρος' });
 
     return `
-      <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.06] border border-white/10 hover:border-lime-500/40 transition flex items-center justify-between gap-3">
+      <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.06] border border-white/10 hover:border-emerald-500/40 transition flex items-center justify-between gap-3">
         <div class="space-y-1 min-w-0 flex-1">
           <div class="flex items-center gap-2 flex-wrap">
             <h4 class="text-xs font-bold text-white font-display">${name}</h4>
-            <span class="px-1.5 py-0.2 rounded-md bg-lime-500/15 border border-lime-500/30 text-[9px] font-mono text-lime-300 font-bold">${equipLabel}</span>
+            <span class="px-1.5 py-0.2 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[9px] font-mono text-emerald-300 font-bold">${equipLabel}</span>
             <span class="px-1.5 py-0.2 rounded-md bg-white/5 text-[9px] font-mono text-gray-400">${muscle}</span>
           </div>
           <p class="text-[11px] text-gray-300 leading-relaxed line-clamp-2">${desc}</p>
         </div>
-        <button onclick="startSingleExerciseNow('${ex.id}')" class="px-3 py-1.5 rounded-xl bg-lime-500/20 hover:bg-lime-500/30 text-lime-300 border border-lime-400/40 text-xs font-bold transition flex items-center gap-1 shrink-0 cursor-pointer shadow-xs" title="Übung sofort starten">
-          <i data-lucide="play" class="w-3.5 h-3.5 fill-lime-300"></i>
+        <button onclick="startSingleExerciseNow('${ex.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 text-xs font-bold transition flex items-center gap-1 shrink-0 cursor-pointer shadow-xs" title="Übung sofort starten">
+          <i data-lucide="play" class="w-3.5 h-3.5 fill-emerald-300"></i>
           <span>Start</span>
         </button>
       </div>
@@ -31667,7 +33222,7 @@ function updateWorkoutPlayerUI() {
 
   if (activeRoutineState === 'work') {
     if (stateBadgeEl) {
-      stateBadgeEl.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-lime-500/25 text-lime-300 border border-lime-400/40 animate-pulse";
+      stateBadgeEl.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/25 text-emerald-300 border border-emerald-400/40 animate-pulse";
       stateBadgeEl.innerText = getSportT('ready_set_go');
     }
     if (exNameEl) exNameEl.innerText = currentEx.name[lang] || currentEx.name['de'];
@@ -31687,7 +33242,7 @@ function updateWorkoutPlayerUI() {
     if (nextEx) {
       nextUpBoxEl.classList.remove('hidden');
       const nextTitle = nextEx.name[lang] || nextEx.name['de'];
-      nextUpBoxEl.innerHTML = `<span class="text-gray-400 font-normal">${getSportT('next_up')}</span> <span class="text-lime-200 font-bold">${nextTitle}</span>`;
+      nextUpBoxEl.innerHTML = `<span class="text-gray-400 font-normal">${getSportT('next_up')}</span> <span class="text-emerald-200 font-bold">${nextTitle}</span>`;
     } else {
       nextUpBoxEl.classList.add('hidden');
     }
@@ -31709,11 +33264,11 @@ function toggleWorkoutAudio(type) {
   if (activeRoutineAudio === type) {
     if (typeof stopAmbientSound === 'function') stopAmbientSound();
     activeRoutineAudio = 'none';
-    showToast('🎵 Workout-Sound stummgeschaltet');
+    showToast('Workout-Sound stummgeschaltet.');
   } else {
     activeRoutineAudio = type;
     playAmbientSound(type === 'beats' ? 'synth' : type === 'lofi' ? 'cafe' : 'stream', true);
-    showToast(`🎵 Workout-Sound: ${type}`);
+    showToast(`Workout-Sound: ${type}`);
   }
 }
 
@@ -31786,12 +33341,6 @@ function completeWorkoutRoutine() {
   if (typeof playProceduralSound === 'function') {
     playProceduralSound(0);
   }
-  if (typeof triggerConfetti === 'function') {
-    triggerConfetti();
-  }
-  if (typeof showPraise === 'function') {
-    showPraise();
-  }
 
   showToast(getSportT('workout_completed'));
 
@@ -31820,7 +33369,7 @@ function generateSportSuggestion() {
     box.innerHTML = `
       <h4 class="text-white font-bold text-sm font-display mb-1">${randomExercise.name}</h4>
       <p class="text-xs text-gray-300 leading-relaxed font-semibold">${randomExercise.desc}</p>
-      <div class="flex items-center justify-center gap-1.5 pt-2 text-[10px] text-lime-400 font-bold uppercase tracking-wider">
+      <div class="flex items-center justify-center gap-1.5 pt-2 text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
         <i data-lucide="clock" class="w-3.5 h-3.5"></i>
         <span>${randomExercise.duration}s</span>
       </div>
@@ -32018,17 +33567,14 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-interaction-mode.js --- */
 /**
- * app-interaction-mode.js
- * Windows-Grade Multi-Window Studio & Smart Glances Engine
- * =====================================================================
- * - Vollständiges, einheitliches Fenster-Management für ALLE Tools, Menüs & Modals:
- *   [ — ] Minimieren in Taskleiste (mit Live-Thumbnail-Hover)
- *   [ ⛶ / 🗗 ] Maximieren / Wiederherstellen (auch per Header-Doppelklick)
- *   [ ✕ ] Schließen
- * - Dynamischer DOM-Observer: Verhindert doppelte / fehlende Buttons nach Tab-Wechseln.
- * - Paralleles Multitasking: Beliebig viele Tools laufen gleichzeitig nebeneinander.
- * - Windows-Taskleiste am unteren Bildschirmrand mit Live-Glance-Previews.
- * - Intelligente Hovers auf allen Header- & Menü-Icons beibehalten.
+ * @file app-interaction-mode.js
+ * @module WindowManager
+ * @description
+ * Multi-Window Studio & Smart-Glance Fenstermanagement:
+ * - Einheitliche Fenstersteuerung (Minimieren, Maximieren/Wiederherstellen, Schließen) für alle Modals & Tools
+ * - Dynamischer `MutationObserver` für konsistente Fenster-Header über Tab-Wechsel hinweg
+ * - Paralleles Multitasking mit frei positionierbaren Tool-Fenstern
+ * - Taskleiste am unteren Bildschirmrand mit Live-Glance-Vorschau
  */
 
 (function () {
@@ -32055,152 +33601,116 @@ if (typeof globalThis !== 'undefined') {
   }
 
   let currentMode = getSavedMode();
-  let highestZIndex = 100030;
+  let highestZIndex = 200020;
   const activeWindows = new Set();
   const minimizedWindows = new Set();
 
-  function applyModeClasses(mode) {
+  const FLOATING_TOOL_NAMES = new Set([
+    'shopping', 'cooking', 'radio', 'news', 'audio', 'alarm',
+    'daily', 'impulse', 'inspiration', 'collab-chat', 'social',
+    'health', 'humor-lab', 'radio-news',
+    'dj', 'music', 'ambient', 'sounds'
+  ]);
+
+  const TRANSIENT_DROPDOWN_NAMES = new Set([
+    'header-tools', 'weather', 'calendar-dropdown', 'pause-dropdown',
+    'report', 'settings-dropdown', 'timer-presets', 'feedback', 'labs-menu'
+  ]);
+
+  const EXCLUDED_MODAL_IDS = new Set([
+    'app-confirm-modal', 'modal-mobile-quick-add', 'modal-mobile-quick-menu',
+    'feierabend-celebration-modal'
+  ]);
+
+  function applyModeClasses() {
     if (typeof document === 'undefined' || !document.body) return;
-    document.body.classList.toggle('mode-multi-window', mode === 'multi-window');
-    document.body.classList.toggle('mode-click-only', mode === 'click-only');
-    document.body.classList.toggle('mode-turbo', mode === 'turbo');
-    document.body.classList.toggle('mode-fast-hover', mode === 'turbo');
-    updateSettingsUI(mode);
+    document.body.classList.add('mode-multi-window');
+    document.body.classList.remove('mode-click-only', 'mode-turbo', 'mode-fast-hover');
   }
 
-  function setInteractionMode(mode, showNotification = true) {
-    if (mode === 'peek-pin') mode = 'multi-window';
-    if (mode !== 'click-only' && mode !== 'multi-window' && mode !== 'turbo') return;
-    currentMode = mode;
-    try {
-      localStorage.setItem(STORAGE_KEY, mode);
-    } catch (e) {}
-
-    applyModeClasses(mode);
-
-    if (showNotification && typeof showToast === 'function') {
-      let msg = '';
-      if (mode === 'turbo') {
-        msg = typeof tr === 'function' ? tr({
-          de: '⚡ Turbo-Hover aktiv: Blitzschneller Wechsel & ultraschnelle Reaktionen (Edge-Style)',
-          en: '⚡ Turbo Hover active: Lightning-fast hover switching & instant responsiveness (Edge style)'
-        }) : '⚡ Turbo-Hover aktiv: Blitzschneller Wechsel & ultraschnelle Reaktionen';
-      } else if (mode === 'click-only') {
-        msg = typeof tr === 'function' ? tr({
-          de: '🗗 Kompakt-Modus aktiv: Panels öffnen zentriert per Klick',
-          en: '🗗 Compact mode active: Panels open centered on click'
-        }) : '🗗 Kompakt-Modus aktiv: Panels öffnen zentriert per Klick';
-      } else {
-        msg = typeof tr === 'function' ? tr({
-          de: '◨ Workspace Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen',
-          en: '◨ Workspace Studio active: Minimize [—], maximize [⛶] & run tools in parallel'
-        }) : '◨ Workspace Studio aktiv: Tools minimieren [—], maximieren [⛶] & parallel nutzen';
-      }
-      showToast(msg);
-    }
-
-    if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
-    window.dispatchEvent(new CustomEvent('noodle-interaction-mode-changed', { detail: { mode } }));
+  function setInteractionMode() {
+    // Interaktionsmodi Studio / Kompakt / Turbo wurden entfernt; Standard ist Multi-Window
+    applyModeClasses();
   }
 
-  function updateSettingsUI(mode) {
-    const btnMulti = document.getElementById('btn-mode-peek-pin');
-    const btnClick = document.getElementById('btn-mode-click-only');
-    const btnTurbo = document.getElementById('btn-mode-turbo');
-    const badge = document.getElementById('interaction-mode-badge');
-
-    const activeClasses = 'bg-purple-600 text-white font-bold shadow-md border border-purple-400/40';
-    const activeTurboClasses = 'bg-gradient-to-r from-amber-500 to-orange-500 text-black font-black shadow-[0_0_12px_rgba(245,158,11,0.4)] border border-amber-300';
-    const inactiveClasses = 'bg-white/[0.03] text-gray-400 hover:text-white border border-transparent';
-
-    if (btnMulti) {
-      btnMulti.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'multi-window' ? activeClasses : inactiveClasses}`;
-    }
-    if (btnClick) {
-      btnClick.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'click-only' ? activeClasses : inactiveClasses}`;
-    }
-    if (btnTurbo) {
-      btnTurbo.className = `py-1.5 px-2 rounded-lg text-[10px] font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${mode === 'turbo' ? activeTurboClasses : inactiveClasses}`;
-    }
-
-    if (badge) {
-      if (mode === 'turbo') {
-        badge.textContent = '⚡ Turbo Hover';
-        badge.className = 'text-[8.5px] font-mono font-bold bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded border border-amber-500/40 shadow-xs';
-      } else if (mode === 'click-only') {
-        badge.textContent = 'Kompakt';
-        badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
-      } else {
-        badge.textContent = 'Workspace Studio';
-        badge.className = 'text-[8.5px] text-purple-300 font-mono bg-purple-500/20 px-1.5 py-0.2 rounded border border-purple-500/30';
-      }
-    }
-
-    const modalRadioPeek = document.getElementById('modal-radio-mode-peek');
-    const modalRadioClick = document.getElementById('modal-radio-mode-click');
-    const modalRadioTurbo = document.getElementById('modal-radio-mode-turbo');
-    if (modalRadioPeek) modalRadioPeek.checked = (mode === 'multi-window');
-    if (modalRadioClick) modalRadioClick.checked = (mode === 'click-only');
-    if (modalRadioTurbo) modalRadioTurbo.checked = (mode === 'turbo');
+  function normalizePanelName(panelName) {
+    if (!panelName) return '';
+    return String(panelName).replace(/^(panel-|modal-|helper-)/, '').replace(/-modal$/, '');
   }
 
   function getPanelMeta(panelName) {
-    const cleanName = panelName.replace(/^(panel-|modal-|helper-)/, '');
+    const cleanName = normalizePanelName(panelName);
     const metas = {
-      'shopping': { title: 'Einkaufsliste', icon: '🛒', short: 'Einkauf', color: 'text-emerald-400', getSummary: () => {
+      'shopping': { title: 'Einkaufsliste', lucide: 'shopping-bag', short: 'Einkauf', color: 'text-emerald-400', getSummary: () => {
         const countEl = document.getElementById('shop-badge-count');
         const count = countEl && !countEl.classList.contains('hidden') ? countEl.textContent : '0';
         return `${count} Artikel auf der Liste`;
       }},
-      'cooking': { title: 'Koch-Studio', icon: '🍳', short: 'Kochen', color: 'text-amber-400', getSummary: () => 'Smarte Rezepte & Zubereitung' },
-      'clean-guide': { title: 'Putz-Guide', icon: '✨', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
-      'cleaning-guide': { title: 'Putz-Guide', icon: '✨', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
-      'alarm': { title: 'Wecker & Timer', icon: '⏱️', short: 'Timer', color: 'text-rose-400', getSummary: () => {
+      'cooking': { title: 'Koch-Studio', lucide: 'utensils', short: 'Kochen', color: 'text-amber-400', getSummary: () => 'Smarte Rezepte & Zubereitung' },
+      'clean-guide': { title: 'Putz-Guide', lucide: 'sparkles', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
+      'cleaning-guide': { title: 'Putz-Guide', lucide: 'sparkles', short: 'Putz-Guide', color: 'text-cyan-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
+      'cleaning': { title: 'Putz-Guide', lucide: 'brush', short: 'Putz-Guide', color: 'text-teal-400', getSummary: () => 'Schritt-für-Schritt Grundreinigung' },
+      'steps': { title: 'Teilschritte', lucide: 'list-checks', short: 'Steps', color: 'text-purple-300', getSummary: () => 'Schritt-für-Schritt Fokus' },
+      'break': { title: 'Pausen-Timer', lucide: 'coffee', short: 'Pause', color: 'text-teal-300', getSummary: () => 'Atem & Kurzentspannung' },
+      'alarm': { title: 'Wecker & Timer', lucide: 'bell', short: 'Timer', color: 'text-rose-400', getSummary: () => {
         const timerEl = document.getElementById('timer-display');
         return timerEl ? `Timer: ${timerEl.textContent.trim()}` : 'Wecker & Countdown aktiv';
       }},
       
-      'audio': { title: 'Sound Center', icon: '🎧', short: 'Sound', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Entspannung' },
-      'radio': { title: 'Radio Stream', icon: '📻', short: 'Radio', color: 'text-pink-400', getSummary: () => 'Live-Sender & Streams' },
-      'news': { title: 'News Briefing', icon: '📰', short: 'News', color: 'text-purple-400', getSummary: () => 'Weltweite & lokale Nachrichten' },
-      'sample-manager': { title: 'Sample Manager', icon: '🎛️', short: 'Samples', color: 'text-violet-400', getSummary: () => 'Eigene DJ-Samples verwalten' },
+      'audio': { title: 'Sound Center', lucide: 'headphones', short: 'Sound', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Entspannung' },
+      'ambient': { title: 'Ambient & Sounds', lucide: 'headphones', short: 'Sounds', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Naturklänge' },
+      'sounds': { title: 'Ambient & Sounds', lucide: 'headphones', short: 'Sounds', color: 'text-teal-400', getSummary: () => 'Ambient Mixer & Naturklänge' },
+      'music': { title: 'Musik & Medien', lucide: 'disc-3', short: 'Music', color: 'text-sky-400', getSummary: () => 'Eigene Tracks & Playlists' },
+      'dj': { title: 'Noodle DJ Workstation', lucide: 'sliders', short: 'DJ', color: 'text-amber-400', getSummary: () => '2-Deck Mixer & FX' },
+      'radio': { title: 'Radio Stream', lucide: 'radio', short: 'Radio', color: 'text-pink-400', getSummary: () => 'Live-Sender & Streams' },
+      'news': { title: 'News Briefing', lucide: 'newspaper', short: 'News', color: 'text-purple-400', getSummary: () => 'Weltweite & lokale Nachrichten' },
+      'sample-manager': { title: 'Sample Manager', lucide: 'sliders', short: 'Samples', color: 'text-violet-400', getSummary: () => 'Beispiel-Aufgaben verwalten' },
 
-      'health': { title: 'Gesundheit & Vital', icon: '❤️', short: 'Health', color: 'text-rose-400', getSummary: () => 'Wasser, Puls & Vorsorge' },
-      'humor-lab': { title: 'Humor Lab', icon: '🎭', short: 'Humor', color: 'text-yellow-400', getSummary: () => 'Gute Laune & Minispiele' },
-      'brainstorm': { title: 'Brainstorming Hub', icon: '💡', short: 'Brainstorm', color: 'text-amber-300', getSummary: () => 'Gedankenblitze & Ideen-Board' },
-      'inspiration': { title: 'Inspiration & Zitate', icon: '✨', short: 'Ideen', color: 'text-amber-300', getSummary: () => 'Tages-Zitate & Motivation' },
-      'clarity': { title: 'Clarity Gedanken', icon: '🧠', short: 'Clarity', color: 'text-indigo-300', getSummary: () => 'Gedanken sortieren & Klarheit' },
+      'health': { title: 'Gesundheit & Vital', lucide: 'heart', short: 'Health', color: 'text-rose-400', getSummary: () => 'Wasser, Puls & Vorsorge' },
+      'humor-lab': { title: 'Fun-Labor', lucide: 'smile', short: 'Fun', color: 'text-yellow-400', getSummary: () => 'Entlastung & Soundboard' },
+      'brainstorm': { title: 'Brainstorming Hub', lucide: 'lightbulb', short: 'Brainstorm', color: 'text-amber-300', getSummary: () => 'Gedankenblitze & Ideen-Board' },
+      'inspiration': { title: 'Inspiration & Zitate', lucide: 'sparkles', short: 'Ideen', color: 'text-amber-300', getSummary: () => 'Tages-Zitate & Motivation' },
+      'clarity': { title: 'Clarity Gedanken', lucide: 'brain', short: 'Clarity', color: 'text-indigo-300', getSummary: () => 'Gedanken sortieren & Klarheit' },
 
-      'pick': { title: 'Was Jetzt?', icon: '🎲', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Zufalls-Entscheidungshilfe' },
-      'whatnow': { title: 'Was Jetzt?', icon: '🎲', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Zufalls-Entscheidungshilfe' },
-      'sport': { title: 'Sport & Bewegung', icon: '🏃', short: 'Sport', color: 'text-green-400', getSummary: () => '7-Minuten Workout & Dehnen' },
-      'safespace': { title: 'Safe Space', icon: '🛡️', short: 'Safe Space', color: 'text-cyan-300', getSummary: () => 'Ruheort & Beruhigung' },
-      'dice': { title: 'Würfel Studio', icon: '🎲', short: 'Würfel', color: 'text-purple-300', getSummary: () => '3D-Würfel für Entscheidungen' },
-      'roulette': { title: 'Entscheidungs-Rad', icon: '🎯', short: 'Roulette', color: 'text-rose-300', getSummary: () => 'Glücksrad für Aufgaben' },
-      'regulation': { title: 'Regulation Studio', icon: '🧘', short: 'Regulation', color: 'text-teal-300', getSummary: () => 'Nervensystem regulieren' },
-      'ocr-scanner': { title: 'OCR Scanner', icon: '📷', short: 'Scanner', color: 'text-blue-300', getSummary: () => 'Texte & Rechnungen scannen' },
-      'supermarket': { title: 'Supermarkt-Modus', icon: '🏬', short: 'Markt', color: 'text-emerald-400', getSummary: () => 'Vollbild Einkaufsmodus' },
-      'p2p-sync': { title: 'P2P Synchronisierung', icon: '🔄', short: 'Sync', color: 'text-emerald-300', getSummary: () => 'Echtzeit-Gerätekopplung' },
-      'app-install': { title: 'App Installation & Setup', icon: '💻', short: 'Install', color: 'text-purple-300', getSummary: () => 'Windows, Mac, Android, Linux & Offline' },
-      'settings': { title: 'Optionen & Einstellungen', icon: '⚙️', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
+      'pick': { title: 'Entscheidungshilfe', lucide: 'lightbulb', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Nächster Fokus-Schritt' },
+      'whatnow': { title: 'Entscheidungshilfe', lucide: 'lightbulb', short: 'Was Jetzt', color: 'text-emerald-300', getSummary: () => 'Nächster Fokus-Schritt' },
+      'sport': { title: 'Bewegungspause', lucide: 'activity', short: 'Sport', color: 'text-green-400', getSummary: () => 'Micro-Workouts & Dehnen' },
+      'safespace': { title: 'Safe Space', lucide: 'shield', short: 'Safe Space', color: 'text-cyan-300', getSummary: () => 'Ruheort & Beruhigung' },
+      'dice': { title: 'Würfel Studio', lucide: 'dices', short: 'Würfel', color: 'text-purple-300', getSummary: () => 'Zufalls-Entscheidung' },
+      'roulette': { title: 'Entscheidungs-Rad', lucide: 'disc', short: 'Roulette', color: 'text-rose-300', getSummary: () => 'Glücksrad für Aufgaben' },
+      'regulation': { title: 'Regulation Studio', lucide: 'wind', short: 'Regulation', color: 'text-teal-300', getSummary: () => 'Nervensystem regulieren' },
+      'ocr-scanner': { title: 'OCR Scanner', lucide: 'scan-text', short: 'Scanner', color: 'text-blue-300', getSummary: () => 'Texte & Notizen scannen' },
+      'note-scanner': { title: 'Notiz-Scanner', lucide: 'camera', short: 'Scanner', color: 'text-blue-300', getSummary: () => 'Texte & Notizen scannen' },
+      'note-detail': { title: 'Notiz bearbeiten', lucide: 'sticky-note', short: 'Notiz', color: 'text-amber-300', getSummary: () => 'Notiz-Editor' },
+      'text-import': { title: 'Sammel-Import', lucide: 'file-text', short: 'Import', color: 'text-purple-300', getSummary: () => 'Aufgaben & Listen importieren' },
+      'report-export': { title: 'Bericht-Export', lucide: 'file-text', short: 'Export', color: 'text-purple-300', getSummary: () => 'Wochen- & Monatsbericht' },
+      'report-dashboard': { title: 'Statistik-Dashboard', lucide: 'bar-chart-2', short: 'Dashboard', color: 'text-purple-300', getSummary: () => 'Tages- & Wochenauswertung' },
+      'learning-hub': { title: 'Wissens-Labor', lucide: 'graduation-cap', short: 'Lernen', color: 'text-amber-300', getSummary: () => 'Deep Learning & Quiz' },
+      'undo-history': { title: 'Undo-Verlauf', lucide: 'history', short: 'Undo', color: 'text-cyan-300', getSummary: () => 'Vorherige Schritte wiederherstellen' },
+      'postpone-termin': { title: 'Termin verschieben', lucide: 'calendar-sync', short: 'Termin', color: 'text-sky-300', getSummary: () => 'Datum & Uhrzeit anpassen' },
+      'supermarket': { title: 'Supermarkt-Modus', lucide: 'shopping-bag', short: 'Markt', color: 'text-emerald-400', getSummary: () => 'Vollbild Einkaufsmodus' },
+      'p2p-sync': { title: 'P2P Synchronisierung', lucide: 'refresh-cw', short: 'Sync', color: 'text-emerald-300', getSummary: () => 'Echtzeit-Gerätekopplung' },
+      'app-install': { title: 'App Installation & Setup', lucide: 'download', short: 'Install', color: 'text-purple-300', getSummary: () => 'Windows, Mac, Android, Linux & Offline' },
+      'settings': { title: 'Optionen & Einstellungen', lucide: 'settings', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
 
-      'weather': { title: 'Wetter', icon: '🌤️', short: 'Wetter', color: 'text-sky-400', getSummary: () => {
+      'weather': { title: 'Wetter', lucide: 'cloud-sun', short: 'Wetter', color: 'text-sky-400', getSummary: () => {
         const tempEl = document.getElementById('weather-current-temp');
         return tempEl ? `${tempEl.textContent.trim()} • Wetterbericht` : 'Live-Wetter & Vorhersage';
       }},
-      'calendar-dropdown': { title: 'Kalender & Termine', icon: '📅', short: 'Kalender', color: 'text-blue-400', getSummary: () => 'Monatsübersicht & Fristen' },
-      'pause-dropdown': { title: 'Pausen-Hub', icon: '🧘', short: 'Pause', color: 'text-teal-300', getSummary: () => 'Atemübungen & Entspannung' },
-      'report': { title: 'Statistiken', icon: '📊', short: 'Stats', color: 'text-emerald-400', getSummary: () => 'Tages- & Wochenauswertung' },
-      'settings-dropdown': { title: 'Optionen', icon: '⚙️', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
-      'timer-presets': { title: 'Fokus-Cockpit', icon: '⚡', short: 'Fokus', color: 'text-purple-300', getSummary: () => 'Pomodoro, Flow & Deep Work' },
-      'header-tools': { title: 'Tools Hub', icon: '🎛️', short: 'Tools', color: 'text-purple-400', getSummary: () => 'Alle 20+ Noodle Studio Werkzeuge' },
-      'social': { title: 'Community & Collab', icon: '👥', short: 'Social', color: 'text-indigo-400', getSummary: () => 'Live-Zusammenarbeit & Sync' },
-      'collab-chat': { title: 'Team Chat', icon: '💬', short: 'Chat', color: 'text-cyan-400', getSummary: () => 'Live-Teamchat' }
+      'calendar-dropdown': { title: 'Kalender & Termine', lucide: 'calendar', short: 'Kalender', color: 'text-blue-400', getSummary: () => 'Monatsübersicht & Fristen' },
+      'pause-dropdown': { title: 'Pausen-Hub', lucide: 'wind', short: 'Pause', color: 'text-teal-300', getSummary: () => 'Atemübungen & Entspannung' },
+      'report': { title: 'Statistiken', lucide: 'bar-chart-2', short: 'Stats', color: 'text-emerald-400', getSummary: () => 'Tages- & Wochenauswertung' },
+      'settings-dropdown': { title: 'Optionen', lucide: 'settings', short: 'Settings', color: 'text-gray-300', getSummary: () => 'Designs, Sprache & Steuerung' },
+      'timer-presets': { title: 'Fokus-Cockpit', lucide: 'zap', short: 'Fokus', color: 'text-purple-300', getSummary: () => 'Pomodoro, Flow & Deep Work' },
+      'header-tools': { title: 'Tools Hub', lucide: 'layout-grid', short: 'Tools', color: 'text-purple-400', getSummary: () => 'Noodle Studio Werkzeuge' },
+      'labs-menu': { title: 'Labs', lucide: 'flask-conical', short: 'Labs', color: 'text-fuchsia-300', getSummary: () => 'Experimental Labs & Tools' },
+      'social': { title: 'Social Creator Hub', lucide: 'share-2', short: 'Social', color: 'text-indigo-400', getSummary: () => 'Post-Planer & Formate' },
+      'collab-chat': { title: 'Team Chat', lucide: 'message-square', short: 'Chat', color: 'text-cyan-400', getSummary: () => 'Live-Teamchat' }
     };
 
     return metas[cleanName] || metas[panelName] || {
       title: cleanName.replace(/-/g, ' ').toUpperCase(),
-      icon: '🗗',
+      lucide: 'layout',
       short: cleanName.substring(0, 8),
       color: 'text-purple-300',
       getSummary: () => 'Aktiv im Studio'
@@ -32209,11 +33719,218 @@ if (typeof globalThis !== 'undefined') {
 
   function getPanelElement(panelName) {
     if (!panelName) return null;
-    return document.getElementById(`panel-${panelName}`) ||
+    const clean = normalizePanelName(panelName);
+    if (clean === 'dj' || clean === 'music' || clean === 'ambient' || clean === 'sounds' || clean === 'media') {
+      return document.getElementById('panel-audio');
+    }
+    return document.getElementById(panelName) ||
+           document.getElementById(`panel-${panelName}`) ||
            document.getElementById(`modal-${panelName}`) ||
            document.getElementById(`helper-${panelName}-modal`) ||
            document.getElementById(`${panelName}-modal`) ||
-           document.getElementById(panelName);
+           document.getElementById(`panel-${clean}`) ||
+           document.getElementById(`modal-${clean}`) ||
+           document.getElementById(`helper-${clean}-modal`) ||
+           document.getElementById(`${clean}-modal`) ||
+           document.getElementById(clean);
+  }
+
+  function isModalOverlay(el) {
+    if (!el || !el.id) return false;
+    if (EXCLUDED_MODAL_IDS.has(el.id)) return false;
+    return el.id.endsWith('-modal') || el.id.startsWith('modal-');
+  }
+
+  function getMovableWindowBox(el) {
+    if (!el) return null;
+    if (isModalOverlay(el) && el.firstElementChild) {
+      return el.firstElementChild;
+    }
+    return el;
+  }
+
+  function isFloatingDesktopWindow(el, clean) {
+    if (!el) return false;
+    const c = clean || normalizePanelName(el.id);
+    if (TRANSIENT_DROPDOWN_NAMES.has(c)) return false;
+    return FLOATING_TOOL_NAMES.has(c) || el.classList.contains('dock-popover-panel') || isModalOverlay(el);
+  }
+
+  function portalToolPanelsToBody() {
+    if (typeof document === 'undefined' || !document.body) return;
+    const headerTools = document.getElementById('panel-header-tools');
+    if (headerTools) {
+      headerTools.querySelectorAll('.dock-popover-panel').forEach(panel => {
+        panel.classList.add('noodle-floating-tool-window');
+        document.body.appendChild(panel);
+      });
+    }
+    const alarmPanel = document.getElementById('panel-alarm');
+    if (alarmPanel && alarmPanel.parentElement !== document.body) {
+      alarmPanel.classList.add('noodle-floating-tool-window');
+      document.body.appendChild(alarmPanel);
+    }
+  }
+
+  function countVisibleFloatingWindows(excludeEl) {
+    if (typeof document === 'undefined') return 0;
+    let count = 0;
+    document.querySelectorAll('.dock-popover-panel, .noodle-floating-tool-window, [id$="-modal"], [id^="modal-"]').forEach(w => {
+      if (w === excludeEl || !w.id || EXCLUDED_MODAL_IDS.has(w.id)) return;
+      const c = normalizePanelName(w.id);
+      if (TRANSIENT_DROPDOWN_NAMES.has(c)) return;
+      if (!w.classList.contains('hidden')) {
+        count++;
+      }
+    });
+    return count;
+  }
+
+  function positionFloatingWindow(el, panelName) {
+    if (!el || typeof window === 'undefined') return;
+    const clean = normalizePanelName(panelName || el.id);
+    const isMobile = (window.innerWidth || document.documentElement.clientWidth || 0) <= 768;
+    const winBox = getMovableWindowBox(el);
+    if (!winBox) return;
+
+    if (isModalOverlay(el)) {
+      if (!isMobile) {
+        el.classList.add('noodle-floating-modal-backdrop');
+        winBox.classList.add('noodle-floating-modal-card');
+      } else {
+        el.classList.remove('noodle-floating-modal-backdrop');
+        winBox.classList.remove('noodle-floating-modal-card');
+        winBox.style.left = '';
+        winBox.style.top = '';
+        return;
+      }
+    }
+
+    if (isMobile || !isFloatingDesktopWindow(el, clean)) return;
+    if (el.classList.contains('noodle-panel-fullscreen') || winBox.classList.contains('noodle-panel-fullscreen') || el.classList.contains('noodle-panel-snapped')) {
+      return;
+    }
+
+    const vw = window.innerWidth || document.documentElement.clientWidth || 1280;
+    const vh = window.innerHeight || document.documentElement.clientHeight || 800;
+
+    const applyCoords = () => {
+      if (!el || el.classList.contains('hidden')) return;
+      if (el.classList.contains('noodle-panel-fullscreen') || el.classList.contains('noodle-panel-snapped')) return;
+
+      const rect = winBox.getBoundingClientRect();
+      const w = Math.min(rect.width || 440, vw - 24);
+      const h = Math.min(rect.height || 480, vh - 76);
+
+      if (winBox.dataset.userMoved === 'true' && winBox.style.left && winBox.style.top) {
+        const curLeft = parseFloat(winBox.style.left) || 20;
+        const curTop = parseFloat(winBox.style.top) || 60;
+        const clampedLeft = Math.max(12, Math.min(vw - Math.min(w, 180), curLeft));
+        const clampedTop = Math.max(54, Math.min(vh - 64, curTop));
+        winBox.style.left = `${Math.round(clampedLeft)}px`;
+        winBox.style.top = `${Math.round(clampedTop)}px`;
+        winBox.classList.add('noodle-window-positioned');
+        return;
+      }
+
+      const openOthers = countVisibleFloatingWindows(el);
+      const cascadeOffsets = [
+        [0, 0],
+        [38, 26],
+        [-38, 26],
+        [72, -20],
+        [-72, -20],
+        [20, 46],
+        [-20, -36]
+      ];
+      const [offX, offY] = cascadeOffsets[openOthers % cascadeOffsets.length];
+
+      const targetLeft = Math.max(16, Math.min(vw - w - 16, Math.round((vw - w) / 2 + offX)));
+      const targetTop = Math.max(58, Math.min(vh - h - 20, Math.round((vh - h) / 2 + offY)));
+
+      winBox.classList.add('noodle-window-positioned');
+      winBox.style.left = `${targetLeft}px`;
+      winBox.style.top = `${targetTop}px`;
+      winBox.style.right = 'auto';
+      winBox.style.bottom = 'auto';
+    };
+
+    applyCoords();
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(applyCoords);
+    }
+  }
+
+  function attachWindowDrag(headerRow, winBox, el, clean) {
+    if (!headerRow || !winBox || headerRow._noodleDragAttached) return;
+    headerRow._noodleDragAttached = true;
+    headerRow.classList.add('noodle-draggable-header');
+
+    let isDragging = false;
+    let startX = 0;
+    let startY = 0;
+    let initialLeft = 0;
+    let initialTop = 0;
+
+    headerRow.addEventListener('pointerdown', (e) => {
+      if ((window.innerWidth || 0) <= 768) return;
+      if (e.button !== 0) return;
+      if (e.target.closest('button, input, select, textarea, a, label, .noodle-win-controls')) return;
+      if (!isFloatingDesktopWindow(el, clean)) return;
+
+      bringWindowToFront(clean);
+
+      if (el.classList.contains('noodle-panel-fullscreen') || winBox.classList.contains('noodle-panel-fullscreen')) {
+        el.classList.remove('noodle-panel-fullscreen');
+        winBox.classList.remove('noodle-panel-fullscreen');
+      }
+      if (el.classList.contains('noodle-panel-snapped') && typeof unsnapWindow === 'function') {
+        unsnapWindow(clean);
+      }
+
+      const rect = winBox.getBoundingClientRect();
+      initialLeft = rect.left;
+      initialTop = rect.top;
+      startX = e.clientX;
+      startY = e.clientY;
+      isDragging = true;
+
+      winBox.classList.add('noodle-window-positioned');
+      winBox.style.left = `${Math.round(initialLeft)}px`;
+      winBox.style.top = `${Math.round(initialTop)}px`;
+      winBox.style.right = 'auto';
+      winBox.style.bottom = 'auto';
+      winBox.style.transform = 'none';
+
+      headerRow.classList.add('is-dragging');
+      try { headerRow.setPointerCapture(e.pointerId); } catch (err) {}
+      e.preventDefault();
+    });
+
+    headerRow.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      const vw = window.innerWidth || document.documentElement.clientWidth || 1280;
+      const vh = window.innerHeight || document.documentElement.clientHeight || 800;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+
+      const newLeft = Math.max(8, Math.min(vw - 120, Math.round(initialLeft + dx)));
+      const newTop = Math.max(48, Math.min(vh - 56, Math.round(initialTop + dy)));
+
+      winBox.style.left = `${newLeft}px`;
+      winBox.style.top = `${newTop}px`;
+      winBox.dataset.userMoved = 'true';
+    });
+
+    const endDrag = (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      headerRow.classList.remove('is-dragging');
+      try { headerRow.releasePointerCapture(e.pointerId); } catch (err) {}
+    };
+
+    headerRow.addEventListener('pointerup', endDrag);
+    headerRow.addEventListener('pointercancel', endDrag);
   }
 
   function bringWindowToFront(panelName) {
@@ -32221,6 +33938,10 @@ if (typeof globalThis !== 'undefined') {
     if (!el) return;
     highestZIndex += 2;
     el.style.zIndex = highestZIndex;
+    const winBox = getMovableWindowBox(el);
+    if (winBox && winBox !== el) {
+      winBox.style.zIndex = highestZIndex + 1;
+    }
     document.querySelectorAll('.noodle-panel-focused').forEach(p => p.classList.remove('noodle-panel-focused'));
     el.classList.add('noodle-panel-focused');
   }
@@ -32230,7 +33951,8 @@ if (typeof globalThis !== 'undefined') {
     if (!dock && typeof document !== 'undefined' && document.body) {
       dock = document.createElement('div');
       dock.id = 'noodle-minimized-dock';
-      dock.className = 'noodle-minimized-dock fixed bottom-4 right-4 z-[100080] flex items-center gap-2 flex-wrap pointer-events-auto select-none';
+      dock.className = 'noodle-minimized-dock fixed bottom-4 right-4 z-[200500] flex items-center gap-2 flex-wrap pointer-events-auto select-none';
+      dock.style.zIndex = '200500';
       document.body.appendChild(dock);
     }
     return dock;
@@ -32256,25 +33978,26 @@ if (typeof globalThis !== 'undefined') {
       pill.setAttribute('data-min-panel', panelName);
 
       const summaryText = typeof meta.getSummary === 'function' ? meta.getSummary() : 'Aktiv';
+      const iconKey = meta.lucide || 'layout';
 
       pill.innerHTML = `
-        <span class="text-sm">${meta.icon}</span>
+        <i data-lucide="${iconKey}" class="w-3.5 h-3.5 ${meta.color}"></i>
         <span class="font-bold text-[11px] ${meta.color}">${meta.short}</span>
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5"></span>
         <button class="noodle-min-close-btn ml-1 w-4 h-4 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 text-[9px] transition" title="Schließen">✕</button>
 
         <!-- Windows-Style Hover Thumbnail Preview Card -->
-        <div class="noodle-taskbar-preview-card hidden group-hover/pill:flex absolute bottom-[calc(100%+10px)] right-0 w-64 p-3 rounded-2xl bg-[#12111c]/98 border border-purple-500/40 shadow-2xl backdrop-blur-2xl flex-col gap-1.5 text-left z-[100090] animate-fade-in pointer-events-none">
+        <div class="noodle-taskbar-preview-card hidden group-hover/pill:flex absolute bottom-[calc(100%+10px)] right-0 w-64 p-3 rounded-2xl bg-[#12111c]/98 border border-white/10 shadow-2xl backdrop-blur-2xl flex-col gap-1.5 text-left z-[200550] animate-fade-in pointer-events-none">
           <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
             <div class="flex items-center gap-1.5">
-              <span class="text-base">${meta.icon}</span>
+              <i data-lucide="${iconKey}" class="w-4 h-4 ${meta.color}"></i>
               <span class="font-bold text-xs text-white">${meta.title}</span>
             </div>
             <span class="text-[9px] font-mono px-1.5 py-0.2 rounded bg-purple-500/20 text-purple-300">Live</span>
           </div>
           <p class="text-[11px] text-gray-300 leading-snug">${summaryText}</p>
-          <div class="text-[9.5px] text-purple-400/80 font-medium pt-0.5 flex items-center gap-1">
-            <span>🖱️ Klick zum Wiederherstellen</span>
+          <div class="text-[9.5px] text-gray-400 font-medium pt-0.5 flex items-center gap-1">
+            <span>Klick zum Wiederherstellen</span>
           </div>
         </div>
       `;
@@ -32290,158 +34013,401 @@ if (typeof globalThis !== 'undefined') {
 
       dock.appendChild(pill);
     });
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try { lucide.createIcons({ root: dock }); } catch(e){}
+    }
+  }
+
+  function closeHeaderToolsMenuOnLaunch(launchedCleanName) {
+    if (launchedCleanName === 'header-tools') return;
+    const headerTools = document.getElementById('panel-header-tools');
+    if (headerTools && !headerTools.classList.contains('hidden')) {
+      headerTools.classList.add('hidden');
+      headerTools.style.removeProperty('display');
+      headerTools.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'has-mobile-subpanel-open');
+      if (typeof window !== 'undefined') {
+        if (window.pinnedPanel === 'header-tools') window.pinnedPanel = null;
+        if (window.currentlyOpenPanel === 'header-tools') window.currentlyOpenPanel = null;
+      }
+      if (typeof window.updateDashboardArrowUI === 'function') {
+        window.updateDashboardArrowUI(false);
+      }
+    }
   }
 
   function openWindow(panelName) {
+    const clean = normalizePanelName(panelName);
     const el = getPanelElement(panelName);
     if (!el) return;
 
+    portalToolPanelsToBody();
+    closeHeaderToolsMenuOnLaunch(clean);
+
     minimizedWindows.delete(panelName);
-    activeWindows.add(panelName);
+    minimizedWindows.delete(clean);
+    activeWindows.add(clean);
     updateMinimizedDockUI();
 
     el.classList.remove('hidden', 'noodle-panel-peeking', 'noodle-panel-minimized');
+    el.style.removeProperty('display');
+    const winBox = getMovableWindowBox(el);
+    if (winBox && winBox !== el) {
+      winBox.classList.remove('hidden');
+      winBox.style.removeProperty('display');
+    }
     el.classList.add('noodle-panel-pinned');
 
-    bringWindowToFront(panelName);
-    decoratePanel(el, panelName);
+    // Dynamic Render Callbacks first, then decorate so controls are never overwritten
+    triggerPanelRender(clean);
+    decoratePanel(el, clean);
+    positionFloatingWindow(el, clean);
+    bringWindowToFront(clean);
 
-    // Dynamic Render Callbacks
-    triggerPanelRender(panelName);
-
-    if (typeof adjustPanelPosition === 'function') {
-      try { adjustPanelPosition(el, panelName); } catch (e) {}
+    if (!isFloatingDesktopWindow(el, clean) && typeof adjustPanelPosition === 'function') {
+      try { adjustPanelPosition(el, clean); } catch (e) {}
     }
 
+    if (typeof syncHeaderToolsMenuState === 'function') {
+      try { syncHeaderToolsMenuState(); } catch (e) {}
+    }
     if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
   }
 
   function triggerPanelRender(panelName) {
-    const clean = panelName.replace(/^(panel-|modal-|helper-)/, '');
-    if (clean === 'cooking' && typeof renderCookingPanel === 'function') renderCookingPanel(true);
-    if (clean === 'health' && window.HealthEngine && window.HealthEngine.renderPanel) window.HealthEngine.renderPanel();
-    if (clean === 'humor-lab' && window.HumorEngine && window.HumorEngine.renderPanel) window.HumorEngine.renderPanel();
-    if (clean === 'social' && window.SocialEngine && window.SocialEngine.renderPanel) window.SocialEngine.renderPanel();
+    const clean = normalizePanelName(panelName);
+    if (clean === 'shopping' && typeof renderShoppingList === 'function') renderShoppingList();
+    if (clean === 'cooking' && typeof renderCookingPanel === 'function') renderCookingPanel(false);
+    if (clean === 'alarm' && typeof renderAlarmPanel === 'function') renderAlarmPanel();
+    if (clean === 'news') {
+      if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.initNewsPanel === 'function') {
+        RadioNewsEngine.initNewsPanel();
+      } else if (typeof renderNewsBriefing === 'function') {
+        renderNewsBriefing();
+      }
+    }
+    if (clean === 'radio' && typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.initRadioPanel === 'function') {
+      RadioNewsEngine.initRadioPanel();
+    }
+    if (clean === 'audio' || clean === 'dj' || clean === 'music' || clean === 'ambient' || clean === 'sounds') {
+      const targetTab = (clean === 'dj' || clean === 'music' || clean === 'ambient')
+        ? clean
+        : (clean === 'sounds' ? 'ambient' : (window._lastActiveAudioTab || localStorage.getItem('flow_last_audio_tab') || 'ambient'));
+      if (typeof switchAudioTab === 'function') switchAudioTab(targetTab);
+    }
+    if (clean === 'collab-chat' && typeof CollabEngine !== 'undefined') {
+      if (typeof CollabEngine.renderChatMessages === 'function') CollabEngine.renderChatMessages();
+      if (typeof CollabEngine.renderPresenceUI === 'function') CollabEngine.renderPresenceUI();
+    }
+    if (clean === 'health' && window.HealthEngine && typeof window.HealthEngine.renderPanel === 'function') {
+      window.HealthEngine.renderPanel();
+    }
+    if (clean === 'humor-lab' && window.HumorEngine) {
+      if (typeof window.HumorEngine.renderHumorPanel === 'function') window.HumorEngine.renderHumorPanel();
+      else if (typeof window.HumorEngine.renderPanel === 'function') window.HumorEngine.renderPanel();
+    }
+    if (clean === 'social') {
+      if (window.SocialHubEngine && typeof window.SocialHubEngine.render === 'function') window.SocialHubEngine.render();
+      else if (window.SocialEngine && typeof window.SocialEngine.renderPanel === 'function') window.SocialEngine.renderPanel();
+    }
     if (clean === 'calendar-dropdown' && typeof renderMiniCalendar === 'function') renderMiniCalendar();
     if (clean === 'weather' && typeof updateWeatherDisplay === 'function') updateWeatherDisplay();
+    if (clean === 'report' && typeof updateReportPanel === 'function') updateReportPanel();
   }
 
   function minimizeWindow(panelName, event) {
-    if (event) event.stopPropagation();
+    if (event) {
+      try { event.preventDefault(); event.stopPropagation(); } catch (e) {}
+    }
+    const clean = normalizePanelName(panelName);
     const el = getPanelElement(panelName);
     if (!el) return;
 
     el.classList.add('hidden', 'noodle-panel-minimized');
     el.classList.remove('noodle-panel-focused');
-    minimizedWindows.add(panelName);
-    activeWindows.add(panelName);
+    el.style.removeProperty('display');
+
+    const winBox = getMovableWindowBox(el);
+    if (winBox && winBox !== el) {
+      winBox.classList.add('hidden');
+      winBox.style.removeProperty('display');
+    }
+
+    minimizedWindows.add(clean);
+    activeWindows.add(clean);
 
     updateMinimizedDockUI();
 
     if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('medium');
     if (typeof showToast === 'function') {
-      const meta = getPanelMeta(panelName);
-      showToast(`${meta.icon} ${meta.title} minimiert`);
+      const meta = getPanelMeta(clean);
+      showToast(`${meta.title} minimiert`);
     }
   }
 
   function restoreWindow(panelName) {
+    const clean = normalizePanelName(panelName);
     const el = getPanelElement(panelName);
     if (!el) return;
 
     minimizedWindows.delete(panelName);
+    minimizedWindows.delete(clean);
     el.classList.remove('hidden', 'noodle-panel-minimized');
+    el.style.removeProperty('display');
+
+    const winBox = getMovableWindowBox(el);
+    if (winBox && winBox !== el) {
+      winBox.style.removeProperty('display');
+    }
+
     el.classList.add('noodle-panel-pinned');
 
     updateMinimizedDockUI();
-    bringWindowToFront(panelName);
-    decoratePanel(el, panelName);
-    triggerPanelRender(panelName);
+    triggerPanelRender(clean);
+    decoratePanel(el, clean);
+    positionFloatingWindow(el, clean);
+    bringWindowToFront(clean);
 
     if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
   }
 
   function toggleFullscreen(panelName, event) {
-    if (event) event.stopPropagation();
+    if (event) {
+      try { event.preventDefault(); event.stopPropagation(); } catch (e) {}
+    }
+    const clean = normalizePanelName(panelName);
     const el = getPanelElement(panelName);
     if (!el) return;
 
-    const isFull = el.classList.contains('noodle-panel-fullscreen');
+    const winBox = getMovableWindowBox(el);
+    const isFull = el.classList.contains('noodle-panel-fullscreen') || (winBox && winBox.classList.contains('noodle-panel-fullscreen'));
     if (isFull) {
       el.classList.remove('noodle-panel-fullscreen');
+      if (winBox) winBox.classList.remove('noodle-panel-fullscreen');
+      positionFloatingWindow(el, clean);
     } else {
       el.classList.add('noodle-panel-fullscreen');
+      if (winBox && winBox !== el) winBox.classList.add('noodle-panel-fullscreen');
     }
 
-    bringWindowToFront(panelName);
-    decoratePanel(el, panelName);
+    bringWindowToFront(clean);
+    decoratePanel(el, clean);
     if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
   }
 
+  let _isClosingWindow = false;
+
   function closeWindow(panelName, event) {
-    if (event) event.stopPropagation();
+    if (event) {
+      try { event.preventDefault(); event.stopPropagation(); } catch (e) {}
+    }
+    const clean = normalizePanelName(panelName);
     const el = getPanelElement(panelName);
     if (el) {
       el.classList.add('hidden');
-      el.classList.remove('noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'noodle-panel-peeking', 'noodle-panel-minimized');
+      el.style.removeProperty('display');
+      el.classList.remove('noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'noodle-panel-peeking', 'noodle-panel-minimized', 'noodle-panel-snapped');
+      const winBox = getMovableWindowBox(el);
+      if (winBox && winBox !== el) {
+        winBox.classList.add('hidden');
+        winBox.classList.remove('noodle-panel-fullscreen');
+        winBox.style.removeProperty('display');
+      }
+      if (el.id) {
+        activeWindows.delete(el.id);
+        minimizedWindows.delete(el.id);
+      }
     }
 
     activeWindows.delete(panelName);
+    activeWindows.delete(clean);
     minimizedWindows.delete(panelName);
+    minimizedWindows.delete(clean);
     updateMinimizedDockUI();
+
+    if (typeof window !== 'undefined') {
+      if (window.currentlyOpenPanel === clean || window.currentlyOpenPanel === panelName) window.currentlyOpenPanel = null;
+      if (window.pinnedPanel === clean || window.pinnedPanel === panelName) window.pinnedPanel = null;
+    }
+    const isMobile = typeof window !== 'undefined' && (window.innerWidth || document.documentElement.clientWidth || 0) <= 768;
+    if (isMobile && FLOATING_TOOL_NAMES.has(clean)) {
+      const headerTools = document.getElementById('panel-header-tools');
+      if (headerTools) {
+        headerTools.classList.remove('has-mobile-subpanel-open', 'noodle-panel-peeking', 'noodle-panel-pinned');
+        headerTools.classList.add('hidden');
+        headerTools.style.removeProperty('display');
+      }
+    }
+    const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
+    if (dockContainer) dockContainer.classList.remove('is-active');
+    if (typeof syncHeaderToolsMenuState === 'function') {
+      try { syncHeaderToolsMenuState(); } catch (e) {}
+    }
+
+    // Run modal-specific cleanup hooks (stop timers, speech, audio, camera streams)
+    if (!_isClosingWindow) {
+      _isClosingWindow = true;
+      try {
+        const modalCleanupMap = {
+          'pick': () => typeof closeHelperModal === 'function' && closeHelperModal(),
+          'steps': () => typeof closeHelperModal === 'function' && closeHelperModal(),
+          'cleaning': () => typeof closeCleaningGuideModal === 'function' && closeCleaningGuideModal(),
+          'clean-guide': () => typeof closeCleaningGuideModal === 'function' && closeCleaningGuideModal(),
+          'sport': () => typeof closeSportModal === 'function' && closeSportModal(),
+          'break': () => typeof closeBreakModal === 'function' && closeBreakModal(),
+          'safespace': () => typeof closeSafeSpaceModal === 'function' && closeSafeSpaceModal(),
+          'clarity': () => typeof closeClarityModal === 'function' && closeClarityModal(),
+          'regulation': () => typeof closeRegulationModal === 'function' && closeRegulationModal(),
+          'brainstorm': () => typeof closeBrainstormModal === 'function' && closeBrainstormModal(),
+          'sample-manager': () => typeof closeSampleManagerModal === 'function' && closeSampleManagerModal(),
+          'supermarket': () => typeof closeSupermarketModal === 'function' && closeSupermarketModal(),
+          'note-scanner': () => typeof closeNoteScannerModal === 'function' && closeNoteScannerModal(),
+          'ocr-scanner': () => typeof closeNoteScannerModal === 'function' && closeNoteScannerModal(),
+          'note-detail': () => typeof closeNoteDetailModal === 'function' && closeNoteDetailModal(),
+          'text-import': () => typeof closeTextImportModal === 'function' && closeTextImportModal(),
+          'postpone-termin': () => typeof closePostponeTerminModal === 'function' && closePostponeTerminModal(),
+          'report-export': () => typeof closeReportExportModal === 'function' && closeReportExportModal(),
+          'learning-hub': () => typeof closeLearningHubModal === 'function' && closeLearningHubModal(),
+          'report-dashboard': () => typeof closeReportDashboard === 'function' && closeReportDashboard(),
+          'settings': () => typeof closeSettingsModal === 'function' && closeSettingsModal(),
+          'app-install': () => typeof closeInstallModal === 'function' && closeInstallModal(),
+          'privacy-legal': () => typeof closePrivacyModal === 'function' && closePrivacyModal(),
+          'undo-history': () => typeof closeUndoHistoryModal === 'function' && closeUndoHistoryModal(),
+          'p2p-sync': () => typeof closeP2PSyncModal === 'function' && closeP2PSyncModal(),
+          'feierabend-celebration': () => typeof closeFeierabendModal === 'function' && closeFeierabendModal(),
+          'command-palette': () => typeof closeCommandPalette === 'function' && closeCommandPalette(),
+          'keyboard-shortcuts': () => typeof closeKeyboardShortcuts === 'function' && closeKeyboardShortcuts(),
+          'dice': () => typeof closeDiceModal === 'function' && closeDiceModal(),
+          'roulette': () => typeof closeRouletteModal === 'function' && closeRouletteModal(),
+          'custom-item': () => typeof closeCustomItemModal === 'function' && closeCustomItemModal(),
+          'archive': () => typeof closeArchiveModal === 'function' && closeArchiveModal(),
+          'export': () => typeof closeExportModal === 'function' && closeExportModal(),
+          'import': () => typeof closeImportModal === 'function' && closeImportModal(),
+          'news': () => typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.stopNewsReader === 'function' && RadioNewsEngine.stopNewsReader()
+        };
+        if (modalCleanupMap[clean]) {
+          modalCleanupMap[clean]();
+        }
+      } catch (e) {} finally {
+        _isClosingWindow = false;
+      }
+    }
 
     if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
   }
 
-  function togglePanel(panelName, event) {
-    if (event) event.stopPropagation();
-    const el = getPanelElement(panelName);
-    if (!el) return;
-
-    if (minimizedWindows.has(panelName)) {
-      restoreWindow(panelName);
-      return;
+  function closeAllWindows() {
+    const list = Array.from(new Set([...activeWindows, ...minimizedWindows]));
+    list.forEach(w => {
+      try { closeWindow(w); } catch (e) {}
+    });
+    if (typeof document !== 'undefined') {
+      document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window').forEach(box => {
+        box.classList.add('hidden');
+        box.style.removeProperty('display');
+      });
     }
-
-    const isVisible = !el.classList.contains('hidden');
-    if (isVisible) {
-      if (el.classList.contains('noodle-panel-focused')) {
-        minimizeWindow(panelName);
-      } else {
-        bringWindowToFront(panelName);
-      }
-    } else {
-      openWindow(panelName);
+    activeWindows.clear();
+    minimizedWindows.clear();
+    updateMinimizedDockUI();
+    if (typeof syncHeaderToolsMenuState === 'function') {
+      try { syncHeaderToolsMenuState(); } catch (e) {}
     }
   }
 
-  // Findet oder erzeugt das 3er-Kontrollfeld [—] [⛶] [✕] im Panel-Header
-  function decoratePanel(el, panelName) {
+  function togglePanel(panelName, event) {
+    if (event) {
+      try { event.stopPropagation(); } catch (e) {}
+    }
+    const clean = normalizePanelName(panelName);
+    const el = getPanelElement(panelName);
     if (!el) return;
 
-    const isFullscreen = el.classList.contains('noodle-panel-fullscreen');
+    if (minimizedWindows.has(clean) || minimizedWindows.has(panelName)) {
+      restoreWindow(clean);
+      return;
+    }
 
-    // 1. Suche Header-Zeile
-    const existingClose = el.querySelector('button[aria-label*="schließen"], button[aria-label*="close"], .modal-close-btn') ||
-                          Array.from(el.querySelectorAll('button')).find(b => b.textContent && b.textContent.trim() === '✕');
+    const isVisible = !el.classList.contains('hidden') && el.style.display !== 'none';
+    if (isVisible) {
+      if (el.classList.contains('noodle-panel-peeking')) {
+        openWindow(clean);
+      } else {
+        closeWindow(clean);
+      }
+    } else {
+      openWindow(clean);
+    }
+  }
 
-    const headerRow = existingClose ? existingClose.parentElement : (el.querySelector('.flex.items-center.justify-between') || el.querySelector('.border-b') || el.firstElementChild);
+  function isHeaderCloseButton(btn) {
+    if (!btn || btn.classList.contains('noodle-win-btn') || btn.classList.contains('noodle-min-close-btn')) return false;
+    if (btn.classList.contains('modal-close-btn')) return true;
+    const txt = (btn.textContent || '').trim();
+    if (txt === '✕' || txt === '×') return true;
+    if (!txt && btn.querySelector('[data-lucide="x"], svg.lucide-x')) return true;
+    return false;
+  }
+
+  // Findet oder erzeugt das deutliche 3er-Kontrollfeld [—] [□] [✕] im Fenster-Header
+  function decoratePanel(el, panelName) {
+    if (!el || EXCLUDED_MODAL_IDS.has(el.id)) return;
+    const clean = normalizePanelName(panelName || el.id);
+    if (!clean || clean === 'header-tools') return;
+
+    const winBox = getMovableWindowBox(el);
+    if (!winBox) return;
+
+    const isFullscreen = el.classList.contains('noodle-panel-fullscreen') || winBox.classList.contains('noodle-panel-fullscreen');
+
+    // 1. Suche vorhandenen Schließen-Button im Header & die passende Header-Zeile
+    const allCloseBtns = Array.from(winBox.querySelectorAll('button')).filter(isHeaderCloseButton);
+    const existingClose = allCloseBtns.find(b => !b.classList.contains('absolute')) || allCloseBtns[0] || null;
+
+    let headerRow = winBox.querySelector('.noodle-window-titlebar') ||
+      ((existingClose && !existingClose.classList.contains('absolute'))
+        ? existingClose.parentElement
+        : (winBox.querySelector('.flex.items-center.justify-between.border-b, .flex.flex-wrap.items-center.justify-between.border-b, .flex.items-center.justify-between') || null));
+
+    // Falls ein dynamisches Panel (oder Modal) keine erkennbare obere Header-Zeile hat, eigene Titlebar oben einfügen
+    if (!headerRow && isFloatingDesktopWindow(el, clean)) {
+      const meta = getPanelMeta(clean);
+      headerRow = document.createElement('div');
+      headerRow.className = 'noodle-window-titlebar';
+      headerRow.innerHTML = `
+        <div class="flex items-center gap-2">
+          <i data-lucide="${meta.lucide || 'layout'}" class="w-4 h-4 ${meta.color || 'text-purple-400'}"></i>
+          <span class="text-xs font-extrabold tracking-wide ${meta.color || 'text-purple-300'}">${meta.title}</span>
+        </div>
+      `;
+      winBox.insertBefore(headerRow, winBox.firstChild);
+      if (typeof renderLucideIcons === 'function') {
+        try { renderLucideIcons(false, headerRow); } catch (e) {}
+      }
+    }
 
     if (headerRow) {
+      const dragBar = (headerRow.closest && winBox.contains(headerRow.closest('.border-b')))
+        ? headerRow.closest('.border-b')
+        : headerRow;
+
+      // Dragging über die gesamte Titelleiste aktivieren
+      attachWindowDrag(dragBar, winBox, el, clean);
+
       // Header-Doppelklick maximiert / stellt wieder her (Windows/macOS Standard)
-      if (!headerRow._noodleDblClickAttached) {
-        headerRow._noodleDblClickAttached = true;
-        headerRow.addEventListener('dblclick', (e) => {
+      if (!dragBar._noodleDblClickAttached) {
+        dragBar._noodleDblClickAttached = true;
+        dragBar.addEventListener('dblclick', (e) => {
           if (e.target.closest('button, input, select, textarea, a')) return;
-          toggleFullscreen(panelName, e);
+          toggleFullscreen(clean, e);
         });
       }
 
-      let winControls = el.querySelector(`.noodle-win-controls[data-panel-controls="${panelName}"]`);
+      let winControls = winBox.querySelector('.noodle-win-controls');
       if (!winControls) {
         winControls = document.createElement('div');
         winControls.className = 'noodle-win-controls flex items-center gap-1 shrink-0';
-        winControls.setAttribute('data-panel-controls', panelName);
+        winControls.setAttribute('data-panel-controls', clean);
 
         // 1. Minimize [—]
         const minBtn = document.createElement('button');
@@ -32450,18 +34416,18 @@ if (typeof globalThis !== 'undefined') {
         minBtn.title = 'Minimieren in Taskleiste [—]';
         minBtn.setAttribute('aria-label', 'Minimieren');
         minBtn.innerHTML = '<span>—</span>';
-        minBtn.onclick = (e) => minimizeWindow(panelName, e);
+        minBtn.onclick = (e) => minimizeWindow(clean, e);
         winControls.appendChild(minBtn);
 
-        // 2. Maximize / Restore [⛶ / 🗗]
+        // 2. Maximize / Restore [□ / ❐]
         const maxBtn = document.createElement('button');
         maxBtn.type = 'button';
         maxBtn.className = 'noodle-win-btn noodle-win-max-btn noodle-fullscreen-badge-btn';
-        maxBtn.setAttribute('data-panel-fullscreen', panelName);
-        maxBtn.title = 'Maximieren / Vollbild [⛶]';
+        maxBtn.setAttribute('data-panel-fullscreen', clean);
+        maxBtn.title = 'Maximieren / Vollbild [□]';
         maxBtn.setAttribute('aria-label', 'Maximieren');
-        maxBtn.innerHTML = '<span>⛶</span>';
-        maxBtn.onclick = (e) => toggleFullscreen(panelName, e);
+        maxBtn.innerHTML = '<span>□</span>';
+        maxBtn.onclick = (e) => toggleFullscreen(clean, e);
         winControls.appendChild(maxBtn);
 
         // 3. Close [✕]
@@ -32471,72 +34437,126 @@ if (typeof globalThis !== 'undefined') {
         closeBtn.title = 'Schließen [✕]';
         closeBtn.setAttribute('aria-label', 'Schließen');
         closeBtn.innerHTML = '<span>✕</span>';
-        closeBtn.onclick = (e) => closeWindow(panelName, e);
+        closeBtn.onclick = (e) => closeWindow(clean, e);
         winControls.appendChild(closeBtn);
-
-        // Alte native Schließen-Elemente im gesamten Panel sauber ausblenden
-        el.querySelectorAll('.modal-close-btn, button[aria-label*="schließen"], button[aria-label*="close"]').forEach(oldBtn => {
-          if (!oldBtn.classList.contains('noodle-win-btn')) {
-            oldBtn.style.display = 'none';
-          }
-        });
-        if (existingClose && !existingClose.classList.contains('noodle-win-btn')) {
-          existingClose.style.display = 'none';
-        }
 
         headerRow.appendChild(winControls);
 
         if (typeof attachSnapHoverToControls === 'function') {
-          attachSnapHoverToControls(winControls, panelName);
+          attachSnapHoverToControls(winControls, clean);
         }
+      } else {
+        if (winControls.parentElement !== headerRow) {
+          headerRow.appendChild(winControls);
+        }
+        winControls.setAttribute('data-panel-controls', clean);
+        const minBtn = winControls.querySelector('.noodle-win-min-btn');
+        if (minBtn) minBtn.onclick = (e) => minimizeWindow(clean, e);
+        const maxBtn = winControls.querySelector('.noodle-win-max-btn');
+        if (maxBtn) {
+          maxBtn.setAttribute('data-panel-fullscreen', clean);
+          maxBtn.onclick = (e) => toggleFullscreen(clean, e);
+        }
+        const closeBtn = winControls.querySelector('.noodle-win-close-btn');
+        if (closeBtn) closeBtn.onclick = (e) => closeWindow(clean, e);
       }
 
-      // Maximize Button State aktualisieren
+      // Alte native Header-Schließen-Buttons ausblenden, sobald winControls aktiv sind
+      allCloseBtns.forEach(oldBtn => {
+        oldBtn.style.display = 'none';
+      });
+      if (headerRow.classList.contains('pr-6')) {
+        headerRow.classList.remove('pr-6');
+      }
+
+      // Maximize Button State aktualisieren ([□] vs [❐])
       const maxBtn = winControls.querySelector('.noodle-win-max-btn');
       if (maxBtn) {
-        maxBtn.innerHTML = isFullscreen ? '<span>🗗</span>' : '<span>⛶</span>';
-        maxBtn.title = isFullscreen ? 'Wiederherstellen / Normalgröße [🗗]' : 'Maximieren / Vollbild [⛶]';
+        maxBtn.innerHTML = isFullscreen ? '<span>❐</span>' : '<span>□</span>';
+        maxBtn.title = isFullscreen ? 'Wiederherstellen / Normalgröße [❐]' : 'Maximieren / Vollbild [□]';
         if (typeof attachSnapHoverToControls === 'function') {
-          attachSnapHoverToControls(winControls, panelName);
+          attachSnapHoverToControls(winControls, clean);
         }
       }
     }
 
-    // Klick bringt Panel in den Vordergrund
-    if (!el._noodleFocusAttached) {
-      el._noodleFocusAttached = true;
-      el.addEventListener('pointerdown', () => {
-        bringWindowToFront(panelName);
+    // Klick bringt Fenster in den Vordergrund
+    if (!winBox._noodleFocusAttached) {
+      winBox._noodleFocusAttached = true;
+      winBox.addEventListener('pointerdown', () => {
+        bringWindowToFront(clean);
       }, { passive: true });
     }
   }
 
-  // Performance: Subtree MutationObserver entfernt. Fenster-Controls werden effizient
-  // on-demand beim Öffnen oder initial einmalig registriert, statt bei jedem Klick den DOM-Baum zu durchsuchen.
+  // Gezielter Observer auf den bekannten Panels & Modals:
+  // Sorgt dafür, dass JEDES Popup-Fenster und Tool beim Öffnen automatisch
+  // zentriert, in den Vordergrund geholt und mit [—] [□] [✕] ausgestattet wird.
   function setupDOMObserver() {
-    // Bewusst kein teurer body-subtree MutationObserver mehr nötig
+    if (typeof MutationObserver === 'undefined' || typeof document === 'undefined') return;
+
+    const classObserver = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'attributes' && m.attributeName === 'class') {
+          const el = m.target;
+          if (!el || !el.id || EXCLUDED_MODAL_IDS.has(el.id)) continue;
+          const isHidden = el.classList.contains('hidden');
+          const wasHidden = el._noodleWasHidden !== false;
+          el._noodleWasHidden = isHidden;
+
+          if (!isHidden && wasHidden) {
+            const clean = normalizePanelName(el.id);
+            if (clean && clean !== 'header-tools') {
+              closeHeaderToolsMenuOnLaunch(clean);
+              decoratePanel(el, clean);
+              positionFloatingWindow(el, clean);
+              bringWindowToFront(clean);
+            }
+          }
+        } else if (m.type === 'childList') {
+          const el = m.target.closest ? m.target.closest('.dock-popover-panel, [id^="panel-"], [id$="-modal"], [id*="modal-"]') : null;
+          if (el && el.id && !el.classList.contains('hidden')) {
+            const winBox = getMovableWindowBox(el);
+            if (winBox && !winBox.querySelector('.noodle-win-controls')) {
+              decoratePanel(el, normalizePanelName(el.id));
+            }
+          }
+        }
+      }
+    });
+
+    document.querySelectorAll('.dock-popover-panel, [id^="panel-"], .modal, [id$="-modal"], [id*="modal-"]').forEach(el => {
+      if (!el.id || EXCLUDED_MODAL_IDS.has(el.id)) return;
+      el._noodleWasHidden = el.classList.contains('hidden');
+      classObserver.observe(el, { attributes: true, attributeFilter: ['class'] });
+    });
+
+    // Für dynamisch gerenderte Panels auch childList überwachen, damit [—] [□] [✕] nach re-render erhalten bleiben
+    ['panel-cooking', 'panel-health', 'panel-humor-lab', 'panel-social', 'panel-shopping', 'panel-news', 'panel-radio'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        classObserver.observe(el, { childList: true });
+      }
+    });
   }
 
   // Initialisierung nach DOM-Ready
   function init() {
     applyModeClasses(currentMode);
+    portalToolPanelsToBody();
 
-    // ESC schließt oder minimiert aktives Fenster
+    // ESC schließt alle offenen Fenster & Tools
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        const focused = document.querySelector('.noodle-panel-focused');
-        if (focused && focused.id) {
-          const id = focused.id.replace(/^(panel-|modal-|helper-)/, '');
-          closeWindow(id);
-        }
+      if (e.key === 'Escape' || e.code === 'Escape') {
+        closeAllWindows();
       }
-    });
+    }, true);
 
-    // Alle vorhandenen Panels & Modals registrieren & mit Window-Controls versehen
     const scanAndDecorate = () => {
+      portalToolPanelsToBody();
       document.querySelectorAll('.dock-popover-panel, [id^="panel-"], .modal, [id$="-modal"], [id*="modal-"]').forEach(el => {
-        if (!el.id) return;
-        const panelName = el.id.replace(/^(panel-|modal-|helper-)/, '');
+        if (!el.id || EXCLUDED_MODAL_IDS.has(el.id)) return;
+        const panelName = normalizePanelName(el.id);
         decoratePanel(el, panelName);
       });
     };
@@ -32544,35 +34564,6 @@ if (typeof globalThis !== 'undefined') {
     scanAndDecorate();
     setTimeout(scanAndDecorate, 300);
     setupDOMObserver();
-    setupTurboHoverListeners();
-  }
-
-  // Edge-Tab Style Fast Hover Listener für Tabs & Workspaces
-  function setupTurboHoverListeners() {
-    if (typeof document === 'undefined') return;
-
-    // 1. Mobile/Board Category Tab Quick-Hover
-    document.addEventListener('mouseover', (e) => {
-      if (currentMode !== 'turbo') return;
-      
-      const tabBtn = e.target.closest('.mobile-tab-btn[data-cat]');
-      if (tabBtn && tabBtn.dataset && tabBtn.dataset.cat) {
-        const cat = tabBtn.dataset.cat;
-        if (typeof window.setMobileCategory === 'function' && document.body.dataset.mobileCat !== cat) {
-          window.setMobileCategory(cat);
-        }
-        return;
-      }
-
-      // 2. Workspace Dropdown Options Quick-Hover Switch
-      const wsBtn = e.target.closest('#dropdown-header-workspace button[id^="header-ws-opt-"]');
-      if (wsBtn) {
-        const wsId = wsBtn.id.replace('header-ws-opt-', '');
-        if (wsId && typeof window.setWorkspace === 'function' && window.state && window.state.activeWorkspace !== wsId) {
-          window.setWorkspace(wsId);
-        }
-      }
-    }, { passive: true });
   }
 
   if (document.readyState === 'loading') {
@@ -32586,39 +34577,57 @@ if (typeof globalThis !== 'undefined') {
     getMode: () => currentMode,
     setMode: setInteractionMode,
     isTouchDevice,
+    normalizePanelName,
+    getPanelElement,
+    getPanelMeta,
     openWindow,
     minimizeWindow,
     restoreWindow,
     toggleFullscreen,
     closeWindow,
+    closeAllWindows,
     togglePanel,
     bringWindowToFront,
     decoratePanel,
-    updateSettingsUI,
+    positionFloatingWindow,
+    isFloatingDesktopWindow,
+    updateSettingsUI: () => {},
     pinPanel: openWindow,
     unpinPanel: closeWindow,
     togglePin: togglePanel
   };
 
   window.setInteractionMode = setInteractionMode;
+  window.getPanelElement = getPanelElement;
+  window.getPanelMeta = getPanelMeta;
   window.minimizeWindow = minimizeWindow;
   window.restoreWindow = restoreWindow;
   window.closeWindow = closeWindow;
+  window.closeAllWindows = closeAllWindows;
+  window.closeAllToolWindows = closeAllWindows;
+  window.toggleFullscreen = toggleFullscreen;
   window.togglePanelFullscreen = toggleFullscreen;
   window.togglePinPanel = togglePanel;
+  window.togglePanel = togglePanel;
   window.bringWindowToFront = bringWindowToFront;
 
 })();
 
 
 /* --- helper-core-data.js --- */
-// Ausgelagert aus helper-core.js: Datensammlungen fuer den 'Was nun?'-Helfer
+/**
+ * @file helper-core-data.js
+ * @module ExecutiveHelperData
+ * @description
+ * Statische Vorlagen und prozedurale Aufgaben-Zerlegungsmuster (`PROCEDURAL_BREAKDOWNS`)
+ * für den „Was nun?"-Entscheidungsassistenten und das Energie-Budget-System (Spoon-Theorie).
+ */
 const DEFAULT_SPOON_OPTIONS = [
-  { name: "Arbeit / Job-Sitzung 🖥️", cost: 3 },
-  { name: "Haushalt / Saugen / Kochen 🧹", cost: 2 },
-  { name: "Arzttermin / Wichtiges Telefonat 🩺", cost: 2 },
-  { name: "Sanfter Spaziergang / Dehnen 🌳", cost: 1 },
-  { name: "Mit Freunden treffen / Socialize 💬", cost: 2 }
+  { name: "Arbeit / Fokus-Sitzung", cost: 3 },
+  { name: "Haushalt & Erledigungen", cost: 2 },
+  { name: "Termin & Telefonate", cost: 2 },
+  { name: "Spaziergang & Bewegung", cost: 1 },
+  { name: "Treffen & Soziales", cost: 2 }
 ];
 
 const PROCEDURAL_BREAKDOWNS = {
@@ -32870,7 +34879,14 @@ const SUGGESTION_THEMES = [
 
 
 /* --- helper-core.js --- */
-// helper-core.js Teil 1/2: State-Variablen & Kernfunktionen (Modal, Sprachausgabe, Task-Auswahl)
+/**
+ * @file helper-core.js
+ * @module ExecutiveHelperCore
+ * @description
+ * Kernlogik des „Was nun?"-Entscheidungsassistenten (`#helper-pick-modal`):
+ * Energiebasierte Aufgaben-Empfehlung (Quick Win, Fokus, Deep Work),
+ * A-vs.-B-Münzwurf-Entscheider sowie Sprachausgabe-Unterstützung.
+ */
 let currentActiveTaskRef = null;
 let currentGeneratedSteps = [];
 let currentDopamineTask = null;
@@ -33238,6 +35254,14 @@ function pickRandomTask() {
       // Status ueberpruefen (z.B. bei Terminen)
       if (isObj && (rawItem.status === 'stattgefunden' || rawItem.status === 'nicht_stattgefunden')) return;
 
+      // Termin-Filterung: Zukuenftige Termine duerfen NIEMALS einbezogen werden, ausschliesslich HEUTE!
+      const itemDate = isObj ? (rawItem.date || '') : '';
+      if (cat === 'termine') {
+        if (!itemDate || itemDate !== todayISO) return;
+      } else if (itemDate && itemDate > todayISO) {
+        return;
+      }
+
       // Berechne Teilschritte
       let stepsCompleted = 0;
       let totalSteps = 0;
@@ -33258,7 +35282,6 @@ function pickRandomTask() {
       let reasonLabel = '💡 Smarter Fokus-Vorschlag';
 
       // 1. Termine/Deadlines von heute
-      const itemDate = isObj ? (rawItem.date || '') : '';
       if (cat === 'termine' || itemDate === todayISO) {
         score += 80;
         reasonKey = 'due_today';
@@ -33332,18 +35355,20 @@ function pickRandomTask() {
 
   if (!chosen) {
     const doneMsg = tr({ 
-      de: '🎉 Alle Aufgaben für heute erledigt! Fantastisch, genieß deinen Tag!', 
-      en: '🎉 All tasks completed! Fantastic, enjoy your day!', 
-      es: '🎉 ¡Todas las tareas completadas! ¡Disfruta de tu día!', 
-      el: '🎉 Όλες οι εργασίες ολοκληρώθηκαν! Απολαύστε τη μέρα σας!' 
+      de: 'Alle Aufgaben für heute erledigt. Gute Arbeit!', 
+      en: 'All tasks for today completed. Well done!', 
+      es: 'Todas las tareas completadas. ¡Buen trabajo!', 
+      el: 'Όλες οι εργασίες ολοκληρώθηκαν. Καλή δουλειά!' 
     });
 
     box.className = "p-6 rounded-2xl bg-black/40 border border-emerald-500/30 text-center space-y-3";
     box.innerHTML = `
-      <div class="text-3xl animate-bounce">🏆</div>
+      <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center justify-center mx-auto shadow-sm">
+        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+      </div>
       <div class="text-emerald-300 font-display font-bold text-sm leading-snug">${doneMsg}</div>
       <button onclick="startZenWithTask('Freie Fokus-Session', 'todo')" class="mt-2 py-2 px-4 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-bold transition cursor-pointer">
-        Freie Fokus-Session starten 🧘
+        Freie Fokus-Session starten
       </button>
     `;
     activeTimerTask = "";
@@ -33355,59 +35380,86 @@ function pickRandomTask() {
   activeTimerTask = chosen.task;
   updateActiveTimerLabels();
 
-  // Ermittle den ersten Kickstart-Schritt
-  let firstStep = "Schritt 1: Bereite deinen Arbeitsplatz vor und starte für 2 Minuten.";
-  const steps = getTaskStepsList(chosen.task);
+  // Ermittle Teilschritte
+  const steps = (typeof getTaskStepsList === 'function') ? getTaskStepsList(chosen.task) : [];
+  const completedIndices = (state.completedSteps && state.completedSteps[chosen.task]) ? state.completedSteps[chosen.task] : [];
+  let firstStep = "Arbeitsplatz vorbereiten und für 2 Minuten fokussieren.";
   if (steps && steps.length > 0) {
-    firstStep = cleanStepText(steps[0]);
+    firstStep = (typeof cleanStepText === 'function') ? cleanStepText(steps[0]) : steps[0];
   }
 
   const safeTask = chosen.task.replace(/'/g, "\\'");
   const catLabel = typeof t === 'function' ? t(chosen.cat) : chosen.cat;
 
-  box.className = "p-5 rounded-2xl bg-gradient-to-br from-[#16121c] to-[#0d0d14] border border-amber-500/35 shadow-xl space-y-4 text-left transition-all duration-300";
+  let stepsListHtml = '';
+  if (steps && steps.length > 0) {
+    stepsListHtml = `
+      <div class="mt-3 pt-2.5 border-t border-white/10 space-y-1.5">
+        <div class="flex items-center justify-between text-[10px] text-purple-300 font-bold uppercase tracking-wider">
+          <span class="flex items-center gap-1"><i data-lucide="footprints" class="w-3 h-3 text-purple-400"></i> Teilschritte (${completedIndices.length}/${steps.length})</span>
+          <span class="text-[9px] text-gray-400">Direkt anklickbar</span>
+        </div>
+        <div class="space-y-1 max-h-32 overflow-y-auto pr-1 custom-scrollbar">
+          ${steps.map((st, sIdx) => {
+            const isDone = completedIndices.includes(sIdx);
+            const clText = (typeof cleanStepText === 'function') ? cleanStepText(st) : st;
+            return `
+              <div onclick="if(typeof toggleCustomStepCheck==='function'){toggleCustomStepCheck('${safeTask}', ${sIdx}, event); pickRandomTask();}" class="flex items-center gap-2 p-1.5 rounded-lg bg-black/40 hover:bg-white/5 border border-white/5 transition cursor-pointer text-left">
+                <input type="checkbox" ${isDone ? 'checked' : ''} onclick="event.stopPropagation(); if(typeof toggleCustomStepCheck==='function'){toggleCustomStepCheck('${safeTask}', ${sIdx}, event); pickRandomTask();}" class="w-3.5 h-3.5 accent-amber-400 rounded cursor-pointer shrink-0" />
+                <span class="text-[11px] leading-snug break-words ${isDone ? 'line-through text-emerald-400 opacity-60' : 'text-gray-200'}">${escapeHtml(clText)}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  box.className = "p-5 rounded-2xl bg-[#14141e] border border-white/10 shadow-xl space-y-4 text-left transition-all duration-300";
   box.innerHTML = `
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-1.5 flex-wrap">
-        <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold text-[10px] uppercase tracking-wider font-mono">
+        <span class="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 font-semibold text-[10px] uppercase tracking-wider font-mono">
           ${escapeHtml(catLabel)}
         </span>
-        <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-[10px] font-mono">
-          ⏱️ ~${chosen.estMinutes} Min
+        <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[10px] font-mono">
+          ~${chosen.estMinutes} Min
         </span>
       </div>
-      <span class="text-[9px] px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/25 text-amber-300 font-semibold font-mono">
-        ${escapeHtml(chosen.reasonLabel)}
+      <span class="text-[9px] px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-gray-300 font-medium font-mono">
+        ${escapeHtml(chosen.reasonLabel.replace(/[💡📌🔥🪜]/g, '').trim())}
       </span>
     </div>
 
     <!-- Task Title -->
     <div>
-      <h2 class="text-xl sm:text-2xl font-display font-black text-white leading-tight tracking-tight break-words">
+      <h2 class="text-xl sm:text-2xl font-display font-bold text-white leading-tight tracking-tight break-words">
         ${escapeHtml(chosen.task)}
       </h2>
       <div class="mt-2.5 flex items-start gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 font-medium">
-        <span class="text-amber-400 shrink-0">🪜</span>
-        <span class="leading-relaxed"><strong class="text-white">Kickstart-Schritt:</strong> ${escapeHtml(firstStep)}</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-amber-400 mt-0.5 shrink-0"></i>
+        <span class="leading-relaxed"><strong class="text-white">Erster Schritt:</strong> ${escapeHtml(firstStep)}</span>
       </div>
     </div>
 
-    <!-- Primary Action Buttons -->
+    ${stepsListHtml}
+
+    <!-- Primary Action Buttons & Instant-Start -->
     <div class="space-y-2 pt-1">
-      <button onclick="startZenWithTask('${safeTask}', '${chosen.cat}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-black text-xs rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.25)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
-        <i data-lucide="play" class="w-4 h-4 fill-black"></i>
-        <span>Im Fokus starten [Space] 🧘</span>
+      <button onclick="startInstantGuidedFlow('${safeTask}', '${chosen.cat}', ${chosen.estMinutes})" class="w-full py-3 px-4 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-black font-extrabold text-xs rounded-xl shadow-[0_0_15px_rgba(251,191,36,0.35)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
+        <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
+        <span>⚡ Instant-Start (Geführter Ablauf)</span>
       </button>
 
       <div class="grid grid-cols-2 gap-2">
-        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
+        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
           <i data-lucide="timer" class="w-3.5 h-3.5 text-amber-400"></i>
           <span>2-Min Start</span>
         </button>
 
-        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2.5 px-3 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren (+XP)">
+        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2.5 px-3 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren">
           <i data-lucide="check" class="w-3.5 h-3.5"></i>
-          <span>Erledigt (+XP)</span>
+          <span>Erledigt</span>
         </button>
       </div>
     </div>
@@ -33415,12 +35467,44 @@ function pickRandomTask() {
   if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
 
+/**
+ * Startet den geführten Instant-Start Modus fuer ungeduldige Nutzer:
+ * Stellt den passenden Timer ein, schaltet in den Fokus und verbindet zur naechsten Aufgabe nach Abschluss.
+ */
+function startInstantGuidedFlow(taskName, category, estMinutes = 20) {
+  if (typeof window !== 'undefined') window._isGuidedFlowActive = true;
+  if (typeof setTimerPreset === 'function') {
+    const minutesToSet = Math.max(2, Math.min(60, estMinutes || 20));
+    setTimerPreset(minutesToSet);
+  }
+  if (typeof startZenWithTask === 'function') {
+    startZenWithTask(taskName, category);
+  } else if (typeof startTimer === 'function') {
+    startTimer();
+  }
+  if (typeof closeHelperModal === 'function') closeHelperModal();
+  if (typeof showToast === 'function') {
+    showToast(tr({
+      de: `⚡ Instant-Ablauf gestartet: ${taskName} (${estMinutes} Min.)`,
+      en: `⚡ Instant flow started: ${taskName} (${estMinutes} min.)`
+    }));
+  }
+}
+if (typeof window !== 'undefined') window.startInstantGuidedFlow = startInstantGuidedFlow;
+
 
 
 
 
 /* --- helper-core-2.js --- */
-// helper-core.js Teil 2/2: Eigene Schritte / Teilschritt-Zerlegung & Dopamin-Kick-Logik
+/**
+ * @file helper-core-2.js
+ * @module ExecutiveTaskBreakdown
+ * @description
+ * Verwaltet die Schritt-für-Schritt-Zerlegung (Micro-Steps) einzelner Aufgaben,
+ * benutzerdefinierte Teilschritte (`state.customSteps`) und die Fortschrittsanzeige
+ * innerhalb des Aufgaben-Assistenten.
+ */
 function getTaskStepsList(taskName) {
   if (!taskName) return [];
   if (state.customSteps && state.customSteps[taskName] && state.customSteps[taskName].length > 0) {
@@ -33730,8 +35814,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- helper-clarity.js --- */
-// helper-clarity.js: Intelligenter, mitfühlender Begleiter für Klarheit, Impulskontrolle & Selbstregulation
-// 100% Clientseitig, diskret, wissenschaftlich fundiert & tief menschlich aufgebaut.
+/**
+ * @file helper-clarity.js
+ * @module ClarityAndImpulseControl
+ * @description
+ * Modul zur Impulskontrolle, Selbstregulation und Reflexion (`#clarity-modal`).
+ * Bietet einen interaktiven 90-Sekunden-Urge-Surfing-Timer, Streak-Tracking,
+ * persönliche Motivationsgründe sowie ein lokal gespeichertes Reflexions-Journal.
+ */
 
 let clarityUrgeInterval = null;
 let clarityUrgeSecondsLeft = 90;
@@ -33910,7 +36000,7 @@ function stopClarityUrgeTimer() {
   clearInterval(clarityUrgeInterval);
   const btn = document.getElementById('clarity-urge-toggle-btn');
   if (btn) {
-    btn.innerHTML = '<i data-lucide="play" class="w-4 h-4"></i> <span>' + tr({ en: 'Ride the 90s Wave 🌊', de: '90s Welle reiten 🌊', fr: 'Surfer la vague 90s 🌊', it: 'Cavalca l onda di 90s 🌊', es: 'Surfear la ola de 90s 🌊', el: 'Δαμάστε το κύμα 90δ 🌊' }) + '</span>';
+    btn.innerHTML = '<i data-lucide="play" class="w-4 h-4"></i> <span>' + tr({ en: 'Ride the 90s Wave', de: '90s Welle starten', fr: 'Surfer la vague 90s', it: 'Cavalca l onda di 90s', es: 'Surfear la ola de 90s', el: 'Δαμάστε το κύμα 90δ' }) + '</span>';
     btn.classList.remove('bg-rose-500/20', 'text-rose-300', 'border-rose-500/40');
     btn.classList.add('bg-teal-500', 'text-black');
     if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -33934,13 +36024,13 @@ function updateUrgeDisplay() {
   if (breathEl) {
     const cycle = (90 - clarityUrgeSecondsLeft) % 12;
     if (cycle < 4) {
-      breathEl.innerText = tr({ en: '💨 Inhale softly through the nose (4s)...', de: '💨 Sanft durch die Nase einatmen (4s)...', fr: '💨 Inspire doucement par le nez (4s)...', it: '💨 Inspira dolcemente dal naso (4s)...', es: '💨 Inhala suave por la nariz (4s)...', el: '💨 Εισπνεύστε απαλά (4δ)...' });
+      breathEl.innerText = tr({ en: 'Inhale softly through the nose (4s)...', de: 'Sanft durch die Nase einatmen (4s)...', fr: 'Inspire doucement par le nez (4s)...', it: 'Inspira dolcemente dal naso (4s)...', es: 'Inhala suave por la nariz (4s)...', el: 'Εισπνεύστε απαλά (4δ)...' });
       breathEl.className = 'text-xs font-bold text-teal-300 transition-colors';
     } else if (cycle < 6) {
-      breathEl.innerText = tr({ en: '⏸️ Hold gently & relax the jaw (2s)...', de: '⏸️ Sanft halten & Kiefer lockern (2s)...', fr: '⏸️ Maintiens doucement & relâche (2s)...', it: '⏸️ Trattieni & rilassa il viso (2s)...', es: '⏸️ Mantén y relaja la mandíbula (2s)...', el: '⏸️ Κράτημα & χαλάρωση (2δ)...' });
+      breathEl.innerText = tr({ en: 'Hold gently & relax the jaw (2s)...', de: 'Sanft halten & Kiefer lockern (2s)...', fr: 'Maintiens doucement & relâche (2s)...', it: 'Trattieni & rilassa il viso (2s)...', es: 'Mantén y relaja la mandíbula (2s)...', el: 'Κράτημα & χαλάρωση (2δ)...' });
       breathEl.className = 'text-xs font-bold text-cyan-300 transition-colors';
     } else {
-      breathEl.innerText = tr({ en: '🌊 Exhale slowly & drop your shoulders (6s)...', de: '🌊 Langsam ausatmen & Schultern sinken lassen (6s)...', fr: '🌊 Expire lentement & baisse les épaules (6s)...', it: '🌊 Espira lentamente & rilassa le spalle (6s)...', es: '🌊 Exhala despacio y baja los hombros (6s)...', el: '🌊 Εκπνεύστε αργά (6δ)...' });
+      breathEl.innerText = tr({ en: 'Exhale slowly & drop your shoulders (6s)...', de: 'Langsam ausatmen & Schultern sinken lassen (6s)...', fr: 'Expire lentement & baisse les épaules (6s)...', it: 'Espira lentamente & rilassa le spalle (6s)...', es: 'Exhala despacio y baja los hombros (6s)...', el: 'Εκπνεύστε αργά (6δ)...' });
       breathEl.className = 'text-xs font-bold text-emerald-300 transition-colors';
     }
   }
@@ -33949,12 +36039,12 @@ function updateUrgeDisplay() {
 function onUrgeSurfingComplete() {
   const phraseEl = document.getElementById('clarity-urge-phrase');
   const winMsg = tr({
-    de: '🌱 Wundervoll gemeistert! Die biochemische Welle ist sanft abgeflaut. Du hast deinem Nervensystem Raum geschenkt und dich für Klarheit entschieden.',
-    en: '🌱 Beautifully done! The biochemical wave has passed. You gave your nervous system room and chose clarity.',
-    fr: '🌱 Magnifiquement surmonté ! La vague est passée. Tu as offert de l espace à ton esprit.',
-    it: '🌱 Superato con successo! L onda è passata. Hai regalato spazio e chiarezza alla tua mente.',
-    es: '🌱 ¡Superado con éxito! La ola ha pasado. Le diste espacio y claridad a tu mente.',
-    el: '🌱 Εξαιρετικά! Το κύμα πέρασε. Χάρισες ηρεμία και διαύγεια στον εαυτό σου.'
+    de: 'Wundervoll gemeistert. Die biochemische Welle ist sanft abgeflaut. Du hast deinem Nervensystem Raum geschenkt und dich für Klarheit entschieden.',
+    en: 'Beautifully done. The biochemical wave has passed. You gave your nervous system room and chose clarity.',
+    fr: 'Magnifiquement surmonté. La vague est passée. Tu as offert de l espace à ton esprit.',
+    it: 'Superato con successo. L onda è passata. Hai regalato spazio e chiarezza alla tua mente.',
+    es: '¡Superado con éxito! La ola ha pasado. Le diste espacio y claridad a tu mente.',
+    el: 'Εξαιρετικά. Το κύμα πέρασε. Χάρισες ηρεμία και διαύγεια στον εαυτό σου.'
   });
   if (phraseEl) {
     phraseEl.innerHTML = `
@@ -33962,23 +36052,22 @@ function onUrgeSurfingComplete() {
         <p class="text-xs text-teal-200 font-medium">${winMsg}</p>
         <div class="pt-2 flex justify-center">
           <button onclick="if(typeof startClarityMicroFocus === 'function') startClarityMicroFocus(10);" class="px-4 py-2 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black font-black text-xs rounded-2xl shadow-xl transition cursor-pointer flex items-center gap-1.5 active:scale-95">
-            <span>🚀 Jetzt mit 10m Micro-Focus starten</span>
+            <span>Jetzt mit 10m Micro-Focus starten</span>
           </button>
         </div>
       </div>
     `;
   }
-  if (typeof playCheerfulSuccessJingle === 'function') playCheerfulSuccessJingle();
-  if (typeof triggerCelebration === 'function') triggerCelebration();
+  if (typeof playProceduralSound === 'function') playProceduralSound(1);
   if (typeof addGamificationXP === 'function') addGamificationXP(50, 'Klarheits-Welle');
   
   showToast(tr({
-    de: '90s Welle gemeistert! +50 XP Klarheit 🌟',
-    en: 'Wave surmounted! +50 XP Clarity 🌟',
-    fr: 'Vague surmontée ! +50 XP Clarté 🌟',
-    it: 'Onda superata! +50 XP Chiarezza 🌟',
-    es: '¡Ola superada! +50 XP Claridad 🌟',
-    el: 'Το κύμα ξεπεράστηκε! +50 XP 🌟'
+    de: '90s Welle gemeistert (+50 XP).',
+    en: 'Wave surmounted (+50 XP).',
+    fr: 'Vague surmontée (+50 XP).',
+    it: 'Onda superata (+50 XP).',
+    es: 'Ola superada (+50 XP).',
+    el: 'Το κύμα ξεπεράστηκε (+50 XP).'
   }));
 }
 
@@ -34201,8 +36290,8 @@ function saveClarityReason(quickText = null) {
   if (input && !quickText) input.value = '';
   renderClarityReasonsList();
   showToast(tr({
-    de: 'Ankergrund gesichert! ⚓',
-    en: 'Personal anchor saved! ⚓'
+    de: 'Persönlicher Anker gesichert.',
+    en: 'Personal anchor saved.'
   }));
 }
 
@@ -34218,12 +36307,13 @@ function renderClarityReasonsList() {
   listEl.innerHTML = reasons.slice(0, 6).map((r, i) =>
     '<div class="p-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 rounded-xl flex items-center justify-between text-xs text-gray-200 transition gap-2">' +
       '<span class="truncate font-medium flex items-center gap-2">' +
-        '<span class="text-teal-400">⚓</span>' +
+        '<i data-lucide="anchor" class="w-3.5 h-3.5 text-teal-400"></i>' +
         '<span>' + escapeHtml(r) + '</span>' +
       '</span>' +
       '<button onclick="removeClarityReason(' + i + ')" aria-label="Anker entfernen" class="text-gray-500 hover:text-rose-400 text-xs p-1 cursor-pointer">✕</button>' +
     '</div>'
   ).join('');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 function removeClarityReason(index) {
@@ -34250,11 +36340,11 @@ function incrementClarityStreak() {
   cState.lastCheckinDate = new Date().toISOString();
   saveState();
   updateClarityStreakUI();
-  if (typeof triggerCelebration === 'function') triggerCelebration();
+  if (typeof playProceduralSound === 'function') playProceduralSound(0);
   if (typeof addGamificationXP === 'function') addGamificationXP(30, 'Klarheits-Tag');
   showToast(tr({
-    de: 'Klarheits-Tag erfolgreich festgehalten! Weiter so 🌟',
-    en: 'Clarity day logged successfully! Keep going 🌟'
+    de: 'Klarheits-Tag festgehalten (+30 XP).',
+    en: 'Clarity day logged (+30 XP).'
   }));
 }
 
@@ -34267,7 +36357,7 @@ async function resetClarityStreak() {
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
     title: typeof tr === 'function' ? tr({ de: 'Sanfter Neustart', en: 'Gentle Reset' }) : 'Sanfter Neustart',
     message: confirmMsg,
-    confirmText: typeof tr === 'function' ? tr({ de: 'Auf 0 setzen 🌱', en: 'Reset to 0 🌱' }) : 'Auf 0 setzen 🌱',
+    confirmText: typeof tr === 'function' ? tr({ de: 'Auf 0 setzen', en: 'Reset to 0' }) : 'Auf 0 setzen',
     isDanger: false,
     icon: 'refresh-cw'
   }) : confirm(confirmMsg);
@@ -34278,8 +36368,8 @@ async function resetClarityStreak() {
     saveState();
     updateClarityStreakUI();
     showToast(tr({
-      de: 'Zähler zurückgesetzt. Sei voller Mitgefühl mit dir – heute ist ein neuer Tag! 🌱',
-      en: 'Counter reset. Be kind to yourself – today is a fresh new day! 🌱'
+      de: 'Zähler zurückgesetzt. Heute ist ein neuer Tag.',
+      en: 'Counter reset. Today is a fresh day.'
     }));
   }
 }
@@ -34299,8 +36389,8 @@ function addClarityJournalNote() {
   saveState();
   renderClarityJournalList();
   showToast(tr({
-    de: 'Reflexion im Klarheits-Tagebuch gespeichert 📖',
-    en: 'Reflection saved in Clarity Journal 📖'
+    de: 'Reflexion im Klarheits-Tagebuch gespeichert.',
+    en: 'Reflection saved in Clarity Journal.'
   }));
 }
 
@@ -34368,6 +36458,15 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- helper-brainstorm.js --- */
 
+/**
+ * @file helper-brainstorm.js
+ * @module BrainstormingStudio
+ * @description
+ * Gedanken-Sammler und Brainstorming-Werkzeug mit Listen- und Themen-Cluster-Ansicht,
+ * Tag-Filterung, Favoriten-Markierung, direkter Umwandlung einzelner Ideen in
+ * Board-Aufgaben sowie Markdown-Mindmap-Export.
+ */
+
 let brainstormViewMode = 'list'; // 'list' | 'cluster'
 
 function setBrainstormViewMode(mode) {
@@ -34411,7 +36510,7 @@ function copyBrainstormAsMindmap() {
   const text = lines.join('\n');
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      if (typeof showToast === 'function') showToast(tr({ de: '🗺️ Mindmap in die Zwischenablage kopiert!', en: '🗺️ Mindmap copied to clipboard!' }));
+      if (typeof showToast === 'function') showToast(tr({ de: 'Mindmap in Zwischenablage kopiert.', en: 'Mindmap copied to clipboard.' }));
     });
   }
 }
@@ -34425,29 +36524,29 @@ function exportBrainstormAsActionPlan() {
   const questions = brainstormIdeas.filter(i => i.tag === 'question');
 
   let lines = [
-    '# 🎯 Sofort-Aktionsplan (Synthetisiert)',
+    '# Sofort-Aktionsplan',
     `Erstellt am: ${new Date().toLocaleString()}`,
     '',
-    '## ⚡ Phase 1: Quick Wins (Sofort umsetzen)',
+    '## Phase 1: Quick Wins (Sofort umsetzen)',
     quickwins.length ? quickwins.map(q => `- [ ] ${q.text}`).join('\n') : '- Keine Quick Wins definiert',
     '',
-    '## 🚀 Phase 2: Kern-Projekte',
+    '## Phase 2: Kern-Projekte',
     projects.length ? projects.map(p => `- [ ] ${p.text}`).join('\n') : '- Keine Projekte definiert',
     '',
-    '## 🎯 Phase 3: Langfristige Ziele & Meilensteine',
+    '## Phase 3: Langfristige Ziele & Meilensteine',
     goals.length ? goals.map(g => `- [ ] ${g.text}`).join('\n') : '- Keine Ziele definiert',
     '',
-    '## 💡 Ideenpool & Inspirationsspeicher',
+    '## Ideenpool & Inspiration',
     ideas.length ? ideas.map(i => `- ${i.text}`).join('\n') : '- Keine Ideen im Pool',
     '',
-    '## ❓ Zu klärende Fragen & Recherchen',
+    '## Zu klärende Fragen & Recherchen',
     questions.length ? questions.map(q => `- [ ] ${q.text}`).join('\n') : '- Keine offenen Fragen'
   ];
 
   const text = lines.join('\n');
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      if (typeof showToast === 'function') showToast(tr({ de: '📋 Aktionsplan in Zwischenablage kopiert!', en: '📋 Action plan copied to clipboard!' }));
+      if (typeof showToast === 'function') showToast(tr({ de: 'Aktionsplan in Zwischenablage kopiert.', en: 'Action plan copied to clipboard.' }));
     });
   }
 }
@@ -34669,12 +36768,12 @@ function addBrainstormIdea(text, tag = 'idea') {
 
   if (typeof showToast === 'function') {
     showToast(tr({
-      de: lines.length > 1 ? `💡 ${lines.length} Ideen hinzugefügt!` : '💡 Idee erfasst!',
-      en: lines.length > 1 ? `💡 ${lines.length} ideas added!` : '💡 Idea captured!',
-      fr: lines.length > 1 ? `💡 ${lines.length} idées ajoutées !` : '💡 Idée enregistrée !',
-      it: lines.length > 1 ? `💡 ${lines.length} idee aggiunte!` : '💡 Idea acquisita!',
-      es: lines.length > 1 ? `💡 ¡${lines.length} ideas añadidas!` : '💡 ¡Idea capturada!',
-      el: lines.length > 1 ? `💡 ${lines.length} ιδέες προστέθηκαν!` : '💡 Η ιδέα καταγράφηκε!'
+      de: lines.length > 1 ? `${lines.length} Ideen hinzugefügt.` : 'Idee erfasst.',
+      en: lines.length > 1 ? `${lines.length} ideas added.` : 'Idea captured.',
+      fr: lines.length > 1 ? `${lines.length} idées ajoutées.` : 'Idée enregistrée.',
+      it: lines.length > 1 ? `${lines.length} idee aggiunte.` : 'Idea acquisita.',
+      es: lines.length > 1 ? `${lines.length} ideas añadidas.` : 'Idea capturada.',
+      el: lines.length > 1 ? `${lines.length} ιδέες προστέθηκαν.` : 'Η ιδέα καταγράφηκε.'
     }));
   }
 }
@@ -34789,12 +36888,12 @@ function transferIdeaToBoard(id, targetColumn) {
 
   if (typeof showToast === 'function') {
     showToast(tr({
-      de: `🚀 Idee erfolgreich nach „${targetTitle[targetColumn] || targetColumn}“ übertragen!`,
-      en: `🚀 Idea successfully transferred to "${targetTitle[targetColumn] || targetColumn}"!`,
-      fr: `🚀 Idée transférée vers « ${targetTitle[targetColumn] || targetColumn} » !`,
-      it: `🚀 Idea trasferita in "${targetTitle[targetColumn] || targetColumn}"!`,
-      es: `🚀 ¡Idea transferida a "${targetTitle[targetColumn] || targetColumn}"!`,
-      el: `🚀 Η ιδέα μεταφέρθηκε επιτυχώς!`
+      de: `Idee nach „${targetTitle[targetColumn] || targetColumn}“ übertragen.`,
+      en: `Idea transferred to "${targetTitle[targetColumn] || targetColumn}".`,
+      fr: `Idée transférée vers « ${targetTitle[targetColumn] || targetColumn} ».`,
+      it: `Idea trasferita in "${targetTitle[targetColumn] || targetColumn}".`,
+      es: `Idea transferida a "${targetTitle[targetColumn] || targetColumn}".`,
+      el: `Η ιδέα μεταφέρθηκε επιτυχώς.`
     }));
   }
 }
@@ -34822,12 +36921,12 @@ function expandIdeaToMicroSteps(id) {
 
   if (typeof showToast === 'function') {
     showToast(tr({
-      de: '✨ 3 Micro-Steps wurden in „Demnächst“ angelegt!',
-      en: '✨ 3 micro-steps added to "Next" column!',
-      fr: '✨ 3 micro-étapes créées !',
-      it: '✨ 3 micro-passi creati!',
-      es: '✨ ¡3 micro-pasos creados!',
-      el: '✨ Δημιουργήθηκαν 3 μικρο-βήματα!'
+      de: '3 Micro-Steps in „Demnächst“ angelegt.',
+      en: '3 micro-steps added to "Next" column.',
+      fr: '3 micro-étapes créées.',
+      it: '3 micro-passi creati.',
+      es: '3 micro-pasos creados.',
+      el: 'Δημιουργήθηκαν 3 μικρο-βήματα.'
     }));
   }
 }
@@ -34844,7 +36943,7 @@ function copyBrainstormAsMarkdown() {
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      if (typeof showToast === 'function') showToast(tr({ de: '📋 Als Markdown in Zwischenablage kopiert!', en: '📋 Copied as Markdown to clipboard!' }));
+      if (typeof showToast === 'function') showToast(tr({ de: 'Als Markdown in Zwischenablage kopiert.', en: 'Copied as Markdown to clipboard.' }));
     });
   }
 }
@@ -34958,7 +37057,7 @@ function renderBrainstormUI() {
               <div class="flex items-center gap-1 pt-1 border-t border-white/5 flex-wrap">
                 <button onclick="transferIdeaToBoard('${escapeAttr(item.id)}', 'heute')" class="px-1.5 py-0.5 rounded bg-teal-500/15 hover:bg-teal-500/30 text-teal-300 text-[9px] font-bold transition cursor-pointer">Heute</button>
                 <button onclick="transferIdeaToBoard('${escapeAttr(item.id)}', 'morgen')" class="px-1.5 py-0.5 rounded bg-indigo-500/15 hover:bg-indigo-500/30 text-indigo-300 text-[9px] font-bold transition cursor-pointer">Demnächst</button>
-                <button onclick="expandIdeaToMicroSteps('${escapeAttr(item.id)}')" class="px-1.5 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-[9px] font-bold transition cursor-pointer">Steps ✨</button>
+                <button onclick="expandIdeaToMicroSteps('${escapeAttr(item.id)}')" class="px-1.5 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-[9px] font-bold transition cursor-pointer">Schritte</button>
               </div>
             </div>
           `).join('')}
@@ -35027,7 +37126,7 @@ function renderBrainstormUI() {
           </button>
           <button onclick="expandIdeaToMicroSteps('${item.id}')" class="px-2 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 hover:text-white text-[10px] font-bold transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'In 3 Micro-Steps zerlegen', en: 'Break down into 3 micro-steps' })}">
             <i data-lucide="layers" class="w-3 h-3"></i>
-            <span>Steps ✨</span>
+            <span>Schritte</span>
           </button>
         </div>
       </div>
@@ -35128,10 +37227,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- helper-ocr-scanner.js --- */
-// ============================================================================
-// NOODLE HANDWRITING OCR & DOCUMENT SCANNER (helper-ocr-scanner.js)
-// Exklusiv integriert im Brainstorming Studio und in der Notizenkarte
-// ============================================================================
+/**
+ * @file helper-ocr-scanner.js
+ * @module NoteScannerAndOCR
+ * @description
+ * Kamera- und Bild-Scanner für handschriftliche oder gedruckte Notizen.
+ * Unterstützt Bildvorverarbeitung (Dokumenten-Kontrastfilter, Schärfung, Rotation)
+ * sowie Texterkennung zur direkten Übernahme in Notizen, Brainstorming oder Aufgaben.
+ */
 
 let currentScannerContext = 'brainstorm'; // 'brainstorm' | 'notes' | 'note-detail'
 let currentScannerTargetId = null;
@@ -35200,11 +37303,11 @@ function renderScannerActionButtons() {
     container.innerHTML = `
       <div class="flex flex-wrap items-center gap-2 justify-end w-full">
         <select id="scanner-brainstorm-tag" class="bg-black/60 border border-teal-500/40 rounded-xl px-2.5 py-2 text-xs font-bold text-teal-300 outline-none cursor-pointer shadow-sm">
-          <option value="idea">💡 Als Ideen</option>
-          <option value="quickwin">⚡ Als Quick Wins</option>
-          <option value="project">🚀 Als Projekte</option>
-          <option value="question">❓ Als Fragen</option>
-          <option value="goal">🎯 Als Ziele</option>
+          <option value="idea">Als Ideen</option>
+          <option value="quickwin">Als Quick Wins</option>
+          <option value="project">Als Projekte</option>
+          <option value="question">Als Fragen</option>
+          <option value="goal">Als Ziele</option>
         </select>
         <button onclick="importScannedTextToBrainstorm()" class="px-4 py-2 rounded-xl bg-teal-500 hover:bg-teal-400 text-black font-bold text-xs shadow-lg transition cursor-pointer flex items-center gap-1.5 active:scale-95">
           <i data-lucide="lightbulb" class="w-4 h-4"></i>
@@ -35276,8 +37379,8 @@ async function startScannerCamera() {
     console.warn('[Scanner] Camera error:', err);
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: '📷 Kamerazugriff nicht verfügbar oder abgelehnt. Bitte Foto hochladen.',
-        en: '📷 Camera access not available or denied. Please upload a photo.'
+        de: 'Kamerazugriff nicht verfügbar oder abgelehnt.',
+        en: 'Camera access not available or denied.'
       }));
     }
   }
@@ -35539,17 +37642,17 @@ async function runOcrOnScannedImage() {
         resultTextarea.value = cleaned;
       }
       if (progressBar) progressBar.style.width = '100%';
-      if (progressText) progressText.innerText = '✅ Handschrift erfolgreich erkannt!';
+      if (progressText) progressText.innerText = 'Handschrift erkannt.';
       
       if (typeof showToast === 'function') {
-        showToast(tr({ de: '✨ Handschriftliche Notiz erkannt!', en: '✨ Handwritten note recognized!' }));
+        showToast(tr({ de: 'Handschriftliche Notiz erkannt.', en: 'Handwritten note recognized.' }));
       }
     } else {
       throw new Error('Tesseract script not available');
     }
   } catch (err) {
     console.warn('[Scanner] OCR fallback triggered:', err);
-    if (progressText) progressText.innerText = 'ℹ️ Bild geladen (Handschrift bitte kurz prüfen/ergänzen)';
+    if (progressText) progressText.innerText = 'Bild geladen (Handschrift bitte kurz prüfen/ergänzen)';
     if (resultTextarea && !resultTextarea.value.trim()) {
       resultTextarea.value = '• Gescannte Notiz (' + new Date().toLocaleDateString() + ')\n';
     }
@@ -35631,8 +37734,8 @@ function importScannedTextToNotes(targetType = 'notes') {
     closeNoteScannerModal();
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: '📝 Scan in Notiz eingefügt!',
-        en: '📝 Scan inserted into note!'
+        de: 'Scan in Notiz eingefügt.',
+        en: 'Scan inserted into note.'
       }));
     }
     return;
@@ -35653,8 +37756,8 @@ function importScannedTextToNotes(targetType = 'notes') {
     if (typeof renderApp === 'function') renderApp();
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: `🚀 ${lines.length} Aufgaben in To-Do Spalte angelegt!`,
-        en: `🚀 ${lines.length} tasks added to To-Do!`
+        de: `${lines.length} Aufgaben in To-Do Spalte angelegt.`,
+        en: `${lines.length} tasks added to To-Do.`
       }));
     }
   } else {
@@ -35668,8 +37771,8 @@ function importScannedTextToNotes(targetType = 'notes') {
     if (typeof renderApp === 'function') renderApp();
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: '📝 Notiz aus Scan erfolgreich gespeichert!',
-        en: '📝 Note from scan successfully saved!'
+        de: 'Notiz aus Scan gespeichert.',
+        en: 'Note from scan saved.'
       }));
     }
   }
@@ -35848,7 +37951,14 @@ if (typeof module !== 'undefined' && module.exports) {
 
 
 /* --- helper-cleaning.js --- */
-// helper-cleaning.js: Interaktiver Wohnungs-Reset & Level-Putz-Guide für Noodle
+/**
+ * @file helper-cleaning.js
+ * @module CleaningCoach
+ * @description
+ * Geführter Aufräum- und Reinigungs-Assistent mit abgestuften Zeitprogrammen
+ * (15-Minuten-Blitz-Reset, 30-Minuten-Standard, 60-Minuten-Deep-Clean),
+ * interaktiver Checkliste und integrierter Timer-Steuerung.
+ */
 
 const CLEANING_LEVELS_DATA = {
   express: {
@@ -36235,7 +38345,7 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
 
   data.steps.forEach((step, idx) => {
     if (!activeCleaningCompletedSteps[step.id]) {
-      const taskText = `🧹 ${step.title.split('(')[0].trim()}`;
+      const taskText = step.title.split('(')[0].trim();
       const exists = curState.items[cat].some(item => (typeof item === 'object' ? item.task === taskText : item === taskText));
       if (!exists) {
         curState.items[cat].push({
@@ -36255,12 +38365,12 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
   closeCleaningGuideModal();
   if (typeof showToast === 'function') {
     const msg = tr({
-      en: `✨ Added ${addedCount} steps to your board!`,
-      de: `✨ ${addedCount} Schritte in dein Board übernommen!`,
-      fr: `✨ ${addedCount} étapes ajoutées à votre tableau !`,
-      it: `✨ ${addedCount} passaggi aggiunti alla tua bacheca!`,
-      es: `✨ ¡${addedCount} pasos agregados a tu tablero!`,
-      el: `✨ Προστέθηκαν ${addedCount} βήματα στον πίνακά σου!`
+      en: `Added ${addedCount} steps to board.`,
+      de: `${addedCount} Schritte in das Board übernommen.`,
+      fr: `${addedCount} étapes ajoutées au tableau.`,
+      it: `${addedCount} passaggi aggiunti alla bacheca.`,
+      es: `${addedCount} pasos agregados al tablero.`,
+      el: `Προστέθηκαν ${addedCount} βήματα στον πίνακα.`
     });
     showToast(msg);
   }
@@ -36295,10 +38405,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- helper-learning.js --- */
-// ============================================================================
-// NOODLE LEARNING HUB: DEEP LEARNING, FLASHCARDS & AI-QUIZ ENGINE
-// ============================================================================
-// 100% Serverless, Offline-First, Spaced Repetition (Leitner/SM-2), 3D Flashcards & Custom Decks
+/**
+ * @file helper-learning.js
+ * @module LearningHub
+ * @description
+ * Wissens- und Lernmodul (`#modal-learning-hub`) mit interaktiven 3D-Karteikarten,
+ * Spaced-Repetition-Algorithmus (Leitner / SM-2), kuratierten Wissenspaketen
+ * sowie Editor für eigene Lernkarten-Decks.
+ */
 
 (function() {
   'use strict';
@@ -36727,73 +38841,73 @@ if (typeof globalThis !== 'undefined') {
     return [
       {
         id: 'dyn_' + Date.now() + '_1',
-        question: 'Was ist das fundamentale Kernprinzip oder das primäre Ziel von „' + cleanName + '“?',
+        question: 'Was bildet die solide methodische Grundlage beim Einstieg in „' + cleanName + '“?',
         options: [
-          'Die gezielte Strukturierung, Analyse und Beherrschung der Kernmechanismen von ' + cleanName + ', um verlässliche Ergebnisse zu erzielen.',
-          'Ein veraltetes Konzept, das in der modernen Praxis keine Relevanz mehr besitzt.',
-          'Die zufällige und unkontrollierte Ausführung ohne definierte Methodik.',
-          'Ein rein theoretisches Modell ohne jede praktische Anwendbarkeit im Alltag.'
+          'Ausschließliches Auswendiglernen isolierter Details ohne Verständnis der Systemzusammenhänge.',
+          'Die gezielte Identifikation und Beherrschung der Kernmechanismen von ' + cleanName + ', um verlässliche mentale Modelle aufzubauen.',
+          'Die unstrukturierte Aneignung von Randwissen ohne definierten Praxisbezug.',
+          'Der rein intuitive Zugang ohne Überprüfung der grundlegenden Annahmen.'
         ],
-        correct: 0,
+        correct: 1,
         explanation: 'Bei ' + cleanName + ' geht es im Kern darum, fundamentale Zusammenhänge zu verstehen, Heuristiken anzuwenden und Fehlerquellen systematisch zu minimieren.',
-        mnemonic: '💡 Merksatz: „Verstehe das Fundament von ' + cleanName + ', bevor du komplexe Details optimierst.“',
-        pitfall: 'Die anderen Optionen degradieren das Thema fälschlicherweise zu Zufall oder Irrelevanz.'
+        mnemonic: 'Merksatz: Verstehe das Fundament von ' + cleanName + ', bevor du komplexe Details optimierst.',
+        pitfall: 'Isolierte Einzelfakten ohne übergeordnetes Konzept verblassen im Langzeitgedächtnis schnell wieder.'
       },
       {
         id: 'dyn_' + Date.now() + '_2',
-        question: 'Welcher typische Denkfehler oder Fallstrick tritt bei Einsteigern in „' + cleanName + '“ am häufigsten auf?',
+        question: 'Welcher typische methodische Fallstrick tritt beim Vertiefen von „' + cleanName + '“ am häufigsten auf?',
         options: [
-          'Sich zu schnell in unwichtigen Rand-Details zu verlieren, anstatt zuerst die wichtigsten 20% der Grundlagen (Pareto-Prinzip) zu meistern.',
-          'Zu viel Wasser während der Lernphase zu trinken.',
-          'Das Thema ausschließlich mit analogen Notizen auf Papier zu strukturieren.',
-          'Zu viele Fragen an erfahrene Experten zu stellen.'
+          'Sich frühzeitig in peripheren Details zu verlieren, anstatt zuerst die wichtigsten 20% der Grundlagen (Pareto-Prinzip) zu festigen.',
+          'Zu strukturierte Dokumentation der eigenen Lernschritte.',
+          'Das wiederholte Durchführen von Selbsttests zur Wissensüberprüfung.',
+          'Der kontinuierliche Abgleich mit etablierten Best Practices.'
         ],
         correct: 0,
-        explanation: 'Der häufigste Fehler bei ' + cleanName + ' ist "Majoring in minor things": Man verbringt 80% der Zeit mit Nischen-Konfigurationen, anstatt die tragenden Kernkonzepte zu verinnerlichen.',
-        mnemonic: '💡 Merksatz: „Pareto anwenden: Die ersten 20% Kernwissen bringen 80% Verständnis.“',
-        pitfall: 'Option A beschreibt den universellen kognitiven Engpass bei neuen Lernfeldern.'
+        explanation: 'Der häufigste Engpass bei ' + cleanName + ' ist "Majoring in minor things": Man verbringt überproportional viel Zeit mit Randkonfigurationen, bevor das tragende Fundament sitzt.',
+        mnemonic: 'Merksatz: Pareto-Prinzip — Die ersten 20% Kernkompetenz tragen 80% des Verständnisses.',
+        pitfall: 'Reine Beschäftigung mit Nischenthemen simuliert Fortschritt, verfehlt aber das Kernverständnis.'
       },
       {
         id: 'dyn_' + Date.now() + '_3',
-        question: 'Wie lässt sich das Wissen über „' + cleanName + '“ am effektivsten im Alltag verankern (Feynman-Methode)?',
+        question: 'Wie lässt sich das Verständnis von „' + cleanName + '“ am zuverlässigsten überprüfen (Feynman-Technik)?',
         options: [
-          'Indem man das Konzept so einfach erklärt, dass es ein 10-jähriges Kind ohne Fachchinesisch verstehen würde.',
-          'Indem man das Lehrbuch 10-mal hintereinander stumm durchliest ohne Notizen.',
-          'Indem man alle Fachbegriffe auswendig lernt, ohne die Zusammenhänge zu begreifen.',
-          'Indem man niemals praktische Übungen durchführt.'
+          'Durch mehrmaliges passives Wiederlesen von Fachtexten ohne Notizen.',
+          'Durch das Sammeln möglichst umfangreicher Fachbegriffe in Textmarkern.',
+          'Indem man die Kernidee von ' + cleanName + ' in einfacher, präziser Alltagssprache ohne Jargon einem Außenstehenden verständlich erklärt.',
+          'Indem man ausschließlich Multiple-Choice-Tests mit vorgegebenen Lösungen löst.'
         ],
-        correct: 0,
-        explanation: 'Die Feynman-Technik deckt Wissenslücken schonungslos auf: Wer ein Konzept von ' + cleanName + ' nicht in einfachen Worten erklären kann, hat es noch nicht tief verstanden.',
-        mnemonic: '💡 Merksatz: „Einfachheit ist das Siegel der Wahrheit.“ — Erkläre es einem Laien.',
-        pitfall: 'Option B (passives Wiederlesen) erzeugt eine trügerische Illusion von Kompetenz.'
+        correct: 2,
+        explanation: 'Die Feynman-Technik deckt Wissenslücken schonungslos auf: Wer ein Konzept von ' + cleanName + ' nicht in einfachen, klaren Begriffen erklären kann, hat es noch nicht vollständig durchdrungen.',
+        mnemonic: 'Merksatz: Einfachheit ist das Kriterium für echtes Verständnis.',
+        pitfall: 'Passives Wiederlesen erzeugt eine trügerische Illusion von Beherrschung (Fluency Illusion).'
       },
       {
         id: 'dyn_' + Date.now() + '_4',
-        question: 'Welcher Ansatz führt bei der praktischen Anwendung von „' + cleanName + '“ zu langfristigem Meistergrad?',
+        question: 'Welcher Lernansatz führt bei der praktischen Anwendung von „' + cleanName + '“ zu nachhaltiger Kompetenz?',
         options: [
-          'Deliberate Practice (Gezieltes Üben an der eigenen Leistungsgrenze mit sofortigem Feedback und Fehleranalyse).',
-          'Reine Wiederholung von Dingen, die man ohnehin schon perfekt beherrscht.',
-          'Das Vermeiden jeglicher Herausforderungen und Tests.',
-          'Ausschließlicher Konsum von passiven Video-Tutorials ohne eigene Umsetzung.'
+          'Reine Wiederholung von Aufgaben, die bereits mühelos gelingen.',
+          'Deliberate Practice: Gezieltes Üben an der eigenen Leistungsgrenze mit unverzüglicher Fehleranalyse und Korrektur.',
+          'Ausschließlicher Konsum passiver Video-Tutorials ohne eigene praktische Umsetzung.',
+          'Das Vermeiden von herausfordernden Szenarien und Transferaufgaben.'
         ],
-        correct: 0,
-        explanation: 'Nach Anders Ericsson entsteht Spitzenleistung in ' + cleanName + ' durch Deliberate Practice: Man sucht gezielt die Bereiche auf, in denen man noch Fehler macht, und korrigiert sie unmittelbar.',
-        mnemonic: '💡 Merksatz: „Übe dort, wo es hakt — nicht dort, wo es glänzt.“',
-        pitfall: 'Passiver Konsum trainiert das Wiedererkennen, nicht die aktive Problemlösungskompetenz.'
+        correct: 1,
+        explanation: 'Nach Anders Ericsson entsteht fundierte Kompetenz in ' + cleanName + ' durch Deliberate Practice: Man adressiert gezielt die Schwachstellen und korrigiert sie systematisch.',
+        mnemonic: 'Merksatz: Übe dort, wo Reibung entsteht — nicht in der reinen Komfortzone.',
+        pitfall: 'Passiver Konsum schult das Wiedererkennen, trainiert jedoch nicht die aktive Transferleistung.'
       },
       {
         id: 'dyn_' + Date.now() + '_5',
-        question: 'Wie reagiert ein kompetenter Experte, wenn bei „' + cleanName + '“ unerwartete Widersprüche oder Probleme auftauchen?',
+        question: 'Wie begegnet man unerwarteten Fehlern oder Widersprüchen bei „' + cleanName + '“ am effektivsten?',
         options: [
-          'Er wendet First-Principles-Denken an: Zerlegt das Problem in seine elementaren Grundwahrheiten und baut die Lösung von unten neu auf.',
-          'Er ignoriert die Daten und beharrt stur auf seiner ursprünglichen Meinung.',
-          'Er bricht das gesamte Projekt sofort frustriert ab.',
-          'Er schiebt die Schuld ausschließlich auf externe Werkzeuge.'
+          'Durch vorschnelles Aufgeben beim ersten Auftreten unerwarteter Hürden.',
+          'Durch das Festhalten an initialen Vermutungen ungeachtet empirischer Gegenevidenz.',
+          'Durch das Ausblenden der Abweichungen im Vertrauen auf gewohnte Routinen.',
+          'First-Principles-Denken: Das Problem in elementare Grundbausteine zerlegen und die Annahmen von Grund auf neu validieren.'
         ],
-        correct: 0,
-        explanation: 'First Principles (Erste Prinzipien): Anstatt nach Analogie („Das haben wir schon immer so gemacht“) zu verfahren, fragt man: Was wissen wir über ' + cleanName + ' mit absoluter Sicherheit?',
-        mnemonic: '💡 Merksatz: „Vom Fundament her denken, nicht von der Konvention.“',
-        pitfall: 'Option A beschreibt die wissenschaftliche Denkweise, die echte Innovation ermöglicht.'
+        correct: 3,
+        explanation: 'First-Principles-Denken: Statt sich auf Analogien zu stützen, isoliert man die gesicherten Fakten rund um ' + cleanName + ' und leitet die Lösung evidenzbasiert her.',
+        mnemonic: 'Merksatz: Zerlege das Problem in seine Grundwahrheiten, statt Vermutungen zu wiederholen.',
+        pitfall: 'Wer nur oberflächliche Symptome bekämpft, übersieht die eigentliche Ursache im System.'
       }
     ];
   }
@@ -36949,7 +39063,7 @@ if (typeof globalThis !== 'undefined') {
 
   function startMistakesReviewSession() {
     if (activeLearningSession.mistakesArchive.length === 0) {
-      if (typeof showToast === 'function') showToast('Keine offenen Fehler zum Wiederholen vorhanden! 🎉');
+      if (typeof showToast === 'function') showToast('Keine offenen Fehler zum Wiederholen vorhanden.');
       return;
     }
 
@@ -36975,7 +39089,7 @@ if (typeof globalThis !== 'undefined') {
     activeLearningSession.isFinished = true;
     renderLearningSessionUI();
     if (typeof showToast === 'function') {
-      showToast('🏆 Lern-Session abgeschlossen: +' + activeLearningSession.xpEarned + ' XP!');
+      showToast('Lern-Session abgeschlossen: +' + activeLearningSession.xpEarned + ' XP');
     }
   }
 
@@ -37013,7 +39127,7 @@ if (typeof globalThis !== 'undefined') {
     customPacksStorage[id] = {
       id,
       title,
-      icon: '✨',
+      icon: 'layers',
       color: 'amber',
       desc: desc || 'Eigenes Wissens-Set',
       level: 'Individuell',
@@ -37021,7 +39135,7 @@ if (typeof globalThis !== 'undefined') {
     };
     saveLearningStorage();
     selectLearningPack(id);
-    if (typeof showToast === 'function') showToast(`📦 Neues Deck "${title}" erfolgreich gespeichert!`);
+    if (typeof showToast === 'function') showToast(`Neues Deck "${title}" gespeichert.`);
     return id;
   }
 
@@ -37423,9 +39537,13 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-regulation.js --- */
 /**
- * NOODLE SUITE - PSYCHOLOGICAL REGULATION & INNER PEACE STUDIO (app-regulation.js)
- * Evidence-based psychological & somatic tools for acute anxiety, panic, overwhelm & nervous system regulation.
- * Rooted in Polyvagal Theory, Somatic Experiencing, DBT (TIPP), EMDR (Bilateral Pacing), and ACT (Cognitive Defusion).
+ * @file app-regulation.js
+ * @module RegulationStudio
+ * @description
+ * Evidenzbasierte Werkzeuge zur Stress-, Angst- und Nervensystem-Regulation:
+ * - Geführte Atem-Pacer (Physiologischer Seufzer, Box-Breathing, 4-7-8, Kohärenz-Atmung)
+ * - Sensorisches 5-4-3-2-1 Grounding und bilaterale Stimulation (EMDR-Pacing)
+ * - Somatische Übungen, kognitive Defusion (ACT) und beruhigende WebAudio-Frequenzgeneratoren
  */
 
 (function() {
@@ -38180,8 +40298,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-health.js --- */
-// app-health.js - Noodle Health, Prevention & Vitality Hub
-// 100% Client-Side, Zero-Tracking, Neuro-Friendly & Medically Sound
+/**
+ * @file app-health.js
+ * @module HealthAndPreventionHub
+ * @description
+ * Modul für Gesundheitsvorsorge, Medikamenten-Erinnerungen, Blutdruck-Protokollierung
+ * und Arzttermin-Vorbereitung. Alle Gesundheitsdaten verbleiben ausschließlich lokal
+ * im Browser des Nutzers (`localStorage` / `IndexedDB`).
+ */
 
 (function() {
   'use strict';
@@ -38815,8 +40939,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-humor.js --- */
-// app-humor.js - Noodle Humor Lab, Chaos FX Studio & Customizable Radical Idle Screensaver
-// 100% Client-Side, Web Audio Synthesizer, Radical App-Breaking FX, Ambient Screensavers
+/**
+ * @file app-humor.js
+ * @module HumorAndScreensaverLab
+ * @description
+ * Interaktives Pausen- und Auflockerungsmodul („Humor Lab"):
+ * Enthält Witze, prozedurale WebAudio-Soundeffekte, digitale Luftpolsterfolie,
+ * visuelle Canvas-Effekte sowie einen optionalen Idle-Bildschirmschoner.
+ */
 
 (function() {
   'use strict';
@@ -41927,7 +44057,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-shopping.js --- */
-// app-shopping.js: Umfassende Smart Shopping Suite mit Gängen, Discounter-Hub & Smart Deal-Radar
+/**
+ * @file app-shopping.js
+ * @module ShoppingAssistant
+ * @description
+ * Intelligente Einkaufslisten-Verwaltung mit automatischer Zuordnung zu
+ * Supermarkt-Abteilungen (`SHOPPING_DEPARTMENTS`), Mengen- und Notizerfassung,
+ * Verlauf häufig gekaufter Artikel sowie Markt-Übersicht.
+ */
 
 const SHOPPING_DEPARTMENTS = {
   produce: {
@@ -41989,12 +44126,12 @@ const SHOPPING_DEPARTMENTS = {
 };
 
 const QUICK_ESSENTIALS = {
-  en: ['🥛 Milk', '🥚 Eggs', '🍞 Bread', '🧈 Butter', '🍎 Apples', '🍌 Bananas', '☕ Coffee', '🍝 Pasta', '🧅 Onions', '🧀 Cheese'],
-  de: ['🥛 Milch', '🥚 Eier', '🍞 Brot', '🧈 Butter', '🍎 Äpfel', '🍌 Bananen', '☕ Kaffee', '🍝 Nudeln', '🧅 Zwiebeln', '🧀 Käse'],
-  fr: ['🥛 Lait', '🥚 Œufs', '🍞 Pain', '🧈 Beurre', '🍎 Pommes', '🍌 Bananes', '☕ Café', '🍝 Pâtes', '🧅 Oignons', '🧀 Fromage'],
-  it: ['🥛 Latte', '🥚 Uova', '🍞 Pane', '🧈 Burro', '🍎 Mele', '🍌 Banane', '☕ Caffè', '🍝 Pasta', '🧅 Cipolle', '🧀 Formaggio'],
-  es: ['🥛 Leche', '🥚 Huevos', '🍞 Pan', '🧈 Mantequilla', '🍎 Manzanas', '🍌 Plátanos', '☕ Café', '🍝 Pasta', '🧅 Cebollas', '🧀 Queso'],
-  el: ['🥛 Γάλα', '🥚 Αυγά', '🍞 Ψωμί', '🧈 Βούτυρο', '🍎 Μήλα', '🍌 Μπανάνες', '☕ Καφές', '🍝 Ζυμαρικά', '🧅 Κρεμμύδια', '🧀 Τυρί']
+  en: ['Milk', 'Eggs', 'Bread', 'Butter', 'Apples', 'Bananas', 'Coffee', 'Pasta', 'Onions', 'Cheese'],
+  de: ['Milch', 'Eier', 'Brot', 'Butter', 'Äpfel', 'Bananen', 'Kaffee', 'Nudeln', 'Zwiebeln', 'Käse'],
+  fr: ['Lait', 'Œufs', 'Pain', 'Beurre', 'Pommes', 'Bananes', 'Café', 'Pâtes', 'Oignons', 'Fromage'],
+  it: ['Latte', 'Uova', 'Pane', 'Burro', 'Mele', 'Banane', 'Caffè', 'Pasta', 'Cipolle', 'Formaggio'],
+  es: ['Leche', 'Huevos', 'Pan', 'Mantequilla', 'Manzanas', 'Plátanos', 'Café', 'Pasta', 'Cebollas', 'Queso'],
+  el: ['Γάλα', 'Αυγά', 'Ψωμί', 'Βούτυρο', 'Μήλα', 'Μπανάνες', 'Καφές', 'Ζυμαρικά', 'Κρεμμύδια', 'Τυρί']
 };
 
 // -------------------------------------------------------------
@@ -42350,13 +44487,20 @@ function handleDeleteShoppingItem(index) {
   if (!state.shoppingList || !state.shoppingList[index]) return;
   saveHistory();
   const removed = state.shoppingList.splice(index, 1)[0];
-  const shopId = (removed && typeof removed === 'object' && removed.id) 
-    ? removed.id 
-    : ((typeof getStableId === 'function') ? getStableId(removed, 'shop') : null);
-  if (shopId && typeof trackTombstone === 'function') {
-    trackTombstone(shopId);
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(removed, 'shoppingList', 'private');
+  } else {
+    const shopId = (removed && typeof removed === 'object' && removed.id) 
+      ? removed.id 
+      : ((typeof getStableId === 'function') ? getStableId(removed, 'shop') : null);
+    if (shopId && typeof trackTombstone === 'function') {
+      trackTombstone(shopId);
+    }
   }
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
 
   renderApp();
   renderSupermarketModal();
@@ -42374,6 +44518,9 @@ function handleToggleShoppingItem(index) {
   if (!state.shoppingList || !state.shoppingList[index]) return;
   saveHistory();
   const item = state.shoppingList.splice(index, 1)[0];
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(item, 'shoppingList', 'private');
+  }
   if (!Array.isArray(state.shoppingHistory)) state.shoppingHistory = [];
   
   const todayStr = new Date().toLocaleDateString(currentLang === 'de' ? 'de-DE' : 'en-US', { month: '2-digit', day: '2-digit' });
@@ -42387,6 +44534,9 @@ function handleToggleShoppingItem(index) {
   });
 
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   if (typeof playProceduralSound === 'function') playProceduralSound(3);
   renderApp();
   renderSupermarketModal();
@@ -42405,6 +44555,9 @@ function restoreShoppingHistoryItem(historyIndex) {
   if (!state.shoppingHistory || !state.shoppingHistory[historyIndex]) return;
   saveHistory();
   const hItem = state.shoppingHistory.splice(historyIndex, 1)[0];
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(hItem, 'shoppingHistory', 'private');
+  }
   handleAddShoppingItem(hItem.name, { qty: hItem.qty, unit: hItem.unit, dept: hItem.dept, dealInfo: hItem.dealInfo });
 }
 
@@ -42434,8 +44587,14 @@ async function clearShoppingList() {
 
   if (confirmed) {
     saveHistory();
+    if (typeof trackCategoryClear === 'function') {
+      trackCategoryClear('shoppingList', 'private', state.shoppingList);
+    }
     state.shoppingList = [];
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     renderApp();
     renderSupermarketModal();
   }
@@ -42461,8 +44620,14 @@ async function clearShoppingHistory() {
 
   if (confirmed) {
     saveHistory();
+    if (typeof trackCategoryClear === 'function') {
+      trackCategoryClear('shoppingHistory', 'private', state.shoppingHistory);
+    }
     state.shoppingHistory = [];
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     renderApp();
     renderSupermarketModal();
   }
@@ -42654,19 +44819,19 @@ function updateShoppingListPopup(skipLucide = false) {
       radarBannerContainer.classList.remove('hidden');
       const topMatch = matches[0];
       radarBannerContainer.innerHTML = `
-        <div class="p-2.5 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-teal-950/60 to-cyan-950/70 border border-emerald-400/50 shadow-[0_0_15px_rgba(16,185,129,0.2)] space-y-1.5 animate-pulse-slow">
+        <div class="p-2.5 rounded-2xl bg-[#111118]/90 border border-white/10 space-y-1.5">
           <div class="flex items-center justify-between">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-300">
-              <span class="animate-bounce">⚡</span>
-              <span>Spar-Radar: ${matches.length} ${matches.length === 1 ? 'Angebot' : 'Angebote'} gefunden!</span>
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+              <i data-lucide="tag" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>Spar-Radar: ${matches.length} ${matches.length === 1 ? 'Angebot' : 'Angebote'} gefunden</span>
             </div>
-            <button onclick="switchShoppingTab('deals')" class="text-[10px] text-emerald-400 hover:text-emerald-200 font-bold underline cursor-pointer">
+            <button onclick="switchShoppingTab('deals')" class="text-[10px] text-gray-400 hover:text-white font-medium underline cursor-pointer">
               Alle Deals ➔
             </button>
           </div>
           <div class="text-[11px] text-gray-300 flex items-center justify-between gap-1">
-            <span class="truncate">💡 <strong>${escapeHtml(topMatch.item.name)}</strong>: ${topMatch.deal.name} bei <strong>${topMatch.storeInfo.name}</strong> für <strong>${topMatch.deal.price.toFixed(2)} €</strong> (-${topMatch.discountPct}%)</span>
-            <button onclick="applyDealToShoppingItem(${topMatch.itemIndex}, '${topMatch.deal.id}')" class="px-2 py-0.5 bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-[9px] rounded-lg shrink-0 cursor-pointer shadow">
+            <span class="truncate"><strong>${escapeHtml(topMatch.item.name)}</strong>: ${topMatch.deal.name} bei <strong>${topMatch.storeInfo.name}</strong> für <strong>${topMatch.deal.price.toFixed(2)} €</strong> (-${topMatch.discountPct}%)</span>
+            <button onclick="applyDealToShoppingItem(${topMatch.itemIndex}, '${topMatch.deal.id}')" class="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-[9px] rounded-lg shrink-0 cursor-pointer transition">
               Anpassen
             </button>
           </div>
@@ -42696,7 +44861,7 @@ function updateShoppingListPopup(skipLucide = false) {
       
       html += `
         <div class="space-y-1 pt-1">
-          <div class="flex items-center gap-1.5 text-[10px] font-bold text-[#c084fc] uppercase tracking-wider px-1">
+          <div class="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1">
             <i data-lucide="${deptInfo.icon}" class="w-3 h-3 text-${deptInfo.color}-400"></i>
             <span>${deptTitle}</span>
           </div>
@@ -42710,13 +44875,13 @@ function updateShoppingListPopup(skipLucide = false) {
         let inlineDealBadge = '';
         if (item.dealInfo) {
           const sName = item.dealInfo.storeName || item.dealInfo.store;
-          inlineDealBadge = `<span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-bold ml-1 shrink-0">🏷️ ${sName} ${item.dealInfo.price.toFixed(2)}€</span>`;
+          inlineDealBadge = `<span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-semibold ml-1 shrink-0">${sName} ${item.dealInfo.price.toFixed(2)}€</span>`;
         } else {
           const autoDeal = findBestDealForShoppingItem(item.name);
           if (autoDeal) {
             inlineDealBadge = `
-              <button onclick="applyDealToShoppingItem(${originalIdx}, '${autoDeal.deal.id}')" class="px-1.5 py-0.2 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold ml-1 shrink-0 cursor-pointer" title="Deal bei ${autoDeal.storeInfo.name} für ${autoDeal.deal.price.toFixed(2)} € (-${autoDeal.discountPct}%) anwenden">
-                🏷️ ${autoDeal.storeInfo.name} ${autoDeal.deal.price.toFixed(2)}€ (-${autoDeal.discountPct}%)
+              <button onclick="applyDealToShoppingItem(${originalIdx}, '${autoDeal.deal.id}')" class="px-1.5 py-0.2 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[9px] font-semibold ml-1 shrink-0 cursor-pointer" title="Deal bei ${autoDeal.storeInfo.name} für ${autoDeal.deal.price.toFixed(2)} € (-${autoDeal.discountPct}%) anwenden">
+                ${autoDeal.storeInfo.name} ${autoDeal.deal.price.toFixed(2)}€ (-${autoDeal.discountPct}%)
               </button>
             `;
           }
@@ -42724,16 +44889,16 @@ function updateShoppingListPopup(skipLucide = false) {
 
         html += `
           <div class="flex items-center justify-between gap-1.5 p-1.5 bg-black/40 hover:bg-white/[0.04] border border-white/5 rounded-xl text-gray-300 transition group">
-            <input type="checkbox" onclick="handleToggleShoppingItem(${originalIdx})" class="w-4 h-4 rounded bg-black border-white/10 text-[#00ff66] accent-[#00ff66] cursor-pointer shrink-0" />
+            <input type="checkbox" onclick="handleToggleShoppingItem(${originalIdx})" class="w-4 h-4 rounded bg-black border-white/10 text-emerald-500 accent-emerald-500 cursor-pointer shrink-0" />
             <div class="flex-1 min-w-0 flex items-center gap-1 pl-1">
-              <span class="truncate font-medium text-xs text-[#00f2ff]" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
+              <span class="truncate font-medium text-xs text-white" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
               ${inlineDealBadge}
             </div>
             
             <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 shrink-0">
-              <button onclick="adjustShoppingItemQty(${originalIdx}, -1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-[#c0caf5] text-[10px] flex items-center justify-center cursor-pointer font-bold">-</button>
-              <span class="text-[10px] font-mono text-[#00f2ff] px-0.5">${item.qty || 1}</span>
-              <button onclick="adjustShoppingItemQty(${originalIdx}, 1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-[#c0caf5] text-[10px] flex items-center justify-center cursor-pointer font-bold">+</button>
+              <button onclick="adjustShoppingItemQty(${originalIdx}, -1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-[10px] flex items-center justify-center cursor-pointer font-bold">-</button>
+              <span class="text-[10px] font-mono text-zinc-300 px-0.5">${item.qty || 1}</span>
+              <button onclick="adjustShoppingItemQty(${originalIdx}, 1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-[10px] flex items-center justify-center cursor-pointer font-bold">+</button>
               <button onclick="handleDeleteShoppingItem(${originalIdx})" aria-label="Artikel löschen" class="p-1 text-gray-500 hover:text-red-400 rounded transition cursor-pointer ml-1">
                 <i data-lucide="trash-2" class="w-3 h-3"></i>
               </button>
@@ -42770,7 +44935,7 @@ function updateShoppingListPopup(skipLucide = false) {
           <span class="truncate max-w-[140px] line-through text-gray-400 font-medium">${safeEscape(hItem.name)}</span>
           <div class="flex items-center gap-1.5">
             <span class="font-mono text-[8px] text-gray-500">${hItem.date || ''}</span>
-            <button onclick="restoreShoppingHistoryItem(${realIdx})" aria-label="Wieder auf Liste setzen" class="text-[#00ff66] hover:text-[#00ff66]/80 text-[9px] font-bold cursor-pointer" title="Wieder auf Liste setzen">＋</button>
+            <button onclick="restoreShoppingHistoryItem(${realIdx})" aria-label="Wieder auf Liste setzen" class="text-emerald-400 hover:text-emerald-300 text-[10px] font-bold cursor-pointer" title="Wieder auf Liste setzen">＋</button>
           </div>
         `;
         historyList.appendChild(hDiv);
@@ -42876,11 +45041,11 @@ function renderSupermarketModal() {
     `;
 
     grouped[deptKey].forEach(({ item, originalIdx }) => {
-      const qtyLabel = (item.qty && item.qty > 1) ? `<span class="px-2 py-0.5 rounded-lg bg-[#00f2ff]/20 text-[#00f2ff] font-bold text-xs">${item.qty}${item.unit ? ' ' + item.unit : 'x'}</span>` : '';
+      const qtyLabel = (item.qty && item.qty > 1) ? `<span class="px-2 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs">${item.qty}${item.unit ? ' ' + item.unit : 'x'}</span>` : '';
       
       let dealTag = '';
       if (item.dealInfo) {
-        dealTag = `<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">🏷️ ${item.dealInfo.storeName || item.dealInfo.store} ${item.dealInfo.price.toFixed(2)}€</span>`;
+        dealTag = `<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-semibold">${item.dealInfo.storeName || item.dealInfo.store} ${item.dealInfo.price.toFixed(2)}€</span>`;
       }
 
       html += `
@@ -42890,7 +45055,7 @@ function renderSupermarketModal() {
               <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 opacity-0 group-hover:opacity-100 transition"></i>
             </div>
             <div class="flex flex-col min-w-0">
-              <span class="font-bold text-sm text-[#00f2ff] truncate">${escapeHtml(item.name)}</span>
+              <span class="font-semibold text-sm text-white truncate">${escapeHtml(item.name)}</span>
               ${dealTag}
             </div>
           </div>
@@ -42912,7 +45077,7 @@ function renderSupermarketModal() {
     html += `
       <div class="pt-3 border-t border-white/10">
         <div class="flex items-center justify-between text-xs text-gray-400 font-bold mb-2">
-          <span class="flex items-center gap-1.5 text-[#00ff66]">
+          <span class="flex items-center gap-1.5 text-emerald-400">
             <i data-lucide="check-circle-2" class="w-4 h-4"></i>
             <span>${tr({ en: 'In Cart (Bought)', de: 'Bereits im Einkaufswagen', fr: 'Dans le panier', it: 'Nel carrello', es: 'En el carrito', el: 'Στο καλάθι' })} (${hist.length})</span>
           </span>
@@ -42924,9 +45089,9 @@ function renderSupermarketModal() {
     hist.slice().reverse().forEach((hItem, hIdx) => {
       const realIdx = hist.length - 1 - hIdx;
       html += `
-        <div class="flex items-center justify-between p-2.5 bg-white/[0.02] border border-white/5 rounded-xl text-xs text-[#00ff66]">
-          <span class="line-through truncate text-[#00ff66]">${hItem.name}</span>
-          <button onclick="restoreShoppingHistoryItem(${realIdx})" class="px-2 py-0.5 bg-white/5 hover:bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]/30 rounded text-[10px] font-semibold cursor-pointer">
+        <div class="flex items-center justify-between p-2.5 bg-white/[0.02] border border-white/5 rounded-xl text-xs text-gray-400">
+          <span class="line-through truncate text-gray-500">${hItem.name}</span>
+          <button onclick="restoreShoppingHistoryItem(${realIdx})" class="px-2 py-0.5 bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 rounded text-[10px] font-semibold cursor-pointer">
             ↩ ${tr({ en: 'Undo', de: 'Zurück', fr: 'Annuler', it: 'Ripristina', es: 'Deshacer', el: 'Αναίρεση' })}
           </button>
         </div>
@@ -42963,9 +45128,9 @@ function clearCompletedShopItems() {
   if (typeof renderSupermarketModal === 'function') renderSupermarketModal();
   if (completed.length > 0) {
     showToast(typeof tr === 'function' ? tr({
-      de: `${completed.length} erledigte Artikel gelöscht! 🗑️`,
-      en: `${completed.length} completed items cleared! 🗑️`
-    }) : `${completed.length} Artikel gelöscht! 🗑️`);
+      de: `${completed.length} erledigte Artikel gelöscht.`,
+      en: `${completed.length} completed items cleared.`
+    }) : `${completed.length} Artikel gelöscht.`);
   }
 }
 
@@ -43403,9 +45568,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-cooking.js --- */
-// ============================================================================
-// NOODLE COOKING HUB & SMART RECIPE ASSISTANT
-// ============================================================================
+/**
+ * @file app-cooking.js
+ * @module CookingStudio
+ * @description
+ * Rezept-Verwaltung, Vorratskammer-Abgleich (`pantryItems`) und interaktiver
+ * Schritt-für-Schritt-Kochmodus. Ermöglicht das direkte Übertragen fehlender
+ * Zutaten auf die Einkaufsliste (`app-shopping.js`).
+ */
 
 const DEFAULT_CURATED_RECIPES = [
   {
@@ -43851,12 +46021,8 @@ function onCookingTimerFinished(minutes) {
     setTimeout(() => playProceduralSound(1), 400);
   }
 
-  // Voice notification
-  const msg = `Der ${minutes}-Minuten Koch-Timer ist fertig! Bitte Pfanne oder Topf prüfen.`;
-  speakCookingText(msg);
-
   if (typeof showFloatingToast === 'function') {
-    showFloatingToast(`⏱️ Koch-Timer (${minutes} Min.) beendet!`, 'success');
+    showFloatingToast(`Koch-Timer (${minutes} Min.) beendet.`, 'success');
   }
 }
 
@@ -43897,8 +46063,6 @@ function nextCookingStep() {
     saveState();
     renderCookingPanel(true);
     if (typeof playProceduralSound === 'function') playProceduralSound(2);
-    // Auto read step
-    readCurrentCookingStepAloud();
   }
 }
 
@@ -44270,13 +46434,13 @@ function renderCookingPanel(skipLucide = false) {
               <div class="flex items-center justify-between text-[9px] font-bold uppercase text-gray-400 mb-1 flex-wrap gap-1">
                 <span>Zutaten (skaliert)</span>
                 <div class="flex items-center gap-2">
-                  <button onclick="if(typeof bridgeRecipeToBoardTask === 'function') bridgeRecipeToBoardTask(getCookingState().activeRecipe.id);" class="text-amber-400 hover:text-amber-300 font-semibold cursor-pointer flex items-center gap-0.5 text-[9.5px]" title="Rezept als verknüpfte Aufgabe im Kanban-Board anlegen">
+                  <button onclick="if(typeof bridgeRecipeToBoardTask === 'function') bridgeRecipeToBoardTask(getCookingState().activeRecipe.id);" class="text-amber-400 hover:text-amber-300 font-semibold cursor-pointer flex items-center gap-1 text-[9.5px]" title="Rezept als verknüpfte Aufgabe im Kanban-Board anlegen">
                     <i data-lucide="plus-circle" class="w-3 h-3"></i>
-                    <span>📋 Als Aufgabe ins Board</span>
+                    <span>Als Aufgabe ins Board</span>
                   </button>
-                  <button onclick="addRecipeMissingIngredientsToShopping()" class="text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer flex items-center gap-0.5 text-[9.5px]" title="Zutaten auf die Einkaufsliste setzen">
+                  <button onclick="addRecipeMissingIngredientsToShopping()" class="text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer flex items-center gap-1 text-[9.5px]" title="Zutaten auf die Einkaufsliste setzen">
                     <i data-lucide="shopping-cart" class="w-3 h-3"></i>
-                    <span>🛒 Auf Einkaufsliste</span>
+                    <span>Auf Einkaufsliste</span>
                   </button>
                 </div>
               </div>
@@ -44304,9 +46468,10 @@ function renderCookingPanel(skipLucide = false) {
               <button 
                 onclick="readCurrentCookingStepAloud()" 
                 class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-orange-500/20 text-gray-300 hover:text-orange-200 border border-white/10 text-[10px] font-semibold transition flex items-center gap-1 cursor-pointer"
-                title="Diesen Schritt laut vorlesen"
+                title="Diesen Schritt vorlesen"
               >
-                <span>🔊 Vorlesen</span>
+                <i data-lucide="volume-2" class="w-3 h-3"></i>
+                <span>Vorlesen</span>
               </button>
             </div>
 
@@ -44324,7 +46489,7 @@ function renderCookingPanel(skipLucide = false) {
             ${detectedMinutes || isTimerRunning ? `
               <div class="p-2 rounded-xl bg-orange-950/30 border border-orange-500/30 flex items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
-                  <span class="text-base">⏱️</span>
+                  <i data-lucide="timer" class="w-4 h-4 text-orange-400"></i>
                   <div>
                     <div class="text-[9px] font-bold text-orange-300 uppercase">Koch-Timer</div>
                     <div id="cooking-live-timer" class="text-xs font-black text-white font-mono">
@@ -44340,7 +46505,7 @@ function renderCookingPanel(skipLucide = false) {
                     </button>
                   ` : `
                     <button onclick="startCookingTimer(${detectedMinutes || 5}, ${stepIdx})" class="px-2.5 py-1 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-lg text-[10px] font-bold transition shadow-sm cursor-pointer">
-                      ▶ Timer starten (${detectedMinutes || 5} Min)
+                      Timer starten (${detectedMinutes || 5} Min)
                     </button>
                   `}
                 </div>
@@ -44369,7 +46534,7 @@ function renderCookingPanel(skipLucide = false) {
                   onclick="if (typeof playProceduralSound === 'function') playProceduralSound(1); switchCookingTab('recipes');" 
                   class="flex-1 py-1.5 px-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-xl text-xs font-bold transition shadow-md cursor-pointer flex items-center justify-center gap-1"
                 >
-                  <span>🎉 Fertig! Guten Appetit</span>
+                  <span>Fertig</span>
                 </button>
               `}
             </div>
@@ -44619,7 +46784,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-alarm.js --- */
-// app-alarm.js: Wecker & Reminder (Zuverlässige minütliche Auslösung, laut & dauerhaft)
+/**
+ * @file app-alarm.js
+ * @module AlarmAndReminderEngine
+ * @description
+ * Wecker- und Erinnerungs-System mit minütlicher Hintergrundprüfung,
+ * vier synthetisierten Wecktönen (`digital`, `bell`, `radar`, `retro`),
+ * Vibrationsunterstützung auf Mobilgeräten und Snooze-Steuerung.
+ */
 let alarmState = { alarms: [], reminders: [], settings: {} };
 
 const DEFAULT_ALARM_SETTINGS = {
@@ -44845,7 +47017,6 @@ function renderAlarmPanel() {
         <div id="alarm-panel-live-date" class="hidden">${dateHtml}</div>
       </div>
       <div class="flex items-center gap-2">
-        <span id="alarm-panel-live-time" class="font-mono font-bold text-xs text-gray-200 select-none">${timeFormatted}</span>
         <button onclick="togglePanel('alarm')" aria-label="Wecker-Hub schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 px-1.5 rounded-lg hover:bg-white/10 transition cursor-pointer">✕</button>
       </div>
     </div>
@@ -44871,6 +47042,19 @@ function renderAlarmPanel() {
 
     <!-- TAB 1: WECKER & SIGNAL -->
     <div id="alarm-subpane-alarms" class="${currentAlarmTab === 'alarms' ? 'block' : 'hidden'} space-y-2 pt-1.5">
+      <!-- Intelligente Wecker-Schnellvorschläge -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
+        <button onclick="applyAlarmPreset('07:30', 'Morgen-Wecker 🌅')" class="px-2 py-1 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-200 text-[10px] font-bold shrink-0 transition cursor-pointer flex items-center gap-1">
+          <span>🌅 07:30 Morgen</span>
+        </button>
+        <button onclick="applyAlarmOffsetMinutes(20, 'Power-Nap ⚡')" class="px-2 py-1 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-200 text-[10px] font-bold shrink-0 transition cursor-pointer flex items-center gap-1">
+          <span>⚡ +20m Power-Nap</span>
+        </button>
+        <button onclick="applyAlarmOffsetMinutes(30, 'Sprint-Alarm 🎯')" class="px-2 py-1 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-200 text-[10px] font-bold shrink-0 transition cursor-pointer flex items-center gap-1">
+          <span>🎯 +30m Sprint</span>
+        </button>
+      </div>
+
       <!-- Wecksignal, Lautstärke & Smartphone-Optionen -->
       <div class="p-2 bg-black/40 border border-white/10 rounded-2xl space-y-1.5">
         <div class="flex items-center justify-between">
@@ -45560,6 +47744,8 @@ if (typeof window !== 'undefined') {
   window.testAlarmSound = testAlarmSound;
   window.handleUpdateAlarmSetting = handleUpdateAlarmSetting;
   window.handleUpdateAlarmVolume = handleUpdateAlarmVolume;
+  window.applyAlarmPreset = applyAlarmPreset;
+  window.applyAlarmOffsetMinutes = applyAlarmOffsetMinutes;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.alarmState = alarmState;
@@ -45585,22 +47771,46 @@ if (typeof globalThis !== 'undefined') {
   globalThis.testAlarmSound = testAlarmSound;
   globalThis.handleUpdateAlarmSetting = handleUpdateAlarmSetting;
   globalThis.handleUpdateAlarmVolume = handleUpdateAlarmVolume;
+  globalThis.applyAlarmPreset = applyAlarmPreset;
+  globalThis.applyAlarmOffsetMinutes = applyAlarmOffsetMinutes;
+}
+
+function applyAlarmPreset(timeStr, label) {
+  if (!alarmState.alarms) alarmState.alarms = [];
+  alarmState.alarms.push({
+    id: 'alarm_' + Date.now(),
+    time: timeStr,
+    label: label,
+    active: true
+  });
+  saveAlarmState();
+  renderAlarmPanel();
+  if (typeof showToast === 'function') {
+    showToast(`⏰ Wecker "${label}" auf ${timeStr} gestellt!`);
+  }
+}
+
+function applyAlarmOffsetMinutes(offsetMin, label) {
+  const target = new Date(Date.now() + offsetMin * 60000);
+  const hh = String(target.getHours()).padStart(2, '0');
+  const mm = String(target.getMinutes()).padStart(2, '0');
+  const timeStr = `${hh}:${mm}`;
+  applyAlarmPreset(timeStr, label);
 }
 
 
 /* --- app-tasks.js --- */
 
 /**
- * ============================================================================
- * Noodle - Aufgaben- & Board-Management (app-tasks.js)
- * ============================================================================
- * Dieses Modul steuert die Kernlogik des Kanban-Boards:
- * - Rendering der Spalten und Aufgabenkarten (Personal & Work Workspace)
+ * @file app-tasks.js
+ * @module KanbanBoardController
+ * @description
+ * Kernlogik und Rendering-Engine des Kanban-Boards:
+ * - Reaktives Rendering der Spalten und Aufgabenkarten (Personal & Work Workspace)
  * - Aufgaben-Lebenszyklus: Erstellen, Inline-Editieren, Abhaken, Löschen & Wiederherstellen
- * - Drag & Drop Sortierung (Spalten und Karten)
- * - Kontextmenü für Fokus-Timer, Task-Steps und Farbmarkierungen
- * - Mobile Touch-Navigation & Kalender-Terminverwaltung
- * ============================================================================
+ * - Drag & Drop Sortierung für Spalten und Aufgabenkarten (Desktop & Touch)
+ * - Kontextmenü für Fokus-Timer, Micro-Steps und visuelle Priorisierung
+ * - Integrierte Kalender-Terminverwaltung und Erinnerungs-Trigger
  */
 
 let inlineEditingTaskInfo = null;
@@ -45738,7 +47948,7 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
 
     <!-- Farbpalette (unten, extra klein & dezent) -->
     <div class="px-1.5 pt-0.5 pb-0.5">
-      <span class="text-[8px] font-bold text-gray-400 uppercase tracking-wider block mb-1">${tr({ de: 'Farbe 🎨', en: 'Color 🎨', fr: 'Couleur 🎨', it: 'Colore 🎨', es: 'Color 🎨', el: 'Χρώμα 🎨' })}</span>
+      <span class="text-[8px] font-bold text-purple-300 uppercase tracking-wider block mb-1">${tr({ de: 'Farbe 🎨', en: 'Color 🎨', fr: 'Couleur 🎨', it: 'Colore 🎨', es: 'Color 🎨', el: 'Χρώμα 🎨' })}</span>
       <div class="flex items-center gap-1 justify-between">
         <button onclick="setTaskColor('${colId}', ${index}, 'none', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}" class="w-2.5 h-2.5 rounded-full border border-gray-400 bg-transparent hover:scale-125 transition cursor-pointer ${taskColor === 'none' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}"></button>
         <button onclick="setTaskColor('${colId}', ${index}, 'rose', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}" class="w-2.5 h-2.5 rounded-full bg-rose-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'rose' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}"></button>
@@ -46089,10 +48299,11 @@ function openColumnOptionsMenu(colId, btnEl) {
     `;
   }
 
+  const colHeaderTheme = (typeof COLUMN_THEMES !== 'undefined' && COLUMN_THEMES[colId]) ? COLUMN_THEMES[colId].color : 'text-purple-300';
   dropdown.innerHTML = `
-    <div class="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
-      <span class="truncate max-w-[120px] text-white">${escapeHtml(listTitle)}</span>
-      <span class="text-gray-400 font-mono text-[9px] px-1.5 py-0.2 rounded bg-white/5 border border-white/10">${taskCount}</span>
+    <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider flex items-center justify-between">
+      <span class="truncate max-w-[120px] ${colHeaderTheme}">${escapeHtml(listTitle)}</span>
+      <span class="text-cyan-300 font-mono text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/10 border border-cyan-500/25">${taskCount}</span>
     </div>
     ${actionsHtml}
   `;
@@ -46148,9 +48359,42 @@ async function clearColumnTasks(colId, e) {
   const entry = (activeOrder || []).find(([id]) => id === colId);
   const listTitle = (entry && entry[2]) || t(colId);
 
-  saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} Aufgaben)`);
+  let entityUnitDe = taskCount === 1 ? 'Aufgabe' : 'Aufgaben';
+  let entityUnitEn = taskCount === 1 ? 'task' : 'tasks';
+  let entityUnitFr = taskCount === 1 ? 'tâche' : 'tâches';
+  let entityUnitIt = taskCount === 1 ? 'attività' : 'attività';
+  let entityUnitEs = taskCount === 1 ? 'tarea' : 'tareas';
+  let entityUnitEl = taskCount === 1 ? 'εργασία' : 'εργασίες';
+
+  if (colId === 'notes') {
+    entityUnitDe = taskCount === 1 ? 'Notiz' : 'Notizen';
+    entityUnitEn = taskCount === 1 ? 'note' : 'notes';
+    entityUnitFr = taskCount === 1 ? 'note' : 'notes';
+    entityUnitIt = taskCount === 1 ? 'nota' : 'note';
+    entityUnitEs = taskCount === 1 ? 'nota' : 'notas';
+    entityUnitEl = taskCount === 1 ? 'σημείωση' : 'σημειώσεις';
+  } else if (colId === 'termine') {
+    entityUnitDe = taskCount === 1 ? 'Termin' : 'Termine';
+    entityUnitEn = taskCount === 1 ? 'appointment' : 'appointments';
+    entityUnitFr = taskCount === 1 ? 'rendez-vous' : 'rendez-vous';
+    entityUnitIt = taskCount === 1 ? 'appuntamento' : 'appuntamenti';
+    entityUnitEs = taskCount === 1 ? 'cita' : 'citas';
+    entityUnitEl = taskCount === 1 ? 'ραντεβού' : 'ραντεβού';
+  } else if (isDone) {
+    entityUnitDe = taskCount === 1 ? 'erledigter Eintrag' : 'erledigte Einträge';
+    entityUnitEn = taskCount === 1 ? 'completed item' : 'completed items';
+    entityUnitFr = taskCount === 1 ? 'élément terminé' : 'éléments terminés';
+    entityUnitIt = taskCount === 1 ? 'elemento completato' : 'elementi completati';
+    entityUnitEs = taskCount === 1 ? 'elemento completado' : 'elementos completados';
+    entityUnitEl = taskCount === 1 ? 'ολοκληρωμένο στοιχείο' : 'ολοκληρωμένα στοιχεία';
+  }
+
+  saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} ${entityUnitDe})`);
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (typeof trackCategoryClear === 'function') {
+    trackCategoryClear(colId, ws, taskList);
+  }
   if (isDone) {
-    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
     if (ws === 'study') {
       state.studyDone = [];
     } else if (ws === 'work') {
@@ -46163,17 +48407,20 @@ async function clearColumnTasks(colId, e) {
   }
   
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof updateZenView === 'function') updateZenView();
 
   showToast(tr({
-    de: `Spalte "${listTitle}" geleert (${taskCount} Aufgaben) 🗑️`,
-    en: `Column "${listTitle}" cleared (${taskCount} tasks) 🗑️`,
-    fr: `Colonne "${listTitle}" vidée (${taskCount} tâches) 🗑️`,
-    it: `Colonna "${listTitle}" svuotata (${taskCount} attività) 🗑️`,
-    es: `Columna "${listTitle}" vaciada (${taskCount} tareas) 🗑️`,
-    el: `Η στήλη "${listTitle}" άδειασε (${taskCount} εργασίες) 🗑️`
+    de: `Spalte "${listTitle}" geleert (${taskCount} ${entityUnitDe}) 🗑️`,
+    en: `Column "${listTitle}" cleared (${taskCount} ${entityUnitEn}) 🗑️`,
+    fr: `Colonne "${listTitle}" vidée (${taskCount} ${entityUnitFr}) 🗑️`,
+    it: `Colonna "${listTitle}" svuotata (${taskCount} ${entityUnitIt}) 🗑️`,
+    es: `Columna "${listTitle}" vaciada (${taskCount} ${entityUnitEs}) 🗑️`,
+    el: `Η στήλη "${listTitle}" άδειασε (${taskCount} ${entityUnitEl}) 🗑️`
   }), { undo: true, duration: 5000 });
 }
 
@@ -46185,11 +48432,52 @@ async function archiveColumnTasks(colId, e) {
   const taskList = isDone ? (getCurrentWorkspaceDone() || []) : (curItems[colId] || []);
   const taskCount = taskList.length;
   if (taskCount === 0) {
-    showToast(tr({ de: 'Keine Aufgaben zum Archivieren vorhanden! ℹ️', en: 'No tasks to archive! ℹ️', fr: 'Aucune tâche à archiver ! ℹ️', it: 'Nessuna attività da archiviare! ℹ️', es: '¡No hay tareas para archivar! ℹ️', el: 'Δεν υπάρχουν εργασίες για αρχειοθέτηση! ℹ️' }));
+    showToast(tr({
+      de: colId === 'notes' ? 'Keine Notizen zum Archivieren vorhanden! ℹ️' : (colId === 'termine' ? 'Keine Termine zum Archivieren vorhanden! ℹ️' : 'Keine Aufgaben zum Archivieren vorhanden! ℹ️'),
+      en: colId === 'notes' ? 'No notes to archive! ℹ️' : (colId === 'termine' ? 'No appointments to archive! ℹ️' : 'No tasks to archive! ℹ️'),
+      fr: colId === 'notes' ? 'Aucune note à archiver ! ℹ️' : (colId === 'termine' ? 'Aucun rendez-vous à archiver ! ℹ️' : 'Aucune tâche à archiver ! ℹ️'),
+      it: colId === 'notes' ? 'Nessuna nota da archiviare! ℹ️' : (colId === 'termine' ? 'Nessun appuntamento da archiviare! ℹ️' : 'Nessuna attività da archiviare! ℹ️'),
+      es: colId === 'notes' ? '¡No hay notas para archivar! ℹ️' : (colId === 'termine' ? '¡No hay citas para archivar! ℹ️' : '¡No hay tareas para archivar! ℹ️'),
+      el: colId === 'notes' ? 'Δεν υπάρχουν σημειώσεις για αρχειοθέτηση! ℹ️' : (colId === 'termine' ? 'Δεν υπάρχουν ραντεβού για αρχειοθέτηση! ℹ️' : 'Δεν υπάρχουν εργασίες για αρχειοθέτηση! ℹ️')
+    }));
     return;
   }
   
-  saveHistory();
+  const activeOrder = getActiveCategoriesOrder();
+  const entry = (activeOrder || []).find(([id]) => id === colId);
+  const listTitle = (entry && entry[2]) || t(colId);
+
+  let entityUnitDe = taskCount === 1 ? 'Aufgabe' : 'Aufgaben';
+  let entityUnitEn = taskCount === 1 ? 'task' : 'tasks';
+  let entityUnitFr = taskCount === 1 ? 'tâche' : 'tâches';
+  let entityUnitIt = taskCount === 1 ? 'attività' : 'attività';
+  let entityUnitEs = taskCount === 1 ? 'tarea' : 'tareas';
+  let entityUnitEl = taskCount === 1 ? 'εργασία' : 'εργασίες';
+
+  if (colId === 'notes') {
+    entityUnitDe = taskCount === 1 ? 'Notiz' : 'Notizen';
+    entityUnitEn = taskCount === 1 ? 'note' : 'notes';
+    entityUnitFr = taskCount === 1 ? 'note' : 'notes';
+    entityUnitIt = taskCount === 1 ? 'nota' : 'note';
+    entityUnitEs = taskCount === 1 ? 'nota' : 'notas';
+    entityUnitEl = taskCount === 1 ? 'σημείωση' : 'σημειώσεις';
+  } else if (colId === 'termine') {
+    entityUnitDe = taskCount === 1 ? 'Termin' : 'Termine';
+    entityUnitEn = taskCount === 1 ? 'appointment' : 'appointments';
+    entityUnitFr = taskCount === 1 ? 'rendez-vous' : 'rendez-vous';
+    entityUnitIt = taskCount === 1 ? 'appuntamento' : 'appuntamenti';
+    entityUnitEs = taskCount === 1 ? 'cita' : 'citas';
+    entityUnitEl = taskCount === 1 ? 'ραντεβού' : 'ραντεβού';
+  } else if (isDone) {
+    entityUnitDe = taskCount === 1 ? 'erledigter Eintrag' : 'erledigte Einträge';
+    entityUnitEn = taskCount === 1 ? 'completed item' : 'completed items';
+    entityUnitFr = taskCount === 1 ? 'élément terminé' : 'éléments terminés';
+    entityUnitIt = taskCount === 1 ? 'elemento completato' : 'elementi completati';
+    entityUnitEs = taskCount === 1 ? 'elemento completado' : 'elementos completados';
+    entityUnitEl = taskCount === 1 ? 'ολοκληρωμένο στοιχείο' : 'ολοκληρωμένα στοιχεία';
+  }
+
+  saveHistory(`Archiviert: "${listTitle}" (${taskCount} ${entityUnitDe})`);
   if (!Array.isArray(state.archive)) state.archive = [];
   
   const now = new Date();
@@ -46223,17 +48511,13 @@ async function archiveColumnTasks(colId, e) {
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof updateZenView === 'function') updateZenView();
 
-  const activeOrder = getActiveCategoriesOrder();
-  const entry = (activeOrder || []).find(([id]) => id === colId);
-  const listTitle = (entry && entry[2]) || t(colId);
-
   showToast(tr({
-    de: `${taskCount} Aufgaben aus "${listTitle}" ins Archiv verschoben 📦`,
-    en: `${taskCount} tasks from "${listTitle}" moved to archive 📦`,
-    fr: `${taskCount} tâches de "${listTitle}" archivées 📦`,
-    it: `${taskCount} attività da "${listTitle}" archiviate 📦`,
-    es: `${taskCount} tareas de "${listTitle}" archivadas 📦`,
-    el: `${taskCount} εργασίες από "${listTitle}" αρχειοθετήθηκαν 📦`
+    de: `${taskCount} ${entityUnitDe} aus "${listTitle}" ins Archiv verschoben 📦`,
+    en: `${taskCount} ${entityUnitEn} from "${listTitle}" moved to archive 📦`,
+    fr: `${taskCount} ${entityUnitFr} de "${listTitle}" archivé(s) 📦`,
+    it: `${taskCount} ${entityUnitIt} da "${listTitle}" archiviati 📦`,
+    es: `${taskCount} ${entityUnitEs} de "${listTitle}" archivado(s) 📦`,
+    el: `${taskCount} ${entityUnitEl} από "${listTitle}" αρχειοθετήθηκαν 📦`
   }), { undo: true, duration: 5000 });
 }
 
@@ -46258,12 +48542,21 @@ function clearCompletedInColumn(colId, e) {
     const doneFromCol = doneList.filter(d => d.origin === colId);
     if (doneFromCol.length > 0) {
       saveHistory();
-      if (state.activeWorkspace === 'work') {
+      const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+      doneFromCol.forEach(item => {
+        if (typeof trackItemDeletion === 'function') {
+          trackItemDeletion(item, 'done', ws);
+        }
+      });
+      if (ws === 'work') {
         state.workDone = (state.workDone || []).filter(d => d.origin !== colId);
       } else {
         state.done = (state.done || []).filter(d => d.origin !== colId);
       }
       saveState();
+      if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+        cloudSyncEngine.triggerImmediatePush();
+      }
       renderApp();
       showToast(tr({
         de: `${doneFromCol.length} erledigte Einträge von "${t(colId)}" aufgeräumt 🧹`,
@@ -46271,20 +48564,42 @@ function clearCompletedInColumn(colId, e) {
       }), { undo: true, duration: 5000 });
       return;
     }
-    showToast(tr({ de: 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️', en: 'No completed tasks found to clear ℹ️', fr: 'Aucune tâche terminée trouvée à nettoyer ℹ️', it: 'Nessuna attività completata trovata da eliminare ℹ️', es: 'No se encontraron tareas completadas para limpiar ℹ️', el: 'Δεν βρέθηκαν ολοκληρωμένες εργασίες για εκκαθάριση ℹ️' }));
+    showToast(tr({
+      de: colId === 'termine' ? 'Keine vergangenen Termine zum Aufräumen gefunden ℹ️' : (colId === 'notes' ? 'Keine Notizen zum Aufräumen gefunden ℹ️' : 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️'),
+      en: colId === 'termine' ? 'No passed appointments found to clear ℹ️' : (colId === 'notes' ? 'No notes found to clear ℹ️' : 'No completed tasks found to clear ℹ️'),
+      fr: colId === 'termine' ? 'Aucun rendez-vous passé trouvé à nettoyer ℹ️' : (colId === 'notes' ? 'Aucune note trouvée à nettoyer ℹ️' : 'Aucune tâche terminée trouvée à nettoyer ℹ️'),
+      it: colId === 'termine' ? 'Nessun appuntamento passato trovato da eliminare ℹ️' : (colId === 'notes' ? 'Nessuna nota trovata da eliminare ℹ️' : 'Nessuna attività completata trovata da eliminare ℹ️'),
+      es: colId === 'termine' ? 'No se encontraron citas pasadas para limpiar ℹ️' : (colId === 'notes' ? 'No se encontraron notas para limpiar ℹ️' : 'No se encontraron tareas completadas para limpiar ℹ️'),
+      el: colId === 'termine' ? 'Δεν βρέθηκαν ολοκληρωμένα ραντεβού για εκκαθάριση ℹ️' : (colId === 'notes' ? 'Δεν βρέθηκαν σημειώσεις για εκκαθάριση ℹ️' : 'Δεν βρέθηκαν ολοκληρωμένες εργασίες για εκκαθάριση ℹ️')
+    }));
     return;
   }
 
-  saveHistory();
+  const activeOrder = getActiveCategoriesOrder();
+  const entry = (activeOrder || []).find(([id]) => id === colId);
+  const listTitle = (entry && entry[2]) || t(colId);
+  const entityName = colId === 'termine' ? 'abgeschlossene Termine' : (colId === 'notes' ? 'Notizen' : 'erledigte Aufgaben');
+  saveHistory(`Aufgeräumt: "${listTitle}" (${completedIndices.length} ${entityName})`);
+
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  const removedTasks = list.filter((item, idx) => completedIndices.includes(idx));
+  removedTasks.forEach(item => {
+    if (typeof trackItemDeletion === 'function') {
+      trackItemDeletion(item, colId, ws);
+    }
+  });
   curItems[colId] = list.filter((item, idx) => !completedIndices.includes(idx));
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof updateZenView === 'function') updateZenView();
 
   showToast(tr({
-    de: `${completedIndices.length} erledigte Aufgaben aufgeräumt 🧹`,
-    en: `${completedIndices.length} completed tasks cleared 🧹`
+    de: `${completedIndices.length} ${colId === 'termine' ? 'abgeschlossene Termine' : (colId === 'notes' ? 'Notizen' : 'erledigte Aufgaben')} aufgeräumt 🧹`,
+    en: `${completedIndices.length} ${colId === 'termine' ? 'completed appointments' : (colId === 'notes' ? 'notes' : 'completed tasks')} cleared 🧹`
   }), { undo: true, duration: 5000 });
 }
 
@@ -46417,8 +48732,8 @@ function renderColumnsDropdownContent(dropdown) {
           <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
         </div>
         <div>
-          <h3 class="font-display font-bold text-xs text-white">${tr({ de: 'Karten verwalten', en: 'Manage Cards', es: 'Gestionar tarjetas', fr: 'Gérer les cartes', it: 'Gestisci schede', el: 'Διαχείριση καρτών' })}</h3>
-          <p class="text-[10px] text-gray-400">${wsName}</p>
+          <h3 class="font-display font-bold text-xs text-purple-300">${tr({ de: 'Karten verwalten', en: 'Manage Cards', es: 'Gestionar tarjetas', fr: 'Gérer les cartes', it: 'Gestisci schede', el: 'Διαχείριση καρτών' })}</h3>
+          <p class="text-[10px] text-cyan-300/80">${wsName}</p>
         </div>
       </div>
       <button onclick="closeColumnsDropdown()" class="w-5 h-5 rounded bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs font-bold transition cursor-pointer">✕</button>
@@ -46632,8 +48947,8 @@ function openColumnsManagerModal() {
             <i data-lucide="sliders" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="font-display font-black text-sm text-white">${tr({ de: 'Karten verwalten & Karte hinzufügen', en: 'Manage Cards & Add Card', es: 'Gestionar tarjetas y añadir tarjeta', fr: 'Gérer les cartes et ajouter une carte', it: 'Gestisci schede e aggiungi scheda', el: 'Διαχείριση καρτών & προσθήκη κάρτας' })}</h3>
-            <p class="text-[11px] text-gray-400">${wsName}</p>
+            <h3 class="font-display font-black text-sm text-purple-300">${tr({ de: 'Karten verwalten & Karte hinzufügen', en: 'Manage Cards & Add Card', es: 'Gestionar tarjetas y añadir tarjeta', fr: 'Gérer les cartes et ajouter une carte', it: 'Gestisci schede e aggiungi scheda', el: 'Διαχείριση καρτών & προσθήκη κάρτας' })}</h3>
+            <p class="text-[11px] text-cyan-300/80">${wsName}</p>
           </div>
         </div>
         <button onclick="closeColumnsManagerModal()" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center text-sm font-bold transition cursor-pointer">✕</button>
@@ -46688,7 +49003,12 @@ function openColumnsManagerModal() {
                     <p class="text-xs font-bold text-gray-200 truncate">${escapeHtml(label)}</p>
                     ${isCustom ? `<span class="text-[9px] px-1.5 py-0.5 bg-purple-500/20 text-purple-300 rounded font-medium border border-purple-500/30">Custom</span>` : ''}
                   </div>
-                  <p class="text-[10px] text-gray-400 font-mono">${count} ${tr({ de: 'Aufgaben', en: 'tasks', fr: 'tâches', it: 'attività', es: 'tareas', el: 'εργασίες' })}</p>
+                  <p class="text-[10px] text-gray-400 font-mono">${count} ${
+                    id === 'notes' ? tr({ de: count === 1 ? 'Notiz' : 'Notizen', en: count === 1 ? 'note' : 'notes', fr: count === 1 ? 'note' : 'notes', it: count === 1 ? 'nota' : 'note', es: count === 1 ? 'nota' : 'notas', el: count === 1 ? 'σημείωση' : 'σημειώσεις' }) :
+                    (id === 'termine' ? tr({ de: count === 1 ? 'Termin' : 'Termine', en: count === 1 ? 'appointment' : 'appointments', fr: count === 1 ? 'rendez-vous' : 'rendez-vous', it: count === 1 ? 'appuntamento' : 'appuntamenti', es: count === 1 ? 'cita' : 'citas', el: count === 1 ? 'ραντεβού' : 'ραντεβού' }) :
+                    (id === 'done' ? tr({ de: count === 1 ? 'Eintrag' : 'Einträge', en: count === 1 ? 'item' : 'items', fr: count === 1 ? 'élément' : 'éléments', it: count === 1 ? 'elemento' : 'elementi', es: count === 1 ? 'elemento' : 'elementos', el: count === 1 ? 'στοιχείο' : 'στοιχεία' }) :
+                    tr({ de: count === 1 ? 'Aufgabe' : 'Aufgaben', en: count === 1 ? 'task' : 'tasks', fr: count === 1 ? 'tâche' : 'tâches', it: count === 1 ? 'attività' : 'attività', es: count === 1 ? 'tarea' : 'tareas', el: count === 1 ? 'εργασία' : 'εργασίες' })))
+                  }</p>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
@@ -46897,6 +49217,11 @@ async function deleteColumn(colId, e) {
 
   if (confirmed) {
     saveHistory();
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    const itemsToDelete = isDone ? (getCurrentWorkspaceDone() || []) : (curItems[colId] || []);
+    if (typeof trackCategoryClear === 'function') {
+      trackCategoryClear(colId, ws, itemsToDelete);
+    }
     activeOrder.splice(idx, 1);
     if (isDone) {
       if (state.activeWorkspace === 'study') state.studyDone = [];
@@ -46907,6 +49232,9 @@ async function deleteColumn(colId, e) {
     }
     saveCategoriesOrder();
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     renderApp();
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
     showToast(tr({
@@ -46936,22 +49264,33 @@ function quickAddTaskTop(colId, e) {
 }
 
 const COLUMN_THEMES = {
-  daily: { color: 'text-[var(--accent)]', bg: 'bg-[var(--accent)]/15 border-[var(--accent)]/30 shadow-xs' },
-  work_focus: { color: 'text-[#00f2ff]', bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/30 shadow-xs' },
-  study_focus: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
-  weekly: { color: 'text-[#00f2ff]', bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/30 shadow-xs' },
-  work_in_progress: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  study_modules: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  todo: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  work_backlog: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  study_submissions: { color: 'text-[#ff3366]', bg: 'bg-[#ff3366]/15 border-[#ff3366]/30 shadow-xs' },
-  occasionally: { color: 'text-[#ff3366]', bg: 'bg-[#ff3366]/15 border-[#ff3366]/30 shadow-xs' },
-  work_waiting: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
-  study_deep: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
-  done: { color: 'text-[#00ff66]', bg: 'bg-[#00ff66]/15 border-[#00ff66]/30 shadow-xs' },
-  termine: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  notes: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' }
+  daily:             { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  work_focus:        { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  study_focus:       { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  weekly:            { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  work_in_progress:  { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  study_modules:     { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  todo:              { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  work_waiting:      { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' },
+  study_submissions: { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' },
+  work_backlog:      { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  study_deep:        { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  done:              { color: 'text-[#00ff66]',   bg: 'bg-[#00ff66]/15 border-[#00ff66]/35 shadow-xs' },
+  notes:             { color: 'text-[#c084fc]',   bg: 'bg-[#c084fc]/15 border-[#c084fc]/35 shadow-xs' },
+  termine:           { color: 'text-orange-300',  bg: 'bg-orange-500/15 border-orange-400/35 shadow-xs' },
+  occasionally:      { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' }
 };
+
+const COLUMN_THEME_FALLBACK_CYCLE = [
+  { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  { color: 'text-[#00ff66]',   bg: 'bg-[#00ff66]/15 border-[#00ff66]/35 shadow-xs' },
+  { color: 'text-[#c084fc]',   bg: 'bg-[#c084fc]/15 border-[#c084fc]/35 shadow-xs' },
+  { color: 'text-orange-300',  bg: 'bg-orange-500/15 border-orange-400/35 shadow-xs' },
+  { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' },
+  { color: 'text-teal-300',    bg: 'bg-teal-500/15 border-teal-400/35 shadow-xs' }
+];
 
 function getCurrentWorkspaceItems() {
   const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
@@ -47002,6 +49341,8 @@ function renderApp() {
         ? (workCategoriesOrder || (typeof WORK_CATEGORIES_ORDER !== 'undefined' ? WORK_CATEGORIES_ORDER : [])) 
         : (categoriesOrder || (typeof CATEGORIES_ORDER !== 'undefined' ? CATEGORIES_ORDER : []))));
 
+  let prevColumnThemeColor = '';
+
   (activeOrder || []).forEach(([id, iconKey], colIndex) => {
     const isDone = id === 'done'; const isNotes = id === 'notes'; const isTermine = id === 'termine';
     const isDaily = (id === 'daily' || id === 'work_focus' || id === 'study_focus');
@@ -47027,15 +49368,15 @@ function renderApp() {
     const svgFn = (typeof getLucideSvg === 'function') ? getLucideSvg : ((name, cls) => `<i data-lucide="${name}" class="${cls}"></i>`);
     if (isDone) {
       countBadgeHTML = `
-        <div class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-lime-500/15 text-lime-300 border border-lime-500/30 shadow-xs flex items-center gap-1 shrink-0" title="${doneList.length} erledigte Aufgaben">
-          ${svgFn('check', 'w-3 h-3 text-lime-400')}
+        <div class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-xs flex items-center gap-1 shrink-0" title="${doneList.length} erledigte Aufgaben">
+          ${svgFn('check', 'w-3 h-3 text-emerald-400')}
           <span>${doneList.length}</span>
         </div>
       `;
     } else if (isNotes) {
       const noteCount = (currentItems.notes || []).length;
       countBadgeHTML = `
-        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-xs shrink-0" title="${noteCount} Notizen">
+        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30 shadow-xs shrink-0" title="${noteCount} Notizen">
           ${noteCount}
         </span>
       `;
@@ -47043,7 +49384,7 @@ function renderApp() {
       let badgeStyle = 'bg-white/5 text-gray-400 border-white/10';
       let checkSuffix = '';
       if (isComplete) {
-        badgeStyle = 'bg-lime-500/20 text-lime-300 border-lime-500/40 shadow-[0_0_10px_rgba(132,204,22,0.25)]';
+        badgeStyle = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.25)]';
         checkSuffix = ' ✓';
       } else if (doneInCat > 0) {
         badgeStyle = 'bg-[var(--accent)]/15 text-[var(--accent-light)] border-[var(--accent)]/30';
@@ -47110,7 +49451,18 @@ function renderApp() {
       notes: 'file-text'
     };
     const finalIcon = COLUMN_ICONS_DEFAULT[id] || iconKey || 'layers';
-    const theme = COLUMN_THEMES[id] || { color: 'text-[var(--accent-light)]', bg: 'bg-white/5 border-white/10 shadow-xs' };
+    let theme = COLUMN_THEMES[id] || COLUMN_THEME_FALLBACK_CYCLE[colIndex % COLUMN_THEME_FALLBACK_CYCLE.length];
+    if (theme.color === prevColumnThemeColor) {
+      for (let tIdx = 0; tIdx < COLUMN_THEME_FALLBACK_CYCLE.length; tIdx++) {
+        const candidate = COLUMN_THEME_FALLBACK_CYCLE[(colIndex + tIdx + 1) % COLUMN_THEME_FALLBACK_CYCLE.length];
+        if (candidate.color !== prevColumnThemeColor) {
+          theme = candidate;
+          break;
+        }
+      }
+    }
+    prevColumnThemeColor = theme.color;
+
     const hasDice = (id === 'daily' || id === 'weekly' || id === 'todo' || id === 'occasionally' || id === 'work_focus' || id === 'work_in_progress' || id === 'work_backlog' || id === 'work_waiting' || id === 'study_focus' || id === 'study_modules' || id === 'study_submissions' || id === 'study_deep');
 
     let columnIconHTML = '';
@@ -47127,14 +49479,14 @@ function renderApp() {
     article.innerHTML = `
       ${(!isDone && !isNotes) ? `
         <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-white/[0.04] overflow-hidden pointer-events-none">
-          <div class="h-full bg-gradient-to-r from-[var(--accent)] via-cyan-400 to-lime-400 transition-all duration-500 ${isComplete ? 'shadow-[0_0_12px_rgba(132,204,22,0.8)]' : ''}" style="width: ${pct}%"></div>
+          <div class="h-full bg-gradient-to-r from-[var(--accent)] via-cyan-400 to-emerald-400 transition-all duration-500 ${isComplete ? 'shadow-[0_0_12px_rgba(52,211,153,0.8)]' : ''}" style="width: ${pct}%"></div>
         </div>
       ` : ''}
       
       <div class="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-white/[0.04]">
         <div class="flex items-center gap-1.5 select-none min-w-0 flex-1 cursor-grab active:cursor-grabbing" title="${tr({ de: 'Spalte durch Ziehen neu anordnen', en: 'Drag to reorder column', fr: 'Glisser pour réorganiser la colonne', it: 'Trascina per riordinare la colonna', es: 'Arrastrar para reordenar columna', el: 'Σύρετε για αναδιάταξη στήλης' })}">
           ${columnIconHTML}
-          <h2 class="text-gray-200 hover:text-white font-bold font-display text-[10.5px] 2xl:text-xs tracking-tight uppercase transition whitespace-nowrap overflow-hidden text-ellipsis min-w-0" title="${catName}">
+          <h2 class="${theme.color} hover:brightness-125 font-bold font-display text-[10.5px] 2xl:text-xs tracking-tight uppercase transition whitespace-nowrap overflow-hidden text-ellipsis min-w-0" title="${catName}">
             ${catName}
           </h2>
         </div>
@@ -47146,25 +49498,15 @@ function renderApp() {
         </div>
       </div>
       <div id="list-${id}" class="flex flex-col gap-1.5 flex-1 min-h-[100px] overflow-y-auto py-0.5 px-0.5 custom-scrollbar"></div>
-      ${(!isDone) ? `
-        <div class="flex items-center justify-between pt-1 px-0.5 mt-auto border-t border-white/[0.03]">
-          <button onclick="openTextImportModal('${id}', event)" aria-label="${isNotes ? 'Notizen importieren' : (isTermine ? 'Termine importieren' : 'Aufgaben importieren')}" class="p-1 rounded-md bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 text-gray-500 hover:text-gray-200 opacity-40 hover:opacity-100 transition-all duration-200 cursor-pointer flex items-center justify-center shrink-0" title="${isNotes ? tr({ de: 'Notizen importieren (.txt, .md, .csv, .json oder Zwischenablage)', en: 'Import notes (.txt, .md, .csv, .json or clipboard)', es: 'Importar notas (.txt, .md, .csv, .json o portapapeles)', el: 'Εισαγωγή σημειώσεων (.txt, .md, .csv, .json ή πρόχειρο)', fr: 'Importer des notes (.txt, .md, .csv, .json ou presse-papiers)', it: 'Importa note (.txt, .md, .csv, .json o appunti)' }) : (isTermine ? tr({ de: 'Termine aus Kalenderdatei (.ics) oder Text importieren', en: 'Import appointments from calendar file (.ics) or text', es: 'Importar citas desde archivo (.ics) o texto', el: 'Εισαγωγή ραντεβού από ημερολόγιο (.ics) ή κείμενο', fr: 'Importer des rendez-vous depuis un fichier (.ics) ou texte', it: 'Importa appuntamenti da file (.ics) o testo' }) : tr({ de: 'Aufgaben importieren (.txt, .md, .csv, .json oder Zwischenablage)', en: 'Import tasks (.txt, .md, .csv, .json or clipboard)', es: 'Importar tareas (.txt, .md, .csv, .json o portapapeles)', el: 'Εισαγωγή εργασιών (.txt, .md, .csv, .json ή πρόχειρο)', fr: 'Importer des tâches (.txt, .md, .csv, .json ou presse-papiers)', it: 'Importa attività (.txt, .md, .csv, .json o appunti)' }))}">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="12" y1="18" x2="12" y2="12"/>
-              <polyline points="9 15 12 12 15 15"/>
+      ${(!isDone && isNotes) ? `
+        <div class="flex items-center justify-end pt-1 px-0.5 mt-auto border-t border-white/[0.03]">
+          <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-purple-200 font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
             </svg>
+            <span>Scan</span>
           </button>
-          ${isNotes ? `
-            <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-white font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                <circle cx="12" cy="13" r="4"/>
-              </svg>
-              <span>Scan</span>
-            </button>
-          ` : ''}
         </div>
       ` : ''}
     `;
@@ -47173,7 +49515,7 @@ function renderApp() {
       const validDoneList = (doneList || []).filter(Boolean);
       validDoneList.slice().reverse().forEach((item, idx) => {
         const itemDiv = document.createElement('div');
-        itemDiv.className = 'group p-1.5 px-2.5 text-[11px] min-h-[28px] text-gray-400 hover:text-white border border-dashed border-slate-700/80 hover:border-purple-500 rounded-lg bg-slate-800/25 hover:bg-purple-950/20 cursor-pointer font-medium transition flex items-center justify-between gap-1 animate-fade-in';
+        itemDiv.className = 'group p-1.5 px-2.5 text-[11px] min-h-[28px] text-gray-400 hover:text-emerald-200 border border-dashed border-slate-700/80 hover:border-purple-500 rounded-lg bg-slate-800/25 hover:bg-purple-950/20 cursor-pointer font-medium transition flex items-center justify-between gap-1 animate-fade-in';
         itemDiv.onclick = () => handleRestoreDoneTask(idx);
         itemDiv.title = tr({ de: 'Zurück in die Karte verschieben', en: 'Restore task to board', fr: 'Restaurer la tâche', it: 'Ripristina attività', es: 'Restaurar tarea', el: 'Επαναφορά εργασίας' });
         const itemTaskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
@@ -47183,9 +49525,18 @@ function renderApp() {
       });
     } else if (isNotes) {
       const notesList = currentItems.notes || [];
+      const NOTE_STYLE_CYCLE = [
+        { border: 'border-[#c084fc]', bg: 'bg-[#c084fc]/10 hover:bg-[#c084fc]/20', text: 'text-[#c084fc]' },
+        { border: 'border-[#89cff0]', bg: 'bg-[#89cff0]/10 hover:bg-[#89cff0]/20', text: 'text-[#89cff0]' },
+        { border: 'border-[#fbbf24]', bg: 'bg-[#fbbf24]/10 hover:bg-[#fbbf24]/20', text: 'text-[#fbbf24]' },
+        { border: 'border-[#4ade80]', bg: 'bg-[#4ade80]/10 hover:bg-[#4ade80]/20', text: 'text-[#4ade80]' },
+        { border: 'border-[#f472b6]', bg: 'bg-[#f472b6]/10 hover:bg-[#f472b6]/20', text: 'text-[#f472b6]' },
+        { border: 'border-[#fb923c]', bg: 'bg-[#fb923c]/10 hover:bg-[#fb923c]/20', text: 'text-[#fb923c]' }
+      ];
       notesList.forEach((note, index) => {
         const noteText = typeof note === 'object' ? note.task : note;
         const safeNoteEscaped = escapeHtml(noteText);
+        const nStyle = NOTE_STYLE_CYCLE[index % NOTE_STYLE_CYCLE.length];
         const itemDiv = document.createElement('div');
         itemDiv.draggable = true;
         itemDiv.ondragstart = (e) => handleDragStart(e, 'notes', index);
@@ -47193,13 +49544,13 @@ function renderApp() {
         itemDiv.ondragleave = (e) => handleDragLeave(e);
         itemDiv.ondragend = (e) => handleDragEnd(e);
         itemDiv.ondrop = (e) => handleItemDrop(e, 'notes', index);
-        itemDiv.className = `group relative w-full h-auto min-h-[32px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] border-[#c084fc] bg-[#c084fc]/10 hover:bg-[#c084fc]/20 text-[#c084fc] font-medium transition-all duration-150 ease-out rounded-xl shadow-xs cursor-pointer`;
+        itemDiv.className = `group relative w-full h-auto min-h-[32px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] ${nStyle.border} ${nStyle.bg} ${nStyle.text} font-medium transition-all duration-150 ease-out rounded-xl shadow-xs cursor-pointer`;
         itemDiv.onclick = () => openNoteDetailModal(index);
         
         itemDiv.innerHTML = `
           <div class="flex items-center gap-1.5 flex-1 min-w-0 pr-2 pointer-events-none">
-            <i data-lucide="sticky-note" class="w-3.5 h-3.5 text-[#c084fc] shrink-0"></i>
-            <span class="text-xs text-[var(--text-main)] font-normal leading-snug break-normal whitespace-normal flex-1 select-text" title="${safeNoteEscaped}">${safeNoteEscaped}</span>
+            <i data-lucide="sticky-note" class="w-3.5 h-3.5 ${nStyle.text} shrink-0"></i>
+            <span class="text-xs ${nStyle.text} font-normal leading-snug break-normal whitespace-normal flex-1 select-text" title="${safeNoteEscaped}">${safeNoteEscaped}</span>
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-0.5 rounded-lg shadow-md z-40 backdrop-blur-md" onclick="event.stopPropagation()">
             <button onclick="openNoteDetailModal(${index}, event)" aria-label="${tr({ de: 'Notiz öffnen & bearbeiten', en: 'Open & edit note', fr: 'Ouvrir et modifier la note', it: 'Apri e modifica nota', es: 'Abrir y editar nota', el: 'Άνοιγμα & επεξεργασία σημείωσης' })}" class="p-1 text-amber-400 hover:text-amber-300 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Notiz öffnen & bearbeiten', en: 'Open & edit note', fr: 'Ouvrir et modifier la note', it: 'Apri e modifica nota', es: 'Abrir y editar nota', el: 'Άνοιγμα & επεξεργασία σημείωσης' })}">
@@ -47218,7 +49569,7 @@ function renderApp() {
 
       const addBtn = document.createElement('button');
       addBtn.onclick = () => { openTaskAddColumns['notes'] = true; renderApp(); };
-      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#c084fc]/30 bg-[#c084fc]/5 hover:bg-[#c084fc]/15 hover:border-[#c084fc]/60 text-center text-xs text-[#c084fc] hover:text-white font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#c084fc]/30 bg-[#c084fc]/5 hover:bg-[#c084fc]/15 hover:border-[#c084fc]/60 text-center text-xs text-[#c084fc] hover:text-purple-200 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
       addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-[#c084fc] group-hover/addbtn:scale-110 transition-transform')}<span>${tr({ de: 'Notiz hinzufügen', en: 'Add note', es: 'Añadir nota', el: 'Προσθήκη σημείωσης', fr: 'Ajouter une note', it: 'Aggiungi nota' })}</span>`;
 
       const addInput = document.createElement('textarea');
@@ -47228,10 +49579,11 @@ function renderApp() {
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey && addInput.value.trim()) {
           e.preventDefault();
-          saveHistory();
+          const noteText = addInput.value.trim();
+          saveHistory(`Notiz hinzugefügt: "${noteText.length > 25 ? noteText.substring(0, 22) + '...' : noteText}"`);
           const curItems = getCurrentWorkspaceItems();
           if (!curItems.notes) curItems.notes = [];
-          curItems.notes.push(addInput.value.trim());
+          curItems.notes.push(noteText);
           addInput.value = '';
           openTaskAddColumns['notes'] = false;
           saveState(); renderApp();
@@ -47257,10 +49609,19 @@ function renderApp() {
         if (!a.date && !b.date) return 0; if (!a.date) return 1; if (!b.date) return -1;
         return `${a.date} ${a.time || '00:00'}`.localeCompare(`${b.date} ${b.time || '00:00'}`);
       });
-      itemsWithMeta.forEach((item) => {
+      const TERMIN_OPEN_PALETTE = [
+        { border: 'border-[#89cff0]', bg: 'bg-[#89cff0]/12', text: 'text-[#89cff0]', badge: 'bg-[#89cff0]/20 text-[#89cff0] border-[#89cff0]/30' },
+        { border: 'border-[#fb923c]', bg: 'bg-[#fb923c]/12', text: 'text-[#fb923c]', badge: 'bg-[#fb923c]/20 text-[#fb923c] border-[#fb923c]/30' },
+        { border: 'border-[#c084fc]', bg: 'bg-[#c084fc]/12', text: 'text-[#c084fc]', badge: 'bg-[#c084fc]/20 text-[#c084fc] border-[#c084fc]/30' },
+        { border: 'border-[#2dd4bf]', bg: 'bg-[#2dd4bf]/12', text: 'text-[#2dd4bf]', badge: 'bg-[#2dd4bf]/20 text-[#2dd4bf] border-[#2dd4bf]/30' },
+        { border: 'border-[#fbbf24]', bg: 'bg-[#fbbf24]/12', text: 'text-[#fbbf24]', badge: 'bg-[#fbbf24]/20 text-[#fbbf24] border-[#fbbf24]/30' },
+        { border: 'border-[#f472b6]', bg: 'bg-[#f472b6]/12', text: 'text-[#f472b6]', badge: 'bg-[#f472b6]/20 text-[#f472b6] border-[#f472b6]/30' }
+      ];
+      itemsWithMeta.forEach((item, tSortIdx) => {
         const originalIndex = item.originalIdx;
         const isToday = item.date === todayISO;
         const status = item.status || 'open';
+        const openTheme = TERMIN_OPEN_PALETTE[tSortIdx % TERMIN_OPEN_PALETTE.length];
         let fullDateString = "No Date";
         if (item.date) {
           try {
@@ -47276,10 +49637,10 @@ function renderApp() {
         let locHTML = item.location ? `<span class="text-[9px] text-[#D4D4D4] truncate max-w-[85px] inline-flex items-center gap-0.5">${svgFn('map-pin', 'w-3 h-3 shrink-0 text-[#D4D4D4]')}${escapeHtml(item.location)}</span>` : '';
 
         // Status Styling & Badges
-        let statusBorderBg = isToday ? 'border-[#89cff0] bg-[#89cff0]/10' : 'border-[#89cff0]/40 bg-white/[0.035]';
+        let statusBorderBg = isToday ? `${openTheme.border} ${openTheme.bg}` : `${openTheme.border} ${openTheme.bg}`;
         let statusBadgeHTML = '';
 
-                if (status === 'stattgefunden') {
+        if (status === 'stattgefunden') {
           statusBorderBg = 'border-[#00ff66] bg-[#00ff66]/10 text-[#00ff66]';
           statusBadgeHTML = `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]/40 shrink-0"><i data-lucide="check-check" class="w-3 h-3 text-[#00ff66]"></i><span>${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Effectué', it: 'Svolto', es: 'Realizado', el: 'Πραγματοποιήθηκε' })}</span></span>`;
         } else if (status === 'nicht_stattgefunden') {
@@ -47296,15 +49657,15 @@ function renderApp() {
         itemDiv.onclick = () => editTermin(originalIndex);
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-14 select-none">
-            <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-lime-400 bg-lime-500/20 text-lime-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : 'border-[#89cff0]/40 bg-[#89cff0]/10 hover:border-lime-400 hover:bg-lime-500/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+            <button onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : `${openTheme.border} ${openTheme.bg} hover:border-emerald-400 hover:bg-emerald-500/20`))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${status === 'stattgefunden' 
-                  ? svgFn('check', 'w-3.5 h-3.5 text-lime-400')
+                  ? svgFn('check', 'w-3.5 h-3.5 text-emerald-400')
                   : (status === 'nicht_stattgefunden' 
                     ? svgFn('x', 'w-3.5 h-3.5 text-[#C586C0]')
                     : (status === 'verschoben' 
                       ? svgFn('calendar-sync', 'w-3.5 h-3.5 text-[#C586C0]')
-                      : `${svgFn('clock', 'task-default-icon w-3.5 h-3.5 text-[#89cff0] transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50')}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
+                      : `${svgFn('clock', `task-default-icon w-3.5 h-3.5 ${openTheme.text} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-emerald-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
                     )
                   )
                 }
@@ -47312,12 +49673,12 @@ function renderApp() {
             </button>
             <div class="flex flex-col min-w-0 flex-1 cursor-pointer" onclick="editTermin(${originalIndex}, event)">
               <div class="flex items-center gap-1.5 min-w-0 flex-wrap">
-                <span class="text-xs leading-snug font-semibold ${status === 'stattgefunden' ? 'text-[#00ff66] line-through opacity-90' : (status === 'nicht_stattgefunden' ? 'text-[#C586C0] line-through opacity-80' : (status === 'verschoben' ? 'text-[#C586C0]' : 'text-[#569CD6]'))} break-normal whitespace-normal">${escapeHtml(item.task || item.name || 'Termin')}</span>
-                ${item.time ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-[#89cff0]/20 text-[#89cff0] border border-[#89cff0]/30 shrink-0">${escapeHtml(item.time)}</span>` : ''}
+                <span class="text-xs leading-snug font-semibold ${status === 'stattgefunden' ? 'text-[#00ff66] line-through opacity-90' : (status === 'nicht_stattgefunden' ? 'text-[#C586C0] line-through opacity-80' : (status === 'verschoben' ? 'text-[#C586C0]' : openTheme.text))} break-normal whitespace-normal">${escapeHtml(item.task || item.name || 'Termin')}</span>
+                ${item.time ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold border shrink-0 ${openTheme.badge}">${escapeHtml(item.time)}</span>` : ''}
                 ${statusBadgeHTML}
               </div>
               <div class="flex items-center gap-1.5 mt-0.5">
-                <span class="text-[9px] font-mono text-[#89cff0]">${escapeHtml(fullDateString)}</span>
+                <span class="text-[9px] font-mono ${openTheme.text}">${escapeHtml(fullDateString)}</span>
                 ${locHTML}
               </div>
             </div>
@@ -47333,9 +49694,9 @@ function renderApp() {
       const isFormOpen = (typeof isTerminFormOpen !== 'undefined') ? isTerminFormOpen : (window.isTerminFormOpen || false);
       if (!isFormOpen) {
         const btnEl = document.createElement('button'); btnEl.onclick = () => toggleTerminForm(true);
-        btnEl.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#89cff0]/30 bg-[#89cff0]/5 hover:bg-[#89cff0]/15 hover:border-[#89cff0]/60 text-center text-xs text-[#89cff0] hover:text-white font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+        btnEl.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-orange-400/35 bg-orange-500/5 hover:bg-orange-500/15 hover:border-orange-400/60 text-center text-xs text-orange-300 hover:text-orange-200 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
         const btnT = t('appointment_new_btn') || tr({ de: 'Neuer Termin', en: 'New appointment', es: 'Nueva cita', el: 'Νέο ραντεβού', fr: 'Nouveau rendez-vous', it: 'Nuovo appuntamento' });
-        btnEl.innerHTML = `${svgFn('calendar-plus', 'w-3.5 h-3.5 text-[#89cff0] group-hover/addbtn:scale-110 transition-transform')}<span>${btnT}</span>`;
+        btnEl.innerHTML = `${svgFn('calendar-plus', 'w-3.5 h-3.5 text-orange-300 group-hover/addbtn:scale-110 transition-transform')}<span>${btnT}</span>`;
         listEl.appendChild(btnEl);
       } else {
         const formDiv = document.createElement('div'); formDiv.className = 'mt-1 p-3 bg-[#0e0e14] border border-[var(--accent)]/40 rounded-xl flex flex-col gap-2 shadow-lg';
@@ -47354,16 +49715,16 @@ function renderApp() {
         formDiv.innerHTML = `
           <div class="flex items-center justify-between text-xs font-bold text-amber-300">
             <span class="flex items-center gap-1.5">${svgFn('calendar', 'w-3.5 h-3.5')} ${formT}</span>
-            <button onclick="toggleTerminForm(false)" aria-label="Termin-Formular schließen" class="text-gray-400 hover:text-white p-0.5 cursor-pointer text-xs">✕</button>
+            <button onclick="toggleTerminForm(false)" aria-label="Termin-Formular schließen" class="text-gray-400 hover:text-amber-200 p-0.5 cursor-pointer text-xs">✕</button>
           </div>
           <input type="text" id="add-termin-title" placeholder="${nameT}" class="w-full p-2 bg-black/60 border border-white/15 rounded-lg text-xs text-white outline-none focus:border-[var(--accent)] font-semibold placeholder:text-gray-500 mb-2" />
           <input type="text" id="add-termin-location" placeholder="${locPlaceholder}" class="w-full p-2 bg-black/60 border border-white/15 rounded-lg text-xs text-white outline-none focus:border-[var(--accent)] font-semibold placeholder:text-gray-500 mb-2" />
           <div class="grid grid-cols-2 gap-2 mb-2">
-            <div><label class="text-[10px] text-gray-400 mb-0.5 block font-medium">${dateT}</label><input type="date" id="add-termin-date" value="${dateValue}" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
-            <div><label class="text-[10px] text-gray-400 mb-0.5 block font-medium">${timeT}</label><input type="time" id="add-termin-time" value="10:00" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
+            <div><label class="text-[10px] text-cyan-300 mb-0.5 block font-medium">${dateT}</label><input type="date" id="add-termin-date" value="${dateValue}" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
+            <div><label class="text-[10px] text-purple-300 mb-0.5 block font-medium">${timeT}</label><input type="time" id="add-termin-time" value="10:00" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
           </div>
           <div class="mb-2">
-            <label class="text-[10px] text-gray-400 mb-0.5 block font-medium">Status:</label>
+            <label class="text-[10px] text-emerald-300 mb-0.5 block font-medium">Status:</label>
             <select id="add-termin-status" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer font-semibold">
               <option value="open">⚪ ${tr({ de: 'Offen', en: 'Open', fr: 'Ouvert', it: 'Aperto', es: 'Abierto', el: 'Ανοιχτό' })}</option>
               <option value="stattgefunden">🟢 ${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Eu lieu', it: 'Avvenuto', es: 'Asistido', el: 'Πραγματοποιήθηκε' })}</option>
@@ -47391,12 +49752,25 @@ function renderApp() {
       }
     } else {
       const validCategoryItems = (currentItems[id] || []).filter(Boolean);
+      const TASK_CYCLE_KEYS = ['rose', 'sky', 'emerald', 'orange', 'purple', 'cyan', 'gold', 'mint', 'lavender'];
+      let prevTaskBorder = '';
       validCategoryItems.forEach((task, index) => {
         const taskObj = (typeof task === 'object' && task !== null) ? task : { task: String(task || '') };
         const taskText = taskObj.task || '';
         if (!taskText) return;
         const taskColor = taskObj.color || 'none';
-        const colorStyle = getSemanticTaskStyle(taskText, id, taskColor);
+        let colorStyle = getSemanticTaskStyle(taskText, id, taskColor);
+        if (taskColor === 'none' && colorStyle.border === prevTaskBorder) {
+          for (let cIdx = 0; cIdx < TASK_CYCLE_KEYS.length; cIdx++) {
+            const altKey = TASK_CYCLE_KEYS[(index + colIndex + cIdx) % TASK_CYCLE_KEYS.length];
+            const altStyle = TASK_COLOR_MAP[altKey];
+            if (altStyle && altStyle.border !== prevTaskBorder) {
+              colorStyle = altStyle;
+              break;
+            }
+          }
+        }
+        prevTaskBorder = colorStyle.border;
         const iconDetails = (typeof getTaskIconDetails === 'function') ? getTaskIconDetails(taskText, id) : { icon: 'check-circle', color: 'text-purple-400' };
         const isTaskActive = (typeof activeTimerTask !== 'undefined' && activeTimerTask && activeTimerTask.category === id && activeTimerTask.index === index);
         const itemDiv = document.createElement('div');
@@ -47421,25 +49795,26 @@ function renderApp() {
           : '';
         const editTooltip = tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' });
         const completeTooltip = tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' });
-        const toolBadgesHTML = (typeof renderTaskToolBadgesHTML === 'function')
+        const is5MinClean = taskText.trim().toLowerCase() === '5min aufräumen' || taskText.trim().toLowerCase() === '5 min aufräumen' || !iconDetails.icon;
+        const toolBadgesHTML = (!is5MinClean && typeof renderTaskToolBadgesHTML === 'function')
           ? renderTaskToolBadgesHTML(taskObj, id, index)
           : '';
+        const checkIconInner = (is5MinClean || !iconDetails.icon)
+          ? ''
+          : svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`);
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none flex-wrap">
-            <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-lime-400 hover:bg-lime-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
-                ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
-                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
+            <button onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-emerald-400 hover:bg-emerald-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+                ${checkIconInner}
+                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-emerald-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
               </span>
             </button>
-            <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
+            <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:brightness-125 break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-all duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
             ${recurrenceBadge}
             ${toolBadgesHTML}
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
-            <button onclick="startTaskTimerByIndex('${id}', ${index}, event)" aria-label="${tr({ de: 'Timer für diese Aufgabe starten', en: 'Start timer for this task', fr: 'Lancer le minuteur', it: 'Avvia timer per questa attività', es: 'Iniciar temporizador', el: 'Εκκίνηση χρονοδιακόπτη' })}" class="p-1 px-1.5 text-amber-300 hover:text-white bg-[#1a1a28] hover:bg-amber-500/30 border border-white/20 hover:border-amber-400/50 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Fokus-Timer starten', en: 'Start focus timer', fr: 'Lancer le minuteur', it: 'Avvia timer', es: 'Iniciar temporizador', el: 'Εκκίνηση Timer' })}">
-              ${svgFn('timer', 'w-3.5 h-3.5 text-amber-400 hover:text-amber-200')}
-            </button>
             <button onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Timer, Chrono, Steps, etc.)', en: 'Options (Timer, Chrono, Steps, etc.)', fr: 'Options (Minuteur, Chrono, Steps, etc.)', it: 'Opzioni (Timer, Cronometro, Steps, etc.)', es: 'Opciones (Timer, Crono, Steps, etc.)', el: 'Επιλογές (Timer, Chrono, Steps)' })}">
               ${svgFn('more-horizontal', 'w-3.5 h-3.5 text-gray-200 hover:text-white')}
             </button>
@@ -47448,16 +49823,19 @@ function renderApp() {
         listEl.appendChild(itemDiv);
       });
       const addBtn = document.createElement('button'); addBtn.onclick = () => { openTaskAddColumns[id] = true; renderApp(); };
-      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-white/15 bg-white/[0.02] hover:bg-white/[0.06] hover:border-lime-400/50 hover:text-lime-300 text-center text-xs text-gray-400 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
-      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-400 group-hover/addbtn:scale-110 group-hover/addbtn:text-lime-300 transition-transform')}<span>${t('add')}</span>`;
+      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-white/15 bg-white/[0.02] hover:bg-white/[0.06] hover:border-emerald-400/50 hover:text-emerald-300 text-center text-xs text-gray-400 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-emerald-400 group-hover/addbtn:scale-110 group-hover/addbtn:text-emerald-300 transition-transform')}<span>${t('add')}</span>`;
 
       const addInput = document.createElement('input'); addInput.type = 'text';
       addInput.placeholder = t('add');
-      addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-lime-500/50 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-lime-400 focus:shadow-[0_0_12px_rgba(132,204,22,0.25)] transition cursor-text font-semibold text-white shadow-inner';
+      addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-emerald-500/40 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_12px_rgba(16,185,129,0.25)] transition cursor-text font-semibold text-white shadow-inner';
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && addInput.value.trim()) {
           const taskText = addInput.value.trim();
-          saveHistory(`Aufgabe hinzugefügt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
+          let addLabel = 'Aufgabe hinzugefügt';
+          if (id === 'notes') addLabel = 'Notiz hinzugefügt';
+          else if (id === 'termine') addLabel = 'Termin hinzugefügt';
+          saveHistory(`${addLabel}: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
           const taskObj = (typeof ensureItemIdentity === 'function') 
             ? ensureItemIdentity(taskText, `task_${id}`)
             : { task: taskText };
@@ -47477,13 +49855,16 @@ function renderApp() {
 
         const submitAddBtn = document.createElement('button');
         submitAddBtn.type = 'button';
-        submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-lime-500/20 hover:bg-lime-500/35 text-lime-300 border border-lime-500/40 hover:border-lime-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
-        submitAddBtn.title = tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)', fr: 'Ajouter une tâche (Entrée)', it: 'Aggiungi attività (Invio)', es: 'Añadir tarea (Enter)', el: 'Προσθήκη εργασίας (Enter)' });
-        submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-300')}`;
+        submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
+        submitAddBtn.title = id === 'notes' ? tr({ de: 'Notiz hinzufügen (Enter)', en: 'Add note (Enter)', fr: 'Ajouter une note (Entrée)', it: 'Aggiungi nota (Invio)', es: 'Añadir nota (Enter)', el: 'Προσθήκη σημείωσης (Enter)' }) : (id === 'termine' ? tr({ de: 'Termin hinzufügen (Enter)', en: 'Add appointment (Enter)', fr: 'Ajouter un rendez-vous (Entrée)', it: 'Aggiungi appuntamento (Invio)', es: 'Añadir cita (Enter)', el: 'Προσθήκη ραντεβού (Enter)' }) : tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)', fr: 'Ajouter une tâche (Entrée)', it: 'Aggiungi attività (Invio)', es: 'Añadir tarea (Enter)', el: 'Προσθήκη εργασίας (Enter)' }));
+        submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-emerald-300')}`;
         submitAddBtn.onclick = () => {
           if (addInput.value.trim()) {
-            saveHistory();
             const taskText = addInput.value.trim();
+            let addLabel = 'Aufgabe hinzugefügt';
+            if (id === 'notes') addLabel = 'Notiz hinzugefügt';
+            else if (id === 'termine') addLabel = 'Termin hinzugefügt';
+            saveHistory(`${addLabel}: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
             const taskObj = (typeof ensureItemIdentity === 'function') 
               ? ensureItemIdentity(taskText, `task_${id}`)
               : { task: taskText };
@@ -47596,28 +49977,85 @@ function stepMobileCategory(direction = 1) {
   setMobileCategory(activeOrder[nextIdx][0]);
 }
 
+/**
+ * Switches the mobile bottom-navigation view (planer / focus / audio / tools).
+ * Any floating panel or modal is closed first, otherwise it would sit on top
+ * of the selected view and the tap would appear to "do nothing".
+ */
 function switchMobileNavTab(tabName) {
   if (!tabName) tabName = 'planer';
   document.body.dataset.mobileNav = tabName;
-  localStorage.setItem('flowPlannerMobileNav', tabName);
+  try {
+    localStorage.setItem('flowPlannerMobileNav', tabName);
+    localStorage.setItem('flow_active_mobile_tab', tabName);
+  } catch (e) { /* storage may be unavailable (private mode) */ }
+
+  // Zen mode hides most of the UI – leave it so the chosen view is visible.
+  try {
+    if (typeof isMinimalist !== 'undefined' && isMinimalist && typeof toggleMinimalist === 'function') {
+      toggleMinimalist();
+    }
+  } catch (e) { /* ignore */ }
+
+  try {
+    if (typeof closeAllPanelsAndModals === 'function') closeAllPanelsAndModals();
+    if (typeof syncHeaderToolsMenuState === 'function') syncHeaderToolsMenuState();
+  } catch (e) { /* ignore */ }
 
   document.querySelectorAll('.mobile-nav-item').forEach(btn => {
-    const isTarget = btn.id === `mob-nav-${tabName}`;
-    btn.classList.toggle('active', isTarget);
+    btn.classList.toggle('active', btn.id === `mob-nav-${tabName}`);
   });
+  document.querySelectorAll('.mobile-view-pane').forEach(pane => {
+    pane.classList.toggle('mobile-tab-active', pane.id === `mobile-view-${tabName}`);
+  });
+
+  if (tabName === 'menu') {
+    if (typeof openMobileMenuDrawer === 'function') openMobileMenuDrawer();
+    return;
+  }
 
   if (tabName === 'planer') {
     const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
     const curCat = document.body.dataset.mobileCat || (activeOrder[0] ? activeOrder[0][0] : 'daily');
     setMobileCategory(curCat);
+  } else if (tabName === 'focus') {
+    try { if (typeof updateTimerDisplay === 'function') updateTimerDisplay(); } catch (e) { /* ignore */ }
+  } else if (tabName === 'audio') {
+    try { if (typeof updateSoundscapeUI === 'function') updateSoundscapeUI(); } catch (e) { /* ignore */ }
+  } else if (tabName === 'tools') {
+    try { if (typeof renderLucideIcons === 'function') renderLucideIcons(); } catch (e) { /* ignore */ }
   }
 
+  try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
   if (typeof renderLucideIcons === 'function') renderLucideIcons();
+}
+
+/** Opens the shopping panel directly on the pantry tab (used by the mobile tools view). */
+function openPantryModal() {
+  const panel = document.getElementById('panel-shopping');
+  if (panel && panel.classList.contains('hidden') && typeof togglePanel === 'function') togglePanel('shopping');
+  if (typeof switchShoppingTab === 'function') switchShoppingTab('pantry');
+}
+
+/** Opens the cooking panel directly on the recipes tab (used by the mobile tools view). */
+function openRecipeModal() {
+  const panel = document.getElementById('panel-cooking');
+  if (panel && panel.classList.contains('hidden') && typeof togglePanel === 'function') togglePanel('cooking');
+  if (typeof switchCookingTab === 'function') switchCookingTab('recipes');
+}
+
+/** No-op safety hook: some buttons call this after opening a modal. */
+function closeHubModal() {
+  const hub = document.getElementById('modal-mobile-quick-menu');
+  if (hub) hub.classList.add('hidden');
 }
 
 window.setMobileCategory = setMobileCategory;
 window.stepMobileCategory = stepMobileCategory;
 window.switchMobileNavTab = switchMobileNavTab;
+if (typeof window.openPantryModal !== 'function') window.openPantryModal = openPantryModal;
+if (typeof window.openRecipeModal !== 'function') window.openRecipeModal = openRecipeModal;
+if (typeof window.closeHubModal !== 'function') window.closeHubModal = closeHubModal;
 if (typeof globalThis !== 'undefined') {
   globalThis.setMobileCategory = setMobileCategory;
   globalThis.stepMobileCategory = stepMobileCategory;
@@ -47654,7 +50092,21 @@ function handleCompleteTask(category, index, event) {
     taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
   }
 
-  saveHistory(`Aufgabe erledigt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
+  let doneAction = 'Aufgabe erledigt';
+  let collabAction = 'hat Aufgabe erledigt';
+  if (category === 'notes') {
+    doneAction = 'Notiz abgehakt';
+    collabAction = 'hat Notiz abgehakt';
+  } else if (category === 'termine') {
+    doneAction = 'Termin abgeschlossen';
+    collabAction = 'hat Termin abgeschlossen';
+  }
+
+  saveHistory(`${doneAction}: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
+  const ws = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(rawTask, category, ws);
+  }
   // Remove immediately to eliminate blank gaps
   curItems[category].splice(index, 1);
   curItems[category] = curItems[category].filter(Boolean);
@@ -47691,27 +50143,33 @@ function handleCompleteTask(category, index, event) {
         s.done.push(doneEntry);
       }
     }
+    if (category === 'occasionally' && (taskText.toLowerCase().includes('aufraum') || taskText.toLowerCase().includes('tidy'))) {
+      s.lastOccasionalAufräumenDoneDate = todayStr;
+    }
   }
 
   if (state && state.completedSteps) delete state.completedSteps[taskText];
 
-  if (typeof setThemeSlow === 'function' && typeof getSimilarTheme === 'function') {
-    setThemeSlow(getSimilarTheme(currentTheme));
-  }
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
 
   if (typeof CollabEngine !== 'undefined') {
-    CollabEngine.broadcastBoardEvent(`hat Aufgabe erledigt: "${taskText.substring(0, 32)}" ✅`);
+    CollabEngine.broadcastBoardEvent(`${collabAction}: "${taskText.substring(0, 32)}"`);
   }
+  
+  // Positives Feedback: Schnelles Text-Lob & angenehmer Sound-Chime (KEINE Sprachausgabe, KEIN Konfetti-Gewitter)
   if (typeof showPraise === 'function') showPraise();
+  if (typeof playCheerfulSuccessJingle === 'function') {
+    playCheerfulSuccessJingle();
+  } else if (typeof playProceduralSound === 'function') {
+    playProceduralSound(3);
+  }
 
-  // Instant sensory feedback
-  if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback();
-  if (typeof triggerSparkleEffect === 'function') triggerSparkleEffect(clientX, clientY);
+  // Dezentes haptisches und taktiles Feedback
+  if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
   if (typeof playTactileClickSound === 'function') playTactileClickSound();
-  if (typeof playCheerfulSuccessJingle === 'function') playCheerfulSuccessJingle();
-  if (typeof triggerCelebrationParticles === 'function') triggerCelebrationParticles(clientX, clientY);
-  if (typeof spawnFloatingBubbles === 'function') spawnFloatingBubbles(event);
 
   renderApp();
   if (typeof updateZenView === 'function') updateZenView();
@@ -47783,20 +50241,61 @@ function deleteTask(category, index, event) {
   if (event) event.stopPropagation();
   const curItems = getCurrentWorkspaceItems();
   const taskObj = curItems[category]?.[index];
-  const taskText = typeof taskObj === 'object' ? taskObj?.task : taskObj;
-  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Aufgabe';
-  saveHistory(`Aufgabe gelöscht: ${snippet}`);
-  const taskId = (taskObj && typeof taskObj === 'object' && taskObj.id) 
-    ? taskObj.id 
-    : ((typeof getStableId === 'function') ? getStableId(taskObj, `task_${category}`) : null);
-  if (taskId && typeof trackTombstone === 'function') {
-    trackTombstone(taskId);
+  const taskText = typeof taskObj === 'object' ? (taskObj?.task || taskObj?.name || '') : String(taskObj || '');
+  
+  let entityLabel = 'Aufgabe';
+  let toastMsg = t('toast_task_deleted');
+  
+  if (category === 'notes') {
+    entityLabel = 'Notiz';
+    toastMsg = t('toast_note_deleted') || (typeof tr === 'function' ? tr({
+      de: 'Notiz gelöscht.',
+      en: 'Note deleted.',
+      fr: 'Note supprimée.',
+      it: 'Nota eliminata.',
+      es: 'Nota eliminada.',
+      el: 'Η σημείωση διαγράφηκε.'
+    }) : 'Notiz gelöscht.');
+  } else if (category === 'termine') {
+    entityLabel = 'Termin';
+    toastMsg = t('toast_termin_deleted') || (typeof tr === 'function' ? tr({
+      de: 'Termin gelöscht.',
+      en: 'Appointment deleted.',
+      fr: 'Rendez-vous supprimé.',
+      it: 'Appuntamento eliminato.',
+      es: 'Cita eliminada.',
+      el: 'Το ραντεβού διαγράφηκε.'
+    }) : 'Termin gelöscht.');
+  } else if (category === 'done') {
+    entityLabel = 'Erledigte Aufgabe';
+    toastMsg = (typeof tr === 'function') ? tr({
+      de: 'Erledigte Aufgabe gelöscht.',
+      en: 'Completed task deleted.',
+      fr: 'Tâche terminée supprimée.',
+      it: 'Attività completata eliminata.',
+      es: 'Tarea completada eliminada.',
+      el: 'Η ολοκληρωμένη εργασία διαγράφηκε.'
+    }) : 'Erledigte Aufgabe gelöscht.';
+  }
+
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : entityLabel;
+  saveHistory(`${entityLabel} gelöscht: ${snippet}`);
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(taskObj, category, ws);
   }
 
   if (curItems[category]) curItems[category].splice(index, 1);
+  if (category === 'occasionally' && String(taskText).toLowerCase().includes('aufraum')) {
+    const sState = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+    if (sState) sState.lastOccasionalAufräumenDoneDate = new Date().toISOString().split('T')[0];
+  }
   if (taskText && state.completedSteps) delete state.completedSteps[taskText];
   saveState();
-  showToast(t('toast_task_deleted'), { undo: true, duration: 5000 });
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
+  showToast(toastMsg, { undo: true, duration: 5000 });
   renderApp();
   updateZenView();
   populateHelperTaskSelect();
@@ -47809,16 +50308,38 @@ function handleRestoreDoneTask(doneIndex) {
   const reversedIndex = curDone.length - 1 - doneIndex;
   const item = curDone[reversedIndex]; if (!item) return;
   const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
-  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Erledigte Aufgabe';
-  saveHistory(`Erledigte wiederhergestellt: ${snippet}`);
-  curDone.splice(reversedIndex, 1);
+  const originCat = item && item.origin ? item.origin : 'daily';
+
+  let entityLabel = 'Aufgabe';
+  let restoreToast = t('toast_task_restored') || 'Aufgabe wiederhergestellt ↩️';
+
+  if (originCat === 'notes') {
+    entityLabel = 'Notiz';
+    restoreToast = t('toast_note_restored') || 'Notiz wiederhergestellt ↩️';
+  } else if (originCat === 'termine') {
+    entityLabel = 'Termin';
+    restoreToast = t('toast_termin_restored') || 'Termin wiederhergestellt ↩️';
+  }
+
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : entityLabel;
+  saveHistory(`${entityLabel} wiederhergestellt: ${snippet}`);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(item, 'done', ws);
+  }
+  curDone.splice(reversedIndex, 1);
   const fallbackCat = ws === 'study' ? 'study_focus' : (ws === 'work' ? 'work_focus' : 'daily');
   const targetCat = (item && item.origin && curItems[item.origin]) ? item.origin : fallbackCat;
+  if (typeof clearItemTombstone === 'function') {
+    clearItemTombstone(taskText, targetCat, ws);
+  }
   if (!curItems[targetCat]) curItems[targetCat] = [];
   curItems[targetCat].push(taskText);
   saveState();
-  showToast(t('toast_task_restored') || tr({ de: 'Aufgabe wiederhergestellt ↩️', en: 'Task restored ↩️', fr: 'Tâche restaurée ↩️', it: 'Attività ripristinata ↩️', es: 'Tarea restaurada ↩️', el: 'Εργασία επαναφέρθηκε ↩️' }));
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
+  showToast(restoreToast);
   renderApp();
   if (typeof updateZenView === 'function') updateZenView();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
@@ -47898,6 +50419,8 @@ function rebindListDragHandlers(colId) {
     }
     const checkBtn = itemDiv.querySelector('.task-check-btn');
     if (checkBtn) {
+      checkBtn.onpointerdown = (e) => e.stopPropagation();
+      checkBtn.onmousedown = (e) => e.stopPropagation();
       checkBtn.onclick = (e) => handleCompleteTask(colId, idx, e);
       const completeTooltip = (typeof tr === 'function')
         ? tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' })
@@ -47990,8 +50513,11 @@ function handleItemDrop(e, targetCategory, targetIndex) {
   let insertIdx = isTopHalf ? targetIndex : targetIndex + 1;
   const rawItem = curItems[srcCat][srcIdx];
   const itemText = (typeof rawItem === 'object' && rawItem !== null) ? (rawItem.task || rawItem.name || '') : String(rawItem || '');
-  const snippet = itemText ? `"${itemText.length > 20 ? itemText.substring(0, 18) + '...' : itemText}"` : 'Aufgabe';
-  saveHistory(`Aufgabe verschoben: ${snippet}`);
+  let entityLabel = 'Aufgabe';
+  if (srcCat === 'notes') entityLabel = 'Notiz';
+  else if (srcCat === 'termine') entityLabel = 'Termin';
+  const snippet = itemText ? `"${itemText.length > 20 ? itemText.substring(0, 18) + '...' : itemText}"` : entityLabel;
+  saveHistory(`${entityLabel} verschoben: ${snippet}`);
   const [item] = curItems[srcCat].splice(srcIdx, 1);
   if (srcCat === targetCategory && srcIdx < insertIdx) {
     insertIdx--;
@@ -48020,7 +50546,13 @@ function handleDrop(e, targetCategory) {
   if (!curItems[srcCat] || !curItems[targetCategory]) return;
   
   const insertIdx = curItems[targetCategory].length;
-  saveHistory();
+  const rawDropItem = curItems[srcCat][srcIdx];
+  const dropItemText = (typeof rawDropItem === 'object' && rawDropItem !== null) ? (rawDropItem.task || rawDropItem.name || '') : String(rawDropItem || '');
+  let dropEntityLabel = 'Aufgabe';
+  if (srcCat === 'notes') dropEntityLabel = 'Notiz';
+  else if (srcCat === 'termine') dropEntityLabel = 'Termin';
+  const dropSnippet = dropItemText ? `"${dropItemText.length > 20 ? dropItemText.substring(0, 18) + '...' : dropItemText}"` : dropEntityLabel;
+  saveHistory(`${dropEntityLabel} verschoben: ${dropSnippet}`);
   const [item] = curItems[srcCat].splice(srcIdx, 1);
   curItems[targetCategory].push(item);
   draggedItemInfo = null;
@@ -48040,11 +50572,6 @@ let hoverPanelHideTimeout = null;
 // syncHeaderToolsMenuState handled by app-reports.js
 
 function showPanelHover(panelName, delay = 180) {
-  // Wenn im Click-Only Modus: keine automatische Hover-Vorschau öffnen!
-  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
-    if (window.NoodleInteractionMode.getMode() === 'click-only') return;
-  }
-
   if (hoverPanelHideTimeout) {
     clearTimeout(hoverPanelHideTimeout);
     hoverPanelHideTimeout = null;
@@ -48085,15 +50612,17 @@ function showPanelHover(panelName, delay = 180) {
       'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'timer-presets',
       'audio', 'daily', 'logo-guide', 'collab-chat', 'radio-news', 'health', 'humor-lab'
     ];
-    const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
+    const TOOL_SUBPANELS_EXT = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab', 'radio-news'];
+    const isSubpanelOfTools = TOOL_SUBPANELS_EXT.includes(panelName);
 
     ALL_POPOVER_PANELS.forEach(p => {
-      // Wenn wir ein Tool-Untermenü öffnen, darf das übergeordnete Tools-Menü nicht geschlossen werden!
       if (isSubpanelOfTools && p === 'header-tools') return;
+      if (TOOL_SUBPANELS_EXT.includes(p)) return;
       if (p !== panelName && p !== pinnedPanel) {
-        // Falls wir im Header-Tools Hub sind, nur andere Tool-Flyouts schließen, nicht aber fremde Panels
         const other = document.getElementById(`panel-${p}`);
-        if (other) other.classList.add('hidden');
+        if (other && !other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
+          other.classList.add('hidden');
+        }
       }
     });
 
@@ -48174,12 +50703,8 @@ function showPanelHover(panelName, delay = 180) {
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
 
-  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
-                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
-  
-  // Im Turbo-Modus reagieren Panels blitzschnell wie Edge-Tabs (40ms statt 180ms)
-  const defaultDelay = isTurbo ? 35 : 180;
-  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? (isTurbo ? Math.min(delay, 35) : delay) : defaultDelay;
+  const defaultDelay = 180;
+  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? delay : defaultDelay;
   hoverPanelShowTimeout = setTimeout(executeShow, effectiveDelay);
 }
 window.showPanelHover = showPanelHover;
@@ -48194,9 +50719,7 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     hoverPanelHideTimeout = null;
   }
 
-  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
-                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
-  const effectiveGrace = isTurbo ? Math.min(gracePeriod, 80) : gracePeriod;
+  const effectiveGrace = gracePeriod;
 
   const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
   if (isPinned) return;
@@ -48241,8 +50764,10 @@ document.addEventListener('pointerdown', (e) => {
   // 1. Wenn der Klick innerhalb des Tools-Hubs oder seines Wrappers ist: niemals schließen!
   const toolsPanel = document.getElementById('panel-header-tools');
   const toolsWrapper = document.getElementById('header-tools-wrapper');
+  const arrowBtn = document.getElementById('btn-dashboard-arrow-toggle');
   if (toolsPanel && toolsPanel.contains(e.target)) return;
   if (toolsWrapper && toolsWrapper.contains(e.target)) return;
+  if (arrowBtn && arrowBtn.contains(e.target)) return;
 
   const activeName = (typeof window !== 'undefined' && window.pinnedPanel) || pinnedPanel || currentlyOpenPanel;
   if (!activeName) return;
@@ -48536,7 +51061,7 @@ function saveNoteDetailModal() {
   if (index >= 0 && curItems.notes && curItems.notes[index] !== undefined) {
     const val = textarea ? textarea.value.trim() : '';
     if (val) {
-      saveHistory();
+      saveHistory(`Notiz aktualisiert: "${val.length > 25 ? val.substring(0, 22) + '...' : val}"`);
       curItems.notes[index] = val;
       saveState();
       renderApp();
@@ -48577,18 +51102,38 @@ function deleteCurrentNoteDetail() {
   }
 }
 
-function copyTaskText(text, event) {
+function copyTaskText(text, event, cat) {
   if (event) event.stopPropagation();
   if (!text) return;
   navigator.clipboard?.writeText(text).then(() => {
-    showToast(tr({
-      de: 'Aufgabentext kopiert! 📋',
-      en: 'Task text copied! 📋',
-      es: '¡Texto de tarea copiado! 📋',
-      el: 'Το κείμενο αντιγράφηκε! 📋',
-      fr: 'Texte copié ! 📋',
-      it: 'Testo copiato! 📋'
-    }));
+    if (cat === 'notes') {
+      showToast(tr({
+        de: 'Notiz kopiert! 📋',
+        en: 'Note copied! 📋',
+        es: '¡Nota copiada! 📋',
+        el: 'Η σημείωση αντιγράφηκε! 📋',
+        fr: 'Note copiée ! 📋',
+        it: 'Nota copiata! 📋'
+      }));
+    } else if (cat === 'termine') {
+      showToast(tr({
+        de: 'Termin kopiert! 📋',
+        en: 'Appointment copied! 📋',
+        es: '¡Cita copiada! 📋',
+        el: 'Το ραντεβού αντιγράφηκε! 📋',
+        fr: 'Rendez-vous copié ! 📋',
+        it: 'Appuntamento copiato! 📋'
+      }));
+    } else {
+      showToast(tr({
+        de: 'Aufgabentext kopiert! 📋',
+        en: 'Task text copied! 📋',
+        es: '¡Texto de tarea copiado! 📋',
+        el: 'Το κείμενο αντιγράφηκε! 📋',
+        fr: 'Texte copié ! 📋',
+        it: 'Testo copiato! 📋'
+      }));
+    }
   }).catch(() => {});
 }
 window.copyTaskText = copyTaskText;
@@ -48599,7 +51144,7 @@ function copyTaskTextByIndex(cat, index, event) {
   const item = curItems[cat]?.[index];
   if (!item) return;
   const text = typeof item === 'object' ? item.task : item;
-  copyTaskText(text, event);
+  copyTaskText(text, event, cat);
 }
 window.copyTaskTextByIndex = copyTaskTextByIndex;
 
@@ -48658,7 +51203,10 @@ function editTaskInline(cat, index, event) {
     
     const newText = span.textContent.trim();
     if (save && newText && newText !== originalText) {
-      saveHistory();
+      let entityLabel = 'Aufgabe';
+      if (cat === 'notes') entityLabel = 'Notiz';
+      else if (cat === 'termine') entityLabel = 'Termin';
+      saveHistory(`${entityLabel} bearbeitet: "${newText.length > 20 ? newText.substring(0, 18) + '...' : newText}"`);
       if (typeof curItems[cat][index] === 'object') {
         curItems[cat][index].task = newText;
         curItems[cat][index].updatedAt = new Date().toISOString();
@@ -48673,14 +51221,34 @@ function editTaskInline(cat, index, event) {
       span.innerHTML = safeEscaped.replace(/ &amp; /g, '&nbsp;&amp; ').replace(/ & /g, '&nbsp;& ');
       span.title = `${newText} (${tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' })})`;
       if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
-      showToast(tr({
-        de: 'Aufgabe aktualisiert ✏️',
-        en: 'Task updated ✏️',
-        fr: 'Tâche mise à jour ✏️',
-        it: 'Attività aggiornata ✏️',
-        es: 'Tarea actualizada ✏️',
-        el: 'Η εργασία ενημερώθηκε ✏️'
-      }));
+      if (cat === 'notes') {
+        showToast(tr({
+          de: 'Notiz aktualisiert ✏️',
+          en: 'Note updated ✏️',
+          fr: 'Note mise à jour ✏️',
+          it: 'Nota aggiornata ✏️',
+          es: 'Nota actualizada ✏️',
+          el: 'Η σημείωση ενημερώθηκε ✏️'
+        }));
+      } else if (cat === 'termine') {
+        showToast(tr({
+          de: 'Termin aktualisiert ✏️',
+          en: 'Appointment updated ✏️',
+          fr: 'Rendez-vous mis à jour ✏️',
+          it: 'Appuntamento aggiornato ✏️',
+          es: 'Cita actualizada ✏️',
+          el: 'Το ραντεβού ενημερώθηκε ✏️'
+        }));
+      } else {
+        showToast(tr({
+          de: 'Aufgabe aktualisiert ✏️',
+          en: 'Task updated ✏️',
+          fr: 'Tâche mise à jour ✏️',
+          it: 'Attività aggiornata ✏️',
+          es: 'Tarea actualizada ✏️',
+          el: 'Η εργασία ενημερώθηκε ✏️'
+        }));
+      }
     } else {
       const safeEscaped = escapeHtml(originalText);
       span.innerHTML = safeEscaped.replace(/ &amp; /g, '&nbsp;&amp; ').replace(/ & /g, '&nbsp;& ');
@@ -49230,9 +51798,401 @@ if (typeof globalThis !== 'undefined') {
   globalThis.initTaskSpotlightEngine = initTaskSpotlightEngine;
 }
 
- 
+// --------------------------------------------------------------------------
+// Globale Brücken für Mobile Bento-Tiles & Werkzeuge
+// --------------------------------------------------------------------------
+if (typeof window !== 'undefined') {
+  if (typeof window.openShoppingModal !== 'function') {
+    window.openShoppingModal = function() {
+      if (typeof openSupermarketModal === 'function') {
+        openSupermarketModal();
+      } else if (typeof togglePanel === 'function') {
+        togglePanel('shopping');
+      }
+    };
+  }
+  if (typeof window.openSportModal !== 'function') {
+    window.openSportModal = function() {
+      if (typeof openHelperModal === 'function') {
+        openHelperModal('sport');
+      } else if (typeof togglePanel === 'function') {
+        togglePanel('sport');
+      }
+    };
+  }
+  if (typeof window.openBrainstormModal !== 'function') {
+    window.openBrainstormModal = function() {
+      if (typeof openHelperModal === 'function') {
+        openHelperModal('brainstorm');
+      } else {
+        const m = document.getElementById('brainstorm-modal') || document.getElementById('modal-brainstorm');
+        if (m) m.classList.remove('hidden');
+      }
+    };
+  }
+
+  // --------------------------------------------------------------------------
+  // Tabellen verwalten & Dashboard Overlay Handlers
+  // --------------------------------------------------------------------------
+  window.toggleManageTablesDropdown = function(event) {
+    if (event) event.stopPropagation();
+    const dropdown = document.getElementById('dropdown-manage-tables');
+    if (!dropdown) return;
+    const isHidden = dropdown.classList.contains('hidden');
+    if (isHidden) {
+      dropdown.classList.remove('hidden');
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    } else {
+      dropdown.classList.add('hidden');
+    }
+  };
+
+  window.closeManageTablesDropdown = function() {
+    const dropdown = document.getElementById('dropdown-manage-tables');
+    if (dropdown) dropdown.classList.add('hidden');
+  };
+
+  window.toggleManageCardsDropdown = window.toggleManageTablesDropdown;
+  window.closeManageCardsDropdown = window.closeManageTablesDropdown;
+
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('dropdown-manage-tables');
+      const btn = document.getElementById('btn-board-manage-tables');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (!dropdown.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          dropdown.classList.add('hidden');
+        }
+      }
+      const wsDropdown = document.getElementById('dropdown-header-workspace');
+      const wsBtn = document.getElementById('btn-header-workspace');
+      if (wsDropdown && !wsDropdown.classList.contains('hidden')) {
+        if (!wsDropdown.contains(e.target) && (!wsBtn || !wsBtn.contains(e.target))) {
+          wsDropdown.classList.add('hidden');
+        }
+      }
+    });
+  }
+
+  window.updateDashboardArrowUI = function(isOpen) {
+    const btn = document.getElementById('btn-dashboard-arrow-toggle');
+    if (!btn) return;
+    const isCurrentlyOpen = typeof isOpen === 'boolean' ? isOpen : (() => {
+      const p = document.getElementById('panel-header-tools');
+      return p && !p.classList.contains('hidden');
+    })();
+
+    const iconName = isCurrentlyOpen ? 'chevron-left' : 'chevron-right';
+    const hoverClass = isCurrentlyOpen ? 'group-hover/arrow:-translate-x-0.5' : 'group-hover/arrow:translate-x-0.5';
+    btn.setAttribute('title', isCurrentlyOpen ? 'Tools-Menü schließen' : 'Tools-Menü öffnen');
+    btn.setAttribute('aria-expanded', isCurrentlyOpen ? 'true' : 'false');
+    btn.innerHTML = `<i id="dashboard-arrow-icon" data-lucide="${iconName}" class="w-5 h-5 transition-transform duration-300 ${hoverClass}"></i>`;
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try {
+        lucide.createIcons({ root: btn });
+      } catch (err) {
+        lucide.createIcons();
+      }
+    }
+  };
+
+  window.toggleDashboardOverlay = function(e) {
+    if (e) {
+      try {
+        if (typeof e.preventDefault === 'function') e.preventDefault();
+        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+      } catch (err) {}
+    }
+    const panel = document.getElementById('panel-header-tools');
+    if (!panel) return;
+
+    const isCurrentlyOpen = !panel.classList.contains('hidden');
+    if (isCurrentlyOpen) {
+      panel.classList.add('hidden');
+      panel.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+      if (typeof window !== 'undefined') {
+        if (window.pinnedPanel === 'header-tools') window.pinnedPanel = null;
+        if (window.currentlyOpenPanel === 'header-tools') window.currentlyOpenPanel = null;
+      }
+      if (typeof window.updateDashboardArrowUI === 'function') {
+        window.updateDashboardArrowUI(false);
+      }
+    } else {
+      panel.classList.remove('hidden');
+      panel.classList.add('noodle-panel-pinned');
+      panel.classList.remove('noodle-panel-peeking');
+      if (typeof window !== 'undefined') {
+        window.pinnedPanel = 'header-tools';
+        window.currentlyOpenPanel = 'header-tools';
+      }
+      if (typeof adjustPanelPosition === 'function') {
+        adjustPanelPosition(panel, 'header-tools');
+      }
+      if (typeof window.updateDashboardArrowUI === 'function') {
+        window.updateDashboardArrowUI(true);
+      }
+    }
+
+    if (typeof syncHeaderToolsMenuState === 'function') {
+      syncHeaderToolsMenuState();
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // Custom Template Builder Controller
+  // --------------------------------------------------------------------------
+  let templateBuilderWorkingCopy = null;
+  let templateBuilderActiveCategory = 'daily';
+
+  const TEMPLATE_BUILDER_CATS = [
+    { id: 'daily', label: 'Tagesroutine', icon: 'sun', color: 'text-amber-400' },
+    { id: 'weekly', label: 'Wöchentlich', icon: 'home', color: 'text-emerald-400' },
+    { id: 'occasionally', label: 'Gelegentlich', icon: 'clock', color: 'text-purple-400' },
+    { id: 'todo', label: 'To-Do', icon: 'list-todo', color: 'text-sky-400' }
+  ];
+
+  const TEMPLATE_SUGGESTIONS_EXTRA = {
+    daily: [
+      '1 Glas Wasser trinken', '10 Min Spaziergang', 'Dehnen & Bewegen',
+      'Tagesfokus notieren', 'Schreibtisch aufräumen', 'Vitamine / Frisches Obst',
+      'Abend-Reflexion', 'Lüften vor dem Schlafen', 'Frühstück genießen'
+    ],
+    weekly: [
+      'Einkaufsliste schreiben', 'Kühlschrank auswischen', 'Pflanzen gießen',
+      'Briefkasten leeren & Post', 'Bettwäsche wechseln', 'Handtücher waschen',
+      'Mülleimer auswaschen', 'Wochenziel überprüfen', 'Papierkram abheften'
+    ],
+    occasionally: [
+      'Kleiderschrank ausmisten', 'Backofen reinigen', 'Dokumente abheften',
+      'Backup erstellen', 'Fahrrad / Auto checken', 'Vorräte prüfen & auffüllen',
+      'Kühlschrank abtauen', 'Spenden aussortieren'
+    ],
+    todo: [
+      'Wichtige E-Mail beantworten', 'Termin vereinbaren', 'Rechnung begleichen',
+      'Dringenden Anruf tätigen', 'Paket versenden / abholen', 'Unterlagen ordnen'
+    ]
+  };
+
+  function getBaseDefaultsForLang() {
+    const lang = (typeof currentLang !== 'undefined' ? currentLang : 'de');
+    const defMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+      ? window.DEFAULT_TASKS_BY_LANG
+      : ((typeof DEFAULT_TASKS_BY_LANG !== 'undefined') ? DEFAULT_TASKS_BY_LANG : {});
+    const base = defMap[lang] || defMap['de'] || { daily: [], weekly: [], occasionally: [] };
+    return {
+      daily: Array.isArray(base.daily) ? [...base.daily] : [],
+      weekly: Array.isArray(base.weekly) ? [...base.weekly] : [],
+      occasionally: Array.isArray(base.occasionally) ? [...base.occasionally] : [],
+      todo: []
+    };
+  }
+
+  function openTemplateBuilderModal() {
+    const modal = document.getElementById('modal-template-builder');
+    if (!modal) return;
+
+    const savedDefaults = typeof getCustomDefaults === 'function' ? getCustomDefaults() : null;
+    const baseDefaults = getBaseDefaultsForLang();
+
+    templateBuilderWorkingCopy = {
+      daily: (savedDefaults && Array.isArray(savedDefaults.daily)) ? [...savedDefaults.daily] : [...baseDefaults.daily],
+      weekly: (savedDefaults && Array.isArray(savedDefaults.weekly)) ? [...savedDefaults.weekly] : [...baseDefaults.weekly],
+      occasionally: (savedDefaults && Array.isArray(savedDefaults.occasionally)) ? [...savedDefaults.occasionally] : [...baseDefaults.occasionally],
+      todo: (savedDefaults && Array.isArray(savedDefaults.todo)) ? [...savedDefaults.todo] : [...baseDefaults.todo]
+    };
+
+    templateBuilderActiveCategory = 'daily';
+    modal.classList.remove('hidden');
+    renderTemplateBuilderUI();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  }
+
+  function closeTemplateBuilderModal() {
+    const modal = document.getElementById('modal-template-builder');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function setTemplateBuilderCategory(catId) {
+    if (!TEMPLATE_BUILDER_CATS.some(c => c.id === catId)) return;
+    templateBuilderActiveCategory = catId;
+    renderTemplateBuilderUI();
+  }
+
+  function addCustomTaskToTemplate() {
+    const input = document.getElementById('template-builder-custom-input');
+    if (!input || !templateBuilderWorkingCopy) return;
+    const val = input.value.trim();
+    if (!val) return;
+
+    const list = templateBuilderWorkingCopy[templateBuilderActiveCategory] || [];
+    if (!list.includes(val)) {
+      list.push(val);
+      templateBuilderWorkingCopy[templateBuilderActiveCategory] = list;
+    }
+    input.value = '';
+    input.focus();
+    renderTemplateBuilderUI();
+  }
+
+  function toggleTaskInTemplate(taskName) {
+    if (!templateBuilderWorkingCopy || !taskName) return;
+    const list = templateBuilderWorkingCopy[templateBuilderActiveCategory] || [];
+    const idx = list.indexOf(taskName);
+    if (idx !== -1) {
+      list.splice(idx, 1);
+    } else {
+      list.push(taskName);
+    }
+    templateBuilderWorkingCopy[templateBuilderActiveCategory] = list;
+    renderTemplateBuilderUI();
+  }
+
+  function removeTaskFromTemplate(taskName) {
+    if (!templateBuilderWorkingCopy || !taskName) return;
+    const list = templateBuilderWorkingCopy[templateBuilderActiveCategory] || [];
+    templateBuilderWorkingCopy[templateBuilderActiveCategory] = list.filter(t => t !== taskName);
+    renderTemplateBuilderUI();
+  }
+
+  function resetTemplateBuilderToDefault() {
+    templateBuilderWorkingCopy = getBaseDefaultsForLang();
+    renderTemplateBuilderUI();
+    if (typeof showToast === 'function') {
+      showToast('Standard-Vorschläge wiederhergestellt');
+    }
+  }
+
+  function saveTemplateBuilder(applyImmediately = false) {
+    if (!templateBuilderWorkingCopy) return;
+
+    if (typeof saveCustomDefaults === 'function') {
+      saveCustomDefaults(templateBuilderWorkingCopy);
+    }
+
+    if (applyImmediately) {
+      if (typeof saveHistory === 'function') saveHistory();
+      if (typeof state !== 'undefined' && state) {
+        if (!state.items) state.items = {};
+        state.items.daily = [...(templateBuilderWorkingCopy.daily || [])];
+        state.items.weekly = [...(templateBuilderWorkingCopy.weekly || [])];
+        state.items.occasionally = [...(templateBuilderWorkingCopy.occasionally || [])];
+        state.items.todo = [...(templateBuilderWorkingCopy.todo || [])];
+        if (typeof saveState === 'function') saveState();
+        if (typeof renderApp === 'function') renderApp();
+        if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+        if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+          cloudSyncEngine.triggerImmediatePush();
+        }
+      }
+      if (typeof showToast === 'function') {
+        showToast('Vorlage gespeichert & sofort angewendet! ✨');
+      }
+    } else {
+      if (typeof showToast === 'function') {
+        showToast('Eigene Vorlage gespeichert! ✨');
+      }
+    }
+
+    closeTemplateBuilderModal();
+  }
+
+  function renderTemplateBuilderUI() {
+    if (!templateBuilderWorkingCopy) return;
+    const activeCat = templateBuilderActiveCategory;
+    const currentTasks = templateBuilderWorkingCopy[activeCat] || [];
+
+    // 1. Render Tabs
+    const tabsContainer = document.getElementById('template-builder-tabs');
+    if (tabsContainer) {
+      tabsContainer.innerHTML = TEMPLATE_BUILDER_CATS.map(c => {
+        const count = (templateBuilderWorkingCopy[c.id] || []).length;
+        const isActive = c.id === activeCat;
+        return `
+          <button type="button" onclick="setTemplateBuilderCategory('${c.id}')" class="py-1.5 px-2 rounded-lg font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${isActive ? 'bg-sky-500/25 text-white border border-sky-400/50 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'}">
+            <i data-lucide="${c.icon}" class="w-3.5 h-3.5 ${c.color}"></i>
+            <span class="truncate">${c.label}</span>
+            <span class="text-[9px] font-mono px-1 rounded-full ${isActive ? 'bg-sky-400 text-slate-950 font-black' : 'bg-white/10 text-gray-300'}">${count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // 2. Count Badge
+    const countBadge = document.getElementById('template-builder-count-badge');
+    if (countBadge) {
+      countBadge.textContent = `${currentTasks.length} Aufgabe${currentTasks.length === 1 ? '' : 'n'}`;
+    }
+
+    // 3. Render Selected Task Chips
+    const chipsContainer = document.getElementById('template-builder-selected-chips');
+    if (chipsContainer) {
+      if (currentTasks.length === 0) {
+        chipsContainer.innerHTML = `
+          <span class="text-xs text-gray-400 italic py-1 px-1">
+            Noch keine Aufgaben in dieser Kategorie. Wähle unten Vorschläge aus oder tippe eigene Aufgaben ein.
+          </span>
+        `;
+      } else {
+        chipsContainer.innerHTML = currentTasks.map(task => {
+          const safeTask = String(task).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+          return `
+            <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-xl bg-sky-500/15 border border-sky-400/40 text-sky-100 text-xs font-medium animate-fade-in group">
+              <span class="truncate max-w-[220px]">${task}</span>
+              <button type="button" onclick="removeTaskFromTemplate('${safeTask}')" class="w-4 h-4 rounded-full flex items-center justify-center text-sky-300 hover:text-rose-300 hover:bg-rose-500/20 transition cursor-pointer" title="Entfernen">
+                ✕
+              </button>
+            </span>
+          `;
+        }).join('');
+      }
+    }
+
+    // 4. Render Suggestions
+    const suggestionsContainer = document.getElementById('template-builder-suggestions');
+    if (suggestionsContainer) {
+      const baseDefaults = getBaseDefaultsForLang();
+      const baseList = baseDefaults[activeCat] || [];
+      const extraList = TEMPLATE_SUGGESTIONS_EXTRA[activeCat] || [];
+      const combinedSuggestions = Array.from(new Set([...baseList, ...extraList]));
+
+      suggestionsContainer.innerHTML = combinedSuggestions.map(s => {
+        const isSelected = currentTasks.includes(s);
+        const safeTask = String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        return `
+          <button type="button" onclick="toggleTaskInTemplate('${safeTask}')" class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-xl text-xs transition cursor-pointer active:scale-95 ${isSelected ? 'bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 font-bold shadow-xs' : 'bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+            <i data-lucide="${isSelected ? 'check' : 'plus'}" class="w-3 h-3 ${isSelected ? 'text-emerald-400' : 'text-gray-400'}"></i>
+            <span>${s}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  window.openTemplateBuilderModal = openTemplateBuilderModal;
+  window.closeTemplateBuilderModal = closeTemplateBuilderModal;
+  window.setTemplateBuilderCategory = setTemplateBuilderCategory;
+  window.addCustomTaskToTemplate = addCustomTaskToTemplate;
+  window.toggleTaskInTemplate = toggleTaskInTemplate;
+  window.removeTaskFromTemplate = removeTaskFromTemplate;
+  window.resetTemplateBuilderToDefault = resetTemplateBuilderToDefault;
+  window.saveTemplateBuilder = saveTemplateBuilder;
+  window.renderTemplateBuilderUI = renderTemplateBuilderUI;
+}
 
 /* --- app-reports.js --- */
+/**
+ * @file app-reports.js
+ * @module ReportsAndPanelPositioning
+ * @description
+ * Viewport-abhängige Positionierung von Popover-Panels (`adjustPanelPosition`)
+ * sowie Produktivitäts-Auswertungen, Aktivitäts-Heatmaps, Wochenbilanzen und
+ * hochauflösender Bildexport (`exportReportAsImage` via `html2canvas`).
+ */
+
 function adjustPanelPosition(el, panelName) {
   if (!el || typeof window === 'undefined' || typeof document === 'undefined') return;
 
@@ -49241,12 +52201,44 @@ function adjustPanelPosition(el, panelName) {
   const vw = window.innerWidth || document.documentElement.clientWidth || 1200;
 
   if (isMobile) {
-    el.style.maxHeight = 'calc(100dvh - 110px - env(safe-area-inset-bottom, 0px))';
+    el.style.top = '';
+    el.style.left = '';
+    el.style.right = '';
+    el.style.transform = 'none';
+    el.style.maxHeight = 'calc(100dvh - 118px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px))';
     el.style.overflowY = 'auto';
+    el.style.overflowX = 'hidden';
+
+    if (typeof requestAnimationFrame === 'function') {
+      requestAnimationFrame(() => {
+        if (!el || el.classList.contains('hidden')) return;
+        const rect = el.getBoundingClientRect();
+        let shiftX = 0;
+        if (rect.right > vw - 8) {
+          shiftX = (vw - 8) - rect.right;
+        } else if (rect.left < 8) {
+          shiftX = 8 - rect.left;
+        }
+        if (Math.abs(shiftX) > 1) {
+          el.style.transform = `translateX(${Math.round(shiftX)}px)`;
+        }
+        if (rect.bottom > vh - 68) {
+          const availH = Math.max(200, (vh - 68) - Math.max(48, rect.top));
+          el.style.maxHeight = `${availH}px`;
+        }
+      });
+    }
     return;
   }
 
   // Desktop (> 768px):
+  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.isFloatingDesktopWindow === 'function') {
+    if (window.NoodleInteractionMode.isFloatingDesktopWindow(el, panelName)) {
+      window.NoodleInteractionMode.positionFloatingWindow(el, panelName);
+      return;
+    }
+  }
+
   const toolsPanel = document.getElementById('panel-header-tools');
   const isToolsSubpanel = el.classList.contains('dock-popover-panel') && el.closest('#panel-header-tools');
 
@@ -49254,7 +52246,6 @@ function adjustPanelPosition(el, panelName) {
   const isZeroScroll = zeroScrollPanels.includes(el.id);
 
   if (isToolsSubpanel && toolsPanel) {
-    // Initial placement at top of tools panel, with full screen headroom
     el.style.top = '0px';
     el.style.maxHeight = `calc(100vh - 32px)`;
     if (isZeroScroll && vh >= 520) {
@@ -49262,42 +52253,8 @@ function adjustPanelPosition(el, panelName) {
     } else {
       el.style.overflowY = 'auto';
     }
-
-    if (typeof requestAnimationFrame === 'function') {
-      requestAnimationFrame(() => {
-        if (!el || el.classList.contains('hidden')) return;
-        const rect = el.getBoundingClientRect();
-
-        // Check vertical bounds: shift upwards if extending below bottom margin
-        if (rect.bottom > vh - 16) {
-          const overflow = rect.bottom - (vh - 16);
-          const toolsRect = toolsPanel.getBoundingClientRect();
-          const maxShiftUp = Math.max(0, toolsRect.top - 12);
-          const actualShift = Math.min(overflow, maxShiftUp);
-          el.style.top = `-${actualShift}px`;
-        } else {
-          el.style.top = '0px';
-        }
-
-        // Re-measure after vertical shift to ensure height doesn't overflow viewport
-        const postRect = el.getBoundingClientRect();
-        const availableHeight = Math.max(260, vh - Math.max(12, postRect.top) - 16);
-        el.style.maxHeight = `${availableHeight}px`;
-
-        // Check horizontal bounds: ensure panel does not overflow right edge or clip left edge
-        if (postRect.right > vw - 12) {
-          const rightOverflow = postRect.right - (vw - 12);
-          el.style.transform = `translateX(-${rightOverflow}px)`;
-        } else if (postRect.left < 12) {
-          const leftDeficit = 12 - postRect.left;
-          el.style.transform = `translateX(${leftDeficit}px)`;
-        } else {
-          el.style.transform = '';
-        }
-      });
-    }
   } else {
-    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, alarm, etc.)
+    // Header dropdowns (weather, calendar, pause, report, settings, timer-presets, feedback, etc.)
     el.style.maxHeight = `calc(100vh - 65px)`;
     if (isZeroScroll && vh >= 520) {
       el.style.overflowY = 'hidden';
@@ -49342,6 +52299,7 @@ if (typeof window !== 'undefined') {
 function syncHeaderToolsMenuState() {
   const toolsBtn = document.getElementById('btn-header-tools');
   const toolsWrapper = document.getElementById('header-tools-wrapper');
+  const headerToolsPanel = document.getElementById('panel-header-tools');
   
   const TOOL_PANEL_IDS = [
     'panel-header-tools', 'panel-collab-chat', 'panel-social', 'panel-radio', 'panel-news',
@@ -49356,40 +52314,88 @@ function syncHeaderToolsMenuState() {
     return el && !el.classList.contains('hidden');
   });
 
+  if (headerToolsPanel) {
+    const hasOpenSub = TOOL_PANEL_IDS.filter(id => id !== 'panel-header-tools').some(id => {
+      const sub = document.getElementById(id);
+      return sub && !sub.classList.contains('hidden');
+    });
+    headerToolsPanel.classList.toggle('has-mobile-subpanel-open', hasOpenSub);
+  }
+
   if (toolsBtn) toolsBtn.classList.toggle('is-menu-open', !!isAnyToolOpen);
   if (toolsWrapper) toolsWrapper.classList.toggle('is-menu-open', !!isAnyToolOpen);
   if (typeof document !== 'undefined' && document.body) {
     document.body.classList.toggle('has-tool-panel-open', !!isAnyToolOpen);
   }
+
+  const isToolsPanelOpen = headerToolsPanel && !headerToolsPanel.classList.contains('hidden');
+  if (typeof window !== 'undefined' && typeof window.updateDashboardArrowUI === 'function') {
+    window.updateDashboardArrowUI(!!isToolsPanelOpen);
+  }
 }
 
-function togglePanel(panelName) {
-  if (panelName === 'header-tools' && typeof window !== 'undefined' && window.innerWidth <= 768) {
-    if (typeof switchMobileNavTab === 'function') {
-      switchMobileNavTab('planer');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
-      return;
+function togglePanel(panelName, forceClose = false) {
+  // Themes live inside the settings dropdown – there is no separate #panel-theme.
+  if (panelName === 'theme' || panelName === 'settings') panelName = 'settings-dropdown';
+  if (panelName === 'dj' || panelName === 'music' || panelName === 'ambient' || panelName === 'sounds') {
+    if (typeof openAudioStudioMode === 'function') {
+      return openAudioStudioMode(panelName === 'sounds' ? 'ambient' : panelName);
     }
+    panelName = 'audio';
   }
+  const isMobile = typeof window !== 'undefined' && (window.innerWidth || document.documentElement.clientWidth || 0) <= 768;
+  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab', 'radio-news', 'dj', 'music', 'ambient', 'sounds'];
+  const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
+
   if (typeof window !== 'undefined' && window.hoverPanelTimeout) {
     clearTimeout(window.hoverPanelTimeout);
     window.hoverPanelTimeout = null;
   }
   const el = document.getElementById(`panel-${panelName}`);
   if (!el) return;
+
+  // Auf Desktop: Eigenständige Floating-Tool-Fenster über NoodleInteractionMode verwalten (Multi-Window fähig!)
+  if (!isMobile && isSubpanelOfTools && typeof window !== 'undefined' && window.NoodleInteractionMode) {
+    if (forceClose) {
+      window.NoodleInteractionMode.closeWindow(panelName);
+    } else {
+      window.NoodleInteractionMode.togglePanel(panelName);
+    }
+    syncHeaderToolsMenuState();
+    return;
+  }
+
+  const activeEvent = (typeof event !== 'undefined' && event) ? event : (typeof window !== 'undefined' ? window.event : null);
+  const clickedInsidePanel = Boolean(activeEvent && activeEvent.target && el.contains(activeEvent.target));
+
+  // Wenn auf Mobile #panel-header-tools geöffnet ist, aber aktuell nur als unsichtbarer Träger
+  // für ein Unterpanel diente, zeigt ein Klick auf "header-tools" das Hauptmenü wieder an.
+  if (!forceClose && !clickedInsidePanel && panelName === 'header-tools' && isMobile && !el.classList.contains('hidden') && el.classList.contains('has-mobile-subpanel-open')) {
+    TOOL_SUBPANELS.forEach(sub => {
+      const subEl = document.getElementById(`panel-${sub}`);
+      if (subEl) subEl.classList.add('hidden');
+    });
+    el.classList.remove('has-mobile-subpanel-open');
+    adjustPanelPosition(el, 'header-tools');
+    syncHeaderToolsMenuState();
+    return;
+  }
+
   const isCurrentlyHidden = el.classList.contains('hidden');
 
-  const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab'];
-  const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
-
-  // Andere Popover-Panels schließen (gepinnte schwebende Fenster bleiben offen!)
+  // Andere flüchtige Header-Dropdowns schließen (auf Desktop geöffnete Floating-Tools NIEMALS schließen!)
   ['header-tools', 'feedback', 'search', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'audio', 'daily', 'collab-chat', 'social', 'radio-news', 'timer-presets', 'health', 'humor-lab'].forEach(p => {
     if (isSubpanelOfTools && p === 'header-tools') return;
+    if (!isMobile && TOOL_SUBPANELS.includes(p)) return;
     if (p !== panelName) {
       const other = document.getElementById(`panel-${p}`);
-      if (other && !other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
-        other.classList.add('hidden');
+      if (other) {
+        if (isMobile || (!other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen'))) {
+          other.classList.add('hidden');
+          if (isMobile) {
+            other.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+          }
+        }
       }
     }
   });
@@ -49398,14 +52404,15 @@ function togglePanel(panelName) {
 
   const isCurrentlyPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
 
-  if (isCurrentlyHidden) { 
-    if (isSubpanelOfTools) {
+  if (isCurrentlyHidden && !forceClose) { 
+    if (isSubpanelOfTools && isMobile) {
       const headerTools = document.getElementById('panel-header-tools');
-      if (headerTools && headerTools.classList.contains('hidden')) {
+      if (headerTools) {
         headerTools.classList.remove('hidden');
-        headerTools.classList.add('noodle-panel-pinned');
-        adjustPanelPosition(headerTools, 'header-tools');
+        headerTools.classList.add('noodle-panel-pinned', 'has-mobile-subpanel-open');
       }
+    } else if (panelName === 'header-tools') {
+      el.classList.remove('has-mobile-subpanel-open');
     }
     el.classList.remove('hidden'); 
     el.classList.remove('noodle-panel-peeking');
@@ -49473,9 +52480,9 @@ function togglePanel(panelName) {
       window.NoodleInteractionMode.decoratePanel(el, panelName);
     }
     syncHeaderToolsMenuState();
-  } else if (!isCurrentlyPinned) {
-    // Es war nur eine flüchtige Hover-Vorschau (Peeking):
-    // Der Klick schließt das Panel NICHT, sondern PINNT es jetzt fest!
+  } else if (!forceClose && !clickedInsidePanel && !isCurrentlyPinned && !isMobile) {
+    // Es war nur eine flüchtige Hover-Vorschau (Peeking) auf Desktop:
+    // Der Klick auf den Dock-Trigger schließt das Panel NICHT, sondern PINNT es jetzt fest!
     if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.pinPanel === 'function') {
       window.NoodleInteractionMode.pinPanel(panelName);
     } else {
@@ -49487,9 +52494,17 @@ function togglePanel(panelName) {
     syncHeaderToolsMenuState();
     return;
   } else {
-    // Das Panel war bereits fest gepinnt: Jetzt schließen
+    // Das Panel schließen
     el.classList.add('hidden');
-    el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+    el.style.display = '';
+    el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'noodle-panel-minimized', 'noodle-panel-snapped');
+    if (isMobile && isSubpanelOfTools) {
+      const headerTools = document.getElementById('panel-header-tools');
+      if (headerTools) {
+        headerTools.classList.remove('has-mobile-subpanel-open', 'noodle-panel-peeking', 'noodle-panel-pinned');
+        headerTools.classList.add('hidden');
+      }
+    }
     if (typeof window !== 'undefined') {
       if (window.currentlyOpenPanel === panelName) window.currentlyOpenPanel = null;
       if (window.pinnedPanel === panelName) window.pinnedPanel = null;
@@ -49643,16 +52658,16 @@ function renderWeeklyChart(targetElementId = 'report-weekly-chart', totalElement
   last7Days.forEach(day => {
     const pct = Math.max(8, (day.count / maxCount) * 100);
     const isToday = day.date === now.toISOString().split('T')[0];
-    const barCol = isToday ? 'bg-lime-400 shadow-[0_0_12px_rgba(132,204,22,0.6)]' : 'bg-[#00f2ff] hover:bg-lime-400';
-    const barBg = isToday ? 'bg-lime-500/20 border-lime-400/40' : 'bg-white/[0.04] border-white/10';
+    const barCol = isToday ? 'bg-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.5)]' : 'bg-[#00f2ff] hover:bg-emerald-400';
+    const barBg = isToday ? 'bg-emerald-500/20 border-emerald-400/40' : 'bg-white/[0.04] border-white/10';
     const barWrapper = document.createElement('div');
     barWrapper.className = `flex flex-col items-center justify-end gap-1 flex-1 ${isDashboard ? 'max-w-[54px]' : 'max-w-[40px]'}`;
     barWrapper.innerHTML = `
-      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-lime-300' : 'text-white') : 'text-gray-500'}">${day.count}</span>
+      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-emerald-300' : 'text-white') : 'text-gray-500'}">${day.count}</span>
       <div class="${isDashboard ? 'w-7 h-20' : 'w-5 h-11'} ${barBg} border rounded-xl relative flex items-end overflow-hidden cursor-pointer transition-transform hover:scale-105" title="${day.date}: ${day.count} erledigt">
         <div class="w-full ${barCol} transition-all duration-500 rounded-t" style="height: ${pct}%"></div>
       </div>
-      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-lime-300 font-extrabold' : 'text-gray-400'}">${day.label}</span>
+      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-emerald-300 font-extrabold' : 'text-gray-400'}">${day.label}</span>
     `;
     chartEl.appendChild(barWrapper);
   });
@@ -49666,7 +52681,7 @@ function updateReportPanel() {
       <div class="grid grid-cols-3 gap-2">
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="completed_stat">Erledigt</div>
-          <div id="report-today-count" class="text-lg font-black font-display text-lime-300">0</div>
+          <div id="report-today-count" class="text-lg font-black font-display text-emerald-400">0</div>
         </div>
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="focus_time">Fokus</div>
@@ -49969,7 +52984,7 @@ function generateComprehensiveReportText() {
   text += `Erstellt am: ${dateStr}\n`;
   text += `========================================\n\n`;
 
-  text += `📅 1. HEUTE (${todayISO})\n`;
+  text += `1. HEUTE (${todayISO})\n`;
   text += `----------------------------------------\n`;
   text += `• Erledigte Aufgaben heute: ${doneToday.length}\n`;
   if (doneToday.length > 0) {
@@ -49981,14 +52996,14 @@ function generateComprehensiveReportText() {
   }
   text += `\n`;
 
-  text += `🏆 2. WOCHEN-ÜBERSICHT (Letzte 7 Tage)\n`;
+  text += `2. WOCHEN-ÜBERSICHT (Letzte 7 Tage)\n`;
   text += `----------------------------------------\n`;
   text += `• Gesamte Aufgaben in 7 Tagen: ${doneWeek.length}\n`;
   text += `• Davon Tagesaufgaben: ${doneWeek.filter(t => t.origin === 'daily').length}\n`;
   text += `• Davon Haushaltsaufgaben: ${doneWeek.filter(t => t.origin === 'weekly').length}\n`;
   text += `• Davon To-Dos / Sonstiges: ${doneWeek.filter(t => t.origin === 'todo' || t.origin === 'notes').length}\n\n`;
 
-  text += `🧹 3. HAUSHALTSAUFGABEN (Status dieser Woche)\n`;
+  text += `3. HAUSHALTSAUFGABEN (Status dieser Woche)\n`;
   text += `----------------------------------------\n`;
   text += `• Abgeschlossen diese Woche: ${weeklyDoneThisWeek.length} von ${weeklyDoneThisWeek.length + weeklyItems.length}\n`;
   if (weeklyDoneThisWeek.length > 0) {
@@ -50002,12 +53017,12 @@ function generateComprehensiveReportText() {
   }
   text += `\n`;
 
-  text += `📈 4. MONATS-ÜBERSICHT (Letzte 30 Tage)\n`;
+  text += `4. MONATS-ÜBERSICHT (Letzte 30 Tage)\n`;
   text += `----------------------------------------\n`;
   text += `• Gesamte Aufgaben in 30 Tagen: ${doneMonth.length}\n`;
   text += `• Durchschnitt pro Tag: ${(doneMonth.length / 30).toFixed(1)} Aufgaben\n\n`;
 
-  text += `📌 5. AKTUELLE OFFENE AUFGABEN & NOTIZEN\n`;
+  text += `5. AKTUELLE OFFENE AUFGABEN & NOTIZEN\n`;
   text += `----------------------------------------\n`;
   text += `• Offene Tagesaufgaben: ${(state.items.daily || []).length}\n`;
   text += `• Offene To-Dos: ${(state.items.todo || []).length}\n`;
@@ -50018,7 +53033,7 @@ function generateComprehensiveReportText() {
   text += `• Gespeicherte Notizen: ${(state.items.notes || []).length}\n`;
   (state.items.notes || []).forEach((n, idx) => {
     const name = typeof n === 'object' ? n.task : n;
-    text += `  📝 [${idx + 1}] ${name}\n`;
+    text += `  [${idx + 1}] ${name}\n`;
   });
 
   text += `\n========================================\n`;
@@ -50046,10 +53061,10 @@ function copyReportText() {
   const text = generateComprehensiveReportText();
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      showToast(tr({ de: '📋 Bericht in Zwischenablage kopiert!', en: '📋 Report copied to clipboard!' }));
+      showToast(tr({ de: 'Bericht in Zwischenablage kopiert.', en: 'Report copied to clipboard.' }));
     });
   } else {
-    showToast(tr({ de: 'Bericht markiert – drücke Strg+C!', en: 'Report selected – press Ctrl+C!' }));
+    showToast(tr({ de: 'Bericht markiert – Strg+C drücken.', en: 'Report selected – press Ctrl+C.' }));
   }
 }
 
@@ -50065,7 +53080,7 @@ function downloadReportFile() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast(tr({ de: '💾 Bericht als Datei heruntergeladen!', en: '💾 Report file downloaded!' }));
+  showToast(tr({ de: 'Bericht heruntergeladen.', en: 'Report file downloaded.' }));
 }
 
 function printReport() {
@@ -50389,7 +53404,14 @@ if (typeof globalThis !== 'undefined') globalThis.openCookingModal = openCooking
 
 
 /* --- app-weather-news.js --- */
-// app-weather-news.js: Lokales Wetter (Open-Meteo API) & Kuratiertes Nachrichten-Briefing
+/**
+ * @file app-weather-news.js
+ * @module WeatherWidgetEngine
+ * @description
+ * Lokales Wetter-Modul auf Basis der datenschutzfreundlichen Open-Meteo API.
+ * Unterstützt Standortsuche, Favoriten-Städte (`flow_weather_pinned_cities`),
+ * 7-Tage-Vorhersage sowie automatische Offline-Fallback-Werte.
+ */
 
 // ============================================================================
 // 1. LOKALES WETTER (WEATHER ENGINE)
@@ -50873,11 +53895,11 @@ function togglePinCurrentCity() {
   if (existingIdx >= 0) {
     if (pinnedWeatherCities.length > 1) {
       pinnedWeatherCities.splice(existingIdx, 1);
-      if (typeof showToast === 'function') showToast(tr({ de: `📍 ${currentWeatherLocation.name} entfernt`, en: `📍 ${currentWeatherLocation.name} removed` }));
+      if (typeof showToast === 'function') showToast(tr({ de: `${currentWeatherLocation.name} entfernt`, en: `${currentWeatherLocation.name} removed` }));
     }
   } else {
     pinnedWeatherCities.push({ ...currentWeatherLocation, defaultTemp: 20, defaultCode: 1 });
-    if (typeof showToast === 'function') showToast(tr({ de: `⭐ ${currentWeatherLocation.name} als Favorit gespeichert!`, en: `⭐ ${currentWeatherLocation.name} saved as favorite!` }));
+    if (typeof showToast === 'function') showToast(tr({ de: `${currentWeatherLocation.name} als Favorit gespeichert`, en: `${currentWeatherLocation.name} saved as favorite` }));
   }
   localStorage.setItem('flow_weather_pinned_cities', JSON.stringify(pinnedWeatherCities));
   renderPinnedCitiesUI();
@@ -50891,7 +53913,7 @@ function removePinnedCity(index) {
     localStorage.setItem('flow_weather_pinned_cities', JSON.stringify(pinnedWeatherCities));
     renderPinnedCitiesUI();
     if (typeof showToast === 'function' && removed) {
-      showToast(tr({ de: `📍 ${removed.name} entfernt`, en: `📍 ${removed.name} removed` }));
+      showToast(tr({ de: `${removed.name} entfernt`, en: `${removed.name} removed` }));
     }
   }
 }
@@ -51632,57 +54654,71 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-radio-news.js --- */
-// app-radio-news.js: High-End Live Radio Stations, Minimal Calming News Lounge & Feature Guide
-// 100% Serverless, Zero-PHP, GitHub Pages compatible, Anti-Sensory-Overload & Neurodivergent-optimized
+/**
+ * @file app-radio-news.js
+ * @module RadioNewsEngine
+ * @description
+ * Verwaltet den integrierten Live-Radio-Player, den mehrsprachigen Nachrichten-Aggregator
+ * sowie die Subheader-Ticker-Leiste (Nachrichten & interaktive Funktionshinweise).
+ *
+ * Kernfunktionen:
+ * 1. Dreistufige Radio-Stream-Resilienz (Primärstream -> HTTPS-Mirror-Failover ->
+ *    dynamischer Radio-Browser-Lookup -> prozeduraler WebAudio-Synthese-Fallback).
+ * 2. 5-Dimensionen-Nachrichtenfilter (Sprache, Region, Feed-Modus, Kategorie, Medium)
+ *    mit kuratierter Offline-Datenbank und Live-RSS-Synchronisation.
+ * 3. Synchronisierte Ticker-Steuerung (Ein/Aus-Schalter, Vorlesefunktion via Web Speech API
+ *    mit automatischem Audio-Ducking).
+ */
 
 (function() {
   'use strict';
 
   // ============================================================================
-  // 1. DATA: RADIO STATIONS, LANGUAGES, REGIONS, FEED MODES & SOURCES
+  // 1. SENDERVERZEICHNIS, SPRACHEN, REGIONEN, FEED-MODI & MEDIENQUELLEN
   // ============================================================================
 
   const RADIO_STATIONS = [
-    // 🌌 1. Drone Zone & Pure Ambient (Immer an erster Stelle wie gewünscht)
-    { id: 'dronezone', name: 'SomaFM Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes (Empfehlung #1)', stream: 'https://ice1.somafm.com/dronezone-128-mp3', logo: '🧘' },
-    { id: 'spacestation', name: 'SomaFM Space Station', category: 'focus', country: 'global', flag: '🚀', desc: 'Mid- & Downtempo Space Ambient & Electronica', stream: 'https://ice1.somafm.com/spacestation-128-mp3', logo: '🛰️' },
-    { id: 'deepspaceone', name: 'SomaFM Deep Space One', category: 'focus', country: 'global', flag: '🌠', desc: 'Deep Ambient Electronic & Experimental Focus', stream: 'https://ice1.somafm.com/deepspaceone-128-mp3', logo: '🌌' },
-    { id: 'groovesalad', name: 'SomaFM Groove Salad', category: 'focus', country: 'global', flag: '🥗', desc: 'Downtempo Ambient & Chilled Electronic', stream: 'https://ice1.somafm.com/groovesalad-128-mp3', logo: '🥗' },
-    { id: 'lush', name: 'SomaFM Lush Chill', category: 'focus', country: 'global', flag: '🎧', desc: 'Sanfter Lofi Chill & Vocal Atmospheres', stream: 'https://ice1.somafm.com/lush-128-mp3', logo: '☕' },
+    // 🌌 Fokus- & Ambient-Streams (Standard-Priorität für konzentriertes Arbeiten)
+    { id: 'dronezone', name: 'SomaFM Drone Zone', searchQuery: 'Drone Zone', category: 'focus', country: 'global', flag: '🌌', desc: 'Tiefer Ambient Space & Fokus-Soundscapes (Empfehlung #1)', stream: 'https://ice1.somafm.com/dronezone-128-mp3', streams: ['https://ice1.somafm.com/dronezone-128-mp3', 'https://ice2.somafm.com/dronezone-128-mp3', 'https://ice4.somafm.com/dronezone-128-mp3', 'https://ice6.somafm.com/dronezone-128-mp3'], logo: '🧘' },
+    { id: 'spacestation', name: 'SomaFM Space Station', searchQuery: 'Space Station Soma', category: 'focus', country: 'global', flag: '🚀', desc: 'Mid- & Downtempo Space Ambient & Electronica', stream: 'https://ice1.somafm.com/spacestation-128-mp3', streams: ['https://ice1.somafm.com/spacestation-128-mp3', 'https://ice2.somafm.com/spacestation-128-mp3', 'https://ice4.somafm.com/spacestation-128-mp3', 'https://ice6.somafm.com/spacestation-128-mp3'], logo: '🛰️' },
+    { id: 'deepspaceone', name: 'SomaFM Deep Space One', searchQuery: 'Deep Space One', category: 'focus', country: 'global', flag: '🌠', desc: 'Deep Ambient Electronic & Experimental Focus', stream: 'https://ice1.somafm.com/deepspaceone-128-mp3', streams: ['https://ice1.somafm.com/deepspaceone-128-mp3', 'https://ice2.somafm.com/deepspaceone-128-mp3', 'https://ice4.somafm.com/deepspaceone-128-mp3', 'https://ice6.somafm.com/deepspaceone-128-mp3'], logo: '🌌' },
+    { id: 'groovesalad', name: 'SomaFM Groove Salad', searchQuery: 'Groove Salad', category: 'focus', country: 'global', flag: '🥗', desc: 'Downtempo Ambient & Chilled Electronic', stream: 'https://ice1.somafm.com/groovesalad-128-mp3', streams: ['https://ice1.somafm.com/groovesalad-128-mp3', 'https://ice2.somafm.com/groovesalad-128-mp3', 'https://ice4.somafm.com/groovesalad-128-mp3', 'https://ice6.somafm.com/groovesalad-128-mp3'], logo: '🥗' },
+    { id: 'lush', name: 'SomaFM Lush Chill', searchQuery: 'Lush SomaFM', category: 'focus', country: 'global', flag: '🎧', desc: 'Sanfter Lofi Chill & Vocal Atmospheres', stream: 'https://ice1.somafm.com/lush-128-mp3', streams: ['https://ice1.somafm.com/lush-128-mp3', 'https://ice2.somafm.com/lush-128-mp3', 'https://ice4.somafm.com/lush-128-mp3', 'https://ice6.somafm.com/lush-128-mp3'], logo: '☕' },
 
     // 🇩🇪 Freie & unabhängige Sender / Region DE (Schwerpunkt progressive/freie Medien)
-    { id: 'corax', name: 'Radio Corax (Freies Radio)', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Freies Radio Halle – Politik, Subkultur & Diskurse', stream: 'https://stream.radiocorax.de/corax.mp3', logo: '📻' },
-    { id: 'dreyeckland', name: 'Radio Dreyeckland', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Ältestes freies Radio Deutschlands (Freiburg)', stream: 'https://stream.rdl.de/rdl.mp3', logo: '🎙️' },
-    { id: 'fsk', name: 'FSK Hamburg (Freies Sender Kombinat)', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Nicht-kommerzielles emanzipatorisches Radio', stream: 'https://icecast.fsk-hh.org/fsk.mp3', logo: '📢' },
-    { id: 'dlf', name: 'Deutschlandfunk', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Politik, Wissen & Kultur', stream: 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', logo: '📻' },
-    { id: 'ndrinfo', name: 'NDR Info', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Das Informationsradio für den Norden', stream: 'https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', logo: '🎙️' },
-    { id: 'wdr5', name: 'WDR 5', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Tiefgang, Analysen & Wissensmagazine', stream: 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', logo: '🎙️' },
-    { id: 'br24', name: 'BR24 Live', category: 'news', country: 'de', flag: '🇩🇪', desc: 'In 15 Minuten umfassend informiert', stream: 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', logo: '📢' },
-    { id: 'swraktuell', name: 'SWR Aktuell', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Interviews & Verkehr', stream: 'https://liveradio.swr.de/sw282p3/swraktuell/play.mp3', logo: '📻' },
+    { id: 'corax', name: 'Radio Corax (Freies Radio)', searchQuery: 'Radio Corax', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Freies Radio Halle – Politik, Subkultur & Diskurse', stream: 'https://streaming.fueralle.org/corax_256.mp3', streams: ['https://streaming.fueralle.org/corax_256.mp3', 'https://stream1.datenkollektiv.net/corax_256.mp3', 'https://streaming.fueralle.org/corax_128.mp3', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '📻' },
+    { id: 'dreyeckland', name: 'Radio Dreyeckland', searchQuery: 'Radio Dreyeckland', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Ältestes freies Radio Deutschlands (Freiburg)', stream: 'https://stream.rdl.de/rdl', streams: ['https://stream.rdl.de/rdl', 'https://streaming.fueralle.org/frs-hi.mp3', 'https://streaming.fueralle.org/corax_256.mp3', 'https://liveradio.swr.de/sw282p3/swraktuell/play.mp3'], logo: '🎙️' },
+    { id: 'fsk', name: 'FSK Hamburg (Freies Sender Kombinat)', searchQuery: 'FSK Hamburg', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Nicht-kommerzielles emanzipatorisches Radio', stream: 'https://stream.querfunk.de/qfhi', streams: ['https://stream.querfunk.de/qfhi', 'https://streaming.fueralle.org/corax_256.mp3', 'https://streaming.fueralle.org/fsk.ogg'], logo: '📢' },
+    { id: 'dlf', name: 'Deutschlandfunk', searchQuery: 'Deutschlandfunk', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Politik, Wissen & Kultur', stream: 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', streams: ['https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', 'https://st02.sslstream.dlf.de/dlf/02/128/mp3/stream.mp3', 'https://st03.sslstream.dlf.de/dlf/03/128/mp3/stream.mp3', 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid'], logo: '📻' },
+    { id: 'ndrinfo', name: 'NDR Info', searchQuery: 'NDR Info', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Das Informationsradio für den Norden', stream: 'https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', streams: ['https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', 'https://icecast.ndr.de/ndr/ndrinfo/niedersachsen/mp3/128/stream.mp3', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '🎙️' },
+    { id: 'wdr5', name: 'WDR 5', searchQuery: 'WDR 5', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Tiefgang, Analysen & Wissensmagazine', stream: 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', streams: ['https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/64/stream.mp3', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '🎙️' },
+    { id: 'br24', name: 'BR24 Live', searchQuery: 'BR24', category: 'news', country: 'de', flag: '🇩🇪', desc: 'In 15 Minuten umfassend informiert', stream: 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', streams: ['https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', 'https://dispatcher.rndfnk.com/br/br24/live/mp3/low', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '📢' },
+    { id: 'swraktuell', name: 'SWR Aktuell', searchQuery: 'SWR Aktuell', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Interviews & Verkehr', stream: 'https://liveradio.swr.de/sw282p3/swraktuell/play.mp3', streams: ['https://liveradio.swr.de/sw282p3/swraktuell/play.mp3', 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '📻' },
 
     // 🇦🇹 Österreich & 🇨🇭 Schweiz (Inkl. freie Radios)
-    { id: 'radioorange', name: 'Radio Orange 94.0 Wien', category: 'independent', country: 'at', flag: '🇦🇹', desc: 'Freies Community Radio Wien – Vielfalt & Diskurs', stream: 'https://stream.o94.at/live.mp3', logo: '🇦🇹' },
-    { id: 'oe1', name: 'Ö1 Kultur & Info', category: 'news', country: 'at', flag: '🇦🇹', desc: 'Wissen, Kultur & fundierte Nachrichten', stream: 'https://orf-live.ors-shoutcast.at/oe1-q2a', logo: '🇦🇹' },
-    { id: 'oe3', name: 'Hitradio Ö3', category: 'music', country: 'at', flag: '🇦🇹', desc: 'Österreichs beliebtes Hitradio', stream: 'https://orf-live.ors-shoutcast.at/oe3-q2a', logo: '🎵' },
-    { id: 'lora_ch', name: 'Radio LORA Zürich', category: 'independent', country: 'ch', flag: '🇨🇭', desc: 'Alternatives nicht-kommerzielles Radio Zürich', stream: 'https://stream.lora.ch/lora.mp3', logo: '🇨🇭' },
-    { id: 'srf1', name: 'SRF 1 Info & Musik', category: 'news', country: 'ch', flag: '🇨🇭', desc: 'Schweizer Radio & Nachrichten', stream: 'https://stream.srg-ssr.ch/m/drs1/mp3_128', logo: '🇨🇭' },
-    { id: 'swisspop', name: 'Radio Swiss Pop', category: 'music', country: 'ch', flag: '🇨🇭', desc: 'Entspannter Pop-Mix ohne Unterbrechung', stream: 'https://stream.srg-ssr.ch/m/rsp/mp3_128', logo: '🎶' },
+    { id: 'radioorange', name: 'Radio Orange 94.0 Wien', searchQuery: 'Radio Orange 94.0', category: 'independent', country: 'at', flag: '🇦🇹', desc: 'Freies Community Radio Wien – Vielfalt & Diskurs', stream: 'https://securestream.o94.at/live.mp3', streams: ['https://securestream.o94.at/live.mp3', 'https://orf-live.ors-shoutcast.at/fm4-q2a', 'https://orf-live.ors-shoutcast.at/oe1-q2a'], logo: '🇦🇹' },
+    { id: 'oe1', name: 'Ö1 Kultur & Info', searchQuery: 'ORF Ö1', category: 'news', country: 'at', flag: '🇦🇹', desc: 'Wissen, Kultur & fundierte Nachrichten', stream: 'https://orf-live.ors-shoutcast.at/oe1-q2a', streams: ['https://orf-live.ors-shoutcast.at/oe1-q2a', 'https://orf-live.ors-shoutcast.at/oe1-q1a', 'https://securestream.o94.at/live.mp3'], logo: '🇦🇹' },
+    { id: 'oe3', name: 'Hitradio Ö3', searchQuery: 'Hitradio Ö3', category: 'music', country: 'at', flag: '🇦🇹', desc: 'Österreichs beliebtes Hitradio', stream: 'https://orf-live.ors-shoutcast.at/oe3-q2a', streams: ['https://orf-live.ors-shoutcast.at/oe3-q2a', 'https://orf-live.ors-shoutcast.at/oe3-q1a', 'https://orf-live.ors-shoutcast.at/fm4-q2a'], logo: '🎵' },
+    { id: 'lora_ch', name: 'Radio LORA Zürich', searchQuery: 'Radio LoRa', category: 'independent', country: 'ch', flag: '🇨🇭', desc: 'Alternatives nicht-kommerzielles Radio Zürich', stream: 'https://livestream.lora.ch/lora.mp3', streams: ['https://livestream.lora.ch/lora.mp3', 'https://stream.srg-ssr.ch/m/drs3/mp3_128', 'https://stream.srg-ssr.ch/m/drs1/mp3_128'], logo: '🇨🇭' },
+    { id: 'srf1', name: 'SRF 1 Info & Musik', searchQuery: 'SRF 1', category: 'news', country: 'ch', flag: '🇨🇭', desc: 'Schweizer Radio & Nachrichten', stream: 'https://stream.srg-ssr.ch/m/drs1/mp3_128', streams: ['https://stream.srg-ssr.ch/m/drs1/mp3_128', 'https://stream.srg-ssr.ch/m/drs2/mp3_128', 'https://stream.srg-ssr.ch/m/drs3/mp3_128'], logo: '🇨🇭' },
+    { id: 'swisspop', name: 'Radio Swiss Pop', searchQuery: 'Radio Swiss Pop', category: 'music', country: 'ch', flag: '🇨🇭', desc: 'Entspannter Pop-Mix ohne Unterbrechung', stream: 'https://stream.srg-ssr.ch/m/rsp/mp3_128', streams: ['https://stream.srg-ssr.ch/m/rsp/mp3_128', 'https://stream.srg-ssr.ch/m/rsj/mp3_128', 'https://stream.srg-ssr.ch/m/drs3/mp3_128'], logo: '🎶' },
 
     // 🇬🇧 UK & 🇺🇸 USA (Inkl. Progressive / Independent Media)
-    { id: 'democracynow', name: 'Democracy Now! Audio', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Independent global daily news with Amy Goodman', stream: 'https://traffic.libsyn.com/democracynow/dn2024-live.mp3', logo: '🗽' },
-    { id: 'wbai', name: 'Pacifica Radio WBAI New York', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Listener-sponsored progressive independent radio', stream: 'https://stream.wbai.org/live', logo: '🗽' },
-    { id: 'bbcworld', name: 'BBC World Service', category: 'news', country: 'uk', flag: '🇬🇧', desc: 'Global news, reports & analysis', stream: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', logo: '🌍' },
-    { id: 'npr', name: 'NPR 24/7 News', category: 'news', country: 'us', flag: '🇺🇸', desc: 'National Public Radio Live Stream', stream: 'https://npr-ice.streamguys1.com/live.mp3', logo: '🌐' },
+    { id: 'democracynow', name: 'Democracy Now! Audio', searchQuery: 'KPFA', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Independent global daily news with Amy Goodman', stream: 'https://streams.kpfa.org:8443/kpfa', streams: ['https://streams.kpfa.org:8443/kpfa', 'https://streams.kpfa.org:8443/kpfa_64', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🗽' },
+    { id: 'wbai', name: 'Pacifica Radio WBAI New York', searchQuery: 'WBAI', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Listener-sponsored progressive independent radio', stream: 'https://streams.kpfa.org:8443/kpfa', streams: ['https://streams.kpfa.org:8443/kpfa', 'https://kexp.streamguys1.com/kexp128.mp3', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🗽' },
+    { id: 'kexp', name: 'KEXP 90.3 FM Seattle', searchQuery: 'KEXP', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Unabhängige Musikkultur & Live-Sessions', stream: 'https://kexp.streamguys1.com/kexp128.mp3', streams: ['https://kexp.streamguys1.com/kexp128.mp3', 'https://ice1.somafm.com/groovesalad-128-mp3'], logo: '🎸' },
+    { id: 'bbcworld', name: 'BBC World Service', searchQuery: 'BBC World Service', category: 'news', country: 'uk', flag: '🇬🇧', desc: 'Global news, reports & analysis', stream: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', streams: ['https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🌍' },
+    { id: 'npr', name: 'NPR 24/7 News', searchQuery: 'NPR', category: 'news', country: 'us', flag: '🇺🇸', desc: 'National Public Radio Live Stream', stream: 'https://npr-ice.streamguys1.com/live.mp3', streams: ['https://npr-ice.streamguys1.com/live.mp3', 'https://streams.kpfa.org:8443/kpfa', 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service'], logo: '🌐' },
 
     // 🇫🇷 Frankreich & 🇪🇸 Spanien & 🇮🇹 Italien & 🇬🇷 Griechenland
-    { id: 'radiocanut', name: 'Radio Canut Lyon', category: 'independent', country: 'fr', flag: '🇫🇷', desc: 'La plus rebelle des radios libres (Lyon)', stream: 'https://live.francra.org:8443/radiocanut', logo: '🇫🇷' },
-    { id: 'franceinfo', name: 'France Info Live', category: 'news', country: 'fr', flag: '🇫🇷', desc: 'Actualités en direct et informations 24/7', stream: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', logo: '🇫🇷' },
-    { id: 'radiovallekas', name: 'Radio Vallekas Madrid', category: 'independent', country: 'es', flag: '🇪🇸', desc: 'Radio comunitaria y libre de Madrid', stream: 'https://stream.radiovallekas.org:8000/rvk.mp3', logo: '🇪🇸' },
-    { id: 'rne', name: 'Radio Nacional España', category: 'news', country: 'es', flag: '🇪🇸', desc: 'Noticias y actualidad en directo', stream: 'https://rtvelivestream.akamaized.net/rne_r1_main.mp3', logo: '🇪🇸' },
-    { id: 'radiopopolare', name: 'Radio Popolare Milano', category: 'independent', country: 'it', flag: '🇮🇹', desc: 'Informazione libera, critica e indipendente', stream: 'https://stream.radiopopolare.it/popolare.mp3', logo: '🇮🇹' },
-    { id: 'rai1', name: 'Rai Radio 1', category: 'news', country: 'it', flag: '🇮🇹', desc: 'Informazione e approfondimenti 24h', stream: 'https://icstream.rai.it/1.mp3', logo: '🇮🇹' },
-    { id: 'stokokkino', name: '105.5 Στο Κόκκινο', category: 'independent', country: 'gr', flag: '🇬🇷', desc: 'Ενημέρωση & ανεξάρτητη δημοσιογραφία', stream: 'https://stream.stokokkino.gr/kokkino-mp3', logo: '🏛️' },
-    { id: 'ertproto', name: 'ΕΡΤ Πρώτο Πρόγραμμα', category: 'news', country: 'gr', flag: '🇬🇷', desc: 'Δημόσια ραδιοφωνία & ενημέρωση', stream: 'https://radiostreaming.ert.gr/ert-proto', logo: '🏛️' }
+    { id: 'fip', name: 'FIP Radio (Radio France)', searchQuery: 'FIP Radio', category: 'independent', country: 'fr', flag: '🇫🇷', desc: 'Freies Kultur-, Jazz- & Groove-Radio Paris', stream: 'https://icecast.radiofrance.fr/fip-midfi.mp3', streams: ['https://icecast.radiofrance.fr/fip-midfi.mp3', 'https://icecast.radiofrance.fr/franceinter-midfi.mp3', 'https://icecast.radiofrance.fr/franceculture-midfi.mp3'], logo: '🇫🇷' },
+    { id: 'franceinfo', name: 'France Info Live', searchQuery: 'franceinfo', category: 'news', country: 'fr', flag: '🇫🇷', desc: 'Actualités en direct et informations 24/7', stream: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', streams: ['https://icecast.radiofrance.fr/franceinfo-midfi.mp3', 'https://icecast.radiofrance.fr/franceinter-midfi.mp3', 'https://icecast.radiofrance.fr/franceculture-midfi.mp3'], logo: '🇫🇷' },
+    { id: 'radiovallekas', name: 'Radio Vallekas Madrid', searchQuery: 'Cadena SER', category: 'independent', country: 'es', flag: '🇪🇸', desc: 'Radio comunitaria y libre de Madrid', stream: 'https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', streams: ['https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', 'https://dispatcher.rndfnk.com/crtve/rne5/mad/mp3/high', 'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3'], logo: '🇪🇸' },
+    { id: 'rne', name: 'Radio Nacional España', searchQuery: 'RNE Radio Nacional', category: 'news', country: 'es', flag: '🇪🇸', desc: 'Noticias y actualidad en directo', stream: 'https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', streams: ['https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', 'https://dispatcher.rndfnk.com/crtve/rne5/mad/mp3/high', 'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3'], logo: '🇪🇸' },
+    { id: 'radiopopolare', name: 'Radio Popolare Milano', searchQuery: 'Radio Popolare', category: 'independent', country: 'it', flag: '🇮🇹', desc: 'Informazione libera, critica e indipendente', stream: 'https://livex.radiopopolare.it/radiopop2', streams: ['https://livex.radiopopolare.it/radiopop2', 'https://icestreaming.rai.it/3.mp3', 'https://icestreaming.rai.it/1.mp3'], logo: '🇮🇹' },
+    { id: 'rai1', name: 'Rai Radio 1', searchQuery: 'Rai Radio 1', category: 'news', country: 'it', flag: '🇮🇹', desc: 'Informazione e approfondimenti 24h', stream: 'https://icestreaming.rai.it/1.mp3', streams: ['https://icestreaming.rai.it/1.mp3', 'https://icestreaming.rai.it/2.mp3', 'https://livex.radiopopolare.it/radiopop2'], logo: '🇮🇹' },
+    { id: 'stokokkino', name: '105.5 Στο Κόκκινο', searchQuery: 'Kokkino', category: 'independent', country: 'gr', flag: '🇬🇷', desc: 'Ενημέρωση & ανεξάρτητη δημοσιογραφία', stream: 'https://netradio.live24.gr/athinaradio', streams: ['https://stream.radiojar.com/kokkino-ath.mp3', 'https://netradio.live24.gr/athinaradio', 'https://radiostreaming.ert.gr/ert-zeppelin', 'https://netradio.live24.gr/realfm'], logo: '🏛️' },
+    { id: 'ertproto', name: 'ΕΡΤ Πρώτο Πρόγραμμα', searchQuery: 'ERT Proto', category: 'news', country: 'gr', flag: '🇬🇷', desc: 'Δημόσια ραδιοφωνία & ενημέρωση', stream: 'https://radiostreaming.ert.gr/ert-proto', streams: ['https://radiostreaming.ert.gr/ert-proto', 'https://radiostreaming.ert.gr/ert-zeppelin', 'https://netradio.live24.gr/realfm', 'https://netradio.live24.gr/skai1003'], logo: '🏛️' }
   ];
 
   // 1.1 SPRACHE (Ausgabesprache & automatische Übersetzung)
@@ -52317,6 +55353,61 @@ if (typeof globalThis !== 'undefined') {
           it: { title: 'Nuove tratte ferroviarie veloci accorciano i tempi di viaggio tra le grandi metropoli', summary: 'Infrastrutture moderne garantiscono collegamenti sostenibili in meno di due ore.' },
           el: { title: 'Νέες σιδηροδρομικές γραμμές υψηλής ταχύτητας μειώνουν τους χρόνους ταξιδιού', summary: 'Σύγχρονες υποδομές συνδέουν μεγάλες πόλεις σε λιγότερο από δύο ώρες οικολογικά.' }
         }
+      },
+      {
+        source: 'taz (die tageszeitung)', outletId: 'taz', category: 'top', time: 'vor 14 Min', url: 'https://taz.de',
+        translations: {
+          de: { title: 'Bürgerenergie-Genossenschaften bauen kommunale Solar- und Wärmenetze massiv aus', summary: 'Immer mehr Städte und Gemeinden setzen auf demokratisch verwaltete, bezahlbare Öko-Energie vor Ort.' },
+          en: { title: 'Citizen energy cooperatives rapidly expand municipal solar and district heating grids', summary: 'More municipalities embrace democratically managed, affordable local clean energy.' },
+          es: { title: 'Las cooperativas energéticas ciudadanas amplían las redes solares y térmicas municipales', summary: 'Cada vez más municipios apuestan por energía ecológica local, asequible y gestionada democráticamente.' },
+          fr: { title: 'Les coopératives citoyennes développent massivement les réseaux solaires et thermiques locaux', summary: 'De plus en plus de communes misent sur une énergie verte locale, abordable et démocratique.' },
+          it: { title: 'Le cooperative energetiche cittadine potenziano le reti solari e termiche comunali', summary: 'Sempre più comuni scelgono energia pulita locale, accessibile e gestita in modo partecipativo.' },
+          el: { title: 'Ενεργειακοί συνεταιρισμοί πολιτών επεκτείνουν δυναμικά τα δημοτικά ηλιακά δίκτυα', summary: 'Όλο και περισσότεροι δήμοι επενδύουν σε προσιτή, δημοκρατικά διαχειριζόμενη καθαρή ενέργεια.' }
+        }
+      },
+      {
+        source: 'junge Welt', outletId: 'jungewelt', category: 'business', time: 'vor 22 Min', url: 'https://www.jungewelt.de',
+        translations: {
+          de: { title: 'Tarifabschluss im öffentlichen Nahverkehr sichert höhere Löhne und mehr Entlastungstage', summary: 'Gewerkschaften setzen spürbare Verbesserungen bei Arbeitszeiten und Vergütung für Beschäftigte durch.' },
+          en: { title: 'Public transit collective bargaining agreement secures higher wages and relief days', summary: 'Unions achieve substantial improvements in working hours and compensation for transit workers.' },
+          es: { title: 'El convenio colectivo del transporte público garantiza mejores salarios y días de descanso', summary: 'Los sindicatos logran mejoras notables en horarios laborales y remuneración para los trabajadores.' },
+          fr: { title: 'L\'accord salarial dans les transports publics garantit de meilleurs salaires et jours de repos', summary: 'Les syndicats obtiennent des améliorations notables des conditions de travail et des rémunérations.' },
+          it: { title: 'Il contratto collettivo nel trasporto pubblico garantisce salari più alti e giorni di riposo', summary: 'I sindacati ottengono miglioramenti concreti negli orari di lavoro e nelle retribuzioni.' },
+          el: { title: 'Συλλογική σύμβαση στις δημόσιες συγκοινωνίες διασφαλίζει αυξήσεις μισθών και ημέρες ανάπαυσης', summary: 'Τα συνδικάτα πετυχαίνουν ουσιαστικές βελτιώσεις στο ωράριο και τις αποδοχές των εργαζομένων.' }
+        }
+      },
+      {
+        source: 'nd (nd.Aktuell)', outletId: 'nd', category: 'top', time: 'vor 27 Min', url: 'https://www.nd-aktuell.de',
+        translations: {
+          de: { title: 'Kommunaler Wohnungsbau wächst: Tausende neue Sozialwohnungen mit dauerhafter Mietpreisbindung', summary: 'Städtische Baugesellschaften schaffen bezahlbaren Wohnraum in energieeffizienter Holz-Hybrid-Bauweise.' },
+          en: { title: 'Municipal housing construction expands with thousands of rent-controlled social apartments', summary: 'City housing associations build affordable living spaces using sustainable timber-hybrid architecture.' },
+          es: { title: 'Crece la vivienda pública municipal con miles de nuevos pisos sociales de alquiler protegido', summary: 'Las empresas municipales crean vivienda asequible mediante construcción sostenible en madera.' },
+          fr: { title: 'Essor du logement social municipal avec des milliers de nouveaux appartements à loyer modéré', summary: 'Les offices publics créent des logements abordables en architecture bois-hybride écologique.' },
+          it: { title: 'Cresce l\'edilizia pubblica comunale con migliaia di nuovi alloggi sociali a canone calmierato', summary: 'Le aziende municipali realizzano abitazioni accessibili in bioedilizia sostenibile.' },
+          el: { title: 'Αύξηση δημοτικών κοινωνικών κατοικιών με χιλιάδες νέα διαμερίσματα προσιτού ενοικίου', summary: 'Δημοτικοί φορείς δημιουργούν προσιτή στέγη με ενεργειακά αποδοτική οικολογική δόμηση.' }
+        }
+      },
+      {
+        source: 'Jacobin Magazin', outletId: 'jacobin_de', category: 'business', time: 'vor 34 Min', url: 'https://jacobin.de',
+        translations: {
+          de: { title: 'Vier-Tage-Woche im Praxistest: Höhere Produktivität und deutlich weniger Krankheitsausfälle', summary: 'Auswertung von über 100 Betrieben belegt positiven Effekt kürzerer Arbeitszeiten bei vollem Lohnausgleich.' },
+          en: { title: 'Four-day workweek trials demonstrate higher productivity and sharp drop in sick leave', summary: 'Study across 100 companies confirms lasting benefits of shorter working hours at full pay.' },
+          es: { title: 'La semana laboral de cuatro días demuestra mayor productividad y menos bajas médicas', summary: 'El análisis de más de 100 empresas confirma el éxito de reducir la jornada manteniendo el sueldo.' },
+          fr: { title: 'La semaine de quatre jours prouve une productivité accrue et une baisse des arrêts maladie', summary: 'Une étude sur plus de 100 entreprises confirme les bienfaits du temps réduit à salaire maintenu.' },
+          it: { title: 'Settimana corta di quattro giorni: maggiore produttività e netto calo delle assenze', summary: 'Lo studio su oltre 100 aziende conferma i benefici della riduzione d\'orario a parità di salario.' },
+          el: { title: 'Τετραήμερη εργασία στην πράξη: υψηλότερη παραγωγικότητα και μείωση αδειών ασθενείας', summary: 'Έρευνα σε πάνω από 100 επιχειρήσεις επιβεβαιώνει τα οφέλη του μειωμένου ωραρίου με πλήρεις αποδοχές.' }
+        }
+      },
+      {
+        source: 'netzpolitik.org', outletId: 'netzpolitik', category: 'tech', time: 'vor 19 Min', url: 'https://netzpolitik.org',
+        translations: {
+          de: { title: 'Digitale Souveränität: Öffentliche Verwaltungen stellen erfolgreich auf Open-Source-Software um', summary: 'Freie Büro- und Cloud-Lösungen stärken Datenschutz, Transparenz und Unabhängigkeit von Tech-Monopolen.' },
+          en: { title: 'Digital sovereignty: public administrations successfully transition to open-source software', summary: 'Libre office and cloud suites strengthen privacy, transparency, and independence from tech monopolies.' },
+          es: { title: 'Soberanía digital: las administraciones públicas migran con éxito al software de código abierto', summary: 'Las soluciones libres refuerzan la privacidad, la transparencia y la independencia tecnológica.' },
+          fr: { title: 'Souveraineté numérique : les administrations publiques adoptent les logiciels open source', summary: 'Les solutions libres renforcent la protection des données et l\'indépendance technologique.' },
+          it: { title: 'Sovranità digitale: le pubbliche amministrazioni passano con successo al software open source', summary: 'Soluzioni libere rafforzano privacy, trasparenza e indipendenza dai monopoli tecnologici.' },
+          el: { title: 'Ψηφιακή κυριαρχία: οι δημόσιες υπηρεσίες μεταβαίνουν επιτυχώς σε λογισμικό ανοιχτού κώδικα', summary: 'Οι ελεύθερες λύσεις ενισχύουν την προστασία δεδομένων, τη διαφάνεια και την τεχνολογική ανεξαρτησία.' }
+        }
       }
     ],
 
@@ -52387,6 +55478,28 @@ if (typeof globalThis !== 'undefined') {
           fr: { title: 'Nouvelle étape réussie dans la restauration des monuments de l\'Acropole d\'Athènes', summary: 'Des technologies laser de pointe révèlent les bas-reliefs antiques avec une extrême précision.' },
           it: { title: 'Completata con successo la nuova fase di restauro dei monumenti dell\'Acropoli ad Atene', summary: 'Tecniche laser all\'avanguardia riportano alla luce i rilievi originali in piena sicurezza storica.' }
         }
+      },
+      {
+        source: 'Πρώτο Θέμα', outletId: 'protothema', category: 'top', time: 'πριν 25 λεπτά', url: 'https://www.protothema.gr',
+        translations: {
+          el: { title: 'Νέες ηλεκτρικές θαλάσσιες συγκοινωνίες συνδέουν τα ελληνικά νησιά με μηδενικούς ρύπους', summary: 'Σύγχρονα οικολογικά πλοία μειώνουν τον χρόνο ταξιδιού και προστατεύουν το Αιγαίο.' },
+          de: { title: 'Neue elektrische Fährverbindungen vernetzen griechische Inseln komplett emissionsfrei', summary: 'Moderne Öko-Schiffe verkürzen die Überfahrt und schützen die Meeresumwelt der Ägäis.' },
+          en: { title: 'New electric maritime ferries connect Greek islands with zero emissions', summary: 'Modern eco-vessels cut travel times and protect the Aegean marine environment.' },
+          es: { title: 'Nuevos ferris eléctricos conectan las islas griegas con cero emisiones', summary: 'Embarcaciones ecológicas modernas reducen el tiempo de viaje y protegen el mar Egeo.' },
+          fr: { title: 'De nouveaux ferries électriques relient les îles grecques sans aucune émission', summary: 'Des navires écologiques modernes réduisent les temps de traversée et protègent la mer Égée.' },
+          it: { title: 'Nuovi traghetti elettrici collegano le isole greche a zero emissioni', summary: 'Moderne navi ecologiche riducono i tempi di percorrenza e tutelano il Mar Egeo.' }
+        }
+      },
+      {
+        source: 'ΣΚΑΪ News', outletId: 'skai', category: 'science', time: 'πριν 40 λεπτά', url: 'https://www.skai.gr',
+        translations: {
+          el: { title: 'Επέκταση πράσινων πάρκων και ποδηλατοδρόμων στη μητροπολιτική περιοχή της Αθήνας', summary: 'Νέες αστικές αναπλάσεις βελτιώνουν το μικροκλίμα και την καθημερινότητα των πολιτών.' },
+          de: { title: 'Ausbau grüner Stadtparks und Radschnellwege im Großraum Athen schreitet voran', summary: 'Neue urbane Grünflächen verbessern das Mikroklima und die Lebensqualität der Bürger.' },
+          en: { title: 'Expansion of green parks and cycling corridors progresses across metropolitan Athens', summary: 'New urban regeneration projects improve the microclimate and daily quality of life.' },
+          es: { title: 'Avanza la ampliación de parques verdes y carriles bici en el área metropolitana de Atenas', summary: 'Nuevos proyectos urbanos mejoran el microclima y la calidad de vida diaria en Grecia.' },
+          fr: { title: 'Extension des parcs verts et des pistes cyclables dans la métropole d\'Athènes', summary: 'De nouveaux aménagements urbains améliorent le microclimat et le quotidien des habitants.' },
+          it: { title: 'Espansione di parchi verdi e piste ciclabili nell\'area metropolitana di Atene', summary: 'Nuovi progetti di rigenerazione urbana migliorano il microclima e la qualità della vita.' }
+        }
       }
     ],
 
@@ -52434,6 +55547,39 @@ if (typeof globalThis !== 'undefined') {
           fr: { title: 'Le lynx ibérique confirme son retour historique avec plus de 2 000 individus', summary: 'Succès mondial de préservation de la biodiversité dans les parcs naturels protégés.' },
           it: { title: 'La lince iberica consolida la storica ripresa con oltre 2.000 esemplari', summary: 'Successo mondiale di conservazione ambientale nei parchi naturali della penisola.' },
           el: { title: 'Ο ιβηρικός λύγκας καταγράφει ιστορική ανάκαμψη με πάνω από 2.000 ζώα', summary: 'Παγκόσμια περιβαλλοντική επιτυχία προστασίας της άγριας ζωής στα φυσικά πάρκα.' }
+        }
+      },
+      {
+        source: 'ABC España', outletId: 'abc', category: 'culture', time: 'hace 45 min', url: 'https://www.abc.es',
+        translations: {
+          es: { title: 'Los museos nacionales españoles baten récord de visitantes con nuevos programas abiertos', summary: 'Exposiciones interactivas y jornadas gratuitas acercan el patrimonio artístico a todos los públicos.' },
+          de: { title: 'Spanische Nationalmuseen feiern Besucherrekord durch offene Kulturprogramme', summary: 'Interaktive Ausstellungen und freie Eintrittstage machen das Kulturerbe für alle zugänglich.' },
+          en: { title: 'Spanish national museums set visitor records with open cultural programs', summary: 'Interactive exhibitions and free admission days bring artistic heritage to all audiences.' },
+          fr: { title: 'Les musées nationaux espagnols battent un record de fréquentation grâce aux programmes ouverts', summary: 'Expositions interactives et journées gratuites rapprochent le patrimoine artistique du public.' },
+          it: { title: 'I musei nazionali spagnoli battono il record di visitatori con nuovi programmi aperti', summary: 'Mostre interattive e giornate gratuite avvicinano il patrimonio artistico a tutti.' },
+          el: { title: 'Τα εθνικά μουσεία της Ισπανίας σημειώνουν ρεκόρ επισκεπτών με ανοιχτά προγράμματα', summary: 'Διαδραστικές εκθέσεις και ημέρες ελεύθερης εισόδου φέρνουν την τέχνη κοντά σε όλους.' }
+        }
+      },
+      {
+        source: 'Cinco Días', outletId: 'cincodias', category: 'business', time: 'hace 50 min', url: 'https://cincodias.elpais.com',
+        translations: {
+          es: { title: 'La inversión tecnológica y de energías limpias impulsa el empleo cualificado en España', summary: 'Nuevos centros de innovación digital e hidrógeno verde lideran la creación de puestos de trabajo.' },
+          de: { title: 'Investitionen in Tech und saubere Energie schaffen tausende Fachkräfte-Jobs in Spanien', summary: 'Neue Zentren für digitale Innovation und grünen Wasserstoff führen das Beschäftigungswachstum an.' },
+          en: { title: 'Clean energy and tech investments drive skilled employment surge across Spain', summary: 'New digital innovation and green hydrogen hubs lead job creation nationwide.' },
+          fr: { title: 'Les investissements technologiques et verts stimulent l\'emploi qualifié en Espagne', summary: 'De nouveaux pôles d\'innovation numérique et d\'hydrogène vert créent des milliers d\'emplois.' },
+          it: { title: 'Gli investimenti in tecnologia ed energia pulita trainano l\'occupazione qualificata in Spagna', summary: 'Nuovi poli di innovazione digitale e idrogeno verde guidano la creazione di posti di lavoro.' },
+          el: { title: 'Οι επενδύσεις σε τεχνολογία και καθαρή ενέργεια ενισχύουν την απασχόληση στην Ισπανία', summary: 'Νέα κέντρα ψηφιακής καινοτομίας και πράσινου υδρογόνου δημιουργούν χιλιάδες θέσεις εργασίας.' }
+        }
+      },
+      {
+        source: 'Buenas Noticias', outletId: 'goodnews', category: 'goodnews', time: 'hace 1.5h', url: 'https://goodnews.eu',
+        translations: {
+          es: { title: 'Corredores verdes urbanos transforman avenidas en jardines peatonales llenos de vida', summary: 'Las ciudades españolas reducen el ruido y mejoran la calidad del aire con arbolado autóctono.' },
+          de: { title: 'Grüne Stadtkorridore verwandeln spanische Hauptstraßen in lebendige Fußgänger-Gärten', summary: 'Städte senken Lärm und verbessern die Luftqualität spürbar durch heimische Baumalleen.' },
+          en: { title: 'Urban green corridors transform city avenues into vibrant pedestrian gardens in Spain', summary: 'Spanish cities reduce noise and improve air quality with native tree-lined walkways.' },
+          fr: { title: 'Des corridors verts urbains transforment les avenues en jardins piétons vivants en Espagne', summary: 'Les villes espagnoles réduisent le bruit et améliorent la qualité de l\'air grâce aux arbres locaux.' },
+          it: { title: 'Corridoi verdi urbani trasformano i viali cittadini in giardini pedonali in Spagna', summary: 'Le città spagnole riducono il rumore e migliorano la qualità dell\'aria con alberi autoctoni.' },
+          el: { title: 'Πράσινοι αστικοί διάδρομοι μετατρέπουν λεωφόρους σε ζωντανούς πεζόδρομους στην Ισπανία', summary: 'Οι ισπανικές πόλεις μειώνουν τον θόρυβο και βελτιώνουν την ποιότητα του αέρα με τοπικά δέντρα.' }
         }
       }
     ],
@@ -52641,6 +55787,61 @@ if (typeof globalThis !== 'undefined') {
           it: { title: 'Le centrali idroelettriche alpine registrano livelli record di energia pulita', summary: 'I bacini in Tirolo e Salisburgo assicurano forniture elettriche stabili e convenienti.' },
           el: { title: 'Υδροηλεκτρικοί σταθμοί των Άλπεων καταγράφουν επίπεδα ρεκόρ καθαρής ενέργειας', summary: 'Εγκαταστάσεις στο Τιρόλο και το Σάλτσμπουργκ εξασφαλίζουν σταθερή παροχή ρεύματος.' }
         }
+      },
+      {
+        source: 'Mosaik Blog', outletId: 'mosaik', category: 'culture', time: 'vor 28 Min', url: 'https://mosaik-blog.at',
+        translations: {
+          de: { title: 'Wiener Modell des sozialen Wohnbaus wird europaweit zum Vorbild für bezahlbare Mieten', summary: 'Kommunale und genossenschaftliche Wohnprojekte verbinden Klimaschutz mit sozialer Sicherheit.' },
+          en: { title: 'Vienna social housing model becomes European benchmark for affordable urban living', summary: 'Municipal and cooperative housing projects combine climate action with social security.' },
+          es: { title: 'El modelo vienés de vivienda social se convierte en referente europeo de alquiler asequible', summary: 'Los proyectos municipales y cooperativos unen acción climática y seguridad social.' },
+          fr: { title: 'Le modèle viennois de logement social devient une référence européenne pour des loyers abordables', summary: 'Les projets municipaux et coopératifs allient écologie et justice sociale.' },
+          it: { title: 'Il modello viennese di edilizia sociale diventa un riferimento europeo per affitti accessibili', summary: 'I progetti comunali e cooperativi uniscono tutela del clima e sicurezza sociale.' },
+          el: { title: 'Το πρότυπο κοινωνικής κατοικίας της Βιέννης αποτελεί ευρωπαϊκό οδηγό για προσιτά ενοίκια', summary: 'Δημοτικά και συνεταιριστικά έργα συνδυάζουν την προστασία του κλίματος με την κοινωνική ασφάλεια.' }
+        }
+      },
+      {
+        source: 'Kurier', outletId: 'kurier', category: 'tech', time: 'vor 35 Min', url: 'https://kurier.at',
+        translations: {
+          de: { title: 'Quanten-Forschungszentrum in Wien entwickelt abhörsicheres Glasfaser-Netzwerk', summary: 'Österreichische Physiker testen erfolgreich verschränkte Photonen im städtischen Datennetz.' },
+          en: { title: 'Vienna quantum research hub develops tap-proof fiber-optic communication network', summary: 'Austrian physicists successfully test entangled photons across urban data infrastructure.' },
+          es: { title: 'El centro cuántico de Viena desarrolla una red de fibra óptica imposible de interceptar', summary: 'Físicos austriacos prueban con éxito fotones entrelazados en la red urbana de datos.' },
+          fr: { title: 'Le centre quantique de Vienne développe un réseau fibre optique inviolable', summary: 'Des physiciens autrichiens testent avec succès des photons intriqués dans le réseau urbain.' },
+          it: { title: 'Il centro di ricerca quantistica di Vienna sviluppa una rete in fibra ottica inviolabile', summary: 'Fisici austriaci testano con successo fotoni entangled nella rete dati cittadina.' },
+          el: { title: 'Το ερευνητικό κέντρο κβαντικής στη Βιέννη αναπτύσσει απαραβίαστο δίκτυο οπτικών ινών', summary: 'Αυστριακοί φυσικοί δοκιμάζουν επιτυχώς πεπλεγμένα φωτόνια στο αστικό δίκτυο.' }
+        }
+      },
+      {
+        source: 'Die Presse', outletId: 'presse', category: 'business', time: 'vor 50 Min', url: 'https://www.diepresse.com',
+        translations: {
+          de: { title: 'Österreichische Umwelttechnik-Unternehmen verzeichnen Rekordexporte in ganz Europa', summary: 'Innovationen bei Recycling, Photovoltaik und Holzbau treiben nachhaltiges Wirtschaftswachstum.' },
+          en: { title: 'Austrian green-tech companies report record exports across European markets', summary: 'Innovations in recycling, photovoltaics, and timber engineering drive sustainable growth.' },
+          es: { title: 'Las empresas austriacas de tecnología ambiental logran exportaciones récord en Europa', summary: 'Las innovaciones en reciclaje, fotovoltaica y construcción en madera impulsan el crecimiento.' },
+          fr: { title: 'Les entreprises autrichiennes d\'écotechnologie enregistrent des exportations records', summary: 'Les innovations dans le recyclage, le solaire et la construction bois stimulent la croissance.' },
+          it: { title: 'Le aziende austriache di tecnologie ambientali segnano esportazioni record in Europa', summary: 'Innovazioni nel riciclo, fotovoltaico e bioedilizia in legno trainano la crescita sostenibile.' },
+          el: { title: 'Αυστριακές εταιρείες πράσινης τεχνολογίας καταγράφουν ρεκόρ εξαγωγών στην Ευρώπη', summary: 'Καινοτομίες στην ανακύκλωση και τα φωτοβολταϊκά ενισχύουν τη βιώσιμη ανάπτυξη.' }
+        }
+      },
+      {
+        source: 'Salzburger Nachrichten', outletId: 'salzburger', category: 'science', time: 'vor 1h', url: 'https://www.sn.at',
+        translations: {
+          de: { title: 'Nationalpark Hohe Tauern meldet erfolgreiche Rückkehr seltener Alpen-Greifvögel', summary: 'Artenschutz-Programme im Alpenraum sorgen für stabile Bestände von Bartgeiern und Steinadlern.' },
+          en: { title: 'Hohe Tauern National Park reports thriving return of rare Alpine birds of prey', summary: 'Conservation programs across the Alps secure stable populations of bearded vultures and golden eagles.' },
+          es: { title: 'El Parque Nacional Hohe Tauern celebra el regreso de aves rapaces alpinas poco comunes', summary: 'Los programas de conservación en los Alpes consolidan las poblaciones de quebrantahuesos y águilas.' },
+          fr: { title: 'Le parc national du Hohe Tauern célèbre le retour de rapaces alpins rares', summary: 'Les programmes de préservation assurent la stabilité des gypaètes barbus et aigles royaux.' },
+          it: { title: 'Il Parco Nazionale Alti Tauri segnala il ritorno di rari rapaci alpini', summary: 'I programmi di tutela nelle Alpi garantiscono popolazioni stabili di gipeti e aquile reali.' },
+          el: { title: 'Το Εθνικό Πάρκο Hohe Tauern καταγράφει επιτυχημένη επιστροφή σπάνιων αλπικών πτηνών', summary: 'Προγράμματα προστασίας στις Άλπεις διασφαλίζουν σταθερούς πληθυσμούς γυπαετών και χρυσαετών.' }
+        }
+      },
+      {
+        source: 'Good News AT', outletId: 'goodnews', category: 'goodnews', time: 'vor 1.5h', url: 'https://goodnews.eu',
+        translations: {
+          de: { title: 'Reparatur-Bonus in Österreich sorgt für über eine Million reparierte Elektrogeräte', summary: 'Staatliche Förderung reduziert Elektroschrott massiv und stärkt regionale Handwerksbetriebe.' },
+          en: { title: 'Austrian repair voucher initiative saves over one million electronic appliances from landfill', summary: 'National repair subsidy drastically cuts e-waste and strengthens local repair workshops.' },
+          es: { title: 'El bono de reparación en Austria logra recuperar más de un millón de aparatos electrónicos', summary: 'El programa nacional reduce drásticamente la basura electrónica y apoya a los talleres locales.' },
+          fr: { title: 'Le bonus réparation en Autriche permet de sauver plus d\'un million d\'appareils électriques', summary: 'L\'aide publique réduit massivement les déchets électroniques et soutient l\'artisanat local.' },
+          it: { title: 'Il bonus riparazioni in Austria salva oltre un milione di apparecchi elettronici', summary: 'L\'incentivo riduce drasticamente i rifiuti elettronici e sostiene gli artigiani locali.' },
+          el: { title: 'Το πρόγραμμα επιδότησης επισκευών στην Αυστρία διασώζει πάνω από ένα εκατομμύριο συσκευές', summary: 'Η δράση μειώνει δραστικά τα ηλεκτρονικά απόβλητα και ενισχύει τα τοπικά εργαστήρια.' }
+        }
       }
     ],
 
@@ -52655,6 +55856,83 @@ if (typeof globalThis !== 'undefined') {
           fr: { title: 'La Suisse renforce son pôle d\'innovation avec un nouveau campus biotech', summary: 'La recherche de pointe à l\'EPFL de Lausanne et l\'ETH de Zurich attire des talents mondiaux.' },
           it: { title: 'La Svizzera rafforza il primato nell\'innovazione con un nuovo hub biotecnologico', summary: 'La ricerca d\'avanguardia al Politecnico di Zurigo e Losanna attrae talenti internazionali.' },
           el: { title: 'Η Ελβετία ενισχύει την καινοτομία με νέο κόμβο βιοτεχνολογίας', summary: 'Κορυφαία έρευνα στο ETH Ζυρίχης και EPFL Λωζάνης προσελκύει διεθνή ταλέντα.' }
+        }
+      },
+      {
+        source: 'WOZ Die Wochenzeitung', outletId: 'woz', category: 'top', time: 'vor 18 Min', url: 'https://www.woz.ch',
+        translations: {
+          de: { title: 'Genossenschaftlicher Wohnungsbau in Zürich und Basel feiert neue nachhaltige Quartiere', summary: 'Autofreie Siedlungen mit Gemeinschaftsgärten bieten dauerhaft günstige Mieten.' },
+          en: { title: 'Cooperative housing in Zurich and Basel inaugurates sustainable car-free neighborhoods', summary: 'Community-led developments with shared gardens provide permanently affordable rents.' },
+          es: { title: 'Las cooperativas de vivienda en Zúrich y Basilea inauguran barrios sostenibles sin coches', summary: 'Proyectos comunitarios con jardines compartidos garantizan alquileres asequibles permanentes.' },
+          fr: { title: 'Les coopératives d\'habitation à Zurich et Bâle inaugurent des quartiers durables sans voitures', summary: 'Des projets citoyens avec jardins partagés offrent des loyers durablement accessibles.' },
+          it: { title: 'Le cooperative edilizie a Zurigo e Basilea inaugurano nuovi quartieri sostenibili senz\'auto', summary: 'Iniziative comunitarie con giardini condivisi garantiscono affitti accessibili nel tempo.' },
+          el: { title: 'Συνεταιριστικές κατοικίες σε Ζυρίχη και Βασιλεία εγκαινιάζουν βιώσιμες γειτονιές χωρίς αυτοκίνητα', summary: 'Κοινοτικά έργα με κοινόχρηστους κήπους προσφέρουν μόνιμα προσιτά ενοίκια.' }
+        }
+      },
+      {
+        source: 'Infosperber', outletId: 'infosperber', category: 'science', time: 'vor 30 Min', url: 'https://www.infosperber.ch',
+        translations: {
+          de: { title: 'Unabhängige Analyse zeigt großes Potenzial alpiner Solaranlagen für den Winterstrom', summary: 'Hochgelegene Photovoltaik an Staumauern und Infrastruktur liefert zuverlässig saubere Energie.' },
+          en: { title: 'Independent study highlights strong winter power output from Alpine solar installations', summary: 'High-altitude photovoltaics on dam walls and infrastructure reliably supply clean electricity.' },
+          es: { title: 'Un estudio independiente destaca el gran potencial solar alpino para la electricidad invernal', summary: 'La energía fotovoltaica en presas e infraestructuras alpinas suministra electricidad limpia.' },
+          fr: { title: 'Une étude indépendante souligne le fort potentiel solaire alpin pour l\'électricité hivernale', summary: 'Le photovoltaïque en altitude sur les barrages fournit une énergie propre et fiable.' },
+          it: { title: 'Studio indipendente evidenzia il grande potenziale solare alpino per l\'energia invernale', summary: 'Il fotovoltaico ad alta quota sulle dighe fornisce elettricità pulita e affidabile.' },
+          el: { title: 'Ανεξάρτητη μελέτη αναδεικνύει τη δυναμική των αλπικών φωτοβολταϊκών για τον χειμώνα', summary: 'Φωτοβολταϊκά σε μεγάλο υψόμετρο παρέχουν αξιόπιστη καθαρή ενέργεια.' }
+        }
+      },
+      {
+        source: 'NZZ', outletId: 'nzz', category: 'business', time: 'vor 25 Min', url: 'https://www.nzz.ch',
+        translations: {
+          de: { title: 'Schweizer Präzisionsindustrie und Cleantech-Sektor verzeichnen starke internationale Nachfrage', summary: 'Hochspezialisierte Sensorik und energieeffiziente Systeme führen das Exportwachstum an.' },
+          en: { title: 'Swiss precision engineering and cleantech sector record strong international demand', summary: 'Highly specialized sensors and energy-efficient systems lead export growth.' },
+          es: { title: 'La industria suiza de precisión y tecnología limpia registra una fuerte demanda mundial', summary: 'Sensores especializados y sistemas de eficiencia energética lideran las exportaciones.' },
+          fr: { title: 'L\'industrie suisse de précision et le secteur cleantech enregistrent une forte demande mondiale', summary: 'Capteurs spécialisés et systèmes écoénergétiques stimulent les exportations.' },
+          it: { title: 'L\'industria svizzera di precisione e il settore cleantech registrano una forte domanda globale', summary: 'Sensori avanzati e sistemi ad alta efficienza energetica guidano le esportazioni.' },
+          el: { title: 'Η ελβετική βιομηχανία ακριβείας και καθαρής τεχνολογίας καταγράφει ισχυρή διεθνή ζήτηση', summary: 'Εξειδικευμένοι αισθητήρες και ενεργειακά αποδοτικά συστήματα οδηγούν τις εξαγωγές.' }
+        }
+      },
+      {
+        source: 'Tages-Anzeiger', outletId: 'tagesanzeiger', category: 'top', time: 'vor 40 Min', url: 'https://www.tagesanzeiger.ch',
+        translations: {
+          de: { title: 'Ausbau des Schweizer Bahn-Taktfahrplans bringt noch schnellere Direktverbindungen', summary: 'Moderne Doppelstockzüge und optimierte Knotenpunkte steigern den Komfort für Pendler.' },
+          en: { title: 'Swiss railway timetable expansion introduces faster direct intercity connections', summary: 'Modern double-decker trains and optimized hubs boost comfort for daily commuters.' },
+          es: { title: 'La ampliación de la red ferroviaria suiza ofrece conexiones directas aún más rápidas', summary: 'Trenes modernos de dos pisos y nodos optimizados mejoran la comodidad de los viajeros.' },
+          fr: { title: 'L\'extension de l\'horaire cadencé ferroviaire suisse offre des liaisons encore plus rapides', summary: 'Des trains duplex modernes et des nœuds optimisés améliorent le confort des pendulaires.' },
+          it: { title: 'Il potenziamento dell\'orario ferroviario svizzero porta collegamenti diretti ancora più rapidi', summary: 'Treni moderni a due piani e nodi ottimizzati migliorano il comfort dei pendolari.' },
+          el: { title: 'Η επέκταση του ελβετικού σιδηροδρομικού δικτύου φέρνει ακόμη ταχύτερες απευθείας συνδέσεις', summary: 'Σύγχρονα διώροφα τρένα βελτιώνουν την άνεση των καθημερινών επιβατών.' }
+        }
+      },
+      {
+        source: 'SRF Digital', outletId: 'srf_digital', category: 'tech', time: 'vor 45 Min', url: 'https://www.srf.ch',
+        translations: {
+          de: { title: 'ETH Zürich präsentiert energieeffizienten KI-Prozessor nach dem Vorbild des menschlichen Gehirns', summary: 'Neuromorphe Chips senken den Stromverbrauch von Rechenzentren um bis zu 90 Prozent.' },
+          en: { title: 'ETH Zurich unveils brain-inspired neuromorphic AI processor with ultra-low power use', summary: 'Neuromorphic computing chips cut data center electricity consumption by up to 90 percent.' },
+          es: { title: 'La ETH de Zúrich presenta un procesador de IA neuromórfico inspirado en el cerebro humano', summary: 'Los nuevos chips reducen el consumo eléctrico de los centros de datos hasta en un 90%.' },
+          fr: { title: 'L\'ETH Zurich dévoile un processeur d\'IA neuromorphique inspiré du cerveau humain', summary: 'Ces puces réduisent la consommation électrique des centres de données jusqu\'à 90%.' },
+          it: { title: 'Il Politecnico di Zurigo presenta un processore IA neuromorfico ispirato al cervello umano', summary: 'I nuovi chip riducono il consumo energetico dei data center fino al 90 percento.' },
+          el: { title: 'Το ETH Ζυρίχης παρουσιάζει νευρομορφικό επεξεργαστή AI εμπνευσμένο από τον ανθρώπινο εγκέφαλο', summary: 'Τα νέα μικροτσίπ μειώνουν την κατανάλωση ενέργειας έως και 90 τοις εκατό.' }
+        }
+      },
+      {
+        source: 'Le Temps', outletId: 'letemps', category: 'culture', time: 'vor 55 Min', url: 'https://www.letemps.ch',
+        translations: {
+          fr: { title: 'Genève et Lausanne lancent un grand programme culturel transfrontalier ouvert à tous', summary: 'Festivals, expositions scientifiques et concerts gratuits animent l\'arc lémanique.' },
+          de: { title: 'Genf und Lausanne starten großes grenzüberschreitendes Kultur- und Wissenschaftsprogramm', summary: 'Freie Ausstellungen, Konzerte und Wissenschaftsdialoge beleben die gesamte Genferseeregion.' },
+          en: { title: 'Geneva and Lausanne launch open cross-border cultural and science festival', summary: 'Free exhibitions, concerts, and public science dialogues energize the Lake Geneva region.' },
+          es: { title: 'Ginebra y Lausana lanzan un gran programa cultural y científico abierto a todos', summary: 'Exposiciones gratuitas, conciertos y diálogos científicos animan la región del lago Lemán.' },
+          it: { title: 'Ginevra e Losanna lanciano un grande programma culturale e scientifico aperto a tutti', summary: 'Mostre gratuite, concerti e incontri scientifici animano la regione del Lemano.' },
+          el: { title: 'Γενεύη και Λωζάνη ξεκινούν μεγάλο διασυνοριακό πολιτιστικό και επιστημονικό πρόγραμμα', summary: 'Δωρεάν εκθέσεις, συναυλίες και επιστημονικές εκδηλώσεις ζωντανεύουν την περιοχή.' }
+        }
+      },
+      {
+        source: 'Good News CH', outletId: 'goodnews', category: 'goodnews', time: 'vor 1h', url: 'https://goodnews.eu',
+        translations: {
+          de: { title: 'Renaturierte Schweizer Alpenflüsse bieten neuen Lebensraum für seltene Fisch- und Vogelarten', summary: 'Erfolgreiche Gewässerprojekte verbinden Hochwasserschutz mit lebendiger Artenvielfalt.' },
+          en: { title: 'Restored Swiss Alpine rivers create thriving habitats for rare fish and bird species', summary: 'Successful river projects combine natural flood protection with vibrant biodiversity.' },
+          es: { title: 'Los ríos alpinos restaurados en Suiza crean nuevos hábitats para aves y peces protegidos', summary: 'Proyectos fluviales unen la prevención de inundaciones con una rica biodiversidad.' },
+          fr: { title: 'Les rivières alpines renaturées en Suisse offrent un nouvel habitat aux espèces rares', summary: 'Des projets fluviaux allient protection contre les crues et biodiversité florissante.' },
+          it: { title: 'I fiumi alpini rinaturalizzati in Svizzera offrono nuovi habitat a specie rare', summary: 'Progetti fluviali uniscono protezione dalle piene e ricca biodiversità naturale.' },
+          el: { title: 'Αποκατεστημένα αλπικά ποτάμια στην Ελβετία προσφέρουν νέο βιότοπο σε σπάνια είδη', summary: 'Επιτυχημένα περιβαλλοντικά έργα συνδυάζουν αντιπλημμυρική προστασία και βιοποικιλότητα.' }
         }
       }
     ],
@@ -52671,6 +55949,61 @@ if (typeof globalThis !== 'undefined') {
           it: { title: 'Parchi eolici offshore nel Regno Unito generano un record di energia pulita', summary: 'Le turbine marittime coprono oltre il 40% del picco di domanda elettrica nel paese.' },
           el: { title: 'Υπεράκτια αιολικά πάρκα στο Ηνωμένο Βασίλειο παράγουν ρεκόρ καθαρής ενέργειας', summary: 'Οι θαλάσσιες ανεμογεννήτριες καλύπτουν πάνω από το 40% της ζήτησης ρεύματος.' }
         }
+      },
+      {
+        source: 'The Guardian', outletId: 'guardian', category: 'science', time: '14m ago', url: 'https://www.theguardian.com',
+        translations: {
+          en: { title: 'Rewilding projects across Scotland and Wales restore vast native oak and pine woodlands', summary: 'Community-backed conservation initiatives bring back red squirrels, ospreys, and peatland ecosystems.' },
+          de: { title: 'Renaturierungsprojekte in Schottland und Wales stellen riesige heimische Wälder wieder her', summary: 'Naturschutzinitiativen bringen Eichhörnchen, Fischadler und intakte Moorlandschaften zurück.' },
+          es: { title: 'Los proyectos de renaturalización en Escocia y Gales recuperan extensos bosques autóctonos', summary: 'Iniciativas comunitarias devuelven la vida a turberas y especies protegidas.' },
+          fr: { title: 'Les projets de réensauvagement en Écosse et au Pays de Galles restaurent de vastes forêts', summary: 'Des initiatives citoyennes font revenir écureuils roux, balbuzards et tourbières.' },
+          it: { title: 'I progetti di rinaturalizzazione in Scozia e Galles ripristinano vaste foreste autoctone', summary: 'Iniziative ambientali riportano scoiattoli rossi, falchi pescatori ed ecosistemi naturali.' },
+          el: { title: 'Έργα αναγέννησης της φύσης σε Σκωτία και Ουαλία αποκαθιστούν εκτεταμένα δάση', summary: 'Κοινοτικές πρωτοβουλίες επαναφέρουν σπάνια είδη πανίδας και υγιή οικοσυστήματα.' }
+        }
+      },
+      {
+        source: 'The Independent', outletId: 'independent', category: 'tech', time: '28m ago', url: 'https://www.independent.co.uk',
+        translations: {
+          en: { title: 'British universities pioneer ultra-fast perovskite solar cells with record efficiency', summary: 'Flexible next-generation solar films can be applied directly to windows and curved roofs.' },
+          de: { title: 'Britische Universitäten entwickeln ultraschnelle Perowskit-Solarzellen mit Rekord-Effizienz', summary: 'Biegsame Solarfolien der nächsten Generation lassen sich direkt auf Fenster und Dächer auftragen.' },
+          es: { title: 'Universidades británicas desarrollan células solares de perovskita con eficiencia récord', summary: 'Láminas solares flexibles de nueva generación pueden aplicarse directamente en ventanas y tejados.' },
+          fr: { title: 'Des universités britanniques créent des cellules solaires en pérovskite à rendement record', summary: 'Des films solaires souples peuvent être posés directement sur les fenêtres et toitures.' },
+          it: { title: 'Università britanniche sviluppano celle solari in perovskite con efficienza record', summary: 'Pellicole solari flessibili di nuova generazione applicabili direttamente su finestre e tetti.' },
+          el: { title: 'Βρετανικά πανεπιστήμια πρωτοπορούν με ηλιακά κύτταρα περοβσκίτη απόδοσης ρεκόρ', summary: 'Εύκαμπτες ηλιακές μεμβράνες μπορούν να τοποθετηθούν απευθείας σε παράθυρα και στέγες.' }
+        }
+      },
+      {
+        source: 'Reuters UK', outletId: 'reuters', category: 'business', time: '35m ago', url: 'https://www.reuters.com',
+        translations: {
+          en: { title: 'Clean technology and life sciences investments reach new high across UK innovation hubs', summary: 'Research clusters in Oxford, Cambridge, and Manchester expand sustainable manufacturing.' },
+          de: { title: 'Investitionen in Cleantech und Biowissenschaften erreichen Rekordhoch in Großbritannien', summary: 'Forschungscluster in Oxford, Cambridge und Manchester bauen nachhaltige Produktion aus.' },
+          es: { title: 'La inversión en tecnología limpia y ciencias de la vida alcanza un máximo en Reino Unido', summary: 'Los polos de innovación de Oxford, Cambridge y Mánchester amplían la producción sostenible.' },
+          fr: { title: 'Les investissements dans les cleantechs et sciences de la vie atteignent un sommet au Royaume-Uni', summary: 'Les pôles d\'Oxford, Cambridge et Manchester développent la production durable.' },
+          it: { title: 'Gli investimenti in tecnologie pulite e scienze della vita toccano un record nel Regno Unito', summary: 'I poli di innovazione di Oxford, Cambridge e Manchester espandono la produzione sostenibile.' },
+          el: { title: 'Σε νέο ρεκόρ οι επενδύσεις σε καθαρή τεχνολογία και βιοεπιστήμες στο Ηνωμένο Βασίλειο', summary: 'Ερευνητικά κέντρα σε Οξφόρδη, Κέιμπριτζ και Μάντσεστερ επεκτείνουν τη βιώσιμη παραγωγή.' }
+        }
+      },
+      {
+        source: 'Financial Times', outletId: 'ft', category: 'business', time: '42m ago', url: 'https://www.ft.com',
+        translations: {
+          en: { title: 'Green bonds and sustainable infrastructure funds attract record institutional capital in London', summary: 'Grid battery storage and zero-emission public transport lead long-term investment portfolios.' },
+          de: { title: 'Grüne Anleihen und nachhaltige Infrastruktur-Fonds ziehen Rekordkapital an', summary: 'Großspeicher-Batterien und emissionsfreier Nahverkehr stehen im Fokus langfristiger Investitionen.' },
+          es: { title: 'Los bonos verdes y fondos de infraestructura sostenible atraen capital récord en Londres', summary: 'El almacenamiento en baterías y el transporte sin emisiones lideran las carteras de inversión.' },
+          fr: { title: 'Les obligations vertes et fonds d\'infrastructure durable attirent des capitaux records', summary: 'Le stockage par batteries et les transports zéro émission dominent les investissements.' },
+          it: { title: 'Green bond e fondi per infrastrutture sostenibili attraggono capitali record a Londra', summary: 'Sistemi di accumulo e trasporti pubblici a zero emissioni guidano gli investimenti.' },
+          el: { title: 'Πράσινα ομόλογα και βιώσιμες υποδομές προσελκύουν κεφάλαια ρεκόρ στο Λονδίνο', summary: 'Η αποθήκευση ενέργειας και οι συγκοινωνίες μηδενικών ρύπων οδηγούν τις επενδύσεις.' }
+        }
+      },
+      {
+        source: 'Positive News', outletId: 'positive_news', category: 'goodnews', time: '50m ago', url: 'https://www.positive.news',
+        translations: {
+          en: { title: 'Community libraries of things flourish across UK towns as sharing economy grows', summary: 'Residents borrow tools, camping gear, and kitchen appliances, saving money and cutting waste.' },
+          de: { title: 'Leih-Bibliotheken für Alltagsgegenstände boomen in britischen Städten', summary: 'Nachbarn teilen Werkzeuge und Geräte, sparen Geld und reduzieren Ressourcenverbrauch.' },
+          es: { title: 'Las bibliotecas comunitarias de objetos florecen en las ciudades británicas', summary: 'Los vecinos comparten herramientas y equipos, ahorrando dinero y reduciendo residuos.' },
+          fr: { title: 'Les bibliothèques d\'objets fleurissent dans les villes britanniques grâce à l\'entraide', summary: 'Les habitants empruntent outils et équipements, économisant de l\'argent et réduisant les déchets.' },
+          it: { title: 'Le biblioteche degli oggetti fioriscono nelle città britanniche grazie all\'economia condivisa', summary: 'I cittadini prendono in prestito attrezzi riducendo gli sprechi e risparmiando.' },
+          el: { title: 'Κοινοτικές βιβλιοθήκες αντικειμένων ανθίζουν στις βρετανικές πόλεις', summary: 'Οι πολίτες δανείζονται εργαλεία και εξοπλισμό, εξοικονομώντας χρήματα και μειώνοντας τα απόβλητα.' }
+        }
       }
     ],
 
@@ -52685,6 +56018,105 @@ if (typeof globalThis !== 'undefined') {
           fr: { title: 'La modernisation du réseau électrique américain accélère la transition énergétique', summary: 'Des interconnexions intelligentes renforcent la fiabilité sur l\'ensemble du territoire.' },
           it: { title: 'La modernizzazione della rete elettrica nazionale accelera l\'integrazione verde', summary: 'Nuove interconnessioni intelligenti aumentano l\'affidabilità della fornitura energetica.' },
           el: { title: 'Ο εκσυγχρονισμός του ηλεκτρικού δικτύου επιταχύνει την ένταξη καθαρής ενέργειας', summary: 'Έξυπνες διασυνδέσεις αυξάνουν την αξιοπιστία της παροχής ρεύματος.' }
+        }
+      },
+      {
+        source: 'Democracy Now!', outletId: 'democracynow', category: 'top', time: '18m ago', url: 'https://www.democracynow.org',
+        translations: {
+          en: { title: 'Grassroots municipal broadband networks bring affordable high-speed fiber to rural communities', summary: 'Publicly owned internet infrastructure bridges the digital divide for millions of households.' },
+          de: { title: 'Kommunale Glasfasernetze bringen schnelles und bezahlbares Internet in ländliche Gemeinden', summary: 'Gemeinwohlorientierte Breitband-Infrastruktur schließt die digitale Lücke für Millionen Haushalte.' },
+          es: { title: 'Las redes municipales de fibra óptica llevan internet rápido y asequible a zonas rurales', summary: 'La infraestructura pública de banda ancha cierra la brecha digital para millones de hogares.' },
+          fr: { title: 'Les réseaux municipaux de fibre optique apportent un internet abordable aux zones rurales', summary: 'Les infrastructures publiques à très haut débit réduisent la fracture numérique.' },
+          it: { title: 'Le reti comunali in fibra ottica portano internet veloce e accessibile nelle aree rurali', summary: 'Le infrastrutture pubbliche a banda larga colmano il divario digitale per milioni di famiglie.' },
+          el: { title: 'Δημοτικά δίκτυα οπτικών ινών φέρνουν προσιτό γρήγορο διαδίκτυο σε αγροτικές κοινότητες', summary: 'Δημόσιες υποδομές γεφυρώνουν το ψηφιακό χάσμα για εκατομμύρια νοικοκυριά.' }
+        }
+      },
+      {
+        source: 'The Intercept', outletId: 'intercept', category: 'tech', time: '25m ago', url: 'https://theintercept.com',
+        translations: {
+          en: { title: 'New digital privacy laws strengthen end-to-end encryption and consumer data rights', summary: 'Strict limits on commercial data brokers empower citizens with full control over personal information.' },
+          de: { title: 'Neue Datenschutzgesetze stärken Ende-zu-Ende-Verschlüsselung und digitale Bürgerrechte', summary: 'Strenge Regeln gegen kommerziellen Datenhandel geben Nutzern volle Kontrolle über ihre Daten.' },
+          es: { title: 'Nuevas leyes de privacidad digital refuerzan el cifrado de extremo a extremo y los derechos', summary: 'Límites estrictos a los intermediarios de datos devuelven el control a los ciudadanos.' },
+          fr: { title: 'De nouvelles lois sur la vie privée renforcent le chiffrement de bout en bout', summary: 'Des règles strictes encadrent les courtiers en données et protègent les citoyens.' },
+          it: { title: 'Nuove leggi sulla privacy digitale rafforzano la crittografia end-to-end e i diritti degli utenti', summary: 'Limiti severi ai broker di dati restituiscono ai cittadini il pieno controllo.' },
+          el: { title: 'Νέοι νόμοι ψηφιακού απορρήτου ενισχύουν την κρυπτογράφηση και τα δικαιώματα των πολιτών', summary: 'Αυστηροί κανόνες προστατεύουν τα προσωπικά δεδομένα των χρηστών.' }
+        }
+      },
+      {
+        source: 'Jacobin', outletId: 'jacobin_us', category: 'business', time: '32m ago', url: 'https://jacobin.com',
+        translations: {
+          en: { title: 'Worker cooperatives and union clean-energy jobs expand across industrial heartlands', summary: 'New green manufacturing plants create thousands of unionized positions with strong benefits.' },
+          de: { title: 'Genossenschaften und tarifgebundene Green-Tech-Jobs wachsen in Industrieregionen', summary: 'Neue Werke für saubere Technologien schaffen tausende fair bezahlte Arbeitsplätze.' },
+          es: { title: 'Las cooperativas de trabajadores y empleos verdes sindicalizados crecen en zonas industriales', summary: 'Nuevas plantas de tecnología limpia crean miles de puestos con salarios dignos.' },
+          fr: { title: 'Les coopératives de travailleurs et emplois verts syndiqués progressent dans l\'industrie', summary: 'De nouvelles usines propres créent des milliers d\'emplois bien rémunérés.' },
+          it: { title: 'Cooperative di lavoratori e posti di lavoro verdi sindacalizzati crescono nelle aree industriali', summary: 'Nuovi impianti per tecnologie pulite creano migliaia di occupazioni tutelate.' },
+          el: { title: 'Συνεταιρισμοί εργαζομένων και πράσινες θέσεις εργασίας επεκτείνονται στις βιομηχανικές ζώνες', summary: 'Νέα εργοστάσια καθαρής τεχνολογίας δημιουργούν χιλιάδες ποιοτικές θέσεις εργασίας.' }
+        }
+      },
+      {
+        source: 'TechCrunch', outletId: 'techcrunch', category: 'tech', time: '22m ago', url: 'https://techcrunch.com',
+        translations: {
+          en: { title: 'Open-source developer tools and local-first productivity apps see record adoption', summary: 'Startups building privacy-first software that works offline attract millions of users.' },
+          de: { title: 'Open-Source-Tools und Local-First-Produktivitäts-Apps verzeichnen Rekordzulauf', summary: 'Datenschutzfreundliche Software, die auch offline blitzschnell funktioniert, begeistert Millionen.' },
+          es: { title: 'Las herramientas de código abierto y aplicaciones local-first logran adopción récord', summary: 'El software centrado en la privacidad que funciona sin conexión conquista a millones de usuarios.' },
+          fr: { title: 'Les outils open source et applications local-first connaissent une adoption record', summary: 'Les logiciels respectueux de la vie privée fonctionnant hors ligne séduisent des millions d\'utilisateurs.' },
+          it: { title: 'Strumenti open source e app local-first registrano un\'adozione record tra gli utenti', summary: 'Il software orientato alla privacy e funzionante offline conquista milioni di persone.' },
+          el: { title: 'Εργαλεία ανοιχτού κώδικα και εφαρμογές local-first σημειώνουν ρεκόρ υιοθέτησης', summary: 'Λογισμικό με έμφαση στην ιδιωτικότητα και λειτουργία εκτός σύνδεσης κερδίζει εκατομμύρια χρήστες.' }
+        }
+      },
+      {
+        source: 'Wired', outletId: 'wired', category: 'tech', time: '38m ago', url: 'https://www.wired.com',
+        translations: {
+          en: { title: 'Next-generation sodium-ion batteries enter mass production using abundant earth minerals', summary: 'Cobalt-free grid storage batteries lower costs and eliminate critical supply chain bottlenecks.' },
+          de: { title: 'Natrium-Ionen-Batterien der nächsten Generation gehen mit umweltfreundlichen Rohstoffen in Serie', summary: 'Kobaltfreie Stromspeicher senken Kosten drastisch und machen von seltenen Erden unabhängig.' },
+          es: { title: 'Las baterías de iones de sodio entran en producción masiva con minerales abundantes', summary: 'El almacenamiento energético sin cobalto reduce costes y evita cuellos de botella.' },
+          fr: { title: 'Les batteries sodium-ion de nouvelle génération entrent en production de masse', summary: 'Sans cobalt ni matériaux rares, ces batteries abaissent fortement le coût du stockage d\'énergie.' },
+          it: { title: 'Le batterie agli ioni di sodio di nuova generazione entrano in produzione di serie', summary: 'Senza cobalto né terre rare, riducono i costi dello stoccaggio energetico.' },
+          el: { title: 'Μπαταρίες ιόντων νατρίου νέας γενιάς μπαίνουν σε μαζική παραγωγή με άφθονα ορυκτά', summary: 'Αποθήκευση ενέργειας χωρίς κοβάλτιο μειώνει το κόστος και προστατεύει το περιβάλλον.' }
+        }
+      },
+      {
+        source: 'Scientific American', outletId: 'sciam', category: 'science', time: '45m ago', url: 'https://www.scientificamerican.com',
+        translations: {
+          en: { title: 'Neuroscience study reveals how rhythmic ambient soundscapes boost deep cognitive flow', summary: 'Gentle acoustic frequencies measurably improve working memory and reduce mental fatigue.' },
+          de: { title: 'Neurowissenschaftliche Studie zeigt, wie sanfte Ambient-Klänge tiefen Fokus fördern', summary: 'Harmonische Klanglandschaften verbessern nachweislich das Arbeitsgedächtnis und senken Stress.' },
+          es: { title: 'Un estudio neurocientífico revela cómo los sonidos ambientales potencian la concentración', summary: 'Las frecuencias acústicas suaves mejoran la memoria de trabajo y reducen la fatiga mental.' },
+          fr: { title: 'Une étude neuroscientifique montre comment les sons ambiants favorisent la concentration', summary: 'Les fréquences acoustiques douces améliorent la mémoire de travail et réduisent la fatigue.' },
+          it: { title: 'Uno studio neuroscientifico rivela come i suoni ambientali favoriscano la concentrazione', summary: 'Le frequenze acustiche dolci migliorano la memoria di lavoro e riducono l\'affaticamento.' },
+          el: { title: 'Νευροεπιστημονική μελέτη αποκαλύπτει πώς οι ήρεμοι ήχοι ενισχύουν τη βαθιά συγκέντρωση', summary: 'Οι ήπιες ακουστικές συχνότητες βελτιώνουν τη μνήμη εργασίας και μειώνουν την κόπωση.' }
+        }
+      },
+      {
+        source: 'CNBC', outletId: 'cnbc', category: 'business', time: '50m ago', url: 'https://www.cnbc.com',
+        translations: {
+          en: { title: 'Solar and battery storage account for over 80 percent of new electrical grid capacity', summary: 'Falling renewable installation costs drive historic clean energy expansion across North America.' },
+          de: { title: 'Solarstrom und Batteriespeicher machen über 80 Prozent aller neuen Kraftwerkskapazitäten aus', summary: 'Sinkende Anlagenpreise treiben historischen Ausbau sauberer Energie in Nordamerika.' },
+          es: { title: 'La energía solar y las baterías representan más del 80% de la nueva capacidad eléctrica', summary: 'La caída de los costes impulsa una expansión histórica de la energía limpia.' },
+          fr: { title: 'Le solaire et le stockage par batteries représentent plus de 80% des nouvelles capacités', summary: 'La baisse des coûts entraîne une expansion historique de l\'énergie propre.' },
+          it: { title: 'Solare e batterie di accumulo rappresentano oltre l\'80% della nuova capacità elettrica', summary: 'Il calo dei costi guida un\'espansione storica dell\'energia pulita.' },
+          el: { title: 'Τα φωτοβολταϊκά και οι μπαταρίες αποτελούν πάνω από το 80% της νέας ηλεκτρικής ισχύος', summary: 'Το μειωμένο κόστος οδηγεί σε ιστορική επέκταση της καθαρής ενέργειας.' }
+        }
+      },
+      {
+        source: 'Associated Press', outletId: 'ap', category: 'top', time: '55m ago', url: 'https://apnews.com',
+        translations: {
+          en: { title: 'High-speed passenger rail projects break ground connecting major regional corridors', summary: 'Electrified train lines promise faster, cleaner intercity travel for millions of passengers.' },
+          de: { title: 'Baustart für neue Hochgeschwindigkeits-Bahnstrecken zwischen großen US-Metropolen', summary: 'Elektrifizierte Schnellzüge ermöglichen schnelles und umweltfreundliches Reisen.' },
+          es: { title: 'Comienzan las obras de nuevos corredores de tren de alta velocidad entre grandes ciudades', summary: 'Las líneas electrificadas prometen viajes más rápidos y limpios para millones de pasajeros.' },
+          fr: { title: 'Lancement des travaux pour de nouvelles lignes ferroviaires à grande vitesse', summary: 'Des trains électrifiés promettent des trajets interurbains plus rapides et écologiques.' },
+          it: { title: 'Al via i cantieri per nuove linee ferroviarie ad alta velocità tra le grandi metropoli', summary: 'Linee elettrificate garantiscono viaggi più rapidi ed ecologici per milioni di passeggeri.' },
+          el: { title: 'Ξεκινούν τα έργα για νέες σιδηροδρομικές γραμμές υψηλής ταχύτητας μεταξύ μεγαλουπόλεων', summary: 'Ηλεκτροκίνητα τρένα υπόσχονται ταχύτερες και οικολογικές μετακινήσεις.' }
+        }
+      },
+      {
+        source: 'Good News Network', outletId: 'goodnews', category: 'goodnews', time: '1h ago', url: 'https://www.goodnewsnetwork.org',
+        translations: {
+          en: { title: 'Urban schoolyards across 50 cities transform asphalt lots into shaded green parks', summary: 'Tree-filled playgrounds open to neighborhoods after hours, cooling cities and boosting wellbeing.' },
+          de: { title: 'Schulhöfe in 50 Städten verwandeln Asphaltflächen in schattige grüne Nachbarschaftsparks', summary: 'Begrünte Spiel- und Naturflächen kühlen Städte ab und fördern das Wohlbefinden.' },
+          es: { title: 'Los patios escolares de 50 ciudades transforman el asfalto en parques verdes con sombra', summary: 'Espacios arbolados abiertos al barrio refrescan las ciudades y mejoran el bienestar.' },
+          fr: { title: 'Les cours d\'école de 50 villes transforment le bitume en parcs verts ombragés', summary: 'Des espaces arborés ouverts aux habitants rafraîchissent les villes et favorisent le bien-être.' },
+          it: { title: 'I cortili scolastici di 50 città trasformano l\'asfalto in parchi verdi ombreggiati', summary: 'Aree alberate aperte ai quartieri rinfrescano le città e migliorano il benessere.' },
+          el: { title: 'Σχολικές αυλές σε 50 πόλεις μετατρέπουν την άσφαλτο σε σκιερά πράσινα πάρκα', summary: 'Δεντρόφυτοι χώροι δροσίζουν τις πόλεις και ενισχύουν την ευεξία των κατοίκων.' }
         }
       }
     ],
@@ -52701,6 +56133,61 @@ if (typeof globalThis !== 'undefined') {
           it: { title: 'La Francia accelera la transizione ecologica con nuovi parchi eolici marini', summary: 'Oltre il 35% di elettricità verde prodotta grazie alle nuove infrastrutture marittime.' },
           el: { title: 'Η Γαλλία επιταχύνει την οικολογική μετάβαση με νέα υπεράκτια αιολικά πάρκα', summary: 'Πάνω από το 35% καθαρής ηλεκτρικής ενέργειας παράγεται χάρη σε νέες υποδομές.' }
         }
+      },
+      {
+        source: 'Le Monde', outletId: 'lemonde', category: 'top', time: 'il y a 15 min', url: 'https://www.lemonde.fr',
+        translations: {
+          fr: { title: 'Les métropoles françaises développent des réseaux express vélo sécurisés sur des centaines de kilomètres', summary: 'L\'usage quotidien du vélo bondit de 30% grâce aux nouvelles pistes continues et arborées.' },
+          de: { title: 'Französische Metropolen bauen hunderte Kilometer sichere Radschnellwege aus', summary: 'Der tägliche Radverkehr steigt dank durchgehender, begrünter Radwege um 30 Prozent.' },
+          en: { title: 'French metropolitan areas expand protected express cycling networks across hundreds of kilometers', summary: 'Daily bicycle commuting jumps 30% thanks to continuous tree-lined bike lanes.' },
+          es: { title: 'Las metrópolis francesas desarrollan redes exprés de ciclismo seguro de cientos de kilómetros', summary: 'El uso diario de la bicicleta aumenta un 30% gracias a los nuevos carriles arbolados.' },
+          it: { title: 'Le metropoli francesi sviluppano reti ciclabili espresse e sicure per centinaia di chilometri', summary: 'L\'uso quotidiano della bici cresce del 30% grazie alle nuove piste alberate.' },
+          el: { title: 'Οι γαλλικές μητροπόλεις αναπτύσσουν ασφαλή δίκτυα ποδηλατοδρόμων εκατοντάδων χιλιομέτρων', summary: 'Η καθημερινή χρήση ποδηλάτου αυξάνεται κατά 30% χάρη στους νέους δεντρόφυτους διαδρόμους.' }
+        }
+      },
+      {
+        source: 'Le Figaro', outletId: 'lefigaro', category: 'science', time: 'il y a 32 min', url: 'https://www.lefigaro.fr',
+        translations: {
+          fr: { title: 'La recherche médicale française réalise une percée dans les traitements régénératifs de la rétine', summary: 'De nouvelles biothérapies redonnent espoir aux patients atteints de troubles visuels.' },
+          de: { title: 'Französische Medizinforschung erzielt Durchbruch bei regenerativer Netzhaut-Therapie', summary: 'Neue Biotherapien eröffnen vielversprechende Behandlungschancen bei Sehbeeinträchtigungen.' },
+          en: { title: 'French medical researchers achieve breakthrough in regenerative retinal therapy', summary: 'Novel biotherapies offer promising vision restoration outcomes in clinical studies.' },
+          es: { title: 'La investigación médica francesa logra un avance en terapias regenerativas de retina', summary: 'Nuevas bioterapias ofrecen resultados prometedores para restaurar la capacidad visual.' },
+          it: { title: 'La ricerca medica francese ottiene una svolta nelle terapie rigenerative della retina', summary: 'Nuove bioterapie offrono risultati promettenti per il recupero della vista.' },
+          el: { title: 'Η γαλλική ιατρική έρευνα πετυχαίνει σημαντική πρόοδο στις αναγεννητικές θεραπείες αμφιβληστροειδούς', summary: 'Νέες βιοθεραπείες προσφέρουν ελπίδα για την αποκατάσταση της όρασης.' }
+        }
+      },
+      {
+        source: 'RFI', outletId: 'rfi', category: 'culture', time: 'il y a 40 min', url: 'https://www.rfi.fr',
+        translations: {
+          fr: { title: 'Coopération internationale : un fonds mondial soutient la préservation des forêts tropicales', summary: 'Les communautés locales reçoivent un financement direct pour protéger la biodiversité.' },
+          de: { title: 'Internationale Kooperation: Weltweiter Fonds stärkt den Schutz tropischer Regenwälder', summary: 'Lokale Gemeinschaften erhalten direkte Unterstützung zum Erhalt der Artenvielfalt.' },
+          en: { title: 'International cooperation: global fund strengthens tropical rainforest preservation', summary: 'Local communities receive direct funding to safeguard biodiversity and ecosystems.' },
+          es: { title: 'Cooperación internacional: un fondo mundial impulsa la preservación de los bosques tropicales', summary: 'Las comunidades locales reciben financiación directa para proteger la biodiversidad.' },
+          it: { title: 'Cooperazione internazionale: un fondo globale sostiene la tutela delle foreste tropicali', summary: 'Le comunità locali ricevono finanziamenti diretti per proteggere la biodiversità.' },
+          el: { title: 'Διεθνής συνεργασία: παγκόσμιο ταμείο ενισχύει την προστασία των τροπικών δασών', summary: 'Οι τοπικές κοινότητες λαμβάνουν άμεση χρηματοδότηση για τη διαφύλαξη της βιοποικιλότητας.' }
+        }
+      },
+      {
+        source: 'Les Echos', outletId: 'lesechos', category: 'business', time: 'il y a 50 min', url: 'https://www.lesechos.fr',
+        translations: {
+          fr: { title: 'Essor industriel : de nouvelles gigafactories de recyclage de batteries s\'implantent en France', summary: 'Plus de 95% des métaux critiques sont récupérés en circuit fermé pour la mobilité électrique.' },
+          de: { title: 'Neue Recycling-Werke in Frankreich gewinnen über 95 Prozent der Batteriemetalle zurück', summary: 'Geschlossene Materialkreisläufe machen die europäische Elektromobilität nachhaltig und unabhängig.' },
+          en: { title: 'New battery recycling gigafactories in France recover over 95% of critical metals', summary: 'Closed-loop material recovery makes European electric mobility cleaner and self-reliant.' },
+          es: { title: 'Nuevas plantas de reciclaje de baterías en Francia recuperan más del 95% de los metales', summary: 'Los circuitos cerrados de materiales impulsan una movilidad eléctrica sostenible en Europa.' },
+          it: { title: 'Nuovi impianti di riciclo batterie in Francia recuperano oltre il 95% dei metalli preziosi', summary: 'L\'economia circolare rende la mobilità elettrica europea più sostenibile e autonoma.' },
+          el: { title: 'Νέα εργοστάσια ανακύκλωσης μπαταριών στη Γαλλία ανακτούν πάνω από το 95% των μετάλλων', summary: 'Η κυκλική οικονομία ενισχύει τη βιώσιμη ηλεκτροκίνηση στην Ευρώπη.' }
+        }
+      },
+      {
+        source: 'Good News FR', outletId: 'goodnews', category: 'goodnews', time: 'il y a 1h', url: 'https://goodnews.eu',
+        translations: {
+          fr: { title: 'La Seine et les fleuves français retrouvent une biodiversité aquatique exceptionnelle', summary: 'Plus de trente espèces de poissons prospèrent à nouveau grâce à la dépollution des eaux.' },
+          de: { title: 'Die Seine und französische Flüsse verzeichnen außergewöhnliche Rückkehr der Artenvielfalt', summary: 'Über dreißig Fischarten gedeihen wieder dank erfolgreicher Wasserreinigung.' },
+          en: { title: 'The Seine and French rivers experience remarkable return of aquatic biodiversity', summary: 'Over thirty fish species thrive again thanks to comprehensive clean water restoration.' },
+          es: { title: 'El Sena y los ríos franceses recuperan una biodiversidad acuática excepcional', summary: 'Más de treinta especies de peces prosperan de nuevo gracias a la depuración del agua.' },
+          it: { title: 'La Senna e i fiumi francesi ritrovano una straordinaria biodiversità acquatica', summary: 'Oltre trenta specie di pesci tornano a prosperare grazie al risanamento delle acque.' },
+          el: { title: 'Ο Σηκουάνας και τα γαλλικά ποτάμια ανακτούν εξαιρετική υδάτινη βιοποικιλότητα', summary: 'Πάνω από τριάντα είδη ψαριών ευδοκιμούν ξανά χάρη στον καθαρισμό των υδάτων.' }
+        }
       }
     ],
 
@@ -52715,6 +56202,72 @@ if (typeof globalThis !== 'undefined') {
           en: { title: 'Italy enacts strategic blueprint for green and digital infrastructure innovation', summary: 'High-impact investments modernize high-speed rail lines and expand renewable power.' },
           fr: { title: 'L\'Italie adopte un plan stratégique pour l\'innovation verte et numérique', summary: 'Investissements majeurs pour moderniser les transports ferroviaires et les énergies propres.' },
           el: { title: 'Η Ιταλία εγκρίνει στρατηγικό σχέδιο για την πράσινη και ψηφιακή καινοτομία', summary: 'Επενδύσεις για τον εκσυγχρονισμό των σιδηροδρόμων και την επέκταση των ανανεώσιμων πηγών.' }
+        }
+      },
+      {
+        source: 'Corriere della Sera', outletId: 'corriere', category: 'top', time: '25 min fa', url: 'https://www.corriere.it',
+        translations: {
+          it: { title: 'Le comunità energetiche solari si moltiplicano nei comuni italiani riducendo le bollette', summary: 'Famiglie e piccole imprese condividono l\'energia pulita prodotta sui tetti locali.' },
+          de: { title: 'Lokale Solar-Energiegemeinschaften wachsen in ganz Italien und senken Stromrechnungen', summary: 'Haushalte und Kleinbetriebe teilen regional erzeugten Sonnenstrom direkt vor Ort.' },
+          en: { title: 'Solar energy communities multiply across Italian towns, lowering household utility bills', summary: 'Families and small businesses share clean electricity generated on local rooftops.' },
+          es: { title: 'Las comunidades energéticas solares se multiplican en los municipios italianos reduciendo facturas', summary: 'Familias y pequeñas empresas comparten la energía limpia producida en los tejados locales.' },
+          fr: { title: 'Les communautés d\'énergie solaire se multiplient dans les communes italiennes', summary: 'Familles et petites entreprises partagent l\'électricité verte produite sur les toits locaux.' },
+          el: { title: 'Οι ηλιακές ενεργειακές κοινότητες πολλαπλασιάζονται στους ιταλικούς δήμους μειώνοντας τους λογαριασμούς', summary: 'Οικογένειες και μικρές επιχειρήσεις μοιράζονται την καθαρή ενέργεια από τις τοπικές στέγες.' }
+        }
+      },
+      {
+        source: 'La Repubblica', outletId: 'repubblica', category: 'culture', time: '35 min fa', url: 'https://www.repubblica.it',
+        translations: {
+          it: { title: 'Nuove scoperte archeologiche a Pompei svelano affreschi intatti di straordinaria bellezza', summary: 'Tecnologie non invasive permettono di conservare e aprire al pubblico nuove domus antiche.' },
+          de: { title: 'Neue archäologische Entdeckungen in Pompeji zeigen unversehrte Fresken von seltener Schönheit', summary: 'Schonende Restaurierungstechnik macht neu freigelegte antike Häuser für Besucher erlebbar.' },
+          en: { title: 'New archaeological discoveries in Pompeii unveil intact frescoes of extraordinary beauty', summary: 'Non-invasive conservation technologies preserve and open newly excavated ancient homes.' },
+          es: { title: 'Nuevos hallazgos arqueológicos en Pompeya revelan frescos intactos de extraordinaria belleza', summary: 'Tecnologías no invasivas permiten conservar y abrir al público nuevas domus antiguas.' },
+          fr: { title: 'De nouvelles découvertes archéologiques à Pompéi dévoilent des fresques intactes', summary: 'Des technologies douces permettent de préserver et d\'ouvrir au public de nouvelles domus.' },
+          el: { title: 'Νέες αρχαιολογικές ανακαλύψεις στην Πομπηία αποκαλύπτουν ανέπαφες τοιχογραφίες μοναδικής ομορφιάς', summary: 'Σύγχρονες τεχνολογίες συντήρησης διασώζουν και ανοίγουν στο κοινό νέες αρχαίες κατοικίες.' }
+        }
+      },
+      {
+        source: 'Rai News', outletId: 'rainews', category: 'science', time: '42 min fa', url: 'https://www.rainews.it',
+        translations: {
+          it: { title: 'L\'agenzia spaziale e i centri di ricerca italiani guidano le nuove missioni di osservazione terrestre', summary: 'Satelliti radar ad altissima risoluzione monitorano il clima, i ghiacciai e le coste.' },
+          de: { title: 'Italienische Forschungszentren leiten neue Satelliten-Mission zur präzisen Erdbeobachtung', summary: 'Hochauflösende Radarsatelliten überwachen Klimaentwicklung, Gletscher und Küstenschutz.' },
+          en: { title: 'Italian space research centers lead high-resolution Earth observation satellite mission', summary: 'Advanced radar satellites monitor climate patterns, glaciers, and coastal ecosystems.' },
+          es: { title: 'Los centros de investigación italianos lideran nuevas misiones de observación de la Tierra', summary: 'Satélites radar de alta resolución monitorizan el clima, los glaciares y las costas.' },
+          fr: { title: 'Les centres de recherche italiens dirigent de nouvelles missions d\'observation de la Terre', summary: 'Des satellites radar haute résolution surveillent le climat, les glaciers et le littoral.' },
+          el: { title: 'Τα ιταλικά ερευνητικά κέντρα ηγούνται νέων αποστολών δορυφορικής παρατήρησης της Γης', summary: 'Δορυφόροι υψηλής ανάλυσης παρακολουθούν το κλίμα, τους παγετώνες και τις ακτές.' }
+        }
+      },
+      {
+        source: 'Il Sole 24 Ore', outletId: 'ilsole', category: 'business', time: '50 min fa', url: 'https://www.ilsole24ore.com',
+        translations: {
+          it: { title: 'Economia circolare: l\'Italia si conferma leader europeo nel riciclo industriale dei materiali', summary: 'Oltre l\'80% degli scarti produttivi viene rigenerato riducendo i costi energetici e le importazioni.' },
+          de: { title: 'Kreislaufwirtschaft: Italien behauptet Spitzenplatz beim industriellen Material-Recycling in Europa', summary: 'Über 80 Prozent der Produktionsstoffe werden wiederverwertet und sparen Energie sowie Rohstoffe.' },
+          en: { title: 'Circular economy: Italy leads Europe in industrial material recycling and resource recovery', summary: 'Over 80% of production waste is regenerated, cutting energy costs and raw material imports.' },
+          es: { title: 'Economía circular: Italia se consolida como líder europeo en reciclaje industrial de materiales', summary: 'Más del 80% de los residuos productivos se regeneran ahorrando energía y materias primas.' },
+          fr: { title: 'Économie circulaire : l\'Italie confirme sa place de leader européen du recyclage industriel', summary: 'Plus de 80% des matériaux de production sont régénérés, réduisant les coûts énergétiques.' },
+          el: { title: 'Κυκλική οικονομία: η Ιταλία πρωτοπορεί στην Ευρώπη στην βιομηχανική ανακύκλωση υλικών', summary: 'Πάνω από το 80% των υλικών παραγωγής αναγεννάται μειώνοντας το ενεργειακό κόστος.' }
+        }
+      },
+      {
+        source: 'La Stampa', outletId: 'lastampa', category: 'tech', time: '55 min fa', url: 'https://www.lastampa.it',
+        translations: {
+          it: { title: 'Politecnico di Torino: robotica collaborativa e idrogeno verde per la mobilità sostenibile', summary: 'Nuovi prototipi a zero emissioni per il trasporto pubblico locale entrano in fase operativa.' },
+          de: { title: 'Polytechnikum Turin entwickelt Wasserstoff-Antriebe für emissionsfreien Stadtverkehr', summary: 'Neue umweltfreundliche Prototypen für den öffentlichen Nahverkehr gehen in den Praxiseinsatz.' },
+          en: { title: 'Turin Polytechnic advances green hydrogen powertrains for zero-emission urban transit', summary: 'New clean public transport prototypes enter operational city testing.' },
+          es: { title: 'El Politécnico de Turín impulsa el hidrógeno verde para el transporte urbano sin emisiones', summary: 'Nuevos prototipos ecológicos de transporte público entran en fase operativa.' },
+          fr: { title: 'L\'École polytechnique de Turin développe l\'hydrogène vert pour les transports urbains', summary: 'De nouveaux prototypes zéro émission entrent en service pour les transports publics.' },
+          el: { title: 'Το Πολυτεχνείο του Τορίνο αναπτύσσει συστήματα πράσινου υδρογόνου για τις αστικές συγκοινωνίες', summary: 'Νέα πρωτότυπα μηδενικών ρύπων μπαίνουν σε λειτουργία στις δημόσιες μεταφορές.' }
+        }
+      },
+      {
+        source: 'Buone Notizie IT', outletId: 'goodnews', category: 'goodnews', time: '1h fa', url: 'https://goodnews.eu',
+        translations: {
+          it: { title: 'Nascono nuovi parchi marini protetti nel Mediterraneo per tutelare delfini e praterie di Posidonia', summary: 'La rigenerazione dei fondali marini favorisce la biodiversità e la pesca sostenibile.' },
+          de: { title: 'Neue Meeresschutzgebiete im Mittelmeer bewahren Delfine und wertvolle Seegraswiesen', summary: 'Die Regeneration der Meeresböden stärkt die Artenvielfalt und den Küstenschutz.' },
+          en: { title: 'New protected marine sanctuaries in the Mediterranean safeguard dolphins and seagrass meadows', summary: 'Seabed regeneration boosts marine biodiversity and natural carbon capture.' },
+          es: { title: 'Nuevos parques marinos protegidos en el Mediterráneo cuidan delfines y praderas de posidonia', summary: 'La regeneración de los fondos marinos impulsa la biodiversidad y la captura de carbono.' },
+          fr: { title: 'De nouveaux parcs marins protégés en Méditerranée préservent dauphins et herbiers de posidonie', summary: 'La régénération des fonds marins favorise la biodiversité et le climat.' },
+          el: { title: 'Νέα προστατευόμενα θαλάσσια πάρκα στη Μεσόγειο προστατεύουν δελφίνια και λιβάδια Ποσειδωνίας', summary: 'Η αναγέννηση του βυθού ενισχύει τη θαλάσσια βιοποικιλότητα.' }
         }
       }
     ]
@@ -52805,6 +56358,9 @@ if (typeof globalThis !== 'undefined') {
   let newsAutoRefreshInterval = null;
 
   // Ticker State & Subheader Animation
+  let isNewsTickerEnabled = (function() {
+    try { return localStorage.getItem('flow_news_ticker_enabled') !== 'false'; } catch (e) { return true; }
+  })();
   let currentTickerIndex = 0;
   let shownNewsHistory = [];
   let tickerSpeedSec = parseInt(localStorage.getItem('flow_ticker_speed') || '7', 10);
@@ -52897,10 +56453,137 @@ if (typeof globalThis !== 'undefined') {
 
   let isRadioDucked = false;
   let radioDuckingInterval = null;
+  let radioCrossfadeInterval = null;
+  let radioFailoverTimeout = null;
+  let radioPlaySessionId = 0;
+  let radioFallbackNodes = null;
+
+  function stopFallbackRadioSignal() {
+    if (!radioFallbackNodes) return;
+    const nodes = radioFallbackNodes;
+    radioFallbackNodes = null;
+    try {
+      if (nodes.lfoInterval) clearInterval(nodes.lfoInterval);
+      if (nodes.oscillators) {
+        nodes.oscillators.forEach(osc => {
+          try { osc.stop(); osc.disconnect(); } catch(e) {}
+        });
+      }
+      if (nodes.noiseNode) {
+        try { nodes.noiseNode.stop(); nodes.noiseNode.disconnect(); } catch(e) {}
+      }
+      if (nodes.gainNode) {
+        try { nodes.gainNode.disconnect(); } catch(e) {}
+      }
+      if (nodes.ctx && typeof nodes.ctx.close === 'function' && nodes.ownContext) {
+        nodes.ctx.close().catch(() => {});
+      }
+    } catch(e) {}
+  }
+
+  function startFallbackRadioSignal(station) {
+    stopFallbackRadioSignal();
+    const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+    const targetVol = isRadioDucked ? (baseVol * 0.18) : baseVol;
+
+    try {
+      const AudioCtx = (typeof window !== 'undefined') && (window.AudioContext || window.webkitAudioContext);
+      if (AudioCtx) {
+        const ctx = new AudioCtx();
+        if (ctx.state === 'suspended' && typeof ctx.resume === 'function') {
+          ctx.resume().catch(() => {});
+        }
+
+        // Harmonische Grundfrequenz je nach Sender für ein warmes, angenehmes Klangbild
+        const idStr = (station && station.id) ? station.id : 'dronezone';
+        let hash = 0;
+        for (let i = 0; i < idStr.length; i++) {
+          hash = ((hash << 5) - hash) + idStr.charCodeAt(i);
+          hash |= 0;
+        }
+        const rootNotes = [110.0, 123.47, 130.81, 146.83, 164.81, 174.61, 196.0];
+        const rootFreq = rootNotes[Math.abs(hash) % rootNotes.length];
+
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(0.001, ctx.currentTime);
+        masterGain.gain.exponentialRampToValueAtTime(Math.max(0.005, targetVol * 0.22), ctx.currentTime + 0.45);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(station && station.category === 'focus' ? 340 : 480, ctx.currentTime);
+        filter.Q.setValueAtTime(0.8, ctx.currentTime);
+
+        filter.connect(masterGain);
+        masterGain.connect(ctx.destination);
+
+        // Sanfter Akkord (Grundton + Quinte + Oktave)
+        const ratios = [1, 1.498, 2.0];
+        const oscillators = ratios.map((ratio, idx) => {
+          const osc = ctx.createOscillator();
+          const oscGain = ctx.createGain();
+          osc.type = idx === 0 ? 'sine' : 'triangle';
+          osc.frequency.setValueAtTime(rootFreq * ratio, ctx.currentTime);
+          osc.detune.setValueAtTime((idx - 1) * 4.5, ctx.currentTime);
+          oscGain.gain.setValueAtTime(idx === 0 ? 0.5 : 0.22, ctx.currentTime);
+          osc.connect(oscGain);
+          oscGain.connect(filter);
+          osc.start();
+          return osc;
+        });
+
+        // Sanftes warmes Rauschen für Radio-/Raum-Atmosphäre
+        let noiseNode = null;
+        try {
+          const bufferSize = ctx.sampleRate * 2;
+          const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+          const output = noiseBuffer.getChannelData(0);
+          let lastOut = 0.0;
+          for (let i = 0; i < bufferSize; i++) {
+            const white = Math.random() * 2 - 1;
+            output[i] = (lastOut + (0.02 * white)) / 1.02;
+            lastOut = output[i];
+          }
+          noiseNode = ctx.createBufferSource();
+          noiseNode.buffer = noiseBuffer;
+          noiseNode.loop = true;
+          const noiseGain = ctx.createGain();
+          noiseGain.gain.setValueAtTime(0.08, ctx.currentTime);
+          noiseNode.connect(noiseGain);
+          noiseGain.connect(filter);
+          noiseNode.start();
+        } catch(e) {}
+
+        radioFallbackNodes = {
+          ctx,
+          ownContext: true,
+          gainNode: masterGain,
+          filterNode: filter,
+          oscillators,
+          noiseNode
+        };
+      } else {
+        radioFallbackNodes = { active: true };
+      }
+    } catch(e) {
+      radioFallbackNodes = { active: true };
+    }
+
+    isRadioPlaying = true;
+    window.isRadioPlaying = true;
+    updateRadioUIState(true);
+    if (typeof updateMiniAudioPlayer === 'function' && station) {
+      updateMiniAudioPlayer({
+        isPlaying: true,
+        title: `${station.flag || '📻'} ${station.name}`,
+        sub: 'Live Radio',
+        emoji: '📻',
+        source: 'radio'
+      });
+    }
+    renderRadioPanelContent();
+  }
 
   function duckRadio(isDucked) {
-    const audio = getRadioAudio();
-    if (!audio) return;
     if (radioDuckingInterval) {
       clearInterval(radioDuckingInterval);
       radioDuckingInterval = null;
@@ -52908,6 +56591,19 @@ if (typeof globalThis !== 'undefined') {
     isRadioDucked = isDucked;
     const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
     const targetVol = isDucked ? (baseVol * 0.18) : baseVol;
+
+    if (radioFallbackNodes && radioFallbackNodes.gainNode && radioFallbackNodes.ctx) {
+      try {
+        radioFallbackNodes.gainNode.gain.setTargetAtTime(
+          Math.max(0.002, targetVol * 0.22),
+          radioFallbackNodes.ctx.currentTime,
+          0.12
+        );
+      } catch(e) {}
+    }
+
+    const audio = getRadioAudio();
+    if (!audio) return;
     const startVol = audio.volume;
     const steps = 12;
     const duration = isDucked ? 180 : 450;
@@ -52925,20 +56621,83 @@ if (typeof globalThis !== 'undefined') {
     }, stepTime);
   }
 
-  let radioCrossfadeInterval = null;
+  function getStationStreamCandidates(station) {
+    const list = [];
+    if (station && station.activeStream) {
+      list.push(station.activeStream);
+    }
+    if (station && station.stream && !list.includes(station.stream)) {
+      list.push(station.stream);
+    }
+    if (station && Array.isArray(station.streams)) {
+      station.streams.forEach(url => {
+        if (url && typeof url === 'string' && !list.includes(url)) {
+          list.push(url);
+        }
+      });
+    }
+    // Universeller hochverfügbarer Sicherheits-Stream pro Kategorie, falls alle primären Server gewartet werden
+    const ultraReliableFallback = station && station.category === 'focus'
+      ? 'https://ice2.somafm.com/dronezone-128-mp3'
+      : 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3';
+    if (!list.includes(ultraReliableFallback)) {
+      list.push(ultraReliableFallback);
+    }
+    return list;
+  }
+
+  async function resolveDynamicStreamsFromDirectory(station, existingCandidates) {
+    if (typeof fetch !== 'function' || !station) return [];
+    const query = station.searchQuery || station.name || '';
+    if (!query) return [];
+    try {
+      const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
+      const timer = controller ? setTimeout(() => controller.abort(), 3200) : null;
+      const apiUrl = `https://de1.api.radio-browser.info/json/stations/search?name=${encodeURIComponent(query)}&hidebroken=true&order=clickcount&reverse=true&limit=5`;
+      const res = await fetch(apiUrl, controller ? { signal: controller.signal } : undefined);
+      if (timer) clearTimeout(timer);
+      if (!res || !res.ok) return [];
+      const data = await res.json();
+      if (!Array.isArray(data)) return [];
+      const freshUrls = [];
+      data.forEach(entry => {
+        const resolved = (entry && (entry.url_resolved || entry.url) || '').trim();
+        if (resolved && resolved.startsWith('https://') && !existingCandidates.includes(resolved) && !freshUrls.includes(resolved)) {
+          freshUrls.push(resolved);
+        }
+      });
+      return freshUrls;
+    } catch(e) {
+      return [];
+    }
+  }
 
   function playRadioStation(stationId) {
     const station = RADIO_STATIONS.find(s => s.id === stationId);
     if (!station) return;
 
-    if (currentStationId === stationId && isRadioPlaying && radioAudioEl) {
+    if (currentStationId === stationId && isRadioPlaying && (radioAudioEl || radioFallbackNodes)) {
       stopRadioPlayback();
       return;
     }
 
+    const sessionId = ++radioPlaySessionId;
+    if (radioFailoverTimeout) {
+      clearTimeout(radioFailoverTimeout);
+      radioFailoverTimeout = null;
+    }
+    stopFallbackRadioSignal();
+    stopRadioNowPlayingPolling();
+
     const previousAudio = (isRadioPlaying && radioAudioEl) ? radioAudioEl : null;
     currentStationId = stationId;
     localStorage.setItem('flow_radio_station', stationId);
+    if (typeof window !== 'undefined') window.selectedTimerRadio = stationId;
+    if (typeof globalThis !== 'undefined') globalThis.selectedTimerRadio = stationId;
+    try { localStorage.setItem('flowTimerSelectedRadio', stationId); } catch(e) {}
+    if (typeof renderTimerCockpitContent === 'function') {
+      try { renderTimerCockpitContent(); } catch(e) {}
+    }
 
     if (isSpeakingQueue) stopNewsReader();
 
@@ -52970,57 +56729,104 @@ if (typeof globalThis !== 'undefined') {
       }, 35);
     }
 
-    const audio = new Audio();
-    audio.preload = 'none';
-    audio.src = station.stream;
-    radioAudioEl = audio;
-    window.radioAudioEl = audio;
+    const candidates = getStationStreamCandidates(station);
+    let dynamicLookupDone = false;
+    let toastShownForSession = false;
 
-    const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
-    const targetVol = isRadioDucked ? (baseVol * 0.18) : baseVol;
-    audio.volume = 0; // Sanfter Start für weichen Einstieg
+    isRadioPlaying = true;
+    window.isRadioPlaying = true;
+    updateRadioUIState(true);
+    renderRadioPanelContent();
 
-    audio.addEventListener('playing', () => {
-      isRadioPlaying = true;
-      window.isRadioPlaying = true;
-      updateRadioUIState(true);
-      renderRadioPanelContent();
-    });
-    audio.addEventListener('pause', () => {
-      if (radioAudioEl === audio) {
-        isRadioPlaying = false;
-        window.isRadioPlaying = false;
-        updateRadioUIState(false);
-        renderRadioPanelContent();
+    function tryStreamCandidate(candidateIndex) {
+      if (sessionId !== radioPlaySessionId) return;
+
+      if (candidateIndex >= candidates.length) {
+        if (!dynamicLookupDone) {
+          dynamicLookupDone = true;
+          resolveDynamicStreamsFromDirectory(station, candidates).then(freshUrls => {
+            if (sessionId !== radioPlaySessionId) return;
+            if (freshUrls && freshUrls.length > 0) {
+              freshUrls.forEach(u => candidates.push(u));
+              tryStreamCandidate(candidateIndex);
+            } else {
+              stationSignalStatus.set(station.id, 'offline');
+              startFallbackRadioSignal(station);
+              if (onlyActiveSignalFilter) renderRadioPanelContent();
+            }
+          }).catch(() => {
+            if (sessionId === radioPlaySessionId) {
+              stationSignalStatus.set(station.id, 'offline');
+              startFallbackRadioSignal(station);
+              if (onlyActiveSignalFilter) renderRadioPanelContent();
+            }
+          });
+          return;
+        }
+        stationSignalStatus.set(station.id, 'offline');
+        startFallbackRadioSignal(station);
+        if (onlyActiveSignalFilter) renderRadioPanelContent();
+        return;
       }
-    });
-    audio.addEventListener('error', (e) => {
-      console.warn('[Radio Engine] Stream error:', e);
-      if (radioAudioEl === audio) {
-        isRadioPlaying = false;
-        window.isRadioPlaying = false;
-        updateRadioUIState(false);
-        renderRadioPanelContent();
-      }
-    });
 
-    try {
-      audio.play().then(() => {
+      const streamUrl = candidates[candidateIndex];
+      const audio = new Audio();
+      audio.preload = 'none';
+      audio.src = streamUrl;
+      radioAudioEl = audio;
+      window.radioAudioEl = audio;
+
+      const baseVol = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+      const targetVol = isRadioDucked ? (baseVol * 0.18) : baseVol;
+      audio.volume = 0; // Sanfter Start für weichen Einstieg
+
+      let hasAdvanced = false;
+      let hasLockedSignal = false;
+
+      const advanceToNextStream = (reason) => {
+        if (hasAdvanced || sessionId !== radioPlaySessionId) return;
+        hasAdvanced = true;
+        if (radioFailoverTimeout) {
+          clearTimeout(radioFailoverTimeout);
+          radioFailoverTimeout = null;
+        }
+        try {
+          audio.pause();
+          audio.removeAttribute('src');
+          if (typeof audio.load === 'function') audio.load();
+        } catch(e) {}
+        console.warn(`[Radio Engine] Stream failover for ${station.id} (${candidateIndex + 1}/${candidates.length}): ${reason}`);
+        tryStreamCandidate(candidateIndex + 1);
+      };
+
+      const confirmSignalAndFadeIn = () => {
+        if (hasAdvanced || sessionId !== radioPlaySessionId) return;
+        if (radioFailoverTimeout) {
+          clearTimeout(radioFailoverTimeout);
+          radioFailoverTimeout = null;
+        }
+        if (hasLockedSignal) return;
+        hasLockedSignal = true;
+        station.activeStream = streamUrl;
+        stationSignalStatus.set(station.id, 'active');
         isRadioPlaying = true;
         window.isRadioPlaying = true;
-        // Fade in to target volume over 280ms
+
+        // Sanftes Fade-In auf Ziel-Lautstärke über 280ms
         const inSteps = 8;
         let inStep = 0;
         const inInterval = setInterval(() => {
           inStep++;
-          if (radioAudioEl !== audio) {
+          if (radioAudioEl !== audio || sessionId !== radioPlaySessionId) {
             clearInterval(inInterval);
             return;
           }
-          audio.volume = Math.min(targetVol, targetVol * (inStep / inSteps));
+          const curBase = typeof radioVolume !== 'undefined' ? radioVolume : 0.7;
+          const curTarget = isRadioDucked ? (curBase * 0.18) : curBase;
+          audio.volume = Math.min(curTarget, curTarget * (inStep / inSteps));
           if (inStep >= inSteps) {
             clearInterval(inInterval);
-            audio.volume = targetVol;
+            audio.volume = curTarget;
           }
         }, 35);
 
@@ -53034,34 +56840,180 @@ if (typeof globalThis !== 'undefined') {
             source: 'radio'
           });
         }
-        if (typeof showToast === 'function') {
+        if (!toastShownForSession && typeof showToast === 'function') {
+          toastShownForSession = true;
           showToast(`📻 ${station.flag} ${station.name}`);
         }
         renderRadioPanelContent();
-      }).catch((err) => {
-        console.warn('Radio stream playback failed:', err);
-        isRadioPlaying = false;
-        window.isRadioPlaying = false;
-        updateRadioUIState(false);
-        if (typeof updateMiniAudioPlayer === 'function') {
-          updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
+        startRadioNowPlayingPolling(station);
+      };
+
+      // Watchdog: Falls der Stream nach 4.5s noch kein Signal liefert, automatisch nächsten Mirror wählen
+      if (radioFailoverTimeout) clearTimeout(radioFailoverTimeout);
+      radioFailoverTimeout = setTimeout(() => {
+        if (!hasLockedSignal && sessionId === radioPlaySessionId) {
+          advanceToNextStream('stream connection timeout');
         }
-        renderRadioPanelContent();
+      }, 4500);
+
+      audio.addEventListener('playing', () => {
+        confirmSignalAndFadeIn();
       });
-    } catch (err) {
-      isRadioPlaying = false;
-      window.isRadioPlaying = false;
-      updateRadioUIState(false);
-      if (typeof updateMiniAudioPlayer === 'function') {
-        updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'radio' });
+
+      audio.addEventListener('canplay', () => {
+        confirmSignalAndFadeIn();
+      });
+
+      audio.addEventListener('pause', () => {
+        if (radioAudioEl === audio && sessionId === radioPlaySessionId && !hasAdvanced) {
+          isRadioPlaying = false;
+          window.isRadioPlaying = false;
+          updateRadioUIState(false);
+          renderRadioPanelContent();
+        }
+      });
+
+      audio.addEventListener('error', () => {
+        advanceToNextStream('stream error event');
+      });
+
+      try {
+        const playPromise = audio.play();
+        if (playPromise && typeof playPromise.then === 'function') {
+          playPromise.then(() => {
+            confirmSignalAndFadeIn();
+          }).catch((err) => {
+            advanceToNextStream(err && err.message ? err.message : 'play() rejected');
+          });
+        } else {
+          confirmSignalAndFadeIn();
+        }
+      } catch (err) {
+        advanceToNextStream(err && err.message ? err.message : 'play() exception');
       }
-      renderRadioPanelContent();
     }
-    updateRadioUIState(true);
-    renderRadioPanelContent();
+
+    tryStreamCandidate(0);
+  }
+
+  // ----------------------------------------------------------------------------
+  // NOW PLAYING – shows the current song title whenever the station exposes it.
+  //
+  // Browsers cannot read ICY metadata straight from the audio stream, so we ask
+  // the broadcaster's public metadata endpoints instead:
+  //   1. SomaFM's songs API (all SomaFM channels)
+  //   2. Icecast's /status-json.xsl on the stream host (CORS-enabled by default)
+  // Stations without such an endpoint simply keep showing "Live Radio".
+  // ----------------------------------------------------------------------------
+  // `var` on purpose: these helpers are hoisted and may run during early init.
+  var NOW_PLAYING_POLL_MS = 20000;
+  var radioNowPlayingTitle = '';
+  var radioNowPlayingTimer = null;
+  var radioNowPlayingStationId = null;
+  var radioMetaUnsupported = new Set(); // stream hosts that returned nothing useful
+
+  async function fetchJsonWithTimeout(url, timeoutMs = 4000) {
+    const ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const timer = ctrl ? setTimeout(() => ctrl.abort(), timeoutMs) : null;
+    try {
+      const res = await fetch(url, { signal: ctrl ? ctrl.signal : undefined, cache: 'no-store' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    } finally {
+      if (timer) clearTimeout(timer);
+    }
+  }
+
+  async function fetchSomaFmTitle(streamUrl) {
+    const match = streamUrl.match(/somafm\.com\/([a-z0-9]+?)(?:-\d+)?(?:-(?:mp3|aac|aacp))?(?:[/?.]|$)/i);
+    if (!match) return '';
+    const channel = match[1];
+    for (const base of ['https://api.somafm.com/songs/', 'https://somafm.com/songs/']) {
+      try {
+        const data = await fetchJsonWithTimeout(`${base}${channel}.json`);
+        const song = data && Array.isArray(data.songs) ? data.songs[0] : null;
+        if (song && (song.title || song.artist)) {
+          return [song.artist, song.title].filter(Boolean).join(' – ');
+        }
+      } catch (e) { /* try next endpoint */ }
+    }
+    return '';
+  }
+
+  async function fetchIcecastTitle(streamUrl) {
+    let parsed;
+    try { parsed = new URL(streamUrl); } catch (e) { return ''; }
+    if (radioMetaUnsupported.has(parsed.origin)) return '';
+    try {
+      const data = await fetchJsonWithTimeout(`${parsed.origin}/status-json.xsl`);
+      let sources = data && data.icestats ? data.icestats.source : null;
+      if (!sources) throw new Error('no sources');
+      if (!Array.isArray(sources)) sources = [sources];
+      const mount = parsed.pathname.replace(/\/+$/, '');
+      const source = sources.find(s => s && s.listenurl && s.listenurl.replace(/\/+$/, '').endsWith(mount))
+        || (sources.length === 1 ? sources[0] : null);
+      if (!source) return '';
+      const title = [source.artist, source.title].filter(Boolean).join(' – ');
+      return String(title || '').trim();
+    } catch (e) {
+      radioMetaUnsupported.add(parsed.origin);
+      return '';
+    }
+  }
+
+  async function resolveRadioNowPlaying(station) {
+    const streamUrl = station.activeStream || station.stream || '';
+    if (!streamUrl) return '';
+    if (/somafm\.com/i.test(streamUrl)) {
+      const soma = await fetchSomaFmTitle(streamUrl);
+      if (soma) return soma;
+    }
+    return fetchIcecastTitle(streamUrl);
+  }
+
+  function applyRadioNowPlaying(title) {
+    radioNowPlayingTitle = title || '';
+    window.radioNowPlayingTitle = radioNowPlayingTitle;
+    updateRadioUIState(isRadioPlaying);
+    if (isRadioPlaying && typeof updateMiniAudioPlayer === 'function') {
+      updateMiniAudioPlayer({ sub: radioNowPlayingTitle ? `♪ ${radioNowPlayingTitle}` : 'Live Radio' });
+    }
+  }
+
+  async function refreshRadioNowPlaying() {
+    const station = RADIO_STATIONS.find(s => s.id === radioNowPlayingStationId);
+    if (!station || !isRadioPlaying) return;
+    const requestedFor = station.id;
+    let title = '';
+    try { title = await resolveRadioNowPlaying(station); } catch (e) { title = ''; }
+    // Ignore late answers for a station the user already left.
+    if (requestedFor !== radioNowPlayingStationId || !isRadioPlaying) return;
+    if (title !== radioNowPlayingTitle) applyRadioNowPlaying(title);
+  }
+
+  function startRadioNowPlayingPolling(station) {
+    stopRadioNowPlayingPolling();
+    radioNowPlayingStationId = station.id;
+    refreshRadioNowPlaying();
+    radioNowPlayingTimer = setInterval(refreshRadioNowPlaying, NOW_PLAYING_POLL_MS);
+  }
+
+  function stopRadioNowPlayingPolling() {
+    if (radioNowPlayingTimer) clearInterval(radioNowPlayingTimer);
+    radioNowPlayingTimer = null;
+    radioNowPlayingStationId = null;
+    radioNowPlayingTitle = '';
+    window.radioNowPlayingTitle = '';
   }
 
   function stopRadioPlayback() {
+    stopRadioNowPlayingPolling();
+    radioPlaySessionId++;
+    if (radioFailoverTimeout) {
+      clearTimeout(radioFailoverTimeout);
+      radioFailoverTimeout = null;
+    }
+    stopFallbackRadioSignal();
     const audio = radioAudioEl || getRadioAudio();
     if (audio) {
       try {
@@ -53089,7 +57041,7 @@ if (typeof globalThis !== 'undefined') {
     if (isRadioPlaying) {
       stopRadioPlayback();
     } else {
-      const stationToPlay = currentStationId || localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+      const stationToPlay = currentStationId || localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'dronezone';
       playRadioStation(stationToPlay);
     }
     renderRadioPanelContent();
@@ -53101,6 +57053,16 @@ if (typeof globalThis !== 'undefined') {
     const audio = radioAudioEl || getRadioAudio();
     if (!isRadioDucked && audio) {
       audio.volume = radioVolume;
+    }
+    if (radioFallbackNodes && radioFallbackNodes.gainNode && radioFallbackNodes.ctx) {
+      try {
+        const targetVol = isRadioDucked ? (radioVolume * 0.18) : radioVolume;
+        radioFallbackNodes.gainNode.gain.setTargetAtTime(
+          Math.max(0.002, targetVol * 0.22),
+          radioFallbackNodes.ctx.currentTime,
+          0.08
+        );
+      } catch(e) {}
     }
     const slider = document.getElementById('radio-volume-slider');
     if (slider && parseFloat(slider.value) !== radioVolume) {
@@ -53141,9 +57103,11 @@ if (typeof globalThis !== 'undefined') {
 
     if (nowPlayingLabel) {
       if (station) {
+        const songSuffix = (isPlaying && radioNowPlayingTitle) ? ` · ♪ ${radioNowPlayingTitle}` : '';
         nowPlayingLabel.textContent = isPlaying 
-          ? `${station.flag || '📻'} ${station.name}` 
+          ? `${station.flag || '📻'} ${station.name}${songSuffix}` 
           : `${station.flag || '📻'} ${station.name} (${typeof tr === 'function' ? tr({ de: 'Pausiert', en: 'Paused' }) : 'Pausiert'})`;
+        nowPlayingLabel.title = nowPlayingLabel.textContent;
       } else {
         nowPlayingLabel.textContent = typeof tr === 'function' ? tr({ de: 'Kein Sender gewählt', en: 'No station selected' }) : 'Kein Sender gewählt';
       }
@@ -53156,6 +57120,39 @@ if (typeof globalThis !== 'undefined') {
         liveDot.className = 'w-2 h-2 rounded-full bg-gray-500 shadow-sm shrink-0';
       }
     }
+
+    const mobNowPlayingText = document.getElementById('mobile-radio-now-playing-text');
+    const mobLiveDot = document.getElementById('mobile-radio-live-dot');
+    if (mobNowPlayingText) {
+      if (station) {
+        const songSuffix = (isPlaying && radioNowPlayingTitle) ? ` · ♪ ${radioNowPlayingTitle}` : '';
+        mobNowPlayingText.textContent = isPlaying 
+          ? `${station.flag || '📻'} ${station.name}${songSuffix}` 
+          : `${station.flag || '📻'} ${station.name} (${typeof tr === 'function' ? tr({ de: 'Pausiert', en: 'Paused' }) : 'Pausiert'})`;
+        mobNowPlayingText.title = mobNowPlayingText.textContent;
+      } else {
+        mobNowPlayingText.textContent = typeof tr === 'function' ? tr({ de: 'Kein Sender gewählt', en: 'No station selected' }) : 'Kein Sender gewählt';
+      }
+    }
+    if (mobLiveDot) {
+      mobLiveDot.className = isPlaying
+        ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] shrink-0 animate-pulse'
+        : 'w-2 h-2 rounded-full bg-gray-500 shadow-sm shrink-0';
+    }
+
+    // Mobile 1-Tap Radio Stationen aktiv hervorheben
+    const mobAudioView = document.getElementById('mobile-view-audio');
+    if (mobAudioView) {
+      mobAudioView.querySelectorAll('button[onclick*="playRadioStation"]').forEach(btn => {
+        const onclickAttr = btn.getAttribute('onclick') || '';
+        const match = onclickAttr.match(/['"]([^'"]+)['"]/);
+        const stId = match ? match[1] : '';
+        const isActive = isPlaying && stId === currentStationId;
+        btn.classList.toggle('ring-2', isActive);
+        btn.classList.toggle('ring-sky-400', isActive);
+        btn.classList.toggle('bg-sky-500/20', isActive);
+      });
+    }
   }
 
   // ============================================================================
@@ -53166,6 +57163,7 @@ if (typeof globalThis !== 'undefined') {
   function localizeArticle(rawItem, targetLang) {
     if (!rawItem) return null;
     const lang = targetLang || currentNewsLang || 'de';
+    const origLang = rawItem.originLang || rawItem.defaultLang || 'de';
 
     // 1. Wenn der Artikel eine kuratierte Übersetzung für diese Sprache hat:
     if (rawItem.translations && rawItem.translations[lang]) {
@@ -53174,12 +57172,39 @@ if (typeof globalThis !== 'undefined') {
         ...rawItem,
         title: tr.title,
         summary: tr.summary,
-        originLang: rawItem.originLang || rawItem.defaultLang || 'de',
-        isTranslated: (rawItem.originLang || 'de') !== lang
+        originLang: origLang,
+        isTranslated: origLang !== lang,
+        hasTargetLangText: true
       };
     }
 
-    // 2. Fallback auf andere vorhandene Sprachen
+    // 2. Falls im Live-Übersetzungs-Cache vorhanden:
+    const cacheKey = `${rawItem.title || ''}_${lang}`;
+    if (liveTranslationCache[cacheKey]) {
+      const cached = liveTranslationCache[cacheKey];
+      return {
+        ...rawItem,
+        title: cached.title || rawItem.title,
+        summary: cached.summary || rawItem.summary,
+        originLang: origLang,
+        isTranslated: origLang !== lang,
+        hasTargetLangText: true
+      };
+    }
+
+    // 3. Falls Originalsprache bereits der Zielsprache entspricht:
+    if (origLang === lang && rawItem.title) {
+      return {
+        ...rawItem,
+        title: rawItem.title,
+        summary: rawItem.summary || rawItem.title,
+        originLang: origLang,
+        isTranslated: false,
+        hasTargetLangText: true
+      };
+    }
+
+    // 4. Fallback auf andere vorhandene Sprachen
     let fallbackTitle = rawItem.title || '';
     let fallbackSummary = rawItem.summary || '';
     if (rawItem.translations) {
@@ -53195,8 +57220,9 @@ if (typeof globalThis !== 'undefined') {
       ...rawItem,
       title: fallbackTitle,
       summary: fallbackSummary,
-      originLang: rawItem.originLang || 'de',
-      isTranslated: (rawItem.originLang || 'de') !== lang
+      originLang: origLang,
+      isTranslated: origLang !== lang,
+      hasTargetLangText: false
     };
   }
 
@@ -53236,7 +57262,8 @@ if (typeof globalThis !== 'undefined') {
           category: idx % 3 === 0 ? 'top' : (idx % 3 === 1 ? 'tech' : 'science'),
           time: timeLabel,
           url: link,
-          originLang: REGIONS.find(r => r.id === currentRegion)?.defaultLang || 'de'
+          originLang: REGIONS.find(r => r.id === currentRegion)?.defaultLang || 'de',
+          isLiveRss: true
         });
       });
       return results;
@@ -53248,7 +57275,7 @@ if (typeof globalThis !== 'undefined') {
   async function fetchNewsForRegion(region, forceRefresh = false) {
     const reg = region || currentRegion || 'de';
     
-    // 1. Lokale Fallbacks sofort laden
+    // 1. Lokale Fallbacks sofort laden (enthalten für jedes Medium übersetzte Artikel in allen 6 Sprachen)
     const fallbackList = FALLBACK_NEWS_DATABASE[reg] || FALLBACK_NEWS_DATABASE.de || [];
     if (!currentNewsItems || currentNewsItems.length === 0 || forceRefresh) {
       currentNewsItems = [...fallbackList];
@@ -53262,14 +57289,21 @@ if (typeof globalThis !== 'undefined') {
       return;
     }
 
-    // 2. Live-Feed über RSS versuchen (Parallel von bis zu 3 Quellen)
+    // 2. Live-Feed über RSS versuchen (inkl. aktuell gewähltem Medium)
     if (typeof navigator !== 'undefined' && navigator.onLine && LOCAL_MEDIA_OUTLETS[reg]) {
       const outlets = LOCAL_MEDIA_OUTLETS[reg].filter(o => o.rss);
       if (outlets.length > 0) {
         isLiveFetching = true;
         updateNewsFetchIndicator(true);
 
-        const targetOutlets = outlets.slice(0, 3);
+        let targetOutlets = outlets.slice(0, 3);
+        if (currentMedia && currentMedia !== 'all') {
+          const selectedOutlet = outlets.find(o => o.id === currentMedia);
+          if (selectedOutlet && !targetOutlets.some(o => o.id === selectedOutlet.id)) {
+            targetOutlets = [selectedOutlet, ...targetOutlets.slice(0, 2)];
+          }
+        }
+
         const fetchPromises = targetOutlets.map(async (targetOutlet) => {
           try {
             const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(targetOutlet.rss)}`;
@@ -53281,7 +57315,7 @@ if (typeof globalThis !== 'undefined') {
             if (res.ok) {
               const data = await res.json();
               if (data && data.items && data.items.length > 0) {
-                return data.items.slice(0, 10).map((item, idx) => {
+                return data.items.slice(0, 8).map((item, idx) => {
                   const cleanDesc = (item.description || item.content || '')
                     .replace(/<[^>]*>?/gm, '')
                     .replace(/&nbsp;/g, ' ')
@@ -53296,13 +57330,15 @@ if (typeof globalThis !== 'undefined') {
                   }
 
                   return {
+                    outletId: targetOutlet.id,
                     title: item.title ? item.title.trim() : '',
                     summary: cleanDesc || item.title || '',
                     source: data.feed?.title?.split('-')[0]?.trim() || targetOutlet.name,
                     category: idx % 3 === 0 ? 'top' : (idx % 3 === 1 ? 'tech' : 'science'),
                     time: timeLabel,
                     url: item.link || '#',
-                    originLang: REGIONS.find(r => r.id === reg)?.defaultLang || 'de'
+                    originLang: REGIONS.find(r => r.id === reg)?.defaultLang || 'de',
+                    isLiveRss: true
                   };
                 }).filter(it => it.title);
               }
@@ -53321,11 +57357,12 @@ if (typeof globalThis !== 'undefined') {
           });
 
           if (fetchedItems.length > 0) {
-            const combined = [...fetchedItems, ...fallbackList];
+            // Kuratierte mehrsprachige Artikel bleiben immer erhalten, damit Sprach- & Medienwahl garantiert funktioniert
+            const combined = [...fallbackList, ...fetchedItems];
             const seen = new Set();
             const unique = combined.filter(it => {
-              const k = (it.title || '').toLowerCase().trim();
-              if (!k || seen.has(k)) return false;
+              const k = `${it.outletId || ''}_${(it.title || '').toLowerCase().trim()}`;
+              if (!it.title || seen.has(k)) return false;
               seen.add(k);
               return true;
             });
@@ -53351,20 +57388,93 @@ if (typeof globalThis !== 'undefined') {
   }
 
   // ============================================================================
-  // 5. HYBRID ALTERNATING FEED & FILTERING LOGIC
+  // 5. HYBRID ALTERNATING FEED, ON/OFF TOGGLE & IMMEDIATE-EFFECT SELECTION LOGIC
   // ============================================================================
 
-  // 1. Sprache wählen
+  // Nachrichten-Ticker Ein- und Ausschalten (Sofortwirkung)
+  function setNewsTickerEnabled(enabled, silent = false) {
+    isNewsTickerEnabled = !!enabled;
+    try { localStorage.setItem('flow_news_ticker_enabled', isNewsTickerEnabled ? 'true' : 'false'); } catch(e) {}
+
+    if (!isNewsTickerEnabled) {
+      if (isSpeakingQueue) stopNewsReader();
+      const tickerBar = document.getElementById('board-news-ticker-bar');
+      if (tickerBar) {
+        tickerBar.classList.add('opacity-0', 'pointer-events-none', 'hidden');
+        tickerBar.style.display = 'none';
+      }
+    } else {
+      // Wenn Nachrichten eingeschaltet werden, evtl. aktive Anleitung sofort beenden, damit die Nachrichten gleich sichtbar sind
+      if (isInstructionActive) {
+        if (instructionHideTimer) clearTimeout(instructionHideTimer);
+        const bar = document.getElementById('board-instruction-ticker-bar') || document.getElementById('board-feature-hint-wrapper');
+        if (bar) {
+          bar.classList.remove('opacity-100', 'pointer-events-auto');
+          bar.classList.add('opacity-0', 'pointer-events-none');
+        }
+        isInstructionActive = false;
+      }
+      isTickerSuppressed = false;
+      const tickerBar = document.getElementById('board-news-ticker-bar');
+      if (tickerBar) {
+        tickerBar.classList.remove('opacity-0', 'pointer-events-none', 'hidden');
+        tickerBar.style.display = '';
+      }
+    }
+
+    updateTickerToggleUI();
+    applyFilterAndRender();
+
+    if (!silent && typeof showToast === 'function') {
+      showToast(isNewsTickerEnabled ? '📰 Nachrichten-Ticker eingeschaltet' : '🔕 Nachrichten-Ticker ausgeschaltet');
+    }
+  }
+
+  function toggleNewsTickerEnabled(e) {
+    if (e && e.stopPropagation) e.stopPropagation();
+    setNewsTickerEnabled(!isNewsTickerEnabled, false);
+  }
+
+  // Stellt sicher, dass jede Auswahl in den Optionen sofort sichtbar im Ticker wirkt
+  function ensureImmediateTickerFeedback(resetIndex = true) {
+    if (!isNewsTickerEnabled) {
+      isNewsTickerEnabled = true;
+      try { localStorage.setItem('flow_news_ticker_enabled', 'true'); } catch(e) {}
+    }
+    if (isInstructionActive) {
+      if (instructionHideTimer) clearTimeout(instructionHideTimer);
+      const bar = document.getElementById('board-instruction-ticker-bar') || document.getElementById('board-feature-hint-wrapper');
+      if (bar) {
+        bar.classList.remove('opacity-100', 'pointer-events-auto');
+        bar.classList.add('opacity-0', 'pointer-events-none');
+      }
+      isInstructionActive = false;
+    }
+    isTickerSuppressed = false;
+    const tickerBar = document.getElementById('board-news-ticker-bar');
+    if (tickerBar) {
+      tickerBar.classList.remove('opacity-0', 'pointer-events-none', 'hidden');
+      tickerBar.style.display = '';
+    }
+    if (resetIndex) {
+      currentTickerIndex = 0;
+      shownNewsHistory = [];
+      newsHeadlinesShownCount = 0;
+    }
+  }
+
+  // 1. Sprache wählen (Sofortwirkung auf Schlagzeile, Vorschau & Vorlesestimme)
   function selectLanguage(langId) {
     if (!NEWS_LANGUAGES.some(l => l.id === langId)) return;
     currentNewsLang = langId;
     try { localStorage.setItem('flow_news_lang', langId); } catch(e) {}
     stopNewsReader();
+    ensureImmediateTickerFeedback(false);
     updateAllSelectorsUI();
     applyFilterAndRender();
     if (typeof showToast === 'function') {
       const l = NEWS_LANGUAGES.find(x => x.id === langId);
-      showToast(`🌐 Ausgabesprache: ${l.flag} ${l.name}`);
+      showToast(`🌐 Sprache: ${l.flag} ${l.name}`);
     }
   }
 
@@ -53378,20 +57488,29 @@ if (typeof globalThis !== 'undefined') {
     }
   }
 
-  // 2. Region wählen (unabhängig von der Sprache!)
+  // 2. Region wählen (unabhängig von der Sprache, zeigt sofort Meldungen dieser Region!)
   function selectRegion(regionId) {
     if (!REGIONS.some(r => r.id === regionId)) return;
     currentRegion = regionId;
     currentMedia = 'all';
+    currentCategory = 'all';
+    feedMixMode = (regionId === 'global') ? 'global' : 'local';
     try {
       localStorage.setItem('flow_news_region', regionId);
       localStorage.setItem('flow_news_media', 'all');
+      localStorage.setItem('flow_news_category', 'all');
+      localStorage.setItem('flow_news_feed_mode', feedMixMode);
     } catch(e) {}
     stopNewsReader();
     const fallbackList = FALLBACK_NEWS_DATABASE[regionId] || FALLBACK_NEWS_DATABASE.de || [];
     currentNewsItems = [...fallbackList];
+    ensureImmediateTickerFeedback(true);
     updateAllSelectorsUI();
     fetchNewsForRegion(currentRegion);
+    if (typeof showToast === 'function') {
+      const r = REGIONS.find(x => x.id === regionId);
+      if (r) showToast(`📍 Region: ${r.flag} ${r.name}`);
+    }
   }
 
   // 3. Feed-Modus wählen (Wechselnd / Nur Lokal / Nur Global)
@@ -53400,6 +57519,7 @@ if (typeof globalThis !== 'undefined') {
     feedMixMode = modeId;
     try { localStorage.setItem('flow_news_feed_mode', modeId); } catch(e) {}
     stopNewsReader();
+    ensureImmediateTickerFeedback(true);
     updateAllSelectorsUI();
     applyFilterAndRender();
   }
@@ -53409,17 +57529,24 @@ if (typeof globalThis !== 'undefined') {
     currentCategory = catId;
     try { localStorage.setItem('flow_news_category', catId); } catch(e) {}
     stopNewsReader();
+    ensureImmediateTickerFeedback(true);
     updateAllSelectorsUI();
     applyFilterAndRender();
   }
 
-  // 5. Quelle / Medium wählen
+  // 5. Quelle / Medium wählen (zeigt sofort Meldungen des gewählten Mediums!)
   function selectMedia(mediaId) {
-    currentMedia = mediaId;
-    try { localStorage.setItem('flow_news_media', mediaId); } catch(e) {}
+    currentMedia = mediaId || 'all';
+    try { localStorage.setItem('flow_news_media', currentMedia); } catch(e) {}
     stopNewsReader();
+    ensureImmediateTickerFeedback(true);
     updateAllSelectorsUI();
     applyFilterAndRender();
+    if (typeof showToast === 'function') {
+      const outlets = LOCAL_MEDIA_OUTLETS[currentRegion] || LOCAL_MEDIA_OUTLETS.de || [];
+      const o = outlets.find(x => x.id === currentMedia);
+      if (o) showToast(`📰 Medium: ${o.icon ? o.icon + ' ' : ''}${o.name}`);
+    }
   }
 
   function handleNewsSearch(val) {
@@ -53427,18 +57554,38 @@ if (typeof globalThis !== 'undefined') {
     applyFilterAndRender();
   }
 
-  // Filterung und automatisches Abwechseln (Hybrid: International ⟷ Lokal)
+  // Filterung und Zusammenstellung für Sprache, Region & Medium
   function getFilteredNewsItems() {
     const reg = currentRegion || 'de';
     const localBase = FALLBACK_NEWS_DATABASE[reg] || FALLBACK_NEWS_DATABASE.de || [];
-    let localItems = (currentNewsItems && currentNewsItems.length > 0) ? [...currentNewsItems] : [...localBase];
+    
+    // Sicherstellen, dass alle kuratierten Medien-Einträge der Region immer im Pool sind
+    let rawLocalPool = [...localBase];
+    if (currentNewsItems && currentNewsItems.length > 0) {
+      const seenKeys = new Set(rawLocalPool.map(it => `${it.outletId || ''}_${(it.title || '').toLowerCase().trim()}`));
+      currentNewsItems.forEach(it => {
+        const k = `${it.outletId || ''}_${(it.title || '').toLowerCase().trim()}`;
+        if (it && it.title && !seenKeys.has(k)) {
+          seenKeys.add(k);
+          rawLocalPool.push(it);
+        }
+      });
+    }
+
     const globalBase = FALLBACK_NEWS_DATABASE.global || [];
 
     // Lokale Items lokalisieren / übersetzen
-    localItems = localItems.map(it => {
+    let localItems = rawLocalPool.map(it => {
       const loc = localizeArticle(it, currentNewsLang);
-      return { ...loc, scope: 'local', regionId: reg };
+      return { ...loc, scope: reg === 'global' ? 'global' : 'local', regionId: reg };
     });
+
+    // Wenn der Nutzer eine Sprache gewählt hat, für die übersetzte Artikel vorliegen,
+    // unübersetzte fremdsprachige Roh-RSS-Einträge ausfiltern, damit die Sprachwahl zu 100% sofort wirkt
+    const translatedLocal = localItems.filter(it => it.hasTargetLangText);
+    if (translatedLocal.length > 0) {
+      localItems = translatedLocal;
+    }
 
     // Globale Items lokalisieren / übersetzen
     const globalItems = globalBase.map(it => {
@@ -53448,39 +57595,49 @@ if (typeof globalThis !== 'undefined') {
 
     // 1. Kategoriefilter anwenden
     if (currentCategory && currentCategory !== 'all') {
-      localItems = localItems.filter(it => it.category === currentCategory);
+      const catFiltered = localItems.filter(it => it.category === currentCategory);
+      if (catFiltered.length > 0) {
+        localItems = catFiltered;
+      }
     }
     const filteredGlobal = (currentCategory && currentCategory !== 'all')
       ? globalItems.filter(it => it.category === currentCategory)
       : globalItems;
 
-    // 2. Medienfilter anwenden (gilt für lokale Quellen)
+    // 2. Medienfilter anwenden (Präziser Abgleich über outletId UND Quellennamen)
     if (currentMedia && currentMedia !== 'all') {
       const outlets = LOCAL_MEDIA_OUTLETS[reg] || [];
       const outletObj = outlets.find(o => o.id === currentMedia);
-      if (outletObj && outletObj.match) {
-        localItems = localItems.filter(it => {
+      const mediaFiltered = localItems.filter(it => {
+        if (it.outletId && it.outletId === currentMedia) return true;
+        if (outletObj && outletObj.match) {
           const s = (it.source || '').toLowerCase();
-          return outletObj.match.some(m => s.includes(m));
-        });
+          return outletObj.match.some(m => s.includes(m.toLowerCase()));
+        }
+        return false;
+      });
+      if (mediaFiltered.length > 0) {
+        localItems = mediaFiltered;
       }
     }
 
-    // 3. Zusammenstellung gemäß FEED-MODUS
+    // 3. Zusammenstellung gemäß Auswahl (Bei spezifischem Medium immer direkt dieses Medium zeigen!)
     let finalFeed = [];
-    if (feedMixMode === 'local' || reg === 'global') {
-      finalFeed = localItems.length > 0 ? localItems : localBase.map(it => localizeArticle(it, currentNewsLang));
+    if (currentMedia && currentMedia !== 'all') {
+      finalFeed = localItems;
+    } else if (feedMixMode === 'local' || reg === 'global') {
+      finalFeed = localItems.length > 0 ? localItems : localBase.map(it => ({ ...localizeArticle(it, currentNewsLang), scope: reg === 'global' ? 'global' : 'local', regionId: reg }));
     } else if (feedMixMode === 'global') {
-      finalFeed = filteredGlobal.length > 0 ? filteredGlobal : globalBase.map(it => localizeArticle(it, currentNewsLang));
+      finalFeed = filteredGlobal.length > 0 ? filteredGlobal : globalItems;
     } else {
-      // STANDARD HYBRID-MODUS: Automatisch abwechselnd Lokal ⟷ International
+      // HYBRID-MODUS: Abwechselnd Lokal ⟷ International
       const maxLen = Math.max(localItems.length, filteredGlobal.length);
       for (let i = 0; i < maxLen; i++) {
         if (i < localItems.length) finalFeed.push(localItems[i]);
         if (i < filteredGlobal.length) finalFeed.push(filteredGlobal[i]);
       }
       if (finalFeed.length === 0) {
-        finalFeed = localBase.map(it => localizeArticle(it, currentNewsLang));
+        finalFeed = localBase.map(it => ({ ...localizeArticle(it, currentNewsLang), scope: 'local', regionId: reg }));
       }
     }
 
@@ -53515,6 +57672,58 @@ if (typeof globalThis !== 'undefined') {
   // 6. SYNCHRONIZED UI SELECTORS (NEWS LOUNGE & SUBHEADER TICKER POPOVER)
   // ============================================================================
 
+  function updateTickerToggleUI() {
+    // 1. Toggle-Button im Ticker-Popover (#ticker-enable-toggle-btn)
+    const toggleBtn = document.getElementById('ticker-enable-toggle-btn');
+    const toggleDot = document.getElementById('ticker-enable-dot');
+    const toggleLabel = document.getElementById('ticker-enable-label');
+    if (toggleBtn) {
+      toggleBtn.setAttribute('aria-pressed', isNewsTickerEnabled ? 'true' : 'false');
+      toggleBtn.className = isNewsTickerEnabled
+        ? 'px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer select-none border bg-emerald-500/20 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/30 shadow-xs'
+        : 'px-2.5 py-1 rounded-xl text-[11px] font-bold transition-all flex items-center gap-1.5 cursor-pointer select-none border bg-white/5 text-gray-400 border-white/15 hover:bg-white/10 hover:text-white';
+    }
+    if (toggleDot) {
+      toggleDot.className = isNewsTickerEnabled
+        ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.9)] animate-pulse'
+        : 'w-2 h-2 rounded-full bg-gray-500';
+    }
+    if (toggleLabel) {
+      toggleLabel.textContent = isNewsTickerEnabled ? 'Ein' : 'Aus';
+    }
+
+    // 2. Toggle-Button im News-Lounge Panel (#panel-news-ticker-toggle-btn)
+    const panelBtn = document.getElementById('panel-news-ticker-toggle-btn');
+    const panelDot = document.getElementById('panel-news-ticker-dot');
+    const panelLabel = document.getElementById('panel-news-ticker-label');
+    if (panelBtn) {
+      panelBtn.className = isNewsTickerEnabled
+        ? 'px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border bg-emerald-500/20 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/30'
+        : 'px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer border bg-white/5 text-gray-400 border-white/15 hover:bg-white/10 hover:text-white';
+    }
+    if (panelDot) {
+      panelDot.className = isNewsTickerEnabled
+        ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(52,211,153,0.8)]'
+        : 'w-2 h-2 rounded-full bg-gray-500';
+    }
+    if (panelLabel) {
+      panelLabel.textContent = isNewsTickerEnabled ? 'Ticker: Ein' : 'Ticker: Aus';
+    }
+
+    // 3. Stets sichtbares Optionen-Icon rechts nach den Nachrichten (#ticker-options-btn)
+    const optBtn = document.getElementById('ticker-options-btn');
+    if (optBtn) {
+      optBtn.title = isNewsTickerEnabled
+        ? 'Nachrichten-Optionen (Ein/Aus, Sprache, Region & Medien)'
+        : 'Nachrichten sind ausgeschaltet – Klicken zum Einschalten oder Konfigurieren';
+      if (isNewsTickerEnabled) {
+        optBtn.classList.remove('opacity-60');
+      } else {
+        optBtn.classList.add('opacity-60');
+      }
+    }
+  }
+
   function renderLanguageSelectors() {
     // A. Im Tool-Panel (#news-language-selector)
     const toolEl = document.getElementById('news-language-selector');
@@ -53522,7 +57731,7 @@ if (typeof globalThis !== 'undefined') {
       toolEl.innerHTML = NEWS_LANGUAGES.map(l => {
         const isSelected = l.id === currentNewsLang;
         return `
-          <button onclick="RadioNewsEngine.selectLanguage('${l.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectLanguage('${l.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
               ? 'bg-purple-500/30 text-white border border-purple-400/70 shadow-sm font-bold ring-1 ring-purple-400/40'
               : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/10 font-medium'
@@ -53534,19 +57743,19 @@ if (typeof globalThis !== 'undefined') {
       }).join('');
     }
 
-    // B. Im Ticker-Popover (#ticker-settings-language-grid)
+    // B. Im Ticker-Popover (#ticker-settings-language-grid) – 3 Spalten mit klarem Sprachnamen
     const tickerGrid = document.getElementById('ticker-settings-language-grid');
     if (tickerGrid) {
       tickerGrid.innerHTML = NEWS_LANGUAGES.map(l => {
         const isSelected = l.id === currentNewsLang;
         return `
-          <button onclick="RadioNewsEngine.selectLanguage('${l.id}')" class="p-1 rounded-xl text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all ${
+          <button type="button" onclick="RadioNewsEngine.selectLanguage('${l.id}')" class="px-2 py-1.5 rounded-xl flex items-center gap-1.5 cursor-pointer select-none transition-all text-left ${
             isSelected
-              ? 'bg-purple-500/35 text-white border border-purple-400/70 font-bold shadow-sm ring-1 ring-purple-400/40'
-              : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
-          }" title="${l.name}">
-            <span class="text-base leading-none">${l.flag}</span>
-            <span class="text-[9px] font-mono font-bold uppercase">${l.id}</span>
+              ? 'bg-purple-500/35 text-white border border-purple-400/80 font-bold shadow-xs ring-1 ring-purple-400/40'
+              : 'bg-white/[0.04] hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
+          }" title="Nachrichten auf ${l.name} lesen">
+            <span class="text-sm leading-none shrink-0">${l.flag}</span>
+            <span class="text-[11px] truncate">${l.name}</span>
           </button>
         `;
       }).join('');
@@ -53568,7 +57777,7 @@ if (typeof globalThis !== 'undefined') {
       toolEl.innerHTML = REGIONS.map(reg => {
         const isSelected = reg.id === currentRegion;
         return `
-          <button onclick="RadioNewsEngine.selectRegion('${reg.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectRegion('${reg.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
               ? 'bg-purple-500/30 text-white border border-purple-400/70 shadow-sm font-bold ring-1 ring-purple-400/40'
               : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/10 font-medium'
@@ -53585,17 +57794,24 @@ if (typeof globalThis !== 'undefined') {
     if (tickerGrid) {
       tickerGrid.innerHTML = REGIONS.map(reg => {
         const isSelected = reg.id === currentRegion;
+        const shortLabel = reg.id === 'global' ? 'Welt' : reg.id.toUpperCase();
         return `
-          <button onclick="RadioNewsEngine.selectRegion('${reg.id}')" class="p-1 rounded-xl text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all ${
+          <button type="button" onclick="RadioNewsEngine.selectRegion('${reg.id}')" class="py-1.5 px-1 rounded-xl text-center flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none transition-all ${
             isSelected
-              ? 'bg-purple-500/35 text-white border border-purple-400/70 font-bold shadow-sm ring-1 ring-purple-400/40'
-              : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
+              ? 'bg-cyan-500/30 text-white border border-cyan-400/80 font-bold shadow-xs ring-1 ring-cyan-400/40'
+              : 'bg-white/[0.04] hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
           }" title="${reg.name}">
             <span class="text-base leading-none">${reg.flag}</span>
-            <span class="text-[9px] font-mono font-bold uppercase">${reg.id}</span>
+            <span class="text-[9.5px] font-mono font-bold">${shortLabel}</span>
           </button>
         `;
       }).join('');
+    }
+
+    const curRegObj = REGIONS.find(r => r.id === currentRegion);
+    const regBadge = document.getElementById('ticker-region-badge-status');
+    if (regBadge && curRegObj) {
+      regBadge.textContent = `${curRegObj.flag} ${curRegObj.name}`;
     }
   }
 
@@ -53606,7 +57822,7 @@ if (typeof globalThis !== 'undefined') {
       toolEl.innerHTML = FEED_MODES.map(m => {
         const isSelected = m.id === feedMixMode;
         return `
-          <button onclick="RadioNewsEngine.selectFeedMode('${m.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectFeedMode('${m.id}')" class="px-2.5 py-1 rounded-xl text-xs transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
               ? 'bg-gradient-to-r from-purple-500/35 to-cyan-500/35 text-white border border-cyan-400/60 shadow-sm font-bold ring-1 ring-cyan-400/40'
               : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/10 font-medium'
@@ -53624,7 +57840,7 @@ if (typeof globalThis !== 'undefined') {
       tickerGrid.innerHTML = FEED_MODES.map(m => {
         const isSelected = m.id === feedMixMode;
         return `
-          <button onclick="RadioNewsEngine.selectFeedMode('${m.id}')" class="p-1 px-1.5 rounded-xl text-center flex items-center justify-center gap-1 cursor-pointer select-none transition-all text-[10.5px] ${
+          <button type="button" onclick="RadioNewsEngine.selectFeedMode('${m.id}')" class="p-1 px-1.5 rounded-xl text-center flex items-center justify-center gap-1 cursor-pointer select-none transition-all text-[10.5px] ${
             isSelected
               ? 'bg-cyan-500/30 text-cyan-200 border border-cyan-400/70 font-bold shadow-xs ring-1 ring-cyan-400/40'
               : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
@@ -53644,7 +57860,7 @@ if (typeof globalThis !== 'undefined') {
       toolEl.innerHTML = CATEGORIES.map(cat => {
         const isSelected = cat.id === currentCategory;
         return `
-          <button onclick="RadioNewsEngine.selectCategory('${cat.id}')" class="px-2.5 py-1 rounded-xl text-[11px] transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectCategory('${cat.id}')" class="px-2.5 py-1 rounded-xl text-[11px] transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
               ? 'bg-gradient-to-r from-purple-500/35 to-pink-500/35 text-white border border-purple-400/60 font-bold shadow-xs ring-1 ring-purple-400/40'
               : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/8 font-medium'
@@ -53662,7 +57878,7 @@ if (typeof globalThis !== 'undefined') {
       tickerGrid.innerHTML = CATEGORIES.map(cat => {
         const isSelected = cat.id === currentCategory;
         return `
-          <button onclick="RadioNewsEngine.selectCategory('${cat.id}')" class="p-1 px-1.5 rounded-xl text-center flex items-center justify-center gap-1 cursor-pointer select-none transition-all text-[10px] ${
+          <button type="button" onclick="RadioNewsEngine.selectCategory('${cat.id}')" class="p-1 px-1.5 rounded-xl text-center flex items-center justify-center gap-1 cursor-pointer select-none transition-all text-[10px] ${
             isSelected
               ? 'bg-purple-500/35 text-white border border-purple-400/70 font-bold shadow-xs ring-1 ring-purple-400/40'
               : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
@@ -53684,10 +57900,10 @@ if (typeof globalThis !== 'undefined') {
       toolEl.innerHTML = outlets.map(o => {
         const isSelected = o.id === currentMedia;
         return `
-          <button onclick="RadioNewsEngine.selectMedia('${o.id}')" class="px-2.5 py-0.5 rounded-lg text-[10px] transition-all flex items-center gap-1 cursor-pointer select-none shrink-0 ${
+          <button type="button" onclick="RadioNewsEngine.selectMedia('${o.id}')" class="px-2.5 py-1 rounded-xl text-[11px] transition-all flex items-center gap-1.5 cursor-pointer select-none shrink-0 ${
             isSelected
-              ? 'bg-teal-500/30 text-teal-100 border border-teal-400/60 font-bold shadow-xs'
-              : 'bg-white/[0.02] hover:bg-white/[0.06] text-gray-400 hover:text-gray-200 border border-white/5 font-normal'
+              ? 'bg-teal-500/30 text-teal-100 border border-teal-400/70 font-bold shadow-xs ring-1 ring-teal-400/30'
+              : 'bg-white/[0.03] hover:bg-white/[0.08] text-gray-400 hover:text-gray-200 border border-white/10 font-medium'
           }">
             ${o.icon ? `<span>${o.icon}</span>` : ''}
             <span class="whitespace-nowrap">${o.name}</span>
@@ -53702,13 +57918,13 @@ if (typeof globalThis !== 'undefined') {
       tickerGrid.innerHTML = outlets.map(o => {
         const isSelected = o.id === currentMedia;
         return `
-          <button onclick="RadioNewsEngine.selectMedia('${o.id}')" class="px-2 py-0.5 rounded-lg text-[10px] transition-all flex items-center gap-1 cursor-pointer select-none ${
+          <button type="button" onclick="RadioNewsEngine.selectMedia('${o.id}')" class="px-2.5 py-1 rounded-xl text-[11px] transition-all flex items-center gap-1 cursor-pointer select-none ${
             isSelected
-              ? 'bg-teal-500/30 text-teal-100 border border-teal-400/60 font-bold shadow-xs'
-              : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10'
+              ? 'bg-teal-500/35 text-teal-100 border border-teal-400/80 font-bold shadow-xs ring-1 ring-teal-400/30'
+              : 'bg-white/[0.04] hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 font-medium'
           }">
             ${o.icon ? `<span class="text-xs">${o.icon}</span>` : ''}
-            <span class="whitespace-nowrap font-medium">${o.name}</span>
+            <span class="whitespace-nowrap">${o.name}</span>
           </button>
         `;
       }).join('');
@@ -53716,6 +57932,7 @@ if (typeof globalThis !== 'undefined') {
   }
 
   function updateAllSelectorsUI() {
+    updateTickerToggleUI();
     renderLanguageSelectors();
     renderRegionSelectors();
     renderFeedModeSelectors();
@@ -53726,8 +57943,14 @@ if (typeof globalThis !== 'undefined') {
     if (subtext) {
       const regObj = REGIONS.find(r => r.id === currentRegion);
       const langObj = NEWS_LANGUAGES.find(l => l.id === currentNewsLang);
-      const catObj = CATEGORIES.find(c => c.id === currentCategory);
-      subtext.textContent = `${regObj ? regObj.id.toUpperCase() : 'DE'} → ${langObj ? langObj.id.toUpperCase() : 'DE'} · ${catObj ? catObj.name : 'Alle'}`;
+      const outlets = LOCAL_MEDIA_OUTLETS[currentRegion] || LOCAL_MEDIA_OUTLETS.de || [];
+      const mediaObj = outlets.find(o => o.id === currentMedia);
+      const mediaLabel = (mediaObj && currentMedia !== 'all') ? mediaObj.name : 'Alle Medien';
+      if (!isNewsTickerEnabled) {
+        subtext.textContent = 'Nachrichten sind aktuell ausgeschaltet';
+      } else {
+        subtext.textContent = `${regObj ? regObj.name : 'DE'} · ${langObj ? langObj.name : 'Deutsch'} · ${mediaLabel}`;
+      }
     }
 
     const newsPanel = document.getElementById('panel-news');
@@ -53834,6 +58057,17 @@ if (typeof globalThis !== 'undefined') {
 
   function renderCurrentTeletextHeadline(items, withAnimation = true) {
     if (!items || items.length === 0) items = getFilteredNewsItems();
+    const tickerBar = document.getElementById('board-news-ticker-bar');
+    if (tickerBar) {
+      if (!isNewsTickerEnabled || isTickerSuppressed) {
+        tickerBar.classList.add('opacity-0', 'pointer-events-none', 'hidden');
+        tickerBar.style.display = 'none';
+      } else {
+        tickerBar.classList.remove('opacity-0', 'pointer-events-none', 'hidden');
+        tickerBar.style.display = '';
+      }
+    }
+
     const container = document.getElementById('board-ticker-track') || document.getElementById('teletext-news-item');
     if (!container) return;
 
@@ -53922,7 +58156,7 @@ if (typeof globalThis !== 'undefined') {
     newsHeadlinesShownCount++;
     if (tickerAutoSwapInterval) clearInterval(tickerAutoSwapInterval);
     tickerAutoSwapInterval = setInterval(() => {
-      if (!isTickerHoverPaused && !isTickerSuppressed && !isInstructionActive) {
+      if (isNewsTickerEnabled && !isTickerHoverPaused && !isTickerSuppressed && !isInstructionActive) {
         const freshItems = getFilteredNewsItems();
         if (freshItems.length > 0) {
           // Jede 3. auf dem Newsticker gezeigte Meldung wechselnd 1 Anleitung links zeigen
@@ -53944,29 +58178,46 @@ if (typeof globalThis !== 'undefined') {
     const color = NEWS_VIBRANT_PALETTE[idx % NEWS_VIBRANT_PALETTE.length];
     const fullTitle = currentItem.title || '';
     const fullSummary = currentItem.summary || '';
-    const scopeLabel = currentItem.scope === 'global' ? '🌐 Global' : '📍 Lokal';
+    const regObj = REGIONS.find(r => r.id === currentRegion);
+    const regionLabel = regObj ? `${regObj.flag} ${regObj.name}` : '📍 Lokal';
+
+    const disabledBanner = !isNewsTickerEnabled ? `
+      <div class="flex items-center justify-between gap-2 px-2.5 py-1.5 mb-1 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-200 text-[10.5px]">
+        <span>Nachrichten-Leiste ist ausgeblendet</span>
+        <button type="button" onclick="RadioNewsEngine.setNewsTickerEnabled(true)" class="px-2 py-0.5 rounded-lg bg-emerald-500/30 hover:bg-emerald-500/45 text-emerald-200 border border-emerald-400/50 font-bold cursor-pointer transition">
+          Einschalten
+        </button>
+      </div>
+    ` : '';
 
     articleBox.innerHTML = `
+      ${disabledBanner}
       <div class="flex items-center justify-between gap-2">
-        <div class="flex items-center gap-1.5">
-          <span class="px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold shrink-0 shadow-xs" style="color: ${color.hex}; border: 1px solid ${color.border}; background-color: ${color.bg};">
+        <div class="flex items-center gap-1.5 min-w-0">
+          <span class="px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold shrink-0 shadow-xs truncate" style="color: ${color.hex}; border: 1px solid ${color.border}; background-color: ${color.bg};">
             ${currentItem.source || 'Live'}
           </span>
-          <span class="text-[9px] font-mono text-cyan-300">${scopeLabel}</span>
-          ${currentItem.isTranslated ? `<span class="text-[8.5px] font-mono text-purple-300">(${(currentItem.originLang||'').toUpperCase()}→${currentNewsLang.toUpperCase()})</span>` : ''}
+          <span class="text-[9.5px] font-mono text-gray-300 truncate">${regionLabel}</span>
         </div>
-        <span class="text-[10px] font-mono text-gray-400 shrink-0">${currentItem.time || 'Jetzt'}</span>
+        <div class="flex items-center gap-1 shrink-0">
+          <button type="button" onclick="RadioNewsEngine.prevTickerHeadline(event)" class="p-1 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 hover:text-white transition cursor-pointer" title="Vorherige Meldung">
+            <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+          </button>
+          <button type="button" onclick="RadioNewsEngine.nextTickerHeadline(event)" class="p-1 rounded-lg bg-white/5 hover:bg-white/15 text-gray-300 hover:text-white transition cursor-pointer" title="Nächste Meldung">
+            <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
       </div>
       <div class="text-xs font-bold text-white leading-snug">${fullTitle}</div>
-      ${fullSummary ? `<div class="text-[11px] text-gray-300 leading-relaxed max-h-[160px] overflow-y-auto pr-1 custom-scrollbar">${fullSummary}</div>` : ''}
-      <div class="flex items-center justify-between pt-1 border-t border-white/5">
+      ${fullSummary ? `<div class="text-[11px] text-gray-300 leading-relaxed max-h-[90px] overflow-y-auto pr-1 custom-scrollbar">${fullSummary}</div>` : ''}
+      <div class="flex items-center justify-between pt-1.5 border-t border-white/5">
         ${currentItem.url && currentItem.url !== '#' ? `
           <a href="${currentItem.url}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1.5 transition border border-white/15" title="Vollständigen Artikel öffnen">
             <span>Artikel öffnen</span>
-            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <i data-lucide="external-link" class="w-3 h-3"></i>
           </a>
         ` : '<div></div>'}
-        <button onclick="RadioNewsEngine.toggleCurrentTickerTTS(event, ${idx})" class="px-2.5 py-1 rounded-xl bg-purple-500/25 hover:bg-purple-500/40 border border-purple-400/40 text-purple-200 hover:text-white text-[11px] font-bold transition flex items-center gap-1.5 cursor-pointer">
+        <button type="button" onclick="RadioNewsEngine.toggleCurrentTickerTTS(event, ${idx})" class="px-2.5 py-1 rounded-xl bg-purple-500/25 hover:bg-purple-500/40 border border-purple-400/40 text-purple-200 hover:text-white text-[11px] font-bold transition flex items-center gap-1.5 cursor-pointer">
           <i data-lucide="volume-2" class="w-3.5 h-3.5"></i>
           <span>Vorlesen</span>
         </button>
@@ -54055,6 +58306,11 @@ if (typeof globalThis !== 'undefined') {
         popover.classList.remove('hidden');
         if (wrapper) wrapper.classList.add('ticker-popover-open');
         updateAllSelectorsUI();
+        const items = getFilteredNewsItems();
+        if (items && items.length > 0) {
+          const idx = (currentTickerIndex >= 0 && currentTickerIndex < items.length) ? currentTickerIndex : 0;
+          updateTickerDetailsInPopover(items[idx], idx);
+        }
       } else {
         popover.classList.add('hidden');
         if (wrapper) wrapper.classList.remove('ticker-popover-open');
@@ -54070,22 +58326,17 @@ if (typeof globalThis !== 'undefined') {
   }
 
   // ============================================================================
-  // ============================================================================
-  // 8. INSTRUCTION TICKER ENGINE (LINKS NACH KARTEN LEEREN - OHNE EXTRA BUTTON & RAHMEN)
-  // Jede 5 auf dem Newsticker gezeigte Meldungen wechselnd 1 Anleitung links zeigen.
-  // ============================================================================
-  // 8. INSTRUCTION TICKER ENGINE (LINKS NACH KARTEN LEEREN - 3:1 RHYTHMUS)
-  // Jede 3 auf dem Newsticker gezeigten Meldungen wechselnd 1 Anleitung links zeigen.
-  // Keine willkürlichen Deko-Icons - nur repräsentative, klickbare Aktions-Icons,
-  // mit denen der Nutzer genau das ausführen kann, was beschrieben wird.
-  // Während jede solche Anleitung gezeigt wird, ist der Newsticker rechts ausgeblendet.
+  // 8. INTERAKTIVE FUNKTIONSHINWEISE (3:1 ROTATION MIT DEM NEWSTICKER)
+  // Blendet nach jeweils drei Nachrichtenmeldungen einen interaktiven Hinweis
+  // zur Bedienung der Anwendung auf der linken Seite der Subheader-Leiste ein.
+  // Während ein Funktionshinweis sichtbar ist, pausiert der rechte Newsticker.
   // ============================================================================
 
   function setTickerSuppressed(suppressed) {
     isTickerSuppressed = !!suppressed;
     const tickerBar = document.getElementById('board-news-ticker-bar');
     if (tickerBar) {
-      if (isTickerSuppressed) {
+      if (isTickerSuppressed || !isNewsTickerEnabled) {
         tickerBar.classList.add('opacity-0', 'pointer-events-none', 'hidden');
         tickerBar.style.display = 'none';
       } else {
@@ -54700,6 +58951,155 @@ if (typeof globalThis !== 'undefined') {
     }
   }
 
+  const RADIO_GENRES = [
+    { id: 'all', label: 'Alle Sender' },
+    { id: 'focus', label: '🧘 Fokus & Chill' },
+    { id: 'independent', label: '📻 Freie Radios' },
+    { id: 'news', label: '🎙️ News & Info' },
+    { id: 'music', label: '🎶 Musik' }
+  ];
+  // 1.8 SIGNAL-STATUS TRACKING & PROBING (Nur Sender mit aktivem Signal zeigen)
+  const stationSignalStatus = new Map(); // stationId -> 'active' | 'offline'
+  let onlyActiveSignalFilter = true; // Vorgabe: Nur Sender mit aktivem Signal zeigen
+
+  function toggleOnlyActiveFilter() {
+    onlyActiveSignalFilter = !onlyActiveSignalFilter;
+    const btn = document.getElementById('radio-only-active-toggle');
+    const text = document.getElementById('radio-only-active-text');
+    if (btn) {
+      if (onlyActiveSignalFilter) {
+        btn.className = 'px-1.5 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 transition cursor-pointer bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30';
+        if (text) text.textContent = 'Aktives Signal';
+      } else {
+        btn.className = 'px-1.5 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 transition cursor-pointer bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10';
+        if (text) text.textContent = 'Alle Sender';
+      }
+    }
+    renderRadioPanelContent();
+  }
+
+  function probeAllStationsSignal() {
+    if (typeof window === 'undefined' || (typeof navigator !== 'undefined' && !navigator.onLine)) return;
+    RADIO_STATIONS.forEach(station => {
+      if (stationSignalStatus.has(station.id)) return;
+      probeStationSignal(station);
+    });
+  }
+
+  function probeStationSignal(station) {
+    if (!station || !station.stream) {
+      stationSignalStatus.set(station.id, 'offline');
+      return;
+    }
+    if (!stationSignalStatus.has(station.id)) {
+      stationSignalStatus.set(station.id, 'active');
+    }
+
+    const testAudio = new Audio();
+    testAudio.preload = 'metadata';
+    let resolved = false;
+
+    const cleanup = () => {
+      resolved = true;
+      testAudio.oncanplay = null;
+      testAudio.onloadedmetadata = null;
+      testAudio.onerror = null;
+      try { testAudio.src = ''; testAudio.removeAttribute('src'); } catch(e) {}
+    };
+
+    const timer = setTimeout(() => {
+      if (resolved) return;
+      cleanup();
+    }, 4000);
+
+    testAudio.oncanplay = testAudio.onloadedmetadata = () => {
+      if (resolved) return;
+      clearTimeout(timer);
+      cleanup();
+      stationSignalStatus.set(station.id, 'active');
+    };
+
+    testAudio.onerror = () => {
+      if (resolved) return;
+      clearTimeout(timer);
+      cleanup();
+      if (Array.isArray(station.streams) && station.streams.length > 1) {
+        const altStream = station.streams[1];
+        const altAudio = new Audio();
+        altAudio.preload = 'metadata';
+        let altResolved = false;
+        const altTimer = setTimeout(() => {
+          if (altResolved) return;
+          altResolved = true;
+          try { altAudio.src = ''; } catch(e) {}
+        }, 3000);
+        altAudio.oncanplay = altAudio.onloadedmetadata = () => {
+          if (altResolved) return;
+          altResolved = true;
+          clearTimeout(altTimer);
+          station.activeStream = altStream;
+          stationSignalStatus.set(station.id, 'active');
+          try { altAudio.src = ''; } catch(e) {}
+        };
+        altAudio.onerror = () => {
+          if (altResolved) return;
+          altResolved = true;
+          clearTimeout(altTimer);
+          stationSignalStatus.set(station.id, 'offline');
+          try { altAudio.src = ''; } catch(e) {}
+          if (onlyActiveSignalFilter) renderRadioPanelContent();
+        };
+        try { altAudio.src = altStream; } catch(e) { stationSignalStatus.set(station.id, 'offline'); }
+      } else {
+        stationSignalStatus.set(station.id, 'offline');
+        if (onlyActiveSignalFilter) renderRadioPanelContent();
+      }
+    };
+
+    try {
+      testAudio.src = station.stream;
+    } catch(e) {
+      clearTimeout(timer);
+      cleanup();
+      stationSignalStatus.set(station.id, 'offline');
+    }
+  }
+
+  let radioFilterCategory = 'all';
+  let radioSearchQuery = '';
+
+  function setRadioCategory(catId) {
+    radioFilterCategory = catId;
+    renderRadioPanelContent();
+  }
+
+  function setRadioSearchQuery(query) {
+    radioSearchQuery = (query || '').toLowerCase().trim();
+    const clearBtn = document.getElementById('radio-search-clear-btn');
+    if (clearBtn) {
+      if (radioSearchQuery) {
+        clearBtn.classList.remove('hidden');
+        clearBtn.classList.add('flex');
+      } else {
+        clearBtn.classList.add('hidden');
+        clearBtn.classList.remove('flex');
+      }
+    }
+    renderRadioPanelContent();
+  }
+
+  function clearRadioSearch() {
+    radioSearchQuery = '';
+    const input = document.getElementById('radio-search-input');
+    if (input) input.value = '';
+    const clearBtn = document.getElementById('radio-search-clear-btn');
+    if (clearBtn) {
+      clearBtn.classList.add('hidden');
+      clearBtn.classList.remove('flex');
+    }
+    renderRadioPanelContent();
+  }
+
   function getOrderedRadioStations() {
     const reg = currentRegion || 'de';
     const appLang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'de';
@@ -54732,57 +59132,203 @@ if (typeof globalThis !== 'undefined') {
     ]);
     const internationalStations = RADIO_STATIONS.filter(s => !alreadyIncludedIds.has(s.id));
 
-    return [
+    let list = [
       ...ambientStations,
       ...regionStations,
       ...langStations,
       ...internationalStations
     ];
+
+    if (onlyActiveSignalFilter) {
+      list = list.filter(s => stationSignalStatus.get(s.id) !== 'offline');
+    }
+
+    if (radioFilterCategory && radioFilterCategory !== 'all') {
+      list = list.filter(s => s.category === radioFilterCategory);
+    }
+
+    if (radioSearchQuery) {
+      list = list.filter(s => {
+        const name = (s.name || '').toLowerCase();
+        const desc = (s.desc || '').toLowerCase();
+        const country = (s.country || '').toLowerCase();
+        const query = (s.searchQuery || '').toLowerCase();
+        return name.includes(radioSearchQuery) || desc.includes(radioSearchQuery) || country.includes(radioSearchQuery) || query.includes(radioSearchQuery);
+      });
+    }
+
+    return list;
+  }
+
+  const RADIO_STATION_PALETTES = {
+    purple: {
+      card: 'bg-purple-950/25 hover:bg-purple-900/35 border-purple-500/30 hover:border-purple-400/50 shadow-[0_0_10px_rgba(168,85,247,0.12)]',
+      logo: 'bg-purple-500/20 text-purple-200 border-purple-400/35 shadow-xs',
+      title: 'text-white group-hover:text-purple-200',
+      btn: 'bg-purple-500/15 text-purple-300 group-hover:bg-purple-500 group-hover:text-white border border-purple-500/30',
+      activeBorder: 'border-purple-400/70 shadow-[0_0_14px_rgba(168,85,247,0.35)]'
+    },
+    cyan: {
+      card: 'bg-cyan-950/25 hover:bg-cyan-900/35 border-cyan-500/30 hover:border-cyan-400/50 shadow-[0_0_10px_rgba(6,182,212,0.12)]',
+      logo: 'bg-cyan-500/20 text-cyan-200 border-cyan-400/35 shadow-xs',
+      title: 'text-white group-hover:text-cyan-200',
+      btn: 'bg-cyan-500/15 text-cyan-300 group-hover:bg-cyan-500 group-hover:text-white border border-cyan-500/30',
+      activeBorder: 'border-cyan-400/70 shadow-[0_0_14px_rgba(6,182,212,0.35)]'
+    },
+    emerald: {
+      card: 'bg-emerald-950/25 hover:bg-emerald-900/35 border-emerald-500/30 hover:border-emerald-400/50 shadow-[0_0_10px_rgba(16,185,129,0.12)]',
+      logo: 'bg-emerald-500/20 text-emerald-200 border-emerald-400/35 shadow-xs',
+      title: 'text-white group-hover:text-emerald-200',
+      btn: 'bg-emerald-500/15 text-emerald-300 group-hover:bg-emerald-500 group-hover:text-white border border-emerald-500/30',
+      activeBorder: 'border-emerald-400/70 shadow-[0_0_14px_rgba(16,185,129,0.35)]'
+    },
+    amber: {
+      card: 'bg-amber-950/25 hover:bg-amber-900/35 border-amber-500/30 hover:border-amber-400/50 shadow-[0_0_10px_rgba(245,158,11,0.12)]',
+      logo: 'bg-amber-500/20 text-amber-200 border-amber-400/35 shadow-xs',
+      title: 'text-white group-hover:text-amber-200',
+      btn: 'bg-amber-500/15 text-amber-300 group-hover:bg-amber-500 group-hover:text-slate-950 border border-amber-500/30',
+      activeBorder: 'border-amber-400/70 shadow-[0_0_14px_rgba(245,158,11,0.35)]'
+    },
+    rose: {
+      card: 'bg-rose-950/25 hover:bg-rose-900/35 border-rose-500/30 hover:border-rose-400/50 shadow-[0_0_10px_rgba(244,63,94,0.12)]',
+      logo: 'bg-rose-500/20 text-rose-200 border-rose-400/35 shadow-xs',
+      title: 'text-white group-hover:text-rose-200',
+      btn: 'bg-rose-500/15 text-rose-300 group-hover:bg-rose-500 group-hover:text-white border border-rose-500/30',
+      activeBorder: 'border-rose-400/70 shadow-[0_0_14px_rgba(244,63,94,0.35)]'
+    },
+    indigo: {
+      card: 'bg-indigo-950/25 hover:bg-indigo-900/35 border-indigo-500/30 hover:border-indigo-400/50 shadow-[0_0_10px_rgba(99,102,241,0.12)]',
+      logo: 'bg-indigo-500/20 text-indigo-200 border-indigo-400/35 shadow-xs',
+      title: 'text-white group-hover:text-indigo-200',
+      btn: 'bg-indigo-500/15 text-indigo-300 group-hover:bg-indigo-500 group-hover:text-white border border-indigo-500/30',
+      activeBorder: 'border-indigo-400/70 shadow-[0_0_14px_rgba(99,102,241,0.35)]'
+    }
+  };
+
+  const GENRE_PILL_THEMES = {
+    all: { active: 'bg-purple-500/30 text-purple-100 border-purple-400/60 shadow-xs', badge: 'bg-purple-400 text-slate-950 font-black' },
+    focus: { active: 'bg-indigo-500/30 text-indigo-100 border-indigo-400/60 shadow-xs', badge: 'bg-indigo-400 text-slate-950 font-black' },
+    independent: { active: 'bg-emerald-500/30 text-emerald-100 border-emerald-400/60 shadow-xs', badge: 'bg-emerald-400 text-slate-950 font-black' },
+    news: { active: 'bg-sky-500/30 text-sky-100 border-sky-400/60 shadow-xs', badge: 'bg-sky-400 text-slate-950 font-black' },
+    music: { active: 'bg-amber-500/30 text-amber-100 border-amber-400/60 shadow-xs', badge: 'bg-amber-400 text-slate-950 font-black' }
+  };
+
+  function getStationColorPalette(station, index) {
+    if (station.category === 'focus') {
+      const keys = ['indigo', 'purple', 'cyan'];
+      return RADIO_STATION_PALETTES[keys[index % keys.length]];
+    }
+    if (station.category === 'independent') {
+      const keys = ['emerald', 'cyan', 'emerald'];
+      return RADIO_STATION_PALETTES[keys[index % keys.length]];
+    }
+    if (station.category === 'news') {
+      const keys = ['cyan', 'indigo', 'purple'];
+      return RADIO_STATION_PALETTES[keys[index % keys.length]];
+    }
+    if (station.category === 'music') {
+      const keys = ['amber', 'rose', 'purple'];
+      return RADIO_STATION_PALETTES[keys[index % keys.length]];
+    }
+    const allKeys = ['purple', 'cyan', 'emerald', 'amber', 'rose', 'indigo'];
+    return RADIO_STATION_PALETTES[allKeys[index % allKeys.length]];
   }
 
   function renderRadioPanelContent() {
+    // 1. Timer-Kopplung Status Badge aktualisieren
+    const timerConnEl = document.getElementById('radio-timer-connected-station');
+    if (timerConnEl) {
+      const activeSt = RADIO_STATIONS.find(s => s.id === currentStationId);
+      timerConnEl.textContent = activeSt ? `${activeSt.flag || '📻'} ${activeSt.name}` : 'SomaFM Drone Zone';
+    }
+
+    // 2. Genre-Pills aktualisieren mit abgestimmten Akzentfarben
+    const pillsContainer = document.getElementById('radio-category-pills');
+    if (pillsContainer) {
+      pillsContainer.innerHTML = RADIO_GENRES.map(g => {
+        const isActive = g.id === radioFilterCategory;
+        const theme = GENRE_PILL_THEMES[g.id] || GENRE_PILL_THEMES.all;
+        const count = g.id === 'all' 
+          ? (onlyActiveSignalFilter ? RADIO_STATIONS.filter(s => stationSignalStatus.get(s.id) !== 'offline').length : RADIO_STATIONS.length)
+          : (onlyActiveSignalFilter 
+              ? RADIO_STATIONS.filter(s => s.category === g.id && stationSignalStatus.get(s.id) !== 'offline').length 
+              : RADIO_STATIONS.filter(s => s.category === g.id).length);
+        return `
+          <button type="button" onclick="RadioNewsEngine.setRadioCategory('${g.id}')" class="px-2 py-0.5 rounded-lg text-[10.5px] font-bold transition flex items-center gap-1 shrink-0 cursor-pointer active:scale-95 ${isActive ? theme.active : 'bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 border border-white/10'}">
+            <span>${g.label}</span>
+            <span class="text-[8.5px] font-mono px-1 rounded-md ${isActive ? theme.badge : 'bg-white/10 text-gray-400'}">${count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
     const container = document.getElementById('radio-stations-list');
     if (!container) return;
 
     const orderedStations = getOrderedRadioStations();
 
-    container.innerHTML = orderedStations.map(s => {
-      const isCurrent = s.id === currentStationId;
-      const isLive = isCurrent && isRadioPlaying;
+    const countBadge = document.getElementById('radio-stations-count');
+    if (countBadge) {
+      countBadge.innerHTML = `<span class="inline-flex items-center gap-1 text-emerald-400 font-bold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.8)]"></span>${orderedStations.length} Sender</span>`;
+    }
 
-      return `
-        <div onclick="RadioNewsEngine.playRadioStation('${s.id}')" class="p-2.5 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-3 group ${
-          isCurrent 
-            ? 'bg-purple-500/15 border-purple-500/40 shadow-sm' 
-            : 'bg-white/[0.02] hover:bg-white/[0.05] border-white/8'
-        }">
-          <div class="flex items-center gap-2.5 min-w-0">
-            <div class="w-8 h-8 rounded-xl flex items-center justify-center text-base shrink-0 ${
-              isCurrent ? 'bg-purple-500/20 text-purple-300 border border-purple-500/30' : 'bg-white/5 text-gray-300 border border-white/10'
-            }">
-              <span>${s.logo}</span>
-            </div>
-            <div class="min-w-0">
-              <div class="flex items-center gap-1.5">
-                <span class="text-xs font-bold text-white group-hover:text-purple-200 transition truncate">${s.name}</span>
-                <span class="text-[10px]">${s.flag}</span>
-                ${isLive ? '<span class="px-1.5 py-0.2 rounded text-[8px] font-mono font-bold bg-purple-500 text-white animate-pulse">LIVE</span>' : ''}
-              </div>
-              <p class="text-[10px] text-gray-400 truncate">${s.desc}</p>
-            </div>
-          </div>
-          <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition active:scale-95 ${
-            isLive 
-              ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-md' 
-              : isCurrent 
-                ? 'bg-purple-500/20 text-purple-300 group-hover:bg-purple-500 group-hover:text-white' 
-                : 'bg-white/5 text-gray-400 group-hover:bg-white/20 group-hover:text-white'
-          }" title="${isLive ? 'Sender stoppen' : 'Sender abspielen'}">
-            <i data-lucide="${isLive ? 'square' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
-          </button>
+    if (orderedStations.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-full p-4 rounded-2xl bg-white/[0.02] border border-white/10 text-center text-xs text-gray-400 flex flex-col items-center gap-1.5">
+          <i data-lucide="search-x" class="w-5 h-5 text-gray-500"></i>
+          <span>Kein Sender mit Signal gefunden für "${typeof escapeHtml === 'function' ? escapeHtml(radioSearchQuery) : radioSearchQuery}"</span>
+          <button type="button" onclick="RadioNewsEngine.clearRadioSearch(); RadioNewsEngine.setRadioCategory('all');" class="text-rose-300 hover:underline text-[11px] mt-1 cursor-pointer">Filter zurücksetzen</button>
         </div>
       `;
-    }).join('');
+    } else {
+      container.innerHTML = orderedStations.map((s, idx) => {
+        const isCurrent = s.id === currentStationId;
+        const isLive = isCurrent && isRadioPlaying;
+        const palette = getStationColorPalette(s, idx);
+
+        let cardClasses = '';
+        let logoClasses = '';
+        let btnClasses = '';
+
+        if (isLive) {
+          cardClasses = 'bg-gradient-to-r from-rose-500/25 via-purple-500/20 to-pink-500/15 border-rose-400/80 shadow-[0_0_14px_rgba(244,63,94,0.3)] ring-1 ring-rose-400/50';
+          logoClasses = 'bg-rose-500/30 text-rose-200 border-rose-400/50 shadow-xs';
+          btnClasses = 'bg-rose-500 hover:bg-rose-600 text-white shadow-sm ring-1 ring-white/30';
+        } else if (isCurrent) {
+          cardClasses = `${palette.card} ${palette.activeBorder} ring-1 ring-cyan-400/40`;
+          logoClasses = palette.logo;
+          btnClasses = `${palette.btn} font-bold`;
+        } else {
+          cardClasses = palette.card;
+          logoClasses = palette.logo;
+          btnClasses = palette.btn;
+        }
+
+        return `
+          <div onclick="RadioNewsEngine.playRadioStation('${s.id}')" class="p-1.5 px-2 rounded-xl border transition cursor-pointer flex items-center justify-between gap-1.5 group select-none ${cardClasses}" title="${s.desc ? (s.name + ' – ' + s.desc) : s.name}">
+            <div class="flex items-center gap-1.5 min-w-0 flex-1">
+              <div class="w-6 h-6 rounded-lg flex items-center justify-center text-xs shrink-0 border ${logoClasses}">
+                <span>${s.logo || '📻'}</span>
+              </div>
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1">
+                  <span class="text-[11px] font-bold text-white ${palette.title} transition truncate">${s.name}</span>
+                  <span class="text-[9px] shrink-0" title="${s.country}">${s.flag || ''}</span>
+                </div>
+                <div class="flex items-center gap-1 text-[9px] text-gray-400">
+                  <span class="w-1.5 h-1.5 rounded-full ${isLive ? 'bg-rose-400 animate-ping' : 'bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.8)]'} shrink-0" title="Signal aktiv"></span>
+                  ${isLive ? '<span class="text-[7.5px] font-mono font-black text-rose-400 uppercase tracking-wider shrink-0">LIVE</span>' : (isCurrent ? '<span class="text-[7.5px] font-mono font-bold text-cyan-300 uppercase tracking-wider shrink-0">⏱️ TIMER</span>' : '')}
+                  <span class="truncate text-gray-300/80 font-medium">${s.desc || ''}</span>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition active:scale-95 ${btnClasses}" title="${isLive ? 'Sender stoppen' : 'Sender abspielen & für Timer wählen'}">
+              <i data-lucide="${isLive ? 'square' : 'play'}" class="w-3 h-3 ${isLive ? 'fill-white' : ''}"></i>
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
 
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons({ root: container });
   }
@@ -54850,8 +59396,9 @@ if (typeof globalThis !== 'undefined') {
 
   function initRadioPanel() {
     if (!currentStationId) {
-      currentStationId = localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+      currentStationId = localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'dronezone';
     }
+    probeAllStationsSignal();
     renderRadioPanelContent();
     updateRadioUIState(isRadioPlaying);
     const slider = document.getElementById('radio-volume-slider');
@@ -54873,7 +59420,10 @@ if (typeof globalThis !== 'undefined') {
     initRadioPanel,
     initNewsPanel,
     switchMainTab,
-    // 5 Dimension Selection
+    // 5 Dimension Selection & Ticker On/Off Toggle
+    setNewsTickerEnabled,
+    toggleNewsTickerEnabled,
+    isTickerEnabled: () => isNewsTickerEnabled,
     selectLanguage,
     syncAppLanguage,
     selectRegion,
@@ -54887,6 +59437,17 @@ if (typeof globalThis !== 'undefined') {
     stopRadioPlayback,
     setRadioVolume,
     duckRadio,
+    getRadioStations: () => RADIO_STATIONS,
+    getStationStreamCandidates,
+    getCurrentStationId: () => currentStationId,
+    isRadioPlaying: () => isRadioPlaying,
+    setRadioCategory,
+    setRadioSearchQuery,
+    clearRadioSearch,
+    renderRadioPanelContent,
+    toggleOnlyActiveFilter,
+    probeAllStationsSignal,
+    stationSignalStatus,
     // News Reader (TTS)
     startNewsReader,
     toggleAllNewsReader,
@@ -54915,6 +59476,7 @@ if (typeof globalThis !== 'undefined') {
     getCurrentCategory: () => currentCategory,
     getCurrentLanguage: () => currentNewsLang,
     getCurrentFeedMode: () => feedMixMode,
+    getCurrentMedia: () => currentMedia,
     getFilteredNewsItems,
     // Instruction Ticker Engine Coordination (Links nach Karten leeren - frameless)
     setTickerSuppressed,
@@ -54982,7 +59544,13 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-dice.js --- */
-// app-dice.js: Dezent-elegantes Aufgaben-Glücksspiel (Glückswürfel)
+/**
+ * @file app-dice.js
+ * @module TaskLuckyDice
+ * @description
+ * Spielerische Zufallsauswahl für offene Aufgaben innerhalb einer Board-Spalte
+ * („Glückswürfel") zur Überwindung von Entscheidungsblockaden.
+ */
 
 let isDiceRolling = false;
 let currentDiceColumn = null;
@@ -54997,21 +59565,21 @@ function getColumnFortuneMode(columnId) {
 function renderColumnFortuneIconHTML(columnId, colIndex = 0) {
   const staggerDelay = (Number(colIndex || 0) % 7) * 2.85;
   return `
-    <button onclick="rollTaskDice('${columnId}', event)" aria-label="${typeof tr === 'function' ? tr({ de: 'Glückswürfel 🎲', en: 'Lucky Dice 🎲' }) : 'Glückswürfel 🎲'}" class="p-0.5 bg-amber-500/10 hover:bg-amber-500/25 border border-amber-500/30 hover:border-amber-400 rounded-md flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-115 active:scale-95 group/fortune shrink-0 shadow-[0_0_8px_rgba(251,191,36,0.25)]" title="${typeof tr === 'function' ? tr({ de: 'Glückswürfel 🎲 (Aufgabe zufällig auslosen)', en: 'Lucky Dice 🎲 (Pick random task)' }) : 'Glückswürfel 🎲'}">
-      <svg width="16" height="16" class="w-4 h-4 lucky-dice-icon lucky-dice-animated group-hover/fortune:rotate-12 transition-transform duration-300 shrink-0 drop-shadow-[0_0_4px_rgba(251,191,36,0.6)]" style="animation-delay: ${staggerDelay.toFixed(2)}s;" viewBox="0 0 24 24" fill="none">
-        <!-- Isometric 3D Cube Faces -->
-        <path d="M12 2.5L20.5 7.4V7.5L12 12.5L3.5 7.5V7.4L12 2.5Z" fill="#fef08a" stroke="#78350f" stroke-width="1.2" stroke-linejoin="round"/>
-        <path d="M3.5 7.5L12 12.5V21.5L3.5 16.5V7.5Z" fill="#fbbf24" stroke="#78350f" stroke-width="1.2" stroke-linejoin="round"/>
-        <path d="M12 12.5L20.5 7.5V16.5L12 21.5V12.5Z" fill="#f59e0b" stroke="#78350f" stroke-width="1.2" stroke-linejoin="round"/>
-        <!-- Top Pip (1 pip in center) -->
-        <circle cx="12" cy="7.5" r="1.3" fill="#1c1917"/>
+    <button onclick="rollTaskDice('${columnId}', event)" aria-label="${typeof tr === 'function' ? tr({ de: 'Glückswürfel 🎲', en: 'Lucky Dice 🎲' }) : 'Glückswürfel 🎲'}" class="p-1 bg-cyan-500/15 hover:bg-cyan-500/30 border border-cyan-400/40 hover:border-cyan-300 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-115 active:scale-95 group/fortune shrink-0 shadow-[0_0_10px_rgba(6,182,212,0.35)]" title="${typeof tr === 'function' ? tr({ de: 'Glückswürfel 🎲 (Aufgabe zufällig auslosen)', en: 'Lucky Dice 🎲 (Pick random task)' }) : 'Glückswürfel 🎲'}">
+      <svg width="18" height="18" class="w-[18px] h-[18px] lucky-dice-icon lucky-dice-animated group-hover/fortune:rotate-12 transition-transform duration-300 shrink-0 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]" style="animation-delay: ${staggerDelay.toFixed(2)}s;" viewBox="0 0 24 24" fill="none">
+        <!-- Isometric 3D Cube Faces with Sapphire/Cyan Modern Aesthetic -->
+        <path d="M12 2.5L20.5 7.4V7.5L12 12.5L3.5 7.5V7.4L12 2.5Z" fill="#a5f3fc" stroke="#0891b2" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M3.5 7.5L12 12.5V21.5L3.5 16.5V7.5Z" fill="#38bdf8" stroke="#0369a1" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M12 12.5L20.5 7.5V16.5L12 21.5V12.5Z" fill="#0284c7" stroke="#075985" stroke-width="1.2" stroke-linejoin="round"/>
+        <!-- Top Pip (Center pip) -->
+        <circle cx="12" cy="7.5" r="1.3" fill="#082f49"/>
         <!-- Left Pips (2 pips diagonal) -->
-        <circle cx="6.5" cy="11" r="1.1" fill="#1c1917"/>
-        <circle cx="9" cy="17" r="1.1" fill="#1c1917"/>
+        <circle cx="6.5" cy="11" r="1.1" fill="#082f49"/>
+        <circle cx="9" cy="17" r="1.1" fill="#082f49"/>
         <!-- Right Pips (3 pips diagonal) -->
-        <circle cx="15" cy="11" r="1.1" fill="#1c1917"/>
-        <circle cx="16.5" cy="14.5" r="1.1" fill="#1c1917"/>
-        <circle cx="18" cy="18" r="1.1" fill="#1c1917"/>
+        <circle cx="15" cy="11" r="1.1" fill="#082f49"/>
+        <circle cx="16.5" cy="14.5" r="1.1" fill="#082f49"/>
+        <circle cx="18" cy="18" r="1.1" fill="#082f49"/>
       </svg>
     </button>
   `;
@@ -55371,7 +59939,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-command-palette.js --- */
-// app-command-palette.js: Globales Command Menu (Strg+K / Cmd+K) für blitzschnelle Navigation & Power-User-Aktionen
+/**
+ * @file app-command-palette.js
+ * @module CommandPalette
+ * @description
+ * Globales Befehlsmenü (`Strg+K` / `Cmd+K`) für die tastaturgesteuerte Suche
+ * und direkte Ausführung sämtlicher Anwendungsaktionen, Werkzeugwechsel,
+ * Timer-Steuerungen und Workspace-Umschaltungen.
+ */
 
 let commandPaletteSelectedIndex = 0;
 let commandPaletteFilteredItems = [];
@@ -55668,8 +60243,18 @@ function getCommandPaletteActions() {
       }
     },
     {
+      id: 'cmd-open-sync',
+      title: tr({ de: 'Synchronisation & Geräte-Kopplung (Cloud & QR-Sync)', en: 'Cloud Sync & Device Pairing (QR & Account)' }),
+      category: tr({ de: 'System', en: 'System' }),
+      icon: 'cloud',
+      color: 'text-emerald-400',
+      action: () => {
+        if (typeof openP2PSyncModal === 'function') openP2PSyncModal();
+      }
+    },
+    {
       id: 'cmd-open-settings',
-      title: tr({ de: 'Einstellungen & Synchronisation', en: 'Settings & Sync' }),
+      title: tr({ de: 'Einstellungen & Optionen', en: 'Settings & Options' }),
       category: tr({ de: 'System', en: 'System' }),
       icon: 'settings',
       color: 'text-gray-300',
@@ -55785,12 +60370,26 @@ function filterCommandPalette(query) {
   const allActions = getCommandPaletteActions();
   const q = (query || '').trim().toLowerCase();
 
+  // Deduplizierung basierend auf bereinigtem Titel
+  const seenTitles = new Set();
+  const deduplicatedActions = [];
+  allActions.forEach(action => {
+    const key = (action.title || '').trim().toLowerCase();
+    if (!seenTitles.has(key)) {
+      seenTitles.add(key);
+      deduplicatedActions.push(action);
+    }
+  });
+
   if (!q) {
-    commandPaletteFilteredItems = allActions.slice(0, 30);
+    commandPaletteFilteredItems = deduplicatedActions.slice(0, 20);
   } else {
-    commandPaletteFilteredItems = allActions.filter(item => {
-      return item.title.toLowerCase().includes(q) || item.category.toLowerCase().includes(q);
-    }).slice(0, 30);
+    // Sofortsuche ab dem 1. Buchstaben ohne inhaltliche Wiederholungen
+    commandPaletteFilteredItems = deduplicatedActions.filter(item => {
+      const matchTitle = (item.title || '').toLowerCase().includes(q);
+      const matchCat = (item.category || '').toLowerCase().includes(q);
+      return matchTitle || matchCat;
+    }).slice(0, 25);
   }
 
   commandPaletteSelectedIndex = 0;
@@ -55938,8 +60537,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-routine-presets.js --- */
-// app-routine-presets.js - Interaktiver Routine-Preset & Standard-Aufgaben Manager
-// ============================================================================
+/**
+ * @file app-routine-presets.js
+ * @module RoutinePresetsManager
+ * @description
+ * Vorlagen- und Standardaufgaben-Manager (`#modal-routine-presets`).
+ * Ermöglicht das Laden kuratierter Tages-/Wochenroutinen sowie das Bearbeiten
+ * und Speichern eigener wiederkehrender Standardaufgaben (`flow_custom_default_tasks`).
+ */
 
 let currentRoutinePresetTab = 'presets'; // 'presets' | 'custom' | 'suggestions'
 
@@ -56474,20 +61079,14 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-feature-bridge.js --- */
 /**
- * ============================================================================
- * NOODLE FEATURE BRIDGE & CROSS-TOOL INTEGRATION HUB (app-feature-bridge.js)
- * ============================================================================
- * Tiefgreifende Verknüpfung und Interlink-Pipeline aller Kern-Werkzeuge:
- * 1. Smart Action Badges & Task Tool Links (Timer, Rezepte, Einkaufsliste, Soundscapes, etc.)
- * 2. Universal Inline @-Mention & Tag Parser
- * 3. Kontextmenü-Erweiterung: "🔗 Tool verknüpfen..."
- * 4. 1-Klick Cross-Pipeline Bridges:
- *    - Koch-Studio ➔ Einkaufsliste & Kanban-Board
- *    - OCR Scanner ➔ Aufgaben, Einkaufsliste, Flashcards & Brainstorming
- *    - Brainstorming ➔ Aufgaben & Micro-Steps
- *    - Clarity & Atemübung ➔ Direkter Micro-Focus Arbeitsstart
- *    - Lernkarten / Flashcards ➔ Pomodoro Study Sprint
- * ============================================================================
+ * @file app-feature-bridge.js
+ * @module FeatureBridge
+ * @description
+ * Modulübergreifende Integrations-Pipeline & Smart-Action-Verknüpfung:
+ * - Smart Action Badges & Aufgaben-Tool-Links (Timer, Rezepte, Einkaufsliste, Soundscapes)
+ * - Universeller Inline-Parser für `@`-Mentions und kontextsensitive Schlagworte
+ * - Kontextmenü-Integration zur direkten Werkzeugverknüpfung an Aufgabenkarten
+ * - 1-Klick-Pipelines zwischen Koch-Studio, OCR-Scanner, Brainstorming, Lernkarten und Kanban-Board
  */
 
 (function(global) {
@@ -56509,26 +61108,29 @@ if (typeof globalThis !== 'undefined') {
     const taskText = String(taskObj.task || taskObj.title || taskObj.name || '').trim();
     const explicitLinks = taskObj.toolLinks || {};
 
-    // 1. Expliziter Timer oder Regex-Dauer / @timer
-    if (explicitLinks.timer) {
-      links.push({
-        type: 'timer',
-        icon: 'timer',
-        label: explicitLinks.timer.label || `${explicitLinks.timer.minutes || 25}m Timer`,
-        color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
-        data: explicitLinks.timer
-      });
-    } else {
-      const timerMatch = taskText.match(/@timer\s*(\d+)?m?/i) || taskText.match(/\b(\d{1,3})\s*(?:min|minute|minuten|m)\b/i);
-      if (timerMatch) {
-        const mins = parseInt(timerMatch[1], 10) || 25;
+    // 1. Expliziter Timer oder @timer Tag (kein automatischer Regex-Button bei "5min aufräumen" etc.)
+    const is5MinCleanTask = /^5\s*min/i.test(taskText) && /(aufräum|aufraeum|tidy|recoger|rangement|riordino|τακτοποίηση)/i.test(taskText);
+    if (!is5MinCleanTask) {
+      if (explicitLinks.timer) {
         links.push({
           type: 'timer',
           icon: 'timer',
-          label: `${mins}m Fokus`,
+          label: explicitLinks.timer.label || `${explicitLinks.timer.minutes || 25}m Timer`,
           color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
-          data: { minutes: mins }
+          data: explicitLinks.timer
         });
+      } else {
+        const timerMatch = taskText.match(/@timer\s*(\d+)?m?/i);
+        if (timerMatch) {
+          const mins = parseInt(timerMatch[1], 10) || 25;
+          links.push({
+            type: 'timer',
+            icon: 'timer',
+            label: `${mins}m Fokus`,
+            color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
+            data: { minutes: mins }
+          });
+        }
       }
     }
 
@@ -57244,31 +61846,14 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-multitasking-hub.js --- */
 /**
- * ============================================================================
- * NOODLE MULTITASKING & SNAP-LAYOUT ENGINE (app-multitasking-hub.js)
- * ============================================================================
- * Umfassendes Multitasking für Desktop & Mobilgeräte:
- * 
- * 1. DESKTOP WINDOWS-11 SNAP LAYOUTS:
- *    - Hover auf Maximieren-Button [⛶] öffnet Windows-11 Snap Layout Picker
- *    - 🌓 50:50 Split (Links / Rechts)
- *    - 🔲 65:35 Fokus-Split (Großes Arbeitsboard + Schlanker Begleiter)
- *    - ⊞ 4-Quadranten Grid (25% pro Ecke für maximale Übersicht)
- *    - Kanten-Snapping per Drag & Drop
- * 
- * 2. MOBILE DYNAMIC ISLAND & FLOATING MULTITASKING PILL:
- *    - Schwebende, hochmoderne Dynamic Island am Bildschirmrand
- *    - Live-Status für Timer, Soundscape-Player, Radio & Koch-Schritte
- *    - Tap öffnet das Mobile Multitasking Cockpit (Schnellsteuerung & App-Switcher)
- * 
- * 3. MOBILE DUAL-SCREEN / SPLIT-VIEW (OBEN / UNTEN):
- *    - 2 Tools gleichzeitig vertikal gestackt bedienen
- *    - Einstellbarer Split-Divider mit Touch-Gesten
- * 
- * 4. KEYBOARD & GESTEN-NAVIGATION:
- *    - Alt+Tab / Cmd+Tab Multitasking Switcher
- *    - Win+Links / Win+Rechts Schnell-Snapping
- * ============================================================================
+ * @file app-multitasking-hub.js
+ * @module MultitaskingHub
+ * @description
+ * Desktop Snap-Layouts & Mobile Multitasking-Engine:
+ * - Desktop Snap-Layout-Picker (50:50 Split, 65:35 Fokus-Split, 4-Quadranten-Grid, Drag-to-Edge-Snapping)
+ * - Mobile Dynamic Island mit Echtzeit-Status für aktive Timer, Soundscapes, Radio und Koch-Schritte
+ * - Vertikaler Dual-Screen / Split-View-Modus für mobile Endgeräte mit verstellbarem Touch-Divider
+ * - Tastatur-Schnellnavigation (`Alt+Tab` / `Win+Pfeiltasten`)
  */
 
 (function(global) {
@@ -57340,16 +61925,21 @@ if (typeof globalThis !== 'undefined') {
     const layout = SNAP_LAYOUTS[layoutType];
     if (!layout) return;
 
+    const winBox = el.querySelector('.noodle-floating-modal-card') || el;
+
     // Reset old snap / fullscreen classes
     el.classList.remove('noodle-panel-fullscreen', 'hidden', 'noodle-panel-minimized');
+    winBox.classList.remove('noodle-panel-fullscreen');
     el.classList.add('noodle-panel-pinned', 'noodle-panel-snapped');
+    winBox.classList.add('noodle-window-positioned');
     el.setAttribute('data-snap-layout', layoutType);
 
-    // Set layout coordinates
-    Object.assign(el.style, {
+    // Set layout coordinates on movable window box
+    Object.assign(winBox.style, {
       position: 'fixed',
       margin: '0',
-      zIndex: (typeof highestZIndex !== 'undefined') ? (highestZIndex + 2) : 100050,
+      maxWidth: 'none',
+      transform: 'none',
       borderRadius: (layoutType === 'full') ? '0px' : '20px',
       boxShadow: '0 20px 60px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.15)',
       ...layout.style
@@ -57368,24 +61958,30 @@ if (typeof globalThis !== 'undefined') {
   }
 
   /**
-   * Stellt ein gesnapptes Fenster wieder auf die Standardgröße zurück
+   * Stellt ein gesnapptes Fenster wieder auf die zentrierte Standardgröße zurück
    */
   function unsnapWindow(panelName) {
     const el = (typeof getPanelElement === 'function') ? getPanelElement(panelName) : document.getElementById(panelName);
     if (!el) return;
 
+    const winBox = el.querySelector('.noodle-floating-modal-card') || el;
+
     el.classList.remove('noodle-panel-snapped');
     el.removeAttribute('data-snap-layout');
     snappedWindows.delete(panelName);
 
-    // Reset inline positioning styles to defaults
-    el.style.left = '';
-    el.style.top = '';
-    el.style.width = '';
-    el.style.height = '';
-    el.style.right = '';
-    el.style.bottom = '';
-    el.style.borderRadius = '';
+    // Reset inline sizing styles to defaults and re-center
+    winBox.style.width = '';
+    winBox.style.height = '';
+    winBox.style.maxWidth = '';
+    winBox.style.right = '';
+    winBox.style.bottom = '';
+    winBox.style.borderRadius = '';
+    delete winBox.dataset.userMoved;
+
+    if (window.NoodleInteractionMode && typeof window.NoodleInteractionMode.positionFloatingWindow === 'function') {
+      window.NoodleInteractionMode.positionFloatingWindow(el, panelName);
+    }
 
     updateMultitaskingState();
   }
@@ -57402,7 +61998,8 @@ if (typeof globalThis !== 'undefined') {
     if (!flyout) {
       flyout = document.createElement('div');
       flyout.id = 'noodle-snap-flyout';
-      flyout.className = 'fixed z-[200080] p-3 rounded-2xl bg-[#0f0e18]/98 border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col gap-2.5 text-gray-200 select-none animate-spring-modal';
+      flyout.className = 'fixed z-[200600] p-3 rounded-2xl bg-[#0f0e18]/98 border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col gap-2.5 text-gray-200 select-none animate-spring-modal';
+      flyout.style.zIndex = '200600';
       document.body.appendChild(flyout);
 
       flyout.onmouseenter = () => clearTimeout(flyoutCloseTimer);
@@ -57417,40 +62014,45 @@ if (typeof globalThis !== 'undefined') {
       <div class="flex items-center justify-between pb-1.5 border-b border-white/10">
         <span class="text-[11px] font-bold text-gray-200 flex items-center gap-1.5">
           <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-purple-400"></i>
-          <span>Multitasking-Ansicht</span>
+          <span>Fenster-Layout & Multitasking</span>
         </span>
       </div>
 
-      <div class="flex flex-col gap-1.5 w-56 pt-1">
-        <!-- 1. Neben dem Board anheften (50% Split) -->
-        <button onclick="snapWindow('${panelName}', 'right-50'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-purple-400/50 transition flex items-center justify-between text-left cursor-pointer group">
-          <div class="flex items-center gap-2">
-            <span class="text-sm">🌓</span>
-            <div>
-              <div class="text-xs font-bold text-white group-hover:text-purple-300">Neben Board anheften</div>
-              <div class="text-[9.5px] text-gray-400">Rechte Bildschirmhälfte</div>
+      <div class="flex flex-col gap-1.5 w-60 pt-1">
+        <div class="grid grid-cols-2 gap-1.5">
+          <!-- Links 50% -->
+          <button onclick="snapWindow('${panelName}', 'left-50'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-cyan-400/50 transition flex items-center justify-between text-left cursor-pointer group">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">◧</span>
+              <span class="text-[11px] font-bold text-white group-hover:text-cyan-300">Links 50%</span>
             </div>
-          </div>
-          <span class="text-[10px] text-purple-300 font-mono font-bold">50%</span>
-        </button>
+          </button>
+          <!-- Rechts 50% -->
+          <button onclick="snapWindow('${panelName}', 'right-50'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-purple-400/50 transition flex items-center justify-between text-left cursor-pointer group">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">◨</span>
+              <span class="text-[11px] font-bold text-white group-hover:text-purple-300">Rechts 50%</span>
+            </div>
+          </button>
+        </div>
 
-        <!-- 2. Vollbild / Normalgröße -->
+        <!-- Vollbild / Normalgröße -->
         <button onclick="toggleFullscreen('${panelName}'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-purple-400/50 transition flex items-center justify-between text-left cursor-pointer group">
           <div class="flex items-center gap-2">
-            <span class="text-sm">⛶</span>
+            <span class="text-sm">□</span>
             <div>
-              <div class="text-xs font-bold text-white group-hover:text-purple-300">Vollbild umschalten</div>
-              <div class="text-[9.5px] text-gray-400">Gesamten Bildschirm nutzen</div>
+              <div class="text-xs font-bold text-white group-hover:text-purple-300">Maximieren / Vollbild</div>
+              <div class="text-[9.5px] text-gray-400">Großes Studio-Fenster umschalten</div>
             </div>
           </div>
-          <span class="text-[10px] text-purple-300 font-mono font-bold">100%</span>
+          <span class="text-[10px] text-purple-300 font-mono font-bold">MAX</span>
         </button>
       </div>
 
       ${isSnapped ? `
         <div class="pt-1.5 border-t border-white/10 flex justify-end">
-          <button onclick="unsnapWindow('${panelName}'); hideSnapFlyout();" class="text-[10.5px] text-gray-400 hover:text-white transition cursor-pointer flex items-center gap-1">
-            <span>↩ Normalgröße wiederherstellen</span>
+          <button onclick="unsnapWindow('${panelName}'); hideSnapFlyout();" class="text-[10.5px] text-cyan-300 hover:text-white transition cursor-pointer flex items-center gap-1 font-bold">
+            <span>↩ Zentriert frei schwebend</span>
           </button>
         </div>
       ` : ''}
@@ -57754,17 +62356,13 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- app-installation-hub.js --- */
 /**
- * app-installation-hub.js
- * Cross-Platform Local App Installation, Setup Wizard & Offline Cockpit for Noodle Studio
- * ======================================================================================
- * Unterstützt:
- *  - Windows (🪟 PWA, Edge/Chrome App-Modus, Desktop-Launcher, Autostart-Guide)
- *  - Android (🤖 PWA 1-Click Install, Vollbild ohne Adressleiste, Offline-Ready)
- *  - macOS (🍎 Safari Dock-App, Chrome/Brave Launchpad & Spotlight-Integration)
- *  - Linux (🐧 PWA, .desktop-Launcher für GNOME/KDE/XFCE/Wayland)
- *  - iOS / iPadOS (📱 Safari "Zum Home-Bildschirm")
- *  - Setup-Wizard: Routinen-Auswahl, Sync-Kopplung, Themes, Sound, Offline-Tresor
- *  - Portable Offline-Standalone-Paket Download (100% offline ohne Internet)
+ * @file app-installation-hub.js
+ * @module InstallationHub
+ * @description
+ * Plattformübergreifender PWA-Installationsassistent & Offline-Cockpit:
+ * - Automatische Betriebssystem- und Browser-Erkennung (Windows, macOS, Linux, Android, iOS/iPadOS)
+ * - Native `beforeinstallprompt`-Integration für 1-Klick-PWA-Installation
+ * - Interaktiver Setup-Assistent für Routinen, Sync-Kopplung, Themes und lokalen Backup-Tresor
  */
 
 (function () {
@@ -58222,92 +62820,102 @@ StartupWMClass=noodle-studio
 
 
 /* --- onboarding.js --- */
-// onboarding.js - Interaktive Erstnutzer-Tour & Onboarding für Noodle
-// ============================================================================
+/**
+ * @file onboarding.js
+ * @module OnboardingTour
+ * @description
+ * Vierstufige interaktive Einführungstour für neue Nutzerinnen und Nutzer.
+ * Erklärt das modulare Kanban-Board, die integrierten Fokus-/Audio-Werkzeuge
+ * sowie die lokale Offline-Speicherung.
+ */
 
 let onboardingCurrentStep = 0;
 
 const ONBOARDING_STEPS = [
   {
     title: {
-      de: "Willkommen bei Noodle! 🍜",
-      en: "Welcome to Noodle! 🍜"
+      de: "Willkommen bei Noodle Studio! 🍜",
+      en: "Welcome to Noodle Studio! 🍜"
     },
     subtitle: {
       de: "Dein strukturierter Begleiter für Alltag, Fokus & Produktivität",
       en: "Your structured companion for daily tasks, focus & productivity"
     },
-    icon: "lightbulb",
+    icon: "sparkles",
     color: "from-purple-500 to-pink-500",
-    badge: "1 / 4",
+    badge: "1 / 5",
     description: {
-      de: "Noodle verbindet flexibles Aufgabenmanagement mit integrierten Audio-Tools, Timern und praktischen Alltags-Modulen in einer übersichtlichen Oberfläche.",
-      en: "Noodle combines flexible task management with integrated audio tools, timers, and daily utilities in a clean interface."
+      de: "Noodle verbindet intelligentes Aufgabenmanagement mit 3D-Ästhetik, harmonischer Audio-Steuerung und reaktionsschnellen Werkzeugen in einer harmonischen, viewport-optimierten Ansicht.",
+      en: "Noodle combines intelligent task management with 3D depth, harmonic audio control, and responsive tools tailored perfectly to your screen."
     }
   },
   {
     title: {
-      de: "Dein modulares Board 📋",
-      en: "Your Modular Board 📋"
+      de: "Tabellen verwalten & 3D-Board 📋",
+      en: "Manage Tables & 3D Board 📋"
     },
     subtitle: {
-      de: "Aufgaben, Termine & Notizen mühelos ordnen",
-      en: "Organize tasks, appointments & notes with ease"
+      de: "Ein Klick: Tabellen leeren, automatisch füllen oder anpassen",
+      en: "One click: clear tables, autofill, or customize cards"
     },
-    icon: "layout-grid",
-    color: "from-cyan-500 to-teal-500",
-    badge: "2 / 4",
+    icon: "table-properties",
+    color: "from-teal-500 to-emerald-500",
+    badge: "2 / 5",
     description: {
-      de: "Organisiere deine Aufgaben in Tages- und Wochenspalten. Du kannst Spalten per Drag & Drop verschieben, eigene Spalten anlegen und Aufgaben mit Prioritätsfarben oder Wiederholungen 🔁 versehen.",
-      en: "Manage tasks across daily and weekly columns. Reorder via drag & drop, create custom columns, and add priority colors or recurrences 🔁."
+      de: "Über den neuen Button „Tabellen verwalten“ leerst du dein Board im Handumdrehen, befüllst es mit smarten Vorschlägen oder passt Karten an. Der Workspace-Umschalter sitzt griffbereit ganz oben links.",
+      en: "Use the new 'Manage Tables' button to quickly clear, autofill with smart routines, or customize cards. The workspace switcher sits at the top-left."
     }
   },
   {
     title: {
-      de: "Eigene Routinen & Standards ✨",
-      en: "Custom Routines & Lifestyle Presets ✨"
+      de: "„Was nun?“ & Instant-Start ⚡",
+      en: "“What Now?” & Instant Start ⚡"
     },
     subtitle: {
-      de: "Passend für deinen Alltag: Minimalist, Reizfilter-Fokus oder Deep Work",
-      en: "Tailored to your lifestyle: Minimalist, Low-Stimulus Flow or Deep Work"
+      de: "Keine Entscheidungsblockaden: Heute fällige Aufgaben & Steps",
+      en: "Overcome inertia: Today's tasks & guided flow"
     },
-    icon: "sliders",
-    color: "from-amber-500 to-rose-500",
-    badge: "3 / 4",
-    actionButton: true,
+    icon: "zap",
+    color: "from-amber-500 to-yellow-500",
+    badge: "3 / 5",
     description: {
-      de: "Wähle vorkonfigurierte Routine-Standards oder erstelle deine eigene Vorlage. Beim Neuladen des Tagesplans erscheinen genau deine gewählten Aufgaben!",
-      en: "Pick a preconfigured lifestyle preset or create your custom default template. Your chosen tasks will load every day!"
+      de: "Die „Was nun?“-Funktion schlägt dir ausschließlich Aufgaben und Termine vor, die heute relevant sind. Mit dem ⚡ Instant-Start beginnt dein geführter Ablauf mit passendem Timer und sofortigen Einzelschritten.",
+      en: "The 'What Now?' assistant filters exclusively for today's tasks and appointments. Instant-Start kicks off a guided flow with matched timers and steps."
     }
   },
   {
     title: {
-      de: "100% Offline & Datenhoheit 🛡️",
-      en: "100% Offline & Data Privacy 🛡️",
-      fr: "100% Hors-ligne & Souveraineté des données 🛡️",
-      it: "100% Offline & Sovranità dei dati 🛡️",
-      es: "100% Offline & Privacidad de datos 🛡️",
-      el: "100% Εκτός σύνδεσης & Προστασία δεδομένων 🛡️"
+      de: "Audio-Studio & Minimalistische Suche 🎧",
+      en: "Audio Studio & Instant Search 🎧"
     },
     subtitle: {
-      de: "Deine Daten gehören dir — jederzeit sicher",
-      en: "Your data stays yours — always safe and resilient",
-      fr: "Vos données vous appartiennent — toujours en sécurité",
-      it: "I tuoi dati appartengono a te — sempre al sicuro",
-      es: "Tus datos te pertenecen — siempre seguros",
-      el: "Τα δεδομένα σας ανήκουν σε εσάς — πάντα ασφαλή"
+      de: "Vertikaler Lautstärkeregler, harmonischer Mix & Blitzsuche",
+      en: "Vertical volume slider, harmonic mix & instant search"
+    },
+    icon: "headphones",
+    color: "from-sky-500 to-cyan-500",
+    badge: "4 / 5",
+    description: {
+      de: "Schalte den Ton stumm, ohne dass er beim Entstummen ungefragt losspielt. Regle die Lautstärke vertikal. Mit [Strg+K] durchsuchst du ab dem ersten Buchstaben blitzschnell alle Aufgaben ohne Duplikate.",
+      en: "Mute/unmute cleanly without unexpected auto-play. Control volume vertically. Press [Ctrl+K] for instant deduplicated search from the very first keypress."
+    }
+  },
+  {
+    title: {
+      de: "Echtzeit-Synchronisation & Offline-Schutz 🛡️",
+      en: "Real-time Sync & 100% Offline 🛡️"
+    },
+    subtitle: {
+      de: "Alle Geräte live synchronisiert — 100% DSGVO-konform",
+      en: "All devices synced in real time — 100% GDPR compliant"
     },
     icon: "shield-check",
     color: "from-emerald-500 to-teal-500",
-    badge: "4 / 4",
+    badge: "5 / 5",
     installButton: true,
     description: {
-      de: "Alle Daten bleiben lokal auf deinem Gerät gespeichert. Installiere Noodle als App auf deinem Desktop oder Smartphone für blitzschnellen Schnellzugriff ohne Adressleiste!",
-      en: "All data stays stored locally on your device. Install Noodle as an app on your desktop or smartphone for lightning-fast access without address bars!",
-      fr: "Toutes les données restent stockées localement sur votre appareil. Installez Noodle comme application sur votre ordinateur ou smartphone pour un accès ultra-rapide !",
-      it: "Tutti i dati rimangono salvati localmente sul tuo dispositivo. Installa Noodle come app su desktop o smartphone per un accesso immediato!",
-      es: "Todos los datos se guardan localmente en tu dispositivo. ¡Instala Noodle como aplicación en tu PC o smartphone para un acceso ultra rápido!",
-      el: "Όλα τα δεδομένα παραμένουν τοπικά αποθηκευμένα στη συσκευή σας. Εγκαταστήστε το Noodle ως εφαρμογή στον υπολογιστή ή το κινητό σας για άμεση πρόσβαση!"
+      de: "Jede Änderung wird unverzüglich über alle deine Geräte synchronisiert. Installiere Noodle als App auf deinem Desktop oder Smartphone für blitzschnellen Schnellzugriff!",
+      en: "Every update syncs live across your devices. Install Noodle as an app on desktop or mobile for instant offline-ready access!"
     }
   }
 ];
@@ -58519,17 +63127,13 @@ if (typeof globalThis !== 'undefined') {
 
 /* --- monetization.js --- */
 /**
- * ============================================================================
- * Noodle - Monetarisierungs- & Abo-Struktur (monetization.js)
- * ============================================================================
- * HINWEIS ZUM LAUNCH-STATUS:
- * Dieses Modul bereitet die Strukturen für spätere Pro-Funktionen und Upgrades
- * vor. Zum Launch ist FLOW_CONFIG.MONETIZATION_ENABLED = false und ADS_ENABLED = false.
- * 
- * Es wird KEIN Werbe- oder Zahlungs-SDK geladen und KEIN Checkout ausgelöst.
- * Klicks auf "Pro"-Teaser rufen ausschließlich handleUpgradeClick() auf,
- * welche einen freundlichen "Bald verfügbar"-Toast anzeigt.
- * ============================================================================
+ * @file monetization.js
+ * @module MonetizationFeatureGate
+ * @description
+ * Feature-Flag-Steuerung für optionale Pro-Erweiterungen:
+ * - Standardmäßig deaktiviert (`FLOW_CONFIG.MONETIZATION_ENABLED = false`, `ADS_ENABLED = false`)
+ * - Lädt keine externen Zahlungs- oder Werbe-SDKs
+ * - Stellt `handleUpgradeClick()` bereit, um bei deaktivierter Monetarisierung einen dezenten Hinweis anzuzeigen
  */
 
 function handleUpgradeClick(featureName) {
@@ -58585,8 +63189,14 @@ if (typeof globalThis !== 'undefined') {
 
 
 /* --- app-feedback.js --- */
-// app-feedback.js - Intuitives & hochwertiges Feedback- & Einführungssystem
-// ============================================================================
+/**
+ * @file app-feedback.js
+ * @module FeedbackAndTourHub
+ * @description
+ * Integriertes Feedback- und Einführungsmodul.
+ * Ermöglicht das Einreichen von Verbesserungsvorschlägen, Fehlermeldungen
+ * oder Rückmeldungen sowie den jederzeitigen Neustart der Einführungstour.
+ */
 
 let currentFeedbackCategories = new Set(['idea']);
 let isSubmittingFeedback = false;
@@ -59092,8 +63702,14 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
 
 /* --- app-tooltip.js --- */
-// app-tooltip.js: Ultraschnelle, ästhetische & farblich abgestimmte Hovertexte (Tooltips)
-// ==========================================================================
+/**
+ * @file app-tooltip.js
+ * @module TooltipSystem
+ * @description
+ * Leichtgewichtiges, viewport-sicheres Tooltip-System.
+ * Positioniert Kurzbeschreibungen (`data-noodle-tooltip` / `title`) flackerfrei
+ * relativ zum Zielelement und verhindert Überlappungen am Bildschirmrand.
+ */
 
 (function() {
   'use strict';
@@ -59359,8 +63975,14 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
 
 /* --- app-social.js --- */
-// app-social.js: High-End Social Media Hub, Creator Lounge & Visual Card Studio for Noodle Studio
-// 100% Client-Side, Zero Tracking, GDPR/DSGVO compliant, Canvas-powered Social Graphic Generator & Multi-Platform Companion
+/**
+ * @file app-social.js
+ * @module SocialCreatorHub
+ * @description
+ * Social-Media-Begleitmodul und visueller Share-Card-Generator (HTML5 Canvas).
+ * Ermöglicht das Erstellen und Exportieren von Fortschritts- oder Zitatgrafiken
+ * sowie das Verwalten von Entwürfen für gängige Plattformen ohne Drittanbieter-SDKs.
+ */
 
 (function() {
   'use strict';
@@ -59481,10 +64103,10 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
   ];
 
   const HASHTAG_PACKS = [
-    { name: '🎯 Fokus & Flow', tags: '#Productivity #DeepWork #Focus #FlowState #Cognition #Mindset #TimeManagement #NoodleStudio' },
-    { name: '✨ Daily Lifestyle', tags: '#DailyVibe #Routine #MorningHabits #Aesthetic #Minimalism #SelfCare #CalmLiving' },
-    { name: '💡 Creator & Indie', tags: '#BuildInPublic #IndieHackers #CreatorEconomy #WebDesign #UIUX #DigitalNomad' },
-    { name: '🌿 Mind & Wellness', tags: '#MentalHealth #Breathwork #Calm #Mindfulness #SlowLiving #StressFree' }
+    { name: 'Fokus & Flow', tags: '#Productivity #DeepWork #Focus #FlowState #Cognition #Mindset #TimeManagement #NoodleStudio' },
+    { name: 'Daily Lifestyle', tags: '#DailyVibe #Routine #MorningHabits #Aesthetic #Minimalism #SelfCare #CalmLiving' },
+    { name: 'Creator & Indie', tags: '#BuildInPublic #IndieHackers #CreatorEconomy #WebDesign #UIUX #DigitalNomad' },
+    { name: 'Mind & Wellness', tags: '#MentalHealth #Breathwork #Calm #Mindfulness #SlowLiving #StressFree' }
   ];
 
   // ============================================================================
@@ -59509,7 +64131,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
         savedInspirations = [
           {
             id: 'insp_1',
-            title: '✨ Ruhiges Workspace-Setup & Lofi-Fokus',
+            title: 'Ruhiges Workspace-Setup & Lofi-Fokus',
             url: 'https://www.instagram.com',
             platform: 'instagram',
             tag: 'Inspiration',
@@ -59545,10 +64167,10 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
     if (mode === 'window') {
       window.open(targetUrl, 'NoodleSocialCompanion_' + platformKey, 'width=540,height=740,menubar=no,toolbar=no,location=no,status=no,resizable=yes');
-      if (typeof showToast === 'function') showToast(`🪟 ${plat.name} im Mini-Begleitfenster geöffnet!`);
+      if (typeof showToast === 'function') showToast(`${plat.name} im Mini-Begleitfenster geöffnet.`);
     } else {
       window.open(targetUrl, '_blank', 'noopener,noreferrer');
-      if (typeof showToast === 'function') showToast(`🚀 ${plat.name} in neuem Tab geöffnet!`);
+      if (typeof showToast === 'function') showToast(`${plat.name} in neuem Tab geöffnet.`);
     }
   }
 
@@ -59556,14 +64178,14 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     savedProfiles[platformKey] = value.trim();
     saveSocialData();
     renderSocialHub();
-    if (typeof showToast === 'function') showToast('✅ Profil-Link erfolgreich gespeichert!');
+    if (typeof showToast === 'function') showToast('Profil-Link gespeichert.');
   }
 
   function removeUserProfile(platformKey) {
     delete savedProfiles[platformKey];
     saveSocialData();
     renderSocialHub();
-    if (typeof showToast === 'function') showToast('🗑️ Profil-Link entfernt.');
+    if (typeof showToast === 'function') showToast('Profil-Link entfernt.');
   }
 
   function addInspiration(url, title, tag) {
@@ -59596,14 +64218,14 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     savedInspirations.unshift(newItem);
     saveSocialData();
     renderSocialHub();
-    if (typeof showToast === 'function') showToast('📌 Beitrag zu deinen Inspirationen hinzugefügt!');
+    if (typeof showToast === 'function') showToast('Beitrag zu deinen Inspirationen hinzugefügt.');
   }
 
   function removeInspiration(id) {
     savedInspirations = savedInspirations.filter(item => item.id !== id);
     saveSocialData();
     renderSocialHub();
-    if (typeof showToast === 'function') showToast('🗑️ Beitrag entfernt.');
+    if (typeof showToast === 'function') showToast('Beitrag entfernt.');
   }
 
   function insertEmoji(emoji) {
@@ -59628,7 +64250,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     }
     textarea.focus();
     updateCaptionStats();
-    if (typeof showToast === 'function') showToast('🏷️ Hashtags eingefügt!');
+    if (typeof showToast === 'function') showToast('Hashtags eingefügt.');
   }
 
   function updateCaptionStats() {
@@ -59657,13 +64279,13 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
     const textarea = document.getElementById('social-caption-textarea');
     const text = textarea ? textarea.value : '';
     if (!text || !text.trim()) {
-      if (typeof showToast === 'function') showToast(tr({ de: '⚠️ Bitte schreibe zuerst einen Text oder wähle Hashtags.', en: '⚠️ Please write a text or select hashtags first.', fr: '⚠️ Veuillez d’abord écrire un texte ou choisir des hashtags.', it: '⚠️ Scrivi prima un testo o scegli gli hashtag.', es: '⚠️ Por favor, escribe un texto o selecciona hashtags primero.', el: '⚠️ Γράψε πρώτα κείμενο ή επίλεξε hashtags.' }));
+      if (typeof showToast === 'function') showToast(tr({ de: 'Bitte schreibe zuerst einen Text oder wähle Hashtags.', en: 'Please write a text or select hashtags first.', fr: 'Veuillez d’abord écrire un texte ou choisir des hashtags.', it: 'Scrivi prima un testo o scegli gli hashtag.', es: 'Por favor, escribe un texto o selecciona hashtags primero.', el: 'Γράψε πρώτα κείμενο ή επίλεξε hashtags.' }));
       return;
     }
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
-        if (typeof showToast === 'function') showToast(tr({ de: '📋 Text kopiert! Öffne ' + platformKey + '...', en: '📋 Text copied! Opening ' + platformKey + '...', fr: '📋 Texte copié ! Ouverture de ' + platformKey + '...', it: '📋 Testo copiato! Apertura di ' + platformKey + '...', es: '📋 ¡Texto copiado! Abriendo ' + platformKey + '...', el: '📋 Το κείμενο αντιγράφηκε! Άνοιγμα ' + platformKey + '...' }));
+        if (typeof showToast === 'function') showToast(tr({ de: 'Text kopiert. Öffne ' + platformKey + '...', en: 'Text copied. Opening ' + platformKey + '...', fr: 'Texte copié ! Ouverture de ' + platformKey + '...', it: 'Testo copiato! Apertura di ' + platformKey + '...', es: '¡Texto copiado! Abriendo ' + platformKey + '...', el: 'Το κείμενο αντιγράφηκε! Άνοιγμα ' + platformKey + '...' }));
         setTimeout(() => openPlatform(platformKey, 'tab'), 300);
       });
     } else {
@@ -59923,7 +64545,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
           </div>
           <button onclick="openSocialLaunchModal('card')" class="w-full py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-md active:scale-95 flex items-center justify-center gap-1.5">
             <i data-lucide="image" class="w-3.5 h-3.5"></i>
-            <span>${tr({ de: "Visual Story Studio öffnen 🚀", en: "Open Visual Story Studio 🚀", fr: "Ouvrir le studio de stories 🚀", it: "Apri lo studio di storie 🚀", es: "Abrir estudio de historias visuales 🚀", el: "Άνοιγμα εργαστηρίου οπτικών ιστοριών 🚀" })}</span>
+            <span>${tr({ de: "Visual Story Studio öffnen", en: "Open Visual Story Studio", fr: "Ouvrir le studio de stories", it: "Apri lo studio di storie", es: "Abrir estudio de historias visuales", el: "Άνοιγμα εργαστηρίου οπτικών ιστοριών" })}</span>
           </button>
         </div>
       `;
@@ -59981,7 +64603,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
   }
 
   function getShareMessage(customHeadline) {
-    const defaultText = customHeadline || 'Entdecke Noodle Studio: Der ruhige, barrierefreie & ästhetische Alltags-Planer für echten Flow 🌿🎧';
+    const defaultText = customHeadline || 'Noodle Studio – Der ruhige, fokussierte Alltags-Planer für echten Flow.';
     return {
       title: 'Noodle Studio – Calm Productivity & Flow Workspace',
       text: defaultText,
@@ -60032,7 +64654,7 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
   function copyAppShareLink() {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(APP_URL).then(() => {
-        if (typeof showToast === 'function') showToast('🔗 Noodle Link in die Zwischenablage kopiert!');
+        if (typeof showToast === 'function') showToast('Noodle Link in die Zwischenablage kopiert.');
       });
     } else {
       prompt('Kopiere diesen Link:', APP_URL);
@@ -60087,17 +64709,15 @@ if (typeof globalThis !== 'undefined') globalThis.submitAppFeedbackDirect = subm
 
 /* --- app-core.js --- */
 /**
- * ============================================================================
- * Noodle - App Core & Orchestrierung (app-core.js)
- * ============================================================================
- * Zentrale Steuerungseinheit der Benutzeroberfläche:
- * - Globale Fehlerbehandlung (Error Boundaries)
- * - Workspace-Verwaltung (Personal / Work Wechsel)
- * - Theme- & Farb-Engine (12 Themes, sanfte Übergänge, Minimalist-Modus)
- * - Mobile Navigation (5-Tab Leiste, Bottom-Sheets, Swipe-Gesten)
- * - Fokus- & Zen-Modus Orchestrierung
- * - Lokalisierung & dynamische UI-Übersetzungen
- * ============================================================================
+ * @file app-core.js
+ * @module AppCore
+ * @description
+ * Zentrale Anwendungs-Orchestrierung & Lifecycle-Steuerung:
+ * - Globale Fehlerbehandlung (Error Boundaries für Laufzeit- und Promise-Fehler)
+ * - Workspace-Isolation und nahtloser Kontextwechsel (Personal / Work)
+ * - Theme- & Farb-Engine (12 kuratierte Themes, Dark/Light-Adaption, Minimalist-Modus)
+ * - Mobile Navigation (5-Tab-Architektur, Bottom-Sheets, Touch-Swipe-Gesten)
+ * - Fokus- & Zen-Modus-Orchestrierung sowie mehrsprachige UI-Lokalisierung
  */
 
 let currentZenTaskInfo = null;
@@ -60205,18 +64825,48 @@ function handleSoundsMainClick() { openAudioStudioMode('ambient'); }
 function handleMusicMainClick() { openAudioStudioMode('music'); }
 
 function openAudioStudioMode(mode) {
-  if (typeof togglePanel !== 'function') return;
-  const panel = document.getElementById('panel-audio');
-  const isHidden = !panel || panel.classList.contains('hidden');
-  
+  if (typeof mode !== 'string') mode = 'ambient';
+  if (mode === 'beats') mode = 'ambient';
   if (typeof window !== 'undefined') window._lastActiveAudioTab = mode;
   try { localStorage.setItem('flow_last_audio_tab', mode); } catch(e) {}
 
-  if (isHidden) {
-    togglePanel('audio');
+  const panel = document.getElementById('panel-audio');
+  if (!panel) return;
+
+  const isCurrentlyOpen = !panel.classList.contains('hidden') && panel.style.display !== 'none';
+  const currentTab = panel.getAttribute('data-active-tab') || 'ambient';
+
+  // Wenn dasselbe Tab bereits aktiv und offen ist -> Umschalten / Schließen
+  if (isCurrentlyOpen && currentTab === mode) {
+    if (typeof window.NoodleInteractionMode !== 'undefined' && typeof window.NoodleInteractionMode.closeWindow === 'function') {
+      window.NoodleInteractionMode.closeWindow('audio');
+    } else if (typeof togglePanel === 'function') {
+      togglePanel('audio', true);
+    } else {
+      panel.classList.add('hidden');
+      panel.style.removeProperty('display');
+    }
+    return;
   }
+
+  // Panel öffnen / sichtbar machen
+  if (typeof window.NoodleInteractionMode !== 'undefined' && typeof window.NoodleInteractionMode.openWindow === 'function') {
+    window.NoodleInteractionMode.openWindow('audio');
+  } else if (typeof togglePanel === 'function') {
+    togglePanel('audio');
+  } else {
+    panel.classList.remove('hidden');
+    panel.style.removeProperty('display');
+  }
+
+  // Auf gewünschten Tab umschalten & initialisieren
   if (typeof switchAudioTab === 'function') {
     switchAudioTab(mode);
+  }
+
+  // Vordergrund & Fokus sicherstellen
+  if (typeof window.NoodleInteractionMode !== 'undefined' && typeof window.NoodleInteractionMode.bringWindowToFront === 'function') {
+    window.NoodleInteractionMode.bringWindowToFront('audio');
   }
 }
 window.openAudioStudioMode = openAudioStudioMode;
@@ -60338,32 +64988,18 @@ window.switchDailyTab = switchDailyTab;
 
 // Performance: MutationObserver komplett entfernt, da redundant und Hauptursache für UI-Verzögerungen.
 
-let activeDancingSpecialButton = 'whatnow'; let currentPremiumDanceIndex = 0;
-const premiumDances = ['premium-glow-btn', 'animate-premium-heartbeat', 'animate-premium-orbit', 'animate-premium-float', 'animate-premium-shimmer'];
-
 function rotatePremiumDance() {
-  const activeBtn = activeDancingSpecialButton === 'whatnow' ? document.getElementById('btn-whatnow-dance') : document.getElementById('btn-focus-mode');
-  const inactiveBtn = activeDancingSpecialButton === 'whatnow' ? document.getElementById('btn-focus-mode') : document.getElementById('btn-whatnow-dance');
-  if (inactiveBtn) { premiumDances.forEach(c => inactiveBtn.classList.remove(c)); inactiveBtn.classList.add('bg-purple-500/10', 'border-purple-500/30'); }
-  if (activeBtn) {
-    premiumDances.forEach(c => activeBtn.classList.remove(c)); activeBtn.classList.remove('bg-purple-500/10', 'border-purple-500/30');
-    currentPremiumDanceIndex = (currentPremiumDanceIndex + 1) % premiumDances.length; activeBtn.classList.add(premiumDances[currentPremiumDanceIndex]);
-  }
+  // Neutralized for calm dark design system
 }
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
+// Globaler Tastatur- & Shortcut-Handler
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' || e.code === 'Escape') {
     if (document.activeElement && typeof document.activeElement.blur === 'function') {
-      document.activeElement.blur();
+      try { document.activeElement.blur(); } catch(err) {}
     }
     e.preventDefault();
     closeAllPanelsAndModals();
-    // Timer mit Esc zurücksetzen
-    if (typeof resetTimer === 'function') {
-      resetTimer();
-    } else if (typeof stopTimer === 'function') {
-      stopTimer();
-    }
     return;
   }
 
@@ -60514,10 +65150,28 @@ function closeAllPanelsAndModals() {
     taskMenuCloseTimer = null;
   }
 
-  // 2. Modal close helpers
+  // 2. Close all floating desktop tool windows (Shopping, Cooking, Radio, Audio/DJ, News, Alarm, Daily, Impulse, etc.)
+  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.closeAllWindows === 'function') {
+    try { window.NoodleInteractionMode.closeAllWindows(); } catch(e) {}
+  }
+  if (typeof closeAllToolWindows === 'function') {
+    try { closeAllToolWindows(); } catch(e) {}
+  }
+  if (typeof closeAllWindows === 'function') {
+    try { closeAllWindows(); } catch(e) {}
+  }
+  document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window').forEach(box => {
+    box.classList.add('hidden');
+    box.style.removeProperty('display');
+  });
+
+  // 3. Modal close helpers
   if (typeof closeHelperModal === 'function') closeHelperModal();
+  if (typeof closeCleaningGuideModal === 'function') closeCleaningGuideModal();
   if (typeof closeSportModal === 'function') closeSportModal();
   if (typeof closeSafeSpaceModal === 'function') closeSafeSpaceModal();
+  if (typeof closeClarityModal === 'function') closeClarityModal();
+  if (typeof closeRegulationModal === 'function') closeRegulationModal();
   if (typeof closeCustomItemModal === 'function') closeCustomItemModal();
   if (typeof closePrivacyModal === 'function') closePrivacyModal();
   if (typeof closeArchiveModal === 'function') closeArchiveModal();
@@ -60527,6 +65181,14 @@ function closeAllPanelsAndModals() {
   if (typeof closeRouletteModal === 'function') closeRouletteModal();
   if (typeof closeReportDashboard === 'function') closeReportDashboard();
   if (typeof closeSettingsModal === 'function') closeSettingsModal();
+  if (typeof closeInstallModal === 'function') closeInstallModal();
+  if (typeof closeUndoHistoryModal === 'function') closeUndoHistoryModal();
+  if (typeof closePostponeTerminModal === 'function') closePostponeTerminModal();
+  if (typeof closeTextImportModal === 'function') closeTextImportModal();
+  if (typeof closeReportExportModal === 'function') closeReportExportModal();
+  if (typeof closeSampleManagerModal === 'function') closeSampleManagerModal();
+  if (typeof closeSupermarketModal === 'function') closeSupermarketModal();
+  if (typeof closeFeierabendModal === 'function') closeFeierabendModal();
   if (typeof closeCommandPalette === 'function') closeCommandPalette();
   if (typeof closeKeyboardShortcuts === 'function') closeKeyboardShortcuts();
   if (typeof closeP2PSyncModal === 'function') closeP2PSyncModal();
@@ -60536,36 +65198,73 @@ function closeAllPanelsAndModals() {
   if (typeof closeBreakModal === 'function') closeBreakModal();
   if (typeof closeStepsModal === 'function') closeStepsModal();
   if (typeof closeNoteModal === 'function') closeNoteModal();
+  if (typeof closeNoteDetailModal === 'function') closeNoteDetailModal();
   if (typeof closeBrainstormModal === 'function') closeBrainstormModal();
+  if (typeof closeLearningHubModal === 'function') closeLearningHubModal();
+  if (typeof closeNoteScannerModal === 'function') closeNoteScannerModal();
   if (typeof toggleTerminForm === 'function') toggleTerminForm(false);
   if (typeof closeTaskOptionsMenu === 'function') closeTaskOptionsMenu();
+  if (typeof closeTemplateBuilderModal === 'function') closeTemplateBuilderModal();
   if (typeof hideSoundHoverSlider === 'function') hideSoundHoverSlider();
 
-  // 3. Close all specific and generic modal elements
+  // 4. Close all specific and generic modal elements
   const modalIds = [
+    'modal-template-builder',
     'brainstorm-modal', 'clarity-modal', 'sample-manager-modal', 'supermarket-modal',
     'feierabend-celebration-modal', 'privacy-legal-modal', 'note-detail-modal',
     'helper-safespace-modal', 'helper-pick-modal', 'helper-sport-modal',
-    'helper-break-modal', 'helper-steps-modal', 'modal-p2p-sync',
-    'modal-regulation',
+    'helper-break-modal', 'helper-steps-modal', 'helper-cleaning-modal', 'modal-p2p-sync',
+    'modal-regulation', 'note-scanner-modal', 'modal-learning-hub',
     'modal-report-dashboard', 'modal-settings', 'modal-command-palette',
     'modal-keyboard-shortcuts', 'text-import-modal', 'report-export-modal',
     'mobile-menu-drawer', 'mobile-tools-sheet', 'modal-mobile-quick-menu',
-    'modal-custom-item', 'modal-dice', 'modal-roulette', 'modal-archive'
+    'modal-custom-item', 'modal-dice', 'modal-roulette', 'modal-archive',
+    'modal-app-install', 'modal-undo-history', 'modal-postpone-termin',
+    'app-confirm-modal', 'confirm-dialog-modal'
   ];
   modalIds.forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.classList.add('hidden');
+    if (el) {
+      el.classList.add('hidden');
+      el.style.display = '';
+    }
   });
-  document.querySelectorAll('.modal, [id$="-modal"], [id*="modal-"], [id*="-modal"]').forEach(el => {
+  document.querySelectorAll('.modal, [id$="-modal"], [id*="modal-"], [id*="-modal"], .app-modal').forEach(el => {
     el.classList.add('hidden');
+    el.style.display = '';
   });
 
-  // 4. Close all dock popover panels, dropdowns, context menus, and hover popovers
-  const allPanels = document.querySelectorAll('.dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], #task-context-dropdown, #header-sound-volume-popover, .context-menu');
-  allPanels.forEach(p => p.classList.add('hidden'));
+  // 5. Close all subheader and header dropdowns, tools hub and popovers
+  const subheaderDropdowns = [
+    'dropdown-header-workspace', 'dropdown-manage-tables', 'dropdown-manage-columns',
+    'popover-add-list', 'floating-add-list-container', 'panel-header-tools',
+    'header-sound-volume-popover', 'weather-search-results', 'cmd-palette-results',
+    'panel-search', 'panel-settings-dropdown', 'panel-calendar-dropdown',
+    'panel-weather', 'panel-pause-dropdown', 'panel-timer-presets', 'panel-feedback',
+    'panel-report', 'panel-labs-menu', 'panel-news'
+  ];
+  subheaderDropdowns.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('hidden');
+      el.style.display = '';
+      el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+    }
+  });
 
-  // 5. Reset active state on mac dock and clear pinned panel state
+  // 6. Close all dock popover panels, dropdowns, context menus, and hover popovers
+  const allPanels = document.querySelectorAll('.dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], [id$="-popover"], #task-context-dropdown, #header-sound-volume-popover, .context-menu');
+  allPanels.forEach(p => {
+    p.classList.add('hidden');
+    p.style.display = '';
+    p.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+  });
+
+  // 7. PanelManager & ModalManager Fallback
+  if (typeof PanelManager !== 'undefined' && typeof PanelManager.closeAll === 'function') PanelManager.closeAll();
+  if (typeof ModalManager !== 'undefined' && typeof ModalManager.closeAll === 'function') ModalManager.closeAll();
+
+  // 8. Reset active state on mac dock and clear pinned panel state
   if (typeof currentlyOpenPanel !== 'undefined') currentlyOpenPanel = null;
   if (typeof window !== 'undefined') {
     window.currentlyOpenPanel = null;
@@ -60575,7 +65274,7 @@ function closeAllPanelsAndModals() {
   const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
   if (dockContainer) dockContainer.classList.remove('is-active');
 
-  // 6. Close all open inline add inputs
+  // 9. Close all open inline add inputs
   if (typeof openTaskAddColumns !== 'undefined' && typeof openTaskAddColumns === 'object') {
     let reRenderNeeded = false;
     Object.keys(openTaskAddColumns).forEach(k => {
@@ -60587,6 +65286,19 @@ function closeAllPanelsAndModals() {
     if (reRenderNeeded && typeof renderApp === 'function') {
       renderApp();
     }
+  }
+
+  // 10. Blur active element so focus does not stay trapped in inputs
+  if (typeof document !== 'undefined' && document.activeElement && typeof document.activeElement.blur === 'function') {
+    try { document.activeElement.blur(); } catch(e) {}
+  }
+
+  // 11. Synchronize UI indicators (dashboard arrow flips back to chevron-right)
+  if (typeof window !== 'undefined' && typeof window.updateDashboardArrowUI === 'function') {
+    window.updateDashboardArrowUI(false);
+  }
+  if (typeof syncHeaderToolsMenuState === 'function') {
+    try { syncHeaderToolsMenuState(); } catch(e) {}
   }
 }
 window.closeAllPanelsAndModals = closeAllPanelsAndModals;
@@ -60705,6 +65417,7 @@ function switchSettingsTab(tabName) {
     }
   });
   if (tabName === 'history') renderHistoryGallery();
+  if (tabName === 'privacy' && typeof updateUmamiOptOutUI === 'function') updateUmamiOptOutUI();
   renderLucideIcons();
 }
 
@@ -60869,7 +65582,7 @@ async function clearAllApplicationData() {
 window.clearAllApplicationData = clearAllApplicationData;
 
 document.addEventListener('DOMContentLoaded', () => {
-  setTheme(currentTheme); setLanguage(currentLang);
+  setTheme(currentTheme, true); setLanguage(currentLang, true);
   const iconEl = document.getElementById('zen-btn-icon'); const textEl = document.getElementById('minimal-mode-btn-text');
   const zenView = document.getElementById('zen-chill-view');
   const mainEl = document.querySelector('main');
@@ -60972,7 +65685,7 @@ const THEME_ALIASES = {
   'architect': 'ocean'
 };
 
-function setTheme(theme) {
+function setTheme(theme, skipRender = false) {
   if (THEME_ALIASES[theme]) theme = THEME_ALIASES[theme];
   if (!ALL_VALID_THEMES.includes(theme)) theme = 'code-night';
   if (typeof window !== 'undefined') window.currentTheme = theme;
@@ -60999,7 +65712,7 @@ function setTheme(theme) {
       }
     });
   }
-  if (typeof renderApp === 'function') {
+  if (!skipRender && typeof renderApp === 'function') {
     try { renderApp(); } catch(e) {}
   }
 }
@@ -61036,13 +65749,15 @@ function setThemeSlow(theme) {
   }, 2600);
 }
 
-function setLanguage(lang) {
+function setLanguage(lang, skipRender = false) {
   if (!lang || !TRANSLATIONS[lang] || !DEFAULT_TASKS_BY_LANG[lang]) { lang = 'en'; }
   const oldLang = currentLang; currentLang = lang; localStorage.setItem('flowPlannerLanguage', lang);
   document.documentElement.lang = lang; translateUserTasks(oldLang, lang);
   translateUI(); const textEl = document.getElementById('minimal-mode-btn-text');
   if (textEl) { textEl.innerText = isMinimalist ? t('standard_mode') : t('minimal_mode'); }
-  updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
+  if (!skipRender) {
+    updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
+  }
   // 1. Localize News Language independently from Region
   if (typeof RadioNewsEngine !== 'undefined') {
     if (typeof RadioNewsEngine.syncAppLanguage === 'function') {
@@ -61063,7 +65778,9 @@ function setLanguage(lang) {
     window.updateWeatherDisplay();
   }
 
-  renderLucideIcons();
+  if (!skipRender) {
+    renderLucideIcons();
+  }
 }
 
 function translateUI() {
@@ -61472,14 +66189,14 @@ function handleRestoreBackupFile(event) {
   reader.onload = async function(e) {
     try {
       const data = JSON.parse(e.target.result);
-      if (!data || (!data.items && !data.daily && !Array.isArray(data))) {
+      if (!data) {
         throw new Error('Ungültiges Noodle Backup-Format');
       }
 
       const msg = typeof tr === 'function' ? tr({
-        de: 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden aktualisiert.',
-        en: 'Do you really want to restore this backup? Existing data will be updated.'
-      }) : 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden aktualisiert.';
+        de: 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden ersetzt.',
+        en: 'Do you really want to restore this backup? Existing data will be replaced.'
+      }) : 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden ersetzt.';
 
       const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
         title: typeof tr === 'function' ? tr({ de: 'Backup wiederherstellen?', en: 'Restore Backup?' }) : 'Backup wiederherstellen?',
@@ -61490,24 +66207,40 @@ function handleRestoreBackupFile(event) {
       }) : confirm(msg);
 
       if (confirmed) {
-        if (data.items) {
-          items = data.items;
-          localStorage.setItem('flow_items_v2', JSON.stringify(items));
+        const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';
+        const migrated = (typeof migrateState === 'function') ? migrateState(data, lang) : data;
+        const nowISO = new Date().toISOString();
+        migrated._backupRestoredAt = nowISO;
+        migrated.updatedAt = nowISO;
+
+        if (typeof state !== 'undefined') {
+          state = migrated;
         }
-        if (data.categoriesOrder && Array.isArray(data.categoriesOrder)) {
-          categoriesOrder = data.categoriesOrder;
-          localStorage.setItem('flow_categories_order', JSON.stringify(categoriesOrder));
-        }
-        if (data.historyScreenshots && Array.isArray(data.historyScreenshots)) {
-          saveHistoryScreenshots(data.historyScreenshots);
+        if (typeof window !== 'undefined') {
+          window.state = migrated;
         }
 
-        if (typeof renderBoard === 'function') renderBoard();
-        if (typeof renderLucideIcons === 'function') renderLucideIcons();
+        if (migrated.categoriesOrder && Array.isArray(migrated.categoriesOrder)) {
+          if (typeof categoriesOrder !== 'undefined') categoriesOrder = migrated.categoriesOrder;
+          if (typeof saveCategoriesOrder === 'function') saveCategoriesOrder();
+        }
+
+        if (typeof saveState === 'function') saveState();
+
+        if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+          cloudSyncEngine.triggerImmediatePush();
+        }
+
+        if (typeof renderApp === 'function') renderApp();
+        if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+        if (typeof updateZenView === 'function') updateZenView();
         if (typeof closeSettingsModal === 'function') closeSettingsModal();
 
         if (typeof showToast === 'function') {
-          showToast('Backup erfolgreich wiederhergestellt! ✨');
+          showToast(tr({
+            de: 'Backup erfolgreich wiederhergestellt! ✨',
+            en: 'Backup restored successfully! ✨'
+          }));
         }
       }
     } catch (err) {
@@ -61515,9 +66248,9 @@ function handleRestoreBackupFile(event) {
         showToast('Fehler beim Wiederherstellen: ' + err.message);
       }
     }
+    event.target.value = '';
   };
   reader.readAsText(file);
-  event.target.value = '';
 }
 window.handleRestoreBackupFile = handleRestoreBackupFile;
 
@@ -61613,6 +66346,21 @@ if (typeof document !== 'undefined') {
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
       e.preventDefault();
       if (typeof openCommandPalette === 'function') openCommandPalette();
+      return;
+    }
+
+    // Escape -> Close active popovers and dropdowns
+    if (e.key === 'Escape') {
+      if (typeof closeManageTablesDropdown === 'function') closeManageTablesDropdown();
+      if (typeof closeHeaderWorkspaceDropdown === 'function') closeHeaderWorkspaceDropdown(true);
+      const toolsPanel = document.getElementById('panel-header-tools');
+      if (toolsPanel && !toolsPanel.classList.contains('hidden')) {
+        if (typeof toggleDashboardOverlay === 'function') toggleDashboardOverlay();
+        else toolsPanel.classList.add('hidden');
+      }
+      const soundVol = document.getElementById('header-sound-volume-popover');
+      if (soundVol && !soundVol.classList.contains('hidden')) soundVol.classList.add('hidden');
+      if (typeof closeAllPanelsAndModals === 'function') closeAllPanelsAndModals();
       return;
     }
 
@@ -62024,4 +66772,6 @@ if (typeof globalThis !== 'undefined') {
   globalThis.submitMobileQuickAdd = submitMobileQuickAdd;
   globalThis.toggleExtraThemesAccordion = toggleExtraThemesAccordion;
 }
+
+
 

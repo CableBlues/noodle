@@ -1,8 +1,15 @@
-// data-custom-translations.js: Synchronized custom translations
+/**
+ * @file data-custom-translations.js
+ * @module DataCustomTranslations
+ * @description
+ * Erweiterte Lokalisierungsschlüssel für Fachmodule (Workout-Baukasten, Entscheidungs-Assistent,
+ * Rezept-Studio, Einkaufs-Abteilungen und Einstellungen) in allen sechs unterstützten Sprachen.
+ */
 if (typeof window.TRANSLATIONS === 'undefined') { window.TRANSLATIONS = {}; }
 
 const customTranslations = {
   "en": {
+    "mobile_nav_menu": "Menu",
     "pick_tab_suggestion": "Focus Suggestion",
     "pick_tab_dilemma": "A vs B Decider",
     "pick_tab_braindump": "Clear Mind",
@@ -817,9 +824,13 @@ const customTranslations = {
     "toast_import_error": "Failed to read the backup file.",
     "toast_import_success": "Plan successfully imported!",
     "toast_no_undo": "No actions to undo.",
-    "toast_reset_success": "Your board has been reset to defaults.",
+    "toast_reset_success": "Template loaded successfully ✨",
     "toast_task_deleted": "Task deleted.",
     "toast_task_restored": "Task restored.",
+    "toast_note_deleted": "Note deleted.",
+    "toast_note_restored": "Note restored.",
+    "toast_termin_deleted": "Appointment deleted.",
+    "toast_termin_restored": "Appointment restored.",
     "toast_tasks_restored": "Default tasks restored successfully!",
     "toast_undo_applied": "Last action undone.",
     "toast_zen_active": "🧘 Focus Mode activated (Zen View)",
@@ -1049,6 +1060,7 @@ const customTranslations = {
     "step_choose_placeholder": "Select step"
   },
   "de": {
+    "mobile_nav_menu": "Menü",
     "pick_tab_suggestion": "Fokus-Vorschlag",
     "pick_tab_dilemma": "A vs. B Entscheider",
     "pick_tab_braindump": "Kopf leeren",
@@ -1863,9 +1875,13 @@ const customTranslations = {
     "toast_import_error": "Das Laden der Datei ist leider fehlgeschlagen.",
     "toast_import_success": "Dein Plan wurde erfolgreich geladen!",
     "toast_no_undo": "Keine Aktionen zum Rückgängigmachen vorhanden.",
-    "toast_reset_success": "Dein Plan wurde komplett zurückgesetzt.",
+    "toast_reset_success": "Vorlage erfolgreich geladen ✨",
     "toast_task_deleted": "Aufgabe gelöscht.",
     "toast_task_restored": "Aufgabe wurde wiederhergestellt.",
+    "toast_note_deleted": "Notiz gelöscht.",
+    "toast_note_restored": "Notiz wurde wiederhergestellt.",
+    "toast_termin_deleted": "Termin gelöscht.",
+    "toast_termin_restored": "Termin wurde wiederhergestellt.",
     "toast_tasks_restored": "Standard-Aufgaben wurden erfolgreich wiederhergestellt!",
     "toast_undo_applied": "Letzter Schritt wurde rückgängig gemacht.",
     "toast_zen_active": "🧘 Fokus-Modus aktiviert (Zen-Ansicht)",
@@ -2095,6 +2111,7 @@ const customTranslations = {
     "step_choose_placeholder": "Schritt wählen"
   },
   "fr": {
+    "mobile_nav_menu": "Menu",
     "pick_tab_suggestion": "Suggestion de focus",
     "pick_tab_dilemma": "Décideur A vs B",
     "pick_tab_braindump": "Vider l'esprit",
@@ -2912,6 +2929,10 @@ const customTranslations = {
     "toast_reset_success": "Ton plan a été entièrement réinitialisé.",
     "toast_task_deleted": "Tâche supprimée.",
     "toast_task_restored": "Tâche restaurée.",
+    "toast_note_deleted": "Note supprimée.",
+    "toast_note_restored": "Note restaurée.",
+    "toast_termin_deleted": "Rendez-vous supprimé.",
+    "toast_termin_restored": "Rendez-vous restauré.",
     "toast_tasks_restored": "Les tâches par défaut ont été restaurées !",
     "toast_undo_applied": "Dernière action annulée.",
     "toast_zen_active": "🧘 Mode Focus activé (Vue Zen)",
@@ -3141,6 +3162,7 @@ const customTranslations = {
     "step_choose_placeholder": "Sélectionner une étape"
   },
   "it": {
+    "mobile_nav_menu": "Menu",
     "pick_tab_suggestion": "Suggerimento focus",
     "pick_tab_dilemma": "Decisore A vs B",
     "pick_tab_braindump": "Svuota la mente",
@@ -3958,6 +3980,10 @@ const customTranslations = {
     "toast_reset_success": "Il tuo piano è stato ripristinato ai valori predefiniti.",
     "toast_task_deleted": "Attività eliminata.",
     "toast_task_restored": "Attività ripristinata.",
+    "toast_note_deleted": "Nota eliminata.",
+    "toast_note_restored": "Nota ripristinata.",
+    "toast_termin_deleted": "Appuntamento eliminato.",
+    "toast_termin_restored": "Appuntamento ripristinato.",
     "toast_tasks_restored": "Le attività predefinite sono state ripristinate con successo!",
     "toast_undo_applied": "Ultima azione annullata.",
     "toast_zen_active": "🧘 Modalità Focus attivata (Vista Zen)",
@@ -4187,6 +4213,7 @@ const customTranslations = {
     "step_choose_placeholder": "Seleziona passo"
   },
   "es": {
+    "mobile_nav_menu": "Menú",
     "pick_tab_suggestion": "Sugerencia de enfoque",
     "pick_tab_dilemma": "Decisor A vs B",
     "pick_tab_braindump": "Vaciar la mente",
@@ -5004,6 +5031,10 @@ const customTranslations = {
     "toast_reset_success": "Tu plan se ha restablecido a los valores predeterminados.",
     "toast_task_deleted": "Tarea eliminada.",
     "toast_task_restored": "Tarea restaurada.",
+    "toast_note_deleted": "Nota eliminada.",
+    "toast_note_restored": "Nota restaurada.",
+    "toast_termin_deleted": "Cita eliminada.",
+    "toast_termin_restored": "Cita restaurada.",
     "toast_tasks_restored": "¡Tareas predeterminadas restauradas con éxito!",
     "toast_undo_applied": "Última acción deshecha.",
     "toast_zen_active": "🧘 Modo Enfoque activado (Vista Zen)",
@@ -5233,6 +5264,7 @@ const customTranslations = {
     "step_choose_placeholder": "Seleccionar paso"
   },
   "el": {
+    "mobile_nav_menu": "Μενού",
     "pick_tab_suggestion": "Πρόταση εστίασης",
     "pick_tab_dilemma": "Αποφασιστής A vs B",
     "pick_tab_braindump": "Άδειασμα μυαλού",
@@ -6050,6 +6082,10 @@ const customTranslations = {
     "toast_reset_success": "Το πλάνο σου επανήλθε στις προεπιλογές.",
     "toast_task_deleted": "Η εργασία διαγράφηκε.",
     "toast_task_restored": "Η εργασία επαναφέρθηκε.",
+    "toast_note_deleted": "Η σημείωση διαγράφηκε.",
+    "toast_note_restored": "Η σημείωση επαναφέρθηκε.",
+    "toast_termin_deleted": "Το ραντεβού διαγράφηκε.",
+    "toast_termin_restored": "Το ραντεβού επαναφέρθηκε.",
     "toast_tasks_restored": "Οι προεπιλεγμένες εργασίες επαναφέρθηκαν με επιτυχία!",
     "toast_undo_applied": "Η τελευταία ενέργεια αναιρέθηκε.",
     "toast_zen_active": "🧘 Ενεργοποιήθηκε η Λειτουργία Εστίασης (Προβολή Zen)",

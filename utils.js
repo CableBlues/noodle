@@ -1378,10 +1378,49 @@ function closeMobileToolsSheet() {
   if (sheet) sheet.classList.add('hidden');
 }
 
+function toggleUmamiOptOut() {
+  try {
+    const isCurrentlyOptedOut = localStorage.getItem('umami.disabled') === '1' || localStorage.getItem('noodle_analytics_optout') === 'true';
+    if (isCurrentlyOptedOut) {
+      localStorage.removeItem('umami.disabled');
+      localStorage.removeItem('noodle_analytics_optout');
+    } else {
+      localStorage.setItem('umami.disabled', '1');
+      localStorage.setItem('noodle_analytics_optout', 'true');
+      if (typeof umami !== 'undefined') {
+        try { umami.disabled = true; } catch (e) {}
+      }
+    }
+  } catch (e) {
+    console.warn('Fehler beim Ändern des Umami Opt-Out Status:', e);
+  }
+  updateUmamiOptOutUI();
+}
+
+function updateUmamiOptOutUI() {
+  try {
+    const isOptedOut = localStorage.getItem('umami.disabled') === '1' || localStorage.getItem('noodle_analytics_optout') === 'true';
+    const buttons = document.querySelectorAll('.umami-optout-btn');
+    buttons.forEach(btn => {
+      if (isOptedOut) {
+        btn.innerHTML = '<span class="flex items-center gap-1.5"><i data-lucide="eye-off" class="w-3.5 h-3.5 text-rose-400"></i><span>Analyse ist deaktiviert (Opt-Out aktiv)</span></span>';
+        btn.className = 'umami-optout-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-rose-500/15 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 transition cursor-pointer';
+      } else {
+        btn.innerHTML = '<span class="flex items-center gap-1.5"><i data-lucide="eye" class="w-3.5 h-3.5 text-emerald-400"></i><span>Analyse ist aktiv (anonym, cookie-frei) – Klick für Opt-Out</span></span>';
+        btn.className = 'umami-optout-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition cursor-pointer';
+      }
+    });
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
+    }
+  } catch (e) {}
+}
+
 function openPrivacyModal() {
   const modal = document.getElementById('privacy-legal-modal');
   if (modal) {
     modal.classList.remove('hidden');
+    updateUmamiOptOutUI();
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 }
@@ -1397,6 +1436,12 @@ if (typeof window !== 'undefined') {
   window.ModalManager = ModalManager;
   window.openPrivacyModal = openPrivacyModal;
   window.closePrivacyModal = closePrivacyModal;
+  window.toggleUmamiOptOut = toggleUmamiOptOut;
+  window.updateUmamiOptOutUI = updateUmamiOptOutUI;
+  window.openMobileMenuDrawer = openMobileMenuDrawer;
+  window.closeMobileMenuDrawer = closeMobileMenuDrawer;
+  window.openMobileToolsSheet = openMobileToolsSheet;
+  window.closeMobileToolsSheet = closeMobileToolsSheet;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.escapeHtml = escapeHtml;
@@ -1404,6 +1449,22 @@ if (typeof globalThis !== 'undefined') {
   globalThis.ModalManager = ModalManager;
   globalThis.openPrivacyModal = openPrivacyModal;
   globalThis.closePrivacyModal = closePrivacyModal;
+  globalThis.toggleUmamiOptOut = toggleUmamiOptOut;
+  globalThis.updateUmamiOptOutUI = updateUmamiOptOutUI;
+  globalThis.openMobileMenuDrawer = openMobileMenuDrawer;
+  globalThis.closeMobileMenuDrawer = closeMobileMenuDrawer;
+  globalThis.openMobileToolsSheet = openMobileToolsSheet;
+  globalThis.closeMobileToolsSheet = closeMobileToolsSheet;
 }
+
+// Initialisiere Opt-Out UI Status beim Start
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateUmamiOptOutUI);
+  } else {
+    setTimeout(updateUmamiOptOutUI, 100);
+  }
+}
+
 
 

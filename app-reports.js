@@ -472,16 +472,16 @@ function renderWeeklyChart(targetElementId = 'report-weekly-chart', totalElement
   last7Days.forEach(day => {
     const pct = Math.max(8, (day.count / maxCount) * 100);
     const isToday = day.date === now.toISOString().split('T')[0];
-    const barCol = isToday ? 'bg-lime-400 shadow-[0_0_12px_rgba(132,204,22,0.6)]' : 'bg-[#00f2ff] hover:bg-lime-400';
-    const barBg = isToday ? 'bg-lime-500/20 border-lime-400/40' : 'bg-white/[0.04] border-white/10';
+    const barCol = isToday ? 'bg-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.5)]' : 'bg-[#00f2ff] hover:bg-emerald-400';
+    const barBg = isToday ? 'bg-emerald-500/20 border-emerald-400/40' : 'bg-white/[0.04] border-white/10';
     const barWrapper = document.createElement('div');
     barWrapper.className = `flex flex-col items-center justify-end gap-1 flex-1 ${isDashboard ? 'max-w-[54px]' : 'max-w-[40px]'}`;
     barWrapper.innerHTML = `
-      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-lime-300' : 'text-white') : 'text-gray-500'}">${day.count}</span>
+      <span class="text-[10px] font-bold font-mono leading-none mb-0.5 ${day.count > 0 ? (isToday ? 'text-emerald-300' : 'text-white') : 'text-gray-500'}">${day.count}</span>
       <div class="${isDashboard ? 'w-7 h-20' : 'w-5 h-11'} ${barBg} border rounded-xl relative flex items-end overflow-hidden cursor-pointer transition-transform hover:scale-105" title="${day.date}: ${day.count} erledigt">
         <div class="w-full ${barCol} transition-all duration-500 rounded-t" style="height: ${pct}%"></div>
       </div>
-      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-lime-300 font-extrabold' : 'text-gray-400'}">${day.label}</span>
+      <span class="text-[10px] font-bold leading-none mt-1 ${isToday ? 'text-emerald-300 font-extrabold' : 'text-gray-400'}">${day.label}</span>
     `;
     chartEl.appendChild(barWrapper);
   });
@@ -495,7 +495,7 @@ function updateReportPanel() {
       <div class="grid grid-cols-3 gap-2">
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="completed_stat">Erledigt</div>
-          <div id="report-today-count" class="text-lg font-black font-display text-lime-300">0</div>
+          <div id="report-today-count" class="text-lg font-black font-display text-emerald-400">0</div>
         </div>
         <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/10 text-center">
           <div class="text-[10px] text-gray-400 font-medium mb-0.5" data-i18n="focus_time">Fokus</div>

@@ -34,7 +34,7 @@
   <!-- 100% Lokale Schriftarten (DSGVO-konform, offline, ohne CDN-Abhängigkeit) -->
   <link rel="stylesheet" href="fonts.css" />
 
-  <!-- Umami: Besucherstatistik – wird ausschließlich online (z.B. auf GitHub Pages *.github.io) geladen, niemals bei lokalen Aufrufen (file://, localhost, XAMPP, 127.0.0.1) -->
+  <!-- Umami: Besucherstatistik – wird ausschließlich online (z.B. auf GitHub Pages *.github.io) geladen, niemals bei lokalen Aufrufen (file://, localhost, XAMPP, 127.0.0.1) und nur wenn kein Opt-Out / Do-Not-Track vorliegt -->
   <script>
     (function() {
       try {
@@ -45,8 +45,15 @@
                       h.endsWith('.local') || h.endsWith('.test') ||
                       /^192\.168\./.test(h) || /^10\./.test(h) || /^172\.(1[6-9]|2\d|3[01])\./.test(h);
         
-        // Nur aktivieren, wenn nicht lokal und auf offizieller GitHub Pages (*.github.io) Domain
-        if (!isLocal && (h.endsWith('github.io') || h.includes('github.io'))) {
+        // Opt-Out & Do-Not-Track prüfen
+        var dnt = navigator.doNotTrack === '1' || window.doNotTrack === '1' || navigator.msDoNotTrack === '1';
+        var optOut = false;
+        try {
+          optOut = localStorage.getItem('umami.disabled') === '1' || localStorage.getItem('noodle_analytics_optout') === 'true';
+        } catch (e) {}
+
+        // Nur aktivieren, wenn nicht lokal, kein Opt-Out, kein DNT und auf offizieller GitHub Pages (*.github.io) Domain
+        if (!optOut && !dnt && !isLocal && (h.endsWith('github.io') || h.includes('github.io'))) {
           var s = document.createElement('script');
           s.defer = true;
           s.src = 'https://cloud.umami.is/script.js';
@@ -135,8 +142,8 @@
           <!-- TOOLS SPHERES POPOVER DROPDOWN -->
           <div id="panel-header-tools" onmouseenter="showPanelHover('header-tools')" onmouseleave="hidePanelHover('header-tools')" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+16px)] sm:top-[calc(100%+18px)] left-0 z-[150] w-[360px] sm:w-[395px] bg-[#0c0c14]/98 border border-purple-500/35 p-2.5 sm:p-3 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_40px_rgba(168,85,247,0.2)] backdrop-blur-2xl ring-1 ring-white/10 flex flex-col gap-2 sm:gap-2.5 text-left animate-fade-in cursor-default">
             
-            <!-- 1. ALLTAG & LIFESTYLE (Übertitel: Emerald | Orbs: Cyan -> Lime -> Orange -> Fuchsia) -->
-            <div class="p-2 sm:p-2.5 rounded-2xl bg-gradient-to-br from-emerald-950/35 via-teal-950/20 to-cyan-950/30 border border-emerald-500/30 space-y-1.5 shadow-inner">
+            <!-- 1. ALLTAG & LIFESTYLE -->
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-[#11131c]/85 border border-white/10 space-y-1.5 shadow-sm">
               <div class="flex items-center justify-between px-1">
                 <div class="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-extrabold uppercase tracking-wider text-emerald-300 font-display drop-shadow-[0_0_8px_rgba(52,211,153,0.3)]">
                   <i data-lucide="home" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400"></i>
@@ -156,14 +163,14 @@
                   </button>
                 </div>
 
-                <!-- 2. Einkauf Sphere (Lime) -->
+                <!-- 2. Einkauf Sphere (Emerald) -->
                 <div class="relative flex flex-col items-center">
                   <button onclick="togglePanel('shopping')" class="tool-orb tool-orb-shopping flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Einkaufsliste [E]">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-lime-500/25 to-emerald-600/20 border border-lime-400/40 hover:border-lime-300 flex items-center justify-center text-lime-300 shadow-[0_0_12px_rgba(132,204,22,0.2)] group-hover/orb:scale-105 transition-all duration-200 relative">
-                      <i data-lucide="shopping-cart" class="w-5 h-5 text-lime-300"></i>
-                      <span id="shop-badge-count" class="hidden px-1 py-0.2 rounded-full bg-lime-500 text-slate-950 font-mono text-[8px] font-bold absolute -top-1 -right-1"></span>
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-600/20 border border-emerald-400/40 hover:border-emerald-300 flex items-center justify-center text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.2)] group-hover/orb:scale-105 transition-all duration-200 relative">
+                      <i data-lucide="shopping-cart" class="w-5 h-5 text-emerald-300"></i>
+                      <span id="shop-badge-count" class="hidden px-1 py-0.2 rounded-full bg-emerald-500 text-slate-950 font-mono text-[8px] font-bold absolute -top-1 -right-1"></span>
                     </div>
-                    <span class="tool-orb-label text-[9.5px] font-bold text-lime-300 group-hover/orb:text-lime-200 transition-colors" data-i18n="nav_shopping">Einkauf</span>
+                    <span class="tool-orb-label text-[9.5px] font-bold text-emerald-300 group-hover/orb:text-emerald-200 transition-colors" data-i18n="nav_shopping">Einkauf</span>
                   </button>
                   <div id="panel-shopping" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[440px] max-w-[95vw] bg-[#0f1017]/98 border border-emerald-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-3 text-left z-[150] animate-fade-in">
                     
@@ -275,29 +282,29 @@
                   </div>
                 </div>
 
-                <!-- 3. Kochen Sphere -->
+                <!-- 3. Kochen Sphere (Amber) -->
                 <div class="relative flex flex-col items-center">
                   <button onclick="togglePanel('cooking'); if(typeof renderCookingPanel==='function') renderCookingPanel();" class="tool-orb tool-orb-cooking flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Kochen & Rezepte [K]">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-orange-500/25 to-amber-600/20 border border-orange-400/40 hover:border-orange-300 flex items-center justify-center text-orange-300 shadow-[0_0_12px_rgba(249,115,22,0.15)] group-hover/orb:scale-105 transition-all duration-200 relative">
-                      <i data-lucide="chef-hat" class="w-5 h-5 text-orange-300"></i>
-                      <span id="cooking-active-timer-badge" class="hidden w-2.5 h-2.5 rounded-full bg-orange-400 shadow-[0_0_6px_rgba(251,146,60,0.6)] absolute -top-0.5 -right-0.5"></span>
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-400/40 hover:border-amber-300 flex items-center justify-center text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.2)] group-hover/orb:scale-105 transition-all duration-200 relative">
+                      <i data-lucide="chef-hat" class="w-5 h-5 text-amber-300"></i>
+                      <span id="cooking-active-timer-badge" class="hidden w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.6)] absolute -top-0.5 -right-0.5"></span>
                     </div>
-                    <span class="tool-orb-label text-[9.5px] font-bold text-orange-300 group-hover/orb:text-orange-200 transition-colors" data-i18n="nav_cooking">Kochen</span>
+                    <span class="tool-orb-label text-[9.5px] font-bold text-amber-300 group-hover/orb:text-amber-200 transition-colors" data-i18n="nav_cooking">Kochen</span>
                   </button>
-                  <div id="panel-cooking" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[430px] max-w-[95vw] bg-[#120d08]/98 border border-orange-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in overflow-hidden">
+                  <div id="panel-cooking" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[430px] max-w-[95vw] bg-[#0f1017]/98 border border-amber-500/35 p-3.5 sm:p-4 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_30px_rgba(245,158,11,0.15)] backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in overflow-hidden">
                     <!-- Dynamisch gerendert durch renderCookingPanel() -->
                   </div>
                 </div>
 
-                <!-- 4. Nachrichten Sphere -->
+                <!-- 4. Nachrichten Sphere (Purple/Rose) -->
                 <div class="relative flex flex-col items-center">
                   <button onclick="togglePanel('news')" class="tool-orb tool-orb-news flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Nachrichten & Audio">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-fuchsia-500/25 to-rose-600/20 border border-fuchsia-400/40 hover:border-fuchsia-300 flex items-center justify-center text-fuchsia-300 shadow-[0_0_12px_rgba(244,63,94,0.15)] group-hover/orb:scale-105 transition-all duration-200">
-                      <i data-lucide="newspaper" class="w-5 h-5 text-fuchsia-300"></i>
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-500/20 to-rose-500/20 border border-purple-400/40 hover:border-purple-300 flex items-center justify-center text-purple-300 shadow-[0_0_12px_rgba(168,85,247,0.2)] group-hover/orb:scale-105 transition-all duration-200">
+                      <i data-lucide="newspaper" class="w-5 h-5 text-purple-300"></i>
                     </div>
-                    <span class="tool-orb-label text-[9.5px] font-bold text-fuchsia-300 group-hover/orb:text-fuchsia-200 transition-colors" data-i18n="tool_news">News</span>
+                    <span class="tool-orb-label text-[9.5px] font-bold text-purple-300 group-hover/orb:text-purple-200 transition-colors" data-i18n="tool_news">News</span>
                   </button>
-                  <div id="panel-news" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[94vw] sm:w-[680px] md:w-[780px] lg:w-[840px] max-w-[96vw] bg-[#0c0f17]/98 border border-purple-500/30 p-4 sm:p-5 rounded-3xl shadow-2xl backdrop-blur-2xl flex flex-col gap-3 text-left z-[150] animate-fade-in max-h-[88vh]">
+                  <div id="panel-news" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[94vw] sm:w-[680px] md:w-[780px] lg:w-[840px] max-w-[96vw] bg-[#0c0c14]/98 border border-purple-500/30 p-4 sm:p-5 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_35px_rgba(168,85,247,0.15)] backdrop-blur-2xl flex flex-col gap-3 text-left z-[150] animate-fade-in max-h-[88vh]">
                   <!-- Header -->
                   <div class="flex items-center justify-between border-b border-white/10 pb-3">
                     <div class="flex items-center gap-3">
@@ -417,10 +424,10 @@
             </div>
 
             <!-- Trennlinie 1 -->
-            <div class="h-px w-full bg-gradient-to-r from-transparent via-purple-500/40 via-pink-500/40 to-transparent"></div>
+            <div class="h-px w-full bg-white/10"></div>
 
-            <!-- 2. SOUND & MUSIK (Übertitel: Purple | Orbs: Teal -> Sky -> Amber -> Rose) -->
-            <div class="p-2 sm:p-2.5 rounded-2xl bg-gradient-to-br from-purple-950/40 via-indigo-950/25 to-fuchsia-950/30 border border-purple-500/30 space-y-1.5 shadow-inner">
+            <!-- 2. SOUND & MUSIK -->
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-[#11131c]/85 border border-white/10 space-y-1.5 shadow-sm">
               <div class="flex items-center justify-between px-1">
                 <div class="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-extrabold uppercase tracking-wider text-purple-300 font-display drop-shadow-[0_0_8px_rgba(192,132,252,0.3)]">
                   <i data-lucide="headphones" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-purple-400"></i>
@@ -1252,16 +1259,16 @@
 
                 <!-- 4. Live-Radio Sphere (Rose) -->
                 <div class="relative flex flex-col items-center">
-                  <button onclick="togglePanel('radio')" class="tool-orb tool-orb-radio flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Live-Radio">
+                  <button onclick="togglePanel('radio'); if(window.RadioNewsEngine){ if(window.RadioNewsEngine.renderRadioPanelContent) window.RadioNewsEngine.renderRadioPanelContent(); if(window.RadioNewsEngine.probeAllStationsSignal) window.RadioNewsEngine.probeAllStationsSignal(); }" class="tool-orb tool-orb-radio flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Live-Radio">
                     <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-rose-500/25 to-pink-600/20 border border-rose-400/40 hover:border-rose-300 flex items-center justify-center text-rose-300 shadow-[0_0_12px_rgba(244,63,94,0.2)] group-hover/orb:scale-105 transition-all duration-200">
                       <i data-lucide="radio" class="w-5 h-5 text-rose-300"></i>
                     </div>
                     <span class="tool-orb-label text-[9.5px] font-bold text-rose-300 group-hover/orb:text-rose-200 transition-colors" data-i18n="tool_radio">Radio</span>
                   </button>
-                  <div id="panel-radio" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[450px] max-w-[95vw] bg-[#100b12]/98 border border-rose-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in">
+                  <div id="panel-radio" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[480px] max-w-[95vw] bg-[#0c0c14]/98 border border-purple-500/35 p-3.5 sm:p-4 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_35px_rgba(168,85,247,0.18)] backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in">
                     <div class="flex items-center justify-between border-b border-white/10 pb-2">
                       <div class="flex items-center gap-2">
-                        <div class="w-7 h-7 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 shadow-sm shrink-0">
+                        <div class="w-7 h-7 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 shadow-sm shrink-0">
                           <i data-lucide="radio" class="w-4 h-4"></i>
                         </div>
                         <div class="relative flex flex-col items-center justify-center shrink-0">
@@ -1321,10 +1328,16 @@
                     <!-- Stations List Container -->
                     <div class="space-y-1">
                       <div class="flex items-center justify-between px-1">
-                        <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider" data-i18n="radio_available_stations">Verfügbare Sender</span>
+                        <div class="flex items-center gap-1.5">
+                          <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider" data-i18n="radio_available_stations">Verfügbare Sender</span>
+                          <button id="radio-only-active-toggle" type="button" onclick="RadioNewsEngine.toggleOnlyActiveFilter()" class="px-1.5 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 transition cursor-pointer bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30" title="Filter: Nur Sender mit aktivem Signal zeigen">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span id="radio-only-active-text">Aktives Signal</span>
+                          </button>
+                        </div>
                         <span id="radio-stations-count" class="text-[9.5px] font-mono text-gray-400"></span>
                       </div>
-                      <div id="radio-stations-list" class="space-y-1 max-h-[380px] sm:max-h-[440px] overflow-y-auto pr-1.5 custom-scrollbar"></div>
+                      <div id="radio-stations-list" class="grid grid-cols-1 sm:grid-cols-2 gap-1.5 max-h-[400px] sm:max-h-[460px] overflow-y-auto pr-1 custom-scrollbar"></div>
                     </div>
                   </div>
                 </div>
@@ -1333,10 +1346,10 @@
             </div>
 
             <!-- Trennlinie 2 -->
-            <div class="h-px w-full bg-gradient-to-r from-transparent via-rose-500/40 via-teal-500/40 to-transparent"></div>
+            <div class="h-px w-full bg-white/10"></div>
 
-            <!-- 3. KÖRPER & GEIST (Übertitel: Rose | Orbs: Pink -> Lime -> Cyan -> Indigo) -->
-            <div class="p-2 sm:p-2.5 rounded-2xl bg-gradient-to-br from-rose-950/35 via-teal-950/20 to-indigo-950/30 border border-rose-500/30 space-y-1.5 shadow-inner">
+            <!-- 3. KÖRPER & GEIST -->
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-[#11131c]/85 border border-white/10 space-y-1.5 shadow-sm">
               <div class="flex items-center justify-between px-1">
                 <div class="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-extrabold uppercase tracking-wider text-rose-300 font-display drop-shadow-[0_0_8px_rgba(251,113,133,0.3)]">
                   <i data-lucide="heart-pulse" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-400"></i>
@@ -1353,18 +1366,18 @@
                     </div>
                     <span class="tool-orb-label text-[9.5px] font-bold text-rose-300 group-hover/orb:text-rose-200 transition-colors" data-i18n="tool_health">Gesundheit</span>
                   </button>
-                  <div id="panel-health" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[460px] max-w-[95vw] bg-[#120a0f]/98 border border-rose-500/40 p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-3 text-left z-[150] animate-fade-in max-h-[85vh] overflow-y-auto custom-scrollbar">
+                  <div id="panel-health" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[460px] max-w-[95vw] bg-[#0f1017]/98 border border-rose-500/35 p-4 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_30px_rgba(244,63,94,0.15)] backdrop-blur-xl flex flex-col gap-3 text-left z-[150] animate-fade-in max-h-[85vh] overflow-y-auto custom-scrollbar">
                     <div id="panel-health-content"></div>
                   </div>
                 </div>
 
-                <!-- 2. Bewegung & Home-Workout Sphere (Lime) -->
+                <!-- 2. Bewegung & Home-Workout Sphere (Emerald) -->
                 <div class="relative flex flex-col items-center">
                   <button onclick="openSportModal(); togglePanel('header-tools');" class="tool-orb tool-orb-sport flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Bewegung & Modulare Home-Workouts">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-lime-500/25 to-green-600/20 border border-lime-400/40 hover:border-lime-300 flex items-center justify-center text-lime-300 shadow-[0_0_12px_rgba(132,204,22,0.2)] group-hover/orb:scale-105 transition-all duration-200">
-                      <i data-lucide="activity" class="w-5 h-5 text-lime-300"></i>
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-600/20 border border-emerald-400/40 hover:border-emerald-300 flex items-center justify-center text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.2)] group-hover/orb:scale-105 transition-all duration-200">
+                      <i data-lucide="activity" class="w-5 h-5 text-emerald-300"></i>
                     </div>
-                    <span class="tool-orb-label text-[9.5px] font-bold text-lime-300 group-hover/orb:text-lime-200 transition-colors" data-i18n="tool_sport">Bewegung</span>
+                    <span class="tool-orb-label text-[9.5px] font-bold text-emerald-300 group-hover/orb:text-emerald-200 transition-colors" data-i18n="tool_sport">Bewegung</span>
                   </button>
                 </div>
 
@@ -1392,10 +1405,10 @@
             </div>
 
             <!-- Trennlinie 3 -->
-            <div class="h-px w-full bg-gradient-to-r from-transparent via-amber-500/40 via-violet-500/40 to-transparent"></div>
+            <div class="h-px w-full bg-white/10"></div>
 
-            <!-- 4. WISSEN, CHAT & SOCIAL (Übertitel: Amber | Orbs: Sky -> Fuchsia -> Emerald -> Violet) -->
-            <div class="p-2 sm:p-2.5 rounded-2xl bg-gradient-to-br from-amber-950/35 via-fuchsia-950/20 to-violet-950/35 border border-amber-500/30 space-y-1.5 shadow-inner">
+            <!-- 4. WISSEN, CHAT & SOCIAL -->
+            <div class="p-2 sm:p-2.5 rounded-2xl bg-[#11131c]/85 border border-white/10 space-y-1.5 shadow-sm">
               <div class="flex items-center justify-between px-1">
                 <div class="flex items-center gap-1.5 text-[10.5px] sm:text-[11px] font-extrabold uppercase tracking-wider text-amber-300 font-display drop-shadow-[0_0_8px_rgba(251,191,36,0.3)]">
                   <i data-lucide="book-open" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400"></i>
@@ -1414,15 +1427,15 @@
                   </button>
                 </div>
 
-                <!-- 2. Fun-Labor Sphere (Fuchsia) -->
+                <!-- 2. Fun-Labor Sphere (Violet/Purple) -->
                 <div class="relative flex flex-col items-center">
                   <button onclick="togglePanel('humor-lab')" class="tool-orb tool-orb-humor flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Fun-Labor: Soundboard, Witze & Sprach-FX">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-fuchsia-500/25 to-pink-600/20 border border-fuchsia-400/40 hover:border-fuchsia-300 flex items-center justify-center text-fuchsia-300 shadow-[0_0_12px_rgba(232,121,249,0.2)] group-hover/orb:scale-105 transition-all duration-200">
-                      <i data-lucide="smile" class="w-5 h-5 text-fuchsia-300"></i>
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-500/20 to-fuchsia-600/20 border border-violet-400/40 hover:border-violet-300 flex items-center justify-center text-violet-300 shadow-[0_0_12px_rgba(168,85,247,0.2)] group-hover/orb:scale-105 transition-all duration-200">
+                      <i data-lucide="smile" class="w-5 h-5 text-violet-300"></i>
                     </div>
-                    <span class="tool-orb-label text-[9.5px] font-bold text-fuchsia-300 group-hover/orb:text-fuchsia-200 transition-colors" data-i18n="tool_humor">Fun-Labor</span>
+                    <span class="tool-orb-label text-[9.5px] font-bold text-violet-300 group-hover/orb:text-violet-200 transition-colors" data-i18n="tool_humor">Fun-Labor</span>
                   </button>
-                  <div id="panel-humor-lab" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[440px] max-w-[95vw] bg-[#120b16]/98 border border-fuchsia-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in overflow-hidden">
+                  <div id="panel-humor-lab" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[440px] max-w-[95vw] bg-[#0f1017]/98 border border-purple-500/35 p-3.5 sm:p-4 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_30px_rgba(168,85,247,0.15)] backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in overflow-hidden">
                     <div id="panel-humor-lab-content"></div>
                   </div>
                 </div>
@@ -1430,12 +1443,12 @@
                 <!-- 3. Social Creator Hub Sphere (Emerald) -->
                 <div class="relative flex flex-col items-center">
                   <button onclick="togglePanel('social'); if(window.SocialHubEngine) SocialHubEngine.render();" class="tool-orb tool-orb-social flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Social Creator Hub & Post-Planer">
-                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500/25 to-teal-600/20 border border-emerald-400/40 hover:border-emerald-300 flex items-center justify-center text-emerald-300 shadow-[0_0_12px_rgba(52,211,153,0.2)] group-hover/orb:scale-105 transition-all duration-200">
+                    <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-600/20 border border-emerald-400/40 hover:border-emerald-300 flex items-center justify-center text-emerald-300 shadow-[0_0_12px_rgba(52,211,153,0.2)] group-hover/orb:scale-105 transition-all duration-200">
                       <i data-lucide="share-2" class="w-5 h-5 text-emerald-300"></i>
                     </div>
                     <span class="tool-orb-label text-[9.5px] font-bold text-emerald-300 group-hover/orb:text-emerald-200 transition-colors" data-i18n="tool_social">Social</span>
                   </button>
-                  <div id="panel-social" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[460px] max-w-[95vw] bg-[#0b1412]/98 border border-emerald-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in max-h-[85vh] overflow-y-auto custom-scrollbar">
+                  <div id="panel-social" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[380px] sm:w-[460px] max-w-[95vw] bg-[#0f1017]/98 border border-emerald-500/35 p-3.5 sm:p-4 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_30px_rgba(16,185,129,0.15)] backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in max-h-[85vh] overflow-y-auto custom-scrollbar">
                     <div id="panel-social-content"></div>
                   </div>
                 </div>
@@ -1449,7 +1462,7 @@
                     </div>
                     <span class="tool-orb-label text-[9.5px] font-bold text-violet-300 group-hover/orb:text-violet-200 transition-colors" data-i18n="tool_chat">Chat</span>
                   </button>
-                  <div id="panel-collab-chat" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[370px] sm:w-[420px] max-w-[95vw] bg-[#0e0e17]/98 border border-violet-500/40 p-3.5 sm:p-4 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in">
+                  <div id="panel-collab-chat" class="dock-popover-panel hidden absolute left-full top-0 ml-3.5 w-[370px] sm:w-[420px] max-w-[95vw] bg-[#0f1017]/98 border border-violet-500/35 p-3.5 sm:p-4 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_30px_rgba(168,85,247,0.15)] backdrop-blur-xl flex flex-col gap-2.5 text-left z-[150] animate-fade-in">
                     <!-- Header -->
                     <div class="flex items-center justify-between border-b border-white/10 pb-2">
                       <div class="flex items-center gap-2">
@@ -1798,7 +1811,7 @@
 
             <!-- Zeit-Anzeige (Klick = Start/Pause, Rechtsklick = Einstellungen) -->
             <div onclick="toggleTimer()" oncontextmenu="event.preventDefault(); toggleTimerPresetMenu(event);" class="flex flex-col items-center justify-center min-w-[46px] cursor-pointer group/timer-click" title="Klicken: Start/Pause [T] · Rechtsklick: Timer-Einstellungen" data-i18n-title="timer_click_toggle_tooltip">
-              <span id="timer-display" class="font-display font-black text-sm sm:text-base tracking-wider text-emerald-300 drop-shadow-[0_0_8px_rgba(52,211,153,0.55)] group-hover/timer-click:text-lime-300 leading-none transition-all select-none">02:00</span>
+              <span id="timer-display" class="font-display font-black text-sm sm:text-base tracking-wider text-emerald-300 drop-shadow-[0_0_8px_rgba(52,211,153,0.55)] group-hover/timer-click:text-emerald-200 leading-none transition-all select-none">02:00</span>
               <div class="w-full h-1 bg-white/10 rounded-full mt-0.5 overflow-hidden">
                 <div id="timer-progress-bar" class="h-full bg-emerald-400 transition-all duration-300" style="width: 100%"></div>
               </div>
@@ -1810,7 +1823,7 @@
 
             <!-- Start / Pause / Stop Buttons -->
             <div class="flex items-center gap-0.5 shrink-0 pl-1 border-l border-emerald-500/25">
-              <button id="timer-play-btn" onclick="startTimer()" class="p-1 hover:bg-lime-500/25 text-lime-400 hover:text-lime-200 rounded-lg transition cursor-pointer shadow-xs" title="Start timer [T]" data-i18n-title="timer_play_btn_tooltip" aria-label="Start">
+              <button id="timer-play-btn" onclick="startTimer()" class="p-1 hover:bg-emerald-500/25 text-emerald-400 hover:text-emerald-200 rounded-lg transition cursor-pointer shadow-xs" title="Start timer [T]" data-i18n-title="timer_play_btn_tooltip" aria-label="Start">
                 <i data-lucide="play" class="w-3.5 h-3.5"></i>
               </button>
               <button id="timer-pause-btn" onclick="pauseTimer()" class="p-1 hover:bg-amber-500/20 text-amber-300 rounded-lg transition cursor-pointer hidden" title="Pause timer [T]" data-i18n-title="timer_pause_btn_tooltip" aria-label="Pause">
@@ -2318,10 +2331,8 @@
         </div>
 
         <div id="manage-tables-wrapper" class="relative">
-          <button id="btn-board-manage-tables" onclick="toggleManageTablesDropdown(event)" class="h-6.5 sm:h-7 px-2 sm:px-2.5 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-400/35 hover:border-sky-400/60 text-sky-200/90 hover:text-white transition-all duration-200 active:scale-95 flex items-center gap-1.5 text-[11px] font-semibold cursor-pointer shadow-[0_0_8px_rgba(56,189,248,0.18)] group/tbl shrink-0" title="Karten verwalten (Leeren, Vorlage, Anpassen)">
-            <i data-lucide="table-properties" class="w-3.5 h-3.5 text-sky-300 group-hover/tbl:text-white group-hover/tbl:rotate-90 transition-transform"></i>
+          <button id="btn-board-manage-tables" onclick="toggleManageTablesDropdown(event)" class="h-6.5 sm:h-7 px-2.5 sm:px-3 rounded-lg bg-sky-500/15 hover:bg-sky-500/25 border border-sky-400/35 hover:border-sky-400/60 text-sky-200/90 hover:text-white transition-all duration-200 active:scale-95 flex items-center justify-center text-[11px] font-semibold cursor-pointer shadow-[0_0_8px_rgba(56,189,248,0.18)] group/tbl shrink-0" title="Karten verwalten (Leeren, Vorlage, Anpassen)">
             <span class="text-[11px] font-semibold text-sky-200/90 group-hover/tbl:text-white">Karten verwalten</span>
-            <i data-lucide="chevron-down" class="w-3 h-3 text-sky-300/80 group-hover/tbl:text-white group-hover/tbl:translate-y-0.5 transition-transform"></i>
           </button>
 
           <!-- DROPDOWN: Karten verwalten (100% blickdicht überlappend) -->
@@ -2959,198 +2970,417 @@
 
     <!-- PANEL 4: MOBILE TOOLS & LIFESTYLE BENTO GRID -->
     <div id="mobile-view-tools" class="mobile-view-pane select-none">
-      <div class="p-4 max-w-md mx-auto space-y-3">
+      <div class="p-4 max-w-md mx-auto space-y-4">
         
-        <div class="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-1" data-i18n="mobile_tools_section">
-          Tools & Lifestyle
+        <!-- Header Hub Banner -->
+        <div class="p-4 rounded-3xl bg-gradient-to-r from-purple-950/60 via-indigo-950/50 to-pink-950/60 border border-purple-500/35 shadow-xl backdrop-blur-xl flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 shadow-sm shrink-0">
+              <i data-lucide="wrench" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-black text-white font-display flex items-center gap-2">
+                <span data-i18n="mobile_tools_title">Noodle Tools Hub</span>
+                <span class="px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 text-[9px] font-mono font-bold uppercase">Suite</span>
+              </h3>
+              <p class="text-[11px] text-purple-200/70" data-i18n="mobile_tools_subtitle">Alle Apps, Audio & Lifestyle-Helfer</p>
+            </div>
+          </div>
+          <button onclick="openMobileMenuDrawer()" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white transition active:scale-95 cursor-pointer" title="Menü & Optionen">
+            <i data-lucide="sliders" class="w-4 h-4"></i>
+          </button>
         </div>
 
-        <div class="grid grid-cols-2 gap-2.5">
-          
-          <!-- Brainstorming Studio -->
-          <div onclick="openBrainstormModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-500/25 flex items-center justify-center text-amber-300">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_brainstorm_badge">Ideen</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight">Brainstorming</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5">Voice & Board</p>
-            </div>
+        <!-- 1. ALLTAG & HAUSHALT -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-400 font-mono flex items-center gap-1.5">
+              <i data-lucide="home" class="w-3.5 h-3.5"></i>
+              <span data-i18n="tools_sec_daily">Alltag & Haushalt</span>
+            </span>
+            <span class="text-[9px] text-gray-500 font-mono">6 Tools</span>
           </div>
 
-          <!-- Live-Sync -->
-          <div onclick="openP2PSyncModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center text-emerald-300">
-                <i data-lucide="cloud" class="w-4 h-4"></i>
+          <div class="grid grid-cols-2 gap-2.5">
+            <!-- 1. Live-Radio -->
+            <div onclick="togglePanel('radio'); if(window.RadioNewsEngine){ if(window.RadioNewsEngine.renderRadioPanelContent) window.RadioNewsEngine.renderRadioPanelContent(); if(window.RadioNewsEngine.probeAllStationsSignal) window.RadioNewsEngine.probeAllStationsSignal(); }" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-purple-500/30 hover:border-purple-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="radio" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-300 text-[10px] font-bold border border-purple-500/25">Radio</span>
               </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_sync_badge">Sync</span>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_radio">Live-Radio</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Sender & Sparten</p>
+              </div>
             </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_sync_title">Konto & Sync</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_sync_sub">Multi-Device ↔ Cloud</p>
+
+            <!-- 2. Nachrichten -->
+            <div onclick="togglePanel('news'); if(window.RadioNewsEngine && window.RadioNewsEngine.fetchNewsForRegion) RadioNewsEngine.fetchNewsForRegion();" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-sky-500/30 hover:border-sky-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="newspaper" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300 text-[10px] font-bold border border-sky-500/25">News</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_news">Nachrichten</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Ticker & Audio-Briefing</p>
+              </div>
+            </div>
+
+            <!-- 3. Einkauf -->
+            <div onclick="togglePanel('shopping'); if(typeof switchShoppingTab==='function') switchShoppingTab('list');" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-emerald-500/30 hover:border-emerald-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/25" data-i18n="mobile_tools_shop_badge">Liste</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="nav_shopping">Einkaufsliste</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Artikel, Deals & Vorrat</p>
+              </div>
+            </div>
+
+            <!-- 4. Kochen & Rezepte -->
+            <div onclick="togglePanel('cooking'); if(typeof renderCookingPanel==='function') renderCookingPanel(); if(typeof switchCookingTab==='function') switchCookingTab('recipes');" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-amber-500/30 hover:border-amber-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="chef-hat" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 text-[10px] font-bold border border-amber-500/25" data-i18n="mobile_tools_cook_badge">Rezepte</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="nav_cooking">Kochen</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Kochmodus & Rezepte</p>
+              </div>
+            </div>
+
+            <!-- 5. Wecker & Alarme -->
+            <div onclick="openAlarmModal()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-pink-500/30 hover:border-pink-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="alarm-clock" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-pink-500/15 text-pink-300 text-[10px] font-bold border border-pink-500/25" data-i18n="mobile_tools_alarm_badge">Alarm</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_alarm_title">Wecker & Timer</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Sanftes Wecken & Glocke</p>
+              </div>
+            </div>
+
+            <!-- 6. Grundreinigung & Putz-Guide -->
+            <div onclick="if(typeof openCleaningGuideModal==='function') openCleaningGuideModal();" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-cyan-500/30 hover:border-cyan-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="brush" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 text-[10px] font-bold border border-cyan-500/25" data-i18n="clean_guide_title_short">Putz-Guide</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="clean_guide_title">Grundreinigung</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">15m, 45m & Reizarm</p>
+              </div>
             </div>
           </div>
-
-          <!-- Klarheit & Reflexion -->
-          <div onclick="openClarityModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-indigo-500/15 border border-indigo-500/25 flex items-center justify-center text-indigo-300">
-                <i data-lucide="anchor" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_clarity_badge">Klarheit</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight">Impulskontrolle</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5">Reflexion & Fragen</p>
-            </div>
-          </div>
-
-          <!-- Safe Space -->
-          <div onclick="openSafeSpaceModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-teal-500/15 border border-teal-500/25 flex items-center justify-center text-teal-300">
-                <i data-lucide="shield" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_zen_badge">Pause</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight">Safe Space</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="safespace_breath_calm">Atemübung & Ruhe</p>
-            </div>
-          </div>
-
-          <!-- Einkauf -->
-          <div onclick="openShoppingModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center text-emerald-300">
-                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_shop_badge">Liste</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_shop_title">Einkaufsliste</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_shop_sub">Artikel & Mengen</p>
-            </div>
-          </div>
-
-          <!-- Grundreinigung & Putz-Guide -->
-          <div onclick="if(typeof openCleaningGuideModal==='function') openCleaningGuideModal(); closeHubModal();" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-cyan-500/15 border border-cyan-500/25 flex items-center justify-center text-cyan-300">
-                <i data-lucide="brush" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="clean_guide_title_short">Putz-Guide</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="clean_guide_title">Grundreinigung</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5">4 Modi & Timer</p>
-            </div>
-          </div>
-
-          <!-- Vorratskammer -->
-          <div onclick="openPantryModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-lime-500/15 border border-lime-500/25 flex items-center justify-center text-lime-300">
-                <i data-lucide="package" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_pantry_badge">Vorrat</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight">Vorratskammer</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5">Bestand & Ablauf</p>
-            </div>
-          </div>
-
-          <!-- Kochen -->
-          <div onclick="openRecipeModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-orange-500/15 border border-orange-500/25 flex items-center justify-center text-orange-300">
-                <i data-lucide="utensils" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_cook_badge">Rezepte</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_cook_title">Kochen</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_cook_sub">Schritt für Schritt</p>
-            </div>
-          </div>
-
-          <!-- Sport -->
-          <div onclick="openSportModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-lime-500/15 border border-lime-500/25 flex items-center justify-center text-lime-300">
-                <i data-lucide="activity" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_sport_badge">Bewegung</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_sport_title">Bewegungspause</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_sport_sub">Micro-Workouts</p>
-            </div>
-          </div>
-
-          <!-- Wecker & Erinnerung -->
-          <div onclick="openAlarmModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-pink-500/15 border border-pink-500/25 flex items-center justify-center text-pink-300">
-                <i data-lucide="bell" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_alarm_badge">Alarm</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_alarm_title">Wecker & Timer</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_alarm_sub">Präzise Erinnerung</p>
-            </div>
-          </div>
-
-          <!-- Deep Learning & Quiz -->
-          <div onclick="openLearningHubModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-blue-500/15 border border-blue-500/25 flex items-center justify-center text-blue-300">
-                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_learning_badge">Lernen</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight">Wissens-Labor</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5">Themen & Quiz</p>
-            </div>
-          </div>
-
-          <!-- "Was nun?" Helper -->
-          <div onclick="openWhatNowModal()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-amber-500/15 border border-amber-500/25 flex items-center justify-center text-amber-300">
-                <i data-lucide="lightbulb" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_whatnow_badge">Impuls</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_whatnow_title">Was nun?</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_whatnow_sub">Nächste Aufgabe</p>
-            </div>
-          </div>
-
-          <!-- Schnellmenü & Themes -->
-          <div onclick="openMobileQuickMenu()" class="p-3.5 rounded-2xl bg-white/[0.025] hover:bg-white/[0.04] border border-white/5 hover:border-white/10 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28">
-            <div class="flex items-center justify-between">
-              <div class="w-8 h-8 rounded-xl bg-purple-500/15 border border-purple-500/25 flex items-center justify-center text-purple-300">
-                <i data-lucide="sliders" class="w-4 h-4"></i>
-              </div>
-              <span class="px-2 py-0.5 rounded-full bg-white/5 text-gray-300 text-[10px] font-medium" data-i18n="mobile_tools_opt_badge">Optionen</span>
-            </div>
-            <div>
-              <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_opt_title">Design & Sprache</h4>
-              <p class="text-[10px] text-gray-400 mt-0.5" data-i18n="mobile_tools_opt_sub">Themes & Backup</p>
-            </div>
-          </div>
-
         </div>
 
+        <!-- 2. SOUND & MUSIK STUDIO -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-purple-400 font-mono flex items-center gap-1.5">
+              <i data-lucide="headphones" class="w-3.5 h-3.5"></i>
+              <span data-i18n="tools_sec_sound">Sound & Musik Studio</span>
+            </span>
+            <span class="text-[9px] text-gray-500 font-mono">3 Tools</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2">
+            <!-- 7. Sounds & Natur -->
+            <div onclick="openAudioStudioMode('ambient')" class="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-teal-500/30 hover:border-teal-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="w-7 h-7 rounded-xl bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-teal-300 group-hover:scale-105 transition-transform">
+                <i data-lucide="headphones" class="w-3.5 h-3.5"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_sounds">Sounds</h4>
+                <p class="text-[9px] text-gray-400 mt-0.5 truncate">Regen & Natur</p>
+              </div>
+            </div>
+
+            <!-- 8. Musik & Medien -->
+            <div onclick="openAudioStudioMode('music')" class="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-sky-500/30 hover:border-sky-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="w-7 h-7 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 group-hover:scale-105 transition-transform">
+                <i data-lucide="music" class="w-3.5 h-3.5"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_media">Musik</h4>
+                <p class="text-[9px] text-gray-400 mt-0.5 truncate">MP3 & Ordner</p>
+              </div>
+            </div>
+
+            <!-- 9. Noodle DJ -->
+            <div onclick="openAudioStudioMode('dj')" class="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-amber-500/30 hover:border-amber-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 group-hover:scale-105 transition-transform">
+                <i data-lucide="disc" class="w-3.5 h-3.5"></i>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_dj">DJ</h4>
+                <p class="text-[9px] text-gray-400 mt-0.5 truncate">2-Deck & FX</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. KÖRPER, GEIST & ACHTSAMKEIT -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-400 font-mono flex items-center gap-1.5">
+              <i data-lucide="heart" class="w-3.5 h-3.5"></i>
+              <span data-i18n="tools_sec_body">Körper & Geist</span>
+            </span>
+            <span class="text-[9px] text-gray-500 font-mono">5 Tools</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <!-- 10. Gesundheit & Vorsorge -->
+            <div onclick="togglePanel('health'); if(window.HealthEngine && window.HealthEngine.renderPanel) window.HealthEngine.renderPanel();" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-rose-500/30 hover:border-rose-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-rose-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="shield-plus" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-300 text-[10px] font-bold border border-rose-500/25">Radar</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_health">Gesundheit</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Checkups & Meds</p>
+              </div>
+            </div>
+
+            <!-- 11. Bewegungspause -->
+            <div onclick="openSportModal()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-emerald-500/30 hover:border-emerald-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="dumbbell" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/25" data-i18n="mobile_tools_sport_badge">Sport</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_sport">Bewegung</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">1-Minuten Workouts</p>
+              </div>
+            </div>
+
+            <!-- 12. Somatische Regulation -->
+            <div onclick="openRegulationModal()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-cyan-500/30 hover:border-cyan-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="heart-pulse" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 text-[10px] font-bold border border-cyan-500/25">Atem</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_calm">Regulation</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">4-7-8 Atemkreise</p>
+              </div>
+            </div>
+
+            <!-- 13. Klarheit & Reflexion -->
+            <div onclick="openClarityModal()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-indigo-500/30 hover:border-indigo-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-indigo-500/20 border border-indigo-400/40 flex items-center justify-center text-indigo-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="anchor" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 text-[10px] font-bold border border-indigo-500/25" data-i18n="mobile_clarity_badge">Klarheit</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_clarity">Klarheit</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Impulskontrolle & Stopp</p>
+              </div>
+            </div>
+
+            <!-- 14. Safe Space (Pause) -->
+            <div onclick="openSafeSpaceModal()" class="col-span-2 p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-teal-500/30 hover:border-teal-400/50 shadow-sm cursor-pointer active:scale-95 transition flex items-center justify-between group">
+              <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-xl bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-teal-300 group-hover:scale-105 transition-transform shrink-0">
+                  <i data-lucide="coffee" class="w-4 h-4"></i>
+                </div>
+                <div>
+                  <h4 class="text-xs font-bold text-white leading-tight">Safe Space Studio</h4>
+                  <p class="text-[10px] text-gray-400 mt-0.5">Sensory Recovery & Reizpause</p>
+                </div>
+              </div>
+              <span class="px-2 py-0.5 rounded-full bg-teal-500/15 text-teal-300 text-[10px] font-bold border border-teal-500/25 shrink-0" data-i18n="mobile_zen_badge">Pause</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. KREATIVITÄT, WISSEN & FUN -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-amber-400 font-mono flex items-center gap-1.5">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              <span data-i18n="tools_sec_creativity">Kreativität & Wissen</span>
+            </span>
+            <span class="text-[9px] text-gray-500 font-mono">4 Tools</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <!-- 15. Brainstorming -->
+            <div onclick="openBrainstormModal()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-amber-500/30 hover:border-amber-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="brain" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 text-[10px] font-bold border border-amber-500/25" data-i18n="mobile_brainstorm_badge">Ideen</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight">Brainstorming</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Voice, Notizen & Board</p>
+              </div>
+            </div>
+
+            <!-- 16. Wissens-Labor -->
+            <div onclick="openLearningHubModal()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-blue-500/30 hover:border-blue-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-blue-500/20 border border-blue-400/40 flex items-center justify-center text-blue-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-300 text-[10px] font-bold border border-blue-500/25" data-i18n="mobile_learning_badge">Lernen</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_learning">Wissens-Labor</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Themen & Quiz</p>
+              </div>
+            </div>
+
+            <!-- 17. Fun-Labor -->
+            <div onclick="togglePanel('humor-lab')" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-violet-500/30 hover:border-violet-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-violet-500/20 border border-violet-400/40 flex items-center justify-center text-violet-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="smile" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 text-[10px] font-bold border border-violet-500/25">Fun</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_humor">Fun-Labor</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Soundboard & Witze</p>
+              </div>
+            </div>
+
+            <!-- 18. Was nun? -->
+            <div onclick="openWhatNowModal()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-amber-500/30 hover:border-amber-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="sparkles" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 text-[10px] font-bold border border-amber-500/25" data-i18n="mobile_tools_whatnow_badge">Impuls</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_whatnow_title">Was nun?</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Zufall & nächste Aufgabe</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. VERNETZUNG & SYSTEM -->
+        <div class="space-y-2">
+          <div class="flex items-center justify-between px-1">
+            <span class="text-[11px] font-bold uppercase tracking-wider text-sky-400 font-mono flex items-center gap-1.5">
+              <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+              <span data-i18n="tools_sec_network">Vernetzung & System</span>
+            </span>
+            <span class="text-[9px] text-gray-500 font-mono">6 Tools</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5">
+            <!-- 19. Social Hub -->
+            <div onclick="togglePanel('social'); if(window.SocialHubEngine) SocialHubEngine.render();" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-pink-500/30 hover:border-pink-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-pink-500/20 border border-pink-400/40 flex items-center justify-center text-pink-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="share-2" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-pink-500/15 text-pink-300 text-[10px] font-bold border border-pink-500/25">Social</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_social">Social Hub</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Post-Planer & Creator</p>
+              </div>
+            </div>
+
+            <!-- 20. Team Chat -->
+            <div onclick="togglePanel('collab-chat')" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-violet-500/30 hover:border-violet-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-violet-500/20 border border-violet-400/40 flex items-center justify-center text-violet-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="message-square" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-violet-500/15 text-violet-300 text-[10px] font-bold border border-violet-500/25">Chat</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="tool_chat">Team Chat</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Live-Kollaboration</p>
+              </div>
+            </div>
+
+            <!-- 21. Live-Sync -->
+            <div onclick="openP2PSyncModal()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-emerald-500/30 hover:border-emerald-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="cloud" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/25" data-i18n="mobile_tools_sync_badge">Sync</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_sync_title">Konto & Sync</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Multi-Device ↔ Cloud</p>
+              </div>
+            </div>
+
+            <!-- 22. Live-Wetter -->
+            <div onclick="togglePanel('weather'); if(typeof fetchLocalWeather==='function') fetchLocalWeather();" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-sky-500/30 hover:border-sky-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="cloud-sun" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300 text-[10px] font-bold border border-sky-500/25">Wetter</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="dock_weather">Live-Wetter</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Temperatur & 5-Tage</p>
+              </div>
+            </div>
+
+            <!-- 23. Statistik & Berichte -->
+            <div onclick="openReportDashboard()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-emerald-500/30 hover:border-emerald-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 text-[10px] font-bold border border-emerald-500/25">Stats</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_stats_report">Statistik</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Wochen-Auswertung</p>
+              </div>
+            </div>
+
+            <!-- 24. Menü, Themes & Optionen -->
+            <div onclick="openMobileMenuDrawer()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-purple-500/30 hover:border-purple-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+              <div class="flex items-center justify-between">
+                <div class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
+                  <i data-lucide="sliders" class="w-4 h-4"></i>
+                </div>
+                <span class="px-2 py-0.5 rounded-full bg-purple-500/15 text-purple-300 text-[10px] font-bold border border-purple-500/25" data-i18n="mobile_tools_opt_badge">Menü</span>
+              </div>
+              <div>
+                <h4 class="text-xs font-bold text-white leading-tight" data-i18n="mobile_tools_opt_title">Design & Menü</h4>
+                <p class="text-[10px] text-gray-400 mt-0.5 truncate">Themes & Backup</p>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -3173,6 +3403,10 @@
       <button onclick="switchMobileNavTab('tools')" id="mob-nav-tools" class="mobile-nav-item">
         <i data-lucide="wrench"></i>
         <span data-i18n="mobile_nav_tools">Tools</span>
+      </button>
+      <button onclick="openMobileMenuDrawer()" id="mob-nav-menu" class="mobile-nav-item">
+        <i data-lucide="menu"></i>
+        <span data-i18n="mobile_nav_menu">Menü</span>
       </button>
     </nav>
 
@@ -3222,7 +3456,7 @@
         </button>
 
         <!-- 2. Audio Studio & Beats -->
-        <button onclick="closeMobileQuickMenu(); openAudioStudioModal();" class="p-3 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
+        <button onclick="closeMobileQuickMenu(); openAudioStudioMode('ambient');" class="p-3 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-purple-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
           <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0">
             <i data-lucide="headphones" class="w-4 h-4"></i>
           </div>
@@ -3233,7 +3467,7 @@
         </button>
 
         <!-- 3. Live-Radio & News -->
-        <button onclick="closeMobileQuickMenu(); togglePanel('radio');" class="p-3 rounded-2xl bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-sky-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
+        <button onclick="closeMobileQuickMenu(); togglePanel('radio'); if(window.RadioNewsEngine){ if(window.RadioNewsEngine.renderRadioPanelContent) window.RadioNewsEngine.renderRadioPanelContent(); if(window.RadioNewsEngine.probeAllStationsSignal) window.RadioNewsEngine.probeAllStationsSignal(); }" class="p-3 rounded-2xl bg-sky-500/10 hover:bg-sky-500/20 border border-sky-500/30 text-sky-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
           <div class="w-8 h-8 rounded-xl bg-sky-500/20 text-sky-300 flex items-center justify-center shrink-0">
             <i data-lucide="radio" class="w-4 h-4"></i>
           </div>
@@ -3255,18 +3489,18 @@
         </button>
 
         <!-- 5. Statistik & Dashboard -->
-        <button onclick="closeMobileQuickMenu(); openReportDashboard();" class="p-3 rounded-2xl bg-lime-500/10 hover:bg-lime-500/20 border border-lime-500/30 text-lime-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
-          <div class="w-8 h-8 rounded-xl bg-lime-500/20 text-lime-300 flex items-center justify-center shrink-0">
+        <button onclick="closeMobileQuickMenu(); openReportDashboard();" class="p-3 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
+          <div class="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center shrink-0">
             <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
           </div>
           <div>
             <div class="font-bold text-white leading-tight" data-i18n="mobile_quick_stats_title">Stats</div>
-            <div class="text-[9px] text-lime-300" data-i18n="mobile_quick_stats_sub">Weekly insights</div>
+            <div class="text-[9px] text-emerald-300" data-i18n="mobile_quick_stats_sub">Weekly insights</div>
           </div>
         </button>
 
         <!-- 6. Themes / Design -->
-        <button onclick="closeMobileQuickMenu(); togglePanel('theme');" class="p-3 rounded-2xl bg-fuchsia-500/10 hover:bg-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
+        <button onclick="closeMobileQuickMenu(); openSettingsModal('general');" class="p-3 rounded-2xl bg-fuchsia-500/10 hover:bg-fuchsia-500/20 border border-fuchsia-500/30 text-fuchsia-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
           <div class="w-8 h-8 rounded-xl bg-fuchsia-500/20 text-fuchsia-300 flex items-center justify-center shrink-0">
             <i data-lucide="palette" class="w-4 h-4"></i>
           </div>
@@ -3277,7 +3511,7 @@
         </button>
 
         <!-- 7. Inspiration & Was nun? -->
-        <button onclick="closeMobileQuickMenu(); openHelperModal('pick');" class="p-3 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
+        <button onclick="closeMobileQuickMenu(); openWhatNowModal();" class="p-3 rounded-2xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
           <div class="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center shrink-0">
             <i data-lucide="lightbulb" class="w-4 h-4"></i>
           </div>
@@ -3288,7 +3522,7 @@
         </button>
 
         <!-- 8. Reizpause & Erholung -->
-        <button onclick="closeMobileQuickMenu(); openBreakModal('breath');" class="p-3 rounded-2xl bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 text-teal-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
+        <button onclick="closeMobileQuickMenu(); openSafeSpaceModal();" class="p-3 rounded-2xl bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 text-teal-300 flex items-center gap-2.5 transition active:scale-95 text-left cursor-pointer">
           <div class="w-8 h-8 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center shrink-0">
             <i data-lucide="sparkles" class="w-4 h-4"></i>
           </div>
@@ -3464,12 +3698,12 @@
 
   <!-- BEWEGUNG & MODULARE HOME-WORKOUTS MODAL -->
   <div id="helper-sport-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md" onclick="if(event.target===this) closeSportModal()">
-    <div id="helper-sport-card" class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#0f1017]/98 border border-lime-500/40 p-4 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300 max-h-[92vh] flex flex-col" onclick="event.stopPropagation()">
+    <div id="helper-sport-card" class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#0f1017]/98 border border-emerald-500/35 p-4 sm:p-6 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_35px_rgba(16,185,129,0.15)] backdrop-blur-2xl text-white relative transition-all duration-300 max-h-[92vh] flex flex-col" onclick="event.stopPropagation()">
       
       <!-- Modal Header -->
       <div class="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
         <div class="flex items-center gap-2">
-          <div class="w-7 h-7 rounded-xl bg-lime-500/20 border border-lime-400/40 flex items-center justify-center text-lime-300 shadow-sm shrink-0">
+          <div class="w-7 h-7 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300 shadow-sm shrink-0">
             <i data-lucide="activity" class="w-4 h-4"></i>
           </div>
           <div class="relative flex flex-col items-center justify-center shrink-0">
@@ -3485,9 +3719,9 @@
         <div class="flex items-center gap-2">
           <!-- Live Stats Pill -->
           <div id="sport-stats-badge" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-white/5 border border-white/10 rounded-xl text-[10px] text-gray-300 font-mono">
-            <span class="flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3 text-lime-400"></i> <strong class="text-lime-300">0</strong> Sessions</span>
+            <span class="flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3 text-emerald-400"></i> <strong class="text-emerald-300">0</strong> Sessions</span>
             <span class="text-gray-600">|</span>
-            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3 text-lime-400"></i> <strong class="text-lime-300">0</strong>m</span>
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3 text-emerald-400"></i> <strong class="text-emerald-300">0</strong>m</span>
           </div>
           <button onclick="closeSportModal()" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
         </div>
@@ -3495,8 +3729,8 @@
 
       <!-- Navigation Tabs (Only visible when player is not running) -->
       <div id="sport-modal-nav" class="grid grid-cols-4 bg-black/50 p-1 rounded-2xl border border-white/10 gap-1 my-3 shrink-0">
-        <button id="sport-tab-btn-presets" onclick="switchSportTab('presets')" class="py-2 px-1 rounded-xl font-bold text-[11px] sm:text-xs bg-lime-500/20 text-lime-300 border border-lime-400/50 shadow-sm transition flex items-center justify-center gap-1 cursor-pointer">
-          <i data-lucide="zap" class="w-3.5 h-3.5 text-lime-400"></i>
+        <button id="sport-tab-btn-presets" onclick="switchSportTab('presets')" class="py-2 px-1 rounded-xl font-bold text-[11px] sm:text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 shadow-sm transition flex items-center justify-center gap-1 cursor-pointer">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-400"></i>
           <span class="truncate" data-i18n="sport_tab_presets">Programme</span>
         </button>
         <button id="sport-tab-btn-builder" onclick="switchSportTab('builder')" class="py-2 px-1 rounded-xl font-semibold text-[11px] sm:text-xs text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition flex items-center justify-center gap-1 cursor-pointer">
@@ -3520,7 +3754,7 @@
         <div id="sport-pane-presets" class="space-y-3">
           <div class="flex items-center justify-between text-[11px] font-bold text-gray-400 px-1">
             <span data-i18n="sport_choose_workout">Wähle ein vorgefertigtes Workout:</span>
-            <span class="text-lime-300/80 font-mono text-[10px]" data-i18n="sport_no_equipment">Keine Geräte nötig</span>
+            <span class="text-emerald-300/80 font-mono text-[10px]" data-i18n="sport_no_equipment">Keine Geräte nötig</span>
           </div>
           <div id="sport-presets-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <!-- Dynamically rendered via renderWorkoutPresets() in sport.js -->
@@ -3533,7 +3767,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               <div>
                 <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_duration_scope">Dauer / Umfang</label>
-                <select id="sport-builder-duration" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+                <select id="sport-builder-duration" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-emerald-300 font-semibold outline-none focus:border-emerald-500 cursor-pointer">
                   <option value="3" data-i18n="sport_opt_3min">3 Min. · 3 Übungen (Express)</option>
                   <option value="5" selected data-i18n="sport_opt_5min">5 Min. · 5 Übungen (Optimal)</option>
                   <option value="8" data-i18n="sport_opt_8min">8 Min. · 8 Übungen (Intensiv)</option>
@@ -3543,7 +3777,7 @@
               </div>
               <div>
                 <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_focus_zone">Fokus-Zone</label>
-                <select id="sport-builder-zone" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+                <select id="sport-builder-zone" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-emerald-300 font-semibold outline-none focus:border-emerald-500 cursor-pointer">
                   <option value="all" selected data-i18n="sport_zone_fullbody">Ausgewogener Ganzkörper-Mix</option>
                   <option value="mobility">Desk-Mobility & Nacken-Reset</option>
                   <option value="core" data-i18n="sport_zone_core">Core & Rumpfstabilität</option>
@@ -3554,7 +3788,7 @@
               </div>
               <div>
                 <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_available_equip">Verfügbares Equipment</label>
-                <select id="sport-builder-equip" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+                <select id="sport-builder-equip" onchange="updateCustomWorkoutPreview()" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-emerald-300 font-semibold outline-none focus:border-emerald-500 cursor-pointer">
                   <option value="all" selected>Alles (Bodyweight, Stuhl, Wand, Matte)</option>
                   <option value="none">Rein Bodyweight (Kein Equipment)</option>
                   <option value="chair">Nur Schreibtischstuhl / Wand</option>
@@ -3562,7 +3796,7 @@
               </div>
               <div>
                 <label class="text-[10px] text-gray-400 font-bold block mb-1" data-i18n="sport_interval_timing">Intervall-Taktung (Übung/Pause)</label>
-                <select id="sport-builder-interval" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+                <select id="sport-builder-interval" class="w-full p-2 bg-[#14141e] border border-white/15 rounded-xl text-xs text-emerald-300 font-semibold outline-none focus:border-emerald-500 cursor-pointer">
                   <option value="30_15">30s Aktiv / 15s Pause (Sanft)</option>
                   <option value="45_15" selected>45s Aktiv / 15s Pause (Standard)</option>
                   <option value="50_10">50s Aktiv / 10s Pause (Intensiv)</option>
@@ -3573,11 +3807,11 @@
 
             <!-- Quiet apartment toggle -->
             <label class="flex items-center gap-2 p-2 bg-black/40 border border-white/10 rounded-xl cursor-pointer hover:bg-black/60 transition">
-              <input type="checkbox" id="sport-builder-quiet" checked onchange="updateCustomWorkoutPreview()" class="w-4 h-4 rounded text-lime-500 focus:ring-lime-400 cursor-pointer accent-lime-500">
+              <input type="checkbox" id="sport-builder-quiet" checked onchange="updateCustomWorkoutPreview()" class="w-4 h-4 rounded text-emerald-500 focus:ring-emerald-400 cursor-pointer accent-emerald-500">
               <div class="text-left min-w-0">
                 <span class="text-xs font-bold text-gray-200 flex items-center gap-1.5">
                   <span data-i18n="sport_quiet_apartment">Nachbarschafts-Freundlich</span>
-                  <span class="text-[9px] px-1.5 py-0.2 rounded-md bg-lime-500/20 text-lime-300 font-mono font-bold" data-i18n="sport_whisper_quiet">Flüsterleise</span>
+                  <span class="text-[9px] px-1.5 py-0.2 rounded-md bg-emerald-500/20 text-emerald-300 font-mono font-bold" data-i18n="sport_whisper_quiet">Flüsterleise</span>
                 </span>
                 <p class="text-[10px] text-gray-400 leading-tight"><span data-i18n="sport_quiet_desc">Kein Springen, kein Trittschall, geräuschlos auf Teppich oder Parkett.</span></p>
               </div>
@@ -3588,15 +3822,15 @@
           <div>
             <div class="flex items-center justify-between text-[10px] font-bold text-gray-400 px-1 mb-1.5">
               <span data-i18n="sport_composed_exercises">Zusammengestellte Übungen:</span>
-              <button onclick="updateCustomWorkoutPreview()" class="text-lime-300 hover:text-lime-200 text-[10px] flex items-center gap-1 cursor-pointer">
+              <button onclick="updateCustomWorkoutPreview()" class="text-emerald-300 hover:text-emerald-200 text-[10px] flex items-center gap-1 cursor-pointer">
                 <i data-lucide="refresh-cw" class="w-3 h-3"></i> <span>Neu mischen</span>
               </button>
             </div>
             <div id="sport-custom-preview-list" class="space-y-1.5 max-h-[150px] overflow-y-auto pr-1 custom-scrollbar"></div>
           </div>
 
-          <button onclick="startCustomGeneratedWorkout()" class="w-full py-2.5 bg-gradient-to-r from-lime-500 via-emerald-500 to-teal-500 hover:from-lime-400 hover:to-teal-400 text-black font-black text-xs rounded-xl shadow-lg transition duration-150 transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
-            <i data-lucide="play" class="w-4 h-4 fill-black"></i>
+          <button onclick="startCustomGeneratedWorkout()" class="w-full py-2.5 bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-black text-xs rounded-xl shadow-lg transition duration-150 transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
+            <i data-lucide="play" class="w-4 h-4 fill-slate-950"></i>
             <span data-i18n="sport_start_custom">Individuelles Workout Starten 🚀</span>
           </button>
         </div>
@@ -3605,10 +3839,10 @@
         <div id="sport-pane-library" class="hidden space-y-3">
           <div class="flex flex-col sm:flex-row gap-2">
             <div class="relative flex-1">
-              <input type="text" id="sport-library-search" oninput="renderExerciseLibrary()" placeholder="Übung suchen (z.B. Nacken, Squat, Plank)..." class="w-full py-2 pl-8 pr-3 bg-[#14141e] border border-white/15 rounded-xl text-xs text-white placeholder-gray-500 outline-none focus:border-lime-500">
+              <input type="text" id="sport-library-search" oninput="renderExerciseLibrary()" placeholder="Übung suchen (z.B. Nacken, Squat, Plank)..." class="w-full py-2 pl-8 pr-3 bg-[#14141e] border border-white/15 rounded-xl text-xs text-white placeholder-gray-500 outline-none focus:border-emerald-500">
               <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5"></i>
             </div>
-            <select id="sport-library-category-filter" onchange="renderExerciseLibrary()" class="py-2 px-2.5 bg-[#14141e] border border-white/15 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+            <select id="sport-library-category-filter" onchange="renderExerciseLibrary()" class="py-2 px-2.5 bg-[#14141e] border border-white/15 rounded-xl text-xs text-emerald-300 font-semibold outline-none focus:border-emerald-500 cursor-pointer">
               <option value="all" data-i18n="sport_cat_all">Alle Kategorien</option>
               <option value="mobility">🪑 Desk-Mobility</option>
               <option value="core">🔥 Core & Rumpf</option>
@@ -3630,30 +3864,30 @@
 
           <div>
             <label class="text-[10px] text-gray-400 font-bold block mb-1"><span data-i18n="sport_current_energy">Dein aktuelles Energie-Level</span></label>
-            <select id="sport-energy-select" onchange="generateSportSuggestion()" class="w-full p-2.5 bg-[#12121e]/80 border border-white/10 rounded-xl text-xs text-lime-300 font-semibold outline-none focus:border-lime-500 cursor-pointer">
+            <select id="sport-energy-select" onchange="generateSportSuggestion()" class="w-full p-2.5 bg-[#12121e]/80 border border-white/10 rounded-xl text-xs text-emerald-300 font-semibold outline-none focus:border-emerald-500 cursor-pointer">
               <option value="1" data-i18n="sport_spoon_1">🔋 1 Löffel · Liegend oder sitzend (Extrem sanft)</option>
               <option value="2" selected data-i18n="sport_spoon_2">🔋 2 Löffel · Im Stehen dehnen & lockern (Moderat)</option>
               <option value="3" data-i18n="sport_spoon_3">🔋 3 Löffel · Aktivierender Mini-Boost (Effektiv)</option>
             </select>
           </div>
 
-          <div id="sport-suggestion-box" class="p-4 bg-lime-500/5 border border-lime-500/20 rounded-2xl space-y-2 text-center"></div>
+          <div id="sport-suggestion-box" class="p-4 bg-emerald-500/5 border border-emerald-500/20 rounded-2xl space-y-2 text-center"></div>
 
           <div id="sport-timer-container" class="hidden p-3.5 bg-black/50 border border-white/10 rounded-2xl flex flex-col items-center gap-2.5">
             <div class="flex items-center gap-3">
-              <span id="sport-timer-display" class="font-display font-black text-2xl tracking-wider text-lime-300">01:00</span>
+              <span id="sport-timer-display" class="font-display font-black text-2xl tracking-wider text-emerald-300">01:00</span>
               <div class="w-28 h-2 bg-white/10 rounded-full overflow-hidden">
-                <div id="sport-timer-progress" class="h-full bg-lime-400 transition-all duration-300" style="width: 100%"></div>
+                <div id="sport-timer-progress" class="h-full bg-emerald-400 transition-all duration-300" style="width: 100%"></div>
               </div>
             </div>
             <div class="flex items-center gap-2">
-              <button id="sport-timer-play-btn" onclick="startSportTimer()" class="px-3.5 py-1.5 bg-lime-500/20 hover:bg-lime-500/30 border border-lime-500/40 text-lime-300 text-xs font-bold rounded-xl transition cursor-pointer">Start</button>
+              <button id="sport-timer-play-btn" onclick="startSportTimer()" class="px-3.5 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold rounded-xl transition cursor-pointer">Start</button>
               <button id="sport-timer-pause-btn" onclick="pauseSportTimer()" class="hidden px-3.5 py-1.5 bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-bold rounded-xl transition cursor-pointer">Pause</button>
               <button onclick="skipSportTimer()" class="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 text-gray-300 text-xs font-bold rounded-xl transition cursor-pointer">Anderer Impuls 🔄</button>
             </div>
           </div>
 
-          <button id="sport-complete-btn" onclick="completeSportActivity()" class="w-full py-2.5 bg-gradient-to-r from-lime-500 to-emerald-500 hover:from-lime-400 hover:to-emerald-400 text-black font-black text-xs rounded-xl shadow-lg transition duration-150 transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
+          <button id="sport-complete-btn" onclick="completeSportActivity()" class="w-full py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-black text-xs rounded-xl shadow-lg transition duration-150 transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5">
             <i data-lucide="check-circle" class="w-4 h-4"></i> <span><span data-i18n="sport_exercise_reward">Übung absolviert & belohnen</span></span>
           </button>
         </div>
@@ -3663,32 +3897,32 @@
           <!-- Routine Info Bar -->
           <div class="flex items-center justify-between px-1">
             <div>
-              <span id="sport-player-routine-title" class="font-bold text-xs text-lime-300 font-display">Workout</span>
+              <span id="sport-player-routine-title" class="font-bold text-xs text-emerald-300 font-display">Workout</span>
               <div class="text-[10px] text-gray-400 font-mono">Übung <span id="sport-player-step-counter" class="text-white font-bold">1 / 8</span></div>
             </div>
-            <span id="sport-player-state-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-lime-500/25 text-lime-300 border border-lime-400/40">Los geht's!</span>
+            <span id="sport-player-state-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/25 text-emerald-300 border border-emerald-400/40">Los geht's!</span>
           </div>
 
           <!-- Main Player Display Card -->
-          <div class="p-5 rounded-3xl bg-gradient-to-b from-white/[0.04] to-black/60 border border-lime-500/30 flex flex-col items-center justify-center text-center gap-3 relative shadow-inner">
-            <span id="sport-player-timer-display" class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-lime-300 drop-shadow-[0_0_15px_rgba(132,204,22,0.3)]">00:45</span>
+          <div class="p-5 rounded-3xl bg-gradient-to-b from-white/[0.04] to-black/60 border border-emerald-500/30 flex flex-col items-center justify-center text-center gap-3 relative shadow-inner">
+            <span id="sport-player-timer-display" class="text-4xl sm:text-5xl font-black font-mono tracking-tight text-emerald-300 drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">00:45</span>
             
             <!-- Progress Bar -->
             <div class="w-full bg-black/60 h-2.5 rounded-full overflow-hidden border border-white/10">
-              <div id="sport-player-progress-bar" class="h-full bg-gradient-to-r from-lime-400 to-emerald-400 transition-all duration-300" style="width: 100%"></div>
+              <div id="sport-player-progress-bar" class="h-full bg-gradient-to-r from-emerald-400 to-teal-400 transition-all duration-300" style="width: 100%"></div>
             </div>
 
             <!-- Exercise Details -->
             <div class="space-y-1 mt-1">
               <h4 id="sport-player-ex-name" class="text-base sm:text-lg font-black text-white font-display">Langsame Tief-Kniebeugen 🦵</h4>
               <p id="sport-player-ex-desc" class="text-xs text-gray-300 max-w-sm mx-auto leading-relaxed">3 Sek. kontrolliert absenken, 1 Sek. kraftvoll aufstehen. Fersen bleiben am Boden.</p>
-              <span id="sport-player-ex-muscle" class="inline-block px-2 py-0.5 rounded-lg bg-white/5 text-[10px] text-lime-300/90 font-mono font-semibold mt-1" data-i18n="sport_focus_legs">🎯 Fokus: Beine & Gesäß</span>
+              <span id="sport-player-ex-muscle" class="inline-block px-2 py-0.5 rounded-lg bg-white/5 text-[10px] text-emerald-300/90 font-mono font-semibold mt-1" data-i18n="sport_focus_legs">🎯 Fokus: Beine & Gesäß</span>
             </div>
 
             <!-- Next Up Banner -->
             <div id="sport-player-next-up-box" class="p-2 px-3 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 w-full flex items-center justify-between">
               <span class="text-gray-400" data-i18n="sport_next_up">Als Nächstes:</span>
-              <span class="text-lime-200 font-bold" data-i18n="sport_ex_glute_bridge">Beckenbrücke</span>
+              <span class="text-emerald-200 font-bold" data-i18n="sport_ex_glute_bridge">Beckenbrücke</span>
             </div>
           </div>
 
@@ -3697,11 +3931,11 @@
             <button onclick="prevWorkoutExercise()" class="px-3 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1" title="Vorherige Übung">
               <i data-lucide="skip-back" class="w-4 h-4"></i>
             </button>
-            <button id="sport-player-play-btn" onclick="resumeWorkoutRoutine()" class="hidden flex-1 py-2.5 bg-lime-500 hover:bg-lime-400 text-black font-black text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i data-lucide="play" class="w-4 h-4 fill-black"></i> <span>Fortsetzen</span>
+            <button id="sport-player-play-btn" onclick="resumeWorkoutRoutine()" class="hidden flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <i data-lucide="play" class="w-4 h-4 fill-slate-950"></i> <span>Fortsetzen</span>
             </button>
-            <button id="sport-player-pause-btn" onclick="pauseWorkoutRoutine()" class="flex-1 py-2.5 bg-lime-500 hover:bg-lime-400 text-black font-black text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 cursor-pointer">
-              <i data-lucide="pause" class="w-4 h-4 fill-black"></i> <span>Pausieren</span>
+            <button id="sport-player-pause-btn" onclick="pauseWorkoutRoutine()" class="flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 cursor-pointer">
+              <i data-lucide="pause" class="w-4 h-4 fill-slate-950"></i> <span>Pausieren</span>
             </button>
             <button onclick="nextWorkoutExercise()" class="px-3 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1" title="Nächste Übung">
               <i data-lucide="skip-forward" class="w-4 h-4"></i>
@@ -4323,53 +4557,210 @@
           </h4>
           <div class="space-y-1.5 text-gray-300">
             <p class="font-semibold text-white">Noodle</p>
-            <p>Ein Projekt für barrierefreie, strukturierte Alltags- und Arbeitsorganisation.</p>
+            <p>Freie, barrierefreie Open-Web Progressive Web App (PWA) für allumfassende Alltags-, Lern- und Arbeitsorganisation.</p>
             <p class="pt-2 text-gray-400"><strong>Dienstanbieter / Betreiber:</strong></p>
-            <p>Noodle Entwicklerteam</p>
-            <p>Musterstraße 12, 10115 Berlin, Deutschland</p>
-            <p class="pt-2 text-gray-400"><strong>Kontakt:</strong></p>
+            <p>Noodle Entwicklerteam & Open-Source-Gemeinschaft</p>
+            <p class="text-[11px] text-gray-400">Bereitstellung als statische Web-Applikation über GitHub Pages.</p>
+            <p class="pt-2 text-gray-400"><strong>Kontakt & Support:</strong></p>
             <p>E-Mail: <a href="mailto:support@noodlestudio.app" class="text-purple-300 hover:underline">support@noodlestudio.app</a></p>
+            <p>Projekt-Repository: <a href="https://github.com/cableblues/noodle" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:underline">github.com/cableblues/noodle</a></p>
           </div>
         </div>
 
         <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
-          <h4 class="font-bold text-xs text-white">EU-Streitschlichtung & Verbraucherstreitbeilegung</h4>
+          <h4 class="font-bold text-xs text-white flex items-center gap-1.5">
+            <i data-lucide="scale" class="w-3.5 h-3.5 text-purple-400"></i>
+            <span>EU-Streitschlichtung & Verbraucherstreitbeilegung</span>
+          </h4>
           <p class="text-[11px] text-gray-400">
-            Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener" class="text-purple-300 hover:underline">https://ec.europa.eu/consumers/odr</a>.<br>
-            Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
+            Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:underline">https://ec.europa.eu/consumers/odr</a>.<br>
+            Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen (§ 36 VSBG).
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
+          <h4 class="font-bold text-xs text-white flex items-center gap-1.5">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>Haftung für Inhalte & Links (§§ 7–10 DDG)</span>
+          </h4>
+          <p class="text-[11px] text-gray-400">
+            Als Diensteanbieter sind wir gemäß § 7 Abs. 1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 DDG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen (wie externe Radio-Streams oder RSS-Nachrichtenfeeds) zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
           </p>
         </div>
       </div>
 
-      <!-- TAB 3: DATENSCHUTZERKLÄRUNG (DSGVO) -->
+      <!-- TAB 3: DATENSCHUTZERKLÄRUNG (DSGVO / TDDDG) -->
       <div id="settings-pane-privacy" class="hidden space-y-4 text-xs leading-relaxed text-gray-300">
         
-        <div class="p-4 rounded-2xl bg-emerald-500/[0.04] border border-emerald-500/20 space-y-2">
-          <h4 class="font-bold text-sm text-emerald-300 flex items-center gap-2">
-            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
-            <span>Local-First Prinzip & Datenschutz by Design (Art. 25 DSGVO)</span>
-          </h4>
-          <p class="text-gray-300 text-[11px]">
-            Deine Privatsphäre hat höchste Priorität. Noodle speichert deine Aufgaben, Notizen, Einkaufslisten, Timer und Einstellungen <strong>ausschließlich lokal im Speicher deines Browsers (localStorage & IndexedDB)</strong>. Wir nutzen ausschließlich Umami, ein cookie-freies, datenschutzfreundliches Analyse-Tool zur Erfassung anonymer Besucherstatistiken. Es findet kein Nutzer-Tracking über Cookies statt und wir binden keine Werbenetzwerke ein.
+        <!-- Header Banner: Privacy by Design -->
+        <div class="p-4 rounded-2xl bg-emerald-500/[0.05] border border-emerald-500/25 space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-sm text-emerald-300 flex items-center gap-2">
+              <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+              <span>Local-First Prinzip & Datenschutz by Design (Art. 25 DSGVO)</span>
+            </h4>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">100% Client-Side</span>
+          </div>
+          <p class="text-gray-300 text-[11px] leading-relaxed">
+            Deine Privatsphäre und die absolute Souveränität über deine Daten stehen bei Noodle an oberster Stelle. 
+            Noodle arbeitet nach dem <strong>Local-First-Prinzip</strong>: Deine Aufgaben, Checklisten, Routinen, Notizen, Einkaufslisten, Timer, Wecker, Sport- und Gesundheits-Logs, Audioeinstellungen sowie Farbthemen verbleiben <strong>vollständig auf deinem eigenen Gerät</strong>. Es besteht kein Registrierungszwang, keine Werbetracker und kein Verkauf von Nutzerdaten.
           </p>
         </div>
 
-        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-3">
-          <h4 class="font-bold text-xs text-white">1. Technische Speicherung & Cookies (TDDDG / TTDSG)</h4>
+        <!-- 1. Verantwortliche Stelle & Rechtsgrundlagen -->
+        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
+          <h4 class="font-bold text-xs text-white flex items-center gap-1.5">
+            <i data-lucide="scale" class="w-3.5 h-3.5 text-purple-400"></i>
+            <span>1. Verantwortliche Stelle & Rechtsgrundlagen der Verarbeitung</span>
+          </h4>
           <p class="text-[11px] text-gray-400">
-            Es werden keine einwilligungspflichtigen Marketing-Cookies gesetzt. Der lokale Speicher (<code class="bg-black/40 px-1 py-0.5 rounded text-purple-300">localStorage</code>) dient rein der Bereitstellung der Kernfunktionen (Zustand der Aufgaben, Sprachwahl, Farbthemen).
+            Verantwortlich für die Datenverarbeitung im Sinne der EU-Datenschutz-Grundverordnung (DSGVO) und des Digitale-Dienste-Gesetzes (DDG) ist das Noodle-Entwicklerteam (Kontakt: <a href="mailto:support@noodlestudio.app" class="text-purple-300 hover:underline">support@noodlestudio.app</a>).
           </p>
-
-          <h4 class="font-bold text-xs text-white pt-1">2. Externe technische Schnittstellen (APIs)</h4>
+          <p class="text-[11px] text-gray-400">
+            Die Rechtsgrundlagen unserer Datenverarbeitung ergeben sich aus:
+          </p>
           <ul class="list-disc pl-4 space-y-1 text-[11px] text-gray-400">
-            <li><strong>Wetterdaten (Open-Meteo):</strong> Bei aktiver Nutzung des Wetter-Widgets wird die Open-Meteo API kontaktiert. Es werden keine personenbezogenen Profile erstellt.</li>
-            <li><strong>Cloud-Synchronisation & Login (Optional):</strong> Nutzt du die freiwillige geräteübergreifende Synchronisation, erfolgt die passwortlose Authentifizierung über Supabase Auth (Magic Link per E-Mail) und die Datenübertragung Ende-zu-Ende verschlüsselt auf gesicherten Servern innerhalb der Europäischen Union.</li>
+            <li><strong>Art. 6 Abs. 1 lit. b DSGVO:</strong> Zur Bereitstellung der von dir aufgerufenen App-Funktionen und Offline-Dienste.</li>
+            <li><strong>Art. 6 Abs. 1 lit. a DSGVO:</strong> Deine freiwillige Einwilligung bei Aktivierung optionaler Funktionen (z. B. optionale Supabase-Cloud-Synchronisation, Kamera-Scan, Mikrofon-Spracheingabe).</li>
+            <li><strong>Art. 6 Abs. 1 lit. f DSGVO:</strong> Unser berechtigtes Interesse an der technischen Stabilität, Ausfallsicherheit und anonymen Reichweitenmessung der Webanwendung.</li>
+            <li><strong>§ 25 Abs. 2 Nr. 2 TDDDG:</strong> Gesetzliche Legitimation für die lokale Browser-Speicherung, die technisch zwingend erforderlich ist, um die vom Nutzer ausdrücklich angeforderten Dienste zur Verfügung zu stellen.</li>
           </ul>
+        </div>
 
-          <h4 class="font-bold text-xs text-white pt-1">3. Deine Rechte (Art. 15–21 DSGVO)</h4>
+        <!-- 2. Speicherung im Browser & Cookies (TDDDG) -->
+        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
+          <h4 class="font-bold text-xs text-white flex items-center gap-1.5">
+            <i data-lucide="database" class="w-3.5 h-3.5 text-cyan-400"></i>
+            <span>2. Lokale Speicherung & Verzicht auf Tracking-Cookies (§ 25 TDDDG)</span>
+          </h4>
           <p class="text-[11px] text-gray-400">
-            Da alle Daten auf deinem Gerät liegen, hast du jederzeit die vollständige Kontrolle: Über den Reiter <em>„Allgemein“</em> oder die Backup-Buttons kannst du deine Daten jederzeit exportieren (JSON) oder mit einem Klick unwiderruflich löschen.
+            Noodle setzt <strong>keine einwilligungspflichtigen Werbe- oder Marketing-Cookies</strong> ein. Ein Cookie-Banner ist daher nach § 25 Abs. 2 TDDDG rechtlich nicht erforderlich.
           </p>
+          <p class="text-[11px] text-gray-400">
+            Zur Gewährleistung der Offline-Funktionsfähigkeit und Speicherung deiner Arbeitsdaten nutzt die App folgende lokale Webtechnologien deines Browsers:
+          </p>
+          <ul class="list-disc pl-4 space-y-1 text-[11px] text-gray-400">
+            <li><code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">localStorage</code> & <code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">sessionStorage</code>: Speichert Aufgabenstände, Routinen, Favoriten, aktive Ansichten, Farbschemata und UI-Optionen.</li>
+            <li><code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">IndexedDB</code>: Für strukturierte Datenablage (Offline-Notizen, Snapshots, Historie).</li>
+            <li><code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">CacheStorage & Service Worker (sw.js)</code>: Cacht App-Ressourcen (HTML, CSS, JS, Schriften, Icons), damit Noodle auch ohne Internetverbindung blitzschnell und autark startet.</li>
+          </ul>
+        </div>
+
+        <!-- 3. Hardware-Zugriffe (Kamera, Mikrofon, Sprache) -->
+        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
+          <h4 class="font-bold text-xs text-white flex items-center gap-1.5">
+            <i data-lucide="camera" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>3. Hardware-Zugriffe & Geräte-Berechtigungen</span>
+          </h4>
+          <div class="space-y-2 text-[11px] text-gray-400">
+            <div>
+              <strong class="text-white">Kamera (Notiz- & Handschrift-Scanner):</strong> Der Kamerazugriff (<code class="bg-black/40 px-1 py-0.5 rounded text-amber-300">getUserMedia</code>) wird ausschließlich angefordert, wenn du das Scanner-Werkzeug manuell öffnest. Das Videosignal und die optische Zeichenerkennung (OCR) werden <strong>vollständig lokal im Browser-Canvas</strong> verarbeitet. Es werden niemals Bilder oder Videostreams an Dritte oder Server übertragen.
+            </div>
+            <div>
+              <strong class="text-white">Mikrofon & Spracherkennung (Voice Input):</strong> Der Mikrofonzugriff wird ausschließlich bei aktiver Betätigung des Mikrofon-Buttons (z. B. Spracheingabe für Aufgaben oder Sprachnotizen im Collab-Chat) aktiviert. Die Transkription erfolgt über die browser-native Web Speech API.
+            </div>
+            <div>
+              <strong class="text-white">Sprachsynthese (Text-to-Speech / Vorlesen):</strong> Das Vorlesen von Timern, Weckern oder Nachrichten erfolgt rein lokal über die geräteinterne Sprachausgabe (<code class="bg-black/40 px-1 py-0.5 rounded text-amber-300">window.speechSynthesis</code>). Es fließen keine Texte an externe Sprach-Clouds.
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Externe Drittanbieter-Dienste & Schnittstellen -->
+        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
+          <h4 class="font-bold text-xs text-white flex items-center gap-1.5">
+            <i data-lucide="radio" class="w-3.5 h-3.5 text-rose-400"></i>
+            <span>4. Externe technische Schnittstellen & Streaming-Dienste</span>
+          </h4>
+          <ul class="list-disc pl-4 space-y-2 text-[11px] text-gray-400">
+            <li>
+              <strong class="text-white">Live-Internetradio & Audio-Streams:</strong>
+              Wenn du einen Radiosender abspielst, stellt dein Browser eine direkte Audio-Streaming-Verbindung zum Server der jeweiligen Rundfunkanstalt (z. B. DLF, NDR, WDR, SWR, SomaFM oder Freie Radios) her. Hierbei übermittelt dein Browser technisch bedingt deine IP-Adresse an den Streaming-Host (Art. 6 Abs. 1 lit. b / f DSGVO). Die Sendersuche greift auf die offene Community-Datenbank <code class="bg-black/40 px-1 py-0.5 rounded text-rose-300">api.radio-browser.info</code> zu.
+            </li>
+            <li>
+              <strong class="text-white">Wetterdienst (Open-Meteo & OpenStreetMap):</strong>
+              Wettervorhersagen werden über die datensparsame, nicht-kommerzielle API von Open-Meteo (<code class="bg-black/40 px-1 py-0.5 rounded text-rose-300">open-meteo.com</code>) abgerufen. Standortsuchen und Geocoding erfolgen anonymisiert über Open-Meteo Geocoding bzw. OpenStreetMap Nominatim. Es werden keine Bewegungsprofile angelegt.
+            </li>
+            <li>
+              <strong class="text-white">Nachrichten-Feeds (RSS):</strong>
+              Schlagzeilen werden aus frei zugänglichen RSS-Feeds namhafter Nachrichtenquellen geladen. Zur Überbrückung von Browser-Sicherheitsgrenzen (CORS) kann hierbei ein neutraler Konvertierungsdienst (<code class="bg-black/40 px-1 py-0.5 rounded text-rose-300">api.rss2json.com</code>) genutzt werden, welcher lediglich die Feed-URL liest, ohne persönliche Daten zu erheben.
+            </li>
+            <li>
+              <strong class="text-white">Audio-Generatoren (Binaural & Naturklänge):</strong>
+              Rauschen, Regen, Ozean, Wald und binaurale Frequenzen werden in Echtzeit mathematisch über die interne Web Audio API deines Geräts berechnet – es erfolgt hierfür keinerlei Server-Kommunikation.
+            </li>
+          </ul>
+        </div>
+
+        <!-- 5. Optionale Cloud-Synchronisation & Peer-to-Peer -->
+        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
+          <h4 class="font-bold text-xs text-white flex items-center gap-1.5">
+            <i data-lucide="cloud" class="w-3.5 h-3.5 text-indigo-400"></i>
+            <span>5. Optionale Cloud-Synchronisation & Peer-to-Peer-Kopplung</span>
+          </h4>
+          <p class="text-[11px] text-gray-400">
+            Noodle ist ohne Benutzerkonto nutzbar. Entscheidest du dich freiwillig für die geräteübergreifende Synchronisation:
+          </p>
+          <ul class="list-disc pl-4 space-y-1.5 text-[11px] text-gray-400">
+            <li>Erfolgt die Authentifizierung passwortlos via E-Mail (Magic-Link) oder anonyme Session-IDs über <strong>Supabase Inc.</strong></li>
+            <li>Die Datenspeicherung findet auf gesicherten Servern innerhalb der Europäischen Union (bzw. auf Basis von EU-Standardvertragsklauseln nach Art. 46 DSGVO) statt.</li>
+            <li>Bei der QR-Code-Direktkopplung (P2P / WebRTC) werden Aufgaben und Statusmeldungen verschlüsselt direkt zwischen den gekoppelten Endgeräten ausgetauscht.</li>
+            <li>Du kannst die Cloud-Synchronisation in den Einstellungen jederzeit trennen und deine Cloud-Daten löschen.</li>
+          </ul>
+        </div>
+
+        <!-- 6. Web-Analyse (Umami) & Opt-Out -->
+        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-xs text-white flex items-center gap-1.5">
+              <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>6. Anonyme Reichweitenmessung (Umami Analytics)</span>
+            </h4>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-white/5 text-gray-300">Cookie-Free</span>
+          </div>
+          <p class="text-[11px] text-gray-400 leading-relaxed">
+            Ausschließlich beim Aufruf der gehosteten Webversion auf GitHub Pages nutzen wir den datenschutzfreundlichen Open-Source-Dienst <strong>Umami Analytics</strong>. 
+            Umami setzt <strong>keine Cookies</strong>, speichert keine personenbezogenen Daten, erzeugt keine geräteübergreifenden Profile und anonymisiert deine IP-Adresse sofort. 
+            Es dient rein der statistischen Auswertung, um festzustellen, welche Features genutzt werden und wie Noodle verbessert werden kann. Browsereinstellungen wie <em>„Do Not Track“ (DNT)</em> oder <em>Global Privacy Control (GPC)</em> werden automatisch strikt respektiert.
+          </p>
+          <div class="pt-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-black/40 border border-white/5">
+            <div class="text-[11px]">
+              <div class="font-semibold text-white">Analyse-Widerspruch (Opt-Out):</div>
+              <div class="text-gray-400 text-[10px]">Klicke auf den Button, um die statistische Erfassung für diesen Browser zu deaktivieren.</div>
+            </div>
+            <button onclick="toggleUmamiOptOut()" class="umami-optout-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition cursor-pointer shrink-0">
+              <span class="flex items-center gap-1.5">
+                <i data-lucide="eye" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <span>Analyse ist aktiv – Klick für Opt-Out</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 7. Deine Rechte als betroffene Person (DSGVO) -->
+        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
+          <h4 class="font-bold text-xs text-white flex items-center gap-1.5">
+            <i data-lucide="user-check" class="w-3.5 h-3.5 text-blue-400"></i>
+            <span>7. Deine Betroffenenrechte nach der DSGVO</span>
+          </h4>
+          <p class="text-[11px] text-gray-400">
+            Dir stehen nach den Art. 15 bis 22 DSGVO umfassende Rechte gegenüber dem Verantwortlichen zu:
+          </p>
+          <ul class="list-disc pl-4 space-y-1 text-[11px] text-gray-400">
+            <li><strong>Recht auf Datenübertragbarkeit (Art. 20 DSGVO):</strong> Du kannst deinen gesamten lokalen Datenbestand jederzeit mit 1 Klick als maschinenlesbare JSON-Datei exportieren (Reiter „Allgemein“ &rarr; Backup).</li>
+            <li><strong>Recht auf Löschung (Art. 17 DSGVO):</strong> Über den Button „Alle Daten zurücksetzen“ kannst du sämtliche auf deinem Gerät gespeicherten Datensätze unwiderruflich und rückstandsfrei entfernen.</li>
+            <li><strong>Recht auf Auskunft (Art. 15 DSGVO) & Berichtigung (Art. 16 DSGVO):</strong> Über alle in Noodle verarbeiteten Daten hast du durch die lokale Speicherung direkte und vollständige Einsicht.</li>
+            <li><strong>Widerspruchsrecht (Art. 21 DSGVO) & Widerruf (Art. 7 Abs. 3 DSGVO):</strong> Einwilligungen können jederzeit mit Wirkung für die Zukunft widerrufen werden.</li>
+            <li><strong>Beschwerderecht bei einer Aufsichtsbehörde (Art. 77 DSGVO):</strong> Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung deiner personenbezogenen Daten zu beschweren.</li>
+          </ul>
+        </div>
+
+        <!-- 8. Datensicherheit & Stand -->
+        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 flex items-center justify-between text-[11px] text-gray-400">
+          <span class="flex items-center gap-1.5">
+            <i data-lucide="lock" class="w-3.5 h-3.5 text-emerald-400"></i>
+            <span>TLS 1.3 Transportverschlüsselung & Client-Isolation (Art. 32 DSGVO)</span>
+          </span>
+          <span class="font-mono text-gray-400 text-[10px]">Stand: Oktober 2026</span>
         </div>
 
       </div>
@@ -4965,19 +5356,19 @@
       <div class="space-y-2">
         <div class="text-[10px] uppercase font-bold tracking-wider text-gray-400 font-mono" data-i18n="mobile_view_report">Ansicht & Auswertung</div>
         <div class="grid grid-cols-2 gap-2">
-          <button onclick="closeMobileMenuDrawer(); togglePanel('report');" class="p-3 bg-purple-500/15 border border-purple-500/40 rounded-2xl text-left hover:bg-purple-500/25 transition flex items-center gap-2.5 text-xs font-bold text-purple-300">
+          <button onclick="closeMobileMenuDrawer(); openReportDashboard();" class="p-3 bg-purple-500/15 border border-purple-500/40 rounded-2xl text-left hover:bg-purple-500/25 transition flex items-center gap-2.5 text-xs font-bold text-purple-300">
             <i data-lucide="bar-chart-3" class="w-4 h-4 shrink-0 text-purple-300"></i>
             <span data-i18n="mobile_stats_report">Statistik / Bericht</span>
           </button>
-          <button onclick="closeMobileMenuDrawer(); togglePanel('theme');" class="p-3 bg-white/[0.04] border border-white/10 rounded-2xl text-left hover:bg-white/[0.08] transition flex items-center gap-2.5 text-xs font-bold text-gray-200">
+          <button onclick="closeMobileMenuDrawer(); openSettingsModal('general');" class="p-3 bg-white/[0.04] border border-white/10 rounded-2xl text-left hover:bg-white/[0.08] transition flex items-center gap-2.5 text-xs font-bold text-gray-200">
             <i data-lucide="palette" class="w-4 h-4 shrink-0 text-purple-300"></i>
             <span data-i18n="mobile_themes">Farbschemas</span>
           </button>
-          <button onclick="closeMobileMenuDrawer(); togglePanel('language');" class="p-3 bg-white/[0.04] border border-white/10 rounded-2xl text-left hover:bg-white/[0.08] transition flex items-center gap-2.5 text-xs font-bold text-gray-200">
+          <button onclick="closeMobileMenuDrawer(); openSettingsModal('general');" class="p-3 bg-white/[0.04] border border-white/10 rounded-2xl text-left hover:bg-white/[0.08] transition flex items-center gap-2.5 text-xs font-bold text-gray-200">
             <i data-lucide="globe" class="w-4 h-4 shrink-0 text-blue-400"></i>
             <span data-i18n="mobile_language">Sprache</span>
           </button>
-          <button onclick="closeMobileMenuDrawer(); togglePanel('pause-dropdown');" class="p-3 bg-sky-500/15 border border-sky-400/40 rounded-2xl text-left hover:bg-sky-500/25 transition flex items-center gap-2.5 text-xs font-bold text-sky-300">
+          <button onclick="closeMobileMenuDrawer(); openSafeSpaceModal();" class="p-3 bg-sky-500/15 border border-sky-400/40 rounded-2xl text-left hover:bg-sky-500/25 transition flex items-center gap-2.5 text-xs font-bold text-sky-300">
             <i data-lucide="coffee" class="w-4 h-4 shrink-0 text-sky-300"></i>
             <span data-i18n="mobile_pause_relax">Pause & Erholung</span>
           </button>
@@ -5053,139 +5444,219 @@
       </div>
 
       <div class="grid grid-cols-2 gap-2.5">
-        <button onclick="closeMobileToolsSheet(); togglePanel('audio');" class="col-span-2 p-3 bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-transparent border border-purple-500/30 rounded-2xl text-left hover:bg-purple-500/20 active:scale-95 transition flex items-center gap-3">
+        <!-- Live-Radio -->
+        <button onclick="closeMobileToolsSheet(); togglePanel('radio'); if(window.RadioNewsEngine){ if(window.RadioNewsEngine.renderRadioPanelContent) window.RadioNewsEngine.renderRadioPanelContent(); if(window.RadioNewsEngine.probeAllStationsSignal) window.RadioNewsEngine.probeAllStationsSignal(); }" class="p-3 bg-white/[0.03] border border-purple-500/30 rounded-2xl text-left hover:bg-purple-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 shrink-0">
+            <i data-lucide="radio" class="w-4 h-4 text-purple-300"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white leading-tight" data-i18n="tool_radio">Live-Radio</div>
+            <div class="text-[10px] text-gray-400">Web-Sender & Audio</div>
+          </div>
+        </button>
+
+        <!-- Nachrichten -->
+        <button onclick="closeMobileToolsSheet(); togglePanel('news'); if(window.RadioNewsEngine && window.RadioNewsEngine.fetchNewsForRegion) RadioNewsEngine.fetchNewsForRegion();" class="p-3 bg-white/[0.03] border border-sky-500/30 rounded-2xl text-left hover:bg-sky-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-300 shrink-0">
+            <i data-lucide="newspaper" class="w-4 h-4 text-sky-300"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-white leading-tight" data-i18n="tool_news">Nachrichten</div>
+            <div class="text-[10px] text-gray-400">Ticker & Briefing</div>
+          </div>
+        </button>
+
+        <!-- Audio Studio -->
+        <button onclick="closeMobileToolsSheet(); openAudioStudioMode('ambient');" class="col-span-2 p-3 bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-transparent border border-purple-500/30 rounded-2xl text-left hover:bg-purple-500/20 active:scale-95 transition flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 shrink-0">
             <i data-lucide="headphones" class="w-4 h-4 text-purple-300"></i>
           </div>
           <div class="flex-1 min-w-0">
             <div class="text-xs font-bold text-purple-200 leading-tight flex items-center justify-between">
-              <span data-i18n="audio_studio_full_title">Audio & Atmosphere Studio</span>
+              <span data-i18n="audio_studio_full_title">Audio & Sound Studio</span>
               <span class="text-[9px] font-mono text-purple-300/80 uppercase" data-i18n="badge_pro_studio">Pro Studio</span>
             </div>
-            <div class="text-[10px] text-purple-300/70" data-i18n="audio_studio_sub">Naturklänge, Genre-Beats, MP3, Spotify, DJ</div>
+            <div class="text-[10px] text-purple-300/70" data-i18n="audio_studio_sub">Naturklänge, Genre-Beats, MP3, Spotify & DJ</div>
           </div>
         </button>
 
-        <button onclick="closeMobileToolsSheet(); togglePanel('alarm');" class="p-3 bg-white/[0.03] border border-yellow-500/20 rounded-2xl text-left hover:bg-yellow-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-yellow-300 shrink-0">
-            <i data-lucide="alarm-clock" class="w-4 h-4 text-yellow-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-yellow-300 leading-tight">Wecker</div>
-            <div class="text-[10px] text-yellow-300/70">Termine & Alarme</div>
-          </div>
-        </button>
-
-        <button onclick="closeMobileToolsSheet(); togglePanel('cooking');" class="p-3 bg-white/[0.03] border border-orange-500/20 rounded-2xl text-left hover:bg-orange-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-300 shrink-0">
-            <i data-lucide="cooking-pot" class="w-4 h-4 text-orange-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-orange-300 leading-tight">Kochen</div>
-            <div class="text-[10px] text-orange-300/70">Vorrat & Rezepte</div>
-          </div>
-        </button>
-
-        <button onclick="closeMobileToolsSheet(); togglePanel('shopping');" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
+        <!-- Einkauf -->
+        <button onclick="closeMobileToolsSheet(); togglePanel('shopping'); if(typeof switchShoppingTab==='function') switchShoppingTab('list');" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
-            <i data-lucide="shopping-basket" class="w-4 h-4 text-emerald-300"></i>
+            <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-300"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-emerald-300 leading-tight">Einkauf</div>
-            <div class="text-[10px] text-emerald-300/70">Einkaufsliste & Deals</div>
+            <div class="text-xs font-bold text-emerald-300 leading-tight" data-i18n="nav_shopping">Einkauf</div>
+            <div class="text-[10px] text-gray-400">Liste & Vorrat</div>
           </div>
         </button>
 
-        <button onclick="closeMobileToolsSheet(); togglePanel('boost');" class="p-3 bg-white/[0.03] border border-yellow-500/20 rounded-2xl text-left hover:bg-yellow-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-yellow-500/20 border border-yellow-500/30 flex items-center justify-center text-yellow-300 shrink-0">
-            <i data-lucide="zap" class="w-4 h-4 text-yellow-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-yellow-300 leading-tight">Schwung-Impuls</div>
-            <div class="text-[10px] text-yellow-300/70" data-i18n="boost_30s">30s Überwindung</div>
-          </div>
-        </button>
-
-        <button onclick="closeMobileToolsSheet(); openBrainstormModal();" class="p-3 bg-white/[0.03] border border-orange-500/20 rounded-2xl text-left hover:bg-orange-500/10 active:scale-95 transition flex items-center gap-3">
+        <!-- Kochen -->
+        <button onclick="closeMobileToolsSheet(); togglePanel('cooking'); if(typeof renderCookingPanel==='function') renderCookingPanel(); if(typeof switchCookingTab==='function') switchCookingTab('recipes');" class="p-3 bg-white/[0.03] border border-orange-500/20 rounded-2xl text-left hover:bg-orange-500/10 active:scale-95 transition flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-300 shrink-0">
-            <i data-lucide="brain" class="w-4 h-4 text-orange-300"></i>
+            <i data-lucide="chef-hat" class="w-4 h-4 text-orange-300"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-orange-300 leading-tight">Brainstorming</div>
-            <div class="text-[10px] text-orange-300/70">Ideen & Board-Transfer</div>
+            <div class="text-xs font-bold text-orange-300 leading-tight" data-i18n="nav_cooking">Kochen</div>
+            <div class="text-[10px] text-gray-400">Rezepte & Timer</div>
           </div>
         </button>
 
-        <button onclick="closeMobileToolsSheet(); openLearningHubModal();" class="p-3 bg-white/[0.03] border border-amber-500/20 rounded-2xl text-left hover:bg-amber-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 shrink-0">
-            <i data-lucide="graduation-cap" class="w-4 h-4 text-amber-300"></i>
+        <!-- Wecker & Alarm -->
+        <button onclick="closeMobileToolsSheet(); openAlarmModal();" class="p-3 bg-white/[0.03] border border-pink-500/20 rounded-2xl text-left hover:bg-pink-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-300 shrink-0">
+            <i data-lucide="alarm-clock" class="w-4 h-4 text-pink-300"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-amber-300 leading-tight">Wissens-Labor</div>
-            <div class="text-[10px] text-amber-300/70">Quiz & Deep Learning</div>
+            <div class="text-xs font-bold text-pink-300 leading-tight" data-i18n="mobile_tools_alarm_title">Wecker</div>
+            <div class="text-[10px] text-gray-400">Termine & Alarme</div>
           </div>
         </button>
 
+        <!-- Sport & Körper -->
+        <button onclick="closeMobileToolsSheet(); openSportModal();" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
+            <i data-lucide="dumbbell" class="w-4 h-4 text-emerald-300"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-emerald-300 leading-tight" data-i18n="tool_sport">Bewegung</div>
+            <div class="text-[10px] text-gray-400" data-i18n="sport_1min_workouts">1-Minuten Workouts</div>
+          </div>
+        </button>
+
+        <!-- Gesundheit -->
         <button onclick="closeMobileToolsSheet(); togglePanel('health'); if(window.HealthEngine && window.HealthEngine.renderPanel) window.HealthEngine.renderPanel();" class="p-3 bg-white/[0.03] border border-rose-500/30 rounded-2xl text-left hover:bg-rose-500/10 active:scale-95 transition flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-300 shrink-0 shadow-sm">
             <i data-lucide="shield-plus" class="w-4 h-4 text-rose-300"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-rose-300 leading-tight">Gesundheit & Vorsorge</div>
-            <div class="text-[10px] text-rose-300/80">Checkup-Radar & Meds</div>
+            <div class="text-xs font-bold text-rose-300 leading-tight" data-i18n="tool_health">Gesundheit</div>
+            <div class="text-[10px] text-gray-400">Checkup-Radar & Meds</div>
           </div>
         </button>
 
+        <!-- Atem & Regulation -->
         <button onclick="closeMobileToolsSheet(); openRegulationModal();" class="p-3 bg-white/[0.03] border border-teal-500/30 rounded-2xl text-left hover:bg-teal-500/10 active:scale-95 transition flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-teal-500/20 border border-teal-500/40 flex items-center justify-center text-teal-300 shrink-0 shadow-sm">
             <i data-lucide="heart-pulse" class="w-4 h-4 text-teal-300"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-teal-300 leading-tight">Atem & Regulation</div>
-            <div class="text-[10px] text-teal-300/80" data-i18n="safespace_exercises_grounding">Übungen & Erdung</div>
+            <div class="text-xs font-bold text-teal-300 leading-tight" data-i18n="tool_calm">Regulation</div>
+            <div class="text-[10px] text-gray-400">4-7-8 Atem & Erdung</div>
           </div>
         </button>
 
+        <!-- Klarheit -->
         <button onclick="closeMobileToolsSheet(); openClarityModal();" class="p-3 bg-white/[0.03] border border-indigo-500/20 rounded-2xl text-left hover:bg-indigo-500/10 active:scale-95 transition flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-300 shrink-0">
             <i data-lucide="anchor" class="w-4 h-4 text-indigo-300"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-indigo-300 leading-tight" data-i18n="dock_clarity">Klarheit</div>
-            <div class="text-[10px] text-indigo-300/70" data-i18n="clarity_subtitle">Impulskontrolle & Reflexion</div>
+            <div class="text-xs font-bold text-indigo-300 leading-tight" data-i18n="tool_clarity">Klarheit</div>
+            <div class="text-[10px] text-gray-400">Impulskontrolle</div>
           </div>
         </button>
 
-        <button onclick="closeMobileToolsSheet(); if(typeof openCleaningGuideModal==='function') openCleaningGuideModal();" class="p-3 bg-white/[0.03] border border-teal-500/20 rounded-2xl text-left hover:bg-teal-500/10 active:scale-95 transition flex items-center gap-3">
+        <!-- Safe Space -->
+        <button onclick="closeMobileToolsSheet(); openSafeSpaceModal();" class="p-3 bg-white/[0.03] border border-teal-500/20 rounded-2xl text-left hover:bg-teal-500/10 active:scale-95 transition flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-300 shrink-0">
-            <i data-lucide="brush" class="w-4 h-4 text-teal-300"></i>
+            <i data-lucide="coffee" class="w-4 h-4 text-teal-300"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-teal-300 leading-tight" data-i18n="clean_guide_title">Grundreinigung & Putz-Guide</div>
-            <div class="text-[10px] text-teal-300/70">15m, 45m, 90m & Reizarm-Modus</div>
+            <div class="text-xs font-bold text-teal-300 leading-tight">Safe Space</div>
+            <div class="text-[10px] text-gray-400">Sensory Recovery</div>
           </div>
         </button>
 
-        <button onclick="closeMobileToolsSheet(); openSportModal();" class="p-3 bg-white/[0.03] border border-lime-500/20 rounded-2xl text-left hover:bg-lime-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-lime-500/20 border border-lime-500/30 flex items-center justify-center text-lime-300 shrink-0">
-            <i data-lucide="dumbbell" class="w-4 h-4 text-lime-300"></i>
+        <!-- Brainstorming -->
+        <button onclick="closeMobileToolsSheet(); openBrainstormModal();" class="p-3 bg-white/[0.03] border border-amber-500/20 rounded-2xl text-left hover:bg-amber-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 shrink-0">
+            <i data-lucide="brain" class="w-4 h-4 text-amber-300"></i>
           </div>
           <div>
-            <div class="text-xs font-bold text-lime-300 leading-tight" data-i18n="sport_body_title">Sport & Körper</div>
-            <div class="text-[10px] text-lime-300/70" data-i18n="sport_1min_workouts">1-Minuten Workouts</div>
+            <div class="text-xs font-bold text-amber-300 leading-tight">Brainstorming</div>
+            <div class="text-[10px] text-gray-400">Ideen & Transfer</div>
           </div>
         </button>
 
-        <button onclick="closeMobileToolsSheet(); togglePanel('weather'); fetchLocalWeather();" class="p-3 bg-white/[0.03] border border-sky-500/20 rounded-2xl text-left hover:bg-sky-500/10 active:scale-95 transition flex items-center gap-3">
+        <!-- Wissens-Labor -->
+        <button onclick="closeMobileToolsSheet(); openLearningHubModal();" class="p-3 bg-white/[0.03] border border-blue-500/20 rounded-2xl text-left hover:bg-blue-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-300 shrink-0">
+            <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-300"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-blue-300 leading-tight" data-i18n="tool_learning">Wissens-Labor</div>
+            <div class="text-[10px] text-gray-400">Quiz & Lernen</div>
+          </div>
+        </button>
+
+        <!-- Fun-Labor -->
+        <button onclick="closeMobileToolsSheet(); togglePanel('humor-lab');" class="p-3 bg-white/[0.03] border border-violet-500/20 rounded-2xl text-left hover:bg-violet-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-violet-300 shrink-0">
+            <i data-lucide="smile" class="w-4 h-4 text-violet-300"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-violet-300 leading-tight" data-i18n="tool_humor">Fun-Labor</div>
+            <div class="text-[10px] text-gray-400">Soundboard & Witze</div>
+          </div>
+        </button>
+
+        <!-- Grundreinigung -->
+        <button onclick="closeMobileToolsSheet(); if(typeof openCleaningGuideModal==='function') openCleaningGuideModal();" class="p-3 bg-white/[0.03] border border-cyan-500/20 rounded-2xl text-left hover:bg-cyan-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shrink-0">
+            <i data-lucide="brush" class="w-4 h-4 text-cyan-300"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-cyan-300 leading-tight" data-i18n="clean_guide_title">Putz-Guide</div>
+            <div class="text-[10px] text-gray-400">15m, 45m & Reizarm</div>
+          </div>
+        </button>
+
+        <!-- Social Hub -->
+        <button onclick="closeMobileToolsSheet(); togglePanel('social'); if(window.SocialHubEngine) SocialHubEngine.render();" class="p-3 bg-white/[0.03] border border-pink-500/20 rounded-2xl text-left hover:bg-pink-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-300 shrink-0">
+            <i data-lucide="share-2" class="w-4 h-4 text-pink-300"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-pink-300 leading-tight" data-i18n="tool_social">Social Hub</div>
+            <div class="text-[10px] text-gray-400">Post-Planer</div>
+          </div>
+        </button>
+
+        <!-- Team Chat -->
+        <button onclick="closeMobileToolsSheet(); togglePanel('collab-chat');" class="p-3 bg-white/[0.03] border border-violet-500/20 rounded-2xl text-left hover:bg-violet-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-violet-300 shrink-0">
+            <i data-lucide="message-square" class="w-4 h-4 text-violet-300"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-violet-300 leading-tight" data-i18n="tool_chat">Team Chat</div>
+            <div class="text-[10px] text-gray-400">Live-Collab</div>
+          </div>
+        </button>
+
+        <!-- Live-Wetter -->
+        <button onclick="closeMobileToolsSheet(); togglePanel('weather'); if(typeof fetchLocalWeather==='function') fetchLocalWeather();" class="p-3 bg-white/[0.03] border border-sky-500/20 rounded-2xl text-left hover:bg-sky-500/10 active:scale-95 transition flex items-center gap-3">
           <div class="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-300 shrink-0">
             <i data-lucide="cloud-sun" class="w-4 h-4 text-sky-300"></i>
           </div>
           <div>
             <div class="text-xs font-bold text-sky-300 leading-tight" data-i18n="dock_weather">Wetter</div>
-            <div class="text-[10px] text-sky-300/70">Live & 5-Tage Trend</div>
+            <div class="text-[10px] text-gray-400">Live & 5-Tage</div>
           </div>
         </button>
 
+        <!-- Statistik -->
+        <button onclick="closeMobileToolsSheet(); openReportDashboard();" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
+            <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-300"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold text-emerald-300 leading-tight" data-i18n="mobile_stats_report">Statistik</div>
+            <div class="text-[10px] text-gray-400">Dashboard & Insights</div>
+          </div>
+        </button>
+
+        <!-- Live-Sync -->
         <button onclick="closeMobileToolsSheet(); openP2PSyncModal();" class="col-span-2 p-3 bg-white/[0.03] border border-emerald-500/30 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center justify-between gap-3">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
@@ -5193,7 +5664,7 @@
             </div>
             <div>
               <div class="text-xs font-bold text-emerald-300 leading-tight">Cloud-Sync & Geräte-Kopplung</div>
-              <div class="text-[10px] text-emerald-300/70">Auto-Sync, QR-Code & Direkt-Link</div>
+              <div class="text-[10px] text-gray-400">Auto-Sync, QR-Code & Direkt-Link</div>
             </div>
           </div>
           <span class="sync-auth-indicator w-2.5 h-2.5 rounded-full bg-gray-500 shrink-0"></span>
@@ -6510,50 +6981,151 @@
   </div>
 
   <!-- DATENSCHUTZ & IMPRESSUM MODAL (DSGVO / PRIVACY BY DESIGN) -->
-  <div id="privacy-legal-modal" class="hidden fixed inset-0 z-[200000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl animate-fade-in" onclick="if(event.target===this) closePrivacyModal();">
-    <div class="w-full max-w-lg bg-[#111118]/95 border border-purple-500/40 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white flex flex-col gap-4 max-h-[85vh] overflow-y-auto" onclick="event.stopPropagation()">
+  <div id="privacy-legal-modal" class="hidden fixed inset-0 z-[200000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xl animate-fade-in" onclick="if(event.target===this) closePrivacyModal();">
+    <div class="w-full max-w-xl bg-[#111118]/95 border border-purple-500/40 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white flex flex-col gap-4 max-h-[88vh] overflow-y-auto" onclick="event.stopPropagation()">
+      
+      <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-300">
             <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
           </div>
           <div>
             <h3 class="font-bold text-sm font-display text-white">Datenschutz & Impressum</h3>
-            <span class="text-[10px] text-emerald-400 font-mono">100% Local-First · Zero Tracking</span>
+            <span class="text-[10px] text-emerald-400 font-mono">100% Local-First · Zero Tracking-Cookies</span>
           </div>
         </div>
-        <button onclick="closePrivacyModal()" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer">
+        <button onclick="closePrivacyModal()" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" aria-label="Schließen">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
+      <!-- Modal Body -->
       <div class="space-y-3.5 text-xs text-gray-300 leading-relaxed">
-        <div class="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-200">
-          <b class="text-white block mb-1">🛡️ Privacy by Design (Datenschutzversprechen):</b>
-          Noodle Studio speichert alle deine Aufgaben, Einkaufslisten und Notizen <b>ausschließlich lokal in deinem Webbrowser (Local Storage)</b>. Es findet keine Weitergabe an Werbenetzwerke und keine personenbezogene Profilbildung statt. Lediglich anonyme, cookie-freie Seitenaufruf-Statistiken werden über Umami erfasst.
+        
+        <!-- Banner -->
+        <div class="p-3.5 rounded-2xl bg-emerald-500/[0.08] border border-emerald-500/25 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-emerald-300 flex items-center gap-1.5">
+              <i data-lucide="shield" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>Datenschutzversprechen & Privacy by Design (Art. 25 DSGVO)</span>
+            </span>
+            <span class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Lokal gespeichert</span>
+          </div>
+          <p class="text-[11px] text-emerald-100/90 leading-relaxed">
+            Noodle ist als <strong>Local-First Progressive Web App</strong> konzipiert. Deine Aufgaben, Routinen, Notizen, Einkaufslisten, Timer, Wecker, Sport- und Gesundheits-Logs, Audio- und Farbeinstellungen werden <strong>ausschließlich lokal auf deinem eigenen Endgerät</strong> im Browser (localStorage & IndexedDB) gespeichert. Es gibt keinen Registrierungszwang, keine Werbetracker und kein Profiling.
+          </p>
         </div>
 
-        <div>
-          <h4 class="font-bold text-white mb-1">1. Datenspeicherung & Offline-Betrieb</h4>
-          <p>Die Anwendung funktioniert vollständig offline. Deine Daten verbleiben lokal auf deinem Gerät. Nutzt du die optionale Cloud-Synchronisation, wird die passwortlose Authentifizierung via Supabase Magic-Link abgewickelt und der Datenabgleich sicher und verschlüsselt übertragen.</p>
+        <!-- 1. Lokale Speicherung & Keine Werbe-Cookies (§ 25 TDDDG) -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.025] border border-white/10 space-y-1.5">
+          <h4 class="font-bold text-white flex items-center gap-1.5">
+            <i data-lucide="database" class="w-3.5 h-3.5 text-cyan-400"></i>
+            <span>1. Lokale Speicherung & Verzicht auf Tracking-Cookies (§ 25 TDDDG)</span>
+          </h4>
+          <p class="text-[11px] text-gray-400 leading-relaxed">
+            Noodle setzt <strong>keine einwilligungspflichtigen Marketing- oder Tracking-Cookies</strong> ein. Der lokale Browserspeicher (<code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">localStorage</code>, <code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">IndexedDB</code> und Service Worker Cache) dient rein der Bereitstellung der von dir gewünschten App-Funktionen und des Offline-Betriebs (§ 25 Abs. 2 Nr. 2 TDDDG).
+          </p>
         </div>
 
-        <div>
-          <h4 class="font-bold text-white mb-1">2. Externe Dienste & Medien</h4>
-          <p>Eingebettete Medien (wie Spotify oder YouTube) unterliegen den Datenschutzbestimmungen der jeweiligen Anbieter und werden nur auf deine ausdrückliche Interaktion hin geladen.</p>
+        <!-- 2. Hardware-Zugriffe (Kamera, Mikrofon, Audio) -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.025] border border-white/10 space-y-1.5">
+          <h4 class="font-bold text-white flex items-center gap-1.5">
+            <i data-lucide="camera" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>2. Hardware-Zugriffe (Kamera, Mikrofon & Vorlesefunktion)</span>
+          </h4>
+          <ul class="list-disc pl-4 space-y-1 text-[11px] text-gray-400">
+            <li><strong>Kamera (Notiz-Scanner):</strong> Zugriff erfolgt nur bei manuellem Klick auf „Scanner“. Bilder und OCR-Texterkennung werden <strong>zu 100% lokal im Browser-Canvas</strong> verarbeitet und niemals hochgeladen.</li>
+            <li><strong>Mikrofon (Spracheingabe):</strong> Zugriff erfolgt nur beim Antippen des Mikrofon-Buttons. Die Spracherkennung nutzt die lokale Web Speech API deines Browsers.</li>
+            <li><strong>Sprachausgabe (Text-to-Speech):</strong> Das Vorlesen von Timern oder News erfolgt geräteintern über <code class="bg-black/40 px-1 py-0.5 rounded text-amber-300">speechSynthesis</code> ohne externe Cloud-Dienste.</li>
+          </ul>
         </div>
 
-        <div>
-          <h4 class="font-bold text-white mb-1">3. Angaben gemäß § 5 TMG / Impressum</h4>
-          <p class="text-gray-400">Noodle Studio — Entwickelt als datenschutzfreundliche Open-Web Progressive Web App.</p>
+        <!-- 3. Externe Schnittstellen (Radio, Wetter, News) -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.025] border border-white/10 space-y-1.5">
+          <h4 class="font-bold text-white flex items-center gap-1.5">
+            <i data-lucide="radio" class="w-3.5 h-3.5 text-rose-400"></i>
+            <span>3. Externe technische Dienste (Radio, Wetter & News)</span>
+          </h4>
+          <ul class="list-disc pl-4 space-y-1 text-[11px] text-gray-400">
+            <li><strong>Live-Internetradio:</strong> Beim Abspielen wird eine direkte Audioverbindung zum Server des Senders aufgebaut. Deine IP-Adresse wird hierbei technisch bedingt übertragen (Art. 6 Abs. 1 lit. b / f DSGVO). Die Sendersuche greift auf die freie Schnittstelle <code class="bg-black/40 px-1 py-0.5 rounded text-rose-300">radio-browser.info</code> zu.</li>
+            <li><strong>Wetterdaten (Open-Meteo):</strong> Wettervorhersagen werden über die datensparsame, nicht-kommerzielle Open-Meteo API bezogen. Standortsuchen erfolgen anonym über Open-Meteo Geocoding bzw. OpenStreetMap Nominatim.</li>
+            <li><strong>Nachrichten (RSS):</strong> Schlagzeilen stammen aus öffentlichen RSS-Feeds namhafter Medienhäuser (ggf. über CORS-Proxy <code class="bg-black/40 px-1 py-0.5 rounded text-rose-300">rss2json.com</code>, rein URL-bezogen ohne Nutzerbezug).</li>
+          </ul>
         </div>
+
+        <!-- 4. Optionale Cloud-Synchronisation & P2P -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.025] border border-white/10 space-y-1.5">
+          <h4 class="font-bold text-white flex items-center gap-1.5">
+            <i data-lucide="cloud" class="w-3.5 h-3.5 text-indigo-400"></i>
+            <span>4. Optionale Cloud-Synchronisation & P2P-Kopplung</span>
+          </h4>
+          <p class="text-[11px] text-gray-400 leading-relaxed">
+            Die Cloud-Synchronisation ist rein freiwillig. Aktivierst du sie, erfolgt die passwortlose Authentifizierung über <strong>Supabase Inc.</strong> (Serverstandort EU / Art. 46 DSGVO Standardvertragsklauseln). Bei der QR-Code-Direktkopplung werden Daten Ende-zu-Ende direkt zwischen deinen Endgeräten (WebRTC P2P) übertragen.
+          </p>
+        </div>
+
+        <!-- 5. Reichweitenmessung (Umami) mit Opt-Out -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
+          <div class="flex items-center justify-between">
+            <h4 class="font-bold text-white flex items-center gap-1.5">
+              <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>5. Anonyme Web-Analyse (Umami) & Widerspruchsrecht</span>
+            </h4>
+            <span class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-white/5 text-gray-400">GitHub Pages</span>
+          </div>
+          <p class="text-[11px] text-gray-400 leading-relaxed">
+            Auf der gehosteten Webversion nutzen wir <strong>Umami Analytics</strong>. Es ist 100% cookie-frei, anonymisiert deine IP-Adresse und respektiert <em>Do Not Track (DNT)</em> automatisch.
+          </p>
+          <div class="pt-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5">
+            <span class="text-[10px] text-gray-300">Status für diesen Browser:</span>
+            <button onclick="toggleUmamiOptOut()" class="umami-optout-btn px-3 py-1 rounded-xl text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition cursor-pointer shrink-0">
+              <span class="flex items-center gap-1">
+                <i data-lucide="eye" class="w-3 h-3 text-emerald-400"></i>
+                <span>Analyse aktiv – Klick für Opt-Out</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 6. Deine Betroffenenrechte (Art. 15–22 DSGVO) -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.025] border border-white/10 space-y-1.5">
+          <h4 class="font-bold text-white flex items-center gap-1.5">
+            <i data-lucide="user-check" class="w-3.5 h-3.5 text-blue-400"></i>
+            <span>6. Deine Betroffenenrechte (DSGVO)</span>
+          </h4>
+          <p class="text-[11px] text-gray-400 leading-relaxed">
+            Du hast jederzeit das Recht auf <strong>Datenübertragbarkeit / Export</strong> (JSON-Backup mit 1 Klick), <strong>vollständige Löschung</strong> (1-Klick-Reset leert alle lokalen Datenbanken restlos), <strong>Auskunft</strong> (Art. 15 DSGVO) sowie Beschwerde bei einer Aufsichtsbehörde (Art. 77 DSGVO).
+          </p>
+        </div>
+
+        <!-- 7. Impressum (§ 5 DDG) -->
+        <div class="p-3.5 rounded-2xl bg-white/[0.025] border border-white/10 space-y-1.5">
+          <h4 class="font-bold text-white flex items-center gap-1.5">
+            <i data-lucide="building" class="w-3.5 h-3.5 text-purple-400"></i>
+            <span>7. Impressum (§ 5 Digitale-Dienste-Gesetz - DDG)</span>
+          </h4>
+          <div class="text-[11px] text-gray-400 space-y-0.5">
+            <p><strong class="text-white">Noodle</strong> — Freie Open-Web Progressive Web App.</p>
+            <p><strong>Diensteanbieter / Betreiber:</strong> Noodle Entwicklerteam & Open-Source-Gemeinschaft.</p>
+            <p><strong>Kontakt:</strong> <a href="mailto:support@noodlestudio.app" class="text-purple-300 hover:underline">support@noodlestudio.app</a> · <a href="https://github.com/cableblues/noodle" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:underline">github.com/cableblues/noodle</a></p>
+            <p class="pt-1 text-[10px] text-gray-400">EU-Streitschlichtung gemäß Art. 14 Abs. 1 ODR-VO: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:underline">ec.europa.eu/consumers/odr</a> (§ 36 VSBG).</p>
+          </div>
+        </div>
+
       </div>
 
-      <div class="border-t border-white/10 pt-3 flex justify-end">
-        <button onclick="closePrivacyModal()" class="px-5 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold text-xs transition cursor-pointer">
+      <!-- Modal Footer -->
+      <div class="border-t border-white/10 pt-3 flex items-center justify-between gap-2">
+        <button onclick="closePrivacyModal(); if(typeof openSettingsModal==='function') { openSettingsModal(); switchSettingsTab('privacy'); }" class="px-3.5 py-2 bg-white/5 hover:bg-white/10 text-purple-300 hover:text-white rounded-xl font-semibold text-xs transition cursor-pointer flex items-center gap-1.5">
+          <i data-lucide="settings" class="w-3.5 h-3.5"></i>
+          <span>Vollständige Einstellungen</span>
+        </button>
+        <button onclick="closePrivacyModal()" class="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-semibold text-xs transition cursor-pointer shadow-lg shadow-purple-900/30">
           Verstanden & Schließen
         </button>
       </div>
+
     </div>
   </div>
 

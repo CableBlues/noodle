@@ -1,7 +1,14 @@
 
-// =========================================================================
-// MOVEMENT HISTORY & LOG TRACKING ENGINE
-// =========================================================================
+/**
+ * @file sport.js
+ * @module SportAndMovementEngine
+ * @description
+ * Modulares Bewegungs- und Home-Workout-System (`#helper-sport-modal`):
+ * - Vorgefertigte Kurzprogramme ohne Geräte (Presets)
+ * - Individueller Workout-Baukasten (Dauer, Fokus-Zone, Equipment, Nachbarschafts-Modus)
+ * - Durchsuchbares Übungs-Lexikon und 1–3-Löffel-Einzelimpulse
+ * - Interaktiver Intervall-Player mit Verlaufsspeicherung (`noodle_movement_history_v1`)
+ */
 const MOVEMENT_HISTORY_KEY = 'noodle_movement_history_v1';
 
 function getMovementHistory() {
@@ -55,7 +62,7 @@ function clearAllMovementHistory() {
     localStorage.removeItem(MOVEMENT_HISTORY_KEY);
     renderMovementHistoryUI();
     if (typeof showToast === 'function') {
-      showToast('🗑️ Bewegungs-Tagebuch geleert');
+      showToast('Bewegungs-Tagebuch geleert.');
     }
   } catch (e) {}
 }
@@ -88,7 +95,7 @@ function renderMovementHistoryUI() {
   listEl.innerHTML = history.map(item => `
     <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 transition flex items-center justify-between gap-3">
       <div class="flex items-center gap-2.5 min-w-0">
-        <div class="w-8 h-8 rounded-xl bg-lime-500/15 border border-lime-500/30 flex items-center justify-center text-lime-300 shrink-0 text-xs">
+        <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0 text-xs">
           🏃
         </div>
         <div class="min-w-0">
@@ -97,7 +104,7 @@ function renderMovementHistoryUI() {
         </div>
       </div>
       <div class="flex items-center gap-2 shrink-0">
-        <span class="px-2 py-0.5 rounded-md bg-lime-500/20 text-lime-300 text-[10px] font-mono font-bold border border-lime-500/30">${item.durationMinutes} Min</span>
+        <span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">${item.durationMinutes} Min</span>
         <button onclick="deleteMovementHistoryItem('${item.id}')" class="p-1 rounded-lg text-gray-500 hover:text-rose-400 hover:bg-white/10 transition cursor-pointer" title="Eintrag löschen">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
         </button>
@@ -842,7 +849,7 @@ function switchSportTab(tabId) {
     }
     if (btn) {
       if (t === tabId) {
-        btn.className = "flex-1 py-1.5 px-2 rounded-xl font-bold text-xs bg-lime-500/20 text-lime-300 border border-lime-400/50 shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer";
+        btn.className = "flex-1 py-1.5 px-2 rounded-xl font-bold text-xs bg-emerald-500/20 text-emerald-300 border border-emerald-400/50 shadow-sm transition flex items-center justify-center gap-1.5 cursor-pointer";
       } else {
         btn.className = "flex-1 py-1.5 px-2 rounded-xl font-semibold text-xs text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition flex items-center justify-center gap-1.5 cursor-pointer";
       }
@@ -862,7 +869,8 @@ function updateMovementStatsBadge() {
   const badge = document.getElementById('sport-stats-badge');
   if (!badge) return;
   const stats = getMovementStats();
-  badge.innerHTML = `🔥 ${stats.totalMinutes} Min · ${stats.completedWorkouts} Workouts`;
+  badge.innerHTML = `<span class="flex items-center gap-1"><i data-lucide="flame" class="w-3 h-3 text-emerald-400"></i><span>${stats.totalMinutes} Min · ${stats.completedWorkouts} Workouts</span></span>`;
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 // =========================================================================
@@ -880,27 +888,27 @@ function renderWorkoutPresets() {
     const count = preset.exerciseIds.length;
 
     return `
-      <div onclick="startSportPreset('${preset.id}')" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-lime-500/10 border border-white/10 hover:border-lime-500/40 transition-all duration-200 cursor-pointer flex flex-col justify-between gap-2.5 group/card hover:scale-[1.015] active:scale-[0.985] shadow-sm">
+      <div onclick="startSportPreset('${preset.id}')" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/40 transition-all duration-200 cursor-pointer flex flex-col justify-between gap-2.5 group/card hover:scale-[1.015] active:scale-[0.985] shadow-sm">
         <div class="flex items-start justify-between gap-2">
           <div class="flex items-center gap-2">
-            <div class="w-8 h-8 rounded-xl bg-lime-500/15 border border-lime-500/30 flex items-center justify-center text-lime-300 group-hover/card:scale-110 transition-transform">
+            <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-300 group-hover/card:scale-110 transition-transform">
               <i data-lucide="${preset.icon}" class="w-4 h-4"></i>
             </div>
             <div>
-              <h4 class="text-xs font-bold text-white group-hover/card:text-lime-200 transition-colors font-display">${title}</h4>
+              <h4 class="text-xs font-bold text-white group-hover/card:text-emerald-200 transition-colors font-display">${title}</h4>
               <p class="text-[10px] text-gray-400 line-clamp-1">${subtitle}</p>
             </div>
           </div>
-          <span class="px-2 py-0.5 rounded-full bg-lime-500/20 text-lime-300 text-[10px] font-mono font-bold border border-lime-500/30 shrink-0">${preset.durationMin} Min</span>
+          <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30 shrink-0">${preset.durationMin} Min</span>
         </div>
 
         <div class="flex items-center justify-between pt-2 border-t border-white/5 text-[10px] text-gray-400">
           <span class="flex items-center gap-1">
-            <i data-lucide="layers" class="w-3 h-3 text-lime-400"></i>
+            <i data-lucide="layers" class="w-3 h-3 text-emerald-400"></i>
             <span>${count} Übungen · ${preset.workSec}s / ${preset.restSec}s</span>
           </span>
-          <button class="px-2.5 py-1 rounded-lg bg-lime-500 hover:bg-lime-400 text-black font-bold text-[10px] transition flex items-center gap-1 shadow-sm">
-            <i data-lucide="play" class="w-3 h-3 fill-black"></i>
+          <button class="px-2.5 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] transition flex items-center gap-1 shadow-sm">
+            <i data-lucide="play" class="w-3 h-3 fill-slate-950"></i>
             <span>Start</span>
           </button>
         </div>
@@ -966,7 +974,7 @@ function updateCustomWorkoutPreview() {
     return `
       <div class="p-2 rounded-xl bg-white/[0.02] border border-white/5 flex items-center justify-between gap-2 text-xs">
         <div class="flex items-center gap-2 min-w-0">
-          <span class="w-5 h-5 rounded-md bg-lime-500/20 text-lime-300 font-mono text-[10px] font-bold flex items-center justify-center shrink-0">${i + 1}</span>
+          <span class="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-300 font-mono text-[10px] font-bold flex items-center justify-center shrink-0">${i + 1}</span>
           <span class="font-semibold text-gray-200 truncate">${name}</span>
         </div>
         <span class="text-[9.5px] font-mono text-gray-400 shrink-0">${muscle}</span>
@@ -1056,17 +1064,17 @@ function renderExerciseLibrary() {
       : tr({ de: '⚡ Körpergewicht', en: '⚡ Bodyweight', fr: '⚡ Poids du corps', it: '⚡ Corpo libero', es: '⚡ Peso corporal', el: '⚡ Σωματικό βάρος' });
 
     return `
-      <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.06] border border-white/10 hover:border-lime-500/40 transition flex items-center justify-between gap-3">
+      <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.06] border border-white/10 hover:border-emerald-500/40 transition flex items-center justify-between gap-3">
         <div class="space-y-1 min-w-0 flex-1">
           <div class="flex items-center gap-2 flex-wrap">
             <h4 class="text-xs font-bold text-white font-display">${name}</h4>
-            <span class="px-1.5 py-0.2 rounded-md bg-lime-500/15 border border-lime-500/30 text-[9px] font-mono text-lime-300 font-bold">${equipLabel}</span>
+            <span class="px-1.5 py-0.2 rounded-md bg-emerald-500/15 border border-emerald-500/30 text-[9px] font-mono text-emerald-300 font-bold">${equipLabel}</span>
             <span class="px-1.5 py-0.2 rounded-md bg-white/5 text-[9px] font-mono text-gray-400">${muscle}</span>
           </div>
           <p class="text-[11px] text-gray-300 leading-relaxed line-clamp-2">${desc}</p>
         </div>
-        <button onclick="startSingleExerciseNow('${ex.id}')" class="px-3 py-1.5 rounded-xl bg-lime-500/20 hover:bg-lime-500/30 text-lime-300 border border-lime-400/40 text-xs font-bold transition flex items-center gap-1 shrink-0 cursor-pointer shadow-xs" title="Übung sofort starten">
-          <i data-lucide="play" class="w-3.5 h-3.5 fill-lime-300"></i>
+        <button onclick="startSingleExerciseNow('${ex.id}')" class="px-3 py-1.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 text-xs font-bold transition flex items-center gap-1 shrink-0 cursor-pointer shadow-xs" title="Übung sofort starten">
+          <i data-lucide="play" class="w-3.5 h-3.5 fill-emerald-300"></i>
           <span>Start</span>
         </button>
       </div>
@@ -1185,7 +1193,7 @@ function updateWorkoutPlayerUI() {
 
   if (activeRoutineState === 'work') {
     if (stateBadgeEl) {
-      stateBadgeEl.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-lime-500/25 text-lime-300 border border-lime-400/40 animate-pulse";
+      stateBadgeEl.className = "px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/25 text-emerald-300 border border-emerald-400/40 animate-pulse";
       stateBadgeEl.innerText = getSportT('ready_set_go');
     }
     if (exNameEl) exNameEl.innerText = currentEx.name[lang] || currentEx.name['de'];
@@ -1205,7 +1213,7 @@ function updateWorkoutPlayerUI() {
     if (nextEx) {
       nextUpBoxEl.classList.remove('hidden');
       const nextTitle = nextEx.name[lang] || nextEx.name['de'];
-      nextUpBoxEl.innerHTML = `<span class="text-gray-400 font-normal">${getSportT('next_up')}</span> <span class="text-lime-200 font-bold">${nextTitle}</span>`;
+      nextUpBoxEl.innerHTML = `<span class="text-gray-400 font-normal">${getSportT('next_up')}</span> <span class="text-emerald-200 font-bold">${nextTitle}</span>`;
     } else {
       nextUpBoxEl.classList.add('hidden');
     }
@@ -1227,11 +1235,11 @@ function toggleWorkoutAudio(type) {
   if (activeRoutineAudio === type) {
     if (typeof stopAmbientSound === 'function') stopAmbientSound();
     activeRoutineAudio = 'none';
-    showToast('🎵 Workout-Sound stummgeschaltet');
+    showToast('Workout-Sound stummgeschaltet.');
   } else {
     activeRoutineAudio = type;
     playAmbientSound(type === 'beats' ? 'synth' : type === 'lofi' ? 'cafe' : 'stream', true);
-    showToast(`🎵 Workout-Sound: ${type}`);
+    showToast(`Workout-Sound: ${type}`);
   }
 }
 
@@ -1304,12 +1312,6 @@ function completeWorkoutRoutine() {
   if (typeof playProceduralSound === 'function') {
     playProceduralSound(0);
   }
-  if (typeof triggerConfetti === 'function') {
-    triggerConfetti();
-  }
-  if (typeof showPraise === 'function') {
-    showPraise();
-  }
 
   showToast(getSportT('workout_completed'));
 
@@ -1338,7 +1340,7 @@ function generateSportSuggestion() {
     box.innerHTML = `
       <h4 class="text-white font-bold text-sm font-display mb-1">${randomExercise.name}</h4>
       <p class="text-xs text-gray-300 leading-relaxed font-semibold">${randomExercise.desc}</p>
-      <div class="flex items-center justify-center gap-1.5 pt-2 text-[10px] text-lime-400 font-bold uppercase tracking-wider">
+      <div class="flex items-center justify-center gap-1.5 pt-2 text-[10px] text-emerald-400 font-bold uppercase tracking-wider">
         <i data-lucide="clock" class="w-3.5 h-3.5"></i>
         <span>${randomExercise.duration}s</span>
       </div>

@@ -32,7 +32,7 @@
     // 🇩🇪 Freie & unabhängige Sender / Region DE (Schwerpunkt progressive/freie Medien)
     { id: 'corax', name: 'Radio Corax (Freies Radio)', searchQuery: 'Radio Corax', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Freies Radio Halle – Politik, Subkultur & Diskurse', stream: 'https://streaming.fueralle.org/corax_256.mp3', streams: ['https://streaming.fueralle.org/corax_256.mp3', 'https://stream1.datenkollektiv.net/corax_256.mp3', 'https://streaming.fueralle.org/corax_128.mp3', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '📻' },
     { id: 'dreyeckland', name: 'Radio Dreyeckland', searchQuery: 'Radio Dreyeckland', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Ältestes freies Radio Deutschlands (Freiburg)', stream: 'https://stream.rdl.de/rdl', streams: ['https://stream.rdl.de/rdl', 'https://streaming.fueralle.org/frs-hi.mp3', 'https://streaming.fueralle.org/corax_256.mp3', 'https://liveradio.swr.de/sw282p3/swraktuell/play.mp3'], logo: '🎙️' },
-    { id: 'fsk', name: 'FSK Hamburg (Freies Sender Kombinat)', searchQuery: 'FSK Hamburg', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Nicht-kommerzielles emanzipatorisches Radio', stream: 'https://streaming.fueralle.org/fsk.ogg', streams: ['https://streaming.fueralle.org/fsk.ogg', 'https://streaming.fueralle.org/corax_256.mp3', 'https://stream.querfunk.de/qfhi', 'https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3'], logo: '📢' },
+    { id: 'fsk', name: 'FSK Hamburg (Freies Sender Kombinat)', searchQuery: 'FSK Hamburg', category: 'independent', country: 'de', flag: '🇩🇪', desc: 'Nicht-kommerzielles emanzipatorisches Radio', stream: 'https://stream.querfunk.de/qfhi', streams: ['https://stream.querfunk.de/qfhi', 'https://streaming.fueralle.org/corax_256.mp3', 'https://streaming.fueralle.org/fsk.ogg'], logo: '📢' },
     { id: 'dlf', name: 'Deutschlandfunk', searchQuery: 'Deutschlandfunk', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Nachrichten, Politik, Wissen & Kultur', stream: 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', streams: ['https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3', 'https://st02.sslstream.dlf.de/dlf/02/128/mp3/stream.mp3', 'https://st03.sslstream.dlf.de/dlf/03/128/mp3/stream.mp3', 'https://dispatcher.rndfnk.com/br/br24/live/mp3/mid'], logo: '📻' },
     { id: 'ndrinfo', name: 'NDR Info', searchQuery: 'NDR Info', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Das Informationsradio für den Norden', stream: 'https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', streams: ['https://icecast.ndr.de/ndr/ndrinfo/hamburg/mp3/128/stream.mp3', 'https://icecast.ndr.de/ndr/ndrinfo/niedersachsen/mp3/128/stream.mp3', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '🎙️' },
     { id: 'wdr5', name: 'WDR 5', searchQuery: 'WDR 5', category: 'news', country: 'de', flag: '🇩🇪', desc: 'Tiefgang, Analysen & Wissensmagazine', stream: 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', streams: ['https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/128/stream.mp3', 'https://wdr-wdr5-live.icecastssl.wdr.de/wdr/wdr5/live/mp3/64/stream.mp3', 'https://st01.sslstream.dlf.de/dlf/01/128/mp3/stream.mp3'], logo: '🎙️' },
@@ -49,14 +49,15 @@
 
     // 🇬🇧 UK & 🇺🇸 USA (Inkl. Progressive / Independent Media)
     { id: 'democracynow', name: 'Democracy Now! Audio', searchQuery: 'KPFA', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Independent global daily news with Amy Goodman', stream: 'https://streams.kpfa.org:8443/kpfa', streams: ['https://streams.kpfa.org:8443/kpfa', 'https://streams.kpfa.org:8443/kpfa_64', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🗽' },
-    { id: 'wbai', name: 'Pacifica Radio WBAI New York', searchQuery: 'WBAI', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Listener-sponsored progressive independent radio', stream: 'https://streams.kpfa.org:8443/kpfa', streams: ['https://streams.kpfa.org:8443/kpfa', 'http://stream.wbai.org:8000/wbai_128', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🗽' },
+    { id: 'wbai', name: 'Pacifica Radio WBAI New York', searchQuery: 'WBAI', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Listener-sponsored progressive independent radio', stream: 'https://streams.kpfa.org:8443/kpfa', streams: ['https://streams.kpfa.org:8443/kpfa', 'https://kexp.streamguys1.com/kexp128.mp3', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🗽' },
+    { id: 'kexp', name: 'KEXP 90.3 FM Seattle', searchQuery: 'KEXP', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Unabhängige Musikkultur & Live-Sessions', stream: 'https://kexp.streamguys1.com/kexp128.mp3', streams: ['https://kexp.streamguys1.com/kexp128.mp3', 'https://ice1.somafm.com/groovesalad-128-mp3'], logo: '🎸' },
     { id: 'bbcworld', name: 'BBC World Service', searchQuery: 'BBC World Service', category: 'news', country: 'uk', flag: '🇬🇧', desc: 'Global news, reports & analysis', stream: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', streams: ['https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🌍' },
     { id: 'npr', name: 'NPR 24/7 News', searchQuery: 'NPR', category: 'news', country: 'us', flag: '🇺🇸', desc: 'National Public Radio Live Stream', stream: 'https://npr-ice.streamguys1.com/live.mp3', streams: ['https://npr-ice.streamguys1.com/live.mp3', 'https://streams.kpfa.org:8443/kpfa', 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service'], logo: '🌐' },
 
     // 🇫🇷 Frankreich & 🇪🇸 Spanien & 🇮🇹 Italien & 🇬🇷 Griechenland
-    { id: 'radiocanut', name: 'Radio Canut Lyon', searchQuery: 'Radio Canut', category: 'independent', country: 'fr', flag: '🇫🇷', desc: 'La plus rebelle des radios libres (Lyon)', stream: 'https://live.aurafm.org/radiocanut', streams: ['https://live.aurafm.org/radiocanut', 'https://icecast.radiofrance.fr/fip-midfi.mp3', 'https://icecast.radiofrance.fr/franceinter-midfi.mp3'], logo: '🇫🇷' },
+    { id: 'fip', name: 'FIP Radio (Radio France)', searchQuery: 'FIP Radio', category: 'independent', country: 'fr', flag: '🇫🇷', desc: 'Freies Kultur-, Jazz- & Groove-Radio Paris', stream: 'https://icecast.radiofrance.fr/fip-midfi.mp3', streams: ['https://icecast.radiofrance.fr/fip-midfi.mp3', 'https://icecast.radiofrance.fr/franceinter-midfi.mp3', 'https://icecast.radiofrance.fr/franceculture-midfi.mp3'], logo: '🇫🇷' },
     { id: 'franceinfo', name: 'France Info Live', searchQuery: 'franceinfo', category: 'news', country: 'fr', flag: '🇫🇷', desc: 'Actualités en direct et informations 24/7', stream: 'https://icecast.radiofrance.fr/franceinfo-midfi.mp3', streams: ['https://icecast.radiofrance.fr/franceinfo-midfi.mp3', 'https://icecast.radiofrance.fr/franceinter-midfi.mp3', 'https://icecast.radiofrance.fr/franceculture-midfi.mp3'], logo: '🇫🇷' },
-    { id: 'radiovallekas', name: 'Radio Vallekas Madrid', searchQuery: 'Cadena SER', category: 'independent', country: 'es', flag: '🇪🇸', desc: 'Radio comunitaria y libre de Madrid', stream: 'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3', streams: ['https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3', 'https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', 'https://dispatcher.rndfnk.com/crtve/rne5/mad/mp3/high'], logo: '🇪🇸' },
+    { id: 'radiovallekas', name: 'Radio Vallekas Madrid', searchQuery: 'Cadena SER', category: 'independent', country: 'es', flag: '🇪🇸', desc: 'Radio comunitaria y libre de Madrid', stream: 'https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', streams: ['https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', 'https://dispatcher.rndfnk.com/crtve/rne5/mad/mp3/high', 'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3'], logo: '🇪🇸' },
     { id: 'rne', name: 'Radio Nacional España', searchQuery: 'RNE Radio Nacional', category: 'news', country: 'es', flag: '🇪🇸', desc: 'Noticias y actualidad en directo', stream: 'https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', streams: ['https://dispatcher.rndfnk.com/crtve/rne1/mad/mp3/high', 'https://dispatcher.rndfnk.com/crtve/rne5/mad/mp3/high', 'https://playerservices.streamtheworld.com/api/livestream-redirect/CADENASER.mp3'], logo: '🇪🇸' },
     { id: 'radiopopolare', name: 'Radio Popolare Milano', searchQuery: 'Radio Popolare', category: 'independent', country: 'it', flag: '🇮🇹', desc: 'Informazione libera, critica e indipendente', stream: 'https://livex.radiopopolare.it/radiopop2', streams: ['https://livex.radiopopolare.it/radiopop2', 'https://icestreaming.rai.it/3.mp3', 'https://icestreaming.rai.it/1.mp3'], logo: '🇮🇹' },
     { id: 'rai1', name: 'Rai Radio 1', searchQuery: 'Rai Radio 1', category: 'news', country: 'it', flag: '🇮🇹', desc: 'Informazione e approfondimenti 24h', stream: 'https://icestreaming.rai.it/1.mp3', streams: ['https://icestreaming.rai.it/1.mp3', 'https://icestreaming.rai.it/2.mp3', 'https://livex.radiopopolare.it/radiopop2'], logo: '🇮🇹' },
@@ -2093,14 +2094,22 @@
               freshUrls.forEach(u => candidates.push(u));
               tryStreamCandidate(candidateIndex);
             } else {
+              stationSignalStatus.set(station.id, 'offline');
               startFallbackRadioSignal(station);
+              if (onlyActiveSignalFilter) renderRadioPanelContent();
             }
           }).catch(() => {
-            if (sessionId === radioPlaySessionId) startFallbackRadioSignal(station);
+            if (sessionId === radioPlaySessionId) {
+              stationSignalStatus.set(station.id, 'offline');
+              startFallbackRadioSignal(station);
+              if (onlyActiveSignalFilter) renderRadioPanelContent();
+            }
           });
           return;
         }
+        stationSignalStatus.set(station.id, 'offline');
         startFallbackRadioSignal(station);
+        if (onlyActiveSignalFilter) renderRadioPanelContent();
         return;
       }
 
@@ -2143,6 +2152,7 @@
         if (hasLockedSignal) return;
         hasLockedSignal = true;
         station.activeStream = streamUrl;
+        stationSignalStatus.set(station.id, 'active');
         isRadioPlaying = true;
         window.isRadioPlaying = true;
 
@@ -4292,6 +4302,113 @@
     { id: 'news', label: '🎙️ News & Info' },
     { id: 'music', label: '🎶 Musik' }
   ];
+  // 1.8 SIGNAL-STATUS TRACKING & PROBING (Nur Sender mit aktivem Signal zeigen)
+  const stationSignalStatus = new Map(); // stationId -> 'active' | 'offline'
+  let onlyActiveSignalFilter = true; // Vorgabe: Nur Sender mit aktivem Signal zeigen
+
+  function toggleOnlyActiveFilter() {
+    onlyActiveSignalFilter = !onlyActiveSignalFilter;
+    const btn = document.getElementById('radio-only-active-toggle');
+    const text = document.getElementById('radio-only-active-text');
+    if (btn) {
+      if (onlyActiveSignalFilter) {
+        btn.className = 'px-1.5 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 transition cursor-pointer bg-emerald-500/20 text-emerald-300 border border-emerald-500/35 hover:bg-emerald-500/30';
+        if (text) text.textContent = 'Aktives Signal';
+      } else {
+        btn.className = 'px-1.5 py-0.5 rounded-full text-[9px] font-bold flex items-center gap-1 transition cursor-pointer bg-white/5 text-gray-400 border border-white/10 hover:bg-white/10';
+        if (text) text.textContent = 'Alle Sender';
+      }
+    }
+    renderRadioPanelContent();
+  }
+
+  function probeAllStationsSignal() {
+    if (typeof window === 'undefined' || (typeof navigator !== 'undefined' && !navigator.onLine)) return;
+    RADIO_STATIONS.forEach(station => {
+      if (stationSignalStatus.has(station.id)) return;
+      probeStationSignal(station);
+    });
+  }
+
+  function probeStationSignal(station) {
+    if (!station || !station.stream) {
+      stationSignalStatus.set(station.id, 'offline');
+      return;
+    }
+    if (!stationSignalStatus.has(station.id)) {
+      stationSignalStatus.set(station.id, 'active');
+    }
+
+    const testAudio = new Audio();
+    testAudio.preload = 'metadata';
+    let resolved = false;
+
+    const cleanup = () => {
+      resolved = true;
+      testAudio.oncanplay = null;
+      testAudio.onloadedmetadata = null;
+      testAudio.onerror = null;
+      try { testAudio.src = ''; testAudio.removeAttribute('src'); } catch(e) {}
+    };
+
+    const timer = setTimeout(() => {
+      if (resolved) return;
+      cleanup();
+    }, 4000);
+
+    testAudio.oncanplay = testAudio.onloadedmetadata = () => {
+      if (resolved) return;
+      clearTimeout(timer);
+      cleanup();
+      stationSignalStatus.set(station.id, 'active');
+    };
+
+    testAudio.onerror = () => {
+      if (resolved) return;
+      clearTimeout(timer);
+      cleanup();
+      if (Array.isArray(station.streams) && station.streams.length > 1) {
+        const altStream = station.streams[1];
+        const altAudio = new Audio();
+        altAudio.preload = 'metadata';
+        let altResolved = false;
+        const altTimer = setTimeout(() => {
+          if (altResolved) return;
+          altResolved = true;
+          try { altAudio.src = ''; } catch(e) {}
+        }, 3000);
+        altAudio.oncanplay = altAudio.onloadedmetadata = () => {
+          if (altResolved) return;
+          altResolved = true;
+          clearTimeout(altTimer);
+          station.activeStream = altStream;
+          stationSignalStatus.set(station.id, 'active');
+          try { altAudio.src = ''; } catch(e) {}
+        };
+        altAudio.onerror = () => {
+          if (altResolved) return;
+          altResolved = true;
+          clearTimeout(altTimer);
+          stationSignalStatus.set(station.id, 'offline');
+          try { altAudio.src = ''; } catch(e) {}
+          if (onlyActiveSignalFilter) renderRadioPanelContent();
+        };
+        try { altAudio.src = altStream; } catch(e) { stationSignalStatus.set(station.id, 'offline'); }
+      } else {
+        stationSignalStatus.set(station.id, 'offline');
+        if (onlyActiveSignalFilter) renderRadioPanelContent();
+      }
+    };
+
+    try {
+      testAudio.src = station.stream;
+    } catch(e) {
+      clearTimeout(timer);
+      cleanup();
+      stationSignalStatus.set(station.id, 'offline');
+    }
+  }
+
   let radioFilterCategory = 'all';
   let radioSearchQuery = '';
 
@@ -4366,6 +4483,10 @@
       ...internationalStations
     ];
 
+    if (onlyActiveSignalFilter) {
+      list = list.filter(s => stationSignalStatus.get(s.id) !== 'offline');
+    }
+
     if (radioFilterCategory && radioFilterCategory !== 'all') {
       list = list.filter(s => s.category === radioFilterCategory);
     }
@@ -4383,6 +4504,80 @@
     return list;
   }
 
+  const RADIO_STATION_PALETTES = {
+    purple: {
+      card: 'bg-purple-950/25 hover:bg-purple-900/35 border-purple-500/30 hover:border-purple-400/50 shadow-[0_0_10px_rgba(168,85,247,0.12)]',
+      logo: 'bg-purple-500/20 text-purple-200 border-purple-400/35 shadow-xs',
+      title: 'text-white group-hover:text-purple-200',
+      btn: 'bg-purple-500/15 text-purple-300 group-hover:bg-purple-500 group-hover:text-white border border-purple-500/30',
+      activeBorder: 'border-purple-400/70 shadow-[0_0_14px_rgba(168,85,247,0.35)]'
+    },
+    cyan: {
+      card: 'bg-cyan-950/25 hover:bg-cyan-900/35 border-cyan-500/30 hover:border-cyan-400/50 shadow-[0_0_10px_rgba(6,182,212,0.12)]',
+      logo: 'bg-cyan-500/20 text-cyan-200 border-cyan-400/35 shadow-xs',
+      title: 'text-white group-hover:text-cyan-200',
+      btn: 'bg-cyan-500/15 text-cyan-300 group-hover:bg-cyan-500 group-hover:text-white border border-cyan-500/30',
+      activeBorder: 'border-cyan-400/70 shadow-[0_0_14px_rgba(6,182,212,0.35)]'
+    },
+    emerald: {
+      card: 'bg-emerald-950/25 hover:bg-emerald-900/35 border-emerald-500/30 hover:border-emerald-400/50 shadow-[0_0_10px_rgba(16,185,129,0.12)]',
+      logo: 'bg-emerald-500/20 text-emerald-200 border-emerald-400/35 shadow-xs',
+      title: 'text-white group-hover:text-emerald-200',
+      btn: 'bg-emerald-500/15 text-emerald-300 group-hover:bg-emerald-500 group-hover:text-white border border-emerald-500/30',
+      activeBorder: 'border-emerald-400/70 shadow-[0_0_14px_rgba(16,185,129,0.35)]'
+    },
+    amber: {
+      card: 'bg-amber-950/25 hover:bg-amber-900/35 border-amber-500/30 hover:border-amber-400/50 shadow-[0_0_10px_rgba(245,158,11,0.12)]',
+      logo: 'bg-amber-500/20 text-amber-200 border-amber-400/35 shadow-xs',
+      title: 'text-white group-hover:text-amber-200',
+      btn: 'bg-amber-500/15 text-amber-300 group-hover:bg-amber-500 group-hover:text-slate-950 border border-amber-500/30',
+      activeBorder: 'border-amber-400/70 shadow-[0_0_14px_rgba(245,158,11,0.35)]'
+    },
+    rose: {
+      card: 'bg-rose-950/25 hover:bg-rose-900/35 border-rose-500/30 hover:border-rose-400/50 shadow-[0_0_10px_rgba(244,63,94,0.12)]',
+      logo: 'bg-rose-500/20 text-rose-200 border-rose-400/35 shadow-xs',
+      title: 'text-white group-hover:text-rose-200',
+      btn: 'bg-rose-500/15 text-rose-300 group-hover:bg-rose-500 group-hover:text-white border border-rose-500/30',
+      activeBorder: 'border-rose-400/70 shadow-[0_0_14px_rgba(244,63,94,0.35)]'
+    },
+    indigo: {
+      card: 'bg-indigo-950/25 hover:bg-indigo-900/35 border-indigo-500/30 hover:border-indigo-400/50 shadow-[0_0_10px_rgba(99,102,241,0.12)]',
+      logo: 'bg-indigo-500/20 text-indigo-200 border-indigo-400/35 shadow-xs',
+      title: 'text-white group-hover:text-indigo-200',
+      btn: 'bg-indigo-500/15 text-indigo-300 group-hover:bg-indigo-500 group-hover:text-white border border-indigo-500/30',
+      activeBorder: 'border-indigo-400/70 shadow-[0_0_14px_rgba(99,102,241,0.35)]'
+    }
+  };
+
+  const GENRE_PILL_THEMES = {
+    all: { active: 'bg-purple-500/30 text-purple-100 border-purple-400/60 shadow-xs', badge: 'bg-purple-400 text-slate-950 font-black' },
+    focus: { active: 'bg-indigo-500/30 text-indigo-100 border-indigo-400/60 shadow-xs', badge: 'bg-indigo-400 text-slate-950 font-black' },
+    independent: { active: 'bg-emerald-500/30 text-emerald-100 border-emerald-400/60 shadow-xs', badge: 'bg-emerald-400 text-slate-950 font-black' },
+    news: { active: 'bg-sky-500/30 text-sky-100 border-sky-400/60 shadow-xs', badge: 'bg-sky-400 text-slate-950 font-black' },
+    music: { active: 'bg-amber-500/30 text-amber-100 border-amber-400/60 shadow-xs', badge: 'bg-amber-400 text-slate-950 font-black' }
+  };
+
+  function getStationColorPalette(station, index) {
+    if (station.category === 'focus') {
+      const keys = ['indigo', 'purple', 'cyan'];
+      return RADIO_STATION_PALETTES[keys[index % keys.length]];
+    }
+    if (station.category === 'independent') {
+      const keys = ['emerald', 'cyan', 'emerald'];
+      return RADIO_STATION_PALETTES[keys[index % keys.length]];
+    }
+    if (station.category === 'news') {
+      const keys = ['cyan', 'indigo', 'purple'];
+      return RADIO_STATION_PALETTES[keys[index % keys.length]];
+    }
+    if (station.category === 'music') {
+      const keys = ['amber', 'rose', 'purple'];
+      return RADIO_STATION_PALETTES[keys[index % keys.length]];
+    }
+    const allKeys = ['purple', 'cyan', 'emerald', 'amber', 'rose', 'indigo'];
+    return RADIO_STATION_PALETTES[allKeys[index % allKeys.length]];
+  }
+
   function renderRadioPanelContent() {
     // 1. Timer-Kopplung Status Badge aktualisieren
     const timerConnEl = document.getElementById('radio-timer-connected-station');
@@ -4391,18 +4586,21 @@
       timerConnEl.textContent = activeSt ? `${activeSt.flag || '📻'} ${activeSt.name}` : 'SomaFM Drone Zone';
     }
 
-    // 2. Genre-Pills aktualisieren
+    // 2. Genre-Pills aktualisieren mit abgestimmten Akzentfarben
     const pillsContainer = document.getElementById('radio-category-pills');
     if (pillsContainer) {
       pillsContainer.innerHTML = RADIO_GENRES.map(g => {
         const isActive = g.id === radioFilterCategory;
+        const theme = GENRE_PILL_THEMES[g.id] || GENRE_PILL_THEMES.all;
         const count = g.id === 'all' 
-          ? RADIO_STATIONS.length 
-          : RADIO_STATIONS.filter(s => s.category === g.id).length;
+          ? (onlyActiveSignalFilter ? RADIO_STATIONS.filter(s => stationSignalStatus.get(s.id) !== 'offline').length : RADIO_STATIONS.length)
+          : (onlyActiveSignalFilter 
+              ? RADIO_STATIONS.filter(s => s.category === g.id && stationSignalStatus.get(s.id) !== 'offline').length 
+              : RADIO_STATIONS.filter(s => s.category === g.id).length);
         return `
-          <button type="button" onclick="RadioNewsEngine.setRadioCategory('${g.id}')" class="px-2.5 py-1 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shrink-0 cursor-pointer active:scale-95 ${isActive ? 'bg-rose-500/30 text-rose-100 border border-rose-400/60 shadow-xs' : 'bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 border border-white/10'}">
+          <button type="button" onclick="RadioNewsEngine.setRadioCategory('${g.id}')" class="px-2 py-0.5 rounded-lg text-[10.5px] font-bold transition flex items-center gap-1 shrink-0 cursor-pointer active:scale-95 ${isActive ? theme.active : 'bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 border border-white/10'}">
             <span>${g.label}</span>
-            <span class="text-[9px] font-mono px-1 rounded-md ${isActive ? 'bg-rose-400 text-slate-950 font-black' : 'bg-white/10 text-gray-400'}">${count}</span>
+            <span class="text-[8.5px] font-mono px-1 rounded-md ${isActive ? theme.badge : 'bg-white/10 text-gray-400'}">${count}</span>
           </button>
         `;
       }).join('');
@@ -4415,51 +4613,61 @@
 
     const countBadge = document.getElementById('radio-stations-count');
     if (countBadge) {
-      countBadge.textContent = `${orderedStations.length} Sender`;
+      countBadge.innerHTML = `<span class="inline-flex items-center gap-1 text-emerald-400 font-bold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.8)]"></span>${orderedStations.length} Sender</span>`;
     }
 
     if (orderedStations.length === 0) {
       container.innerHTML = `
-        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/10 text-center text-xs text-gray-400 flex flex-col items-center gap-1.5">
+        <div class="col-span-full p-4 rounded-2xl bg-white/[0.02] border border-white/10 text-center text-xs text-gray-400 flex flex-col items-center gap-1.5">
           <i data-lucide="search-x" class="w-5 h-5 text-gray-500"></i>
-          <span>Kein Sender gefunden für "${typeof escapeHtml === 'function' ? escapeHtml(radioSearchQuery) : radioSearchQuery}"</span>
+          <span>Kein Sender mit Signal gefunden für "${typeof escapeHtml === 'function' ? escapeHtml(radioSearchQuery) : radioSearchQuery}"</span>
           <button type="button" onclick="RadioNewsEngine.clearRadioSearch(); RadioNewsEngine.setRadioCategory('all');" class="text-rose-300 hover:underline text-[11px] mt-1 cursor-pointer">Filter zurücksetzen</button>
         </div>
       `;
     } else {
-      container.innerHTML = orderedStations.map(s => {
+      container.innerHTML = orderedStations.map((s, idx) => {
         const isCurrent = s.id === currentStationId;
         const isLive = isCurrent && isRadioPlaying;
+        const palette = getStationColorPalette(s, idx);
+
+        let cardClasses = '';
+        let logoClasses = '';
+        let btnClasses = '';
+
+        if (isLive) {
+          cardClasses = 'bg-gradient-to-r from-rose-500/25 via-purple-500/20 to-pink-500/15 border-rose-400/80 shadow-[0_0_14px_rgba(244,63,94,0.3)] ring-1 ring-rose-400/50';
+          logoClasses = 'bg-rose-500/30 text-rose-200 border-rose-400/50 shadow-xs';
+          btnClasses = 'bg-rose-500 hover:bg-rose-600 text-white shadow-sm ring-1 ring-white/30';
+        } else if (isCurrent) {
+          cardClasses = `${palette.card} ${palette.activeBorder} ring-1 ring-cyan-400/40`;
+          logoClasses = palette.logo;
+          btnClasses = `${palette.btn} font-bold`;
+        } else {
+          cardClasses = palette.card;
+          logoClasses = palette.logo;
+          btnClasses = palette.btn;
+        }
 
         return `
-          <div onclick="RadioNewsEngine.playRadioStation('${s.id}')" class="p-2.5 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-3 group ${
-            isCurrent 
-              ? 'bg-gradient-to-r from-rose-500/20 to-purple-500/15 border-rose-400/50 shadow-md ring-1 ring-rose-400/30' 
-              : 'bg-white/[0.02] hover:bg-white/[0.06] border-white/8 hover:border-white/15'
-          }">
-            <div class="flex items-center gap-2.5 min-w-0">
-              <div class="w-8 h-8 rounded-xl flex items-center justify-center text-base shrink-0 ${
-                isCurrent ? 'bg-rose-500/25 text-rose-200 border border-rose-400/40 shadow-sm' : 'bg-white/5 text-gray-300 border border-white/10'
-              }">
-                <span>${s.logo}</span>
+          <div onclick="RadioNewsEngine.playRadioStation('${s.id}')" class="p-1.5 px-2 rounded-xl border transition cursor-pointer flex items-center justify-between gap-1.5 group select-none ${cardClasses}" title="${s.desc ? (s.name + ' – ' + s.desc) : s.name}">
+            <div class="flex items-center gap-1.5 min-w-0 flex-1">
+              <div class="w-6 h-6 rounded-lg flex items-center justify-center text-xs shrink-0 border ${logoClasses}">
+                <span>${s.logo || '📻'}</span>
               </div>
-              <div class="min-w-0">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-xs font-bold text-white group-hover:text-rose-200 transition truncate">${s.name}</span>
-                  <span class="text-[10px]">${s.flag}</span>
-                  ${isLive ? '<span class="px-1.5 py-0.2 rounded text-[8px] font-mono font-bold bg-rose-500 text-white animate-pulse">LIVE</span>' : (isCurrent ? '<span class="px-1.5 py-0.2 rounded text-[8px] font-mono font-bold bg-cyan-500/30 text-cyan-200 border border-cyan-400/40">⏱️ TIMER</span>' : '')}
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-1">
+                  <span class="text-[11px] font-bold text-white ${palette.title} transition truncate">${s.name}</span>
+                  <span class="text-[9px] shrink-0" title="${s.country}">${s.flag || ''}</span>
                 </div>
-                <p class="text-[10px] text-gray-400 truncate">${s.desc}</p>
+                <div class="flex items-center gap-1 text-[9px] text-gray-400">
+                  <span class="w-1.5 h-1.5 rounded-full ${isLive ? 'bg-rose-400 animate-ping' : 'bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.8)]'} shrink-0" title="Signal aktiv"></span>
+                  ${isLive ? '<span class="text-[7.5px] font-mono font-black text-rose-400 uppercase tracking-wider shrink-0">LIVE</span>' : (isCurrent ? '<span class="text-[7.5px] font-mono font-bold text-cyan-300 uppercase tracking-wider shrink-0">⏱️ TIMER</span>' : '')}
+                  <span class="truncate text-gray-300/80 font-medium">${s.desc || ''}</span>
+                </div>
               </div>
             </div>
-            <button class="w-7 h-7 rounded-xl flex items-center justify-center shrink-0 transition active:scale-95 ${
-              isLive 
-                ? 'bg-rose-500 hover:bg-rose-600 text-white shadow-md ring-2 ring-white/30' 
-                : isCurrent 
-                  ? 'bg-rose-500/30 text-rose-200 border border-rose-400/40 group-hover:bg-rose-500 group-hover:text-white' 
-                  : 'bg-white/5 text-gray-400 group-hover:bg-white/20 group-hover:text-white'
-            }" title="${isLive ? 'Sender stoppen' : 'Sender abspielen & für Timer wählen'}">
-              <i data-lucide="${isLive ? 'square' : 'play'}" class="w-3.5 h-3.5 ${isLive ? 'fill-white' : ''}"></i>
+            <button type="button" class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 transition active:scale-95 ${btnClasses}" title="${isLive ? 'Sender stoppen' : 'Sender abspielen & für Timer wählen'}">
+              <i data-lucide="${isLive ? 'square' : 'play'}" class="w-3 h-3 ${isLive ? 'fill-white' : ''}"></i>
             </button>
           </div>
         `;
@@ -4532,8 +4740,9 @@
 
   function initRadioPanel() {
     if (!currentStationId) {
-      currentStationId = localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'chillout';
+      currentStationId = localStorage.getItem('flow_radio_station') || (RADIO_STATIONS[0] && RADIO_STATIONS[0].id) || 'dronezone';
     }
+    probeAllStationsSignal();
     renderRadioPanelContent();
     updateRadioUIState(isRadioPlaying);
     const slider = document.getElementById('radio-volume-slider');
@@ -4580,6 +4789,9 @@
     setRadioSearchQuery,
     clearRadioSearch,
     renderRadioPanelContent,
+    toggleOnlyActiveFilter,
+    probeAllStationsSignal,
+    stationSignalStatus,
     // News Reader (TTS)
     startNewsReader,
     toggleAllNewsReader,

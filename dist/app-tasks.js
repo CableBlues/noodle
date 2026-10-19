@@ -1,15 +1,14 @@
 
 /**
- * ============================================================================
- * Noodle - Aufgaben- & Board-Management (app-tasks.js)
- * ============================================================================
- * Dieses Modul steuert die Kernlogik des Kanban-Boards:
- * - Rendering der Spalten und Aufgabenkarten (Personal & Work Workspace)
+ * @file app-tasks.js
+ * @module KanbanBoardController
+ * @description
+ * Kernlogik und Rendering-Engine des Kanban-Boards:
+ * - Reaktives Rendering der Spalten und Aufgabenkarten (Personal & Work Workspace)
  * - Aufgaben-Lebenszyklus: Erstellen, Inline-Editieren, Abhaken, Löschen & Wiederherstellen
- * - Drag & Drop Sortierung (Spalten und Karten)
- * - Kontextmenü für Fokus-Timer, Task-Steps und Farbmarkierungen
- * - Mobile Touch-Navigation & Kalender-Terminverwaltung
- * ============================================================================
+ * - Drag & Drop Sortierung für Spalten und Aufgabenkarten (Desktop & Touch)
+ * - Kontextmenü für Fokus-Timer, Micro-Steps und visuelle Priorisierung
+ * - Integrierte Kalender-Terminverwaltung und Erinnerungs-Trigger
  */
 
 let inlineEditingTaskInfo = null;
@@ -147,7 +146,7 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
 
     <!-- Farbpalette (unten, extra klein & dezent) -->
     <div class="px-1.5 pt-0.5 pb-0.5">
-      <span class="text-[8px] font-bold text-gray-400 uppercase tracking-wider block mb-1">${tr({ de: 'Farbe 🎨', en: 'Color 🎨', fr: 'Couleur 🎨', it: 'Colore 🎨', es: 'Color 🎨', el: 'Χρώμα 🎨' })}</span>
+      <span class="text-[8px] font-bold text-purple-300 uppercase tracking-wider block mb-1">${tr({ de: 'Farbe 🎨', en: 'Color 🎨', fr: 'Couleur 🎨', it: 'Colore 🎨', es: 'Color 🎨', el: 'Χρώμα 🎨' })}</span>
       <div class="flex items-center gap-1 justify-between">
         <button onclick="setTaskColor('${colId}', ${index}, 'none', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}" class="w-2.5 h-2.5 rounded-full border border-gray-400 bg-transparent hover:scale-125 transition cursor-pointer ${taskColor === 'none' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}"></button>
         <button onclick="setTaskColor('${colId}', ${index}, 'rose', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}" class="w-2.5 h-2.5 rounded-full bg-rose-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'rose' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}"></button>
@@ -498,10 +497,11 @@ function openColumnOptionsMenu(colId, btnEl) {
     `;
   }
 
+  const colHeaderTheme = (typeof COLUMN_THEMES !== 'undefined' && COLUMN_THEMES[colId]) ? COLUMN_THEMES[colId].color : 'text-purple-300';
   dropdown.innerHTML = `
-    <div class="px-2 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-wider flex items-center justify-between">
-      <span class="truncate max-w-[120px] text-white">${escapeHtml(listTitle)}</span>
-      <span class="text-gray-400 font-mono text-[9px] px-1.5 py-0.2 rounded bg-white/5 border border-white/10">${taskCount}</span>
+    <div class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider flex items-center justify-between">
+      <span class="truncate max-w-[120px] ${colHeaderTheme}">${escapeHtml(listTitle)}</span>
+      <span class="text-cyan-300 font-mono text-[9px] px-1.5 py-0.2 rounded bg-cyan-500/10 border border-cyan-500/25">${taskCount}</span>
     </div>
     ${actionsHtml}
   `;
@@ -557,9 +557,42 @@ async function clearColumnTasks(colId, e) {
   const entry = (activeOrder || []).find(([id]) => id === colId);
   const listTitle = (entry && entry[2]) || t(colId);
 
-  saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} Aufgaben)`);
+  let entityUnitDe = taskCount === 1 ? 'Aufgabe' : 'Aufgaben';
+  let entityUnitEn = taskCount === 1 ? 'task' : 'tasks';
+  let entityUnitFr = taskCount === 1 ? 'tâche' : 'tâches';
+  let entityUnitIt = taskCount === 1 ? 'attività' : 'attività';
+  let entityUnitEs = taskCount === 1 ? 'tarea' : 'tareas';
+  let entityUnitEl = taskCount === 1 ? 'εργασία' : 'εργασίες';
+
+  if (colId === 'notes') {
+    entityUnitDe = taskCount === 1 ? 'Notiz' : 'Notizen';
+    entityUnitEn = taskCount === 1 ? 'note' : 'notes';
+    entityUnitFr = taskCount === 1 ? 'note' : 'notes';
+    entityUnitIt = taskCount === 1 ? 'nota' : 'note';
+    entityUnitEs = taskCount === 1 ? 'nota' : 'notas';
+    entityUnitEl = taskCount === 1 ? 'σημείωση' : 'σημειώσεις';
+  } else if (colId === 'termine') {
+    entityUnitDe = taskCount === 1 ? 'Termin' : 'Termine';
+    entityUnitEn = taskCount === 1 ? 'appointment' : 'appointments';
+    entityUnitFr = taskCount === 1 ? 'rendez-vous' : 'rendez-vous';
+    entityUnitIt = taskCount === 1 ? 'appuntamento' : 'appuntamenti';
+    entityUnitEs = taskCount === 1 ? 'cita' : 'citas';
+    entityUnitEl = taskCount === 1 ? 'ραντεβού' : 'ραντεβού';
+  } else if (isDone) {
+    entityUnitDe = taskCount === 1 ? 'erledigter Eintrag' : 'erledigte Einträge';
+    entityUnitEn = taskCount === 1 ? 'completed item' : 'completed items';
+    entityUnitFr = taskCount === 1 ? 'élément terminé' : 'éléments terminés';
+    entityUnitIt = taskCount === 1 ? 'elemento completato' : 'elementi completati';
+    entityUnitEs = taskCount === 1 ? 'elemento completado' : 'elementos completados';
+    entityUnitEl = taskCount === 1 ? 'ολοκληρωμένο στοιχείο' : 'ολοκληρωμένα στοιχεία';
+  }
+
+  saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} ${entityUnitDe})`);
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (typeof trackCategoryClear === 'function') {
+    trackCategoryClear(colId, ws, taskList);
+  }
   if (isDone) {
-    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
     if (ws === 'study') {
       state.studyDone = [];
     } else if (ws === 'work') {
@@ -572,17 +605,20 @@ async function clearColumnTasks(colId, e) {
   }
   
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof updateZenView === 'function') updateZenView();
 
   showToast(tr({
-    de: `Spalte "${listTitle}" geleert (${taskCount} Aufgaben) 🗑️`,
-    en: `Column "${listTitle}" cleared (${taskCount} tasks) 🗑️`,
-    fr: `Colonne "${listTitle}" vidée (${taskCount} tâches) 🗑️`,
-    it: `Colonna "${listTitle}" svuotata (${taskCount} attività) 🗑️`,
-    es: `Columna "${listTitle}" vaciada (${taskCount} tareas) 🗑️`,
-    el: `Η στήλη "${listTitle}" άδειασε (${taskCount} εργασίες) 🗑️`
+    de: `Spalte "${listTitle}" geleert (${taskCount} ${entityUnitDe}) 🗑️`,
+    en: `Column "${listTitle}" cleared (${taskCount} ${entityUnitEn}) 🗑️`,
+    fr: `Colonne "${listTitle}" vidée (${taskCount} ${entityUnitFr}) 🗑️`,
+    it: `Colonna "${listTitle}" svuotata (${taskCount} ${entityUnitIt}) 🗑️`,
+    es: `Columna "${listTitle}" vaciada (${taskCount} ${entityUnitEs}) 🗑️`,
+    el: `Η στήλη "${listTitle}" άδειασε (${taskCount} ${entityUnitEl}) 🗑️`
   }), { undo: true, duration: 5000 });
 }
 
@@ -594,11 +630,52 @@ async function archiveColumnTasks(colId, e) {
   const taskList = isDone ? (getCurrentWorkspaceDone() || []) : (curItems[colId] || []);
   const taskCount = taskList.length;
   if (taskCount === 0) {
-    showToast(tr({ de: 'Keine Aufgaben zum Archivieren vorhanden! ℹ️', en: 'No tasks to archive! ℹ️', fr: 'Aucune tâche à archiver ! ℹ️', it: 'Nessuna attività da archiviare! ℹ️', es: '¡No hay tareas para archivar! ℹ️', el: 'Δεν υπάρχουν εργασίες για αρχειοθέτηση! ℹ️' }));
+    showToast(tr({
+      de: colId === 'notes' ? 'Keine Notizen zum Archivieren vorhanden! ℹ️' : (colId === 'termine' ? 'Keine Termine zum Archivieren vorhanden! ℹ️' : 'Keine Aufgaben zum Archivieren vorhanden! ℹ️'),
+      en: colId === 'notes' ? 'No notes to archive! ℹ️' : (colId === 'termine' ? 'No appointments to archive! ℹ️' : 'No tasks to archive! ℹ️'),
+      fr: colId === 'notes' ? 'Aucune note à archiver ! ℹ️' : (colId === 'termine' ? 'Aucun rendez-vous à archiver ! ℹ️' : 'Aucune tâche à archiver ! ℹ️'),
+      it: colId === 'notes' ? 'Nessuna nota da archiviare! ℹ️' : (colId === 'termine' ? 'Nessun appuntamento da archiviare! ℹ️' : 'Nessuna attività da archiviare! ℹ️'),
+      es: colId === 'notes' ? '¡No hay notas para archivar! ℹ️' : (colId === 'termine' ? '¡No hay citas para archivar! ℹ️' : '¡No hay tareas para archivar! ℹ️'),
+      el: colId === 'notes' ? 'Δεν υπάρχουν σημειώσεις για αρχειοθέτηση! ℹ️' : (colId === 'termine' ? 'Δεν υπάρχουν ραντεβού για αρχειοθέτηση! ℹ️' : 'Δεν υπάρχουν εργασίες για αρχειοθέτηση! ℹ️')
+    }));
     return;
   }
   
-  saveHistory();
+  const activeOrder = getActiveCategoriesOrder();
+  const entry = (activeOrder || []).find(([id]) => id === colId);
+  const listTitle = (entry && entry[2]) || t(colId);
+
+  let entityUnitDe = taskCount === 1 ? 'Aufgabe' : 'Aufgaben';
+  let entityUnitEn = taskCount === 1 ? 'task' : 'tasks';
+  let entityUnitFr = taskCount === 1 ? 'tâche' : 'tâches';
+  let entityUnitIt = taskCount === 1 ? 'attività' : 'attività';
+  let entityUnitEs = taskCount === 1 ? 'tarea' : 'tareas';
+  let entityUnitEl = taskCount === 1 ? 'εργασία' : 'εργασίες';
+
+  if (colId === 'notes') {
+    entityUnitDe = taskCount === 1 ? 'Notiz' : 'Notizen';
+    entityUnitEn = taskCount === 1 ? 'note' : 'notes';
+    entityUnitFr = taskCount === 1 ? 'note' : 'notes';
+    entityUnitIt = taskCount === 1 ? 'nota' : 'note';
+    entityUnitEs = taskCount === 1 ? 'nota' : 'notas';
+    entityUnitEl = taskCount === 1 ? 'σημείωση' : 'σημειώσεις';
+  } else if (colId === 'termine') {
+    entityUnitDe = taskCount === 1 ? 'Termin' : 'Termine';
+    entityUnitEn = taskCount === 1 ? 'appointment' : 'appointments';
+    entityUnitFr = taskCount === 1 ? 'rendez-vous' : 'rendez-vous';
+    entityUnitIt = taskCount === 1 ? 'appuntamento' : 'appuntamenti';
+    entityUnitEs = taskCount === 1 ? 'cita' : 'citas';
+    entityUnitEl = taskCount === 1 ? 'ραντεβού' : 'ραντεβού';
+  } else if (isDone) {
+    entityUnitDe = taskCount === 1 ? 'erledigter Eintrag' : 'erledigte Einträge';
+    entityUnitEn = taskCount === 1 ? 'completed item' : 'completed items';
+    entityUnitFr = taskCount === 1 ? 'élément terminé' : 'éléments terminés';
+    entityUnitIt = taskCount === 1 ? 'elemento completato' : 'elementi completati';
+    entityUnitEs = taskCount === 1 ? 'elemento completado' : 'elementos completados';
+    entityUnitEl = taskCount === 1 ? 'ολοκληρωμένο στοιχείο' : 'ολοκληρωμένα στοιχεία';
+  }
+
+  saveHistory(`Archiviert: "${listTitle}" (${taskCount} ${entityUnitDe})`);
   if (!Array.isArray(state.archive)) state.archive = [];
   
   const now = new Date();
@@ -632,17 +709,13 @@ async function archiveColumnTasks(colId, e) {
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof updateZenView === 'function') updateZenView();
 
-  const activeOrder = getActiveCategoriesOrder();
-  const entry = (activeOrder || []).find(([id]) => id === colId);
-  const listTitle = (entry && entry[2]) || t(colId);
-
   showToast(tr({
-    de: `${taskCount} Aufgaben aus "${listTitle}" ins Archiv verschoben 📦`,
-    en: `${taskCount} tasks from "${listTitle}" moved to archive 📦`,
-    fr: `${taskCount} tâches de "${listTitle}" archivées 📦`,
-    it: `${taskCount} attività da "${listTitle}" archiviate 📦`,
-    es: `${taskCount} tareas de "${listTitle}" archivadas 📦`,
-    el: `${taskCount} εργασίες από "${listTitle}" αρχειοθετήθηκαν 📦`
+    de: `${taskCount} ${entityUnitDe} aus "${listTitle}" ins Archiv verschoben 📦`,
+    en: `${taskCount} ${entityUnitEn} from "${listTitle}" moved to archive 📦`,
+    fr: `${taskCount} ${entityUnitFr} de "${listTitle}" archivé(s) 📦`,
+    it: `${taskCount} ${entityUnitIt} da "${listTitle}" archiviati 📦`,
+    es: `${taskCount} ${entityUnitEs} de "${listTitle}" archivado(s) 📦`,
+    el: `${taskCount} ${entityUnitEl} από "${listTitle}" αρχειοθετήθηκαν 📦`
   }), { undo: true, duration: 5000 });
 }
 
@@ -667,12 +740,21 @@ function clearCompletedInColumn(colId, e) {
     const doneFromCol = doneList.filter(d => d.origin === colId);
     if (doneFromCol.length > 0) {
       saveHistory();
-      if (state.activeWorkspace === 'work') {
+      const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+      doneFromCol.forEach(item => {
+        if (typeof trackItemDeletion === 'function') {
+          trackItemDeletion(item, 'done', ws);
+        }
+      });
+      if (ws === 'work') {
         state.workDone = (state.workDone || []).filter(d => d.origin !== colId);
       } else {
         state.done = (state.done || []).filter(d => d.origin !== colId);
       }
       saveState();
+      if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+        cloudSyncEngine.triggerImmediatePush();
+      }
       renderApp();
       showToast(tr({
         de: `${doneFromCol.length} erledigte Einträge von "${t(colId)}" aufgeräumt 🧹`,
@@ -680,20 +762,42 @@ function clearCompletedInColumn(colId, e) {
       }), { undo: true, duration: 5000 });
       return;
     }
-    showToast(tr({ de: 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️', en: 'No completed tasks found to clear ℹ️', fr: 'Aucune tâche terminée trouvée à nettoyer ℹ️', it: 'Nessuna attività completata trovata da eliminare ℹ️', es: 'No se encontraron tareas completadas para limpiar ℹ️', el: 'Δεν βρέθηκαν ολοκληρωμένες εργασίες για εκκαθάριση ℹ️' }));
+    showToast(tr({
+      de: colId === 'termine' ? 'Keine vergangenen Termine zum Aufräumen gefunden ℹ️' : (colId === 'notes' ? 'Keine Notizen zum Aufräumen gefunden ℹ️' : 'Keine erledigten Aufgaben zum Aufräumen gefunden ℹ️'),
+      en: colId === 'termine' ? 'No passed appointments found to clear ℹ️' : (colId === 'notes' ? 'No notes found to clear ℹ️' : 'No completed tasks found to clear ℹ️'),
+      fr: colId === 'termine' ? 'Aucun rendez-vous passé trouvé à nettoyer ℹ️' : (colId === 'notes' ? 'Aucune note trouvée à nettoyer ℹ️' : 'Aucune tâche terminée trouvée à nettoyer ℹ️'),
+      it: colId === 'termine' ? 'Nessun appuntamento passato trovato da eliminare ℹ️' : (colId === 'notes' ? 'Nessuna nota trovata da eliminare ℹ️' : 'Nessuna attività completata trovata da eliminare ℹ️'),
+      es: colId === 'termine' ? 'No se encontraron citas pasadas para limpiar ℹ️' : (colId === 'notes' ? 'No se encontraron notas para limpiar ℹ️' : 'No se encontraron tareas completadas para limpiar ℹ️'),
+      el: colId === 'termine' ? 'Δεν βρέθηκαν ολοκληρωμένα ραντεβού για εκκαθάριση ℹ️' : (colId === 'notes' ? 'Δεν βρέθηκαν σημειώσεις για εκκαθάριση ℹ️' : 'Δεν βρέθηκαν ολοκληρωμένες εργασίες για εκκαθάριση ℹ️')
+    }));
     return;
   }
 
-  saveHistory();
+  const activeOrder = getActiveCategoriesOrder();
+  const entry = (activeOrder || []).find(([id]) => id === colId);
+  const listTitle = (entry && entry[2]) || t(colId);
+  const entityName = colId === 'termine' ? 'abgeschlossene Termine' : (colId === 'notes' ? 'Notizen' : 'erledigte Aufgaben');
+  saveHistory(`Aufgeräumt: "${listTitle}" (${completedIndices.length} ${entityName})`);
+
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  const removedTasks = list.filter((item, idx) => completedIndices.includes(idx));
+  removedTasks.forEach(item => {
+    if (typeof trackItemDeletion === 'function') {
+      trackItemDeletion(item, colId, ws);
+    }
+  });
   curItems[colId] = list.filter((item, idx) => !completedIndices.includes(idx));
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof updateZenView === 'function') updateZenView();
 
   showToast(tr({
-    de: `${completedIndices.length} erledigte Aufgaben aufgeräumt 🧹`,
-    en: `${completedIndices.length} completed tasks cleared 🧹`
+    de: `${completedIndices.length} ${colId === 'termine' ? 'abgeschlossene Termine' : (colId === 'notes' ? 'Notizen' : 'erledigte Aufgaben')} aufgeräumt 🧹`,
+    en: `${completedIndices.length} ${colId === 'termine' ? 'completed appointments' : (colId === 'notes' ? 'notes' : 'completed tasks')} cleared 🧹`
   }), { undo: true, duration: 5000 });
 }
 
@@ -826,8 +930,8 @@ function renderColumnsDropdownContent(dropdown) {
           <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
         </div>
         <div>
-          <h3 class="font-display font-bold text-xs text-white">${tr({ de: 'Karten verwalten', en: 'Manage Cards', es: 'Gestionar tarjetas', fr: 'Gérer les cartes', it: 'Gestisci schede', el: 'Διαχείριση καρτών' })}</h3>
-          <p class="text-[10px] text-gray-400">${wsName}</p>
+          <h3 class="font-display font-bold text-xs text-purple-300">${tr({ de: 'Karten verwalten', en: 'Manage Cards', es: 'Gestionar tarjetas', fr: 'Gérer les cartes', it: 'Gestisci schede', el: 'Διαχείριση καρτών' })}</h3>
+          <p class="text-[10px] text-cyan-300/80">${wsName}</p>
         </div>
       </div>
       <button onclick="closeColumnsDropdown()" class="w-5 h-5 rounded bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs font-bold transition cursor-pointer">✕</button>
@@ -1041,8 +1145,8 @@ function openColumnsManagerModal() {
             <i data-lucide="sliders" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="font-display font-black text-sm text-white">${tr({ de: 'Karten verwalten & Karte hinzufügen', en: 'Manage Cards & Add Card', es: 'Gestionar tarjetas y añadir tarjeta', fr: 'Gérer les cartes et ajouter une carte', it: 'Gestisci schede e aggiungi scheda', el: 'Διαχείριση καρτών & προσθήκη κάρτας' })}</h3>
-            <p class="text-[11px] text-gray-400">${wsName}</p>
+            <h3 class="font-display font-black text-sm text-purple-300">${tr({ de: 'Karten verwalten & Karte hinzufügen', en: 'Manage Cards & Add Card', es: 'Gestionar tarjetas y añadir tarjeta', fr: 'Gérer les cartes et ajouter une carte', it: 'Gestisci schede e aggiungi scheda', el: 'Διαχείριση καρτών & προσθήκη κάρτας' })}</h3>
+            <p class="text-[11px] text-cyan-300/80">${wsName}</p>
           </div>
         </div>
         <button onclick="closeColumnsManagerModal()" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white flex items-center justify-center text-sm font-bold transition cursor-pointer">✕</button>
@@ -1097,7 +1201,12 @@ function openColumnsManagerModal() {
                     <p class="text-xs font-bold text-gray-200 truncate">${escapeHtml(label)}</p>
                     ${isCustom ? `<span class="text-[9px] px-1.5 py-0.5 bg-purple-500/20 text-purple-300 rounded font-medium border border-purple-500/30">Custom</span>` : ''}
                   </div>
-                  <p class="text-[10px] text-gray-400 font-mono">${count} ${tr({ de: 'Aufgaben', en: 'tasks', fr: 'tâches', it: 'attività', es: 'tareas', el: 'εργασίες' })}</p>
+                  <p class="text-[10px] text-gray-400 font-mono">${count} ${
+                    id === 'notes' ? tr({ de: count === 1 ? 'Notiz' : 'Notizen', en: count === 1 ? 'note' : 'notes', fr: count === 1 ? 'note' : 'notes', it: count === 1 ? 'nota' : 'note', es: count === 1 ? 'nota' : 'notas', el: count === 1 ? 'σημείωση' : 'σημειώσεις' }) :
+                    (id === 'termine' ? tr({ de: count === 1 ? 'Termin' : 'Termine', en: count === 1 ? 'appointment' : 'appointments', fr: count === 1 ? 'rendez-vous' : 'rendez-vous', it: count === 1 ? 'appuntamento' : 'appuntamenti', es: count === 1 ? 'cita' : 'citas', el: count === 1 ? 'ραντεβού' : 'ραντεβού' }) :
+                    (id === 'done' ? tr({ de: count === 1 ? 'Eintrag' : 'Einträge', en: count === 1 ? 'item' : 'items', fr: count === 1 ? 'élément' : 'éléments', it: count === 1 ? 'elemento' : 'elementi', es: count === 1 ? 'elemento' : 'elementos', el: count === 1 ? 'στοιχείο' : 'στοιχεία' }) :
+                    tr({ de: count === 1 ? 'Aufgabe' : 'Aufgaben', en: count === 1 ? 'task' : 'tasks', fr: count === 1 ? 'tâche' : 'tâches', it: count === 1 ? 'attività' : 'attività', es: count === 1 ? 'tarea' : 'tareas', el: count === 1 ? 'εργασία' : 'εργασίες' })))
+                  }</p>
                 </div>
               </div>
               <div class="flex items-center gap-1.5 shrink-0">
@@ -1306,6 +1415,11 @@ async function deleteColumn(colId, e) {
 
   if (confirmed) {
     saveHistory();
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    const itemsToDelete = isDone ? (getCurrentWorkspaceDone() || []) : (curItems[colId] || []);
+    if (typeof trackCategoryClear === 'function') {
+      trackCategoryClear(colId, ws, itemsToDelete);
+    }
     activeOrder.splice(idx, 1);
     if (isDone) {
       if (state.activeWorkspace === 'study') state.studyDone = [];
@@ -1316,6 +1430,9 @@ async function deleteColumn(colId, e) {
     }
     saveCategoriesOrder();
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     renderApp();
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
     showToast(tr({
@@ -1345,22 +1462,33 @@ function quickAddTaskTop(colId, e) {
 }
 
 const COLUMN_THEMES = {
-  daily: { color: 'text-[var(--accent)]', bg: 'bg-[var(--accent)]/15 border-[var(--accent)]/30 shadow-xs' },
-  work_focus: { color: 'text-[#00f2ff]', bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/30 shadow-xs' },
-  study_focus: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
-  weekly: { color: 'text-[#00f2ff]', bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/30 shadow-xs' },
-  work_in_progress: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  study_modules: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  todo: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  work_backlog: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  study_submissions: { color: 'text-[#ff3366]', bg: 'bg-[#ff3366]/15 border-[#ff3366]/30 shadow-xs' },
-  occasionally: { color: 'text-[#ff3366]', bg: 'bg-[#ff3366]/15 border-[#ff3366]/30 shadow-xs' },
-  work_waiting: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
-  study_deep: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' },
-  done: { color: 'text-[#00ff66]', bg: 'bg-[#00ff66]/15 border-[#00ff66]/30 shadow-xs' },
-  termine: { color: 'text-[#89cff0]', bg: 'bg-[#89cff0]/15 border-[#89cff0]/30 shadow-xs' },
-  notes: { color: 'text-[#c084fc]', bg: 'bg-[#c084fc]/15 border-[#c084fc]/30 shadow-xs' }
+  daily:             { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  work_focus:        { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  study_focus:       { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  weekly:            { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  work_in_progress:  { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  study_modules:     { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  todo:              { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  work_waiting:      { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' },
+  study_submissions: { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' },
+  work_backlog:      { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  study_deep:        { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  done:              { color: 'text-[#00ff66]',   bg: 'bg-[#00ff66]/15 border-[#00ff66]/35 shadow-xs' },
+  notes:             { color: 'text-[#c084fc]',   bg: 'bg-[#c084fc]/15 border-[#c084fc]/35 shadow-xs' },
+  termine:           { color: 'text-orange-300',  bg: 'bg-orange-500/15 border-orange-400/35 shadow-xs' },
+  occasionally:      { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' }
 };
+
+const COLUMN_THEME_FALLBACK_CYCLE = [
+  { color: 'text-amber-300',   bg: 'bg-amber-500/15 border-amber-400/35 shadow-xs' },
+  { color: 'text-[#00f2ff]',   bg: 'bg-[#00f2ff]/15 border-[#00f2ff]/35 shadow-xs' },
+  { color: 'text-sky-300',     bg: 'bg-sky-500/15 border-sky-400/35 shadow-xs' },
+  { color: 'text-[#00ff66]',   bg: 'bg-[#00ff66]/15 border-[#00ff66]/35 shadow-xs' },
+  { color: 'text-[#c084fc]',   bg: 'bg-[#c084fc]/15 border-[#c084fc]/35 shadow-xs' },
+  { color: 'text-orange-300',  bg: 'bg-orange-500/15 border-orange-400/35 shadow-xs' },
+  { color: 'text-[#ff3366]',   bg: 'bg-[#ff3366]/15 border-[#ff3366]/35 shadow-xs' },
+  { color: 'text-teal-300',    bg: 'bg-teal-500/15 border-teal-400/35 shadow-xs' }
+];
 
 function getCurrentWorkspaceItems() {
   const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
@@ -1411,6 +1539,8 @@ function renderApp() {
         ? (workCategoriesOrder || (typeof WORK_CATEGORIES_ORDER !== 'undefined' ? WORK_CATEGORIES_ORDER : [])) 
         : (categoriesOrder || (typeof CATEGORIES_ORDER !== 'undefined' ? CATEGORIES_ORDER : []))));
 
+  let prevColumnThemeColor = '';
+
   (activeOrder || []).forEach(([id, iconKey], colIndex) => {
     const isDone = id === 'done'; const isNotes = id === 'notes'; const isTermine = id === 'termine';
     const isDaily = (id === 'daily' || id === 'work_focus' || id === 'study_focus');
@@ -1436,15 +1566,15 @@ function renderApp() {
     const svgFn = (typeof getLucideSvg === 'function') ? getLucideSvg : ((name, cls) => `<i data-lucide="${name}" class="${cls}"></i>`);
     if (isDone) {
       countBadgeHTML = `
-        <div class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-lime-500/15 text-lime-300 border border-lime-500/30 shadow-xs flex items-center gap-1 shrink-0" title="${doneList.length} erledigte Aufgaben">
-          ${svgFn('check', 'w-3 h-3 text-lime-400')}
+        <div class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-xs flex items-center gap-1 shrink-0" title="${doneList.length} erledigte Aufgaben">
+          ${svgFn('check', 'w-3 h-3 text-emerald-400')}
           <span>${doneList.length}</span>
         </div>
       `;
     } else if (isNotes) {
       const noteCount = (currentItems.notes || []).length;
       countBadgeHTML = `
-        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 shadow-xs shrink-0" title="${noteCount} Notizen">
+        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold bg-purple-500/15 text-purple-300 border border-purple-500/30 shadow-xs shrink-0" title="${noteCount} Notizen">
           ${noteCount}
         </span>
       `;
@@ -1452,7 +1582,7 @@ function renderApp() {
       let badgeStyle = 'bg-white/5 text-gray-400 border-white/10';
       let checkSuffix = '';
       if (isComplete) {
-        badgeStyle = 'bg-lime-500/20 text-lime-300 border-lime-500/40 shadow-[0_0_10px_rgba(132,204,22,0.25)]';
+        badgeStyle = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 shadow-[0_0_10px_rgba(16,185,129,0.25)]';
         checkSuffix = ' ✓';
       } else if (doneInCat > 0) {
         badgeStyle = 'bg-[var(--accent)]/15 text-[var(--accent-light)] border-[var(--accent)]/30';
@@ -1519,7 +1649,18 @@ function renderApp() {
       notes: 'file-text'
     };
     const finalIcon = COLUMN_ICONS_DEFAULT[id] || iconKey || 'layers';
-    const theme = COLUMN_THEMES[id] || { color: 'text-[var(--accent-light)]', bg: 'bg-white/5 border-white/10 shadow-xs' };
+    let theme = COLUMN_THEMES[id] || COLUMN_THEME_FALLBACK_CYCLE[colIndex % COLUMN_THEME_FALLBACK_CYCLE.length];
+    if (theme.color === prevColumnThemeColor) {
+      for (let tIdx = 0; tIdx < COLUMN_THEME_FALLBACK_CYCLE.length; tIdx++) {
+        const candidate = COLUMN_THEME_FALLBACK_CYCLE[(colIndex + tIdx + 1) % COLUMN_THEME_FALLBACK_CYCLE.length];
+        if (candidate.color !== prevColumnThemeColor) {
+          theme = candidate;
+          break;
+        }
+      }
+    }
+    prevColumnThemeColor = theme.color;
+
     const hasDice = (id === 'daily' || id === 'weekly' || id === 'todo' || id === 'occasionally' || id === 'work_focus' || id === 'work_in_progress' || id === 'work_backlog' || id === 'work_waiting' || id === 'study_focus' || id === 'study_modules' || id === 'study_submissions' || id === 'study_deep');
 
     let columnIconHTML = '';
@@ -1536,14 +1677,14 @@ function renderApp() {
     article.innerHTML = `
       ${(!isDone && !isNotes) ? `
         <div class="absolute top-0 left-0 right-0 h-[2.5px] bg-white/[0.04] overflow-hidden pointer-events-none">
-          <div class="h-full bg-gradient-to-r from-[var(--accent)] via-cyan-400 to-lime-400 transition-all duration-500 ${isComplete ? 'shadow-[0_0_12px_rgba(132,204,22,0.8)]' : ''}" style="width: ${pct}%"></div>
+          <div class="h-full bg-gradient-to-r from-[var(--accent)] via-cyan-400 to-emerald-400 transition-all duration-500 ${isComplete ? 'shadow-[0_0_12px_rgba(52,211,153,0.8)]' : ''}" style="width: ${pct}%"></div>
         </div>
       ` : ''}
       
       <div class="flex items-center justify-between gap-1 mb-1 pb-1 border-b border-white/[0.04]">
         <div class="flex items-center gap-1.5 select-none min-w-0 flex-1 cursor-grab active:cursor-grabbing" title="${tr({ de: 'Spalte durch Ziehen neu anordnen', en: 'Drag to reorder column', fr: 'Glisser pour réorganiser la colonne', it: 'Trascina per riordinare la colonna', es: 'Arrastrar para reordenar columna', el: 'Σύρετε για αναδιάταξη στήλης' })}">
           ${columnIconHTML}
-          <h2 class="text-gray-200 hover:text-white font-bold font-display text-[10.5px] 2xl:text-xs tracking-tight uppercase transition whitespace-nowrap overflow-hidden text-ellipsis min-w-0" title="${catName}">
+          <h2 class="${theme.color} hover:brightness-125 font-bold font-display text-[10.5px] 2xl:text-xs tracking-tight uppercase transition whitespace-nowrap overflow-hidden text-ellipsis min-w-0" title="${catName}">
             ${catName}
           </h2>
         </div>
@@ -1555,25 +1696,15 @@ function renderApp() {
         </div>
       </div>
       <div id="list-${id}" class="flex flex-col gap-1.5 flex-1 min-h-[100px] overflow-y-auto py-0.5 px-0.5 custom-scrollbar"></div>
-      ${(!isDone) ? `
-        <div class="flex items-center justify-between pt-1 px-0.5 mt-auto border-t border-white/[0.03]">
-          <button onclick="openTextImportModal('${id}', event)" aria-label="${isNotes ? 'Notizen importieren' : (isTermine ? 'Termine importieren' : 'Aufgaben importieren')}" class="p-1 rounded-md bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 text-gray-500 hover:text-gray-200 opacity-40 hover:opacity-100 transition-all duration-200 cursor-pointer flex items-center justify-center shrink-0" title="${isNotes ? tr({ de: 'Notizen importieren (.txt, .md, .csv, .json oder Zwischenablage)', en: 'Import notes (.txt, .md, .csv, .json or clipboard)', es: 'Importar notas (.txt, .md, .csv, .json o portapapeles)', el: 'Εισαγωγή σημειώσεων (.txt, .md, .csv, .json ή πρόχειρο)', fr: 'Importer des notes (.txt, .md, .csv, .json ou presse-papiers)', it: 'Importa note (.txt, .md, .csv, .json o appunti)' }) : (isTermine ? tr({ de: 'Termine aus Kalenderdatei (.ics) oder Text importieren', en: 'Import appointments from calendar file (.ics) or text', es: 'Importar citas desde archivo (.ics) o texto', el: 'Εισαγωγή ραντεβού από ημερολόγιο (.ics) ή κείμενο', fr: 'Importer des rendez-vous depuis un fichier (.ics) ou texte', it: 'Importa appuntamenti da file (.ics) o testo' }) : tr({ de: 'Aufgaben importieren (.txt, .md, .csv, .json oder Zwischenablage)', en: 'Import tasks (.txt, .md, .csv, .json or clipboard)', es: 'Importar tareas (.txt, .md, .csv, .json o portapapeles)', el: 'Εισαγωγή εργασιών (.txt, .md, .csv, .json ή πρόχειρο)', fr: 'Importer des tâches (.txt, .md, .csv, .json ou presse-papiers)', it: 'Importa attività (.txt, .md, .csv, .json o appunti)' }))}">
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="12" y1="18" x2="12" y2="12"/>
-              <polyline points="9 15 12 12 15 15"/>
+      ${(!isDone && isNotes) ? `
+        <div class="flex items-center justify-end pt-1 px-0.5 mt-auto border-t border-white/[0.03]">
+          <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-purple-200 font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
+            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
             </svg>
+            <span>Scan</span>
           </button>
-          ${isNotes ? `
-            <button onclick="openNoteScannerModal('notes')" class="p-1 px-1.5 rounded-md bg-[#c084fc]/10 hover:bg-[#c084fc]/20 border border-[#c084fc]/20 hover:border-[#c084fc]/40 text-[#c084fc] hover:text-white font-semibold text-[10px] transition-all duration-200 cursor-pointer flex items-center gap-1 shrink-0" title="${tr({ de: 'Handschriftliche Notiz scannen / Foto hochladen (OCR)', en: 'Scan handwritten note / Upload photo (OCR)', fr: 'Scanner une note manuscrite (OCR)', it: 'Scansiona nota manoscritta (OCR)', es: 'Escanear nota manuscrita (OCR)', el: 'Σάρωση χειρόγραφης σημείωσης (OCR)' })}">
-              <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
-                <circle cx="12" cy="13" r="4"/>
-              </svg>
-              <span>Scan</span>
-            </button>
-          ` : ''}
         </div>
       ` : ''}
     `;
@@ -1582,7 +1713,7 @@ function renderApp() {
       const validDoneList = (doneList || []).filter(Boolean);
       validDoneList.slice().reverse().forEach((item, idx) => {
         const itemDiv = document.createElement('div');
-        itemDiv.className = 'group p-1.5 px-2.5 text-[11px] min-h-[28px] text-gray-400 hover:text-white border border-dashed border-slate-700/80 hover:border-purple-500 rounded-lg bg-slate-800/25 hover:bg-purple-950/20 cursor-pointer font-medium transition flex items-center justify-between gap-1 animate-fade-in';
+        itemDiv.className = 'group p-1.5 px-2.5 text-[11px] min-h-[28px] text-gray-400 hover:text-emerald-200 border border-dashed border-slate-700/80 hover:border-purple-500 rounded-lg bg-slate-800/25 hover:bg-purple-950/20 cursor-pointer font-medium transition flex items-center justify-between gap-1 animate-fade-in';
         itemDiv.onclick = () => handleRestoreDoneTask(idx);
         itemDiv.title = tr({ de: 'Zurück in die Karte verschieben', en: 'Restore task to board', fr: 'Restaurer la tâche', it: 'Ripristina attività', es: 'Restaurar tarea', el: 'Επαναφορά εργασίας' });
         const itemTaskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
@@ -1592,9 +1723,18 @@ function renderApp() {
       });
     } else if (isNotes) {
       const notesList = currentItems.notes || [];
+      const NOTE_STYLE_CYCLE = [
+        { border: 'border-[#c084fc]', bg: 'bg-[#c084fc]/10 hover:bg-[#c084fc]/20', text: 'text-[#c084fc]' },
+        { border: 'border-[#89cff0]', bg: 'bg-[#89cff0]/10 hover:bg-[#89cff0]/20', text: 'text-[#89cff0]' },
+        { border: 'border-[#fbbf24]', bg: 'bg-[#fbbf24]/10 hover:bg-[#fbbf24]/20', text: 'text-[#fbbf24]' },
+        { border: 'border-[#4ade80]', bg: 'bg-[#4ade80]/10 hover:bg-[#4ade80]/20', text: 'text-[#4ade80]' },
+        { border: 'border-[#f472b6]', bg: 'bg-[#f472b6]/10 hover:bg-[#f472b6]/20', text: 'text-[#f472b6]' },
+        { border: 'border-[#fb923c]', bg: 'bg-[#fb923c]/10 hover:bg-[#fb923c]/20', text: 'text-[#fb923c]' }
+      ];
       notesList.forEach((note, index) => {
         const noteText = typeof note === 'object' ? note.task : note;
         const safeNoteEscaped = escapeHtml(noteText);
+        const nStyle = NOTE_STYLE_CYCLE[index % NOTE_STYLE_CYCLE.length];
         const itemDiv = document.createElement('div');
         itemDiv.draggable = true;
         itemDiv.ondragstart = (e) => handleDragStart(e, 'notes', index);
@@ -1602,13 +1742,13 @@ function renderApp() {
         itemDiv.ondragleave = (e) => handleDragLeave(e);
         itemDiv.ondragend = (e) => handleDragEnd(e);
         itemDiv.ondrop = (e) => handleItemDrop(e, 'notes', index);
-        itemDiv.className = `group relative w-full h-auto min-h-[32px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] border-[#c084fc] bg-[#c084fc]/10 hover:bg-[#c084fc]/20 text-[#c084fc] font-medium transition-all duration-150 ease-out rounded-xl shadow-xs cursor-pointer`;
+        itemDiv.className = `group relative w-full h-auto min-h-[32px] flex items-center justify-between py-1.5 px-2.5 border-0 border-l-[3.5px] ${nStyle.border} ${nStyle.bg} ${nStyle.text} font-medium transition-all duration-150 ease-out rounded-xl shadow-xs cursor-pointer`;
         itemDiv.onclick = () => openNoteDetailModal(index);
         
         itemDiv.innerHTML = `
           <div class="flex items-center gap-1.5 flex-1 min-w-0 pr-2 pointer-events-none">
-            <i data-lucide="sticky-note" class="w-3.5 h-3.5 text-[#c084fc] shrink-0"></i>
-            <span class="text-xs text-[var(--text-main)] font-normal leading-snug break-normal whitespace-normal flex-1 select-text" title="${safeNoteEscaped}">${safeNoteEscaped}</span>
+            <i data-lucide="sticky-note" class="w-3.5 h-3.5 ${nStyle.text} shrink-0"></i>
+            <span class="text-xs ${nStyle.text} font-normal leading-snug break-normal whitespace-normal flex-1 select-text" title="${safeNoteEscaped}">${safeNoteEscaped}</span>
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-0.5 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 bg-[#141420]/95 border border-white/10 p-0.5 rounded-lg shadow-md z-40 backdrop-blur-md" onclick="event.stopPropagation()">
             <button onclick="openNoteDetailModal(${index}, event)" aria-label="${tr({ de: 'Notiz öffnen & bearbeiten', en: 'Open & edit note', fr: 'Ouvrir et modifier la note', it: 'Apri e modifica nota', es: 'Abrir y editar nota', el: 'Άνοιγμα & επεξεργασία σημείωσης' })}" class="p-1 text-amber-400 hover:text-amber-300 hover:bg-white/10 rounded-md transition cursor-pointer" title="${tr({ de: 'Notiz öffnen & bearbeiten', en: 'Open & edit note', fr: 'Ouvrir et modifier la note', it: 'Apri e modifica nota', es: 'Abrir y editar nota', el: 'Άνοιγμα & επεξεργασία σημείωσης' })}">
@@ -1627,7 +1767,7 @@ function renderApp() {
 
       const addBtn = document.createElement('button');
       addBtn.onclick = () => { openTaskAddColumns['notes'] = true; renderApp(); };
-      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#c084fc]/30 bg-[#c084fc]/5 hover:bg-[#c084fc]/15 hover:border-[#c084fc]/60 text-center text-xs text-[#c084fc] hover:text-white font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#c084fc]/30 bg-[#c084fc]/5 hover:bg-[#c084fc]/15 hover:border-[#c084fc]/60 text-center text-xs text-[#c084fc] hover:text-purple-200 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
       addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-[#c084fc] group-hover/addbtn:scale-110 transition-transform')}<span>${tr({ de: 'Notiz hinzufügen', en: 'Add note', es: 'Añadir nota', el: 'Προσθήκη σημείωσης', fr: 'Ajouter une note', it: 'Aggiungi nota' })}</span>`;
 
       const addInput = document.createElement('textarea');
@@ -1637,10 +1777,11 @@ function renderApp() {
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && !e.shiftKey && addInput.value.trim()) {
           e.preventDefault();
-          saveHistory();
+          const noteText = addInput.value.trim();
+          saveHistory(`Notiz hinzugefügt: "${noteText.length > 25 ? noteText.substring(0, 22) + '...' : noteText}"`);
           const curItems = getCurrentWorkspaceItems();
           if (!curItems.notes) curItems.notes = [];
-          curItems.notes.push(addInput.value.trim());
+          curItems.notes.push(noteText);
           addInput.value = '';
           openTaskAddColumns['notes'] = false;
           saveState(); renderApp();
@@ -1666,10 +1807,19 @@ function renderApp() {
         if (!a.date && !b.date) return 0; if (!a.date) return 1; if (!b.date) return -1;
         return `${a.date} ${a.time || '00:00'}`.localeCompare(`${b.date} ${b.time || '00:00'}`);
       });
-      itemsWithMeta.forEach((item) => {
+      const TERMIN_OPEN_PALETTE = [
+        { border: 'border-[#89cff0]', bg: 'bg-[#89cff0]/12', text: 'text-[#89cff0]', badge: 'bg-[#89cff0]/20 text-[#89cff0] border-[#89cff0]/30' },
+        { border: 'border-[#fb923c]', bg: 'bg-[#fb923c]/12', text: 'text-[#fb923c]', badge: 'bg-[#fb923c]/20 text-[#fb923c] border-[#fb923c]/30' },
+        { border: 'border-[#c084fc]', bg: 'bg-[#c084fc]/12', text: 'text-[#c084fc]', badge: 'bg-[#c084fc]/20 text-[#c084fc] border-[#c084fc]/30' },
+        { border: 'border-[#2dd4bf]', bg: 'bg-[#2dd4bf]/12', text: 'text-[#2dd4bf]', badge: 'bg-[#2dd4bf]/20 text-[#2dd4bf] border-[#2dd4bf]/30' },
+        { border: 'border-[#fbbf24]', bg: 'bg-[#fbbf24]/12', text: 'text-[#fbbf24]', badge: 'bg-[#fbbf24]/20 text-[#fbbf24] border-[#fbbf24]/30' },
+        { border: 'border-[#f472b6]', bg: 'bg-[#f472b6]/12', text: 'text-[#f472b6]', badge: 'bg-[#f472b6]/20 text-[#f472b6] border-[#f472b6]/30' }
+      ];
+      itemsWithMeta.forEach((item, tSortIdx) => {
         const originalIndex = item.originalIdx;
         const isToday = item.date === todayISO;
         const status = item.status || 'open';
+        const openTheme = TERMIN_OPEN_PALETTE[tSortIdx % TERMIN_OPEN_PALETTE.length];
         let fullDateString = "No Date";
         if (item.date) {
           try {
@@ -1685,10 +1835,10 @@ function renderApp() {
         let locHTML = item.location ? `<span class="text-[9px] text-[#D4D4D4] truncate max-w-[85px] inline-flex items-center gap-0.5">${svgFn('map-pin', 'w-3 h-3 shrink-0 text-[#D4D4D4]')}${escapeHtml(item.location)}</span>` : '';
 
         // Status Styling & Badges
-        let statusBorderBg = isToday ? 'border-[#89cff0] bg-[#89cff0]/10' : 'border-[#89cff0]/40 bg-white/[0.035]';
+        let statusBorderBg = isToday ? `${openTheme.border} ${openTheme.bg}` : `${openTheme.border} ${openTheme.bg}`;
         let statusBadgeHTML = '';
 
-                if (status === 'stattgefunden') {
+        if (status === 'stattgefunden') {
           statusBorderBg = 'border-[#00ff66] bg-[#00ff66]/10 text-[#00ff66]';
           statusBadgeHTML = `<span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-bold bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]/40 shrink-0"><i data-lucide="check-check" class="w-3 h-3 text-[#00ff66]"></i><span>${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Effectué', it: 'Svolto', es: 'Realizado', el: 'Πραγματοποιήθηκε' })}</span></span>`;
         } else if (status === 'nicht_stattgefunden') {
@@ -1705,15 +1855,15 @@ function renderApp() {
         itemDiv.onclick = () => editTermin(originalIndex);
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-14 select-none">
-            <button onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-lime-400 bg-lime-500/20 text-lime-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : 'border-[#89cff0]/40 bg-[#89cff0]/10 hover:border-lime-400 hover:bg-lime-500/20'))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+            <button onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="toggleTerminStatusQuick(${originalIndex}, event)" aria-label="${tr({ de: 'Termin-Status ändern', en: 'Change appointment status', fr: 'Changer le statut du rendez-vous', it: 'Modifica stato appuntamento', es: 'Cambiar estado de la cita', el: 'Αλλαγή κατάστασης ραντεβού' })}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${tr({ de: 'Status durchschalten: Stattgefunden / Nicht stattgefunden / Offen', en: 'Toggle status: Attended / Did not happen / Open', fr: 'Basculer statut : Eu lieu / Pas eu lieu / Ouvert', it: 'Cambia stato: Avvenuto / Non avvenuto / Aperto', es: 'Cambiar estado: Asistido / No asistido / Abierto', el: 'Εναλλαγή κατάστασης: Πραγματοποιήθηκε / Δεν πραγματοποιήθηκε / Ανοιχτό' })}">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border ${status === 'stattgefunden' ? 'border-emerald-400 bg-emerald-500/20 text-emerald-300' : (status === 'nicht_stattgefunden' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : (status === 'verschoben' ? 'border-[#C586C0] bg-[#C586C0]/20 text-[#C586C0]' : `${openTheme.border} ${openTheme.bg} hover:border-emerald-400 hover:bg-emerald-500/20`))} hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
                 ${status === 'stattgefunden' 
-                  ? svgFn('check', 'w-3.5 h-3.5 text-lime-400')
+                  ? svgFn('check', 'w-3.5 h-3.5 text-emerald-400')
                   : (status === 'nicht_stattgefunden' 
                     ? svgFn('x', 'w-3.5 h-3.5 text-[#C586C0]')
                     : (status === 'verschoben' 
                       ? svgFn('calendar-sync', 'w-3.5 h-3.5 text-[#C586C0]')
-                      : `${svgFn('clock', 'task-default-icon w-3.5 h-3.5 text-[#89cff0] transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50')}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
+                      : `${svgFn('clock', `task-default-icon w-3.5 h-3.5 ${openTheme.text} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-emerald-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}`
                     )
                   )
                 }
@@ -1721,12 +1871,12 @@ function renderApp() {
             </button>
             <div class="flex flex-col min-w-0 flex-1 cursor-pointer" onclick="editTermin(${originalIndex}, event)">
               <div class="flex items-center gap-1.5 min-w-0 flex-wrap">
-                <span class="text-xs leading-snug font-semibold ${status === 'stattgefunden' ? 'text-[#00ff66] line-through opacity-90' : (status === 'nicht_stattgefunden' ? 'text-[#C586C0] line-through opacity-80' : (status === 'verschoben' ? 'text-[#C586C0]' : 'text-[#569CD6]'))} break-normal whitespace-normal">${escapeHtml(item.task || item.name || 'Termin')}</span>
-                ${item.time ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-[#89cff0]/20 text-[#89cff0] border border-[#89cff0]/30 shrink-0">${escapeHtml(item.time)}</span>` : ''}
+                <span class="text-xs leading-snug font-semibold ${status === 'stattgefunden' ? 'text-[#00ff66] line-through opacity-90' : (status === 'nicht_stattgefunden' ? 'text-[#C586C0] line-through opacity-80' : (status === 'verschoben' ? 'text-[#C586C0]' : openTheme.text))} break-normal whitespace-normal">${escapeHtml(item.task || item.name || 'Termin')}</span>
+                ${item.time ? `<span class="px-1.5 py-0.2 rounded text-[9px] font-mono font-bold border shrink-0 ${openTheme.badge}">${escapeHtml(item.time)}</span>` : ''}
                 ${statusBadgeHTML}
               </div>
               <div class="flex items-center gap-1.5 mt-0.5">
-                <span class="text-[9px] font-mono text-[#89cff0]">${escapeHtml(fullDateString)}</span>
+                <span class="text-[9px] font-mono ${openTheme.text}">${escapeHtml(fullDateString)}</span>
                 ${locHTML}
               </div>
             </div>
@@ -1742,9 +1892,9 @@ function renderApp() {
       const isFormOpen = (typeof isTerminFormOpen !== 'undefined') ? isTerminFormOpen : (window.isTerminFormOpen || false);
       if (!isFormOpen) {
         const btnEl = document.createElement('button'); btnEl.onclick = () => toggleTerminForm(true);
-        btnEl.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-[#89cff0]/30 bg-[#89cff0]/5 hover:bg-[#89cff0]/15 hover:border-[#89cff0]/60 text-center text-xs text-[#89cff0] hover:text-white font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+        btnEl.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-orange-400/35 bg-orange-500/5 hover:bg-orange-500/15 hover:border-orange-400/60 text-center text-xs text-orange-300 hover:text-orange-200 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
         const btnT = t('appointment_new_btn') || tr({ de: 'Neuer Termin', en: 'New appointment', es: 'Nueva cita', el: 'Νέο ραντεβού', fr: 'Nouveau rendez-vous', it: 'Nuovo appuntamento' });
-        btnEl.innerHTML = `${svgFn('calendar-plus', 'w-3.5 h-3.5 text-[#89cff0] group-hover/addbtn:scale-110 transition-transform')}<span>${btnT}</span>`;
+        btnEl.innerHTML = `${svgFn('calendar-plus', 'w-3.5 h-3.5 text-orange-300 group-hover/addbtn:scale-110 transition-transform')}<span>${btnT}</span>`;
         listEl.appendChild(btnEl);
       } else {
         const formDiv = document.createElement('div'); formDiv.className = 'mt-1 p-3 bg-[#0e0e14] border border-[var(--accent)]/40 rounded-xl flex flex-col gap-2 shadow-lg';
@@ -1763,16 +1913,16 @@ function renderApp() {
         formDiv.innerHTML = `
           <div class="flex items-center justify-between text-xs font-bold text-amber-300">
             <span class="flex items-center gap-1.5">${svgFn('calendar', 'w-3.5 h-3.5')} ${formT}</span>
-            <button onclick="toggleTerminForm(false)" aria-label="Termin-Formular schließen" class="text-gray-400 hover:text-white p-0.5 cursor-pointer text-xs">✕</button>
+            <button onclick="toggleTerminForm(false)" aria-label="Termin-Formular schließen" class="text-gray-400 hover:text-amber-200 p-0.5 cursor-pointer text-xs">✕</button>
           </div>
           <input type="text" id="add-termin-title" placeholder="${nameT}" class="w-full p-2 bg-black/60 border border-white/15 rounded-lg text-xs text-white outline-none focus:border-[var(--accent)] font-semibold placeholder:text-gray-500 mb-2" />
           <input type="text" id="add-termin-location" placeholder="${locPlaceholder}" class="w-full p-2 bg-black/60 border border-white/15 rounded-lg text-xs text-white outline-none focus:border-[var(--accent)] font-semibold placeholder:text-gray-500 mb-2" />
           <div class="grid grid-cols-2 gap-2 mb-2">
-            <div><label class="text-[10px] text-gray-400 mb-0.5 block font-medium">${dateT}</label><input type="date" id="add-termin-date" value="${dateValue}" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
-            <div><label class="text-[10px] text-gray-400 mb-0.5 block font-medium">${timeT}</label><input type="time" id="add-termin-time" value="10:00" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
+            <div><label class="text-[10px] text-cyan-300 mb-0.5 block font-medium">${dateT}</label><input type="date" id="add-termin-date" value="${dateValue}" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
+            <div><label class="text-[10px] text-purple-300 mb-0.5 block font-medium">${timeT}</label><input type="time" id="add-termin-time" value="10:00" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer" /></div>
           </div>
           <div class="mb-2">
-            <label class="text-[10px] text-gray-400 mb-0.5 block font-medium">Status:</label>
+            <label class="text-[10px] text-emerald-300 mb-0.5 block font-medium">Status:</label>
             <select id="add-termin-status" class="w-full p-1.5 bg-black/60 border border-white/15 rounded-lg text-xs text-gray-200 outline-none focus:border-[var(--accent)] cursor-pointer font-semibold">
               <option value="open">⚪ ${tr({ de: 'Offen', en: 'Open', fr: 'Ouvert', it: 'Aperto', es: 'Abierto', el: 'Ανοιχτό' })}</option>
               <option value="stattgefunden">🟢 ${tr({ de: 'Stattgefunden', en: 'Attended', fr: 'Eu lieu', it: 'Avvenuto', es: 'Asistido', el: 'Πραγματοποιήθηκε' })}</option>
@@ -1800,12 +1950,25 @@ function renderApp() {
       }
     } else {
       const validCategoryItems = (currentItems[id] || []).filter(Boolean);
+      const TASK_CYCLE_KEYS = ['rose', 'sky', 'emerald', 'orange', 'purple', 'cyan', 'gold', 'mint', 'lavender'];
+      let prevTaskBorder = '';
       validCategoryItems.forEach((task, index) => {
         const taskObj = (typeof task === 'object' && task !== null) ? task : { task: String(task || '') };
         const taskText = taskObj.task || '';
         if (!taskText) return;
         const taskColor = taskObj.color || 'none';
-        const colorStyle = getSemanticTaskStyle(taskText, id, taskColor);
+        let colorStyle = getSemanticTaskStyle(taskText, id, taskColor);
+        if (taskColor === 'none' && colorStyle.border === prevTaskBorder) {
+          for (let cIdx = 0; cIdx < TASK_CYCLE_KEYS.length; cIdx++) {
+            const altKey = TASK_CYCLE_KEYS[(index + colIndex + cIdx) % TASK_CYCLE_KEYS.length];
+            const altStyle = TASK_COLOR_MAP[altKey];
+            if (altStyle && altStyle.border !== prevTaskBorder) {
+              colorStyle = altStyle;
+              break;
+            }
+          }
+        }
+        prevTaskBorder = colorStyle.border;
         const iconDetails = (typeof getTaskIconDetails === 'function') ? getTaskIconDetails(taskText, id) : { icon: 'check-circle', color: 'text-purple-400' };
         const isTaskActive = (typeof activeTimerTask !== 'undefined' && activeTimerTask && activeTimerTask.category === id && activeTimerTask.index === index);
         const itemDiv = document.createElement('div');
@@ -1830,25 +1993,26 @@ function renderApp() {
           : '';
         const editTooltip = tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' });
         const completeTooltip = tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' });
-        const toolBadgesHTML = (typeof renderTaskToolBadgesHTML === 'function')
+        const is5MinClean = taskText.trim().toLowerCase() === '5min aufräumen' || taskText.trim().toLowerCase() === '5 min aufräumen' || !iconDetails.icon;
+        const toolBadgesHTML = (!is5MinClean && typeof renderTaskToolBadgesHTML === 'function')
           ? renderTaskToolBadgesHTML(taskObj, id, index)
           : '';
+        const checkIconInner = (is5MinClean || !iconDetails.icon)
+          ? ''
+          : svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`);
         itemDiv.innerHTML = `
           <div class="flex items-center gap-2 flex-1 min-w-0 pr-6 select-none flex-wrap">
-            <button onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
-              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-lime-400 hover:bg-lime-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
-                ${svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`)}
-                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-lime-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
+            <button onpointerdown="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="handleCompleteTask('${id}', ${index}, event)" aria-label="${completeTooltip}" data-noodle-tooltip="${completeTooltip}" class="task-check-btn p-0 bg-transparent border-0 cursor-pointer shrink-0" title="${completeTooltip}">
+              <span class="task-check-circle relative flex items-center justify-center w-5.5 h-5.5 rounded-full border border-white/20 bg-white/[0.04] hover:border-emerald-400 hover:bg-emerald-500/20 hover:scale-110 active:scale-90 transition-all duration-200 shrink-0 shadow-xs group/check">
+                ${checkIconInner}
+                ${svgFn('check', 'task-hover-check w-3.5 h-3.5 text-emerald-400 opacity-0 scale-50 group-hover/check:opacity-100 group-hover/check:scale-100 transition-all duration-200 absolute')}
               </span>
             </button>
-            <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:text-white break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-colors duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
+            <span data-task-span="${id}-${index}" onclick="editTaskInline('${id}', ${index}, event)" class="task-text-span block text-xs leading-snug py-0.5 min-w-0 flex-1 font-medium hover:brightness-125 break-normal whitespace-normal cursor-pointer active:cursor-text ${isTaskActive ? 'text-[#569CD6] font-bold' : colorStyle.text} transition-all duration-150" title="${safeTaskEscaped} (${editTooltip})">${formattedTaskHtml}</span>
             ${recurrenceBadge}
             ${toolBadgesHTML}
           </div>
           <div class="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center gap-1 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-150 shrink-0 z-40">
-            <button onclick="startTaskTimerByIndex('${id}', ${index}, event)" aria-label="${tr({ de: 'Timer für diese Aufgabe starten', en: 'Start timer for this task', fr: 'Lancer le minuteur', it: 'Avvia timer per questa attività', es: 'Iniciar temporizador', el: 'Εκκίνηση χρονοδιακόπτη' })}" class="p-1 px-1.5 text-amber-300 hover:text-white bg-[#1a1a28] hover:bg-amber-500/30 border border-white/20 hover:border-amber-400/50 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Fokus-Timer starten', en: 'Start focus timer', fr: 'Lancer le minuteur', it: 'Avvia timer', es: 'Iniciar temporizador', el: 'Εκκίνηση Timer' })}">
-              ${svgFn('timer', 'w-3.5 h-3.5 text-amber-400 hover:text-amber-200')}
-            </button>
             <button onclick="toggleTaskOptionsMenu('${id}', ${index}, event)" aria-label="${tr({ de: 'Aufgabenoptionen öffnen', en: 'Open task options', fr: 'Ouvrir options', it: 'Apri opzioni', es: 'Abrir opciones', el: 'Επιλογές' })}" class="p-1 px-1.5 text-gray-200 hover:text-white bg-[#1a1a28] hover:bg-[#252538] border border-white/20 rounded-lg shadow-md transition cursor-pointer" title="${tr({ de: 'Optionen (Timer, Chrono, Steps, etc.)', en: 'Options (Timer, Chrono, Steps, etc.)', fr: 'Options (Minuteur, Chrono, Steps, etc.)', it: 'Opzioni (Timer, Cronometro, Steps, etc.)', es: 'Opciones (Timer, Crono, Steps, etc.)', el: 'Επιλογές (Timer, Chrono, Steps)' })}">
               ${svgFn('more-horizontal', 'w-3.5 h-3.5 text-gray-200 hover:text-white')}
             </button>
@@ -1857,16 +2021,19 @@ function renderApp() {
         listEl.appendChild(itemDiv);
       });
       const addBtn = document.createElement('button'); addBtn.onclick = () => { openTaskAddColumns[id] = true; renderApp(); };
-      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-white/15 bg-white/[0.02] hover:bg-white/[0.06] hover:border-lime-400/50 hover:text-lime-300 text-center text-xs text-gray-400 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
-      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-400 group-hover/addbtn:scale-110 group-hover/addbtn:text-lime-300 transition-transform')}<span>${t('add')}</span>`;
+      addBtn.className = 'w-full min-h-[30px] p-1.5 rounded-xl border border-dashed border-white/15 bg-white/[0.02] hover:bg-white/[0.06] hover:border-emerald-400/50 hover:text-emerald-300 text-center text-xs text-gray-400 font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs group/addbtn mt-1';
+      addBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-emerald-400 group-hover/addbtn:scale-110 group-hover/addbtn:text-emerald-300 transition-transform')}<span>${t('add')}</span>`;
 
       const addInput = document.createElement('input'); addInput.type = 'text';
       addInput.placeholder = t('add');
-      addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-lime-500/50 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-lime-400 focus:shadow-[0_0_12px_rgba(132,204,22,0.25)] transition cursor-text font-semibold text-white shadow-inner';
+      addInput.className = 'w-full min-h-[32px] p-1.5 px-2.5 rounded-xl border border-emerald-500/40 bg-[#0e0e16] text-left text-xs placeholder:text-gray-500 focus:outline-none focus:border-emerald-400 focus:shadow-[0_0_12px_rgba(16,185,129,0.25)] transition cursor-text font-semibold text-white shadow-inner';
       addInput.onkeydown = (e) => {
         if (e.key === 'Enter' && addInput.value.trim()) {
           const taskText = addInput.value.trim();
-          saveHistory(`Aufgabe hinzugefügt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
+          let addLabel = 'Aufgabe hinzugefügt';
+          if (id === 'notes') addLabel = 'Notiz hinzugefügt';
+          else if (id === 'termine') addLabel = 'Termin hinzugefügt';
+          saveHistory(`${addLabel}: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
           const taskObj = (typeof ensureItemIdentity === 'function') 
             ? ensureItemIdentity(taskText, `task_${id}`)
             : { task: taskText };
@@ -1886,13 +2053,16 @@ function renderApp() {
 
         const submitAddBtn = document.createElement('button');
         submitAddBtn.type = 'button';
-        submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-lime-500/20 hover:bg-lime-500/35 text-lime-300 border border-lime-500/40 hover:border-lime-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
-        submitAddBtn.title = tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)', fr: 'Ajouter une tâche (Entrée)', it: 'Aggiungi attività (Invio)', es: 'Añadir tarea (Enter)', el: 'Προσθήκη εργασίας (Enter)' });
-        submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-lime-300')}`;
+        submitAddBtn.className = 'p-1.5 px-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/35 text-emerald-300 border border-emerald-500/40 hover:border-emerald-400 text-xs font-bold transition cursor-pointer shrink-0 shadow-xs flex items-center justify-center';
+        submitAddBtn.title = id === 'notes' ? tr({ de: 'Notiz hinzufügen (Enter)', en: 'Add note (Enter)', fr: 'Ajouter une note (Entrée)', it: 'Aggiungi nota (Invio)', es: 'Añadir nota (Enter)', el: 'Προσθήκη σημείωσης (Enter)' }) : (id === 'termine' ? tr({ de: 'Termin hinzufügen (Enter)', en: 'Add appointment (Enter)', fr: 'Ajouter un rendez-vous (Entrée)', it: 'Aggiungi appuntamento (Invio)', es: 'Añadir cita (Enter)', el: 'Προσθήκη ραντεβού (Enter)' }) : tr({ de: 'Aufgabe hinzufügen (Enter)', en: 'Add task (Enter)', fr: 'Ajouter une tâche (Entrée)', it: 'Aggiungi attività (Invio)', es: 'Añadir tarea (Enter)', el: 'Προσθήκη εργασίας (Enter)' }));
+        submitAddBtn.innerHTML = `${svgFn('plus', 'w-3.5 h-3.5 text-emerald-300')}`;
         submitAddBtn.onclick = () => {
           if (addInput.value.trim()) {
-            saveHistory();
             const taskText = addInput.value.trim();
+            let addLabel = 'Aufgabe hinzugefügt';
+            if (id === 'notes') addLabel = 'Notiz hinzugefügt';
+            else if (id === 'termine') addLabel = 'Termin hinzugefügt';
+            saveHistory(`${addLabel}: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
             const taskObj = (typeof ensureItemIdentity === 'function') 
               ? ensureItemIdentity(taskText, `task_${id}`)
               : { task: taskText };
@@ -2005,28 +2175,85 @@ function stepMobileCategory(direction = 1) {
   setMobileCategory(activeOrder[nextIdx][0]);
 }
 
+/**
+ * Switches the mobile bottom-navigation view (planer / focus / audio / tools).
+ * Any floating panel or modal is closed first, otherwise it would sit on top
+ * of the selected view and the tap would appear to "do nothing".
+ */
 function switchMobileNavTab(tabName) {
   if (!tabName) tabName = 'planer';
   document.body.dataset.mobileNav = tabName;
-  localStorage.setItem('flowPlannerMobileNav', tabName);
+  try {
+    localStorage.setItem('flowPlannerMobileNav', tabName);
+    localStorage.setItem('flow_active_mobile_tab', tabName);
+  } catch (e) { /* storage may be unavailable (private mode) */ }
+
+  // Zen mode hides most of the UI – leave it so the chosen view is visible.
+  try {
+    if (typeof isMinimalist !== 'undefined' && isMinimalist && typeof toggleMinimalist === 'function') {
+      toggleMinimalist();
+    }
+  } catch (e) { /* ignore */ }
+
+  try {
+    if (typeof closeAllPanelsAndModals === 'function') closeAllPanelsAndModals();
+    if (typeof syncHeaderToolsMenuState === 'function') syncHeaderToolsMenuState();
+  } catch (e) { /* ignore */ }
 
   document.querySelectorAll('.mobile-nav-item').forEach(btn => {
-    const isTarget = btn.id === `mob-nav-${tabName}`;
-    btn.classList.toggle('active', isTarget);
+    btn.classList.toggle('active', btn.id === `mob-nav-${tabName}`);
   });
+  document.querySelectorAll('.mobile-view-pane').forEach(pane => {
+    pane.classList.toggle('mobile-tab-active', pane.id === `mobile-view-${tabName}`);
+  });
+
+  if (tabName === 'menu') {
+    if (typeof openMobileMenuDrawer === 'function') openMobileMenuDrawer();
+    return;
+  }
 
   if (tabName === 'planer') {
     const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
     const curCat = document.body.dataset.mobileCat || (activeOrder[0] ? activeOrder[0][0] : 'daily');
     setMobileCategory(curCat);
+  } else if (tabName === 'focus') {
+    try { if (typeof updateTimerDisplay === 'function') updateTimerDisplay(); } catch (e) { /* ignore */ }
+  } else if (tabName === 'audio') {
+    try { if (typeof updateSoundscapeUI === 'function') updateSoundscapeUI(); } catch (e) { /* ignore */ }
+  } else if (tabName === 'tools') {
+    try { if (typeof renderLucideIcons === 'function') renderLucideIcons(); } catch (e) { /* ignore */ }
   }
 
+  try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
   if (typeof renderLucideIcons === 'function') renderLucideIcons();
+}
+
+/** Opens the shopping panel directly on the pantry tab (used by the mobile tools view). */
+function openPantryModal() {
+  const panel = document.getElementById('panel-shopping');
+  if (panel && panel.classList.contains('hidden') && typeof togglePanel === 'function') togglePanel('shopping');
+  if (typeof switchShoppingTab === 'function') switchShoppingTab('pantry');
+}
+
+/** Opens the cooking panel directly on the recipes tab (used by the mobile tools view). */
+function openRecipeModal() {
+  const panel = document.getElementById('panel-cooking');
+  if (panel && panel.classList.contains('hidden') && typeof togglePanel === 'function') togglePanel('cooking');
+  if (typeof switchCookingTab === 'function') switchCookingTab('recipes');
+}
+
+/** No-op safety hook: some buttons call this after opening a modal. */
+function closeHubModal() {
+  const hub = document.getElementById('modal-mobile-quick-menu');
+  if (hub) hub.classList.add('hidden');
 }
 
 window.setMobileCategory = setMobileCategory;
 window.stepMobileCategory = stepMobileCategory;
 window.switchMobileNavTab = switchMobileNavTab;
+if (typeof window.openPantryModal !== 'function') window.openPantryModal = openPantryModal;
+if (typeof window.openRecipeModal !== 'function') window.openRecipeModal = openRecipeModal;
+if (typeof window.closeHubModal !== 'function') window.closeHubModal = closeHubModal;
 if (typeof globalThis !== 'undefined') {
   globalThis.setMobileCategory = setMobileCategory;
   globalThis.stepMobileCategory = stepMobileCategory;
@@ -2063,7 +2290,21 @@ function handleCompleteTask(category, index, event) {
     taskText += ` (${formatTerminDate(rawTask.date, rawTask.time)}${locInfo})`;
   }
 
-  saveHistory(`Aufgabe erledigt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
+  let doneAction = 'Aufgabe erledigt';
+  let collabAction = 'hat Aufgabe erledigt';
+  if (category === 'notes') {
+    doneAction = 'Notiz abgehakt';
+    collabAction = 'hat Notiz abgehakt';
+  } else if (category === 'termine') {
+    doneAction = 'Termin abgeschlossen';
+    collabAction = 'hat Termin abgeschlossen';
+  }
+
+  saveHistory(`${doneAction}: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
+  const ws = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(rawTask, category, ws);
+  }
   // Remove immediately to eliminate blank gaps
   curItems[category].splice(index, 1);
   curItems[category] = curItems[category].filter(Boolean);
@@ -2100,27 +2341,33 @@ function handleCompleteTask(category, index, event) {
         s.done.push(doneEntry);
       }
     }
+    if (category === 'occasionally' && (taskText.toLowerCase().includes('aufraum') || taskText.toLowerCase().includes('tidy'))) {
+      s.lastOccasionalAufräumenDoneDate = todayStr;
+    }
   }
 
   if (state && state.completedSteps) delete state.completedSteps[taskText];
 
-  if (typeof setThemeSlow === 'function' && typeof getSimilarTheme === 'function') {
-    setThemeSlow(getSimilarTheme(currentTheme));
-  }
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
 
   if (typeof CollabEngine !== 'undefined') {
-    CollabEngine.broadcastBoardEvent(`hat Aufgabe erledigt: "${taskText.substring(0, 32)}" ✅`);
+    CollabEngine.broadcastBoardEvent(`${collabAction}: "${taskText.substring(0, 32)}"`);
   }
+  
+  // Positives Feedback: Schnelles Text-Lob & angenehmer Sound-Chime (KEINE Sprachausgabe, KEIN Konfetti-Gewitter)
   if (typeof showPraise === 'function') showPraise();
+  if (typeof playCheerfulSuccessJingle === 'function') {
+    playCheerfulSuccessJingle();
+  } else if (typeof playProceduralSound === 'function') {
+    playProceduralSound(3);
+  }
 
-  // Instant sensory feedback
-  if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback();
-  if (typeof triggerSparkleEffect === 'function') triggerSparkleEffect(clientX, clientY);
+  // Dezentes haptisches und taktiles Feedback
+  if (typeof triggerHapticFeedback === 'function') triggerHapticFeedback('light');
   if (typeof playTactileClickSound === 'function') playTactileClickSound();
-  if (typeof playCheerfulSuccessJingle === 'function') playCheerfulSuccessJingle();
-  if (typeof triggerCelebrationParticles === 'function') triggerCelebrationParticles(clientX, clientY);
-  if (typeof spawnFloatingBubbles === 'function') spawnFloatingBubbles(event);
 
   renderApp();
   if (typeof updateZenView === 'function') updateZenView();
@@ -2192,20 +2439,61 @@ function deleteTask(category, index, event) {
   if (event) event.stopPropagation();
   const curItems = getCurrentWorkspaceItems();
   const taskObj = curItems[category]?.[index];
-  const taskText = typeof taskObj === 'object' ? taskObj?.task : taskObj;
-  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Aufgabe';
-  saveHistory(`Aufgabe gelöscht: ${snippet}`);
-  const taskId = (taskObj && typeof taskObj === 'object' && taskObj.id) 
-    ? taskObj.id 
-    : ((typeof getStableId === 'function') ? getStableId(taskObj, `task_${category}`) : null);
-  if (taskId && typeof trackTombstone === 'function') {
-    trackTombstone(taskId);
+  const taskText = typeof taskObj === 'object' ? (taskObj?.task || taskObj?.name || '') : String(taskObj || '');
+  
+  let entityLabel = 'Aufgabe';
+  let toastMsg = t('toast_task_deleted');
+  
+  if (category === 'notes') {
+    entityLabel = 'Notiz';
+    toastMsg = t('toast_note_deleted') || (typeof tr === 'function' ? tr({
+      de: 'Notiz gelöscht.',
+      en: 'Note deleted.',
+      fr: 'Note supprimée.',
+      it: 'Nota eliminata.',
+      es: 'Nota eliminada.',
+      el: 'Η σημείωση διαγράφηκε.'
+    }) : 'Notiz gelöscht.');
+  } else if (category === 'termine') {
+    entityLabel = 'Termin';
+    toastMsg = t('toast_termin_deleted') || (typeof tr === 'function' ? tr({
+      de: 'Termin gelöscht.',
+      en: 'Appointment deleted.',
+      fr: 'Rendez-vous supprimé.',
+      it: 'Appuntamento eliminato.',
+      es: 'Cita eliminada.',
+      el: 'Το ραντεβού διαγράφηκε.'
+    }) : 'Termin gelöscht.');
+  } else if (category === 'done') {
+    entityLabel = 'Erledigte Aufgabe';
+    toastMsg = (typeof tr === 'function') ? tr({
+      de: 'Erledigte Aufgabe gelöscht.',
+      en: 'Completed task deleted.',
+      fr: 'Tâche terminée supprimée.',
+      it: 'Attività completata eliminata.',
+      es: 'Tarea completada eliminada.',
+      el: 'Η ολοκληρωμένη εργασία διαγράφηκε.'
+    }) : 'Erledigte Aufgabe gelöscht.';
+  }
+
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : entityLabel;
+  saveHistory(`${entityLabel} gelöscht: ${snippet}`);
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(taskObj, category, ws);
   }
 
   if (curItems[category]) curItems[category].splice(index, 1);
+  if (category === 'occasionally' && String(taskText).toLowerCase().includes('aufraum')) {
+    const sState = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+    if (sState) sState.lastOccasionalAufräumenDoneDate = new Date().toISOString().split('T')[0];
+  }
   if (taskText && state.completedSteps) delete state.completedSteps[taskText];
   saveState();
-  showToast(t('toast_task_deleted'), { undo: true, duration: 5000 });
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
+  showToast(toastMsg, { undo: true, duration: 5000 });
   renderApp();
   updateZenView();
   populateHelperTaskSelect();
@@ -2218,16 +2506,38 @@ function handleRestoreDoneTask(doneIndex) {
   const reversedIndex = curDone.length - 1 - doneIndex;
   const item = curDone[reversedIndex]; if (!item) return;
   const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
-  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Erledigte Aufgabe';
-  saveHistory(`Erledigte wiederhergestellt: ${snippet}`);
-  curDone.splice(reversedIndex, 1);
+  const originCat = item && item.origin ? item.origin : 'daily';
+
+  let entityLabel = 'Aufgabe';
+  let restoreToast = t('toast_task_restored') || 'Aufgabe wiederhergestellt ↩️';
+
+  if (originCat === 'notes') {
+    entityLabel = 'Notiz';
+    restoreToast = t('toast_note_restored') || 'Notiz wiederhergestellt ↩️';
+  } else if (originCat === 'termine') {
+    entityLabel = 'Termin';
+    restoreToast = t('toast_termin_restored') || 'Termin wiederhergestellt ↩️';
+  }
+
+  const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : entityLabel;
+  saveHistory(`${entityLabel} wiederhergestellt: ${snippet}`);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(item, 'done', ws);
+  }
+  curDone.splice(reversedIndex, 1);
   const fallbackCat = ws === 'study' ? 'study_focus' : (ws === 'work' ? 'work_focus' : 'daily');
   const targetCat = (item && item.origin && curItems[item.origin]) ? item.origin : fallbackCat;
+  if (typeof clearItemTombstone === 'function') {
+    clearItemTombstone(taskText, targetCat, ws);
+  }
   if (!curItems[targetCat]) curItems[targetCat] = [];
   curItems[targetCat].push(taskText);
   saveState();
-  showToast(t('toast_task_restored') || tr({ de: 'Aufgabe wiederhergestellt ↩️', en: 'Task restored ↩️', fr: 'Tâche restaurée ↩️', it: 'Attività ripristinata ↩️', es: 'Tarea restaurada ↩️', el: 'Εργασία επαναφέρθηκε ↩️' }));
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
+  showToast(restoreToast);
   renderApp();
   if (typeof updateZenView === 'function') updateZenView();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
@@ -2307,6 +2617,8 @@ function rebindListDragHandlers(colId) {
     }
     const checkBtn = itemDiv.querySelector('.task-check-btn');
     if (checkBtn) {
+      checkBtn.onpointerdown = (e) => e.stopPropagation();
+      checkBtn.onmousedown = (e) => e.stopPropagation();
       checkBtn.onclick = (e) => handleCompleteTask(colId, idx, e);
       const completeTooltip = (typeof tr === 'function')
         ? tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' })
@@ -2399,8 +2711,11 @@ function handleItemDrop(e, targetCategory, targetIndex) {
   let insertIdx = isTopHalf ? targetIndex : targetIndex + 1;
   const rawItem = curItems[srcCat][srcIdx];
   const itemText = (typeof rawItem === 'object' && rawItem !== null) ? (rawItem.task || rawItem.name || '') : String(rawItem || '');
-  const snippet = itemText ? `"${itemText.length > 20 ? itemText.substring(0, 18) + '...' : itemText}"` : 'Aufgabe';
-  saveHistory(`Aufgabe verschoben: ${snippet}`);
+  let entityLabel = 'Aufgabe';
+  if (srcCat === 'notes') entityLabel = 'Notiz';
+  else if (srcCat === 'termine') entityLabel = 'Termin';
+  const snippet = itemText ? `"${itemText.length > 20 ? itemText.substring(0, 18) + '...' : itemText}"` : entityLabel;
+  saveHistory(`${entityLabel} verschoben: ${snippet}`);
   const [item] = curItems[srcCat].splice(srcIdx, 1);
   if (srcCat === targetCategory && srcIdx < insertIdx) {
     insertIdx--;
@@ -2429,7 +2744,13 @@ function handleDrop(e, targetCategory) {
   if (!curItems[srcCat] || !curItems[targetCategory]) return;
   
   const insertIdx = curItems[targetCategory].length;
-  saveHistory();
+  const rawDropItem = curItems[srcCat][srcIdx];
+  const dropItemText = (typeof rawDropItem === 'object' && rawDropItem !== null) ? (rawDropItem.task || rawDropItem.name || '') : String(rawDropItem || '');
+  let dropEntityLabel = 'Aufgabe';
+  if (srcCat === 'notes') dropEntityLabel = 'Notiz';
+  else if (srcCat === 'termine') dropEntityLabel = 'Termin';
+  const dropSnippet = dropItemText ? `"${dropItemText.length > 20 ? dropItemText.substring(0, 18) + '...' : dropItemText}"` : dropEntityLabel;
+  saveHistory(`${dropEntityLabel} verschoben: ${dropSnippet}`);
   const [item] = curItems[srcCat].splice(srcIdx, 1);
   curItems[targetCategory].push(item);
   draggedItemInfo = null;
@@ -2449,11 +2770,6 @@ let hoverPanelHideTimeout = null;
 // syncHeaderToolsMenuState handled by app-reports.js
 
 function showPanelHover(panelName, delay = 180) {
-  // Wenn im Click-Only Modus: keine automatische Hover-Vorschau öffnen!
-  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function') {
-    if (window.NoodleInteractionMode.getMode() === 'click-only') return;
-  }
-
   if (hoverPanelHideTimeout) {
     clearTimeout(hoverPanelHideTimeout);
     hoverPanelHideTimeout = null;
@@ -2494,15 +2810,17 @@ function showPanelHover(panelName, delay = 180) {
       'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'timer-presets',
       'audio', 'daily', 'logo-guide', 'collab-chat', 'radio-news', 'health', 'humor-lab'
     ];
-    const isSubpanelOfTools = TOOL_SUBPANELS.includes(panelName);
+    const TOOL_SUBPANELS_EXT = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab', 'radio-news'];
+    const isSubpanelOfTools = TOOL_SUBPANELS_EXT.includes(panelName);
 
     ALL_POPOVER_PANELS.forEach(p => {
-      // Wenn wir ein Tool-Untermenü öffnen, darf das übergeordnete Tools-Menü nicht geschlossen werden!
       if (isSubpanelOfTools && p === 'header-tools') return;
+      if (TOOL_SUBPANELS_EXT.includes(p)) return;
       if (p !== panelName && p !== pinnedPanel) {
-        // Falls wir im Header-Tools Hub sind, nur andere Tool-Flyouts schließen, nicht aber fremde Panels
         const other = document.getElementById(`panel-${p}`);
-        if (other) other.classList.add('hidden');
+        if (other && !other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
+          other.classList.add('hidden');
+        }
       }
     });
 
@@ -2583,12 +2901,8 @@ function showPanelHover(panelName, delay = 180) {
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
     };
 
-  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
-                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
-  
-  // Im Turbo-Modus reagieren Panels blitzschnell wie Edge-Tabs (40ms statt 180ms)
-  const defaultDelay = isTurbo ? 35 : 180;
-  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? (isTurbo ? Math.min(delay, 35) : delay) : defaultDelay;
+  const defaultDelay = 180;
+  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? delay : defaultDelay;
   hoverPanelShowTimeout = setTimeout(executeShow, effectiveDelay);
 }
 window.showPanelHover = showPanelHover;
@@ -2603,9 +2917,7 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     hoverPanelHideTimeout = null;
   }
 
-  const isTurbo = (typeof document !== 'undefined' && document.body && (document.body.classList.contains('mode-turbo') || document.body.classList.contains('mode-fast-hover'))) ||
-                  (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.getMode === 'function' && window.NoodleInteractionMode.getMode() === 'turbo');
-  const effectiveGrace = isTurbo ? Math.min(gracePeriod, 80) : gracePeriod;
+  const effectiveGrace = gracePeriod;
 
   const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
   if (isPinned) return;
@@ -2650,8 +2962,10 @@ document.addEventListener('pointerdown', (e) => {
   // 1. Wenn der Klick innerhalb des Tools-Hubs oder seines Wrappers ist: niemals schließen!
   const toolsPanel = document.getElementById('panel-header-tools');
   const toolsWrapper = document.getElementById('header-tools-wrapper');
+  const arrowBtn = document.getElementById('btn-dashboard-arrow-toggle');
   if (toolsPanel && toolsPanel.contains(e.target)) return;
   if (toolsWrapper && toolsWrapper.contains(e.target)) return;
+  if (arrowBtn && arrowBtn.contains(e.target)) return;
 
   const activeName = (typeof window !== 'undefined' && window.pinnedPanel) || pinnedPanel || currentlyOpenPanel;
   if (!activeName) return;
@@ -2945,7 +3259,7 @@ function saveNoteDetailModal() {
   if (index >= 0 && curItems.notes && curItems.notes[index] !== undefined) {
     const val = textarea ? textarea.value.trim() : '';
     if (val) {
-      saveHistory();
+      saveHistory(`Notiz aktualisiert: "${val.length > 25 ? val.substring(0, 22) + '...' : val}"`);
       curItems.notes[index] = val;
       saveState();
       renderApp();
@@ -2986,18 +3300,38 @@ function deleteCurrentNoteDetail() {
   }
 }
 
-function copyTaskText(text, event) {
+function copyTaskText(text, event, cat) {
   if (event) event.stopPropagation();
   if (!text) return;
   navigator.clipboard?.writeText(text).then(() => {
-    showToast(tr({
-      de: 'Aufgabentext kopiert! 📋',
-      en: 'Task text copied! 📋',
-      es: '¡Texto de tarea copiado! 📋',
-      el: 'Το κείμενο αντιγράφηκε! 📋',
-      fr: 'Texte copié ! 📋',
-      it: 'Testo copiato! 📋'
-    }));
+    if (cat === 'notes') {
+      showToast(tr({
+        de: 'Notiz kopiert! 📋',
+        en: 'Note copied! 📋',
+        es: '¡Nota copiada! 📋',
+        el: 'Η σημείωση αντιγράφηκε! 📋',
+        fr: 'Note copiée ! 📋',
+        it: 'Nota copiata! 📋'
+      }));
+    } else if (cat === 'termine') {
+      showToast(tr({
+        de: 'Termin kopiert! 📋',
+        en: 'Appointment copied! 📋',
+        es: '¡Cita copiada! 📋',
+        el: 'Το ραντεβού αντιγράφηκε! 📋',
+        fr: 'Rendez-vous copié ! 📋',
+        it: 'Appuntamento copiato! 📋'
+      }));
+    } else {
+      showToast(tr({
+        de: 'Aufgabentext kopiert! 📋',
+        en: 'Task text copied! 📋',
+        es: '¡Texto de tarea copiado! 📋',
+        el: 'Το κείμενο αντιγράφηκε! 📋',
+        fr: 'Texte copié ! 📋',
+        it: 'Testo copiato! 📋'
+      }));
+    }
   }).catch(() => {});
 }
 window.copyTaskText = copyTaskText;
@@ -3008,7 +3342,7 @@ function copyTaskTextByIndex(cat, index, event) {
   const item = curItems[cat]?.[index];
   if (!item) return;
   const text = typeof item === 'object' ? item.task : item;
-  copyTaskText(text, event);
+  copyTaskText(text, event, cat);
 }
 window.copyTaskTextByIndex = copyTaskTextByIndex;
 
@@ -3067,7 +3401,10 @@ function editTaskInline(cat, index, event) {
     
     const newText = span.textContent.trim();
     if (save && newText && newText !== originalText) {
-      saveHistory();
+      let entityLabel = 'Aufgabe';
+      if (cat === 'notes') entityLabel = 'Notiz';
+      else if (cat === 'termine') entityLabel = 'Termin';
+      saveHistory(`${entityLabel} bearbeitet: "${newText.length > 20 ? newText.substring(0, 18) + '...' : newText}"`);
       if (typeof curItems[cat][index] === 'object') {
         curItems[cat][index].task = newText;
         curItems[cat][index].updatedAt = new Date().toISOString();
@@ -3082,14 +3419,34 @@ function editTaskInline(cat, index, event) {
       span.innerHTML = safeEscaped.replace(/ &amp; /g, '&nbsp;&amp; ').replace(/ & /g, '&nbsp;& ');
       span.title = `${newText} (${tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' })})`;
       if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
-      showToast(tr({
-        de: 'Aufgabe aktualisiert ✏️',
-        en: 'Task updated ✏️',
-        fr: 'Tâche mise à jour ✏️',
-        it: 'Attività aggiornata ✏️',
-        es: 'Tarea actualizada ✏️',
-        el: 'Η εργασία ενημερώθηκε ✏️'
-      }));
+      if (cat === 'notes') {
+        showToast(tr({
+          de: 'Notiz aktualisiert ✏️',
+          en: 'Note updated ✏️',
+          fr: 'Note mise à jour ✏️',
+          it: 'Nota aggiornata ✏️',
+          es: 'Nota actualizada ✏️',
+          el: 'Η σημείωση ενημερώθηκε ✏️'
+        }));
+      } else if (cat === 'termine') {
+        showToast(tr({
+          de: 'Termin aktualisiert ✏️',
+          en: 'Appointment updated ✏️',
+          fr: 'Rendez-vous mis à jour ✏️',
+          it: 'Appuntamento aggiornato ✏️',
+          es: 'Cita actualizada ✏️',
+          el: 'Το ραντεβού ενημερώθηκε ✏️'
+        }));
+      } else {
+        showToast(tr({
+          de: 'Aufgabe aktualisiert ✏️',
+          en: 'Task updated ✏️',
+          fr: 'Tâche mise à jour ✏️',
+          it: 'Attività aggiornata ✏️',
+          es: 'Tarea actualizada ✏️',
+          el: 'Η εργασία ενημερώθηκε ✏️'
+        }));
+      }
     } else {
       const safeEscaped = escapeHtml(originalText);
       span.innerHTML = safeEscaped.replace(/ &amp; /g, '&nbsp;&amp; ').replace(/ & /g, '&nbsp;& ');
@@ -3639,4 +3996,387 @@ if (typeof globalThis !== 'undefined') {
   globalThis.initTaskSpotlightEngine = initTaskSpotlightEngine;
 }
 
- 
+// --------------------------------------------------------------------------
+// Globale Brücken für Mobile Bento-Tiles & Werkzeuge
+// --------------------------------------------------------------------------
+if (typeof window !== 'undefined') {
+  if (typeof window.openShoppingModal !== 'function') {
+    window.openShoppingModal = function() {
+      if (typeof openSupermarketModal === 'function') {
+        openSupermarketModal();
+      } else if (typeof togglePanel === 'function') {
+        togglePanel('shopping');
+      }
+    };
+  }
+  if (typeof window.openSportModal !== 'function') {
+    window.openSportModal = function() {
+      if (typeof openHelperModal === 'function') {
+        openHelperModal('sport');
+      } else if (typeof togglePanel === 'function') {
+        togglePanel('sport');
+      }
+    };
+  }
+  if (typeof window.openBrainstormModal !== 'function') {
+    window.openBrainstormModal = function() {
+      if (typeof openHelperModal === 'function') {
+        openHelperModal('brainstorm');
+      } else {
+        const m = document.getElementById('brainstorm-modal') || document.getElementById('modal-brainstorm');
+        if (m) m.classList.remove('hidden');
+      }
+    };
+  }
+
+  // --------------------------------------------------------------------------
+  // Tabellen verwalten & Dashboard Overlay Handlers
+  // --------------------------------------------------------------------------
+  window.toggleManageTablesDropdown = function(event) {
+    if (event) event.stopPropagation();
+    const dropdown = document.getElementById('dropdown-manage-tables');
+    if (!dropdown) return;
+    const isHidden = dropdown.classList.contains('hidden');
+    if (isHidden) {
+      dropdown.classList.remove('hidden');
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+    } else {
+      dropdown.classList.add('hidden');
+    }
+  };
+
+  window.closeManageTablesDropdown = function() {
+    const dropdown = document.getElementById('dropdown-manage-tables');
+    if (dropdown) dropdown.classList.add('hidden');
+  };
+
+  window.toggleManageCardsDropdown = window.toggleManageTablesDropdown;
+  window.closeManageCardsDropdown = window.closeManageTablesDropdown;
+
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('dropdown-manage-tables');
+      const btn = document.getElementById('btn-board-manage-tables');
+      if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (!dropdown.contains(e.target) && (!btn || !btn.contains(e.target))) {
+          dropdown.classList.add('hidden');
+        }
+      }
+      const wsDropdown = document.getElementById('dropdown-header-workspace');
+      const wsBtn = document.getElementById('btn-header-workspace');
+      if (wsDropdown && !wsDropdown.classList.contains('hidden')) {
+        if (!wsDropdown.contains(e.target) && (!wsBtn || !wsBtn.contains(e.target))) {
+          wsDropdown.classList.add('hidden');
+        }
+      }
+    });
+  }
+
+  window.updateDashboardArrowUI = function(isOpen) {
+    const btn = document.getElementById('btn-dashboard-arrow-toggle');
+    if (!btn) return;
+    const isCurrentlyOpen = typeof isOpen === 'boolean' ? isOpen : (() => {
+      const p = document.getElementById('panel-header-tools');
+      return p && !p.classList.contains('hidden');
+    })();
+
+    const iconName = isCurrentlyOpen ? 'chevron-left' : 'chevron-right';
+    const hoverClass = isCurrentlyOpen ? 'group-hover/arrow:-translate-x-0.5' : 'group-hover/arrow:translate-x-0.5';
+    btn.setAttribute('title', isCurrentlyOpen ? 'Tools-Menü schließen' : 'Tools-Menü öffnen');
+    btn.setAttribute('aria-expanded', isCurrentlyOpen ? 'true' : 'false');
+    btn.innerHTML = `<i id="dashboard-arrow-icon" data-lucide="${iconName}" class="w-5 h-5 transition-transform duration-300 ${hoverClass}"></i>`;
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try {
+        lucide.createIcons({ root: btn });
+      } catch (err) {
+        lucide.createIcons();
+      }
+    }
+  };
+
+  window.toggleDashboardOverlay = function(e) {
+    if (e) {
+      try {
+        if (typeof e.preventDefault === 'function') e.preventDefault();
+        if (typeof e.stopPropagation === 'function') e.stopPropagation();
+      } catch (err) {}
+    }
+    const panel = document.getElementById('panel-header-tools');
+    if (!panel) return;
+
+    const isCurrentlyOpen = !panel.classList.contains('hidden');
+    if (isCurrentlyOpen) {
+      panel.classList.add('hidden');
+      panel.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+      if (typeof window !== 'undefined') {
+        if (window.pinnedPanel === 'header-tools') window.pinnedPanel = null;
+        if (window.currentlyOpenPanel === 'header-tools') window.currentlyOpenPanel = null;
+      }
+      if (typeof window.updateDashboardArrowUI === 'function') {
+        window.updateDashboardArrowUI(false);
+      }
+    } else {
+      panel.classList.remove('hidden');
+      panel.classList.add('noodle-panel-pinned');
+      panel.classList.remove('noodle-panel-peeking');
+      if (typeof window !== 'undefined') {
+        window.pinnedPanel = 'header-tools';
+        window.currentlyOpenPanel = 'header-tools';
+      }
+      if (typeof adjustPanelPosition === 'function') {
+        adjustPanelPosition(panel, 'header-tools');
+      }
+      if (typeof window.updateDashboardArrowUI === 'function') {
+        window.updateDashboardArrowUI(true);
+      }
+    }
+
+    if (typeof syncHeaderToolsMenuState === 'function') {
+      syncHeaderToolsMenuState();
+    }
+  };
+
+  // --------------------------------------------------------------------------
+  // Custom Template Builder Controller
+  // --------------------------------------------------------------------------
+  let templateBuilderWorkingCopy = null;
+  let templateBuilderActiveCategory = 'daily';
+
+  const TEMPLATE_BUILDER_CATS = [
+    { id: 'daily', label: 'Tagesroutine', icon: 'sun', color: 'text-amber-400' },
+    { id: 'weekly', label: 'Wöchentlich', icon: 'home', color: 'text-emerald-400' },
+    { id: 'occasionally', label: 'Gelegentlich', icon: 'clock', color: 'text-purple-400' },
+    { id: 'todo', label: 'To-Do', icon: 'list-todo', color: 'text-sky-400' }
+  ];
+
+  const TEMPLATE_SUGGESTIONS_EXTRA = {
+    daily: [
+      '1 Glas Wasser trinken', '10 Min Spaziergang', 'Dehnen & Bewegen',
+      'Tagesfokus notieren', 'Schreibtisch aufräumen', 'Vitamine / Frisches Obst',
+      'Abend-Reflexion', 'Lüften vor dem Schlafen', 'Frühstück genießen'
+    ],
+    weekly: [
+      'Einkaufsliste schreiben', 'Kühlschrank auswischen', 'Pflanzen gießen',
+      'Briefkasten leeren & Post', 'Bettwäsche wechseln', 'Handtücher waschen',
+      'Mülleimer auswaschen', 'Wochenziel überprüfen', 'Papierkram abheften'
+    ],
+    occasionally: [
+      'Kleiderschrank ausmisten', 'Backofen reinigen', 'Dokumente abheften',
+      'Backup erstellen', 'Fahrrad / Auto checken', 'Vorräte prüfen & auffüllen',
+      'Kühlschrank abtauen', 'Spenden aussortieren'
+    ],
+    todo: [
+      'Wichtige E-Mail beantworten', 'Termin vereinbaren', 'Rechnung begleichen',
+      'Dringenden Anruf tätigen', 'Paket versenden / abholen', 'Unterlagen ordnen'
+    ]
+  };
+
+  function getBaseDefaultsForLang() {
+    const lang = (typeof currentLang !== 'undefined' ? currentLang : 'de');
+    const defMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+      ? window.DEFAULT_TASKS_BY_LANG
+      : ((typeof DEFAULT_TASKS_BY_LANG !== 'undefined') ? DEFAULT_TASKS_BY_LANG : {});
+    const base = defMap[lang] || defMap['de'] || { daily: [], weekly: [], occasionally: [] };
+    return {
+      daily: Array.isArray(base.daily) ? [...base.daily] : [],
+      weekly: Array.isArray(base.weekly) ? [...base.weekly] : [],
+      occasionally: Array.isArray(base.occasionally) ? [...base.occasionally] : [],
+      todo: []
+    };
+  }
+
+  function openTemplateBuilderModal() {
+    const modal = document.getElementById('modal-template-builder');
+    if (!modal) return;
+
+    const savedDefaults = typeof getCustomDefaults === 'function' ? getCustomDefaults() : null;
+    const baseDefaults = getBaseDefaultsForLang();
+
+    templateBuilderWorkingCopy = {
+      daily: (savedDefaults && Array.isArray(savedDefaults.daily)) ? [...savedDefaults.daily] : [...baseDefaults.daily],
+      weekly: (savedDefaults && Array.isArray(savedDefaults.weekly)) ? [...savedDefaults.weekly] : [...baseDefaults.weekly],
+      occasionally: (savedDefaults && Array.isArray(savedDefaults.occasionally)) ? [...savedDefaults.occasionally] : [...baseDefaults.occasionally],
+      todo: (savedDefaults && Array.isArray(savedDefaults.todo)) ? [...savedDefaults.todo] : [...baseDefaults.todo]
+    };
+
+    templateBuilderActiveCategory = 'daily';
+    modal.classList.remove('hidden');
+    renderTemplateBuilderUI();
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+  }
+
+  function closeTemplateBuilderModal() {
+    const modal = document.getElementById('modal-template-builder');
+    if (modal) modal.classList.add('hidden');
+  }
+
+  function setTemplateBuilderCategory(catId) {
+    if (!TEMPLATE_BUILDER_CATS.some(c => c.id === catId)) return;
+    templateBuilderActiveCategory = catId;
+    renderTemplateBuilderUI();
+  }
+
+  function addCustomTaskToTemplate() {
+    const input = document.getElementById('template-builder-custom-input');
+    if (!input || !templateBuilderWorkingCopy) return;
+    const val = input.value.trim();
+    if (!val) return;
+
+    const list = templateBuilderWorkingCopy[templateBuilderActiveCategory] || [];
+    if (!list.includes(val)) {
+      list.push(val);
+      templateBuilderWorkingCopy[templateBuilderActiveCategory] = list;
+    }
+    input.value = '';
+    input.focus();
+    renderTemplateBuilderUI();
+  }
+
+  function toggleTaskInTemplate(taskName) {
+    if (!templateBuilderWorkingCopy || !taskName) return;
+    const list = templateBuilderWorkingCopy[templateBuilderActiveCategory] || [];
+    const idx = list.indexOf(taskName);
+    if (idx !== -1) {
+      list.splice(idx, 1);
+    } else {
+      list.push(taskName);
+    }
+    templateBuilderWorkingCopy[templateBuilderActiveCategory] = list;
+    renderTemplateBuilderUI();
+  }
+
+  function removeTaskFromTemplate(taskName) {
+    if (!templateBuilderWorkingCopy || !taskName) return;
+    const list = templateBuilderWorkingCopy[templateBuilderActiveCategory] || [];
+    templateBuilderWorkingCopy[templateBuilderActiveCategory] = list.filter(t => t !== taskName);
+    renderTemplateBuilderUI();
+  }
+
+  function resetTemplateBuilderToDefault() {
+    templateBuilderWorkingCopy = getBaseDefaultsForLang();
+    renderTemplateBuilderUI();
+    if (typeof showToast === 'function') {
+      showToast('Standard-Vorschläge wiederhergestellt');
+    }
+  }
+
+  function saveTemplateBuilder(applyImmediately = false) {
+    if (!templateBuilderWorkingCopy) return;
+
+    if (typeof saveCustomDefaults === 'function') {
+      saveCustomDefaults(templateBuilderWorkingCopy);
+    }
+
+    if (applyImmediately) {
+      if (typeof saveHistory === 'function') saveHistory();
+      if (typeof state !== 'undefined' && state) {
+        if (!state.items) state.items = {};
+        state.items.daily = [...(templateBuilderWorkingCopy.daily || [])];
+        state.items.weekly = [...(templateBuilderWorkingCopy.weekly || [])];
+        state.items.occasionally = [...(templateBuilderWorkingCopy.occasionally || [])];
+        state.items.todo = [...(templateBuilderWorkingCopy.todo || [])];
+        if (typeof saveState === 'function') saveState();
+        if (typeof renderApp === 'function') renderApp();
+        if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+        if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+          cloudSyncEngine.triggerImmediatePush();
+        }
+      }
+      if (typeof showToast === 'function') {
+        showToast('Vorlage gespeichert & sofort angewendet! ✨');
+      }
+    } else {
+      if (typeof showToast === 'function') {
+        showToast('Eigene Vorlage gespeichert! ✨');
+      }
+    }
+
+    closeTemplateBuilderModal();
+  }
+
+  function renderTemplateBuilderUI() {
+    if (!templateBuilderWorkingCopy) return;
+    const activeCat = templateBuilderActiveCategory;
+    const currentTasks = templateBuilderWorkingCopy[activeCat] || [];
+
+    // 1. Render Tabs
+    const tabsContainer = document.getElementById('template-builder-tabs');
+    if (tabsContainer) {
+      tabsContainer.innerHTML = TEMPLATE_BUILDER_CATS.map(c => {
+        const count = (templateBuilderWorkingCopy[c.id] || []).length;
+        const isActive = c.id === activeCat;
+        return `
+          <button type="button" onclick="setTemplateBuilderCategory('${c.id}')" class="py-1.5 px-2 rounded-lg font-bold flex items-center justify-center gap-1.5 transition cursor-pointer ${isActive ? 'bg-sky-500/25 text-white border border-sky-400/50 shadow-sm' : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'}">
+            <i data-lucide="${c.icon}" class="w-3.5 h-3.5 ${c.color}"></i>
+            <span class="truncate">${c.label}</span>
+            <span class="text-[9px] font-mono px-1 rounded-full ${isActive ? 'bg-sky-400 text-slate-950 font-black' : 'bg-white/10 text-gray-300'}">${count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    // 2. Count Badge
+    const countBadge = document.getElementById('template-builder-count-badge');
+    if (countBadge) {
+      countBadge.textContent = `${currentTasks.length} Aufgabe${currentTasks.length === 1 ? '' : 'n'}`;
+    }
+
+    // 3. Render Selected Task Chips
+    const chipsContainer = document.getElementById('template-builder-selected-chips');
+    if (chipsContainer) {
+      if (currentTasks.length === 0) {
+        chipsContainer.innerHTML = `
+          <span class="text-xs text-gray-400 italic py-1 px-1">
+            Noch keine Aufgaben in dieser Kategorie. Wähle unten Vorschläge aus oder tippe eigene Aufgaben ein.
+          </span>
+        `;
+      } else {
+        chipsContainer.innerHTML = currentTasks.map(task => {
+          const safeTask = String(task).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+          return `
+            <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-xl bg-sky-500/15 border border-sky-400/40 text-sky-100 text-xs font-medium animate-fade-in group">
+              <span class="truncate max-w-[220px]">${task}</span>
+              <button type="button" onclick="removeTaskFromTemplate('${safeTask}')" class="w-4 h-4 rounded-full flex items-center justify-center text-sky-300 hover:text-rose-300 hover:bg-rose-500/20 transition cursor-pointer" title="Entfernen">
+                ✕
+              </button>
+            </span>
+          `;
+        }).join('');
+      }
+    }
+
+    // 4. Render Suggestions
+    const suggestionsContainer = document.getElementById('template-builder-suggestions');
+    if (suggestionsContainer) {
+      const baseDefaults = getBaseDefaultsForLang();
+      const baseList = baseDefaults[activeCat] || [];
+      const extraList = TEMPLATE_SUGGESTIONS_EXTRA[activeCat] || [];
+      const combinedSuggestions = Array.from(new Set([...baseList, ...extraList]));
+
+      suggestionsContainer.innerHTML = combinedSuggestions.map(s => {
+        const isSelected = currentTasks.includes(s);
+        const safeTask = String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        return `
+          <button type="button" onclick="toggleTaskInTemplate('${safeTask}')" class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-xl text-xs transition cursor-pointer active:scale-95 ${isSelected ? 'bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 font-bold shadow-xs' : 'bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+            <i data-lucide="${isSelected ? 'check' : 'plus'}" class="w-3 h-3 ${isSelected ? 'text-emerald-400' : 'text-gray-400'}"></i>
+            <span>${s}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  }
+
+  window.openTemplateBuilderModal = openTemplateBuilderModal;
+  window.closeTemplateBuilderModal = closeTemplateBuilderModal;
+  window.setTemplateBuilderCategory = setTemplateBuilderCategory;
+  window.addCustomTaskToTemplate = addCustomTaskToTemplate;
+  window.toggleTaskInTemplate = toggleTaskInTemplate;
+  window.removeTaskFromTemplate = removeTaskFromTemplate;
+  window.resetTemplateBuilderToDefault = resetTemplateBuilderToDefault;
+  window.saveTemplateBuilder = saveTemplateBuilder;
+  window.renderTemplateBuilderUI = renderTemplateBuilderUI;
+}
