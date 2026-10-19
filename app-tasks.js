@@ -558,8 +558,11 @@ async function clearColumnTasks(colId, e) {
   const listTitle = (entry && entry[2]) || t(colId);
 
   saveHistory(`Spalte geleert: "${listTitle}" (${taskCount} Aufgaben)`);
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (typeof trackCategoryClear === 'function') {
+    trackCategoryClear(colId, ws, taskList);
+  }
   if (isDone) {
-    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
     if (ws === 'study') {
       state.studyDone = [];
     } else if (ws === 'work') {
@@ -572,6 +575,9 @@ async function clearColumnTasks(colId, e) {
   }
   
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof updateZenView === 'function') updateZenView();
@@ -667,12 +673,21 @@ function clearCompletedInColumn(colId, e) {
     const doneFromCol = doneList.filter(d => d.origin === colId);
     if (doneFromCol.length > 0) {
       saveHistory();
-      if (state.activeWorkspace === 'work') {
+      const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+      doneFromCol.forEach(item => {
+        if (typeof trackItemDeletion === 'function') {
+          trackItemDeletion(item, 'done', ws);
+        }
+      });
+      if (ws === 'work') {
         state.workDone = (state.workDone || []).filter(d => d.origin !== colId);
       } else {
         state.done = (state.done || []).filter(d => d.origin !== colId);
       }
       saveState();
+      if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+        cloudSyncEngine.triggerImmediatePush();
+      }
       renderApp();
       showToast(tr({
         de: `${doneFromCol.length} erledigte Einträge von "${t(colId)}" aufgeräumt 🧹`,
@@ -685,8 +700,18 @@ function clearCompletedInColumn(colId, e) {
   }
 
   saveHistory();
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  const removedTasks = list.filter((item, idx) => completedIndices.includes(idx));
+  removedTasks.forEach(item => {
+    if (typeof trackItemDeletion === 'function') {
+      trackItemDeletion(item, colId, ws);
+    }
+  });
   curItems[colId] = list.filter((item, idx) => !completedIndices.includes(idx));
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   renderApp();
   if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof updateZenView === 'function') updateZenView();
@@ -1306,6 +1331,11 @@ async function deleteColumn(colId, e) {
 
   if (confirmed) {
     saveHistory();
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    const itemsToDelete = isDone ? (getCurrentWorkspaceDone() || []) : (curItems[colId] || []);
+    if (typeof trackCategoryClear === 'function') {
+      trackCategoryClear(colId, ws, itemsToDelete);
+    }
     activeOrder.splice(idx, 1);
     if (isDone) {
       if (state.activeWorkspace === 'study') state.studyDone = [];
@@ -1316,6 +1346,9 @@ async function deleteColumn(colId, e) {
     }
     saveCategoriesOrder();
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     renderApp();
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
     showToast(tr({
@@ -2160,6 +2193,10 @@ function handleCompleteTask(category, index, event) {
   }
 
   saveHistory(`Aufgabe erledigt: "${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"`);
+  const ws = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(rawTask, category, ws);
+  }
   // Remove immediately to eliminate blank gaps
   curItems[category].splice(index, 1);
   curItems[category] = curItems[category].filter(Boolean);
@@ -2204,6 +2241,9 @@ function handleCompleteTask(category, index, event) {
   if (state && state.completedSteps) delete state.completedSteps[taskText];
 
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
 
   if (typeof CollabEngine !== 'undefined') {
     CollabEngine.broadcastBoardEvent(`hat Aufgabe erledigt: "${taskText.substring(0, 32)}"`);
@@ -2294,11 +2334,9 @@ function deleteTask(category, index, event) {
   const taskText = typeof taskObj === 'object' ? taskObj?.task : taskObj;
   const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Aufgabe';
   saveHistory(`Aufgabe gelöscht: ${snippet}`);
-  const taskId = (taskObj && typeof taskObj === 'object' && taskObj.id) 
-    ? taskObj.id 
-    : ((typeof getStableId === 'function') ? getStableId(taskObj, `task_${category}`) : null);
-  if (taskId && typeof trackTombstone === 'function') {
-    trackTombstone(taskId);
+  const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(taskObj, category, ws);
   }
 
   if (curItems[category]) curItems[category].splice(index, 1);
@@ -2308,6 +2346,9 @@ function deleteTask(category, index, event) {
   }
   if (taskText && state.completedSteps) delete state.completedSteps[taskText];
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   showToast(t('toast_task_deleted'), { undo: true, duration: 5000 });
   renderApp();
   updateZenView();
@@ -2323,13 +2364,22 @@ function handleRestoreDoneTask(doneIndex) {
   const taskText = (typeof item === 'object' && item !== null) ? (item.task || item.name || '') : String(item || '');
   const snippet = taskText ? `"${taskText.length > 25 ? taskText.substring(0, 22) + '...' : taskText}"` : 'Erledigte Aufgabe';
   saveHistory(`Erledigte wiederhergestellt: ${snippet}`);
-  curDone.splice(reversedIndex, 1);
   const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(item, 'done', ws);
+  }
+  curDone.splice(reversedIndex, 1);
   const fallbackCat = ws === 'study' ? 'study_focus' : (ws === 'work' ? 'work_focus' : 'daily');
   const targetCat = (item && item.origin && curItems[item.origin]) ? item.origin : fallbackCat;
+  if (typeof clearItemTombstone === 'function') {
+    clearItemTombstone(taskText, targetCat, ws);
+  }
   if (!curItems[targetCat]) curItems[targetCat] = [];
   curItems[targetCat].push(taskText);
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   showToast(t('toast_task_restored') || tr({ de: 'Aufgabe wiederhergestellt ↩️', en: 'Task restored ↩️', fr: 'Tâche restaurée ↩️', it: 'Attività ripristinata ↩️', es: 'Tarea restaurada ↩️', el: 'Εργασία επαναφέρθηκε ↩️' }));
   renderApp();
   if (typeof updateZenView === 'function') updateZenView();

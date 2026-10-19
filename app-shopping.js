@@ -428,13 +428,20 @@ function handleDeleteShoppingItem(index) {
   if (!state.shoppingList || !state.shoppingList[index]) return;
   saveHistory();
   const removed = state.shoppingList.splice(index, 1)[0];
-  const shopId = (removed && typeof removed === 'object' && removed.id) 
-    ? removed.id 
-    : ((typeof getStableId === 'function') ? getStableId(removed, 'shop') : null);
-  if (shopId && typeof trackTombstone === 'function') {
-    trackTombstone(shopId);
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(removed, 'shoppingList', 'private');
+  } else {
+    const shopId = (removed && typeof removed === 'object' && removed.id) 
+      ? removed.id 
+      : ((typeof getStableId === 'function') ? getStableId(removed, 'shop') : null);
+    if (shopId && typeof trackTombstone === 'function') {
+      trackTombstone(shopId);
+    }
   }
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
 
   renderApp();
   renderSupermarketModal();
@@ -452,6 +459,9 @@ function handleToggleShoppingItem(index) {
   if (!state.shoppingList || !state.shoppingList[index]) return;
   saveHistory();
   const item = state.shoppingList.splice(index, 1)[0];
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(item, 'shoppingList', 'private');
+  }
   if (!Array.isArray(state.shoppingHistory)) state.shoppingHistory = [];
   
   const todayStr = new Date().toLocaleDateString(currentLang === 'de' ? 'de-DE' : 'en-US', { month: '2-digit', day: '2-digit' });
@@ -465,6 +475,9 @@ function handleToggleShoppingItem(index) {
   });
 
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   if (typeof playProceduralSound === 'function') playProceduralSound(3);
   renderApp();
   renderSupermarketModal();
@@ -483,6 +496,9 @@ function restoreShoppingHistoryItem(historyIndex) {
   if (!state.shoppingHistory || !state.shoppingHistory[historyIndex]) return;
   saveHistory();
   const hItem = state.shoppingHistory.splice(historyIndex, 1)[0];
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(hItem, 'shoppingHistory', 'private');
+  }
   handleAddShoppingItem(hItem.name, { qty: hItem.qty, unit: hItem.unit, dept: hItem.dept, dealInfo: hItem.dealInfo });
 }
 
@@ -512,8 +528,14 @@ async function clearShoppingList() {
 
   if (confirmed) {
     saveHistory();
+    if (typeof trackCategoryClear === 'function') {
+      trackCategoryClear('shoppingList', 'private', state.shoppingList);
+    }
     state.shoppingList = [];
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     renderApp();
     renderSupermarketModal();
   }
@@ -539,8 +561,14 @@ async function clearShoppingHistory() {
 
   if (confirmed) {
     saveHistory();
+    if (typeof trackCategoryClear === 'function') {
+      trackCategoryClear('shoppingHistory', 'private', state.shoppingHistory);
+    }
     state.shoppingHistory = [];
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     renderApp();
     renderSupermarketModal();
   }

@@ -408,7 +408,9 @@ function trackTombstone(id) {
   if (!currentState._tombstones || typeof currentState._tombstones !== 'object') {
     currentState._tombstones = {};
   }
-  currentState._tombstones[id] = new Date().toISOString();
+  const nowISO = new Date().toISOString();
+  currentState._tombstones[String(id)] = nowISO;
+  currentState.updatedAt = nowISO;
 }
 
 function clearTombstone(id) {
@@ -418,6 +420,105 @@ function clearTombstone(id) {
     delete currentState._tombstones[id];
   }
 }
+
+function trackItemDeletion(item, category = 'task', ws = 'private') {
+  if (!item) return;
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState) return;
+  if (!currentState._tombstones || typeof currentState._tombstones !== 'object') {
+    currentState._tombstones = {};
+  }
+  const nowISO = new Date().toISOString();
+  currentState.updatedAt = nowISO;
+
+  // 1. Explizite ID speichern
+  if (typeof item === 'object' && item !== null && item.id) {
+    currentState._tombstones[String(item.id)] = nowISO;
+  }
+
+  // 2. Text- / Content-Hash erzeugen und in allen Prefix-Formen tombstonen
+  const itemText = (typeof item === 'object' && item !== null)
+    ? (item.task || item.name || item.text || item.title || JSON.stringify(item))
+    : String(item || '');
+
+  if (itemText && typeof computeStringHash === 'function') {
+    const hash = computeStringHash(itemText);
+    const prefix = ws === 'work' ? 'wtask' : (ws === 'study' ? 'stask' : 'task');
+    currentState._tombstones[`${prefix}_${category}_h${hash}`] = nowISO;
+    currentState._tombstones[`task_${category}_h${hash}`] = nowISO;
+    currentState._tombstones[`${category}_h${hash}`] = nowISO;
+    currentState._tombstones[`hash_${hash}`] = nowISO;
+    if (category === 'done' || category === 'workDone' || category === 'studyDone') {
+      currentState._tombstones[`done_h${hash}`] = nowISO;
+      currentState._tombstones[`wdone_h${hash}`] = nowISO;
+      currentState._tombstones[`sdone_h${hash}`] = nowISO;
+    }
+  }
+}
+
+function clearItemTombstone(item, category = 'task', ws = 'private') {
+  if (!item) return;
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState || !currentState._tombstones) return;
+
+  if (typeof item === 'object' && item !== null && item.id) {
+    delete currentState._tombstones[String(item.id)];
+  }
+
+  const itemText = (typeof item === 'object' && item !== null)
+    ? (item.task || item.name || item.text || item.title || JSON.stringify(item))
+    : String(item || '');
+
+  if (itemText && typeof computeStringHash === 'function') {
+    const hash = computeStringHash(itemText);
+    const prefix = ws === 'work' ? 'wtask' : (ws === 'study' ? 'stask' : 'task');
+    delete currentState._tombstones[`${prefix}_${category}_h${hash}`];
+    delete currentState._tombstones[`task_${category}_h${hash}`];
+    delete currentState._tombstones[`${category}_h${hash}`];
+    delete currentState._tombstones[`hash_${hash}`];
+    delete currentState._tombstones[`done_h${hash}`];
+    delete currentState._tombstones[`wdone_h${hash}`];
+    delete currentState._tombstones[`sdone_h${hash}`];
+  }
+}
+
+function trackCategoryClear(colId, ws = 'private', itemsToClear = []) {
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState) return;
+  const nowISO = new Date().toISOString();
+  currentState._clearedAt = currentState._clearedAt || {};
+  currentState._clearedAt[`${ws}_${colId}`] = nowISO;
+  currentState.updatedAt = nowISO;
+
+  if (Array.isArray(itemsToClear)) {
+    itemsToClear.forEach(item => {
+      trackItemDeletion(item, colId, ws);
+    });
+  }
+}
+
+function trackAllListsClear(ws = 'private', curItems = {}, curDone = []) {
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState) return;
+  const nowISO = new Date().toISOString();
+  currentState._clearedAt = currentState._clearedAt || {};
+  currentState._clearedAt[`${ws}__all`] = nowISO;
+  currentState.updatedAt = nowISO;
+
+  if (curItems && typeof curItems === 'object') {
+    Object.entries(curItems).forEach(([colId, list]) => {
+      if (Array.isArray(list)) {
+        currentState._clearedAt[`${ws}_${colId}`] = nowISO;
+        list.forEach(item => trackItemDeletion(item, colId, ws));
+      }
+    });
+  }
+  if (Array.isArray(curDone)) {
+    currentState._clearedAt[`${ws}_done`] = nowISO;
+    curDone.forEach(item => trackItemDeletion(item, 'done', ws));
+  }
+}
+
 
 
 function getYearAndWeek(date = new Date()) {
@@ -709,78 +810,82 @@ function migrateState(raw, lang) {
     });
   }
 
-  // 9. Duschen vom täglich weg machen und ins Gelegentlich rein
-  if (s.items && Array.isArray(s.items.daily)) {
-    const isShower = (t) => {
-      const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
-      return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
-    };
-    const showerIndex = s.items.daily.findIndex(isShower);
-    if (showerIndex !== -1) {
-      s.items.daily.splice(showerIndex, 1);
+  // 9. Duschen / 10. Aufräumen / 11. Kochen (nur bei Erst-Migration von < v3)
+  const isV3Clean = !!(raw && raw.version >= 3 && raw._migrationV3TasksPlaced);
+  if (!isV3Clean) {
+    if (s.items && Array.isArray(s.items.daily)) {
+      const isShower = (t) => {
+        const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+        return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
+      };
+      const showerIndex = s.items.daily.findIndex(isShower);
+      if (showerIndex !== -1) {
+        s.items.daily.splice(showerIndex, 1);
+      }
     }
-  }
-  if (s.items) {
-    if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
-    const hasShower = s.items.occasionally.some(t => {
-      const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
-      return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
-    });
-    if (!hasShower) {
-      s.items.occasionally.unshift('Duschen');
-    }
-  }
-
-  // 10. Aufräumen muss bei Haushalt (weekly) bleiben & in Gelegentlich (3-Tage-Zyklus)
-  if (s.items) {
-    if (!Array.isArray(s.items.weekly)) s.items.weekly = [];
-    const hasWeeklyClean = s.items.weekly.some(t => {
-      const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
-      return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
-    });
-    if (!hasWeeklyClean) {
-      s.items.weekly.unshift('Aufräumen');
-    }
-
-    if (typeof checkOccasionalAufräumen === 'function') {
-      checkOccasionalAufräumen(s);
-    }
-  }
-
-  // 11. Wichtigste Aufgabe & Kochen von Täglich (Heute) entfernen, Kochen in Gelegentlich verschieben
-  const isFocusOrCookingInDaily = (t) => {
-    const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
-    return /^(1\s*)?(wichtigste aufgabe(\s*\(fokus\))?|key priority(\s*\(focus\))?|1 main focus task|prioridad clave(\s*\(foco\))?|1 tarea clave(\s*\(foco\))?|priorité clé(\s*\(focus\))?|1 tâche focus principale|priorità chiave(\s*\(focus\))?|1 attività chiave(\s*\(focus\))?|κύρια προτεραιότητα(\s*\(focus\))?|1 κύρια εργασία εστίασης|kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
-  };
-  if (s.items && Array.isArray(s.items.daily)) {
-    s.items.daily = s.items.daily.filter(t => !isFocusOrCookingInDaily(t));
-  }
-  if (s.items) {
-    if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
-    const hasCooking = s.items.occasionally.some(t => {
-      const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
-      return /^(kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
-    });
-    if (!hasCooking) {
-      const showerIdx = s.items.occasionally.findIndex(t => {
-        const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
-        return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text);
+    if (s.items) {
+      if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+      const hasShower = s.items.occasionally.some(t => {
+        const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+        return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
       });
-      if (showerIdx !== -1) {
-        s.items.occasionally.splice(showerIdx + 1, 0, 'Kochen');
-      } else {
-        s.items.occasionally.unshift('Kochen');
+      if (!hasShower && !raw) {
+        s.items.occasionally.unshift('Duschen');
+      }
+    }
+
+    // 10. Aufräumen muss bei Haushalt (weekly) bleiben & in Gelegentlich (3-Tage-Zyklus)
+    if (s.items) {
+      if (!Array.isArray(s.items.weekly)) s.items.weekly = [];
+      const hasWeeklyClean = s.items.weekly.some(t => {
+        const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+        return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
+      });
+      if (!hasWeeklyClean && !raw) {
+        s.items.weekly.unshift('Aufräumen');
+      }
+
+      if (typeof checkOccasionalAufräumen === 'function') {
+        checkOccasionalAufräumen(s);
+      }
+    }
+
+    // 11. Wichtigste Aufgabe & Kochen von Täglich (Heute) entfernen, Kochen in Gelegentlich verschieben
+    const isFocusOrCookingInDaily = (t) => {
+      const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+      return /^(1\s*)?(wichtigste aufgabe(\s*\(fokus\))?|key priority(\s*\(focus\))?|1 main focus task|prioridad clave(\s*\(foco\))?|1 tarea clave(\s*\(foco\))?|priorité clé(\s*\(focus\))?|1 tâche focus principale|priorità chiave(\s*\(focus\))?|1 attività chiave(\s*\(focus\))?|κύρια προτεραιότητα(\s*\(focus\))?|1 κύρια εργασία εστίασης|kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
+    };
+    if (s.items && Array.isArray(s.items.daily)) {
+      s.items.daily = s.items.daily.filter(t => !isFocusOrCookingInDaily(t));
+    }
+    if (s.items) {
+      if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+      const hasCooking = s.items.occasionally.some(t => {
+        const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+        return /^(kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
+      });
+      if (!hasCooking && !raw) {
+        const showerIdx = s.items.occasionally.findIndex(t => {
+          const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+          return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text);
+        });
+        if (showerIdx !== -1) {
+          s.items.occasionally.splice(showerIdx + 1, 0, 'Kochen');
+        } else {
+          s.items.occasionally.unshift('Kochen');
+        }
+      }
+    }
+    if (customDefaults && Array.isArray(customDefaults.daily)) {
+      const beforeLen = customDefaults.daily.length;
+      customDefaults.daily = customDefaults.daily.filter(t => !isFocusOrCookingInDaily(t));
+      if (customDefaults.daily.length !== beforeLen) {
+        saveCustomDefaults(customDefaults);
       }
     }
   }
-  if (customDefaults && Array.isArray(customDefaults.daily)) {
-    const beforeLen = customDefaults.daily.length;
-    customDefaults.daily = customDefaults.daily.filter(t => !isFocusOrCookingInDaily(t));
-    if (customDefaults.daily.length !== beforeLen) {
-      saveCustomDefaults(customDefaults);
-    }
-  }
 
+  s._migrationV3TasksPlaced = true;
   return s;
 }
 
@@ -1037,6 +1142,9 @@ let syncEngineDebounceTimer = null;
 
 function saveState(skipP2PSync = false) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
+  if (currentState) {
+    currentState.updatedAt = new Date().toISOString();
+  }
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify(currentState));
     if (typeof IDB_VAULT !== 'undefined' && IDB_VAULT && typeof IDB_VAULT.set === 'function') {
@@ -1325,6 +1433,52 @@ function applyHistorySnapshot(popped) {
   // 2. Gezielte Wiederherstellung NUR der Listen & Aufgaben (Items, Done, Steps)
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : state);
   if (currentState) {
+    const ws = currentState.activeWorkspace || 'private';
+    const nowISO = new Date().toISOString();
+    currentState._clearedAt = currentState._clearedAt || {};
+    currentState.updatedAt = nowISO;
+
+    const collectTexts = (itemsObj) => {
+      const set = new Set();
+      if (!itemsObj || typeof itemsObj !== 'object') return set;
+      Object.values(itemsObj).forEach(list => {
+        if (Array.isArray(list)) {
+          list.forEach(it => {
+            const txt = typeof it === 'object' && it ? (it.task || it.name || it.id || '') : String(it || '');
+            if (txt) set.add(txt);
+          });
+        }
+      });
+      return set;
+    };
+
+    if (popped.items && currentState.items) {
+      const poppedTexts = collectTexts(popped.items);
+      Object.entries(currentState.items).forEach(([colId, list]) => {
+        if (Array.isArray(list)) {
+          list.forEach(it => {
+            const txt = typeof it === 'object' && it ? (it.task || it.name || it.id || '') : String(it || '');
+            if (txt && !poppedTexts.has(txt)) {
+              trackItemDeletion(it, colId, ws);
+            }
+          });
+        }
+      });
+    }
+
+    if (popped.items && typeof popped.items === 'object') {
+      Object.entries(popped.items).forEach(([colId, list]) => {
+        if (Array.isArray(list)) {
+          list.forEach(it => {
+            clearItemTombstone(it, colId, ws);
+            if (typeof it === 'object' && it !== null) {
+              it.updatedAt = nowISO;
+            }
+          });
+        }
+      });
+    }
+
     if (popped.items) currentState.items = JSON.parse(JSON.stringify(popped.items));
     if (popped.done) currentState.done = JSON.parse(JSON.stringify(popped.done));
     if (popped.workItems) currentState.workItems = JSON.parse(JSON.stringify(popped.workItems));
@@ -1543,9 +1697,16 @@ async function handleReset() {
 
   if (confirmed) {
     saveHistory();
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    if (typeof trackAllListsClear === 'function') {
+      trackAllListsClear(ws, state.items, state.done);
+    }
     const localizedDefaults = DEFAULT_TASKS_BY_LANG[currentLang] || DEFAULT_TASKS_BY_LANG['en'] || DEFAULT_TASKS_BY_LANG['de'];
     state = {
       version: 3, lastDate: new Date().toISOString().split('T')[0],
+      _tombstones: state._tombstones || {},
+      _clearedAt: state._clearedAt || {},
+      _migrationV3TasksPlaced: true,
       items: { daily: [...localizedDefaults.daily], weekly: [...localizedDefaults.weekly], occasionally: [...localizedDefaults.occasionally], todo: [], termine: [], notes: [] },
       done: [], archive: [], streak: 0, completedSteps: {}, customSteps: {},
       shoppingList: [], shoppingHistory: [],
@@ -1564,6 +1725,9 @@ async function handleReset() {
     ];
     saveCategoriesOrder();
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     
     showToast(t('toast_reset_success'));
     renderApp();
@@ -1616,6 +1780,9 @@ async function handleClearAllLists() {
 
   if (confirmed) {
     if (typeof saveHistory === 'function') saveHistory();
+    if (typeof trackAllListsClear === 'function') {
+      trackAllListsClear(ws, curItems, curDone);
+    }
     if (curItems && typeof curItems === 'object') {
       Object.keys(curItems).forEach(colId => {
         curItems[colId] = [];
@@ -1629,6 +1796,9 @@ async function handleClearAllLists() {
       state.done = [];
     }
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     if (typeof renderApp === 'function') renderApp();
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
     if (typeof updateZenView === 'function') updateZenView();
@@ -1680,7 +1850,12 @@ function handleOpenFile(e) {
       if (imported) {
         saveHistory();
         state = migrateState(imported, typeof currentLang !== 'undefined' ? currentLang : 'de');
+        state._backupRestoredAt = new Date().toISOString();
+        state.updatedAt = state._backupRestoredAt;
         saveState();
+        if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+          cloudSyncEngine.triggerImmediatePush();
+        }
         showToast(t('toast_import_success'));
         renderApp();
         populateHelperTaskSelect();
@@ -1737,6 +1912,12 @@ function checkOccasionalAufräumen(s) {
     const text = typeof item === 'object' ? (item.task || '') : String(item || '');
     return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
   });
+
+  // Nicht re-injizieren, wenn der Nutzer Aufräumen gelöscht oder die Spalte geleert hat
+  const hash = typeof computeStringHash === 'function' ? computeStringHash('Aufräumen') : 'aufraum';
+  const isDeleted = s._tombstones && (s._tombstones['task_occasionally_h' + hash] || s._tombstones['hash_' + hash]);
+  const isCleared = s._clearedAt && (s._clearedAt['private_occasionally'] || s._clearedAt['private__all']);
+  if (isDeleted || isCleared) return;
 
   if (!hasClean) {
     const todayStr = new Date().toISOString().split('T')[0];
@@ -1969,6 +2150,10 @@ if (typeof window !== 'undefined') {
   window.ensureItemIdentity = ensureItemIdentity;
   window.trackTombstone = trackTombstone;
   window.clearTombstone = clearTombstone;
+  window.trackItemDeletion = trackItemDeletion;
+  window.clearItemTombstone = clearItemTombstone;
+  window.trackCategoryClear = trackCategoryClear;
+  window.trackAllListsClear = trackAllListsClear;
   window.saveState = saveState;
   window.loadState = loadState;
   window.saveHistory = saveHistory;
@@ -2005,6 +2190,10 @@ if (typeof globalThis !== 'undefined') {
   globalThis.ensureItemIdentity = ensureItemIdentity;
   globalThis.trackTombstone = trackTombstone;
   globalThis.clearTombstone = clearTombstone;
+  globalThis.trackItemDeletion = trackItemDeletion;
+  globalThis.clearItemTombstone = clearItemTombstone;
+  globalThis.trackCategoryClear = trackCategoryClear;
+  globalThis.trackAllListsClear = trackAllListsClear;
   globalThis.saveState = saveState;
   globalThis.loadState = loadState;
   globalThis.saveHistory = saveHistory;

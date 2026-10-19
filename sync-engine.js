@@ -108,9 +108,10 @@ const cloudSyncEngine = {
       window.addEventListener('online', () => {
         if (typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
           this.retryCount = 0;
-          this.pullState();
           if (this.isPendingSync()) {
             this.pushState();
+          } else {
+            this.pullState();
           }
         }
       });
@@ -122,9 +123,10 @@ const cloudSyncEngine = {
       // 2. Automatischer Sync beim Wiederöffnen / Fokussieren des Tabs
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible' && typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
-          this.pullState();
           if (this.isPendingSync()) {
             this.pushState();
+          } else {
+            this.pullState();
           }
         }
       });
@@ -195,11 +197,14 @@ const cloudSyncEngine = {
     } catch (e) {}
   },
 
-  // Vollständige State-Serialisierung (alle Datenbereiche inkl. Tombstones)
+  // Vollständige State-Serialisierung (alle Datenbereiche inkl. Tombstones & Cleared-Timestamps)
   serializeFullState(stateObj) {
     const s = stateObj || {};
     return {
       _tombstones: s._tombstones || {},
+      _clearedAt: s._clearedAt || {},
+      _backupRestoredAt: s._backupRestoredAt || null,
+      updatedAt: s.updatedAt || new Date().toISOString(),
       items: s.items || {},
       done: s.done || [],
       workItems: s.workItems || {},
@@ -225,7 +230,7 @@ const cloudSyncEngine = {
     };
   },
 
-  // Deterministischer, verlustfreier 3-Wege / Item-Level LWW-Merge mit Tombstones
+  // Deterministischer, verlustfreier 3-Wege / Item-Level LWW-Merge mit Tombstones & Cleared-Timestamps
   mergeState(localState, remoteData) {
     if (!localState || !remoteData) return false;
     let modified = false;
@@ -245,19 +250,23 @@ const cloudSyncEngine = {
       if (!item) return null;
       const nowISO = new Date().toISOString();
       if (typeof item === 'string') {
+        const hash = computeStringHash(item);
         return {
-          id: `${fallbackPrefix}_h${computeStringHash(item)}`,
+          id: `${fallbackPrefix}_h${hash}`,
           task: item,
           _wasString: true,
+          _hash: hash,
           createdAt: nowISO,
           updatedAt: nowISO
         };
       }
       if (typeof item === 'object') {
         const copy = { ...item };
+        const itemText = copy.task || copy.name || copy.text || copy.title || JSON.stringify(copy);
+        const hash = computeStringHash(itemText);
+        copy._hash = hash;
         if (!copy.id) {
-          const itemText = copy.task || copy.name || copy.text || copy.title || JSON.stringify(copy);
-          copy.id = `${fallbackPrefix}_h${computeStringHash(itemText)}`;
+          copy.id = `${fallbackPrefix}_h${hash}`;
         }
         if (!copy.createdAt) copy.createdAt = nowISO;
         if (!copy.updatedAt) copy.updatedAt = copy.createdAt || nowISO;
@@ -286,8 +295,66 @@ const cloudSyncEngine = {
     }
     localState._tombstones = mergedTombstones;
 
+    // 1.5 Cleared-At Zeitstempel (Karten/Tabellen-Leeren) beider Seiten zusammenführen
+    const localCleared = (localState._clearedAt && typeof localState._clearedAt === 'object') ? { ...localState._clearedAt } : {};
+    const remoteCleared = (remoteData._clearedAt && typeof remoteData._clearedAt === 'object') ? remoteData._clearedAt : {};
+    const mergedCleared = { ...localCleared };
+
+    for (const [cKey, rTime] of Object.entries(remoteCleared)) {
+      if (!mergedCleared[cKey]) {
+        mergedCleared[cKey] = rTime;
+        modified = true;
+      } else {
+        const lTs = new Date(mergedCleared[cKey]).getTime();
+        const rTs = new Date(rTime).getTime();
+        if (rTs > lTs) {
+          mergedCleared[cKey] = rTime;
+          modified = true;
+        }
+      }
+    }
+    localState._clearedAt = mergedCleared;
+
+    // Helper: Prüfen ob ein Item gelöscht wurde
+    function isItemTombstoned(item, itemPrefix) {
+      if (!item) return false;
+      const itemUp = new Date(item.updatedAt || item.createdAt || 0).getTime();
+      const possibleKeys = [
+        item.id,
+        item._hash ? `${itemPrefix}_h${item._hash}` : null,
+        item._hash ? `task_h${item._hash}` : null,
+        item._hash ? `hash_${item._hash}` : null
+      ].filter(Boolean);
+
+      for (const k of possibleKeys) {
+        if (mergedTombstones[k]) {
+          const delTs = new Date(mergedTombstones[k]).getTime();
+          if (delTs >= itemUp) return true;
+        }
+      }
+      return false;
+    }
+
+    // Helper: Zeitstempel für Tabellen-Leeren abrufen
+    function getClearedTimestamp(ws, categoryKey) {
+      const keys = [
+        `${ws}_${categoryKey}`,
+        `${ws}__all`,
+        `__all`,
+        categoryKey
+      ];
+      let maxTs = 0;
+      for (const k of keys) {
+        if (mergedCleared[k]) {
+          const ts = new Date(mergedCleared[k]).getTime();
+          if (!isNaN(ts) && ts > maxTs) maxTs = ts;
+        }
+      }
+      return maxTs;
+    }
+
     // Helper: Item-Level LWW Merge für eine Liste
-    function mergeList(localList, remoteList, prefix) {
+    function mergeList(localList, remoteList, prefix, categoryKey = '', ws = 'private') {
       const lArr = Array.isArray(localList) ? localList.map(item => normalizeItem(item, prefix)).filter(Boolean) : [];
       const rArr = Array.isArray(remoteList) ? remoteList.map(item => normalizeItem(item, prefix)).filter(Boolean) : [];
 
@@ -299,21 +366,22 @@ const cloudSyncEngine = {
 
       const allIds = new Set([...lMap.keys(), ...rMap.keys()]);
       const mergedMap = new Map();
+      const clearTs = getClearedTimestamp(ws, categoryKey);
 
       for (const id of allIds) {
         const lItem = lMap.get(id);
         const rItem = rMap.get(id);
 
-        // Prüfen, ob Item gelöscht wurde
-        if (mergedTombstones[id]) {
-          const delTs = new Date(mergedTombstones[id]).getTime();
-          const lUp = lItem ? new Date(lItem.updatedAt || lItem.createdAt || 0).getTime() : 0;
-          const rUp = rItem ? new Date(rItem.updatedAt || rItem.createdAt || 0).getTime() : 0;
-          const maxUp = Math.max(lUp, rUp);
+        // 1. Prüfen, ob Item gelöscht wurde (Tombstones)
+        if (isItemTombstoned(lItem || rItem, prefix)) {
+          if (lMap.has(id)) modified = true;
+          continue;
+        }
 
-          if (delTs >= maxUp) {
-            // Item ist gelöscht -> nicht in aktiver Liste behalten!
-            if (lMap.has(id)) modified = true;
+        // 2. Prüfen, ob Tabelle/Spalte geleert wurde vor Erstellung/Update dieses Items
+        if (clearTs > 0) {
+          const rUp = rItem ? new Date(rItem.updatedAt || rItem.createdAt || 0).getTime() : 0;
+          if (!lItem && rItem && rUp <= clearTs) {
             continue;
           }
         }
@@ -348,7 +416,7 @@ const cloudSyncEngine = {
       function formatOutput(item) {
         if (!item) return item;
         if (item._wasString) {
-          const extraKeys = Object.keys(item).filter(k => !['_wasString', 'id', 'createdAt', 'updatedAt', 'task'].includes(k));
+          const extraKeys = Object.keys(item).filter(k => !['_wasString', '_hash', 'id', 'createdAt', 'updatedAt', 'task'].includes(k));
           if (extraKeys.length === 0 && typeof item.task === 'string') {
             return item.task;
           }
@@ -373,81 +441,80 @@ const cloudSyncEngine = {
       return result;
     }
 
-
     // Helper: Kategorien-Map (z.B. items, workItems) zusammenführen
-    function mergeCategoryMap(localMap, remoteMap, prefix) {
+    function mergeCategoryMap(localMap, remoteMap, prefix, ws = 'private') {
       const merged = {};
       const lObj = (localMap && typeof localMap === 'object') ? localMap : {};
       const rObj = (remoteMap && typeof remoteMap === 'object') ? remoteMap : {};
 
       const allCats = new Set([...Object.keys(lObj), ...Object.keys(rObj)]);
       for (const cat of allCats) {
-        merged[cat] = mergeList(lObj[cat] || [], rObj[cat] || [], `${prefix}_${cat}`);
+        merged[cat] = mergeList(lObj[cat] || [], rObj[cat] || [], `${prefix}_${cat}`, cat, ws);
       }
       return merged;
     }
 
     // 1. Items, WorkItems & StudyItems (Aufgaben-Kategorien)
     if (remoteData.items || localState.items) {
-      localState.items = mergeCategoryMap(localState.items, remoteData.items, 'task');
+      localState.items = mergeCategoryMap(localState.items, remoteData.items, 'task', 'private');
     }
     if (remoteData.workItems || localState.workItems) {
-      localState.workItems = mergeCategoryMap(localState.workItems, remoteData.workItems, 'wtask');
+      localState.workItems = mergeCategoryMap(localState.workItems, remoteData.workItems, 'wtask', 'work');
     }
     if (remoteData.studyItems || localState.studyItems) {
-      localState.studyItems = mergeCategoryMap(localState.studyItems, remoteData.studyItems, 'stask');
+      localState.studyItems = mergeCategoryMap(localState.studyItems, remoteData.studyItems, 'stask', 'study');
     }
 
     // 2. Erledigte Aufgaben
     if (remoteData.done || localState.done) {
-      localState.done = mergeList(localState.done, remoteData.done, 'done');
+      localState.done = mergeList(localState.done, remoteData.done, 'done', 'done', 'private');
     }
     if (remoteData.workDone || localState.workDone) {
-      localState.workDone = mergeList(localState.workDone, remoteData.workDone, 'wdone');
+      localState.workDone = mergeList(localState.workDone, remoteData.workDone, 'wdone', 'done', 'work');
     }
     if (remoteData.studyDone || localState.studyDone) {
-      localState.studyDone = mergeList(localState.studyDone, remoteData.studyDone, 'sdone');
+      localState.studyDone = mergeList(localState.studyDone, remoteData.studyDone, 'sdone', 'done', 'study');
     }
 
     // 3. Notizen & Termine
     if (remoteData.notes || localState.notes) {
-      localState.notes = mergeList(localState.notes, remoteData.notes, 'note');
+      localState.notes = mergeList(localState.notes, remoteData.notes, 'note', 'notes', 'private');
     }
     if (remoteData.termine || localState.termine) {
-      localState.termine = mergeList(localState.termine, remoteData.termine, 'termin');
+      localState.termine = mergeList(localState.termine, remoteData.termine, 'termin', 'termine', 'private');
     }
 
     // 4. Einkaufsliste & Historie
     if (remoteData.shoppingList || localState.shoppingList) {
-      localState.shoppingList = mergeList(localState.shoppingList, remoteData.shoppingList, 'shop');
+      localState.shoppingList = mergeList(localState.shoppingList, remoteData.shoppingList, 'shop', 'shoppingList', 'private');
     }
     if (remoteData.shoppingHistory || localState.shoppingHistory) {
-      localState.shoppingHistory = mergeList(localState.shoppingHistory, remoteData.shoppingHistory, 'shophist');
+      localState.shoppingHistory = mergeList(localState.shoppingHistory, remoteData.shoppingHistory, 'shophist', 'shoppingHistory', 'private');
     }
 
     // 5. Vorrat, Rezepte, Kochen
     if (remoteData.pantry || localState.pantry) {
-      localState.pantry = mergeList(localState.pantry, remoteData.pantry, 'pantry');
+      localState.pantry = mergeList(localState.pantry, remoteData.pantry, 'pantry', 'pantry', 'private');
     }
     if (remoteData.recipes || localState.recipes) {
-      localState.recipes = mergeList(localState.recipes, remoteData.recipes, 'recipe');
+      localState.recipes = mergeList(localState.recipes, remoteData.recipes, 'recipe', 'recipes', 'private');
     }
     if (remoteData.cookingList || localState.cookingList) {
-      localState.cookingList = mergeList(localState.cookingList, remoteData.cookingList, 'cook');
+      localState.cookingList = mergeList(localState.cookingList, remoteData.cookingList, 'cook', 'cookingList', 'private');
     }
 
     // 6. Alarme, Brainstorming, Klarheit, Archiv
     if (remoteData.alarms || localState.alarms) {
-      localState.alarms = mergeList(localState.alarms, remoteData.alarms, 'alarm');
+      localState.alarms = mergeList(localState.alarms, remoteData.alarms, 'alarm', 'alarms', 'private');
     }
     if (remoteData.brainstormIdeas || localState.brainstormIdeas) {
-      localState.brainstormIdeas = mergeList(localState.brainstormIdeas, remoteData.brainstormIdeas, 'idea');
+      localState.brainstormIdeas = mergeList(localState.brainstormIdeas, remoteData.brainstormIdeas, 'idea', 'brainstormIdeas', 'private');
     }
     if (remoteData.clarityLog || localState.clarityLog) {
-      localState.clarityLog = mergeList(localState.clarityLog, remoteData.clarityLog, 'clarity');
+      localState.clarityLog = mergeList(localState.clarityLog, remoteData.clarityLog, 'clarity', 'clarityLog', 'private');
     }
     if (remoteData.archive || localState.archive) {
-      localState.archive = mergeList(localState.archive, remoteData.archive, 'archive');
+      localState.archive = mergeList(localState.archive, remoteData.archive, 'archive', 'archive', 'private');
     }
 
     return modified;
@@ -527,6 +594,12 @@ const cloudSyncEngine = {
 
     const token = FlowAuth.getSyncToken();
     if (!token) return { skipped: true };
+
+    // Wenn lokale Änderungen ausstehen (Löschen, Leeren, neue Tasks),
+    // müssen diese ZUERST auf den Server übertragen werden, bevor ein Pull läuft!
+    if (this.isPendingSync()) {
+      return await this.pushState();
+    }
 
     this.isSyncing = true;
     this.updateSyncUI('syncing');
@@ -609,6 +682,16 @@ const cloudSyncEngine = {
         }
       }
     }, delay);
+  },
+
+  triggerImmediatePush() {
+    if (typeof FlowAuth === 'undefined' || !FlowAuth.isLoggedIn()) return Promise.resolve({ skipped: true });
+    this.markPendingSync();
+    if (this.syncDebounceTimer) {
+      clearTimeout(this.syncDebounceTimer);
+      this.syncDebounceTimer = null;
+    }
+    return this.pushState();
   },
 
   triggerAutoPush() {
