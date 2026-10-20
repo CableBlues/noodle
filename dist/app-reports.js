@@ -218,7 +218,8 @@ function togglePanel(panelName, forceClose = false) {
 
   const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
 
-  const isCurrentlyPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
+  const isPeeking = el.classList.contains('noodle-panel-peeking');
+  const isCurrentlyPinned = el.classList.contains('noodle-panel-pinned') || (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
 
   if (isCurrentlyHidden && !forceClose) { 
     if (isSubpanelOfTools && isMobile) {
@@ -296,17 +297,20 @@ function togglePanel(panelName, forceClose = false) {
       window.NoodleInteractionMode.decoratePanel(el, panelName);
     }
     syncHeaderToolsMenuState();
-  } else if (!forceClose && !clickedInsidePanel && !isCurrentlyPinned && !isMobile) {
-    // Es war nur eine flüchtige Hover-Vorschau (Peeking) auf Desktop:
-    // Der Klick auf den Dock-Trigger schließt das Panel NICHT, sondern PINNT es jetzt fest!
-    if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.pinPanel === 'function') {
-      window.NoodleInteractionMode.pinPanel(panelName);
-    } else {
-      el.classList.remove('noodle-panel-peeking');
-      el.classList.add('noodle-panel-pinned');
-      if (typeof window !== 'undefined') window.pinnedPanel = panelName;
-      if (typeof pinnedPanel !== 'undefined') pinnedPanel = panelName;
+  } else if (!forceClose && isPeeking) {
+    // Es war eine flüchtige Hover-Vorschau (Peeking):
+    // Der Klick auf den Trigger schließt das Panel NICHT, sondern PINNT es jetzt fest!
+    el.classList.remove('noodle-panel-peeking');
+    el.classList.add('noodle-panel-pinned');
+    if (typeof window !== 'undefined') {
+      window.currentlyOpenPanel = panelName;
+      window.pinnedPanel = panelName;
+      if (window.NoodleInteractionMode && typeof window.NoodleInteractionMode.pinPanel === 'function') {
+        window.NoodleInteractionMode.pinPanel(panelName);
+      }
     }
+    if (typeof currentlyOpenPanel !== 'undefined') currentlyOpenPanel = panelName;
+    if (typeof pinnedPanel !== 'undefined') pinnedPanel = panelName;
     syncHeaderToolsMenuState();
     return;
   } else {

@@ -193,20 +193,20 @@
 }
 
 /* ==========================================================================
-   HEADER ACTIONS: PAUSE (SKY-BLUE) & STATISTIK (LIME) — DISTINCT & VIBRANT
+   HEADER ACTIONS: PAUSE (PURPLE), STATISTIK (LIME), OPTIONEN (SKY-BLUE) — DISTINCT & VIBRANT
    ========================================================================== */
 #header-btn-pause-container button {
-  background-color: rgba(56, 189, 248, 0.15) !important;
-  border: 1.5px solid rgba(56, 189, 248, 0.5) !important;
-  color: #7dd3fc !important;
-  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+  background-color: rgba(168, 85, 247, 0.15) !important;
+  border: 1.5px solid rgba(168, 85, 247, 0.5) !important;
+  color: #c084fc !important;
+  box-shadow: 0 0 12px rgba(168, 85, 247, 0.25) !important;
 }
 
 #header-btn-pause-container button:hover {
-  background-color: rgba(56, 189, 248, 0.28) !important;
-  border-color: #38bdf8 !important;
-  color: #bae6fd !important;
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.5) !important;
+  background-color: rgba(168, 85, 247, 0.28) !important;
+  border-color: #a855f7 !important;
+  color: #e9d5ff !important;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.5) !important;
 }
 
 #header-btn-pause-container button svg,
@@ -214,17 +214,48 @@
 #header-btn-pause-container button svg line,
 #header-btn-pause-container .steam-cup-icon,
 #header-btn-pause-container .steam-line {
-  color: #38bdf8 !important;
-  stroke: #38bdf8 !important;
+  color: #a855f7 !important;
+  stroke: #a855f7 !important;
 }
 
 #header-btn-pause-container button span {
-  color: #7dd3fc !important;
+  color: #c084fc !important;
   display: inline-block !important;
   font-weight: 700 !important;
 }
 
 #header-btn-pause-container button:hover span {
+  color: #e9d5ff !important;
+}
+
+#header-btn-options-container button {
+  background-color: rgba(56, 189, 248, 0.15) !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.5) !important;
+  color: #7dd3fc !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+}
+
+#header-btn-options-container button:hover {
+  background-color: rgba(56, 189, 248, 0.28) !important;
+  border-color: #38bdf8 !important;
+  color: #bae6fd !important;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.5) !important;
+}
+
+#header-btn-options-container button i,
+#header-btn-options-container button svg,
+#header-btn-options-container button [data-lucide] {
+  color: #38bdf8 !important;
+  stroke: #38bdf8 !important;
+}
+
+#header-btn-options-container button span {
+  color: #7dd3fc !important;
+  display: inline-block !important;
+  font-weight: 700 !important;
+}
+
+#header-btn-options-container button:hover span {
   color: #bae6fd !important;
 }
 

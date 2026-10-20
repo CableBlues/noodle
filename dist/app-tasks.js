@@ -2772,6 +2772,11 @@ let hoverPanelHideTimeout = null;
 
 // syncHeaderToolsMenuState handled by app-reports.js
 
+const HEADER_DROPDOWNS = [
+  'header-tools', 'pause-dropdown', 'report', 'settings-dropdown',
+  'weather', 'calendar-dropdown', 'sound-volume-popover', 'soundscape', 'dropdown-header-workspace'
+];
+
 function showPanelHover(panelName, delay = 180) {
   if (hoverPanelHideTimeout) {
     clearTimeout(hoverPanelHideTimeout);
@@ -2783,8 +2788,11 @@ function showPanelHover(panelName, delay = 180) {
   }
 
   const TOOL_SUBPANELS = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'health', 'humor-lab'];
-  // Wenn ein anderes Panel fest angeklickt (gepinnt) ist, nicht durch reines Drüberfahren schließen
-  if (pinnedPanel && pinnedPanel !== panelName) {
+  const curActive = (typeof window !== 'undefined' && window.pinnedPanel) || pinnedPanel || currentlyOpenPanel;
+  const isSwitchingHeaderDropdowns = Boolean(curActive && curActive !== panelName && HEADER_DROPDOWNS.includes(curActive) && HEADER_DROPDOWNS.includes(panelName));
+
+  // Wenn ein anderes Floating-Fenster/Tool fest angeklickt ist, das nicht zur Header-Toolbar gehört:
+  if (pinnedPanel && pinnedPanel !== panelName && !isSwitchingHeaderDropdowns) {
     if (!(pinnedPanel === 'header-tools' && TOOL_SUBPANELS.includes(panelName))) {
       return;
     }
@@ -2793,25 +2801,24 @@ function showPanelHover(panelName, delay = 180) {
   const el = document.getElementById(`panel-${panelName}`);
   if (!el) return;
 
-  if (!el.classList.contains('hidden')) {
-    currentlyOpenPanel = panelName;
-    if (typeof window !== 'undefined') window.currentlyOpenPanel = panelName;
+  if (!el.classList.contains('hidden') && currentlyOpenPanel === panelName) {
     return;
   }
 
-    const executeShow = () => {
-    // Nochmals prüfen ob zwischenzeitlich gepinnt wurde
-    if (pinnedPanel && pinnedPanel !== panelName) {
+  const executeShow = () => {
+    if (pinnedPanel && pinnedPanel !== panelName && !isSwitchingHeaderDropdowns) {
       if (!(pinnedPanel === 'header-tools' && TOOL_SUBPANELS.includes(panelName))) {
         return;
       }
     }
 
+    const wasHeaderPinned = Boolean(pinnedPanel && HEADER_DROPDOWNS.includes(pinnedPanel));
+
     const ALL_POPOVER_PANELS = [
       'header-tools', 'feedback', 'report', 'settings', 'settings-dropdown', 'soundscape', 'language',
       'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'impulse',
       'shopping', 'cooking', 'alarm', 'weather', 'news', 'radio', 'pause-dropdown', 'timer-presets',
-      'audio', 'daily', 'logo-guide', 'collab-chat', 'radio-news', 'health', 'humor-lab'
+      'audio', 'daily', 'logo-guide', 'collab-chat', 'radio-news', 'health', 'humor-lab', 'dropdown-header-workspace'
     ];
     const TOOL_SUBPANELS_EXT = ['shopping', 'cooking', 'radio', 'news', 'audio', 'alarm', 'daily', 'impulse', 'inspiration', 'collab-chat', 'social', 'health', 'humor-lab', 'radio-news'];
     const isSubpanelOfTools = TOOL_SUBPANELS_EXT.includes(panelName);
@@ -2819,24 +2826,31 @@ function showPanelHover(panelName, delay = 180) {
     ALL_POPOVER_PANELS.forEach(p => {
       if (isSubpanelOfTools && p === 'header-tools') return;
       if (TOOL_SUBPANELS_EXT.includes(p)) return;
-      if (p !== panelName && p !== pinnedPanel) {
-        const other = document.getElementById(`panel-${p}`);
-        if (other && !other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
-          other.classList.add('hidden');
+      if (p !== panelName) {
+        const other = document.getElementById(`panel-${p}`) || document.getElementById(p);
+        if (other) {
+          if (HEADER_DROPDOWNS.includes(p)) {
+            other.classList.add('hidden');
+            other.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+          } else if (!other.classList.contains('noodle-panel-pinned') && !other.classList.contains('noodle-panel-fullscreen')) {
+            other.classList.add('hidden');
+          }
         }
       }
     });
 
-    el.classList.remove('hidden'); 
-    
-    // Peek-Status & Pin-Badge Dekoration
-    const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
-    if (isPinned) {
+    el.classList.remove('hidden');
+
+    if (wasHeaderPinned) {
       el.classList.add('noodle-panel-pinned');
       el.classList.remove('noodle-panel-peeking');
+      pinnedPanel = panelName;
+      if (typeof window !== 'undefined') window.pinnedPanel = panelName;
     } else {
       el.classList.add('noodle-panel-peeking');
       el.classList.remove('noodle-panel-pinned');
+      pinnedPanel = null;
+      if (typeof window !== 'undefined') window.pinnedPanel = null;
     }
 
     if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.decoratePanel === 'function') {
@@ -2903,10 +2917,9 @@ function showPanelHover(panelName, delay = 180) {
       if (typeof HumorEngine.renderHumorPanel === 'function') HumorEngine.renderHumorPanel();
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, el);
-    };
+  };
 
-  const defaultDelay = 180;
-  const effectiveDelay = (typeof delay === 'number' && delay >= 0) ? delay : defaultDelay;
+  const effectiveDelay = isSwitchingHeaderDropdowns ? 40 : ((typeof delay === 'number' && delay >= 0) ? delay : 160);
   hoverPanelShowTimeout = setTimeout(executeShow, effectiveDelay);
 }
 window.showPanelHover = showPanelHover;
@@ -2922,7 +2935,6 @@ function hidePanelHover(panelName, gracePeriod = 260) {
   }
 
   const effectiveGrace = gracePeriod;
-
   const isPinned = (typeof window !== 'undefined' && window.pinnedPanel === panelName) || (typeof pinnedPanel !== 'undefined' && pinnedPanel === panelName);
   if (isPinned) return;
 
@@ -2937,13 +2949,22 @@ function hidePanelHover(panelName, gracePeriod = 260) {
       } catch (e) {}
     }
 
-    if (panelName === 'header-tools') {
-      const toolsWrapper = document.getElementById('header-tools-wrapper');
-      const toolsPanel = document.getElementById('panel-header-tools');
-      try {
-        if (toolsWrapper && toolsWrapper.matches(':hover')) return;
-        if (toolsPanel && toolsPanel.matches(':hover')) return;
-      } catch (e) {}
+    const hoverCheckMap = {
+      'header-tools': ['#header-tools-wrapper', '#panel-header-tools'],
+      'pause-dropdown': ['#header-btn-pause-container', '#panel-pause-dropdown'],
+      'report': ['#header-btn-report-container', '#panel-report'],
+      'settings-dropdown': ['#header-btn-options-container', '#panel-settings-dropdown'],
+      'weather': ['#header-weather-badge', '#panel-weather'],
+      'calendar-dropdown': ['#header-calendar-pill', '#panel-calendar-dropdown']
+    };
+
+    if (hoverCheckMap[panelName]) {
+      for (const sel of hoverCheckMap[panelName]) {
+        const target = document.querySelector(sel);
+        try {
+          if (target && target.matches(':hover')) return;
+        } catch (e) {}
+      }
     }
 
     if (el) {
@@ -3001,22 +3022,46 @@ document.addEventListener('pointerdown', (e) => {
   }
   if (clickedTrigger) return;
 
-  // Wenn das Panel fest gepinnt (📌) oder im Vollbild (⛶) ist: NICHT schließen bei Klicks im Board!
-  if (openPanelEl.classList.contains('noodle-panel-pinned') || openPanelEl.classList.contains('noodle-panel-fullscreen')) {
+  // Header-Dropdowns IMMER schließen bei Klicks außerhalb (auch wenn gepinnt)
+  const isHeaderDropdown = HEADER_DROPDOWNS.includes(activeName);
+  if (!isHeaderDropdown && (openPanelEl.classList.contains('floating-tool-window') || openPanelEl.classList.contains('noodle-panel-fullscreen'))) {
     return;
   }
 
-  // Andernfalls (flüchtige Hover-Vorschau / Peek): Panel schließen
+  // Andernfalls: Panel schließen
   openPanelEl.classList.add('hidden');
-  openPanelEl.classList.remove('noodle-panel-peeking');
+  openPanelEl.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
   currentlyOpenPanel = null;
+  pinnedPanel = null;
   if (typeof window !== 'undefined') {
     window.currentlyOpenPanel = null;
+    window.pinnedPanel = null;
   }
   const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
   if (dockContainer) dockContainer.classList.remove('is-active');
   if (typeof syncHeaderToolsMenuState === 'function') {
     syncHeaderToolsMenuState();
+  }
+});
+
+// Escape-Taste schließt aktive Header-Dropdowns
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const activeName = (typeof window !== 'undefined' && window.pinnedPanel) || pinnedPanel || currentlyOpenPanel;
+    if (activeName) {
+      const el = document.getElementById(`panel-${activeName}`);
+      if (el && !el.classList.contains('hidden')) {
+        el.classList.add('hidden');
+        el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+        currentlyOpenPanel = null;
+        pinnedPanel = null;
+        if (typeof window !== 'undefined') {
+          window.currentlyOpenPanel = null;
+          window.pinnedPanel = null;
+        }
+        if (typeof syncHeaderToolsMenuState === 'function') syncHeaderToolsMenuState();
+      }
+    }
   }
 });
 
