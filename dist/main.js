@@ -80,6 +80,7 @@ import './app-tooltip.js';
 import './app-social.js';
 
 // 8. Haupt-Orchestrierung & Initialisierung
+import './app-backup.js';
 import './app-core.js';
 
 // ============================================================================

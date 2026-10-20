@@ -1466,5 +1466,208 @@ if (typeof document !== 'undefined') {
   }
 }
 
+// ============================================================================
+// NOODLE STUDIO EVENT DELEGATION DISPATCHER (Phase 5 - Architektur B)
+// Ersetzt Inline-onclick durch data-action="..." und data-action-args="..."
+// ============================================================================
+function dispatchAction(actionName, args = [], event = null, targetElement = null) {
+  if (!actionName) return false;
+
+  // 1. Built-in Action Registry für Standardaktionen
+  switch (actionName) {
+    case 'togglePanel':
+      const tp = (typeof window !== 'undefined' && window.togglePanel) || (typeof togglePanel === 'function' ? togglePanel : null);
+      if (tp) {
+        tp(args[0], event);
+        return true;
+      }
+      break;
+    case 'toggleMinimalist':
+      if (typeof toggleMinimalist === 'function') {
+        toggleMinimalist();
+        return true;
+      }
+      break;
+    case 'startTimer':
+      if (typeof startTimer === 'function') {
+        startTimer();
+        return true;
+      }
+      break;
+    case 'pauseTimer':
+      if (typeof pauseTimer === 'function') {
+        pauseTimer();
+        return true;
+      }
+      break;
+    case 'stopTimer':
+      if (typeof stopTimer === 'function') {
+        stopTimer();
+        return true;
+      }
+      break;
+    case 'playAmbientSound':
+      if (typeof playAmbientSound === 'function') {
+        playAmbientSound(args[0]);
+        return true;
+      }
+      break;
+    case 'openAudioStudioMode':
+      if (typeof openAudioStudioMode === 'function') {
+        openAudioStudioMode(args[0]);
+        return true;
+      }
+      break;
+    case 'toggleMusicPlayback':
+      if (typeof toggleMusicPlayback === 'function') {
+        toggleMusicPlayback();
+        return true;
+      }
+      break;
+    case 'playNextMusicTrack':
+      if (typeof playNextMusicTrack === 'function') {
+        playNextMusicTrack();
+        return true;
+      }
+      break;
+    case 'toggleMusicShuffle':
+      if (typeof toggleMusicShuffle === 'function') {
+        toggleMusicShuffle();
+        return true;
+      }
+      break;
+    case 'openMobileMenuDrawer':
+      if (typeof openMobileMenuDrawer === 'function') {
+        openMobileMenuDrawer();
+        return true;
+      }
+      break;
+    case 'closeMobileMenuDrawer':
+      if (typeof closeMobileMenuDrawer === 'function') {
+        closeMobileMenuDrawer();
+        return true;
+      }
+      break;
+    case 'openMobileToolsSheet':
+      if (typeof openMobileToolsSheet === 'function') {
+        openMobileToolsSheet();
+        return true;
+      }
+      break;
+    case 'closeMobileToolsSheet':
+      if (typeof closeMobileToolsSheet === 'function') {
+        closeMobileToolsSheet();
+        return true;
+      }
+      break;
+    case 'switchShoppingTab':
+      if (typeof switchShoppingTab === 'function') {
+        switchShoppingTab(args[0]);
+        return true;
+      }
+      break;
+    case 'handleAddShoppingItem':
+      if (typeof handleAddShoppingItem === 'function') {
+        handleAddShoppingItem(args[0]);
+        return true;
+      }
+      break;
+    case 'clearShoppingList':
+      if (typeof clearShoppingList === 'function') {
+        clearShoppingList();
+        return true;
+      }
+      break;
+    case 'copyShoppingListToClipboard':
+      if (typeof copyShoppingListToClipboard === 'function') {
+        copyShoppingListToClipboard();
+        return true;
+      }
+      break;
+    case 'openSupermarketModal':
+      if (typeof openSupermarketModal === 'function') {
+        openSupermarketModal();
+        return true;
+      }
+      break;
+    case 'openCleaningGuideModal':
+      if (typeof openCleaningGuideModal === 'function') {
+        openCleaningGuideModal();
+        return true;
+      }
+      break;
+    case 'openSettingsModal':
+      if (typeof openSettingsModal === 'function') {
+        openSettingsModal(args[0]);
+        return true;
+      }
+      break;
+    case 'stopPropagation':
+      if (event && typeof event.stopPropagation === 'function') {
+        event.stopPropagation();
+        return true;
+      }
+      break;
+  }
+
+  // 2. Namensaufgelöster Lookup (Objekt-Pfade wie RadioNewsEngine.toggleNewsTickerEnabled)
+  const parts = actionName.split('.');
+  let currentObj = (typeof window !== 'undefined' ? window : globalThis);
+  for (let i = 0; i < parts.length; i++) {
+    if (!currentObj) break;
+    currentObj = currentObj[parts[i]];
+  }
+
+  if (typeof currentObj === 'function') {
+    const parentObj = parts.length > 1 ? (function() {
+      let p = (typeof window !== 'undefined' ? window : globalThis);
+      for (let j = 0; j < parts.length - 1; j++) p = p[parts[j]];
+      return p;
+    })() : null;
+
+    currentObj.apply(parentObj || window, args.length > 0 ? args : (event ? [event] : []));
+    return true;
+  }
+
+  return false;
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('click', (event) => {
+    const actionEl = event.target.closest('[data-action]');
+    if (!actionEl) return;
+
+    // Optional: stopPropagation konfigurierbar via Attribut
+    if (actionEl.getAttribute('data-stop-propagation') === 'true') {
+      event.stopPropagation();
+    }
+
+    const actionsStr = actionEl.getAttribute('data-action') || '';
+    const argsStr = actionEl.getAttribute('data-action-args');
+    let parsedArgs = [];
+    if (argsStr) {
+      try {
+        parsedArgs = JSON.parse(argsStr);
+        if (!Array.isArray(parsedArgs)) parsedArgs = [parsedArgs];
+      } catch (e) {
+        parsedArgs = argsStr.split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
+      }
+    }
+
+    // Unterstützt verkettete Aktionen (Semikolon-separiert)
+    const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
+    actionList.forEach(actionItem => {
+      dispatchAction(actionItem, parsedArgs, event, actionEl);
+    });
+  });
+}
+
+if (typeof window !== 'undefined') {
+  window.dispatchAction = dispatchAction;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.dispatchAction = dispatchAction;
+}
+
 
 

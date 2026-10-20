@@ -189,6 +189,7 @@ try {
     'app-feedback.js',
     'app-tooltip.js',
     'app-social.js',
+    'app-backup.js',
     'app-core.js'
   ];
 

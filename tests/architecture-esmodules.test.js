@@ -60,6 +60,7 @@ describe('Phase 4: Architecture A - ES-Modules & Cleanup', () => {
       'app-feedback.js',
       'app-tooltip.js',
       'app-social.js',
+      'app-backup.js',
       'app-core.js'
     ];
 

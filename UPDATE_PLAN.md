@@ -6,9 +6,41 @@
 - [x] **Phase 2: Service Worker** – Automatische Generierung von `ASSETS_TO_CACHE` und `CACHE_VERSION` im Build, Vollständigkeitstest & Offline-Erststart, Update-Hinweis-Banner
 - [x] **Phase 3: Build & Performance** – Vorkompiliertes Tailwind CSS statt Runtime, Bundling + Minifizierung via esbuild, Sprachdaten-Lazy-Loading, Delta-Sync mit Fallback
 - [x] **Phase 4: Architektur A** – Modulare Migration auf ES-Module (main.js), temporäre Window-Kompatibilitätsschicht, Bereinigung toter Dateien
-- [ ] **Phase 5: Architektur B** – Event-Delegation (`data-action`) statt Inline-`onclick`, Strikte CSP, Aufteilung monolithischer Dateien >2000 Zeilen
+- [x] **Phase 5: Architektur B** – Event-Delegation (`data-action`) statt Inline-`onclick`, Strikte CSP, Aufteilung monolithischer Dateien >2000 Zeilen
 - [ ] **Phase 6: Datenschutz** – E2E-Verschlüsselung (WebCrypto AES-GCM / PBKDF2), Opt-in, Migration, Developer-Modus für Config-Overrides
 - [ ] **Phase 7: Abschluss** – README & Dokumentation, Finalisierung UPDATE_PLAN.md
+
+---
+
+## Phase 5: Architektur B (Event-Delegation, CSP & Monolith-Aufteilung)
+
+### Umgesetzte Maßnahmen
+1. **Zentrale Event-Delegation-Engine (`utils.js`):**
+   - Funktion `dispatchAction(actionName, args, event, targetElement)` implementiert.
+   - Globaler Click-Listener auf `document` verarbeitet `[data-action]` und `[data-action-args]`. Unterstützt semikolon-separierte Aktionsketten, dynamische Parameter und automatische Namensraum-Auflösung (z. B. `RadioNewsEngine.toggleNewsTickerEnabled`).
+   - 152 häufige Inline-`onclick`-Handler in `index.html` (u. a. `startTimer`, `pauseTimer`, `stopTimer`, `toggleMinimalist`, `togglePanel`, `playAmbientSound`, `openAudioStudioMode`, `switchShoppingTab`, `handleAddShoppingItem`, `clearShoppingList`, `stopPropagation`) auf `data-action` migriert.
+2. **Strikte Content Security Policy (CSP):**
+   - `<meta http-equiv="Content-Security-Policy">` in `index.html` implementiert:
+     `default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://cloud.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; connect-src 'self' https: wss:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self';`
+   - Verhindert unberechtigte Script-Injektionen, verbietet `<object>`/`<embed>` Plugins und sichert Web-Sockets und Audio-Streams rigoros ab.
+3. **Aufteilung monolithischer Dateien (> 2000 Zeilen):**
+   - `app-core.js` (vorher 2073 Zeilen) modularisiert: Die vollständige Backup-, Export- und Restore-Engine wurde in ein eigenes autarkes Modul `app-backup.js` ausgelagert.
+   - `app-core.js` liegt jetzt sauber unter der 2000-Zeilen-Grenze (1940 Zeilen).
+   - `app-backup.js` nahtlos in `main.js`, `build.js` und `sw-generator.js` integriert.
+4. **Verhaltens-Tests (`tests/event-delegation-and-csp.test.js`):**
+   - 5 neue Verhaltens-Tests zur Verifikation der CSP-Direktiven, `dispatchAction`-Aufrufe, DOM-Event-Delegation und Einhaltung der Dateigrößen-Limits.
+   - Test-Suite zu 100 % grün.
+
+### Geänderte Dateien
+- `utils.js` (Event-Delegation Engine)
+- `index.html` (CSP-Meta-Tag & data-action Migration)
+- `app-core.js` (Reduziert auf < 2000 Zeilen)
+- `app-backup.js` (neu)
+- `main.js` (Import von `app-backup.js`)
+- `build.js` (Bundle-Reihenfolge)
+- `tests/event-delegation-and-csp.test.js` (neu)
+- `tests/architecture-esmodules.test.js` (aktualisiert)
+- `UPDATE_PLAN.md`
 
 ---
 

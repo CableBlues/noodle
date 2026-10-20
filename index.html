@@ -9,6 +9,10 @@
   <meta name="theme-color" content="#0a0a0f" />
   <title>Noodle Studio</title>
 
+  <!-- Strikte Content Security Policy (CSP) zur Verhinderung von Code-Injection & XSS -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; script-src 'self' 'unsafe-inline' https://cloud.umami.is; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; connect-src 'self' https: wss:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; base-uri 'self';" />
+
+
   <!-- Web App Manifest für PWA & Offline-Installation (nur bei http/https; file:// blockt CORS) -->
   <script>
     if (typeof window !== 'undefined' && window.location.protocol !== 'file:') {
@@ -95,7 +99,7 @@
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <!-- 1. Kombinierter NOODLE TOOLS & LOGO BUTTON -->
         <div class="relative flex items-center shrink-0" id="header-tools-wrapper" onmouseenter="showPanelHover('header-tools', 0)" onmouseleave="hidePanelHover('header-tools')">
-          <button id="btn-header-tools" onclick="togglePanel('header-tools')" class="flow-logo-container relative inline-flex items-center gap-1 sm:gap-1.5 h-[38px] px-2.5 sm:px-3 rounded-2xl bg-gradient-to-br from-[#1b162a]/95 via-[#13111c]/95 to-[#1f1633]/95 hover:from-[#251d3a] hover:to-[#2b1d47] border border-purple-500/45 hover:border-purple-400 shadow-[0_0_18px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 cursor-pointer ring-1 ring-white/10" title="Noodle Tools" data-noodle-tooltip="Noodle Tools" aria-label="Noodle Tools">
+          <button id="btn-header-tools" data-action="togglePanel" data-action-args='["header-tools"]' class="flow-logo-container relative inline-flex items-center gap-1 sm:gap-1.5 h-[38px] px-2.5 sm:px-3 rounded-2xl bg-gradient-to-br from-[#1b162a]/95 via-[#13111c]/95 to-[#1f1633]/95 hover:from-[#251d3a] hover:to-[#2b1d47] border border-purple-500/45 hover:border-purple-400 shadow-[0_0_18px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 cursor-pointer ring-1 ring-white/10" title="Noodle Tools" data-noodle-tooltip="Noodle Tools" aria-label="Noodle Tools">
             <!-- Sanfter Shimmer-Lichtreflex über den gesamten Button -->
             <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
               <div class="w-1/2 h-full bg-gradient-to-r from-transparent via-white/[0.07] to-transparent -skew-x-12 animate-[shimmer_5s_infinite]"></div>
@@ -128,7 +132,7 @@
           </button>
 
           <!-- TOOLS SPHERES POPOVER DROPDOWN -->
-          <div id="panel-header-tools" onmouseenter="showPanelHover('header-tools')" onmouseleave="hidePanelHover('header-tools')" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+16px)] sm:top-[calc(100%+18px)] left-0 z-[150] w-[360px] sm:w-[395px] bg-[#0c0c14]/98 border border-purple-500/35 p-2.5 sm:p-3 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_40px_rgba(168,85,247,0.2)] backdrop-blur-2xl ring-1 ring-white/10 flex flex-col gap-2 sm:gap-2.5 text-left animate-fade-in cursor-default">
+          <div id="panel-header-tools" onmouseenter="showPanelHover('header-tools')" onmouseleave="hidePanelHover('header-tools')" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute top-[calc(100%+16px)] sm:top-[calc(100%+18px)] left-0 z-[150] w-[360px] sm:w-[395px] bg-[#0c0c14]/98 border border-purple-500/35 p-2.5 sm:p-3 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_40px_rgba(168,85,247,0.2)] backdrop-blur-2xl ring-1 ring-white/10 flex flex-col gap-2 sm:gap-2.5 text-left animate-fade-in cursor-default">
             
             <!-- 1. ALLTAG & LIFESTYLE -->
             <div class="p-2 sm:p-2.5 rounded-2xl bg-[#11131c]/85 border border-white/10 space-y-1.5 shadow-sm">
@@ -137,7 +141,7 @@
                   <i data-lucide="home" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400"></i>
                   <span data-i18n="tools_section_household_daily">Alltag & Lifestyle</span>
                 </div>
-                <button onclick="togglePanel('header-tools')" aria-label="Tools Menü schließen" class="text-emerald-300/80 hover:text-rose-300 text-xs font-bold p-0.5 px-1.5 rounded-lg hover:bg-rose-500/15 transition cursor-pointer">✕</button>
+                <button data-action="togglePanel" data-action-args='["header-tools"]' aria-label="Tools Menü schließen" class="text-emerald-300/80 hover:text-rose-300 text-xs font-bold p-0.5 px-1.5 rounded-lg hover:bg-rose-500/15 transition cursor-pointer">✕</button>
               </div>
               <div class="grid grid-cols-4 gap-2 sm:gap-2.5 pt-0.5">
 
@@ -153,7 +157,7 @@
 
                 <!-- 2. Einkauf Sphere (Emerald) -->
                 <div class="relative flex flex-col items-center">
-                  <button onclick="togglePanel('shopping')" class="tool-orb tool-orb-shopping flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Einkaufsliste [E]">
+                  <button data-action="togglePanel" data-action-args='["shopping"]' class="tool-orb tool-orb-shopping flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Einkaufsliste [E]">
                     <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-teal-600/20 border border-emerald-400/40 hover:border-emerald-300 flex items-center justify-center text-emerald-300 shadow-[0_0_12px_rgba(16,185,129,0.2)] group-hover/orb:scale-105 transition-all duration-200 relative">
                       <i data-lucide="shopping-cart" class="w-5 h-5 text-emerald-300"></i>
                       <span id="shop-badge-count" class="hidden px-1 py-0.2 rounded-full bg-emerald-500 text-slate-950 font-mono text-[8px] font-bold absolute -top-1 -right-1"></span>
@@ -178,26 +182,26 @@
                         </div>
                       </div>
                       <div class="flex items-center gap-1">
-                        <button onclick="openSupermarketModal()" class="px-2 py-1 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 rounded-lg text-[10px] font-bold text-emerald-300 transition flex items-center gap-1 cursor-pointer" title="Supermarkt-Modus (Vollbild)">
+                        <button data-action="openSupermarketModal" class="px-2 py-1 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 rounded-lg text-[10px] font-bold text-emerald-300 transition flex items-center gap-1 cursor-pointer" title="Supermarkt-Modus (Vollbild)">
                           <i data-lucide="maximize-2" class="w-3 h-3"></i>
                           <span data-i18n="shop_supermarket">Markt</span>
                         </button>
-                        <button onclick="togglePanel('shopping')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
+                        <button data-action="togglePanel" data-action-args='["shopping"]' class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
                       </div>
                     </div>
 
                     <!-- Navigation Tabs: [ 🛒 Meine Liste ] vs [ 🏷️ Deals ] vs [ 📦 Vorrat ] -->
                     <div class="flex items-center gap-1 p-1 bg-black/50 border border-white/10 rounded-2xl">
-                      <button id="shopping-tab-btn-list" onclick="switchShoppingTab('list')" class="flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1 cursor-pointer transition">
+                      <button id="shopping-tab-btn-list" data-action="switchShoppingTab" data-action-args='["list"]' class="flex-1 py-1.5 px-2 rounded-xl text-emerald-100 bg-gradient-to-r from-emerald-600/40 via-teal-600/35 to-emerald-600/40 border border-emerald-400/80 shadow-[0_0_15px_rgba(16,185,129,0.35)] text-xs font-bold flex items-center justify-center gap-1 cursor-pointer transition">
                         <i data-lucide="list-checks" class="w-3.5 h-3.5"></i>
                         <span data-i18n="shop_tab_list">Liste</span>
                       </button>
-                      <button id="shopping-tab-btn-deals" onclick="switchShoppingTab('deals')" class="flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1 cursor-pointer">
+                      <button id="shopping-tab-btn-deals" data-action="switchShoppingTab" data-action-args='["deals"]' class="flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1 cursor-pointer">
                         <i data-lucide="percent" class="w-3.5 h-3.5 text-amber-400"></i>
                         <span data-i18n="shop_tab_deals">Deals</span>
                         <span data-i18n="shop_sale_badge" class="px-1 py-0.2 rounded-full bg-rose-500/25 text-rose-300 text-[8.5px] font-bold font-mono">Sale</span>
                       </button>
-                      <button id="shopping-tab-btn-pantry" onclick="switchShoppingTab('pantry')" class="flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1 cursor-pointer">
+                      <button id="shopping-tab-btn-pantry" data-action="switchShoppingTab" data-action-args='["pantry"]' class="flex-1 py-1.5 px-2 rounded-xl text-gray-400 hover:text-emerald-300 hover:bg-emerald-500/10 border border-transparent transition text-xs font-semibold flex items-center justify-center gap-1 cursor-pointer">
                         <i data-lucide="package" class="w-3.5 h-3.5 text-amber-300"></i>
                         <span data-i18n="shop_tab_pantry">Vorrat</span>
                       </button>
@@ -208,7 +212,7 @@
                       <!-- Eingabezeile (Sofort im Fokus) -->
                       <div class="flex gap-1.5">
                         <input type="text" id="shop-add-name" data-i18n-placeholder="shop_add_placeholder" placeholder="Artikel (z.B. 2x Hafermilch, Tomaten)..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-emerald-500 transition" onkeydown="if(event.key==='Enter') handleAddShoppingItem()">
-                        <button onclick="handleAddShoppingItem()" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
+                        <button data-action="handleAddShoppingItem" class="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer">
                           <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                           <span>Add</span>
                         </button>
@@ -216,16 +220,16 @@
 
                       <!-- Quick Essentials Chips (Dezente Schnellauswahl) -->
                       <div class="flex gap-1 overflow-x-auto pb-0.5 no-scrollbar shrink-0 opacity-80 hover:opacity-100 transition-opacity" id="shop-quick-chips">
-                        <button onclick="handleAddShoppingItem('Milch')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_milk">Milch</button>
-                        <button onclick="handleAddShoppingItem('Eier')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_eggs">Eier</button>
-                        <button onclick="handleAddShoppingItem('Brot')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_bread">Brot</button>
-                        <button onclick="handleAddShoppingItem('Butter')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_butter">Butter</button>
-                        <button onclick="handleAddShoppingItem('Äpfel')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_apples">Äpfel</button>
-                        <button onclick="handleAddShoppingItem('Bananen')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_bananas">Bananen</button>
-                        <button onclick="handleAddShoppingItem('Kaffee')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_coffee">Kaffee</button>
-                        <button onclick="handleAddShoppingItem('Nudeln')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_pasta">Nudeln</button>
-                        <button onclick="handleAddShoppingItem('Käse')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_cheese">Käse</button>
-                        <button onclick="handleAddShoppingItem('Zwiebeln')" class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_onions">Zwiebeln</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Milch"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_milk">Milch</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Eier"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_eggs">Eier</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Brot"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_bread">Brot</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Butter"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_butter">Butter</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Äpfel"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_apples">Äpfel</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Bananen"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_bananas">Bananen</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Kaffee"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_coffee">Kaffee</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Nudeln"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_pasta">Nudeln</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Käse"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_cheese">Käse</button>
+                        <button data-action="handleAddShoppingItem" data-action-args='["Zwiebeln"]' class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 border border-white/10 text-[10px] text-gray-300 hover:text-emerald-200 transition cursor-pointer shrink-0" data-i18n="chip_onions">Zwiebeln</button>
                       </div>
 
                       <!-- Smart Deal-Radar Matching Banner (Dynamisch) -->
@@ -236,8 +240,8 @@
                         <div class="flex items-center justify-between text-[10px] text-emerald-300 font-bold uppercase tracking-wider px-1">
                           <span data-i18n="shop_open_items">Zu besorgen (Gang-Laufweg)</span>
                           <div class="flex items-center gap-2">
-                            <button onclick="copyShoppingListToClipboard()" class="text-cyan-400 hover:text-cyan-300 text-[10px] cursor-pointer flex items-center gap-0.5" title="Liste kopieren (WhatsApp / Notizen)">📋 Teilen</button>
-                            <button onclick="clearShoppingList()" class="text-rose-400 hover:text-rose-300 text-[10px] cursor-pointer" data-i18n="shop_clear">Alle löschen</button>
+                            <button data-action="copyShoppingListToClipboard" class="text-cyan-400 hover:text-cyan-300 text-[10px] cursor-pointer flex items-center gap-0.5" title="Liste kopieren (WhatsApp / Notizen)">📋 Teilen</button>
+                            <button data-action="clearShoppingList" class="text-rose-400 hover:text-rose-300 text-[10px] cursor-pointer" data-i18n="shop_clear">Alle löschen</button>
                           </div>
                         </div>
                         <div id="shopping-list-rows" class="space-y-1.5 max-h-[160px] overflow-y-auto pr-1"></div>
@@ -286,7 +290,7 @@
 
                 <!-- 4. Nachrichten Sphere (Purple/Rose) -->
                 <div class="relative flex flex-col items-center">
-                  <button onclick="togglePanel('news')" class="tool-orb tool-orb-news flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Nachrichten & Audio">
+                  <button data-action="togglePanel" data-action-args='["news"]' class="tool-orb tool-orb-news flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Nachrichten & Audio">
                     <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-purple-500/20 to-rose-500/20 border border-purple-400/40 hover:border-purple-300 flex items-center justify-center text-purple-300 shadow-[0_0_12px_rgba(168,85,247,0.2)] group-hover/orb:scale-105 transition-all duration-200">
                       <i data-lucide="newspaper" class="w-5 h-5 text-purple-300"></i>
                     </div>
@@ -332,7 +336,7 @@
                         <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
                       </button>
                       <!-- Close Button -->
-                      <button onclick="togglePanel('news')" class="w-7 h-7 flex items-center justify-center rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 hover:text-rose-200 transition cursor-pointer font-bold text-xs">✕</button>
+                      <button data-action="togglePanel" data-action-args='["news"]' class="w-7 h-7 flex items-center justify-center rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 hover:text-rose-200 transition cursor-pointer font-bold text-xs">✕</button>
                     </div>
                   </div>
 
@@ -426,7 +430,7 @@
                 
                 <!-- 1. Sounds (Ambient, Natur & Stimmungen) -->
                 <div class="relative flex flex-col items-center">
-                  <button onclick="openAudioStudioMode('ambient')" class="tool-orb tool-orb-sounds flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Sounds (Ambient, Naturgeräusche & Stimmungen)">
+                  <button data-action="openAudioStudioMode" data-action-args='["ambient"]' class="tool-orb tool-orb-sounds flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Sounds (Ambient, Naturgeräusche & Stimmungen)">
                     <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-teal-500/25 to-emerald-600/20 border border-teal-400/40 hover:border-teal-300 flex items-center justify-center text-teal-300 shadow-[0_0_12px_rgba(6,182,212,0.15)] group-hover/orb:scale-105 transition-all duration-200">
                       <i data-lucide="headphones" class="w-5 h-5 text-teal-300"></i>
                     </div>
@@ -456,7 +460,7 @@
                       <i data-lucide="square" class="w-3 h-3 fill-rose-300"></i>
                       <span data-i18n="stop">Stop</span>
                     </button>
-                    <button onclick="togglePanel('audio')" class="text-gray-400 hover:text-white text-xs font-bold p-1 px-1.5 rounded-lg hover:bg-white/5 cursor-pointer">✕</button>
+                    <button data-action="togglePanel" data-action-args='["audio"]' class="text-gray-400 hover:text-white text-xs font-bold p-1 px-1.5 rounded-lg hover:bg-white/5 cursor-pointer">✕</button>
                   </div>
                 </div>
 
@@ -492,39 +496,39 @@
                       <span data-i18n="audio_harmonies">Harmonien & Melodien</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
-                      <button onclick="playAmbientSound('piano')" id="sound-btn-piano" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["piano"]' id="sound-btn-piano" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="music" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_piano">Sanftes Piano</span>
                       </button>
-                      <button onclick="playAmbientSound('lofi')" id="sound-btn-lofi" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["lofi"]' id="sound-btn-lofi" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="disc" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_lofi">Lofi Chords</span>
                       </button>
-                      <button onclick="playAmbientSound('jazz_piano')" id="sound-btn-jazz_piano" class="p-1.5 px-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["jazz_piano"]' id="sound-btn-jazz_piano" class="p-1.5 px-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="music-2" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_jazz_piano">Jazz Voicings</span>
                       </button>
-                      <button onclick="playAmbientSound('rhodes')" id="sound-btn-rhodes" class="p-1.5 px-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["rhodes"]' id="sound-btn-rhodes" class="p-1.5 px-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="radio" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_rhodes">Fender Rhodes</span>
                       </button>
-                      <button onclick="playAmbientSound('guitar')" id="sound-btn-guitar" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["guitar"]' id="sound-btn-guitar" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="music" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_guitar">Akustik-Gitarre</span>
                       </button>
-                      <button onclick="playAmbientSound('hypnotic_riff')" id="sound-btn-hypnotic_riff" class="p-1.5 px-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["hypnotic_riff"]' id="sound-btn-hypnotic_riff" class="p-1.5 px-2 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cyan-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_hypnotic_riff">Hypnotic Riff</span>
                       </button>
-                      <button onclick="playAmbientSound('singingbowl')" id="sound-btn-singingbowl" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["singingbowl"]' id="sound-btn-singingbowl" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="bell" class="w-3.5 h-3.5 text-teal-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_singingbowl">Klangschale</span>
                       </button>
-                      <button onclick="playAmbientSound('chimes')" id="sound-btn-chimes" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["chimes"]' id="sound-btn-chimes" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="wind" class="w-3.5 h-3.5 text-teal-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_chimes">Windspiel</span>
                       </button>
-                      <button onclick="playAmbientSound('musicbox')" id="sound-btn-musicbox" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["musicbox"]' id="sound-btn-musicbox" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="moon" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_musicbox">Spieluhr</span>
                       </button>
@@ -538,27 +542,27 @@
                       <span data-i18n="audio_nature">Natur & Atmosphäre</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
-                      <button onclick="playAmbientSound('campfire')" id="sound-btn-campfire" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["campfire"]' id="sound-btn-campfire" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_campfire">Kaminfeuer</span>
                       </button>
-                      <button onclick="playAmbientSound('birds')" id="sound-btn-birds" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["birds"]' id="sound-btn-birds" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="feather" class="w-3.5 h-3.5 text-emerald-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_birds">Waldvögel</span>
                       </button>
-                      <button onclick="playAmbientSound('breeze')" id="sound-btn-breeze" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["breeze"]' id="sound-btn-breeze" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="wind" class="w-3.5 h-3.5 text-emerald-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_breeze">Blättersäuseln</span>
                       </button>
-                      <button onclick="playAmbientSound('cafe')" id="sound-btn-cafe" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["cafe"]' id="sound-btn-cafe" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="coffee" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_cafe">Cozy Café</span>
                       </button>
-                      <button onclick="playAmbientSound('clock')" id="sound-btn-clock" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["clock"]' id="sound-btn-clock" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="clock" class="w-3.5 h-3.5 text-cyan-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_clock">Pendeluhr</span>
                       </button>
-                      <button onclick="playAmbientSound('space')" id="sound-btn-space" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["space"]' id="sound-btn-space" class="p-1.5 px-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="compass" class="w-3.5 h-3.5 text-indigo-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_space">Cosmic Ambient</span>
                       </button>
@@ -575,27 +579,27 @@
                       <span id="beat-bpm-val" class="font-mono text-emerald-400 text-[10px] font-bold bg-emerald-500/15 px-2 py-0.5 rounded-lg border border-emerald-500/30">120 BPM</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-1">
-                      <button onclick="playAmbientSound('techno')" id="sound-btn-techno" class="p-1.5 px-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["techno"]' id="sound-btn-techno" class="p-1.5 px-2 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="zap" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_techno">Techno 128</span>
                       </button>
-                      <button onclick="playAmbientSound('dnb')" id="sound-btn-dnb" class="p-1.5 px-2 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["dnb"]' id="sound-btn-dnb" class="p-1.5 px-2 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="activity" class="w-3.5 h-3.5 text-rose-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_dnb">Drum & Bass</span>
                       </button>
-                      <button onclick="playAmbientSound('afrobeats')" id="sound-btn-afrobeats" class="p-1.5 px-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["afrobeats"]' id="sound-btn-afrobeats" class="p-1.5 px-2 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="sun" class="w-3.5 h-3.5 text-amber-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_afrobeats">Afrobeats</span>
                       </button>
-                      <button onclick="playAmbientSound('swing')" id="sound-btn-swing" class="p-1.5 px-2 bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["swing"]' id="sound-btn-swing" class="p-1.5 px-2 bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="disc" class="w-3.5 h-3.5 text-teal-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_swing">Swing & Jazz</span>
                       </button>
-                      <button onclick="playAmbientSound('boombap')" id="sound-btn-boombap" class="p-1.5 px-2 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["boombap"]' id="sound-btn-boombap" class="p-1.5 px-2 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_boombap">Boom-Bap</span>
                       </button>
-                      <button onclick="playAmbientSound('bossa_nova')" id="sound-btn-bossa_nova" class="p-1.5 px-2 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
+                      <button data-action="playAmbientSound" data-action-args='["bossa_nova"]' id="sound-btn-bossa_nova" class="p-1.5 px-2 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 rounded-xl text-left transition cursor-pointer flex items-center gap-1.5 min-w-0 h-8">
                         <i data-lucide="music-2" class="w-3.5 h-3.5 text-rose-300 shrink-0"></i>
                         <span class="text-white font-bold text-[10px] truncate" data-i18n="sound_bossa_nova">Bossa Nova</span>
                       </button>
@@ -702,13 +706,13 @@
                       <input type="range" id="music-progress-slider" min="0" max="100" value="0" step="0.1" oninput="seekMusicTrack(this.value)" class="w-full h-1 bg-black/50 rounded-xl accent-purple-400 cursor-pointer">
                       <div class="flex items-center justify-between pt-0.5">
                         <div class="flex items-center gap-1">
-                          <button onclick="toggleMusicShuffle()" id="music-btn-shuffle" class="p-1 rounded-lg text-gray-400 hover:text-white transition cursor-pointer" title="Zufallswiedergabe"><i data-lucide="shuffle" class="w-3 h-3"></i></button>
+                          <button data-action="toggleMusicShuffle" id="music-btn-shuffle" class="p-1 rounded-lg text-gray-400 hover:text-white transition cursor-pointer" title="Zufallswiedergabe"><i data-lucide="shuffle" class="w-3 h-3"></i></button>
                           <button onclick="toggleMusicRepeat()" id="music-btn-repeat" class="p-1 rounded-lg text-gray-400 hover:text-white transition cursor-pointer" title="Wiederholen"><i data-lucide="repeat" class="w-3 h-3"></i></button>
                         </div>
                         <div class="flex items-center gap-1.5">
                           <button onclick="playPrevMusicTrack()" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"><i data-lucide="skip-back" class="w-3.5 h-3.5"></i></button>
-                          <button onclick="toggleMusicPlayback()" id="music-play-pause-btn" class="p-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition cursor-pointer shadow-md"><i data-lucide="play" class="w-4 h-4"></i></button>
-                          <button onclick="playNextMusicTrack()" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"><i data-lucide="skip-forward" class="w-3.5 h-3.5"></i></button>
+                          <button data-action="toggleMusicPlayback" id="music-play-pause-btn" class="p-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition cursor-pointer shadow-md"><i data-lucide="play" class="w-4 h-4"></i></button>
+                          <button data-action="playNextMusicTrack" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"><i data-lucide="skip-forward" class="w-3.5 h-3.5"></i></button>
                         </div>
                         <div class="flex items-center gap-1 w-20">
                           <i data-lucide="volume-2" class="w-3 h-3 text-gray-400"></i>
@@ -1227,7 +1231,7 @@
 
                 <!-- 2. Musik & Medien Sphere (MP3s, Spotify & YouTube) -->
                 <div class="relative flex flex-col items-center">
-                  <button onclick="openAudioStudioMode('music')" class="tool-orb tool-orb-player flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Musik & Medien (MP3s, Spotify & YouTube)">
+                  <button data-action="openAudioStudioMode" data-action-args='["music"]' class="tool-orb tool-orb-player flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Musik & Medien (MP3s, Spotify & YouTube)">
                     <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-sky-500/25 to-blue-600/20 border border-sky-400/40 hover:border-sky-300 flex items-center justify-center text-sky-300 shadow-[0_0_12px_rgba(56,189,248,0.15)] group-hover/orb:scale-105 transition-all duration-200">
                       <i data-lucide="disc-3" class="w-5 h-5 text-sky-300"></i>
                     </div>
@@ -1237,7 +1241,7 @@
 
                 <!-- 3. Noodle DJ Sphere (2-Deck Mixer & FX) -->
                 <div class="relative flex flex-col items-center">
-                  <button onclick="openAudioStudioMode('dj')" class="tool-orb tool-orb-dj flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Noodle DJ (2-Deck Workstation & FX Launchpad)">
+                  <button data-action="openAudioStudioMode" data-action-args='["dj"]' class="tool-orb tool-orb-dj flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Noodle DJ (2-Deck Workstation & FX Launchpad)">
                     <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-500/25 to-orange-600/20 border border-amber-400/40 hover:border-amber-300 flex items-center justify-center text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.15)] group-hover/orb:scale-105 transition-all duration-200">
                       <i data-lucide="sliders" class="w-5 h-5 text-amber-300"></i>
                     </div>
@@ -1273,7 +1277,7 @@
                           <i data-lucide="play" class="w-3.5 h-3.5"></i>
                           <span id="radio-master-btn-label">Play</span>
                         </button>
-                        <button onclick="togglePanel('radio')" class="text-rose-300/80 hover:text-rose-200 text-xs font-bold p-1 cursor-pointer">✕</button>
+                        <button data-action="togglePanel" data-action-args='["radio"]' class="text-rose-300/80 hover:text-rose-200 text-xs font-bold p-1 cursor-pointer">✕</button>
                       </div>
                     </div>
 
@@ -1417,7 +1421,7 @@
 
                 <!-- 2. Fun-Labor Sphere (Violet/Purple) -->
                 <div class="relative flex flex-col items-center">
-                  <button onclick="togglePanel('humor-lab')" class="tool-orb tool-orb-humor flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Fun-Labor: Soundboard, Witze & Sprach-FX">
+                  <button data-action="togglePanel" data-action-args='["humor-lab"]' class="tool-orb tool-orb-humor flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Fun-Labor: Soundboard, Witze & Sprach-FX">
                     <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-500/20 to-fuchsia-600/20 border border-violet-400/40 hover:border-violet-300 flex items-center justify-center text-violet-300 shadow-[0_0_12px_rgba(168,85,247,0.2)] group-hover/orb:scale-105 transition-all duration-200">
                       <i data-lucide="smile" class="w-5 h-5 text-violet-300"></i>
                     </div>
@@ -1443,7 +1447,7 @@
 
                 <!-- 4. Team Chat Sphere (Violet) -->
                 <div class="relative flex flex-col items-center">
-                  <button onclick="togglePanel('collab-chat')" class="tool-orb tool-orb-chat flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Team Chat & Kollaboration">
+                  <button data-action="togglePanel" data-action-args='["collab-chat"]' class="tool-orb tool-orb-chat flex flex-col items-center gap-1 group/orb cursor-pointer w-full" title="Team Chat & Kollaboration">
                     <div class="tool-orb-sphere w-11 h-11 rounded-2xl bg-gradient-to-br from-violet-500/25 to-purple-600/20 border border-violet-400/40 hover:border-violet-300 flex items-center justify-center text-violet-300 shadow-[0_0_12px_rgba(168,85,247,0.2)] group-hover/orb:scale-105 transition-all duration-200 relative">
                       <i data-lucide="message-square" class="w-5 h-5 text-violet-300"></i>
                       <span id="collab-unread-badge" class="hidden px-1.5 py-0.5 rounded-full bg-rose-500 text-white font-mono text-[8px] font-bold absolute -top-1 -right-1 shadow-sm"></span>
@@ -1480,7 +1484,7 @@
                         <button onclick="CollabEngine.clearChat()" class="p-1 hover:bg-rose-500/20 text-gray-400 hover:text-rose-300 rounded-lg transition cursor-pointer" title="Chat-Verlauf leeren">
                           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
                         </button>
-                        <button onclick="togglePanel('collab-chat')" class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
+                        <button data-action="togglePanel" data-action-args='["collab-chat"]' class="text-gray-400 hover:text-white text-xs font-bold p-1 cursor-pointer">✕</button>
                       </div>
                     </div>
 
@@ -1778,13 +1782,13 @@
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <!-- Wecker & Reminder (Warmes Amber) -->
         <div id="header-btn-alarm-container" class="relative flex items-center shrink-0 mr-1 sm:mr-1.5">
-          <button id="btn-header-alarm" onclick="togglePanel('alarm')" class="h-[38px] w-[38px] flex items-center justify-center rounded-xl bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 border border-amber-400/45 hover:border-amber-300 text-amber-300 hover:text-amber-200 cursor-pointer transition-all duration-200 shadow-[0_0_12px_rgba(245,158,11,0.2)] shrink-0 group relative select-none" title="Wecker & Reminder" aria-label="Wecker & Reminder">
+          <button id="btn-header-alarm" data-action="togglePanel" data-action-args='["alarm"]' class="h-[38px] w-[38px] flex items-center justify-center rounded-xl bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 border border-amber-400/45 hover:border-amber-300 text-amber-300 hover:text-amber-200 cursor-pointer transition-all duration-200 shadow-[0_0_12px_rgba(245,158,11,0.2)] shrink-0 group relative select-none" title="Wecker & Reminder" aria-label="Wecker & Reminder">
             <i data-lucide="alarm-clock" class="w-4 h-4 text-amber-300 group-hover:text-amber-200 group-hover:scale-110 transition-transform shrink-0"></i>
             <span id="alarm-active-badge" class="hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-400 shadow-xs"></span>
           </button>
 
           <!-- Wecker Popover Panel -->
-          <div id="panel-alarm" onclick="event.stopPropagation()" class="dock-popover-panel hidden absolute top-[calc(100%+8px)] left-0 z-[120] w-[340px] sm:w-[380px] bg-[#111116]/95 border border-amber-500/40 p-3 sm:p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2 text-left animate-fade-in overflow-hidden">
+          <div id="panel-alarm" data-action="stopPropagation" data-stop-propagation="true" class="dock-popover-panel hidden absolute top-[calc(100%+8px)] left-0 z-[120] w-[340px] sm:w-[380px] bg-[#111116]/95 border border-amber-500/40 p-3 sm:p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2 text-left animate-fade-in overflow-hidden">
             <!-- Dynamisch gerendert durch renderAlarmPanel() -->
           </div>
         </div>
@@ -1811,13 +1815,13 @@
 
             <!-- Start / Pause / Stop Buttons -->
             <div class="flex items-center gap-0.5 shrink-0 pl-1 border-l border-emerald-500/25">
-              <button id="timer-play-btn" onclick="startTimer()" class="p-1 hover:bg-emerald-500/25 text-emerald-400 hover:text-emerald-200 rounded-lg transition cursor-pointer shadow-xs" title="Start timer [T]" data-i18n-title="timer_play_btn_tooltip" aria-label="Start">
+              <button id="timer-play-btn" data-action="startTimer" class="p-1 hover:bg-emerald-500/25 text-emerald-400 hover:text-emerald-200 rounded-lg transition cursor-pointer shadow-xs" title="Start timer [T]" data-i18n-title="timer_play_btn_tooltip" aria-label="Start">
                 <i data-lucide="play" class="w-3.5 h-3.5"></i>
               </button>
-              <button id="timer-pause-btn" onclick="pauseTimer()" class="p-1 hover:bg-amber-500/20 text-amber-300 rounded-lg transition cursor-pointer hidden" title="Pause timer [T]" data-i18n-title="timer_pause_btn_tooltip" aria-label="Pause">
+              <button id="timer-pause-btn" data-action="pauseTimer" class="p-1 hover:bg-amber-500/20 text-amber-300 rounded-lg transition cursor-pointer hidden" title="Pause timer [T]" data-i18n-title="timer_pause_btn_tooltip" aria-label="Pause">
                 <i data-lucide="pause" class="w-3.5 h-3.5"></i>
               </button>
-              <button id="timer-stop-btn" onclick="stopTimer()" class="p-1 bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 hover:text-rose-200 border border-rose-500/35 hover:border-rose-400 rounded-lg transition cursor-pointer" title="Reset timer [S]" data-i18n-title="timer_stop_btn_tooltip" aria-label="Stop">
+              <button id="timer-stop-btn" data-action="stopTimer" class="p-1 bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 hover:text-rose-200 border border-rose-500/35 hover:border-rose-400 rounded-lg transition cursor-pointer" title="Reset timer [S]" data-i18n-title="timer_stop_btn_tooltip" aria-label="Stop">
                 <i data-lucide="square" class="w-3.5 h-3.5"></i>
               </button>
             </div>
@@ -1825,7 +1829,7 @@
           </div>
 
           <!-- Timer Presets Popover Dropdown (Cockpit Container) -->
-          <div id="panel-timer-presets" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+8px)] left-0 z-[250] w-[355px] sm:w-[385px] max-w-[96vw] bg-[#0c0b16]/98 border border-purple-500/45 p-3 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.95),0_0_40px_rgba(168,85,247,0.25)] backdrop-blur-2xl ring-1 ring-purple-500/30 flex flex-col gap-2.5 text-left animate-fade-in cursor-default">
+          <div id="panel-timer-presets" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute top-[calc(100%+8px)] left-0 z-[250] w-[355px] sm:w-[385px] max-w-[96vw] bg-[#0c0b16]/98 border border-purple-500/45 p-3 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.95),0_0_40px_rgba(168,85,247,0.25)] backdrop-blur-2xl ring-1 ring-purple-500/30 flex flex-col gap-2.5 text-left animate-fade-in cursor-default">
             <!-- Dynamisch gerendert via renderTimerCockpitContent() -->
           </div>
         </div>
@@ -1857,7 +1861,7 @@
               <span id="date-weather-temp" class="font-mono font-bold text-sky-200 text-[10.5px]">20°</span>
 
               <!-- VOLLER WETTER- & NEWS-BRIEFING POPOVER (Links-bündig am Button-Anfang) -->
-              <div id="panel-weather" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+10px)] left-0 z-[120] w-[330px] sm:w-[370px] bg-[var(--bg-modal)] border border-sky-500/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left animate-fade-in cursor-default">
+              <div id="panel-weather" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute top-[calc(100%+10px)] left-0 z-[120] w-[330px] sm:w-[370px] bg-[var(--bg-modal)] border border-sky-500/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left animate-fade-in cursor-default">
                 <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
                   <div class="flex items-center gap-2">
                     <div class="w-7 h-7 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 shadow-sm shrink-0">
@@ -1915,7 +1919,7 @@
               <span id="date-display" class="whitespace-nowrap flex items-center gap-1.5 tracking-wide text-xs md:text-sm"></span>
 
               <!-- MINIMAL MONTH CALENDAR PANEL (Exakt am Anfang des Datums ausgerichtet) -->
-              <div id="panel-calendar-dropdown" onclick="event.stopPropagation()" class="hidden absolute top-[calc(100%+10px)] left-0 z-[110] w-[248px] bg-[var(--bg-modal)] border border-teal-500/40 p-3.5 rounded-2xl shadow-2xl flex flex-col gap-2.5 animate-fade-in text-left">
+              <div id="panel-calendar-dropdown" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute top-[calc(100%+10px)] left-0 z-[110] w-[248px] bg-[var(--bg-modal)] border border-teal-500/40 p-3.5 rounded-2xl shadow-2xl flex flex-col gap-2.5 animate-fade-in text-left">
                 <div class="flex items-center justify-between text-xs font-bold text-teal-300 border-b border-white/10 pb-2">
                   <div class="flex items-center gap-1">
                     <button onclick="prevCalendarMonth(event)" class="w-6 h-6 rounded-lg bg-teal-500/15 hover:bg-teal-500/25 text-teal-300 hover:text-teal-100 flex items-center justify-center transition cursor-pointer text-xs font-mono" title="Vorheriger Monat">‹</button>
@@ -1943,7 +1947,7 @@
         </button>
 
         <!-- Focus Mode Hook (Unsichtbar im Header) -->
-        <button id="btn-focus-mode" onclick="toggleMinimalist()" class="hidden" title="Fokus [F]" data-i18n-title="minimal_mode" aria-label="Fokus">
+        <button id="btn-focus-mode" data-action="toggleMinimalist" class="hidden" title="Fokus [F]" data-i18n-title="minimal_mode" aria-label="Fokus">
           <i id="zen-btn-icon" data-lucide="eye" class="w-3.5 h-3.5 text-purple-400 shrink-0"></i>
           <span class="hidden 2xl:inline" id="minimal-mode-btn-text" data-i18n="minimal_mode">Fokus</span>
         </button>
@@ -1962,7 +1966,7 @@
       <div class="flex items-center gap-1.5 sm:gap-2 md:gap-2.5 shrink-0">
         <!-- Pause & Erholung (Sky-Blue) -->
         <div id="header-btn-pause-container" class="relative group cursor-pointer shrink-0" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')">
-          <button onclick="togglePanel('pause-dropdown')" class="h-[38px] px-2.5 sm:px-3 border border-sky-400/50 hover:border-sky-300 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 active:scale-95 text-sky-300 hover:text-sky-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(56,189,248,0.25)] group/pause-btn" data-i18n-title="pause_panel_title">
+          <button data-action="togglePanel" data-action-args='["pause-dropdown"]' class="h-[38px] px-2.5 sm:px-3 border border-sky-400/50 hover:border-sky-300 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 active:scale-95 text-sky-300 hover:text-sky-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(56,189,248,0.25)] group/pause-btn" data-i18n-title="pause_panel_title">
             <!-- Animiertes Dampf-Tassen SVG Icon in Babyblau -->
             <svg class="w-4 h-4 text-sky-300 steam-cup-icon shrink-0 overflow-visible" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
@@ -1974,7 +1978,7 @@
             <span class="inline-block text-sky-300 font-bold group-hover/pause-btn:text-sky-100" data-i18n="pause_btn">Pause</span>
           </button>
           
-          <div id="panel-pause-dropdown" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')" onclick="event.stopPropagation()" class="hidden absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] z-[110] w-[300px] sm:w-[340px] bg-[#0c1017]/98 border border-sky-400/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left animate-fade-in">
+          <div id="panel-pause-dropdown" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute left-1/2 -translate-x-1/2 top-[calc(100%+8px)] z-[110] w-[300px] sm:w-[340px] bg-[#0c1017]/98 border border-sky-400/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left animate-fade-in">
             <!-- Header -->
             <div class="flex items-center justify-between border-b border-white/10 pb-2">
               <div class="relative flex flex-col items-center justify-center shrink-0">
@@ -1985,7 +1989,7 @@
                   <span class="badge-tool-subtext select-none">PAUSE</span>
                 </div>
               </div>
-              <button onclick="togglePanel('pause-dropdown')" class="text-sky-300/80 hover:text-rose-300 text-xs p-1 rounded-lg transition">✕</button>
+              <button data-action="togglePanel" data-action-args='["pause-dropdown"]' class="text-sky-300/80 hover:text-rose-300 text-xs p-1 rounded-lg transition">✕</button>
             </div>
 
             <!-- Category Pills Selector (3 distinct non-repeating categories: Sky -> Amber -> Emerald) -->
@@ -2137,12 +2141,12 @@
 
         <!-- Statistik (Lime / Bewegung-Farbe) -->
         <div id="header-btn-report-container" class="relative group cursor-pointer" onmouseenter="showPanelHover('report')" onmouseleave="hidePanelHover('report')">
-            <button onclick="togglePanel('report')" class="h-[38px] px-2.5 sm:px-3 border border-lime-500/50 hover:border-lime-400 rounded-xl bg-lime-500/15 hover:bg-lime-500/25 active:scale-95 text-lime-300 hover:text-lime-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(132,204,22,0.25)] group/report-btn" data-i18n-title="report_title">
+            <button data-action="togglePanel" data-action-args='["report"]' class="h-[38px] px-2.5 sm:px-3 border border-lime-500/50 hover:border-lime-400 rounded-xl bg-lime-500/15 hover:bg-lime-500/25 active:scale-95 text-lime-300 hover:text-lime-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(132,204,22,0.25)] group/report-btn" data-i18n-title="report_title">
               <i data-lucide="bar-chart-3" class="w-4 h-4 text-lime-300"></i>
               <span class="inline-block text-lime-300 font-bold group-hover/report-btn:text-lime-100" id="btn-label-report" data-i18n="report">Stats</span>
             </button>
             
-            <div id="panel-report" onmouseenter="showPanelHover('report')" onmouseleave="hidePanelHover('report')" onclick="event.stopPropagation()" class="hidden absolute right-0 top-[calc(100%+8px)] z-[110] w-[320px] sm:w-[440px] bg-[#0f0f18]/98 border border-lime-500/35 p-4 rounded-3xl shadow-2xl backdrop-blur-xl overflow-visible text-left animate-fade-in">
+            <div id="panel-report" onmouseenter="showPanelHover('report')" onmouseleave="hidePanelHover('report')" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute right-0 top-[calc(100%+8px)] z-[110] w-[320px] sm:w-[440px] bg-[#0f0f18]/98 border border-lime-500/35 p-4 rounded-3xl shadow-2xl backdrop-blur-xl overflow-visible text-left animate-fade-in">
               <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-3">
                 <div class="flex items-center gap-2">
                   <div class="w-6 h-6 rounded-lg bg-lime-500/20 border border-lime-500/30 flex items-center justify-center text-lime-300">
@@ -2156,7 +2160,7 @@
                     <button onclick="setReportTimeframe('week')" id="report-tab-week" class="px-2.5 py-1 rounded text-cyan-300/80 hover:text-cyan-200 cursor-pointer transition" data-i18n="report_week">Week</button>
                     <button onclick="setReportTimeframe('month')" id="report-tab-month" class="px-2.5 py-1 rounded text-purple-300/80 hover:text-purple-200 cursor-pointer transition" data-i18n="report_month">Month</button>
                   </div>
-                  <button onclick="togglePanel('report')" class="text-lime-300/80 hover:text-rose-300 text-xs font-bold p-1 ml-1 cursor-pointer">✕</button>
+                  <button data-action="togglePanel" data-action-args='["report"]' class="text-lime-300/80 hover:text-rose-300 text-xs font-bold p-1 ml-1 cursor-pointer">✕</button>
                 </div>
               </div>
               
@@ -2178,12 +2182,12 @@
 
         <!-- Optionen & Farbschemata (Purple - unterscheidet sich von Lime Stats links & Rose Sound rechts) -->
         <div id="header-btn-options-container" class="relative group cursor-pointer" onmouseenter="showPanelHover('settings-dropdown')" onmouseleave="hidePanelHover('settings-dropdown')">
-            <button onclick="togglePanel('settings-dropdown')" class="h-[38px] px-2.5 sm:px-3 2xl:px-4 flex items-center gap-1.5 border border-purple-400/45 hover:border-purple-300 active:scale-95 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 hover:text-purple-100 cursor-pointer transition shrink-0 shadow-[0_0_12px_rgba(168,85,247,0.2)] group/opt" data-i18n-title="options_title">
+            <button data-action="togglePanel" data-action-args='["settings-dropdown"]' class="h-[38px] px-2.5 sm:px-3 2xl:px-4 flex items-center gap-1.5 border border-purple-400/45 hover:border-purple-300 active:scale-95 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 hover:text-purple-100 cursor-pointer transition shrink-0 shadow-[0_0_12px_rgba(168,85,247,0.2)] group/opt" data-i18n-title="options_title">
               <i data-lucide="settings" class="w-4 h-4 text-purple-300 group-hover/opt:text-purple-100 transition-colors"></i>
               <span class="text-xs sm:text-[13px] font-bold text-purple-300 group-hover/opt:text-purple-100 hidden xl:inline" data-i18n="settings">Options</span>
             </button>
 
-            <div id="panel-settings-dropdown" onmouseenter="showPanelHover('settings-dropdown')" class="hidden absolute right-0 top-[calc(100%+8px)] z-[120] w-[280px] bg-[#0f0f18]/98 border border-purple-500/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-3 text-left animate-fade-in" onclick="event.stopPropagation()">
+            <div id="panel-settings-dropdown" onmouseenter="showPanelHover('settings-dropdown')" class="hidden absolute right-0 top-[calc(100%+8px)] z-[120] w-[280px] bg-[#0f0f18]/98 border border-purple-500/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-3 text-left animate-fade-in" data-action="stopPropagation" data-stop-propagation="true">
               <!-- Title & Close -->
               <div class="flex items-center justify-between border-b border-white/10 pb-2">
                 <div class="flex items-center gap-2">
@@ -2192,7 +2196,7 @@
                   </div>
                   <h4 class="font-bold text-xs font-display text-purple-300" data-i18n="settings_dropdown_title">Schnell-Optionen</h4>
                 </div>
-                <button onclick="togglePanel('settings-dropdown')" aria-label="Settings schließen" class="text-purple-300/80 hover:text-rose-300 text-xs font-bold p-1 px-1.5 rounded-lg hover:bg-rose-500/15 transition cursor-pointer">✕</button>
+                <button data-action="togglePanel" data-action-args='["settings-dropdown"]' aria-label="Settings schließen" class="text-purple-300/80 hover:text-rose-300 text-xs font-bold p-1 px-1.5 rounded-lg hover:bg-rose-500/15 transition cursor-pointer">✕</button>
               </div>
 
               <!-- SECTION 1: SPRACHE (Übertitel: Cyan) -->
@@ -2264,7 +2268,7 @@
           </button>
 
           <!-- Sound Volume Quick Popover (Vertikales Format) -->
-          <div id="header-sound-volume-popover" onclick="event.stopPropagation()" class="hidden absolute right-0 top-[calc(100%+8px)] z-[130] w-[68px] bg-[#0f0f18]/98 border border-rose-500/40 p-2.5 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col items-center gap-2 text-center animate-fade-in">
+          <div id="header-sound-volume-popover" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute right-0 top-[calc(100%+8px)] z-[130] w-[68px] bg-[#0f0f18]/98 border border-rose-500/40 p-2.5 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col items-center gap-2 text-center animate-fade-in">
             <span class="font-mono text-amber-300 text-[11px] font-bold" id="header-sound-volume-percent">50%</span>
             <div class="h-32 flex items-center justify-center my-1 py-1">
               <input type="range" id="header-sound-volume-slider" min="0" max="1" step="0.01" value="0.5" oninput="handleHeaderVolumeInput(this.value)" onchange="handleHeaderVolumeInput(this.value)" class="vertical-volume-slider accent-rose-500 cursor-pointer w-2 h-28 bg-white/10 rounded-lg" style="writing-mode: vertical-lr; direction: rtl;">
@@ -2290,7 +2294,7 @@
           </button>
 
           <!-- Dezentes Workspace Dropdown -->
-          <div id="dropdown-header-workspace" class="hidden absolute left-0 top-[calc(100%+6px)] z-[350] w-48 p-1.5 bg-[#0e0e14]/98 border border-white/10 rounded-2xl shadow-xl backdrop-blur-xl text-gray-200 space-y-0.5 animate-fade-in" onclick="event.stopPropagation()">
+          <div id="dropdown-header-workspace" class="hidden absolute left-0 top-[calc(100%+6px)] z-[350] w-48 p-1.5 bg-[#0e0e14]/98 border border-white/10 rounded-2xl shadow-xl backdrop-blur-xl text-gray-200 space-y-0.5 animate-fade-in" data-action="stopPropagation" data-stop-propagation="true">
             <button id="header-ws-opt-private" onclick="setWorkspace('private'); closeHeaderWorkspaceDropdown(true);" class="w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs font-medium hover:bg-white/5 text-purple-200">
               <i data-lucide="home" class="w-3.5 h-3.5 text-purple-300"></i> <span data-i18n="workspace_private">Privat</span>
             </button>
@@ -2324,7 +2328,7 @@
           </button>
 
           <!-- DROPDOWN: Karten verwalten (100% blickdicht überlappend) -->
-          <div id="dropdown-manage-tables" class="hidden absolute left-0 top-[calc(100%+6px)] z-[400] w-64 p-2 bg-[#0b0d14] border border-sky-500/40 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_20px_rgba(56,189,248,0.25)] text-slate-100 space-y-1 animate-fade-in" onclick="event.stopPropagation()">
+          <div id="dropdown-manage-tables" class="hidden absolute left-0 top-[calc(100%+6px)] z-[400] w-64 p-2 bg-[#0b0d14] border border-sky-500/40 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_20px_rgba(56,189,248,0.25)] text-slate-100 space-y-1 animate-fade-in" data-action="stopPropagation" data-stop-propagation="true">
             <!-- 1. Karten leeren -->
             <button onclick="handleClearAllLists(); closeManageTablesDropdown();" class="w-full p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer hover:bg-rose-500/20 text-rose-300 hover:text-rose-100 text-xs font-semibold">
               <i data-lucide="eraser" class="w-4 h-4 text-rose-400"></i>
@@ -2361,7 +2365,7 @@
           </div>
 
           <!-- Modal-Container für Spaltenanpassung (100% blickdicht) -->
-          <div id="dropdown-manage-columns" class="hidden absolute left-0 top-[calc(100%+6px)] z-[400] w-[320px] sm:w-[350px] p-3.5 bg-[#0b0d14] border border-sky-400/40 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(56,189,248,0.25)] text-sky-100 space-y-3 animate-fade-in" onclick="event.stopPropagation()">
+          <div id="dropdown-manage-columns" class="hidden absolute left-0 top-[calc(100%+6px)] z-[400] w-[320px] sm:w-[350px] p-3.5 bg-[#0b0d14] border border-sky-400/40 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.95),0_0_25px_rgba(56,189,248,0.25)] text-sky-100 space-y-3 animate-fade-in" data-action="stopPropagation" data-stop-propagation="true">
           </div>
         </div>
 
@@ -2404,7 +2408,7 @@
           </button>
 
           <!-- 3. ÜBERSICHTLICHES & INTUITIVES NACHRICHTEN-OPTIONEN-MENÜ -->
-          <div id="ticker-settings-popover" class="hidden absolute top-[calc(100%+8px)] right-0 left-auto z-[300] w-[320px] sm:w-[370px] md:w-[400px] max-w-[95vw] p-3.5 bg-[#0c0d16]/98 border border-purple-500/50 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.98),0_0_35px_rgba(168,85,247,0.35)] backdrop-blur-2xl text-purple-100 space-y-3 animate-fade-in cursor-default" onclick="event.stopPropagation()">
+          <div id="ticker-settings-popover" class="hidden absolute top-[calc(100%+8px)] right-0 left-auto z-[300] w-[320px] sm:w-[370px] md:w-[400px] max-w-[95vw] p-3.5 bg-[#0c0d16]/98 border border-purple-500/50 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.98),0_0_35px_rgba(168,85,247,0.35)] backdrop-blur-2xl text-purple-100 space-y-3 animate-fade-in cursor-default" data-action="stopPropagation" data-stop-propagation="true">
             
             <!-- KOPFZEILE: Titel (Purple) + Leichtes Ein- und Ausschalten der Nachrichten + Schließen -->
             <div class="flex items-center justify-between gap-2 border-b border-white/10 pb-2.5">
@@ -2499,7 +2503,7 @@
         </button>
 
         <!-- Compact Add List Popover (nach oben öffnend) -->
-        <div id="popover-add-list" class="hidden absolute right-0 bottom-[calc(100%+8px)] z-[200] w-[270px] p-3.5 bg-[#12121e]/98 border border-purple-500/40 rounded-2xl shadow-2xl backdrop-blur-2xl flex flex-col gap-2.5 animate-spring-modal" onclick="event.stopPropagation()">
+        <div id="popover-add-list" class="hidden absolute right-0 bottom-[calc(100%+8px)] z-[200] w-[270px] p-3.5 bg-[#12121e]/98 border border-purple-500/40 rounded-2xl shadow-2xl backdrop-blur-2xl flex flex-col gap-2.5 animate-spring-modal" data-action="stopPropagation" data-stop-propagation="true">
           <div class="flex items-center justify-between border-b border-white/10 pb-1.5 px-0.5">
             <span class="font-bold text-xs text-white flex items-center gap-1.5">
               <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-purple-400"></i>
@@ -2559,7 +2563,7 @@
               Empfehlung
             </span>
           </div>
-          <button onclick="toggleMinimalist()" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer text-xs flex items-center gap-1" title="Focus Mode beenden">
+          <button data-action="toggleMinimalist" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer text-xs flex items-center gap-1" title="Focus Mode beenden">
             <span class="text-[11px] font-semibold hidden sm:inline" data-i18n="close">Schließen</span>
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
@@ -2584,13 +2588,13 @@
             </div>
             
             <div class="flex items-center gap-1.5">
-              <button onclick="startTimer()" id="zen-play-btn" class="p-2 bg-lime-500/20 hover:bg-lime-500/30 text-lime-300 rounded-xl border border-lime-500/40 shadow-[0_0_12px_rgba(132,204,22,0.25)] transition cursor-pointer" title="Timer starten">
+              <button data-action="startTimer" id="zen-play-btn" class="p-2 bg-lime-500/20 hover:bg-lime-500/30 text-lime-300 rounded-xl border border-lime-500/40 shadow-[0_0_12px_rgba(132,204,22,0.25)] transition cursor-pointer" title="Timer starten">
                 <i data-lucide="play" class="w-4 h-4"></i>
               </button>
-              <button onclick="pauseTimer()" id="zen-pause-btn" class="p-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-xl border border-amber-500/40 transition cursor-pointer hidden" title="Timer pausieren">
+              <button data-action="pauseTimer" id="zen-pause-btn" class="p-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded-xl border border-amber-500/40 transition cursor-pointer hidden" title="Timer pausieren">
                 <i data-lucide="pause" class="w-4 h-4"></i>
               </button>
-              <button onclick="stopTimer()" class="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-xl border border-rose-500/30 transition cursor-pointer" title="Timer zurücksetzen">
+              <button data-action="stopTimer" class="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-xl border border-rose-500/30 transition cursor-pointer" title="Timer zurücksetzen">
                 <i data-lucide="square" class="w-4 h-4"></i>
               </button>
             </div>
@@ -2613,10 +2617,10 @@
             Sound:
           </span>
           <div class="flex items-center gap-1 overflow-x-auto py-0.5">
-            <button onclick="playAmbientSound('birds')" class="px-2 py-1 bg-white/5 hover:bg-emerald-500/20 text-gray-300 hover:text-emerald-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0" data-i18n="sound_birds">Vögel</button>
-            <button onclick="playAmbientSound('campfire')" class="px-2 py-1 bg-white/5 hover:bg-amber-500/20 text-gray-300 hover:text-amber-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">Feuer</button>
-            <button onclick="playAmbientSound('binaural_alpha')" class="px-2 py-1 bg-white/5 hover:bg-purple-500/20 text-gray-300 hover:text-purple-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">Alpha Beats</button>
-            <button onclick="playAmbientSound('whitenoise')" class="px-2 py-1 bg-white/5 hover:bg-zinc-500/20 text-gray-300 hover:text-white rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">White Noise</button>
+            <button data-action="playAmbientSound" data-action-args='["birds"]' class="px-2 py-1 bg-white/5 hover:bg-emerald-500/20 text-gray-300 hover:text-emerald-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0" data-i18n="sound_birds">Vögel</button>
+            <button data-action="playAmbientSound" data-action-args='["campfire"]' class="px-2 py-1 bg-white/5 hover:bg-amber-500/20 text-gray-300 hover:text-amber-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">Feuer</button>
+            <button data-action="playAmbientSound" data-action-args='["binaural_alpha"]' class="px-2 py-1 bg-white/5 hover:bg-purple-500/20 text-gray-300 hover:text-purple-300 rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">Alpha Beats</button>
+            <button data-action="playAmbientSound" data-action-args='["whitenoise"]' class="px-2 py-1 bg-white/5 hover:bg-zinc-500/20 text-gray-300 hover:text-white rounded-lg text-[10px] font-semibold transition cursor-pointer flex items-center gap-1 shrink-0">White Noise</button>
             <button onclick="stopAmbientSound()" class="p-1 text-gray-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition cursor-pointer shrink-0" title="Sound stoppen">
               <i data-lucide="volume-x" class="w-3.5 h-3.5"></i>
             </button>
@@ -2686,18 +2690,18 @@
 
           <!-- Action Controls -->
           <div class="flex items-center gap-3 w-full justify-center">
-            <button id="mobile-timer-play-btn" onclick="startTimer()" class="flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-lime-500 to-green-600 hover:from-lime-400 hover:to-green-500 text-black font-black text-sm transition shadow-[0_0_20px_rgba(132,204,22,0.3)] active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
+            <button id="mobile-timer-play-btn" data-action="startTimer" class="flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-lime-500 to-green-600 hover:from-lime-400 hover:to-green-500 text-black font-black text-sm transition shadow-[0_0_20px_rgba(132,204,22,0.3)] active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
               <i data-lucide="play" class="w-4 h-4 fill-current"></i>
               <span>Starten</span>
             </button>
-            <button id="mobile-timer-pause-btn" onclick="pauseTimer()" class="hidden flex-1 py-3.5 px-6 rounded-2xl bg-amber-500 text-black font-black text-sm transition shadow-lg active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
+            <button id="mobile-timer-pause-btn" data-action="pauseTimer" class="hidden flex-1 py-3.5 px-6 rounded-2xl bg-amber-500 text-black font-black text-sm transition shadow-lg active:scale-95 flex items-center justify-center gap-2 cursor-pointer">
               <i data-lucide="pause" class="w-4 h-4"></i>
               <span>Pause</span>
             </button>
-            <button onclick="stopTimer()" class="p-3.5 rounded-2xl bg-white/10 hover:bg-rose-500/20 text-gray-300 hover:text-rose-300 border border-white/10 transition active:scale-95 cursor-pointer" title="Zurücksetzen">
+            <button data-action="stopTimer" class="p-3.5 rounded-2xl bg-white/10 hover:bg-rose-500/20 text-gray-300 hover:text-rose-300 border border-white/10 transition active:scale-95 cursor-pointer" title="Zurücksetzen">
               <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
             </button>
-            <button onclick="toggleMinimalist()" class="p-3.5 rounded-2xl bg-white/10 hover:bg-purple-500/20 text-gray-300 hover:text-purple-300 border border-white/10 transition active:scale-95 cursor-pointer" title="Zen Vollbild">
+            <button data-action="toggleMinimalist" class="p-3.5 rounded-2xl bg-white/10 hover:bg-purple-500/20 text-gray-300 hover:text-purple-300 border border-white/10 transition active:scale-95 cursor-pointer" title="Zen Vollbild">
               <i data-lucide="maximize-2" class="w-5 h-5"></i>
             </button>
           </div>
@@ -2749,7 +2753,7 @@
               <span>🎛️</span>
               <span data-i18n="studio_pro">Studio Pro</span>
             </button>
-            <button onclick="togglePanel('radio')" class="py-2 px-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-200 text-center transition cursor-pointer flex items-center justify-center gap-1 active:scale-95">
+            <button data-action="togglePanel" data-action-args='["radio"]' class="py-2 px-1.5 rounded-xl bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-200 text-center transition cursor-pointer flex items-center justify-center gap-1 active:scale-95">
               <span>📻</span>
               <span data-i18n="live_radio">Live Radio</span>
             </button>
@@ -2769,19 +2773,19 @@
             <span class="text-[9px] px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-300 font-mono">Headphones</span>
           </h4>
           <div class="grid grid-cols-2 gap-2 text-xs">
-            <button onclick="playAmbientSound('binaural_alpha')" class="p-2.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-2xl text-left active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["binaural_alpha"]' class="p-2.5 bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 rounded-2xl text-left active:scale-95 transition">
               <div class="font-bold text-white flex items-center gap-1.5"><span>⚡</span> <span>Alpha 10 Hz</span></div>
               <div class="text-[10px] text-purple-300 mt-0.5" data-i18n="mobile_alpha_sub">Leichtes Lernen & Fokus</div>
             </button>
-            <button onclick="playAmbientSound('binaural_theta')" class="p-2.5 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-2xl text-left active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["binaural_theta"]' class="p-2.5 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-2xl text-left active:scale-95 transition">
               <div class="font-bold text-white flex items-center gap-1.5"><span>🌊</span> <span>Theta 6 Hz</span></div>
               <div class="text-[10px] text-cyan-300 mt-0.5" data-i18n="mobile_theta_sub">Tiefer Hyperfokus</div>
             </button>
-            <button onclick="playAmbientSound('binaural_delta')" class="p-2.5 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-2xl text-left active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["binaural_delta"]' class="p-2.5 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-2xl text-left active:scale-95 transition">
               <div class="font-bold text-white flex items-center gap-1.5"><span>🌙</span> <span>Delta 2 Hz</span></div>
               <div class="text-[10px] text-indigo-300 mt-0.5" data-i18n="mobile_delta_sub">Regeneration & Schlaf</div>
             </button>
-            <button onclick="playAmbientSound('binaural_gamma')" class="p-2.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-2xl text-left active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["binaural_gamma"]' class="p-2.5 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 rounded-2xl text-left active:scale-95 transition">
               <div class="font-bold text-white flex items-center gap-1.5"><span>🚀</span> <span>Gamma 40 Hz</span></div>
               <div class="text-[10px] text-amber-300 mt-0.5" data-i18n="mobile_gamma_sub">Maximale Denkleistung</div>
             </button>
@@ -2794,51 +2798,51 @@
             <span>🍃</span> <span data-i18n="ambient_nature_title">Natur & Soundscapes</span>
           </h4>
           <div class="grid grid-cols-3 gap-2">
-            <button onclick="playAmbientSound('piano')" class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["piano"]' class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🎹</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate">Piano</div>
             </button>
-            <button onclick="playAmbientSound('lofi')" class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["lofi"]' class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🎶</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate">Lo-Fi</div>
             </button>
-            <button onclick="playAmbientSound('jazz_piano')" class="p-2 bg-white/5 hover:bg-amber-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["jazz_piano"]' class="p-2 bg-white/5 hover:bg-amber-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🎷</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate">Jazz Piano</div>
             </button>
-            <button onclick="playAmbientSound('guitar')" class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["guitar"]' class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🪕</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate" data-i18n="mobile_ambient_guitar">Gitarre</div>
             </button>
-            <button onclick="playAmbientSound('campfire')" class="p-2 bg-white/5 hover:bg-amber-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["campfire"]' class="p-2 bg-white/5 hover:bg-amber-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🔥</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate" data-i18n="mobile_ambient_campfire">Kamin</div>
             </button>
-            <button onclick="playAmbientSound('birds')" class="p-2 bg-white/5 hover:bg-emerald-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["birds"]' class="p-2 bg-white/5 hover:bg-emerald-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🐦</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate" data-i18n="mobile_ambient_forest">Wald</div>
             </button>
-            <button onclick="playAmbientSound('cafe')" class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["cafe"]' class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">☕</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate">Café</div>
             </button>
-            <button onclick="playAmbientSound('chimes')" class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["chimes"]' class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🎐</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate" data-i18n="mobile_ambient_windchime">Windspiel</div>
             </button>
-            <button onclick="playAmbientSound('singingbowl')" class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["singingbowl"]' class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🥣</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate" data-i18n="mobile_ambient_bowl">Klangschale</div>
             </button>
-            <button onclick="playAmbientSound('space')" class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["space"]' class="p-2 bg-white/5 hover:bg-purple-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🌌</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate">Cosmic</div>
             </button>
-            <button onclick="playAmbientSound('brownnoise')" class="p-2 bg-white/5 hover:bg-amber-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["brownnoise"]' class="p-2 bg-white/5 hover:bg-amber-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🤎</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate">Brown Noise</div>
             </button>
-            <button onclick="playAmbientSound('rain')" class="p-2 bg-white/5 hover:bg-cyan-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
+            <button data-action="playAmbientSound" data-action-args='["rain"]' class="p-2 bg-white/5 hover:bg-cyan-500/20 border border-white/10 rounded-2xl text-center active:scale-95 transition">
               <div class="text-lg">🌧️</div>
               <div class="text-[10px] font-bold text-gray-200 mt-0.5 truncate" data-i18n="mobile_ambient_rain">Regen</div>
             </button>
@@ -2869,7 +2873,7 @@
               <span>🎶</span> <span>Musik & Medien</span>
             </h4>
             <div class="flex items-center gap-1">
-              <button onclick="toggleMusicShuffle()" id="mobile-music-btn-shuffle" class="p-1 px-2 rounded-lg text-[10px] bg-purple-500/20 text-purple-300 border border-purple-400/30 flex items-center gap-1 active:scale-95" title="Zufallswiedergabe">
+              <button data-action="toggleMusicShuffle" id="mobile-music-btn-shuffle" class="p-1 px-2 rounded-lg text-[10px] bg-purple-500/20 text-purple-300 border border-purple-400/30 flex items-center gap-1 active:scale-95" title="Zufallswiedergabe">
                 <i data-lucide="shuffle" class="w-3 h-3"></i>
                 <span class="font-bold">Shuffle</span>
               </button>
@@ -2885,10 +2889,10 @@
               </div>
             </div>
             <div class="flex items-center gap-1.5 shrink-0">
-              <button onclick="playNextMusicTrack()" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition cursor-pointer active:scale-95" title="Nächster Track (sanftes Überblenden)">
+              <button data-action="playNextMusicTrack" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-white transition cursor-pointer active:scale-95" title="Nächster Track (sanftes Überblenden)">
                 <i data-lucide="skip-forward" class="w-3.5 h-3.5"></i>
               </button>
-              <button onclick="toggleMusicPlayback()" id="mobile-music-play-btn" class="p-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition cursor-pointer shadow-md active:scale-95" title="Play / Pause">
+              <button data-action="toggleMusicPlayback" id="mobile-music-play-btn" class="p-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition cursor-pointer shadow-md active:scale-95" title="Play / Pause">
                 <i data-lucide="play" class="w-4 h-4 ml-0.5"></i>
               </button>
             </div>
@@ -2974,7 +2978,7 @@
               <p class="text-[11px] text-purple-200/70" data-i18n="mobile_tools_subtitle">Alle Apps, Audio & Lifestyle-Helfer</p>
             </div>
           </div>
-          <button onclick="openMobileMenuDrawer()" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white transition active:scale-95 cursor-pointer" title="Menü & Optionen">
+          <button data-action="openMobileMenuDrawer" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white transition active:scale-95 cursor-pointer" title="Menü & Optionen">
             <i data-lucide="sliders" class="w-4 h-4"></i>
           </button>
         </div>
@@ -3088,7 +3092,7 @@
 
           <div class="grid grid-cols-3 gap-2">
             <!-- 7. Sounds & Natur -->
-            <div onclick="openAudioStudioMode('ambient')" class="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-teal-500/30 hover:border-teal-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+            <div data-action="openAudioStudioMode" data-action-args='["ambient"]' class="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-teal-500/30 hover:border-teal-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
               <div class="w-7 h-7 rounded-xl bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-teal-300 group-hover:scale-105 transition-transform">
                 <i data-lucide="headphones" class="w-3.5 h-3.5"></i>
               </div>
@@ -3099,7 +3103,7 @@
             </div>
 
             <!-- 8. Musik & Medien -->
-            <div onclick="openAudioStudioMode('music')" class="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-sky-500/30 hover:border-sky-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+            <div data-action="openAudioStudioMode" data-action-args='["music"]' class="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-sky-500/30 hover:border-sky-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
               <div class="w-7 h-7 rounded-xl bg-sky-500/20 border border-sky-400/40 flex items-center justify-center text-sky-300 group-hover:scale-105 transition-transform">
                 <i data-lucide="music" class="w-3.5 h-3.5"></i>
               </div>
@@ -3110,7 +3114,7 @@
             </div>
 
             <!-- 9. Noodle DJ -->
-            <div onclick="openAudioStudioMode('dj')" class="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-amber-500/30 hover:border-amber-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+            <div data-action="openAudioStudioMode" data-action-args='["dj"]' class="p-3 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-amber-500/30 hover:border-amber-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
               <div class="w-7 h-7 rounded-xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-amber-300 group-hover:scale-105 transition-transform">
                 <i data-lucide="disc" class="w-3.5 h-3.5"></i>
               </div>
@@ -3245,7 +3249,7 @@
             </div>
 
             <!-- 17. Fun-Labor -->
-            <div onclick="togglePanel('humor-lab')" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-violet-500/30 hover:border-violet-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+            <div data-action="togglePanel" data-action-args='["humor-lab"]' class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-violet-500/30 hover:border-violet-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
               <div class="flex items-center justify-between">
                 <div class="w-8 h-8 rounded-xl bg-violet-500/20 border border-violet-400/40 flex items-center justify-center text-violet-300 group-hover:scale-105 transition-transform">
                   <i data-lucide="smile" class="w-4 h-4"></i>
@@ -3300,7 +3304,7 @@
             </div>
 
             <!-- 20. Team Chat -->
-            <div onclick="togglePanel('collab-chat')" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-violet-500/30 hover:border-violet-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+            <div data-action="togglePanel" data-action-args='["collab-chat"]' class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-violet-500/30 hover:border-violet-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
               <div class="flex items-center justify-between">
                 <div class="w-8 h-8 rounded-xl bg-violet-500/20 border border-violet-400/40 flex items-center justify-center text-violet-300 group-hover:scale-105 transition-transform">
                   <i data-lucide="message-square" class="w-4 h-4"></i>
@@ -3356,7 +3360,7 @@
             </div>
 
             <!-- 24. Menü, Themes & Optionen -->
-            <div onclick="openMobileMenuDrawer()" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-purple-500/30 hover:border-purple-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
+            <div data-action="openMobileMenuDrawer" class="p-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.06] border border-purple-500/30 hover:border-purple-400/50 shadow-sm cursor-pointer active:scale-95 transition flex flex-col justify-between h-28 group">
               <div class="flex items-center justify-between">
                 <div class="w-8 h-8 rounded-xl bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-purple-300 group-hover:scale-105 transition-transform">
                   <i data-lucide="sliders" class="w-4 h-4"></i>
@@ -3392,7 +3396,7 @@
         <i data-lucide="wrench"></i>
         <span data-i18n="mobile_nav_tools">Tools</span>
       </button>
-      <button onclick="openMobileMenuDrawer()" id="mob-nav-menu" class="mobile-nav-item">
+      <button data-action="openMobileMenuDrawer" id="mob-nav-menu" class="mobile-nav-item">
         <i data-lucide="menu"></i>
         <span data-i18n="mobile_nav_menu">Menü</span>
       </button>
@@ -3410,7 +3414,7 @@
 
   <!-- MODAL: MOBILE QUICK-ACTION HUB (UNTERES ACTION SHEET / BOTTOM DRAWER) -->
   <div id="modal-mobile-quick-menu" class="hidden fixed inset-0 z-[100000] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" onclick="if(event.target === this) closeMobileQuickMenu()">
-    <div class="w-full max-w-md bg-[#111116]/98 border-t sm:border border-purple-500/30 p-5 rounded-t-3xl sm:rounded-3xl shadow-2xl backdrop-blur-xl text-white space-y-4 max-h-[85vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="w-full max-w-md bg-[#111116]/98 border-t sm:border border-purple-500/30 p-5 rounded-t-3xl sm:rounded-3xl shadow-2xl backdrop-blur-xl text-white space-y-4 max-h-[85vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Drag Handle for Mobile -->
       <div class="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-1 sm:hidden"></div>
@@ -3686,7 +3690,7 @@
 
   <!-- BEWEGUNG & MODULARE HOME-WORKOUTS MODAL -->
   <div id="helper-sport-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md" onclick="if(event.target===this) closeSportModal()">
-    <div id="helper-sport-card" class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#0f1017]/98 border border-emerald-500/35 p-4 sm:p-6 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_35px_rgba(16,185,129,0.15)] backdrop-blur-2xl text-white relative transition-all duration-300 max-h-[92vh] flex flex-col" onclick="event.stopPropagation()">
+    <div id="helper-sport-card" class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#0f1017]/98 border border-emerald-500/35 p-4 sm:p-6 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_35px_rgba(16,185,129,0.15)] backdrop-blur-2xl text-white relative transition-all duration-300 max-h-[92vh] flex flex-col" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Modal Header -->
       <div class="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
@@ -3940,7 +3944,7 @@
 
   <!-- INTERAKTIVES PAUSEN- & ENTSPANNUNGS-MODAL (MIT TIMER & ANLEITUNG) -->
   <div id="helper-break-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md" onclick="if(event.target===this) closeBreakModal()">
-    <div id="helper-break-card" class="mobile-modal-card animate-spring-modal w-full max-w-md bg-[#111116]/95 border border-teal-500/40 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" onclick="event.stopPropagation()">
+    <div id="helper-break-card" class="mobile-modal-card animate-spring-modal w-full max-w-md bg-[#111116]/95 border border-teal-500/40 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
         <div class="flex items-center gap-2.5">
           <div class="relative flex flex-col items-center justify-center shrink-0">
@@ -3996,7 +4000,7 @@
 
   <!-- AUTOMATISCHE SYNCHRONISATION & GERÄTE-KOPPLUNG MODAL -->
   <div id="modal-p2p-sync" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md" onclick="if(event.target===this) closeP2PSyncModal()">
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-sm bg-[#111116]/95 border border-emerald-500/40 p-5 rounded-3xl shadow-[0_10px_50px_rgba(16,185,129,0.25)] backdrop-blur-xl text-white relative transition-all duration-300 flex flex-col items-center gap-3 text-center max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="mobile-modal-card animate-spring-modal w-full max-w-sm bg-[#111116]/95 border border-emerald-500/40 p-5 rounded-3xl shadow-[0_10px_50px_rgba(16,185,129,0.25)] backdrop-blur-xl text-white relative transition-all duration-300 flex flex-col items-center gap-3 text-center max-h-[90vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       <!-- Header -->
       <div class="flex items-center justify-between w-full text-left border-b border-white/10 pb-3">
         <div class="flex items-center gap-3">
@@ -4136,7 +4140,7 @@
   
   <!-- MODAL: DEEP LEARNING & WISSENS-LABOR (STANDALONE) -->
   <div id="modal-learning-hub" class="hidden fixed inset-0 z-[120000] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 animate-fade-in" onclick="if(event.target === this) closeLearningHubModal()">
-    <div class="relative w-full max-w-4xl bg-[#101018] border border-amber-500/35 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="relative w-full max-w-4xl bg-[#101018] border border-amber-500/35 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <div class="flex items-center gap-2">
           <div class="w-7 h-7 rounded-xl bg-blue-500/20 border border-blue-400/40 flex items-center justify-center text-blue-300 shadow-sm shrink-0">
@@ -4163,7 +4167,7 @@
 
   <!-- MODAL: STATISTIK- & ANALYSE-DASHBOARD -->
   <div id="modal-report-dashboard" class="hidden fixed inset-0 z-[120000] bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-5 animate-fade-in" onclick="if(event.target === this) closeReportDashboard()">
-    <div class="relative w-full max-w-4xl bg-[#0f0f18]/98 border border-purple-500/35 rounded-3xl p-5 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(168,85,247,0.15)] space-y-5 max-h-[92vh] overflow-y-auto custom-scrollbar" onclick="event.stopPropagation()">
+    <div class="relative w-full max-w-4xl bg-[#0f0f18]/98 border border-purple-500/35 rounded-3xl p-5 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(168,85,247,0.15)] space-y-5 max-h-[92vh] overflow-y-auto custom-scrollbar" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Dashboard Header -->
       <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
@@ -4307,7 +4311,7 @@
 
   <!-- MODAL: EINSTELLUNGEN & RECHTLICHES (IMPRESSUM, DATENSCHUTZ, LIZENZEN) -->
   <div id="modal-settings" class="hidden fixed inset-0 z-[120000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 animate-fade-in" onclick="if(event.target === this) closeSettingsModal()">
-    <div class="relative w-full max-w-3xl bg-[#111118] border border-purple-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="relative w-full max-w-3xl bg-[#111118] border border-purple-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
@@ -4810,7 +4814,7 @@
 
   <!-- MODAL: SPOTLIGHT COMMAND PALETTE (STRG+K / CMD+K) -->
   <div id="modal-command-palette" class="hidden fixed inset-0 z-[130000] bg-black/75 backdrop-blur-md flex items-start justify-center pt-[12vh] p-3 sm:p-4 animate-fade-in" onclick="if(event.target === this) closeCommandPalette()">
-    <div class="relative w-full max-w-xl bg-[#111118]/95 border border-purple-500/30 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[75vh]" onclick="event.stopPropagation()">
+    <div class="relative w-full max-w-xl bg-[#111118]/95 border border-purple-500/30 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[75vh]" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Search Input Bar -->
       <div class="flex items-center gap-3 px-4 py-3.5 border-b border-white/10 bg-black/40">
@@ -4839,7 +4843,7 @@
 
   <!-- MODAL: KEYBOARD SHORTCUTS CHEAT SHEET (?) -->
   <div id="modal-keyboard-shortcuts" class="hidden fixed inset-0 z-[135000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fade-in" onclick="if(event.target === this) closeKeyboardShortcuts()">
-    <div class="relative w-full max-w-md bg-[#111118]/98 border border-purple-500/40 rounded-3xl shadow-2xl overflow-hidden flex flex-col p-5 text-white" onclick="event.stopPropagation()">
+    <div class="relative w-full max-w-md bg-[#111118]/98 border border-purple-500/40 rounded-3xl shadow-2xl overflow-hidden flex flex-col p-5 text-white" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
@@ -4929,7 +4933,7 @@
 
   <!-- HELPER STEP-BY-STEP & CUSTOM SUBTASKS MODAL -->
   <div id="helper-steps-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md" onclick="if(event.target===this) closeHelperModal()">
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-lg bg-[#111116]/95 border border-[var(--accent)]/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" onclick="event.stopPropagation()">
+    <div class="mobile-modal-card animate-spring-modal w-full max-w-lg bg-[#111116]/95 border border-[var(--accent)]/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
         <div class="relative flex flex-col items-center justify-center shrink-0">
           <div class="relative overflow-hidden flex items-center justify-center">
@@ -4967,13 +4971,13 @@
           <div id="helper-steps-timer-widget" class="flex items-center gap-1.5 bg-black/40 border border-white/10 px-2 py-1 rounded-xl">
             <span id="helper-steps-timer-task" class="hidden"></span>
             <span id="helper-steps-timer-display" class="font-mono font-bold text-xs text-gray-300">02:00</span>
-            <button id="helper-steps-timer-play" onclick="startTimer()" class="p-1 hover:bg-emerald-500/20 text-emerald-400 rounded transition cursor-pointer">
+            <button id="helper-steps-timer-play" data-action="startTimer" class="p-1 hover:bg-emerald-500/20 text-emerald-400 rounded transition cursor-pointer">
               <i data-lucide="play" class="w-3 h-3"></i>
             </button>
-            <button id="helper-steps-timer-pause" onclick="pauseTimer()" class="p-1 hover:bg-amber-500/20 text-amber-400 rounded transition cursor-pointer hidden">
+            <button id="helper-steps-timer-pause" data-action="pauseTimer" class="p-1 hover:bg-amber-500/20 text-amber-400 rounded transition cursor-pointer hidden">
               <i data-lucide="pause" class="w-3 h-3"></i>
             </button>
-            <button id="helper-steps-timer-stop" onclick="stopTimer()" class="p-1 hover:bg-rose-500/20 text-rose-400 rounded transition cursor-pointer">
+            <button id="helper-steps-timer-stop" data-action="stopTimer" class="p-1 hover:bg-rose-500/20 text-rose-400 rounded transition cursor-pointer">
               <i data-lucide="square" class="w-3 h-3"></i>
             </button>
           </div>
@@ -4984,7 +4988,7 @@
 
   <!-- HELPER WOHNUNGS-RESET & LEVEL-PUTZ-GUIDE MODAL -->
   <div id="helper-cleaning-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md" onclick="if(event.target===this) closeCleaningGuideModal()">
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#111116]/98 border border-emerald-500/30 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300 max-h-[90vh] flex flex-col text-left" onclick="event.stopPropagation()">
+    <div class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#111116]/98 border border-emerald-500/30 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300 max-h-[90vh] flex flex-col text-left" data-action="stopPropagation" data-stop-propagation="true">
 
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3 shrink-0">
@@ -5123,7 +5127,7 @@
 
   <!-- NOTIZ-DETAIL / BEARBEITEN MODAL -->
   <div id="note-detail-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md" onclick="if(event.target===this) closeNoteDetailModal()">
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-lg bg-[#111116]/95 border border-amber-500/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" onclick="event.stopPropagation()">
+    <div class="mobile-modal-card animate-spring-modal w-full max-w-lg bg-[#111116]/95 border border-amber-500/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
         <h3 class="text-white font-bold text-sm font-display flex items-center gap-2">
           <i data-lucide="sticky-note" class="w-4 h-4 text-amber-400"></i>
@@ -5170,7 +5174,7 @@
 
   <!-- SAMMEL-IMPORT MODAL (FÜR TO-DO, NOTIZEN & CO) -->
   <div id="text-import-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md" onclick="if(event.target===this) closeTextImportModal()">
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-lg bg-[#111116]/95 border border-[var(--accent)]/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" onclick="event.stopPropagation()">
+    <div class="mobile-modal-card animate-spring-modal w-full max-w-lg bg-[#111116]/95 border border-[var(--accent)]/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
         <h3 class="text-white font-bold text-sm font-display flex items-center gap-2">
           <i data-lucide="file-text" class="w-4 h-4 text-[var(--accent-light)]"></i>
@@ -5215,7 +5219,7 @@
 
   <!-- TERMIN VERSCHIEBEN MODAL -->
   <div id="modal-postpone-termin" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in" onclick="if(event.target === this) closePostponeTerminModal()">
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-md bg-[#111118]/95 border border-sky-500/40 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300 space-y-4" onclick="event.stopPropagation()">
+    <div class="mobile-modal-card animate-spring-modal w-full max-w-md bg-[#111118]/95 border border-sky-500/40 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300 space-y-4" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-2xl bg-sky-500/20 text-sky-300 flex items-center justify-center border border-sky-500/40">
@@ -5272,7 +5276,7 @@
 
   <!-- BERICHT-EXPORT MODAL (WOCHE & MONAT) -->
   <div id="report-export-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md" onclick="if(event.target===this) closeReportExportModal()">
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-2xl bg-[#111116]/95 border border-purple-500/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" onclick="event.stopPropagation()">
+    <div class="mobile-modal-card animate-spring-modal w-full max-w-2xl bg-[#111116]/95 border border-purple-500/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
         <h3 class="text-white font-bold text-sm md:text-base font-display flex items-center gap-2">
           <i data-lucide="file-text" class="w-4 h-4 text-purple-400"></i>
@@ -5315,7 +5319,7 @@
           <i data-lucide="menu" class="w-4 h-4 text-purple-400"></i>
           <span data-i18n="mobile_menu_title">Menü & Einstellungen</span>
         </h3>
-        <button onclick="closeMobileMenuDrawer()" class="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white">
+        <button data-action="closeMobileMenuDrawer" class="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -5426,7 +5430,7 @@
           <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i>
           <span>Werkzeuge & Noodle-Helfer</span>
         </h3>
-        <button onclick="closeMobileToolsSheet()" class="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white">
+        <button data-action="closeMobileToolsSheet" class="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -5860,7 +5864,7 @@
 
   <!-- KLARHEIT & IMPULSKONTROLLE MODAL -->
   <div id="clarity-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in" onclick="if(event.target === this) closeClarityModal()">
-    <div class="bg-[#101118] border border-teal-500/40 rounded-3xl max-w-xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="bg-[#101118] border border-teal-500/40 rounded-3xl max-w-xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6116,7 +6120,7 @@
   <!-- INNERE RUHE & SOMATISCHE REGULATION MODAL -->
   <!-- ====================================================================== -->
   <div id="modal-regulation" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in" onclick="if(event.target === this) closeRegulationModal()">
-    <div class="bg-[#0c0e17] border border-teal-500/40 rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="bg-[#0c0e17] border border-teal-500/40 rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6422,7 +6426,7 @@
   <!-- SMART BRAINSTORMING STUDIO (IDEEN-LABOR) MODAL -->
   <!-- ====================================================================== -->
   <div id="brainstorm-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" onclick="if(event.target === this) closeBrainstormModal();">
-    <div class="bg-[#111118] border border-teal-500/40 rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden" onclick="event.stopPropagation()">
+    <div class="bg-[#111118] border border-teal-500/40 rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6522,7 +6526,7 @@
 
   <!-- SAMPLE TASK MANAGER MODAL -->
   <div id="sample-manager-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in" onclick="if(event.target===this) closeSampleManagerModal()">
-    <div class="bg-[#111118] border border-purple-500/40 rounded-3xl max-w-xl w-full p-5 shadow-2xl relative text-white flex flex-col gap-4 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="bg-[#111118] border border-purple-500/40 rounded-3xl max-w-xl w-full p-5 shadow-2xl relative text-white flex flex-col gap-4 max-h-[90vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6576,7 +6580,7 @@
 
   <!-- SUPERMARKT MODUS MODAL (Vollbild / Touch-Fokus Ansicht) -->
   <div id="supermarket-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 md:p-6 bg-black/85 backdrop-blur-lg animate-fade-in" onclick="if(event.target===this) closeSupermarketModal()">
-    <div class="bg-[#111118] border border-emerald-500/40 rounded-3xl max-w-2xl w-full p-4 md:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden" onclick="event.stopPropagation()">
+    <div class="bg-[#111118] border border-emerald-500/40 rounded-3xl max-w-2xl w-full p-4 md:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6604,7 +6608,7 @@
       <!-- Quick Add Input -->
       <div class="flex gap-2">
         <input type="text" id="supermarket-add-input" placeholder="Schnell hinzufügen (z.B. 2x Hafermilch, Tomaten)..." class="flex-1 p-2.5 bg-black/50 border border-white/10 rounded-xl text-xs text-white outline-none focus:border-emerald-500 font-semibold" onkeydown="if(event.key==='Enter') handleAddShoppingItem();" />
-        <button onclick="handleAddShoppingItem()" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs rounded-xl transition cursor-pointer flex items-center gap-1.5 shadow-md">
+        <button data-action="handleAddShoppingItem" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs rounded-xl transition cursor-pointer flex items-center gap-1.5 shadow-md">
           <i data-lucide="plus" class="w-4 h-4"></i>
           <span data-i18n="add">Hinzufügen</span>
         </button>
@@ -6615,7 +6619,7 @@
 
       <!-- Footer Buttons -->
       <div class="flex items-center justify-between border-t border-white/10 pt-3 text-xs">
-        <button onclick="clearShoppingList()" class="px-3 py-2 bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-300 rounded-xl border border-white/10 hover:border-red-500/30 transition cursor-pointer">
+        <button data-action="clearShoppingList" class="px-3 py-2 bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-300 rounded-xl border border-white/10 hover:border-red-500/30 transition cursor-pointer">
           Liste leeren 🗑️
         </button>
         <button onclick="closeSupermarketModal()" class="px-5 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 font-bold rounded-xl transition cursor-pointer">
@@ -6628,7 +6632,7 @@
 
   <!-- Feierabend & Tagesabschluss-Celebration-Modal -->
   <div id="feierabend-celebration-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-xl flex items-center justify-center p-4 z-[10000] animate-fadeIn" onclick="if(event.target===this) closeFeierabendModal()">
-    <div class="bg-gradient-to-b from-[#161526]/98 to-[#0e0e17]/98 border border-purple-500/35 p-6 md:p-8 rounded-3xl max-w-md w-full shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(168,85,247,0.15)] relative flex flex-col items-center text-center space-y-4" onclick="event.stopPropagation()">
+    <div class="bg-gradient-to-b from-[#161526]/98 to-[#0e0e17]/98 border border-purple-500/35 p-6 md:p-8 rounded-3xl max-w-md w-full shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(168,85,247,0.15)] relative flex flex-col items-center text-center space-y-4" data-action="stopPropagation" data-stop-propagation="true">
       <button onclick="closeFeierabendModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer" title="Schließen">
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
@@ -6676,7 +6680,7 @@
   <!-- CROSS-PLATFORM APP INSTALLATION & SETUP COCKPIT (WINDOWS, MAC, ANDROID, LINUX, IOS) -->
   <!-- ====================================================================== -->
   <div id="modal-app-install" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-xl animate-fade-in" onclick="if(event.target === this) closeInstallModal()">
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-2xl bg-[#0f0f18]/98 border border-purple-500/40 p-4 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300 flex flex-col gap-3.5 max-h-[92vh] overflow-y-auto custom-scrollbar" onclick="event.stopPropagation()">
+    <div class="mobile-modal-card animate-spring-modal w-full max-w-2xl bg-[#0f0f18]/98 border border-purple-500/40 p-4 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300 flex flex-col gap-3.5 max-h-[92vh] overflow-y-auto custom-scrollbar" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Top Window Header with Unified Controls -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6970,7 +6974,7 @@
 
   <!-- DATENSCHUTZ & IMPRESSUM MODAL (DSGVO / PRIVACY BY DESIGN) -->
   <div id="privacy-legal-modal" class="hidden fixed inset-0 z-[200000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xl animate-fade-in" onclick="if(event.target===this) closePrivacyModal();">
-    <div class="w-full max-w-xl bg-[#111118]/95 border border-purple-500/40 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white flex flex-col gap-4 max-h-[88vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <div class="w-full max-w-xl bg-[#111118]/95 border border-purple-500/40 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white flex flex-col gap-4 max-h-[88vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -7149,7 +7153,7 @@
 
   <!-- MODAL: UNDO-VERLAUF & SCHRITTAUSWAHL -->
   <div id="modal-undo-history" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" onclick="if(event.target === this) closeUndoHistoryModal()">
-    <div class="bg-[#10111a] border border-cyan-500/40 rounded-3xl max-w-lg w-full p-4 sm:p-5 shadow-2xl relative text-white flex flex-col gap-3.5 max-h-[85vh] overflow-hidden" onclick="event.stopPropagation()">
+    <div class="bg-[#10111a] border border-cyan-500/40 rounded-3xl max-w-lg w-full p-4 sm:p-5 shadow-2xl relative text-white flex flex-col gap-3.5 max-h-[85vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div class="flex items-center gap-2.5">
@@ -7188,7 +7192,7 @@
 
   <!-- MODAL: EIGENE VORLAGE ERSTELLEN & ANPASSEN -->
   <div id="modal-template-builder" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" onclick="if(event.target === this) closeTemplateBuilderModal()">
-    <div class="bg-[#10111a] border border-sky-500/40 rounded-3xl max-w-xl w-full p-4 sm:p-5 shadow-2xl relative text-white flex flex-col gap-3.5 max-h-[88vh] overflow-hidden" onclick="event.stopPropagation()">
+    <div class="bg-[#10111a] border border-sky-500/40 rounded-3xl max-w-xl w-full p-4 sm:p-5 shadow-2xl relative text-white flex flex-col gap-3.5 max-h-[88vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div class="flex items-center gap-2.5">
