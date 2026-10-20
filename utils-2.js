@@ -119,7 +119,7 @@ function renderMiniCalendar(force = false) {
   const todayMonth = now.getMonth();
   const todayYear = now.getFullYear();
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
-  const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state?.items || {});
+  const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : ((typeof state !== 'undefined' && state?.items) || (typeof window !== 'undefined' && window.state?.items) || {});
   const termineList = curItems.termine || [];
   const dateKey = `${year}-${month}-${todayDate}-${lang}-${termineList.length}`;
 
