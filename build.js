@@ -219,7 +219,7 @@ try {
 
 // 4. Generate dist/index.html (wires single bundled app.bundle.js)
 let indexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
-const moduleRegex = /<script\s+type="module"\s+src="main\.js"><\/script>/;
+const moduleRegex = /(?:<!-- Noodle Studio Script-Loader -->\s*)?<script\s+type="module"\s+src="main\.js"><\/script>(?:\s*<script>[\s\S]*?<\/script>)?/;
 const scriptBlockRegex = /<script src="data-tasks-steps-1\.js"><\/script>[\s\S]*?<script src="app-core\.js"><\/script>/;
 if (moduleRegex.test(indexHtml)) {
   indexHtml = indexHtml.replace(moduleRegex, '  <!-- Noodle Standalone Production Bundle -->\n  <script src="app.bundle.js"></script>');
