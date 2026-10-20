@@ -609,7 +609,44 @@ function startInstantGuidedFlow(taskName, category, estMinutes = 20) {
     }));
   }
 }
-if (typeof window !== 'undefined') window.startInstantGuidedFlow = startInstantGuidedFlow;
+if (typeof window !== 'undefined') {
+  window.openHelperModal = openHelperModal;
+  window.openTaskStepsModal = openTaskStepsModal;
+  window.closeHelperModal = closeHelperModal;
+  window.populateHelperTaskSelect = populateHelperTaskSelect;
+  window.onHelperSelectTask = onHelperSelectTask;
+  window.speakText = speakText;
+  window.stopSpeaking = stopSpeaking;
+  window.cleanStepText = cleanStepText;
+  window.switchWhatNowTab = switchWhatNowTab;
+  window.setWhatNowEnergyLevel = setWhatNowEnergyLevel;
+  window.startZenWithTask = startZenWithTask;
+  window.start2MinKickstart = start2MinKickstart;
+  window.completeWhatNowTask = completeWhatNowTask;
+  window.populateWhatNowDilemmaDefaults = populateWhatNowDilemmaDefaults;
+  window.flipWhatNowDilemma = flipWhatNowDilemma;
+  window.pickRandomTask = pickRandomTask;
+  window.startInstantGuidedFlow = startInstantGuidedFlow;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.openHelperModal = openHelperModal;
+  globalThis.openTaskStepsModal = openTaskStepsModal;
+  globalThis.closeHelperModal = closeHelperModal;
+  globalThis.populateHelperTaskSelect = populateHelperTaskSelect;
+  globalThis.onHelperSelectTask = onHelperSelectTask;
+  globalThis.speakText = speakText;
+  globalThis.stopSpeaking = stopSpeaking;
+  globalThis.cleanStepText = cleanStepText;
+  globalThis.switchWhatNowTab = switchWhatNowTab;
+  globalThis.setWhatNowEnergyLevel = setWhatNowEnergyLevel;
+  globalThis.startZenWithTask = startZenWithTask;
+  globalThis.start2MinKickstart = start2MinKickstart;
+  globalThis.completeWhatNowTask = completeWhatNowTask;
+  globalThis.populateWhatNowDilemmaDefaults = populateWhatNowDilemmaDefaults;
+  globalThis.flipWhatNowDilemma = flipWhatNowDilemma;
+  globalThis.pickRandomTask = pickRandomTask;
+  globalThis.startInstantGuidedFlow = startInstantGuidedFlow;
+}
 
 
 

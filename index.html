@@ -1782,7 +1782,7 @@
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <!-- Wecker & Reminder (Warmes Amber) -->
         <div id="header-btn-alarm-container" class="relative flex items-center shrink-0 mr-1 sm:mr-1.5">
-          <button id="btn-header-alarm" data-action="togglePanel" data-action-args='["alarm"]' class="h-[38px] w-[38px] flex items-center justify-center rounded-xl bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 border border-amber-400/45 hover:border-amber-300 text-amber-300 hover:text-amber-200 cursor-pointer transition-all duration-200 shadow-[0_0_12px_rgba(245,158,11,0.2)] shrink-0 group relative select-none" title="Wecker & Reminder" aria-label="Wecker & Reminder">
+          <button id="btn-header-alarm" type="button" onclick="event.stopPropagation(); toggleAlarmDropdown(event);" class="h-[38px] w-[38px] flex items-center justify-center rounded-xl bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 border border-amber-400/45 hover:border-amber-300 text-amber-300 hover:text-amber-200 cursor-pointer transition-all duration-200 shadow-[0_0_12px_rgba(245,158,11,0.2)] shrink-0 group relative select-none" title="Wecker & Reminder" aria-label="Wecker & Reminder">
             <i data-lucide="alarm-clock" class="w-4 h-4 text-amber-300 group-hover:text-amber-200 group-hover:scale-110 transition-transform shrink-0"></i>
             <span id="alarm-active-badge" class="hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-400 shadow-xs"></span>
           </button>
