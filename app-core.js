@@ -883,14 +883,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (textEl) textEl.innerText = t('standard_mode');
     if (zenView) { zenView.classList.remove('hidden'); zenView.classList.add('flex'); }
     if (mainEl) { mainEl.classList.add('hidden'); }
-    updateZenView();
+    if (typeof updateZenView === 'function') updateZenView();
+    else if (typeof window !== 'undefined' && typeof window.updateZenView === 'function') window.updateZenView();
   } else {
     document.body.classList.remove('minimalist'); if (iconEl) iconEl.setAttribute('data-lucide', 'eye');
     if (textEl) textEl.innerText = t('minimal_mode');
     if (zenView) { zenView.classList.add('hidden'); zenView.classList.remove('flex'); }
     if (mainEl) { mainEl.classList.remove('hidden'); }
   }
-  updateDateAndStreak(); updateWorkspaceSwitchUI(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect(); suggestBoostActivity(); suggestInspirationQuote(); checkAndGenerateAutomaticReports();
+  if (typeof updateDateAndStreak === 'function') updateDateAndStreak();
+  if (typeof updateWorkspaceSwitchUI === 'function') updateWorkspaceSwitchUI();
+  if (typeof renderApp === 'function') renderApp();
+  if (typeof updateZenView === 'function') updateZenView();
+  else if (typeof window !== 'undefined' && typeof window.updateZenView === 'function') window.updateZenView();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+  if (typeof suggestBoostActivity === 'function') suggestBoostActivity();
+  if (typeof suggestInspirationQuote === 'function') suggestInspirationQuote();
+  if (typeof checkAndGenerateAutomaticReports === 'function') checkAndGenerateAutomaticReports();
   const btnHeader = document.getElementById('timer-toggle-btn'); if (btnHeader) { btnHeader.innerHTML = '<i data-lucide="play" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>'; }
   renderLucideIcons();
 });

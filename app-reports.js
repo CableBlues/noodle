@@ -1202,8 +1202,16 @@ if (typeof window !== 'undefined') {
   window.calculateEstimatedFocusMinutes = calculateEstimatedFocusMinutes;
   window.triggerManualReportDownload = triggerManualReportDownload;
   window.generateComprehensiveReportText = generateComprehensiveReportText;
+  window.syncHeaderToolsMenuState = syncHeaderToolsMenuState;
+  window.updateZenView = updateZenView;
+  window.updateZenViewNextTask = updateZenViewNextTask;
 } 
 
+if (typeof globalThis !== 'undefined') {
+  globalThis.syncHeaderToolsMenuState = syncHeaderToolsMenuState;
+  globalThis.updateZenView = updateZenView;
+  globalThis.updateZenViewNextTask = updateZenViewNextTask;
+}
 
 function openReportModal() { togglePanel('report'); }
 window.openReportModal = openReportModal;

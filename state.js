@@ -2225,11 +2225,15 @@ if (typeof window !== 'undefined') {
   window.WORK_CATEGORIES_ORDER = WORK_CATEGORIES_ORDER;
   window.getCustomDefaults = getCustomDefaults;
   window.saveCustomDefaults = saveCustomDefaults;
+  window.handleReset = handleReset;
+  window.handleClearAllLists = handleClearAllLists;
   window.saveCategoriesOrder = saveCategoriesOrder;
   window.t = t;
   window.tr = tr;
 }
 if (typeof globalThis !== 'undefined') {
+  globalThis.handleReset = handleReset;
+  globalThis.handleClearAllLists = handleClearAllLists;
   globalThis.saveCategoriesOrder = saveCategoriesOrder;
   globalThis.openTaskAddColumns = openTaskAddColumns;
   globalThis.getYearAndWeek = getYearAndWeek;
