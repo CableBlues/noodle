@@ -744,9 +744,17 @@ const cloudSyncEngine = {
         const supa = FlowAuth.getSupabaseClient();
         const user = FlowAuth.getUser();
         if (supa && user && user.id) {
+          let payload = delta;
+          if (typeof NoodleCrypto !== 'undefined' && NoodleCrypto.isE2EEnabled()) {
+            const pass = NoodleCrypto.getSavedPassphrase();
+            if (pass) {
+              payload = await NoodleCrypto.encrypt(delta, pass);
+            }
+          }
+
           const { error } = await supa.from('flow_sync').upsert({
             user_id: user.id,
-            data: delta,
+            data: payload,
             updated_at: new Date().toISOString()
           }, { onConflict: 'user_id' });
 
@@ -754,6 +762,7 @@ const cloudSyncEngine = {
             console.warn('[CloudSync] Delta-Push fehlgeschlagen, wechsle zu Full-Sync Fallback:', error.message);
             return await this.pushState();
           }
+
 
           this.clearPendingSync();
           this.retryCount = 0;
@@ -801,9 +810,17 @@ const cloudSyncEngine = {
         const supa = FlowAuth.getSupabaseClient();
         const user = FlowAuth.getUser();
         if (supa && user && user.id) {
+          let payload = serializedData;
+          if (typeof NoodleCrypto !== 'undefined' && NoodleCrypto.isE2EEnabled()) {
+            const pass = NoodleCrypto.getSavedPassphrase();
+            if (pass) {
+              payload = await NoodleCrypto.encrypt(serializedData, pass);
+            }
+          }
+
           const { error } = await supa.from('flow_sync').upsert({
             user_id: user.id,
-            data: serializedData,
+            data: payload,
             updated_at: new Date().toISOString()
           }, { onConflict: 'user_id' });
 
@@ -815,6 +832,7 @@ const cloudSyncEngine = {
             }
             throw error;
           }
+
 
           this.clearPendingSync();
           this.retryCount = 0;
@@ -884,7 +902,34 @@ const cloudSyncEngine = {
             return await this.pushState();
           }
 
-          const remoteData = data.data;
+          let remoteData = data.data;
+
+          // E2E-Entschlüsselung (wenn verschlüsseltes Paket empfangen wurde)
+          if (remoteData && remoteData._isEncrypted) {
+            if (typeof NoodleCrypto !== 'undefined') {
+              const pass = NoodleCrypto.getSavedPassphrase();
+              if (pass) {
+                try {
+                  remoteData = await NoodleCrypto.decrypt(remoteData, pass);
+                } catch (decErr) {
+                  console.error('[CloudSync] E2E-Entschlüsselungsfehler:', decErr.message);
+                  this.updateSyncUI('error');
+                  if (typeof showToast === 'function') {
+                    showToast('🔒 E2E-Entschlüsselung fehlgeschlagen: Bitte Passphrase prüfen.');
+                  }
+                  return { success: false, error: 'Passphrase invalid' };
+                }
+              } else {
+                console.warn('[CloudSync] Verschlüsselte Daten empfangen, aber keine Passphrase vorhanden.');
+                this.updateSyncUI('error');
+                if (typeof showToast === 'function') {
+                  showToast('🔒 Bitte Passphrase eingeben, um Sync-Daten zu entschlüsseln.');
+                }
+                return { success: false, error: 'Passphrase required' };
+              }
+            }
+          }
+
           const targetState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
 
           if (targetState) {
@@ -1393,6 +1438,54 @@ async function handleManualCloudSync() {
   }
 }
 window.handleManualCloudSync = handleManualCloudSync;
+
+// ===== E2E VERSCHLÜSSELUNG UI-CONTROLLER =====
+function toggleE2EEncryption(enabled) {
+  const wrapper = document.getElementById('sync-e2e-input-wrapper');
+  const input = document.getElementById('sync-e2e-passphrase');
+  if (enabled) {
+    if (wrapper) wrapper.classList.remove('hidden');
+    if (input) setTimeout(() => input.focus(), 50);
+  } else {
+    if (wrapper) wrapper.classList.add('hidden');
+    if (typeof NoodleCrypto !== 'undefined') {
+      NoodleCrypto.setE2EEnabled(false);
+    }
+    if (typeof showToast === 'function') {
+      showToast('🔓 Ende-zu-Ende-Verschlüsselung deaktiviert.');
+    }
+  }
+}
+window.toggleE2EEncryption = toggleE2EEncryption;
+
+async function saveE2EPassphrase() {
+  const input = document.getElementById('sync-e2e-passphrase');
+  const phrase = input ? input.value.trim() : '';
+  if (!phrase || phrase.length < 6) {
+    if (typeof showToast === 'function') {
+      showToast('⚠️ Die Passphrase muss mindestens 6 Zeichen lang sein.');
+    }
+    return;
+  }
+
+  if (typeof NoodleCrypto !== 'undefined') {
+    NoodleCrypto.setE2EEnabled(true, phrase);
+    if (input) input.value = '';
+    const wrapper = document.getElementById('sync-e2e-input-wrapper');
+    if (wrapper) wrapper.classList.add('hidden');
+
+    if (typeof showToast === 'function') {
+      showToast('🔒 Ende-zu-Ende-Verschlüsselung aktiv! Neuer Sync wird verschlüsselt.');
+    }
+
+    // Sofort verschlüsselten Sync anstoßen
+    if (typeof cloudSyncEngine !== 'undefined') {
+      cloudSyncEngine.pushState();
+    }
+  }
+}
+window.saveE2EPassphrase = saveE2EPassphrase;
+
 
 async function handleLogout() {
   const msg = tr({

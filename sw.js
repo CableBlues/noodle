@@ -8,7 +8,7 @@
  * verlässlich auch ohne bestehende Internetverbindung.
  */
 
-const CACHE_NAME = 'noodle-cache-v53868938';
+const CACHE_NAME = 'noodle-cache-v1784361905';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -43,6 +43,7 @@ const ASSETS_TO_CACHE = [
   './auth-engine.js',
   './collab-engine.js',
   './config.js',
+  './crypto-sync.js',
   './data-custom-translations.js',
   './data-extras.js',
   './data-tasks-steps-1.js',

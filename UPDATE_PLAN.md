@@ -7,8 +7,42 @@
 - [x] **Phase 3: Build & Performance** – Vorkompiliertes Tailwind CSS statt Runtime, Bundling + Minifizierung via esbuild, Sprachdaten-Lazy-Loading, Delta-Sync mit Fallback
 - [x] **Phase 4: Architektur A** – Modulare Migration auf ES-Module (main.js), temporäre Window-Kompatibilitätsschicht, Bereinigung toter Dateien
 - [x] **Phase 5: Architektur B** – Event-Delegation (`data-action`) statt Inline-`onclick`, Strikte CSP, Aufteilung monolithischer Dateien >2000 Zeilen
-- [ ] **Phase 6: Datenschutz** – E2E-Verschlüsselung (WebCrypto AES-GCM / PBKDF2), Opt-in, Migration, Developer-Modus für Config-Overrides
+- [x] **Phase 6: Datenschutz** – E2E-Verschlüsselung (WebCrypto AES-GCM / PBKDF2), Opt-in, Migration, Developer-Modus für Config-Overrides
 - [ ] **Phase 7: Abschluss** – README & Dokumentation, Finalisierung UPDATE_PLAN.md
+
+---
+
+## Phase 6: Datenschutz & Zero-Knowledge E2E-Verschlüsselung
+
+### Umgesetzte Maßnahmen
+1. **WebCrypto Ende-zu-Ende-Verschlüsselungs-Engine (`crypto-sync.js`):**
+   - Modul `NoodleCrypto` implementiert unter Verwendung von nativen Browser-Standards (`crypto.subtle`).
+   - Schlüsselableitung: `PBKDF2` mit 100.000 Iterationen und `SHA-256` aus einer benutzerdefinierten Passphrase + kryptografisch zufälligem 16-Byte-Salt.
+   - Verschlüsselung: Authentifiziertes `AES-GCM` (256-Bit) mit 96-Bit-IV pro Datenpaket. Gewährleistet sowohl Vertraulichkeit als auch Manipulationsschutz.
+2. **Nahtlose Integration in die Cloud-Sync-Engine (`sync-engine.js`):**
+   - In `pushState()` und `pushDelta()`: Wenn E2E aktiv ist und eine Passphrase vorliegt, wird die gesamte Nutzlast transparent in einen verschlüsselten Container gepackt, bevor sie an Supabase übertragen wird (`_isEncrypted: true`, `cryptoVersion: 1`, `cipher`, `salt`, `iv`).
+   - In `pullState()`: Eintreffende verschlüsselte Pakete werden clientseitig entschlüsselt. Bei fehlender oder falscher Passphrase erfolgt ein benutzerfreundlicher Hinweis im UI; es werden keine korrupten Daten in den lokalen Zustand übernommen.
+   - Vollständige Abwärtskompatibilität: Unverschlüsselte Snapshots (Legacy) werden weiterhin transparent verarbeitet und migriert.
+3. **Opt-in Benutzeroberfläche & Sicherheitswarnung (`index.html`):**
+   - Im Cloud-Sync Modal (`#modal-p2p-sync`) einen E2E-Bereich mit Umschalter und Passphrase-Eingabe hinzugefügt.
+   - Deutlicher Warnhinweis: Bei Verlust der Passphrase können verschlüsselte Daten nicht wiederhergestellt werden (Zero-Knowledge-Prinzip).
+4. **Developer-Guard für Konfigurations-Overrides (`config.js`):**
+   - Überschreiben von `SUPABASE_URL` und `SUPABASE_ANON_KEY` via `localStorage.getItem('noodle_custom_config')` ist jetzt strikt an das Vorhandensein des Developer-Modus (`noodle_dev_mode = 'true'`) gekoppelt.
+   - Verhindert unbemerkte Umleitung von Datenflüssen in regulären Produktions-Instanzen.
+5. **Verhaltens-Tests (`tests/privacy-and-crypto.test.js`):**
+   - 5 neue Verhaltens-Tests für AES-GCM Verschlüsselung/Entschlüsselung, Fehlerbehandlung bei falscher Passphrase, transparente Legacy-Kompatibilität und den Developer-Modus-Schutz.
+   - Test-Suite zu 100 % grün.
+
+### Geänderte Dateien
+- `crypto-sync.js` (neu)
+- `sync-engine.js` (E2E-Integration in pushState, pushDelta & pullState)
+- `config.js` (Developer-Modus-Guard)
+- `index.html` (E2E UI-Card im Sync-Modal)
+- `main.js` (Import von `crypto-sync.js`)
+- `build.js` (Bundle-Reihenfolge)
+- `tests/privacy-and-crypto.test.js` (neu)
+- `tests/architecture-esmodules.test.js` (aktualisiert)
+- `UPDATE_PLAN.md`
 
 ---
 

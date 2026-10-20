@@ -4094,6 +4094,32 @@
               <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
             </button>
           </div>
+
+          <!-- ENDE-ZU-ENDE-VERSCHLÜSSELUNG (E2E) OPT-IN & PASSPHRASE -->
+          <div class="p-3 rounded-2xl bg-purple-500/[0.08] border border-purple-500/30 space-y-2 text-left">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="shield-check" class="w-4 h-4 text-purple-300"></i>
+                <span class="text-xs font-bold text-purple-200">Ende-zu-Ende-Verschlüsselung</span>
+              </div>
+              <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="sync-e2e-toggle" onchange="toggleE2EEncryption(this.checked)" class="sr-only peer">
+                <div class="w-9 h-5 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-purple-600"></div>
+              </label>
+            </div>
+            <p class="text-[10px] text-zinc-400 leading-tight">
+              Schützt deine Syncdaten mit AES-GCM (256-Bit) und PBKDF2. Selbst Supabase kann deine Daten nicht lesen.
+            </p>
+            <div id="sync-e2e-input-wrapper" class="hidden space-y-1.5 pt-1 border-t border-purple-500/20">
+              <div class="flex gap-1.5">
+                <input type="password" id="sync-e2e-passphrase" placeholder="Geheime Passphrase..." class="flex-1 px-2.5 py-1.5 bg-black/60 border border-purple-500/30 rounded-xl text-xs text-white placeholder-zinc-500 outline-none focus:border-purple-400">
+                <button type="button" onclick="saveE2EPassphrase()" class="px-3 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl shadow-sm transition cursor-pointer">Aktivieren</button>
+              </div>
+              <p class="text-[9.5px] text-amber-300/90 leading-tight flex items-center gap-1">
+                <span>⚠️</span> <span>Wichtig: Ohne Passphrase können verschlüsselte Daten nicht wiederhergestellt werden!</span>
+              </p>
+            </div>
+          </div>
         </div>
 
         <!-- PANE 2: DIREKT-KOPPLUNG PER QR-CODE & SYNC-LINK (OHNE KONTO NUTZBAR) -->

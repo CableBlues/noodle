@@ -30,6 +30,7 @@ describe('Phase 4: Architecture A - ES-Modules & Cleanup', () => {
       'auth-engine.js',
       'storage.js',
       'state.js',
+      'crypto-sync.js',
       'sync-engine.js',
       'collab-engine.js',
       'utils.js',

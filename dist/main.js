@@ -23,6 +23,7 @@ import './config.js';
 import './auth-engine.js';
 import './storage.js';
 import './state.js';
+import './crypto-sync.js';
 import './sync-engine.js';
 import './collab-engine.js';
 

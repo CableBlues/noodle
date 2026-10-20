@@ -26,20 +26,25 @@
     ADS_ENABLED: false
   };
 
-  // Erlaube optionales lokales Überschreiben für Entwickler / Self-Host-Instanzen
+  // Erlaube lokales Überschreiben NUR im Developer-Modus (Datenschutz & Manipulationsschutz)
   try {
     if (typeof localStorage !== 'undefined') {
-      const storedConfig = localStorage.getItem('noodle_custom_config') || localStorage.getItem('flow_custom_config');
-      if (storedConfig) {
-        const parsed = JSON.parse(storedConfig);
-        if (parsed && typeof parsed === 'object') {
-          Object.assign(DEFAULT_CONFIG, parsed);
+      const isDevMode = localStorage.getItem('noodle_dev_mode') === 'true' ||
+                        localStorage.getItem('flow_dev_mode') === 'true';
+      if (isDevMode) {
+        const storedConfig = localStorage.getItem('noodle_custom_config') || localStorage.getItem('flow_custom_config');
+        if (storedConfig) {
+          const parsed = JSON.parse(storedConfig);
+          if (parsed && typeof parsed === 'object') {
+            Object.assign(DEFAULT_CONFIG, parsed);
+          }
         }
       }
     }
   } catch (e) {
     // Ignorieren falls localStorage gesperrt oder ungültig
   }
+
 
   // ============================================================================
   // ACHTUNG: MONETIZATION_ENABLED / ADS_ENABLED erst aktivieren, wenn:
