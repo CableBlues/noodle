@@ -882,7 +882,8 @@ function showPraise() {
   const todayISO = new Date().toISOString().split('T')[0];
   
   // Zähle die heute erledigten Aufgaben
-  const completedToday = (state && state.done ? state.done : []).filter(item => item.date === todayISO).length;
+  const doneItems = (typeof state !== 'undefined' && state && state.done) ? state.done : ((typeof window !== 'undefined' && window.state && window.state.done) ? window.state.done : []);
+  const completedToday = doneItems.filter(item => item.date === todayISO).length;
   
   // Bestimme die passende Stufe des Lobes
   let activeTier = 'tier1';

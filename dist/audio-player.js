@@ -243,12 +243,21 @@ async function scanMusicFolderTracks() {
     return;
   }
   try {
-    let res = await fetch('music/list.php').catch(() => null);
+    let res = await fetch('music/manifest.json').catch(() => null);
     if (!res || !res.ok) {
-      res = await fetch('music/manifest.json').catch(() => null);
+      res = await fetch('music/list.php').catch(() => null);
     }
     if (res && res.ok) {
-      const data = await res.json();
+      let data = null;
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        // Falls list.php rohes PHP oder ungültiges JSON geliefert hat, manifest.json als Fallback versuchen
+        const fallbackRes = await fetch('music/manifest.json').catch(() => null);
+        if (fallbackRes && fallbackRes.ok) {
+          data = await fallbackRes.json().catch(() => null);
+        }
+      }
       if (data && Array.isArray(data.tracks) && data.tracks.length > 0) {
         const foundTracks = data.tracks;
         
@@ -638,7 +647,8 @@ var musicCanControlVolume = (() => {
 
 function getMusicTargetVolume() {
   const muted = (typeof isPlayerMuted !== 'undefined') ? Boolean(isPlayerMuted) : false;
-  return muted ? 0 : (soundMasterVolume * 0.75);
+  const masterVol = (typeof soundMasterVolume !== 'undefined') ? soundMasterVolume : 0.8;
+  return muted ? 0 : (masterVol * 0.75);
 }
 
 function setMusicCrossfadeSeconds(val) {

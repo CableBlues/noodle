@@ -1,4 +1,6 @@
-﻿node_modules/
+node_modules/
 .rate_limit/
 .system_generated/
 *.log
+projekt_code.txt
+/app.bundle.js

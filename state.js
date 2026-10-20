@@ -34,8 +34,12 @@ let currentTheme = rawTheme;
 let isMinimalist = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerMinimalist') === 'true');
 let openTaskAddColumns = {};
 let categoriesOrder = null;
-let state = null;
-let historyStack = [];
+let state = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : null);
+if (typeof window !== 'undefined') window.state = state;
+if (typeof globalThis !== 'undefined') globalThis.state = state;
+let historyStack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : []);
+if (typeof window !== 'undefined') window.historyStack = historyStack;
+if (typeof globalThis !== 'undefined') globalThis.historyStack = historyStack;
 
 
 // Helper to ensure 'notes' is positioned before 'termine' if both are present in saved orders
@@ -1130,6 +1134,20 @@ workCategoriesOrder = loadWorkCategoriesOrder();
 studyCategoriesOrder = loadStudyCategoriesOrder();
 state = loadState();
 historyStack = loadHistory();
+if (typeof window !== 'undefined') {
+  window.state = state;
+  window.historyStack = historyStack;
+  window.categoriesOrder = categoriesOrder;
+  window.workCategoriesOrder = workCategoriesOrder;
+  window.studyCategoriesOrder = studyCategoriesOrder;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.state = state;
+  globalThis.historyStack = historyStack;
+  globalThis.categoriesOrder = categoriesOrder;
+  globalThis.workCategoriesOrder = workCategoriesOrder;
+  globalThis.studyCategoriesOrder = studyCategoriesOrder;
+}
 
 // PERFORMANCE-FIX: saveState() wurde bisher bei JEDEM Aufruf (42 Stellen im Code) zusaetzlich
 // den kompletten historyStack (bis zu 20 volle State-Kopien) neu serialisiert und geschrieben,

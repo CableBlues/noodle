@@ -210,6 +210,7 @@ try {
     legalComments: 'none'
   });
   fs.writeFileSync(bundlePath, minified.code, 'utf8');
+  fs.writeFileSync(path.join(rootDir, 'app.bundle.js'), minified.code, 'utf8');
   const bundleSizeKb = (minified.code.length / 1024).toFixed(2);
   console.log(`✓ app.bundle.js erfolgreich aus ${moduleList.length} Modulen erzeugt und minifiziert (${bundleSizeKb} KB)`);
 } catch (e) {
