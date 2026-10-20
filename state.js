@@ -24,22 +24,39 @@ if (typeof globalThis !== 'undefined') {
 
 var ALL_VALID_THEMES = (typeof window !== 'undefined' && window.ALL_VALID_THEMES) || ['aurora', 'obsidian', 'botanical', 'latte', 'peach', 'ocean', 'code-night', 'matrix', 'ruby', 'cobalt', 'fruity-classic', 'fruity-studio'];
 if (typeof window !== 'undefined') window.ALL_VALID_THEMES = ALL_VALID_THEMES;
-let currentLang = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerLanguage')) || 'en';
-let rawTheme = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerTheme')) || 'aurora';
+var currentLang = (typeof window !== 'undefined' && window.currentLang) || (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerLanguage')) || 'de';
+var rawTheme = (typeof window !== 'undefined' && window.currentTheme) || (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerTheme')) || 'aurora';
 if (!ALL_VALID_THEMES.includes(rawTheme)) {
   rawTheme = 'code-night';
   try { if (typeof localStorage !== 'undefined') localStorage.setItem('flowPlannerTheme', 'code-night'); } catch(e) {}
 }
-let currentTheme = rawTheme;
-let isMinimalist = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerMinimalist') === 'true');
-let openTaskAddColumns = {};
-let categoriesOrder = null;
-let state = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : null);
-if (typeof window !== 'undefined') window.state = state;
-if (typeof globalThis !== 'undefined') globalThis.state = state;
-let historyStack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : []);
-if (typeof window !== 'undefined') window.historyStack = historyStack;
-if (typeof globalThis !== 'undefined') globalThis.historyStack = historyStack;
+var currentTheme = rawTheme;
+var isMinimalist = (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerMinimalist') === 'true');
+var openTaskAddColumns = (typeof window !== 'undefined' && window.openTaskAddColumns) || {};
+var categoriesOrder = (typeof window !== 'undefined' && window.categoriesOrder) || null;
+var state = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : null);
+var historyStack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof globalThis !== 'undefined' && Array.isArray(globalThis.historyStack) ? globalThis.historyStack : []);
+
+if (typeof window !== 'undefined') {
+  window.currentLang = currentLang;
+  window.currentTheme = currentTheme;
+  window.rawTheme = rawTheme;
+  window.isMinimalist = isMinimalist;
+  window.openTaskAddColumns = openTaskAddColumns;
+  window.categoriesOrder = categoriesOrder;
+  window.state = state;
+  window.historyStack = historyStack;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.currentLang = currentLang;
+  globalThis.currentTheme = currentTheme;
+  globalThis.rawTheme = rawTheme;
+  globalThis.isMinimalist = isMinimalist;
+  globalThis.openTaskAddColumns = openTaskAddColumns;
+  globalThis.categoriesOrder = categoriesOrder;
+  globalThis.state = state;
+  globalThis.historyStack = historyStack;
+}
 
 
 // Helper to ensure 'notes' is positioned before 'termine' if both are present in saved orders

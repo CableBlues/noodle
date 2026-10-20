@@ -132,7 +132,7 @@ function renderMiniCalendar(force = false) {
 
   const locales = { de: 'de-DE', en: 'en-US', el: 'el-GR', es: 'es-ES', fr: 'fr-FR', it: 'it-IT' };
   const viewingDate = new Date(year, month, 1);
-  const monthName = new Intl.DateTimeFormat(locales[currentLang] || 'en-US', { month: 'long', year: 'numeric' }).format(viewingDate);
+  const monthName = new Intl.DateTimeFormat(locales[lang] || 'en-US', { month: 'long', year: 'numeric' }).format(viewingDate);
   title.innerText = monthName;
 
   const firstDayOfMonth = new Date(year, month, 1);
