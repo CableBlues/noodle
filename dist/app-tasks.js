@@ -1521,6 +1521,8 @@ function getCurrentWorkspaceDone() {
 
 function renderApp() {
   const main = document.querySelector('main'); if (!main) return;
+  if (typeof window !== 'undefined') window.renderApp = renderApp;
+  if (typeof globalThis !== 'undefined') globalThis.renderApp = renderApp;
   main.innerHTML = '';
   const fragment = document.createDocumentFragment();
   const now = new Date();

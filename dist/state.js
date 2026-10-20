@@ -1737,7 +1737,14 @@ async function handleReset() {
       trackAllListsClear(ws, state.items, state.done);
     }
     const customDefaults = getCustomDefaults();
-    const localizedDefaults = DEFAULT_TASKS_BY_LANG[currentLang] || DEFAULT_TASKS_BY_LANG['en'] || DEFAULT_TASKS_BY_LANG['de'];
+    const defTasksMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
+      ? window.DEFAULT_TASKS_BY_LANG
+      : ((typeof globalThis !== 'undefined' && globalThis.DEFAULT_TASKS_BY_LANG)
+          ? globalThis.DEFAULT_TASKS_BY_LANG
+          : (typeof DEFAULT_TASKS_BY_LANG !== 'undefined' ? DEFAULT_TASKS_BY_LANG : null));
+    const activeL = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' ? window.currentLang : 'de')) || 'de';
+    const localizedDefaults = (defTasksMap && (defTasksMap[activeL] || defTasksMap['de'] || defTasksMap['en']))
+      || { daily: [], weekly: [], occasionally: [] };
     const dailyTasks = (customDefaults && Array.isArray(customDefaults.daily)) ? [...customDefaults.daily] : [...(localizedDefaults.daily || [])];
     const weeklyTasks = (customDefaults && Array.isArray(customDefaults.weekly)) ? [...customDefaults.weekly] : [...(localizedDefaults.weekly || [])];
     const occasionallyTasks = (customDefaults && Array.isArray(customDefaults.occasionally)) ? [...customDefaults.occasionally] : [...(localizedDefaults.occasionally || [])];
@@ -1754,7 +1761,7 @@ async function handleReset() {
       items: { daily: dailyTasks, weekly: weeklyTasks, occasionally: occasionallyTasks, todo: todoTasks, termine: [], notes: [] },
       done: [], archive: [], streak: 0, completedSteps: {}, customSteps: {},
       shoppingList: [], shoppingHistory: [],
-      cooking: createDefaultCookingState(),
+      cooking: typeof createDefaultCookingState === 'function' ? createDefaultCookingState() : {},
       clarity: { streakDays: 0, lastCheckinDate: null, history: [], savedReasons: [] }
     };
     
@@ -1781,9 +1788,16 @@ async function handleReset() {
       es: 'Plantilla cargada con éxito ✨',
       el: 'Το πρότυπο φορτώθηκε με επιτυχία ✨'
     }) : 'Vorlage erfolgreich geladen ✨';
-    showToast(toastMsg);
-    renderApp();
-    populateHelperTaskSelect();
+    if (typeof showToast === 'function') showToast(toastMsg);
+    
+    if (typeof renderApp === 'function') renderApp();
+    else if (typeof window !== 'undefined' && typeof window.renderApp === 'function') window.renderApp();
+
+    if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+    else if (typeof window !== 'undefined' && typeof window.populateHelperTaskSelect === 'function') window.populateHelperTaskSelect();
+
+    if (typeof updateZenView === 'function') updateZenView();
+    else if (typeof window !== 'undefined' && typeof window.updateZenView === 'function') window.updateZenView();
   }
 }
 
@@ -1853,8 +1867,13 @@ async function handleClearAllLists() {
       cloudSyncEngine.triggerImmediatePush();
     }
     if (typeof renderApp === 'function') renderApp();
+    else if (typeof window !== 'undefined' && typeof window.renderApp === 'function') window.renderApp();
+
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+    else if (typeof window !== 'undefined' && typeof window.populateHelperTaskSelect === 'function') window.populateHelperTaskSelect();
+
     if (typeof updateZenView === 'function') updateZenView();
+    else if (typeof window !== 'undefined' && typeof window.updateZenView === 'function') window.updateZenView();
     if (typeof showToast === 'function') {
       showToast(tr({
         de: `🧹 Alle Spalten geleert (${totalTasks} Einträge entfernt)`,

@@ -106,6 +106,13 @@ import './app-core.js';
   if (typeof handleLogout === 'function') w.handleLogout = handleLogout;
   if (typeof syncHeaderToolsMenuState === 'function') w.syncHeaderToolsMenuState = syncHeaderToolsMenuState;
   if (typeof updateZenView === 'function') w.updateZenView = updateZenView;
+  if (typeof currentZenTaskInfo !== 'undefined') w.currentZenTaskInfo = currentZenTaskInfo;
+  if (typeof DEFAULT_TASKS_BY_LANG !== 'undefined') w.DEFAULT_TASKS_BY_LANG = DEFAULT_TASKS_BY_LANG;
+  if (typeof TASK_STEPS_DATABASE !== 'undefined') w.TASK_STEPS_DATABASE = TASK_STEPS_DATABASE;
+  if (typeof FALLBACK_STEPS !== 'undefined') w.FALLBACK_STEPS = FALLBACK_STEPS;
+  if (typeof updateDateAndStreak === 'function') w.updateDateAndStreak = updateDateAndStreak;
+  if (typeof populateHelperTaskSelect === 'function') w.populateHelperTaskSelect = populateHelperTaskSelect;
+  if (typeof renderLucideIcons === 'function') w.renderLucideIcons = renderLucideIcons;
 
   // I18N & Themes
   if (typeof currentTheme !== 'undefined') w.currentTheme = currentTheme;

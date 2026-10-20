@@ -7,6 +7,8 @@
  * hochauflösender Bildexport (`exportReportAsImage` via `html2canvas`).
  */
 
+var currentZenTaskInfo = (typeof window !== 'undefined' && window.currentZenTaskInfo) || null;
+
 function adjustPanelPosition(el, panelName) {
   if (!el || typeof window === 'undefined' || typeof document === 'undefined') return;
 
@@ -984,29 +986,39 @@ function updateZenView() {
   const zenCatEl = document.getElementById('zen-task-cat'); const zenTextEl = document.getElementById('zen-task-text');
   if (!zenTextEl) return;
   
-  let chosen = currentZenTaskInfo;
+  let chosen = (typeof window !== 'undefined' && window.currentZenTaskInfo) 
+    ? window.currentZenTaskInfo 
+    : ((typeof currentZenTaskInfo !== 'undefined') ? currentZenTaskInfo : null);
+
   if (!chosen || !chosen.task) {
-    const dailyTasks = (state.items.daily || []).map(t => ({ cat: 'daily', task: typeof t === 'object' ? t.task : t }));
-    const weeklyTasks = (state.items.weekly || []).map(t => ({ cat: 'weekly', task: typeof t === 'object' ? t.task : t }));
-    const todoTasks = (state.items.todo || []).map(t => ({ cat: 'todo', task: typeof t === 'object' ? t.task : t }));
-    const occasionallyTasks = (state.items.occasionally || []).map(t => ({ cat: 'occasionally', task: typeof t === 'object' ? t.task : t }));
+    const dailyTasks = (state && state.items && state.items.daily || []).map(t => ({ cat: 'daily', task: typeof t === 'object' ? t.task : t }));
+    const weeklyTasks = (state && state.items && state.items.weekly || []).map(t => ({ cat: 'weekly', task: typeof t === 'object' ? t.task : t }));
+    const todoTasks = (state && state.items && state.items.todo || []).map(t => ({ cat: 'todo', task: typeof t === 'object' ? t.task : t }));
+    const occasionallyTasks = (state && state.items && state.items.occasionally || []).map(t => ({ cat: 'occasionally', task: typeof t === 'object' ? t.task : t }));
     if (dailyTasks.length > 0) chosen = dailyTasks[0];
     else if (weeklyTasks.length > 0 || todoTasks.length > 0) chosen = weeklyTasks[0] || todoTasks[0];
     else if (occasionallyTasks.length > 0) chosen = occasionallyTasks[0];
+    
+    if (typeof window !== 'undefined') window.currentZenTaskInfo = chosen;
+    if (typeof globalThis !== 'undefined') globalThis.currentZenTaskInfo = chosen;
     currentZenTaskInfo = chosen;
   }
   
   if (!chosen) {
-    if (zenCatEl) zenCatEl.innerText = t('completed');
-    const endMsg = tr({ de: '🎉 Alle Aufgaben erledigt! Entspanne dich und genieße deine freie Zeit.', en: '🎉 All tasks completed! Relax and enjoy your free time.', es: '🎉 ¡Todas las tareas completadas! ¡Disfruta de tu tiempo libre!', el: '🎉 Όλες οι εργασίες ολοκληρώθηκαν! Χαλαρώστε και απολαύστε τον ελεύθερο χρόνο σας.', fr: '🎉 Toutes les tâches terminées ! Détends-toi et profite de ton temps libre.', it: '🎉 Tutte le attività completate! Rilassati e goditi il tuo tempo libero.' });
+    if (zenCatEl) zenCatEl.innerText = typeof t === 'function' ? t('completed') : 'Erledigt';
+    const endMsg = typeof tr === 'function' ? tr({ de: '🎉 Alle Aufgaben erledigt! Entspanne dich und genieße deine freie Zeit.', en: '🎉 All tasks completed! Relax and enjoy your free time.', es: '🎉 ¡Todas las tareas completadas! ¡Disfruta de tu tiempo libre!', el: '🎉 Όλες οι εργασίες ολοκληρώθηκαν! Χαλαρώστε και απολαύστε τον ελεύθερο χρόνο σας.', fr: '🎉 Toutes les tâches terminées ! Détends-toi et profite de ton temps libre.', it: '🎉 Tutte le attività completate! Rilassati e goditi il tuo tempo libero.' }) : '🎉 Alle Aufgaben erledigt!';
     zenTextEl.innerHTML = `<span class="text-emerald-400">${endMsg}</span>`;
-    renderZenSubtasks(null);
+    if (typeof renderZenSubtasks === 'function') renderZenSubtasks(null);
   } else {
-    const catName = t(chosen.cat); if (zenCatEl) zenCatEl.innerText = `${t('next_rec')} · ${catName}`;
+    const catName = typeof t === 'function' ? t(chosen.cat) : chosen.cat; 
+    const nextRec = typeof t === 'function' ? t('next_rec') : 'Nächste Empfehlung';
+    if (zenCatEl) zenCatEl.innerText = `${nextRec} · ${catName}`;
     zenTextEl.innerText = chosen.task;
-    renderZenSubtasks(chosen.task);
+    if (typeof renderZenSubtasks === 'function') renderZenSubtasks(chosen.task);
   }
-  updateTimerDisplay(); renderLucideIcons();
+  if (typeof updateTimerDisplay === 'function') updateTimerDisplay(); 
+  if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  else if (typeof window !== 'undefined' && typeof window.renderLucideIcons === 'function') window.renderLucideIcons();
 }
 
 function updateZenViewNextTask() {
@@ -1014,18 +1026,24 @@ function updateZenViewNextTask() {
   ['daily', 'todo', 'weekly', 'occasionally', 'termine'].forEach(cat => {
     (state?.items?.[cat] || []).filter(Boolean).forEach(t => {
       const taskText = typeof t === 'object' ? t.task : t;
-      if (!currentZenTaskInfo || currentZenTaskInfo.task !== taskText) {
+      const activeInfo = (typeof window !== 'undefined' && window.currentZenTaskInfo) || (typeof currentZenTaskInfo !== 'undefined' ? currentZenTaskInfo : null);
+      if (!activeInfo || activeInfo.task !== taskText) {
         allTasks.push({ cat, task: taskText });
       }
     });
   });
+  let nextTask = null;
   if (allTasks.length > 0) {
-    currentZenTaskInfo = allTasks[Math.floor(Math.random() * allTasks.length)];
-  } else {
-    currentZenTaskInfo = null;
+    nextTask = allTasks[Math.floor(Math.random() * allTasks.length)];
   }
+  if (typeof window !== 'undefined') window.currentZenTaskInfo = nextTask;
+  if (typeof globalThis !== 'undefined') globalThis.currentZenTaskInfo = nextTask;
+  currentZenTaskInfo = nextTask;
+
   updateZenView();
-  showToast(tr({ de: 'Nächste Fokus-Aufgabe geladen ⏭️', en: 'Next focus task loaded ⏭️', es: 'Siguiente tarea de enfoque cargada ⏭️', el: 'Φορτώθηκε η επόμενη εργασία εστίασης ⏭️', fr: 'Tâche de focus suivante chargée ⏭️', it: 'Prossima attività di focus caricata ⏭️' }));
+  if (typeof showToast === 'function') {
+    showToast(tr({ de: 'Nächste Fokus-Aufgabe geladen ⏭️', en: 'Next focus task loaded ⏭️', es: 'Siguiente tarea de enfoque cargada ⏭️', el: 'Φορτώθηκε η επόμενη εργασία εστίασης ⏭️', fr: 'Tâche de focus suivante chargée ⏭️', it: 'Prossima attività di focus caricata ⏭️' }));
+  }
 }
 
 function handleZenDistractionInput(event) {

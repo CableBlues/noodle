@@ -12,10 +12,15 @@ function getTaskStepsList(taskName) {
     return state.customSteps[taskName];
   }
   const deKey = (typeof getGermanStandardKey === 'function') ? getGermanStandardKey(taskName) : taskName;
-  const dbExists = typeof TASK_STEPS_DATABASE !== 'undefined' && TASK_STEPS_DATABASE[deKey];
-  let steps = dbExists ? TASK_STEPS_DATABASE[deKey][currentLang] : null;
+  const taskDb = (typeof window !== 'undefined' && window.TASK_STEPS_DATABASE) 
+    ? window.TASK_STEPS_DATABASE 
+    : ((typeof TASK_STEPS_DATABASE !== 'undefined') ? TASK_STEPS_DATABASE : null);
+  const dbExists = taskDb && taskDb[deKey];
+  let steps = dbExists ? taskDb[deKey][currentLang] : null;
   if (!steps || steps.length === 0) {
-    const templates = (typeof FALLBACK_STEPS !== 'undefined') ? FALLBACK_STEPS : null;
+    const templates = (typeof window !== 'undefined' && window.FALLBACK_STEPS) 
+      ? window.FALLBACK_STEPS 
+      : ((typeof FALLBACK_STEPS !== 'undefined') ? FALLBACK_STEPS : null);
     const template = templates ? (templates[currentLang] || templates['en']) : ["1. {task} vorbereiten", "2. Den ersten Minischritt ausführen", "3. Hauptteil erledigen", "4. Fertigstellen & abhaken!"];
     steps = template.map(step => step.replace('{task}', taskName));
   }
@@ -99,10 +104,15 @@ function loadDefaultStepSuggestions() {
   if (!targetTask) return;
   
   const deKey = (typeof getGermanStandardKey === 'function') ? getGermanStandardKey(targetTask) : targetTask;
-  const dbExists = typeof TASK_STEPS_DATABASE !== 'undefined' && TASK_STEPS_DATABASE[deKey];
-  let defaultList = dbExists ? TASK_STEPS_DATABASE[deKey][currentLang] : null;
+  const taskDb = (typeof window !== 'undefined' && window.TASK_STEPS_DATABASE) 
+    ? window.TASK_STEPS_DATABASE 
+    : ((typeof TASK_STEPS_DATABASE !== 'undefined') ? TASK_STEPS_DATABASE : null);
+  const dbExists = taskDb && taskDb[deKey];
+  let defaultList = dbExists ? taskDb[deKey][currentLang] : null;
   if (!defaultList || defaultList.length === 0) {
-    const templates = (typeof FALLBACK_STEPS !== 'undefined') ? FALLBACK_STEPS : null;
+    const templates = (typeof window !== 'undefined' && window.FALLBACK_STEPS) 
+      ? window.FALLBACK_STEPS 
+      : ((typeof FALLBACK_STEPS !== 'undefined') ? FALLBACK_STEPS : null);
     const template = templates ? (templates[currentLang] || templates['en']) : ["1. {task} vorbereiten", "2. Minischritt ausführen", "3. Hauptteil erledigen", "4. Fertigstellen"];
     defaultList = template.map(step => step.replace('{task}', targetTask));
   }

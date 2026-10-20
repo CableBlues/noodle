@@ -10,7 +10,9 @@
  * - Fokus- & Zen-Modus-Orchestrierung sowie mehrsprachige UI-Lokalisierung
  */
 
-let currentZenTaskInfo = null;
+var currentZenTaskInfo = (typeof window !== 'undefined' && window.currentZenTaskInfo) || null;
+if (typeof window !== 'undefined') window.currentZenTaskInfo = currentZenTaskInfo;
+if (typeof globalThis !== 'undefined') globalThis.currentZenTaskInfo = currentZenTaskInfo;
 let lastSelectedSound = 'birds';
 let draggedColumnId = null;
 let selectedCalendarDate = null; 
@@ -871,38 +873,49 @@ async function clearAllApplicationData() {
 }
 window.clearAllApplicationData = clearAllApplicationData;
 
-document.addEventListener('DOMContentLoaded', () => {
+function initAppCoreOnDomReady() {
   const initTheme = (typeof currentTheme !== 'undefined' ? currentTheme : (typeof window !== 'undefined' ? window.currentTheme : null)) || (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerTheme')) || 'aurora';
-  const initLang = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' ? window.currentLang : null)) || (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerLanguage')) || 'en';
-  setTheme(initTheme, true); setLanguage(initLang, true);
+  const initLang = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' ? window.currentLang : null)) || (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerLanguage')) || 'de';
+  const safeCall = (fnName, ...args) => {
+    if (typeof window !== 'undefined' && typeof window[fnName] === 'function') return window[fnName](...args);
+  };
+  if (typeof setTheme === 'function') setTheme(initTheme, true); else safeCall('setTheme', initTheme, true);
+  if (typeof setLanguage === 'function') setLanguage(initLang, true); else safeCall('setLanguage', initLang, true);
+
   const iconEl = document.getElementById('zen-btn-icon'); const textEl = document.getElementById('minimal-mode-btn-text');
-  const zenView = document.getElementById('zen-chill-view');
-  const mainEl = document.querySelector('main');
-  if (isMinimalist) {
+  const zenView = document.getElementById('zen-chill-view'); const mainEl = document.querySelector('main');
+  const isMin = typeof isMinimalist !== 'undefined' ? isMinimalist : (typeof window !== 'undefined' && window.isMinimalist);
+  const _t = typeof t === 'function' ? t : (typeof window !== 'undefined' && typeof window.t === 'function' ? window.t : (k => k));
+
+  if (isMin) {
     document.body.classList.add('minimalist'); if (iconEl) iconEl.setAttribute('data-lucide', 'eye-off');
-    if (textEl) textEl.innerText = t('standard_mode');
+    if (textEl) textEl.innerText = _t('standard_mode');
     if (zenView) { zenView.classList.remove('hidden'); zenView.classList.add('flex'); }
     if (mainEl) { mainEl.classList.add('hidden'); }
-    if (typeof updateZenView === 'function') updateZenView();
-    else if (typeof window !== 'undefined' && typeof window.updateZenView === 'function') window.updateZenView();
+    if (typeof updateZenView === 'function') updateZenView(); else safeCall('updateZenView');
   } else {
     document.body.classList.remove('minimalist'); if (iconEl) iconEl.setAttribute('data-lucide', 'eye');
-    if (textEl) textEl.innerText = t('minimal_mode');
+    if (textEl) textEl.innerText = _t('minimal_mode');
     if (zenView) { zenView.classList.add('hidden'); zenView.classList.remove('flex'); }
     if (mainEl) { mainEl.classList.remove('hidden'); }
   }
-  if (typeof updateDateAndStreak === 'function') updateDateAndStreak();
-  if (typeof updateWorkspaceSwitchUI === 'function') updateWorkspaceSwitchUI();
-  if (typeof renderApp === 'function') renderApp();
-  if (typeof updateZenView === 'function') updateZenView();
-  else if (typeof window !== 'undefined' && typeof window.updateZenView === 'function') window.updateZenView();
-  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
-  if (typeof suggestBoostActivity === 'function') suggestBoostActivity();
-  if (typeof suggestInspirationQuote === 'function') suggestInspirationQuote();
-  if (typeof checkAndGenerateAutomaticReports === 'function') checkAndGenerateAutomaticReports();
+
+  if (typeof updateDateAndStreak === 'function') updateDateAndStreak(); else safeCall('updateDateAndStreak');
+  if (typeof updateWorkspaceSwitchUI === 'function') updateWorkspaceSwitchUI(); else safeCall('updateWorkspaceSwitchUI');
+  if (typeof renderApp === 'function') renderApp(); else safeCall('renderApp');
+  if (typeof updateZenView === 'function') updateZenView(); else safeCall('updateZenView');
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect(); else safeCall('populateHelperTaskSelect');
+  if (typeof suggestBoostActivity === 'function') suggestBoostActivity(); else safeCall('suggestBoostActivity');
+  if (typeof suggestInspirationQuote === 'function') suggestInspirationQuote(); else safeCall('suggestInspirationQuote');
+  if (typeof checkAndGenerateAutomaticReports === 'function') checkAndGenerateAutomaticReports(); else safeCall('checkAndGenerateAutomaticReports');
+
   const btnHeader = document.getElementById('timer-toggle-btn'); if (btnHeader) { btnHeader.innerHTML = '<i data-lucide="play" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>'; }
-  renderLucideIcons();
-});
+  if (typeof renderLucideIcons === 'function') renderLucideIcons(); else safeCall('renderLucideIcons');
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', initAppCoreOnDomReady);
+}
 
 // Gruppiert alle Farbschemata nach visueller Verwandtschaft, damit der automatische
 // Gruppiert alle Farbschemata nach visueller Verwandtschaft
@@ -1055,7 +1068,10 @@ function setLanguage(lang, skipRender = false) {
   if ((!TRANSLATIONS[lang] || Object.keys(TRANSLATIONS[lang]).length < 20) && typeof loadLanguage === 'function') {
     loadLanguage(lang).then(() => {
       translateUI();
-      if (!skipRender && typeof renderApp === 'function') renderApp();
+      if (!skipRender) {
+        if (typeof renderApp === 'function') renderApp();
+        else if (typeof window !== 'undefined' && typeof window.renderApp === 'function') window.renderApp();
+      }
     }).catch(() => {});
   }
   const oldLang = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' ? window.currentLang : 'en')) || 'en';
@@ -1068,12 +1084,20 @@ function setLanguage(lang, skipRender = false) {
   translateUI();
   const textEl = document.getElementById('minimal-mode-btn-text');
   const isMin = typeof isMinimalist !== 'undefined' ? isMinimalist : (typeof window !== 'undefined' && window.isMinimalist);
-  if (textEl) { textEl.innerText = isMin ? t('standard_mode') : t('minimal_mode'); }
+  const _t = typeof t === 'function' ? t : (typeof window !== 'undefined' && typeof window.t === 'function' ? window.t : (k => k));
+  if (textEl) { textEl.innerText = isMin ? _t('standard_mode') : _t('minimal_mode'); }
   if (!skipRender) {
     if (typeof updateDateAndStreak === 'function') updateDateAndStreak();
+    else if (typeof window !== 'undefined' && typeof window.updateDateAndStreak === 'function') window.updateDateAndStreak();
+
     if (typeof renderApp === 'function') renderApp();
+    else if (typeof window !== 'undefined' && typeof window.renderApp === 'function') window.renderApp();
+
     if (typeof updateZenView === 'function') updateZenView();
+    else if (typeof window !== 'undefined' && typeof window.updateZenView === 'function') window.updateZenView();
+
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
+    else if (typeof window !== 'undefined' && typeof window.populateHelperTaskSelect === 'function') window.populateHelperTaskSelect();
   }
   // 1. Localize News Language independently from Region
   if (typeof RadioNewsEngine !== 'undefined') {
@@ -1328,12 +1352,13 @@ function toggleMinimalist() {
 }
 
 function zenCompleteCurrentTask() {
-  if (!currentZenTaskInfo || !currentZenTaskInfo.cat || !currentZenTaskInfo.task) {
+  const zenInfo = (typeof window !== 'undefined' && window.currentZenTaskInfo) || (typeof currentZenTaskInfo !== 'undefined' ? currentZenTaskInfo : null);
+  if (!zenInfo || !zenInfo.cat || !zenInfo.task) {
     showToast(tr({ de: 'Keine aktive Aufgabe ausgewählt', en: 'No active task selected', es: 'Ninguna tarea activa seleccionada', el: 'Δεν επιλέχθηκε ενεργή εργασία', fr: 'Aucune tâche active sélectionnée', it: 'Nessuna attività attiva selezionata' }));
     return;
   }
-  const cat = currentZenTaskInfo.cat;
-  const taskTextToFind = currentZenTaskInfo.task;
+  const cat = zenInfo.cat;
+  const taskTextToFind = zenInfo.task;
   if (!state.items[cat]) return;
   const index = state.items[cat].findIndex(item => {
     const tStr = typeof item === 'object' ? item.task : item;

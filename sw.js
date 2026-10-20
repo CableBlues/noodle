@@ -8,7 +8,7 @@
  * verlässlich auch ohne bestehende Internetverbindung.
  */
 
-const CACHE_NAME = 'noodle-cache-v629247395';
+const CACHE_NAME = 'noodle-cache-v684687708';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

@@ -16,7 +16,7 @@ if (typeof window !== 'undefined') {
 }
 
 // 6-LANGUAGE DEFAULT LIST DICTIONARY (Full Rich Standard Routine)
-const DEFAULT_TASKS_BY_LANG = {
+var DEFAULT_TASKS_BY_LANG = {
   de: {
     daily: ['Medis', 'Zähne morgens', 'Gesicht waschen', 'Bett machen', 'Durchlüften', '5min aufräumen', 'Zähne abends'],
     weekly: ['Aufräumen', 'Geschirr spülen', 'Wäsche waschen', 'Wäsche aufhängen', 'Waschbecken & Spiegelschrank', 'Fliesen & Badewanne', 'Klo putzen', 'Staub wischen', 'Staubsaugen', 'Boden wischen', 'Müll wegbringen', 'Pfandflaschen wegbringen'],
@@ -48,16 +48,20 @@ const DEFAULT_TASKS_BY_LANG = {
     occasionally: ['Fare la doccia', 'Preparare un pasto', 'Riordinare', 'Tagliare i capelli', 'Lavare i capelli', 'Tagliare le unghie', 'Cambiare le lenzuola', 'Pulire fornelli e frigorifero', 'Pulire porte e finestre']
   }
 };
+if (typeof window !== 'undefined') window.DEFAULT_TASKS_BY_LANG = DEFAULT_TASKS_BY_LANG;
+if (typeof globalThis !== 'undefined') globalThis.DEFAULT_TASKS_BY_LANG = DEFAULT_TASKS_BY_LANG;
 
 // HUMANE STEP-BY-STEP TRANSLATED PRESET DATABASE (Mapped internally to German key standard)
-const TASK_STEPS_DATABASE = Object.assign({},
-  typeof TASK_STEPS_DATABASE_PART1 !== 'undefined' ? TASK_STEPS_DATABASE_PART1 : {},
-  typeof TASK_STEPS_DATABASE_PART2 !== 'undefined' ? TASK_STEPS_DATABASE_PART2 : {},
-  typeof TASK_STEPS_DATABASE_PART3 !== 'undefined' ? TASK_STEPS_DATABASE_PART3 : {}
+var TASK_STEPS_DATABASE = Object.assign({},
+  (typeof window !== 'undefined' && window.TASK_STEPS_DATABASE_PART1) || (typeof TASK_STEPS_DATABASE_PART1 !== 'undefined' ? TASK_STEPS_DATABASE_PART1 : {}),
+  (typeof window !== 'undefined' && window.TASK_STEPS_DATABASE_PART2) || (typeof TASK_STEPS_DATABASE_PART2 !== 'undefined' ? TASK_STEPS_DATABASE_PART2 : {}),
+  (typeof window !== 'undefined' && window.TASK_STEPS_DATABASE_PART3) || (typeof TASK_STEPS_DATABASE_PART3 !== 'undefined' ? TASK_STEPS_DATABASE_PART3 : {})
 );
+if (typeof window !== 'undefined') window.TASK_STEPS_DATABASE = TASK_STEPS_DATABASE;
+if (typeof globalThis !== 'undefined') globalThis.TASK_STEPS_DATABASE = TASK_STEPS_DATABASE;
 
 
-const FALLBACK_STEPS = {
+var FALLBACK_STEPS = {
   en: [
     '1. Gather all materials and items needed for "{task}"',
     '2. Reduce distractions and silence your phone',
@@ -101,6 +105,8 @@ const FALLBACK_STEPS = {
     '5. Riordina lo spazio di lavoro, riponi il materiale e spunta l\'attività! 🎉'
   ]
 };
+if (typeof window !== 'undefined') window.FALLBACK_STEPS = FALLBACK_STEPS;
+if (typeof globalThis !== 'undefined') globalThis.FALLBACK_STEPS = FALLBACK_STEPS;
 
 const CATEGORIES = [
   ['weekly', 'calendar-days'],
@@ -536,6 +542,7 @@ if (typeof window !== 'undefined') {
   window.STORE_KEY = STORE_KEY;
   window.HISTORY_KEY = HISTORY_KEY;
   window.DEFAULT_TASKS_BY_LANG = DEFAULT_TASKS_BY_LANG;
+  window.TASK_STEPS_DATABASE = TASK_STEPS_DATABASE;
   window.TASK_ICONS = TASK_ICONS;
   window.CATEGORIES = CATEGORIES;
   window.FALLBACK_STEPS = FALLBACK_STEPS;
@@ -546,6 +553,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.STORE_KEY = STORE_KEY;
   globalThis.HISTORY_KEY = HISTORY_KEY;
   globalThis.DEFAULT_TASKS_BY_LANG = DEFAULT_TASKS_BY_LANG;
+  globalThis.TASK_STEPS_DATABASE = TASK_STEPS_DATABASE;
   globalThis.TASK_ICONS = TASK_ICONS;
   globalThis.CATEGORIES = CATEGORIES;
   globalThis.FALLBACK_STEPS = FALLBACK_STEPS;
