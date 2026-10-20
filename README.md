@@ -59,15 +59,18 @@ Statt große Audiodateien zu streamen, synthetisiert Noodle seine Fokus-Klangwel
 ### Kern- & Infrastrukturschicht
 | Datei | Verantwortung |
 | :--- | :--- |
-| `index.html` | Semantisches Anwendungs-Markup, Header-Bar, Board-Container, Tool-Panels und Modals |
-| `config.js` | Zentrale Laufzeitkonfiguration (Supabase-Endpunkte, Sync-Intervalle, Feature-Flags) |
+| `index.html` | Semantisches Anwendungs-Markup, CSP-Metatag, Event-Delegation (`data-action`), PWA-Update-Banner |
+| `main.js` | Moderner ES-Modul Einstiegspunkt & temporäre Window-Kompatibilitätsschicht |
+| `config.js` | Zentrale Laufzeitkonfiguration mit Developer-Guard für sichere Overrides |
+| `crypto-sync.js` | Zero-Knowledge Ende-zu-Ende-Verschlüsselung (WebCrypto AES-GCM 256-Bit & PBKDF2) |
 | `storage.js` | Ausfallsichere Speicherschicht (`AppStorage`) mit `localStorage` und `IndexedDB`-Spiegelung |
 | `state.js` | Zentrales State-Management, Schema-Migration (`migrateState`), Undo/Redo-Stack, Workspaces |
 | `auth-engine.js` | Authentifizierungs-Client (`FlowAuth`), Session-Verwaltung und Cloud-Token-Handling |
-| `sync-engine.js` | Multi-Device-Synchronisation, Konfliktauflösung, Offline-Queue und QR-State-Codec |
-| `collab-engine.js` | Echtzeit-Team-Kollaboration, Broadcast-Channels, WebRTC-Voice und Live-DJ-Sessions |
-| `utils.js` / `utils-2.js` | XSS-Sanitization (`escapeHtml`, `sanitizeUrl`), Datumslogik, Kalender-Engine, UI-Helfer |
-| `sw.js` | Service Worker für Offline-First-Caching (Stale-While-Revalidate für App-Shell-Assets) |
+| `sync-engine.js` | Multi-Device-Synchronisation, Delta-Sync mit Fallback, E2E-Container, Tombstone-LWW |
+| `collab-engine.js` | Echtzeit-Team-Kollaboration, private Supabase-Channels, kryptografische Raumcodes (≥10 Zeichen) |
+| `utils.js` / `utils-2.js` | XSS-Sanitization (`escapeHtml`, `sanitizeUrl`), Event-Delegation-Dispatcher (`dispatchAction`), Kalender |
+| `app-backup.js` | Autarkes Backup-, JSON-Export- und Restore-System mit Daten-Migration |
+| `sw.js` | Automatisch generierter Service Worker mit SHA-256 Inhalts-Cache-Versionierung |
 
 ### Audio-, Radio- & Timer-Engine
 | Datei | Verantwortung |
@@ -84,7 +87,7 @@ Statt große Audiodateien zu streamen, synthetisiert Noodle seine Fokus-Klangwel
 ### Fachmodule & Produktivitäts-Werkzeuge
 | Datei | Verantwortung |
 | :--- | :--- |
-| `app-core.js` | Haupt-Orchestrierung, Theme-Engine (12 Farbschemata), Zen-Modus, globale Tastaturkürzel |
+| `app-core.js` | Haupt-Orchestrierung (< 2000 Zeilen), Theme-Engine (12 Farbschemata), Zen-Modus, Tastaturkürzel |
 | `app-tasks.js` | Kanban-Board-Rendering, Drag-and-Drop, Inline-Editor, Aufgaben-Kontextmenü & Kalender |
 | `app-interaction-mode.js` | Fenster-Manager (Minimieren, Maximieren, Taskleiste, Hover-/Pin-Koordination) |
 | `app-multitasking-hub.js` | Desktop Snap-Layouts, Mobile Split-View und Dynamic-Island-Steuerung |
@@ -103,7 +106,7 @@ Statt große Audiodateien zu streamen, synthetisiert Noodle seine Fokus-Klangwel
 | `app-regulation.js` | Atem-Pacer (Physiologischer Seufzer, 4-7-8, Box-Breathing), Grounding & Bilaterale Stimulation |
 | `app-health.js` | Vorsorge-Checklisten, Medikamenten-Tracker und Blutdruck-Protokoll |
 | `app-reports.js` | Produktivitäts-Statistiken, Aktivitäts-Heatmap und Bildexport (`html2canvas`) |
-| `app-weather-news.js` | Lokales Wetter-Widget (Open-Meteo API) mit Multi-Stadt-Vergleich |
+| `app-weather-news.js` | Lokales Wetter-Widget (Open-Meteo API) mit Multi-Stadt-Vergleich & XSS-sicheren Nodes |
 | `app-dice.js` | 3D-Glückswürfel zur spielerischen Auswahl offener Aufgaben |
 | `app-routine-presets.js` | Vorlagen-Manager für Tages- und Wochenroutinen |
 | `app-installation-hub.js` | Plattformabhängiger PWA-Installationsassistent (Windows, macOS, Linux, Android, iOS) |
@@ -114,32 +117,20 @@ Statt große Audiodateien zu streamen, synthetisiert Noodle seine Fokus-Klangwel
 | `onboarding.js` | 4-Schritte-Onboarding-Dialog für neue Nutzer |
 | `monetization.js` | Vorbereitete Schnittstelle für optionale Pro-Erweiterungen (standardmäßig deaktiviert) |
 
-### Daten- & Stylesheet-Schicht
-| Datei | Verantwortung |
-| :--- | :--- |
-| `data-tasks*.js` | Mehrsprachige Standardaufgaben und Schritt-für-Schritt-Zerlegungen (`DE`, `EN`, `ES`, `FR`, `IT`, `EL`) |
-| `data-translations*.js` | Vollständige UI-Lokalisierungswörterbücher für alle 6 unterstützten Sprachen |
-| `data-extras.js` | Kuratierte Pausen-Impulse und Motivations-Texte |
-| `styles-base-1.css` / `-2.css` | CSS Custom Properties, 12 Farbthemen, Typografie und Grundlayout |
-| `styles-dock.css` | Positionierung und Layout der Header-Tools und Popover-Panels |
-| `styles-hover.css` | Interaktionszustände, Fokus-Ringe, Newsticker-Steuerung und Slider-Stile |
-| `styles-animations.css` | GPU-beschleunigte Keyframe-Animationen, Übergänge und Composite-Layer-Optimierung |
-| `styles-mobile.css` | Responsive Anpassungen für Smartphones und Tablets (`max-width: 768px`) |
-
 ---
 
 ## Installation & Entwicklung
 
-Da Noodle Studio im Entwicklungsmodus ohne Build-Schritt arbeitet, genügt ein beliebiger lokaler HTTP-Server (oder das direkte Öffnen der `index.html`):
+Noodle Studio nutzt im Entwicklungsmodus native **ES-Module (`main.js`)**:
 
 ```bash
-# Abhängigkeiten für Test-Runner und Produktions-Bundler installieren
+# Abhängigkeiten für Tailwind-CLI, esbuild und Test-Runner installieren
 npm install
 
-# Unit- und Integrationstests ausführen (Vitest + Happy-DOM)
+# Vollständige Test-Suite ausführen (Vitest + Happy-DOM, 39 Suiten, 263 Tests)
 npm test
 
-# Produktions-Build im Verzeichnis dist/ erzeugen
+# Vorkompiliertes CSS generieren, JS mit esbuild minifizieren & dist/ erstellen
 npm run build
 ```
 
@@ -147,18 +138,23 @@ npm run build
 
 ## Build-Pipeline & Deployment
 
-Das Skript [`build.js`](file:///c:/Users/Admin/Documents/GitHub/noodle/build.js) führt folgende Schritte deterministisch aus:
-1. **Musik-Manifest-Generierung**: Scannt lokale Audiodateien in `music/` und erstellt `music/manifest.json`.
-2. **Asset-Synchronisation**: Kopiert alle statischen Ressourcen (`vendor/`, `fonts/`, Icons, Stylesheets) nach `dist/`.
-3. **JavaScript-Bundling**: Konkateniert alle Anwendungsmodule in exakt definierter Abhängigkeitsreihenfolge zu `dist/app.bundle.js`.
-4. **HTML- & Service-Worker-Optimierung**: Ersetzt die einzelnen `<script>`-Tags in `dist/index.html` durch `app.bundle.js` und aktualisiert die Offline-Cache-Liste in `dist/sw.js`.
-
-Das resultierende `dist/`-Verzeichnis ist vollständig statisch und kann auf jedem Webserver, CDN oder GitHub Pages bereitgestellt werden.
+Das Build-Skript [`build.js`](file:///c:/Users/Admin/Documents/GitHub/noodle/build.js) optimiert das gesamte Projekt für Hosting & Edge-CDNs:
+1. **Tailwind CSS Vorkompilierung**: Erzeugt `styles-tailwind.css` (224 KB minifiziert) ohne Runtime-Overhead im Browser.
+2. **esbuild Bundling**: Bündelt alle 61 Module in exakter Reihenfolge und minifiziert zu `dist/app.bundle.js` (2.727 KB, -517 KB Ersparnis).
+3. **i18n Lazy-Loading**: Sprachpakete (`de`, `en`, `fr`, `es`, `it`, `el`) werden on-demand als JSON nach `dist/locales/` ausgelagert.
+4. **Service Worker Automatisierung**: [`sw-generator.js`](file:///c:/Users/Admin/Documents/GitHub/noodle/sw-generator.js) parst alle Referenzen und kalkuliert deterministische SHA-256 Cache-Hashes für `sw.js` und `dist/sw.js`.
+5. **PWA Update Banner**: Erkennt Service-Worker-Updates automatisch und bietet dem Nutzer ein unterbrechungsfreies "Aktualisieren" an.
 
 ---
 
-## Qualitätssicherung & Tests
+## Supabase Einrichtung & RLS-Sicherheit
 
-Die Test-Suite im Verzeichnis [`tests/`](file:///c:/Users/Admin/Documents/GitHub/noodle/tests) prüft:
-- **Zustandsmigration & Persistenz**: Saubere Initialisierung, Workspace-Wechsel und Rückwärtskompatibilität.
-- **Radio- & Nachrichten-Engine** ([`tests/news-and-feature-hints.test.js`](file:///c:/Users/Admin/Documents/GitHub/noodle/tests/news-and-feature-hints.test.js)): Unabhängige Sprach-/Regions-/Medienfilterung, Ein-/Ausschalten des Newstickers, Anleitungs-Rotation sowie automatisches Multi-Stream-Failover aller 27 Radiosender.
+Für den optionalen Cloud-Sync und Collab-Betrieb liegt das vorbereitete SQL-Skript [`supabase-policies.sql`](file:///c:/Users/Admin/Documents/GitHub/noodle/supabase-policies.sql) bereit:
+
+1. Öffne das **Supabase Dashboard** deines Projekts.
+2. Navigiere zum **SQL Editor** und führe den Inhalt von [`supabase-policies.sql`](file:///c:/Users/Admin/Documents/GitHub/noodle/supabase-policies.sql) aus.
+3. Das Skript richtet Folgendes ein:
+   - Tabelle `public.flow_sync` mit Spalten `user_id`, `data (jsonb)` und `updated_at`.
+   - Aktiviert **Row Level Security (RLS)**.
+   - Richtet strikte Richtlinien (`SELECT`, `INSERT`, `UPDATE`, `DELETE`) ein, sodass Nutzer **nur ihre eigenen Datensätze** (`auth.uid() = user_id`) abrufen und modifizieren können.
+
