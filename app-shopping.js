@@ -67,12 +67,12 @@ const SHOPPING_DEPARTMENTS = {
 };
 
 const QUICK_ESSENTIALS = {
-  en: ['🥛 Milk', '🥚 Eggs', '🍞 Bread', '🧈 Butter', '🍎 Apples', '🍌 Bananas', '☕ Coffee', '🍝 Pasta', '🧅 Onions', '🧀 Cheese'],
-  de: ['🥛 Milch', '🥚 Eier', '🍞 Brot', '🧈 Butter', '🍎 Äpfel', '🍌 Bananen', '☕ Kaffee', '🍝 Nudeln', '🧅 Zwiebeln', '🧀 Käse'],
-  fr: ['🥛 Lait', '🥚 Œufs', '🍞 Pain', '🧈 Beurre', '🍎 Pommes', '🍌 Bananes', '☕ Café', '🍝 Pâtes', '🧅 Oignons', '🧀 Fromage'],
-  it: ['🥛 Latte', '🥚 Uova', '🍞 Pane', '🧈 Burro', '🍎 Mele', '🍌 Banane', '☕ Caffè', '🍝 Pasta', '🧅 Cipolle', '🧀 Formaggio'],
-  es: ['🥛 Leche', '🥚 Huevos', '🍞 Pan', '🧈 Mantequilla', '🍎 Manzanas', '🍌 Plátanos', '☕ Café', '🍝 Pasta', '🧅 Cebollas', '🧀 Queso'],
-  el: ['🥛 Γάλα', '🥚 Αυγά', '🍞 Ψωμί', '🧈 Βούτυρο', '🍎 Μήλα', '🍌 Μπανάνες', '☕ Καφές', '🍝 Ζυμαρικά', '🧅 Κρεμμύδια', '🧀 Τυρί']
+  en: ['Milk', 'Eggs', 'Bread', 'Butter', 'Apples', 'Bananas', 'Coffee', 'Pasta', 'Onions', 'Cheese'],
+  de: ['Milch', 'Eier', 'Brot', 'Butter', 'Äpfel', 'Bananen', 'Kaffee', 'Nudeln', 'Zwiebeln', 'Käse'],
+  fr: ['Lait', 'Œufs', 'Pain', 'Beurre', 'Pommes', 'Bananes', 'Café', 'Pâtes', 'Oignons', 'Fromage'],
+  it: ['Latte', 'Uova', 'Pane', 'Burro', 'Mele', 'Banane', 'Caffè', 'Pasta', 'Cipolle', 'Formaggio'],
+  es: ['Leche', 'Huevos', 'Pan', 'Mantequilla', 'Manzanas', 'Plátanos', 'Café', 'Pasta', 'Cebollas', 'Queso'],
+  el: ['Γάλα', 'Αυγά', 'Ψωμί', 'Βούτυρο', 'Μήλα', 'Μπανάνες', 'Καφές', 'Ζυμαρικά', 'Κρεμμύδια', 'Τυρί']
 };
 
 // -------------------------------------------------------------
@@ -428,13 +428,20 @@ function handleDeleteShoppingItem(index) {
   if (!state.shoppingList || !state.shoppingList[index]) return;
   saveHistory();
   const removed = state.shoppingList.splice(index, 1)[0];
-  const shopId = (removed && typeof removed === 'object' && removed.id) 
-    ? removed.id 
-    : ((typeof getStableId === 'function') ? getStableId(removed, 'shop') : null);
-  if (shopId && typeof trackTombstone === 'function') {
-    trackTombstone(shopId);
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(removed, 'shoppingList', 'private');
+  } else {
+    const shopId = (removed && typeof removed === 'object' && removed.id) 
+      ? removed.id 
+      : ((typeof getStableId === 'function') ? getStableId(removed, 'shop') : null);
+    if (shopId && typeof trackTombstone === 'function') {
+      trackTombstone(shopId);
+    }
   }
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
 
   renderApp();
   renderSupermarketModal();
@@ -452,6 +459,9 @@ function handleToggleShoppingItem(index) {
   if (!state.shoppingList || !state.shoppingList[index]) return;
   saveHistory();
   const item = state.shoppingList.splice(index, 1)[0];
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(item, 'shoppingList', 'private');
+  }
   if (!Array.isArray(state.shoppingHistory)) state.shoppingHistory = [];
   
   const todayStr = new Date().toLocaleDateString(currentLang === 'de' ? 'de-DE' : 'en-US', { month: '2-digit', day: '2-digit' });
@@ -465,6 +475,9 @@ function handleToggleShoppingItem(index) {
   });
 
   saveState();
+  if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+    cloudSyncEngine.triggerImmediatePush();
+  }
   if (typeof playProceduralSound === 'function') playProceduralSound(3);
   renderApp();
   renderSupermarketModal();
@@ -483,6 +496,9 @@ function restoreShoppingHistoryItem(historyIndex) {
   if (!state.shoppingHistory || !state.shoppingHistory[historyIndex]) return;
   saveHistory();
   const hItem = state.shoppingHistory.splice(historyIndex, 1)[0];
+  if (typeof trackItemDeletion === 'function') {
+    trackItemDeletion(hItem, 'shoppingHistory', 'private');
+  }
   handleAddShoppingItem(hItem.name, { qty: hItem.qty, unit: hItem.unit, dept: hItem.dept, dealInfo: hItem.dealInfo });
 }
 
@@ -512,8 +528,14 @@ async function clearShoppingList() {
 
   if (confirmed) {
     saveHistory();
+    if (typeof trackCategoryClear === 'function') {
+      trackCategoryClear('shoppingList', 'private', state.shoppingList);
+    }
     state.shoppingList = [];
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     renderApp();
     renderSupermarketModal();
   }
@@ -539,8 +561,14 @@ async function clearShoppingHistory() {
 
   if (confirmed) {
     saveHistory();
+    if (typeof trackCategoryClear === 'function') {
+      trackCategoryClear('shoppingHistory', 'private', state.shoppingHistory);
+    }
     state.shoppingHistory = [];
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     renderApp();
     renderSupermarketModal();
   }
@@ -732,19 +760,19 @@ function updateShoppingListPopup(skipLucide = false) {
       radarBannerContainer.classList.remove('hidden');
       const topMatch = matches[0];
       radarBannerContainer.innerHTML = `
-        <div class="p-2.5 rounded-2xl bg-gradient-to-r from-emerald-950/70 via-teal-950/60 to-cyan-950/70 border border-emerald-400/50 shadow-[0_0_15px_rgba(16,185,129,0.2)] space-y-1.5 animate-pulse-slow">
+        <div class="p-2.5 rounded-2xl bg-[#111118]/90 border border-white/10 space-y-1.5">
           <div class="flex items-center justify-between">
-            <div class="flex items-center gap-1.5 text-xs font-bold text-emerald-300">
-              <span class="animate-bounce">⚡</span>
-              <span>Spar-Radar: ${matches.length} ${matches.length === 1 ? 'Angebot' : 'Angebote'} gefunden!</span>
+            <div class="flex items-center gap-1.5 text-xs font-semibold text-emerald-300">
+              <i data-lucide="tag" class="w-3.5 h-3.5 text-emerald-400"></i>
+              <span>Spar-Radar: ${matches.length} ${matches.length === 1 ? 'Angebot' : 'Angebote'} gefunden</span>
             </div>
-            <button onclick="switchShoppingTab('deals')" class="text-[10px] text-emerald-400 hover:text-emerald-200 font-bold underline cursor-pointer">
+            <button onclick="switchShoppingTab('deals')" class="text-[10px] text-gray-400 hover:text-white font-medium underline cursor-pointer">
               Alle Deals ➔
             </button>
           </div>
           <div class="text-[11px] text-gray-300 flex items-center justify-between gap-1">
-            <span class="truncate">💡 <strong>${escapeHtml(topMatch.item.name)}</strong>: ${topMatch.deal.name} bei <strong>${topMatch.storeInfo.name}</strong> für <strong>${topMatch.deal.price.toFixed(2)} €</strong> (-${topMatch.discountPct}%)</span>
-            <button onclick="applyDealToShoppingItem(${topMatch.itemIndex}, '${topMatch.deal.id}')" class="px-2 py-0.5 bg-emerald-400 hover:bg-emerald-300 text-black font-bold text-[9px] rounded-lg shrink-0 cursor-pointer shadow">
+            <span class="truncate"><strong>${escapeHtml(topMatch.item.name)}</strong>: ${topMatch.deal.name} bei <strong>${topMatch.storeInfo.name}</strong> für <strong>${topMatch.deal.price.toFixed(2)} €</strong> (-${topMatch.discountPct}%)</span>
+            <button onclick="applyDealToShoppingItem(${topMatch.itemIndex}, '${topMatch.deal.id}')" class="px-2 py-0.5 bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-[9px] rounded-lg shrink-0 cursor-pointer transition">
               Anpassen
             </button>
           </div>
@@ -774,7 +802,7 @@ function updateShoppingListPopup(skipLucide = false) {
       
       html += `
         <div class="space-y-1 pt-1">
-          <div class="flex items-center gap-1.5 text-[10px] font-bold text-[#c084fc] uppercase tracking-wider px-1">
+          <div class="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider px-1">
             <i data-lucide="${deptInfo.icon}" class="w-3 h-3 text-${deptInfo.color}-400"></i>
             <span>${deptTitle}</span>
           </div>
@@ -788,13 +816,13 @@ function updateShoppingListPopup(skipLucide = false) {
         let inlineDealBadge = '';
         if (item.dealInfo) {
           const sName = item.dealInfo.storeName || item.dealInfo.store;
-          inlineDealBadge = `<span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-bold ml-1 shrink-0">🏷️ ${sName} ${item.dealInfo.price.toFixed(2)}€</span>`;
+          inlineDealBadge = `<span class="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-semibold ml-1 shrink-0">${sName} ${item.dealInfo.price.toFixed(2)}€</span>`;
         } else {
           const autoDeal = findBestDealForShoppingItem(item.name);
           if (autoDeal) {
             inlineDealBadge = `
-              <button onclick="applyDealToShoppingItem(${originalIdx}, '${autoDeal.deal.id}')" class="px-1.5 py-0.2 rounded bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-[9px] font-bold ml-1 shrink-0 cursor-pointer" title="Deal bei ${autoDeal.storeInfo.name} für ${autoDeal.deal.price.toFixed(2)} € (-${autoDeal.discountPct}%) anwenden">
-                🏷️ ${autoDeal.storeInfo.name} ${autoDeal.deal.price.toFixed(2)}€ (-${autoDeal.discountPct}%)
+              <button onclick="applyDealToShoppingItem(${originalIdx}, '${autoDeal.deal.id}')" class="px-1.5 py-0.2 rounded bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/30 text-[9px] font-semibold ml-1 shrink-0 cursor-pointer" title="Deal bei ${autoDeal.storeInfo.name} für ${autoDeal.deal.price.toFixed(2)} € (-${autoDeal.discountPct}%) anwenden">
+                ${autoDeal.storeInfo.name} ${autoDeal.deal.price.toFixed(2)}€ (-${autoDeal.discountPct}%)
               </button>
             `;
           }
@@ -802,16 +830,16 @@ function updateShoppingListPopup(skipLucide = false) {
 
         html += `
           <div class="flex items-center justify-between gap-1.5 p-1.5 bg-black/40 hover:bg-white/[0.04] border border-white/5 rounded-xl text-gray-300 transition group">
-            <input type="checkbox" onclick="handleToggleShoppingItem(${originalIdx})" class="w-4 h-4 rounded bg-black border-white/10 text-[#00ff66] accent-[#00ff66] cursor-pointer shrink-0" />
+            <input type="checkbox" onclick="handleToggleShoppingItem(${originalIdx})" class="w-4 h-4 rounded bg-black border-white/10 text-emerald-500 accent-emerald-500 cursor-pointer shrink-0" />
             <div class="flex-1 min-w-0 flex items-center gap-1 pl-1">
-              <span class="truncate font-medium text-xs text-[#00f2ff]" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
+              <span class="truncate font-medium text-xs text-white" title="${safeEscape(item.name)}">${qtyLabel}${safeEscape(item.name)}</span>
               ${inlineDealBadge}
             </div>
             
             <div class="flex items-center gap-1 opacity-80 group-hover:opacity-100 shrink-0">
-              <button onclick="adjustShoppingItemQty(${originalIdx}, -1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-[#c0caf5] text-[10px] flex items-center justify-center cursor-pointer font-bold">-</button>
-              <span class="text-[10px] font-mono text-[#00f2ff] px-0.5">${item.qty || 1}</span>
-              <button onclick="adjustShoppingItemQty(${originalIdx}, 1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-[#c0caf5] text-[10px] flex items-center justify-center cursor-pointer font-bold">+</button>
+              <button onclick="adjustShoppingItemQty(${originalIdx}, -1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-[10px] flex items-center justify-center cursor-pointer font-bold">-</button>
+              <span class="text-[10px] font-mono text-zinc-300 px-0.5">${item.qty || 1}</span>
+              <button onclick="adjustShoppingItemQty(${originalIdx}, 1)" class="w-4 h-4 rounded bg-white/5 hover:bg-white/10 text-gray-300 text-[10px] flex items-center justify-center cursor-pointer font-bold">+</button>
               <button onclick="handleDeleteShoppingItem(${originalIdx})" aria-label="Artikel löschen" class="p-1 text-gray-500 hover:text-red-400 rounded transition cursor-pointer ml-1">
                 <i data-lucide="trash-2" class="w-3 h-3"></i>
               </button>
@@ -848,7 +876,7 @@ function updateShoppingListPopup(skipLucide = false) {
           <span class="truncate max-w-[140px] line-through text-gray-400 font-medium">${safeEscape(hItem.name)}</span>
           <div class="flex items-center gap-1.5">
             <span class="font-mono text-[8px] text-gray-500">${hItem.date || ''}</span>
-            <button onclick="restoreShoppingHistoryItem(${realIdx})" aria-label="Wieder auf Liste setzen" class="text-[#00ff66] hover:text-[#00ff66]/80 text-[9px] font-bold cursor-pointer" title="Wieder auf Liste setzen">＋</button>
+            <button onclick="restoreShoppingHistoryItem(${realIdx})" aria-label="Wieder auf Liste setzen" class="text-emerald-400 hover:text-emerald-300 text-[10px] font-bold cursor-pointer" title="Wieder auf Liste setzen">＋</button>
           </div>
         `;
         historyList.appendChild(hDiv);
@@ -954,11 +982,11 @@ function renderSupermarketModal() {
     `;
 
     grouped[deptKey].forEach(({ item, originalIdx }) => {
-      const qtyLabel = (item.qty && item.qty > 1) ? `<span class="px-2 py-0.5 rounded-lg bg-[#00f2ff]/20 text-[#00f2ff] font-bold text-xs">${item.qty}${item.unit ? ' ' + item.unit : 'x'}</span>` : '';
+      const qtyLabel = (item.qty && item.qty > 1) ? `<span class="px-2 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 font-bold text-xs">${item.qty}${item.unit ? ' ' + item.unit : 'x'}</span>` : '';
       
       let dealTag = '';
       if (item.dealInfo) {
-        dealTag = `<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">🏷️ ${item.dealInfo.storeName || item.dealInfo.store} ${item.dealInfo.price.toFixed(2)}€</span>`;
+        dealTag = `<span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-semibold">${item.dealInfo.storeName || item.dealInfo.store} ${item.dealInfo.price.toFixed(2)}€</span>`;
       }
 
       html += `
@@ -968,7 +996,7 @@ function renderSupermarketModal() {
               <i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400 opacity-0 group-hover:opacity-100 transition"></i>
             </div>
             <div class="flex flex-col min-w-0">
-              <span class="font-bold text-sm text-[#00f2ff] truncate">${escapeHtml(item.name)}</span>
+              <span class="font-semibold text-sm text-white truncate">${escapeHtml(item.name)}</span>
               ${dealTag}
             </div>
           </div>
@@ -990,7 +1018,7 @@ function renderSupermarketModal() {
     html += `
       <div class="pt-3 border-t border-white/10">
         <div class="flex items-center justify-between text-xs text-gray-400 font-bold mb-2">
-          <span class="flex items-center gap-1.5 text-[#00ff66]">
+          <span class="flex items-center gap-1.5 text-emerald-400">
             <i data-lucide="check-circle-2" class="w-4 h-4"></i>
             <span>${tr({ en: 'In Cart (Bought)', de: 'Bereits im Einkaufswagen', fr: 'Dans le panier', it: 'Nel carrello', es: 'En el carrito', el: 'Στο καλάθι' })} (${hist.length})</span>
           </span>
@@ -1002,9 +1030,9 @@ function renderSupermarketModal() {
     hist.slice().reverse().forEach((hItem, hIdx) => {
       const realIdx = hist.length - 1 - hIdx;
       html += `
-        <div class="flex items-center justify-between p-2.5 bg-white/[0.02] border border-white/5 rounded-xl text-xs text-[#00ff66]">
-          <span class="line-through truncate text-[#00ff66]">${hItem.name}</span>
-          <button onclick="restoreShoppingHistoryItem(${realIdx})" class="px-2 py-0.5 bg-white/5 hover:bg-[#00ff66]/20 text-[#00ff66] border border-[#00ff66]/30 rounded text-[10px] font-semibold cursor-pointer">
+        <div class="flex items-center justify-between p-2.5 bg-white/[0.02] border border-white/5 rounded-xl text-xs text-gray-400">
+          <span class="line-through truncate text-gray-500">${hItem.name}</span>
+          <button onclick="restoreShoppingHistoryItem(${realIdx})" class="px-2 py-0.5 bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 rounded text-[10px] font-semibold cursor-pointer">
             ↩ ${tr({ en: 'Undo', de: 'Zurück', fr: 'Annuler', it: 'Ripristina', es: 'Deshacer', el: 'Αναίρεση' })}
           </button>
         </div>
@@ -1041,9 +1069,9 @@ function clearCompletedShopItems() {
   if (typeof renderSupermarketModal === 'function') renderSupermarketModal();
   if (completed.length > 0) {
     showToast(typeof tr === 'function' ? tr({
-      de: `${completed.length} erledigte Artikel gelöscht! 🗑️`,
-      en: `${completed.length} completed items cleared! 🗑️`
-    }) : `${completed.length} Artikel gelöscht! 🗑️`);
+      de: `${completed.length} erledigte Artikel gelöscht.`,
+      en: `${completed.length} completed items cleared.`
+    }) : `${completed.length} Artikel gelöscht.`);
   }
 }
 

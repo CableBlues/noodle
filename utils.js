@@ -59,7 +59,7 @@ if (typeof globalThis !== 'undefined') {
 
 // Zentraler Panel-Manager (für Dropdowns & Werkzeug-Panels)
 const PanelManager = {
-  panels: ['feedback', 'report', 'settings', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'pause-dropdown', 'collab-chat'],
+  panels: ['feedback', 'report', 'settings', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'pause-dropdown', 'collab-chat', 'labs-menu', 'humor-lab', 'social', 'header-tools'],
   open(name) {
     this.panels.forEach(p => {
       const el = document.getElementById(`panel-${p}`);
@@ -90,6 +90,14 @@ const PanelManager = {
   }
 };
 window.PanelManager = PanelManager;
+
+function togglePanel(name, event) {
+  if (typeof window.NoodleInteractionMode !== 'undefined' && window.NoodleInteractionMode.togglePanel) {
+    return window.NoodleInteractionMode.togglePanel(name, event);
+  }
+  return PanelManager.toggle(name);
+}
+window.togglePanel = togglePanel;
 
 // Zentraler Modal-Manager (für Dialoge & Overlays)
 const ModalManager = {
@@ -211,12 +219,16 @@ window.confirmModal = showConfirmDialog;
 if (typeof document !== 'undefined') {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      PanelManager.closeAll();
-      ModalManager.closeAll();
-      const wsEl = document.getElementById('dropdown-header-workspace');
-      if (wsEl) wsEl.classList.add('hidden');
-      const colsEl = document.getElementById('dropdown-manage-columns');
-      if (colsEl) colsEl.classList.add('hidden');
+      if (typeof window.closeAllPanelsAndModals === 'function') {
+        window.closeAllPanelsAndModals();
+      } else {
+        PanelManager.closeAll();
+        ModalManager.closeAll();
+        const wsEl = document.getElementById('dropdown-header-workspace');
+        if (wsEl) wsEl.classList.add('hidden');
+        const colsEl = document.getElementById('dropdown-manage-columns');
+        if (colsEl) colsEl.classList.add('hidden');
+      }
     }
   });
 }
@@ -392,18 +404,22 @@ function showToast(msg, options = {}) {
   
   if (options && options.undo) {
     const undoText = (typeof tr === 'function') 
-      ? tr({ de: 'Rückgängig ↩️', en: 'Undo ↩️', fr: 'Annuler ↩️', it: 'Annulla ↩️', es: 'Deshacer ↩️', el: 'Αναίρεση ↩️' })
-      : 'Rückgängig ↩️';
+      ? tr({ de: 'Rückgängig', en: 'Undo', fr: 'Annuler', it: 'Annulla', es: 'Deshacer', el: 'Αναίρεση' })
+      : 'Rückgängig';
     const safeMsg = escapeHtml(msg);
     const safeUndo = escapeHtml(undoText);
     card.innerHTML = `
       <div class="flex items-center justify-between gap-3">
         <span>${safeMsg}</span>
         <button id="toast-undo-btn" class="px-2.5 py-1 bg-white/20 hover:bg-white/30 text-white font-bold text-xs rounded-xl transition cursor-pointer flex items-center gap-1 border border-white/25 shadow-sm shrink-0">
+          <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
           <span>${safeUndo}</span>
         </button>
       </div>
     `;
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      try { lucide.createIcons({ root: card }); } catch(e){}
+    }
     const undoBtn = card.querySelector('#toast-undo-btn');
     if (undoBtn) {
       undoBtn.onclick = (e) => {
@@ -866,7 +882,7 @@ function showPraise() {
   const todayISO = new Date().toISOString().split('T')[0];
   
   // Zähle die heute erledigten Aufgaben
-  const completedToday = (state.done || []).filter(item => item.date === todayISO).length;
+  const completedToday = (state && state.done ? state.done : []).filter(item => item.date === todayISO).length;
   
   // Bestimme die passende Stufe des Lobes
   let activeTier = 'tier1';
@@ -879,6 +895,7 @@ function showPraise() {
   }
   
   const list = (TIERED_PRAISES[lang] || TIERED_PRAISES['de'])[activeTier];
+  if (!list || list.length === 0) return;
   
   // Hole einen zufälligen Spruch aus der gewählten Stufe, ohne den zuletzt gezeigten sofort zu wiederholen
   let praiseIdx = Math.floor(Math.random() * list.length);
@@ -893,17 +910,13 @@ function showPraise() {
   const overlay = document.getElementById('praise-overlay');
   const card = document.getElementById('praise-card');
   if (card && overlay) {
-    card.innerText = msg; overlay.classList.remove('hidden');
-    card.style.animation = 'scaleBounce 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-    
-    // VERBESSERUNG: Bleibt nun 5000ms statt 2800ms auf dem Bildschirm
-    setTimeout(() => overlay.classList.add('hidden'), 5000); 
+    card.innerText = msg;
+    overlay.classList.remove('hidden');
+    card.style.animation = 'fadeIn 0.2s ease-out forwards';
+    if (window._praiseTimeout) clearTimeout(window._praiseTimeout);
+    window._praiseTimeout = setTimeout(() => overlay.classList.add('hidden'), 1600); 
   }
-
-  if (typeof speakWithProfile === 'function') {
-    const randomProfileIdx = Math.floor(Math.random() * 12);
-    speakWithProfile(msg, randomProfileIdx);
-  }
+  // Sprachausgabe (speakWithProfile) dauerhaft entfernt für ruhige Produktivität
 }
 
 // Haptisches Feedback für Touch- & Mobilgeräte
@@ -1126,63 +1139,63 @@ function triggerLogoReloadFlow(element) {
 
 const BREAK_CONFIGS = {
   breath: {
-    title: 'Atemtakt-Übung 🧘‍♀️',
+    title: 'Atemtakt-Übung',
     subtitle: '4-4-4 Atmen zur Tiefenentspannung',
     desc: 'Atme 4 Sekunden tief ein, halte 4 Sekunden inne, und atme 4 Sekunden sanft aus. Finde deine innere Ruhe.',
     duration: 120,
     icon: 'wind'
   },
   box: {
-    title: 'Box-Breathing (Atembox) 📦',
+    title: 'Box-Breathing (Atembox)',
     subtitle: 'Strukturierte Vierfach-Atmung',
     desc: 'Bewährte Methode von Profis und Astronauten: Einatmen, Halten, Ausatmen, Halten – jeweils im 4-Sekunden-Takt.',
     duration: 180,
     icon: 'box'
   },
   anchor: {
-    title: 'Erdungs-Anker ⚓',
+    title: 'Erdungs-Anker',
     subtitle: '5-4-3-2-1 Achtsamkeits-Übung',
     desc: 'Nimm bewusst deine Umgebung wahr: 5 Dinge sehen, 4 spüren, 3 hören, 2 riechen, 1 schmecken.',
     duration: 180,
     icon: 'anchor'
   },
   eyes: {
-    title: 'Augen-Entspannung (Palming) 👀',
+    title: 'Augen-Entspannung (Palming)',
     subtitle: 'Wärme für gestresste Bildschirm-Augen',
     desc: 'Reibe deine Hände aneinander, bis sie warm sind, und lege sie sanft und ohne Druck auf deine geschlossenen Augen.',
     duration: 60,
     icon: 'eye'
   },
   stretch: {
-    title: 'Schneller Ganzkörper-Stretch 🧘',
+    title: 'Ganzkörper-Stretch',
     subtitle: 'Muskeln lockern & Energie tanken',
     desc: 'Strecke die Arme weit nach oben, kreise die Schultern und bewege deinen Nacken ganz behutsam von Seite zu Seite.',
     duration: 60,
     icon: 'dumbbell'
   },
   squeeze: {
-    title: 'Nacken- & Schulter-Squeeze 🏋️',
+    title: 'Nacken- & Schulter-Entlastung',
     subtitle: 'Anspannen & bewusst loslassen',
     desc: 'Ziehe deine Schultern für 5 Sekunden fest zu den Ohren hoch – und lass sie beim Ausatmen schlagartig und schwer sinken.',
     duration: 60,
     icon: 'shield'
   },
   tea: {
-    title: '5-Minuten Teepause ☕',
+    title: '5-Minuten Teepause',
     subtitle: 'Bewusste Genuss-Auszeit',
     desc: 'Hole dir ein Glas Wasser oder Tee. Schlürfe langsam und spüre ganz bewusst die Wärme und den Geschmack.',
     duration: 300,
     icon: 'coffee'
   },
   nature: {
-    title: 'Wald-Auszeit (Vogelstimmen) 🐦',
+    title: 'Wald-Auszeit',
     subtitle: 'Akustischer Rückzug ins Grün',
     desc: 'Schließe die Augen, lausche den inneren Naturklängen und stelle dir vor, du sitzt auf einer ruhigen Lichtung im Wald.',
     duration: 180,
     icon: 'trees'
   },
   nap: {
-    title: 'Power Nap (20 Min) 😴',
+    title: 'Power Nap (20 Min)',
     subtitle: 'Kurzschlaf zur Regeneration',
     desc: 'Schließe die Augen, entspanne deinen Körper und gleite für 20 Minuten in einen erholsamen Kurzschlaf.',
     duration: 1200,
@@ -1365,10 +1378,49 @@ function closeMobileToolsSheet() {
   if (sheet) sheet.classList.add('hidden');
 }
 
+function toggleUmamiOptOut() {
+  try {
+    const isCurrentlyOptedOut = localStorage.getItem('umami.disabled') === '1' || localStorage.getItem('noodle_analytics_optout') === 'true';
+    if (isCurrentlyOptedOut) {
+      localStorage.removeItem('umami.disabled');
+      localStorage.removeItem('noodle_analytics_optout');
+    } else {
+      localStorage.setItem('umami.disabled', '1');
+      localStorage.setItem('noodle_analytics_optout', 'true');
+      if (typeof umami !== 'undefined') {
+        try { umami.disabled = true; } catch (e) {}
+      }
+    }
+  } catch (e) {
+    console.warn('Fehler beim Ändern des Umami Opt-Out Status:', e);
+  }
+  updateUmamiOptOutUI();
+}
+
+function updateUmamiOptOutUI() {
+  try {
+    const isOptedOut = localStorage.getItem('umami.disabled') === '1' || localStorage.getItem('noodle_analytics_optout') === 'true';
+    const buttons = document.querySelectorAll('.umami-optout-btn');
+    buttons.forEach(btn => {
+      if (isOptedOut) {
+        btn.innerHTML = '<span class="flex items-center gap-1.5"><i data-lucide="eye-off" class="w-3.5 h-3.5 text-rose-400"></i><span>Analyse ist deaktiviert (Opt-Out aktiv)</span></span>';
+        btn.className = 'umami-optout-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-rose-500/15 text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 transition cursor-pointer';
+      } else {
+        btn.innerHTML = '<span class="flex items-center gap-1.5"><i data-lucide="eye" class="w-3.5 h-3.5 text-emerald-400"></i><span>Analyse ist aktiv (anonym, cookie-frei) – Klick für Opt-Out</span></span>';
+        btn.className = 'umami-optout-btn px-3 py-1.5 rounded-xl text-[11px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition cursor-pointer';
+      }
+    });
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
+    }
+  } catch (e) {}
+}
+
 function openPrivacyModal() {
   const modal = document.getElementById('privacy-legal-modal');
   if (modal) {
     modal.classList.remove('hidden');
+    updateUmamiOptOutUI();
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 }
@@ -1384,6 +1436,12 @@ if (typeof window !== 'undefined') {
   window.ModalManager = ModalManager;
   window.openPrivacyModal = openPrivacyModal;
   window.closePrivacyModal = closePrivacyModal;
+  window.toggleUmamiOptOut = toggleUmamiOptOut;
+  window.updateUmamiOptOutUI = updateUmamiOptOutUI;
+  window.openMobileMenuDrawer = openMobileMenuDrawer;
+  window.closeMobileMenuDrawer = closeMobileMenuDrawer;
+  window.openMobileToolsSheet = openMobileToolsSheet;
+  window.closeMobileToolsSheet = closeMobileToolsSheet;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.escapeHtml = escapeHtml;
@@ -1391,6 +1449,225 @@ if (typeof globalThis !== 'undefined') {
   globalThis.ModalManager = ModalManager;
   globalThis.openPrivacyModal = openPrivacyModal;
   globalThis.closePrivacyModal = closePrivacyModal;
+  globalThis.toggleUmamiOptOut = toggleUmamiOptOut;
+  globalThis.updateUmamiOptOutUI = updateUmamiOptOutUI;
+  globalThis.openMobileMenuDrawer = openMobileMenuDrawer;
+  globalThis.closeMobileMenuDrawer = closeMobileMenuDrawer;
+  globalThis.openMobileToolsSheet = openMobileToolsSheet;
+  globalThis.closeMobileToolsSheet = closeMobileToolsSheet;
 }
+
+// Initialisiere Opt-Out UI Status beim Start
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateUmamiOptOutUI);
+  } else {
+    setTimeout(updateUmamiOptOutUI, 100);
+  }
+}
+
+// ============================================================================
+// NOODLE STUDIO EVENT DELEGATION DISPATCHER (Phase 5 - Architektur B)
+// Ersetzt Inline-onclick durch data-action="..." und data-action-args="..."
+// ============================================================================
+function dispatchAction(actionName, args = [], event = null, targetElement = null) {
+  if (!actionName) return false;
+
+  // 1. Built-in Action Registry für Standardaktionen
+  switch (actionName) {
+    case 'togglePanel':
+      const tp = (typeof window !== 'undefined' && window.togglePanel) || (typeof togglePanel === 'function' ? togglePanel : null);
+      if (tp) {
+        tp(args[0], event);
+        return true;
+      }
+      break;
+    case 'toggleMinimalist':
+      if (typeof toggleMinimalist === 'function') {
+        toggleMinimalist();
+        return true;
+      }
+      break;
+    case 'startTimer':
+      if (typeof startTimer === 'function') {
+        startTimer();
+        return true;
+      }
+      break;
+    case 'pauseTimer':
+      if (typeof pauseTimer === 'function') {
+        pauseTimer();
+        return true;
+      }
+      break;
+    case 'stopTimer':
+      if (typeof stopTimer === 'function') {
+        stopTimer();
+        return true;
+      }
+      break;
+    case 'playAmbientSound':
+      if (typeof playAmbientSound === 'function') {
+        playAmbientSound(args[0]);
+        return true;
+      }
+      break;
+    case 'openAudioStudioMode':
+      if (typeof openAudioStudioMode === 'function') {
+        openAudioStudioMode(args[0]);
+        return true;
+      }
+      break;
+    case 'toggleMusicPlayback':
+      if (typeof toggleMusicPlayback === 'function') {
+        toggleMusicPlayback();
+        return true;
+      }
+      break;
+    case 'playNextMusicTrack':
+      if (typeof playNextMusicTrack === 'function') {
+        playNextMusicTrack();
+        return true;
+      }
+      break;
+    case 'toggleMusicShuffle':
+      if (typeof toggleMusicShuffle === 'function') {
+        toggleMusicShuffle();
+        return true;
+      }
+      break;
+    case 'openMobileMenuDrawer':
+      if (typeof openMobileMenuDrawer === 'function') {
+        openMobileMenuDrawer();
+        return true;
+      }
+      break;
+    case 'closeMobileMenuDrawer':
+      if (typeof closeMobileMenuDrawer === 'function') {
+        closeMobileMenuDrawer();
+        return true;
+      }
+      break;
+    case 'openMobileToolsSheet':
+      if (typeof openMobileToolsSheet === 'function') {
+        openMobileToolsSheet();
+        return true;
+      }
+      break;
+    case 'closeMobileToolsSheet':
+      if (typeof closeMobileToolsSheet === 'function') {
+        closeMobileToolsSheet();
+        return true;
+      }
+      break;
+    case 'switchShoppingTab':
+      if (typeof switchShoppingTab === 'function') {
+        switchShoppingTab(args[0]);
+        return true;
+      }
+      break;
+    case 'handleAddShoppingItem':
+      if (typeof handleAddShoppingItem === 'function') {
+        handleAddShoppingItem(args[0]);
+        return true;
+      }
+      break;
+    case 'clearShoppingList':
+      if (typeof clearShoppingList === 'function') {
+        clearShoppingList();
+        return true;
+      }
+      break;
+    case 'copyShoppingListToClipboard':
+      if (typeof copyShoppingListToClipboard === 'function') {
+        copyShoppingListToClipboard();
+        return true;
+      }
+      break;
+    case 'openSupermarketModal':
+      if (typeof openSupermarketModal === 'function') {
+        openSupermarketModal();
+        return true;
+      }
+      break;
+    case 'openCleaningGuideModal':
+      if (typeof openCleaningGuideModal === 'function') {
+        openCleaningGuideModal();
+        return true;
+      }
+      break;
+    case 'openSettingsModal':
+      if (typeof openSettingsModal === 'function') {
+        openSettingsModal(args[0]);
+        return true;
+      }
+      break;
+    case 'stopPropagation':
+      if (event && typeof event.stopPropagation === 'function') {
+        event.stopPropagation();
+        return true;
+      }
+      break;
+  }
+
+  // 2. Namensaufgelöster Lookup (Objekt-Pfade wie RadioNewsEngine.toggleNewsTickerEnabled)
+  const parts = actionName.split('.');
+  let currentObj = (typeof window !== 'undefined' ? window : globalThis);
+  for (let i = 0; i < parts.length; i++) {
+    if (!currentObj) break;
+    currentObj = currentObj[parts[i]];
+  }
+
+  if (typeof currentObj === 'function') {
+    const parentObj = parts.length > 1 ? (function() {
+      let p = (typeof window !== 'undefined' ? window : globalThis);
+      for (let j = 0; j < parts.length - 1; j++) p = p[parts[j]];
+      return p;
+    })() : null;
+
+    currentObj.apply(parentObj || window, args.length > 0 ? args : (event ? [event] : []));
+    return true;
+  }
+
+  return false;
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('click', (event) => {
+    const actionEl = event.target.closest('[data-action]');
+    if (!actionEl) return;
+
+    // Optional: stopPropagation konfigurierbar via Attribut
+    if (actionEl.getAttribute('data-stop-propagation') === 'true') {
+      event.stopPropagation();
+    }
+
+    const actionsStr = actionEl.getAttribute('data-action') || '';
+    const argsStr = actionEl.getAttribute('data-action-args');
+    let parsedArgs = [];
+    if (argsStr) {
+      try {
+        parsedArgs = JSON.parse(argsStr);
+        if (!Array.isArray(parsedArgs)) parsedArgs = [parsedArgs];
+      } catch (e) {
+        parsedArgs = argsStr.split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
+      }
+    }
+
+    // Unterstützt verkettete Aktionen (Semikolon-separiert)
+    const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
+    actionList.forEach(actionItem => {
+      dispatchAction(actionItem, parsedArgs, event, actionEl);
+    });
+  });
+}
+
+if (typeof window !== 'undefined') {
+  window.dispatchAction = dispatchAction;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.dispatchAction = dispatchAction;
+}
+
 
 

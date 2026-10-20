@@ -115,18 +115,48 @@ function handleSoundsMainClick() { openAudioStudioMode('ambient'); }
 function handleMusicMainClick() { openAudioStudioMode('music'); }
 
 function openAudioStudioMode(mode) {
-  if (typeof togglePanel !== 'function') return;
-  const panel = document.getElementById('panel-audio');
-  const isHidden = !panel || panel.classList.contains('hidden');
-  
+  if (typeof mode !== 'string') mode = 'ambient';
+  if (mode === 'beats') mode = 'ambient';
   if (typeof window !== 'undefined') window._lastActiveAudioTab = mode;
   try { localStorage.setItem('flow_last_audio_tab', mode); } catch(e) {}
 
-  if (isHidden) {
-    togglePanel('audio');
+  const panel = document.getElementById('panel-audio');
+  if (!panel) return;
+
+  const isCurrentlyOpen = !panel.classList.contains('hidden') && panel.style.display !== 'none';
+  const currentTab = panel.getAttribute('data-active-tab') || 'ambient';
+
+  // Wenn dasselbe Tab bereits aktiv und offen ist -> Umschalten / Schließen
+  if (isCurrentlyOpen && currentTab === mode) {
+    if (typeof window.NoodleInteractionMode !== 'undefined' && typeof window.NoodleInteractionMode.closeWindow === 'function') {
+      window.NoodleInteractionMode.closeWindow('audio');
+    } else if (typeof togglePanel === 'function') {
+      togglePanel('audio', true);
+    } else {
+      panel.classList.add('hidden');
+      panel.style.removeProperty('display');
+    }
+    return;
   }
+
+  // Panel öffnen / sichtbar machen
+  if (typeof window.NoodleInteractionMode !== 'undefined' && typeof window.NoodleInteractionMode.openWindow === 'function') {
+    window.NoodleInteractionMode.openWindow('audio');
+  } else if (typeof togglePanel === 'function') {
+    togglePanel('audio');
+  } else {
+    panel.classList.remove('hidden');
+    panel.style.removeProperty('display');
+  }
+
+  // Auf gewünschten Tab umschalten & initialisieren
   if (typeof switchAudioTab === 'function') {
     switchAudioTab(mode);
+  }
+
+  // Vordergrund & Fokus sicherstellen
+  if (typeof window.NoodleInteractionMode !== 'undefined' && typeof window.NoodleInteractionMode.bringWindowToFront === 'function') {
+    window.NoodleInteractionMode.bringWindowToFront('audio');
   }
 }
 window.openAudioStudioMode = openAudioStudioMode;
@@ -248,32 +278,18 @@ window.switchDailyTab = switchDailyTab;
 
 // Performance: MutationObserver komplett entfernt, da redundant und Hauptursache für UI-Verzögerungen.
 
-let activeDancingSpecialButton = 'whatnow'; let currentPremiumDanceIndex = 0;
-const premiumDances = ['premium-glow-btn', 'animate-premium-heartbeat', 'animate-premium-orbit', 'animate-premium-float', 'animate-premium-shimmer'];
-
 function rotatePremiumDance() {
-  const activeBtn = activeDancingSpecialButton === 'whatnow' ? document.getElementById('btn-whatnow-dance') : document.getElementById('btn-focus-mode');
-  const inactiveBtn = activeDancingSpecialButton === 'whatnow' ? document.getElementById('btn-focus-mode') : document.getElementById('btn-whatnow-dance');
-  if (inactiveBtn) { premiumDances.forEach(c => inactiveBtn.classList.remove(c)); inactiveBtn.classList.add('bg-purple-500/10', 'border-purple-500/30'); }
-  if (activeBtn) {
-    premiumDances.forEach(c => activeBtn.classList.remove(c)); activeBtn.classList.remove('bg-purple-500/10', 'border-purple-500/30');
-    currentPremiumDanceIndex = (currentPremiumDanceIndex + 1) % premiumDances.length; activeBtn.classList.add(premiumDances[currentPremiumDanceIndex]);
-  }
+  // Neutralized for calm dark design system
 }
 
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
+// Globaler Tastatur- & Shortcut-Handler
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' || e.code === 'Escape') {
     if (document.activeElement && typeof document.activeElement.blur === 'function') {
-      document.activeElement.blur();
+      try { document.activeElement.blur(); } catch(err) {}
     }
     e.preventDefault();
     closeAllPanelsAndModals();
-    // Timer mit Esc zurücksetzen
-    if (typeof resetTimer === 'function') {
-      resetTimer();
-    } else if (typeof stopTimer === 'function') {
-      stopTimer();
-    }
     return;
   }
 
@@ -424,10 +440,28 @@ function closeAllPanelsAndModals() {
     taskMenuCloseTimer = null;
   }
 
-  // 2. Modal close helpers
+  // 2. Close all floating desktop tool windows (Shopping, Cooking, Radio, Audio/DJ, News, Alarm, Daily, Impulse, etc.)
+  if (typeof window !== 'undefined' && window.NoodleInteractionMode && typeof window.NoodleInteractionMode.closeAllWindows === 'function') {
+    try { window.NoodleInteractionMode.closeAllWindows(); } catch(e) {}
+  }
+  if (typeof closeAllToolWindows === 'function') {
+    try { closeAllToolWindows(); } catch(e) {}
+  }
+  if (typeof closeAllWindows === 'function') {
+    try { closeAllWindows(); } catch(e) {}
+  }
+  document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window').forEach(box => {
+    box.classList.add('hidden');
+    box.style.removeProperty('display');
+  });
+
+  // 3. Modal close helpers
   if (typeof closeHelperModal === 'function') closeHelperModal();
+  if (typeof closeCleaningGuideModal === 'function') closeCleaningGuideModal();
   if (typeof closeSportModal === 'function') closeSportModal();
   if (typeof closeSafeSpaceModal === 'function') closeSafeSpaceModal();
+  if (typeof closeClarityModal === 'function') closeClarityModal();
+  if (typeof closeRegulationModal === 'function') closeRegulationModal();
   if (typeof closeCustomItemModal === 'function') closeCustomItemModal();
   if (typeof closePrivacyModal === 'function') closePrivacyModal();
   if (typeof closeArchiveModal === 'function') closeArchiveModal();
@@ -437,6 +471,14 @@ function closeAllPanelsAndModals() {
   if (typeof closeRouletteModal === 'function') closeRouletteModal();
   if (typeof closeReportDashboard === 'function') closeReportDashboard();
   if (typeof closeSettingsModal === 'function') closeSettingsModal();
+  if (typeof closeInstallModal === 'function') closeInstallModal();
+  if (typeof closeUndoHistoryModal === 'function') closeUndoHistoryModal();
+  if (typeof closePostponeTerminModal === 'function') closePostponeTerminModal();
+  if (typeof closeTextImportModal === 'function') closeTextImportModal();
+  if (typeof closeReportExportModal === 'function') closeReportExportModal();
+  if (typeof closeSampleManagerModal === 'function') closeSampleManagerModal();
+  if (typeof closeSupermarketModal === 'function') closeSupermarketModal();
+  if (typeof closeFeierabendModal === 'function') closeFeierabendModal();
   if (typeof closeCommandPalette === 'function') closeCommandPalette();
   if (typeof closeKeyboardShortcuts === 'function') closeKeyboardShortcuts();
   if (typeof closeP2PSyncModal === 'function') closeP2PSyncModal();
@@ -446,36 +488,73 @@ function closeAllPanelsAndModals() {
   if (typeof closeBreakModal === 'function') closeBreakModal();
   if (typeof closeStepsModal === 'function') closeStepsModal();
   if (typeof closeNoteModal === 'function') closeNoteModal();
+  if (typeof closeNoteDetailModal === 'function') closeNoteDetailModal();
   if (typeof closeBrainstormModal === 'function') closeBrainstormModal();
+  if (typeof closeLearningHubModal === 'function') closeLearningHubModal();
+  if (typeof closeNoteScannerModal === 'function') closeNoteScannerModal();
   if (typeof toggleTerminForm === 'function') toggleTerminForm(false);
   if (typeof closeTaskOptionsMenu === 'function') closeTaskOptionsMenu();
+  if (typeof closeTemplateBuilderModal === 'function') closeTemplateBuilderModal();
   if (typeof hideSoundHoverSlider === 'function') hideSoundHoverSlider();
 
-  // 3. Close all specific and generic modal elements
+  // 4. Close all specific and generic modal elements
   const modalIds = [
+    'modal-template-builder',
     'brainstorm-modal', 'clarity-modal', 'sample-manager-modal', 'supermarket-modal',
     'feierabend-celebration-modal', 'privacy-legal-modal', 'note-detail-modal',
     'helper-safespace-modal', 'helper-pick-modal', 'helper-sport-modal',
-    'helper-break-modal', 'helper-steps-modal', 'modal-p2p-sync',
-    'modal-regulation',
+    'helper-break-modal', 'helper-steps-modal', 'helper-cleaning-modal', 'modal-p2p-sync',
+    'modal-regulation', 'note-scanner-modal', 'modal-learning-hub',
     'modal-report-dashboard', 'modal-settings', 'modal-command-palette',
     'modal-keyboard-shortcuts', 'text-import-modal', 'report-export-modal',
     'mobile-menu-drawer', 'mobile-tools-sheet', 'modal-mobile-quick-menu',
-    'modal-custom-item', 'modal-dice', 'modal-roulette', 'modal-archive'
+    'modal-custom-item', 'modal-dice', 'modal-roulette', 'modal-archive',
+    'modal-app-install', 'modal-undo-history', 'modal-postpone-termin',
+    'app-confirm-modal', 'confirm-dialog-modal'
   ];
   modalIds.forEach(id => {
     const el = document.getElementById(id);
-    if (el) el.classList.add('hidden');
+    if (el) {
+      el.classList.add('hidden');
+      el.style.display = '';
+    }
   });
-  document.querySelectorAll('.modal, [id$="-modal"], [id*="modal-"], [id*="-modal"]').forEach(el => {
+  document.querySelectorAll('.modal, [id$="-modal"], [id*="modal-"], [id*="-modal"], .app-modal').forEach(el => {
     el.classList.add('hidden');
+    el.style.display = '';
   });
 
-  // 4. Close all dock popover panels, dropdowns, context menus, and hover popovers
-  const allPanels = document.querySelectorAll('.dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], #task-context-dropdown, #header-sound-volume-popover, .context-menu');
-  allPanels.forEach(p => p.classList.add('hidden'));
+  // 5. Close all subheader and header dropdowns, tools hub and popovers
+  const subheaderDropdowns = [
+    'dropdown-header-workspace', 'dropdown-manage-tables', 'dropdown-manage-columns',
+    'popover-add-list', 'floating-add-list-container', 'panel-header-tools',
+    'header-sound-volume-popover', 'weather-search-results', 'cmd-palette-results',
+    'panel-search', 'panel-settings-dropdown', 'panel-calendar-dropdown',
+    'panel-weather', 'panel-pause-dropdown', 'panel-timer-presets', 'panel-feedback',
+    'panel-report', 'panel-labs-menu', 'panel-news'
+  ];
+  subheaderDropdowns.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.classList.add('hidden');
+      el.style.display = '';
+      el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+    }
+  });
 
-  // 5. Reset active state on mac dock and clear pinned panel state
+  // 6. Close all dock popover panels, dropdowns, context menus, and hover popovers
+  const allPanels = document.querySelectorAll('.dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], [id$="-popover"], #task-context-dropdown, #header-sound-volume-popover, .context-menu');
+  allPanels.forEach(p => {
+    p.classList.add('hidden');
+    p.style.display = '';
+    p.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+  });
+
+  // 7. PanelManager & ModalManager Fallback
+  if (typeof PanelManager !== 'undefined' && typeof PanelManager.closeAll === 'function') PanelManager.closeAll();
+  if (typeof ModalManager !== 'undefined' && typeof ModalManager.closeAll === 'function') ModalManager.closeAll();
+
+  // 8. Reset active state on mac dock and clear pinned panel state
   if (typeof currentlyOpenPanel !== 'undefined') currentlyOpenPanel = null;
   if (typeof window !== 'undefined') {
     window.currentlyOpenPanel = null;
@@ -485,7 +564,7 @@ function closeAllPanelsAndModals() {
   const dockContainer = document.querySelector('.desktop-tools-sidebar, .mac-dock-container');
   if (dockContainer) dockContainer.classList.remove('is-active');
 
-  // 6. Close all open inline add inputs
+  // 9. Close all open inline add inputs
   if (typeof openTaskAddColumns !== 'undefined' && typeof openTaskAddColumns === 'object') {
     let reRenderNeeded = false;
     Object.keys(openTaskAddColumns).forEach(k => {
@@ -497,6 +576,19 @@ function closeAllPanelsAndModals() {
     if (reRenderNeeded && typeof renderApp === 'function') {
       renderApp();
     }
+  }
+
+  // 10. Blur active element so focus does not stay trapped in inputs
+  if (typeof document !== 'undefined' && document.activeElement && typeof document.activeElement.blur === 'function') {
+    try { document.activeElement.blur(); } catch(e) {}
+  }
+
+  // 11. Synchronize UI indicators (dashboard arrow flips back to chevron-right)
+  if (typeof window !== 'undefined' && typeof window.updateDashboardArrowUI === 'function') {
+    window.updateDashboardArrowUI(false);
+  }
+  if (typeof syncHeaderToolsMenuState === 'function') {
+    try { syncHeaderToolsMenuState(); } catch(e) {}
   }
 }
 window.closeAllPanelsAndModals = closeAllPanelsAndModals;
@@ -615,6 +707,7 @@ function switchSettingsTab(tabName) {
     }
   });
   if (tabName === 'history') renderHistoryGallery();
+  if (tabName === 'privacy' && typeof updateUmamiOptOutUI === 'function') updateUmamiOptOutUI();
   renderLucideIcons();
 }
 
@@ -947,7 +1040,14 @@ function setThemeSlow(theme) {
 }
 
 function setLanguage(lang, skipRender = false) {
-  if (!lang || !TRANSLATIONS[lang] || !DEFAULT_TASKS_BY_LANG[lang]) { lang = 'en'; }
+  if (!lang) { lang = 'en'; }
+  if ((!TRANSLATIONS[lang] || Object.keys(TRANSLATIONS[lang]).length < 20) && typeof loadLanguage === 'function') {
+    loadLanguage(lang).then(() => {
+      translateUI();
+      if (!skipRender && typeof renderApp === 'function') renderApp();
+    }).catch(() => {});
+  }
+  if (!TRANSLATIONS[lang] || !DEFAULT_TASKS_BY_LANG[lang]) { lang = 'en'; }
   const oldLang = currentLang; currentLang = lang; localStorage.setItem('flowPlannerLanguage', lang);
   document.documentElement.lang = lang; translateUserTasks(oldLang, lang);
   translateUI(); const textEl = document.getElementById('minimal-mode-btn-text');
@@ -1338,125 +1438,9 @@ function closeKeyboardShortcuts() {
 }
 window.closeKeyboardShortcuts = closeKeyboardShortcuts;
 
-// ===== FULL LOCAL-FIRST BACKUP & RESTORE HUB =====
-function downloadFullBackup() {
-  try {
-    const backupData = {
-      app: 'Noodle',
-      version: '2.5.0',
-      exportedAt: new Date().toISOString(),
-      items: typeof items !== 'undefined' ? items : {},
-      categoriesOrder: typeof categoriesOrder !== 'undefined' ? categoriesOrder : [],
-      currentWorkspace: typeof currentWorkspace !== 'undefined' ? currentWorkspace : 'private',
-      historyScreenshots: getHistoryScreenshots(),
-      customTranslations: typeof customTranslations !== 'undefined' ? customTranslations : {},
-      theme: localStorage.getItem('flow_theme') || 'dark',
-      currentLang: typeof currentLang !== 'undefined' ? currentLang : 'en'
-    };
+// ===== FULL LOCAL-FIRST BACKUP & RESTORE HUB (Delegiert an app-backup.js) =====
+// Implementierung befindet sich in app-backup.js für saubere Modularität.
 
-    const jsonStr = JSON.stringify(backupData, null, 2);
-    const blob = new Blob([jsonStr], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    const dateStr = new Date().toISOString().split('T')[0];
-    a.href = url;
-    a.download = `noodle-backup-${dateStr}.json`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-
-    if (typeof showToast === 'function') {
-      showToast(typeof tr === 'function' ? tr({ de: 'Backup erfolgreich heruntergeladen! 💾', en: 'Backup successfully downloaded! 💾' }) : 'Backup heruntergeladen! 💾');
-    }
-  } catch (e) {
-    console.error('Backup download error:', e);
-    if (typeof showToast === 'function') {
-      showToast('Fehler beim Erstellen des Backups: ' + e.message);
-    }
-  }
-}
-window.downloadFullBackup = downloadFullBackup;
-
-function handleRestoreBackupFile(event) {
-  const file = event.target.files?.[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = async function(e) {
-    try {
-      const data = JSON.parse(e.target.result);
-      if (!data || (!data.items && !data.daily && !Array.isArray(data))) {
-        throw new Error('Ungültiges Noodle Backup-Format');
-      }
-
-      const msg = typeof tr === 'function' ? tr({
-        de: 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden aktualisiert.',
-        en: 'Do you really want to restore this backup? Existing data will be updated.'
-      }) : 'Möchtest du dieses Backup wirklich wiederherstellen? Bestehende Daten werden aktualisiert.';
-
-      const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
-        title: typeof tr === 'function' ? tr({ de: 'Backup wiederherstellen?', en: 'Restore Backup?' }) : 'Backup wiederherstellen?',
-        message: msg,
-        confirmText: typeof tr === 'function' ? tr({ de: 'Wiederherstellen', en: 'Restore' }) : 'Wiederherstellen',
-        isDanger: false,
-        icon: 'rotate-ccw'
-      }) : confirm(msg);
-
-      if (confirmed) {
-        if (data.items) {
-          items = data.items;
-          localStorage.setItem('flow_items_v2', JSON.stringify(items));
-        }
-        if (data.categoriesOrder && Array.isArray(data.categoriesOrder)) {
-          categoriesOrder = data.categoriesOrder;
-          localStorage.setItem('flow_categories_order', JSON.stringify(categoriesOrder));
-        }
-        if (data.historyScreenshots && Array.isArray(data.historyScreenshots)) {
-          saveHistoryScreenshots(data.historyScreenshots);
-        }
-
-        if (typeof renderBoard === 'function') renderBoard();
-        if (typeof renderLucideIcons === 'function') renderLucideIcons();
-        if (typeof closeSettingsModal === 'function') closeSettingsModal();
-
-        if (typeof showToast === 'function') {
-          showToast('Backup erfolgreich wiederhergestellt! ✨');
-        }
-      }
-    } catch (err) {
-      if (typeof showToast === 'function') {
-        showToast('Fehler beim Wiederherstellen: ' + err.message);
-      }
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
-}
-window.handleRestoreBackupFile = handleRestoreBackupFile;
-
-function exportData() {
-  if (typeof downloadFullBackup === 'function') {
-    downloadFullBackup();
-  }
-}
-window.exportData = exportData;
-
-function importData() {
-  const fileInput = document.getElementById('backup-restore-file-input');
-  if (fileInput) {
-    fileInput.click();
-  } else {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = '.json';
-    input.onchange = (e) => {
-      if (typeof handleRestoreBackupFile === 'function') handleRestoreBackupFile(e);
-    };
-    input.click();
-  }
-}
-window.importData = importData;
 
 // ===== PWA INSTALLATION ENGINE =====
 window.deferredPwaPrompt = null;
@@ -1527,6 +1511,21 @@ if (typeof document !== 'undefined') {
     if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
       e.preventDefault();
       if (typeof openCommandPalette === 'function') openCommandPalette();
+      return;
+    }
+
+    // Escape -> Close active popovers and dropdowns
+    if (e.key === 'Escape') {
+      if (typeof closeManageTablesDropdown === 'function') closeManageTablesDropdown();
+      if (typeof closeHeaderWorkspaceDropdown === 'function') closeHeaderWorkspaceDropdown(true);
+      const toolsPanel = document.getElementById('panel-header-tools');
+      if (toolsPanel && !toolsPanel.classList.contains('hidden')) {
+        if (typeof toggleDashboardOverlay === 'function') toggleDashboardOverlay();
+        else toolsPanel.classList.add('hidden');
+      }
+      const soundVol = document.getElementById('header-sound-volume-popover');
+      if (soundVol && !soundVol.classList.contains('hidden')) soundVol.classList.add('hidden');
+      if (typeof closeAllPanelsAndModals === 'function') closeAllPanelsAndModals();
       return;
     }
 

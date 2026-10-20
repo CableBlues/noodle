@@ -49,20 +49,39 @@
   }
 
   /* ---------------- 2. ULTRA-SCHLANKER MOBILER HEADER (40px, -12%) ---------------- */
+  /* Wichtig: Kein backdrop-filter/transform auf header oder Header-Containern auf Mobile,
+     damit position: fixed Kind-Panels immer relativ zum echten Viewport (100vw/100dvh)
+     positioniert werden und niemals aus dem Bildschirm ragen! */
+  header,
+  #date-container,
+  #date-hover-wrapper,
+  #date-weather-badge,
+  #board-top-bar,
+  #header-news-ticker-bar,
+  #ticker-options-wrapper,
+  #header-tools-wrapper,
+  #header-btn-alarm-container,
+  #header-btn-sound-container {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transform: none !important;
+    filter: none !important;
+    perspective: none !important;
+  }
+
   header {
     flex-wrap: nowrap !important;
-    height: 40px !important;
-    min-height: 40px !important;
+    height: 42px !important;
+    min-height: 42px !important;
     padding: 2px 8px !important;
-    margin-bottom: 8px !important;
+    margin-bottom: 6px !important;
     justify-content: space-between !important;
     align-items: center !important;
     border-radius: 16px !important;
-    background: rgba(18, 18, 28, 0.96) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5) !important;
+    background: rgba(16, 16, 26, 0.98) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
+    z-index: 99992 !important;
   }
 
   /* ---------------- 3. FESTE BOTTOM NAVIGATION BAR (DAUMENZONE) ---------------- */
@@ -73,16 +92,17 @@
     left: 0 !important;
     right: 0 !important;
     width: 100vw !important;
-    height: calc(58px + env(safe-area-inset-bottom)) !important;
-    padding-bottom: env(safe-area-inset-bottom) !important;
-    background: rgba(13, 13, 22, 0.94) !important;
+    height: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    background: rgba(13, 13, 22, 0.98) !important;
     backdrop-filter: blur(24px) !important;
     -webkit-backdrop-filter: blur(24px) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
-    z-index: 99990 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.14) !important;
+    z-index: 1000050 !important;
+    pointer-events: auto !important;
     align-items: center !important;
     justify-content: space-around !important;
-    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.6) !important;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.7) !important;
     user-select: none !important;
   }
 
@@ -99,11 +119,14 @@
     font-weight: 700 !important;
     letter-spacing: 0.02em !important;
     cursor: pointer !important;
+    background: transparent !important;
+    border: none !important;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
     position: relative !important;
   }
 
-  .mobile-nav-item i {
+  .mobile-nav-item i,
+  .mobile-nav-item svg {
     width: 20px !important;
     height: 20px !important;
     transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -117,7 +140,8 @@
     color: #ffffff !important;
   }
 
-  .mobile-nav-item.active i {
+  .mobile-nav-item.active i,
+  .mobile-nav-item.active svg {
     color: var(--accent, #a855f7) !important;
     transform: translateY(-2px) scale(1.1) !important;
   }
@@ -125,8 +149,8 @@
   .mobile-nav-item.active::after {
     content: '' !important;
     position: absolute !important;
-    bottom: calc(env(safe-area-inset-bottom) + 3px) !important;
-    width: 16px !important;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 3px) !important;
+    width: 18px !important;
     height: 3px !important;
     background: var(--accent, #a855f7) !important;
     border-radius: 9999px !important;
@@ -139,40 +163,37 @@
     display: flex !important;
   }
 
+  /* Wenn Fokus, Audio oder Tools aktiv ist, Kanban-Board & Kategorie-Leiste ausblenden */
   body[data-mobile-nav]:not([data-mobile-nav="planer"]) main,
-  body[data-mobile-nav]:not([data-mobile-nav="planer"]) .mobile-category-tabs {
-    display: flex !important;
-    width: 100% !important;
-    overflow-x: auto !important;
-    overflow-y: hidden !important;
-    white-space: nowrap !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding: 4px 6px 10px 6px !important;
-    gap: 8px !important;
-    border: none !important;
-    background: transparent !important;
-    scrollbar-width: none;
+  body[data-mobile-nav]:not([data-mobile-nav="planer"]) .mobile-category-tabs,
+  body[data-mobile-nav]:not([data-mobile-nav="planer"]) #board-top-bar,
+  body[data-mobile-nav]:not([data-mobile-nav="planer"]) #floating-add-list-container {
+    display: none !important;
   }
 
   .mobile-view-pane {
-    display: none;
+    display: none !important;
     width: 100% !important;
-    min-height: calc(100dvh - 140px) !important;
-    max-height: calc(100dvh - 140px) !important;
+    max-width: 100vw !important;
+    min-height: calc(100dvh - 122px) !important;
+    max-height: calc(100dvh - 122px) !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
-    padding-bottom: 24px !important;
-    animation: mobileFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
+    box-sizing: border-box !important;
+    animation: mobileFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   }
 
   body[data-mobile-nav="focus"] #mobile-view-focus,
   body[data-mobile-nav="audio"] #mobile-view-audio,
-  body[data-mobile-nav="tools"] #mobile-view-tools {
+  body[data-mobile-nav="tools"] #mobile-view-tools,
+  .mobile-view-pane.mobile-tab-active {
     display: block !important;
   }
 
   @keyframes mobileFadeIn {
-    from { opacity: 0; transform: translateY(8px); }
+    from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
@@ -196,7 +217,7 @@
 
   .mobile-tab-btn {
     flex: 0 0 auto !important;
-    padding: 7px 15px !important;
+    padding: 7px 14px !important;
     border-radius: 9999px !important;
     background: rgba(255, 255, 255, 0.05) !important;
     border: 1px solid rgba(255, 255, 255, 0.12) !important;
@@ -207,8 +228,6 @@
     align-items: center !important;
     gap: 6px !important;
     cursor: pointer;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
     transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -263,21 +282,33 @@
     display: none !important;
   }
 
-  /* ---------------- 7. NATIVE BOTTOM-SHEETS FÜR MODALS ---------------- */
-  .mobile-modal-card {
+  /* ---------------- 7. NATIVE BOTTOM-SHEETS & MODALS ---------------- */
+  div[id$="-modal"],
+  div[id^="modal-"] {
+    z-index: 100020 !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .mobile-modal-card,
+  div[id$="-modal"] > div,
+  div[id^="modal-"] > div {
     width: calc(100vw - 16px) !important;
     max-width: 480px !important;
-    max-height: calc(88dvh - env(safe-area-inset-bottom)) !important;
+    max-height: calc(90dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
-    padding: 1.25rem !important;
-    border-radius: 24px !important;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9) !important;
+    padding: 1rem !important;
+    border-radius: 22px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.92) !important;
   }
 
   .modal-close-btn {
-    top: 1rem !important;
-    right: 1rem !important;
+    top: 0.75rem !important;
+    right: 0.75rem !important;
     padding: 8px !important;
     font-size: 1.25rem !important;
   }
@@ -304,35 +335,112 @@
   #panel-news,
   #panel-audio,
   #panel-alarm,
+  #panel-health,
+  #panel-humor-lab,
+  #panel-social,
   #panel-collab-chat,
   #panel-weather,
   #panel-calendar-dropdown,
   #panel-pause-dropdown,
   #panel-report,
   #panel-settings-dropdown,
-  #panel-timer-presets {
+  #panel-timer-presets,
+  #ticker-settings-popover,
+  #dropdown-manage-columns,
+  #dropdown-header-workspace,
+  #popover-add-list {
     position: fixed !important;
-    top: calc(44px + env(safe-area-inset-top, 0px)) !important;
+    top: calc(48px + env(safe-area-inset-top, 0px)) !important;
     left: 8px !important;
     right: 8px !important;
     bottom: auto !important;
     width: calc(100vw - 16px) !important;
-    max-width: 440px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    max-height: calc(100dvh - 110px - env(safe-area-inset-bottom, 0px)) !important;
+    max-width: calc(100vw - 16px) !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+    animation: none !important;
+    max-height: calc(100dvh - 118px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)) !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
+    box-sizing: border-box !important;
     z-index: 99995 !important;
-    border-radius: 24px !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.14) !important;
+  }
+
+  /* Wenn ein Unterpanel (#panel-shopping, #panel-cooking, #panel-radio, etc.) in #panel-header-tools
+     auf Mobile geöffnet ist, darf #panel-header-tools keinen eigenen Scroll-Container oder
+     Containing-Block bilden, sondern zeigt nahtlos nur das geöffnete Unterpanel im Vollformat! */
+  #panel-header-tools.has-mobile-subpanel-open,
+  #panel-header-tools:has(.dock-popover-panel:not(.hidden)) {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+    transform: none !important;
+    animation: none !important;
+    overflow: visible !important;
+    max-height: none !important;
+    padding: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Blendet alle Orb-Buttons und Sektionen im Hauptmenü aus, sodass nur das aufgerufene Tool sichtbar ist */
+  #panel-header-tools.has-mobile-subpanel-open > div > div.grid > div:not(:has(.dock-popover-panel:not(.hidden))),
+  #panel-header-tools.has-mobile-subpanel-open > div:not(:has(.dock-popover-panel:not(.hidden))),
+  #panel-header-tools:has(.dock-popover-panel:not(.hidden)) > div > div.grid > div:not(:has(.dock-popover-panel:not(.hidden))),
+  #panel-header-tools:has(.dock-popover-panel:not(.hidden)) > div:not(:has(.dock-popover-panel:not(.hidden))),
+  #panel-header-tools.has-mobile-subpanel-open .tool-orb,
+  #panel-header-tools:has(.dock-popover-panel:not(.hidden)) .tool-orb {
+    display: none !important;
+  }
+
+  #panel-header-tools .dock-popover-panel:not(.hidden) {
+    display: flex !important;
+    position: fixed !important;
+    top: calc(48px + env(safe-area-inset-top, 0px)) !important;
+    left: 8px !important;
+    right: 8px !important;
+    bottom: auto !important;
+    width: calc(100vw - 16px) !important;
+    max-width: calc(100vw - 16px) !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+    z-index: 100000 !important;
+    pointer-events: auto !important;
+    box-sizing: border-box !important;
   }
 
   #header-sound-volume-popover {
     position: fixed !important;
-    top: calc(46px + env(safe-area-inset-top, 0px)) !important;
-    right: 12px !important;
+    top: calc(48px + env(safe-area-inset-top, 0px)) !important;
+    right: 8px !important;
+    left: auto !important;
+    max-width: calc(100vw - 16px) !important;
+    transform: none !important;
     z-index: 99995 !important;
+  }
+
+  /* Mini Audio Player & Floating Add List Button oberhalb der Bottom-Nav platzieren */
+  #noodle-mini-audio-player {
+    bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: calc(100vw - 16px) !important;
+    max-width: 420px !important;
+    margin: 0 auto !important;
+    z-index: 99985 !important;
+  }
+
+  #floating-add-list-container {
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px)) !important;
+    right: 10px !important;
+    z-index: 99980 !important;
   }
 
   /* Horizontal swipe chip scrollbar styling */

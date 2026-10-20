@@ -5,72 +5,57 @@
  * (`#panel-header-tools`) und dessen seitlich aufklappende Popover-Panels.
  */
 
-#panel-header-tools {
-  max-height: calc(100vh - 60px);
-  max-height: calc(100dvh - 60px);
-  overflow: visible !important;
-}
-
-#panel-header-tools .grid > div {
-  position: static !important;
-}
-
-#panel-header-tools .dock-popover-panel {
-  position: absolute !important;
-  left: calc(100% + 10px) !important;
-  right: auto !important;
-  top: 0 !important;
-  margin-left: 0 !important;
-  max-height: calc(100vh - 60px) !important;
-  max-height: calc(100dvh - 60px) !important;
-  max-width: calc(100vw - 360px) !important;
-  overflow-y: auto !important;
-  z-index: 160 !important;
-  pointer-events: auto !important;
-  scrollbar-width: thin;
-}
-
-/* Ensure all tool panels inside the grid start aligned with the top of the hub */
-#panel-header-tools .grid > div .dock-popover-panel {
-  top: 0 !important;
-}
-
-/* Zero-scroll guarantee for all compact popover tools */
-#panel-humor-lab,
-#panel-cooking,
-#panel-alarm {
-  overflow: hidden !important;
-  max-height: calc(100vh - 40px) !important;
-  max-height: calc(100dvh - 40px) !important;
-}
-
-@media (max-height: 520px) {
-  #panel-humor-lab,
-  #panel-cooking,
-  #panel-alarm {
+@media (min-width: 769px) {
+  #panel-header-tools {
+    max-height: calc(100vh - 60px);
+    max-height: calc(100dvh - 60px);
     overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+
+  #panel-header-tools .grid > div {
+    position: static !important;
+  }
+
+  /* Floating App-Window UX: Tool panels float centrally on the webpage */
+  .dock-popover-panel,
+  #panel-header-tools .dock-popover-panel,
+  #panel-alarm.noodle-floating-tool-window {
+    position: fixed !important;
+    top: 50%;
+    left: 50%;
+    right: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    transform: translate(-50%, -50%);
+    max-height: calc(100vh - 76px) !important;
+    max-height: calc(100dvh - 76px) !important;
+    max-width: calc(100vw - 32px) !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    z-index: 100030;
+    pointer-events: auto !important;
+    scrollbar-width: thin;
+    border-radius: 22px !important;
+    box-shadow: 0 28px 70px rgba(0, 0, 0, 0.82), 0 0 0 1.5px rgba(255, 255, 255, 0.16) !important;
+  }
+
+  /* Once positioned via JS (center+cascade or dragged), use explicit pixel left/top without transform centering */
+  .dock-popover-panel.noodle-window-positioned,
+  #panel-header-tools .dock-popover-panel.noodle-window-positioned,
+  #panel-alarm.noodle-window-positioned {
+    transform: none !important;
   }
 }
 
-/* Unzerbrechliche Hover-Brücken, damit die Maus nicht im Abstand zwischen Trigger und Popover verloren geht */
+/* Unzerbrechliche Hover-Brücke für das Header-Tools-Hauptmenü */
 #panel-header-tools::before {
   content: '';
   position: absolute;
-  top: -24px;
+  top: -26px;
   left: -20px;
   right: -20px;
-  height: 30px;
-  background: transparent;
-  pointer-events: auto;
-}
-
-#panel-header-tools .dock-popover-panel::before {
-  content: '';
-  position: absolute;
-  top: -15px;
-  bottom: -15px;
-  left: -30px;
-  width: 40px;
+  height: 32px;
   background: transparent;
   pointer-events: auto;
 }
@@ -78,73 +63,80 @@
 @media (max-width: 768px) {
   #panel-header-tools {
     position: fixed !important;
-    top: calc(44px + env(safe-area-inset-top, 0px)) !important;
+    top: calc(56px + env(safe-area-inset-top, 0px)) !important;
     left: 8px !important;
     right: 8px !important;
     bottom: auto !important;
     width: calc(100vw - 16px) !important;
-    max-width: 410px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    max-height: calc(100dvh - 110px - env(safe-area-inset-bottom, 0px)) !important;
+    max-width: calc(100vw - 16px) !important;
+    margin: 0 !important;
+    transform: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    max-height: calc(100dvh - 118px - env(safe-area-inset-bottom, 0px)) !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
     z-index: 99995 !important;
-    border-radius: 24px !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.14) !important;
   }
 
-  #panel-header-tools .dock-popover-panel {
+  .dock-popover-panel,
+  #panel-header-tools .dock-popover-panel,
+  #panel-header-tools .grid > div .dock-popover-panel {
     position: fixed !important;
-    top: calc(44px + env(safe-area-inset-top, 0px)) !important;
+    top: calc(48px + env(safe-area-inset-top, 0px)) !important;
     left: 8px !important;
     right: 8px !important;
     bottom: auto !important;
     width: calc(100vw - 16px) !important;
-    max-width: 440px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    max-height: calc(100dvh - 110px - env(safe-area-inset-bottom, 0px)) !important;
+    max-width: calc(100vw - 16px) !important;
+    margin: 0 !important;
+    transform: none !important;
+    max-height: calc(100dvh - 118px - env(safe-area-inset-bottom, 0px)) !important;
     overflow-y: auto !important;
+    overflow-x: hidden !important;
     -webkit-overflow-scrolling: touch !important;
     z-index: 100000 !important;
-    border-radius: 24px !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
+    border-radius: 22px !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.14) !important;
   }
 
+  #panel-header-tools::before,
   #panel-header-tools .dock-popover-panel::before {
     display: none !important;
   }
 }
 
 /* ==========================================================================
-   INDIVIDUAL TOOL ACCENT COLORS & ICONS (TASK PALETTE HARMONIZED)
+   INDIVIDUAL TOOL ACCENT COLORS & ICONS (VIBRANT NON-REPEATING PALETTE)
    ========================================================================== */
-/* 1. Alltag & Lifestyle */
-.tool-orb-clean { --orb-col: #14b8a6 !important; --orb-glow: rgba(20, 184, 166, 0.45) !important; }
-.tool-orb-shopping { --orb-col: #10b981 !important; --orb-glow: rgba(16, 185, 129, 0.45) !important; }
-.tool-orb-cooking { --orb-col: #f97316 !important; --orb-glow: rgba(249, 115, 22, 0.45) !important; }
-.tool-orb-news { --orb-col: #ef4444 !important; --orb-glow: rgba(239, 68, 68, 0.45) !important; }
-.tool-orb-alarm { --orb-col: #f59e0b !important; --orb-glow: rgba(245, 158, 11, 0.45) !important; }
+/* 1. Alltag & Lifestyle (Header: Emerald | Orbs: Cyan -> Lime -> Orange -> Fuchsia) */
+.tool-orb-clean { --orb-col: #06b6d4 !important; --orb-glow: rgba(6, 182, 212, 0.5) !important; }
+.tool-orb-shopping { --orb-col: #84cc16 !important; --orb-glow: rgba(132, 204, 22, 0.5) !important; }
+.tool-orb-cooking { --orb-col: #f97316 !important; --orb-glow: rgba(249, 115, 22, 0.5) !important; }
+.tool-orb-news { --orb-col: #d946ef !important; --orb-glow: rgba(217, 70, 239, 0.5) !important; }
+.tool-orb-alarm { --orb-col: #f59e0b !important; --orb-glow: rgba(245, 158, 11, 0.5) !important; }
 
-/* 2. Sound & Musik */
-.tool-orb-sound, .tool-orb-sounds { --orb-col: #06b6d4 !important; --orb-glow: rgba(6, 182, 212, 0.45) !important; }
-.tool-orb-player, .tool-orb-music { --orb-col: #0ea5e9 !important; --orb-glow: rgba(14, 165, 233, 0.45) !important; }
-.tool-orb-dj { --orb-col: #eab308 !important; --orb-glow: rgba(234, 179, 8, 0.45) !important; }
-.tool-orb-radio { --orb-col: #8b5cf6 !important; --orb-glow: rgba(139, 92, 246, 0.45) !important; }
+/* 2. Sound & Musik (Header: Purple | Orbs: Teal -> Sky -> Amber -> Rose) */
+.tool-orb-sound, .tool-orb-sounds { --orb-col: #14b8a6 !important; --orb-glow: rgba(20, 184, 166, 0.5) !important; }
+.tool-orb-player, .tool-orb-music { --orb-col: #38bdf8 !important; --orb-glow: rgba(56, 189, 248, 0.5) !important; }
+.tool-orb-dj { --orb-col: #f59e0b !important; --orb-glow: rgba(245, 158, 11, 0.5) !important; }
+.tool-orb-radio { --orb-col: #f43f5e !important; --orb-glow: rgba(244, 63, 94, 0.5) !important; }
 
-/* 3. Körper & Geist (Gesundheit vor Bewegung) */
-.tool-orb-health { --orb-col: #f43f5e !important; --orb-glow: rgba(244, 63, 94, 0.45) !important; }
-.tool-orb-calm { --orb-col: #6366f1 !important; --orb-glow: rgba(99, 102, 241, 0.45) !important; }
-.tool-orb-clarity { --orb-col: #38bdf8 !important; --orb-glow: rgba(56, 189, 248, 0.45) !important; }
-.tool-orb-sport { --orb-col: #84cc16 !important; --orb-glow: rgba(132, 204, 22, 0.45) !important; }
+/* 3. Körper & Geist (Header: Rose | Orbs: Pink -> Lime -> Cyan -> Indigo) */
+.tool-orb-health { --orb-col: #fb7185 !important; --orb-glow: rgba(251, 113, 133, 0.5) !important; }
+.tool-orb-sport { --orb-col: #a3e635 !important; --orb-glow: rgba(163, 230, 53, 0.5) !important; }
+.tool-orb-calm { --orb-col: #22d3ee !important; --orb-glow: rgba(34, 211, 238, 0.5) !important; }
+.tool-orb-clarity { --orb-col: #818cf8 !important; --orb-glow: rgba(129, 140, 248, 0.5) !important; }
 
-/* 4. Wissen, Chat & Social */
-.tool-orb-learning { --orb-col: #3b82f6 !important; --orb-glow: rgba(59, 130, 246, 0.45) !important; }
-.tool-orb-humor { --orb-col: #d946ef !important; --orb-glow: rgba(217, 70, 239, 0.45) !important; }
-.tool-orb-social { --orb-col: #fb7185 !important; --orb-glow: rgba(251, 113, 133, 0.45) !important; }
-.tool-orb-chat { --orb-col: #a855f7 !important; --orb-glow: rgba(168, 85, 247, 0.45) !important; }
-.tool-orb-brainstorm { --orb-col: #14b8a6 !important; --orb-glow: rgba(20, 184, 166, 0.45) !important; }
+/* 4. Wissen, Chat & Social (Header: Amber | Orbs: Sky -> Fuchsia -> Emerald -> Violet) */
+.tool-orb-learning { --orb-col: #38bdf8 !important; --orb-glow: rgba(56, 189, 248, 0.5) !important; }
+.tool-orb-humor { --orb-col: #e879f9 !important; --orb-glow: rgba(232, 121, 249, 0.5) !important; }
+.tool-orb-social { --orb-col: #34d399 !important; --orb-glow: rgba(52, 211, 153, 0.5) !important; }
+.tool-orb-chat { --orb-col: #a855f7 !important; --orb-glow: rgba(168, 85, 247, 0.5) !important; }
+.tool-orb-brainstorm { --orb-col: #14b8a6 !important; --orb-glow: rgba(20, 184, 166, 0.5) !important; }
 
 /* Force tool icon colors & sizing */
 .tool-orb .tool-orb-sphere i,
@@ -192,7 +184,7 @@
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
 }
 
 .tool-orb:hover .tool-orb-sphere {
@@ -201,20 +193,20 @@
 }
 
 /* ==========================================================================
-   HEADER ACTIONS: PAUSE (BABYBLAU #38bdf8) & STATISTIK (LILA #c084fc)
+   HEADER ACTIONS: PAUSE (SKY-BLUE) & STATISTIK (LIME) — DISTINCT & VIBRANT
    ========================================================================== */
 #header-btn-pause-container button {
   background-color: rgba(56, 189, 248, 0.15) !important;
-  border: 1px solid rgba(56, 189, 248, 0.5) !important;
+  border: 1.5px solid rgba(56, 189, 248, 0.5) !important;
   color: #7dd3fc !important;
-  box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
 }
 
 #header-btn-pause-container button:hover {
   background-color: rgba(56, 189, 248, 0.28) !important;
   border-color: #38bdf8 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 18px rgba(56, 189, 248, 0.45) !important;
+  color: #bae6fd !important;
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.5) !important;
 }
 
 #header-btn-pause-container button svg,
@@ -233,40 +225,40 @@
 }
 
 #header-btn-pause-container button:hover span {
-  color: #ffffff !important;
+  color: #bae6fd !important;
 }
 
 #header-btn-report-container button {
-  background-color: rgba(168, 85, 247, 0.15) !important;
-  border: 1px solid rgba(168, 85, 247, 0.5) !important;
-  color: #d8b4fe !important;
-  box-shadow: 0 0 14px rgba(168, 85, 247, 0.25) !important;
+  background-color: rgba(132, 204, 22, 0.15) !important;
+  border: 1.5px solid rgba(163, 230, 53, 0.5) !important;
+  color: #bef264 !important;
+  box-shadow: 0 0 12px rgba(132, 204, 22, 0.25) !important;
 }
 
 #header-btn-report-container button:hover {
-  background-color: rgba(168, 85, 247, 0.28) !important;
-  border-color: #a855f7 !important;
-  color: #ffffff !important;
-  box-shadow: 0 0 18px rgba(168, 85, 247, 0.45) !important;
+  background-color: rgba(132, 204, 22, 0.28) !important;
+  border-color: #a3e635 !important;
+  color: #d9f99d !important;
+  box-shadow: 0 0 18px rgba(163, 230, 53, 0.5) !important;
 }
 
 #header-btn-report-container button i,
 #header-btn-report-container button svg,
 #header-btn-report-container button [data-lucide] {
-  color: #c084fc !important;
-  stroke: #c084fc !important;
+  color: #a3e635 !important;
+  stroke: #a3e635 !important;
 }
 
 #header-btn-report-container button span,
 #header-btn-report-container #btn-label-report {
-  color: #d8b4fe !important;
+  color: #bef264 !important;
   display: inline-block !important;
   font-weight: 700 !important;
 }
 
 #header-btn-report-container button:hover span,
 #header-btn-report-container button:hover #btn-label-report {
-  color: #ffffff !important;
+  color: #ecfccb !important;
 }
 
 /* ==========================================================================

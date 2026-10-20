@@ -6,11 +6,11 @@
  * für den „Was nun?"-Entscheidungsassistenten und das Energie-Budget-System (Spoon-Theorie).
  */
 const DEFAULT_SPOON_OPTIONS = [
-  { name: "Arbeit / Job-Sitzung 🖥️", cost: 3 },
-  { name: "Haushalt / Saugen / Kochen 🧹", cost: 2 },
-  { name: "Arzttermin / Wichtiges Telefonat 🩺", cost: 2 },
-  { name: "Sanfter Spaziergang / Dehnen 🌳", cost: 1 },
-  { name: "Mit Freunden treffen / Socialize 💬", cost: 2 }
+  { name: "Arbeit / Fokus-Sitzung", cost: 3 },
+  { name: "Haushalt & Erledigungen", cost: 2 },
+  { name: "Termin & Telefonate", cost: 2 },
+  { name: "Spaziergang & Bewegung", cost: 1 },
+  { name: "Treffen & Soziales", cost: 2 }
 ];
 
 const PROCEDURAL_BREAKDOWNS = {

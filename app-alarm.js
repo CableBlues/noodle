@@ -231,7 +231,6 @@ function renderAlarmPanel() {
         <div id="alarm-panel-live-date" class="hidden">${dateHtml}</div>
       </div>
       <div class="flex items-center gap-2">
-        <span id="alarm-panel-live-time" class="font-mono font-bold text-xs text-gray-200 select-none">${timeFormatted}</span>
         <button onclick="togglePanel('alarm')" aria-label="Wecker-Hub schließen" class="text-gray-400 hover:text-white text-xs font-bold p-1 px-1.5 rounded-lg hover:bg-white/10 transition cursor-pointer">✕</button>
       </div>
     </div>
@@ -257,6 +256,19 @@ function renderAlarmPanel() {
 
     <!-- TAB 1: WECKER & SIGNAL -->
     <div id="alarm-subpane-alarms" class="${currentAlarmTab === 'alarms' ? 'block' : 'hidden'} space-y-2 pt-1.5">
+      <!-- Intelligente Wecker-Schnellvorschläge -->
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-0.5 no-scrollbar">
+        <button onclick="applyAlarmPreset('07:30', 'Morgen-Wecker 🌅')" class="px-2 py-1 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-200 text-[10px] font-bold shrink-0 transition cursor-pointer flex items-center gap-1">
+          <span>🌅 07:30 Morgen</span>
+        </button>
+        <button onclick="applyAlarmOffsetMinutes(20, 'Power-Nap ⚡')" class="px-2 py-1 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-200 text-[10px] font-bold shrink-0 transition cursor-pointer flex items-center gap-1">
+          <span>⚡ +20m Power-Nap</span>
+        </button>
+        <button onclick="applyAlarmOffsetMinutes(30, 'Sprint-Alarm 🎯')" class="px-2 py-1 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-500/30 text-cyan-200 text-[10px] font-bold shrink-0 transition cursor-pointer flex items-center gap-1">
+          <span>🎯 +30m Sprint</span>
+        </button>
+      </div>
+
       <!-- Wecksignal, Lautstärke & Smartphone-Optionen -->
       <div class="p-2 bg-black/40 border border-white/10 rounded-2xl space-y-1.5">
         <div class="flex items-center justify-between">
@@ -946,6 +958,8 @@ if (typeof window !== 'undefined') {
   window.testAlarmSound = testAlarmSound;
   window.handleUpdateAlarmSetting = handleUpdateAlarmSetting;
   window.handleUpdateAlarmVolume = handleUpdateAlarmVolume;
+  window.applyAlarmPreset = applyAlarmPreset;
+  window.applyAlarmOffsetMinutes = applyAlarmOffsetMinutes;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.alarmState = alarmState;
@@ -971,4 +985,29 @@ if (typeof globalThis !== 'undefined') {
   globalThis.testAlarmSound = testAlarmSound;
   globalThis.handleUpdateAlarmSetting = handleUpdateAlarmSetting;
   globalThis.handleUpdateAlarmVolume = handleUpdateAlarmVolume;
+  globalThis.applyAlarmPreset = applyAlarmPreset;
+  globalThis.applyAlarmOffsetMinutes = applyAlarmOffsetMinutes;
+}
+
+function applyAlarmPreset(timeStr, label) {
+  if (!alarmState.alarms) alarmState.alarms = [];
+  alarmState.alarms.push({
+    id: 'alarm_' + Date.now(),
+    time: timeStr,
+    label: label,
+    active: true
+  });
+  saveAlarmState();
+  renderAlarmPanel();
+  if (typeof showToast === 'function') {
+    showToast(`⏰ Wecker "${label}" auf ${timeStr} gestellt!`);
+  }
+}
+
+function applyAlarmOffsetMinutes(offsetMin, label) {
+  const target = new Date(Date.now() + offsetMin * 60000);
+  const hh = String(target.getHours()).padStart(2, '0');
+  const mm = String(target.getMinutes()).padStart(2, '0');
+  const timeStr = `${hh}:${mm}`;
+  applyAlarmPreset(timeStr, label);
 }

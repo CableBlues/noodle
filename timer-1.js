@@ -1246,16 +1246,16 @@ function duckAllAudioForSpeech(isDucked) {
     speechDuckingTimeout = null;
   }
   if (isDucked) {
-    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.42);
+    if (typeof duckAmbientVolume === 'function') duckAmbientVolume(0.58);
     if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.duckRadio === 'function') {
       RadioNewsEngine.duckRadio(true);
     } else if (typeof window !== 'undefined' && typeof window.duckRadio === 'function') {
       window.duckRadio(true);
     }
-    // Sicherheits-Timeout: Audio nach 8.5s automatisch wiederherstellen, falls Browser-Event hakt
+    // Harmonischer Sicherheits-Timeout: Audio sanft wiederherstellen, falls Browser-Event hakt
     speechDuckingTimeout = setTimeout(() => {
       duckAllAudioForSpeech(false);
-    }, 8500);
+    }, 3500);
   } else {
     if (typeof restoreAmbientVolume === 'function') restoreAmbientVolume();
     if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.duckRadio === 'function') {

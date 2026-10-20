@@ -62,6 +62,31 @@ const CollabEngine = (function() {
     return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
   }
 
+  /**
+   * Generiert einen kryptografisch sicheren Raumcode (mindestens 10 Zeichen lang).
+   * Verwendet WebCrypto getRandomValues für kryptografische Unvorhersehbarkeit.
+   */
+  function generateSecureRoomCode(prefix = 'room', length = 12) {
+    const chars = 'abcdefghijkmnopqrstuvwxyz23456789'; // Lesbare Zeichen ohne ambigue Zeichen
+    try {
+      if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+        const bytes = new Uint8Array(Math.max(10, length));
+        crypto.getRandomValues(bytes);
+        let result = '';
+        for (let i = 0; i < bytes.length; i++) {
+          result += chars[bytes[i] % chars.length];
+        }
+        return prefix ? `${prefix}-${result}` : result;
+      }
+    } catch (e) {}
+    let fallback = '';
+    while (fallback.length < Math.max(10, length)) {
+      fallback += Math.random().toString(36).substring(2);
+    }
+    fallback = fallback.substring(0, Math.max(10, length));
+    return prefix ? `${prefix}-${fallback}` : fallback;
+  }
+
   function getLocalUser() {
     if (localUser) return localUser;
 
@@ -168,7 +193,12 @@ const CollabEngine = (function() {
         try {
           if (typeof localStorage !== 'undefined') {
             const savedRoom = localStorage.getItem('flow_collab_active_room');
-            if (savedRoom) activeRoom = savedRoom;
+            if (savedRoom) {
+              activeRoom = savedRoom;
+            } else {
+              activeRoom = generateSecureRoomCode('team', 12);
+              localStorage.setItem('flow_collab_active_room', activeRoom);
+            }
           }
         } catch (e) {}
       }
@@ -240,6 +270,7 @@ const CollabEngine = (function() {
 
           realtimeChannel = supa.channel(`room_${activeRoom}`, {
             config: {
+              private: true,
               broadcast: { self: false },
               presence: { key: user.id }
             }
@@ -288,11 +319,61 @@ const CollabEngine = (function() {
     renderDjActiveBanner();
   }
 
+  // Rate-Limiting & Security Limits für eingehende Events
+  const MAX_EVENT_SIZE_BYTES = 512 * 1024; // 512 KB
+  const RATE_LIMIT_WINDOW_MS = 1000;
+  const RATE_LIMIT_MAX_EVENTS = 30;
+  const senderRateLimiter = new Map(); // senderId -> { count, windowStart }
+
+  function validateEventSchema(event) {
+    if (!event || typeof event !== 'object') return false;
+    if (typeof event.type !== 'string' || !event.type.trim()) return false;
+    const allowedTypes = ['chat_message', 'dj_music_share', 'dj_stop', 'voice_message', 'user_speaking', 'board_sync', 'board_action', 'reaction', 'typing'];
+    if (!allowedTypes.includes(event.type)) return false;
+    if (event.sender && (typeof event.sender !== 'object' || typeof event.sender.id !== 'string')) return false;
+
+    // Spezifische Validierungen
+    if (event.type === 'chat_message' && (!event.message || typeof event.message !== 'object' || typeof event.message.text !== 'string')) return false;
+    if (event.type === 'board_sync' && (!event.boardData || typeof event.boardData !== 'object')) return false;
+    return true;
+  }
+
+  function isRateLimited(senderId) {
+    if (!senderId) return false;
+    const now = Date.now();
+    let entry = senderRateLimiter.get(senderId);
+    if (!entry || (now - entry.windowStart) > RATE_LIMIT_WINDOW_MS) {
+      entry = { count: 1, windowStart: now };
+      senderRateLimiter.set(senderId, entry);
+      return false;
+    }
+    entry.count++;
+    if (entry.count > RATE_LIMIT_MAX_EVENTS) {
+      return true;
+    }
+    return false;
+  }
+
   // ==========================================================================
   // EVENT-HANDLING (Chat, DJ Music Share, Voice, Board Actions & Shared Board)
   // ==========================================================================
   function handleIncomingEvent(event) {
-    if (!event || !event.type) return;
+    if (!validateEventSchema(event)) return;
+
+    // Größenprüfung (Payload-Limit)
+    try {
+      const payloadStr = JSON.stringify(event);
+      if (payloadStr.length > MAX_EVENT_SIZE_BYTES) {
+        console.warn('[CollabEngine] Dropped event exceeding size limit:', payloadStr.length);
+        return;
+      }
+    } catch (e) { return; }
+
+    const senderId = event.sender?.id || 'unknown';
+    if (isRateLimited(senderId)) {
+      console.warn('[CollabEngine] Rate limit exceeded for sender:', senderId);
+      return;
+    }
 
     const myUser = getLocalUser();
     if (event.sender && event.sender.id === myUser.id && event.type !== 'board_sync') return;
@@ -510,7 +591,7 @@ const CollabEngine = (function() {
     });
 
     if (typeof showToast === 'function') {
-      showToast(`🎧 DJ-Stream gestartet! Dein Team kann jetzt synchron mithören.`);
+      showToast('DJ-Stream gestartet.');
     }
   }
 
@@ -520,7 +601,7 @@ const CollabEngine = (function() {
       playDjSharedTrack(trackData);
     }
     if (typeof showToast === 'function') {
-      showToast(`🎶 Synchronisiert mit DJ-Stream: ${trackData.name || 'Live Track'}!`);
+      showToast('Synchronisiert mit DJ-Stream: ' + (trackData.name || 'Live Track'));
     }
   }
 
@@ -533,7 +614,7 @@ const CollabEngine = (function() {
       sender: user
     });
     if (typeof showToast === 'function') {
-      showToast(`⏹️ DJ-Stream beendet.`);
+      showToast('DJ-Stream beendet.');
     }
   }
 
@@ -547,66 +628,66 @@ const CollabEngine = (function() {
   function openDjSharePicker() {
     let html = `
       <div id="collab-dj-picker-modal" class="fixed inset-0 z-[999999] flex items-center justify-center bg-black/75 backdrop-blur-md p-4 animate-fade-in" onclick="if(event.target===this) CollabEngine.closeDjSharePicker();">
-        <div class="w-full max-w-sm bg-[#12121e] border border-cyan-500/40 rounded-3xl p-4 shadow-2xl space-y-3">
+        <div class="w-full max-w-sm bg-[#111118]/98 border border-white/10 rounded-2xl p-4 shadow-2xl space-y-3">
           <div class="flex items-center justify-between border-b border-white/10 pb-2">
             <div class="flex items-center gap-2">
-              <span class="text-xl">🎧</span>
+              <i data-lucide="headphones" class="w-4 h-4 text-purple-400"></i>
               <div>
                 <h3 class="text-xs font-bold text-white uppercase tracking-wider">Musik für das Team auflegen</h3>
-                <p class="text-[10px] text-cyan-300">Wähle einen Beat zum Live-Streamen</p>
+                <p class="text-[10px] text-gray-400">Wähle einen Beat zum Streamen</p>
               </div>
             </div>
             <button onclick="CollabEngine.closeDjSharePicker()" class="p-1 text-gray-400 hover:text-white text-xs cursor-pointer">✕</button>
           </div>
 
           <div class="space-y-1.5 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
-            <button onclick="CollabEngine.shareDjTrack('deep_house'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+            <button onclick="CollabEngine.shareDjTrack('deep_house'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 text-left flex items-center justify-between transition cursor-pointer group">
               <div class="flex items-center gap-2.5">
-                <span class="text-lg">⚡</span>
+                <i data-lucide="disc" class="w-4 h-4 text-cyan-400 shrink-0"></i>
                 <div>
                   <div class="text-xs font-bold text-white group-hover:text-cyan-200">Deep House Sunset</div>
-                  <div class="text-[10px] text-cyan-300 font-mono">126 BPM • Driving Energy</div>
+                  <div class="text-[10px] text-gray-400 font-mono">126 BPM • Driving Energy</div>
                 </div>
               </div>
-              <span class="px-2 py-1 bg-cyan-500/20 text-cyan-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+              <span class="px-2 py-1 bg-white/10 text-gray-200 rounded-lg text-[10px] font-bold">Auflegen</span>
             </button>
 
-            <button onclick="CollabEngine.shareDjTrack('lofi_chill'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-purple-500/10 hover:bg-purple-500/20 border border-purple-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+            <button onclick="CollabEngine.shareDjTrack('lofi_chill'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 text-left flex items-center justify-between transition cursor-pointer group">
               <div class="flex items-center gap-2.5">
-                <span class="text-lg">☕</span>
+                <i data-lucide="disc" class="w-4 h-4 text-purple-400 shrink-0"></i>
                 <div>
                   <div class="text-xs font-bold text-white group-hover:text-purple-200">Deep Focus Lofi</div>
-                  <div class="text-[10px] text-purple-300 font-mono">85 BPM • Chill Lounge</div>
+                  <div class="text-[10px] text-gray-400 font-mono">85 BPM • Chill Lounge</div>
                 </div>
               </div>
-              <span class="px-2 py-1 bg-purple-500/20 text-purple-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+              <span class="px-2 py-1 bg-white/10 text-gray-200 rounded-lg text-[10px] font-bold">Auflegen</span>
             </button>
 
-            <button onclick="CollabEngine.shareDjTrack('cyber_wave'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+            <button onclick="CollabEngine.shareDjTrack('cyber_wave'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 text-left flex items-center justify-between transition cursor-pointer group">
               <div class="flex items-center gap-2.5">
-                <span class="text-lg">🌌</span>
+                <i data-lucide="disc" class="w-4 h-4 text-pink-400 shrink-0"></i>
                 <div>
                   <div class="text-xs font-bold text-white group-hover:text-pink-200">Synthwave Neon Drive</div>
-                  <div class="text-[10px] text-pink-300 font-mono">128 BPM • Retro Pulse</div>
+                  <div class="text-[10px] text-gray-400 font-mono">128 BPM • Retro Pulse</div>
                 </div>
               </div>
-              <span class="px-2 py-1 bg-pink-500/20 text-pink-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+              <span class="px-2 py-1 bg-white/10 text-gray-200 rounded-lg text-[10px] font-bold">Auflegen</span>
             </button>
 
-            <button onclick="CollabEngine.shareDjTrack('ambient_flow'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-left flex items-center justify-between transition cursor-pointer group">
+            <button onclick="CollabEngine.shareDjTrack('ambient_flow'); CollabEngine.closeDjSharePicker();" class="w-full p-2.5 rounded-xl bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 text-left flex items-center justify-between transition cursor-pointer group">
               <div class="flex items-center gap-2.5">
-                <span class="text-lg">🍃</span>
+                <i data-lucide="disc" class="w-4 h-4 text-emerald-400 shrink-0"></i>
                 <div>
                   <div class="text-xs font-bold text-white group-hover:text-emerald-200">Zen Meditation Flow</div>
-                  <div class="text-[10px] text-emerald-300 font-mono">118 BPM • Calm Wave</div>
+                  <div class="text-[10px] text-gray-400 font-mono">118 BPM • Calm Wave</div>
                 </div>
               </div>
-              <span class="px-2 py-1 bg-emerald-500/20 text-emerald-200 rounded-lg text-[10px] font-bold">Auflegen 🎧</span>
+              <span class="px-2 py-1 bg-white/10 text-gray-200 rounded-lg text-[10px] font-bold">Auflegen</span>
             </button>
           </div>
 
           <div class="pt-1 border-t border-white/10 flex items-center justify-between">
-            <button onclick="CollabEngine.openDjWorkstationFromChat(); CollabEngine.closeDjSharePicker();" class="text-[10px] text-violet-400 hover:text-violet-200 underline cursor-pointer">🎛️ Eigene MP3 im DJ-Pult laden</button>
+            <button onclick="CollabEngine.openDjWorkstationFromChat(); CollabEngine.closeDjSharePicker();" class="text-[10px] text-violet-400 hover:text-violet-200 underline cursor-pointer">Eigene MP3 im DJ-Pult laden</button>
             <button onclick="CollabEngine.closeDjSharePicker()" class="px-3 py-1 bg-white/10 hover:bg-white/20 rounded-xl text-xs text-gray-200 font-semibold cursor-pointer">Abbrechen</button>
           </div>
         </div>
@@ -616,6 +697,7 @@ const CollabEngine = (function() {
     const existing = document.getElementById('collab-dj-picker-modal');
     if (existing) existing.remove();
     document.body.insertAdjacentHTML('beforeend', html);
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
   function closeDjSharePicker() {
@@ -681,12 +763,12 @@ const CollabEngine = (function() {
         voiceRoomActive = true;
         updateMicButtonUI();
         if (typeof showToast === 'function') {
-          showToast('🎙️ Mikrofon aktiv! Du bist im Voice-Kanal hörbar.');
+          showToast('Mikrofon aktiv.');
         }
       } catch (err) {
         console.warn('[VoiceChat] Microphone access warning:', err);
         if (typeof showToast === 'function') {
-          showToast('⚠️ Mikrofon-Zugriff verweigert oder nicht verfügbar.');
+          showToast('Mikrofon-Zugriff nicht verfügbar.');
         }
       }
     } else {
@@ -698,7 +780,7 @@ const CollabEngine = (function() {
       updateMicButtonUI();
       broadcastSpeakingState(false);
       if (typeof showToast === 'function') {
-        showToast('🔇 Mikrofon stummgeschaltet.');
+        showToast('Mikrofon stummgeschaltet.');
       }
     }
   }
@@ -760,14 +842,15 @@ const CollabEngine = (function() {
     if (!micBtn) return;
 
     if (!isMicMuted) {
-      micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-emerald-500 text-black font-bold text-xs flex items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.5)] transition active:scale-95 cursor-pointer';
-      if (micIcon) micIcon.innerHTML = '🎙️';
+      micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-emerald-500 text-black font-bold text-xs flex items-center gap-1.5 transition active:scale-95 cursor-pointer';
+      if (micIcon) micIcon.innerHTML = '<i data-lucide="mic" class="w-3.5 h-3.5"></i>';
       if (micStatus) micStatus.innerText = 'Mic An';
     } else {
       micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 font-semibold text-xs flex items-center gap-1.5 border border-white/10 transition active:scale-95 cursor-pointer';
-      if (micIcon) micIcon.innerHTML = '🔇';
+      if (micIcon) micIcon.innerHTML = '<i data-lucide="mic-off" class="w-3.5 h-3.5"></i>';
       if (micStatus) micStatus.innerText = 'Mic Stumm';
     }
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   }
 
   // Voice Note Recorder (Sprachnachricht im Chat aufnehmen)
@@ -902,7 +985,7 @@ const CollabEngine = (function() {
     const sysMsg = {
       id: `sys_${Date.now()}`,
       isSystem: true,
-      text: `🚀 ${user.name} hat das persönliche Dashboard mit dem Team (#${activeRoom}) geteilt!`,
+      text: `${user.name} hat das Dashboard mit dem Team geteilt (#${activeRoom}).`,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
     chatHistory.push(sysMsg);
@@ -910,28 +993,90 @@ const CollabEngine = (function() {
     renderChatMessages();
 
     if (typeof showToast === 'function') {
-      showToast(`📤 Dein Dashboard wurde live mit Raum #${activeRoom} geteilt!`);
+      showToast(`Dashboard mit Raum #${activeRoom} geteilt.`);
     }
+  }
+
+  function mergeBoardItems(localCategoryItems = [], incomingCategoryItems = []) {
+    const merged = [];
+    const seenMap = new Map();
+
+    const getTaskKey = (it) => {
+      if (typeof it === 'string') return it.trim().toLowerCase();
+      if (it && typeof it === 'object') return (it.id || it.task || '').trim().toLowerCase();
+      return '';
+    };
+
+    // 1. Lokale Items übernehmen
+    (localCategoryItems || []).forEach(item => {
+      const key = getTaskKey(item);
+      if (key) {
+        seenMap.set(key, item);
+        merged.push(item);
+      }
+    });
+
+    // 2. Eingehende Items mergen
+    (incomingCategoryItems || []).forEach(inItem => {
+      const inKey = getTaskKey(inItem);
+      if (!inKey) return;
+      if (!seenMap.has(inKey)) {
+        merged.push(inItem);
+        seenMap.set(inKey, inItem);
+      } else {
+        // Falls eingehendes Objekt neuer ist
+        const existing = seenMap.get(inKey);
+        if (typeof existing === 'object' && typeof inItem === 'object') {
+          const exTime = existing.updatedAt || existing.createdAt || 0;
+          const inTime = inItem.updatedAt || inItem.createdAt || 0;
+          if (new Date(inTime) > new Date(exTime)) {
+            const idx = merged.indexOf(existing);
+            if (idx >= 0) merged[idx] = inItem;
+          }
+        }
+      }
+    });
+
+    return merged;
   }
 
   function handleIncomingBoardSync(event) {
     if (!event || !event.boardData) return;
-    const { items, categoriesOrder: incomingCats } = event.boardData;
+    const { items: incomingItems } = event.boardData;
 
     if (typeof state !== 'undefined') {
+      // Undo-Punkt vor dem Mergen sichern
+      if (typeof saveHistory === 'function') {
+        saveHistory(`Team-Sync von ${event.sender?.name || 'Teammate'}`);
+      }
+
       if (!state.workspaces) state.workspaces = {};
-      state.workspaces.shared = {
-        items: JSON.parse(JSON.stringify(items || {})),
-        done: (state.workspaces.shared && state.workspaces.shared.done) || [],
-        history: []
-      };
+      if (!state.workspaces.shared) {
+        state.workspaces.shared = { items: {}, done: [], history: [] };
+      }
+
+      const existingSharedItems = state.workspaces.shared.items || {};
+      const mergedSharedItems = {};
+
+      const allCategories = new Set([
+        ...Object.keys(existingSharedItems),
+        ...Object.keys(incomingItems || {})
+      ]);
+
+      allCategories.forEach(cat => {
+        mergedSharedItems[cat] = mergeBoardItems(existingSharedItems[cat] || [], (incomingItems && incomingItems[cat]) || []);
+      });
+
+      state.workspaces.shared.items = mergedSharedItems;
+
       if (typeof saveState === 'function') saveState();
 
       // Wenn der Nutzer gerade im gemeinsamen Team-Board arbeitet: Live aktualisieren
       if (state.activeWorkspace === 'shared') {
+        state.items = mergedSharedItems;
         if (typeof renderApp === 'function') renderApp();
         if (typeof showToast === 'function') {
-          showToast(`⚡ Team-Dashboard von ${event.sender?.name || 'Teammate'} aktualisiert!`);
+          showToast(`Team-Dashboard von ${event.sender?.name || 'Teammate'} gemerged.`);
         }
       }
     }
@@ -939,7 +1084,7 @@ const CollabEngine = (function() {
 
   function importSharedBoardToPersonal() {
     if (typeof state === 'undefined' || !state.workspaces || !state.workspaces.shared) {
-      if (typeof showToast === 'function') showToast('⚠️ Noch kein geteiltes Team-Dashboard vorhanden.');
+      if (typeof showToast === 'function') showToast('Kein geteiltes Team-Dashboard vorhanden.');
       return;
     }
 
@@ -953,7 +1098,7 @@ const CollabEngine = (function() {
     if (typeof renderApp === 'function') renderApp();
 
     if (typeof showToast === 'function') {
-      showToast('📥 Team-Dashboard erfolgreich in deinen privaten Bereich kopiert!');
+      showToast('Team-Dashboard in den privaten Bereich kopiert.');
     }
   }
 
@@ -996,7 +1141,7 @@ const CollabEngine = (function() {
     const sysMsg = {
       id: `sys_${Date.now()}`,
       isSystem: true,
-      text: `📌 Du ${actionText}`,
+      text: `Du ${actionText}`,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
     chatHistory.push(sysMsg);
@@ -1055,7 +1200,7 @@ const CollabEngine = (function() {
 
     connect();
     if (typeof showToast === 'function') {
-      showToast(`🚀 Raum gewechselt: #${clean}`);
+      showToast(`Raum gewechselt: #${clean}`);
     }
   }
 
@@ -1071,7 +1216,7 @@ const CollabEngine = (function() {
     if (navigator && navigator.clipboard) {
       navigator.clipboard.writeText(link).then(() => {
         if (typeof showToast === 'function') {
-          showToast('✓ Team-Link in Zwischenablage kopiert! 📋');
+          showToast('Team-Link in Zwischenablage kopiert.');
         }
       });
     } else {
@@ -1085,7 +1230,7 @@ const CollabEngine = (function() {
         {
           id: `sys_${Date.now()}`,
           isSystem: true,
-          text: `🧹 Chat-Verlauf wurde geleert.`,
+          text: `Chat-Verlauf wurde geleert.`,
           time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
       ];
@@ -1384,7 +1529,7 @@ const CollabEngine = (function() {
     const indicator = document.getElementById('collab-typing-indicator');
     if (!indicator) return;
 
-    indicator.innerText = `✍️ ${name} schreibt...`;
+    indicator.innerText = `${name} schreibt...`;
     indicator.classList.remove('hidden');
 
     if (typingTimer) clearTimeout(typingTimer);
@@ -1422,8 +1567,8 @@ const CollabEngine = (function() {
     const btnMessengers = document.getElementById('collab-tab-btn-messengers');
     const btnDirect = document.getElementById('collab-tab-btn-direct');
 
-    const activeClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-violet-100 bg-gradient-to-r from-violet-600/40 via-purple-600/35 to-violet-600/40 border border-violet-400/80 shadow-[0_0_15px_rgba(139,92,246,0.35)] text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition';
-    const inactiveClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-gray-400 hover:text-violet-300 hover:bg-violet-500/10 border border-transparent transition text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
+    const activeClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-white bg-white/10 border border-white/20 text-[11px] font-bold flex items-center justify-center gap-1.5 cursor-pointer transition';
+    const inactiveClass = 'flex-1 py-1.5 px-1.5 rounded-xl text-gray-400 hover:text-white hover:bg-white/5 border border-transparent transition text-[11px] font-semibold flex items-center justify-center gap-1.5 cursor-pointer';
 
     if (btnTeam) btnTeam.className = tab === 'team' ? activeClass : inactiveClass;
     if (btnMessengers) btnMessengers.className = tab === 'messengers' ? activeClass : inactiveClass;
@@ -1452,7 +1597,7 @@ const CollabEngine = (function() {
     const input = document.getElementById('collab-messenger-input');
     let text = (input && input.value.trim()) || '';
     if (!text) {
-      text = `🚀 Schau dir mein Noodle Studio Board an: ${getShareLink()}`;
+      text = `Noodle Studio Board: ${getShareLink()}`;
     }
     return text;
   }
@@ -1470,7 +1615,7 @@ const CollabEngine = (function() {
         url = `sgnl://share?text=${encodeURIComponent(text)}`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text);
-          if (typeof showToast === 'function') showToast('📋 Nachricht kopiert! Signal wird geöffnet...');
+          if (typeof showToast === 'function') showToast('Nachricht kopiert.');
         }
         break;
       case 'viber':
@@ -1481,7 +1626,7 @@ const CollabEngine = (function() {
         url = `https://www.messenger.com/`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text);
-          if (typeof showToast === 'function') showToast('📋 Text kopiert! Öffne Messenger...');
+          if (typeof showToast === 'function') showToast('Text kopiert.');
         }
         break;
       case 'telegram':
@@ -1491,14 +1636,14 @@ const CollabEngine = (function() {
         url = `https://discord.com/app`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text);
-          if (typeof showToast === 'function') showToast('📋 Nachricht für Discord kopiert!');
+          if (typeof showToast === 'function') showToast('Nachricht kopiert.');
         }
         break;
       case 'slack':
         url = `https://slack.com/`;
         if (navigator.clipboard) {
           navigator.clipboard.writeText(text);
-          if (typeof showToast === 'function') showToast('📋 Nachricht für Slack kopiert!');
+          if (typeof showToast === 'function') showToast('Nachricht kopiert.');
         }
         break;
       case 'teams':
@@ -1521,7 +1666,7 @@ const CollabEngine = (function() {
 
   function openDirectChat(platformKey, targetContact, message) {
     if (!targetContact || !targetContact.trim()) {
-      if (typeof showToast === 'function') showToast('⚠️ Bitte Nummer oder Username eingeben');
+      if (typeof showToast === 'function') showToast('Bitte Nummer oder Username eingeben.');
       return;
     }
 
@@ -1674,7 +1819,12 @@ const CollabEngine = (function() {
     // Shared Dashboard Suite
     shareCurrentBoardWithTeam,
     importSharedBoardToPersonal,
-    switchToSharedBoard
+    switchToSharedBoard,
+    // Security & Cryptographic utilities (Phase 1)
+    generateSecureRoomCode,
+    validateEventSchema,
+    isRateLimited,
+    handleIncomingEvent
   };
 })();
 

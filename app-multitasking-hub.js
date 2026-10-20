@@ -78,16 +78,21 @@
     const layout = SNAP_LAYOUTS[layoutType];
     if (!layout) return;
 
+    const winBox = el.querySelector('.noodle-floating-modal-card') || el;
+
     // Reset old snap / fullscreen classes
     el.classList.remove('noodle-panel-fullscreen', 'hidden', 'noodle-panel-minimized');
+    winBox.classList.remove('noodle-panel-fullscreen');
     el.classList.add('noodle-panel-pinned', 'noodle-panel-snapped');
+    winBox.classList.add('noodle-window-positioned');
     el.setAttribute('data-snap-layout', layoutType);
 
-    // Set layout coordinates
-    Object.assign(el.style, {
+    // Set layout coordinates on movable window box
+    Object.assign(winBox.style, {
       position: 'fixed',
       margin: '0',
-      zIndex: (typeof highestZIndex !== 'undefined') ? (highestZIndex + 2) : 100050,
+      maxWidth: 'none',
+      transform: 'none',
       borderRadius: (layoutType === 'full') ? '0px' : '20px',
       boxShadow: '0 20px 60px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.15)',
       ...layout.style
@@ -106,24 +111,39 @@
   }
 
   /**
-   * Stellt ein gesnapptes Fenster wieder auf die Standardgröße zurück
+   * Stellt ein gesnapptes Fenster wieder auf die zentrierte Standardgröße zurück
    */
   function unsnapWindow(panelName) {
     const el = (typeof getPanelElement === 'function') ? getPanelElement(panelName) : document.getElementById(panelName);
     if (!el) return;
 
+    const winBox = el.querySelector('.noodle-floating-modal-card') || el;
+
     el.classList.remove('noodle-panel-snapped');
     el.removeAttribute('data-snap-layout');
     snappedWindows.delete(panelName);
 
-    // Reset inline positioning styles to defaults
-    el.style.left = '';
-    el.style.top = '';
-    el.style.width = '';
-    el.style.height = '';
-    el.style.right = '';
-    el.style.bottom = '';
-    el.style.borderRadius = '';
+    // Reset inline sizing styles to defaults and re-center
+    winBox.style.width = '';
+    winBox.style.height = '';
+    winBox.style.maxWidth = '';
+    winBox.style.right = '';
+    winBox.style.bottom = '';
+    winBox.style.left = '';
+    winBox.style.top = '';
+    winBox.style.borderRadius = '';
+    delete winBox.dataset.userMoved;
+
+    if (el !== winBox) {
+      el.style.left = '';
+      el.style.top = '';
+      el.style.width = '';
+      el.style.height = '';
+    }
+
+    if (window.NoodleInteractionMode && typeof window.NoodleInteractionMode.positionFloatingWindow === 'function') {
+      window.NoodleInteractionMode.positionFloatingWindow(el, panelName);
+    }
 
     updateMultitaskingState();
   }
@@ -140,7 +160,8 @@
     if (!flyout) {
       flyout = document.createElement('div');
       flyout.id = 'noodle-snap-flyout';
-      flyout.className = 'fixed z-[200080] p-3 rounded-2xl bg-[#0f0e18]/98 border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col gap-2.5 text-gray-200 select-none animate-spring-modal';
+      flyout.className = 'fixed z-[200600] p-3 rounded-2xl bg-[#0f0e18]/98 border border-white/20 shadow-[0_20px_50px_rgba(0,0,0,0.9)] backdrop-blur-2xl flex flex-col gap-2.5 text-gray-200 select-none animate-spring-modal';
+      flyout.style.zIndex = '200600';
       document.body.appendChild(flyout);
 
       flyout.onmouseenter = () => clearTimeout(flyoutCloseTimer);
@@ -155,40 +176,45 @@
       <div class="flex items-center justify-between pb-1.5 border-b border-white/10">
         <span class="text-[11px] font-bold text-gray-200 flex items-center gap-1.5">
           <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-purple-400"></i>
-          <span>Multitasking-Ansicht</span>
+          <span>Fenster-Layout & Multitasking</span>
         </span>
       </div>
 
-      <div class="flex flex-col gap-1.5 w-56 pt-1">
-        <!-- 1. Neben dem Board anheften (50% Split) -->
-        <button onclick="snapWindow('${panelName}', 'right-50'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-purple-400/50 transition flex items-center justify-between text-left cursor-pointer group">
-          <div class="flex items-center gap-2">
-            <span class="text-sm">🌓</span>
-            <div>
-              <div class="text-xs font-bold text-white group-hover:text-purple-300">Neben Board anheften</div>
-              <div class="text-[9.5px] text-gray-400">Rechte Bildschirmhälfte</div>
+      <div class="flex flex-col gap-1.5 w-60 pt-1">
+        <div class="grid grid-cols-2 gap-1.5">
+          <!-- Links 50% -->
+          <button onclick="snapWindow('${panelName}', 'left-50'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-cyan-400/50 transition flex items-center justify-between text-left cursor-pointer group">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">◧</span>
+              <span class="text-[11px] font-bold text-white group-hover:text-cyan-300">Links 50%</span>
             </div>
-          </div>
-          <span class="text-[10px] text-purple-300 font-mono font-bold">50%</span>
-        </button>
+          </button>
+          <!-- Rechts 50% -->
+          <button onclick="snapWindow('${panelName}', 'right-50'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-purple-400/50 transition flex items-center justify-between text-left cursor-pointer group">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs">◨</span>
+              <span class="text-[11px] font-bold text-white group-hover:text-purple-300">Rechts 50%</span>
+            </div>
+          </button>
+        </div>
 
-        <!-- 2. Vollbild / Normalgröße -->
+        <!-- Vollbild / Normalgröße -->
         <button onclick="toggleFullscreen('${panelName}'); hideSnapFlyout();" class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-purple-400/50 transition flex items-center justify-between text-left cursor-pointer group">
           <div class="flex items-center gap-2">
-            <span class="text-sm">⛶</span>
+            <span class="text-sm">□</span>
             <div>
-              <div class="text-xs font-bold text-white group-hover:text-purple-300">Vollbild umschalten</div>
-              <div class="text-[9.5px] text-gray-400">Gesamten Bildschirm nutzen</div>
+              <div class="text-xs font-bold text-white group-hover:text-purple-300">Maximieren / Vollbild</div>
+              <div class="text-[9.5px] text-gray-400">Großes Studio-Fenster umschalten</div>
             </div>
           </div>
-          <span class="text-[10px] text-purple-300 font-mono font-bold">100%</span>
+          <span class="text-[10px] text-purple-300 font-mono font-bold">MAX</span>
         </button>
       </div>
 
       ${isSnapped ? `
         <div class="pt-1.5 border-t border-white/10 flex justify-end">
-          <button onclick="unsnapWindow('${panelName}'); hideSnapFlyout();" class="text-[10.5px] text-gray-400 hover:text-white transition cursor-pointer flex items-center gap-1">
-            <span>↩ Normalgröße wiederherstellen</span>
+          <button onclick="unsnapWindow('${panelName}'); hideSnapFlyout();" class="text-[10.5px] text-cyan-300 hover:text-white transition cursor-pointer flex items-center gap-1 font-bold">
+            <span>↩ Zentriert frei schwebend</span>
           </button>
         </div>
       ` : ''}
