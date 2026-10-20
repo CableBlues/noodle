@@ -82,7 +82,11 @@ function suggestInspirationQuote() {
 }
 
 function suggestBoostActivity() {
-  const list = BOOST_ACTIVITIES[currentLang] || BOOST_ACTIVITIES['en'];
+  const activities = (typeof window !== 'undefined' && window.BOOST_ACTIVITIES) || (typeof BOOST_ACTIVITIES !== 'undefined' ? BOOST_ACTIVITIES : null);
+  if (!activities) return;
+  const curL = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' ? window.currentLang : 'de')) || 'de';
+  const list = activities[curL] || activities['en'] || activities['de'];
+  if (!list || list.length === 0) return;
   const randomActivity = list[Math.floor(Math.random() * list.length)];
   const box = document.getElementById('boost-activity-box'); if (box) box.innerText = randomActivity;
 }

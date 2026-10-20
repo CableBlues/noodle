@@ -6,7 +6,7 @@
  * für das Pausen-Modal und die Sprachausgabe.
  */
 
-const BREAK_TIPS = {
+var BREAK_TIPS = {
   de: [
     "Mache 5 Kniebeugen oder strecke deinen Körper einmal kräftig durch!",
     "Trinke ein großes Glas frisches, kaltes Wasser!",
@@ -52,7 +52,7 @@ const BREAK_TIPS = {
 };
 
 // Psychologische Micro-Steps zur Überwindung von Blockaden
-const DOPAMINE_TASKS = {
+var DOPAMINE_TASKS = {
   de: [
     "Trinke 3 Schlucke frisches Wasser 💧",
     "Strecke deine Arme 10 Sekunden lang fest Richtung Decke 🙋‍♂️",
@@ -116,7 +116,7 @@ const DOPAMINE_TASKS = {
 };
 
 // 40 motivierende Kurzaktivitäten für neuen Schwung & Fokus
-const BOOST_ACTIVITIES = {
+var BOOST_ACTIVITIES = {
   de: [
     "Atme 3-mal tief durch deine Nase ein und gaaaaanz langsam durch deinen Mund wieder aus. 🌬️",
     "Trinke ein großes Glas frisches, kaltes Wasser, um deine Gehirnzellen aufzuwecken! 💧",
@@ -370,3 +370,14 @@ const BOOST_ACTIVITIES = {
     'Allarga le dita il più possibile, mantieni per 5 secondi, poi rilassa. 🖐️'
   ]
 }; 
+
+if (typeof window !== 'undefined') {
+  window.BREAK_TIPS = BREAK_TIPS;
+  window.DOPAMINE_TASKS = DOPAMINE_TASKS;
+  window.BOOST_ACTIVITIES = BOOST_ACTIVITIES;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.BREAK_TIPS = BREAK_TIPS;
+  globalThis.DOPAMINE_TASKS = DOPAMINE_TASKS;
+  globalThis.BOOST_ACTIVITIES = BOOST_ACTIVITIES;
+} 

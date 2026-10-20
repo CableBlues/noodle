@@ -594,9 +594,13 @@ function migrateState(raw, lang) {
     ? defTasksMap[currentL] 
     : ((defTasksMap && defTasksMap['de']) ? defTasksMap['de'] : { daily: [], weekly: [], occasionally: [] });
   const customDefaults = getCustomDefaults();
-  const initDaily = (customDefaults && Array.isArray(customDefaults.daily)) ? customDefaults.daily : (localizedDefaults.daily || []);
-  const initWeekly = (customDefaults && Array.isArray(customDefaults.weekly)) ? customDefaults.weekly : (localizedDefaults.weekly || []);
-  const initOccasionally = (customDefaults && Array.isArray(customDefaults.occasionally)) ? customDefaults.occasionally : (localizedDefaults.occasionally || []);
+  const hasCustomDaily = customDefaults && Array.isArray(customDefaults.daily) && customDefaults.daily.length > 0;
+  const hasCustomWeekly = customDefaults && Array.isArray(customDefaults.weekly) && customDefaults.weekly.length > 0;
+  const hasCustomOccasional = customDefaults && Array.isArray(customDefaults.occasionally) && customDefaults.occasionally.length > 0;
+
+  const initDaily = hasCustomDaily ? customDefaults.daily : (localizedDefaults.daily || []);
+  const initWeekly = hasCustomWeekly ? customDefaults.weekly : (localizedDefaults.weekly || []);
+  const initOccasionally = hasCustomOccasional ? customDefaults.occasionally : (localizedDefaults.occasionally || []);
 
   const todayStr = new Date().toISOString().split('T')[0];
   const currentWeekStr = getYearAndWeek(new Date());
@@ -1722,7 +1726,10 @@ async function handleReset() {
     el: 'Θέλεις να φορτώσεις το πρότυπο με τις προτεινόμενες ρουτίνες και κάρτες;'
   });
   
-  const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
+  const confirmFn = (typeof showConfirmDialog === 'function') 
+    ? showConfirmDialog 
+    : (typeof window !== 'undefined' && typeof window.showConfirmDialog === 'function' ? window.showConfirmDialog : null);
+  const confirmed = typeof confirmFn === 'function' ? await confirmFn({
     title: typeof tr === 'function' ? tr({ de: 'Vorlage laden?', en: 'Load Template?' }) : 'Vorlage laden?',
     message: confirmMsg,
     confirmText: typeof tr === 'function' ? tr({ de: 'Vorlage laden', en: 'Load Template' }) : 'Vorlage laden',
@@ -1731,7 +1738,7 @@ async function handleReset() {
   }) : confirm(confirmMsg);
 
   if (confirmed) {
-    saveHistory();
+    if (typeof saveHistory === 'function') saveHistory();
     const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
     if (typeof trackAllListsClear === 'function') {
       trackAllListsClear(ws, state.items, state.done);
@@ -1745,9 +1752,14 @@ async function handleReset() {
     const activeL = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' ? window.currentLang : 'de')) || 'de';
     const localizedDefaults = (defTasksMap && (defTasksMap[activeL] || defTasksMap['de'] || defTasksMap['en']))
       || { daily: [], weekly: [], occasionally: [] };
-    const dailyTasks = (customDefaults && Array.isArray(customDefaults.daily)) ? [...customDefaults.daily] : [...(localizedDefaults.daily || [])];
-    const weeklyTasks = (customDefaults && Array.isArray(customDefaults.weekly)) ? [...customDefaults.weekly] : [...(localizedDefaults.weekly || [])];
-    const occasionallyTasks = (customDefaults && Array.isArray(customDefaults.occasionally)) ? [...customDefaults.occasionally] : [...(localizedDefaults.occasionally || [])];
+
+    const hasCustomDaily = customDefaults && Array.isArray(customDefaults.daily) && customDefaults.daily.length > 0;
+    const hasCustomWeekly = customDefaults && Array.isArray(customDefaults.weekly) && customDefaults.weekly.length > 0;
+    const hasCustomOccasional = customDefaults && Array.isArray(customDefaults.occasionally) && customDefaults.occasionally.length > 0;
+
+    const dailyTasks = hasCustomDaily ? [...customDefaults.daily] : [...(localizedDefaults.daily || [])];
+    const weeklyTasks = hasCustomWeekly ? [...customDefaults.weekly] : [...(localizedDefaults.weekly || [])];
+    const occasionallyTasks = hasCustomOccasional ? [...customDefaults.occasionally] : [...(localizedDefaults.occasionally || [])];
     const todoTasks = (customDefaults && Array.isArray(customDefaults.todo)) ? [...customDefaults.todo] : [];
 
     const nowISO = new Date().toISOString();
@@ -1764,6 +1776,8 @@ async function handleReset() {
       cooking: typeof createDefaultCookingState === 'function' ? createDefaultCookingState() : {},
       clarity: { streakDays: 0, lastCheckinDate: null, history: [], savedReasons: [] }
     };
+    if (typeof window !== 'undefined') window.state = state;
+    if (typeof globalThis !== 'undefined') globalThis.state = state;
     
     categoriesOrder = [
       ['weekly', 'home'],
@@ -1836,7 +1850,10 @@ async function handleClearAllLists() {
     el: `Θέλεις πραγματικά να αδειάσεις όλες τις ${totalTasks} εργασίες από όλες τις κάρτες αυτού του χώρου;`
   });
 
-  const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
+  const confirmFn = (typeof showConfirmDialog === 'function') 
+    ? showConfirmDialog 
+    : (typeof window !== 'undefined' && typeof window.showConfirmDialog === 'function' ? window.showConfirmDialog : null);
+  const confirmed = typeof confirmFn === 'function' ? await confirmFn({
     title: typeof tr === 'function' ? tr({ de: 'Karten leeren?', en: 'Clear all cards?' }) : 'Karten leeren?',
     message: confirmMsg,
     confirmText: typeof tr === 'function' ? tr({ de: 'Karten leeren', en: 'Clear cards' }) : 'Karten leeren',
@@ -1862,6 +1879,8 @@ async function handleClearAllLists() {
       state.done = [];
     }
     state.updatedAt = new Date().toISOString();
+    if (typeof window !== 'undefined') window.state = state;
+    if (typeof globalThis !== 'undefined') globalThis.state = state;
     saveState();
     if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
       cloudSyncEngine.triggerImmediatePush();
