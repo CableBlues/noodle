@@ -8,42 +8,42 @@
  * verlässlich auch ohne bestehende Internetverbindung.
  */
 
-const CACHE_NAME = 'noodle-cache-v270';
+const CACHE_NAME = 'noodle-cache-v3460585817';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
-  './manifest.json',
-  './logo-noodle.png',
-  './logo-banner.png',
+  './app.bundle.js',
   './favicon.png',
   './favicon.svg',
-  './icon-192.png',
-  './icon-192.svg',
-  './icon-512.png',
-  './icon-512.svg',
   './fonts.css',
-  './app.bundle.js',
+  './fonts/caveat-400.ttf',
+  './fonts/caveat-700.ttf',
+  './fonts/playfair-display-400.ttf',
+  './fonts/playfair-display-700.ttf',
   './fonts/plus-jakarta-sans-400.ttf',
   './fonts/plus-jakarta-sans-500.ttf',
   './fonts/plus-jakarta-sans-600.ttf',
   './fonts/plus-jakarta-sans-700.ttf',
   './fonts/space-grotesk-500.ttf',
   './fonts/space-grotesk-700.ttf',
-  './fonts/caveat-400.ttf',
-  './fonts/caveat-700.ttf',
-  './fonts/playfair-display-400.ttf',
-  './fonts/playfair-display-700.ttf',
+  './icon-192.png',
+  './icon-192.svg',
+  './icon-512.png',
+  './icon-512.svg',
+  './logo-banner.png',
+  './logo-noodle.png',
+  './manifest.json',
+  './styles-animations.css',
   './styles-base-1.css',
   './styles-base-2.css',
   './styles-dock.css',
   './styles-hover.css',
-  './styles-animations.css',
   './styles-mobile.css',
-  './vendor/tailwindcss.js',
+  './vendor/html2canvas.min.js',
   './vendor/lucide.min.js',
-  './vendor/supabase.min.js',
   './vendor/qrcode.min.js',
-  './vendor/html2canvas.min.js'
+  './vendor/supabase.min.js',
+  './vendor/tailwindcss.js'
 ];
 
 self.addEventListener('message', (event) => {
@@ -58,7 +58,7 @@ self.addEventListener('install', (event) => {
       return cache.addAll(ASSETS_TO_CACHE).catch((err) => {
         console.warn('Einige Assets konnten nicht vorab gecacht werden:', err);
       });
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 

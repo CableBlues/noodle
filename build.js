@@ -10,6 +10,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { extractAssetsFromHtml, generateCacheVersion, updateServiceWorkerFile } from './sw-generator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -203,48 +204,19 @@ if (scriptBlockRegex.test(indexHtml)) {
 fs.writeFileSync(path.join(distDir, 'index.html'), indexHtml, 'utf8');
 console.log('✓ dist/index.html erfolgreich auf app.bundle.js umgestellt');
 
-// 5. Generate dist/sw.js tailored for dist/ assets
-let swContent = fs.readFileSync(path.join(rootDir, 'sw.js'), 'utf8');
-const distAssets = [
-  './',
-  './index.html',
-  './manifest.json',
-  './logo-noodle.png',
-  './logo-banner.png',
-  './favicon.png',
-  './favicon.svg',
-  './icon-192.png',
-  './icon-192.svg',
-  './icon-512.png',
-  './icon-512.svg',
-  './fonts.css',
-  './app.bundle.js',
-  './fonts/plus-jakarta-sans-400.ttf',
-  './fonts/plus-jakarta-sans-500.ttf',
-  './fonts/plus-jakarta-sans-600.ttf',
-  './fonts/plus-jakarta-sans-700.ttf',
-  './fonts/space-grotesk-500.ttf',
-  './fonts/space-grotesk-700.ttf',
-  './fonts/caveat-400.ttf',
-  './fonts/caveat-700.ttf',
-  './fonts/playfair-display-400.ttf',
-  './fonts/playfair-display-700.ttf',
-  './styles-base-1.css',
-  './styles-base-2.css',
-  './styles-dock.css',
-  './styles-hover.css',
-  './styles-animations.css',
-  './styles-mobile.css',
-  './vendor/tailwindcss.js',
-  './vendor/lucide.min.js',
-  './vendor/supabase.min.js',
-  './vendor/qrcode.min.js',
-  './vendor/html2canvas.min.js'
-];
-const distAssetsBlock = `const ASSETS_TO_CACHE = [\n  ${distAssets.map(a => `'${a}'`).join(',\n  ')}\n];`;
-swContent = swContent.replace(/const ASSETS_TO_CACHE = \[[\s\S]*?\];/m, distAssetsBlock);
-fs.writeFileSync(path.join(distDir, 'sw.js'), swContent, 'utf8');
-console.log('✓ dist/sw.js mit optimierter Offline-Cache-Liste erzeugt');
+// 5. Automatische Erzeugung von ASSETS_TO_CACHE und Cache-Version für sw.js und dist/sw.js
+const rootIndexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
+const rootAssets = extractAssetsFromHtml(rootIndexHtml, { baseDir: rootDir });
+const rootCacheVersion = generateCacheVersion(rootAssets, rootDir);
+updateServiceWorkerFile(path.join(rootDir, 'sw.js'), rootAssets, rootCacheVersion);
+console.log(`✓ sw.js automatisch aktualisiert (${rootAssets.length} Assets, Version: ${rootCacheVersion})`);
+
+const distIndexHtml = fs.readFileSync(path.join(distDir, 'index.html'), 'utf8');
+const distAssets = extractAssetsFromHtml(distIndexHtml, { baseDir: distDir });
+const distCacheVersion = generateCacheVersion(distAssets, distDir);
+fs.copyFileSync(path.join(rootDir, 'sw.js'), path.join(distDir, 'sw.js'));
+updateServiceWorkerFile(path.join(distDir, 'sw.js'), distAssets, distCacheVersion);
+console.log(`✓ dist/sw.js automatisch aktualisiert (${distAssets.length} Assets, Version: ${distCacheVersion})`);
 
 console.log('\n====================================================');
 console.log('🎉 BUILD ERFOLGREICH ABGESCHLOSSEN (Bereit für Hosting)');

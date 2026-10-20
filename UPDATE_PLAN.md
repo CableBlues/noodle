@@ -3,12 +3,46 @@
 ## Checkliste der Phasen
 - [x] **Phase 0: Ausgangsstand** – Baseline-Tests, Build-Laufzeit, Bundle-Größe & Korrektur roter Bestandstests
 - [x] **Phase 1: Collab-Sicherheit** – Schema-Validierung, Größen-/Rate-Limits, kryptografische Raumcodes (≥10 Zeichen), merge-basierter Board-Sync mit Undo-Punkt, private Channels, `supabase-policies.sql` mit RLS für `flow_sync`, Behebung unsicherer Interpolationen
-- [ ] **Phase 2: Service Worker** – Automatische Generierung von `ASSETS_TO_CACHE` und `CACHE_VERSION` im Build, Vollständigkeitstest & Offline-Erststart, Update-Hinweis-Banner
+- [x] **Phase 2: Service Worker** – Automatische Generierung von `ASSETS_TO_CACHE` und `CACHE_VERSION` im Build, Vollständigkeitstest & Offline-Erststart, Update-Hinweis-Banner
 - [ ] **Phase 3: Build & Performance** – Vorkompiliertes Tailwind CSS statt Runtime, Bundling + Minifizierung via esbuild, Sprachdaten-Lazy-Loading, Delta-Sync mit Fallback
 - [ ] **Phase 4: Architektur A** – Modulare Migration auf ES-Module (main.js), temporäre Window-Kompatibilitätsschicht, Bereinigung toter Dateien
 - [ ] **Phase 5: Architektur B** – Event-Delegation (`data-action`) statt Inline-`onclick`, Strikte CSP, Aufteilung monolithischer Dateien >2000 Zeilen
 - [ ] **Phase 6: Datenschutz** – E2E-Verschlüsselung (WebCrypto AES-GCM / PBKDF2), Opt-in, Migration, Developer-Modus für Config-Overrides
 - [ ] **Phase 7: Abschluss** – README & Dokumentation, Finalisierung UPDATE_PLAN.md
+
+---
+
+## Phase 2: Service Worker & PWA
+
+### Umgesetzte Maßnahmen
+1. **Automatische Erkennung & Generierung von `ASSETS_TO_CACHE` (`sw-generator.js` & `build.js`):**
+   - Neues Generator-Modul `sw-generator.js` parst `index.html` und extrahiert dynamisch alle referenzierten lokalen `<script src="...">`- und `<link rel="stylesheet" href="...">`-Ressourcen, Vendor-Bibliotheken, Icons und Schriftdateien (`fonts/`).
+   - Alle zuvor fehlenden Module sind nun lückenlos im Offline-Cache erfasst: `app-health.js`, `app-humor.js`, `app-regulation.js`, `app-feature-bridge.js`, `app-installation-hub.js`, `app-interaction-mode.js`, `app-multitasking-hub.js`, `app-routine-presets.js`, `app-tooltip.js`, `helper-ocr-scanner.js` (insgesamt 92 Assets im Entwicklungsmodus, 34 im Produktions-Release `dist/`).
+2. **Deterministische Cache-Versionierung (`CACHE_VERSION`):**
+   - `generateCacheVersion()` errechnet einen Inhalts-Hash (SHA-256) über sämtliche physischen Cache-Assets und formatiert ihn als `noodle-cache-v<numeric_id>`. Jede Code-, Style- oder Asset-Änderung führt automatisch zu einem neuen Cache-Namen und triggert das PWA-Update.
+3. **PWA-Update-Hinweis ("Neue Version verfügbar"):**
+   - In `index.html` ein dezentes, modales Benachrichtigungs-Banner `#sw-update-banner` integriert mit Button "Aktualisieren" (`#sw-update-btn`) und Dismiss-Button (`#sw-update-dismiss`).
+   - Der Service-Worker-Registrierungslistener reagiert auf `reg.waiting` sowie das `updatefound`-Event eines neu installierten Workers (`state === 'installed' && navigator.serviceWorker.controller`).
+   - Klick auf "Aktualisieren" sendet `{ action: 'skipWaiting' }` an den wartenden Worker; bei `controllerchange` wird die Anwendung reibungslos per `window.location.reload()` aktualisiert.
+   - In `sw.js` das unbedingte `self.skipWaiting()` im `install`-Event entfernt, damit aktive Benutzersitzungen bei Hintergrund-Updates nicht unaufgefordert unterbrochen werden.
+4. **Verhaltens- & Vollständigkeits-Tests:**
+   - In `tests/offline-and-pwa.test.js` drei neue Verhaltens-Tests implementiert:
+     - Vollständigkeits-Prüfung aller in `index.html` referenzierten Module in `ASSETS_TO_CACHE`.
+     - Update-Banner-DOM- und Event-Prüfung (`#sw-update-banner`, `skipWaiting`).
+     - Simulation des Offline-Erststarts (Cache-Befüllung und verlässliche Auslieferung der App-Shell ohne Netzwerkverbindung).
+   - Alle 35 Test-Suiten mit 240/240 Tests erfolgreich bestanden.
+
+### Geänderte Dateien
+- `sw-generator.js` (neu)
+- `build.js`
+- `sw.js`
+- `index.html`
+- `tests/offline-and-pwa.test.js`
+- `UPDATE_PLAN.md`
+
+### Entscheidungen
+- `CACHE_NAME` wird deterministisch aus Inhalts-Hashes aller gecachten Dateien als `noodle-cache-v\d+` berechnet, um volle Abwärtskompatibilität mit bestehenden Regressionstests zu gewährleisten.
+- Erststart erfolgt nahtlos ohne störendes Update-Banner, Updates im laufenden Betrieb werden sanft per Banner signalisiert.
 
 ---
 

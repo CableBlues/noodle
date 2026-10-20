@@ -7397,15 +7397,78 @@
     })();
   </script>
 
-  <!-- Service Worker Registrierung für 100% Offline-Fähigkeit & Blitzstart (nur über HTTP/HTTPS) -->
+  <!-- PWA UPDATE HINWEIS BANNER -->
+  <div id="sw-update-banner" class="hidden fixed bottom-5 right-5 z-[100001] max-w-sm bg-[#161622]/95 backdrop-blur-xl border border-cyan-500/40 shadow-2xl rounded-2xl p-4 flex items-center gap-3 text-sm text-[#f4f4f5] transition-all duration-300">
+    <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-300 flex items-center justify-center shrink-0">
+      <i data-lucide="sparkles" class="w-5 h-5"></i>
+    </div>
+    <div class="flex-1 min-w-0">
+      <p class="font-bold text-white text-xs font-display">Neue Version verfügbar</p>
+      <p class="text-[11px] text-zinc-400 leading-tight">Ein Update für Noodle Studio steht bereit.</p>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+      <button id="sw-update-btn" class="px-3 py-1.5 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 active:scale-95 text-black font-bold text-xs rounded-xl transition-all shadow-md cursor-pointer">
+        Aktualisieren
+      </button>
+      <button id="sw-update-dismiss" class="p-1.5 hover:bg-white/10 text-zinc-400 hover:text-white rounded-lg transition-all cursor-pointer" aria-label="Schließen">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Service Worker Registrierung für 100% Offline-Fähigkeit & PWA-Updates -->
   <script>
     if ('serviceWorker' in navigator && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').then((reg) => {
+          function showUpdateNotification(worker) {
+            const banner = document.getElementById('sw-update-banner');
+            const updateBtn = document.getElementById('sw-update-btn');
+            const dismissBtn = document.getElementById('sw-update-dismiss');
+            if (!banner) return;
+            banner.classList.remove('hidden');
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+              try { lucide.createIcons(); } catch (e) {}
+            }
+            if (updateBtn) {
+              updateBtn.onclick = () => {
+                if (worker) {
+                  worker.postMessage({ action: 'skipWaiting' });
+                }
+              };
+            }
+            if (dismissBtn) {
+              dismissBtn.onclick = () => {
+                banner.classList.add('hidden');
+              };
+            }
+          }
+
+          if (reg.waiting) {
+            showUpdateNotification(reg.waiting);
+          }
+
+          reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing;
+            if (!newWorker) return;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                showUpdateNotification(newWorker);
+              }
+            });
+          });
+
           reg.update();
           console.log('Noodle Studio Service Worker aktiv:', reg.scope);
         }).catch((err) => {
           console.warn('Service Worker Registrierung fehlgeschlagen:', err);
+        });
+
+        let isRefreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (isRefreshing) return;
+          isRefreshing = true;
+          window.location.reload();
         });
       });
     }
