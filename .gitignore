@@ -3,4 +3,3 @@ node_modules/
 .system_generated/
 *.log
 projekt_code.txt
-/app.bundle.js

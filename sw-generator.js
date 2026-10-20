@@ -48,8 +48,8 @@ export function extractAssetsFromHtml(htmlContent, options = {}) {
     }
   }
 
-  // Falls main.js referenziert ist oder existiert (und HTML nicht bereits das app.bundle.js lädt), darin importierte Module aufnehmen
-  const isBundle = /src=["'][^"']*app\.bundle\.js["']/.test(htmlContent);
+  // Falls main.js referenziert ist oder existiert (und HTML nicht ausschließlich das app.bundle.js lädt), darin importierte Module aufnehmen
+  const isBundle = !htmlContent.includes('main.js') && /src=["'][^"']*app\.bundle\.js["']/.test(htmlContent);
   const mainJsPath = path.join(baseDir, 'main.js');
   if (!isBundle && fs.existsSync(mainJsPath)) {
     try {

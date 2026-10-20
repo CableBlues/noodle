@@ -8,7 +8,7 @@
  * verlässlich auch ohne bestehende Internetverbindung.
  */
 
-const CACHE_NAME = 'noodle-cache-v3895765512';
+const CACHE_NAME = 'noodle-cache-v3881714919';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -34,6 +34,7 @@ const ASSETS_TO_CACHE = [
   './app-tasks.js',
   './app-tooltip.js',
   './app-weather-news.js',
+  './app.bundle.js',
   './audio-core.js',
   './audio-generators.js',
   './audio-player.js',

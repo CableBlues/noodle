@@ -7319,6 +7319,12 @@
 
   <!-- Noodle Studio ES-Modul Haupt-Einstiegspunkt (Pipeline & Architektur) -->
   <script type="module" src="main.js"></script>
+  <!-- Automatischer Fallback für lokales Öffnen über file:// (Chromium blockiert ES-Module auf file://) -->
+  <script>
+    if (window.location.protocol === 'file:') {
+      document.write('<script src="app.bundle.js"><\/script>');
+    }
+  </script>
 
   <!-- Umami: generisches Feature-Tracking – wrapt automatisch ALLE window.open...Modal-Funktionen,
        damit im Umami-Dashboard unter "Events" sichtbar wird, welche Features tatsächlich genutzt
