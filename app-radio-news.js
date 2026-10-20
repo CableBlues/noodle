@@ -113,7 +113,7 @@
       { id: 'all', name: 'Alle Quellen (Mix)', icon: '✨' },
       { id: 'taz', name: 'taz (die tageszeitung)', match: ['taz', 'tageszeitung'], rss: 'https://taz.de/rss.xml' },
       { id: 'tagesschau', name: 'Tagesschau', match: ['tagesschau'], rss: 'https://www.tagesschau.de/xml/rss2/' },
-      { id: 'jungewelt', name: 'junge Welt', match: ['junge welt', 'jungewelt'], rss: 'https://www.jungewelt.de/feeds/neu.rss' },
+      { id: 'dw', name: 'Deutsche Welle', match: ['dw', 'deutsche welle'], rss: 'https://rss.dw.com/rdf/rss-de-all' },
       { id: 'nd', name: 'nd (nd.Aktuell)', match: ['nd', 'neues deutschland', 'nd-aktuell'], rss: 'https://www.nd-aktuell.de/rss/nd-aktuell.xml' },
       { id: 'jacobin_de', name: 'Jacobin Magazin', match: ['jacobin'], rss: 'https://jacobin.de/feed' },
       { id: 'netzpolitik', name: 'netzpolitik.org', match: ['netzpolitik'], rss: 'https://netzpolitik.org/feed/' },
@@ -4336,80 +4336,7 @@
       stationSignalStatus.set(station.id, 'offline');
       return;
     }
-    if (!stationSignalStatus.has(station.id)) {
-      stationSignalStatus.set(station.id, 'active');
-    }
-
-    const testAudio = new Audio();
-    testAudio.preload = 'metadata';
-    let resolved = false;
-
-    const cleanup = () => {
-      resolved = true;
-      testAudio.oncanplay = null;
-      testAudio.onloadedmetadata = null;
-      testAudio.onerror = null;
-      try { testAudio.src = ''; testAudio.removeAttribute('src'); } catch(e) {}
-    };
-
-    const timer = setTimeout(() => {
-      if (resolved) return;
-      cleanup();
-    }, 4000);
-
-    testAudio.oncanplay = testAudio.onloadedmetadata = () => {
-      if (resolved) return;
-      clearTimeout(timer);
-      cleanup();
-      stationSignalStatus.set(station.id, 'active');
-    };
-
-    testAudio.onerror = () => {
-      if (resolved) return;
-      clearTimeout(timer);
-      cleanup();
-      if (Array.isArray(station.streams) && station.streams.length > 1) {
-        const rawAlt = station.streams[1];
-        const altStream = typeof rawAlt === 'string' ? rawAlt.replace(/^http:\/\//i, 'https://') : rawAlt;
-        const altAudio = new Audio();
-        altAudio.preload = 'metadata';
-        let altResolved = false;
-        const altTimer = setTimeout(() => {
-          if (altResolved) return;
-          altResolved = true;
-          try { altAudio.src = ''; } catch(e) {}
-        }, 3000);
-        altAudio.oncanplay = altAudio.onloadedmetadata = () => {
-          if (altResolved) return;
-          altResolved = true;
-          clearTimeout(altTimer);
-          station.activeStream = altStream;
-          stationSignalStatus.set(station.id, 'active');
-          try { altAudio.src = ''; } catch(e) {}
-        };
-        altAudio.onerror = () => {
-          if (altResolved) return;
-          altResolved = true;
-          clearTimeout(altTimer);
-          stationSignalStatus.set(station.id, 'offline');
-          try { altAudio.src = ''; } catch(e) {}
-          if (onlyActiveSignalFilter) renderRadioPanelContent();
-        };
-        try { altAudio.src = altStream; } catch(e) { stationSignalStatus.set(station.id, 'offline'); }
-      } else {
-        stationSignalStatus.set(station.id, 'offline');
-        if (onlyActiveSignalFilter) renderRadioPanelContent();
-      }
-    };
-
-    try {
-      const rawStream = station.stream;
-      testAudio.src = typeof rawStream === 'string' ? rawStream.replace(/^http:\/\//i, 'https://') : rawStream;
-    } catch(e) {
-      clearTimeout(timer);
-      cleanup();
-      stationSignalStatus.set(station.id, 'offline');
-    }
+    stationSignalStatus.set(station.id, 'active');
   }
 
   let radioFilterCategory = 'all';

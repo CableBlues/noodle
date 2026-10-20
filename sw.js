@@ -8,7 +8,7 @@
  * verlässlich auch ohne bestehende Internetverbindung.
  */
 
-const CACHE_NAME = 'noodle-cache-v2361831097';
+const CACHE_NAME = 'noodle-cache-v1328376123';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -136,17 +136,27 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  const url = new URL(event.request.url);
-
-  // Sync API & Wetter Aufrufe: Network-First mit Cache-Fallback
-  if (url.origin !== self.location.origin && !url.hostname.includes('cdn') && !url.hostname.includes('unpkg') && !url.hostname.includes('fonts')) {
-    event.respondWith(
-      fetch(event.request).catch(() => caches.match(event.request))
-    );
+  // 1. Nur GET-Requests behandeln
+  if (event.request.method !== 'GET') {
     return;
   }
 
-  // HTML & Navigation: Network-First für sofortige Updates bei Änderungen
+  // 2. Audio- & Videostreams und Range-Requests direkt an den Browser durchreichen
+  if (event.request.destination === 'audio' || event.request.destination === 'video' || event.request.headers.get('range')) {
+    return;
+  }
+
+  const url = new URL(event.request.url);
+
+  // 3. Externe dynamische Ressourcen (Radio-Streams, Wetter-APIs, RSS-Feeds, Supabase) nicht abfangen
+  if (url.origin !== self.location.origin) {
+    const isStaticCdn = url.hostname.includes('cdn') || url.hostname.includes('unpkg') || url.hostname.includes('fonts');
+    if (!isStaticCdn) {
+      return;
+    }
+  }
+
+  // 4. HTML & Navigation: Network-First für sofortige Updates bei Änderungen
   if (event.request.mode === 'navigate' || url.pathname.endsWith('index.html') || url.pathname.endsWith('/')) {
     event.respondWith(
       fetch(event.request).then((networkResponse) => {
@@ -155,12 +165,15 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
         }
         return networkResponse;
-      }).catch(() => caches.match('./index.html') || caches.match(event.request))
+      }).catch(async () => {
+        const fallback = (await caches.match('./index.html')) || (await caches.match(event.request));
+        return fallback || new Response('Offline', { status: 503, headers: { 'Content-Type': 'text/plain' } });
+      })
     );
     return;
   }
 
-  // Statische Assets & App-Code: Cache-First für 0ms Ladezeit & Offline-Betrieb
+  // 5. Statische Assets & App-Code: Cache-First für 0ms Ladezeit & Offline-Betrieb
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       if (cachedResponse) {
@@ -178,10 +191,11 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
         }
         return networkResponse;
-      }).catch(() => {
+      }).catch(async () => {
         if (event.request.mode === 'navigate') {
-          return caches.match('./index.html');
+          return (await caches.match('./index.html')) || new Response('Offline', { status: 503 });
         }
+        return new Response('', { status: 404, statusText: 'Not Found' });
       });
     })
   );

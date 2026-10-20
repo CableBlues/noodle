@@ -103,6 +103,9 @@ import './app-core.js';
   if (typeof CollabEngine !== 'undefined') w.CollabEngine = CollabEngine;
 
   // I18N & Themes
+  if (typeof currentTheme !== 'undefined') w.currentTheme = currentTheme;
+  if (typeof currentLang !== 'undefined') w.currentLang = currentLang;
+  if (typeof isMinimalist !== 'undefined') w.isMinimalist = isMinimalist;
   if (typeof TRANSLATIONS !== 'undefined') w.TRANSLATIONS = TRANSLATIONS;
   if (typeof loadLanguage === 'function') w.loadLanguage = loadLanguage;
   if (typeof setLanguage === 'function') w.setLanguage = setLanguage;

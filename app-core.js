@@ -300,7 +300,7 @@ window.addEventListener('keydown', (e) => {
 
   const pickModal = document.getElementById('helper-pick-modal');
   const isPickModalOpen = pickModal && !pickModal.classList.contains('hidden');
-  const key = e.key.toLowerCase();
+  const key = (e.key || '').toLowerCase();
 
   // Space / Leertaste -> Timer pausieren / starten
   if (e.key === ' ' || e.code === 'Space') {
@@ -872,7 +872,9 @@ async function clearAllApplicationData() {
 window.clearAllApplicationData = clearAllApplicationData;
 
 document.addEventListener('DOMContentLoaded', () => {
-  setTheme(currentTheme, true); setLanguage(currentLang, true);
+  const initTheme = (typeof currentTheme !== 'undefined' ? currentTheme : (typeof window !== 'undefined' ? window.currentTheme : null)) || (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerTheme')) || 'aurora';
+  const initLang = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' ? window.currentLang : null)) || (typeof localStorage !== 'undefined' && localStorage.getItem('flowPlannerLanguage')) || 'en';
+  setTheme(initTheme, true); setLanguage(initLang, true);
   const iconEl = document.getElementById('zen-btn-icon'); const textEl = document.getElementById('minimal-mode-btn-text');
   const zenView = document.getElementById('zen-chill-view');
   const mainEl = document.querySelector('main');
@@ -1047,13 +1049,22 @@ function setLanguage(lang, skipRender = false) {
       if (!skipRender && typeof renderApp === 'function') renderApp();
     }).catch(() => {});
   }
-  if (!TRANSLATIONS[lang] || !DEFAULT_TASKS_BY_LANG[lang]) { lang = 'en'; }
-  const oldLang = currentLang; currentLang = lang; localStorage.setItem('flowPlannerLanguage', lang);
-  document.documentElement.lang = lang; translateUserTasks(oldLang, lang);
-  translateUI(); const textEl = document.getElementById('minimal-mode-btn-text');
-  if (textEl) { textEl.innerText = isMinimalist ? t('standard_mode') : t('minimal_mode'); }
+  const oldLang = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' ? window.currentLang : 'en')) || 'en';
+  if (typeof window !== 'undefined') window.currentLang = lang;
+  if (typeof globalThis !== 'undefined') globalThis.currentLang = lang;
+  try { currentLang = lang; } catch(e) {}
+  try { localStorage.setItem('flowPlannerLanguage', lang); } catch(e) {}
+  if (typeof document !== 'undefined' && document.documentElement) document.documentElement.lang = lang;
+  if (typeof translateUserTasks === 'function') translateUserTasks(oldLang, lang);
+  translateUI();
+  const textEl = document.getElementById('minimal-mode-btn-text');
+  const isMin = typeof isMinimalist !== 'undefined' ? isMinimalist : (typeof window !== 'undefined' && window.isMinimalist);
+  if (textEl) { textEl.innerText = isMin ? t('standard_mode') : t('minimal_mode'); }
   if (!skipRender) {
-    updateDateAndStreak(); if (typeof renderApp === 'function') renderApp(); updateZenView(); populateHelperTaskSelect();
+    if (typeof updateDateAndStreak === 'function') updateDateAndStreak();
+    if (typeof renderApp === 'function') renderApp();
+    if (typeof updateZenView === 'function') updateZenView();
+    if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   }
   // 1. Localize News Language independently from Region
   if (typeof RadioNewsEngine !== 'undefined') {
