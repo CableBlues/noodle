@@ -355,25 +355,25 @@ if (typeof document !== 'undefined') {
     }
     // 3. Report / Statistik
     const reportEl = document.getElementById('panel-report');
-    const reportBtn = document.querySelector('button[onclick*="togglePanel(\'report\')"]');
+    const reportContainer = document.getElementById('header-btn-report-container');
     if (reportEl && !reportEl.classList.contains('hidden')) {
-      if (!reportEl.contains(e.target) && (!reportBtn || !reportBtn.contains(e.target))) {
+      if (!reportEl.contains(e.target) && (!reportContainer || !reportContainer.contains(e.target))) {
         reportEl.classList.add('hidden');
       }
     }
     // 4. Pause
     const pauseEl = document.getElementById('panel-pause-dropdown');
-    const pauseBtn = document.querySelector('button[onclick*="togglePanel(\'pause-dropdown\')"]');
+    const pauseContainer = document.getElementById('header-btn-pause-container');
     if (pauseEl && !pauseEl.classList.contains('hidden')) {
-      if (!pauseEl.contains(e.target) && (!pauseBtn || !pauseBtn.contains(e.target))) {
+      if (!pauseEl.contains(e.target) && (!pauseContainer || !pauseContainer.contains(e.target))) {
         pauseEl.classList.add('hidden');
       }
     }
     // 5. Settings Dropdown
     const settingsEl = document.getElementById('panel-settings-dropdown');
-    const settingsBtn = document.querySelector('button[onclick*="togglePanel(\'settings-dropdown\')"]');
+    const settingsContainer = document.getElementById('header-btn-options-container');
     if (settingsEl && !settingsEl.classList.contains('hidden')) {
-      if (!settingsEl.contains(e.target) && (!settingsBtn || !settingsBtn.contains(e.target))) {
+      if (!settingsEl.contains(e.target) && (!settingsContainer || !settingsContainer.contains(e.target))) {
         settingsEl.classList.add('hidden');
       }
     }

@@ -2113,7 +2113,8 @@
         return;
       }
 
-      const streamUrl = candidates[candidateIndex];
+      const rawUrl = candidates[candidateIndex];
+      const streamUrl = typeof rawUrl === 'string' ? rawUrl.replace(/^http:\/\//i, 'https://') : rawUrl;
       const audio = new Audio();
       audio.preload = 'none';
       audio.src = streamUrl;
@@ -4368,7 +4369,8 @@
       clearTimeout(timer);
       cleanup();
       if (Array.isArray(station.streams) && station.streams.length > 1) {
-        const altStream = station.streams[1];
+        const rawAlt = station.streams[1];
+        const altStream = typeof rawAlt === 'string' ? rawAlt.replace(/^http:\/\//i, 'https://') : rawAlt;
         const altAudio = new Audio();
         altAudio.preload = 'metadata';
         let altResolved = false;
@@ -4401,7 +4403,8 @@
     };
 
     try {
-      testAudio.src = station.stream;
+      const rawStream = station.stream;
+      testAudio.src = typeof rawStream === 'string' ? rawStream.replace(/^http:\/\//i, 'https://') : rawStream;
     } catch(e) {
       clearTimeout(timer);
       cleanup();

@@ -1966,7 +1966,7 @@
       <div class="flex items-center gap-1.5 sm:gap-2 md:gap-2.5 shrink-0">
         <!-- Pause & Erholung (Sky-Blue) -->
         <div id="header-btn-pause-container" class="relative group cursor-pointer shrink-0" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')">
-          <button data-action="togglePanel" data-action-args='["pause-dropdown"]' class="h-[38px] px-2.5 sm:px-3 border border-sky-400/50 hover:border-sky-300 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 active:scale-95 text-sky-300 hover:text-sky-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(56,189,248,0.25)] group/pause-btn" data-i18n-title="pause_panel_title">
+          <button type="button" onclick="event.stopPropagation(); togglePanel('pause-dropdown', event);" data-action="togglePanel" data-action-args='["pause-dropdown"]' class="h-[38px] px-2.5 sm:px-3 border border-sky-400/50 hover:border-sky-300 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 active:scale-95 text-sky-300 hover:text-sky-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(56,189,248,0.25)] group/pause-btn" data-i18n-title="pause_panel_title">
             <!-- Animiertes Dampf-Tassen SVG Icon in Babyblau -->
             <svg class="w-4 h-4 text-sky-300 steam-cup-icon shrink-0 overflow-visible" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
@@ -2141,7 +2141,7 @@
 
         <!-- Statistik (Lime / Bewegung-Farbe) -->
         <div id="header-btn-report-container" class="relative group cursor-pointer" onmouseenter="showPanelHover('report')" onmouseleave="hidePanelHover('report')">
-            <button data-action="togglePanel" data-action-args='["report"]' class="h-[38px] px-2.5 sm:px-3 border border-lime-500/50 hover:border-lime-400 rounded-xl bg-lime-500/15 hover:bg-lime-500/25 active:scale-95 text-lime-300 hover:text-lime-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(132,204,22,0.25)] group/report-btn" data-i18n-title="report_title">
+            <button type="button" onclick="event.stopPropagation(); togglePanel('report', event);" data-action="togglePanel" data-action-args='["report"]' class="h-[38px] px-2.5 sm:px-3 border border-lime-500/50 hover:border-lime-400 rounded-xl bg-lime-500/15 hover:bg-lime-500/25 active:scale-95 text-lime-300 hover:text-lime-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(132,204,22,0.25)] group/report-btn" data-i18n-title="report_title">
               <i data-lucide="bar-chart-3" class="w-4 h-4 text-lime-300"></i>
               <span class="inline-block text-lime-300 font-bold group-hover/report-btn:text-lime-100" id="btn-label-report" data-i18n="report">Stats</span>
             </button>
@@ -2182,7 +2182,7 @@
 
         <!-- Optionen & Farbschemata (Purple - unterscheidet sich von Lime Stats links & Rose Sound rechts) -->
         <div id="header-btn-options-container" class="relative group cursor-pointer" onmouseenter="showPanelHover('settings-dropdown')" onmouseleave="hidePanelHover('settings-dropdown')">
-            <button data-action="togglePanel" data-action-args='["settings-dropdown"]' class="h-[38px] px-2.5 sm:px-3 2xl:px-4 flex items-center gap-1.5 border border-purple-400/45 hover:border-purple-300 active:scale-95 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 hover:text-purple-100 cursor-pointer transition shrink-0 shadow-[0_0_12px_rgba(168,85,247,0.2)] group/opt" data-i18n-title="options_title">
+            <button type="button" onclick="event.stopPropagation(); togglePanel('settings-dropdown', event);" data-action="togglePanel" data-action-args='["settings-dropdown"]' class="h-[38px] px-2.5 sm:px-3 2xl:px-4 flex items-center gap-1.5 border border-purple-400/45 hover:border-purple-300 active:scale-95 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 hover:text-purple-100 cursor-pointer transition shrink-0 shadow-[0_0_12px_rgba(168,85,247,0.2)] group/opt" data-i18n-title="options_title">
               <i data-lucide="settings" class="w-4 h-4 text-purple-300 group-hover/opt:text-purple-100 transition-colors"></i>
               <span class="text-xs sm:text-[13px] font-bold text-purple-300 group-hover/opt:text-purple-100 hidden xl:inline" data-i18n="settings">Options</span>
             </button>
@@ -7317,13 +7317,15 @@
   <!-- ein einzelnes gebündeltes app.bundle.js ersetzt.                       -->
   <!-- ====================================================================== -->
 
-  <!-- Noodle Studio ES-Modul Haupt-Einstiegspunkt (Pipeline & Architektur) -->
-    <!-- Noodle Standalone Production Bundle -->
-  <script src="app.bundle.js"></script>
-  <!-- Automatischer Fallback für lokales Öffnen über file:// (Chromium blockiert ES-Module auf file://) -->
+  <!-- Noodle Studio Script-Loader: Lädt app.bundle.js auf file:// und main.js ES-Module auf http/https -->
   <script>
     if (window.location.protocol === 'file:') {
       document.write('<script src="app.bundle.js"><\/script>');
+    } else {
+      const s = document.createElement('script');
+      s.type = 'module';
+      s.src = 'main.js';
+      document.body.appendChild(s);
     }
   </script>
 
