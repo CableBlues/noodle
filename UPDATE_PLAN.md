@@ -2,13 +2,45 @@
 
 ## Checkliste der Phasen
 - [x] **Phase 0: Ausgangsstand** – Baseline-Tests, Build-Laufzeit, Bundle-Größe & Korrektur roter Bestandstests
-- [ ] **Phase 1: Collab-Sicherheit** – Schema-Validierung, Größen-/Rate-Limits, kryptografische Raumcodes (≥10 Zeichen), merge-basierter Board-Sync mit Undo-Punkt, private Channels, `supabase-policies.sql` mit RLS für `flow_sync`, Behebung unsicherer Interpolationen
+- [x] **Phase 1: Collab-Sicherheit** – Schema-Validierung, Größen-/Rate-Limits, kryptografische Raumcodes (≥10 Zeichen), merge-basierter Board-Sync mit Undo-Punkt, private Channels, `supabase-policies.sql` mit RLS für `flow_sync`, Behebung unsicherer Interpolationen
 - [ ] **Phase 2: Service Worker** – Automatische Generierung von `ASSETS_TO_CACHE` und `CACHE_VERSION` im Build, Vollständigkeitstest & Offline-Erststart, Update-Hinweis-Banner
 - [ ] **Phase 3: Build & Performance** – Vorkompiliertes Tailwind CSS statt Runtime, Bundling + Minifizierung via esbuild, Sprachdaten-Lazy-Loading, Delta-Sync mit Fallback
 - [ ] **Phase 4: Architektur A** – Modulare Migration auf ES-Module (main.js), temporäre Window-Kompatibilitätsschicht, Bereinigung toter Dateien
 - [ ] **Phase 5: Architektur B** – Event-Delegation (`data-action`) statt Inline-`onclick`, Strikte CSP, Aufteilung monolithischer Dateien >2000 Zeilen
 - [ ] **Phase 6: Datenschutz** – E2E-Verschlüsselung (WebCrypto AES-GCM / PBKDF2), Opt-in, Migration, Developer-Modus für Config-Overrides
 - [ ] **Phase 7: Abschluss** – README & Dokumentation, Finalisierung UPDATE_PLAN.md
+
+---
+
+## Phase 1: Collab-Sicherheit
+
+### Umgesetzte Maßnahmen
+1. **Kryptografisch sichere Raumcodes:**
+   - Neue Funktion `generateSecureRoomCode(prefix, length)` implementiert (`WebCrypto getRandomValues`), mit mindestens 12 unvorhersehbaren Zeichen (`team-xxxx...`).
+   - Standardinitialisierung im Browser erzeugt kryptografische Codes statt statischer `team-space` Kennungen.
+2. **Schema-Validierung & Payload-Limits:**
+   - `validateEventSchema(event)` prüft Typ (`allowedTypes`), Objekttiefe und Pflichteigenschaften für Chat, Board-Sync, DJ-Events etc.
+   - Größenbegrenzung `MAX_EVENT_SIZE_BYTES = 512 KB` schützt vor Memory-Exhaustion-Attacken.
+3. **Rate-Limiting für Incoming Events:**
+   - `isRateLimited(senderId)` drosselt eingehende Events pro Absender (Max. 30 Events / Sekunde im gleitenden Fenster).
+4. **Board-Sync Merging statt Ersetzen (inkl. Undo-Punkt):**
+   - `handleIncomingBoardSync()` überschreibt geteilte Aufgaben nicht mehr destructiv, sondern führt über `mergeBoardItems()` ein idempotentes, zeitstempel-sensitives Merging durch.
+   - Vor dem Zusammenführen wird über `saveHistory()` ein Undo-Wiederherstellungspunkt im Stack angelegt.
+5. **Private Supabase Realtime Channels:**
+   - Kanal-Konfiguration in `collab-engine.js` auf `private: true` umgestellt, sodass Channel-Events über Supabase JWT/Auth autorisiert werden.
+6. **Supabase RLS & Policies (`supabase-policies.sql`):**
+   - Idempotentes SQL-Skript erstellt mit Tabellendefinition `public.flow_sync` und vollständigen Row-Level-Security-Policies (`SELECT`, `INSERT`, `UPDATE`, `DELETE`) auf Basis von `auth.uid() = user_id`.
+7. **Beseitigung unsicherer Inline-Interpolationen:**
+   - In `app-weather-news.js` die String-Interpolation bei Wetter-Städte-Buttons durch sichere DOM-Knoten-Erstellung (`document.createElement`, `addEventListener`, `textContent`) ersetzt.
+8. **Verhaltens-Tests:**
+   - Neue Suite `tests/collab-security.test.js` mit 5 dedizierten Tests für Raumcode-Entropie, Schema-Validierung, Rate-Limiting, Board-Merging & XSS-Vermeidung.
+
+### Geänderte Dateien
+- `collab-engine.js`
+- `app-weather-news.js`
+- `supabase-policies.sql` (neu)
+- `tests/collab-security.test.js` (neu)
+- `UPDATE_PLAN.md`
 
 ---
 

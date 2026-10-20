@@ -16425,6 +16425,31 @@ const CollabEngine = (function() {
     return `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
   }
 
+  /**
+   * Generiert einen kryptografisch sicheren Raumcode (mindestens 10 Zeichen lang).
+   * Verwendet WebCrypto getRandomValues für kryptografische Unvorhersehbarkeit.
+   */
+  function generateSecureRoomCode(prefix = 'room', length = 12) {
+    const chars = 'abcdefghijkmnopqrstuvwxyz23456789'; // Lesbare Zeichen ohne ambigue Zeichen
+    try {
+      if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+        const bytes = new Uint8Array(Math.max(10, length));
+        crypto.getRandomValues(bytes);
+        let result = '';
+        for (let i = 0; i < bytes.length; i++) {
+          result += chars[bytes[i] % chars.length];
+        }
+        return prefix ? `${prefix}-${result}` : result;
+      }
+    } catch (e) {}
+    let fallback = '';
+    while (fallback.length < Math.max(10, length)) {
+      fallback += Math.random().toString(36).substring(2);
+    }
+    fallback = fallback.substring(0, Math.max(10, length));
+    return prefix ? `${prefix}-${fallback}` : fallback;
+  }
+
   function getLocalUser() {
     if (localUser) return localUser;
 
@@ -16531,7 +16556,12 @@ const CollabEngine = (function() {
         try {
           if (typeof localStorage !== 'undefined') {
             const savedRoom = localStorage.getItem('flow_collab_active_room');
-            if (savedRoom) activeRoom = savedRoom;
+            if (savedRoom) {
+              activeRoom = savedRoom;
+            } else {
+              activeRoom = generateSecureRoomCode('team', 12);
+              localStorage.setItem('flow_collab_active_room', activeRoom);
+            }
           }
         } catch (e) {}
       }
@@ -16603,6 +16633,7 @@ const CollabEngine = (function() {
 
           realtimeChannel = supa.channel(`room_${activeRoom}`, {
             config: {
+              private: true,
               broadcast: { self: false },
               presence: { key: user.id }
             }
@@ -16651,11 +16682,61 @@ const CollabEngine = (function() {
     renderDjActiveBanner();
   }
 
+  // Rate-Limiting & Security Limits für eingehende Events
+  const MAX_EVENT_SIZE_BYTES = 512 * 1024; // 512 KB
+  const RATE_LIMIT_WINDOW_MS = 1000;
+  const RATE_LIMIT_MAX_EVENTS = 30;
+  const senderRateLimiter = new Map(); // senderId -> { count, windowStart }
+
+  function validateEventSchema(event) {
+    if (!event || typeof event !== 'object') return false;
+    if (typeof event.type !== 'string' || !event.type.trim()) return false;
+    const allowedTypes = ['chat_message', 'dj_music_share', 'dj_stop', 'voice_message', 'user_speaking', 'board_sync', 'board_action', 'reaction', 'typing'];
+    if (!allowedTypes.includes(event.type)) return false;
+    if (event.sender && (typeof event.sender !== 'object' || typeof event.sender.id !== 'string')) return false;
+
+    // Spezifische Validierungen
+    if (event.type === 'chat_message' && (!event.message || typeof event.message !== 'object' || typeof event.message.text !== 'string')) return false;
+    if (event.type === 'board_sync' && (!event.boardData || typeof event.boardData !== 'object')) return false;
+    return true;
+  }
+
+  function isRateLimited(senderId) {
+    if (!senderId) return false;
+    const now = Date.now();
+    let entry = senderRateLimiter.get(senderId);
+    if (!entry || (now - entry.windowStart) > RATE_LIMIT_WINDOW_MS) {
+      entry = { count: 1, windowStart: now };
+      senderRateLimiter.set(senderId, entry);
+      return false;
+    }
+    entry.count++;
+    if (entry.count > RATE_LIMIT_MAX_EVENTS) {
+      return true;
+    }
+    return false;
+  }
+
   // ==========================================================================
   // EVENT-HANDLING (Chat, DJ Music Share, Voice, Board Actions & Shared Board)
   // ==========================================================================
   function handleIncomingEvent(event) {
-    if (!event || !event.type) return;
+    if (!validateEventSchema(event)) return;
+
+    // Größenprüfung (Payload-Limit)
+    try {
+      const payloadStr = JSON.stringify(event);
+      if (payloadStr.length > MAX_EVENT_SIZE_BYTES) {
+        console.warn('[CollabEngine] Dropped event exceeding size limit:', payloadStr.length);
+        return;
+      }
+    } catch (e) { return; }
+
+    const senderId = event.sender?.id || 'unknown';
+    if (isRateLimited(senderId)) {
+      console.warn('[CollabEngine] Rate limit exceeded for sender:', senderId);
+      return;
+    }
 
     const myUser = getLocalUser();
     if (event.sender && event.sender.id === myUser.id && event.type !== 'board_sync') return;
@@ -17279,24 +17360,86 @@ const CollabEngine = (function() {
     }
   }
 
+  function mergeBoardItems(localCategoryItems = [], incomingCategoryItems = []) {
+    const merged = [];
+    const seenMap = new Map();
+
+    const getTaskKey = (it) => {
+      if (typeof it === 'string') return it.trim().toLowerCase();
+      if (it && typeof it === 'object') return (it.id || it.task || '').trim().toLowerCase();
+      return '';
+    };
+
+    // 1. Lokale Items übernehmen
+    (localCategoryItems || []).forEach(item => {
+      const key = getTaskKey(item);
+      if (key) {
+        seenMap.set(key, item);
+        merged.push(item);
+      }
+    });
+
+    // 2. Eingehende Items mergen
+    (incomingCategoryItems || []).forEach(inItem => {
+      const inKey = getTaskKey(inItem);
+      if (!inKey) return;
+      if (!seenMap.has(inKey)) {
+        merged.push(inItem);
+        seenMap.set(inKey, inItem);
+      } else {
+        // Falls eingehendes Objekt neuer ist
+        const existing = seenMap.get(inKey);
+        if (typeof existing === 'object' && typeof inItem === 'object') {
+          const exTime = existing.updatedAt || existing.createdAt || 0;
+          const inTime = inItem.updatedAt || inItem.createdAt || 0;
+          if (new Date(inTime) > new Date(exTime)) {
+            const idx = merged.indexOf(existing);
+            if (idx >= 0) merged[idx] = inItem;
+          }
+        }
+      }
+    });
+
+    return merged;
+  }
+
   function handleIncomingBoardSync(event) {
     if (!event || !event.boardData) return;
-    const { items, categoriesOrder: incomingCats } = event.boardData;
+    const { items: incomingItems } = event.boardData;
 
     if (typeof state !== 'undefined') {
+      // Undo-Punkt vor dem Mergen sichern
+      if (typeof saveHistory === 'function') {
+        saveHistory(`Team-Sync von ${event.sender?.name || 'Teammate'}`);
+      }
+
       if (!state.workspaces) state.workspaces = {};
-      state.workspaces.shared = {
-        items: JSON.parse(JSON.stringify(items || {})),
-        done: (state.workspaces.shared && state.workspaces.shared.done) || [],
-        history: []
-      };
+      if (!state.workspaces.shared) {
+        state.workspaces.shared = { items: {}, done: [], history: [] };
+      }
+
+      const existingSharedItems = state.workspaces.shared.items || {};
+      const mergedSharedItems = {};
+
+      const allCategories = new Set([
+        ...Object.keys(existingSharedItems),
+        ...Object.keys(incomingItems || {})
+      ]);
+
+      allCategories.forEach(cat => {
+        mergedSharedItems[cat] = mergeBoardItems(existingSharedItems[cat] || [], (incomingItems && incomingItems[cat]) || []);
+      });
+
+      state.workspaces.shared.items = mergedSharedItems;
+
       if (typeof saveState === 'function') saveState();
 
       // Wenn der Nutzer gerade im gemeinsamen Team-Board arbeitet: Live aktualisieren
       if (state.activeWorkspace === 'shared') {
+        state.items = mergedSharedItems;
         if (typeof renderApp === 'function') renderApp();
         if (typeof showToast === 'function') {
-          showToast(`Team-Dashboard von ${event.sender?.name || 'Teammate'} aktualisiert.`);
+          showToast(`Team-Dashboard von ${event.sender?.name || 'Teammate'} gemerged.`);
         }
       }
     }
@@ -18039,7 +18182,12 @@ const CollabEngine = (function() {
     // Shared Dashboard Suite
     shareCurrentBoardWithTeam,
     importSharedBoardToPersonal,
-    switchToSharedBoard
+    switchToSharedBoard,
+    // Security & Cryptographic utilities (Phase 1)
+    generateSecureRoomCode,
+    validateEventSchema,
+    isRateLimited,
+    handleIncomingEvent
   };
 })();
 
@@ -54268,17 +54416,41 @@ async function searchWeatherCity(query) {
   }
 
   const renderButtons = (items) => {
+    resultsContainer.innerHTML = '';
     if (!items || items.length === 0) {
-      resultsContainer.innerHTML = `<div class="p-2 text-xs text-gray-400 italic">${tr({ de: 'Keine Stadt gefunden.', en: 'No city found.', fr: 'Aucune ville trouvée.', it: 'Nessuna città trovata.', es: 'No se encontró la ciudad.', el: 'Δεν βρέθηκε πόλη.' })}</div>`;
+      const emptyDiv = document.createElement('div');
+      emptyDiv.className = 'p-2 text-xs text-gray-400 italic';
+      emptyDiv.textContent = tr({ de: 'Keine Stadt gefunden.', en: 'No city found.', fr: 'Aucune ville trouvée.', it: 'Nessuna città trovata.', es: 'No se encontró la ciudad.', el: 'Δεν βρέθηκε πόλη.' });
+      resultsContainer.appendChild(emptyDiv);
       resultsContainer.classList.remove('hidden');
       return;
     }
-    resultsContainer.innerHTML = items.map(r => `
-      <button onclick="selectWeatherCity('${r.name.replace(/'/g, "\\'")}', '${(r.country || '').replace(/'/g, "\\'")}', ${r.latitude || r.lat}, ${r.longitude || r.lon})" class="w-full p-2 text-left text-xs text-gray-200 hover:text-white hover:bg-sky-500/25 rounded-lg transition flex items-center justify-between cursor-pointer">
-        <span class="font-bold flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3 text-sky-400"></i>${r.name}</span>
-        <span class="text-[10px] text-gray-400">${r.admin1 ? r.admin1 + ', ' : ''}${r.country || ''}</span>
-      </button>
-    `).join('');
+
+    items.forEach(r => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'w-full p-2 text-left text-xs text-gray-200 hover:text-white hover:bg-sky-500/25 rounded-lg transition flex items-center justify-between cursor-pointer';
+      btn.addEventListener('click', () => {
+        selectWeatherCity(r.name, r.country || '', r.latitude || r.lat, r.longitude || r.lon);
+      });
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'font-bold flex items-center gap-1.5';
+      const icon = document.createElement('i');
+      icon.setAttribute('data-lucide', 'map-pin');
+      icon.className = 'w-3 h-3 text-sky-400';
+      nameSpan.appendChild(icon);
+      nameSpan.appendChild(document.createTextNode(r.name));
+
+      const adminSpan = document.createElement('span');
+      adminSpan.className = 'text-[10px] text-gray-400';
+      adminSpan.textContent = `${r.admin1 ? r.admin1 + ', ' : ''}${r.country || ''}`;
+
+      btn.appendChild(nameSpan);
+      btn.appendChild(adminSpan);
+      resultsContainer.appendChild(btn);
+    });
+
     resultsContainer.classList.remove('hidden');
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, resultsContainer);
   };

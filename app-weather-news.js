@@ -860,17 +860,41 @@ async function searchWeatherCity(query) {
   }
 
   const renderButtons = (items) => {
+    resultsContainer.innerHTML = '';
     if (!items || items.length === 0) {
-      resultsContainer.innerHTML = `<div class="p-2 text-xs text-gray-400 italic">${tr({ de: 'Keine Stadt gefunden.', en: 'No city found.', fr: 'Aucune ville trouvée.', it: 'Nessuna città trovata.', es: 'No se encontró la ciudad.', el: 'Δεν βρέθηκε πόλη.' })}</div>`;
+      const emptyDiv = document.createElement('div');
+      emptyDiv.className = 'p-2 text-xs text-gray-400 italic';
+      emptyDiv.textContent = tr({ de: 'Keine Stadt gefunden.', en: 'No city found.', fr: 'Aucune ville trouvée.', it: 'Nessuna città trovata.', es: 'No se encontró la ciudad.', el: 'Δεν βρέθηκε πόλη.' });
+      resultsContainer.appendChild(emptyDiv);
       resultsContainer.classList.remove('hidden');
       return;
     }
-    resultsContainer.innerHTML = items.map(r => `
-      <button onclick="selectWeatherCity('${r.name.replace(/'/g, "\\'")}', '${(r.country || '').replace(/'/g, "\\'")}', ${r.latitude || r.lat}, ${r.longitude || r.lon})" class="w-full p-2 text-left text-xs text-gray-200 hover:text-white hover:bg-sky-500/25 rounded-lg transition flex items-center justify-between cursor-pointer">
-        <span class="font-bold flex items-center gap-1.5"><i data-lucide="map-pin" class="w-3 h-3 text-sky-400"></i>${r.name}</span>
-        <span class="text-[10px] text-gray-400">${r.admin1 ? r.admin1 + ', ' : ''}${r.country || ''}</span>
-      </button>
-    `).join('');
+
+    items.forEach(r => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'w-full p-2 text-left text-xs text-gray-200 hover:text-white hover:bg-sky-500/25 rounded-lg transition flex items-center justify-between cursor-pointer';
+      btn.addEventListener('click', () => {
+        selectWeatherCity(r.name, r.country || '', r.latitude || r.lat, r.longitude || r.lon);
+      });
+
+      const nameSpan = document.createElement('span');
+      nameSpan.className = 'font-bold flex items-center gap-1.5';
+      const icon = document.createElement('i');
+      icon.setAttribute('data-lucide', 'map-pin');
+      icon.className = 'w-3 h-3 text-sky-400';
+      nameSpan.appendChild(icon);
+      nameSpan.appendChild(document.createTextNode(r.name));
+
+      const adminSpan = document.createElement('span');
+      adminSpan.className = 'text-[10px] text-gray-400';
+      adminSpan.textContent = `${r.admin1 ? r.admin1 + ', ' : ''}${r.country || ''}`;
+
+      btn.appendChild(nameSpan);
+      btn.appendChild(adminSpan);
+      resultsContainer.appendChild(btn);
+    });
+
     resultsContainer.classList.remove('hidden');
     if (typeof renderLucideIcons === 'function') renderLucideIcons(false, resultsContainer);
   };
