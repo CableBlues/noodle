@@ -1,6 +1,11 @@
-// ============================================================================
-// NOODLE COOKING HUB & SMART RECIPE ASSISTANT
-// ============================================================================
+/**
+ * @file app-cooking.js
+ * @module CookingStudio
+ * @description
+ * Rezept-Verwaltung, Vorratskammer-Abgleich (`pantryItems`) und interaktiver
+ * Schritt-für-Schritt-Kochmodus. Ermöglicht das direkte Übertragen fehlender
+ * Zutaten auf die Einkaufsliste (`app-shopping.js`).
+ */
 
 const DEFAULT_CURATED_RECIPES = [
   {
@@ -446,12 +451,8 @@ function onCookingTimerFinished(minutes) {
     setTimeout(() => playProceduralSound(1), 400);
   }
 
-  // Voice notification
-  const msg = `Der ${minutes}-Minuten Koch-Timer ist fertig! Bitte Pfanne oder Topf prüfen.`;
-  speakCookingText(msg);
-
   if (typeof showFloatingToast === 'function') {
-    showFloatingToast(`⏱️ Koch-Timer (${minutes} Min.) beendet!`, 'success');
+    showFloatingToast(`Koch-Timer (${minutes} Min.) beendet.`, 'success');
   }
 }
 
@@ -492,8 +493,6 @@ function nextCookingStep() {
     saveState();
     renderCookingPanel(true);
     if (typeof playProceduralSound === 'function') playProceduralSound(2);
-    // Auto read step
-    readCurrentCookingStepAloud();
   }
 }
 
@@ -865,13 +864,13 @@ function renderCookingPanel(skipLucide = false) {
               <div class="flex items-center justify-between text-[9px] font-bold uppercase text-gray-400 mb-1 flex-wrap gap-1">
                 <span>Zutaten (skaliert)</span>
                 <div class="flex items-center gap-2">
-                  <button onclick="if(typeof bridgeRecipeToBoardTask === 'function') bridgeRecipeToBoardTask(getCookingState().activeRecipe.id);" class="text-amber-400 hover:text-amber-300 font-semibold cursor-pointer flex items-center gap-0.5 text-[9.5px]" title="Rezept als verknüpfte Aufgabe im Kanban-Board anlegen">
+                  <button onclick="if(typeof bridgeRecipeToBoardTask === 'function') bridgeRecipeToBoardTask(getCookingState().activeRecipe.id);" class="text-amber-400 hover:text-amber-300 font-semibold cursor-pointer flex items-center gap-1 text-[9.5px]" title="Rezept als verknüpfte Aufgabe im Kanban-Board anlegen">
                     <i data-lucide="plus-circle" class="w-3 h-3"></i>
-                    <span>📋 Als Aufgabe ins Board</span>
+                    <span>Als Aufgabe ins Board</span>
                   </button>
-                  <button onclick="addRecipeMissingIngredientsToShopping()" class="text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer flex items-center gap-0.5 text-[9.5px]" title="Zutaten auf die Einkaufsliste setzen">
+                  <button onclick="addRecipeMissingIngredientsToShopping()" class="text-emerald-400 hover:text-emerald-300 font-semibold cursor-pointer flex items-center gap-1 text-[9.5px]" title="Zutaten auf die Einkaufsliste setzen">
                     <i data-lucide="shopping-cart" class="w-3 h-3"></i>
-                    <span>🛒 Auf Einkaufsliste</span>
+                    <span>Auf Einkaufsliste</span>
                   </button>
                 </div>
               </div>
@@ -899,9 +898,10 @@ function renderCookingPanel(skipLucide = false) {
               <button 
                 onclick="readCurrentCookingStepAloud()" 
                 class="px-2 py-0.5 rounded-lg bg-white/5 hover:bg-orange-500/20 text-gray-300 hover:text-orange-200 border border-white/10 text-[10px] font-semibold transition flex items-center gap-1 cursor-pointer"
-                title="Diesen Schritt laut vorlesen"
+                title="Diesen Schritt vorlesen"
               >
-                <span>🔊 Vorlesen</span>
+                <i data-lucide="volume-2" class="w-3 h-3"></i>
+                <span>Vorlesen</span>
               </button>
             </div>
 
@@ -919,7 +919,7 @@ function renderCookingPanel(skipLucide = false) {
             ${detectedMinutes || isTimerRunning ? `
               <div class="p-2 rounded-xl bg-orange-950/30 border border-orange-500/30 flex items-center justify-between gap-2">
                 <div class="flex items-center gap-2">
-                  <span class="text-base">⏱️</span>
+                  <i data-lucide="timer" class="w-4 h-4 text-orange-400"></i>
                   <div>
                     <div class="text-[9px] font-bold text-orange-300 uppercase">Koch-Timer</div>
                     <div id="cooking-live-timer" class="text-xs font-black text-white font-mono">
@@ -935,7 +935,7 @@ function renderCookingPanel(skipLucide = false) {
                     </button>
                   ` : `
                     <button onclick="startCookingTimer(${detectedMinutes || 5}, ${stepIdx})" class="px-2.5 py-1 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-lg text-[10px] font-bold transition shadow-sm cursor-pointer">
-                      ▶ Timer starten (${detectedMinutes || 5} Min)
+                      Timer starten (${detectedMinutes || 5} Min)
                     </button>
                   `}
                 </div>
@@ -964,7 +964,7 @@ function renderCookingPanel(skipLucide = false) {
                   onclick="if (typeof playProceduralSound === 'function') playProceduralSound(1); switchCookingTab('recipes');" 
                   class="flex-1 py-1.5 px-2 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white rounded-xl text-xs font-bold transition shadow-md cursor-pointer flex items-center justify-center gap-1"
                 >
-                  <span>🎉 Fertig! Guten Appetit</span>
+                  <span>Fertig</span>
                 </button>
               `}
             </div>

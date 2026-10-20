@@ -1,4 +1,11 @@
-// helper-cleaning.js: Interaktiver Wohnungs-Reset & Level-Putz-Guide für Noodle
+/**
+ * @file helper-cleaning.js
+ * @module CleaningCoach
+ * @description
+ * Geführter Aufräum- und Reinigungs-Assistent mit abgestuften Zeitprogrammen
+ * (15-Minuten-Blitz-Reset, 30-Minuten-Standard, 60-Minuten-Deep-Clean),
+ * interaktiver Checkliste und integrierter Timer-Steuerung.
+ */
 
 const CLEANING_LEVELS_DATA = {
   express: {
@@ -385,7 +392,8 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
 
   data.steps.forEach((step, idx) => {
     if (!activeCleaningCompletedSteps[step.id]) {
-      const taskText = `🧹 ${step.title.split('(')[0].trim()}`;
+      const baseTitle = step.title.split('(')[0].trim();
+      const taskText = baseTitle.startsWith('🧹') ? baseTitle : `🧹 ${baseTitle}`;
       const exists = curState.items[cat].some(item => (typeof item === 'object' ? item.task === taskText : item === taskText));
       if (!exists) {
         curState.items[cat].push({
@@ -405,12 +413,12 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
   closeCleaningGuideModal();
   if (typeof showToast === 'function') {
     const msg = tr({
-      en: `✨ Added ${addedCount} steps to your board!`,
-      de: `✨ ${addedCount} Schritte in dein Board übernommen!`,
-      fr: `✨ ${addedCount} étapes ajoutées à votre tableau !`,
-      it: `✨ ${addedCount} passaggi aggiunti alla tua bacheca!`,
-      es: `✨ ¡${addedCount} pasos agregados a tu tablero!`,
-      el: `✨ Προστέθηκαν ${addedCount} βήματα στον πίνακά σου!`
+      en: `Added ${addedCount} steps to board.`,
+      de: `${addedCount} Schritte in das Board übernommen.`,
+      fr: `${addedCount} étapes ajoutées au tableau.`,
+      it: `${addedCount} passaggi aggiunti alla bacheca.`,
+      es: `${addedCount} pasos agregados al tablero.`,
+      el: `Προστέθηκαν ${addedCount} βήματα στον πίνακα.`
     });
     showToast(msg);
   }

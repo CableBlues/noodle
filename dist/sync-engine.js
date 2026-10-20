@@ -1,5 +1,15 @@
-// sync-engine.js - Zuverlässige & automatische Synchronisations-Engine für Noodle
-// ============================================================================
+/**
+ * @file sync-engine.js
+ * @module SyncEngine
+ * @description
+ * Synchronisations- und Datenabgleich-Engine für den geräteübergreifenden Betrieb.
+ *
+ * Komponenten:
+ * - `MinimalQR`: Erzeugt SVG-QR-Codes für die direkte Geräte-Kopplung ohne Server-Zwischenspeicher.
+ * - `P2PDataCodec`: Komprimiert und Base64URL-kodiert Arbeitszustände für QR-Payloads.
+ * - `SyncEngine`: Verwaltet den Hintergrundabgleich mit Supabase, Tombstone-basierte
+ *   Konfliktauflösung (Last-Write-Wins auf Elementebene) sowie Offline-Warteschlangen.
+ */
 
 const MinimalQR = (function() {
   function generateQRCodeSVG(text, size = 220) {
@@ -98,9 +108,10 @@ const cloudSyncEngine = {
       window.addEventListener('online', () => {
         if (typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
           this.retryCount = 0;
-          this.pullState();
           if (this.isPendingSync()) {
             this.pushState();
+          } else {
+            this.pullState();
           }
         }
       });
@@ -112,9 +123,10 @@ const cloudSyncEngine = {
       // 2. Automatischer Sync beim Wiederöffnen / Fokussieren des Tabs
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible' && typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
-          this.pullState();
           if (this.isPendingSync()) {
             this.pushState();
+          } else {
+            this.pullState();
           }
         }
       });
@@ -137,6 +149,27 @@ const cloudSyncEngine = {
     if (typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
       this.pullState();
       this.startAutoSync();
+    }
+
+    // 5. QR-Code / Direkt-Link Snapshot (#p2p=...) beim Öffnen prüfen
+    if (typeof window !== 'undefined' && window.location && window.location.hash && window.location.hash.startsWith('#p2p=')) {
+      try {
+        const encoded = window.location.hash.slice(5);
+        const decoded = P2PDataCodec.decodeState(encoded);
+        if (decoded && typeof window.state === 'object' && window.state) {
+          this.mergeState(window.state, decoded);
+          if (typeof saveState === 'function') saveState(true);
+          if (typeof renderApp === 'function') renderApp();
+          if (typeof history !== 'undefined' && history.replaceState) {
+            history.replaceState(null, '', window.location.pathname + window.location.search);
+          }
+          if (typeof showToast === 'function') {
+            setTimeout(() => showToast('✓ Geräte-Zustand per QR/Sync-Link erfolgreich abgeglichen!'), 400);
+          }
+        }
+      } catch (e) {
+        console.warn('[P2P Sync] Hash import notice:', e);
+      }
     }
   },
 
@@ -164,17 +197,26 @@ const cloudSyncEngine = {
     } catch (e) {}
   },
 
-  // Vollständige State-Serialisierung (alle Datenbereiche inkl. Tombstones)
+  // Vollständige State-Serialisierung (alle Datenbereiche inkl. Tombstones & Cleared-Timestamps)
   serializeFullState(stateObj) {
     const s = stateObj || {};
+    const itemsCopy = (s.items && typeof s.items === 'object') ? { ...s.items } : {};
+    if (!itemsCopy.notes && Array.isArray(s.notes)) itemsCopy.notes = [...s.notes];
+    if (!itemsCopy.termine && Array.isArray(s.termine)) itemsCopy.termine = [...s.termine];
+
     return {
       _tombstones: s._tombstones || {},
-      items: s.items || {},
+      _clearedAt: s._clearedAt || {},
+      _backupRestoredAt: s._backupRestoredAt || null,
+      updatedAt: s.updatedAt || new Date().toISOString(),
+      items: itemsCopy,
       done: s.done || [],
       workItems: s.workItems || {},
       workDone: s.workDone || [],
-      notes: s.notes || [],
-      termine: s.termine || [],
+      studyItems: s.studyItems || {},
+      studyDone: s.studyDone || [],
+      notes: itemsCopy.notes || s.notes || [],
+      termine: itemsCopy.termine || s.termine || [],
       shoppingList: s.shoppingList || [],
       shoppingHistory: s.shoppingHistory || [],
       shoppingCategories: s.shoppingCategories || [],
@@ -192,10 +234,48 @@ const cloudSyncEngine = {
     };
   },
 
-  // Deterministischer, verlustfreier 3-Wege / Item-Level LWW-Merge mit Tombstones
+  // Deterministischer, verlustfreier 3-Wege / Item-Level LWW-Merge mit Tombstones & Cleared-Timestamps
   mergeState(localState, remoteData) {
     if (!localState || !remoteData) return false;
     let modified = false;
+
+    // 0. Vollständige Wiederherstellung (Backup-Restore / Template Reset) Vorrangprüfung
+    const localRestoreTs = localState._backupRestoredAt ? new Date(localState._backupRestoredAt).getTime() : 0;
+    const remoteRestoreTs = remoteData._backupRestoredAt ? new Date(remoteData._backupRestoredAt).getTime() : 0;
+    const localUpTs = localState.updatedAt ? new Date(localState.updatedAt).getTime() : 0;
+    const remoteUpTs = remoteData.updatedAt ? new Date(remoteData.updatedAt).getTime() : 0;
+
+    // Fall A: Remote hat einen neueren Backup-Restore durchgeführt als der lokale Zustand
+    if (remoteRestoreTs > 0 && remoteRestoreTs > localRestoreTs && remoteRestoreTs >= localUpTs) {
+      console.log('[CloudSync] Remote-Backup/Restore erkannt. Lokaler Zustand wird mit wiederhergestelltem Snapshot synchronisiert.');
+      if (remoteData.items) localState.items = JSON.parse(JSON.stringify(remoteData.items));
+      if (remoteData.done) localState.done = JSON.parse(JSON.stringify(remoteData.done));
+      if (remoteData.workItems) localState.workItems = JSON.parse(JSON.stringify(remoteData.workItems));
+      if (remoteData.workDone) localState.workDone = JSON.parse(JSON.stringify(remoteData.workDone));
+      if (remoteData.studyItems) localState.studyItems = JSON.parse(JSON.stringify(remoteData.studyItems));
+      if (remoteData.studyDone) localState.studyDone = JSON.parse(JSON.stringify(remoteData.studyDone));
+      if (remoteData.shoppingList) localState.shoppingList = JSON.parse(JSON.stringify(remoteData.shoppingList));
+      if (remoteData.shoppingHistory) localState.shoppingHistory = JSON.parse(JSON.stringify(remoteData.shoppingHistory));
+      if (remoteData.pantry) localState.pantry = JSON.parse(JSON.stringify(remoteData.pantry));
+      if (remoteData.recipes) localState.recipes = JSON.parse(JSON.stringify(remoteData.recipes));
+      if (remoteData.cookingList) localState.cookingList = JSON.parse(JSON.stringify(remoteData.cookingList));
+      if (remoteData.alarms) localState.alarms = JSON.parse(JSON.stringify(remoteData.alarms));
+      if (remoteData.archive) localState.archive = JSON.parse(JSON.stringify(remoteData.archive));
+      if (remoteData.notes) localState.notes = JSON.parse(JSON.stringify(remoteData.notes));
+      if (remoteData.termine) localState.termine = JSON.parse(JSON.stringify(remoteData.termine));
+      localState._tombstones = remoteData._tombstones ? JSON.parse(JSON.stringify(remoteData._tombstones)) : {};
+      localState._clearedAt = remoteData._clearedAt ? JSON.parse(JSON.stringify(remoteData._clearedAt)) : {};
+      localState._backupRestoredAt = remoteData._backupRestoredAt;
+      localState.updatedAt = remoteData.updatedAt || remoteData._backupRestoredAt;
+      return true;
+    }
+
+    // Fall B: Lokal wurde frisch ein Backup/Vorlage wiederhergestellt, das neuer ist als der Remote-Zustand
+    if (localRestoreTs > 0 && localRestoreTs > remoteRestoreTs && localRestoreTs >= remoteUpTs) {
+      console.log('[CloudSync] Lokaler Backup/Restore ist aktiv und neuer als Remote. Wiederhergestellter Stand bleibt führend.');
+      localState.updatedAt = new Date().toISOString();
+      return true;
+    }
 
     // Helper: Stabile Identität & Zeitstempel sicherstellen
     function computeStringHash(str) {
@@ -208,26 +288,31 @@ const cloudSyncEngine = {
       return Math.abs(hash).toString(36);
     }
 
-    function normalizeItem(item, fallbackPrefix = 'item') {
-      if (!item) return null;
-      const nowISO = new Date().toISOString();
+    // WICHTIG: defaultTimestamp stammt aus parentState.updatedAt und ist NIEMALS Date.now(),
+    // damit alte Strings nicht fälschlich neuer als bestehende Tombstones/Clear-Markierungen werden!
+    function normalizeItem(item, fallbackPrefix = 'item', defaultTimestamp = '1970-01-01T00:00:00.000Z') {
+      if (!item && item !== 0) return null;
       if (typeof item === 'string') {
+        const hash = computeStringHash(item);
         return {
-          id: `${fallbackPrefix}_h${computeStringHash(item)}`,
+          id: `${fallbackPrefix}_h${hash}`,
           task: item,
           _wasString: true,
-          createdAt: nowISO,
-          updatedAt: nowISO
+          _hash: hash,
+          createdAt: defaultTimestamp,
+          updatedAt: defaultTimestamp
         };
       }
       if (typeof item === 'object') {
         const copy = { ...item };
+        const itemText = copy.task || copy.name || copy.text || copy.title || JSON.stringify(copy);
+        const hash = computeStringHash(itemText);
+        copy._hash = hash;
         if (!copy.id) {
-          const itemText = copy.task || copy.name || copy.text || copy.title || JSON.stringify(copy);
-          copy.id = `${fallbackPrefix}_h${computeStringHash(itemText)}`;
+          copy.id = `${fallbackPrefix}_h${hash}`;
         }
-        if (!copy.createdAt) copy.createdAt = nowISO;
-        if (!copy.updatedAt) copy.updatedAt = copy.createdAt || nowISO;
+        if (!copy.createdAt) copy.createdAt = defaultTimestamp;
+        if (!copy.updatedAt) copy.updatedAt = copy.createdAt || defaultTimestamp;
         return copy;
       }
       return item;
@@ -253,10 +338,87 @@ const cloudSyncEngine = {
     }
     localState._tombstones = mergedTombstones;
 
+    // 1.5 Cleared-At Zeitstempel (Karten/Tabellen-Leeren) beider Seiten zusammenführen
+    const localCleared = (localState._clearedAt && typeof localState._clearedAt === 'object') ? { ...localState._clearedAt } : {};
+    const remoteCleared = (remoteData._clearedAt && typeof remoteData._clearedAt === 'object') ? remoteData._clearedAt : {};
+    const mergedCleared = { ...localCleared };
+
+    for (const [cKey, rTime] of Object.entries(remoteCleared)) {
+      if (!mergedCleared[cKey]) {
+        mergedCleared[cKey] = rTime;
+        modified = true;
+      } else {
+        const lTs = new Date(mergedCleared[cKey]).getTime();
+        const rTs = new Date(rTime).getTime();
+        if (rTs > lTs) {
+          mergedCleared[cKey] = rTime;
+          modified = true;
+        }
+      }
+    }
+    localState._clearedAt = mergedCleared;
+
+    // Helper: Prüfen ob ein Item gelöscht wurde (Tombstone Matching)
+    function isItemTombstoned(item, itemPrefix, categoryKey = '') {
+      if (!item) return false;
+      const possibleKeys = [
+        item.id,
+        item._hash ? `${itemPrefix}_h${item._hash}` : null,
+        item._hash ? `task_${itemPrefix}_h${item._hash}` : null,
+        item._hash && categoryKey ? `${categoryKey}_h${item._hash}` : null,
+        item._hash && categoryKey ? `task_${categoryKey}_h${item._hash}` : null,
+        item._hash && categoryKey ? `wtask_${categoryKey}_h${item._hash}` : null,
+        item._hash && categoryKey ? `stask_${categoryKey}_h${item._hash}` : null,
+        item._hash ? `task_h${item._hash}` : null,
+        item._hash ? `done_h${item._hash}` : null,
+        item._hash ? `wdone_h${item._hash}` : null,
+        item._hash ? `sdone_h${item._hash}` : null,
+        item._hash ? `hash_${item._hash}` : null
+      ].filter(Boolean);
+
+      for (const k of possibleKeys) {
+        if (mergedTombstones[k]) {
+          const delTs = new Date(mergedTombstones[k]).getTime();
+          // Wenn das Item ein String war: Tombstone gilt verbindlich,
+          // da Strings keine nachträglichen Teilbearbeitungen besitzen.
+          if (item._wasString) {
+            return true;
+          }
+          // Für Objekte: Prüfen, ob das Objekt nach dem Löschzeitpunkt gezielt bearbeitet wurde
+          const itemUp = new Date(item.updatedAt || item.createdAt || 0).getTime();
+          if (delTs >= itemUp) {
+            return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    // Helper: Zeitstempel für Tabellen-Leeren abrufen
+    function getClearedTimestamp(ws, categoryKey) {
+      const keys = [
+        `${ws}_${categoryKey}`,
+        `${ws}__all`,
+        `__all`,
+        categoryKey
+      ];
+      let maxTs = 0;
+      for (const k of keys) {
+        if (mergedCleared[k]) {
+          const ts = new Date(mergedCleared[k]).getTime();
+          if (!isNaN(ts) && ts > maxTs) maxTs = ts;
+        }
+      }
+      return maxTs;
+    }
+
+    const localDefaultTime = localState.updatedAt || localState.clientTimestamp || '1970-01-01T00:00:00.000Z';
+    const remoteDefaultTime = remoteData.updatedAt || remoteData.clientTimestamp || '1970-01-01T00:00:00.000Z';
+
     // Helper: Item-Level LWW Merge für eine Liste
-    function mergeList(localList, remoteList, prefix) {
-      const lArr = Array.isArray(localList) ? localList.map(item => normalizeItem(item, prefix)).filter(Boolean) : [];
-      const rArr = Array.isArray(remoteList) ? remoteList.map(item => normalizeItem(item, prefix)).filter(Boolean) : [];
+    function mergeList(localList, remoteList, prefix, categoryKey = '', ws = 'private') {
+      const lArr = Array.isArray(localList) ? localList.map(item => normalizeItem(item, prefix, localDefaultTime)).filter(Boolean) : [];
+      const rArr = Array.isArray(remoteList) ? remoteList.map(item => normalizeItem(item, prefix, remoteDefaultTime)).filter(Boolean) : [];
 
       const lMap = new Map();
       lArr.forEach(item => { if (item && item.id) lMap.set(item.id, item); });
@@ -266,21 +428,30 @@ const cloudSyncEngine = {
 
       const allIds = new Set([...lMap.keys(), ...rMap.keys()]);
       const mergedMap = new Map();
+      const clearTs = getClearedTimestamp(ws, categoryKey);
 
       for (const id of allIds) {
         const lItem = lMap.get(id);
         const rItem = rMap.get(id);
 
-        // Prüfen, ob Item gelöscht wurde
-        if (mergedTombstones[id]) {
-          const delTs = new Date(mergedTombstones[id]).getTime();
+        // 1. Prüfen, ob Item gelöscht wurde (Tombstones)
+        if (isItemTombstoned(lItem || rItem, prefix, categoryKey)) {
+          if (lMap.has(id)) modified = true;
+          continue;
+        }
+
+        // 2. Prüfen, ob Tabelle/Spalte geleert wurde vor Erstellung/Update dieses Items
+        if (clearTs > 0) {
           const lUp = lItem ? new Date(lItem.updatedAt || lItem.createdAt || 0).getTime() : 0;
           const rUp = rItem ? new Date(rItem.updatedAt || rItem.createdAt || 0).getTime() : 0;
-          const maxUp = Math.max(lUp, rUp);
 
-          if (delTs >= maxUp) {
-            // Item ist gelöscht -> nicht in aktiver Liste behalten!
-            if (lMap.has(id)) modified = true;
+          // Lokale Items verwerfen, wenn die Spalte geleert wurde und das Item vor clearTs existierte
+          if (lItem && (lItem._wasString || lUp <= clearTs)) {
+            modified = true;
+            continue;
+          }
+          // Remote Items verwerfen, wenn die Spalte geleert wurde und das Item vor clearTs existierte
+          if (rItem && (rItem._wasString || rUp <= clearTs)) {
             continue;
           }
         }
@@ -315,7 +486,7 @@ const cloudSyncEngine = {
       function formatOutput(item) {
         if (!item) return item;
         if (item._wasString) {
-          const extraKeys = Object.keys(item).filter(k => !['_wasString', 'id', 'createdAt', 'updatedAt', 'task'].includes(k));
+          const extraKeys = Object.keys(item).filter(k => !['_wasString', '_hash', 'id', 'createdAt', 'updatedAt', 'task'].includes(k));
           if (extraKeys.length === 0 && typeof item.task === 'string') {
             return item.task;
           }
@@ -340,75 +511,98 @@ const cloudSyncEngine = {
       return result;
     }
 
-
     // Helper: Kategorien-Map (z.B. items, workItems) zusammenführen
-    function mergeCategoryMap(localMap, remoteMap, prefix) {
+    function mergeCategoryMap(localMap, remoteMap, prefix, ws = 'private') {
       const merged = {};
       const lObj = (localMap && typeof localMap === 'object') ? localMap : {};
       const rObj = (remoteMap && typeof remoteMap === 'object') ? remoteMap : {};
 
       const allCats = new Set([...Object.keys(lObj), ...Object.keys(rObj)]);
       for (const cat of allCats) {
-        merged[cat] = mergeList(lObj[cat] || [], rObj[cat] || [], `${prefix}_${cat}`);
+        merged[cat] = mergeList(lObj[cat] || [], rObj[cat] || [], `${prefix}_${cat}`, cat, ws);
       }
       return merged;
     }
 
-    // 1. Items & WorkItems (Aufgaben-Kategorien)
+    // Fallbacks für Notizen & Termine auf Root- und Items-Ebene synchronisieren
+    if (remoteData.items && typeof remoteData.items === 'object') {
+      if (!remoteData.items.notes && Array.isArray(remoteData.notes)) remoteData.items.notes = remoteData.notes;
+      if (!remoteData.items.termine && Array.isArray(remoteData.termine)) remoteData.items.termine = remoteData.termine;
+    }
+    if (localState.items && typeof localState.items === 'object') {
+      if (!localState.items.notes && Array.isArray(localState.notes)) localState.items.notes = localState.notes;
+      if (!localState.items.termine && Array.isArray(localState.termine)) localState.items.termine = localState.termine;
+    }
+
+    // 1. Items, WorkItems & StudyItems (Aufgaben-Kategorien inkl. Notes & Termine)
     if (remoteData.items || localState.items) {
-      localState.items = mergeCategoryMap(localState.items, remoteData.items, 'task');
+      localState.items = mergeCategoryMap(localState.items, remoteData.items, 'task', 'private');
+      if (localState.items && localState.items.notes) {
+        localState.notes = [...localState.items.notes];
+      }
+      if (localState.items && localState.items.termine) {
+        localState.termine = [...localState.items.termine];
+      }
     }
     if (remoteData.workItems || localState.workItems) {
-      localState.workItems = mergeCategoryMap(localState.workItems, remoteData.workItems, 'wtask');
+      localState.workItems = mergeCategoryMap(localState.workItems, remoteData.workItems, 'wtask', 'work');
+    }
+    if (remoteData.studyItems || localState.studyItems) {
+      localState.studyItems = mergeCategoryMap(localState.studyItems, remoteData.studyItems, 'stask', 'study');
     }
 
     // 2. Erledigte Aufgaben
     if (remoteData.done || localState.done) {
-      localState.done = mergeList(localState.done, remoteData.done, 'done');
+      localState.done = mergeList(localState.done, remoteData.done, 'done', 'done', 'private');
     }
     if (remoteData.workDone || localState.workDone) {
-      localState.workDone = mergeList(localState.workDone, remoteData.workDone, 'wdone');
+      localState.workDone = mergeList(localState.workDone, remoteData.workDone, 'wdone', 'done', 'work');
+    }
+    if (remoteData.studyDone || localState.studyDone) {
+      localState.studyDone = mergeList(localState.studyDone, remoteData.studyDone, 'sdone', 'done', 'study');
     }
 
-    // 3. Notizen & Termine
+    // 3. Notizen & Termine (Root-Synchronisation)
     if (remoteData.notes || localState.notes) {
-      localState.notes = mergeList(localState.notes, remoteData.notes, 'note');
+      localState.notes = mergeList(localState.notes || [], remoteData.notes || [], 'note', 'notes', 'private');
+      if (localState.items) localState.items.notes = [...localState.notes];
     }
     if (remoteData.termine || localState.termine) {
-      localState.termine = mergeList(localState.termine, remoteData.termine, 'termin');
+      localState.termine = mergeList(localState.termine || [], remoteData.termine || [], 'termin', 'termine', 'private');
+      if (localState.items) localState.items.termine = [...localState.termine];
     }
 
     // 4. Einkaufsliste & Historie
     if (remoteData.shoppingList || localState.shoppingList) {
-      localState.shoppingList = mergeList(localState.shoppingList, remoteData.shoppingList, 'shop');
+      localState.shoppingList = mergeList(localState.shoppingList, remoteData.shoppingList, 'shop', 'shoppingList', 'private');
     }
     if (remoteData.shoppingHistory || localState.shoppingHistory) {
-      localState.shoppingHistory = mergeList(localState.shoppingHistory, remoteData.shoppingHistory, 'shophist');
+      localState.shoppingHistory = mergeList(localState.shoppingHistory, remoteData.shoppingHistory, 'shophist', 'shoppingHistory', 'private');
     }
 
     // 5. Vorrat, Rezepte, Kochen
     if (remoteData.pantry || localState.pantry) {
-      localState.pantry = mergeList(localState.pantry, remoteData.pantry, 'pantry');
+      localState.pantry = mergeList(localState.pantry, remoteData.pantry, 'pantry', 'pantry', 'private');
     }
     if (remoteData.recipes || localState.recipes) {
-      localState.recipes = mergeList(localState.recipes, remoteData.recipes, 'recipe');
+      localState.recipes = mergeList(localState.recipes, remoteData.recipes, 'recipe', 'recipes', 'private');
     }
     if (remoteData.cookingList || localState.cookingList) {
-      localState.cookingList = mergeList(localState.cookingList, remoteData.cookingList, 'cook');
+      localState.cookingList = mergeList(localState.cookingList, remoteData.cookingList, 'cook', 'cookingList', 'private');
     }
 
     // 6. Alarme, Brainstorming, Klarheit, Archiv
     if (remoteData.alarms || localState.alarms) {
-      localState.alarms = mergeList(localState.alarms, remoteData.alarms, 'alarm');
+      localState.alarms = mergeList(localState.alarms, remoteData.alarms, 'alarm', 'alarms', 'private');
     }
     if (remoteData.brainstormIdeas || localState.brainstormIdeas) {
-      localState.brainstormIdeas = mergeList(localState.brainstormIdeas, remoteData.brainstormIdeas, 'idea');
+      localState.brainstormIdeas = mergeList(localState.brainstormIdeas, remoteData.brainstormIdeas, 'idea', 'brainstormIdeas', 'private');
     }
     if (remoteData.clarityLog || localState.clarityLog) {
-      localState.clarityLog = mergeList(localState.clarityLog, remoteData.clarityLog, 'clarity');
+      localState.clarityLog = mergeList(localState.clarityLog, remoteData.clarityLog, 'clarity', 'clarityLog', 'private');
     }
     if (remoteData.archive || localState.archive) {
-      localState.archive = mergeList(localState.archive, remoteData.archive, 'archive');
+      localState.archive = mergeList(localState.archive, remoteData.archive, 'archive', 'archive', 'private');
     }
 
     return modified;
@@ -435,22 +629,25 @@ const cloudSyncEngine = {
       const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : {});
       const serializedData = this.serializeFullState(currentState);
 
-      // 1. Supabase Cloud Sync (wenn Supabase authentifiziert ist)
+      // 1. Supabase Cloud Sync (wenn Supabase authentifiziert oder per Pairing-Token gekoppelt ist)
       if (typeof FlowAuth !== 'undefined' && FlowAuth.getSupabaseClient) {
         const supa = FlowAuth.getSupabaseClient();
         const user = FlowAuth.getUser();
-        if (user && user.isTokenOnly) {
-          this.updateSyncUI('synced');
-          return { skipped: true, tokenOnly: true };
-        }
-        if (supa && user && user.id && !user.isTokenOnly) {
+        if (supa && user && user.id) {
           const { error } = await supa.from('flow_sync').upsert({
             user_id: user.id,
             data: serializedData,
             updated_at: new Date().toISOString()
           }, { onConflict: 'user_id' });
 
-          if (error) throw error;
+          if (error) {
+            if (user.isTokenOnly) {
+              console.warn('[CloudSync] Token-only push not permitted by database RLS, relying on local/P2P sync.');
+              this.updateSyncUI('synced');
+              return { skipped: true, tokenOnly: true };
+            }
+            throw error;
+          }
 
           this.clearPendingSync();
           this.retryCount = 0;
@@ -465,7 +662,7 @@ const cloudSyncEngine = {
         }
       }
 
-      // Kein voll authentifizierter Supabase-User vorhanden
+      // Kein aktiver Supabase-User vorhanden
       throw new Error('Kein aktives Supabase-Konto. Bitte neu anmelden.');
     } catch (e) {
       console.warn('[CloudSync] Push notice:', e.message);
@@ -489,17 +686,29 @@ const cloudSyncEngine = {
     const token = FlowAuth.getSyncToken();
     if (!token) return { skipped: true };
 
+    // Wenn lokale Änderungen ausstehen (Löschen, Leeren, neue Tasks),
+    // müssen diese ZUERST auf den Server übertragen werden, bevor ein Pull läuft!
+    if (this.isPendingSync()) {
+      return await this.pushState();
+    }
+
     this.isSyncing = true;
     this.updateSyncUI('syncing');
 
     try {
-      // 1. Supabase Cloud Sync (wenn Supabase authentifiziert ist)
+      // 1. Supabase Cloud Sync (wenn Supabase authentifiziert oder per Pairing-Token gekoppelt ist)
       if (typeof FlowAuth !== 'undefined' && FlowAuth.getSupabaseClient) {
         const supa = FlowAuth.getSupabaseClient();
         const user = FlowAuth.getUser();
-        if (supa && user && user.id && !user.isTokenOnly) {
+        if (supa && user && user.id) {
           const { data, error } = await supa.from('flow_sync').select('data, updated_at').eq('user_id', user.id).maybeSingle();
-          if (error) throw error;
+          if (error) {
+            if (user.isTokenOnly) {
+              console.warn('[CloudSync] Token-only pull not permitted by database RLS.');
+              return { skipped: true, tokenOnly: true };
+            }
+            throw error;
+          }
 
           if (!data || !data.data) {
             // Noch kein State auf Server -> aktuellen Zustand hochladen
@@ -570,6 +779,16 @@ const cloudSyncEngine = {
         }
       }
     }, delay);
+  },
+
+  triggerImmediatePush() {
+    if (typeof FlowAuth === 'undefined' || !FlowAuth.isLoggedIn()) return Promise.resolve({ skipped: true });
+    this.markPendingSync();
+    if (this.syncDebounceTimer) {
+      clearTimeout(this.syncDebounceTimer);
+      this.syncDebounceTimer = null;
+    }
+    return this.pushState();
   },
 
   triggerAutoPush() {
@@ -664,6 +883,44 @@ window.cloudSyncEngine = cloudSyncEngine;
 // ============================================================================
 let currentAuthMode = 'login';
 
+function getP2PSyncUrl() {
+  try {
+    const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : {});
+    const encoded = P2PDataCodec.encodeState(currentState);
+    const baseUrl = (typeof window !== 'undefined' && window.location && window.location.origin && window.location.origin !== 'null')
+      ? (window.location.origin + window.location.pathname)
+      : 'https://cableblues.github.io/noodle/';
+    return encoded ? `${baseUrl}#p2p=${encoded}` : baseUrl;
+  } catch (e) {
+    return 'https://cableblues.github.io/noodle/';
+  }
+}
+
+function updateP2PQrDisplay() {
+  if (typeof document === 'undefined') return;
+  const qrImg = document.getElementById('p2p-qr-img');
+  if (!qrImg || typeof MinimalQR === 'undefined') return;
+  const url = getP2PSyncUrl();
+  const svgDataUrl = MinimalQR.generateQRCodeSVG(url, 180);
+  if (svgDataUrl) {
+    qrImg.src = svgDataUrl;
+    qrImg.classList.remove('hidden');
+  }
+}
+window.updateP2PQrDisplay = updateP2PQrDisplay;
+
+function copyP2PSyncLink() {
+  const url = getP2PSyncUrl();
+  if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(() => {
+      if (typeof showToast === 'function') {
+        showToast('🔗 Direkt-Sync-Link in die Zwischenablage kopiert!');
+      }
+    }).catch(() => {});
+  }
+}
+window.copyP2PSyncLink = copyP2PSyncLink;
+
 function openP2PSyncModal(preferredMode = 'login') {
   const modal = document.getElementById('modal-p2p-sync');
   if (modal) {
@@ -677,6 +934,7 @@ function openP2PSyncModal(preferredMode = 'login') {
     }
 
     switchAuthMode(preferredMode || 'login');
+    updateP2PQrDisplay();
 
     if (typeof lucide !== 'undefined') lucide.createIcons();
   }

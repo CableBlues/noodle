@@ -1,5 +1,12 @@
-// config.js - Zentrale Konfiguration für Noodle (Supabase & Sync API)
-// ============================================================================
+/**
+ * @file config.js
+ * @module Config
+ * @description
+ * Zentrale Laufzeitkonfiguration für Noodle Studio.
+ * Definiert API-Endpunkte für die optionale Cloud-Synchronisation (Supabase),
+ * Synchronisationsintervalle sowie Feature-Flags. Kann für Self-Hosting-Instanzen
+ * über `localStorage` (`noodle_custom_config`) oder Window-Variablen überschrieben werden.
+ */
 
 (function() {
   const DEFAULT_CONFIG = {

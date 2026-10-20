@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="h-full bg-[#0a0a0f] text-[#f4f4f5]">
 <head>
   <meta charset="UTF-8" />
@@ -2346,7 +2346,7 @@
               </div>
             </button>
             <!-- 2. Vorlage laden -->
-            <button onclick="handleReset(); closeManageTablesDropdown();" class="w-full p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer hover:bg-amber-500/20 text-amber-300 hover:text-amber-100 text-xs font-semibold">
+            <button id="btn-board-reset" onclick="handleReset(); closeManageTablesDropdown();" class="w-full p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer hover:bg-amber-500/20 text-amber-300 hover:text-amber-100 text-xs font-semibold">
               <i data-lucide="layout-template" class="w-4 h-4 text-amber-400"></i>
               <div>
                 <div class="font-bold">Vorlage laden</div>
@@ -2363,7 +2363,7 @@
             </button>
             <div class="my-1 border-t border-white/10"></div>
             <!-- 3. Manuell anpassen mit intelligenten Vorschlägen oben -->
-            <button onclick="toggleColumnsDropdown(event); closeManageTablesDropdown();" class="w-full p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer hover:bg-sky-500/20 text-sky-200 hover:text-white text-xs font-semibold">
+            <button id="btn-board-columns" onclick="toggleColumnsDropdown(event); closeManageTablesDropdown();" class="w-full p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer hover:bg-sky-500/20 text-sky-200 hover:text-white text-xs font-semibold">
               <i data-lucide="sliders" class="w-4 h-4 text-sky-300"></i>
               <div>
                 <div class="font-bold">Karten individuell anpassen</div>
@@ -7300,75 +7300,8 @@
   <!-- ====================================================================== -->
 
   <!-- 1. Statische Daten & Mehrsprachige Wörterbücher -->
-  <script src="data-tasks-steps-1.js"></script>
-  <script src="data-tasks-steps-2.js"></script>
-  <script src="data-tasks-steps-3.js"></script>
-  <script src="data-tasks.js"></script>
-  <script src="data-translations-1.js"></script>
-  <script src="data-translations-2.js"></script>
-  <script src="data-translations.js"></script>
-  <script src="data-custom-translations.js"></script>
-  <script src="data-extras.js"></script>
-
-  <!-- 2. Konfiguration, Authentifizierung, Persistenz & Synchronisation -->
-  <script src="config.js"></script>
-  <script src="auth-engine.js"></script>
-  <script src="storage.js"></script>
-  <script src="state.js"></script>
-  <script src="sync-engine.js"></script>
-
-  <!-- 3. Basis-Hilfsfunktionen & Sanitization -->
-  <script src="utils-data.js"></script>
-  <script src="utils.js"></script>
-  <script src="utils-2.js"></script>
-
-  <!-- 4. WebAudio-DSP-Synthese, Musik-Player & Fokus-Timer -->
-  <script src="audio-core.js"></script>
-  <script src="audio-generators.js"></script>
-  <script src="audio-scheduler-1.js"></script>
-  <script src="audio-scheduler-2.js"></script>
-  <script src="audio-scheduler-3.js"></script>
-  <script src="audio-player.js"></script>
-  <script src="timer-1.js"></script>
-  <script src="timer-2.js"></script>
-  <script src="timer-3.js"></script>
-
-  <!-- 5. Exekutive Assistenten & Fachmodule -->
-  <script src="helper-core-data.js"></script>
-  <script src="helper-core.js"></script>
-  <script src="helper-core-2.js"></script>
-  <script src="helper-clarity.js"></script>
-  <script src="helper-brainstorm.js"></script>
-  <script src="helper-ocr-scanner.js"></script>
-  <script src="helper-cleaning.js"></script>
-  <script src="sport.js"></script>
-  <script src="app-interaction-mode.js"></script>
-  <script src="app-tasks.js"></script>
-  <script src="app-shopping.js"></script>
-  <script src="app-cooking.js"></script>
-  <script src="app-alarm.js"></script>
-  <script src="helper-learning.js"></script>
-  <script src="app-reports.js"></script>
-  <script src="app-weather-news.js"></script>
-  <script src="app-dice.js"></script>
-  <script src="collab-engine.js"></script>
-  <script src="app-radio-news.js"></script>
-  <script src="app-command-palette.js"></script>
-  <script src="app-routine-presets.js"></script>
-  <script src="app-feature-bridge.js"></script>
-  <script src="app-multitasking-hub.js"></script>
-  <script src="app-installation-hub.js"></script>
-  <script src="onboarding.js"></script>
-  <script src="monetization.js"></script>
-  <script src="app-feedback.js"></script>
-  <script src="app-tooltip.js"></script>
-  <script src="app-regulation.js"></script>
-  <script src="app-health.js"></script>
-  <script src="app-humor.js"></script>
-  <script src="app-social.js"></script>
-
-  <!-- 6. Haupt-Orchestrierung & Initialisierung -->
-  <script src="app-core.js"></script>
+    <!-- Noodle Standalone Production Bundle -->
+  <script src="app.bundle.js"></script>
 
   <!-- Umami: generisches Feature-Tracking – wrapt automatisch ALLE window.open...Modal-Funktionen,
        damit im Umami-Dashboard unter "Events" sichtbar wird, welche Features tatsächlich genutzt

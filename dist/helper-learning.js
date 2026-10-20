@@ -1,7 +1,11 @@
-// ============================================================================
-// NOODLE LEARNING HUB: DEEP LEARNING, FLASHCARDS & AI-QUIZ ENGINE
-// ============================================================================
-// 100% Serverless, Offline-First, Spaced Repetition (Leitner/SM-2), 3D Flashcards & Custom Decks
+/**
+ * @file helper-learning.js
+ * @module LearningHub
+ * @description
+ * Wissens- und Lernmodul (`#modal-learning-hub`) mit interaktiven 3D-Karteikarten,
+ * Spaced-Repetition-Algorithmus (Leitner / SM-2), kuratierten Wissenspaketen
+ * sowie Editor für eigene Lernkarten-Decks.
+ */
 
 (function() {
   'use strict';
@@ -430,73 +434,73 @@
     return [
       {
         id: 'dyn_' + Date.now() + '_1',
-        question: 'Was ist das fundamentale Kernprinzip oder das primäre Ziel von „' + cleanName + '“?',
+        question: 'Was bildet die solide methodische Grundlage beim Einstieg in „' + cleanName + '“?',
         options: [
-          'Die gezielte Strukturierung, Analyse und Beherrschung der Kernmechanismen von ' + cleanName + ', um verlässliche Ergebnisse zu erzielen.',
-          'Ein veraltetes Konzept, das in der modernen Praxis keine Relevanz mehr besitzt.',
-          'Die zufällige und unkontrollierte Ausführung ohne definierte Methodik.',
-          'Ein rein theoretisches Modell ohne jede praktische Anwendbarkeit im Alltag.'
+          'Ausschließliches Auswendiglernen isolierter Details ohne Verständnis der Systemzusammenhänge.',
+          'Die gezielte Identifikation und Beherrschung der Kernmechanismen von ' + cleanName + ', um verlässliche mentale Modelle aufzubauen.',
+          'Die unstrukturierte Aneignung von Randwissen ohne definierten Praxisbezug.',
+          'Der rein intuitive Zugang ohne Überprüfung der grundlegenden Annahmen.'
         ],
-        correct: 0,
+        correct: 1,
         explanation: 'Bei ' + cleanName + ' geht es im Kern darum, fundamentale Zusammenhänge zu verstehen, Heuristiken anzuwenden und Fehlerquellen systematisch zu minimieren.',
-        mnemonic: '💡 Merksatz: „Verstehe das Fundament von ' + cleanName + ', bevor du komplexe Details optimierst.“',
-        pitfall: 'Die anderen Optionen degradieren das Thema fälschlicherweise zu Zufall oder Irrelevanz.'
+        mnemonic: 'Merksatz: Verstehe das Fundament von ' + cleanName + ', bevor du komplexe Details optimierst.',
+        pitfall: 'Isolierte Einzelfakten ohne übergeordnetes Konzept verblassen im Langzeitgedächtnis schnell wieder.'
       },
       {
         id: 'dyn_' + Date.now() + '_2',
-        question: 'Welcher typische Denkfehler oder Fallstrick tritt bei Einsteigern in „' + cleanName + '“ am häufigsten auf?',
+        question: 'Welcher typische methodische Fallstrick tritt beim Vertiefen von „' + cleanName + '“ am häufigsten auf?',
         options: [
-          'Sich zu schnell in unwichtigen Rand-Details zu verlieren, anstatt zuerst die wichtigsten 20% der Grundlagen (Pareto-Prinzip) zu meistern.',
-          'Zu viel Wasser während der Lernphase zu trinken.',
-          'Das Thema ausschließlich mit analogen Notizen auf Papier zu strukturieren.',
-          'Zu viele Fragen an erfahrene Experten zu stellen.'
+          'Sich frühzeitig in peripheren Details zu verlieren, anstatt zuerst die wichtigsten 20% der Grundlagen (Pareto-Prinzip) zu festigen.',
+          'Zu strukturierte Dokumentation der eigenen Lernschritte.',
+          'Das wiederholte Durchführen von Selbsttests zur Wissensüberprüfung.',
+          'Der kontinuierliche Abgleich mit etablierten Best Practices.'
         ],
         correct: 0,
-        explanation: 'Der häufigste Fehler bei ' + cleanName + ' ist "Majoring in minor things": Man verbringt 80% der Zeit mit Nischen-Konfigurationen, anstatt die tragenden Kernkonzepte zu verinnerlichen.',
-        mnemonic: '💡 Merksatz: „Pareto anwenden: Die ersten 20% Kernwissen bringen 80% Verständnis.“',
-        pitfall: 'Option A beschreibt den universellen kognitiven Engpass bei neuen Lernfeldern.'
+        explanation: 'Der häufigste Engpass bei ' + cleanName + ' ist "Majoring in minor things": Man verbringt überproportional viel Zeit mit Randkonfigurationen, bevor das tragende Fundament sitzt.',
+        mnemonic: 'Merksatz: Pareto-Prinzip — Die ersten 20% Kernkompetenz tragen 80% des Verständnisses.',
+        pitfall: 'Reine Beschäftigung mit Nischenthemen simuliert Fortschritt, verfehlt aber das Kernverständnis.'
       },
       {
         id: 'dyn_' + Date.now() + '_3',
-        question: 'Wie lässt sich das Wissen über „' + cleanName + '“ am effektivsten im Alltag verankern (Feynman-Methode)?',
+        question: 'Wie lässt sich das Verständnis von „' + cleanName + '“ am zuverlässigsten überprüfen (Feynman-Technik)?',
         options: [
-          'Indem man das Konzept so einfach erklärt, dass es ein 10-jähriges Kind ohne Fachchinesisch verstehen würde.',
-          'Indem man das Lehrbuch 10-mal hintereinander stumm durchliest ohne Notizen.',
-          'Indem man alle Fachbegriffe auswendig lernt, ohne die Zusammenhänge zu begreifen.',
-          'Indem man niemals praktische Übungen durchführt.'
+          'Durch mehrmaliges passives Wiederlesen von Fachtexten ohne Notizen.',
+          'Durch das Sammeln möglichst umfangreicher Fachbegriffe in Textmarkern.',
+          'Indem man die Kernidee von ' + cleanName + ' in einfacher, präziser Alltagssprache ohne Jargon einem Außenstehenden verständlich erklärt.',
+          'Indem man ausschließlich Multiple-Choice-Tests mit vorgegebenen Lösungen löst.'
         ],
-        correct: 0,
-        explanation: 'Die Feynman-Technik deckt Wissenslücken schonungslos auf: Wer ein Konzept von ' + cleanName + ' nicht in einfachen Worten erklären kann, hat es noch nicht tief verstanden.',
-        mnemonic: '💡 Merksatz: „Einfachheit ist das Siegel der Wahrheit.“ — Erkläre es einem Laien.',
-        pitfall: 'Option B (passives Wiederlesen) erzeugt eine trügerische Illusion von Kompetenz.'
+        correct: 2,
+        explanation: 'Die Feynman-Technik deckt Wissenslücken schonungslos auf: Wer ein Konzept von ' + cleanName + ' nicht in einfachen, klaren Begriffen erklären kann, hat es noch nicht vollständig durchdrungen.',
+        mnemonic: 'Merksatz: Einfachheit ist das Kriterium für echtes Verständnis.',
+        pitfall: 'Passives Wiederlesen erzeugt eine trügerische Illusion von Beherrschung (Fluency Illusion).'
       },
       {
         id: 'dyn_' + Date.now() + '_4',
-        question: 'Welcher Ansatz führt bei der praktischen Anwendung von „' + cleanName + '“ zu langfristigem Meistergrad?',
+        question: 'Welcher Lernansatz führt bei der praktischen Anwendung von „' + cleanName + '“ zu nachhaltiger Kompetenz?',
         options: [
-          'Deliberate Practice (Gezieltes Üben an der eigenen Leistungsgrenze mit sofortigem Feedback und Fehleranalyse).',
-          'Reine Wiederholung von Dingen, die man ohnehin schon perfekt beherrscht.',
-          'Das Vermeiden jeglicher Herausforderungen und Tests.',
-          'Ausschließlicher Konsum von passiven Video-Tutorials ohne eigene Umsetzung.'
+          'Reine Wiederholung von Aufgaben, die bereits mühelos gelingen.',
+          'Deliberate Practice: Gezieltes Üben an der eigenen Leistungsgrenze mit unverzüglicher Fehleranalyse und Korrektur.',
+          'Ausschließlicher Konsum passiver Video-Tutorials ohne eigene praktische Umsetzung.',
+          'Das Vermeiden von herausfordernden Szenarien und Transferaufgaben.'
         ],
-        correct: 0,
-        explanation: 'Nach Anders Ericsson entsteht Spitzenleistung in ' + cleanName + ' durch Deliberate Practice: Man sucht gezielt die Bereiche auf, in denen man noch Fehler macht, und korrigiert sie unmittelbar.',
-        mnemonic: '💡 Merksatz: „Übe dort, wo es hakt — nicht dort, wo es glänzt.“',
-        pitfall: 'Passiver Konsum trainiert das Wiedererkennen, nicht die aktive Problemlösungskompetenz.'
+        correct: 1,
+        explanation: 'Nach Anders Ericsson entsteht fundierte Kompetenz in ' + cleanName + ' durch Deliberate Practice: Man adressiert gezielt die Schwachstellen und korrigiert sie systematisch.',
+        mnemonic: 'Merksatz: Übe dort, wo Reibung entsteht — nicht in der reinen Komfortzone.',
+        pitfall: 'Passiver Konsum schult das Wiedererkennen, trainiert jedoch nicht die aktive Transferleistung.'
       },
       {
         id: 'dyn_' + Date.now() + '_5',
-        question: 'Wie reagiert ein kompetenter Experte, wenn bei „' + cleanName + '“ unerwartete Widersprüche oder Probleme auftauchen?',
+        question: 'Wie begegnet man unerwarteten Fehlern oder Widersprüchen bei „' + cleanName + '“ am effektivsten?',
         options: [
-          'Er wendet First-Principles-Denken an: Zerlegt das Problem in seine elementaren Grundwahrheiten und baut die Lösung von unten neu auf.',
-          'Er ignoriert die Daten und beharrt stur auf seiner ursprünglichen Meinung.',
-          'Er bricht das gesamte Projekt sofort frustriert ab.',
-          'Er schiebt die Schuld ausschließlich auf externe Werkzeuge.'
+          'Durch vorschnelles Aufgeben beim ersten Auftreten unerwarteter Hürden.',
+          'Durch das Festhalten an initialen Vermutungen ungeachtet empirischer Gegenevidenz.',
+          'Durch das Ausblenden der Abweichungen im Vertrauen auf gewohnte Routinen.',
+          'First-Principles-Denken: Das Problem in elementare Grundbausteine zerlegen und die Annahmen von Grund auf neu validieren.'
         ],
-        correct: 0,
-        explanation: 'First Principles (Erste Prinzipien): Anstatt nach Analogie („Das haben wir schon immer so gemacht“) zu verfahren, fragt man: Was wissen wir über ' + cleanName + ' mit absoluter Sicherheit?',
-        mnemonic: '💡 Merksatz: „Vom Fundament her denken, nicht von der Konvention.“',
-        pitfall: 'Option A beschreibt die wissenschaftliche Denkweise, die echte Innovation ermöglicht.'
+        correct: 3,
+        explanation: 'First-Principles-Denken: Statt sich auf Analogien zu stützen, isoliert man die gesicherten Fakten rund um ' + cleanName + ' und leitet die Lösung evidenzbasiert her.',
+        mnemonic: 'Merksatz: Zerlege das Problem in seine Grundwahrheiten, statt Vermutungen zu wiederholen.',
+        pitfall: 'Wer nur oberflächliche Symptome bekämpft, übersieht die eigentliche Ursache im System.'
       }
     ];
   }
@@ -652,7 +656,7 @@
 
   function startMistakesReviewSession() {
     if (activeLearningSession.mistakesArchive.length === 0) {
-      if (typeof showToast === 'function') showToast('Keine offenen Fehler zum Wiederholen vorhanden! 🎉');
+      if (typeof showToast === 'function') showToast('Keine offenen Fehler zum Wiederholen vorhanden.');
       return;
     }
 
@@ -678,7 +682,7 @@
     activeLearningSession.isFinished = true;
     renderLearningSessionUI();
     if (typeof showToast === 'function') {
-      showToast('🏆 Lern-Session abgeschlossen: +' + activeLearningSession.xpEarned + ' XP!');
+      showToast('Lern-Session abgeschlossen: +' + activeLearningSession.xpEarned + ' XP');
     }
   }
 
@@ -716,7 +720,7 @@
     customPacksStorage[id] = {
       id,
       title,
-      icon: '✨',
+      icon: 'layers',
       color: 'amber',
       desc: desc || 'Eigenes Wissens-Set',
       level: 'Individuell',
@@ -724,7 +728,7 @@
     };
     saveLearningStorage();
     selectLearningPack(id);
-    if (typeof showToast === 'function') showToast(`📦 Neues Deck "${title}" erfolgreich gespeichert!`);
+    if (typeof showToast === 'function') showToast(`Neues Deck "${title}" gespeichert.`);
     return id;
   }
 

@@ -1,14 +1,13 @@
 /**
- * ============================================================================
- * Noodle - State Management & Datenpersistenz (state.js)
- * ============================================================================
- * Verwaltet den gesamten reaktiven Zustand der Applikation:
- * - Aufgaben-Listen (Personal & Work Workspace)
- * - Erledigte Aufgaben, Archiv & Wiederherstellung
- * - Historie & Undo-Stack (bis zu 20 Schritte)
- * - Schema-Versionierung & automatische Migrationen
- * - Fallback-Trimming bei QuotaExceeded-Fehlern
- * ============================================================================
+ * @file state.js
+ * @module StateManager
+ * @description
+ * Zentrales State-Management & Datenpersistenz:
+ * - Reaktive Aufgaben-Listen für getrennte Workspaces (Personal & Work)
+ * - Erledigte Aufgaben, Archiv, Tombstone-Tracking & Wiederherstellung
+ * - Transaktionaler History- & Undo-Stack (bis zu 20 Snapshots)
+ * - Schema-Versionierung, Daten-Sanitizing & automatische Migrationen
+ * - Automatische Speicherbereinigung bei `QuotaExceededError`
  */
 
 // Grundlegende Konfiguration & globale State-Deklarationen
@@ -63,22 +62,35 @@ function reorderTodoBeforeDaily(arr) {
   return arr;
 }
 
+// Helper to ensure 'done' (Erledigt) is positioned before 'occasionally' (Gelegentlich)
+function reorderDoneBeforeOccasionally(arr) {
+  if (!Array.isArray(arr)) return arr;
+  const doneIdx = arr.findIndex(([id]) => id === 'done');
+  const occIdx = arr.findIndex(([id]) => id === 'occasionally');
+  if (doneIdx !== -1 && occIdx !== -1 && doneIdx !== occIdx - 1) {
+    const [doneItem] = arr.splice(doneIdx, 1);
+    const newOccIdx = arr.findIndex(([id]) => id === 'occasionally');
+    arr.splice(newOccIdx, 0, doneItem);
+  }
+  return arr;
+}
+
 function loadCategoriesOrder() {
   try {
     const saved = localStorage.getItem('flowPlannerCategoriesOrder') || localStorage.getItem('flow_categories_order');
-    if (saved) return reorderTodoBeforeDaily(reorderNotesBeforeTermine(JSON.parse(saved)));
+    if (saved) return reorderDoneBeforeOccasionally(reorderTodoBeforeDaily(reorderNotesBeforeTermine(JSON.parse(saved))));
   } catch (e) {
     console.warn('[State] loadCategoriesOrder warning:', e);
   }
   
-  // Standard-Layout (To Do vor Heute)
+  // Standard-Layout (To Do vor Heute, Erledigt vor Gelegentlich)
   return [
     ['weekly', 'home'],
     ['todo', 'list-todo'],
     ['daily', 'sun'],
-    ['done', 'check-circle-2'],
     ['notes', 'file-text'],
     ['termine', 'calendar'],
+    ['done', 'check-circle-2'],
     ['occasionally', 'clock']
   ];
 }
@@ -396,7 +408,9 @@ function trackTombstone(id) {
   if (!currentState._tombstones || typeof currentState._tombstones !== 'object') {
     currentState._tombstones = {};
   }
-  currentState._tombstones[id] = new Date().toISOString();
+  const nowISO = new Date().toISOString();
+  currentState._tombstones[String(id)] = nowISO;
+  currentState.updatedAt = nowISO;
 }
 
 function clearTombstone(id) {
@@ -406,6 +420,105 @@ function clearTombstone(id) {
     delete currentState._tombstones[id];
   }
 }
+
+function trackItemDeletion(item, category = 'task', ws = 'private') {
+  if (!item) return;
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState) return;
+  if (!currentState._tombstones || typeof currentState._tombstones !== 'object') {
+    currentState._tombstones = {};
+  }
+  const nowISO = new Date().toISOString();
+  currentState.updatedAt = nowISO;
+
+  // 1. Explizite ID speichern
+  if (typeof item === 'object' && item !== null && item.id) {
+    currentState._tombstones[String(item.id)] = nowISO;
+  }
+
+  // 2. Text- / Content-Hash erzeugen und in allen Prefix-Formen tombstonen
+  const itemText = (typeof item === 'object' && item !== null)
+    ? (item.task || item.name || item.text || item.title || JSON.stringify(item))
+    : String(item || '');
+
+  if (itemText && typeof computeStringHash === 'function') {
+    const hash = computeStringHash(itemText);
+    const prefix = ws === 'work' ? 'wtask' : (ws === 'study' ? 'stask' : 'task');
+    currentState._tombstones[`${prefix}_${category}_h${hash}`] = nowISO;
+    currentState._tombstones[`task_${category}_h${hash}`] = nowISO;
+    currentState._tombstones[`${category}_h${hash}`] = nowISO;
+    currentState._tombstones[`hash_${hash}`] = nowISO;
+    if (category === 'done' || category === 'workDone' || category === 'studyDone') {
+      currentState._tombstones[`done_h${hash}`] = nowISO;
+      currentState._tombstones[`wdone_h${hash}`] = nowISO;
+      currentState._tombstones[`sdone_h${hash}`] = nowISO;
+    }
+  }
+}
+
+function clearItemTombstone(item, category = 'task', ws = 'private') {
+  if (!item) return;
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState || !currentState._tombstones) return;
+
+  if (typeof item === 'object' && item !== null && item.id) {
+    delete currentState._tombstones[String(item.id)];
+  }
+
+  const itemText = (typeof item === 'object' && item !== null)
+    ? (item.task || item.name || item.text || item.title || JSON.stringify(item))
+    : String(item || '');
+
+  if (itemText && typeof computeStringHash === 'function') {
+    const hash = computeStringHash(itemText);
+    const prefix = ws === 'work' ? 'wtask' : (ws === 'study' ? 'stask' : 'task');
+    delete currentState._tombstones[`${prefix}_${category}_h${hash}`];
+    delete currentState._tombstones[`task_${category}_h${hash}`];
+    delete currentState._tombstones[`${category}_h${hash}`];
+    delete currentState._tombstones[`hash_${hash}`];
+    delete currentState._tombstones[`done_h${hash}`];
+    delete currentState._tombstones[`wdone_h${hash}`];
+    delete currentState._tombstones[`sdone_h${hash}`];
+  }
+}
+
+function trackCategoryClear(colId, ws = 'private', itemsToClear = []) {
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState) return;
+  const nowISO = new Date().toISOString();
+  currentState._clearedAt = currentState._clearedAt || {};
+  currentState._clearedAt[`${ws}_${colId}`] = nowISO;
+  currentState.updatedAt = nowISO;
+
+  if (Array.isArray(itemsToClear)) {
+    itemsToClear.forEach(item => {
+      trackItemDeletion(item, colId, ws);
+    });
+  }
+}
+
+function trackAllListsClear(ws = 'private', curItems = {}, curDone = []) {
+  const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : null);
+  if (!currentState) return;
+  const nowISO = new Date().toISOString();
+  currentState._clearedAt = currentState._clearedAt || {};
+  currentState._clearedAt[`${ws}__all`] = nowISO;
+  currentState.updatedAt = nowISO;
+
+  if (curItems && typeof curItems === 'object') {
+    Object.entries(curItems).forEach(([colId, list]) => {
+      if (Array.isArray(list)) {
+        currentState._clearedAt[`${ws}_${colId}`] = nowISO;
+        list.forEach(item => trackItemDeletion(item, colId, ws));
+      }
+    });
+  }
+  if (Array.isArray(curDone)) {
+    currentState._clearedAt[`${ws}_done`] = nowISO;
+    curDone.forEach(item => trackItemDeletion(item, 'done', ws));
+  }
+}
+
 
 
 function getYearAndWeek(date = new Date()) {
@@ -670,6 +783,109 @@ function migrateState(raw, lang) {
     });
   }
 
+  // 8. Migration: "10 Minuten abends aufräumen" / "10 Min. Abend-Aufräumen" -> "5min aufräumen"
+  const renameTidyUpTask = (list) => {
+    if (!Array.isArray(list)) return;
+    list.forEach((item, i) => {
+      const taskText = typeof item === 'object' && item !== null ? item.task : String(item || '');
+      if (/10\s*min.*abend.*aufraum/i.test(taskText) || /10\s*minuten.*abends.*aufraum/i.test(taskText) || /10\s*min.*evening.*tidy/i.test(taskText)) {
+        if (typeof item === 'string') {
+          list[i] = '5min aufräumen';
+        } else if (typeof item === 'object' && item) {
+          item.task = '5min aufräumen';
+        }
+      }
+    });
+  };
+  if (s.items) {
+    Object.values(s.items).forEach(renameTidyUpTask);
+  }
+  if (Array.isArray(s.done)) {
+    renameTidyUpTask(s.done);
+  }
+  if (s.workspaces) {
+    Object.values(s.workspaces).forEach(ws => {
+      if (ws && ws.items) Object.values(ws.items).forEach(renameTidyUpTask);
+      if (ws && Array.isArray(ws.done)) renameTidyUpTask(ws.done);
+    });
+  }
+
+  // 9. Duschen / 10. Aufräumen / 11. Kochen (nur bei Erst-Migration von < v3)
+  const isV3Clean = !!(raw && raw.version >= 3 && raw._migrationV3TasksPlaced);
+  if (!isV3Clean) {
+    if (s.items && Array.isArray(s.items.daily)) {
+      const isShower = (t) => {
+        const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+        return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
+      };
+      const showerIndex = s.items.daily.findIndex(isShower);
+      if (showerIndex !== -1) {
+        s.items.daily.splice(showerIndex, 1);
+      }
+    }
+    if (s.items) {
+      if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+      const hasShower = s.items.occasionally.some(t => {
+        const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+        return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text.trim());
+      });
+      if (!hasShower && !raw) {
+        s.items.occasionally.unshift('Duschen');
+      }
+    }
+
+    // 10. Aufräumen muss bei Haushalt (weekly) bleiben & in Gelegentlich (3-Tage-Zyklus)
+    if (s.items) {
+      if (!Array.isArray(s.items.weekly)) s.items.weekly = [];
+      const hasWeeklyClean = s.items.weekly.some(t => {
+        const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
+        return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
+      });
+      if (!hasWeeklyClean && !raw) {
+        s.items.weekly.unshift('Aufräumen');
+      }
+
+      if (typeof checkOccasionalAufräumen === 'function') {
+        checkOccasionalAufräumen(s);
+      }
+    }
+
+    // 11. Wichtigste Aufgabe & Kochen von Täglich (Heute) entfernen, Kochen in Gelegentlich verschieben
+    const isFocusOrCookingInDaily = (t) => {
+      const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+      return /^(1\s*)?(wichtigste aufgabe(\s*\(fokus\))?|key priority(\s*\(focus\))?|1 main focus task|prioridad clave(\s*\(foco\))?|1 tarea clave(\s*\(foco\))?|priorité clé(\s*\(focus\))?|1 tâche focus principale|priorità chiave(\s*\(focus\))?|1 attività chiave(\s*\(focus\))?|κύρια προτεραιότητα(\s*\(focus\))?|1 κύρια εργασία εστίασης|kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
+    };
+    if (s.items && Array.isArray(s.items.daily)) {
+      s.items.daily = s.items.daily.filter(t => !isFocusOrCookingInDaily(t));
+    }
+    if (s.items) {
+      if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+      const hasCooking = s.items.occasionally.some(t => {
+        const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+        return /^(kochen|cook a meal|cocinar|préparer un repas|preparare un pasto|μαγειρική)$/i.test(text);
+      });
+      if (!hasCooking && !raw) {
+        const showerIdx = s.items.occasionally.findIndex(t => {
+          const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+          return /^(duschen|take a shower|ducharse|prendre une douche|fare la doccia|ντους)$/i.test(text);
+        });
+        if (showerIdx !== -1) {
+          s.items.occasionally.splice(showerIdx + 1, 0, 'Kochen');
+        } else {
+          s.items.occasionally.unshift('Kochen');
+        }
+      }
+    }
+    if (customDefaults && Array.isArray(customDefaults.daily)) {
+      const beforeLen = customDefaults.daily.length;
+      customDefaults.daily = customDefaults.daily.filter(t => !isFocusOrCookingInDaily(t));
+      if (customDefaults.daily.length !== beforeLen) {
+        saveCustomDefaults(customDefaults);
+      }
+    }
+  }
+
+  s._migrationV3TasksPlaced = true;
   return s;
 }
 
@@ -826,31 +1042,35 @@ function updateWorkspaceSwitchUI() {
       const roomName = (typeof CollabEngine !== 'undefined' && CollabEngine.getRoom) ? CollabEngine.getRoom() : 'team';
       headerIcon.textContent = '👥';
       headerLabel.textContent = `Team (#${roomName})`;
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-violet-600/30 hover:bg-violet-600/40 border border-violet-400/80 text-violet-100 hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_15px_rgba(139,92,246,0.4)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-violet-500/20 hover:bg-violet-500/30 border border-violet-400/40 text-violet-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = `Team-Board (#${roomName})`;
     } else if (currentWs === 'study') {
       headerIcon.textContent = '🎓';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_study') : 'Studium';
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-amber-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = typeof t === 'function' ? t('workspace_study') : 'Studium';
     } else if (currentWs === 'work') {
       headerIcon.textContent = '💼';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 border border-cyan-400/30 text-cyan-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
     } else {
       headerIcon.textContent = '🏠';
       headerLabel.textContent = typeof t === 'function' ? t('workspace_private') : 'Privat';
-      headerBtn.className = 'p-1 px-1.5 sm:px-2 rounded-xl bg-[#c084fc]/15 hover:bg-[#c084fc]/30 border border-[#c084fc]/40 hover:border-[#c084fc] text-[#c084fc] hover:text-white transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-1 text-[11px] font-bold cursor-pointer shadow-[0_0_12px_rgba(192,132,252,0.25)] group/ws shrink-0';
+      headerBtn.className = 'h-7 w-7 sm:h-8 sm:w-8 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 border border-purple-400/30 text-purple-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-95 shrink-0';
+      headerBtn.title = typeof t === 'function' ? t('workspace_private') : 'Privat';
     }
   }
 
-  // Active option highlight inside Header Dropdown (Solid backgrounds to avoid overlap artifacts)
+  // Active option highlight inside Header Dropdown (Dezent & aufgeräumt)
   const optPriv = document.getElementById('header-ws-opt-private');
   const optWork = document.getElementById('header-ws-opt-work');
   const optStudy = document.getElementById('header-ws-opt-study');
   const optShared = document.getElementById('header-ws-opt-shared');
-  if (optPriv) optPriv.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'private' ? 'bg-purple-500/20 border-purple-400/50 text-purple-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
-  if (optWork) optWork.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'work' ? 'bg-blue-500/20 border-blue-400/50 text-blue-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
-  if (optStudy) optStudy.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'study' ? 'bg-emerald-500/20 border-emerald-400/50 text-emerald-100 shadow-xs' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
-  if (optShared) optShared.className = `p-2 rounded-xl text-left flex items-center gap-2.5 transition cursor-pointer border ${currentWs === 'shared' ? 'bg-violet-600/30 border-violet-400/70 text-violet-100 shadow-[0_0_12px_rgba(139,92,246,0.3)]' : 'hover:bg-white/[0.08] border-transparent text-gray-300'}`;
+  if (optPriv) optPriv.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs border ${currentWs === 'private' ? 'bg-purple-500/15 border-purple-400/35 text-purple-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
+  if (optWork) optWork.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs border ${currentWs === 'work' ? 'bg-cyan-500/15 border-cyan-400/35 text-cyan-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
+  if (optStudy) optStudy.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center gap-2 transition cursor-pointer text-xs border ${currentWs === 'study' ? 'bg-amber-500/15 border-amber-400/35 text-amber-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
+  if (optShared) optShared.className = `w-full p-1.5 px-2 rounded-xl text-left flex items-center justify-between transition cursor-pointer text-xs border ${currentWs === 'shared' ? 'bg-violet-500/20 border-violet-400/40 text-violet-200 font-semibold' : 'border-transparent text-gray-300 hover:bg-white/5'}`;
 
   // 2. SETTINGS / MOBILE TOGGLE FALLBACKS
   const toggleBtn = document.getElementById('btn-workspace-toggle');
@@ -922,6 +1142,9 @@ let syncEngineDebounceTimer = null;
 
 function saveState(skipP2PSync = false) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
+  if (currentState) {
+    currentState.updatedAt = new Date().toISOString();
+  }
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify(currentState));
     if (typeof IDB_VAULT !== 'undefined' && IDB_VAULT && typeof IDB_VAULT.set === 'function') {
@@ -984,7 +1207,7 @@ function updateUndoUI() {
   if (undoBtn) {
     undoBtn.disabled = !hasHistory;
     if (hasHistory) {
-      undoBtn.classList.remove('opacity-30', 'pointer-events-none', 'grayscale');
+      undoBtn.classList.remove('opacity-40', 'opacity-30', 'pointer-events-none', 'grayscale');
       undoBtn.classList.add('opacity-100');
       const badge = undoBtn.querySelector('#undo-count-badge');
       if (badge) {
@@ -992,8 +1215,8 @@ function updateUndoUI() {
         badge.classList.remove('hidden');
       }
     } else {
-      undoBtn.classList.add('opacity-30', 'pointer-events-none', 'grayscale');
-      undoBtn.classList.remove('opacity-100');
+      undoBtn.classList.add('opacity-40', 'pointer-events-none');
+      undoBtn.classList.remove('opacity-100', 'grayscale');
       const badge = undoBtn.querySelector('#undo-count-badge');
       if (badge) badge.classList.add('hidden');
     }
@@ -1210,6 +1433,52 @@ function applyHistorySnapshot(popped) {
   // 2. Gezielte Wiederherstellung NUR der Listen & Aufgaben (Items, Done, Steps)
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : state);
   if (currentState) {
+    const ws = currentState.activeWorkspace || 'private';
+    const nowISO = new Date().toISOString();
+    currentState._clearedAt = currentState._clearedAt || {};
+    currentState.updatedAt = nowISO;
+
+    const collectTexts = (itemsObj) => {
+      const set = new Set();
+      if (!itemsObj || typeof itemsObj !== 'object') return set;
+      Object.values(itemsObj).forEach(list => {
+        if (Array.isArray(list)) {
+          list.forEach(it => {
+            const txt = typeof it === 'object' && it ? (it.task || it.name || it.id || '') : String(it || '');
+            if (txt) set.add(txt);
+          });
+        }
+      });
+      return set;
+    };
+
+    if (popped.items && currentState.items) {
+      const poppedTexts = collectTexts(popped.items);
+      Object.entries(currentState.items).forEach(([colId, list]) => {
+        if (Array.isArray(list)) {
+          list.forEach(it => {
+            const txt = typeof it === 'object' && it ? (it.task || it.name || it.id || '') : String(it || '');
+            if (txt && !poppedTexts.has(txt)) {
+              trackItemDeletion(it, colId, ws);
+            }
+          });
+        }
+      });
+    }
+
+    if (popped.items && typeof popped.items === 'object') {
+      Object.entries(popped.items).forEach(([colId, list]) => {
+        if (Array.isArray(list)) {
+          list.forEach(it => {
+            clearItemTombstone(it, colId, ws);
+            if (typeof it === 'object' && it !== null) {
+              it.updatedAt = nowISO;
+            }
+          });
+        }
+      });
+    }
+
     if (popped.items) currentState.items = JSON.parse(JSON.stringify(popped.items));
     if (popped.done) currentState.done = JSON.parse(JSON.stringify(popped.done));
     if (popped.workItems) currentState.workItems = JSON.parse(JSON.stringify(popped.workItems));
@@ -1410,28 +1679,44 @@ if (typeof window !== 'undefined') {
 
 async function handleReset() {
   const confirmMsg = tr({
-    de: 'Möchtest du den gesamten Plan wirklich zurücksetzen?',
-    en: 'Do you really want to reset your entire plan?',
-    fr: 'Veux-tu vraiment réinitialiser tout le plan ?',
-    it: 'Vuoi davvero reimpostare l\'intero piano?',
-    es: '¿Seguro que quieres reiniciar todo el plan?',
-    el: 'Θέλεις πραγματικά να επαναφέρεις ολόκληρο το πλάνο σου;'
+    de: 'Möchtest du die Vorlage mit empfohlenen Routinen & Karten laden? (Bestehende Aufgaben werden ersetzt)',
+    en: 'Do you want to load the template with recommended routines & cards? (Existing tasks will be replaced)',
+    fr: 'Veux-tu charger le modèle avec les routines et cartes recommandées ?',
+    it: 'Vuoi caricare il modello con le routine e schede consigliate?',
+    es: '¿Quieres cargar la plantilla con las rutinas y tarjetas recomendadas?',
+    el: 'Θέλεις να φορτώσεις το πρότυπο με τις προτεινόμενες ρουτίνες και κάρτες;'
   });
   
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
-    title: typeof tr === 'function' ? tr({ de: 'Plan zurücksetzen?', en: 'Reset Plan?' }) : 'Plan zurücksetzen?',
+    title: typeof tr === 'function' ? tr({ de: 'Vorlage laden?', en: 'Load Template?' }) : 'Vorlage laden?',
     message: confirmMsg,
-    confirmText: typeof tr === 'function' ? tr({ de: 'Zurücksetzen', en: 'Reset' }) : 'Zurücksetzen',
-    isDanger: true,
-    icon: 'trash-2'
+    confirmText: typeof tr === 'function' ? tr({ de: 'Vorlage laden', en: 'Load Template' }) : 'Vorlage laden',
+    isDanger: false,
+    icon: 'layout-template'
   }) : confirm(confirmMsg);
 
   if (confirmed) {
     saveHistory();
+    const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
+    if (typeof trackAllListsClear === 'function') {
+      trackAllListsClear(ws, state.items, state.done);
+    }
+    const customDefaults = getCustomDefaults();
     const localizedDefaults = DEFAULT_TASKS_BY_LANG[currentLang] || DEFAULT_TASKS_BY_LANG['en'] || DEFAULT_TASKS_BY_LANG['de'];
+    const dailyTasks = (customDefaults && Array.isArray(customDefaults.daily)) ? [...customDefaults.daily] : [...(localizedDefaults.daily || [])];
+    const weeklyTasks = (customDefaults && Array.isArray(customDefaults.weekly)) ? [...customDefaults.weekly] : [...(localizedDefaults.weekly || [])];
+    const occasionallyTasks = (customDefaults && Array.isArray(customDefaults.occasionally)) ? [...customDefaults.occasionally] : [...(localizedDefaults.occasionally || [])];
+    const todoTasks = (customDefaults && Array.isArray(customDefaults.todo)) ? [...customDefaults.todo] : [];
+
+    const nowISO = new Date().toISOString();
     state = {
-      version: 3, lastDate: new Date().toISOString().split('T')[0],
-      items: { daily: [...localizedDefaults.daily], weekly: [...localizedDefaults.weekly], occasionally: [...localizedDefaults.occasionally], todo: [], termine: [], notes: [] },
+      version: 3, lastDate: nowISO.split('T')[0],
+      _tombstones: state._tombstones || {},
+      _clearedAt: state._clearedAt || {},
+      _backupRestoredAt: nowISO,
+      updatedAt: nowISO,
+      _migrationV3TasksPlaced: true,
+      items: { daily: dailyTasks, weekly: weeklyTasks, occasionally: occasionallyTasks, todo: todoTasks, termine: [], notes: [] },
       done: [], archive: [], streak: 0, completedSteps: {}, customSteps: {},
       shoppingList: [], shoppingHistory: [],
       cooking: createDefaultCookingState(),
@@ -1440,17 +1725,28 @@ async function handleReset() {
     
     categoriesOrder = [
       ['weekly', 'home'],
-      ['daily', 'sun'],
       ['todo', 'list-todo'],
+      ['daily', 'sun'],
+      ['notes', 'file-text'],
+      ['termine', 'calendar'],
       ['done', 'check-circle-2'],
-    ['notes', 'file-text'],
-    ['termine', 'calendar'],
       ['occasionally', 'clock']
     ];
     saveCategoriesOrder();
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     
-    showToast(t('toast_reset_success'));
+    const toastMsg = typeof tr === 'function' ? tr({
+      de: 'Vorlage erfolgreich geladen ✨',
+      en: 'Template loaded successfully ✨',
+      fr: 'Modèle chargé avec succès ✨',
+      it: 'Modello caricato con successo ✨',
+      es: 'Plantilla cargada con éxito ✨',
+      el: 'Το πρότυπο φορτώθηκε με επιτυχία ✨'
+    }) : 'Vorlage erfolgreich geladen ✨';
+    showToast(toastMsg);
     renderApp();
     populateHelperTaskSelect();
   }
@@ -1501,6 +1797,9 @@ async function handleClearAllLists() {
 
   if (confirmed) {
     if (typeof saveHistory === 'function') saveHistory();
+    if (typeof trackAllListsClear === 'function') {
+      trackAllListsClear(ws, curItems, curDone);
+    }
     if (curItems && typeof curItems === 'object') {
       Object.keys(curItems).forEach(colId => {
         curItems[colId] = [];
@@ -1513,18 +1812,22 @@ async function handleClearAllLists() {
     } else {
       state.done = [];
     }
+    state.updatedAt = new Date().toISOString();
     saveState();
+    if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+      cloudSyncEngine.triggerImmediatePush();
+    }
     if (typeof renderApp === 'function') renderApp();
     if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
     if (typeof updateZenView === 'function') updateZenView();
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: `🧹 Alle Spalten geleert (${totalTasks} Aufgaben entfernt)`,
-        en: `🧹 All columns cleared (${totalTasks} tasks removed)`,
-        fr: `🧹 Toutes les colonnes vidées (${totalTasks} tâches supprimées)`,
-        it: `🧹 Tutte le colonne svuotate (${totalTasks} attività rimosse)`,
-        es: `🧹 Todas las columnas vaciadas (${totalTasks} tareas eliminadas)`,
-        el: `🧹 Όλες οι στήλες άδειασαν (${totalTasks} εργασίες αφαιρέθηκαν)`
+        de: `🧹 Alle Spalten geleert (${totalTasks} Einträge entfernt)`,
+        en: `🧹 All columns cleared (${totalTasks} items removed)`,
+        fr: `🧹 Toutes les colonnes vidées (${totalTasks} éléments supprimés)`,
+        it: `🧹 Tutte le colonne svuotate (${totalTasks} elementi rimossi)`,
+        es: `🧹 Todas las columnas vaciadas (${totalTasks} elementos eliminados)`,
+        el: `🧹 Όλες οι στήλες άδειασαν (${totalTasks} στοιχεία αφαιρέθηκαν)`
       }));
     }
   }
@@ -1565,7 +1868,12 @@ function handleOpenFile(e) {
       if (imported) {
         saveHistory();
         state = migrateState(imported, typeof currentLang !== 'undefined' ? currentLang : 'de');
+        state._backupRestoredAt = new Date().toISOString();
+        state.updatedAt = state._backupRestoredAt;
         saveState();
+        if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
+          cloudSyncEngine.triggerImmediatePush();
+        }
         showToast(t('toast_import_success'));
         renderApp();
         populateHelperTaskSelect();
@@ -1580,9 +1888,10 @@ function handleOpenFile(e) {
 function convertNoteToTask(noteIndex, targetCategory = 'todo', event) {
   if (event) event.stopPropagation();
   if (!state.items.notes || !state.items.notes[noteIndex]) return;
-  saveHistory();
   const [noteItem] = state.items.notes.splice(noteIndex, 1);
   const noteText = typeof noteItem === 'object' ? noteItem.task : noteItem;
+  const snippet = noteText ? `"${noteText.length > 20 ? noteText.substring(0, 18) + '...' : noteText}"` : 'Notiz';
+  saveHistory(`Notiz in Aufgabe umgewandelt: ${snippet}`);
   if (!state.items[targetCategory]) state.items[targetCategory] = [];
   state.items[targetCategory].push(noteText);
   saveState();
@@ -1615,11 +1924,63 @@ function copyNoteText(noteIndex, event) {
   }).catch(() => {});
 }
 
+function checkOccasionalAufräumen(s) {
+  if (!s || !s.items) return;
+  if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
+  const hasClean = s.items.occasionally.some(item => {
+    const text = typeof item === 'object' ? (item.task || '') : String(item || '');
+    return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
+  });
+
+  // Nicht re-injizieren, wenn der Nutzer Aufräumen gelöscht oder die Spalte geleert hat
+  const hash = typeof computeStringHash === 'function' ? computeStringHash('Aufräumen') : 'aufraum';
+  const isDeleted = s._tombstones && (s._tombstones['task_occasionally_h' + hash] || s._tombstones['hash_' + hash]);
+  const isCleared = s._clearedAt && (s._clearedAt['private_occasionally'] || s._clearedAt['private__all']);
+  if (isDeleted || isCleared) return;
+
+  if (!hasClean) {
+    const todayStr = new Date().toISOString().split('T')[0];
+    if (!s.lastOccasionalAufräumenDoneDate) {
+      s.items.occasionally.push('Aufräumen');
+    } else {
+      const lastDate = new Date(s.lastOccasionalAufräumenDoneDate);
+      const todayDate = new Date(todayStr);
+      const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+      if (diffDays >= 3) {
+        s.items.occasionally.push('Aufräumen');
+        s.lastOccasionalAufräumenDoneDate = null;
+      }
+    }
+  }
+}
+window.checkOccasionalAufräumen = checkOccasionalAufräumen;
+
 function reloadDailyTasks(isAuto = false) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
   if (!currentState) return;
   if (!isAuto && typeof saveHistory === 'function') saveHistory();
 
+  // 1. Tägliche Aufgaben jeden Tag von der Erledigt-Karte löschen, den Rest lassen
+  if (Array.isArray(currentState.done)) {
+    currentState.done = currentState.done.filter(item => {
+      const orig = (typeof item === 'object' && item !== null) ? item.origin : null;
+      return orig !== 'daily';
+    });
+  }
+  if (Array.isArray(currentState.workDone)) {
+    currentState.workDone = currentState.workDone.filter(item => {
+      const orig = (typeof item === 'object' && item !== null) ? item.origin : null;
+      return orig !== 'work_focus';
+    });
+  }
+  if (Array.isArray(currentState.studyDone)) {
+    currentState.studyDone = currentState.studyDone.filter(item => {
+      const orig = (typeof item === 'object' && item !== null) ? item.origin : null;
+      return orig !== 'study_focus';
+    });
+  }
+
+  // 2. Tägliche Aufgaben neu laden
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
     : ((currentState && currentState.settings && currentState.settings.language)
@@ -1661,6 +2022,9 @@ function reloadDailyTasks(isAuto = false) {
     }
   }
 
+  // 3. Gelegentlich Aufräumen (jeden 3. Tag wenn gelöscht)
+  checkOccasionalAufräumen(currentState);
+
   currentState.lastDate = new Date().toISOString().split('T')[0];
   saveState();
   if (typeof renderApp === 'function') renderApp();
@@ -1682,6 +2046,17 @@ function reloadWeeklyHouseholdTasks(isAuto = false) {
   const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
   if (!currentState) return;
   if (!isAuto && typeof saveHistory === 'function') saveHistory();
+
+  // Wöchentlicher Reset: Die verbliebenen Aufgaben aus der Erledigt-Karte leeren
+  if (Array.isArray(currentState.done)) {
+    currentState.done = [];
+  }
+  if (Array.isArray(currentState.workDone)) {
+    currentState.workDone = [];
+  }
+  if (Array.isArray(currentState.studyDone)) {
+    currentState.studyDone = [];
+  }
 
   const curL = (typeof window !== 'undefined' && window.currentLang)
     ? window.currentLang
@@ -1741,6 +2116,8 @@ function checkAutoRollovers() {
   if (currentState.lastDate && currentState.lastDate !== todayISO) {
     reloadDailyTasks(true);
     stateModified = true;
+  } else {
+    checkOccasionalAufräumen(currentState);
   }
 
   // 2. Wöchentlicher Rollover für Haushalt (weekly) & Wöchentlicher automatischer Bericht
@@ -1792,6 +2169,10 @@ if (typeof window !== 'undefined') {
   window.ensureItemIdentity = ensureItemIdentity;
   window.trackTombstone = trackTombstone;
   window.clearTombstone = clearTombstone;
+  window.trackItemDeletion = trackItemDeletion;
+  window.clearItemTombstone = clearItemTombstone;
+  window.trackCategoryClear = trackCategoryClear;
+  window.trackAllListsClear = trackAllListsClear;
   window.saveState = saveState;
   window.loadState = loadState;
   window.saveHistory = saveHistory;
@@ -1828,6 +2209,10 @@ if (typeof globalThis !== 'undefined') {
   globalThis.ensureItemIdentity = ensureItemIdentity;
   globalThis.trackTombstone = trackTombstone;
   globalThis.clearTombstone = clearTombstone;
+  globalThis.trackItemDeletion = trackItemDeletion;
+  globalThis.clearItemTombstone = clearItemTombstone;
+  globalThis.trackCategoryClear = trackCategoryClear;
+  globalThis.trackAllListsClear = trackAllListsClear;
   globalThis.saveState = saveState;
   globalThis.loadState = loadState;
   globalThis.saveHistory = saveHistory;

@@ -1,5 +1,11 @@
-// app-social.js: High-End Social Media Hub, Creator Lounge & Visual Card Studio for Noodle Studio
-// 100% Client-Side, Zero Tracking, GDPR/DSGVO compliant, Canvas-powered Social Graphic Generator & Multi-Platform Companion
+/**
+ * @file app-social.js
+ * @module SocialCreatorHub
+ * @description
+ * Social-Media-Begleitmodul und visueller Share-Card-Generator (HTML5 Canvas).
+ * Ermöglicht das Erstellen und Exportieren von Fortschritts- oder Zitatgrafiken
+ * sowie das Verwalten von Entwürfen für gängige Plattformen ohne Drittanbieter-SDKs.
+ */
 
 (function() {
   'use strict';
@@ -120,10 +126,10 @@
   ];
 
   const HASHTAG_PACKS = [
-    { name: '🎯 Fokus & Flow', tags: '#Productivity #DeepWork #Focus #FlowState #Cognition #Mindset #TimeManagement #NoodleStudio' },
-    { name: '✨ Daily Lifestyle', tags: '#DailyVibe #Routine #MorningHabits #Aesthetic #Minimalism #SelfCare #CalmLiving' },
-    { name: '💡 Creator & Indie', tags: '#BuildInPublic #IndieHackers #CreatorEconomy #WebDesign #UIUX #DigitalNomad' },
-    { name: '🌿 Mind & Wellness', tags: '#MentalHealth #Breathwork #Calm #Mindfulness #SlowLiving #StressFree' }
+    { name: 'Fokus & Flow', tags: '#Productivity #DeepWork #Focus #FlowState #Cognition #Mindset #TimeManagement #NoodleStudio' },
+    { name: 'Daily Lifestyle', tags: '#DailyVibe #Routine #MorningHabits #Aesthetic #Minimalism #SelfCare #CalmLiving' },
+    { name: 'Creator & Indie', tags: '#BuildInPublic #IndieHackers #CreatorEconomy #WebDesign #UIUX #DigitalNomad' },
+    { name: 'Mind & Wellness', tags: '#MentalHealth #Breathwork #Calm #Mindfulness #SlowLiving #StressFree' }
   ];
 
   // ============================================================================
@@ -148,7 +154,7 @@
         savedInspirations = [
           {
             id: 'insp_1',
-            title: '✨ Ruhiges Workspace-Setup & Lofi-Fokus',
+            title: 'Ruhiges Workspace-Setup & Lofi-Fokus',
             url: 'https://www.instagram.com',
             platform: 'instagram',
             tag: 'Inspiration',
@@ -184,10 +190,10 @@
 
     if (mode === 'window') {
       window.open(targetUrl, 'NoodleSocialCompanion_' + platformKey, 'width=540,height=740,menubar=no,toolbar=no,location=no,status=no,resizable=yes');
-      if (typeof showToast === 'function') showToast(`🪟 ${plat.name} im Mini-Begleitfenster geöffnet!`);
+      if (typeof showToast === 'function') showToast(`${plat.name} im Mini-Begleitfenster geöffnet.`);
     } else {
       window.open(targetUrl, '_blank', 'noopener,noreferrer');
-      if (typeof showToast === 'function') showToast(`🚀 ${plat.name} in neuem Tab geöffnet!`);
+      if (typeof showToast === 'function') showToast(`${plat.name} in neuem Tab geöffnet.`);
     }
   }
 
@@ -195,14 +201,14 @@
     savedProfiles[platformKey] = value.trim();
     saveSocialData();
     renderSocialHub();
-    if (typeof showToast === 'function') showToast('✅ Profil-Link erfolgreich gespeichert!');
+    if (typeof showToast === 'function') showToast('Profil-Link gespeichert.');
   }
 
   function removeUserProfile(platformKey) {
     delete savedProfiles[platformKey];
     saveSocialData();
     renderSocialHub();
-    if (typeof showToast === 'function') showToast('🗑️ Profil-Link entfernt.');
+    if (typeof showToast === 'function') showToast('Profil-Link entfernt.');
   }
 
   function addInspiration(url, title, tag) {
@@ -235,14 +241,14 @@
     savedInspirations.unshift(newItem);
     saveSocialData();
     renderSocialHub();
-    if (typeof showToast === 'function') showToast('📌 Beitrag zu deinen Inspirationen hinzugefügt!');
+    if (typeof showToast === 'function') showToast('Beitrag zu deinen Inspirationen hinzugefügt.');
   }
 
   function removeInspiration(id) {
     savedInspirations = savedInspirations.filter(item => item.id !== id);
     saveSocialData();
     renderSocialHub();
-    if (typeof showToast === 'function') showToast('🗑️ Beitrag entfernt.');
+    if (typeof showToast === 'function') showToast('Beitrag entfernt.');
   }
 
   function insertEmoji(emoji) {
@@ -267,7 +273,7 @@
     }
     textarea.focus();
     updateCaptionStats();
-    if (typeof showToast === 'function') showToast('🏷️ Hashtags eingefügt!');
+    if (typeof showToast === 'function') showToast('Hashtags eingefügt.');
   }
 
   function updateCaptionStats() {
@@ -296,13 +302,13 @@
     const textarea = document.getElementById('social-caption-textarea');
     const text = textarea ? textarea.value : '';
     if (!text || !text.trim()) {
-      if (typeof showToast === 'function') showToast(tr({ de: '⚠️ Bitte schreibe zuerst einen Text oder wähle Hashtags.', en: '⚠️ Please write a text or select hashtags first.', fr: '⚠️ Veuillez d’abord écrire un texte ou choisir des hashtags.', it: '⚠️ Scrivi prima un testo o scegli gli hashtag.', es: '⚠️ Por favor, escribe un texto o selecciona hashtags primero.', el: '⚠️ Γράψε πρώτα κείμενο ή επίλεξε hashtags.' }));
+      if (typeof showToast === 'function') showToast(tr({ de: 'Bitte schreibe zuerst einen Text oder wähle Hashtags.', en: 'Please write a text or select hashtags first.', fr: 'Veuillez d’abord écrire un texte ou choisir des hashtags.', it: 'Scrivi prima un testo o scegli gli hashtag.', es: 'Por favor, escribe un texto o selecciona hashtags primero.', el: 'Γράψε πρώτα κείμενο ή επίλεξε hashtags.' }));
       return;
     }
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(text).then(() => {
-        if (typeof showToast === 'function') showToast(tr({ de: '📋 Text kopiert! Öffne ' + platformKey + '...', en: '📋 Text copied! Opening ' + platformKey + '...', fr: '📋 Texte copié ! Ouverture de ' + platformKey + '...', it: '📋 Testo copiato! Apertura di ' + platformKey + '...', es: '📋 ¡Texto copiado! Abriendo ' + platformKey + '...', el: '📋 Το κείμενο αντιγράφηκε! Άνοιγμα ' + platformKey + '...' }));
+        if (typeof showToast === 'function') showToast(tr({ de: 'Text kopiert. Öffne ' + platformKey + '...', en: 'Text copied. Opening ' + platformKey + '...', fr: 'Texte copié ! Ouverture de ' + platformKey + '...', it: 'Testo copiato! Apertura di ' + platformKey + '...', es: '¡Texto copiado! Abriendo ' + platformKey + '...', el: 'Το κείμενο αντιγράφηκε! Άνοιγμα ' + platformKey + '...' }));
         setTimeout(() => openPlatform(platformKey, 'tab'), 300);
       });
     } else {
@@ -562,7 +568,7 @@
           </div>
           <button onclick="openSocialLaunchModal('card')" class="w-full py-2 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-md active:scale-95 flex items-center justify-center gap-1.5">
             <i data-lucide="image" class="w-3.5 h-3.5"></i>
-            <span>${tr({ de: "Visual Story Studio öffnen 🚀", en: "Open Visual Story Studio 🚀", fr: "Ouvrir le studio de stories 🚀", it: "Apri lo studio di storie 🚀", es: "Abrir estudio de historias visuales 🚀", el: "Άνοιγμα εργαστηρίου οπτικών ιστοριών 🚀" })}</span>
+            <span>${tr({ de: "Visual Story Studio öffnen", en: "Open Visual Story Studio", fr: "Ouvrir le studio de stories", it: "Apri lo studio di storie", es: "Abrir estudio de historias visuales", el: "Άνοιγμα εργαστηρίου οπτικών ιστοριών" })}</span>
           </button>
         </div>
       `;
@@ -620,7 +626,7 @@
   }
 
   function getShareMessage(customHeadline) {
-    const defaultText = customHeadline || 'Entdecke Noodle Studio: Der ruhige, barrierefreie & ästhetische Alltags-Planer für echten Flow 🌿🎧';
+    const defaultText = customHeadline || 'Noodle Studio – Der ruhige, fokussierte Alltags-Planer für echten Flow.';
     return {
       title: 'Noodle Studio – Calm Productivity & Flow Workspace',
       text: defaultText,
@@ -671,7 +677,7 @@
   function copyAppShareLink() {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(APP_URL).then(() => {
-        if (typeof showToast === 'function') showToast('🔗 Noodle Link in die Zwischenablage kopiert!');
+        if (typeof showToast === 'function') showToast('Noodle Link in die Zwischenablage kopiert.');
       });
     } else {
       prompt('Kopiere diesen Link:', APP_URL);

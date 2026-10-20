@@ -1,4 +1,11 @@
-// helper-core.js Teil 1/2: State-Variablen & Kernfunktionen (Modal, Sprachausgabe, Task-Auswahl)
+/**
+ * @file helper-core.js
+ * @module ExecutiveHelperCore
+ * @description
+ * Kernlogik des „Was nun?"-Entscheidungsassistenten (`#helper-pick-modal`):
+ * Energiebasierte Aufgaben-Empfehlung (Quick Win, Fokus, Deep Work),
+ * A-vs.-B-Münzwurf-Entscheider sowie Sprachausgabe-Unterstützung.
+ */
 let currentActiveTaskRef = null;
 let currentGeneratedSteps = [];
 let currentDopamineTask = null;
@@ -366,6 +373,14 @@ function pickRandomTask() {
       // Status ueberpruefen (z.B. bei Terminen)
       if (isObj && (rawItem.status === 'stattgefunden' || rawItem.status === 'nicht_stattgefunden')) return;
 
+      // Termin-Filterung: Zukuenftige Termine duerfen NIEMALS einbezogen werden, ausschliesslich HEUTE!
+      const itemDate = isObj ? (rawItem.date || '') : '';
+      if (cat === 'termine') {
+        if (!itemDate || itemDate !== todayISO) return;
+      } else if (itemDate && itemDate > todayISO) {
+        return;
+      }
+
       // Berechne Teilschritte
       let stepsCompleted = 0;
       let totalSteps = 0;
@@ -386,7 +401,6 @@ function pickRandomTask() {
       let reasonLabel = '💡 Smarter Fokus-Vorschlag';
 
       // 1. Termine/Deadlines von heute
-      const itemDate = isObj ? (rawItem.date || '') : '';
       if (cat === 'termine' || itemDate === todayISO) {
         score += 80;
         reasonKey = 'due_today';
@@ -460,18 +474,20 @@ function pickRandomTask() {
 
   if (!chosen) {
     const doneMsg = tr({ 
-      de: '🎉 Alle Aufgaben für heute erledigt! Fantastisch, genieß deinen Tag!', 
-      en: '🎉 All tasks completed! Fantastic, enjoy your day!', 
-      es: '🎉 ¡Todas las tareas completadas! ¡Disfruta de tu día!', 
-      el: '🎉 Όλες οι εργασίες ολοκληρώθηκαν! Απολαύστε τη μέρα σας!' 
+      de: 'Alle Aufgaben für heute erledigt. Gute Arbeit!', 
+      en: 'All tasks for today completed. Well done!', 
+      es: 'Todas las tareas completadas. ¡Buen trabajo!', 
+      el: 'Όλες οι εργασίες ολοκληρώθηκαν. Καλή δουλειά!' 
     });
 
     box.className = "p-6 rounded-2xl bg-black/40 border border-emerald-500/30 text-center space-y-3";
     box.innerHTML = `
-      <div class="text-3xl animate-bounce">🏆</div>
+      <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center justify-center mx-auto shadow-sm">
+        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+      </div>
       <div class="text-emerald-300 font-display font-bold text-sm leading-snug">${doneMsg}</div>
       <button onclick="startZenWithTask('Freie Fokus-Session', 'todo')" class="mt-2 py-2 px-4 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-bold transition cursor-pointer">
-        Freie Fokus-Session starten 🧘
+        Freie Fokus-Session starten
       </button>
     `;
     activeTimerTask = "";
@@ -483,65 +499,117 @@ function pickRandomTask() {
   activeTimerTask = chosen.task;
   updateActiveTimerLabels();
 
-  // Ermittle den ersten Kickstart-Schritt
-  let firstStep = "Schritt 1: Bereite deinen Arbeitsplatz vor und starte für 2 Minuten.";
-  const steps = getTaskStepsList(chosen.task);
+  // Ermittle Teilschritte
+  const steps = (typeof getTaskStepsList === 'function') ? getTaskStepsList(chosen.task) : [];
+  const completedIndices = (state.completedSteps && state.completedSteps[chosen.task]) ? state.completedSteps[chosen.task] : [];
+  let firstStep = "Arbeitsplatz vorbereiten und für 2 Minuten fokussieren.";
   if (steps && steps.length > 0) {
-    firstStep = cleanStepText(steps[0]);
+    firstStep = (typeof cleanStepText === 'function') ? cleanStepText(steps[0]) : steps[0];
   }
 
   const safeTask = chosen.task.replace(/'/g, "\\'");
   const catLabel = typeof t === 'function' ? t(chosen.cat) : chosen.cat;
 
-  box.className = "p-5 rounded-2xl bg-gradient-to-br from-[#16121c] to-[#0d0d14] border border-amber-500/35 shadow-xl space-y-4 text-left transition-all duration-300";
+  let stepsListHtml = '';
+  if (steps && steps.length > 0) {
+    stepsListHtml = `
+      <div class="mt-3 pt-2.5 border-t border-white/10 space-y-1.5">
+        <div class="flex items-center justify-between text-[10px] text-purple-300 font-bold uppercase tracking-wider">
+          <span class="flex items-center gap-1"><i data-lucide="footprints" class="w-3 h-3 text-purple-400"></i> Teilschritte (${completedIndices.length}/${steps.length})</span>
+          <span class="text-[9px] text-gray-400">Direkt anklickbar</span>
+        </div>
+        <div class="space-y-1 max-h-32 overflow-y-auto pr-1 custom-scrollbar">
+          ${steps.map((st, sIdx) => {
+            const isDone = completedIndices.includes(sIdx);
+            const clText = (typeof cleanStepText === 'function') ? cleanStepText(st) : st;
+            return `
+              <div onclick="if(typeof toggleCustomStepCheck==='function'){toggleCustomStepCheck('${safeTask}', ${sIdx}, event); pickRandomTask();}" class="flex items-center gap-2 p-1.5 rounded-lg bg-black/40 hover:bg-white/5 border border-white/5 transition cursor-pointer text-left">
+                <input type="checkbox" ${isDone ? 'checked' : ''} onclick="event.stopPropagation(); if(typeof toggleCustomStepCheck==='function'){toggleCustomStepCheck('${safeTask}', ${sIdx}, event); pickRandomTask();}" class="w-3.5 h-3.5 accent-amber-400 rounded cursor-pointer shrink-0" />
+                <span class="text-[11px] leading-snug break-words ${isDone ? 'line-through text-emerald-400 opacity-60' : 'text-gray-200'}">${escapeHtml(clText)}</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  box.className = "p-5 rounded-2xl bg-[#14141e] border border-white/10 shadow-xl space-y-4 text-left transition-all duration-300";
   box.innerHTML = `
     <div class="flex items-center justify-between gap-2">
       <div class="flex items-center gap-1.5 flex-wrap">
-        <span class="px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/30 text-amber-300 font-bold text-[10px] uppercase tracking-wider font-mono">
+        <span class="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 font-semibold text-[10px] uppercase tracking-wider font-mono">
           ${escapeHtml(catLabel)}
         </span>
-        <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-[10px] font-mono">
-          ⏱️ ~${chosen.estMinutes} Min
+        <span class="px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-400 text-[10px] font-mono">
+          ~${chosen.estMinutes} Min
         </span>
       </div>
-      <span class="text-[9px] px-2 py-0.5 rounded-md bg-amber-500/15 border border-amber-500/25 text-amber-300 font-semibold font-mono">
-        ${escapeHtml(chosen.reasonLabel)}
+      <span class="text-[9px] px-2 py-0.5 rounded-md bg-white/5 border border-white/10 text-gray-300 font-medium font-mono">
+        ${escapeHtml(chosen.reasonLabel.replace(/[💡📌🔥🪜]/g, '').trim())}
       </span>
     </div>
 
     <!-- Task Title -->
     <div>
-      <h2 class="text-xl sm:text-2xl font-display font-black text-white leading-tight tracking-tight break-words">
+      <h2 class="text-xl sm:text-2xl font-display font-bold text-white leading-tight tracking-tight break-words">
         ${escapeHtml(chosen.task)}
       </h2>
       <div class="mt-2.5 flex items-start gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 font-medium">
-        <span class="text-amber-400 shrink-0">🪜</span>
-        <span class="leading-relaxed"><strong class="text-white">Kickstart-Schritt:</strong> ${escapeHtml(firstStep)}</span>
+        <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-amber-400 mt-0.5 shrink-0"></i>
+        <span class="leading-relaxed"><strong class="text-white">Erster Schritt:</strong> ${escapeHtml(firstStep)}</span>
       </div>
     </div>
 
-    <!-- Primary Action Buttons -->
+    ${stepsListHtml}
+
+    <!-- Primary Action Buttons & Instant-Start -->
     <div class="space-y-2 pt-1">
-      <button onclick="startZenWithTask('${safeTask}', '${chosen.cat}')" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-black font-black text-xs rounded-xl shadow-[0_0_20px_rgba(245,158,11,0.25)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
-        <i data-lucide="play" class="w-4 h-4 fill-black"></i>
-        <span>Im Fokus starten [Space] 🧘</span>
+      <button onclick="startInstantGuidedFlow('${safeTask}', '${chosen.cat}', ${chosen.estMinutes})" class="w-full py-3 px-4 bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-400 hover:from-amber-300 hover:to-yellow-300 text-black font-extrabold text-xs rounded-xl shadow-[0_0_15px_rgba(251,191,36,0.35)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
+        <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
+        <span>⚡ Instant-Start (Geführter Ablauf)</span>
       </button>
 
       <div class="grid grid-cols-2 gap-2">
-        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
+        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2.5 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer" title="2-Minuten-Timer starten">
           <i data-lucide="timer" class="w-3.5 h-3.5 text-amber-400"></i>
           <span>2-Min Start</span>
         </button>
 
-        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2.5 px-3 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren (+XP)">
+        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2.5 px-3 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer" title="Als erledigt markieren">
           <i data-lucide="check" class="w-3.5 h-3.5"></i>
-          <span>Erledigt (+XP)</span>
+          <span>Erledigt</span>
         </button>
       </div>
     </div>
   `;
   if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
+
+/**
+ * Startet den geführten Instant-Start Modus fuer ungeduldige Nutzer:
+ * Stellt den passenden Timer ein, schaltet in den Fokus und verbindet zur naechsten Aufgabe nach Abschluss.
+ */
+function startInstantGuidedFlow(taskName, category, estMinutes = 20) {
+  if (typeof window !== 'undefined') window._isGuidedFlowActive = true;
+  if (typeof setTimerPreset === 'function') {
+    const minutesToSet = Math.max(2, Math.min(60, estMinutes || 20));
+    setTimerPreset(minutesToSet);
+  }
+  if (typeof startZenWithTask === 'function') {
+    startZenWithTask(taskName, category);
+  } else if (typeof startTimer === 'function') {
+    startTimer();
+  }
+  if (typeof closeHelperModal === 'function') closeHelperModal();
+  if (typeof showToast === 'function') {
+    showToast(tr({
+      de: `⚡ Instant-Ablauf gestartet: ${taskName} (${estMinutes} Min.)`,
+      en: `⚡ Instant flow started: ${taskName} (${estMinutes} min.)`
+    }));
+  }
+}
+if (typeof window !== 'undefined') window.startInstantGuidedFlow = startInstantGuidedFlow;
 
 
 

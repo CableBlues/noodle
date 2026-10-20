@@ -1,4 +1,11 @@
-// timer.js Teil 2/3: Klingel-/Chime-Logik & Ringing-Modal
+/**
+ * @file timer-2.js
+ * @module FocusTimerChimes
+ * @description
+ * Akustische Signalgeber und End-Modal-Steuerung für den Fokus-Timer.
+ * Synthetisiert acht variierende, sanfte Oszillator-Glockenspiele (`playMinuteChime`)
+ * sowie das Abschluss-Klingelsignal bei abgelaufener Fokus-Sitzung.
+ */
 
 var ringInterval = typeof ringInterval !== 'undefined' ? ringInterval : (typeof window !== 'undefined' ? window.ringInterval : null);
 var ringTimeout = typeof ringTimeout !== 'undefined' ? ringTimeout : (typeof window !== 'undefined' ? window.ringTimeout : null);

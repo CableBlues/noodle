@@ -1,4 +1,10 @@
-/* styles-base-1.css: Noodle Calm & Aesthetic PAL-Pastel Visual Engine */
+/**
+ * @file styles-base-1.css
+ * @description
+ * Globale CSS Custom Properties (Design-Tokens) und Definition der 12 Farbthemen
+ * (`aurora`, `obsidian`, `botanical`, `latte`, `peach`, `ocean`, `code-night`,
+ * `matrix`, `ruby`, `cobalt`, `fruity-classic`, `fruity-studio`).
+ */
 
 :root {
   --accent: #89cff0;
@@ -292,31 +298,7 @@ main article:hover {
 }
 
 main article h2 {
-  color: var(--text-main) !important;
   letter-spacing: 0.03em;
-}
-main article .cat-count-badge {
-  border-color: var(--accent-border) !important;
-  color: var(--accent-light) !important;
-  background-color: rgba(255, 255, 255, 0.05) !important;
-}
-
-i[data-lucide="timer"],
-i[data-lucide="search"],
-i[data-lucide="sliders"],
-i[data-lucide="undo-2"],
-i[data-lucide="sparkles"] {
-  color: var(--accent-light) !important;
-  filter: drop-shadow(0 0 3px var(--accent-glow));
-}
-
-#btn-board-columns:hover,
-#btn-board-undo:hover,
-#btn-board-clear:hover,
-#btn-board-reset:hover {
-  border-color: var(--accent) !important;
-  box-shadow: 0 0 12px var(--accent-border) !important;
-  color: var(--text-main) !important;
 }
 
 .font-mono, #timer-display, .timer-digit, [data-tabular="true"], span.font-mono, div.font-mono {

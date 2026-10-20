@@ -1,5 +1,11 @@
-// app-health.js - Noodle Health, Prevention & Vitality Hub
-// 100% Client-Side, Zero-Tracking, Neuro-Friendly & Medically Sound
+/**
+ * @file app-health.js
+ * @module HealthAndPreventionHub
+ * @description
+ * Modul für Gesundheitsvorsorge, Medikamenten-Erinnerungen, Blutdruck-Protokollierung
+ * und Arzttermin-Vorbereitung. Alle Gesundheitsdaten verbleiben ausschließlich lokal
+ * im Browser des Nutzers (`localStorage` / `IndexedDB`).
+ */
 
 (function() {
   'use strict';

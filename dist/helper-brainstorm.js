@@ -1,4 +1,13 @@
 
+/**
+ * @file helper-brainstorm.js
+ * @module BrainstormingStudio
+ * @description
+ * Gedanken-Sammler und Brainstorming-Werkzeug mit Listen- und Themen-Cluster-Ansicht,
+ * Tag-Filterung, Favoriten-Markierung, direkter Umwandlung einzelner Ideen in
+ * Board-Aufgaben sowie Markdown-Mindmap-Export.
+ */
+
 let brainstormViewMode = 'list'; // 'list' | 'cluster'
 
 function setBrainstormViewMode(mode) {
@@ -42,7 +51,7 @@ function copyBrainstormAsMindmap() {
   const text = lines.join('\n');
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      if (typeof showToast === 'function') showToast(tr({ de: '🗺️ Mindmap in die Zwischenablage kopiert!', en: '🗺️ Mindmap copied to clipboard!' }));
+      if (typeof showToast === 'function') showToast(tr({ de: 'Mindmap in Zwischenablage kopiert.', en: 'Mindmap copied to clipboard.' }));
     });
   }
 }
@@ -56,29 +65,29 @@ function exportBrainstormAsActionPlan() {
   const questions = brainstormIdeas.filter(i => i.tag === 'question');
 
   let lines = [
-    '# 🎯 Sofort-Aktionsplan (Synthetisiert)',
+    '# Sofort-Aktionsplan',
     `Erstellt am: ${new Date().toLocaleString()}`,
     '',
-    '## ⚡ Phase 1: Quick Wins (Sofort umsetzen)',
+    '## Phase 1: Quick Wins (Sofort umsetzen)',
     quickwins.length ? quickwins.map(q => `- [ ] ${q.text}`).join('\n') : '- Keine Quick Wins definiert',
     '',
-    '## 🚀 Phase 2: Kern-Projekte',
+    '## Phase 2: Kern-Projekte',
     projects.length ? projects.map(p => `- [ ] ${p.text}`).join('\n') : '- Keine Projekte definiert',
     '',
-    '## 🎯 Phase 3: Langfristige Ziele & Meilensteine',
+    '## Phase 3: Langfristige Ziele & Meilensteine',
     goals.length ? goals.map(g => `- [ ] ${g.text}`).join('\n') : '- Keine Ziele definiert',
     '',
-    '## 💡 Ideenpool & Inspirationsspeicher',
+    '## Ideenpool & Inspiration',
     ideas.length ? ideas.map(i => `- ${i.text}`).join('\n') : '- Keine Ideen im Pool',
     '',
-    '## ❓ Zu klärende Fragen & Recherchen',
+    '## Zu klärende Fragen & Recherchen',
     questions.length ? questions.map(q => `- [ ] ${q.text}`).join('\n') : '- Keine offenen Fragen'
   ];
 
   const text = lines.join('\n');
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      if (typeof showToast === 'function') showToast(tr({ de: '📋 Aktionsplan in Zwischenablage kopiert!', en: '📋 Action plan copied to clipboard!' }));
+      if (typeof showToast === 'function') showToast(tr({ de: 'Aktionsplan in Zwischenablage kopiert.', en: 'Action plan copied to clipboard.' }));
     });
   }
 }
@@ -300,12 +309,12 @@ function addBrainstormIdea(text, tag = 'idea') {
 
   if (typeof showToast === 'function') {
     showToast(tr({
-      de: lines.length > 1 ? `💡 ${lines.length} Ideen hinzugefügt!` : '💡 Idee erfasst!',
-      en: lines.length > 1 ? `💡 ${lines.length} ideas added!` : '💡 Idea captured!',
-      fr: lines.length > 1 ? `💡 ${lines.length} idées ajoutées !` : '💡 Idée enregistrée !',
-      it: lines.length > 1 ? `💡 ${lines.length} idee aggiunte!` : '💡 Idea acquisita!',
-      es: lines.length > 1 ? `💡 ¡${lines.length} ideas añadidas!` : '💡 ¡Idea capturada!',
-      el: lines.length > 1 ? `💡 ${lines.length} ιδέες προστέθηκαν!` : '💡 Η ιδέα καταγράφηκε!'
+      de: lines.length > 1 ? `${lines.length} Ideen hinzugefügt.` : 'Idee erfasst.',
+      en: lines.length > 1 ? `${lines.length} ideas added.` : 'Idea captured.',
+      fr: lines.length > 1 ? `${lines.length} idées ajoutées.` : 'Idée enregistrée.',
+      it: lines.length > 1 ? `${lines.length} idee aggiunte.` : 'Idea acquisita.',
+      es: lines.length > 1 ? `${lines.length} ideas añadidas.` : 'Idea capturada.',
+      el: lines.length > 1 ? `${lines.length} ιδέες προστέθηκαν.` : 'Η ιδέα καταγράφηκε.'
     }));
   }
 }
@@ -420,12 +429,12 @@ function transferIdeaToBoard(id, targetColumn) {
 
   if (typeof showToast === 'function') {
     showToast(tr({
-      de: `🚀 Idee erfolgreich nach „${targetTitle[targetColumn] || targetColumn}“ übertragen!`,
-      en: `🚀 Idea successfully transferred to "${targetTitle[targetColumn] || targetColumn}"!`,
-      fr: `🚀 Idée transférée vers « ${targetTitle[targetColumn] || targetColumn} » !`,
-      it: `🚀 Idea trasferita in "${targetTitle[targetColumn] || targetColumn}"!`,
-      es: `🚀 ¡Idea transferida a "${targetTitle[targetColumn] || targetColumn}"!`,
-      el: `🚀 Η ιδέα μεταφέρθηκε επιτυχώς!`
+      de: `Idee nach „${targetTitle[targetColumn] || targetColumn}“ übertragen.`,
+      en: `Idea transferred to "${targetTitle[targetColumn] || targetColumn}".`,
+      fr: `Idée transférée vers « ${targetTitle[targetColumn] || targetColumn} ».`,
+      it: `Idea trasferita in "${targetTitle[targetColumn] || targetColumn}".`,
+      es: `Idea transferida a "${targetTitle[targetColumn] || targetColumn}".`,
+      el: `Η ιδέα μεταφέρθηκε επιτυχώς.`
     }));
   }
 }
@@ -453,12 +462,12 @@ function expandIdeaToMicroSteps(id) {
 
   if (typeof showToast === 'function') {
     showToast(tr({
-      de: '✨ 3 Micro-Steps wurden in „Demnächst“ angelegt!',
-      en: '✨ 3 micro-steps added to "Next" column!',
-      fr: '✨ 3 micro-étapes créées !',
-      it: '✨ 3 micro-passi creati!',
-      es: '✨ ¡3 micro-pasos creados!',
-      el: '✨ Δημιουργήθηκαν 3 μικρο-βήματα!'
+      de: '3 Micro-Steps in „Demnächst“ angelegt.',
+      en: '3 micro-steps added to "Next" column.',
+      fr: '3 micro-étapes créées.',
+      it: '3 micro-passi creati.',
+      es: '3 micro-pasos creados.',
+      el: 'Δημιουργήθηκαν 3 μικρο-βήματα.'
     }));
   }
 }
@@ -475,7 +484,7 @@ function copyBrainstormAsMarkdown() {
   
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(text).then(() => {
-      if (typeof showToast === 'function') showToast(tr({ de: '📋 Als Markdown in Zwischenablage kopiert!', en: '📋 Copied as Markdown to clipboard!' }));
+      if (typeof showToast === 'function') showToast(tr({ de: 'Als Markdown in Zwischenablage kopiert.', en: 'Copied as Markdown to clipboard.' }));
     });
   }
 }
@@ -589,7 +598,7 @@ function renderBrainstormUI() {
               <div class="flex items-center gap-1 pt-1 border-t border-white/5 flex-wrap">
                 <button onclick="transferIdeaToBoard('${escapeAttr(item.id)}', 'heute')" class="px-1.5 py-0.5 rounded bg-teal-500/15 hover:bg-teal-500/30 text-teal-300 text-[9px] font-bold transition cursor-pointer">Heute</button>
                 <button onclick="transferIdeaToBoard('${escapeAttr(item.id)}', 'morgen')" class="px-1.5 py-0.5 rounded bg-indigo-500/15 hover:bg-indigo-500/30 text-indigo-300 text-[9px] font-bold transition cursor-pointer">Demnächst</button>
-                <button onclick="expandIdeaToMicroSteps('${escapeAttr(item.id)}')" class="px-1.5 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-[9px] font-bold transition cursor-pointer">Steps ✨</button>
+                <button onclick="expandIdeaToMicroSteps('${escapeAttr(item.id)}')" class="px-1.5 py-0.5 rounded bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 text-[9px] font-bold transition cursor-pointer">Schritte</button>
               </div>
             </div>
           `).join('')}
@@ -658,7 +667,7 @@ function renderBrainstormUI() {
           </button>
           <button onclick="expandIdeaToMicroSteps('${item.id}')" class="px-2 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 hover:text-white text-[10px] font-bold transition cursor-pointer flex items-center gap-1" title="${tr({ de: 'In 3 Micro-Steps zerlegen', en: 'Break down into 3 micro-steps' })}">
             <i data-lucide="layers" class="w-3 h-3"></i>
-            <span>Steps ✨</span>
+            <span>Schritte</span>
           </button>
         </div>
       </div>

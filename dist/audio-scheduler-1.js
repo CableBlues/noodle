@@ -1,4 +1,11 @@
-// audio-scheduler-1.js: Sound-Scheduler fuer sanfte Melodien, Piano, Lofi, Chimes, Klangschalen, Spieluhr & Akustik-Gitarre
+/**
+ * @file audio-scheduler-1.js
+ * @module AudioSchedulerHarmonic
+ * @description
+ * Generative Musik- und Harmonie-Scheduler auf Basis der Web Audio API:
+ * Pentatonisches Neo-Klassik-Piano, Lofi-7th-Tape-Akkorde, Zen-Windspiele,
+ * tibetische Klangschalen, Spieluhr-Melodien und gezupfte Akustikgitarre.
+ */
 
 // -------------------------------------------------------------
 // 1. SANFTES PIANO (PENTATONISCHE NEO-KLASSIK HARMONIEN)

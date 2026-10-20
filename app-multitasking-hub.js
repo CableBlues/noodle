@@ -129,8 +129,17 @@
     winBox.style.maxWidth = '';
     winBox.style.right = '';
     winBox.style.bottom = '';
+    winBox.style.left = '';
+    winBox.style.top = '';
     winBox.style.borderRadius = '';
     delete winBox.dataset.userMoved;
+
+    if (el !== winBox) {
+      el.style.left = '';
+      el.style.top = '';
+      el.style.width = '';
+      el.style.height = '';
+    }
 
     if (window.NoodleInteractionMode && typeof window.NoodleInteractionMode.positionFloatingWindow === 'function') {
       window.NoodleInteractionMode.positionFloatingWindow(el, panelName);

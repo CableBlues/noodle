@@ -1,7 +1,10 @@
 
-/* ==========================================================================
-   ULTRA-RESPONSIVE HARDWARE ACCELERATION & ZERO-LATENCY INTERACTION PIPELINE
-   ========================================================================== */
+/**
+ * @file styles-animations.css
+ * @description
+ * GPU-beschleunigte Composite-Layer-Regeln, Keyframe-Animationen,
+ * Marquee-Laufschrift-Effekte und weiche Modal-Übergänge.
+ */
 
 /* 1. Global Touch & Click Zero-Latency */
 html, body {
@@ -105,20 +108,11 @@ body::before {
   pointer-events: none !important;
 }
 
-/* 4. ACTIVE TIMER GLOW (Fließender Lichtring am aktiven Fokus-Timer) */
-@keyframes timerGlowPulse {
-  0%, 100% {
-    box-shadow: 0 0 10px rgba(6, 182, 212, 0.25), inset 0 0 6px rgba(6, 182, 212, 0.15);
-    border-color: rgba(6, 182, 212, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 20px rgba(6, 182, 212, 0.55), inset 0 0 12px rgba(20, 184, 166, 0.3);
-    border-color: rgba(20, 184, 166, 0.85);
-  }
-}
-
+/* 4. ACTIVE TIMER: ruhige, statische Markierung statt Endlos-Puls */
 .timer-active-glow {
-  animation: timerGlowPulse 2.4s ease-in-out infinite !important;
+  border-color: rgba(34, 211, 238, 0.45) !important;
+  box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.12) !important;
+  animation: none !important;
 }
 
 /* 5. STAGGERED SPRING MODAL ENTRY */
@@ -518,7 +512,7 @@ html body .animate-party-swing {
   100% { transform: translateX(0) translateZ(0) scaleY(1); }
 }
 .water-wave-element {
-  animation: waveWaterDrift 7s ease-in-out infinite;
+  display: none !important;
 }
 
 @keyframes modalSpringIn {
@@ -546,39 +540,36 @@ main article {
 }
 
 main article:hover {
-  border-color: var(--accent-border, rgba(139, 92, 246, 0.28)) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
   box-shadow: 
-    0 18px 42px -6px rgba(0, 0, 0, 0.55),
-    0 0 24px var(--accent-border, rgba(139, 92, 246, 0.12)),
-    inset 0 1px 1px rgba(255, 255, 255, 0.12) !important;
+    0 16px 36px -6px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
 }
 
 /* --- 3D FLUID TASK CARDS --- */
 main article .group {
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
-              background-color 0.2s ease, 
-              border-color 0.2s ease !important;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.15s ease, 
+              border-color 0.15s ease !important;
 }
 
 main article .group:hover {
-  transform: translateY(-2px) !important;
+  transform: translateY(-1px) !important;
   box-shadow: 
-    0 10px 24px -4px rgba(0, 0, 0, 0.45), 
+    0 6px 18px -4px rgba(0, 0, 0, 0.4), 
     0 0 0 1px rgba(255, 255, 255, 0.12) !important;
 }
 
-/* --- EDLES DRAG & DROP MIT KIPP-EFFEKT (1.5 DEG NEIGUNG) --- */
+/* --- DRAG & DROP --- */
 .dragging-task, [draggable="true"]:active {
   cursor: grabbing !important;
 }
 
 [data-dragging="true"], .card-drag-active {
-  transform: rotate(2deg) scale(1.03) !important;
-  box-shadow: 
-    0 22px 45px -5px rgba(0, 0, 0, 0.65), 
-    0 0 25px var(--accent-border, rgba(139, 92, 246, 0.35)) !important;
-  opacity: 0.92 !important;
+  transform: rotate(1deg) scale(1.01) !important;
+  box-shadow: 0 16px 32px -4px rgba(0, 0, 0, 0.6) !important;
+  opacity: 0.95 !important;
   z-index: 999 !important;
 }
 
@@ -815,27 +806,15 @@ main article .group:hover {
 .ambient-orb {
   display: none !important;
 }
-
-.ambient-orb-1, .ambient-orb-2, .ambient-orb-3 { display: none !important; }
-
-.ambient-orb-1, .ambient-orb-2, .ambient-orb-3 { display: none !important; }
-
-.ambient-orb-1, .ambient-orb-2, .ambient-orb-3 { display: none !important; }
-
-/* Subtle Idle Breathing on Board Columns & Headers */
-@keyframes columnGlowBreathing {
-  0%, 100% {
-    border-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-  }
-  50% {
-    border-color: rgba(139, 92, 246, 0.25);
-    box-shadow: 0 4px 35px rgba(6, 182, 212, 0.08);
-  }
+.ambient-orb-1, .ambient-orb-2, .ambient-orb-3 {
+  display: none !important;
 }
 
+/* Calm, static styling for Board Columns */
 .column-card-breathing {
-  animation: columnGlowBreathing 8s ease-in-out infinite;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+  animation: none !important;
 }
 
 /* Subtle Floating Animation for Badges & Icons */
@@ -923,22 +902,30 @@ main article .group:hover {
   box-shadow: inset 0 0 16px rgba(0,0,0,0.95), 0 4px 12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
 }
 
-@keyframes djWaveBar {
-  0%, 100% { transform: scaleY(0.3); opacity: 0.6; }
-  50% { transform: scaleY(0.85); opacity: 1; }
+/* Smooth, Pleasant Waveform Motion */
+.dj-waveform-bars .dj-bar {
+  height: calc(var(--bar-rest, 0.5) * 100%);
+  transform-origin: center bottom;
+  transition: height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
 }
 
-.dj-wave-active .dj-bar:nth-child(2n) {
-  animation: djWaveBar 1.2s ease-in-out infinite alternate;
+@keyframes djWaveSmooth {
+  0% { transform: scaleY(0.7); }
+  50% { transform: scaleY(1.15); }
+  100% { transform: scaleY(0.65); }
 }
-.dj-wave-active .dj-bar:nth-child(2n+1) {
-  animation: djWaveBar 1.6s ease-in-out infinite alternate;
+
+.dj-wave-playing .dj-bar:nth-child(2n) {
+  animation: djWaveSmooth 1.8s ease-in-out infinite alternate;
 }
-.dj-wave-active .dj-bar:nth-child(3n) {
-  animation: djWaveBar 1.0s ease-in-out infinite alternate;
+.dj-wave-playing .dj-bar:nth-child(2n+1) {
+  animation: djWaveSmooth 2.3s ease-in-out infinite alternate;
 }
-.dj-wave-active .dj-bar:nth-child(5n) {
-  animation: djWaveBar 1.4s ease-in-out infinite alternate;
+.dj-wave-playing .dj-bar:nth-child(3n) {
+  animation: djWaveSmooth 1.5s ease-in-out infinite alternate;
+}
+.dj-wave-playing .dj-bar:nth-child(4n) {
+  animation: djWaveSmooth 2.6s ease-in-out infinite alternate;
 }
 
 @keyframes vuMeterDance {
@@ -1316,8 +1303,6 @@ body.has-tool-panel-open .badge-tools {
 .vertical-volume-fader {
   writing-mode: vertical-lr !important;
   direction: rtl !important;
-  -webkit-appearance: slider-vertical !important;
-  appearance: slider-vertical !important;
   width: 14px !important;
   max-width: 14px !important;
   padding: 0 !important;
@@ -1365,8 +1350,8 @@ body.has-tool-panel-open .badge-tools {
 
 /* Custom DJ Sliders */
 input[type="range"].dj-slider-vert {
-  -webkit-appearance: slider-vertical;
-  appearance: slider-vertical;
+  writing-mode: vertical-lr;
+  direction: rtl;
   width: 14px;
   height: 52px;
   background: #09090f;
@@ -1376,11 +1361,12 @@ input[type="range"].dj-slider-vert {
   cursor: pointer;
 }
 
+/* Clean, Matte Studio EQ & Mixer Faders (No glowing neon dots) */
 input[type="range"].dj-eq-slider {
   -webkit-appearance: none;
   appearance: none;
-  height: 4px;
-  background: rgba(255,255,255,0.08);
+  height: 5px;
+  background: rgba(255,255,255,0.1);
   border-radius: 4px;
   outline: none;
 }
@@ -1388,17 +1374,67 @@ input[type="range"].dj-eq-slider {
 input[type="range"].dj-eq-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 8px currentColor;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: #cbd5e1;
+  border: 1px solid #64748b;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.1s ease;
+}
+
+input[type="range"].dj-eq-slider::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: #cbd5e1;
+  border: 1px solid #64748b;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.7);
+  cursor: pointer;
+}
+
+input[type="range"].dj-eq-slider:active::-webkit-slider-thumb {
+  transform: scale(1.1);
+  background: #f1f5f9;
+}
+
+/* 2 Normal Channel Volume Faders */
+input[type="range"].dj-mixer-fader {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: #090a10;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  outline: none;
+}
+
+input[type="range"].dj-mixer-fader::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 50%, #94a3b8 100%);
+  border: 1px solid #475569;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.8);
   cursor: pointer;
   transition: transform 0.1s ease;
 }
 
-input[type="range"].dj-eq-slider:active::-webkit-slider-thumb {
-  transform: scale(1.25);
+input[type="range"].dj-mixer-fader::-moz-range-thumb {
+  width: 16px;
+  height: 18px;
+  border-radius: 3px;
+  background: linear-gradient(to bottom, #f8fafc 0%, #cbd5e1 50%, #94a3b8 100%);
+  border: 1px solid #475569;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  cursor: pointer;
+}
+
+input[type="range"].dj-mixer-fader:active::-webkit-slider-thumb {
+  transform: scale(1.05);
 }
 
 /* Crossfader Handle */

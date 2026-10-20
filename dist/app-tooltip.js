@@ -1,5 +1,11 @@
-// app-tooltip.js: Ultraschnelle, ästhetische & farblich abgestimmte Hovertexte (Tooltips)
-// ==========================================================================
+/**
+ * @file app-tooltip.js
+ * @module TooltipSystem
+ * @description
+ * Leichtgewichtiges, viewport-sicheres Tooltip-System.
+ * Positioniert Kurzbeschreibungen (`data-noodle-tooltip` / `title`) flackerfrei
+ * relativ zum Zielelement und verhindert Überlappungen am Bildschirmrand.
+ */
 
 (function() {
   'use strict';

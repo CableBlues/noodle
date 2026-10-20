@@ -1,7 +1,14 @@
-// Ausgelagert aus utils.js: TIERED_PRAISES Lobtexte-Datenbank
+/**
+ * @file utils-data.js
+ * @module UtilsData
+ * @description
+ * Mehrsprachige Textdatenbank (`TIERED_PRAISES`) für kontextabhängiges positives Feedback
+ * beim Abschließen von Aufgaben, gestaffelt nach Tagesfortschritt (Stufe 1 bis 4).
+ */
+
 const TIERED_PRAISES = {
   de: {
-    // Stufe 1: Erster Einstieg (1 Aufgabe geschafft)
+    // Stufe 1: Erster Einstieg (1 Aufgabe geschafft - Anlauf & Humor)
     tier1: [
       "Guter Start! Der Anfang ist gemacht. Weiter so!",
       "Schöner Einstieg! Schritt für Schritt geht es voran.",
@@ -9,9 +16,32 @@ const TIERED_PRAISES = {
       "Klasse! Ein wunderbarer erster Haken heute.",
       "Sehr gut! Der erste Dominostein ist gefallen. Welcher kommt als nächstes?",
       "Ein schöner, ruhiger Anfang. Geh entspannt zur nächsten Aufgabe über.",
-      "Der erste Haken sitzt. Atme kurz durch und bleib im Fluss!"
+      "Der erste Haken sitzt. Atme kurz durch und bleib im Fluss!",
+      "Boom! Aufgeschoben war gestern, heute wird erledigt.",
+      "Kopf frei, erster Haken sitzt – läuft bei dir!",
+      "Und zack! Der innere Schweinehund sucht schon das Weite.",
+      "Minimaler Aufwand, maximale Genugtuung.",
+      "Ein kleiner Klick für dich, ein großer Schritt für deinen Tag.",
+      "Sauber eingestiegen! Kein Zögern, einfach gemacht.",
+      "So fühlt sich Kontrolle an. Weiter im Takt!",
+      "Die schwerste Hürde ist immer der Anfang – und die hast du genommen.",
+      "Dein Tag hat offiziell Fahrt aufgenommen.",
+      "Aufgabe pulverisiert. Nächste Station: Produktivität!",
+      "Ein Häkchen mehr, eine Sorge weniger.",
+      "Stark! Nicht lange überlegt, einfach angepackt.",
+      "Das war der Zündfunke für den heutigen Tag.",
+      "Und wieder eine Zeile weniger im Kopfchaos.",
+      "Sehr smooth gelöst! Du bist sofort startklar.",
+      "Kalt erwischt: Die Aufgabe hatte keine Chance.",
+      "Schritt eins ist im Kasten. Der Flow klopft schon an.",
+      "Einfach, schnell, erledigt – genau so geht das!",
+      "Erfolgserlebnis freigeschaltet! Auf zum nächsten Ziel.",
+      "Die Liste wird kürzer, die Laune besser.",
+      "Hervorragend begonnen! Lass dich vom Momentum tragen.",
+      "Erledigt und abgehakt. Fühlt sich gut an, oder?",
+      "Perfekter Auftakt! Dein Fokus ist heute messerscharf."
     ],
-    // Stufe 2: Erste Dynamik (2 bis 4 Aufgaben geschafft)
+    // Stufe 2: Erste Dynamik (2 bis 4 Aufgaben geschafft - Tempo & Rhythmus)
     tier2: [
       "Du bist im Rhythmus! Dranbleiben lohnt sich.",
       "Klasse Fortschritt! Jede kleine Aufgabe summiert sich.",
@@ -19,9 +49,32 @@ const TIERED_PRAISES = {
       "Sehr fleißig! Spürst du, wie es im Kopf leichter wird?",
       "Wunderbar! Du machst heute tolle Fortschritte.",
       "Dein Fokus stabilisiert sich. Ein Schritt nach dem anderen!",
-      "Sehr diszipliniert. Du hast das heute fest im Griff."
+      "Sehr diszipliniert. Du hast das heute fest im Griff.",
+      "Jetzt rollt die Lawine der Erledigung!",
+      "Wer soll dich jetzt noch stoppen? Niemand!",
+      "Dein Dopamin-Spiegel nickt gerade anerkennend.",
+      "Zwei, drei, vier – Aufgaben verblassen vor deinem Fokus.",
+      "Richtig starker Zug nach vorne. Bleib in dieser Spur!",
+      "Du hast den Arbeitsmodus gemeistert. Respekt!",
+      "Einfach durchgezogen. Das nennt man Macher-Qualität.",
+      "Dein Zukunfts-Ich bedankt sich jetzt schon bei dir.",
+      "Die Aufgaben fallen wie reife Äpfel.",
+      "Volle Kontrolle über die Tabelle. So sieht Struktur aus.",
+      "Du fackelst heute nicht lange – vorbildlich!",
+      "Kein Scrollen, kein Ablenken: Pure Konzentration.",
+      "Das Board lichtet sich spürbar. Genieß das Gefühl!",
+      "Effizienzlevel: Beeindruckend hoch.",
+      "Du räumst heute aber ordentlich auf!",
+      "Gleichmäßige Schritte schlagen jede Hektik.",
+      "Dein Rhythmus sitzt wie ein Schweizer Uhrwerk.",
+      "Ein Häkchen nach dem anderen – pure Entspannung für den Kopf.",
+      "So macht To-Do Spaß: Ruhig, zügig, erledigt.",
+      "Das Momentum gehört heute ganz allein dir.",
+      "Da staunt selbst die Aufgabenliste!",
+      "Super Zugkraft! Du machst Nägel mit Köpfen.",
+      "Stetig, sicher, erfolgreich. Genau die richtige Dosis."
     ],
-    // Stufe 3: Hohe Ausdauer (5 bis 8 Aufgaben geschafft)
+    // Stufe 3: Hohe Ausdauer (5 bis 8 Aufgaben geschafft - Deep Work & Respekt)
     tier3: [
       "Richtig starker Fokus! Du ziehst das super durch.",
       "Klasse Leistung! Du hast heute schon richtig viel bewegt.",
@@ -29,9 +82,32 @@ const TIERED_PRAISES = {
       "Hut ab! Du beweist echtes Durchhaltevermögen.",
       "Großartig gemacht! Du bist voll in deinem Element.",
       "Dein Tag nimmt richtig Form an. Sehr inspirierend!",
-      "Hervorragende Arbeit. Du meisterst deine To-Dos heute souverän."
+      "Hervorragende Arbeit. Du meisterst deine To-Dos heute souverän.",
+      "Offizieller Status: Unaufhaltsamer Produktivitäts-Titan!",
+      "Deine Willenskraft heute verdient eine Auszeichnung.",
+      "Du hast heute mehr geschafft als die meisten in einer Woche.",
+      "Tiefer Fokus, null Ablenkung – Meisterklasse!",
+      "Wie eine Dampfwalze durch die To-Do-Liste gerollt.",
+      "Fünf Sterne für dein Durchhaltevermögen heute!",
+      "Du spielst heute in deiner ganz eigenen Liga.",
+      "Aufgaben abarbeiten im Sekundentakt – grandios!",
+      "Dein Schreibtisch ist eine Festung der Konzentration.",
+      "Hier wird heute Geschichte geschrieben – deine persönliche Erfolgsgeschichte.",
+      "Erledigt-Spalte platzt aus allen Nähten. Großartig!",
+      "Echte mentale Ausdauer bewiesen. Chapeau!",
+      "Du bist der Endgegner deiner Aufgabenliste.",
+      "Pure Klarheit im Kopf. Das hast du dir hart erarbeitet.",
+      "Das ist kein Zufall mehr, das ist reine Meisterschaft.",
+      "Unglaubliche Schlagzahl heute. Höchster Respekt!",
+      "Wenn Produktivität eine Kunst wäre, wärst du der Künstler.",
+      "Ein monumentaler Fortschritt für deinen heutigen Tag.",
+      "Keine Kompromisse: Aufgabe gesehen, angepackt, besiegt.",
+      "Du ziehst durch wie ein Profi. Beeindruckend!",
+      "Ein Triumph der Selbstdisziplin über jede Trägheit.",
+      "Dein Fokus brennt heute heller als jede Ablenkung.",
+      "Fantastische Serie! Du hast den Dreh voll raus."
     ],
-    // Stufe 4: Meisterstufe (9+ Aufgaben geschafft)
+    // Stufe 4: Meisterstufe (9+ Aufgaben geschafft - Legende & Feierabend-Bereit)
     tier4: [
       "Sensationell! Du hast heute unglaublich viel geschafft.",
       "Einfach meisterhaft! Du darfst richtig stolz auf dich sein.",
@@ -39,7 +115,30 @@ const TIERED_PRAISES = {
       "Absolute Spitzenklasse! Gönn dir ruhig auch mal eine wohlverdiente Pause.",
       "Was für ein produktiver Tag! Du hast heute alles gegeben.",
       "Gigantische Leistung! Dein Kopf darf jetzt langsam in den Feierabend gehen.",
-      "Das war weltklasse! Ein echter Triumph über deine To-Do-Liste."
+      "Das war weltklasse! Ein echter Triumph über deine To-Do-Liste.",
+      "Legendenstatus erreicht! Die Aufgaben verneigen sich vor dir.",
+      "Feierabend-Modus vollends verdient. Du hast heute abgeräumt!",
+      "Ein absolutes Meisterstück an Organisation und Umsetzung.",
+      "Gibt es überhaupt noch offene Aufgaben? Du hast alles rasiert!",
+      "Wenn du heute schläfst, träumt dein Gehirn von reinem Erfolg.",
+      "Über 9 Aufgaben zerlegt – das grenzt an Magie!",
+      "Zeit, die Beine hochzulegen: Du bist der Champion des Tages.",
+      "Pure Vollendung. Mehr Produktivität geht physikalisch kaum.",
+      "Du hast das System durchgespielt. Maximale Belohnung verdient!",
+      "Ein Tag für die Geschichtsbücher deiner Produktivität.",
+      "Halle der Helden: Dein Name steht ganz oben eingraviert.",
+      "Verneigung vor diesem Arbeitsaufwand. Absolut makellos!",
+      "Dein Kopf darf jetzt offiziell in den Chill-Modus schalten.",
+      "Was für eine Glanzleistung! Du hast heute Maßstäbe gesetzt.",
+      "Du hast die Liste nicht nur geschafft – du hast sie dominiert.",
+      "Ein Feuerwerk an Disziplin und Klarheit. Wahnsinn!",
+      "Keine Ausreden, nur Ergebnisse. So sieht Perfektion aus.",
+      "Du hast heute die Messlatte extrem hoch gelegt.",
+      "Gönn dir den besten Feierabend der Welt. Verdienter geht es nicht!",
+      "Ein Monument des Erfolgs. Sei verdammt stolz auf dich!",
+      "Mission erfüllt, alle Ziele pulverisiert. Perfekt!",
+      "Deine Konzentration heute war schlicht weltmeisterlich.",
+      "Und damit ist der Tag gekrönt: Ein rundum vollendetes Meisterwerk!"
     ]
   },
   en: {

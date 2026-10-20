@@ -1,4 +1,11 @@
-// ============================================================================
+/**
+ * @file audio-player.js
+ * @module AudioPlayerAndDjStudio
+ * @description
+ * Integrierter Musik-Player für lokale Audiodateien (`music/manifest.json`) sowie
+ * Dual-Deck-DJ-Mixer (Deck A & Deck B) mit 3-Band-EQ, Pitch/BPM-Anpassung,
+ * Hot-Cues, Beat-Looping, Crossfader und Mini-Audio-Player-Koordination.
+ */
 
 var djDecks = {
   a: {
@@ -265,6 +272,13 @@ async function scanMusicFolderTracks() {
         playlistTracks = [...realTracks];
         if (typeof window !== 'undefined') window.playlistTracks = playlistTracks;
 
+        // The list was rebuilt – keep the index pointing at the track that is loaded.
+        if (activeUserAudio && activeUserAudio._trackUrl) {
+          const loadedIdx = playlistTracks.findIndex(t => t.url === activeUserAudio._trackUrl);
+          if (loadedIdx >= 0) currentTrackIndex = loadedIdx;
+        }
+        if (currentTrackIndex >= playlistTracks.length) currentTrackIndex = 0;
+
         playlistTracks.forEach(preloadMusicTrackDuration);
         renderMusicPlaylist();
 
@@ -284,10 +298,23 @@ async function scanMusicFolderTracks() {
         updateDjPresetDropdowns();
 
         if (BUILTIN_DJ_STEMS.length > 0 && (!djDecks.a.track || !djDecks.a.isPlaying)) {
-          loadDjBuiltinTrack('a', BUILTIN_DJ_STEMS[0].id, false);
+          const randA = Math.floor(Math.random() * BUILTIN_DJ_STEMS.length);
+          loadDjBuiltinTrack('a', BUILTIN_DJ_STEMS[randA].id, false);
+          const selA = document.getElementById('dj-preset-select-a');
+          if (selA) selA.value = BUILTIN_DJ_STEMS[randA].id;
         }
         if (BUILTIN_DJ_STEMS.length > 1 && (!djDecks.b.track || !djDecks.b.isPlaying)) {
-          loadDjBuiltinTrack('b', BUILTIN_DJ_STEMS[1].id, false);
+          let randB = Math.floor(Math.random() * BUILTIN_DJ_STEMS.length);
+          if (djDecks.a.track && BUILTIN_DJ_STEMS.length > 1) {
+            const curAId = BUILTIN_DJ_STEMS.find(s => s.file === djDecks.a.track.url || s.id === djDecks.a.track.id)?.id;
+            const pool = BUILTIN_DJ_STEMS.filter(s => s.id !== curAId);
+            if (pool.length > 0) {
+              randB = BUILTIN_DJ_STEMS.indexOf(pool[Math.floor(Math.random() * pool.length)]);
+            }
+          }
+          loadDjBuiltinTrack('b', BUILTIN_DJ_STEMS[randB].id, false);
+          const selB = document.getElementById('dj-preset-select-b');
+          if (selB) selB.value = BUILTIN_DJ_STEMS[randB].id;
         }
       }
     }
@@ -297,16 +324,18 @@ async function scanMusicFolderTracks() {
 }
 window.scanMusicFolderTracks = scanMusicFolderTracks;
 
-// Auto-load saved tracks and scan music folder on startup
+// Auto-load saved tracks, scan the music folder and cue a random track on startup
 if (typeof window !== 'undefined') {
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      loadSavedUserAudioTracks();
-      scanMusicFolderTracks();
-    });
-  } else {
+  const initMusicLibrary = () => {
     loadSavedUserAudioTracks();
-    scanMusicFolderTracks();
+    Promise.resolve(scanMusicFolderTracks())
+      .catch(() => {})
+      .then(() => { if (typeof cueRandomMusicTrack === 'function') cueRandomMusicTrack(); });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMusicLibrary);
+  } else {
+    initMusicLibrary();
   }
 }
 
@@ -574,6 +603,238 @@ function loadOnlineMediaUrl() {
 }
 window.loadOnlineMediaUrl = loadOnlineMediaUrl;
 
+// ----------------------------------------------------------------------------
+// CROSSFADE ENGINE
+//
+// Tracks blend into each other instead of cutting hard:
+//   • the fade length is user-selectable (0 = off) and persisted,
+//   • the next track is preloaded in the background so the blend starts instantly,
+//   • shortly before a track ends, the next one fades in automatically,
+//   • clicking a track or "next" also fades over.
+// The fade is driven by a timer *and* by the media `timeupdate` events, because
+// browsers heavily throttle timers in background tabs while media events keep firing.
+// ----------------------------------------------------------------------------
+var MUSIC_CROSSFADE_STORAGE_KEY = 'flow_music_crossfade_sec';
+var MUSIC_CROSSFADE_DEFAULT_SEC = 8;
+var musicCrossfadeSeconds = (() => {
+  try {
+    const saved = localStorage.getItem(MUSIC_CROSSFADE_STORAGE_KEY);
+    if (saved !== null && !isNaN(parseFloat(saved))) return Math.max(0, parseFloat(saved));
+  } catch (e) { /* storage unavailable */ }
+  return MUSIC_CROSSFADE_DEFAULT_SEC;
+})();
+var musicActiveFade = null;        // { step(), finish() } of the running crossfade
+var musicUpcoming = null;          // { index, url, shuffle, el } preloaded next track
+var musicRecentlyPlayed = [];      // last played indices, so shuffle avoids quick repeats
+
+/** Some platforms (iOS Safari) ignore element.volume – crossfading is impossible there. */
+var musicCanControlVolume = (() => {
+  try {
+    const probe = new Audio();
+    probe.volume = 0.5;
+    return Math.abs(probe.volume - 0.5) < 0.01;
+  } catch (e) { return false; }
+})();
+
+function getMusicTargetVolume() {
+  const muted = (typeof isPlayerMuted !== 'undefined') ? Boolean(isPlayerMuted) : false;
+  return muted ? 0 : (soundMasterVolume * 0.75);
+}
+
+function setMusicCrossfadeSeconds(val) {
+  musicCrossfadeSeconds = Math.max(0, Math.min(30, parseFloat(val) || 0));
+  try { localStorage.setItem(MUSIC_CROSSFADE_STORAGE_KEY, String(musicCrossfadeSeconds)); } catch (e) { /* ignore */ }
+  syncMusicCrossfadeSelect();
+  if (typeof showToast === 'function') {
+    showToast(musicCrossfadeSeconds > 0 ? `Überblenden: ${musicCrossfadeSeconds} s 🎚️` : 'Überblenden aus');
+  }
+}
+window.setMusicCrossfadeSeconds = setMusicCrossfadeSeconds;
+
+function syncMusicCrossfadeSelect() {
+  const select = document.getElementById('music-crossfade-select');
+  if (select) select.value = String(musicCrossfadeSeconds);
+  const mobSelect = document.getElementById('mobile-music-crossfade-select');
+  if (mobSelect) mobSelect.value = String(musicCrossfadeSeconds);
+}
+if (typeof document !== 'undefined') {
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncMusicCrossfadeSelect);
+  else syncMusicCrossfadeSelect();
+}
+
+/** Fully releases an audio element that is no longer needed. */
+function releaseMusicElement(el) {
+  if (!el) return;
+  try {
+    el.pause();
+    if (el.tagName !== 'VIDEO') {
+      el.removeAttribute('src');
+      el.load();
+    }
+  } catch (e) { /* ignore */ }
+}
+
+/** Immediately ends a running crossfade (the outgoing track is silenced). */
+function finishActiveMusicFade() {
+  if (musicActiveFade) musicActiveFade.finish();
+  musicActiveFade = null;
+}
+window.stopMusicCrossfadeTails = finishActiveMusicFade;
+
+/** Equal-power crossfade from `oldEl` to `newEl` over `seconds`. */
+function crossfadeMusicElements(oldEl, newEl, seconds) {
+  finishActiveMusicFade();
+  const durationMs = Math.max(200, seconds * 1000);
+  const startedAt = performance.now();
+  const oldStartVolume = oldEl ? oldEl.volume : 0;
+  let timer = null;
+  let done = false;
+
+  const fade = {
+    step() {
+      if (done) return;
+      const t = Math.min(1, (performance.now() - startedAt) / durationMs);
+      if (activeUserAudio === newEl) newEl.volume = getMusicTargetVolume() * Math.sin(t * Math.PI / 2);
+      if (oldEl) oldEl.volume = Math.max(0, oldStartVolume * Math.cos(t * Math.PI / 2));
+      if (t >= 1) fade.finish();
+    },
+    finish() {
+      if (done) return;
+      done = true;
+      if (timer) clearInterval(timer);
+      if (oldEl) {
+        oldEl.removeEventListener('timeupdate', fade.step);
+        releaseMusicElement(oldEl);
+      }
+      newEl.removeEventListener('timeupdate', fade.step);
+      if (activeUserAudio === newEl) newEl.volume = getMusicTargetVolume();
+      if (musicActiveFade === fade) musicActiveFade = null;
+    }
+  };
+
+  newEl.volume = 0;
+  if (oldEl) oldEl.addEventListener('timeupdate', fade.step);
+  newEl.addEventListener('timeupdate', fade.step);
+  timer = setInterval(fade.step, 50);
+  musicActiveFade = fade;
+}
+
+/** Chooses the index that should play after the current one. */
+function pickNextMusicIndex() {
+  const count = playlistTracks.length;
+  if (count === 0) return -1;
+  if (!isPlayerShuffleEnabled || count === 1) return (currentTrackIndex + 1) % count;
+
+  // Avoid the current track and – where possible – the last few played ones.
+  const avoidCount = Math.min(count - 1, Math.max(1, Math.floor(count / 2)));
+  const avoid = new Set([currentTrackIndex, ...musicRecentlyPlayed.slice(-avoidCount)]);
+  const candidates = [];
+  for (let i = 0; i < count; i++) if (!avoid.has(i)) candidates.push(i);
+  const pool = candidates.length ? candidates : [...Array(count).keys()].filter(i => i !== currentTrackIndex);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/** Preloads the upcoming track so the next crossfade can start without delay. */
+function prepareUpcomingMusicTrack() {
+  if (musicUpcoming && musicUpcoming.el && musicUpcoming.el !== activeUserAudio) releaseMusicElement(musicUpcoming.el);
+  musicUpcoming = null;
+
+  const nextIndex = pickNextMusicIndex();
+  const track = playlistTracks[nextIndex];
+  if (!track || nextIndex === currentTrackIndex) return;
+  if (track.isVideo || isVideoFileUrl(track.url, track.name || track.fullName)) return;
+
+  const el = new Audio();
+  el.preload = 'auto';
+  el.src = track.url;
+  musicUpcoming = { index: nextIndex, url: track.url, shuffle: isPlayerShuffleEnabled, el };
+}
+
+/** Takes the preloaded element if it matches the requested track. */
+function takeUpcomingMusicElement(index, url) {
+  if (musicUpcoming && musicUpcoming.index === index && musicUpcoming.url === url) {
+    const el = musicUpcoming.el;
+    musicUpcoming = null;
+    return el;
+  }
+  return null;
+}
+
+/** Attaches progress / auto-advance listeners exactly once per element. */
+function attachMusicElementListeners(mediaEl) {
+  if (mediaEl._noodleMusicListeners) return;
+  mediaEl._noodleMusicListeners = true;
+
+  mediaEl.addEventListener('timeupdate', () => {
+    if (activeUserAudio !== mediaEl) return;
+    updateMusicProgressUI(mediaEl);
+
+    // Start the crossfade into the next track shortly before this one ends.
+    const fadeSec = musicCrossfadeSeconds;
+    const duration = mediaEl.duration;
+    if (fadeSec <= 0 || !musicCanControlVolume || mediaEl._autoAdvanced || mediaEl.paused) return;
+    if (!isFinite(duration) || duration < fadeSec * 2) return;
+    if (duration - mediaEl.currentTime > fadeSec) return;
+    if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) return;
+
+    mediaEl._autoAdvanced = true;
+    if (playerRepeatMode === 'one') playMusicTrack(currentTrackIndex);
+    else playNextMusicTrack();
+  });
+
+  mediaEl.addEventListener('ended', () => {
+    if (activeUserAudio !== mediaEl || mediaEl._autoAdvanced) return;
+    if (playerRepeatMode === 'one') {
+      playMusicTrack(currentTrackIndex);
+    } else if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) {
+      updateMusicPlayBtnUI(false);
+    } else {
+      playNextMusicTrack();
+    }
+  });
+}
+
+/**
+ * Cues a random track from the music folder (preloaded, not playing), so the
+ * player is always ready – and shows a different track on every visit.
+ */
+function cueRandomMusicTrack() {
+  if (!playlistTracks || playlistTracks.length === 0) return;
+  if (activeUserAudio && !activeUserAudio._cued) return; // user already started something
+
+  const folderIndices = playlistTracks
+    .map((t, i) => ({ t, i }))
+    .filter(({ t }) => (t.isLocalFolder || t.isPreloaded) && !(t.isVideo || isVideoFileUrl(t.url, t.name || t.fullName)))
+    .map(({ i }) => i);
+  const pool = folderIndices.length ? folderIndices : playlistTracks.map((_, i) => i);
+
+  let lastCuedUrl = null;
+  try { lastCuedUrl = localStorage.getItem('flow_music_last_cued'); } catch (e) { /* ignore */ }
+  const fresh = pool.filter(i => playlistTracks[i].url !== lastCuedUrl);
+  const choices = fresh.length ? fresh : pool;
+  const index = choices[Math.floor(Math.random() * choices.length)];
+  const track = playlistTracks[index];
+  if (!track) return;
+
+  if (activeUserAudio && activeUserAudio._cued) releaseMusicElement(activeUserAudio);
+
+  const el = new Audio();
+  el.preload = 'auto';
+  el.src = track.url;
+  el.volume = getMusicTargetVolume();
+  el._cued = true;
+  el._trackUrl = track.url;
+  attachMusicElementListeners(el);
+
+  activeUserAudio = el;
+  currentTrackIndex = index;
+  try { localStorage.setItem('flow_music_last_cued', track.url); } catch (e) { /* ignore */ }
+
+  updateMusicNowPlayingDisplay();
+  renderMusicPlaylist();
+}
+window.cueRandomMusicTrack = cueRandomMusicTrack;
+
 function playMusicTrack(index) {
   if (playlistTracks.length === 0) return;
   if (index < 0 || index >= playlistTracks.length) index = 0;
@@ -582,10 +843,22 @@ function playMusicTrack(index) {
   const track = playlistTracks[currentTrackIndex];
   const isVideo = track.isVideo || isVideoFileUrl(track.url, track.name || track.fullName);
 
-  if (activeUserAudio) {
+  const previousEl = activeUserAudio;
+  const previousWasPlaying = !!(previousEl && !previousEl.paused && !previousEl.ended);
+  const previousIsVideo = !!(previousEl && previousEl.tagName === 'VIDEO');
+  const shouldCrossfade = previousWasPlaying && musicCrossfadeSeconds > 0 && musicCanControlVolume
+    && !isVideo && !previousIsVideo;
+
+  // Re-use the cued / preloaded element when it already holds this track.
+  let reusedEl = null;
+  if (previousEl && previousEl._cued && previousEl._trackUrl === track.url && !isVideo) reusedEl = previousEl;
+  if (!reusedEl && !isVideo) reusedEl = takeUpcomingMusicElement(index, track.url);
+
+  if (previousEl && !shouldCrossfade && previousEl !== reusedEl) {
+    finishActiveMusicFade();
     try {
-      activeUserAudio.pause();
-      activeUserAudio.src = '';
+      previousEl.pause();
+      previousEl.src = '';
     } catch(e) {}
   }
 
@@ -606,8 +879,16 @@ function playMusicTrack(index) {
   if (isVideo && videoEl) {
     videoEl.src = track.url;
     mediaEl = videoEl;
+  } else if (reusedEl) {
+    mediaEl = reusedEl;
   } else {
     mediaEl = new Audio(track.url);
+  }
+  mediaEl._cued = false;
+  mediaEl._autoAdvanced = false;
+  mediaEl._trackUrl = track.url;
+  if (mediaEl === previousEl) {
+    try { mediaEl.currentTime = 0; } catch (e) { /* not seekable yet */ }
   }
 
   const speedSelect = document.getElementById('media-speed-select');
@@ -615,31 +896,26 @@ function playMusicTrack(index) {
     mediaEl.playbackRate = parseFloat(speedSelect.value) || 1.0;
   }
 
-  mediaEl.volume = isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+  mediaEl.volume = getMusicTargetVolume();
   activeUserAudio = mediaEl;
+  attachMusicElementListeners(mediaEl);
+
+  if (shouldCrossfade && previousEl !== mediaEl) {
+    crossfadeMusicElements(previousEl, mediaEl, musicCrossfadeSeconds);
+  }
+
+  musicRecentlyPlayed.push(index);
+  if (musicRecentlyPlayed.length > 50) musicRecentlyPlayed.shift();
 
   updateMediaScreenDisplay(isVideo, mediaEl);
 
-  mediaEl.addEventListener('timeupdate', () => {
-    if (activeUserAudio !== mediaEl) return;
-    updateMusicProgressUI(mediaEl);
-  });
-
-  mediaEl.addEventListener('ended', () => {
-    if (playerRepeatMode === 'one') {
-      playMusicTrack(currentTrackIndex);
-    } else if (playerRepeatMode === 'off' && !isPlayerShuffleEnabled && currentTrackIndex === playlistTracks.length - 1) {
-      updateMusicPlayBtnUI(false);
-    } else {
-      playNextMusicTrack();
-    }
-  });
-
   mediaEl.play().then(() => {
+    if (activeUserAudio !== mediaEl) return;
     updateMusicPlayBtnUI(true);
     updateMusicNowPlayingDisplay();
     renderMusicPlaylist();
     startAudioVisualizerLoop();
+    prepareUpcomingMusicTrack();
     if (typeof updateMiniAudioPlayer === 'function') {
       updateMiniAudioPlayer({
         isPlaying: true,
@@ -651,6 +927,8 @@ function playMusicTrack(index) {
     }
   }).catch(err => {
     console.warn('[AudioPlayer] Playback attempt error:', err);
+    if (activeUserAudio !== mediaEl) return;
+    finishActiveMusicFade();
     updateMusicPlayBtnUI(false);
     if (typeof updateMiniAudioPlayer === 'function') {
       updateMiniAudioPlayer({ isPlaying: false, sub: 'Pausiert', source: 'music' });
@@ -661,6 +939,7 @@ window.playMusicTrack = playMusicTrack;
 window.playTrack = playMusicTrack;
 
 function pauseMusicTrack() {
+  finishActiveMusicFade();
   if (activeUserAudio && !activeUserAudio.paused) {
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
@@ -680,6 +959,7 @@ function pauseMusicTrack() {
 window.pauseMusicTrack = pauseMusicTrack;
 
 function stopMusicTrack() {
+  finishActiveMusicFade();
   if (activeUserAudio) {
     try {
       activeUserAudio.pause();
@@ -702,7 +982,8 @@ function stopMusicTrack() {
 window.stopMusicTrack = stopMusicTrack;
 
 function toggleMusicPlayback() {
-  if (!activeUserAudio) {
+  // A cued (preloaded but never started) track goes through the full start path.
+  if (!activeUserAudio || activeUserAudio._cued) {
     if (playlistTracks.length > 0) playMusicTrack(currentTrackIndex);
     return;
   }
@@ -723,6 +1004,7 @@ function toggleMusicPlayback() {
       }
     }).catch(e => console.warn(e));
   } else {
+    finishActiveMusicFade();
     activeUserAudio.pause();
     updateMusicPlayBtnUI(false);
     renderMusicPlaylist();
@@ -741,17 +1023,17 @@ function toggleMusicPlayback() {
 window.toggleMusicPlayback = toggleMusicPlayback;
 window.togglePlaylistPlayback = toggleMusicPlayback;
 
+/** Skips to the next track – fading over if something is playing. */
 function playNextMusicTrack() {
   if (playlistTracks.length === 0) return;
-  let nextIndex = currentTrackIndex;
-  if (isPlayerShuffleEnabled && playlistTracks.length > 1) {
-    do {
-      nextIndex = Math.floor(Math.random() * playlistTracks.length);
-    } while (nextIndex === currentTrackIndex);
-  } else {
-    nextIndex = currentTrackIndex + 1;
-    if (nextIndex >= playlistTracks.length) nextIndex = 0;
-  }
+  // Prefer the track that is already preloaded in the background (instant blend).
+  const upcoming = musicUpcoming;
+  const upcomingStillValid = upcoming
+    && upcoming.shuffle === isPlayerShuffleEnabled
+    && playlistTracks[upcoming.index]
+    && playlistTracks[upcoming.index].url === upcoming.url
+    && upcoming.index !== currentTrackIndex;
+  const nextIndex = upcomingStillValid ? upcoming.index : pickNextMusicIndex();
   playMusicTrack(nextIndex);
 }
 window.playNextMusicTrack = playNextMusicTrack;
@@ -793,6 +1075,12 @@ function toggleMusicShuffle() {
     btn.className = isPlayerShuffleEnabled
       ? 'p-1 rounded-lg bg-purple-500/30 text-purple-300 border border-purple-400/40 cursor-pointer transition'
       : 'p-1 rounded-lg text-gray-400 hover:text-white transition cursor-pointer';
+  }
+  const mobBtn = document.getElementById('mobile-music-btn-shuffle');
+  if (mobBtn) {
+    mobBtn.className = isPlayerShuffleEnabled
+      ? 'p-1 px-2 rounded-lg text-[10px] bg-purple-500/30 text-purple-200 border border-purple-400/50 flex items-center gap-1 active:scale-95 shadow-xs'
+      : 'p-1 px-2 rounded-lg text-[10px] bg-white/5 text-gray-400 border border-white/10 flex items-center gap-1 active:scale-95';
   }
   showToast(isPlayerShuffleEnabled ? 'Zufallswiedergabe aktiv 🔀' : 'Zufallswiedergabe aus');
 }
@@ -883,6 +1171,13 @@ function updateMusicPlayBtnUI(isPlaying) {
       : '<i data-lucide="play" class="w-3.5 h-3.5"></i>';
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
   }
+  const mobBtn = document.getElementById('mobile-music-play-btn');
+  if (mobBtn) {
+    mobBtn.innerHTML = isPlaying
+      ? '<i data-lucide="pause" class="w-4 h-4"></i>'
+      : '<i data-lucide="play" class="w-4 h-4 ml-0.5"></i>';
+    if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  }
 }
 
 function updateMusicNowPlayingDisplay() {
@@ -892,6 +1187,10 @@ function updateMusicNowPlayingDisplay() {
 
   if (titleEl) {
     titleEl.innerText = track ? track.name : 'Kein Track aktiv';
+  }
+  const mobTitleEl = document.getElementById('mobile-music-now-playing-title');
+  if (mobTitleEl) {
+    mobTitleEl.innerText = track ? track.name : 'Kein Track geladen';
   }
   if (timeEl && track && activeUserAudio) {
     const cur = formatAudioTime(activeUserAudio.currentTime);
@@ -1128,140 +1427,53 @@ var djAutomix = {
   timer: null
 };
 
+// WebAudio EQ Nodes & Gain chain for Deck A & B
+var djAudioNodes = {
+  a: { source: null, lowNode: null, midNode: null, highNode: null, gainNode: null },
+  b: { source: null, lowNode: null, midNode: null, highNode: null, gainNode: null }
+};
+
+function setupDjAudioNodes(deckId) {
+  // Direkte, zuverlässige HTML5-Audiowiedergabe ohne CORS-bedingte WebAudio-Stille
+  applyDjVolumes();
+}
+window.setupDjAudioNodes = setupDjAudioNodes;
+
 function initDjDecks() {
-  if (!djDecks.a.track) {
-    loadDjBuiltinTrack('a', 'deep_house', false);
-  }
-  if (!djDecks.b.track) {
-    loadDjBuiltinTrack('b', 'lofi_chill', false);
+  updateDjPresetDropdowns();
+  if (!djDecks.a.track || !djDecks.b.track) {
+    loadDjRandomPair(false);
   }
   setDjCrossfader(0.5);
   updateDjDeckUI('a');
   updateDjDeckUI('b');
+  renderDjWaveformMarkers('a');
+  renderDjWaveformMarkers('b');
 }
 window.initDjDecks = initDjDecks;
 
-function createSyntheticBeatAudio(bpm = 124, type = 'techno') {
-  if (typeof initAudioContext === 'function') initAudioContext();
-  const ctx = (typeof audioCtx !== 'undefined' && audioCtx) ? audioCtx : (typeof window !== 'undefined' ? window.audioCtx : null);
-  if (!ctx) return null;
+function loadDjRandomPair(playIfRunning = false) {
+  if (!BUILTIN_DJ_STEMS || BUILTIN_DJ_STEMS.length === 0) return;
+  const count = BUILTIN_DJ_STEMS.length;
+  const idxA = Math.floor(Math.random() * count);
+  let idxB = (idxA + 1 + Math.floor(Math.random() * (count - 1))) % count;
 
-  const sampleRate = ctx.sampleRate || 44100;
-  const barSec = (60 / bpm) * 4;
-  const loopSec = barSec * 4; // 16 beats loop
-  const buffer = ctx.createBuffer(2, Math.floor(sampleRate * loopSec), sampleRate);
-  const left = buffer.getChannelData(0);
-  const right = buffer.getChannelData(1);
+  loadDjBuiltinTrack('a', BUILTIN_DJ_STEMS[idxA].id, false, playIfRunning && djDecks.a.isPlaying);
+  loadDjBuiltinTrack('b', BUILTIN_DJ_STEMS[idxB].id, false, playIfRunning && djDecks.b.isPlaying);
 
-  const beatSec = 60 / bpm;
-  const totalBeats = 16;
-
-  for (let b = 0; b < totalBeats; b++) {
-    const startSample = Math.floor(b * beatSec * sampleRate);
-    
-    // Kick on every beat
-    const kickSamples = Math.floor(0.18 * sampleRate);
-    for (let i = 0; i < kickSamples; i++) {
-      if (startSample + i < left.length) {
-        const t = i / sampleRate;
-        const freq = 130 * Math.exp(-t * 26) + 45;
-        const env = Math.exp(-t * 18);
-        const val = Math.sin(2 * Math.PI * freq * t) * env * 0.75;
-        left[startSample + i] += val;
-        right[startSample + i] += val;
-      }
-    }
-
-    // Hi-Hat on off-beats
-    const hatSample = Math.floor((b + 0.5) * beatSec * sampleRate);
-    const hatLen = Math.floor(0.06 * sampleRate);
-    for (let i = 0; i < hatLen; i++) {
-      if (hatSample + i < left.length) {
-        const env = Math.exp(-(i / sampleRate) * 55);
-        const noise = (Math.random() * 2 - 1) * env * 0.35;
-        left[hatSample + i] += noise;
-        right[hatSample + i] += noise;
-      }
-    }
-
-    // Snare / Clap on beats 2 and 4
-    if (b % 2 === 1) {
-      const snareSamples = Math.floor(0.14 * sampleRate);
-      for (let i = 0; i < snareSamples; i++) {
-        if (startSample + i < left.length) {
-          const t = i / sampleRate;
-          const noise = (Math.random() * 2 - 1) * Math.exp(-t * 28) * 0.45;
-          const tone = Math.sin(2 * Math.PI * 180 * t) * Math.exp(-t * 32) * 0.35;
-          left[startSample + i] += noise + tone;
-          right[startSample + i] += noise + tone;
-        }
-      }
-    }
-  }
-
-  const wavBlob = audioBufferToWavBlob(buffer);
-  return URL.createObjectURL(wavBlob);
+  const selA = document.getElementById('dj-preset-select-a');
+  if (selA) selA.value = BUILTIN_DJ_STEMS[idxA].id;
+  const selB = document.getElementById('dj-preset-select-b');
+  if (selB) selB.value = BUILTIN_DJ_STEMS[idxB].id;
 }
-if (typeof window !== 'undefined') window.createSyntheticBeatAudio = createSyntheticBeatAudio;
-if (typeof globalThis !== 'undefined') globalThis.createSyntheticBeatAudio = createSyntheticBeatAudio;
+window.loadDjRandomPair = loadDjRandomPair;
 
-function audioBufferToWavBlob(buffer) {
-  const numChannels = buffer.numberOfChannels;
-  const sampleRate = buffer.sampleRate;
-  const format = 1;
-  const bitDepth = 16;
-  const bytesPerSample = bitDepth / 8;
-  const blockAlign = numChannels * bytesPerSample;
-
-  const dataLen = buffer.length * blockAlign;
-  const bufferLen = 44 + dataLen;
-  const arrayBuffer = new ArrayBuffer(bufferLen);
-  const view = new DataView(arrayBuffer);
-
-  function writeString(view, offset, string) {
-    for (let i = 0; i < string.length; i++) {
-      view.setUint8(offset + i, string.charCodeAt(i));
-    }
-  }
-
-  writeString(view, 0, 'RIFF');
-  view.setUint32(4, 36 + dataLen, true);
-  writeString(view, 8, 'WAVE');
-  writeString(view, 12, 'fmt ');
-  view.setUint32(16, 16, true);
-  view.setUint16(20, format, true);
-  view.setUint16(22, numChannels, true);
-  view.setUint32(24, sampleRate, true);
-  view.setUint32(28, sampleRate * blockAlign, true);
-  view.setUint16(32, blockAlign, true);
-  view.setUint16(34, bitDepth, true);
-  writeString(view, 36, 'data');
-  view.setUint32(40, dataLen, true);
-
-  const channels = [];
-  for (let i = 0; i < numChannels; i++) {
-    channels.push(buffer.getChannelData(i));
-  }
-
-  let offset = 44;
-  for (let i = 0; i < buffer.length; i++) {
-    for (let ch = 0; ch < numChannels; ch++) {
-      let sample = Math.max(-1, Math.min(1, channels[ch][i]));
-      sample = (0.5 + sample < 0 ? sample * 32768 : sample * 32767) | 0;
-      view.setInt16(offset, sample, true);
-      offset += 2;
-    }
-  }
-
-  return new Blob([arrayBuffer], { type: 'audio/wav' });
-}
-
-function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
+function loadDjBuiltinTrack(deckId, presetKey, notify = true, startPlaying = false) {
   const deck = djDecks[deckId];
   if (!deck) return;
 
   const stem = BUILTIN_DJ_STEMS.find(s => s.id === presetKey) || BUILTIN_DJ_STEMS[0];
-  const syntheticUrl = createSyntheticBeatAudio(stem.bpm, stem.id);
+  if (!stem) return;
 
   if (deck.audio) {
     try { deck.audio.pause(); } catch(e) {}
@@ -1271,33 +1483,42 @@ function loadDjBuiltinTrack(deckId, presetKey = 'deep_house', notify = true) {
   }
 
   const track = {
-    url: stem.file || syntheticUrl,
-    fallbackUrl: syntheticUrl,
+    id: stem.id,
+    url: stem.file,
     name: stem.name,
     fullName: stem.name,
     isBuiltin: true
   };
 
   deck.track = track;
-  deck.bpm = stem.bpm;
+  deck.bpm = stem.bpm || 120;
+  deck.cueTime = 0;
+  deck.hotCues = [null, null, null, null];
+  deck.loopActive = false;
   
   const audio = new Audio(track.url);
   audio.loop = true;
   audio.playbackRate = deck.pitch;
 
-  audio.addEventListener('error', () => {
-    if (track.fallbackUrl && audio.src !== track.fallbackUrl) {
-      console.log(`[DJ] MP3 file not found (${track.url}), falling back to synthetic audio for ${stem.name}`);
-      audio.src = track.fallbackUrl;
-      deck.track.url = track.fallbackUrl;
-      if (deck.isPlaying) audio.play().catch(() => {});
-    }
-  });
-
   deck.audio = audio;
 
   bindDjAudioEvents(deckId);
   updateDjDeckUI(deckId);
+  renderDjWaveformMarkers(deckId);
+  applyDjVolumes();
+
+  const sel = document.getElementById(`dj-preset-select-${deckId}`);
+  if (sel) sel.value = stem.id;
+
+  if (startPlaying) {
+    audio.play().then(() => {
+      deck.isPlaying = true;
+      updateDjPlayBtnUI(deckId, true);
+    }).catch(() => {});
+  } else {
+    deck.isPlaying = false;
+    updateDjPlayBtnUI(deckId, false);
+  }
 
   if (notify) {
     showToast(`Deck ${deckId.toUpperCase()}: "${stem.name}" geladen! 🎛️`);
@@ -1331,13 +1552,18 @@ function handleDjDeckUpload(deckId, event) {
   saveTrackToAudioVault(track, file);
 
   deck.track = track;
+  deck.cueTime = 0;
+  deck.hotCues = [null, null, null, null];
+  deck.loopActive = false;
   deck.audio = new Audio(track.url);
   deck.audio.playbackRate = deck.pitch;
 
   bindDjAudioEvents(deckId);
   updateDjDeckUI(deckId);
+  renderDjWaveformMarkers(deckId);
+  applyDjVolumes();
 
-  showToast(`Deck ${deckId.toUpperCase()}: "${track.name}" geladen & gesichert! 🎛️💾`);
+  showToast(`Deck ${deckId.toUpperCase()}: "${track.name}" geladen! 🎛️💾`);
   event.target.value = '';
 }
 window.handleDjDeckUpload = handleDjDeckUpload;
@@ -1346,6 +1572,12 @@ function bindDjAudioEvents(deckId) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
 
+  deck.audio.addEventListener('loadedmetadata', () => {
+    const timeEl = document.getElementById(`dj-time-deck-${deckId}`);
+    if (timeEl) timeEl.innerText = `${formatAudioTime(deck.audio.currentTime)} / ${formatAudioTime(deck.audio.duration)}`;
+    renderDjWaveformMarkers(deckId);
+  });
+
   deck.audio.addEventListener('timeupdate', () => {
     if (!deck.audio || !deck.audio.duration) return;
 
@@ -1353,19 +1585,30 @@ function bindDjAudioEvents(deckId) {
       deck.audio.currentTime = deck.loopStart;
     }
 
-    deck.jogRotation = (deck.jogRotation + 3) % 360;
-    const jog = document.getElementById(`dj-jog-${deckId}`) || document.getElementById(`dj-vinyl-disc-${deckId}`);
+    deck.jogRotation = (deck.jogRotation + 2.5) % 360;
+    const jog = document.getElementById(`dj-jog-${deckId}`);
     if (jog && deck.isPlaying) {
       jog.style.transform = `rotate(${deck.jogRotation}deg)`;
     }
 
+    const cur = deck.audio.currentTime;
+    const dur = deck.audio.duration;
+    const pct = dur ? (cur / dur) * 100 : 0;
+
     const timeEl = document.getElementById(`dj-time-deck-${deckId}`);
-    if (timeEl) timeEl.innerText = formatAudioTime(deck.audio.currentTime);
+    if (timeEl) timeEl.innerText = `${formatAudioTime(cur)} / ${formatAudioTime(dur)}`;
+    
     const seekSlider = document.getElementById(`dj-seek-deck-${deckId}`);
-    if (seekSlider) seekSlider.value = (deck.audio.currentTime / deck.audio.duration) * 100 || 0;
+    if (seekSlider) seekSlider.value = pct;
+
+    const playhead = document.getElementById(`dj-playhead-${deckId}`);
+    if (playhead) playhead.style.left = `${pct}%`;
+
+    const progressTint = document.getElementById(`dj-wave-progress-${deckId}`);
+    if (progressTint) progressTint.style.width = `${pct}%`;
 
     if (djAutomix.enabled && !djAutomix.isTransitioning && deck.isPlaying) {
-      const remain = deck.audio.duration - deck.audio.currentTime;
+      const remain = dur - cur;
       if (remain <= (djAutomix.durationSec || 8) && remain > 0.5) {
         triggerDjAutomixNow();
       }
@@ -1381,6 +1624,18 @@ function bindDjAudioEvents(deckId) {
   });
 }
 
+function handleDjWaveformClick(deckId, event) {
+  const deck = djDecks[deckId];
+  if (!deck || !deck.audio || !deck.audio.duration) return;
+  const wrap = document.getElementById(`dj-waveform-wrap-${deckId}`);
+  if (!wrap) return;
+  const rect = wrap.getBoundingClientRect();
+  const clickX = event.clientX - rect.left;
+  const ratio = Math.max(0, Math.min(1, clickX / rect.width));
+  deck.audio.currentTime = ratio * deck.audio.duration;
+}
+window.handleDjWaveformClick = handleDjWaveformClick;
+
 function updateDjDeckUI(deckId) {
   const deck = djDecks[deckId];
   if (!deck) return;
@@ -1394,24 +1649,40 @@ function updateDjDeckUI(deckId) {
   const pitchEl = document.getElementById(`dj-pitch-val-${deckId}`);
   if (pitchEl) {
     const pct = (deck.pitch - 1.0) * 100;
-    pitchEl.innerText = `${pct > 0 ? '+' : ''}${pct.toFixed(1)}%`;
+    pitchEl.innerText = `${pct > 0 ? '+' : ''}${pct.toFixed(1)}% (Reset)`;
   }
 }
 
 function updateDjPlayBtnUI(deckId, isPlaying) {
   const btn = document.getElementById(`dj-play-btn-${deckId}`);
-  if (btn) {
-    const isDeckA = deckId === 'a';
+  const waveformEl = document.getElementById(`dj-waveform-deck-${deckId}`);
+  const isDeckA = deckId === 'a';
+
+  if (waveformEl) {
     if (isPlaying) {
-      btn.innerHTML = `<i data-lucide="pause" class="w-4 h-4 fill-black"></i><span class="font-black">PAUSE</span>`;
-      btn.className = isDeckA
-        ? 'flex-1 py-2 bg-cyan-400 hover:bg-cyan-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(6,182,212,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-cyan-300'
-        : 'flex-1 py-2 bg-amber-400 hover:bg-amber-300 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_18px_rgba(245,158,11,0.6)] transition flex items-center justify-center gap-1.5 active:scale-95 ring-2 ring-amber-300';
+      waveformEl.classList.add('dj-wave-playing');
     } else {
-      btn.innerHTML = `<i data-lucide="play" class="w-4 h-4 fill-black"></i><span class="font-black">PLAY</span>`;
+      waveformEl.classList.remove('dj-wave-playing');
+    }
+  }
+
+  const jog = document.getElementById(`dj-jog-${deckId}`);
+  if (jog) {
+    if (isPlaying) jog.classList.remove('dj-vinyl-paused');
+    else jog.classList.add('dj-vinyl-paused');
+  }
+
+  if (btn) {
+    if (isPlaying) {
+      btn.innerHTML = `<i data-lucide="pause" class="w-3.5 h-3.5 fill-black"></i><span class="font-black">PAUSE</span>`;
       btn.className = isDeckA
-        ? 'flex-1 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(6,182,212,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95'
-        : 'flex-1 py-2 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-xs cursor-pointer shadow-[0_0_14px_rgba(245,158,11,0.35)] transition flex items-center justify-center gap-1.5 active:scale-95';
+        ? 'flex-1 py-1.5 bg-cyan-400 hover:bg-cyan-300 text-black font-black rounded-xl text-[11px] cursor-pointer shadow-[0_0_16px_rgba(6,182,212,0.5)] transition flex items-center justify-center gap-1 active:scale-95 ring-2 ring-cyan-300'
+        : 'flex-1 py-1.5 bg-amber-400 hover:bg-amber-300 text-black font-black rounded-xl text-[11px] cursor-pointer shadow-[0_0_16px_rgba(245,158,11,0.5)] transition flex items-center justify-center gap-1 active:scale-95 ring-2 ring-amber-300';
+    } else {
+      btn.innerHTML = `<i data-lucide="play" class="w-3.5 h-3.5 fill-black"></i><span class="font-black">PLAY</span>`;
+      btn.className = isDeckA
+        ? 'flex-1 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-black font-black rounded-xl text-[11px] cursor-pointer shadow-[0_0_12px_rgba(6,182,212,0.3)] transition flex items-center justify-center gap-1 active:scale-95'
+        : 'flex-1 py-1.5 bg-amber-500 hover:bg-amber-400 text-black font-black rounded-xl text-[11px] cursor-pointer shadow-[0_0_12px_rgba(245,158,11,0.3)] transition flex items-center justify-center gap-1 active:scale-95';
     }
     if (typeof renderLucideIcons === 'function') renderLucideIcons();
     if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
@@ -1421,12 +1692,18 @@ function updateDjPlayBtnUI(deckId, isPlaying) {
 function toggleDjDeckPlayback(deckId) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) {
-    loadDjBuiltinTrack(deckId, deckId === 'a' ? 'deep_house' : 'lofi_chill');
+    loadDjRandomPair(false);
     return;
   }
 
+  applyDjVolumes();
+
   if (deck.audio.paused) {
     if (typeof initAudioContext === 'function') initAudioContext();
+    if (deck.audio.volume === 0 && (typeof isPlayerMuted === 'undefined' || !isPlayerMuted)) {
+      applyDjVolumes();
+      if (deck.audio.volume === 0) deck.audio.volume = 0.5;
+    }
     deck.audio.play().then(() => {
       deck.isPlaying = true;
       updateDjPlayBtnUI(deckId, true);
@@ -1439,24 +1716,65 @@ function toggleDjDeckPlayback(deckId) {
           source: 'dj'
         });
       }
-    }).catch(e => console.warn(e));
+      if (typeof updateHeaderSoundBtnUI === 'function') {
+        updateHeaderSoundBtnUI();
+      }
+    }).catch(e => {
+      console.warn('[NoodleDJ] Playback error:', e);
+    });
   } else {
     deck.audio.pause();
     deck.isPlaying = false;
     updateDjPlayBtnUI(deckId, false);
     if (typeof updateMiniAudioPlayer === 'function') {
-      updateMiniAudioPlayer({ isPlaying: false, sub: 'DJ Pausiert' });
+      const otherDeck = djDecks[deckId === 'a' ? 'b' : 'a'];
+      if (!otherDeck || !otherDeck.isPlaying) {
+        updateMiniAudioPlayer({ isPlaying: false, sub: 'DJ Pausiert' });
+      }
+    }
+    if (typeof updateHeaderSoundBtnUI === 'function') {
+      updateHeaderSoundBtnUI();
     }
   }
 }
 window.toggleDjDeckPlayback = toggleDjDeckPlayback;
 
+function pauseDjDeck(deckId) {
+  const deck = djDecks[deckId];
+  if (deck && deck.audio && !deck.audio.paused) {
+    deck.audio.pause();
+    deck.isPlaying = false;
+    updateDjPlayBtnUI(deckId, false);
+    if (typeof updateHeaderSoundBtnUI === 'function') {
+      updateHeaderSoundBtnUI();
+    }
+  }
+}
+window.pauseDjDeck = pauseDjDeck;
+
+function setDjMainCue(deckId, event) {
+  if (event) event.preventDefault();
+  const deck = djDecks[deckId];
+  if (!deck || !deck.audio) return;
+  deck.cueTime = deck.audio.currentTime;
+  renderDjWaveformMarkers(deckId);
+  playDjSfx('cue_click');
+  showToast(`Deck ${deckId.toUpperCase()}: CUE-Punkt bei ${formatAudioTime(deck.cueTime)} gesetzt! 📍`);
+}
+window.setDjMainCue = setDjMainCue;
+
 function cueDjDeck(deckId) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
-  deck.audio.currentTime = deck.cueTime || 0;
-  if (deck.audio.paused) {
-    toggleDjDeckPlayback(deckId);
+  if (!deck.isPlaying) {
+    deck.cueTime = deck.audio.currentTime;
+    renderDjWaveformMarkers(deckId);
+    showToast(`Deck ${deckId.toUpperCase()}: CUE-Punkt bei ${formatAudioTime(deck.cueTime)} gesetzt 📍`);
+  } else {
+    deck.audio.currentTime = deck.cueTime || 0;
+    deck.audio.pause();
+    deck.isPlaying = false;
+    updateDjPlayBtnUI(deckId, false);
   }
   playDjSfx('cue_click');
 }
@@ -1502,6 +1820,13 @@ function setDjPitch(deckId, val) {
 }
 window.setDjPitch = setDjPitch;
 
+function resetDjPitch(deckId) {
+  const slider = document.getElementById(`dj-pitch-slider-${deckId}`);
+  if (slider) slider.value = 0;
+  setDjPitch(deckId, 0);
+}
+window.resetDjPitch = resetDjPitch;
+
 function nudgeDjPitch(deckId, delta) {
   const slider = document.getElementById(`dj-pitch-slider-${deckId}`);
   if (!slider) return;
@@ -1512,45 +1837,110 @@ function nudgeDjPitch(deckId, delta) {
 }
 window.nudgeDjPitch = nudgeDjPitch;
 
+// 2 NORMAL SOUNDREGLER (CHANNEL VOLUME FADERS)
+function setDjDeckVolume(deckId, val) {
+  const deck = djDecks[deckId];
+  if (!deck) return;
+  deck.volume = Math.max(0, Math.min(1, parseFloat(val)));
+
+  const valEl = document.getElementById(`dj-vol-val-${deckId}`);
+  if (valEl) valEl.innerText = `${Math.round(deck.volume * 100)}%`;
+
+  applyDjVolumes();
+}
+window.setDjDeckVolume = setDjDeckVolume;
+
+// SIMPLIFIED, USER-FRIENDLY EQ (BASS / MITTEN / HÖHEN)
 function setDjEq(deckId, type, val) {
   const deck = djDecks[deckId];
   if (!deck) return;
-  const gain = parseFloat(val);
+  const gain = parseFloat(val); // 0 .. 2 (1 = neutral)
   if (type === 'low') deck.low = gain;
   if (type === 'mid') deck.mid = gain;
   if (type === 'high') deck.high = gain;
+
+  const db = Math.round((gain - 1.0) * 12);
+  const dbStr = `${db > 0 ? '+' : ''}${db} dB`;
+  const lbl = document.getElementById(`dj-eq-val-${deckId}-${type}`);
+  if (lbl) lbl.innerText = db === 0 ? '0 dB' : dbStr;
+
+  const nodes = djAudioNodes[deckId];
+  if (nodes) {
+    if (type === 'low' && nodes.lowNode) nodes.lowNode.gain.value = db;
+    if (type === 'mid' && nodes.midNode) nodes.midNode.gain.value = db;
+    if (type === 'high' && nodes.highNode) nodes.highNode.gain.value = db;
+  }
 }
 window.setDjEq = setDjEq;
 
-function setDjFilter(deckId, val) {
+function resetDjEq(deckId) {
   const deck = djDecks[deckId];
   if (!deck) return;
-  deck.filter = parseFloat(val);
-  const label = document.getElementById(`dj-filter-val-${deckId}`);
-  if (label) {
-    if (deck.filter < 0.45) label.innerText = 'LPF';
-    else if (deck.filter > 0.55) label.innerText = 'HPF';
-    else label.innerText = 'OFF';
-  }
-}
-window.setDjFilter = setDjFilter;
+  deck.low = 1.0;
+  deck.mid = 1.0;
+  deck.high = 1.0;
 
-function setDjCrossfader(val) {
-  const x = parseFloat(val);
+  ['low', 'mid', 'high'].forEach(band => {
+    const slider = document.getElementById(`dj-eq-${deckId}-${band}`);
+    if (slider) slider.value = 1.0;
+    const lbl = document.getElementById(`dj-eq-val-${deckId}-${band}`);
+    if (lbl) lbl.innerText = '0 dB';
+  });
+
+  const nodes = djAudioNodes[deckId];
+  if (nodes) {
+    if (nodes.lowNode) nodes.lowNode.gain.value = 0;
+    if (nodes.midNode) nodes.midNode.gain.value = 0;
+    if (nodes.highNode) nodes.highNode.gain.value = 0;
+  }
+  showToast(`Deck ${deckId.toUpperCase()}: EQ zurückgesetzt (Neutral) 🎚️`);
+}
+window.resetDjEq = resetDjEq;
+
+var currentDjCrossfaderPos = 0.5;
+
+function applyDjVolumes() {
+  const x = Math.max(0, Math.min(1, parseFloat(currentDjCrossfaderPos) || 0.5));
+  // Equal-Power Crossfader Curve (Constant acoustic energy across transition)
   const gainA = Math.cos(x * 0.5 * Math.PI);
   const gainB = Math.sin(x * 0.5 * Math.PI);
-  const master = (typeof soundMasterVolume === 'number') ? soundMasterVolume : 0.5;
+
+  const isMuted = (typeof isPlayerMuted !== 'undefined' && Boolean(isPlayerMuted));
+  const master = isMuted ? 0 : ((typeof soundMasterVolume === 'number') ? soundMasterVolume : 0.5);
+
+  const volA = Math.max(0, Math.min(1, gainA * (djDecks.a?.volume ?? 1.0) * master));
+  const volB = Math.max(0, Math.min(1, gainB * (djDecks.b?.volume ?? 1.0) * master));
 
   if (djDecks.a && djDecks.a.audio) {
-    djDecks.a.audio.volume = Math.max(0, Math.min(1, gainA * master));
-  }
-  if (djDecks.b && djDecks.b.audio) {
-    djDecks.b.audio.volume = Math.max(0, Math.min(1, gainB * master));
+    try {
+      djDecks.a.audio.volume = volA;
+      djDecks.a.audio.muted = isMuted;
+    } catch (e) {}
   }
 
+  if (djDecks.b && djDecks.b.audio) {
+    try {
+      djDecks.b.audio.volume = volB;
+      djDecks.b.audio.muted = isMuted;
+    } catch (e) {}
+  }
+
+  if (djAudioNodes && djAudioNodes.a && djAudioNodes.a.gainNode) {
+    try { djAudioNodes.a.gainNode.gain.value = volA; } catch (e) {}
+  }
+  if (djAudioNodes && djAudioNodes.b && djAudioNodes.b.gainNode) {
+    try { djAudioNodes.b.gainNode.gain.value = volB; } catch (e) {}
+  }
+}
+window.applyDjVolumes = applyDjVolumes;
+
+function setDjCrossfader(val) {
+  currentDjCrossfaderPos = parseFloat(val);
+  applyDjVolumes();
+
   const slider = document.getElementById('dj-crossfader-slider');
-  if (slider && parseFloat(slider.value) !== x) {
-    slider.value = x;
+  if (slider && Math.abs(parseFloat(slider.value) - currentDjCrossfaderPos) > 0.005) {
+    slider.value = currentDjCrossfaderPos;
   }
 }
 window.setDjCrossfader = setDjCrossfader;
@@ -1570,7 +1960,7 @@ function toggleDjAutomix() {
       : 'px-2.5 py-0.5 rounded-lg text-[10px] font-mono font-bold bg-zinc-800/80 text-zinc-300 hover:text-white border border-zinc-700 transition cursor-pointer flex items-center gap-1.5 shadow-xs';
   }
   if (led) {
-    led.className = djAutomix.enabled ? 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse' : 'w-2 h-2 rounded-full bg-zinc-600';
+    led.className = djAutomix.enabled ? 'w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse' : 'w-1.5 h-1.5 rounded-full bg-zinc-600';
   }
   if (txt) {
     txt.textContent = djAutomix.enabled ? 'ACTIVE' : 'OFF';
@@ -1581,14 +1971,6 @@ window.toggleDjAutomix = toggleDjAutomix;
 
 function setDjAutomixDuration(sec) {
   djAutomix.durationSec = parseInt(sec, 10) || 8;
-  [4, 8, 16].forEach(s => {
-    const b = document.getElementById(`dj-automix-dur-${s}`);
-    if (b) {
-      b.className = (s === djAutomix.durationSec)
-        ? 'px-2 py-0.5 rounded-lg bg-emerald-500/30 text-emerald-200 border border-emerald-400/50 text-[9px] font-bold'
-        : 'px-2 py-0.5 rounded-lg bg-white/5 text-gray-400 hover:text-white border border-white/5 text-[9px] font-medium';
-    }
-  });
 }
 window.setDjAutomixDuration = setDjAutomixDuration;
 
@@ -1596,8 +1978,7 @@ function triggerDjAutomixNow() {
   if (djAutomix.isTransitioning) return;
   djAutomix.isTransitioning = true;
 
-  const slider = document.getElementById('dj-crossfader-slider');
-  const currentPos = slider ? parseFloat(slider.value) : 0.5;
+  const currentPos = currentDjCrossfaderPos;
   const targetDeck = currentPos < 0.5 ? 'b' : 'a';
   const targetPos = targetDeck === 'b' ? 1.0 : 0.0;
   const startPos = currentPos;
@@ -1634,29 +2015,132 @@ function triggerDjAutomixNow() {
 }
 window.triggerDjAutomixNow = triggerDjAutomixNow;
 
+// 100% FUNKTIONALER SHUFFLE BUTTON: Lädt 2 frische unterschiedliche Tracks
 function djShuffleTracks() {
-  const stems = [...BUILTIN_DJ_STEMS].sort(() => Math.random() - 0.5);
-  loadDjBuiltinTrack('a', stems[0].id, false);
-  loadDjBuiltinTrack('b', stems[1].id, false);
-  showToast('DJ Shuffle: Frische Stems & Rhythmen geladen! 🔀');
+  if (!BUILTIN_DJ_STEMS || BUILTIN_DJ_STEMS.length === 0) return;
+  const wasPlayingA = djDecks.a.isPlaying;
+  const wasPlayingB = djDecks.b.isPlaying;
+
+  const count = BUILTIN_DJ_STEMS.length;
+  const curA = djDecks.a.track?.id;
+  const curB = djDecks.b.track?.id;
+
+  let poolA = BUILTIN_DJ_STEMS.filter(s => s.id !== curA && s.id !== curB);
+  if (poolA.length === 0) poolA = BUILTIN_DJ_STEMS;
+  const pickA = poolA[Math.floor(Math.random() * poolA.length)];
+
+  let poolB = BUILTIN_DJ_STEMS.filter(s => s.id !== pickA.id && s.id !== curB);
+  if (poolB.length === 0) poolB = BUILTIN_DJ_STEMS.filter(s => s.id !== pickA.id);
+  if (poolB.length === 0) poolB = BUILTIN_DJ_STEMS;
+  const pickB = poolB[Math.floor(Math.random() * poolB.length)];
+
+  loadDjBuiltinTrack('a', pickA.id, false, wasPlayingA);
+  loadDjBuiltinTrack('b', pickB.id, false, wasPlayingB);
+
+  const selA = document.getElementById('dj-preset-select-a');
+  if (selA) selA.value = pickA.id;
+  const selB = document.getElementById('dj-preset-select-b');
+  if (selB) selB.value = pickB.id;
+
+  showToast(`Zufalls-Tracks geladen: "${pickA.name}" & "${pickB.name}" 🎲🔀`);
 }
 window.djShuffleTracks = djShuffleTracks;
 
 // ============================================================================
-// 6. HOT CUES, LOOPS & JOGWHEEL INTERACTION
+// 6. HOT CUES, LOOPS & WAVEFORM MARKERS
 // ============================================================================
+
+function renderDjWaveformMarkers(deckId) {
+  const container = document.getElementById(`dj-waveform-markers-${deckId}`);
+  const deck = djDecks[deckId];
+  if (!container || !deck || !deck.audio) return;
+
+  const duration = deck.audio.duration;
+  let html = '';
+
+  // 1. Main CUE Marker
+  if (deck.cueTime && duration && deck.cueTime > 0) {
+    const pct = Math.max(0, Math.min(100, (deck.cueTime / duration) * 100));
+    html += `
+      <div class="dj-wave-cue-marker absolute top-0 bottom-0 pointer-events-none" style="left: ${pct}%;">
+        <div class="w-[1.5px] h-full bg-amber-400"></div>
+        <div class="absolute -top-0.5 -translate-x-1/2 px-1 py-0.2 rounded bg-amber-500 text-black text-[7px] font-black font-mono shadow">CUE</div>
+      </div>
+    `;
+  }
+
+  // 2. Hot Cues (0 and 1)
+  deck.hotCues.forEach((time, idx) => {
+    if (time !== null && duration && time >= 0) {
+      const pct = Math.max(0, Math.min(100, (time / duration) * 100));
+      const colorClass = deckId === 'a' ? 'bg-cyan-400 text-black' : 'bg-amber-400 text-black';
+      const borderClass = deckId === 'a' ? 'bg-cyan-400' : 'bg-amber-400';
+      html += `
+        <div class="dj-wave-hotcue-marker absolute top-0 bottom-0 pointer-events-none" style="left: ${pct}%;">
+          <div class="w-[1.5px] h-full ${borderClass}"></div>
+          <div class="absolute bottom-0 -translate-x-1/2 px-1 py-0.2 rounded ${colorClass} text-[7px] font-black font-mono shadow">C${idx + 1}</div>
+        </div>
+      `;
+    }
+  });
+
+  // 3. Active Loop Region
+  if (deck.loopActive && duration && deck.loopEnd > deck.loopStart) {
+    const startPct = Math.max(0, Math.min(100, (deck.loopStart / duration) * 100));
+    const endPct = Math.max(0, Math.min(100, (deck.loopEnd / duration) * 100));
+    const widthPct = Math.max(1, endPct - startPct);
+    html += `
+      <div class="absolute inset-y-0 bg-emerald-500/25 border-x border-emerald-400 pointer-events-none flex items-center justify-center" style="left: ${startPct}%; width: ${widthPct}%;">
+        <span class="text-[7.5px] font-mono font-bold text-emerald-200 bg-black/75 px-1 rounded border border-emerald-500/40">${deck.loopLength}B LOOP</span>
+      </div>
+    `;
+  }
+
+  container.innerHTML = html;
+}
+window.renderDjWaveformMarkers = renderDjWaveformMarkers;
 
 function setDjHotCue(deckId, index) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
   deck.hotCues[index] = deck.audio.currentTime;
+  
   const pad = document.getElementById(`dj-hotcue-btn-${deckId}-${index}`);
   if (pad) {
-    pad.classList.add('bg-amber-400/30', 'border-amber-400', 'text-amber-200');
+    pad.classList.add('bg-cyan-500/30', 'border-cyan-400', 'text-white');
   }
-  showToast(`Deck ${deckId.toUpperCase()}: Hot Cue ${index + 1} bei ${formatAudioTime(deck.audio.currentTime)} gesetzt! 📍`);
+  renderDjWaveformMarkers(deckId);
+  playDjSfx('cue_click');
+  showToast(`Deck ${deckId.toUpperCase()}: CUE ${index + 1} bei ${formatAudioTime(deck.audio.currentTime)} gesetzt! 📍`);
 }
 window.setDjHotCue = setDjHotCue;
+
+function clearSingleDjHotCue(deckId, index, event) {
+  if (event) event.preventDefault();
+  const deck = djDecks[deckId];
+  if (!deck) return;
+  deck.hotCues[index] = null;
+  const pad = document.getElementById(`dj-hotcue-btn-${deckId}-${index}`);
+  if (pad) {
+    pad.classList.remove('bg-cyan-500/30', 'border-cyan-400', 'text-white');
+  }
+  renderDjWaveformMarkers(deckId);
+  showToast(`Deck ${deckId.toUpperCase()}: CUE ${index + 1} gelöscht`);
+}
+window.clearSingleDjHotCue = clearSingleDjHotCue;
+
+function clearDjHotCues(deckId) {
+  const deck = djDecks[deckId];
+  if (!deck) return;
+  deck.hotCues = [null, null, null, null];
+  [0, 1].forEach(idx => {
+    const pad = document.getElementById(`dj-hotcue-btn-${deckId}-${idx}`);
+    if (pad) pad.classList.remove('bg-cyan-500/30', 'border-cyan-400', 'text-white');
+  });
+  renderDjWaveformMarkers(deckId);
+  showToast(`Deck ${deckId.toUpperCase()}: Alle CUEs zurückgesetzt`);
+}
+window.clearDjHotCues = clearDjHotCues;
 
 function jumpDjHotCue(deckId, index) {
   const deck = djDecks[deckId];
@@ -1677,7 +2161,8 @@ function toggleDjLoop(deckId, beats = 4) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
 
-  deck.loopActive = !deck.loopActive;
+  const isCurrentLengthActive = deck.loopActive && deck.loopLength === beats;
+  deck.loopActive = !isCurrentLengthActive;
   deck.loopLength = beats;
 
   if (deck.loopActive) {
@@ -1686,11 +2171,23 @@ function toggleDjLoop(deckId, beats = 4) {
     deck.loopEnd = deck.loopStart + (beatDuration * beats);
   }
 
-  const loopBtn = document.getElementById(`dj-loop-btn-${deckId}-${beats}`);
-  if (loopBtn) {
-    loopBtn.classList.toggle('bg-emerald-500/30', deck.loopActive);
-    loopBtn.classList.toggle('border-emerald-400', deck.loopActive);
+  [4, 8].forEach(b => {
+    const btn = document.getElementById(`dj-loop-btn-${deckId}-${b}`);
+    if (btn) {
+      const active = deck.loopActive && deck.loopLength === b;
+      btn.classList.toggle('bg-emerald-500/35', active);
+      btn.classList.toggle('border-emerald-400', active);
+      btn.classList.toggle('text-emerald-200', active);
+    }
+  });
+
+  const stateLabel = document.getElementById(`dj-loop-state-${deckId}`);
+  if (stateLabel) {
+    stateLabel.innerText = deck.loopActive ? `${beats}B AN` : 'AUS';
+    stateLabel.className = deck.loopActive ? 'text-[8px] font-mono font-bold text-emerald-400' : 'text-[8px] font-mono text-zinc-500';
   }
+
+  renderDjWaveformMarkers(deckId);
   showToast(`Deck ${deckId.toUpperCase()}: ${beats}-Beat Loop ${deck.loopActive ? 'Aktiv 🔁' : 'Aus'}`);
 }
 window.toggleDjLoop = toggleDjLoop;
@@ -1698,7 +2195,7 @@ window.toggleDjLoop = toggleDjLoop;
 function handleDjJogTouch(deckId, delta) {
   const deck = djDecks[deckId];
   if (!deck || !deck.audio) return;
-  deck.audio.currentTime = Math.max(0, deck.audio.currentTime + delta);
+  deck.audio.currentTime = Math.max(0, deck.audio.currentTime + delta * 0.05);
   playDjSfx('scratch_mini');
 }
 window.handleDjJogTouch = handleDjJogTouch;
@@ -1714,112 +2211,36 @@ function playDjSfx(type) {
   const now = audioCtx.currentTime;
   const dest = (typeof getMasterAudioDestination === 'function') ? (getMasterAudioDestination() || audioCtx.destination) : audioCtx.destination;
 
-  if (type === 'airhorn') {
-    const hornPitches = [466.16, 622.25, 932.33];
-    hornPitches.forEach(freq => {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(freq * 0.96, now);
-      osc.frequency.linearRampToValueAtTime(freq, now + 0.04);
-      osc.frequency.exponentialRampToValueAtTime(freq * 0.85, now + 0.5);
-
-      const vol = 0.28 * (soundMasterVolume || 0.5);
-      gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(vol, now + 0.02);
-      gain.gain.setValueAtTime(vol, now + 0.35);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
-
-      osc.connect(gain);
-      gain.connect(dest);
-      osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-      osc.start(now);
-      osc.stop(now + 0.6);
-    });
-    showToast('📢 AIRHORN BLAST!');
-  } else if (type === 'scratch' || type === 'scratch_mini') {
+  if (type === 'scratch_mini') {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     const filter = audioCtx.createBiquadFilter();
 
     osc.type = 'triangle';
-    osc.frequency.setValueAtTime(type === 'scratch_mini' ? 400 : 800, now);
-    osc.frequency.exponentialRampToValueAtTime(140, now + 0.06);
-    osc.frequency.exponentialRampToValueAtTime(1100, now + 0.12);
+    osc.frequency.setValueAtTime(400, now);
+    osc.frequency.exponentialRampToValueAtTime(140, now + 0.04);
+    osc.frequency.exponentialRampToValueAtTime(900, now + 0.08);
 
     filter.type = 'bandpass';
     filter.frequency.setValueAtTime(1000, now);
     filter.Q.setValueAtTime(3, now);
 
-    const vol = (type === 'scratch_mini' ? 0.15 : 0.35) * (soundMasterVolume || 0.5);
+    const vol = 0.12 * (soundMasterVolume || 0.5);
     gain.gain.setValueAtTime(vol, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
 
     osc.connect(filter);
     filter.connect(gain);
     gain.connect(dest);
     osc.onended = () => { try { osc.disconnect(); filter.disconnect(); gain.disconnect(); } catch(e) {} };
     osc.start(now);
-    osc.stop(now + 0.2);
-    if (type !== 'scratch_mini') showToast('⚡ VINYL SCRATCH!');
-  } else if (type === 'laser') {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(2400, now);
-    osc.frequency.exponentialRampToValueAtTime(220, now + 0.3);
-
-    const vol = 0.35 * (soundMasterVolume || 0.5);
-    gain.gain.setValueAtTime(vol, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.32);
-
-    osc.connect(gain);
-    gain.connect(dest);
-    osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-    osc.start(now);
-    osc.stop(now + 0.35);
-    showToast('🚨 LASER SWEEP!');
-  } else if (type === 'subdrop') {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(160, now);
-    osc.frequency.exponentialRampToValueAtTime(34, now + 0.7);
-
-    const vol = 0.55 * (soundMasterVolume || 0.5);
-    gain.gain.setValueAtTime(vol, now);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.85);
-
-    osc.connect(gain);
-    gain.connect(dest);
-    osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-    osc.start(now);
-    osc.stop(now + 0.9);
-    showToast('💥 808 SUB DROP!');
-  } else if (type === 'riser') {
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(100, now);
-    osc.frequency.exponentialRampToValueAtTime(1800, now + 1.2);
-
-    const vol = 0.3 * (soundMasterVolume || 0.5);
-    gain.gain.setValueAtTime(0.01, now);
-    gain.gain.linearRampToValueAtTime(vol, now + 1.0);
-    gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.25);
-
-    osc.connect(gain);
-    gain.connect(dest);
-    osc.onended = () => { try { osc.disconnect(); gain.disconnect(); } catch(e) {} };
-    osc.start(now);
-    osc.stop(now + 1.3);
-    showToast('🌪️ NOISE RISER!');
+    osc.stop(now + 0.14);
   } else if (type === 'cue_click') {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
     osc.type = 'sine';
     osc.frequency.setValueAtTime(880, now);
-    gain.gain.setValueAtTime(0.2 * (soundMasterVolume || 0.5), now);
+    gain.gain.setValueAtTime(0.15 * (soundMasterVolume || 0.5), now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
     osc.connect(gain);
     gain.connect(dest);
@@ -1838,11 +2259,8 @@ if (typeof globalThis !== 'undefined') {
   globalThis.removeMusicTrack = removeMusicTrack;
 }
 
-
-
 function updateDjVuMeters() {
   if (typeof document === 'undefined') return;
-  if ((!djDecks.a || !djDecks.a.isPlaying) && (!djDecks.b || !djDecks.b.isPlaying)) return;
   const djPanel = document.getElementById('panel-audio');
   if (!djPanel || djPanel.classList.contains('hidden')) return;
 
@@ -1850,15 +2268,15 @@ function updateDjVuMeters() {
   const vuB = document.getElementById('dj-vu-meter-b');
   
   if (djDecks.a && djDecks.a.isPlaying && vuA) {
-    const h = 25 + Math.random() * 65;
-    vuA.style.height = h + '%';
+    const h = 25 + Math.random() * 60;
+    vuA.style.height = (h * (djDecks.a.volume ?? 1)) + '%';
   } else if (vuA) {
     vuA.style.height = '10%';
   }
 
   if (djDecks.b && djDecks.b.isPlaying && vuB) {
-    const h = 25 + Math.random() * 65;
-    vuB.style.height = h + '%';
+    const h = 25 + Math.random() * 60;
+    vuB.style.height = (h * (djDecks.b.volume ?? 1)) + '%';
   } else if (vuB) {
     vuB.style.height = '10%';
   }

@@ -69,7 +69,7 @@ describe('Routine Presets & Custom Defaults Suite', () => {
 
   it('applies routine presets directly and updates board state', () => {
     window.applyRoutinePreset('minimalist', true);
-    expect(window.state.items.daily).toEqual(['Zähne morgens', 'Bett machen', 'Wichtigste Aufgabe (Fokus)', 'Zähne abends']);
+    expect(window.state.items.daily).toEqual(['Zähne morgens', 'Bett machen', 'Zähne abends']);
     expect(window.state.items.weekly).toEqual(['Staubsaugen', 'Geschirr spülen', 'Wäsche waschen', 'Müll wegbringen']);
 
     const custom = window.getCustomDefaults();

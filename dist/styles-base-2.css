@@ -1,4 +1,9 @@
-/* styles-base-2.css: Globale Typografie, Timer & Date-Picker */
+/**
+ * @file styles-base-2.css
+ * @description
+ * Basis-Stile für die Header-Timer-Steuerung, globale Typografie-Anpassungen
+ * sowie native Datums- und Zeiteingabefelder.
+ */
 
 #timer-trigger-container {
   background-color: rgba(0, 0, 0, 0.35) !important;
@@ -68,37 +73,37 @@ html body #app #timer-trigger-container button#timer-mute-btn i {
 }
 
 #date-container {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(45, 212, 191, 0.35);
+  background: rgba(20, 184, 166, 0.1);
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 0 12px rgba(20, 184, 166, 0.18) !important;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 #date-container:hover {
-  border-color: rgba(255, 255, 255, 0.2) !important;
-  background: rgba(255, 255, 255, 0.065) !important;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+  border-color: rgba(45, 212, 191, 0.65) !important;
+  background: rgba(20, 184, 166, 0.2) !important;
+  box-shadow: 0 0 18px rgba(45, 212, 191, 0.35) !important;
   transform: translateY(-1px) !important;
 }
 
 #date-display {
   font-family: inherit;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.84rem;
   letter-spacing: -0.01em;
   text-transform: none;
-  color: #f4f4f5;
+  color: #5eead4;
   background: none !important;
   -webkit-background-clip: border-box !important;
   -webkit-text-fill-color: initial !important;
   background-clip: border-box !important;
-  text-shadow: none !important;
+  text-shadow: 0 0 10px rgba(45, 212, 191, 0.3) !important;
 }
 
 #date-icon {
-  color: var(--accent-light);
-  opacity: 0.8;
+  color: #2dd4bf !important;
+  opacity: 0.95;
 }
 
 #cal-days-grid span:not(.text-transparent) {

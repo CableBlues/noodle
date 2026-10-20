@@ -1,5 +1,11 @@
-// app-routine-presets.js - Interaktiver Routine-Preset & Standard-Aufgaben Manager
-// ============================================================================
+/**
+ * @file app-routine-presets.js
+ * @module RoutinePresetsManager
+ * @description
+ * Vorlagen- und Standardaufgaben-Manager (`#modal-routine-presets`).
+ * Ermöglicht das Laden kuratierter Tages-/Wochenroutinen sowie das Bearbeiten
+ * und Speichern eigener wiederkehrender Standardaufgaben (`flow_custom_default_tasks`).
+ */
 
 let currentRoutinePresetTab = 'presets'; // 'presets' | 'custom' | 'suggestions'
 

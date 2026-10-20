@@ -1,5 +1,11 @@
-// helper-clarity.js: Intelligenter, mitfühlender Begleiter für Klarheit, Impulskontrolle & Selbstregulation
-// 100% Clientseitig, diskret, wissenschaftlich fundiert & tief menschlich aufgebaut.
+/**
+ * @file helper-clarity.js
+ * @module ClarityAndImpulseControl
+ * @description
+ * Modul zur Impulskontrolle, Selbstregulation und Reflexion (`#clarity-modal`).
+ * Bietet einen interaktiven 90-Sekunden-Urge-Surfing-Timer, Streak-Tracking,
+ * persönliche Motivationsgründe sowie ein lokal gespeichertes Reflexions-Journal.
+ */
 
 let clarityUrgeInterval = null;
 let clarityUrgeSecondsLeft = 90;
@@ -178,7 +184,7 @@ function stopClarityUrgeTimer() {
   clearInterval(clarityUrgeInterval);
   const btn = document.getElementById('clarity-urge-toggle-btn');
   if (btn) {
-    btn.innerHTML = '<i data-lucide="play" class="w-4 h-4"></i> <span>' + tr({ en: 'Ride the 90s Wave 🌊', de: '90s Welle reiten 🌊', fr: 'Surfer la vague 90s 🌊', it: 'Cavalca l onda di 90s 🌊', es: 'Surfear la ola de 90s 🌊', el: 'Δαμάστε το κύμα 90δ 🌊' }) + '</span>';
+    btn.innerHTML = '<i data-lucide="play" class="w-4 h-4"></i> <span>' + tr({ en: 'Ride the 90s Wave', de: '90s Welle starten', fr: 'Surfer la vague 90s', it: 'Cavalca l onda di 90s', es: 'Surfear la ola de 90s', el: 'Δαμάστε το κύμα 90δ' }) + '</span>';
     btn.classList.remove('bg-rose-500/20', 'text-rose-300', 'border-rose-500/40');
     btn.classList.add('bg-teal-500', 'text-black');
     if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -202,13 +208,13 @@ function updateUrgeDisplay() {
   if (breathEl) {
     const cycle = (90 - clarityUrgeSecondsLeft) % 12;
     if (cycle < 4) {
-      breathEl.innerText = tr({ en: '💨 Inhale softly through the nose (4s)...', de: '💨 Sanft durch die Nase einatmen (4s)...', fr: '💨 Inspire doucement par le nez (4s)...', it: '💨 Inspira dolcemente dal naso (4s)...', es: '💨 Inhala suave por la nariz (4s)...', el: '💨 Εισπνεύστε απαλά (4δ)...' });
+      breathEl.innerText = tr({ en: 'Inhale softly through the nose (4s)...', de: 'Sanft durch die Nase einatmen (4s)...', fr: 'Inspire doucement par le nez (4s)...', it: 'Inspira dolcemente dal naso (4s)...', es: 'Inhala suave por la nariz (4s)...', el: 'Εισπνεύστε απαλά (4δ)...' });
       breathEl.className = 'text-xs font-bold text-teal-300 transition-colors';
     } else if (cycle < 6) {
-      breathEl.innerText = tr({ en: '⏸️ Hold gently & relax the jaw (2s)...', de: '⏸️ Sanft halten & Kiefer lockern (2s)...', fr: '⏸️ Maintiens doucement & relâche (2s)...', it: '⏸️ Trattieni & rilassa il viso (2s)...', es: '⏸️ Mantén y relaja la mandíbula (2s)...', el: '⏸️ Κράτημα & χαλάρωση (2δ)...' });
+      breathEl.innerText = tr({ en: 'Hold gently & relax the jaw (2s)...', de: 'Sanft halten & Kiefer lockern (2s)...', fr: 'Maintiens doucement & relâche (2s)...', it: 'Trattieni & rilassa il viso (2s)...', es: 'Mantén y relaja la mandíbula (2s)...', el: 'Κράτημα & χαλάρωση (2δ)...' });
       breathEl.className = 'text-xs font-bold text-cyan-300 transition-colors';
     } else {
-      breathEl.innerText = tr({ en: '🌊 Exhale slowly & drop your shoulders (6s)...', de: '🌊 Langsam ausatmen & Schultern sinken lassen (6s)...', fr: '🌊 Expire lentement & baisse les épaules (6s)...', it: '🌊 Espira lentamente & rilassa le spalle (6s)...', es: '🌊 Exhala despacio y baja los hombros (6s)...', el: '🌊 Εκπνεύστε αργά (6δ)...' });
+      breathEl.innerText = tr({ en: 'Exhale slowly & drop your shoulders (6s)...', de: 'Langsam ausatmen & Schultern sinken lassen (6s)...', fr: 'Expire lentement & baisse les épaules (6s)...', it: 'Espira lentamente & rilassa le spalle (6s)...', es: 'Exhala despacio y baja los hombros (6s)...', el: 'Εκπνεύστε αργά (6δ)...' });
       breathEl.className = 'text-xs font-bold text-emerald-300 transition-colors';
     }
   }
@@ -217,12 +223,12 @@ function updateUrgeDisplay() {
 function onUrgeSurfingComplete() {
   const phraseEl = document.getElementById('clarity-urge-phrase');
   const winMsg = tr({
-    de: '🌱 Wundervoll gemeistert! Die biochemische Welle ist sanft abgeflaut. Du hast deinem Nervensystem Raum geschenkt und dich für Klarheit entschieden.',
-    en: '🌱 Beautifully done! The biochemical wave has passed. You gave your nervous system room and chose clarity.',
-    fr: '🌱 Magnifiquement surmonté ! La vague est passée. Tu as offert de l espace à ton esprit.',
-    it: '🌱 Superato con successo! L onda è passata. Hai regalato spazio e chiarezza alla tua mente.',
-    es: '🌱 ¡Superado con éxito! La ola ha pasado. Le diste espacio y claridad a tu mente.',
-    el: '🌱 Εξαιρετικά! Το κύμα πέρασε. Χάρισες ηρεμία και διαύγεια στον εαυτό σου.'
+    de: 'Wundervoll gemeistert. Die biochemische Welle ist sanft abgeflaut. Du hast deinem Nervensystem Raum geschenkt und dich für Klarheit entschieden.',
+    en: 'Beautifully done. The biochemical wave has passed. You gave your nervous system room and chose clarity.',
+    fr: 'Magnifiquement surmonté. La vague est passée. Tu as offert de l espace à ton esprit.',
+    it: 'Superato con successo. L onda è passata. Hai regalato spazio e chiarezza alla tua mente.',
+    es: '¡Superado con éxito! La ola ha pasado. Le diste espacio y claridad a tu mente.',
+    el: 'Εξαιρετικά. Το κύμα πέρασε. Χάρισες ηρεμία και διαύγεια στον εαυτό σου.'
   });
   if (phraseEl) {
     phraseEl.innerHTML = `
@@ -230,23 +236,22 @@ function onUrgeSurfingComplete() {
         <p class="text-xs text-teal-200 font-medium">${winMsg}</p>
         <div class="pt-2 flex justify-center">
           <button onclick="if(typeof startClarityMicroFocus === 'function') startClarityMicroFocus(10);" class="px-4 py-2 bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-black font-black text-xs rounded-2xl shadow-xl transition cursor-pointer flex items-center gap-1.5 active:scale-95">
-            <span>🚀 Jetzt mit 10m Micro-Focus starten</span>
+            <span>Jetzt mit 10m Micro-Focus starten</span>
           </button>
         </div>
       </div>
     `;
   }
-  if (typeof playCheerfulSuccessJingle === 'function') playCheerfulSuccessJingle();
-  if (typeof triggerCelebration === 'function') triggerCelebration();
+  if (typeof playProceduralSound === 'function') playProceduralSound(1);
   if (typeof addGamificationXP === 'function') addGamificationXP(50, 'Klarheits-Welle');
   
   showToast(tr({
-    de: '90s Welle gemeistert! +50 XP Klarheit 🌟',
-    en: 'Wave surmounted! +50 XP Clarity 🌟',
-    fr: 'Vague surmontée ! +50 XP Clarté 🌟',
-    it: 'Onda superata! +50 XP Chiarezza 🌟',
-    es: '¡Ola superada! +50 XP Claridad 🌟',
-    el: 'Το κύμα ξεπεράστηκε! +50 XP 🌟'
+    de: '90s Welle gemeistert (+50 XP).',
+    en: 'Wave surmounted (+50 XP).',
+    fr: 'Vague surmontée (+50 XP).',
+    it: 'Onda superata (+50 XP).',
+    es: 'Ola superada (+50 XP).',
+    el: 'Το κύμα ξεπεράστηκε (+50 XP).'
   }));
 }
 
@@ -469,8 +474,8 @@ function saveClarityReason(quickText = null) {
   if (input && !quickText) input.value = '';
   renderClarityReasonsList();
   showToast(tr({
-    de: 'Ankergrund gesichert! ⚓',
-    en: 'Personal anchor saved! ⚓'
+    de: 'Persönlicher Anker gesichert.',
+    en: 'Personal anchor saved.'
   }));
 }
 
@@ -486,12 +491,13 @@ function renderClarityReasonsList() {
   listEl.innerHTML = reasons.slice(0, 6).map((r, i) =>
     '<div class="p-2.5 bg-white/[0.03] hover:bg-white/[0.06] border border-white/5 rounded-xl flex items-center justify-between text-xs text-gray-200 transition gap-2">' +
       '<span class="truncate font-medium flex items-center gap-2">' +
-        '<span class="text-teal-400">⚓</span>' +
+        '<i data-lucide="anchor" class="w-3.5 h-3.5 text-teal-400"></i>' +
         '<span>' + escapeHtml(r) + '</span>' +
       '</span>' +
       '<button onclick="removeClarityReason(' + i + ')" aria-label="Anker entfernen" class="text-gray-500 hover:text-rose-400 text-xs p-1 cursor-pointer">✕</button>' +
     '</div>'
   ).join('');
+  if (typeof lucide !== 'undefined') lucide.createIcons();
 }
 
 function removeClarityReason(index) {
@@ -518,11 +524,11 @@ function incrementClarityStreak() {
   cState.lastCheckinDate = new Date().toISOString();
   saveState();
   updateClarityStreakUI();
-  if (typeof triggerCelebration === 'function') triggerCelebration();
+  if (typeof playProceduralSound === 'function') playProceduralSound(0);
   if (typeof addGamificationXP === 'function') addGamificationXP(30, 'Klarheits-Tag');
   showToast(tr({
-    de: 'Klarheits-Tag erfolgreich festgehalten! Weiter so 🌟',
-    en: 'Clarity day logged successfully! Keep going 🌟'
+    de: 'Klarheits-Tag festgehalten (+30 XP).',
+    en: 'Clarity day logged (+30 XP).'
   }));
 }
 
@@ -535,7 +541,7 @@ async function resetClarityStreak() {
   const confirmed = typeof showConfirmDialog === 'function' ? await showConfirmDialog({
     title: typeof tr === 'function' ? tr({ de: 'Sanfter Neustart', en: 'Gentle Reset' }) : 'Sanfter Neustart',
     message: confirmMsg,
-    confirmText: typeof tr === 'function' ? tr({ de: 'Auf 0 setzen 🌱', en: 'Reset to 0 🌱' }) : 'Auf 0 setzen 🌱',
+    confirmText: typeof tr === 'function' ? tr({ de: 'Auf 0 setzen', en: 'Reset to 0' }) : 'Auf 0 setzen',
     isDanger: false,
     icon: 'refresh-cw'
   }) : confirm(confirmMsg);
@@ -546,8 +552,8 @@ async function resetClarityStreak() {
     saveState();
     updateClarityStreakUI();
     showToast(tr({
-      de: 'Zähler zurückgesetzt. Sei voller Mitgefühl mit dir – heute ist ein neuer Tag! 🌱',
-      en: 'Counter reset. Be kind to yourself – today is a fresh new day! 🌱'
+      de: 'Zähler zurückgesetzt. Heute ist ein neuer Tag.',
+      en: 'Counter reset. Today is a fresh day.'
     }));
   }
 }
@@ -567,8 +573,8 @@ function addClarityJournalNote() {
   saveState();
   renderClarityJournalList();
   showToast(tr({
-    de: 'Reflexion im Klarheits-Tagebuch gespeichert 📖',
-    en: 'Reflection saved in Clarity Journal 📖'
+    de: 'Reflexion im Klarheits-Tagebuch gespeichert.',
+    en: 'Reflection saved in Clarity Journal.'
   }));
 }
 

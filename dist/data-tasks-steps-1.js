@@ -1,4 +1,10 @@
-// data-tasks-steps-1.js: Hochwertige, professionelle & verständliche Schritt-für-Schritt-Anleitungen (Teil 1: Daily Basics)
+/**
+ * @file data-tasks-steps-1.js
+ * @module DataTaskStepsDaily
+ * @description
+ * Mehrsprachige Schritt-für-Schritt-Anleitungen (Micro-Steps) für grundlegende
+ * tägliche Routinen (`DE`, `EN`, `ES`, `EL`, `FR`, `IT`).
+ */
 const TASK_STEPS_DATABASE_PART1 = {
   'Medis': {
     de: [

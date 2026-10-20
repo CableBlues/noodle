@@ -24,12 +24,9 @@ const FlowAuth = (function() {
     if (typeof window !== 'undefined' && window.FLOW_CONFIG) {
       return window.FLOW_CONFIG;
     }
-    // BUGFIX: Vorher wurde hier stillschweigend eine tote Fallback-URL mit
-    // Dummy-Schlüssel zurückgegeben (Rest aus der "Flow Organiser"-Zeit).
-    // Da init() ohnehin niemals einen Client mit fehlender/ungültiger Config
-    // erstellt, ist eine klare Diagnosemeldung hier sinnvoller als ein
-    // stiller, nie erreichbarer Platzhalter-Wert.
-    console.error('[FlowAuth] FLOW_CONFIG wurde nicht gefunden. Bitte prüfen, ob config.js korrekt VOR auth-engine.js geladen wird – ohne gültige Konfiguration sind Login und Cloud-Sync nicht möglich.');
+    // Falls config.js nicht geladen wurde, geben wir leere Endpunkte zurück,
+    // damit init() kontrolliert in den lokalen Offline-Modus übergeht.
+    console.error('[FlowAuth] FLOW_CONFIG wurde nicht gefunden. Bitte prüfen, ob config.js vor auth-engine.js eingebunden ist.');
     return { SUPABASE_URL: null, SUPABASE_ANON_KEY: null };
   }
 

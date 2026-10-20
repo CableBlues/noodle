@@ -1,4 +1,4 @@
-﻿/* --- data-tasks-steps-1.js --- */
+/* --- data-tasks-steps-1.js --- */
 /**
  * @file data-tasks-steps-1.js
  * @module DataTaskStepsDaily
@@ -25983,7 +25983,8 @@ var musicCanControlVolume = (() => {
 })();
 
 function getMusicTargetVolume() {
-  return isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+  const muted = (typeof isPlayerMuted !== 'undefined') ? Boolean(isPlayerMuted) : false;
+  return muted ? 0 : (soundMasterVolume * 0.75);
 }
 
 function setMusicCrossfadeSeconds(val) {
@@ -30328,8 +30329,8 @@ function setTimerAudioMode(mode, specificChoice = null) {
   }
 
   let newMode = mode;
-  if (newMode === 'silent') {
-    newMode = 'ambient';
+  if (!specificChoice && currentMode === mode && mode !== 'silent') {
+    newMode = 'silent';
   }
 
   timerAudioMode = newMode;
@@ -38345,7 +38346,8 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
 
   data.steps.forEach((step, idx) => {
     if (!activeCleaningCompletedSteps[step.id]) {
-      const taskText = step.title.split('(')[0].trim();
+      const baseTitle = step.title.split('(')[0].trim();
+      const taskText = baseTitle.startsWith('🧹') ? baseTitle : `🧹 ${baseTitle}`;
       const exists = curState.items[cat].some(item => (typeof item === 'object' ? item.task === taskText : item === taskText));
       if (!exists) {
         curState.items[cat].push({
@@ -52181,7 +52183,7 @@ if (typeof window !== 'undefined') {
   window.resetTemplateBuilderToDefault = resetTemplateBuilderToDefault;
   window.saveTemplateBuilder = saveTemplateBuilder;
   window.renderTemplateBuilderUI = renderTemplateBuilderUI;
-}
+}
 
 /* --- app-reports.js --- */
 /**
@@ -54706,7 +54708,7 @@ if (typeof globalThis !== 'undefined') {
     // 🇬🇧 UK & 🇺🇸 USA (Inkl. Progressive / Independent Media)
     { id: 'democracynow', name: 'Democracy Now! Audio', searchQuery: 'KPFA', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Independent global daily news with Amy Goodman', stream: 'https://streams.kpfa.org:8443/kpfa', streams: ['https://streams.kpfa.org:8443/kpfa', 'https://streams.kpfa.org:8443/kpfa_64', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🗽' },
     { id: 'wbai', name: 'Pacifica Radio WBAI New York', searchQuery: 'WBAI', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Listener-sponsored progressive independent radio', stream: 'https://streams.kpfa.org:8443/kpfa', streams: ['https://streams.kpfa.org:8443/kpfa', 'https://kexp.streamguys1.com/kexp128.mp3', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🗽' },
-    { id: 'kexp', name: 'KEXP 90.3 FM Seattle', searchQuery: 'KEXP', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Unabhängige Musikkultur & Live-Sessions', stream: 'https://kexp.streamguys1.com/kexp128.mp3', streams: ['https://kexp.streamguys1.com/kexp128.mp3', 'https://ice1.somafm.com/groovesalad-128-mp3'], logo: '🎸' },
+    { id: 'kexp', name: 'KEXP 90.3 FM Seattle', searchQuery: 'KEXP', category: 'independent', country: 'us', flag: '🇺🇸', desc: 'Unabhängige Musikkultur & Live-Sessions', stream: 'https://kexp.streamguys1.com/kexp128.mp3', streams: ['https://kexp.streamguys1.com/kexp128.mp3', 'https://ice1.somafm.com/groovesalad-128-mp3', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🎸' },
     { id: 'bbcworld', name: 'BBC World Service', searchQuery: 'BBC World Service', category: 'news', country: 'uk', flag: '🇬🇧', desc: 'Global news, reports & analysis', stream: 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', streams: ['https://stream.live.vc.bbcmedia.co.uk/bbc_world_service', 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service_east_asia', 'https://npr-ice.streamguys1.com/live.mp3'], logo: '🌍' },
     { id: 'npr', name: 'NPR 24/7 News', searchQuery: 'NPR', category: 'news', country: 'us', flag: '🇺🇸', desc: 'National Public Radio Live Stream', stream: 'https://npr-ice.streamguys1.com/live.mp3', streams: ['https://npr-ice.streamguys1.com/live.mp3', 'https://streams.kpfa.org:8443/kpfa', 'https://stream.live.vc.bbcmedia.co.uk/bbc_world_service'], logo: '🌐' },
 
@@ -61976,8 +61978,17 @@ if (typeof globalThis !== 'undefined') {
     winBox.style.maxWidth = '';
     winBox.style.right = '';
     winBox.style.bottom = '';
+    winBox.style.left = '';
+    winBox.style.top = '';
     winBox.style.borderRadius = '';
     delete winBox.dataset.userMoved;
+
+    if (el !== winBox) {
+      el.style.left = '';
+      el.style.top = '';
+      el.style.width = '';
+      el.style.height = '';
+    }
 
     if (window.NoodleInteractionMode && typeof window.NoodleInteractionMode.positionFloatingWindow === 'function') {
       window.NoodleInteractionMode.positionFloatingWindow(el, panelName);
@@ -66772,6 +66783,4 @@ if (typeof globalThis !== 'undefined') {
   globalThis.submitMobileQuickAdd = submitMobileQuickAdd;
   globalThis.toggleExtraThemesAccordion = toggleExtraThemesAccordion;
 }
-
-
 

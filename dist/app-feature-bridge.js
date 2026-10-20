@@ -1,18 +1,12 @@
 /**
- * ============================================================================
- * NOODLE FEATURE BRIDGE & CROSS-TOOL INTEGRATION HUB (app-feature-bridge.js)
- * ============================================================================
- * Tiefgreifende Verknüpfung und Interlink-Pipeline aller Kern-Werkzeuge:
- * 1. Smart Action Badges & Task Tool Links (Timer, Rezepte, Einkaufsliste, Soundscapes, etc.)
- * 2. Universal Inline @-Mention & Tag Parser
- * 3. Kontextmenü-Erweiterung: "🔗 Tool verknüpfen..."
- * 4. 1-Klick Cross-Pipeline Bridges:
- *    - Koch-Studio ➔ Einkaufsliste & Kanban-Board
- *    - OCR Scanner ➔ Aufgaben, Einkaufsliste, Flashcards & Brainstorming
- *    - Brainstorming ➔ Aufgaben & Micro-Steps
- *    - Clarity & Atemübung ➔ Direkter Micro-Focus Arbeitsstart
- *    - Lernkarten / Flashcards ➔ Pomodoro Study Sprint
- * ============================================================================
+ * @file app-feature-bridge.js
+ * @module FeatureBridge
+ * @description
+ * Modulübergreifende Integrations-Pipeline & Smart-Action-Verknüpfung:
+ * - Smart Action Badges & Aufgaben-Tool-Links (Timer, Rezepte, Einkaufsliste, Soundscapes)
+ * - Universeller Inline-Parser für `@`-Mentions und kontextsensitive Schlagworte
+ * - Kontextmenü-Integration zur direkten Werkzeugverknüpfung an Aufgabenkarten
+ * - 1-Klick-Pipelines zwischen Koch-Studio, OCR-Scanner, Brainstorming, Lernkarten und Kanban-Board
  */
 
 (function(global) {
@@ -34,26 +28,29 @@
     const taskText = String(taskObj.task || taskObj.title || taskObj.name || '').trim();
     const explicitLinks = taskObj.toolLinks || {};
 
-    // 1. Expliziter Timer oder Regex-Dauer / @timer
-    if (explicitLinks.timer) {
-      links.push({
-        type: 'timer',
-        icon: 'timer',
-        label: explicitLinks.timer.label || `${explicitLinks.timer.minutes || 25}m Timer`,
-        color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
-        data: explicitLinks.timer
-      });
-    } else {
-      const timerMatch = taskText.match(/@timer\s*(\d+)?m?/i) || taskText.match(/\b(\d{1,3})\s*(?:min|minute|minuten|m)\b/i);
-      if (timerMatch) {
-        const mins = parseInt(timerMatch[1], 10) || 25;
+    // 1. Expliziter Timer oder @timer Tag (kein automatischer Regex-Button bei "5min aufräumen" etc.)
+    const is5MinCleanTask = /^5\s*min/i.test(taskText) && /(aufräum|aufraeum|tidy|recoger|rangement|riordino|τακτοποίηση)/i.test(taskText);
+    if (!is5MinCleanTask) {
+      if (explicitLinks.timer) {
         links.push({
           type: 'timer',
           icon: 'timer',
-          label: `${mins}m Fokus`,
+          label: explicitLinks.timer.label || `${explicitLinks.timer.minutes || 25}m Timer`,
           color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
-          data: { minutes: mins }
+          data: explicitLinks.timer
         });
+      } else {
+        const timerMatch = taskText.match(/@timer\s*(\d+)?m?/i);
+        if (timerMatch) {
+          const mins = parseInt(timerMatch[1], 10) || 25;
+          links.push({
+            type: 'timer',
+            icon: 'timer',
+            label: `${mins}m Fokus`,
+            color: 'text-amber-300 border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25',
+            data: { minutes: mins }
+          });
+        }
       }
     }
 

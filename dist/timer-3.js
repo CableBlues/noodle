@@ -1,4 +1,11 @@
-// timer.js Teil 3/3: Timer-Start/Stop/Pause & UI-Updates
+/**
+ * @file timer-3.js
+ * @module FocusTimerController
+ * @description
+ * Haupt-Steuerlogik des Fokus-Timers (`startTimer`, `pauseTimer`, `stopTimer`, `resetTimer`),
+ * Verknüpfung mit offenen Aufgaben des Kanban-Boards sowie Synchronisation
+ * der Header- und Popover-Anzeigen.
+ */
 var timerHasTriggeredZero = false;
 
 function isTimerSoundActive() {
@@ -126,7 +133,10 @@ function playCurrentTimerBackgroundAudio(force = false) {
 
   try {
     if (mode === 'radio') {
-      const station = (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) ? selectedTimerRadio : (localStorage.getItem('flow_radio_station') || 'groovesalad');
+      const station = (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.getCurrentStationId === 'function' && RadioNewsEngine.getCurrentStationId())
+        || (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) 
+        || (typeof localStorage !== 'undefined' ? localStorage.getItem('flow_radio_station') : null) 
+        || 'dronezone';
       if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.playRadioStation === 'function') {
         RadioNewsEngine.playRadioStation(station);
       }
@@ -212,17 +222,33 @@ function setTimerAudioMode(mode, specificChoice = null) {
   stopTimerBackgroundAudio();
 
   const isTiming = (typeof timerRunning !== 'undefined' && timerRunning) || (typeof chronometerActive !== 'undefined' && chronometerActive);
-  if (isTiming || (specificChoice !== null && newMode !== 'silent')) {
+  if (isTiming || specificChoice !== null) {
     playCurrentTimerBackgroundAudio(true);
   }
 
   renderTimerCockpitContent();
-  const names = { ambient: '🌿 Sounds', music: '🎵 Musik', soundmachine: '🎵 Musik', radio: '📻 Live-Radio', silent: '🔇 Stille' };
+  const names = { ambient: '🌿 Sounds', music: '🎵 Musik', soundmachine: '🎵 Musik', radio: '📻 Live-Radio' };
   if (typeof showToast === 'function') {
     showToast(`Hintergrund: ${names[newMode] || newMode}`);
   }
 }
 window.setTimerAudioMode = setTimerAudioMode;
+
+function openRadioPanelFromTimer() {
+  const panelPresets = document.getElementById('panel-timer-presets');
+  if (panelPresets) panelPresets.classList.add('hidden');
+  if (typeof togglePanel === 'function') {
+    togglePanel('radio');
+  } else {
+    const pr = document.getElementById('panel-radio');
+    if (pr) pr.classList.remove('hidden');
+  }
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.renderRadioPanelContent === 'function') {
+    RadioNewsEngine.renderRadioPanelContent();
+  }
+}
+window.openRadioPanelFromTimer = openRadioPanelFromTimer;
+if (typeof globalThis !== 'undefined') globalThis.openRadioPanelFromTimer = openRadioPanelFromTimer;
 
 function toggleTimerVoiceFeature(feature) {
   if (feature === 'time') {
@@ -251,7 +277,7 @@ function toggleTimerVoiceFeature(feature) {
   renderTimerCockpitContent();
   if (typeof showToast === 'function') {
     if (feature === 'time') {
-      showToast(timerVoiceTimeAnnounce ? '⏱️ Zeitansagen: An' : '⏱️ Zeitansagen: Aus');
+      showToast(timerVoiceTimeAnnounce ? '⏱️ Zeitanzeige & Ansagen: An' : '⏱️ Zeitanzeige & Ansagen: Aus');
     } else if (feature === 'motivation') {
       showToast(timerVoiceMotivation ? '💡 Motivationssprüche: An' : '💡 Motivationssprüche: Aus');
     }
@@ -481,11 +507,25 @@ function renderTimerCockpitContent() {
 
   const currentMins = Math.round(timerInitialSeconds / 60) || 3;
   const taskTitle = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
-  const openTasks = getAllOpenBoardTasks();
-  const currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+  let currentAudioMode = (typeof timerAudioMode !== 'undefined' ? timerAudioMode : 'ambient');
+  if (currentAudioMode === 'silent') currentAudioMode = 'ambient';
   const currentSound = (typeof selectedTimerSound !== 'undefined' && selectedTimerSound) ? selectedTimerSound : 'lofi';
-  const currentRadio = (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) ? selectedTimerRadio : 'groovesalad';
+  const currentRadio = (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.getCurrentStationId === 'function' && RadioNewsEngine.getCurrentStationId())
+    || (typeof selectedTimerRadio !== 'undefined' && selectedTimerRadio) 
+    || (typeof localStorage !== 'undefined' ? localStorage.getItem('flow_radio_station') : null) 
+    || 'dronezone';
   const currentMusicIdx = (typeof selectedTimerMusicIndex === 'number') ? selectedTimerMusicIndex : (typeof currentTrackIndex !== 'undefined' ? currentTrackIndex : 0);
+
+  const allRadioStations = (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.getRadioStations === 'function') 
+    ? RadioNewsEngine.getRadioStations() 
+    : [];
+  const activeStationObj = allRadioStations.find(s => s.id === currentRadio);
+  const activeRadioStationName = activeStationObj 
+    ? `${activeStationObj.flag || '📻'} ${activeStationObj.name}` 
+    : (currentRadio === 'groovesalad' ? '🥗 SomaFM Groove Salad' : '📻 Live Radio');
+  const isRadioLive = (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.isRadioPlaying === 'function')
+    ? RadioNewsEngine.isRadioPlaying()
+    : (typeof window !== 'undefined' && !!window.isRadioPlaying);
 
   const isTimeAnnounce = (typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
   const isMotivation = (typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : true) && (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
@@ -524,15 +564,6 @@ function renderTimerCockpitContent() {
     { id: 5, label: '🎤 Hell Is Around' }
   ];
 
-  const radioStationsList = [
-    { id: 'groovesalad', label: '🥗 Groove Salad' },
-    { id: 'chillout', label: '☕ Chillout Lounge' },
-    { id: 'defcon', label: '📻 SomaFM Defcon' },
-    { id: 'deepspace', label: '🎧 Deep Space' },
-    { id: 'secretagent', label: '🎶 Secret Agent' },
-    { id: 'lofi', label: '🔊 Lofi Girl' }
-  ];
-
   const masterVol = typeof soundMasterVolume !== 'undefined' ? soundMasterVolume : 0.5;
   const isMuted = (typeof isPlayerMuted !== 'undefined' && isPlayerMuted) || (typeof isTimerSoundActive === 'function' && !isTimerSoundActive());
   const currentVolPct = isMuted ? 0 : Math.round(masterVol * 100);
@@ -569,8 +600,8 @@ function renderTimerCockpitContent() {
             <div class="h-24 flex items-center justify-center py-1">
               <input type="range" min="0" max="1" step="0.02" value="${isMuted ? 0 : masterVol}" 
                      oninput="handleHeaderVolumeInput(this.value)" 
-                     class="h-20 w-1.5 accent-purple-400 cursor-pointer [writing-mode:bt-lr] [-webkit-appearance:slider-vertical]" 
-                     style="-webkit-appearance: slider-vertical; writing-mode: bt-lr;">
+                     class="h-20 w-1.5 accent-purple-400 cursor-pointer" 
+                     style="writing-mode: vertical-lr; direction: rtl;">
             </div>
             <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="text-[8.5px] font-mono font-bold px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition cursor-pointer">
               ${isMuted ? 'Unmute' : 'Mute'}
@@ -625,31 +656,28 @@ function renderTimerCockpitContent() {
       </div>
     `}
 
-    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO · STILLE) -->
-    <div class="p-2.5 rounded-2xl bg-gradient-to-b from-teal-950/30 to-indigo-950/30 border border-teal-500/35 shadow-inner flex flex-col gap-2">
+    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO) - VISUELL DEUTLICH HERVORGEHOBEN -->
+    <div class="p-3 rounded-2xl bg-gradient-to-br from-teal-950/60 via-purple-950/40 to-black/80 border-2 border-teal-400/60 shadow-[0_0_20px_rgba(20,184,166,0.25)] ring-1 ring-white/10 flex flex-col gap-2.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-teal-200 font-display flex items-center gap-1.5">
-          <i data-lucide="volume-2" class="w-3.5 h-3.5 text-teal-400"></i>
+        <span class="text-xs font-black text-teal-200 font-display flex items-center gap-2 drop-shadow-sm">
+          <i data-lucide="headphones" class="w-4 h-4 text-teal-300"></i>
           <span>Hintergrund-Audio</span>
         </span>
-        <span class="text-[9px] font-mono text-teal-300 bg-teal-500/20 px-1.5 py-0.2 rounded border border-teal-500/30 font-bold uppercase tracking-wider">
-          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : (currentAudioMode === 'radio' ? '📻 Radio' : '🔇 Stille'))}
+        <span class="text-[10px] font-mono text-teal-100 bg-teal-500/35 px-2 py-0.5 rounded-full border border-teal-400/80 font-bold uppercase tracking-wider shadow-sm">
+          ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : '📻 Radio')}
         </span>
       </div>
 
-      <!-- 4 Haupt-Modi -->
-      <div class="grid grid-cols-4 gap-1">
-        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-gradient-to-r from-teal-600/50 to-emerald-600/50 border-teal-400 text-white shadow-[0_0_10px_rgba(20,184,166,0.35)] ring-1 ring-teal-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+      <!-- 3 Haupt-Modi mit hoher Sichtbarkeit (ohne Stille) -->
+      <div class="grid grid-cols-3 gap-2">
+        <button onclick="setTimerAudioMode('ambient');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-gradient-to-r from-teal-500 to-emerald-500 border-teal-300 text-black shadow-[0_0_15px_rgba(20,184,166,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
           🌿 Sounds
         </button>
-        <button onclick="setTimerAudioMode('music');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-gradient-to-r from-purple-600/50 to-indigo-600/50 border-purple-400 text-white shadow-[0_0_10px_rgba(168,85,247,0.35)] ring-1 ring-purple-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('music');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-gradient-to-r from-purple-500 to-indigo-500 border-purple-300 text-white shadow-[0_0_15px_rgba(168,85,247,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
           🎵 Musik
         </button>
-        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-gradient-to-r from-sky-600/50 to-cyan-600/50 border-cyan-400 text-white shadow-[0_0_10px_rgba(6,182,212,0.35)] ring-1 ring-cyan-400/50 font-bold' : 'bg-white/5 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('radio');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-gradient-to-r from-sky-500 to-cyan-500 border-cyan-300 text-black shadow-[0_0_15px_rgba(6,182,212,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
           📻 Radio
-        </button>
-        <button onclick="setTimerAudioMode('silent');" class="py-1.5 px-1 rounded-xl border text-[10px] font-semibold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'silent' ? 'bg-white/15 border-white/30 text-white font-bold shadow-sm' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          🔇 Stille
         </button>
       </div>
 
@@ -687,49 +715,55 @@ function renderTimerCockpitContent() {
       ` : ''}
 
       ${currentAudioMode === 'radio' ? `
-        <div class="pt-1 border-t border-cyan-500/20 flex flex-col gap-1 animate-fade-in">
-          <div class="flex items-center justify-between text-[8.5px] font-mono text-cyan-300/80 px-0.5">
-            <span>Sender wählen:</span>
-            <span class="text-cyan-200 font-bold">${radioStationsList.find(r => r.id === currentRadio)?.label || currentRadio}</span>
+        <div class="pt-2 border-t border-cyan-500/25 flex items-center justify-between gap-2.5 animate-fade-in text-xs bg-cyan-950/25 p-2.5 rounded-xl border border-cyan-500/30">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="w-2.5 h-2.5 rounded-full ${isRadioLive ? 'bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.9)] animate-pulse' : 'bg-gray-500'} shrink-0"></span>
+            <div class="min-w-0">
+              <div class="text-[9px] font-mono text-cyan-300/80 uppercase font-bold tracking-wider flex items-center gap-1">
+                <i data-lucide="radio" class="w-3 h-3 text-cyan-400"></i>
+                <span>Noodle Radio gekoppelt</span>
+              </div>
+              <div class="text-[11.5px] font-bold text-white truncate" title="${activeRadioStationName}">${activeRadioStationName}</div>
+            </div>
           </div>
-          <div class="grid grid-cols-3 gap-1">
-            ${radioStationsList.map(r => `
-              <button onclick="setTimerAudioMode('radio', '${r.id}');" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentRadio === r.id ? 'bg-cyan-500/30 border-cyan-400 text-white font-bold shadow-xs ring-1 ring-cyan-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${r.label}">
-                ${r.label}
-              </button>
-            `).join('')}
-          </div>
+          <button type="button" onclick="openRadioPanelFromTimer();" class="py-1.5 px-3 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-400/50 text-cyan-200 hover:text-white text-[10.5px] font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0 active:scale-95 shadow-sm" title="Sender im Noodle Radio auswählen">
+            <i data-lucide="sliders" class="w-3.5 h-3.5 text-cyan-300"></i>
+            <span>Sender wählen ↗</span>
+          </button>
         </div>
       ` : ''}
     </div>
 
-    <!-- 4. SPRACHBEGLEITUNG (ZEITANSAGEN & MOTIVATION) -->
-    <div class="p-2 rounded-2xl bg-indigo-950/25 border border-indigo-500/30 shadow-inner flex flex-col gap-1.5">
+    <!-- 4. SPRACHBEGLEITUNG (ZEITANZEIGE & MOTIVATIONSSPRÜCHE) - KONTRASTREICH & FARBENFROH -->
+    <div class="p-3 rounded-2xl bg-gradient-to-br from-indigo-950/40 via-purple-950/30 to-black/85 border-2 border-indigo-400/40 shadow-[0_0_20px_rgba(99,102,241,0.2)] ring-1 ring-white/10 flex flex-col gap-2.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-indigo-300 font-display flex items-center gap-1.5">
-          <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-400"></i>
+        <span class="text-xs font-black text-indigo-200 font-display flex items-center gap-2 drop-shadow-sm">
+          <i data-lucide="mic" class="w-4 h-4 text-indigo-300"></i>
           <span>Sprachbegleitung & Sprüche</span>
         </span>
-        <span class="text-[9px] font-mono font-bold ${isVoiceActive ? 'text-emerald-300' : 'text-gray-500'}">
+        <span class="text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full border ${isVoiceActive ? 'text-emerald-300 bg-emerald-500/25 border-emerald-400/60 shadow-[0_0_8px_rgba(52,211,153,0.3)]' : 'text-gray-400 bg-black/40 border-white/10'}">
           ${isVoiceActive ? '● Aktiv' : '○ Aus'}
         </span>
       </div>
 
-      <div class="grid grid-cols-2 gap-1.5">
-        <button onclick="toggleTimerVoiceFeature('time');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isTimeAnnounce ? 'bg-gradient-to-r from-indigo-600/40 to-purple-600/40 border-indigo-400/70 text-white shadow-[0_0_10px_rgba(99,102,241,0.25)] ring-1 ring-indigo-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="flex items-center gap-1 truncate">
-            <span>⏱️</span>
-            <span class="truncate">Zeitansagen</span>
+      <!-- Zeitanzeige & Motivationssprüche Buttons -->
+      <div class="grid grid-cols-2 gap-2">
+        <!-- 1. ZEITANZEIGE / ZEITANSAGEN (Cyan / Sky) -->
+        <button onclick="toggleTimerVoiceFeature('time');" class="py-2.5 px-3 rounded-xl border-2 text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isTimeAnnounce ? 'bg-gradient-to-r from-cyan-500 to-sky-500 border-cyan-200 text-slate-950 font-black shadow-[0_0_18px_rgba(6,182,212,0.6)] ring-2 ring-white/40' : 'bg-black/60 border-cyan-500/30 text-cyan-200 hover:text-white hover:bg-cyan-950/40'}">
+          <span class="flex items-center gap-1.5 truncate">
+            <span class="text-base leading-none">⏱️</span>
+            <span class="truncate">Zeitanzeige</span>
           </span>
-          <span class="text-[9px] font-mono font-bold ${isTimeAnnounce ? 'text-indigo-200' : 'text-gray-500'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
+          <span class="text-[9.5px] font-mono font-black px-1.5 py-0.5 rounded-md ${isTimeAnnounce ? 'bg-black/30 text-slate-950' : 'bg-white/10 text-cyan-300'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
         </button>
 
-        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-1.5 px-2 rounded-xl border text-[10px] font-semibold flex items-center justify-between gap-1 transition cursor-pointer ${isMotivation ? 'bg-gradient-to-r from-purple-600/40 to-pink-600/40 border-pink-400/70 text-white shadow-[0_0_10px_rgba(236,72,153,0.25)] ring-1 ring-pink-400/40' : 'bg-white/5 border-white/10 text-gray-400 hover:text-white hover:bg-white/10'}">
-          <span class="flex items-center gap-1 truncate">
-            <span>💡</span>
-            <span class="truncate">Motivation</span>
+        <!-- 2. MOTIVATIONSSPRÜCHE (Amber / Warm Gold) -->
+        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-2.5 px-3 rounded-xl border-2 text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isMotivation ? 'bg-gradient-to-r from-amber-400 to-orange-500 border-amber-200 text-slate-950 font-black shadow-[0_0_18px_rgba(245,158,11,0.6)] ring-2 ring-white/40' : 'bg-black/60 border-amber-500/30 text-amber-200 hover:text-white hover:bg-amber-950/40'}">
+          <span class="flex items-center gap-1.5 truncate">
+            <span class="text-base leading-none">💡</span>
+            <span class="truncate">Motivationssprüche</span>
           </span>
-          <span class="text-[9px] font-mono font-bold ${isMotivation ? 'text-pink-200' : 'text-gray-500'}">${isMotivation ? 'AN' : 'AUS'}</span>
+          <span class="text-[9.5px] font-mono font-black px-1.5 py-0.5 rounded-md ${isMotivation ? 'bg-black/30 text-slate-950' : 'bg-white/10 text-amber-300'}">${isMotivation ? 'AN' : 'AUS'}</span>
         </button>
       </div>
 

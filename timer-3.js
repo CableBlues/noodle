@@ -207,8 +207,8 @@ function setTimerAudioMode(mode, specificChoice = null) {
   }
 
   let newMode = mode;
-  if (newMode === 'silent') {
-    newMode = 'ambient';
+  if (!specificChoice && currentMode === mode && mode !== 'silent') {
+    newMode = 'silent';
   }
 
   timerAudioMode = newMode;

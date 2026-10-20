@@ -392,7 +392,8 @@ function transferCleaningStepsToBoard(targetCategory = 'weekly') {
 
   data.steps.forEach((step, idx) => {
     if (!activeCleaningCompletedSteps[step.id]) {
-      const taskText = step.title.split('(')[0].trim();
+      const baseTitle = step.title.split('(')[0].trim();
+      const taskText = baseTitle.startsWith('🧹') ? baseTitle : `🧹 ${baseTitle}`;
       const exists = curState.items[cat].some(item => (typeof item === 'object' ? item.task === taskText : item === taskText));
       if (!exists) {
         curState.items[cat].push({

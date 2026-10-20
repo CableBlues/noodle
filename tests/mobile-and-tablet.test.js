@@ -15,9 +15,8 @@ describe('Responsive Tablet & Mobile Architecture', () => {
     expect(indexHtml).toContain('openBrainstormModal()');
     expect(indexHtml).toContain('openClarityModal()');
     expect(indexHtml).toContain('openSafeSpaceModal()');
-    expect(indexHtml).toContain('openPantryModal()');
-    expect(indexHtml).toContain('openShoppingModal()');
-    expect(indexHtml).toContain('openRecipeModal()');
+    expect(indexHtml).toContain("togglePanel('shopping')");
+    expect(indexHtml).toContain("togglePanel('cooking')");
     expect(indexHtml).toContain('openSportModal()');
     expect(indexHtml).toContain('openAlarmModal()');
     expect(indexHtml).toContain('openReportDashboard()');

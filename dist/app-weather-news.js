@@ -1,4 +1,11 @@
-// app-weather-news.js: Lokales Wetter (Open-Meteo API) & Kuratiertes Nachrichten-Briefing
+/**
+ * @file app-weather-news.js
+ * @module WeatherWidgetEngine
+ * @description
+ * Lokales Wetter-Modul auf Basis der datenschutzfreundlichen Open-Meteo API.
+ * Unterstützt Standortsuche, Favoriten-Städte (`flow_weather_pinned_cities`),
+ * 7-Tage-Vorhersage sowie automatische Offline-Fallback-Werte.
+ */
 
 // ============================================================================
 // 1. LOKALES WETTER (WEATHER ENGINE)
@@ -482,11 +489,11 @@ function togglePinCurrentCity() {
   if (existingIdx >= 0) {
     if (pinnedWeatherCities.length > 1) {
       pinnedWeatherCities.splice(existingIdx, 1);
-      if (typeof showToast === 'function') showToast(tr({ de: `📍 ${currentWeatherLocation.name} entfernt`, en: `📍 ${currentWeatherLocation.name} removed` }));
+      if (typeof showToast === 'function') showToast(tr({ de: `${currentWeatherLocation.name} entfernt`, en: `${currentWeatherLocation.name} removed` }));
     }
   } else {
     pinnedWeatherCities.push({ ...currentWeatherLocation, defaultTemp: 20, defaultCode: 1 });
-    if (typeof showToast === 'function') showToast(tr({ de: `⭐ ${currentWeatherLocation.name} als Favorit gespeichert!`, en: `⭐ ${currentWeatherLocation.name} saved as favorite!` }));
+    if (typeof showToast === 'function') showToast(tr({ de: `${currentWeatherLocation.name} als Favorit gespeichert`, en: `${currentWeatherLocation.name} saved as favorite` }));
   }
   localStorage.setItem('flow_weather_pinned_cities', JSON.stringify(pinnedWeatherCities));
   renderPinnedCitiesUI();
@@ -500,7 +507,7 @@ function removePinnedCity(index) {
     localStorage.setItem('flow_weather_pinned_cities', JSON.stringify(pinnedWeatherCities));
     renderPinnedCitiesUI();
     if (typeof showToast === 'function' && removed) {
-      showToast(tr({ de: `📍 ${removed.name} entfernt`, en: `📍 ${removed.name} removed` }));
+      showToast(tr({ de: `${removed.name} entfernt`, en: `${removed.name} removed` }));
     }
   }
 }

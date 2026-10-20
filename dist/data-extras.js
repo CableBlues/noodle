@@ -1,3 +1,11 @@
+/**
+ * @file data-extras.js
+ * @module DataBreakAndMotivationTips
+ * @description
+ * Kuratierte mehrsprachige Pausen-Impulse (`BREAK_TIPS`) und Motivations-Sätze
+ * für das Pausen-Modal und die Sprachausgabe.
+ */
+
 const BREAK_TIPS = {
   de: [
     "Mache 5 Kniebeugen oder strecke deinen Körper einmal kräftig durch!",

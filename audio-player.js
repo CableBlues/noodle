@@ -637,7 +637,8 @@ var musicCanControlVolume = (() => {
 })();
 
 function getMusicTargetVolume() {
-  return isPlayerMuted ? 0 : (soundMasterVolume * 0.75);
+  const muted = (typeof isPlayerMuted !== 'undefined') ? Boolean(isPlayerMuted) : false;
+  return muted ? 0 : (soundMasterVolume * 0.75);
 }
 
 function setMusicCrossfadeSeconds(val) {

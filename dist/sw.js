@@ -1,3 +1,13 @@
+/**
+ * @file sw.js
+ * @module ServiceWorker
+ * @description
+ * Offline-First Service Worker für Noodle Studio.
+ * Cached sämtliche App-Shell-Ressourcen (HTML, CSS, JS-Module, lokale Schriftarten und Icons)
+ * während der `install`-Phase und beantwortet Navigations- sowie Asset-Anfragen
+ * verlässlich auch ohne bestehende Internetverbindung.
+ */
+
 const CACHE_NAME = 'noodle-cache-v270';
 const ASSETS_TO_CACHE = [
   './',
