@@ -97,10 +97,15 @@ import './app-core.js';
   if (typeof saveState === 'function') w.saveState = saveState;
   if (typeof loadState === 'function') w.loadState = loadState;
   if (typeof renderApp === 'function') w.renderApp = renderApp;
+  if (typeof handleReset === 'function') w.handleReset = handleReset;
+  if (typeof handleClearAllLists === 'function') w.handleClearAllLists = handleClearAllLists;
   if (typeof AppStorage !== 'undefined') w.AppStorage = AppStorage;
   if (typeof FlowAuth !== 'undefined') w.FlowAuth = FlowAuth;
   if (typeof cloudSyncEngine !== 'undefined') w.cloudSyncEngine = cloudSyncEngine;
   if (typeof CollabEngine !== 'undefined') w.CollabEngine = CollabEngine;
+  if (typeof handleLogout === 'function') w.handleLogout = handleLogout;
+  if (typeof syncHeaderToolsMenuState === 'function') w.syncHeaderToolsMenuState = syncHeaderToolsMenuState;
+  if (typeof updateZenView === 'function') w.updateZenView = updateZenView;
 
   // I18N & Themes
   if (typeof currentTheme !== 'undefined') w.currentTheme = currentTheme;

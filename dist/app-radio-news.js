@@ -2641,12 +2641,13 @@
         isLiveFetching = true;
         updateNewsFetchIndicator(true);
 
-        let targetOutlets = outlets.slice(0, 3);
+        let targetOutlets = [];
         if (currentMedia && currentMedia !== 'all') {
           const selectedOutlet = outlets.find(o => o.id === currentMedia);
-          if (selectedOutlet && !targetOutlets.some(o => o.id === selectedOutlet.id)) {
-            targetOutlets = [selectedOutlet, ...targetOutlets.slice(0, 2)];
-          }
+          if (selectedOutlet) targetOutlets = [selectedOutlet];
+        }
+        if (targetOutlets.length === 0 && outlets.length > 0) {
+          targetOutlets = [outlets[0]];
         }
 
         const fetchPromises = targetOutlets.map(async (targetOutlet) => {

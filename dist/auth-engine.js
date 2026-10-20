@@ -427,6 +427,11 @@ const FlowAuth = (function() {
         userEmailDisplay.innerText = email;
       }
     }
+
+    const optionsLogoutContainer = document.getElementById('options-logout-container');
+    if (optionsLogoutContainer) {
+      optionsLogoutContainer.classList.toggle('hidden', !loggedIn);
+    }
   }
 
   return {

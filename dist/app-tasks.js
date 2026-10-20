@@ -86,7 +86,8 @@ function closeTaskOptionsMenu(force = false) {
     } catch (e) {}
   }
   if (el) el.classList.add('hidden');
-  syncHeaderToolsMenuState();
+  if (typeof syncHeaderToolsMenuState === 'function') syncHeaderToolsMenuState();
+  else if (typeof window !== 'undefined' && typeof window.syncHeaderToolsMenuState === 'function') window.syncHeaderToolsMenuState();
   openTaskMenuMeta = null;
 }
 
@@ -2840,7 +2841,8 @@ function showPanelHover(panelName, delay = 180) {
       window.NoodleInteractionMode.decoratePanel(el, panelName);
     }
 
-    syncHeaderToolsMenuState();
+    if (typeof syncHeaderToolsMenuState === 'function') syncHeaderToolsMenuState();
+    else if (typeof window !== 'undefined' && typeof window.syncHeaderToolsMenuState === 'function') window.syncHeaderToolsMenuState();
     if (typeof adjustPanelPosition === 'function') {
       adjustPanelPosition(el, panelName);
     } else if (typeof window !== 'undefined' && typeof window.adjustPanelPosition === 'function') {
