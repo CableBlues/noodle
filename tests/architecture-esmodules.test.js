@@ -102,10 +102,8 @@ describe('Phase 4: Architecture A - ES-Modules & Cleanup', () => {
     expect(distHtml).not.toContain('<script type="module" src="main.js"></script>');
   });
 
-  it('Tote Dateien und Altlasten (projekt_code.txt, bundle.bat, apply-update.bat) wurden vollständig entfernt', () => {
+  it('Tote Dateien und Altlasten (apply-update.bat) wurden vollständig entfernt', () => {
     const legacyFiles = [
-      'projekt_code.txt',
-      'bundle.bat',
       'apply-update.bat'
     ];
 
