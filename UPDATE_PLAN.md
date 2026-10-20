@@ -5,10 +5,42 @@
 - [x] **Phase 1: Collab-Sicherheit** – Schema-Validierung, Größen-/Rate-Limits, kryptografische Raumcodes (≥10 Zeichen), merge-basierter Board-Sync mit Undo-Punkt, private Channels, `supabase-policies.sql` mit RLS für `flow_sync`, Behebung unsicherer Interpolationen
 - [x] **Phase 2: Service Worker** – Automatische Generierung von `ASSETS_TO_CACHE` und `CACHE_VERSION` im Build, Vollständigkeitstest & Offline-Erststart, Update-Hinweis-Banner
 - [x] **Phase 3: Build & Performance** – Vorkompiliertes Tailwind CSS statt Runtime, Bundling + Minifizierung via esbuild, Sprachdaten-Lazy-Loading, Delta-Sync mit Fallback
-- [ ] **Phase 4: Architektur A** – Modulare Migration auf ES-Module (main.js), temporäre Window-Kompatibilitätsschicht, Bereinigung toter Dateien
+- [x] **Phase 4: Architektur A** – Modulare Migration auf ES-Module (main.js), temporäre Window-Kompatibilitätsschicht, Bereinigung toter Dateien
 - [ ] **Phase 5: Architektur B** – Event-Delegation (`data-action`) statt Inline-`onclick`, Strikte CSP, Aufteilung monolithischer Dateien >2000 Zeilen
 - [ ] **Phase 6: Datenschutz** – E2E-Verschlüsselung (WebCrypto AES-GCM / PBKDF2), Opt-in, Migration, Developer-Modus für Config-Overrides
 - [ ] **Phase 7: Abschluss** – README & Dokumentation, Finalisierung UPDATE_PLAN.md
+
+---
+
+## Phase 4: Architektur A (ES-Module Pipeline & Bereinigung)
+
+### Umgesetzte Maßnahmen
+1. **Modulare ES-Modul Pipeline (`main.js`):**
+   - Strukturierte Orchestrierung aller 59 JavaScript-Module über ES-Modul-Imports (`import ... from './module.js'`).
+   - `index.html` lädt in der Entwicklungsansicht ausschließlich `<script type="module" src="main.js"></script>` anstelle von 59 einzelnen Script-Tags.
+2. **Temporäre Window-Kompatibilitätsschicht (`initWindowCompatibilityLayer`):**
+   - Nahtlose Bereitstellung aller Kernfunktionen, UI-Handler und Controller auf `window` (u. a. `state`, `saveState`, `renderApp`, `t`, `togglePanel`, `showToast`, `cloudSyncEngine`, `collabEngine`, `timerLiveManager`), um vollständige Abwärtskompatibilität für DOM-Handler und Add-Ons zu garantieren.
+3. **Optimierte Produktions-Build-Pipeline (`build.js` & `sw-generator.js`):**
+   - `build.js` tauscht in `dist/index.html` das Root-Modul `<script type="module" src="main.js"></script>` automatisch gegen das gebündelte und minifizierte `<script src="app.bundle.js"></script>` aus.
+   - `sw-generator.js` parst sowohl klassische Skript-Tags als auch `main.js`-Imports für den Offline-Cache der Entwicklungsansicht, belässt in `dist/` aber die schlanke Bundle-Referenz.
+4. **Bereinigung toter Dateien & Altlasten:**
+   - Entfernt: `projekt_code.txt` (3,86 MB ungenutzter Code-Dump!).
+   - Entfernt: veraltete Windows-Batch-Skripte `bundle.bat` und `apply-update.bat` (durch modernes Node-Build-System `npm run build` vollständig abgelöst).
+5. **Verhaltens-Tests (`tests/architecture-esmodules.test.js`):**
+   - 5 neue Tests zur Verifizierung des Modul-Imports, der Window-Kompatibilitätsschicht, der Konsistenz zwischen `main.js` und `MODULE_ORDER` in `build.js` und des Ausschlusses von Altlasten.
+   - Alle 37 Test-Suiten (253 Tests) 100% passed.
+
+### Geänderte Dateien
+- `main.js`
+- `index.html`
+- `build.js`
+- `sw-generator.js`
+- `sw.js`
+- `tests/architecture-esmodules.test.js` (neu)
+- `projekt_code.txt` (gelöscht)
+- `bundle.bat` (gelöscht)
+- `apply-update.bat` (gelöscht)
+- `UPDATE_PLAN.md`
 
 ---
 

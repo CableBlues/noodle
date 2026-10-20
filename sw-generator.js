@@ -48,6 +48,20 @@ export function extractAssetsFromHtml(htmlContent, options = {}) {
     }
   }
 
+  // Falls main.js referenziert ist oder existiert (und HTML nicht bereits das app.bundle.js lädt), darin importierte Module aufnehmen
+  const isBundle = /src=["'][^"']*app\.bundle\.js["']/.test(htmlContent);
+  const mainJsPath = path.join(baseDir, 'main.js');
+  if (!isBundle && fs.existsSync(mainJsPath)) {
+    try {
+      const mainContent = fs.readFileSync(mainJsPath, 'utf8');
+      const importRegex = /import\s+['"](\.\/[^'"]+)['"]/g;
+      let impMatch;
+      while ((impMatch = importRegex.exec(mainContent)) !== null) {
+        assets.add(impMatch[1]);
+      }
+    } catch (e) {}
+  }
+
   // Stylesheets extrahieren: <link rel="stylesheet" href="...">
   const linkRegex = /<link\s+[^>]*href=["']([^"']+)["'][^>]*>/gi;
   while ((match = linkRegex.exec(htmlContent)) !== null) {
