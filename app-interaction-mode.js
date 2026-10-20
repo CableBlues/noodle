@@ -38,7 +38,7 @@
   const minimizedWindows = new Set();
 
   const FLOATING_TOOL_NAMES = new Set([
-    'shopping', 'cooking', 'radio', 'news', 'audio', 'alarm',
+    'shopping', 'cooking', 'radio', 'news', 'audio',
     'daily', 'impulse', 'inspiration', 'collab-chat', 'social',
     'health', 'humor-lab', 'radio-news',
     'dj', 'music', 'ambient', 'sounds'
@@ -46,7 +46,7 @@
 
   const TRANSIENT_DROPDOWN_NAMES = new Set([
     'header-tools', 'weather', 'calendar-dropdown', 'pause-dropdown',
-    'report', 'settings-dropdown', 'timer-presets', 'feedback', 'labs-menu'
+    'report', 'settings-dropdown', 'timer-presets', 'feedback', 'labs-menu', 'alarm'
   ]);
 
   const EXCLUDED_MODAL_IDS = new Set([
@@ -196,11 +196,6 @@
         panel.classList.add('noodle-floating-tool-window');
         document.body.appendChild(panel);
       });
-    }
-    const alarmPanel = document.getElementById('panel-alarm');
-    if (alarmPanel && alarmPanel.parentElement !== document.body) {
-      alarmPanel.classList.add('noodle-floating-tool-window');
-      document.body.appendChild(alarmPanel);
     }
   }
 

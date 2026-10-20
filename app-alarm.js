@@ -105,11 +105,16 @@ function switchAlarmTab(tab) {
 window.switchAlarmTab = switchAlarmTab;
 
 function toggleAlarmDropdown(event) {
-  if (event) event.stopPropagation();
+  if (event) {
+    event.stopPropagation();
+    if (event.preventDefault) event.preventDefault();
+  }
   const calEl = document.getElementById('panel-calendar-dropdown');
   if (calEl) calEl.classList.add('hidden');
   const weatherEl = document.getElementById('panel-weather');
   if (weatherEl) weatherEl.classList.add('hidden');
+  const timerPresets = document.getElementById('panel-timer-presets');
+  if (timerPresets) timerPresets.classList.add('hidden');
 
   const panel = document.getElementById('panel-alarm');
   if (!panel) return;
@@ -135,10 +140,18 @@ if (typeof globalThis !== 'undefined') globalThis.toggleAlarmDropdown = toggleAl
 
 function openAlarmModal(tab = 'alarms') {
   currentAlarmTab = tab;
-  if (typeof togglePanel === 'function') {
+  const panel = document.getElementById('panel-alarm');
+  if (panel) {
+    panel.classList.remove('hidden');
+    renderAlarmPanel();
+    if (typeof adjustPanelPosition === 'function') adjustPanelPosition(panel, 'alarm');
+    if (typeof window !== 'undefined') {
+      window.currentlyOpenPanel = 'alarm';
+      window.pinnedPanel = 'alarm';
+    }
+  } else if (typeof togglePanel === 'function') {
     togglePanel('alarm');
   }
-  renderAlarmPanel();
 }
 window.openAlarmModal = openAlarmModal;
 

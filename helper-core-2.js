@@ -258,7 +258,13 @@ function resetDopamineBox() {
 }
 
 function openWhatNowModal() {
-  openHelperModal('pick');
+  const fn = (typeof window !== 'undefined' && window.openHelperModal) || (typeof openHelperModal === 'function' ? openHelperModal : null);
+  if (fn) {
+    fn('pick');
+  } else {
+    const modal = document.getElementById('helper-pick-modal');
+    if (modal) modal.classList.remove('hidden');
+  }
 }
 
 if (typeof window !== 'undefined') {

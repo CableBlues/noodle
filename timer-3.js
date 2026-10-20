@@ -822,6 +822,31 @@ function renderTimerCockpitContent() {
         <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-black/60 border border-white/10 hover:border-amber-400/40 rounded-xl text-[10.5px] text-gray-200 outline-none cursor-pointer truncate transition">
           <option value="" class="text-gray-500">-- Aufgabe aus Board verknüpfen --</option>
           ${(() => {
+            const curItems = (typeof getCurrentWorkspaceItems === 'function')
+              ? getCurrentWorkspaceItems()
+              : ((typeof state !== 'undefined' && state?.items) || (typeof window !== 'undefined' && window.state?.items) || {});
+            const colLabels = {
+              daily: 'Tagesaufgaben',
+              weekly: 'Wochenaufgaben',
+              todo: 'To-Do Liste',
+              occasionally: 'Gelegentlich',
+              termine: 'Termine'
+            };
+            const openTasks = [];
+            ['daily', 'weekly', 'todo', 'occasionally', 'termine'].forEach(colId => {
+              const list = Array.isArray(curItems[colId]) ? curItems[colId] : [];
+              list.forEach((t, idx) => {
+                const title = typeof t === 'object' && t ? (t.task || t.title || t.name || '') : String(t || '');
+                if (title && title.trim()) {
+                  openTasks.push({
+                    colId,
+                    colLabel: colLabels[colId] || colId,
+                    index: idx,
+                    title: title.trim()
+                  });
+                }
+              });
+            });
             const groups = {};
             openTasks.forEach(t => {
               const grp = t.colLabel || t.colId;
