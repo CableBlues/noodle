@@ -6,6 +6,7 @@
  * Energiebasierte Aufgaben-Empfehlung (Quick Win, Fokus, Deep Work),
  * A-vs.-B-Münzwurf-Entscheider sowie Sprachausgabe-Unterstützung.
  */
+var currentZenTaskInfo = (typeof window !== 'undefined' && window.currentZenTaskInfo) || null;
 let currentActiveTaskRef = null;
 let currentGeneratedSteps = [];
 let currentDopamineTask = null;
@@ -219,6 +220,9 @@ function startZenWithTask(taskText, cat = 'todo') {
     toggleMinimalist();
   }
   currentZenTaskInfo = { cat, task: taskText };
+  if (typeof window !== 'undefined') window.currentZenTaskInfo = currentZenTaskInfo;
+  if (typeof globalThis !== 'undefined') globalThis.currentZenTaskInfo = currentZenTaskInfo;
+
   const zenTaskText = document.getElementById('zen-task-text');
   const zenCatEl = document.getElementById('zen-task-cat');
   if (zenTaskText) zenTaskText.innerText = taskText;
@@ -244,6 +248,9 @@ function start2MinKickstart(taskText, cat = 'todo') {
     toggleMinimalist();
   }
   currentZenTaskInfo = { cat, task: taskText };
+  if (typeof window !== 'undefined') window.currentZenTaskInfo = currentZenTaskInfo;
+  if (typeof globalThis !== 'undefined') globalThis.currentZenTaskInfo = currentZenTaskInfo;
+
   const zenTaskText = document.getElementById('zen-task-text');
   const zenCatEl = document.getElementById('zen-task-cat');
   if (zenTaskText) zenTaskText.innerText = taskText;
