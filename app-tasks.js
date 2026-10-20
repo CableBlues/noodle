@@ -3879,6 +3879,10 @@ if (typeof document !== 'undefined') {
 }
 
 
+function stopTaskSpotlight() {}
+function triggerRandomTaskSpotlight() {}
+function initTaskSpotlightEngine() {}
+
 if (typeof window !== 'undefined') {
   window.renderApp = renderApp;
   window.getCurrentWorkspaceItems = getCurrentWorkspaceItems;
@@ -3918,10 +3922,6 @@ if (typeof window !== 'undefined') {
   window.closeColumnOptionsMenu = closeColumnOptionsMenu;
   window.cancelCloseColumnOptionsMenu = cancelCloseColumnOptionsMenu;
   window.scheduleCloseColumnOptionsMenu = scheduleCloseColumnOptionsMenu;
-function stopTaskSpotlight() {}
-function triggerRandomTaskSpotlight() {}
-function initTaskSpotlightEngine() {}
-
   window.clearColumnTasks = clearColumnTasks;
   window.clearCompletedInColumn = clearCompletedInColumn;
   window.archiveColumnTasks = archiveColumnTasks;

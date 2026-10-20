@@ -1955,8 +1955,8 @@ if (typeof window !== 'undefined') {
   window.setLanguage = setLanguage;
   window.toggleMinimalist = toggleMinimalist;
   window.closeAllPanelsAndModals = closeAllPanelsAndModals;
-  window.getTaskIconDetails = getTaskIconDetails;
-  window.getTaskIcon = getTaskIcon;
+  if (typeof getTaskIconDetails !== 'undefined') window.getTaskIconDetails = getTaskIconDetails;
+  if (typeof getTaskIcon !== 'undefined') window.getTaskIcon = getTaskIcon;
   if (typeof openCommandPalette !== 'undefined') window.openCommandPalette = openCommandPalette;
   if (typeof closeCommandPalette !== 'undefined') window.closeCommandPalette = closeCommandPalette;
   if (typeof switchMobileNavTab !== 'undefined') window.switchMobileNavTab = switchMobileNavTab;
@@ -1973,8 +1973,8 @@ if (typeof globalThis !== 'undefined') {
   globalThis.setLanguage = setLanguage;
   globalThis.toggleMinimalist = toggleMinimalist;
   globalThis.closeAllPanelsAndModals = closeAllPanelsAndModals;
-  globalThis.getTaskIconDetails = getTaskIconDetails;
-  globalThis.getTaskIcon = getTaskIcon;
+  if (typeof getTaskIconDetails !== 'undefined') globalThis.getTaskIconDetails = getTaskIconDetails;
+  if (typeof getTaskIcon !== 'undefined') globalThis.getTaskIcon = getTaskIcon;
   if (typeof openCommandPalette !== 'undefined') globalThis.openCommandPalette = openCommandPalette;
   if (typeof closeCommandPalette !== 'undefined') globalThis.closeCommandPalette = closeCommandPalette;
   if (typeof switchMobileNavTab !== 'undefined') globalThis.switchMobileNavTab = switchMobileNavTab;
