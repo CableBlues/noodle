@@ -94,6 +94,7 @@ if (typeof globalThis !== 'undefined') {
 // ============================================================================
 const cloudSyncEngine = {
   lastSyncTime: null,
+  lastSyncedSnapshot: null,
   isSyncing: false,
   syncStatus: 'idle', // 'idle' | 'syncing' | 'synced' | 'error' | 'offline'
   syncError: null,
@@ -609,6 +610,172 @@ const cloudSyncEngine = {
   },
 
 
+  // Berechnet das Delta zwischen aktuellem Zustand und einem Basisschnappschuss
+  computeDelta(currentState, baseSnapshot) {
+    if (!currentState) return null;
+    if (!baseSnapshot) {
+      return { _isDelta: false, fullState: this.serializeFullState(currentState) };
+    }
+
+    const changes = {};
+    let hasChanges = false;
+    const arrayKeys = [
+      'done', 'workDone', 'studyDone', 'notes', 'termine',
+      'shoppingList', 'shoppingHistory', 'pantry', 'recipes',
+      'cookingList', 'alarms', 'brainstormIdeas', 'clarityLog', 'archive'
+    ];
+
+    // 1. Kategorien-Maps
+    ['items', 'workItems', 'studyItems'].forEach(mapKey => {
+      const curMap = currentState[mapKey] || {};
+      const baseMap = baseSnapshot[mapKey] || {};
+      const changedCats = {};
+      const allCats = new Set([...Object.keys(curMap), ...Object.keys(baseMap)]);
+
+      allCats.forEach(cat => {
+        const curItems = JSON.stringify(curMap[cat] || []);
+        const baseItems = JSON.stringify(baseMap[cat] || []);
+        if (curItems !== baseItems) {
+          changedCats[cat] = curMap[cat] || [];
+          hasChanges = true;
+        }
+      });
+
+      if (Object.keys(changedCats).length > 0) {
+        changes[mapKey] = changedCats;
+      }
+    });
+
+    // 2. Flache Arrays
+    arrayKeys.forEach(key => {
+      const curArr = JSON.stringify(currentState[key] || []);
+      const baseArr = JSON.stringify(baseSnapshot[key] || []);
+      if (curArr !== baseArr) {
+        changes[key] = currentState[key] || [];
+        hasChanges = true;
+      }
+    });
+
+    // 3. Tombstones & Cleared-Timestamps
+    const curTomb = JSON.stringify(currentState._tombstones || {});
+    const baseTomb = JSON.stringify(baseSnapshot._tombstones || {});
+    if (curTomb !== baseTomb) {
+      changes._tombstones = currentState._tombstones || {};
+      hasChanges = true;
+    }
+
+    const curClear = JSON.stringify(currentState._clearedAt || {});
+    const baseClear = JSON.stringify(baseSnapshot._clearedAt || {});
+    if (curClear !== baseClear) {
+      changes._clearedAt = currentState._clearedAt || {};
+      hasChanges = true;
+    }
+
+    if (!hasChanges) return null;
+
+    return {
+      _isDelta: true,
+      baseUpdatedAt: baseSnapshot.updatedAt || null,
+      updatedAt: currentState.updatedAt || new Date().toISOString(),
+      changes
+    };
+  },
+
+  // Wendet ein Delta auf den lokalen Zustand an
+  applyDelta(localState, deltaObj) {
+    if (!localState || !deltaObj) {
+      throw new Error('Ungültiges Delta-Paket');
+    }
+    if (!deltaObj._isDelta || !deltaObj.changes) {
+      throw new Error('Delta-Format inkompatibel');
+    }
+
+    const changes = deltaObj.changes;
+
+    if (changes._tombstones) {
+      localState._tombstones = { ...(localState._tombstones || {}), ...changes._tombstones };
+    }
+    if (changes._clearedAt) {
+      localState._clearedAt = { ...(localState._clearedAt || {}), ...changes._clearedAt };
+    }
+
+    ['items', 'workItems', 'studyItems'].forEach(mapKey => {
+      if (changes[mapKey]) {
+        localState[mapKey] = localState[mapKey] || {};
+        Object.entries(changes[mapKey]).forEach(([cat, items]) => {
+          localState[mapKey][cat] = items;
+        });
+      }
+    });
+
+    const arrayKeys = [
+      'done', 'workDone', 'studyDone', 'notes', 'termine',
+      'shoppingList', 'shoppingHistory', 'pantry', 'recipes',
+      'cookingList', 'alarms', 'brainstormIdeas', 'clarityLog', 'archive'
+    ];
+    arrayKeys.forEach(key => {
+      if (changes[key] !== undefined) {
+        localState[key] = changes[key];
+      }
+    });
+
+    localState.updatedAt = deltaObj.updatedAt || new Date().toISOString();
+    return true;
+  },
+
+  // Führt einen Delta-Push aus mit automatischem Fallback auf Full-Sync
+  async pushDelta() {
+    try {
+      const currentState = (typeof window !== 'undefined' && window.state) ? window.state : (typeof state !== 'undefined' ? state : {});
+      if (!this.lastSyncedSnapshot) {
+        return await this.pushState(); // Full-Sync Fallback
+      }
+
+      const delta = this.computeDelta(currentState, this.lastSyncedSnapshot);
+      if (!delta) {
+        return { success: true, skipped: true, upToDate: true };
+      }
+
+      if (!delta._isDelta) {
+        return await this.pushState(); // Full-Sync Fallback
+      }
+
+      if (typeof FlowAuth !== 'undefined' && FlowAuth.getSupabaseClient) {
+        const supa = FlowAuth.getSupabaseClient();
+        const user = FlowAuth.getUser();
+        if (supa && user && user.id) {
+          const { error } = await supa.from('flow_sync').upsert({
+            user_id: user.id,
+            data: delta,
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'user_id' });
+
+          if (error) {
+            console.warn('[CloudSync] Delta-Push fehlgeschlagen, wechsle zu Full-Sync Fallback:', error.message);
+            return await this.pushState();
+          }
+
+          this.clearPendingSync();
+          this.retryCount = 0;
+          this.lastSyncTime = new Date();
+          this.lastSyncedSnapshot = JSON.parse(JSON.stringify(currentState));
+          this.updateSyncUI('synced');
+          return { success: true, isDelta: true, time: this.lastSyncTime };
+        }
+      }
+
+      return await this.pushState();
+    } catch (e) {
+      console.warn('[CloudSync] Delta-Push Ausnahme, wechsle zu Full-Sync Fallback:', e.message);
+      return await this.pushState();
+    }
+  },
+
+  // Führt einen Delta-Pull aus mit automatischem Fallback auf Full-Sync
+  async pullDelta() {
+    return await this.pullState();
+  },
+
   async pushState(isRetry = false) {
     if (typeof FlowAuth === 'undefined' || !FlowAuth.isLoggedIn()) return { skipped: true };
 
@@ -656,6 +823,7 @@ const cloudSyncEngine = {
             this.retryTimer = null;
           }
           this.lastSyncTime = new Date();
+          this.lastSyncedSnapshot = JSON.parse(JSON.stringify(currentState));
           this.syncError = null;
           this.updateSyncUI('synced');
           return { success: true, time: this.lastSyncTime };
@@ -727,11 +895,27 @@ const cloudSyncEngine = {
               }
             } catch (err) {}
 
-            // Intelligenter Merge
+            // Prüfen ob Delta-Paket empfangen wurde
+            if (remoteData._isDelta === true) {
+              try {
+                this.applyDelta(targetState, remoteData);
+                if (typeof saveState === 'function') saveState(true);
+                if (typeof renderApp === 'function') renderApp();
+                this.lastSyncedSnapshot = JSON.parse(JSON.stringify(targetState));
+                this.lastSyncTime = new Date();
+                this.updateSyncUI('synced');
+                return { success: true, isDelta: true, data: remoteData };
+              } catch (err) {
+                console.warn('[CloudSync] Delta-Anwendung fehlgeschlagen, wechsle auf Full-Sync Fallback:', err.message);
+              }
+            }
+
+            // Intelligenter Full-Merge (LWW 3-Wege)
             const hasChanges = this.mergeState(targetState, remoteData);
 
             if (typeof saveState === 'function') saveState(true);
             if (typeof renderApp === 'function') renderApp();
+            this.lastSyncedSnapshot = JSON.parse(JSON.stringify(targetState));
 
             // Falls lokaler Zustand neue Elemente hatte, Server aktualisieren
             if (hasChanges || this.isPendingSync()) {

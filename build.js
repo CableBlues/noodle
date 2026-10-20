@@ -10,6 +10,8 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
+import * as esbuild from 'esbuild';
 import { extractAssetsFromHtml, generateCacheVersion, updateServiceWorkerFile } from './sw-generator.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +23,15 @@ const distDir = path.join(rootDir, 'dist');
 console.log('====================================================');
 console.log('📦 NOODLE PRODUCTION BUNDLER');
 console.log('====================================================\n');
+
+// 0. Tailwind CSS vorkompilieren
+try {
+  console.log('⚡ Kompiliere Tailwind CSS vor...');
+  execSync('npx tailwindcss -i ./tailwind.input.css -o ./styles-tailwind.css --minify', { cwd: rootDir, stdio: 'pipe' });
+  console.log('✓ styles-tailwind.css erfolgreich vorkompiliert');
+} catch (err) {
+  console.warn('Tailwind Build Notice (nutze bestehendes styles-tailwind.css):', err.message);
+}
 
 // 1. Ensure dist directory exists
 if (!fs.existsSync(distDir)) {
@@ -51,8 +62,8 @@ if (fs.existsSync(musicDirPath)) {
   console.log(`✓ music/manifest.json generiert (${tracks.length} Tracks gefunden)`);
 }
 
-// 3. Copy static files & vendor/fonts/.well-known/music/api directory
-const staticDirs = ['vendor', 'fonts', '.well-known', 'music', 'api'];
+// 3. Copy static files & vendor/fonts/.well-known/music/api/locales directory
+const staticDirs = ['vendor', 'fonts', '.well-known', 'music', 'api', 'locales'];
 staticDirs.forEach(dir => {
   const src = path.join(rootDir, dir);
   const dest = path.join(distDir, dir);
@@ -61,6 +72,7 @@ staticDirs.forEach(dir => {
     console.log(`✓ Verzeichnis kopiert: ${dir}/`);
   }
 });
+
 
 const staticFiles = [
   'manifest.json',
@@ -189,8 +201,15 @@ try {
   }).join('\n\n');
 
   const bundlePath = path.join(distDir, 'app.bundle.js');
-  fs.writeFileSync(bundlePath, bundledCode, 'utf8');
-  console.log(`✓ app.bundle.js erfolgreich aus ${moduleList.length} Modulen erzeugt`);
+  console.log('⚡ Minifiziere JS-Bundle mit esbuild...');
+  const minified = await esbuild.transform(bundledCode, {
+    minify: true,
+    target: 'es2020',
+    legalComments: 'none'
+  });
+  fs.writeFileSync(bundlePath, minified.code, 'utf8');
+  const bundleSizeKb = (minified.code.length / 1024).toFixed(2);
+  console.log(`✓ app.bundle.js erfolgreich aus ${moduleList.length} Modulen erzeugt und minifiziert (${bundleSizeKb} KB)`);
 } catch (e) {
   console.warn('Bundling warning:', e.message);
 }

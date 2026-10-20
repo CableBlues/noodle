@@ -8,7 +8,7 @@
  * verlässlich auch ohne bestehende Internetverbindung.
  */
 
-const CACHE_NAME = 'noodle-cache-v3460585817';
+const CACHE_NAME = 'noodle-cache-v2886968536';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -39,11 +39,11 @@ const ASSETS_TO_CACHE = [
   './styles-dock.css',
   './styles-hover.css',
   './styles-mobile.css',
+  './styles-tailwind.css',
   './vendor/html2canvas.min.js',
   './vendor/lucide.min.js',
   './vendor/qrcode.min.js',
-  './vendor/supabase.min.js',
-  './vendor/tailwindcss.js'
+  './vendor/supabase.min.js'
 ];
 
 self.addEventListener('message', (event) => {

@@ -25,7 +25,6 @@
   <link rel="apple-touch-icon" href="icon-192.png" />
 
   <!-- Lokale Offline-Bibliotheken (100% autark, offline & DSGVO-konform ohne CDN-Abhängigkeit) -->
-  <script src="vendor/tailwindcss.js"></script>
   <script src="vendor/lucide.min.js"></script>
   <script src="vendor/supabase.min.js"></script>
   <script src="vendor/qrcode.min.js"></script>
@@ -65,19 +64,8 @@
     })();
   </script>
 
-  <!-- Tailwind CSS Laufzeit-Konfiguration (Schriftfamilien & Design-Tokens) -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            display: ['"Space Grotesk"', 'sans-serif'],
-          },
-        },
-      },
-    }
-  </script>
+  <!-- Vorkompiliertes Tailwind CSS (100% autark, ohne Runtime-Evaluierung) -->
+  <link rel="stylesheet" href="styles-tailwind.css?v=1">
 
   <!-- Externe Stylesheet-Verknüpfung mit Cache-Buster -->
   <link rel="stylesheet" href="styles-base-1.css?v=2">

@@ -1040,7 +1040,14 @@ function setThemeSlow(theme) {
 }
 
 function setLanguage(lang, skipRender = false) {
-  if (!lang || !TRANSLATIONS[lang] || !DEFAULT_TASKS_BY_LANG[lang]) { lang = 'en'; }
+  if (!lang) { lang = 'en'; }
+  if ((!TRANSLATIONS[lang] || Object.keys(TRANSLATIONS[lang]).length < 20) && typeof loadLanguage === 'function') {
+    loadLanguage(lang).then(() => {
+      translateUI();
+      if (!skipRender && typeof renderApp === 'function') renderApp();
+    }).catch(() => {});
+  }
+  if (!TRANSLATIONS[lang] || !DEFAULT_TASKS_BY_LANG[lang]) { lang = 'en'; }
   const oldLang = currentLang; currentLang = lang; localStorage.setItem('flowPlannerLanguage', lang);
   document.documentElement.lang = lang; translateUserTasks(oldLang, lang);
   translateUI(); const textEl = document.getElementById('minimal-mode-btn-text');
