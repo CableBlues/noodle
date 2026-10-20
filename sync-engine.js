@@ -1252,12 +1252,15 @@ function switchAuthMode(mode = 'login') {
 
   if (typeof lucide !== 'undefined') lucide.createIcons();
 }
-window.switchAuthMode = switchAuthMode;
-window.switchSyncModalTab = (tab) => {
+function switchSyncModalTab(tab) {
   if (tab === 'register') switchAuthMode('register');
   else switchAuthMode('login');
-};
-window.switchP2PTab = (tab) => window.switchSyncModalTab(tab);
+}
+window.switchSyncModalTab = switchSyncModalTab;
+function switchP2PTab(tab) {
+  return switchSyncModalTab(tab);
+}
+window.switchP2PTab = switchP2PTab;
 
 // E-Mail & Passwort Authentifizierung (Anmelden / Registrieren)
 async function handleEmailAuth(forcedMode = null) {
@@ -1559,8 +1562,8 @@ if (typeof window !== 'undefined') {
   window.cloudSyncEngine = cloudSyncEngine;
   window.openP2PSyncModal = openP2PSyncModal;
   window.closeP2PSyncModal = closeP2PSyncModal;
-  window.switchP2PTab = switchP2PTab;
   window.switchSyncModalTab = switchSyncModalTab;
+  window.switchP2PTab = (tab) => switchSyncModalTab(tab);
   window.handlePasswordReset = handlePasswordReset;
 
   window.addEventListener('DOMContentLoaded', () => {
@@ -1572,7 +1575,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.cloudSyncEngine = cloudSyncEngine;
   globalThis.openP2PSyncModal = openP2PSyncModal;
   globalThis.closeP2PSyncModal = closeP2PSyncModal;
-  globalThis.switchP2PTab = switchP2PTab;
   globalThis.switchSyncModalTab = switchSyncModalTab;
+  globalThis.switchP2PTab = (tab) => switchSyncModalTab(tab);
   globalThis.handlePasswordReset = handlePasswordReset;
 }

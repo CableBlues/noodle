@@ -1502,17 +1502,16 @@ if (typeof document !== 'undefined') {
 
 window.playCheerfulSuccessJingle = playCheerfulSuccessJingle;
 
-if (typeof window.triggerHapticFeedback !== 'function') {
-  window.triggerHapticFeedback = function(pattern = [15, 30, 15]) {
-    try {
-      if (typeof navigator !== 'undefined' && navigator.vibrate) {
-        navigator.vibrate(pattern);
-      }
-    } catch (e) {
-      // Haptik nicht unterstützt oder geblockt
+function triggerHapticFeedback(pattern = [15, 30, 15]) {
+  try {
+    if (typeof navigator !== 'undefined' && navigator.vibrate) {
+      navigator.vibrate(pattern);
     }
-  };
+  } catch (e) {
+    // Haptik nicht unterstützt oder geblockt
+  }
 }
+window.triggerHapticFeedback = triggerHapticFeedback;
 
 const MOOD_PRESET_NAMES = {
   deep_focus: { name: 'Deep Focus (Lofi Tape Chords)', sound: 'lofi' },

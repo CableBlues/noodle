@@ -6,6 +6,8 @@
  * Dual-Deck-DJ-Mixer (Deck A & Deck B) mit 3-Band-EQ, Pitch/BPM-Anpassung,
  * Hot-Cues, Beat-Looping, Crossfader und Mini-Audio-Player-Koordination.
  */
+var playlistTracks = (typeof window !== 'undefined' && window.playlistTracks) ? window.playlistTracks : [];
+var activeUserAudio = (typeof window !== 'undefined' && window.activeUserAudio) ? window.activeUserAudio : null;
 
 var djDecks = {
   a: {

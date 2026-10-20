@@ -1740,9 +1740,6 @@ async function handleReset() {
   if (confirmed) {
     if (typeof saveHistory === 'function') saveHistory();
     const ws = state && state.activeWorkspace ? state.activeWorkspace : 'private';
-    if (typeof trackAllListsClear === 'function') {
-      trackAllListsClear(ws, state.items, state.done);
-    }
     const customDefaults = getCustomDefaults();
     const defTasksMap = (typeof window !== 'undefined' && window.DEFAULT_TASKS_BY_LANG)
       ? window.DEFAULT_TASKS_BY_LANG
@@ -1764,17 +1761,24 @@ async function handleReset() {
 
     const nowISO = new Date().toISOString();
     state = {
-      version: 3, lastDate: nowISO.split('T')[0],
-      _tombstones: state._tombstones || {},
-      _clearedAt: state._clearedAt || {},
+      version: 3,
+      lastDate: nowISO.split('T')[0],
+      activeWorkspace: ws,
+      _tombstones: {},
+      _clearedAt: {},
       _backupRestoredAt: nowISO,
       updatedAt: nowISO,
       _migrationV3TasksPlaced: true,
       items: { daily: dailyTasks, weekly: weeklyTasks, occasionally: occasionallyTasks, todo: todoTasks, termine: [], notes: [] },
       done: [], archive: [], streak: 0, completedSteps: {}, customSteps: {},
-      shoppingList: [], shoppingHistory: [],
-      cooking: typeof createDefaultCookingState === 'function' ? createDefaultCookingState() : {},
-      clarity: { streakDays: 0, lastCheckinDate: null, history: [], savedReasons: [] }
+      workItems: typeof createDefaultWorkItems === 'function' ? createDefaultWorkItems(activeL) : {},
+      workDone: [],
+      studyItems: typeof createDefaultStudyItems === 'function' ? createDefaultStudyItems(activeL) : {},
+      studyDone: [],
+      shoppingList: (state && state.shoppingList) || [],
+      shoppingHistory: (state && state.shoppingHistory) || [],
+      cooking: typeof createDefaultCookingState === 'function' ? createDefaultCookingState() : ((state && state.cooking) || {}),
+      clarity: (state && state.clarity) || { streakDays: 0, lastCheckinDate: null, history: [], savedReasons: [] }
     };
     if (typeof window !== 'undefined') window.state = state;
     if (typeof globalThis !== 'undefined') globalThis.state = state;
@@ -1788,6 +1792,8 @@ async function handleReset() {
       ['done', 'check-circle-2'],
       ['occasionally', 'clock']
     ];
+    if (typeof window !== 'undefined') window.categoriesOrder = categoriesOrder;
+    if (typeof globalThis !== 'undefined') globalThis.categoriesOrder = categoriesOrder;
     saveCategoriesOrder();
     saveState();
     if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
