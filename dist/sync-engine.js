@@ -825,8 +825,14 @@ const cloudSyncEngine = {
           }, { onConflict: 'user_id' });
 
           if (error) {
-            if (user.isTokenOnly) {
-              console.warn('[CloudSync] Token-only push not permitted by database RLS, relying on local/P2P sync.');
+            if (user.isTokenOnly || (error.message && /row-level security|violates row-level|unauthorized|jwt|401|403/i.test(error.message)) || error.status === 401 || error.status === 403 || error.code === '42501') {
+              console.warn('[CloudSync] Cloud sync write not permitted by database RLS or expired session; relying on local/P2P sync.');
+              this.clearPendingSync();
+              this.retryCount = 0;
+              if (this.retryTimer) {
+                clearTimeout(this.retryTimer);
+                this.retryTimer = null;
+              }
               this.updateSyncUI('synced');
               return { skipped: true, tokenOnly: true };
             }
@@ -851,6 +857,17 @@ const cloudSyncEngine = {
       // Kein aktiver Supabase-User vorhanden
       throw new Error('Kein aktives Supabase-Konto. Bitte neu anmelden.');
     } catch (e) {
+      if (e && e.message && /row-level security|violates row-level|unauthorized|jwt/i.test(e.message)) {
+        console.warn('[CloudSync] Cloud sync paused (RLS or unauthenticated session):', e.message);
+        this.clearPendingSync();
+        this.retryCount = 0;
+        if (this.retryTimer) {
+          clearTimeout(this.retryTimer);
+          this.retryTimer = null;
+        }
+        this.updateSyncUI('synced');
+        return { success: false, rlsRestricted: true };
+      }
       console.warn('[CloudSync] Push notice:', e.message);
       this.markPendingSync();
       this.scheduleRetry();
@@ -982,6 +999,16 @@ const cloudSyncEngine = {
 
       // Kein voll authentifizierter Supabase-User vorhanden
     } catch (e) {
+      if (e && e.message && /row-level security|violates row-level|unauthorized|jwt/i.test(e.message)) {
+        this.clearPendingSync();
+        this.retryCount = 0;
+        if (this.retryTimer) {
+          clearTimeout(this.retryTimer);
+          this.retryTimer = null;
+        }
+        this.updateSyncUI('synced');
+        return { success: false, rlsRestricted: true };
+      }
       console.warn('[CloudSync] Pull notice:', e.message);
       this.scheduleRetry();
       this.updateSyncUI('error');
@@ -993,6 +1020,9 @@ const cloudSyncEngine = {
 
   scheduleRetry() {
     if (this.retryTimer) clearTimeout(this.retryTimer);
+    if (this.retryCount >= 3) {
+      return;
+    }
     // Exponential Backoff with jitter: 3s, 6s, 12s, max 30s + 0-500ms
     const baseDelay = Math.min(3000 * Math.pow(2, this.retryCount), 30000);
     const jitter = Math.floor(Math.random() * 500);

@@ -199,12 +199,12 @@
     gr: [
       { id: 'all', name: 'Όλα τα Μέσα (Mix)', icon: '✨' },
       { id: 'ert', name: 'ΕΡΤ News', match: ['ερτ', 'ert'], rss: 'https://www.ertnews.gr/feed/' },
-      { id: 'kathimerini', name: 'Καθημερινή', match: ['καθημερινή', 'kathimerini'], rss: 'https://www.kathimerini.gr/rss' },
-      { id: 'capital', name: 'Capital.gr', match: ['capital'], rss: 'https://www.capital.gr/rss' },
+      { id: 'ingr', name: 'in.gr', match: ['in.gr', 'in'], rss: 'https://www.in.gr/feed/' },
+      { id: 'newsit', name: 'NewsIt.gr', match: ['newsit'], rss: 'https://www.newsit.gr/feed/' },
       { id: 'techblog', name: 'Techblog GR', match: ['techblog'], rss: 'https://techblog.gr/feed/' },
       { id: 'tovima', name: 'Το Βήμα', match: ['βήμα', 'vima'], rss: 'https://www.tovima.gr/feed/' },
-      { id: 'protothema', name: 'Πρώτο Θέμα', match: ['θέμα', 'thema'], rss: 'https://www.protothema.gr/rss' },
-      { id: 'skai', name: 'ΣΚΑΪ News', match: ['σκαϊ', 'skai'], rss: 'https://www.skai.gr/rss' }
+      { id: 'protothema', name: 'Πρώτο Θέμα', match: ['θέμα', 'thema'], rss: 'https://www.protothema.gr/feed/' },
+      { id: 'skai', name: 'ΣΚΑΪ News', match: ['σκαϊ', 'skai'], rss: 'https://www.skai.gr/feed/' }
     ],
     global: [
       { id: 'all', name: 'All Global Media (Mix)', icon: '✨' },

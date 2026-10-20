@@ -89,7 +89,7 @@ const FlowAuth = (function() {
 
   function setSession(session) {
     currentSession = session;
-    currentUser = session ? session.user : (customSyncToken ? { id: customSyncToken, email: (typeof localStorage !== 'undefined' ? localStorage.getItem('flow_sync_email') : '') || 'Angemeldet' } : null);
+    currentUser = session ? session.user : (customSyncToken ? { id: customSyncToken, email: (typeof localStorage !== 'undefined' ? localStorage.getItem('flow_sync_email') : '') || 'Angemeldet', isTokenOnly: true } : null);
     
     if (session && session.user && typeof localStorage !== 'undefined') {
       localStorage.setItem('flow_sync_token', session.user.id);
