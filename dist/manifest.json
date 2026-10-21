@@ -1,7 +1,7 @@
 {
-  "name": "Noodle Studio – Your Home Suite",
-  "short_name": "Noodle Studio",
-  "description": "Your Home Suite: Die persönliche All-in-One Suite für Fokus, Ambient Soundscapes und Alltag. Home, Suite Home.",
+  "name": "Noodle Studio",
+  "short_name": "Noodle",
+  "description": "Dein fokussierter, ruhiger und barrierefreier Alltags- und Arbeits-Planer",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
