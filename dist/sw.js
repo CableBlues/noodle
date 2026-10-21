@@ -8,11 +8,13 @@
  * verlässlich auch ohne bestehende Internetverbindung.
  */
 
-const CACHE_NAME = 'noodle-cache-v2908670202';
+const CACHE_NAME = 'noodle-cache-v3522879971';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './app-radio-news.js',
   './app.bundle.js',
+  './data-custom-translations.js',
   './favicon.png',
   './favicon.svg',
   './fonts.css',

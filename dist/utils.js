@@ -57,10 +57,64 @@ if (typeof globalThis !== 'undefined') {
   globalThis.sanitizeIdentifier = sanitizeIdentifier;
 }
 
+let _radioNewsPromise = null;
+function ensureRadioNewsLoaded() {
+  if (typeof window !== 'undefined' && window.RadioNewsEngine && window.RadioNewsEngine.__loaded) {
+    return Promise.resolve(window.RadioNewsEngine);
+  }
+  if (_radioNewsPromise) return _radioNewsPromise;
+  _radioNewsPromise = new Promise((resolve) => {
+    try {
+      import('./app-radio-news.js').then(() => {
+        if (typeof window !== 'undefined' && window.RadioNewsEngine) window.RadioNewsEngine.__loaded = true;
+        resolve(typeof window !== 'undefined' ? window.RadioNewsEngine : null);
+      }).catch(() => {
+        if (typeof document !== 'undefined') {
+          const s = document.createElement('script');
+          s.src = 'app-radio-news.js';
+          s.onload = () => {
+            if (typeof window !== 'undefined' && window.RadioNewsEngine) window.RadioNewsEngine.__loaded = true;
+            resolve(typeof window !== 'undefined' ? window.RadioNewsEngine : null);
+          };
+          s.onerror = () => resolve(null);
+          document.head.appendChild(s);
+        } else {
+          resolve(null);
+        }
+      });
+    } catch (e) {
+      if (typeof document !== 'undefined') {
+        const s = document.createElement('script');
+        s.src = 'app-radio-news.js';
+        s.onload = () => {
+          if (typeof window !== 'undefined' && window.RadioNewsEngine) window.RadioNewsEngine.__loaded = true;
+          resolve(typeof window !== 'undefined' ? window.RadioNewsEngine : null);
+        };
+        s.onerror = () => resolve(null);
+        document.head.appendChild(s);
+      } else {
+        resolve(null);
+      }
+    }
+  });
+  return _radioNewsPromise;
+}
+window.ensureRadioNewsLoaded = ensureRadioNewsLoaded;
+if (typeof globalThis !== 'undefined') globalThis.ensureRadioNewsLoaded = ensureRadioNewsLoaded;
+
 // Zentraler Panel-Manager (für Dropdowns & Werkzeug-Panels)
 const PanelManager = {
   panels: ['feedback', 'report', 'settings', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'pause-dropdown', 'collab-chat', 'labs-menu', 'humor-lab', 'social', 'header-tools'],
   open(name) {
+    if (name === 'news' || name === 'radio') {
+      if (typeof ensureRadioNewsLoaded === 'function') {
+        ensureRadioNewsLoaded().then(() => {
+          if (typeof window !== 'undefined' && window.RadioNewsEngine && typeof window.RadioNewsEngine.initNewsPanel === 'function') {
+            window.RadioNewsEngine.initNewsPanel();
+          }
+        });
+      }
+    }
     this.panels.forEach(p => {
       const el = document.getElementById(`panel-${p}`);
       if (el) {
@@ -83,6 +137,15 @@ const PanelManager = {
     window.currentlyOpenPanel = null;
   },
   toggle(name) {
+    if (name === 'news' || name === 'radio') {
+      if (typeof ensureRadioNewsLoaded === 'function') {
+        ensureRadioNewsLoaded().then(() => {
+          if (typeof window !== 'undefined' && window.RadioNewsEngine && typeof window.RadioNewsEngine.initNewsPanel === 'function') {
+            window.RadioNewsEngine.initNewsPanel();
+          }
+        });
+      }
+    }
     const el = document.getElementById(`panel-${name}`);
     if (!el) return;
     if (el.classList.contains('hidden')) this.open(name);
@@ -1488,10 +1551,15 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
     return allOk;
   }
 
-  // Auflösung von $event und $this
+  // Auflösung von $event, $this und $value
   const resolvedArgs = (Array.isArray(args) ? args : [args]).map(arg => {
     if (arg === '$event') return event;
     if (arg === '$this') return targetElement;
+    if (arg === '$value') {
+      if (targetElement && typeof targetElement.value !== 'undefined') return targetElement.value;
+      if (event && event.target && typeof event.target.value !== 'undefined') return event.target.value;
+      return '';
+    }
     return arg;
   });
 
@@ -1502,6 +1570,15 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
       return true;
     }
     return false;
+  }
+
+  if (actionName.startsWith('RadioNewsEngine.') && (typeof window === 'undefined' || !window.RadioNewsEngine)) {
+    if (typeof ensureRadioNewsLoaded === 'function') {
+      ensureRadioNewsLoaded().then(() => {
+        dispatchAction(actionName, args, event, targetElement);
+      });
+      return true;
+    }
   }
 
   // 1. Namensaufgelöster Lookup (Objekt-Pfade wie RadioNewsEngine.toggleNewsTickerEnabled oder Window-Funktionen)
@@ -1602,14 +1679,44 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
 }
 
 
+// Helfer für Backdrop-Klicks (Schließen von Modals bei Klick außerhalb des Inhalts)
+function closeIfBackdrop(event, closeFnName) {
+  if (!event) return;
+  const target = event.target;
+  const current = event.currentTarget || (this instanceof Element ? this : null);
+  if (target && current && target === current) {
+    if (typeof closeFnName === 'function') {
+      closeFnName(event);
+    } else if (typeof closeFnName === 'string') {
+      dispatchAction(closeFnName, ['$event'], event, current);
+    }
+  }
+}
+window.closeIfBackdrop = closeIfBackdrop;
+if (typeof globalThis !== 'undefined') globalThis.closeIfBackdrop = closeIfBackdrop;
+
+// Helfer für Enter-Taste (z. B. Hinzufügen von Elementen)
+function submitOnEnter(event, actionName) {
+  if (!event || event.key !== 'Enter') return;
+  if (typeof actionName === 'function') {
+    actionName(event);
+  } else if (typeof actionName === 'string') {
+    dispatchAction(actionName, ['$event'], event, event.target);
+  }
+}
+window.submitOnEnter = submitOnEnter;
+if (typeof globalThis !== 'undefined') globalThis.submitOnEnter = submitOnEnter;
+
 /**
- * Führt alle data-action Aktionen von event.target aufwärts bis einschließlich boundaryEl (oder document) aus.
+ * Führt alle data-action (bzw. data-{eventType}) Aktionen von event.target aufwärts bis einschließlich boundaryEl (oder document) aus.
  * Bricht ab, sobald event.cancelBubble gesetzt wird (z. B. durch event.stopPropagation()).
  */
-function runDelegatedActions(event, boundaryEl = null) {
+function runDelegatedActions(event, boundaryEl = null, eventType = 'click') {
   if (!event || !event.target) return;
   let curr = event.target;
   const stopAt = boundaryEl ? boundaryEl.parentElement : null;
+  const attrName = (eventType === 'click') ? 'data-action' : `data-${eventType}`;
+  const argsAttrName = (eventType === 'click') ? 'data-action-args' : `data-${eventType}-args`;
 
   while (curr && curr !== stopAt && curr !== document && curr !== document.documentElement) {
     // Wenn stopPropagation bereits aufgerufen wurde (cancelBubble) -> abbrechen
@@ -1617,10 +1724,20 @@ function runDelegatedActions(event, boundaryEl = null) {
       break;
     }
 
-    if (curr.hasAttribute && curr.hasAttribute('data-action')) {
+    let hasAction = curr.hasAttribute && curr.hasAttribute(attrName);
+    let usedAttrName = attrName;
+    let usedArgsAttrName = argsAttrName;
+
+    if (!hasAction && eventType === 'click' && curr.hasAttribute && curr.hasAttribute('data-click')) {
+      hasAction = true;
+      usedAttrName = 'data-click';
+      usedArgsAttrName = 'data-click-args';
+    }
+
+    if (hasAction) {
       const actionEl = curr;
-      const actionsStr = actionEl.getAttribute('data-action') || '';
-      const argsStr = actionEl.getAttribute('data-action-args');
+      const actionsStr = actionEl.getAttribute(usedAttrName) || '';
+      const argsStr = actionEl.getAttribute(usedArgsAttrName);
       let parsedArgs = [];
       if (argsStr) {
         try {
@@ -1644,13 +1761,13 @@ function runDelegatedActions(event, boundaryEl = null) {
       });
 
       // Stoppe, wenn eine Aktion event.stopPropagation() aufgerufen hat oder das Element data-stop-propagation="true" trägt
-      if (actionEl.getAttribute('data-stop-propagation') === 'true') {
+      if (actionEl.getAttribute('data-stop-propagation') === 'true' && eventType === 'click') {
         event.stopPropagation();
       }
       if (event.cancelBubble) {
         break;
       }
-    } else if (curr.getAttribute && curr.getAttribute('data-stop-propagation') === 'true') {
+    } else if (curr.getAttribute && curr.getAttribute('data-stop-propagation') === 'true' && eventType === 'click') {
       event.stopPropagation();
       break;
     }
@@ -1671,7 +1788,7 @@ function initStopPropagationWrappers() {
     if (!el.__stopPropInitialized) {
       el.__stopPropInitialized = true;
       el.addEventListener('click', (e) => {
-        runDelegatedActions(e, el);
+        runDelegatedActions(e, el, 'click');
         e.stopPropagation();
       });
     }
@@ -1679,9 +1796,11 @@ function initStopPropagationWrappers() {
 }
 
 if (typeof document !== 'undefined') {
-  // Delegation-Listener in der Bubble-Phase am document für alle Klicks außerhalb von stop-propagation Wrappern
-  document.addEventListener('click', (event) => {
-    runDelegatedActions(event, null);
+  // Delegation-Listener in der Bubble-Phase am document für click, change, input, keydown, submit
+  ['click', 'change', 'input', 'keydown', 'submit'].forEach(evt => {
+    document.addEventListener(evt, (event) => {
+      runDelegatedActions(event, null, evt);
+    });
   });
 
   if (document.readyState === 'loading') {
@@ -1690,20 +1809,20 @@ if (typeof document !== 'undefined') {
     setTimeout(initStopPropagationWrappers, 0);
   }
 
-  // MutationObserver für dynamisch hinzugefügte Panels/Modals mit data-stop-propagation
+  // Gezielter MutationObserver auf Body-Kinderebene (Overlays/Modals) ohne tiefen Subtree-Overhead
   if (typeof MutationObserver !== 'undefined') {
-    const observeBody = () => {
+    const observeContainers = () => {
       if (document.body) {
         const stopPropObserver = new MutationObserver(() => {
           initStopPropagationWrappers();
         });
-        stopPropObserver.observe(document.body, { childList: true, subtree: true });
+        stopPropObserver.observe(document.body, { childList: true, subtree: false });
       }
     };
     if (document.body) {
-      observeBody();
+      observeContainers();
     } else {
-      document.addEventListener('DOMContentLoaded', observeBody);
+      document.addEventListener('DOMContentLoaded', observeContainers);
     }
   }
 }

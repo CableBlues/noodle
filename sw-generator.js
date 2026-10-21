@@ -33,7 +33,9 @@ export function extractAssetsFromHtml(htmlContent, options = {}) {
     './icon-512.png',
     './icon-512.svg',
     './logo-noodle.png',
-    './logo-banner.png'
+    './logo-banner.png',
+    './app-radio-news.js',
+    './data-custom-translations.js'
   ]);
 
   // Scripts extrahieren: <script src="...">
