@@ -112,4 +112,50 @@ describe('Phase 1: Collab-Sicherheit & Resilienz Suite', () => {
       expect(html).not.toContain("onerror=");
     });
   });
+
+  describe('5. Realtime Channel Fallback bei CHANNEL_ERROR oder TIMED_OUT', () => {
+    it('fällt automatisch auf private: false zurück und loggt Warnung, wenn subscribe fehlschlägt', async () => {
+      const channelConfigs = [];
+      let subscribeCallback = null;
+
+      const mockChannel = {
+        on: vi.fn().mockReturnThis(),
+        subscribe: vi.fn((cb) => {
+          subscribeCallback = cb;
+        }),
+        track: vi.fn().mockResolvedValue({})
+      };
+
+      const mockSupa = {
+        channel: vi.fn((name, opts) => {
+          channelConfigs.push(opts?.config);
+          return mockChannel;
+        }),
+        removeChannel: vi.fn()
+      };
+
+      globalThis.FlowAuth = {
+        isLoggedIn: () => true,
+        getUser: () => ({ id: 'usr_test_1', email: 'test@example.com' }),
+        getSupabaseClient: () => mockSupa
+      };
+
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      CollabEngine.init();
+
+      expect(channelConfigs.length).toBe(1);
+      expect(channelConfigs[0].private).toBe(true);
+
+      // Simuliere CHANNEL_ERROR
+      subscribeCallback('CHANNEL_ERROR');
+
+      expect(channelConfigs.length).toBe(2);
+      expect(channelConfigs[1].private).toBe(false);
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Private Realtime-Channel Fehler'));
+
+      warnSpy.mockRestore();
+    });
+  });
 });
+

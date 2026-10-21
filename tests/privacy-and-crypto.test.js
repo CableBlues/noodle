@@ -24,6 +24,7 @@ describe('Phase 6: Datenschutz, WebCrypto E2E & Developer-Modus', () => {
 
       expect(encrypted._isEncrypted).toBe(true);
       expect(encrypted.cryptoVersion).toBe(1);
+      expect(encrypted.iterations).toBe(600000);
       expect(encrypted.cipher).toBeDefined();
       expect(encrypted.salt).toBeDefined();
       expect(encrypted.iv).toBeDefined();
@@ -31,6 +32,43 @@ describe('Phase 6: Datenschutz, WebCrypto E2E & Developer-Modus', () => {
       // Entschlüsselung mit korrekter Passphrase
       const decrypted = await NoodleCrypto.decrypt(encrypted, passphrase);
       expect(decrypted).toEqual(sampleState);
+    });
+
+    it('alter Container (100000, ohne Feld) wird korrekt entschlüsselt; neuer Container enthält iterations=600000', async () => {
+      const payload = { test: 'legacy-data-migration' };
+      const passphrase = 'LegacyPassword2026';
+
+      // Neuer Container enthält iterations=600000
+      const newContainer = await NoodleCrypto.encrypt(payload, passphrase);
+      expect(newContainer.iterations).toBe(600000);
+      const decryptedNew = await NoodleCrypto.decrypt(newContainer, passphrase);
+      expect(decryptedNew).toEqual(payload);
+
+      // Alter Container (mit 100000 Iterationen verschlüsselt, ohne iterations-Feld)
+      const salt = NoodleCrypto.generateSalt(16);
+      const iv = NoodleCrypto.generateIv(12);
+      const oldKey = await NoodleCrypto.deriveKey(passphrase, salt, 100000);
+      const encoder = new TextEncoder();
+      const cipherBuffer = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv },
+        oldKey,
+        encoder.encode(JSON.stringify(payload))
+      );
+      const oldContainer = {
+        _isEncrypted: true,
+        cryptoVersion: 1,
+        // kein iterations-Feld!
+        cipher: NoodleCrypto.bufferToBase64(cipherBuffer),
+        salt: NoodleCrypto.bufferToBase64(salt),
+        iv: NoodleCrypto.bufferToBase64(iv),
+        timestamp: new Date().toISOString()
+      };
+
+      expect(oldContainer.iterations).toBeUndefined();
+
+      // Alter Container wird mit 100000 Fallback erfolgreich entschlüsselt
+      const decryptedOld = await NoodleCrypto.decrypt(oldContainer, passphrase);
+      expect(decryptedOld).toEqual(payload);
     });
 
     it('wirft einen Fehler bei falscher Passphrase (Integritätsschutz durch AES-GCM)', async () => {

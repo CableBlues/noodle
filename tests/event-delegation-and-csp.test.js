@@ -73,4 +73,122 @@ describe('Phase 5 Architecture B: Event Delegation, CSP & Monolith-Aufteilung', 
     expect(backupContent).toContain('downloadFullBackup');
     expect(backupContent).toContain('handleRestoreBackupFile');
   });
+
+  it('Pflicht-Absicherungstest: Jedes migrierte Element ruft via dispatchAction exakt dieselbe Funktion mit denselben Argumenten auf wie der ursprüngliche onclick-Ausdruck', () => {
+    const baselinePath = path.join(rootDir, 'scripts', 'onclick-baseline.json');
+    expect(fs.existsSync(baselinePath)).toBe(true);
+    const baseline = JSON.parse(fs.readFileSync(baselinePath, 'utf8'));
+    expect(baseline.length).toBeGreaterThan(0);
+
+    const dummyEvent = { type: 'click', stopPropagation: vi.fn(), preventDefault: vi.fn() };
+    const dummyElement = document.createElement('button');
+
+    baseline.forEach((item) => {
+      const { dataAction, dataActionArgs, calls, originalOnclick } = item;
+      const expectedCalls = [];
+      const actualDispatchCalls = [];
+
+      // 1. Spies für Original onclick aufsetzen
+      calls.forEach((c) => {
+        const spyFn = (...args) => {
+          expectedCalls.push({ actionName: c.actionName, args });
+        };
+
+        if (c.actionName.includes('.')) {
+          const parts = c.actionName.split('.');
+          let obj = window;
+          for (let j = 0; j < parts.length - 1; j++) {
+            if (!obj[parts[j]]) obj[parts[j]] = {};
+            obj = obj[parts[j]];
+          }
+          obj[parts[parts.length - 1]] = spyFn;
+        } else {
+          window[c.actionName] = spyFn;
+        }
+      });
+
+      // Original onclick ausführen
+      const fnOriginal = new Function('event', 'window', 'with(window){ ' + originalOnclick + ' }');
+      fnOriginal.call(dummyElement, dummyEvent, window);
+
+      // 2. Spies für dispatchAction aufsetzen
+      calls.forEach((c) => {
+        const spyFn = function(...args) {
+          actualDispatchCalls.push({ actionName: c.actionName, args, thisObj: this });
+        };
+
+        if (c.actionName.includes('.')) {
+          const parts = c.actionName.split('.');
+          let obj = window;
+          for (let j = 0; j < parts.length - 1; j++) {
+            if (!obj[parts[j]]) obj[parts[j]] = {};
+            obj = obj[parts[j]];
+          }
+          obj[parts[parts.length - 1]] = spyFn;
+        } else {
+          window[c.actionName] = spyFn;
+        }
+      });
+
+      // dispatchAction ausführen
+      const parsedArgs = dataActionArgs ? JSON.parse(dataActionArgs) : [];
+      window.dispatchAction(dataAction, parsedArgs, dummyEvent, dummyElement);
+
+      // 3. Vergleichen: Exakt gleiche Funktion, gleiche Argumente, gleiche Reihenfolge
+      expect(actualDispatchCalls.length).toBe(expectedCalls.length);
+      for (let k = 0; k < expectedCalls.length; k++) {
+        expect(actualDispatchCalls[k].actionName).toBe(expectedCalls[k].actionName);
+        expect(actualDispatchCalls[k].args).toEqual(expectedCalls[k].args);
+      }
+    });
+  });
+
+  it('Pflicht-Absicherungstest: Jede in data-action genannte Funktion existiert in einer der JS-Dateien', () => {
+    const htmlPath = path.join(rootDir, 'index.html');
+    const html = fs.readFileSync(htmlPath, 'utf8');
+
+    const dataActionRegex = /data-action\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
+    const actionNames = new Set();
+    let m;
+    while ((m = dataActionRegex.exec(html)) !== null) {
+      const val = m[1] !== undefined ? m[1] : m[2];
+      val.split(';').map(s => s.trim()).filter(Boolean).forEach(p => actionNames.add(p));
+    }
+
+    expect(actionNames.size).toBeGreaterThan(0);
+
+    const jsFiles = fs.readdirSync(rootDir).filter(f => f.endsWith('.js') && !f.includes('.config.') && f !== 'sw.js');
+    let combinedJs = '';
+    for (const f of jsFiles) {
+      combinedJs += '\n' + fs.readFileSync(path.join(rootDir, f), 'utf8');
+    }
+
+    const missingActions = [];
+    for (const action of actionNames) {
+      if (action === 'stopPropagation') continue; // In utils.js dispatchAction eingebaut
+      let found = false;
+      if (action.includes('.')) {
+        const [obj, method] = action.split('.');
+        if (combinedJs.includes(obj) && combinedJs.includes(method)) {
+          found = true;
+        }
+      } else {
+        const patterns = [
+          new RegExp(`function\\s+${action}\\b`),
+          new RegExp(`(?:window|globalThis)\\.${action}\\s*=`),
+          new RegExp(`(?:const|let|var)\\s+${action}\\s*=`),
+          new RegExp(`\\b${action}\\s*:`)
+        ];
+        if (patterns.some(p => p.test(combinedJs))) {
+          found = true;
+        }
+      }
+      if (!found) {
+        missingActions.push(action);
+      }
+    }
+
+    expect(missingActions).toEqual([]);
+  });
 });
+

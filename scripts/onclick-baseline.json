@@ -1,0 +1,5785 @@
+[
+  {
+    "index": 1,
+    "originalOnclick": "handleAddPantryItem()",
+    "dataAction": "handleAddPantryItem",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "handleAddPantryItem",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 3,
+    "originalOnclick": "RadioNewsEngine.toggleNewsTickerEnabled(event)",
+    "dataAction": "RadioNewsEngine.toggleNewsTickerEnabled",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.toggleNewsTickerEnabled",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 4,
+    "originalOnclick": "RadioNewsEngine.toggleAllNewsReader()",
+    "dataAction": "RadioNewsEngine.toggleAllNewsReader",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.toggleAllNewsReader",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 5,
+    "originalOnclick": "RadioNewsEngine.fetchNewsForRegion()",
+    "dataAction": "RadioNewsEngine.fetchNewsForRegion",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.fetchNewsForRegion",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 6,
+    "originalOnclick": "RadioNewsEngine.prevNewsItem()",
+    "dataAction": "RadioNewsEngine.prevNewsItem",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.prevNewsItem",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 7,
+    "originalOnclick": "RadioNewsEngine.toggleNewsReaderPause()",
+    "dataAction": "RadioNewsEngine.toggleNewsReaderPause",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.toggleNewsReaderPause",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 8,
+    "originalOnclick": "RadioNewsEngine.nextNewsItem()",
+    "dataAction": "RadioNewsEngine.nextNewsItem",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.nextNewsItem",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 9,
+    "originalOnclick": "RadioNewsEngine.stopNewsReader()",
+    "dataAction": "RadioNewsEngine.stopNewsReader",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.stopNewsReader",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 10,
+    "originalOnclick": "RadioNewsEngine.setSpeechRate(1)",
+    "dataAction": "RadioNewsEngine.setSpeechRate",
+    "dataActionArgs": "[1]",
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.setSpeechRate",
+        "args": [
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "index": 11,
+    "originalOnclick": "RadioNewsEngine.setSpeechRate(1.2)",
+    "dataAction": "RadioNewsEngine.setSpeechRate",
+    "dataActionArgs": "[1.2]",
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.setSpeechRate",
+        "args": [
+          1.2
+        ]
+      }
+    ]
+  },
+  {
+    "index": 12,
+    "originalOnclick": "RadioNewsEngine.setSpeechRate(1.5)",
+    "dataAction": "RadioNewsEngine.setSpeechRate",
+    "dataActionArgs": "[1.5]",
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.setSpeechRate",
+        "args": [
+          1.5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 13,
+    "originalOnclick": "stopAllStudioAudio()",
+    "dataAction": "stopAllStudioAudio",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "stopAllStudioAudio",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 14,
+    "originalOnclick": "switchAudioTab('ambient')",
+    "dataAction": "switchAudioTab",
+    "dataActionArgs": "[\"ambient\"]",
+    "calls": [
+      {
+        "actionName": "switchAudioTab",
+        "args": [
+          "ambient"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 15,
+    "originalOnclick": "switchAudioTab('music')",
+    "dataAction": "switchAudioTab",
+    "dataActionArgs": "[\"music\"]",
+    "calls": [
+      {
+        "actionName": "switchAudioTab",
+        "args": [
+          "music"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 16,
+    "originalOnclick": "switchAudioTab('dj')",
+    "dataAction": "switchAudioTab",
+    "dataActionArgs": "[\"dj\"]",
+    "calls": [
+      {
+        "actionName": "switchAudioTab",
+        "args": [
+          "dj"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 17,
+    "originalOnclick": "changeBeatBpm(-5)",
+    "dataAction": "changeBeatBpm",
+    "dataActionArgs": "[-5]",
+    "calls": [
+      {
+        "actionName": "changeBeatBpm",
+        "args": [
+          -5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 18,
+    "originalOnclick": "changeBeatBpm(5)",
+    "dataAction": "changeBeatBpm",
+    "dataActionArgs": "[5]",
+    "calls": [
+      {
+        "actionName": "changeBeatBpm",
+        "args": [
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 19,
+    "originalOnclick": "switchMusicSourceTab('dj')",
+    "dataAction": "switchMusicSourceTab",
+    "dataActionArgs": "[\"dj\"]",
+    "calls": [
+      {
+        "actionName": "switchMusicSourceTab",
+        "args": [
+          "dj"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 20,
+    "originalOnclick": "switchMusicSourceTab('spotify')",
+    "dataAction": "switchMusicSourceTab",
+    "dataActionArgs": "[\"spotify\"]",
+    "calls": [
+      {
+        "actionName": "switchMusicSourceTab",
+        "args": [
+          "spotify"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 21,
+    "originalOnclick": "switchMusicSourceTab('youtube')",
+    "dataAction": "switchMusicSourceTab",
+    "dataActionArgs": "[\"youtube\"]",
+    "calls": [
+      {
+        "actionName": "switchMusicSourceTab",
+        "args": [
+          "youtube"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 22,
+    "originalOnclick": "toggleMediaPip()",
+    "dataAction": "toggleMediaPip",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleMediaPip",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 23,
+    "originalOnclick": "toggleMediaFullscreen()",
+    "dataAction": "toggleMediaFullscreen",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleMediaFullscreen",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 24,
+    "originalOnclick": "loadOnlineMediaUrl()",
+    "dataAction": "loadOnlineMediaUrl",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "loadOnlineMediaUrl",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 25,
+    "originalOnclick": "toggleMusicRepeat()",
+    "dataAction": "toggleMusicRepeat",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleMusicRepeat",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 26,
+    "originalOnclick": "playPrevMusicTrack()",
+    "dataAction": "playPrevMusicTrack",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "playPrevMusicTrack",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 27,
+    "originalOnclick": "loadSpotifyEmbed()",
+    "dataAction": "loadSpotifyEmbed",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "loadSpotifyEmbed",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 28,
+    "originalOnclick": "loadYoutubeEmbed()",
+    "dataAction": "loadYoutubeEmbed",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "loadYoutubeEmbed",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 29,
+    "originalOnclick": "djShuffleTracks()",
+    "dataAction": "djShuffleTracks",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "djShuffleTracks",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 30,
+    "originalOnclick": "triggerDjAutomixNow()",
+    "dataAction": "triggerDjAutomixNow",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "triggerDjAutomixNow",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 31,
+    "originalOnclick": "toggleDjAutomix()",
+    "dataAction": "toggleDjAutomix",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleDjAutomix",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 32,
+    "originalOnclick": "handleDjWaveformClick('a', event)",
+    "dataAction": "handleDjWaveformClick",
+    "dataActionArgs": "[\"a\",\"$event\"]",
+    "calls": [
+      {
+        "actionName": "handleDjWaveformClick",
+        "args": [
+          "a",
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 33,
+    "originalOnclick": "cueDjDeck('a')",
+    "dataAction": "cueDjDeck",
+    "dataActionArgs": "[\"a\"]",
+    "calls": [
+      {
+        "actionName": "cueDjDeck",
+        "args": [
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 34,
+    "originalOnclick": "toggleDjDeckPlayback('a')",
+    "dataAction": "toggleDjDeckPlayback",
+    "dataActionArgs": "[\"a\"]",
+    "calls": [
+      {
+        "actionName": "toggleDjDeckPlayback",
+        "args": [
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 35,
+    "originalOnclick": "syncDjDeck('a')",
+    "dataAction": "syncDjDeck",
+    "dataActionArgs": "[\"a\"]",
+    "calls": [
+      {
+        "actionName": "syncDjDeck",
+        "args": [
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 36,
+    "originalOnclick": "resetDjPitch('a')",
+    "dataAction": "resetDjPitch",
+    "dataActionArgs": "[\"a\"]",
+    "calls": [
+      {
+        "actionName": "resetDjPitch",
+        "args": [
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 37,
+    "originalOnclick": "nudgeDjPitch('a', -0.5)",
+    "dataAction": "nudgeDjPitch",
+    "dataActionArgs": "[\"a\",-0.5]",
+    "calls": [
+      {
+        "actionName": "nudgeDjPitch",
+        "args": [
+          "a",
+          -0.5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 38,
+    "originalOnclick": "nudgeDjPitch('a', 0.5)",
+    "dataAction": "nudgeDjPitch",
+    "dataActionArgs": "[\"a\",0.5]",
+    "calls": [
+      {
+        "actionName": "nudgeDjPitch",
+        "args": [
+          "a",
+          0.5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 39,
+    "originalOnclick": "clearDjHotCues('a')",
+    "dataAction": "clearDjHotCues",
+    "dataActionArgs": "[\"a\"]",
+    "calls": [
+      {
+        "actionName": "clearDjHotCues",
+        "args": [
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 40,
+    "originalOnclick": "jumpDjHotCue('a', 0)",
+    "dataAction": "jumpDjHotCue",
+    "dataActionArgs": "[\"a\",0]",
+    "calls": [
+      {
+        "actionName": "jumpDjHotCue",
+        "args": [
+          "a",
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "index": 41,
+    "originalOnclick": "jumpDjHotCue('a', 1)",
+    "dataAction": "jumpDjHotCue",
+    "dataActionArgs": "[\"a\",1]",
+    "calls": [
+      {
+        "actionName": "jumpDjHotCue",
+        "args": [
+          "a",
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "index": 42,
+    "originalOnclick": "toggleDjLoop('a', 4)",
+    "dataAction": "toggleDjLoop",
+    "dataActionArgs": "[\"a\",4]",
+    "calls": [
+      {
+        "actionName": "toggleDjLoop",
+        "args": [
+          "a",
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "index": 43,
+    "originalOnclick": "toggleDjLoop('a', 8)",
+    "dataAction": "toggleDjLoop",
+    "dataActionArgs": "[\"a\",8]",
+    "calls": [
+      {
+        "actionName": "toggleDjLoop",
+        "args": [
+          "a",
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "index": 44,
+    "originalOnclick": "resetDjEq('a')",
+    "dataAction": "resetDjEq",
+    "dataActionArgs": "[\"a\"]",
+    "calls": [
+      {
+        "actionName": "resetDjEq",
+        "args": [
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 45,
+    "originalOnclick": "resetDjEq('b')",
+    "dataAction": "resetDjEq",
+    "dataActionArgs": "[\"b\"]",
+    "calls": [
+      {
+        "actionName": "resetDjEq",
+        "args": [
+          "b"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 46,
+    "originalOnclick": "setDjCrossfader(0.5)",
+    "dataAction": "setDjCrossfader",
+    "dataActionArgs": "[0.5]",
+    "calls": [
+      {
+        "actionName": "setDjCrossfader",
+        "args": [
+          0.5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 47,
+    "originalOnclick": "handleDjWaveformClick('b', event)",
+    "dataAction": "handleDjWaveformClick",
+    "dataActionArgs": "[\"b\",\"$event\"]",
+    "calls": [
+      {
+        "actionName": "handleDjWaveformClick",
+        "args": [
+          "b",
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 48,
+    "originalOnclick": "cueDjDeck('b')",
+    "dataAction": "cueDjDeck",
+    "dataActionArgs": "[\"b\"]",
+    "calls": [
+      {
+        "actionName": "cueDjDeck",
+        "args": [
+          "b"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 49,
+    "originalOnclick": "toggleDjDeckPlayback('b')",
+    "dataAction": "toggleDjDeckPlayback",
+    "dataActionArgs": "[\"b\"]",
+    "calls": [
+      {
+        "actionName": "toggleDjDeckPlayback",
+        "args": [
+          "b"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 50,
+    "originalOnclick": "syncDjDeck('b')",
+    "dataAction": "syncDjDeck",
+    "dataActionArgs": "[\"b\"]",
+    "calls": [
+      {
+        "actionName": "syncDjDeck",
+        "args": [
+          "b"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 51,
+    "originalOnclick": "resetDjPitch('b')",
+    "dataAction": "resetDjPitch",
+    "dataActionArgs": "[\"b\"]",
+    "calls": [
+      {
+        "actionName": "resetDjPitch",
+        "args": [
+          "b"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 52,
+    "originalOnclick": "nudgeDjPitch('b', -0.5)",
+    "dataAction": "nudgeDjPitch",
+    "dataActionArgs": "[\"b\",-0.5]",
+    "calls": [
+      {
+        "actionName": "nudgeDjPitch",
+        "args": [
+          "b",
+          -0.5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 53,
+    "originalOnclick": "nudgeDjPitch('b', 0.5)",
+    "dataAction": "nudgeDjPitch",
+    "dataActionArgs": "[\"b\",0.5]",
+    "calls": [
+      {
+        "actionName": "nudgeDjPitch",
+        "args": [
+          "b",
+          0.5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 54,
+    "originalOnclick": "clearDjHotCues('b')",
+    "dataAction": "clearDjHotCues",
+    "dataActionArgs": "[\"b\"]",
+    "calls": [
+      {
+        "actionName": "clearDjHotCues",
+        "args": [
+          "b"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 55,
+    "originalOnclick": "jumpDjHotCue('b', 0)",
+    "dataAction": "jumpDjHotCue",
+    "dataActionArgs": "[\"b\",0]",
+    "calls": [
+      {
+        "actionName": "jumpDjHotCue",
+        "args": [
+          "b",
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "index": 56,
+    "originalOnclick": "jumpDjHotCue('b', 1)",
+    "dataAction": "jumpDjHotCue",
+    "dataActionArgs": "[\"b\",1]",
+    "calls": [
+      {
+        "actionName": "jumpDjHotCue",
+        "args": [
+          "b",
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "index": 57,
+    "originalOnclick": "toggleDjLoop('b', 4)",
+    "dataAction": "toggleDjLoop",
+    "dataActionArgs": "[\"b\",4]",
+    "calls": [
+      {
+        "actionName": "toggleDjLoop",
+        "args": [
+          "b",
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "index": 58,
+    "originalOnclick": "toggleDjLoop('b', 8)",
+    "dataAction": "toggleDjLoop",
+    "dataActionArgs": "[\"b\",8]",
+    "calls": [
+      {
+        "actionName": "toggleDjLoop",
+        "args": [
+          "b",
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "index": 60,
+    "originalOnclick": "RadioNewsEngine.toggleRadioPlayback()",
+    "dataAction": "RadioNewsEngine.toggleRadioPlayback",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.toggleRadioPlayback",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 61,
+    "originalOnclick": "RadioNewsEngine.clearRadioSearch()",
+    "dataAction": "RadioNewsEngine.clearRadioSearch",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.clearRadioSearch",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 62,
+    "originalOnclick": "RadioNewsEngine.toggleOnlyActiveFilter()",
+    "dataAction": "RadioNewsEngine.toggleOnlyActiveFilter",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.toggleOnlyActiveFilter",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 65,
+    "originalOnclick": "openRegulationModal(); togglePanel('header-tools');",
+    "dataAction": "openRegulationModal; togglePanel",
+    "dataActionArgs": "[[],[\"header-tools\"]]",
+    "calls": [
+      {
+        "actionName": "openRegulationModal",
+        "args": []
+      },
+      {
+        "actionName": "togglePanel",
+        "args": [
+          "header-tools"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 67,
+    "originalOnclick": "openLearningHubModal(); togglePanel('header-tools');",
+    "dataAction": "openLearningHubModal; togglePanel",
+    "dataActionArgs": "[[],[\"header-tools\"]]",
+    "calls": [
+      {
+        "actionName": "openLearningHubModal",
+        "args": []
+      },
+      {
+        "actionName": "togglePanel",
+        "args": [
+          "header-tools"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 69,
+    "originalOnclick": "CollabEngine.toggleMicrophone()",
+    "dataAction": "CollabEngine.toggleMicrophone",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.toggleMicrophone",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 70,
+    "originalOnclick": "CollabEngine.copyShareLink()",
+    "dataAction": "CollabEngine.copyShareLink",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.copyShareLink",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 71,
+    "originalOnclick": "CollabEngine.clearChat()",
+    "dataAction": "CollabEngine.clearChat",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.clearChat",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 72,
+    "originalOnclick": "CollabEngine.switchTab('team')",
+    "dataAction": "CollabEngine.switchTab",
+    "dataActionArgs": "[\"team\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.switchTab",
+        "args": [
+          "team"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 73,
+    "originalOnclick": "CollabEngine.switchTab('messengers')",
+    "dataAction": "CollabEngine.switchTab",
+    "dataActionArgs": "[\"messengers\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.switchTab",
+        "args": [
+          "messengers"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 74,
+    "originalOnclick": "CollabEngine.switchTab('direct')",
+    "dataAction": "CollabEngine.switchTab",
+    "dataActionArgs": "[\"direct\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.switchTab",
+        "args": [
+          "direct"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 75,
+    "originalOnclick": "CollabEngine.syncSharedDjTrack()",
+    "dataAction": "CollabEngine.syncSharedDjTrack",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.syncSharedDjTrack",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 76,
+    "originalOnclick": "CollabEngine.stopSharedDjSession()",
+    "dataAction": "CollabEngine.stopSharedDjSession",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.stopSharedDjSession",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 77,
+    "originalOnclick": "CollabEngine.shareCurrentBoardWithTeam()",
+    "dataAction": "CollabEngine.shareCurrentBoardWithTeam",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareCurrentBoardWithTeam",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 78,
+    "originalOnclick": "CollabEngine.switchToSharedBoard()",
+    "dataAction": "CollabEngine.switchToSharedBoard",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.switchToSharedBoard",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 79,
+    "originalOnclick": "CollabEngine.shareToMessenger('whatsapp')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"whatsapp\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "whatsapp"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 80,
+    "originalOnclick": "CollabEngine.shareToMessenger('signal')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"signal\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "signal"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 81,
+    "originalOnclick": "CollabEngine.shareToMessenger('viber')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"viber\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "viber"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 82,
+    "originalOnclick": "CollabEngine.shareToMessenger('messenger')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"messenger\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "messenger"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 83,
+    "originalOnclick": "CollabEngine.shareToMessenger('telegram')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"telegram\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "telegram"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 84,
+    "originalOnclick": "CollabEngine.sendQuickChip('Starte jetzt einen Fokus-Sprint.')",
+    "dataAction": "CollabEngine.sendQuickChip",
+    "dataActionArgs": "[\"Starte jetzt einen Fokus-Sprint.\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.sendQuickChip",
+        "args": [
+          "Starte jetzt einen Fokus-Sprint."
+        ]
+      }
+    ]
+  },
+  {
+    "index": 85,
+    "originalOnclick": "CollabEngine.sendQuickChip('Bin kurz in der Kaffeepause (5 Min).')",
+    "dataAction": "CollabEngine.sendQuickChip",
+    "dataActionArgs": "[\"Bin kurz in der Kaffeepause (5 Min).\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.sendQuickChip",
+        "args": [
+          "Bin kurz in der Kaffeepause (5 Min)."
+        ]
+      }
+    ]
+  },
+  {
+    "index": 86,
+    "originalOnclick": "CollabEngine.sendQuickChip('Habe eine neue Idee aufs Board gepinnt.')",
+    "dataAction": "CollabEngine.sendQuickChip",
+    "dataActionArgs": "[\"Habe eine neue Idee aufs Board gepinnt.\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.sendQuickChip",
+        "args": [
+          "Habe eine neue Idee aufs Board gepinnt."
+        ]
+      }
+    ]
+  },
+  {
+    "index": 87,
+    "originalOnclick": "CollabEngine.sendQuickChip('Aufgabe erfolgreich abgeschlossen.')",
+    "dataAction": "CollabEngine.sendQuickChip",
+    "dataActionArgs": "[\"Aufgabe erfolgreich abgeschlossen.\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.sendQuickChip",
+        "args": [
+          "Aufgabe erfolgreich abgeschlossen."
+        ]
+      }
+    ]
+  },
+  {
+    "index": 88,
+    "originalOnclick": "CollabEngine.sendQuickChip('Wichtig: Bitte kurz drüberschauen.')",
+    "dataAction": "CollabEngine.sendQuickChip",
+    "dataActionArgs": "[\"Wichtig: Bitte kurz drüberschauen.\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.sendQuickChip",
+        "args": [
+          "Wichtig: Bitte kurz drüberschauen."
+        ]
+      }
+    ]
+  },
+  {
+    "index": 89,
+    "originalOnclick": "CollabEngine.cancelVoiceRecording()",
+    "dataAction": "CollabEngine.cancelVoiceRecording",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.cancelVoiceRecording",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 90,
+    "originalOnclick": "CollabEngine.stopVoiceRecording(true)",
+    "dataAction": "CollabEngine.stopVoiceRecording",
+    "dataActionArgs": "[true]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.stopVoiceRecording",
+        "args": [
+          true
+        ]
+      }
+    ]
+  },
+  {
+    "index": 91,
+    "originalOnclick": "CollabEngine.openDjSharePicker()",
+    "dataAction": "CollabEngine.openDjSharePicker",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.openDjSharePicker",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 92,
+    "originalOnclick": "CollabEngine.startVoiceRecording()",
+    "dataAction": "CollabEngine.startVoiceRecording",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.startVoiceRecording",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 94,
+    "originalOnclick": "CollabEngine.insertQuickContext('focus')",
+    "dataAction": "CollabEngine.insertQuickContext",
+    "dataActionArgs": "[\"focus\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.insertQuickContext",
+        "args": [
+          "focus"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 95,
+    "originalOnclick": "CollabEngine.insertQuickContext('tasks')",
+    "dataAction": "CollabEngine.insertQuickContext",
+    "dataActionArgs": "[\"tasks\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.insertQuickContext",
+        "args": [
+          "tasks"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 96,
+    "originalOnclick": "CollabEngine.insertQuickContext('invite')",
+    "dataAction": "CollabEngine.insertQuickContext",
+    "dataActionArgs": "[\"invite\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.insertQuickContext",
+        "args": [
+          "invite"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 97,
+    "originalOnclick": "CollabEngine.copyShareText()",
+    "dataAction": "CollabEngine.copyShareText",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "CollabEngine.copyShareText",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 98,
+    "originalOnclick": "CollabEngine.shareToMessenger('whatsapp')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"whatsapp\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "whatsapp"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 99,
+    "originalOnclick": "CollabEngine.shareToMessenger('signal')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"signal\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "signal"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 100,
+    "originalOnclick": "CollabEngine.shareToMessenger('viber')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"viber\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "viber"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 101,
+    "originalOnclick": "CollabEngine.shareToMessenger('messenger')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"messenger\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "messenger"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 102,
+    "originalOnclick": "CollabEngine.shareToMessenger('telegram')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"telegram\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "telegram"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 103,
+    "originalOnclick": "CollabEngine.shareToMessenger('discord')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"discord\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "discord"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 104,
+    "originalOnclick": "CollabEngine.shareToMessenger('slack')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"slack\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "slack"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 105,
+    "originalOnclick": "CollabEngine.shareToMessenger('teams')",
+    "dataAction": "CollabEngine.shareToMessenger",
+    "dataActionArgs": "[\"teams\"]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareToMessenger",
+        "args": [
+          "teams"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 115,
+    "originalOnclick": "openCommandPalette()",
+    "dataAction": "openCommandPalette",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "openCommandPalette",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 118,
+    "originalOnclick": "toggleTimer()",
+    "dataAction": "toggleTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 120,
+    "originalOnclick": "toggleWeatherDropdown(event)",
+    "dataAction": "toggleWeatherDropdown",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "toggleWeatherDropdown",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 121,
+    "originalOnclick": "toggleWeatherUnit()",
+    "dataAction": "toggleWeatherUnit",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleWeatherUnit",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 122,
+    "originalOnclick": "useDeviceLocationWeather()",
+    "dataAction": "useDeviceLocationWeather",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "useDeviceLocationWeather",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 125,
+    "originalOnclick": "toggleCalendarDropdown(event)",
+    "dataAction": "toggleCalendarDropdown",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "toggleCalendarDropdown",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 126,
+    "originalOnclick": "prevCalendarMonth(event)",
+    "dataAction": "prevCalendarMonth",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "prevCalendarMonth",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 127,
+    "originalOnclick": "nextCalendarMonth(event)",
+    "dataAction": "nextCalendarMonth",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "nextCalendarMonth",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 128,
+    "originalOnclick": "resetCalendarToToday(event)",
+    "dataAction": "resetCalendarToToday",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "resetCalendarToToday",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 130,
+    "originalOnclick": "openHelperModal('pick')",
+    "dataAction": "openHelperModal",
+    "dataActionArgs": "[\"pick\"]",
+    "calls": [
+      {
+        "actionName": "openHelperModal",
+        "args": [
+          "pick"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 132,
+    "originalOnclick": "switchPauseDropdownTab('breath')",
+    "dataAction": "switchPauseDropdownTab",
+    "dataActionArgs": "[\"breath\"]",
+    "calls": [
+      {
+        "actionName": "switchPauseDropdownTab",
+        "args": [
+          "breath"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 133,
+    "originalOnclick": "switchPauseDropdownTab('sensory')",
+    "dataAction": "switchPauseDropdownTab",
+    "dataActionArgs": "[\"sensory\"]",
+    "calls": [
+      {
+        "actionName": "switchPauseDropdownTab",
+        "args": [
+          "sensory"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 134,
+    "originalOnclick": "switchPauseDropdownTab('body')",
+    "dataAction": "switchPauseDropdownTab",
+    "dataActionArgs": "[\"body\"]",
+    "calls": [
+      {
+        "actionName": "switchPauseDropdownTab",
+        "args": [
+          "body"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 146,
+    "originalOnclick": "setReportTimeframe('today')",
+    "dataAction": "setReportTimeframe",
+    "dataActionArgs": "[\"today\"]",
+    "calls": [
+      {
+        "actionName": "setReportTimeframe",
+        "args": [
+          "today"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 147,
+    "originalOnclick": "setReportTimeframe('week')",
+    "dataAction": "setReportTimeframe",
+    "dataActionArgs": "[\"week\"]",
+    "calls": [
+      {
+        "actionName": "setReportTimeframe",
+        "args": [
+          "week"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 148,
+    "originalOnclick": "setReportTimeframe('month')",
+    "dataAction": "setReportTimeframe",
+    "dataActionArgs": "[\"month\"]",
+    "calls": [
+      {
+        "actionName": "setReportTimeframe",
+        "args": [
+          "month"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 151,
+    "originalOnclick": "setLanguage('de')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"de\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "de"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 152,
+    "originalOnclick": "setLanguage('en')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"en\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "en"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 153,
+    "originalOnclick": "setLanguage('fr')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"fr\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "fr"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 154,
+    "originalOnclick": "setLanguage('it')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"it\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "it"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 155,
+    "originalOnclick": "setLanguage('es')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"es\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "es"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 156,
+    "originalOnclick": "setLanguage('el')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"el\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "el"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 157,
+    "originalOnclick": "setTheme('botanical')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"botanical\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "botanical"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 158,
+    "originalOnclick": "setTheme('aurora')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"aurora\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "aurora"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 159,
+    "originalOnclick": "setTheme('obsidian')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"obsidian\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "obsidian"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 160,
+    "originalOnclick": "setTheme('ocean')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"ocean\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "ocean"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 161,
+    "originalOnclick": "setTheme('latte')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"latte\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "latte"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 162,
+    "originalOnclick": "setTheme('sunset')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"sunset\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "sunset"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 163,
+    "originalOnclick": "setTheme('peach')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"peach\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "peach"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 164,
+    "originalOnclick": "setTheme('cyberpunk')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"cyberpunk\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "cyberpunk"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 165,
+    "originalOnclick": "setTheme('fruity-classic')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"fruity-classic\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "fruity-classic"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 166,
+    "originalOnclick": "setTheme('fruity-studio')",
+    "dataAction": "setTheme",
+    "dataActionArgs": "[\"fruity-studio\"]",
+    "calls": [
+      {
+        "actionName": "setTheme",
+        "args": [
+          "fruity-studio"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 172,
+    "originalOnclick": "toggleHeaderWorkspaceDropdown(event)",
+    "dataAction": "toggleHeaderWorkspaceDropdown",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "toggleHeaderWorkspaceDropdown",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 173,
+    "originalOnclick": "setWorkspace('private'); closeHeaderWorkspaceDropdown(true);",
+    "dataAction": "setWorkspace; closeHeaderWorkspaceDropdown",
+    "dataActionArgs": "[[\"private\"],[true]]",
+    "calls": [
+      {
+        "actionName": "setWorkspace",
+        "args": [
+          "private"
+        ]
+      },
+      {
+        "actionName": "closeHeaderWorkspaceDropdown",
+        "args": [
+          true
+        ]
+      }
+    ]
+  },
+  {
+    "index": 174,
+    "originalOnclick": "setWorkspace('work'); closeHeaderWorkspaceDropdown(true);",
+    "dataAction": "setWorkspace; closeHeaderWorkspaceDropdown",
+    "dataActionArgs": "[[\"work\"],[true]]",
+    "calls": [
+      {
+        "actionName": "setWorkspace",
+        "args": [
+          "work"
+        ]
+      },
+      {
+        "actionName": "closeHeaderWorkspaceDropdown",
+        "args": [
+          true
+        ]
+      }
+    ]
+  },
+  {
+    "index": 175,
+    "originalOnclick": "setWorkspace('study'); closeHeaderWorkspaceDropdown(true);",
+    "dataAction": "setWorkspace; closeHeaderWorkspaceDropdown",
+    "dataActionArgs": "[[\"study\"],[true]]",
+    "calls": [
+      {
+        "actionName": "setWorkspace",
+        "args": [
+          "study"
+        ]
+      },
+      {
+        "actionName": "closeHeaderWorkspaceDropdown",
+        "args": [
+          true
+        ]
+      }
+    ]
+  },
+  {
+    "index": 176,
+    "originalOnclick": "setWorkspace('shared'); closeHeaderWorkspaceDropdown(true);",
+    "dataAction": "setWorkspace; closeHeaderWorkspaceDropdown",
+    "dataActionArgs": "[[\"shared\"],[true]]",
+    "calls": [
+      {
+        "actionName": "setWorkspace",
+        "args": [
+          "shared"
+        ]
+      },
+      {
+        "actionName": "closeHeaderWorkspaceDropdown",
+        "args": [
+          true
+        ]
+      }
+    ]
+  },
+  {
+    "index": 177,
+    "originalOnclick": "CollabEngine.shareCurrentBoardWithTeam(); closeHeaderWorkspaceDropdown(true);",
+    "dataAction": "CollabEngine.shareCurrentBoardWithTeam; closeHeaderWorkspaceDropdown",
+    "dataActionArgs": "[[],[true]]",
+    "calls": [
+      {
+        "actionName": "CollabEngine.shareCurrentBoardWithTeam",
+        "args": []
+      },
+      {
+        "actionName": "closeHeaderWorkspaceDropdown",
+        "args": [
+          true
+        ]
+      }
+    ]
+  },
+  {
+    "index": 178,
+    "originalOnclick": "toggleManageTablesDropdown(event)",
+    "dataAction": "toggleManageTablesDropdown",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "toggleManageTablesDropdown",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 179,
+    "originalOnclick": "handleClearAllLists(); closeManageTablesDropdown();",
+    "dataAction": "handleClearAllLists; closeManageTablesDropdown",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "handleClearAllLists",
+        "args": []
+      },
+      {
+        "actionName": "closeManageTablesDropdown",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 180,
+    "originalOnclick": "handleReset(); closeManageTablesDropdown();",
+    "dataAction": "handleReset; closeManageTablesDropdown",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "handleReset",
+        "args": []
+      },
+      {
+        "actionName": "closeManageTablesDropdown",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 181,
+    "originalOnclick": "openTemplateBuilderModal(); closeManageTablesDropdown();",
+    "dataAction": "openTemplateBuilderModal; closeManageTablesDropdown",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "openTemplateBuilderModal",
+        "args": []
+      },
+      {
+        "actionName": "closeManageTablesDropdown",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 182,
+    "originalOnclick": "toggleColumnsDropdown(event); closeManageTablesDropdown();",
+    "dataAction": "toggleColumnsDropdown; closeManageTablesDropdown",
+    "dataActionArgs": "[[\"$event\"],[]]",
+    "calls": [
+      {
+        "actionName": "toggleColumnsDropdown",
+        "args": [
+          "$event"
+        ]
+      },
+      {
+        "actionName": "closeManageTablesDropdown",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 183,
+    "originalOnclick": "handleUndo()",
+    "dataAction": "handleUndo",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "handleUndo",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 184,
+    "originalOnclick": "RadioNewsEngine.handleInstructionClick(event)",
+    "dataAction": "RadioNewsEngine.handleInstructionClick",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.handleInstructionClick",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 185,
+    "originalOnclick": "RadioNewsEngine.toggleTickerSettingsDropdown(event)",
+    "dataAction": "RadioNewsEngine.toggleTickerSettingsDropdown",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.toggleTickerSettingsDropdown",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 186,
+    "originalOnclick": "RadioNewsEngine.toggleTickerSettingsDropdown(event)",
+    "dataAction": "RadioNewsEngine.toggleTickerSettingsDropdown",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.toggleTickerSettingsDropdown",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 187,
+    "originalOnclick": "RadioNewsEngine.toggleNewsTickerEnabled(event)",
+    "dataAction": "RadioNewsEngine.toggleNewsTickerEnabled",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.toggleNewsTickerEnabled",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 188,
+    "originalOnclick": "RadioNewsEngine.closeTickerSettingsDropdown()",
+    "dataAction": "RadioNewsEngine.closeTickerSettingsDropdown",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.closeTickerSettingsDropdown",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 189,
+    "originalOnclick": "RadioNewsEngine.selectMedia('all')",
+    "dataAction": "RadioNewsEngine.selectMedia",
+    "dataActionArgs": "[\"all\"]",
+    "calls": [
+      {
+        "actionName": "RadioNewsEngine.selectMedia",
+        "args": [
+          "all"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 190,
+    "originalOnclick": "toggleDashboardOverlay(event)",
+    "dataAction": "toggleDashboardOverlay",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "toggleDashboardOverlay",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 191,
+    "originalOnclick": "toggleAddListPopover(event)",
+    "dataAction": "toggleAddListPopover",
+    "dataActionArgs": "[\"$event\"]",
+    "calls": [
+      {
+        "actionName": "toggleAddListPopover",
+        "args": [
+          "$event"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 192,
+    "originalOnclick": "toggleAddListPopover(event, false)",
+    "dataAction": "toggleAddListPopover",
+    "dataActionArgs": "[\"$event\",false]",
+    "calls": [
+      {
+        "actionName": "toggleAddListPopover",
+        "args": [
+          "$event",
+          false
+        ]
+      }
+    ]
+  },
+  {
+    "index": 193,
+    "originalOnclick": "submitNewListTop()",
+    "dataAction": "submitNewListTop",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "submitNewListTop",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 194,
+    "originalOnclick": "toggleAddListPopover(event, false)",
+    "dataAction": "toggleAddListPopover",
+    "dataActionArgs": "[\"$event\",false]",
+    "calls": [
+      {
+        "actionName": "toggleAddListPopover",
+        "args": [
+          "$event",
+          false
+        ]
+      }
+    ]
+  },
+  {
+    "index": 195,
+    "originalOnclick": "setTimerPreset(1)",
+    "dataAction": "setTimerPreset",
+    "dataActionArgs": "[1]",
+    "calls": [
+      {
+        "actionName": "setTimerPreset",
+        "args": [
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "index": 196,
+    "originalOnclick": "setTimerPreset(5)",
+    "dataAction": "setTimerPreset",
+    "dataActionArgs": "[5]",
+    "calls": [
+      {
+        "actionName": "setTimerPreset",
+        "args": [
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 197,
+    "originalOnclick": "setTimerPreset(15)",
+    "dataAction": "setTimerPreset",
+    "dataActionArgs": "[15]",
+    "calls": [
+      {
+        "actionName": "setTimerPreset",
+        "args": [
+          15
+        ]
+      }
+    ]
+  },
+  {
+    "index": 198,
+    "originalOnclick": "setTimerPreset(25)",
+    "dataAction": "setTimerPreset",
+    "dataActionArgs": "[25]",
+    "calls": [
+      {
+        "actionName": "setTimerPreset",
+        "args": [
+          25
+        ]
+      }
+    ]
+  },
+  {
+    "index": 199,
+    "originalOnclick": "setTimerPreset(50)",
+    "dataAction": "setTimerPreset",
+    "dataActionArgs": "[50]",
+    "calls": [
+      {
+        "actionName": "setTimerPreset",
+        "args": [
+          50
+        ]
+      }
+    ]
+  },
+  {
+    "index": 200,
+    "originalOnclick": "stopAmbientSound()",
+    "dataAction": "stopAmbientSound",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "stopAmbientSound",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 201,
+    "originalOnclick": "submitZenDistraction()",
+    "dataAction": "submitZenDistraction",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "submitZenDistraction",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 202,
+    "originalOnclick": "zenCompleteCurrentTask()",
+    "dataAction": "zenCompleteCurrentTask",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "zenCompleteCurrentTask",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 203,
+    "originalOnclick": "openHelperModal('pick')",
+    "dataAction": "openHelperModal",
+    "dataActionArgs": "[\"pick\"]",
+    "calls": [
+      {
+        "actionName": "openHelperModal",
+        "args": [
+          "pick"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 204,
+    "originalOnclick": "updateZenViewNextTask()",
+    "dataAction": "updateZenViewNextTask",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "updateZenViewNextTask",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 211,
+    "originalOnclick": "stopAllSounds()",
+    "dataAction": "stopAllSounds",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "stopAllSounds",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 212,
+    "originalOnclick": "openAudioStudioModal()",
+    "dataAction": "openAudioStudioModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "openAudioStudioModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 214,
+    "originalOnclick": "toggleGenreBeat('techno')",
+    "dataAction": "toggleGenreBeat",
+    "dataActionArgs": "[\"techno\"]",
+    "calls": [
+      {
+        "actionName": "toggleGenreBeat",
+        "args": [
+          "techno"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 215,
+    "originalOnclick": "toggleGenreBeat('dnb')",
+    "dataAction": "toggleGenreBeat",
+    "dataActionArgs": "[\"dnb\"]",
+    "calls": [
+      {
+        "actionName": "toggleGenreBeat",
+        "args": [
+          "dnb"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 216,
+    "originalOnclick": "toggleGenreBeat('afrobeat')",
+    "dataAction": "toggleGenreBeat",
+    "dataActionArgs": "[\"afrobeat\"]",
+    "calls": [
+      {
+        "actionName": "toggleGenreBeat",
+        "args": [
+          "afrobeat"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 217,
+    "originalOnclick": "toggleGenreBeat('swing')",
+    "dataAction": "toggleGenreBeat",
+    "dataActionArgs": "[\"swing\"]",
+    "calls": [
+      {
+        "actionName": "toggleGenreBeat",
+        "args": [
+          "swing"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 218,
+    "originalOnclick": "toggleGenreBeat('boombap')",
+    "dataAction": "toggleGenreBeat",
+    "dataActionArgs": "[\"boombap\"]",
+    "calls": [
+      {
+        "actionName": "toggleGenreBeat",
+        "args": [
+          "boombap"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 219,
+    "originalOnclick": "toggleGenreBeat('bossa_nova')",
+    "dataAction": "toggleGenreBeat",
+    "dataActionArgs": "[\"bossa_nova\"]",
+    "calls": [
+      {
+        "actionName": "toggleGenreBeat",
+        "args": [
+          "bossa_nova"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 233,
+    "originalOnclick": "openRegulationModal()",
+    "dataAction": "openRegulationModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "openRegulationModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 237,
+    "originalOnclick": "openLearningHubModal()",
+    "dataAction": "openLearningHubModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "openLearningHubModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 248,
+    "originalOnclick": "closeMobileQuickMenu()",
+    "dataAction": "closeMobileQuickMenu",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileQuickMenu",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 250,
+    "originalOnclick": "closeMobileQuickMenu(); openAudioStudioMode('ambient');",
+    "dataAction": "closeMobileQuickMenu; openAudioStudioMode",
+    "dataActionArgs": "[[],[\"ambient\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileQuickMenu",
+        "args": []
+      },
+      {
+        "actionName": "openAudioStudioMode",
+        "args": [
+          "ambient"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 254,
+    "originalOnclick": "closeMobileQuickMenu(); openSettingsModal('general');",
+    "dataAction": "closeMobileQuickMenu; openSettingsModal",
+    "dataActionArgs": "[[],[\"general\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileQuickMenu",
+        "args": []
+      },
+      {
+        "actionName": "openSettingsModal",
+        "args": [
+          "general"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 257,
+    "originalOnclick": "closeMobileQuickMenu(); togglePanel('collab-chat');",
+    "dataAction": "closeMobileQuickMenu; togglePanel",
+    "dataActionArgs": "[[],[\"collab-chat\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileQuickMenu",
+        "args": []
+      },
+      {
+        "actionName": "togglePanel",
+        "args": [
+          "collab-chat"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 258,
+    "originalOnclick": "closeMobileQuickMenu(); togglePanel('social');",
+    "dataAction": "closeMobileQuickMenu; togglePanel",
+    "dataActionArgs": "[[],[\"social\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileQuickMenu",
+        "args": []
+      },
+      {
+        "actionName": "togglePanel",
+        "args": [
+          "social"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 259,
+    "originalOnclick": "closeMobileQuickMenu(); handleSaveJson();",
+    "dataAction": "closeMobileQuickMenu; handleSaveJson",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileQuickMenu",
+        "args": []
+      },
+      {
+        "actionName": "handleSaveJson",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 260,
+    "originalOnclick": "closeMobileQuickMenu(); openSettingsModal();",
+    "dataAction": "closeMobileQuickMenu; openSettingsModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileQuickMenu",
+        "args": []
+      },
+      {
+        "actionName": "openSettingsModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 261,
+    "originalOnclick": "closeMobileQuickMenu(); triggerPwaInstall();",
+    "dataAction": "closeMobileQuickMenu; triggerPwaInstall",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileQuickMenu",
+        "args": []
+      },
+      {
+        "actionName": "triggerPwaInstall",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 263,
+    "originalOnclick": "closeHelperModal()",
+    "dataAction": "closeHelperModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeHelperModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 264,
+    "originalOnclick": "switchWhatNowTab('suggestion')",
+    "dataAction": "switchWhatNowTab",
+    "dataActionArgs": "[\"suggestion\"]",
+    "calls": [
+      {
+        "actionName": "switchWhatNowTab",
+        "args": [
+          "suggestion"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 265,
+    "originalOnclick": "switchWhatNowTab('dilemma')",
+    "dataAction": "switchWhatNowTab",
+    "dataActionArgs": "[\"dilemma\"]",
+    "calls": [
+      {
+        "actionName": "switchWhatNowTab",
+        "args": [
+          "dilemma"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 266,
+    "originalOnclick": "setWhatNowEnergyLevel('low')",
+    "dataAction": "setWhatNowEnergyLevel",
+    "dataActionArgs": "[\"low\"]",
+    "calls": [
+      {
+        "actionName": "setWhatNowEnergyLevel",
+        "args": [
+          "low"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 267,
+    "originalOnclick": "setWhatNowEnergyLevel('med')",
+    "dataAction": "setWhatNowEnergyLevel",
+    "dataActionArgs": "[\"med\"]",
+    "calls": [
+      {
+        "actionName": "setWhatNowEnergyLevel",
+        "args": [
+          "med"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 268,
+    "originalOnclick": "setWhatNowEnergyLevel('high')",
+    "dataAction": "setWhatNowEnergyLevel",
+    "dataActionArgs": "[\"high\"]",
+    "calls": [
+      {
+        "actionName": "setWhatNowEnergyLevel",
+        "args": [
+          "high"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 269,
+    "originalOnclick": "setWhatNowEnergyLevel('random')",
+    "dataAction": "setWhatNowEnergyLevel",
+    "dataActionArgs": "[\"random\"]",
+    "calls": [
+      {
+        "actionName": "setWhatNowEnergyLevel",
+        "args": [
+          "random"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 270,
+    "originalOnclick": "pickRandomTask()",
+    "dataAction": "pickRandomTask",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "pickRandomTask",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 271,
+    "originalOnclick": "flipWhatNowDilemma()",
+    "dataAction": "flipWhatNowDilemma",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "flipWhatNowDilemma",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 273,
+    "originalOnclick": "closeSportModal()",
+    "dataAction": "closeSportModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSportModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 274,
+    "originalOnclick": "switchSportTab('presets')",
+    "dataAction": "switchSportTab",
+    "dataActionArgs": "[\"presets\"]",
+    "calls": [
+      {
+        "actionName": "switchSportTab",
+        "args": [
+          "presets"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 275,
+    "originalOnclick": "switchSportTab('builder')",
+    "dataAction": "switchSportTab",
+    "dataActionArgs": "[\"builder\"]",
+    "calls": [
+      {
+        "actionName": "switchSportTab",
+        "args": [
+          "builder"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 276,
+    "originalOnclick": "switchSportTab('library')",
+    "dataAction": "switchSportTab",
+    "dataActionArgs": "[\"library\"]",
+    "calls": [
+      {
+        "actionName": "switchSportTab",
+        "args": [
+          "library"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 277,
+    "originalOnclick": "switchSportTab('spoons')",
+    "dataAction": "switchSportTab",
+    "dataActionArgs": "[\"spoons\"]",
+    "calls": [
+      {
+        "actionName": "switchSportTab",
+        "args": [
+          "spoons"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 278,
+    "originalOnclick": "updateCustomWorkoutPreview()",
+    "dataAction": "updateCustomWorkoutPreview",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "updateCustomWorkoutPreview",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 279,
+    "originalOnclick": "startCustomGeneratedWorkout()",
+    "dataAction": "startCustomGeneratedWorkout",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "startCustomGeneratedWorkout",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 280,
+    "originalOnclick": "startSportTimer()",
+    "dataAction": "startSportTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "startSportTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 281,
+    "originalOnclick": "pauseSportTimer()",
+    "dataAction": "pauseSportTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "pauseSportTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 282,
+    "originalOnclick": "skipSportTimer()",
+    "dataAction": "skipSportTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "skipSportTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 283,
+    "originalOnclick": "completeSportActivity()",
+    "dataAction": "completeSportActivity",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "completeSportActivity",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 284,
+    "originalOnclick": "prevWorkoutExercise()",
+    "dataAction": "prevWorkoutExercise",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "prevWorkoutExercise",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 285,
+    "originalOnclick": "resumeWorkoutRoutine()",
+    "dataAction": "resumeWorkoutRoutine",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "resumeWorkoutRoutine",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 286,
+    "originalOnclick": "pauseWorkoutRoutine()",
+    "dataAction": "pauseWorkoutRoutine",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "pauseWorkoutRoutine",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 287,
+    "originalOnclick": "nextWorkoutExercise()",
+    "dataAction": "nextWorkoutExercise",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "nextWorkoutExercise",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 288,
+    "originalOnclick": "quitWorkoutRoutine()",
+    "dataAction": "quitWorkoutRoutine",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "quitWorkoutRoutine",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 290,
+    "originalOnclick": "closeBreakModal()",
+    "dataAction": "closeBreakModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeBreakModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 291,
+    "originalOnclick": "toggleBreakTimer()",
+    "dataAction": "toggleBreakTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleBreakTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 292,
+    "originalOnclick": "resetBreakTimer()",
+    "dataAction": "resetBreakTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "resetBreakTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 293,
+    "originalOnclick": "finishBreakEarly()",
+    "dataAction": "finishBreakEarly",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "finishBreakEarly",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 295,
+    "originalOnclick": "closeP2PSyncModal()",
+    "dataAction": "closeP2PSyncModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeP2PSyncModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 296,
+    "originalOnclick": "switchAuthMode('login')",
+    "dataAction": "switchAuthMode",
+    "dataActionArgs": "[\"login\"]",
+    "calls": [
+      {
+        "actionName": "switchAuthMode",
+        "args": [
+          "login"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 297,
+    "originalOnclick": "switchAuthMode('register')",
+    "dataAction": "switchAuthMode",
+    "dataActionArgs": "[\"register\"]",
+    "calls": [
+      {
+        "actionName": "switchAuthMode",
+        "args": [
+          "register"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 298,
+    "originalOnclick": "handlePasswordReset()",
+    "dataAction": "handlePasswordReset",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "handlePasswordReset",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 299,
+    "originalOnclick": "handleEmailAuth()",
+    "dataAction": "handleEmailAuth",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "handleEmailAuth",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 300,
+    "originalOnclick": "switchAuthMode('register')",
+    "dataAction": "switchAuthMode",
+    "dataActionArgs": "[\"register\"]",
+    "calls": [
+      {
+        "actionName": "switchAuthMode",
+        "args": [
+          "register"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 301,
+    "originalOnclick": "handleManualCloudSync()",
+    "dataAction": "handleManualCloudSync",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "handleManualCloudSync",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 302,
+    "originalOnclick": "handleLogout()",
+    "dataAction": "handleLogout",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "handleLogout",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 303,
+    "originalOnclick": "saveE2EPassphrase()",
+    "dataAction": "saveE2EPassphrase",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "saveE2EPassphrase",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 304,
+    "originalOnclick": "copyP2PSyncLink()",
+    "dataAction": "copyP2PSyncLink",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "copyP2PSyncLink",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 305,
+    "originalOnclick": "closeP2PSyncModal()",
+    "dataAction": "closeP2PSyncModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeP2PSyncModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 307,
+    "originalOnclick": "closeLearningHubModal()",
+    "dataAction": "closeLearningHubModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeLearningHubModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 309,
+    "originalOnclick": "setDashboardTimeframe('today')",
+    "dataAction": "setDashboardTimeframe",
+    "dataActionArgs": "[\"today\"]",
+    "calls": [
+      {
+        "actionName": "setDashboardTimeframe",
+        "args": [
+          "today"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 310,
+    "originalOnclick": "setDashboardTimeframe('week')",
+    "dataAction": "setDashboardTimeframe",
+    "dataActionArgs": "[\"week\"]",
+    "calls": [
+      {
+        "actionName": "setDashboardTimeframe",
+        "args": [
+          "week"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 311,
+    "originalOnclick": "setDashboardTimeframe('month')",
+    "dataAction": "setDashboardTimeframe",
+    "dataActionArgs": "[\"month\"]",
+    "calls": [
+      {
+        "actionName": "setDashboardTimeframe",
+        "args": [
+          "month"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 312,
+    "originalOnclick": "closeReportDashboard()",
+    "dataAction": "closeReportDashboard",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeReportDashboard",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 313,
+    "originalOnclick": "copyComprehensiveReportText()",
+    "dataAction": "copyComprehensiveReportText",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "copyComprehensiveReportText",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 314,
+    "originalOnclick": "printReport()",
+    "dataAction": "printReport",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "printReport",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 315,
+    "originalOnclick": "exportWeeklyReportAsImage()",
+    "dataAction": "exportWeeklyReportAsImage",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "exportWeeklyReportAsImage",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 317,
+    "originalOnclick": "closeSettingsModal()",
+    "dataAction": "closeSettingsModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSettingsModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 318,
+    "originalOnclick": "switchSettingsTab('general')",
+    "dataAction": "switchSettingsTab",
+    "dataActionArgs": "[\"general\"]",
+    "calls": [
+      {
+        "actionName": "switchSettingsTab",
+        "args": [
+          "general"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 319,
+    "originalOnclick": "switchSettingsTab('history')",
+    "dataAction": "switchSettingsTab",
+    "dataActionArgs": "[\"history\"]",
+    "calls": [
+      {
+        "actionName": "switchSettingsTab",
+        "args": [
+          "history"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 320,
+    "originalOnclick": "switchSettingsTab('impressum')",
+    "dataAction": "switchSettingsTab",
+    "dataActionArgs": "[\"impressum\"]",
+    "calls": [
+      {
+        "actionName": "switchSettingsTab",
+        "args": [
+          "impressum"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 321,
+    "originalOnclick": "switchSettingsTab('privacy')",
+    "dataAction": "switchSettingsTab",
+    "dataActionArgs": "[\"privacy\"]",
+    "calls": [
+      {
+        "actionName": "switchSettingsTab",
+        "args": [
+          "privacy"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 322,
+    "originalOnclick": "switchSettingsTab('licenses')",
+    "dataAction": "switchSettingsTab",
+    "dataActionArgs": "[\"licenses\"]",
+    "calls": [
+      {
+        "actionName": "switchSettingsTab",
+        "args": [
+          "licenses"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 323,
+    "originalOnclick": "closeSettingsModal(); startOnboardingTour();",
+    "dataAction": "closeSettingsModal; startOnboardingTour",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSettingsModal",
+        "args": []
+      },
+      {
+        "actionName": "startOnboardingTour",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 324,
+    "originalOnclick": "closeSettingsModal(); openInstallModal();",
+    "dataAction": "closeSettingsModal; openInstallModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSettingsModal",
+        "args": []
+      },
+      {
+        "actionName": "openInstallModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 325,
+    "originalOnclick": "setLanguage('en')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"en\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "en"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 326,
+    "originalOnclick": "setLanguage('de')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"de\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "de"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 327,
+    "originalOnclick": "setLanguage('es')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"es\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "es"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 328,
+    "originalOnclick": "setLanguage('el')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"el\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "el"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 329,
+    "originalOnclick": "setLanguage('fr')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"fr\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "fr"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 330,
+    "originalOnclick": "setLanguage('it')",
+    "dataAction": "setLanguage",
+    "dataActionArgs": "[\"it\"]",
+    "calls": [
+      {
+        "actionName": "setLanguage",
+        "args": [
+          "it"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 331,
+    "originalOnclick": "saveGeneralSetting('defaultTimer', 15)",
+    "dataAction": "saveGeneralSetting",
+    "dataActionArgs": "[\"defaultTimer\",15]",
+    "calls": [
+      {
+        "actionName": "saveGeneralSetting",
+        "args": [
+          "defaultTimer",
+          15
+        ]
+      }
+    ]
+  },
+  {
+    "index": 332,
+    "originalOnclick": "saveGeneralSetting('defaultTimer', 25)",
+    "dataAction": "saveGeneralSetting",
+    "dataActionArgs": "[\"defaultTimer\",25]",
+    "calls": [
+      {
+        "actionName": "saveGeneralSetting",
+        "args": [
+          "defaultTimer",
+          25
+        ]
+      }
+    ]
+  },
+  {
+    "index": 333,
+    "originalOnclick": "saveGeneralSetting('defaultTimer', 45)",
+    "dataAction": "saveGeneralSetting",
+    "dataActionArgs": "[\"defaultTimer\",45]",
+    "calls": [
+      {
+        "actionName": "saveGeneralSetting",
+        "args": [
+          "defaultTimer",
+          45
+        ]
+      }
+    ]
+  },
+  {
+    "index": 334,
+    "originalOnclick": "saveGeneralSetting('defaultTimer', 60)",
+    "dataAction": "saveGeneralSetting",
+    "dataActionArgs": "[\"defaultTimer\",60]",
+    "calls": [
+      {
+        "actionName": "saveGeneralSetting",
+        "args": [
+          "defaultTimer",
+          60
+        ]
+      }
+    ]
+  },
+  {
+    "index": 336,
+    "originalOnclick": "handleManualCloudSync()",
+    "dataAction": "handleManualCloudSync",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "handleManualCloudSync",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 337,
+    "originalOnclick": "downloadFullBackup()",
+    "dataAction": "downloadFullBackup",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "downloadFullBackup",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 338,
+    "originalOnclick": "openKeyboardShortcuts()",
+    "dataAction": "openKeyboardShortcuts",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "openKeyboardShortcuts",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 339,
+    "originalOnclick": "clearAllApplicationData()",
+    "dataAction": "clearAllApplicationData",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "clearAllApplicationData",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 341,
+    "originalOnclick": "toggleUmamiOptOut()",
+    "dataAction": "toggleUmamiOptOut",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleUmamiOptOut",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 342,
+    "originalOnclick": "closeSettingsModal()",
+    "dataAction": "closeSettingsModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSettingsModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 344,
+    "originalOnclick": "openKeyboardShortcuts()",
+    "dataAction": "openKeyboardShortcuts",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "openKeyboardShortcuts",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 346,
+    "originalOnclick": "closeKeyboardShortcuts()",
+    "dataAction": "closeKeyboardShortcuts",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeKeyboardShortcuts",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 347,
+    "originalOnclick": "closeKeyboardShortcuts()",
+    "dataAction": "closeKeyboardShortcuts",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeKeyboardShortcuts",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 348,
+    "originalOnclick": "dismissPwaBanner()",
+    "dataAction": "dismissPwaBanner",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "dismissPwaBanner",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 349,
+    "originalOnclick": "triggerPwaInstall()",
+    "dataAction": "triggerPwaInstall",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "triggerPwaInstall",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 350,
+    "originalOnclick": "dismissPwaBanner()",
+    "dataAction": "dismissPwaBanner",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "dismissPwaBanner",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 352,
+    "originalOnclick": "closeHelperModal()",
+    "dataAction": "closeHelperModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeHelperModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 353,
+    "originalOnclick": "addCustomStepToActiveTask()",
+    "dataAction": "addCustomStepToActiveTask",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "addCustomStepToActiveTask",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 355,
+    "originalOnclick": "closeCleaningGuideModal()",
+    "dataAction": "closeCleaningGuideModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeCleaningGuideModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 356,
+    "originalOnclick": "switchCleaningLevel('express')",
+    "dataAction": "switchCleaningLevel",
+    "dataActionArgs": "[\"express\"]",
+    "calls": [
+      {
+        "actionName": "switchCleaningLevel",
+        "args": [
+          "express"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 357,
+    "originalOnclick": "switchCleaningLevel('standard')",
+    "dataAction": "switchCleaningLevel",
+    "dataActionArgs": "[\"standard\"]",
+    "calls": [
+      {
+        "actionName": "switchCleaningLevel",
+        "args": [
+          "standard"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 358,
+    "originalOnclick": "switchCleaningLevel('deep')",
+    "dataAction": "switchCleaningLevel",
+    "dataActionArgs": "[\"deep\"]",
+    "calls": [
+      {
+        "actionName": "switchCleaningLevel",
+        "args": [
+          "deep"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 359,
+    "originalOnclick": "startCleaningTimer()",
+    "dataAction": "startCleaningTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "startCleaningTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 360,
+    "originalOnclick": "pauseCleaningTimer()",
+    "dataAction": "pauseCleaningTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "pauseCleaningTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 361,
+    "originalOnclick": "resetCleaningTimer()",
+    "dataAction": "resetCleaningTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "resetCleaningTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 362,
+    "originalOnclick": "toggleCleaningLoFi()",
+    "dataAction": "toggleCleaningLoFi",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleCleaningLoFi",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 363,
+    "originalOnclick": "transferCleaningStepsToBoard('weekly')",
+    "dataAction": "transferCleaningStepsToBoard",
+    "dataActionArgs": "[\"weekly\"]",
+    "calls": [
+      {
+        "actionName": "transferCleaningStepsToBoard",
+        "args": [
+          "weekly"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 364,
+    "originalOnclick": "resetCleaningProgress()",
+    "dataAction": "resetCleaningProgress",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "resetCleaningProgress",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 366,
+    "originalOnclick": "closeNoteDetailModal()",
+    "dataAction": "closeNoteDetailModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeNoteDetailModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 367,
+    "originalOnclick": "convertCurrentNoteDetailToTask()",
+    "dataAction": "convertCurrentNoteDetailToTask",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "convertCurrentNoteDetailToTask",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 368,
+    "originalOnclick": "openNoteScannerModal('note-detail')",
+    "dataAction": "openNoteScannerModal",
+    "dataActionArgs": "[\"note-detail\"]",
+    "calls": [
+      {
+        "actionName": "openNoteScannerModal",
+        "args": [
+          "note-detail"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 369,
+    "originalOnclick": "copyCurrentNoteDetailText()",
+    "dataAction": "copyCurrentNoteDetailText",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "copyCurrentNoteDetailText",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 370,
+    "originalOnclick": "deleteCurrentNoteDetail()",
+    "dataAction": "deleteCurrentNoteDetail",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "deleteCurrentNoteDetail",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 371,
+    "originalOnclick": "closeNoteDetailModal()",
+    "dataAction": "closeNoteDetailModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeNoteDetailModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 372,
+    "originalOnclick": "saveNoteDetailModal()",
+    "dataAction": "saveNoteDetailModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "saveNoteDetailModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 374,
+    "originalOnclick": "closeTextImportModal()",
+    "dataAction": "closeTextImportModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeTextImportModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 375,
+    "originalOnclick": "closeTextImportModal()",
+    "dataAction": "closeTextImportModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeTextImportModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 376,
+    "originalOnclick": "executeTextImport()",
+    "dataAction": "executeTextImport",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "executeTextImport",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 378,
+    "originalOnclick": "closePostponeTerminModal()",
+    "dataAction": "closePostponeTerminModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closePostponeTerminModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 379,
+    "originalOnclick": "quickPostponeTerminDays(1)",
+    "dataAction": "quickPostponeTerminDays",
+    "dataActionArgs": "[1]",
+    "calls": [
+      {
+        "actionName": "quickPostponeTerminDays",
+        "args": [
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "index": 380,
+    "originalOnclick": "quickPostponeTerminDays(2)",
+    "dataAction": "quickPostponeTerminDays",
+    "dataActionArgs": "[2]",
+    "calls": [
+      {
+        "actionName": "quickPostponeTerminDays",
+        "args": [
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "index": 381,
+    "originalOnclick": "quickPostponeTerminDays(7)",
+    "dataAction": "quickPostponeTerminDays",
+    "dataActionArgs": "[7]",
+    "calls": [
+      {
+        "actionName": "quickPostponeTerminDays",
+        "args": [
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "index": 382,
+    "originalOnclick": "closePostponeTerminModal()",
+    "dataAction": "closePostponeTerminModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closePostponeTerminModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 383,
+    "originalOnclick": "submitPostponeTermin()",
+    "dataAction": "submitPostponeTermin",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "submitPostponeTermin",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 385,
+    "originalOnclick": "closeReportExportModal()",
+    "dataAction": "closeReportExportModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeReportExportModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 386,
+    "originalOnclick": "copyReportText()",
+    "dataAction": "copyReportText",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "copyReportText",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 387,
+    "originalOnclick": "downloadReportFile()",
+    "dataAction": "downloadReportFile",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "downloadReportFile",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 388,
+    "originalOnclick": "printReport()",
+    "dataAction": "printReport",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "printReport",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 391,
+    "originalOnclick": "closeMobileMenuDrawer(); exportData();",
+    "dataAction": "closeMobileMenuDrawer; exportData",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "exportData",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 392,
+    "originalOnclick": "closeMobileMenuDrawer(); importData();",
+    "dataAction": "closeMobileMenuDrawer; importData",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "importData",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 394,
+    "originalOnclick": "closeMobileMenuDrawer(); openSettingsModal('general');",
+    "dataAction": "closeMobileMenuDrawer; openSettingsModal",
+    "dataActionArgs": "[[],[\"general\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "openSettingsModal",
+        "args": [
+          "general"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 395,
+    "originalOnclick": "closeMobileMenuDrawer(); openSettingsModal('general');",
+    "dataAction": "closeMobileMenuDrawer; openSettingsModal",
+    "dataActionArgs": "[[],[\"general\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "openSettingsModal",
+        "args": [
+          "general"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 397,
+    "originalOnclick": "closeMobileMenuDrawer(); handleUndo();",
+    "dataAction": "closeMobileMenuDrawer; handleUndo",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "handleUndo",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 398,
+    "originalOnclick": "closeMobileMenuDrawer(); handleSaveJson();",
+    "dataAction": "closeMobileMenuDrawer; handleSaveJson",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "handleSaveJson",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 400,
+    "originalOnclick": "closeMobileMenuDrawer(); handleReset();",
+    "dataAction": "closeMobileMenuDrawer; handleReset",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "handleReset",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 402,
+    "originalOnclick": "closeMobileMenuDrawer(); startOnboardingTour();",
+    "dataAction": "closeMobileMenuDrawer; startOnboardingTour",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "startOnboardingTour",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 403,
+    "originalOnclick": "closeMobileMenuDrawer(); openFeedbackModal('idea', 'feedback');",
+    "dataAction": "closeMobileMenuDrawer; openFeedbackModal",
+    "dataActionArgs": "[[],[\"idea\",\"feedback\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "openFeedbackModal",
+        "args": [
+          "idea",
+          "feedback"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 404,
+    "originalOnclick": "closeMobileMenuDrawer(); openSettingsModal('general');",
+    "dataAction": "closeMobileMenuDrawer; openSettingsModal",
+    "dataActionArgs": "[[],[\"general\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "openSettingsModal",
+        "args": [
+          "general"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 405,
+    "originalOnclick": "closeMobileMenuDrawer(); openPrivacyModal();",
+    "dataAction": "closeMobileMenuDrawer; openPrivacyModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileMenuDrawer",
+        "args": []
+      },
+      {
+        "actionName": "openPrivacyModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 409,
+    "originalOnclick": "closeMobileToolsSheet(); openAudioStudioMode('ambient');",
+    "dataAction": "closeMobileToolsSheet; openAudioStudioMode",
+    "dataActionArgs": "[[],[\"ambient\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileToolsSheet",
+        "args": []
+      },
+      {
+        "actionName": "openAudioStudioMode",
+        "args": [
+          "ambient"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 415,
+    "originalOnclick": "closeMobileToolsSheet(); openRegulationModal();",
+    "dataAction": "closeMobileToolsSheet; openRegulationModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileToolsSheet",
+        "args": []
+      },
+      {
+        "actionName": "openRegulationModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 419,
+    "originalOnclick": "closeMobileToolsSheet(); openLearningHubModal();",
+    "dataAction": "closeMobileToolsSheet; openLearningHubModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeMobileToolsSheet",
+        "args": []
+      },
+      {
+        "actionName": "openLearningHubModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 420,
+    "originalOnclick": "closeMobileToolsSheet(); togglePanel('humor-lab');",
+    "dataAction": "closeMobileToolsSheet; togglePanel",
+    "dataActionArgs": "[[],[\"humor-lab\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileToolsSheet",
+        "args": []
+      },
+      {
+        "actionName": "togglePanel",
+        "args": [
+          "humor-lab"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 423,
+    "originalOnclick": "closeMobileToolsSheet(); togglePanel('collab-chat');",
+    "dataAction": "closeMobileToolsSheet; togglePanel",
+    "dataActionArgs": "[[],[\"collab-chat\"]]",
+    "calls": [
+      {
+        "actionName": "closeMobileToolsSheet",
+        "args": []
+      },
+      {
+        "actionName": "togglePanel",
+        "args": [
+          "collab-chat"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 429,
+    "originalOnclick": "closeSafeSpaceModal()",
+    "dataAction": "closeSafeSpaceModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSafeSpaceModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 430,
+    "originalOnclick": "switchSafeSpaceTab('breath')",
+    "dataAction": "switchSafeSpaceTab",
+    "dataActionArgs": "[\"breath\"]",
+    "calls": [
+      {
+        "actionName": "switchSafeSpaceTab",
+        "args": [
+          "breath"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 431,
+    "originalOnclick": "switchSafeSpaceTab('anchor')",
+    "dataAction": "switchSafeSpaceTab",
+    "dataActionArgs": "[\"anchor\"]",
+    "calls": [
+      {
+        "actionName": "switchSafeSpaceTab",
+        "args": [
+          "anchor"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 432,
+    "originalOnclick": "switchSafeSpaceTab('eyes')",
+    "dataAction": "switchSafeSpaceTab",
+    "dataActionArgs": "[\"eyes\"]",
+    "calls": [
+      {
+        "actionName": "switchSafeSpaceTab",
+        "args": [
+          "eyes"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 433,
+    "originalOnclick": "switchSafeSpaceTab('body')",
+    "dataAction": "switchSafeSpaceTab",
+    "dataActionArgs": "[\"body\"]",
+    "calls": [
+      {
+        "actionName": "switchSafeSpaceTab",
+        "args": [
+          "body"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 434,
+    "originalOnclick": "switchSafeSpaceTab('sound')",
+    "dataAction": "switchSafeSpaceTab",
+    "dataActionArgs": "[\"sound\"]",
+    "calls": [
+      {
+        "actionName": "switchSafeSpaceTab",
+        "args": [
+          "sound"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 435,
+    "originalOnclick": "setBreathPattern('444')",
+    "dataAction": "setBreathPattern",
+    "dataActionArgs": "[\"444\"]",
+    "calls": [
+      {
+        "actionName": "setBreathPattern",
+        "args": [
+          "444"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 436,
+    "originalOnclick": "setBreathPattern('478')",
+    "dataAction": "setBreathPattern",
+    "dataActionArgs": "[\"478\"]",
+    "calls": [
+      {
+        "actionName": "setBreathPattern",
+        "args": [
+          "478"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 437,
+    "originalOnclick": "setBreathPattern('sigh')",
+    "dataAction": "setBreathPattern",
+    "dataActionArgs": "[\"sigh\"]",
+    "calls": [
+      {
+        "actionName": "setBreathPattern",
+        "args": [
+          "sigh"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 438,
+    "originalOnclick": "toggleSafeSpaceNoise()",
+    "dataAction": "toggleSafeSpaceNoise",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleSafeSpaceNoise",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 439,
+    "originalOnclick": "resetAnchorSteps()",
+    "dataAction": "resetAnchorSteps",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "resetAnchorSteps",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 440,
+    "originalOnclick": "nextAnchorStep()",
+    "dataAction": "nextAnchorStep",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "nextAnchorStep",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 441,
+    "originalOnclick": "toggleEyeRestTimer()",
+    "dataAction": "toggleEyeRestTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleEyeRestTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 442,
+    "originalOnclick": "quickPlaySoundscape('stream')",
+    "dataAction": "quickPlaySoundscape",
+    "dataActionArgs": "[\"stream\"]",
+    "calls": [
+      {
+        "actionName": "quickPlaySoundscape",
+        "args": [
+          "stream"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 443,
+    "originalOnclick": "quickPlaySoundscape('brown')",
+    "dataAction": "quickPlaySoundscape",
+    "dataActionArgs": "[\"brown\"]",
+    "calls": [
+      {
+        "actionName": "quickPlaySoundscape",
+        "args": [
+          "brown"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 444,
+    "originalOnclick": "quickPlaySoundscape('rain')",
+    "dataAction": "quickPlaySoundscape",
+    "dataActionArgs": "[\"rain\"]",
+    "calls": [
+      {
+        "actionName": "quickPlaySoundscape",
+        "args": [
+          "rain"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 446,
+    "originalOnclick": "closeSafeSpaceModal()",
+    "dataAction": "closeSafeSpaceModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSafeSpaceModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 448,
+    "originalOnclick": "closeClarityModal()",
+    "dataAction": "closeClarityModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeClarityModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 449,
+    "originalOnclick": "switchClarityTab('urge')",
+    "dataAction": "switchClarityTab",
+    "dataActionArgs": "[\"urge\"]",
+    "calls": [
+      {
+        "actionName": "switchClarityTab",
+        "args": [
+          "urge"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 450,
+    "originalOnclick": "switchClarityTab('halt')",
+    "dataAction": "switchClarityTab",
+    "dataActionArgs": "[\"halt\"]",
+    "calls": [
+      {
+        "actionName": "switchClarityTab",
+        "args": [
+          "halt"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 451,
+    "originalOnclick": "switchClarityTab('shift')",
+    "dataAction": "switchClarityTab",
+    "dataActionArgs": "[\"shift\"]",
+    "calls": [
+      {
+        "actionName": "switchClarityTab",
+        "args": [
+          "shift"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 452,
+    "originalOnclick": "switchClarityTab('future')",
+    "dataAction": "switchClarityTab",
+    "dataActionArgs": "[\"future\"]",
+    "calls": [
+      {
+        "actionName": "switchClarityTab",
+        "args": [
+          "future"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 453,
+    "originalOnclick": "switchClarityTab('tracker')",
+    "dataAction": "switchClarityTab",
+    "dataActionArgs": "[\"tracker\"]",
+    "calls": [
+      {
+        "actionName": "switchClarityTab",
+        "args": [
+          "tracker"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 454,
+    "originalOnclick": "toggleClarityUrgeTimer()",
+    "dataAction": "toggleClarityUrgeTimer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleClarityUrgeTimer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 455,
+    "originalOnclick": "selectHaltCategory('hungry')",
+    "dataAction": "selectHaltCategory",
+    "dataActionArgs": "[\"hungry\"]",
+    "calls": [
+      {
+        "actionName": "selectHaltCategory",
+        "args": [
+          "hungry"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 456,
+    "originalOnclick": "selectHaltCategory('angry')",
+    "dataAction": "selectHaltCategory",
+    "dataActionArgs": "[\"angry\"]",
+    "calls": [
+      {
+        "actionName": "selectHaltCategory",
+        "args": [
+          "angry"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 457,
+    "originalOnclick": "selectHaltCategory('lonely')",
+    "dataAction": "selectHaltCategory",
+    "dataActionArgs": "[\"lonely\"]",
+    "calls": [
+      {
+        "actionName": "selectHaltCategory",
+        "args": [
+          "lonely"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 458,
+    "originalOnclick": "selectHaltCategory('tired')",
+    "dataAction": "selectHaltCategory",
+    "dataActionArgs": "[\"tired\"]",
+    "calls": [
+      {
+        "actionName": "selectHaltCategory",
+        "args": [
+          "tired"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 459,
+    "originalOnclick": "selectHaltCategory('dopamine')",
+    "dataAction": "selectHaltCategory",
+    "dataActionArgs": "[\"dopamine\"]",
+    "calls": [
+      {
+        "actionName": "selectHaltCategory",
+        "args": [
+          "dopamine"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 460,
+    "originalOnclick": "selectHaltCategory('shame')",
+    "dataAction": "selectHaltCategory",
+    "dataActionArgs": "[\"shame\"]",
+    "calls": [
+      {
+        "actionName": "selectHaltCategory",
+        "args": [
+          "shame"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 461,
+    "originalOnclick": "suggestClarityShift()",
+    "dataAction": "suggestClarityShift",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "suggestClarityShift",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 462,
+    "originalOnclick": "saveClarityReason('Klarer, scharfer Kopf & Energie')",
+    "dataAction": "saveClarityReason",
+    "dataActionArgs": "[\"Klarer, scharfer Kopf & Energie\"]",
+    "calls": [
+      {
+        "actionName": "saveClarityReason",
+        "args": [
+          "Klarer, scharfer Kopf & Energie"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 463,
+    "originalOnclick": "saveClarityReason('Tiefer, erholsamer Schlaf')",
+    "dataAction": "saveClarityReason",
+    "dataActionArgs": "[\"Tiefer, erholsamer Schlaf\"]",
+    "calls": [
+      {
+        "actionName": "saveClarityReason",
+        "args": [
+          "Tiefer, erholsamer Schlaf"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 464,
+    "originalOnclick": "saveClarityReason('Freiheit von Gedankenkreisen')",
+    "dataAction": "saveClarityReason",
+    "dataActionArgs": "[\"Freiheit von Gedankenkreisen\"]",
+    "calls": [
+      {
+        "actionName": "saveClarityReason",
+        "args": [
+          "Freiheit von Gedankenkreisen"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 465,
+    "originalOnclick": "saveClarityReason('Für meine Liebsten voll da sein')",
+    "dataAction": "saveClarityReason",
+    "dataActionArgs": "[\"Für meine Liebsten voll da sein\"]",
+    "calls": [
+      {
+        "actionName": "saveClarityReason",
+        "args": [
+          "Für meine Liebsten voll da sein"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 466,
+    "originalOnclick": "saveClarityReason('Stolz auf mein Selbstvertrauen')",
+    "dataAction": "saveClarityReason",
+    "dataActionArgs": "[\"Stolz auf mein Selbstvertrauen\"]",
+    "calls": [
+      {
+        "actionName": "saveClarityReason",
+        "args": [
+          "Stolz auf mein Selbstvertrauen"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 467,
+    "originalOnclick": "saveClarityReason()",
+    "dataAction": "saveClarityReason",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "saveClarityReason",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 468,
+    "originalOnclick": "incrementClarityStreak()",
+    "dataAction": "incrementClarityStreak",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "incrementClarityStreak",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 469,
+    "originalOnclick": "resetClarityStreak()",
+    "dataAction": "resetClarityStreak",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "resetClarityStreak",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 470,
+    "originalOnclick": "addClarityJournalNote()",
+    "dataAction": "addClarityJournalNote",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "addClarityJournalNote",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 472,
+    "originalOnclick": "closeRegulationModal()",
+    "dataAction": "closeRegulationModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeRegulationModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 473,
+    "originalOnclick": "switchRegulationTab('reset')",
+    "dataAction": "switchRegulationTab",
+    "dataActionArgs": "[\"reset\"]",
+    "calls": [
+      {
+        "actionName": "switchRegulationTab",
+        "args": [
+          "reset"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 474,
+    "originalOnclick": "switchRegulationTab('grounding')",
+    "dataAction": "switchRegulationTab",
+    "dataActionArgs": "[\"grounding\"]",
+    "calls": [
+      {
+        "actionName": "switchRegulationTab",
+        "args": [
+          "grounding"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 475,
+    "originalOnclick": "switchRegulationTab('somatic')",
+    "dataAction": "switchRegulationTab",
+    "dataActionArgs": "[\"somatic\"]",
+    "calls": [
+      {
+        "actionName": "switchRegulationTab",
+        "args": [
+          "somatic"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 476,
+    "originalOnclick": "switchRegulationTab('mind')",
+    "dataAction": "switchRegulationTab",
+    "dataActionArgs": "[\"mind\"]",
+    "calls": [
+      {
+        "actionName": "switchRegulationTab",
+        "args": [
+          "mind"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 477,
+    "originalOnclick": "switchRegulationTab('audio')",
+    "dataAction": "switchRegulationTab",
+    "dataActionArgs": "[\"audio\"]",
+    "calls": [
+      {
+        "actionName": "switchRegulationTab",
+        "args": [
+          "audio"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 478,
+    "originalOnclick": "switchRegulationTab('crisis')",
+    "dataAction": "switchRegulationTab",
+    "dataActionArgs": "[\"crisis\"]",
+    "calls": [
+      {
+        "actionName": "switchRegulationTab",
+        "args": [
+          "crisis"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 479,
+    "originalOnclick": "RegulationStudio.togglePacer()",
+    "dataAction": "RegulationStudio.togglePacer",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RegulationStudio.togglePacer",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 480,
+    "originalOnclick": "RegulationStudio.toggleBilateral()",
+    "dataAction": "RegulationStudio.toggleBilateral",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RegulationStudio.toggleBilateral",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 481,
+    "originalOnclick": "RegulationStudio.resetGrounding()",
+    "dataAction": "RegulationStudio.resetGrounding",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RegulationStudio.resetGrounding",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 482,
+    "originalOnclick": "RegulationStudio.nextGrounding()",
+    "dataAction": "RegulationStudio.nextGrounding",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RegulationStudio.nextGrounding",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 483,
+    "originalOnclick": "RegulationStudio.toggleShake()",
+    "dataAction": "RegulationStudio.toggleShake",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RegulationStudio.toggleShake",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 484,
+    "originalOnclick": "RegulationStudio.selectSUD(1)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[1]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "index": 485,
+    "originalOnclick": "RegulationStudio.selectSUD(2)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[2]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          2
+        ]
+      }
+    ]
+  },
+  {
+    "index": 486,
+    "originalOnclick": "RegulationStudio.selectSUD(3)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[3]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          3
+        ]
+      }
+    ]
+  },
+  {
+    "index": 487,
+    "originalOnclick": "RegulationStudio.selectSUD(4)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[4]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          4
+        ]
+      }
+    ]
+  },
+  {
+    "index": 488,
+    "originalOnclick": "RegulationStudio.selectSUD(5)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[5]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          5
+        ]
+      }
+    ]
+  },
+  {
+    "index": 489,
+    "originalOnclick": "RegulationStudio.selectSUD(6)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[6]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          6
+        ]
+      }
+    ]
+  },
+  {
+    "index": 490,
+    "originalOnclick": "RegulationStudio.selectSUD(7)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[7]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          7
+        ]
+      }
+    ]
+  },
+  {
+    "index": 491,
+    "originalOnclick": "RegulationStudio.selectSUD(8)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[8]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "index": 492,
+    "originalOnclick": "RegulationStudio.selectSUD(9)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[9]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          9
+        ]
+      }
+    ]
+  },
+  {
+    "index": 493,
+    "originalOnclick": "RegulationStudio.selectSUD(10)",
+    "dataAction": "RegulationStudio.selectSUD",
+    "dataActionArgs": "[10]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.selectSUD",
+        "args": [
+          10
+        ]
+      }
+    ]
+  },
+  {
+    "index": 494,
+    "originalOnclick": "RegulationStudio.playFrequency('432')",
+    "dataAction": "RegulationStudio.playFrequency",
+    "dataActionArgs": "[\"432\"]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.playFrequency",
+        "args": [
+          "432"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 495,
+    "originalOnclick": "RegulationStudio.playFrequency('theta')",
+    "dataAction": "RegulationStudio.playFrequency",
+    "dataActionArgs": "[\"theta\"]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.playFrequency",
+        "args": [
+          "theta"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 496,
+    "originalOnclick": "RegulationStudio.playFrequency('ocean')",
+    "dataAction": "RegulationStudio.playFrequency",
+    "dataActionArgs": "[\"ocean\"]",
+    "calls": [
+      {
+        "actionName": "RegulationStudio.playFrequency",
+        "args": [
+          "ocean"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 497,
+    "originalOnclick": "RegulationStudio.stopAudio()",
+    "dataAction": "RegulationStudio.stopAudio",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "RegulationStudio.stopAudio",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 498,
+    "originalOnclick": "closeRegulationModal()",
+    "dataAction": "closeRegulationModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeRegulationModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 500,
+    "originalOnclick": "copyBrainstormAsMarkdown()",
+    "dataAction": "copyBrainstormAsMarkdown",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "copyBrainstormAsMarkdown",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 501,
+    "originalOnclick": "clearAllBrainstormIdeas()",
+    "dataAction": "clearAllBrainstormIdeas",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "clearAllBrainstormIdeas",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 502,
+    "originalOnclick": "closeBrainstormModal()",
+    "dataAction": "closeBrainstormModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeBrainstormModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 503,
+    "originalOnclick": "submitBrainstormInput()",
+    "dataAction": "submitBrainstormInput",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "submitBrainstormInput",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 504,
+    "originalOnclick": "toggleBrainstormRecording()",
+    "dataAction": "toggleBrainstormRecording",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleBrainstormRecording",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 505,
+    "originalOnclick": "openNoteScannerModal('brainstorm')",
+    "dataAction": "openNoteScannerModal",
+    "dataActionArgs": "[\"brainstorm\"]",
+    "calls": [
+      {
+        "actionName": "openNoteScannerModal",
+        "args": [
+          "brainstorm"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 506,
+    "originalOnclick": "nextCreativeSpark()",
+    "dataAction": "nextCreativeSpark",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "nextCreativeSpark",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 507,
+    "originalOnclick": "setBrainstormFilter('all')",
+    "dataAction": "setBrainstormFilter",
+    "dataActionArgs": "[\"all\"]",
+    "calls": [
+      {
+        "actionName": "setBrainstormFilter",
+        "args": [
+          "all"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 508,
+    "originalOnclick": "setBrainstormFilter('starred')",
+    "dataAction": "setBrainstormFilter",
+    "dataActionArgs": "[\"starred\"]",
+    "calls": [
+      {
+        "actionName": "setBrainstormFilter",
+        "args": [
+          "starred"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 509,
+    "originalOnclick": "setBrainstormFilter('idea')",
+    "dataAction": "setBrainstormFilter",
+    "dataActionArgs": "[\"idea\"]",
+    "calls": [
+      {
+        "actionName": "setBrainstormFilter",
+        "args": [
+          "idea"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 510,
+    "originalOnclick": "setBrainstormFilter('quickwin')",
+    "dataAction": "setBrainstormFilter",
+    "dataActionArgs": "[\"quickwin\"]",
+    "calls": [
+      {
+        "actionName": "setBrainstormFilter",
+        "args": [
+          "quickwin"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 511,
+    "originalOnclick": "setBrainstormFilter('project')",
+    "dataAction": "setBrainstormFilter",
+    "dataActionArgs": "[\"project\"]",
+    "calls": [
+      {
+        "actionName": "setBrainstormFilter",
+        "args": [
+          "project"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 512,
+    "originalOnclick": "setBrainstormFilter('question')",
+    "dataAction": "setBrainstormFilter",
+    "dataActionArgs": "[\"question\"]",
+    "calls": [
+      {
+        "actionName": "setBrainstormFilter",
+        "args": [
+          "question"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 513,
+    "originalOnclick": "setBrainstormFilter('goal')",
+    "dataAction": "setBrainstormFilter",
+    "dataActionArgs": "[\"goal\"]",
+    "calls": [
+      {
+        "actionName": "setBrainstormFilter",
+        "args": [
+          "goal"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 514,
+    "originalOnclick": "closeBrainstormModal()",
+    "dataAction": "closeBrainstormModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeBrainstormModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 516,
+    "originalOnclick": "closeSampleManagerModal()",
+    "dataAction": "closeSampleManagerModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSampleManagerModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 517,
+    "originalOnclick": "toggleAllSampleCheckboxes(true)",
+    "dataAction": "toggleAllSampleCheckboxes",
+    "dataActionArgs": "[true]",
+    "calls": [
+      {
+        "actionName": "toggleAllSampleCheckboxes",
+        "args": [
+          true
+        ]
+      }
+    ]
+  },
+  {
+    "index": 518,
+    "originalOnclick": "toggleAllSampleCheckboxes(false)",
+    "dataAction": "toggleAllSampleCheckboxes",
+    "dataActionArgs": "[false]",
+    "calls": [
+      {
+        "actionName": "toggleAllSampleCheckboxes",
+        "args": [
+          false
+        ]
+      }
+    ]
+  },
+  {
+    "index": 519,
+    "originalOnclick": "applySampleManagerSelection()",
+    "dataAction": "applySampleManagerSelection",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "applySampleManagerSelection",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 520,
+    "originalOnclick": "closeSampleManagerModal()",
+    "dataAction": "closeSampleManagerModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSampleManagerModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 522,
+    "originalOnclick": "closeSupermarketModal()",
+    "dataAction": "closeSupermarketModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSupermarketModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 523,
+    "originalOnclick": "closeSupermarketModal()",
+    "dataAction": "closeSupermarketModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeSupermarketModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 525,
+    "originalOnclick": "closeFeierabendModal()",
+    "dataAction": "closeFeierabendModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeFeierabendModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 526,
+    "originalOnclick": "startFeierabendChillMode()",
+    "dataAction": "startFeierabendChillMode",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "startFeierabendChillMode",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 528,
+    "originalOnclick": "closeFeierabendModal()",
+    "dataAction": "closeFeierabendModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeFeierabendModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 530,
+    "originalOnclick": "closeInstallModal()",
+    "dataAction": "closeInstallModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeInstallModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 531,
+    "originalOnclick": "triggerDirectInstall()",
+    "dataAction": "triggerDirectInstall",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "triggerDirectInstall",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 532,
+    "originalOnclick": "switchPlatformTab('windows')",
+    "dataAction": "switchPlatformTab",
+    "dataActionArgs": "[\"windows\"]",
+    "calls": [
+      {
+        "actionName": "switchPlatformTab",
+        "args": [
+          "windows"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 533,
+    "originalOnclick": "switchPlatformTab('android')",
+    "dataAction": "switchPlatformTab",
+    "dataActionArgs": "[\"android\"]",
+    "calls": [
+      {
+        "actionName": "switchPlatformTab",
+        "args": [
+          "android"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 534,
+    "originalOnclick": "switchPlatformTab('macos')",
+    "dataAction": "switchPlatformTab",
+    "dataActionArgs": "[\"macos\"]",
+    "calls": [
+      {
+        "actionName": "switchPlatformTab",
+        "args": [
+          "macos"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 535,
+    "originalOnclick": "switchPlatformTab('linux')",
+    "dataAction": "switchPlatformTab",
+    "dataActionArgs": "[\"linux\"]",
+    "calls": [
+      {
+        "actionName": "switchPlatformTab",
+        "args": [
+          "linux"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 536,
+    "originalOnclick": "switchPlatformTab('ios')",
+    "dataAction": "switchPlatformTab",
+    "dataActionArgs": "[\"ios\"]",
+    "calls": [
+      {
+        "actionName": "switchPlatformTab",
+        "args": [
+          "ios"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 537,
+    "originalOnclick": "switchPlatformTab('wizard')",
+    "dataAction": "switchPlatformTab",
+    "dataActionArgs": "[\"wizard\"]",
+    "calls": [
+      {
+        "actionName": "switchPlatformTab",
+        "args": [
+          "wizard"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 538,
+    "originalOnclick": "downloadDesktopLauncher('windows-bat')",
+    "dataAction": "downloadDesktopLauncher",
+    "dataActionArgs": "[\"windows-bat\"]",
+    "calls": [
+      {
+        "actionName": "downloadDesktopLauncher",
+        "args": [
+          "windows-bat"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 539,
+    "originalOnclick": "downloadDesktopLauncher('windows-url')",
+    "dataAction": "downloadDesktopLauncher",
+    "dataActionArgs": "[\"windows-url\"]",
+    "calls": [
+      {
+        "actionName": "downloadDesktopLauncher",
+        "args": [
+          "windows-url"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 540,
+    "originalOnclick": "downloadDesktopLauncher('linux-desktop')",
+    "dataAction": "downloadDesktopLauncher",
+    "dataActionArgs": "[\"linux-desktop\"]",
+    "calls": [
+      {
+        "actionName": "downloadDesktopLauncher",
+        "args": [
+          "linux-desktop"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 541,
+    "originalOnclick": "closeInstallModal(); openRoutinePresetsModal();",
+    "dataAction": "closeInstallModal; openRoutinePresetsModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeInstallModal",
+        "args": []
+      },
+      {
+        "actionName": "openRoutinePresetsModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 543,
+    "originalOnclick": "AppInstallationHub.requestNotificationPermission()",
+    "dataAction": "AppInstallationHub.requestNotificationPermission",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "AppInstallationHub.requestNotificationPermission",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 544,
+    "originalOnclick": "downloadDesktopLauncher('offline-pack')",
+    "dataAction": "downloadDesktopLauncher",
+    "dataActionArgs": "[\"offline-pack\"]",
+    "calls": [
+      {
+        "actionName": "downloadDesktopLauncher",
+        "args": [
+          "offline-pack"
+        ]
+      }
+    ]
+  },
+  {
+    "index": 545,
+    "originalOnclick": "closeInstallModal()",
+    "dataAction": "closeInstallModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeInstallModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 547,
+    "originalOnclick": "closePrivacyModal()",
+    "dataAction": "closePrivacyModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closePrivacyModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 548,
+    "originalOnclick": "toggleUmamiOptOut()",
+    "dataAction": "toggleUmamiOptOut",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleUmamiOptOut",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 550,
+    "originalOnclick": "closePrivacyModal()",
+    "dataAction": "closePrivacyModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closePrivacyModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 552,
+    "originalOnclick": "toggleMiniPlayerPlayback()",
+    "dataAction": "toggleMiniPlayerPlayback",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "toggleMiniPlayerPlayback",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 553,
+    "originalOnclick": "stopAllMiniPlayerAudio()",
+    "dataAction": "stopAllMiniPlayerAudio",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "stopAllMiniPlayerAudio",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 555,
+    "originalOnclick": "closeUndoHistoryModal()",
+    "dataAction": "closeUndoHistoryModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeUndoHistoryModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 556,
+    "originalOnclick": "closeUndoHistoryModal()",
+    "dataAction": "closeUndoHistoryModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeUndoHistoryModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 558,
+    "originalOnclick": "closeTemplateBuilderModal()",
+    "dataAction": "closeTemplateBuilderModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeTemplateBuilderModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 559,
+    "originalOnclick": "addCustomTaskToTemplate()",
+    "dataAction": "addCustomTaskToTemplate",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "addCustomTaskToTemplate",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 560,
+    "originalOnclick": "resetTemplateBuilderToDefault()",
+    "dataAction": "resetTemplateBuilderToDefault",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "resetTemplateBuilderToDefault",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 561,
+    "originalOnclick": "closeTemplateBuilderModal()",
+    "dataAction": "closeTemplateBuilderModal",
+    "dataActionArgs": null,
+    "calls": [
+      {
+        "actionName": "closeTemplateBuilderModal",
+        "args": []
+      }
+    ]
+  },
+  {
+    "index": 562,
+    "originalOnclick": "saveTemplateBuilder(false)",
+    "dataAction": "saveTemplateBuilder",
+    "dataActionArgs": "[false]",
+    "calls": [
+      {
+        "actionName": "saveTemplateBuilder",
+        "args": [
+          false
+        ]
+      }
+    ]
+  },
+  {
+    "index": 563,
+    "originalOnclick": "saveTemplateBuilder(true)",
+    "dataAction": "saveTemplateBuilder",
+    "dataActionArgs": "[true]",
+    "calls": [
+      {
+        "actionName": "saveTemplateBuilder",
+        "args": [
+          true
+        ]
+      }
+    ]
+  }
+]

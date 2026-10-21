@@ -9,8 +9,33 @@
 - [x] **Phase 5: Architektur B** – Event-Delegation (`data-action`) statt Inline-`onclick`, Strikte CSP, Aufteilung monolithischer Dateien >2000 Zeilen
 - [x] **Phase 6: Datenschutz** – E2E-Verschlüsselung (WebCrypto AES-GCM / PBKDF2), Opt-in, Migration, Developer-Modus für Config-Overrides
 - [x] **Phase 7: Abschluss** – README & Dokumentation, Finalisierung UPDATE_PLAN.md
+- [x] **Phase 8: Korrekturrunde** – Toter Delta-Sync entfernt, Realtime-Channel & RLS gehärtet, Crypto-Sync auf 600.000 Iterationen verstärkt mit Abwärtskompatibilität, sichere onclick-Teilmigration (468 migriert, 96 bewusst erhalten)
 
 ---
+
+## Phase 8: Gezielte Korrekturrunde (Hardening & Konsolidierung)
+
+### Umgesetzte Maßnahmen
+1. **Delta-Sync entfernt (Schutz vor Datenverlust):**
+   - Toter Delta-Sync-Code (`pushDelta`, `computeDelta`, `applyDelta`, `lastSyncedSnapshot`) vollständig aus `sync-engine.js` und zugehörigen Test-Suiten entfernt.
+   - Voller Snapshot-Sync (`pushState` / `pullState`) bleibt unberührt und verlässlich.
+2. **Realtime-Channel gehärtet:**
+   - In `supabase-policies.sql` RLS-Policies für SELECT und INSERT auf `realtime.messages` für Rolle `authenticated` (Topic beginnt mit `'room_'`) ergänzt und klar dokumentiert.
+   - In `collab-engine.js`: Automatischer, transparenter Fallback auf `private: false` bei `CHANNEL_ERROR` oder `TIMED_OUT` mit dezenter Konsolenwarnung implementiert.
+3. **Kryptografie gehärtet:**
+   - PBKDF2-Iterationen in `crypto-sync.js` von 100.000 auf 600.000 erhöht.
+   - Iterationsanzahl wird im Container-Objekt (`iterations`) gespeichert; beim Entschlüsseln wird der Wert genutzt (Fallback 100.000 für Legacy-Container).
+4. **Sichere onclick-Teilmigration:**
+   - Codemod `scripts/migrate-onclick.mjs` migrierte 468 von 564 `onclick`-Attributen in `index.html` auf `data-action` und `data-action-args`.
+   - 96 komplexe Handler bewusst unverändert gelassen (66 mit Kontrollfluss/`if`, 7 mit `stopPropagation`, 23 mit DOM-Queries/Closures).
+   - Baseline in `scripts/onclick-baseline.json` gesichert. Pflicht-Tests verifizieren für alle 468 Elemente identischen Funktionsaufruf und Existenz aller Action-Namen im JS-Code.
+5. **Sprachdaten:**
+   - `locales/` unverändert belassen, da `tests/build-and-performance.test.js` direkt davon abhängt.
+6. **Puppeteer-Smoke-Test:**
+   - Erfolgreich ausgeführt: 10 Kernbuttons in `dist/index.html` ohne Funktions- oder Reference-Fehler geklickt.
+
+---
+
 
 ## Phase 7: Abschluss & Master-Dokumentation
 

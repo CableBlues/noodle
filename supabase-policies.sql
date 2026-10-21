@@ -54,7 +54,27 @@ CREATE POLICY "Users can delete own flow_sync data"
 
 -- ==============================================================================
 -- 5. Supabase Realtime Authorization (Private Channels)
--- Stellt sicher, dass Broadcast- und Presence-Nachrichten autorisiert sind
+-- WICHTIG: Diese Policies im Supabase SQL-Editor ausführen ("in Supabase einspielen"),
+-- damit authentifizierte Benutzer private Realtime-Channels nutzen können.
 -- ==============================================================================
--- Erlaube authentifizierten Nutzern das Abonnieren von Realtime-Channels
--- (Supabase Realtime v2 autorisiert private Channels über die RLS / JWT)
+
+-- Vorhandene Policies für saubere Idempotenz löschen
+DROP POLICY IF EXISTS "Authenticated users can receive room messages" ON realtime.messages;
+DROP POLICY IF EXISTS "Authenticated users can send room messages" ON realtime.messages;
+
+-- SELECT-Policy: Erlaubt authentifizierten Benutzern das Empfangen von Broadcast/Presence
+-- für alle Topics, die mit 'room_' beginnen
+CREATE POLICY "Authenticated users can receive room messages"
+  ON realtime.messages
+  FOR SELECT
+  TO authenticated
+  USING (topic LIKE 'room_%');
+
+-- INSERT-Policy: Erlaubt authentifizierten Benutzern das Senden von Nachrichten
+-- für alle Topics, die mit 'room_' beginnen
+CREATE POLICY "Authenticated users can send room messages"
+  ON realtime.messages
+  FOR INSERT
+  TO authenticated
+  WITH CHECK (topic LIKE 'room_%');
+

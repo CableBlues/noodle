@@ -66,8 +66,8 @@ Statt große Audiodateien zu streamen, synthetisiert Noodle seine Fokus-Klangwel
 | `storage.js` | Ausfallsichere Speicherschicht (`AppStorage`) mit `localStorage` und `IndexedDB`-Spiegelung |
 | `state.js` | Zentrales State-Management, Schema-Migration (`migrateState`), Undo/Redo-Stack, Workspaces |
 | `auth-engine.js` | Authentifizierungs-Client (`FlowAuth`), Session-Verwaltung und Cloud-Token-Handling |
-| `sync-engine.js` | Multi-Device-Synchronisation, Delta-Sync mit Fallback, E2E-Container, Tombstone-LWW |
-| `collab-engine.js` | Echtzeit-Team-Kollaboration, private Supabase-Channels, kryptografische Raumcodes (≥10 Zeichen) |
+| `sync-engine.js` | Multi-Device-Synchronisation, Vollständiger Snapshot-Sync, E2E-Container, Tombstone-LWW |
+| `collab-engine.js` | Echtzeit-Team-Kollaboration, private Supabase-Channels mit Fallback, kryptografische Raumcodes (≥10 Zeichen) |
 | `utils.js` / `utils-2.js` | XSS-Sanitization (`escapeHtml`, `sanitizeUrl`), Event-Delegation-Dispatcher (`dispatchAction`), Kalender |
 | `app-backup.js` | Autarkes Backup-, JSON-Export- und Restore-System mit Daten-Migration |
 | `sw.js` | Automatisch generierter Service Worker mit SHA-256 Inhalts-Cache-Versionierung |

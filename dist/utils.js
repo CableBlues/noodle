@@ -1474,164 +1474,133 @@ if (typeof document !== 'undefined') {
 function dispatchAction(actionName, args = [], event = null, targetElement = null) {
   if (!actionName) return false;
 
-  // 1. Built-in Action Registry für Standardaktionen
-  switch (actionName) {
-    case 'togglePanel':
-      const tp = (typeof window !== 'undefined' && window.togglePanel) || (typeof togglePanel === 'function' ? togglePanel : null);
-      if (tp) {
-        tp(args[0], event);
-        return true;
+  // 0. Semikolon-separierte Mehrfachaufrufe
+  if (actionName.includes(';')) {
+    const actions = actionName.split(';').map(s => s.trim()).filter(Boolean);
+    const isMultiArgs = Array.isArray(args) && actions.length > 1 && (args.length === 0 || Array.isArray(args[0]));
+    let allOk = true;
+    actions.forEach((act, idx) => {
+      const actArgs = isMultiArgs && Array.isArray(args[idx]) ? args[idx] : (Array.isArray(args) ? args : []);
+      if (!dispatchAction(act, actArgs, event, targetElement)) {
+        allOk = false;
       }
-      break;
-    case 'toggleMinimalist':
-      if (typeof toggleMinimalist === 'function') {
-        toggleMinimalist();
-        return true;
-      }
-      break;
-    case 'startTimer':
-      if (typeof startTimer === 'function') {
-        startTimer();
-        return true;
-      }
-      break;
-    case 'pauseTimer':
-      if (typeof pauseTimer === 'function') {
-        pauseTimer();
-        return true;
-      }
-      break;
-    case 'stopTimer':
-      if (typeof stopTimer === 'function') {
-        stopTimer();
-        return true;
-      }
-      break;
-    case 'playAmbientSound':
-      if (typeof playAmbientSound === 'function') {
-        playAmbientSound(args[0]);
-        return true;
-      }
-      break;
-    case 'openAudioStudioMode':
-      if (typeof openAudioStudioMode === 'function') {
-        openAudioStudioMode(args[0]);
-        return true;
-      }
-      break;
-    case 'toggleMusicPlayback':
-      if (typeof toggleMusicPlayback === 'function') {
-        toggleMusicPlayback();
-        return true;
-      }
-      break;
-    case 'playNextMusicTrack':
-      if (typeof playNextMusicTrack === 'function') {
-        playNextMusicTrack();
-        return true;
-      }
-      break;
-    case 'toggleMusicShuffle':
-      if (typeof toggleMusicShuffle === 'function') {
-        toggleMusicShuffle();
-        return true;
-      }
-      break;
-    case 'openMobileMenuDrawer':
-      if (typeof openMobileMenuDrawer === 'function') {
-        openMobileMenuDrawer();
-        return true;
-      }
-      break;
-    case 'closeMobileMenuDrawer':
-      if (typeof closeMobileMenuDrawer === 'function') {
-        closeMobileMenuDrawer();
-        return true;
-      }
-      break;
-    case 'openMobileToolsSheet':
-      if (typeof openMobileToolsSheet === 'function') {
-        openMobileToolsSheet();
-        return true;
-      }
-      break;
-    case 'closeMobileToolsSheet':
-      if (typeof closeMobileToolsSheet === 'function') {
-        closeMobileToolsSheet();
-        return true;
-      }
-      break;
-    case 'switchShoppingTab':
-      if (typeof switchShoppingTab === 'function') {
-        switchShoppingTab(args[0]);
-        return true;
-      }
-      break;
-    case 'handleAddShoppingItem':
-      if (typeof handleAddShoppingItem === 'function') {
-        handleAddShoppingItem(args[0]);
-        return true;
-      }
-      break;
-    case 'clearShoppingList':
-      if (typeof clearShoppingList === 'function') {
-        clearShoppingList();
-        return true;
-      }
-      break;
-    case 'copyShoppingListToClipboard':
-      if (typeof copyShoppingListToClipboard === 'function') {
-        copyShoppingListToClipboard();
-        return true;
-      }
-      break;
-    case 'openSupermarketModal':
-      if (typeof openSupermarketModal === 'function') {
-        openSupermarketModal();
-        return true;
-      }
-      break;
-    case 'openCleaningGuideModal':
-      if (typeof openCleaningGuideModal === 'function') {
-        openCleaningGuideModal();
-        return true;
-      }
-      break;
-    case 'openSettingsModal':
-      if (typeof openSettingsModal === 'function') {
-        openSettingsModal(args[0]);
-        return true;
-      }
-      break;
-    case 'stopPropagation':
-      if (event && typeof event.stopPropagation === 'function') {
-        event.stopPropagation();
-        return true;
-      }
-      break;
+    });
+    return allOk;
   }
 
-  // 2. Namensaufgelöster Lookup (Objekt-Pfade wie RadioNewsEngine.toggleNewsTickerEnabled)
+  // Auflösung von $event und $this
+  const resolvedArgs = (Array.isArray(args) ? args : [args]).map(arg => {
+    if (arg === '$event') return event;
+    if (arg === '$this') return targetElement;
+    return arg;
+  });
+
+  // Special built-in: stopPropagation
+  if (actionName === 'stopPropagation') {
+    if (event && typeof event.stopPropagation === 'function') {
+      event.stopPropagation();
+      return true;
+    }
+    return false;
+  }
+
+  // 1. Namensaufgelöster Lookup (Objekt-Pfade wie RadioNewsEngine.toggleNewsTickerEnabled oder Window-Funktionen)
   const parts = actionName.split('.');
-  let currentObj = (typeof window !== 'undefined' ? window : globalThis);
+  let currentObj = (typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : null));
+  let parentObj = null;
+
   for (let i = 0; i < parts.length; i++) {
     if (!currentObj) break;
+    parentObj = currentObj;
     currentObj = currentObj[parts[i]];
   }
 
-  if (typeof currentObj === 'function') {
-    const parentObj = parts.length > 1 ? (function() {
-      let p = (typeof window !== 'undefined' ? window : globalThis);
-      for (let j = 0; j < parts.length - 1; j++) p = p[parts[j]];
-      return p;
-    })() : null;
-
-    currentObj.apply(parentObj || window, args.length > 0 ? args : (event ? [event] : []));
-    return true;
+  // 2. Fallback auf lokale Funktionen falls nicht auf window gebunden
+  if (typeof currentObj !== 'function' && parts.length === 1) {
+    switch (actionName) {
+      case 'togglePanel':
+        if (typeof togglePanel === 'function') currentObj = togglePanel;
+        break;
+      case 'toggleMinimalist':
+        if (typeof toggleMinimalist === 'function') currentObj = toggleMinimalist;
+        break;
+      case 'startTimer':
+        if (typeof startTimer === 'function') currentObj = startTimer;
+        break;
+      case 'pauseTimer':
+        if (typeof pauseTimer === 'function') currentObj = pauseTimer;
+        break;
+      case 'stopTimer':
+        if (typeof stopTimer === 'function') currentObj = stopTimer;
+        break;
+      case 'playAmbientSound':
+        if (typeof playAmbientSound === 'function') currentObj = playAmbientSound;
+        break;
+      case 'openAudioStudioMode':
+        if (typeof openAudioStudioMode === 'function') currentObj = openAudioStudioMode;
+        break;
+      case 'toggleMusicPlayback':
+        if (typeof toggleMusicPlayback === 'function') currentObj = toggleMusicPlayback;
+        break;
+      case 'playNextMusicTrack':
+        if (typeof playNextMusicTrack === 'function') currentObj = playNextMusicTrack;
+        break;
+      case 'toggleMusicShuffle':
+        if (typeof toggleMusicShuffle === 'function') currentObj = toggleMusicShuffle;
+        break;
+      case 'openMobileMenuDrawer':
+        if (typeof openMobileMenuDrawer === 'function') currentObj = openMobileMenuDrawer;
+        break;
+      case 'closeMobileMenuDrawer':
+        if (typeof closeMobileMenuDrawer === 'function') currentObj = closeMobileMenuDrawer;
+        break;
+      case 'openMobileToolsSheet':
+        if (typeof openMobileToolsSheet === 'function') currentObj = openMobileToolsSheet;
+        break;
+      case 'closeMobileToolsSheet':
+        if (typeof closeMobileToolsSheet === 'function') currentObj = closeMobileToolsSheet;
+        break;
+      case 'switchShoppingTab':
+        if (typeof switchShoppingTab === 'function') currentObj = switchShoppingTab;
+        break;
+      case 'handleAddShoppingItem':
+        if (typeof handleAddShoppingItem === 'function') currentObj = handleAddShoppingItem;
+        break;
+      case 'clearShoppingList':
+        if (typeof clearShoppingList === 'function') currentObj = clearShoppingList;
+        break;
+      case 'copyShoppingListToClipboard':
+        if (typeof copyShoppingListToClipboard === 'function') currentObj = copyShoppingListToClipboard;
+        break;
+      case 'openSupermarketModal':
+        if (typeof openSupermarketModal === 'function') currentObj = openSupermarketModal;
+        break;
+      case 'openCleaningGuideModal':
+        if (typeof openCleaningGuideModal === 'function') currentObj = openCleaningGuideModal;
+        break;
+      case 'openSettingsModal':
+        if (typeof openSettingsModal === 'function') currentObj = openSettingsModal;
+        break;
+    }
+    if (typeof currentObj === 'function') {
+      parentObj = (typeof window !== 'undefined' ? window : globalThis);
+    }
   }
 
+  if (typeof currentObj === 'function') {
+    try {
+      currentObj.apply(parentObj || (typeof window !== 'undefined' ? window : globalThis), resolvedArgs);
+      return true;
+    } catch (err) {
+      console.error(`dispatchAction error executing "${actionName}":`, err);
+      return false;
+    }
+  }
+
+  console.warn(`dispatchAction: action "${actionName}" is not a function.`);
   return false;
 }
+
 
 if (typeof document !== 'undefined') {
   document.addEventListener('click', (event) => {
@@ -1657,8 +1626,13 @@ if (typeof document !== 'undefined') {
 
     // Unterstützt verkettete Aktionen (Semikolon-separiert)
     const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
-    actionList.forEach(actionItem => {
-      dispatchAction(actionItem, parsedArgs, event, actionEl);
+    const isMultiArgs = Array.isArray(parsedArgs) && actionList.length > 1 && (parsedArgs.length === 0 || Array.isArray(parsedArgs[0]));
+
+    actionList.forEach((actionItem, idx) => {
+      const callArgs = isMultiArgs && Array.isArray(parsedArgs[idx])
+        ? parsedArgs[idx]
+        : (Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs]);
+      dispatchAction(actionItem, callArgs, event, actionEl);
     });
   });
 }
@@ -1669,6 +1643,7 @@ if (typeof window !== 'undefined') {
 if (typeof globalThis !== 'undefined') {
   globalThis.dispatchAction = dispatchAction;
 }
+
 
 
 
