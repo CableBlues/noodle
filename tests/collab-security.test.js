@@ -111,6 +111,42 @@ describe('Phase 1: Collab-Sicherheit & Resilienz Suite', () => {
       expect(html).not.toContain("alert(1)");
       expect(html).not.toContain("onerror=");
     });
+
+    it('rendert DJ Live-Sync Button mit sicherer Attribut-Maskierung und data-action', () => {
+      let chatBox = document.getElementById('collab-chat-messages-container');
+      if (!chatBox) {
+        chatBox = document.createElement('div');
+        chatBox.id = 'collab-chat-messages-container';
+        document.body.appendChild(chatBox);
+      }
+
+      // Simuliere DJ-Track mit bösartigem Tracknamen (Quote-Breakout & XSS Payload)
+      const maliciousTrack = {
+        name: `Track"); alert('xss'); // <img src=x onerror=alert(1)>`,
+        bpm: 128,
+        url: 'music/beat.mp3'
+      };
+
+      const djMsg = {
+        id: 'msg_dj_1',
+        sender: { id: 'dj_user', name: 'DJ Tester' },
+        isDjShare: true,
+        track: maliciousTrack,
+        text: 'DJ Musik stream',
+        time: '12:00'
+      };
+
+      CollabEngine.handleIncomingEvent({
+        type: 'chat_message',
+        message: djMsg,
+        sender: { id: 'dj_user' }
+      });
+
+      const renderedHtml = chatBox.innerHTML;
+      // Es darf kein unmaskierter alert(1) oder alert('xss') inline ausgeführt werden
+      expect(renderedHtml).not.toContain(`onclick="CollabEngine.syncSharedDjTrack({"name":"Track"); alert('xss');`);
+      expect(renderedHtml).toContain('data-action="CollabEngine.syncSharedDjTrack"');
+    });
   });
 
   describe('5. Realtime Channel Fallback bei CHANNEL_ERROR oder TIMED_OUT', () => {
@@ -155,6 +191,41 @@ describe('Phase 1: Collab-Sicherheit & Resilienz Suite', () => {
       expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Private Realtime-Channel Fehler'));
 
       warnSpy.mockRestore();
+    });
+  });
+
+  describe('6. Supabase Realtime Autorisierungs-Logik & Raum-Mitgliedschaft', () => {
+    // JS-Implementierung der in supabase-policies.sql definierten Sicherheitsfunktion public.is_room_member
+    function isRoomMember(channelTopic, currentUid, roomMemberships) {
+      if (!channelTopic || !currentUid) return false;
+      if (!channelTopic.startsWith('room_')) return false;
+      const extractedRoomId = channelTopic.substring(5);
+      if (!extractedRoomId) return false;
+      return roomMemberships.some(m => m.room_id === extractedRoomId && m.user_id === currentUid);
+    }
+
+    it('gewährt Mitgliedern Zugriff auf den zugehörigen Raum-Channel und blockiert Nicht-Mitglieder', () => {
+      const memberships = [
+        { room_id: 'team-alpha-123', user_id: 'usr_alice' },
+        { room_id: 'team-beta-456', user_id: 'usr_bob' }
+      ];
+
+      // Alice greift auf Team Alpha zu -> Erlaubt
+      expect(isRoomMember('room_team-alpha-123', 'usr_alice', memberships)).toBe(true);
+
+      // Alice versucht auf fremden Raum Team Beta zuzugreifen -> Verweigert
+      expect(isRoomMember('room_team-beta-456', 'usr_alice', memberships)).toBe(false);
+
+      // Bob greift auf Team Beta zu -> Erlaubt
+      expect(isRoomMember('room_team-beta-456', 'usr_bob', memberships)).toBe(true);
+
+      // Bob versucht auf fremden Raum Team Alpha zuzugreifen -> Verweigert
+      expect(isRoomMember('room_team-alpha-123', 'usr_bob', memberships)).toBe(false);
+
+      // Zugriff ohne Authentifizierung oder ungültiges Topic -> Verweigert
+      expect(isRoomMember('room_team-alpha-123', null, memberships)).toBe(false);
+      expect(isRoomMember('invalid_topic', 'usr_alice', memberships)).toBe(false);
+      expect(isRoomMember('room_', 'usr_alice', memberships)).toBe(false);
     });
   });
 });

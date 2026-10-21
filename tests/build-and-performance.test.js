@@ -81,5 +81,46 @@ describe('Phase 3: Build & Performance Optimizations', () => {
       expect(globalThis.TRANSLATIONS['fr']).toBeDefined();
     });
   });
+
+  describe('4. Build-Zuverlässigkeit & Artefakt-Validierung', () => {
+    it('alle kritischen Build-Artefakte existieren in dist/ und haben nicht-triviale Größen', () => {
+      const requiredArtifacts = [
+        { path: path.join(distDir, 'index.html'), minSize: 1000 },
+        { path: path.join(distDir, 'app.bundle.js'), minSize: 100 * 1024 },
+        { path: path.join(distDir, 'sw.js'), minSize: 500 },
+        { path: path.join(distDir, 'styles-tailwind.css'), minSize: 10 * 1024 },
+        { path: path.join(distDir, 'manifest.json'), minSize: 100 }
+      ];
+
+      for (const artifact of requiredArtifacts) {
+        expect(fs.existsSync(artifact.path), `Artefakt fehlt: ${artifact.path}`).toBe(true);
+        const stat = fs.statSync(artifact.path);
+        expect(stat.size).toBeGreaterThanOrEqual(artifact.minSize);
+      }
+    });
+
+    it('dist/sw.js verweist auf gültige, im dist-Verzeichnis vorhandene Assets', () => {
+      const swDistPath = path.join(distDir, 'sw.js');
+      expect(fs.existsSync(swDistPath)).toBe(true);
+      const swContent = fs.readFileSync(swDistPath, 'utf8');
+
+      // Extrahiere gecachte Pfade
+      const match = swContent.match(/const\s+ASSETS_TO_CACHE\s*=\s*\[([\s\S]*?)\];/);
+      expect(match).not.toBeNull();
+      const assets = match[1]
+        .split('\n')
+        .map(line => line.trim().replace(/^['"]|['"],?$/g, ''))
+        .filter(Boolean);
+      expect(assets.length).toBeGreaterThan(0);
+
+      // Prüfe, dass Kern-Assets auf der Festplatte existieren
+      const sampleAssets = assets.filter(a => !a.startsWith('http') && a !== './' && a !== '/');
+      sampleAssets.slice(0, 10).forEach(asset => {
+        const cleanAsset = asset.replace(/^\.\//, '');
+        const targetPath = path.join(distDir, cleanAsset);
+        expect(fs.existsSync(targetPath), `Asset aus sw.js fehlt im dist/: ${cleanAsset}`).toBe(true);
+      });
+    });
+  });
 });
 

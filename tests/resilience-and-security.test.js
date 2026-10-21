@@ -50,24 +50,25 @@ describe('Storage Quota & Resilience', () => {
     expect(window.AppStorage.get('bad_json', 'safe')).toBe('safe');
   });
 
-  it('AppStorage attempts emergency cleanup on QuotaExceededError', () => {
+  it('AppStorage never deletes user history or backups on QuotaExceededError and returns false', () => {
     let callCount = 0;
     localStorage.setItem('flow_history', 'heavy history');
     localStorage.setItem('flow_backup_before_sync', 'old backup');
 
     const spy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation((key, val) => {
       callCount++;
-      if (callCount === 1) {
-        const err = new Error('QuotaExceededError');
-        err.name = 'QuotaExceededError';
-        throw err;
-      }
+      const err = new Error('QuotaExceededError');
+      err.name = 'QuotaExceededError';
+      err.code = 22;
+      throw err;
     });
 
     const success = window.AppStorage.set('flow_critical_data', { ready: true });
-    expect(success).toBe(true);
-    expect(callCount).toBe(2);
-    expect(localStorage.getItem('flow_history')).toBe(null);
+    // Write must fail honestly without faking success
+    expect(success).toBe(false);
+    // User history and sync backups MUST NOT be deleted automatically!
+    expect(localStorage.getItem('flow_history')).toBe('heavy history');
+    expect(localStorage.getItem('flow_backup_before_sync')).toBe('old backup');
 
     spy.mockRestore();
   });

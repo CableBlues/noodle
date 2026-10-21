@@ -30,13 +30,20 @@ try {
   execSync('npx tailwindcss -i ./tailwind.input.css -o ./styles-tailwind.css --minify', { cwd: rootDir, stdio: 'pipe' });
   console.log('✓ styles-tailwind.css erfolgreich vorkompiliert');
 } catch (err) {
-  console.warn('Tailwind Build Notice (nutze bestehendes styles-tailwind.css):', err.message);
+  const cssPath = path.join(rootDir, 'styles-tailwind.css');
+  if (fs.existsSync(cssPath) && fs.statSync(cssPath).size > 1000) {
+    console.warn('Tailwind Build Notice (nutze bestehendes styles-tailwind.css):', err.message);
+  } else {
+    console.error('❌ KRITISCHER BUILD-FEHLER: Tailwind-Kompilierung fehlgeschlagen und kein styles-tailwind.css vorhanden!');
+    process.exit(1);
+  }
 }
 
-// 1. Ensure dist directory exists
-if (!fs.existsSync(distDir)) {
-  fs.mkdirSync(distDir, { recursive: true });
+// 1. Ensure dist directory exists & clean old build artifacts
+if (fs.existsSync(distDir)) {
+  fs.rmSync(distDir, { recursive: true, force: true });
 }
+fs.mkdirSync(distDir, { recursive: true });
 
 // 2. Scan music directory and write music/manifest.json
 const musicDirPath = path.join(rootDir, 'music');
@@ -214,7 +221,8 @@ try {
   const bundleSizeKb = (minified.code.length / 1024).toFixed(2);
   console.log(`✓ app.bundle.js erfolgreich aus ${moduleList.length} Modulen erzeugt und minifiziert (${bundleSizeKb} KB)`);
 } catch (e) {
-  console.warn('Bundling warning:', e.message);
+  console.error('❌ KRITISCHER BUILD-FEHLER beim Bundling:', e.message);
+  process.exit(1);
 }
 
 // 4. Generate dist/index.html (wires single bundled app.bundle.js)
@@ -243,6 +251,29 @@ fs.copyFileSync(path.join(rootDir, 'sw.js'), path.join(distDir, 'sw.js'));
 updateServiceWorkerFile(path.join(distDir, 'sw.js'), distAssets, distCacheVersion);
 console.log(`✓ dist/sw.js automatisch aktualisiert (${distAssets.length} Assets, Version: ${distCacheVersion})`);
 
+// 6. Verbindliche Build-Validierung: Alle Kern-Artefakte müssen existieren und gefüllt sein
+const requiredArtifacts = [
+  { path: path.join(distDir, 'index.html'), minSize: 1000, name: 'dist/index.html' },
+  { path: path.join(distDir, 'app.bundle.js'), minSize: 100 * 1024, name: 'dist/app.bundle.js' },
+  { path: path.join(distDir, 'sw.js'), minSize: 500, name: 'dist/sw.js' },
+  { path: path.join(distDir, 'styles-tailwind.css'), minSize: 10 * 1024, name: 'dist/styles-tailwind.css' },
+  { path: path.join(distDir, 'manifest.json'), minSize: 100, name: 'dist/manifest.json' }
+];
+
+for (const artifact of requiredArtifacts) {
+  if (!fs.existsSync(artifact.path)) {
+    console.error(`❌ KRITISCHER BUILD-FEHLER: Erforderliches Build-Artefakt fehlt: ${artifact.name}`);
+    process.exit(1);
+  }
+  const stat = fs.statSync(artifact.path);
+  if (stat.size < artifact.minSize) {
+    console.error(`❌ KRITISCHER BUILD-FEHLER: Build-Artefakt unvollständig oder leer (${stat.size} Bytes < ${artifact.minSize} Bytes): ${artifact.name}`);
+    process.exit(1);
+  }
+}
+console.log(`✓ Alle ${requiredArtifacts.length} kritischen Build-Artefakte erfolgreich verifiziert`);
+
 console.log('\n====================================================');
 console.log('🎉 BUILD ERFOLGREICH ABGESCHLOSSEN (Bereit für Hosting)');
 console.log('====================================================');
+

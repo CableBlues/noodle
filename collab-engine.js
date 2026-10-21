@@ -1363,8 +1363,7 @@ const CollabEngine = (function() {
                   <div class="text-xs font-bold text-white truncate">${trackName}</div>
                   <div class="text-[9px] text-gray-400 font-mono">Synchronisierter Stream</div>
                 </div>
-              </div>
-              <button onclick="CollabEngine.syncSharedDjTrack(${trackJSON})" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-extrabold text-xs shadow-md transition active:scale-95 cursor-pointer flex items-center gap-1.5 shrink-0">
+              <button data-action="CollabEngine.syncSharedDjTrack" data-action-args="${escapeHtml(JSON.stringify([msg.track]))}" onclick="CollabEngine.syncSharedDjTrack(this.dataset.track ? JSON.parse(this.dataset.track) : null)" data-track="${escapeHtml(JSON.stringify(msg.track))}" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-extrabold text-xs shadow-md transition active:scale-95 cursor-pointer flex items-center gap-1.5 shrink-0">
                 <span>▶️ Live Sync</span>
               </button>
             </div>
