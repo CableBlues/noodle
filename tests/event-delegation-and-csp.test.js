@@ -141,6 +141,56 @@ describe('Phase 5 Architecture B: Event Delegation, CSP & Monolith-Aufteilung', 
 
       expect(documentHandlerRan).toBe(false);
     });
+
+    it('(d) Button mit data-action innerhalb eines stop-propagation-Wrappers führt Zielfunktion genau einmal aus', () => {
+      let callCount = 0;
+      window.testWrapperAction = () => {
+        callCount++;
+      };
+
+      const panel = document.createElement('div');
+      panel.setAttribute('data-stop-propagation', 'true');
+
+      const actionBtn = document.createElement('button');
+      actionBtn.setAttribute('data-action', 'testWrapperAction');
+      actionBtn.textContent = 'Action Inside Wrapper';
+      panel.appendChild(actionBtn);
+      document.body.appendChild(panel);
+
+      if (typeof window.initStopPropagationWrappers === 'function') {
+        window.initStopPropagationWrappers();
+      }
+
+      actionBtn.click();
+
+      expect(callCount).toBe(1);
+      panel.remove();
+    });
+
+    it('(e) Inline-onclick Button innerhalb eines stop-propagation-Wrappers feuert genau einmal', () => {
+      let onclickCount = 0;
+      window.testInlineOnclick = () => {
+        onclickCount++;
+      };
+
+      const panel = document.createElement('div');
+      panel.setAttribute('data-stop-propagation', 'true');
+
+      const inlineBtn = document.createElement('button');
+      inlineBtn.onclick = () => window.testInlineOnclick();
+      inlineBtn.textContent = 'Inline Onclick Inside Wrapper';
+      panel.appendChild(inlineBtn);
+      document.body.appendChild(panel);
+
+      if (typeof window.initStopPropagationWrappers === 'function') {
+        window.initStopPropagationWrappers();
+      }
+
+      inlineBtn.click();
+
+      expect(onclickCount).toBe(1);
+      panel.remove();
+    });
   });
 
   it('Monolith-Aufteilung: app-core.js liegt unter 2000 Zeilen und app-backup.js ist modularisiert', () => {

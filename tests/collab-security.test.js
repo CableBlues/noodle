@@ -192,6 +192,57 @@ describe('Phase 1: Collab-Sicherheit & Resilienz Suite', () => {
 
       warnSpy.mockRestore();
     });
+
+    it('führt vor dem privaten Channel-Subscribe einen upsert in public.room_members durch und fällt bei Fehler auf private: false zurück', async () => {
+      const channelConfigs = [];
+      const upsertCalls = [];
+
+      const mockChannel = {
+        on: vi.fn().mockReturnThis(),
+        subscribe: vi.fn((cb) => {
+          cb('SUBSCRIBED');
+        }),
+        track: vi.fn().mockResolvedValue({})
+      };
+
+      const mockSupa = {
+        from: vi.fn((table) => ({
+          upsert: vi.fn((data, opts) => {
+            upsertCalls.push({ table, data, opts });
+            return Promise.resolve({ error: { message: 'RLS check failed / offline' } });
+          })
+        })),
+        channel: vi.fn((name, opts) => {
+          channelConfigs.push(opts?.config);
+          return mockChannel;
+        }),
+        removeChannel: vi.fn()
+      };
+
+      globalThis.FlowAuth = {
+        isLoggedIn: () => true,
+        getUser: () => ({ id: 'usr_upsert_test', email: 'upsert@example.com' }),
+        getSupabaseClient: () => mockSupa
+      };
+
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      CollabEngine.init();
+      // Warte kurz auf async upsert
+      await new Promise(r => setTimeout(r, 50));
+
+      // Verifiziere room_members upsert Aufruf
+      expect(mockSupa.from).toHaveBeenCalledWith('room_members');
+      expect(upsertCalls.length).toBeGreaterThanOrEqual(1);
+      expect(upsertCalls[0].table).toBe('room_members');
+      expect(upsertCalls[0].data.user_id).toBe('usr_upsert_test');
+
+      // Wegen Fehler beim upsert muss auf private: false zurückgefallen worden sein
+      expect(channelConfigs.some(cfg => cfg.private === false)).toBe(true);
+      expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('room_members'), expect.any(String));
+
+      warnSpy.mockRestore();
+    });
   });
 
   describe('6. Supabase Realtime Autorisierungs-Logik & Raum-Mitgliedschaft', () => {

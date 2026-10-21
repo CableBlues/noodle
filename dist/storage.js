@@ -140,6 +140,28 @@ const IDB_VAULT = {
   }
 };
 
+let hasShownQuotaToast = false;
+
+function triggerQuotaToastOnce() {
+  if (!hasShownQuotaToast) {
+    hasShownQuotaToast = true;
+    if (typeof showToast === 'function') {
+      showToast('Speicher voll – bitte Backup exportieren');
+    }
+  }
+}
+
+function isQuotaError(err) {
+  if (!err) return false;
+  return (
+    err.name === 'QuotaExceededError' ||
+    err.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||
+    err.code === 22 ||
+    err.code === 1014 ||
+    (typeof err.message === 'string' && /quota/i.test(err.message))
+  );
+}
+
 const AppStorage = {
   get(key, defaultValue = null) {
     try {
@@ -163,6 +185,9 @@ const AppStorage = {
       return true;
     } catch (e) {
       console.error(`[AppStorage] Fehler beim Schreiben von '${key}':`, e);
+      if (isQuotaError(e)) {
+        triggerQuotaToastOnce();
+      }
       if (typeof ErrorDiagnostics !== 'undefined' && ErrorDiagnostics.record) {
         ErrorDiagnostics.record('STORAGE_WRITE_ERROR', { key, error: String(e) });
       }
@@ -195,6 +220,9 @@ const AppStorage = {
       return true;
     } catch (e) {
       console.error(`[AppStorage] Fehler beim Schreiben des Strings '${key}':`, e);
+      if (isQuotaError(e)) {
+        triggerQuotaToastOnce();
+      }
       IDB_VAULT.set(key, String(value));
       return false;
     }
@@ -335,11 +363,13 @@ if (typeof window !== 'undefined') {
   window.AppStorage = AppStorage;
   window.ErrorDiagnostics = ErrorDiagnostics;
   window.showCrashRecoveryScreen = showCrashRecoveryScreen;
+  window.__resetQuotaToastForTesting = () => { hasShownQuotaToast = false; };
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.IDB_VAULT = IDB_VAULT;
   globalThis.AppStorage = AppStorage;
   globalThis.ErrorDiagnostics = ErrorDiagnostics;
   globalThis.showCrashRecoveryScreen = showCrashRecoveryScreen;
+  globalThis.__resetQuotaToastForTesting = () => { hasShownQuotaToast = false; };
 }
 

@@ -155,20 +155,29 @@ try {
   clickedActions.forEach(a => console.log('  - ' + a));
 
   // =========================================================================
-  // SCHRITT 4: PANEL-ABSICHERUNGSTEST (Alle 39 Panels mit data-stop-propagation)
-  // Klicke in jedes der 39 Panels auf ein inneres Element und prüfe, dass das Panel
-  // offen bleibt, und klicke danach außerhalb und prüfe, dass es schließt.
+  // SCHRITT 4: TESTS (a) BIS (e) NACH PFLICHTENHEFT
+  // a) Für JEDEN der 39 Wrapper: Panel öffnen, einen darin enthaltenen
+  //    data-action-Button klicken, prüfen, dass die Zielfunktion GENAU EINMAL aufgerufen wurde (window-Spy).
+  // b) Ein Klick innerhalb eines Panels schließt dieses nicht; ein Klick außerhalb schließt es.
+  // c) Inline-onclick-Button innerhalb eines Wrappers feuert genau einmal.
+  // d) DJ-Button feuert genau einmal.
+  // e) Konsole: kein "is not a function"/"is not defined" während der Tests.
   // =========================================================================
   console.log('\n====================================================');
-  console.log('🔍 PRÜFUNG DER 39 PANELS MIT data-stop-propagation');
+  console.log('🔍 PRÜFUNG (a)-(e): 39 WRAPPER, DELEGATION & ONCLICK');
   console.log('====================================================');
 
-  // Stelle sicher, dass Seite stabil geladen ist
   await new Promise(r => setTimeout(r, 500));
 
-  const panelTestResults = await page.evaluate(async () => {
+  // Tests a, b, c über evaluate im Browser
+  const testResults = await page.evaluate(async () => {
     const panels = Array.from(document.querySelectorAll('[data-stop-propagation="true"]'));
-    const results = [];
+    const results = {
+      totalPanels: panels.length,
+      panelTests: [],
+      inlineOnclickPassed: false,
+      inlineOnclickCalls: 0
+    };
 
     const isPanelOpen = (panel, host) => {
       if (panel.classList.contains('hidden')) return false;
@@ -185,33 +194,49 @@ try {
       return `Panel-${index + 1}`;
     };
 
+    // Initialisiere Spies
+    window.__spyCallCounts = {};
+
     for (let i = 0; i < panels.length; i++) {
       const panel = panels[i];
       const descriptor = getPanelDescriptor(panel, i);
       const hostContainer = panel.closest('.fixed') || panel;
 
-      // 1. Panel für den Test gezielt öffnen (falls verborgen)
+      // 1. Panel für den Test öffnen (falls verborgen)
       const wasHiddenHost = hostContainer.classList.contains('hidden');
       const wasHiddenPanel = panel.classList.contains('hidden');
       if (wasHiddenHost) hostContainer.classList.remove('hidden');
       if (wasHiddenPanel) panel.classList.remove('hidden');
 
-      // Bestätige, dass das Panel jetzt offen ist
-      const initiallyOpen = isPanelOpen(panel, hostContainer);
+      // a) data-action Button prüfen: Spy anlegen, Button einhängen, klicken, Aufrufe zählen
+      const actionSpyName = `__puppeteerSpyAction_${i}`;
+      window.__spyCallCounts[actionSpyName] = 0;
+      window[actionSpyName] = () => {
+        window.__spyCallCounts[actionSpyName]++;
+      };
 
-      // Finde oder erzeuge ein inneres klickbares Element (Probe-Button)
-      const probe = document.createElement('button');
-      probe.className = 'puppeteer-inner-test-probe';
-      probe.textContent = 'probe';
-      panel.appendChild(probe);
+      const actionBtn = document.createElement('button');
+      actionBtn.className = 'puppeteer-action-probe-btn';
+      actionBtn.setAttribute('data-action', actionSpyName);
+      actionBtn.setAttribute('data-action-args', '["probe_arg"]');
+      panel.appendChild(actionBtn);
 
-      // 2. Klick auf inneres Element -> Panel MUSS offen bleiben (Propagation gestoppt)
-      probe.click();
+      // Klick auf data-action Button
+      actionBtn.click();
+      const actionCallCount = window.__spyCallCounts[actionSpyName];
+      const dataActionFiredExactlyOnce = (actionCallCount === 1);
+      actionBtn.remove();
+
+      // b) Klick innerhalb schließt nicht; Klick außerhalb schließt
+      const innerProbe = document.createElement('button');
+      innerProbe.className = 'puppeteer-inner-test-probe';
+      panel.appendChild(innerProbe);
+
+      innerProbe.click();
       const remainedOpenAfterInnerClick = isPanelOpen(panel, hostContainer);
-      probe.remove();
+      innerProbe.remove();
 
-      // 3. Klick außerhalb -> Panel/Modal MUSS schließen
-      // Simuliere Schließen durch Klick auf Host-Backdrop bzw. Document-Click
+      // Klick außerhalb simulieren
       if (hostContainer !== panel && typeof hostContainer.onclick === 'function') {
         try {
           hostContainer.onclick({ target: hostContainer });
@@ -220,7 +245,6 @@ try {
         document.body.click();
       }
 
-      // Verifiziere das Schließen
       let closedAfterOutsideClick = !isPanelOpen(panel, hostContainer);
       if (!closedAfterOutsideClick) {
         if (typeof window.closeAllPanelsAndModals === 'function') {
@@ -232,48 +256,141 @@ try {
         closedAfterOutsideClick = !isPanelOpen(panel, hostContainer);
       }
 
-      // Wieder in den Ursprungszustand versetzen
+      // Ursprungszustand wiederherstellen
       if (wasHiddenHost) hostContainer.classList.add('hidden');
       if (wasHiddenPanel) panel.classList.add('hidden');
 
-      results.push({
+      results.panelTests.push({
         index: i + 1,
         descriptor,
-        initiallyOpen,
+        dataActionFiredExactlyOnce,
+        actionCallCount,
         remainedOpenAfterInnerClick,
         closedAfterOutsideClick
       });
     }
 
+    // c) Inline-onclick-Button innerhalb eines Wrappers feuert genau einmal
+    window.__inlineOnclickCalls = 0;
+    window.__testInlineFunc = () => {
+      window.__inlineOnclickCalls++;
+    };
+
+    if (panels.length > 0) {
+      const testWrapper = panels[0];
+      const inlineBtn = document.createElement('button');
+      inlineBtn.setAttribute('onclick', 'window.__testInlineFunc()');
+      inlineBtn.textContent = 'Inline Test';
+      testWrapper.appendChild(inlineBtn);
+
+      inlineBtn.click();
+
+      results.inlineOnclickCalls = window.__inlineOnclickCalls;
+      results.inlineOnclickPassed = (window.__inlineOnclickCalls === 1);
+      inlineBtn.remove();
+    }
+
     return results;
   });
 
-  console.log(`Geprüfte Panels: ${panelTestResults.length}/39`);
-  let allPanelsPassed = true;
-  panelTestResults.forEach(r => {
-    const passed = r.remainedOpenAfterInnerClick && r.closedAfterOutsideClick;
-    if (!passed) allPanelsPassed = false;
-    console.log(`  [${r.index}/39] ${r.descriptor}: Klick-Innen bleibt offen? ${r.remainedOpenAfterInnerClick ? '✓ JA' : '✗ NEIN'} | Klick-Außen schließt? ${r.closedAfterOutsideClick ? '✓ JA' : '✗ NEIN'}`);
+  // d) DJ-Button Test (collab-engine.js)
+  const djTestResult = await page.evaluate(async () => {
+    let djCalls = 0;
+    if (typeof window.CollabEngine === 'undefined') {
+      return { success: false, reason: 'CollabEngine not found' };
+    }
+
+    // Window / Object Spy auf CollabEngine.syncSharedDjTrack
+    const origSync = window.CollabEngine.syncSharedDjTrack;
+    window.CollabEngine.syncSharedDjTrack = function(...args) {
+      djCalls++;
+      if (typeof origSync === 'function') {
+        try { origSync.apply(this, args); } catch (e) {}
+      }
+    };
+
+    // Chatnachricht mit DJ-Track einspeisen
+    const testTrack = { id: 'test_dj_track', name: 'Puppeteer Test Beat', bpm: 120, url: 'beat.mp3' };
+    window.CollabEngine.handleIncomingEvent({
+      type: 'chat_message',
+      sender: { id: 'dj_user', name: 'DJ Bot' },
+      message: {
+        id: 'msg_dj_puppeteer',
+        sender: { id: 'dj_user', name: 'DJ Bot' },
+        isDjShare: true,
+        track: testTrack,
+        text: 'DJ Musik Track Test',
+        time: '12:00'
+      }
+    });
+
+    await new Promise(r => setTimeout(r, 100));
+
+    // DJ-Button im Chat suchen
+    const chatContainer = document.getElementById('collab-chat-messages-container');
+    const djBtn = chatContainer ? chatContainer.querySelector('[data-action="CollabEngine.syncSharedDjTrack"]') : null;
+
+    if (!djBtn) {
+      window.CollabEngine.syncSharedDjTrack = origSync;
+      return { success: false, reason: 'DJ button not rendered' };
+    }
+
+    djBtn.click();
+    window.CollabEngine.syncSharedDjTrack = origSync;
+
+    return {
+      success: (djCalls === 1),
+      calls: djCalls
+    };
   });
 
-  if (!allPanelsPassed) {
-    console.error('❌ FEHLER: Nicht alle 39 Panels verhielten sich korrekt bei Klick-Innen/Außen!');
-    process.exitCode = 1;
-  } else {
-    console.log('✅ Alle 39 Panels mit data-stop-propagation verhalten sich exakt wie gefordert!');
-  }
-
-  // Prüfen auf kritische Fehler: "is not a function" oder "is not defined"
-  const criticalErrors = consoleErrors.filter(err => 
+  // e) Konsole prüfen: kein "is not a function" oder "is not defined"
+  const criticalErrors = consoleErrors.filter(err =>
     err.includes('is not a function') || err.includes('is not defined')
   );
 
-  if (criticalErrors.length > 0) {
-    console.error('❌ KRITISCHE FEHLER GEFUNDEN:');
-    criticalErrors.forEach(err => console.error('  -> ' + err));
+  console.log(`\n--- ERGEBNIS TEST A: 39 Wrapper data-action Aufruf GENAU EINMAL ---`);
+  let allActionsPassed = true;
+  testResults.panelTests.forEach(t => {
+    if (!t.dataActionFiredExactlyOnce) allActionsPassed = false;
+    console.log(`  [${t.index}/39] ${t.descriptor}: data-action Aufrufe = ${t.actionCallCount} ${t.dataActionFiredExactlyOnce ? '✓ (GENAU 1x)' : '✗ FEHLER'}`);
+  });
+
+  console.log(`\n--- ERGEBNIS TEST B: Klick-Innen bleibt offen, Klick-Außen schließt ---`);
+  let allBordersPassed = true;
+  testResults.panelTests.forEach(t => {
+    const passed = t.remainedOpenAfterInnerClick && t.closedAfterOutsideClick;
+    if (!passed) allBordersPassed = false;
+    console.log(`  [${t.index}/39] ${t.descriptor}: Innen offen? ${t.remainedOpenAfterInnerClick ? '✓' : '✗'} | Außen schließt? ${t.closedAfterOutsideClick ? '✓' : '✗'}`);
+  });
+
+  console.log(`\n--- ERGEBNIS TEST C: Inline-onclick innerhalb Wrapper feuert genau einmal ---`);
+  console.log(`  Inline-onclick Aufrufe: ${testResults.inlineOnclickCalls} ${testResults.inlineOnclickPassed ? '✓ (GENAU 1x)' : '✗ FEHLER'}`);
+
+  console.log(`\n--- ERGEBNIS TEST D: DJ-Button feuert genau einmal ---`);
+  console.log(`  DJ-Button Aufrufe: ${djTestResult.calls} ${djTestResult.success ? '✓ (GENAU 1x)' : '✗ FEHLER (' + djTestResult.reason + ')'}`);
+
+  console.log(`\n--- ERGEBNIS TEST E: Konsolenfehler ("is not a function" / "is not defined") ---`);
+  if (criticalErrors.length === 0) {
+    console.log(`  Kritische Fehler in Konsole: 0 ✓`);
+  } else {
+    console.error(`  Kritische Fehler in Konsole: ${criticalErrors.length} ✗`);
+    criticalErrors.forEach(err => console.error('    -> ' + err));
+  }
+
+  const overallPassed = (
+    allActionsPassed &&
+    allBordersPassed &&
+    testResults.inlineOnclickPassed &&
+    djTestResult.success &&
+    criticalErrors.length === 0
+  );
+
+  if (!overallPassed) {
+    console.error('\n❌ Mindestens ein Test aus a) bis e) ist FEHLGESCHLAGEN!');
     process.exitCode = 1;
   } else {
-    console.log('✅ Puppeteer Smoke Test erfolgreich! Keine "is not a function" oder "is not defined" Fehler.');
+    console.log('\n🎉 ALLE TESTS a) bis e) VOLLSTÄNDIG ERFOLGREICH!');
   }
 
 } finally {

@@ -88,9 +88,7 @@ const CollabEngine = (function() {
   }
 
   function getLocalUser() {
-    if (localUser) return localUser;
-
-    // 1. Wenn über FlowAuth angemeldet
+    // 1. Wenn über FlowAuth angemeldet, stets aktuellen Auth-Benutzer verwenden
     if (typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn && FlowAuth.isLoggedIn()) {
       const u = FlowAuth.getUser();
       const email = (u && u.email) || 'user@example.com';
@@ -105,6 +103,8 @@ const CollabEngine = (function() {
       };
       return localUser;
     }
+
+    if (localUser) return localUser;
 
     // 2. Aus LocalStorage oder Zufall
     try {
@@ -264,9 +264,26 @@ const CollabEngine = (function() {
       const supa = FlowAuth.getSupabaseClient();
       if (supa && typeof supa.channel === 'function') {
         try {
-          const subscribeToRoom = (isPrivate = true) => {
+          const subscribeToRoom = async (isPrivate = true) => {
             if (realtimeChannel) {
               supa.removeChannel(realtimeChannel);
+            }
+
+            // Beim Raum-Erstellen/Beitreten (activeRoom) Eintrag in public.room_members (room_id, user_id) per upsert schreiben
+            if (isPrivate && supa && typeof supa.from === 'function') {
+              try {
+                const { error } = await supa.from('room_members').upsert(
+                  { room_id: activeRoom, user_id: user.id },
+                  { onConflict: 'room_id,user_id' }
+                );
+                if (error) {
+                  console.warn('[CollabEngine] Fehler beim Beitritt in room_members, wechsle auf nicht-privaten Channel:', error.message || error);
+                  return subscribeToRoom(false);
+                }
+              } catch (upsertErr) {
+                console.warn('[CollabEngine] Ausnahme beim Beitritt in room_members, wechsle auf nicht-privaten Channel:', upsertErr);
+                return subscribeToRoom(false);
+              }
             }
 
             realtimeChannel = supa.channel(`room_${activeRoom}`, {
@@ -1363,7 +1380,7 @@ const CollabEngine = (function() {
                   <div class="text-xs font-bold text-white truncate">${trackName}</div>
                   <div class="text-[9px] text-gray-400 font-mono">Synchronisierter Stream</div>
                 </div>
-              <button data-action="CollabEngine.syncSharedDjTrack" data-action-args="${escapeHtml(JSON.stringify([msg.track]))}" onclick="CollabEngine.syncSharedDjTrack(this.dataset.track ? JSON.parse(this.dataset.track) : null)" data-track="${escapeHtml(JSON.stringify(msg.track))}" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-extrabold text-xs shadow-md transition active:scale-95 cursor-pointer flex items-center gap-1.5 shrink-0">
+              <button data-action="CollabEngine.syncSharedDjTrack" data-action-args="${escapeHtml(JSON.stringify([msg.track]))}" data-track="${escapeHtml(JSON.stringify(msg.track))}" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-black font-extrabold text-xs shadow-md transition active:scale-95 cursor-pointer flex items-center gap-1.5 shrink-0">
                 <span>▶️ Live Sync</span>
               </button>
             </div>

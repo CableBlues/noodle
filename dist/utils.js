@@ -1602,7 +1602,68 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
 }
 
 
-// Einmalige Initialisierung: Bubble-Listener an jedes Wrapper-Element mit data-stop-propagation="true"
+/**
+ * Führt alle data-action Aktionen von event.target aufwärts bis einschließlich boundaryEl (oder document) aus.
+ * Bricht ab, sobald event.cancelBubble gesetzt wird (z. B. durch event.stopPropagation()).
+ */
+function runDelegatedActions(event, boundaryEl = null) {
+  if (!event || !event.target) return;
+  let curr = event.target;
+  const stopAt = boundaryEl ? boundaryEl.parentElement : null;
+
+  while (curr && curr !== stopAt && curr !== document && curr !== document.documentElement) {
+    // Wenn stopPropagation bereits aufgerufen wurde (cancelBubble) -> abbrechen
+    if (event.cancelBubble) {
+      break;
+    }
+
+    if (curr.hasAttribute && curr.hasAttribute('data-action')) {
+      const actionEl = curr;
+      const actionsStr = actionEl.getAttribute('data-action') || '';
+      const argsStr = actionEl.getAttribute('data-action-args');
+      let parsedArgs = [];
+      if (argsStr) {
+        try {
+          parsedArgs = JSON.parse(argsStr);
+          if (!Array.isArray(parsedArgs)) parsedArgs = [parsedArgs];
+        } catch (e) {
+          parsedArgs = argsStr.split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
+        }
+      }
+
+      // Unterstützt verkettete Aktionen (Semikolon-separiert)
+      const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
+      const isMultiArgs = Array.isArray(parsedArgs) && actionList.length > 1 && (parsedArgs.length === 0 || Array.isArray(parsedArgs[0]));
+
+      actionList.forEach((actionItem, idx) => {
+        if (event.cancelBubble) return;
+        const callArgs = isMultiArgs && Array.isArray(parsedArgs[idx])
+          ? parsedArgs[idx]
+          : (Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs]);
+        dispatchAction(actionItem, callArgs, event, actionEl);
+      });
+
+      // Stoppe, wenn eine Aktion event.stopPropagation() aufgerufen hat oder das Element data-stop-propagation="true" trägt
+      if (actionEl.getAttribute('data-stop-propagation') === 'true') {
+        event.stopPropagation();
+      }
+      if (event.cancelBubble) {
+        break;
+      }
+    } else if (curr.getAttribute && curr.getAttribute('data-stop-propagation') === 'true') {
+      event.stopPropagation();
+      break;
+    }
+
+    if (curr === boundaryEl) {
+      break;
+    }
+
+    curr = curr.parentElement;
+  }
+}
+
+// Initialisierung: Bubble-Listener an jedes Wrapper-Element mit data-stop-propagation="true"
 function initStopPropagationWrappers() {
   if (typeof document === 'undefined') return;
   const wrappers = document.querySelectorAll('[data-stop-propagation="true"]');
@@ -1610,6 +1671,7 @@ function initStopPropagationWrappers() {
     if (!el.__stopPropInitialized) {
       el.__stopPropInitialized = true;
       el.addEventListener('click', (e) => {
+        runDelegatedActions(e, el);
         e.stopPropagation();
       });
     }
@@ -1617,63 +1679,9 @@ function initStopPropagationWrappers() {
 }
 
 if (typeof document !== 'undefined') {
-  // Capture-Listener am document, um event.stopPropagation() zu triggern oder stopPropagation vor anderen document-Listenern sicherzustellen
+  // Delegation-Listener in der Bubble-Phase am document für alle Klicks außerhalb von stop-propagation Wrappern
   document.addEventListener('click', (event) => {
-    const stopEl = event.target && typeof event.target.closest === 'function' ? event.target.closest('[data-stop-propagation="true"]') : null;
-    if (stopEl) {
-      event.stopPropagation();
-    }
-  }, true);
-
-  // Delegation-Listener in der CAPTURE-FREIEN Bubble-Phase am document
-  document.addEventListener('click', (event) => {
-    let curr = event.target;
-    while (curr && curr !== document && curr !== document.documentElement) {
-      // Wenn stopPropagation bereits aufgerufen wurde (cancelBubble) -> abbrechen
-      if (event.cancelBubble) {
-        break;
-      }
-
-      if (curr.hasAttribute && curr.hasAttribute('data-action')) {
-        const actionEl = curr;
-        const actionsStr = actionEl.getAttribute('data-action') || '';
-        const argsStr = actionEl.getAttribute('data-action-args');
-        let parsedArgs = [];
-        if (argsStr) {
-          try {
-            parsedArgs = JSON.parse(argsStr);
-            if (!Array.isArray(parsedArgs)) parsedArgs = [parsedArgs];
-          } catch (e) {
-            parsedArgs = argsStr.split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
-          }
-        }
-
-        // Unterstützt verkettete Aktionen (Semikolon-separiert)
-        const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
-        const isMultiArgs = Array.isArray(parsedArgs) && actionList.length > 1 && (parsedArgs.length === 0 || Array.isArray(parsedArgs[0]));
-
-        actionList.forEach((actionItem, idx) => {
-          if (event.cancelBubble) return;
-          const callArgs = isMultiArgs && Array.isArray(parsedArgs[idx])
-            ? parsedArgs[idx]
-            : (Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs]);
-          dispatchAction(actionItem, callArgs, event, actionEl);
-        });
-
-        // Stoppe, wenn eine Aktion event.stopPropagation() aufgerufen hat oder das Element data-stop-propagation="true" trägt
-        if (actionEl.getAttribute('data-stop-propagation') === 'true') {
-          event.stopPropagation();
-        }
-        if (event.cancelBubble) {
-          break;
-        }
-      } else if (curr.getAttribute && curr.getAttribute('data-stop-propagation') === 'true') {
-        event.stopPropagation();
-        break;
-      }
-
-      curr = curr.parentElement;
-    }
+    runDelegatedActions(event, null);
   });
 
   if (document.readyState === 'loading') {
@@ -1681,14 +1689,33 @@ if (typeof document !== 'undefined') {
   } else {
     setTimeout(initStopPropagationWrappers, 0);
   }
+
+  // MutationObserver für dynamisch hinzugefügte Panels/Modals mit data-stop-propagation
+  if (typeof MutationObserver !== 'undefined') {
+    const observeBody = () => {
+      if (document.body) {
+        const stopPropObserver = new MutationObserver(() => {
+          initStopPropagationWrappers();
+        });
+        stopPropObserver.observe(document.body, { childList: true, subtree: true });
+      }
+    };
+    if (document.body) {
+      observeBody();
+    } else {
+      document.addEventListener('DOMContentLoaded', observeBody);
+    }
+  }
 }
 
 if (typeof window !== 'undefined') {
   window.dispatchAction = dispatchAction;
+  window.runDelegatedActions = runDelegatedActions;
   window.initStopPropagationWrappers = initStopPropagationWrappers;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.dispatchAction = dispatchAction;
+  globalThis.runDelegatedActions = runDelegatedActions;
   globalThis.initStopPropagationWrappers = initStopPropagationWrappers;
 }
 

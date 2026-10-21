@@ -73,6 +73,40 @@ describe('Storage Quota & Resilience', () => {
     spy.mockRestore();
   });
 
+  it('AppStorage shows toast "Speicher voll – bitte Backup exportieren" exactly once on QuotaExceededError', () => {
+    if (typeof window.__resetQuotaToastForTesting === 'function') {
+      window.__resetQuotaToastForTesting();
+    }
+    const toastCalls = [];
+    window.showToast = (msg) => {
+      toastCalls.push(msg);
+    };
+
+    const spy = vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      const err = new Error('QuotaExceededError');
+      err.name = 'QuotaExceededError';
+      err.code = 22;
+      throw err;
+    });
+
+    // Erster Schreibversuch -> schlägt fehl, zeigt Toast
+    const res1 = window.AppStorage.set('key1', { test: 1 });
+    expect(res1).toBe(false);
+    expect(toastCalls).toEqual(['Speicher voll – bitte Backup exportieren']);
+
+    // Zweiter Schreibversuch -> schlägt fehl, darf Toast NICHT noch einmal zeigen
+    const res2 = window.AppStorage.set('key2', { test: 2 });
+    expect(res2).toBe(false);
+    expect(toastCalls).toHaveLength(1);
+
+    // Dritter Schreibversuch über setString -> ebenfalls kein erneuter Toast
+    const res3 = window.AppStorage.setString('key3', 'val3');
+    expect(res3).toBe(false);
+    expect(toastCalls).toHaveLength(1);
+
+    spy.mockRestore();
+  });
+
   it('IDB_VAULT functions safely when indexedDB is undefined or inaccessible', async () => {
     if (typeof window.IDB_VAULT !== 'undefined') {
       const getRes = await window.IDB_VAULT.get('any_key');
