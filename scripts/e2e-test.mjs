@@ -78,7 +78,6 @@ const browser = await puppeteer.launch({
 const page = await browser.newPage();
 await page.setViewport({ width: 1280, height: 800 });
 
-// Netzwerk-Metriken sammeln
 let initialJsBytes = 0;
 const jsRequests = [];
 page.on('response', async res => {
@@ -117,7 +116,7 @@ try {
   console.log('[E2E] 1. Initialer Seitenaufruf & Performance-Messung...');
   const navStartTime = Date.now();
   await page.goto(`http://127.0.0.1:${port}/index.html`, { waitUntil: 'domcontentloaded', timeout: 30000 });
-  
+
   // Warten auf App-Initialisierung
   await page.waitForFunction(() => typeof window.renderApp === 'function' && !!document.getElementById('minimal-mode-btn-text'), { timeout: 15000 });
   const ttiMs = Date.now() - navStartTime;
@@ -210,7 +209,7 @@ try {
     const testTaskName = 'E2E_AUTO_TASK_' + Date.now();
     if (!window.state.items.daily) window.state.items.daily = [];
     const initialDailyCount = window.state.items.daily.length;
-    
+
     // Hinzufügen
     const taskObj = (typeof window.ensureItemIdentity === 'function')
       ? window.ensureItemIdentity(testTaskName, 'task_daily')
@@ -232,7 +231,6 @@ try {
     // Löschen
     let deletedOk = false;
     if (typeof window.deleteTask === 'function') {
-      // Entweder in done oder in daily löschen
       const doneIdx = (window.state.items.done || []).findIndex(t => (t.task === testTaskName || t.name === testTaskName));
       if (doneIdx !== -1) {
         window.deleteTask('done', doneIdx);
@@ -243,7 +241,7 @@ try {
           window.deleteTask('daily', dIdx);
           deletedOk = true;
         } else {
-          deletedOk = true; // Bereits aus daily verschoben
+          deletedOk = true;
         }
       }
     }
@@ -270,19 +268,15 @@ try {
     window.saveState();
   }, persistenceTaskName);
 
-  // Reload durchführen und auf SW-Stabilisierung warten
   try {
     await page.reload({ waitUntil: 'load' });
-  } catch (e) {
-    // Falls sofort durch controllerchange unterbrochen
-  }
+  } catch (e) {}
   await new Promise(r => setTimeout(r, 2000));
   await page.waitForFunction(() => typeof window.renderApp === 'function' && !!window.state, { timeout: 20000 }).catch(() => {});
 
   const persistedOk = await safeEvaluate((name) => {
     const foundInState = window.state && window.state.items && window.state.items.daily &&
       window.state.items.daily.some(t => (t.task === name || t.name === name));
-    // Cleanup
     if (foundInState) {
       window.state.items.daily = window.state.items.daily.filter(t => t.task !== name && t.name !== name);
       window.saveState();
@@ -294,11 +288,145 @@ try {
   console.log(`[E2E] Reload & Datenpersistenz: ${persistedOk ? '✓ PASS (Daten nach Reload intakt)' : '✗ FAIL'}`);
 
   // =========================================================================
-  // SCHRITT 2: ALLE 39 STOP-PROPAGATION WRAPPER TESTEN
-  // - Panel öffnen
-  // - Jeden darin enthaltenen sichtbaren Button/Link mit data-action einmal klicken
-  // - Prüfen, dass Zielfunktion genau einmal lief und Panel offen blieb
-  // - Außerhalb klicken -> Panel schließt
+  // SCHRITT 2: HEADER-NEWS-TICKER (#board-news-ticker-bar) PRÜFUNG (<= 10 s)
+  // =========================================================================
+  console.log('\n====================================================');
+  console.log('📰 NEWS-TICKER PRÜFUNG (#board-news-ticker-bar)');
+  console.log('====================================================');
+
+  let tickerLoadedWithin10s = false;
+  try {
+    await page.waitForFunction(() => {
+      const el = document.getElementById('board-news-ticker-bar');
+      if (!el) return false;
+      const text = (el.innerText || el.textContent || '').trim();
+      return text.length > 0;
+    }, { timeout: 10000 });
+    tickerLoadedWithin10s = true;
+  } catch (e) {
+    tickerLoadedWithin10s = false;
+  }
+
+  const tickerSnippet = await safeEvaluate(() => {
+    const el = document.getElementById('board-news-ticker-bar');
+    return el ? (el.innerText || el.textContent || '').trim() : '';
+  });
+
+  console.log(`[E2E] News-Ticker zeigt innerhalb von 10 s Inhalt: ${tickerLoadedWithin10s ? '✓ PASS' : '✗ FAIL'}`);
+  console.log(`      Ticker-Auszug: "${tickerSnippet.substring(0, 70)}${tickerSnippet.length > 70 ? '...' : ''}"`);
+
+  // =========================================================================
+  // SCHRITT 3: 6-SPRACHEN I18N-VOLLSTÄNDIGKEITSPRÜFUNG
+  // - für jede der 6 Sprachen:
+  //   sichtbarer Text enthält kein Muster ^[a-z]+(_[a-z0-9]+)+$ (= unübersetzter Schlüssel)
+  //   geprüft über alle sichtbaren Elemente in:
+  //   Header, Dock, Settings, Sport, Entscheidungs-Assistent, Rezept-Studio, Einkauf
+  // =========================================================================
+  console.log('\n====================================================');
+  console.log('🌍 6-SPRACHEN I18N-VOLLSTÄNDIGKEITSPRÜFUNG');
+  console.log('====================================================');
+
+  const languageTestResults = await safeEvaluate(async () => {
+    const langs = ['de', 'en', 'fr', 'it', 'es', 'el'];
+    const results = [];
+
+    const targetAreas = [
+      { name: 'Header', selector: 'header, #board-header' },
+      { name: 'Dock', selector: '.mac-dock-container, #desktop-tools-sidebar, .desktop-tools-sidebar' },
+      { name: 'Settings', selector: '#modal-settings' },
+      { name: 'Sport', selector: '#helper-sport-modal' },
+      { name: 'Entscheidungs-Assistent', selector: '#helper-pick-modal' },
+      { name: 'Rezept-Studio', selector: '#panel-cooking' },
+      { name: 'Einkauf', selector: '#panel-shopping' }
+    ];
+
+    const keyPattern = /^[a-z]+(_[a-z0-9]+)+$/;
+
+    for (const lang of langs) {
+      if (typeof window.setLanguage === 'function') {
+        window.setLanguage(lang);
+      }
+      await new Promise(r => setTimeout(r, 150));
+
+      let checkedElementsCount = 0;
+      const untranslatedMatches = [];
+
+      for (const area of targetAreas) {
+        const container = document.querySelector(area.selector);
+        if (!container) continue;
+
+        const wasHidden = container.classList.contains('hidden');
+        if (wasHidden) container.classList.remove('hidden');
+
+        const allNodes = [container, ...Array.from(container.querySelectorAll('*'))];
+
+        for (const el of allNodes) {
+          // Nur sichtbare Elemente prüfen
+          const isVisible = (el.offsetParent !== null || window.getComputedStyle(el).display !== 'none');
+          if (!isVisible) continue;
+
+          // Direkte Text-Nodes prüfen
+          const childTextNodes = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE);
+          for (const tn of childTextNodes) {
+            const raw = (tn.nodeValue || '').trim();
+            if (raw.length > 0) {
+              checkedElementsCount++;
+              if (keyPattern.test(raw)) {
+                untranslatedMatches.push({ area: area.name, text: raw });
+              }
+            }
+          }
+
+          // Placeholder
+          const ph = el.getAttribute('placeholder');
+          if (ph && ph.trim()) {
+            checkedElementsCount++;
+            if (keyPattern.test(ph.trim())) {
+              untranslatedMatches.push({ area: area.name, text: ph.trim(), attr: 'placeholder' });
+            }
+          }
+
+          // Title
+          const title = el.getAttribute('title');
+          if (title && title.trim()) {
+            checkedElementsCount++;
+            if (keyPattern.test(title.trim())) {
+              untranslatedMatches.push({ area: area.name, text: title.trim(), attr: 'title' });
+            }
+          }
+        }
+
+        if (wasHidden) container.classList.add('hidden');
+      }
+
+      results.push({
+        lang,
+        checkedCount: checkedElementsCount,
+        untranslatedCount: untranslatedMatches.length,
+        untranslatedMatches,
+        ok: (untranslatedMatches.length === 0)
+      });
+    }
+
+    // Am Ende auf Standard 'de' zurücksetzen
+    if (typeof window.setLanguage === 'function') {
+      window.setLanguage('de');
+    }
+
+    return results;
+  });
+
+  let allLanguagesPassed = true;
+  for (const lr of languageTestResults) {
+    if (!lr.ok) allLanguagesPassed = false;
+    console.log(`  [Sprache ${lr.lang.toUpperCase()}]: ${lr.checkedCount} Elemente geprüft | ${lr.untranslatedCount} unübersetzte Schlüssel ${lr.ok ? '✓ PASS' : '✗ FAIL'}`);
+    if (lr.untranslatedMatches.length > 0) {
+      lr.untranslatedMatches.forEach(u => console.error(`       -> Gefunden in ${u.area}: "${u.text}"`));
+    }
+  }
+
+  // =========================================================================
+  // SCHRITT 4: ALLE 39 STOP-PROPAGATION WRAPPER TESTEN
   // =========================================================================
   console.log('\n====================================================');
   console.log('🔍 PRÜFUNG: 39 WRAPPER MIT DATA-STOP-PROPAGATION');
@@ -339,7 +467,6 @@ try {
       if (wasHiddenHost) hostContainer.classList.remove('hidden');
       if (wasHiddenPanel) panel.classList.remove('hidden');
 
-      // 2. data-action Elemente im Panel ermitteln
       const existingActionEls = Array.from(panel.querySelectorAll('button[data-action], a[data-action], [role="button"][data-action]'))
         .filter(el => el.offsetParent !== null || window.getComputedStyle(el).display !== 'none');
 
@@ -347,7 +474,7 @@ try {
       let actionCallCount = 0;
       let remainedOpen = true;
 
-      // Spy für Klick-Test: Testsonde oder vorhandenes Element
+      // Spy für Klick-Test: Testsonde
       const spyActionName = `__e2eSpyAction_${i}`;
       window.__spyCallCounts[spyActionName] = 0;
       window[spyActionName] = () => {
@@ -412,7 +539,7 @@ try {
   });
 
   // =========================================================================
-  // SCHRITT 3: KONSOLEN- & CSP-FEHLER PRÜFEN
+  // SCHRITT 5: KONSOLEN- & CSP-FEHLER PRÜFEN
   // =========================================================================
   console.log('\n====================================================');
   console.log('🛡️ KONSOLEN- & CSP-SICHERHEITSPRÜFUNG');
@@ -443,6 +570,8 @@ try {
     smokeResults.language.ok &&
     smokeResults.tasks.ok &&
     persistedOk &&
+    tickerLoadedWithin10s &&
+    allLanguagesPassed &&
     allPanelsPassed &&
     criticalErrors.length === 0 &&
     cspErrors.length === 0

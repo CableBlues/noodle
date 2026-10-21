@@ -57,64 +57,10 @@ if (typeof globalThis !== 'undefined') {
   globalThis.sanitizeIdentifier = sanitizeIdentifier;
 }
 
-let _radioNewsPromise = null;
-function ensureRadioNewsLoaded() {
-  if (typeof window !== 'undefined' && window.RadioNewsEngine && window.RadioNewsEngine.__loaded) {
-    return Promise.resolve(window.RadioNewsEngine);
-  }
-  if (_radioNewsPromise) return _radioNewsPromise;
-  _radioNewsPromise = new Promise((resolve) => {
-    try {
-      import('./app-radio-news.js').then(() => {
-        if (typeof window !== 'undefined' && window.RadioNewsEngine) window.RadioNewsEngine.__loaded = true;
-        resolve(typeof window !== 'undefined' ? window.RadioNewsEngine : null);
-      }).catch(() => {
-        if (typeof document !== 'undefined') {
-          const s = document.createElement('script');
-          s.src = 'app-radio-news.js';
-          s.onload = () => {
-            if (typeof window !== 'undefined' && window.RadioNewsEngine) window.RadioNewsEngine.__loaded = true;
-            resolve(typeof window !== 'undefined' ? window.RadioNewsEngine : null);
-          };
-          s.onerror = () => resolve(null);
-          document.head.appendChild(s);
-        } else {
-          resolve(null);
-        }
-      });
-    } catch (e) {
-      if (typeof document !== 'undefined') {
-        const s = document.createElement('script');
-        s.src = 'app-radio-news.js';
-        s.onload = () => {
-          if (typeof window !== 'undefined' && window.RadioNewsEngine) window.RadioNewsEngine.__loaded = true;
-          resolve(typeof window !== 'undefined' ? window.RadioNewsEngine : null);
-        };
-        s.onerror = () => resolve(null);
-        document.head.appendChild(s);
-      } else {
-        resolve(null);
-      }
-    }
-  });
-  return _radioNewsPromise;
-}
-window.ensureRadioNewsLoaded = ensureRadioNewsLoaded;
-if (typeof globalThis !== 'undefined') globalThis.ensureRadioNewsLoaded = ensureRadioNewsLoaded;
-
 // Zentraler Panel-Manager (für Dropdowns & Werkzeug-Panels)
 const PanelManager = {
   panels: ['feedback', 'report', 'settings', 'soundscape', 'language', 'boost', 'music', 'theme', 'calendar-dropdown', 'inspiration', 'shopping', 'cooking', 'alarm', 'weather', 'news', 'pause-dropdown', 'collab-chat', 'labs-menu', 'humor-lab', 'social', 'header-tools'],
   open(name) {
-    if (name === 'news' || name === 'radio') {
-      if (typeof ensureRadioNewsLoaded === 'function') {
-        ensureRadioNewsLoaded().then(() => {
-          if (typeof window !== 'undefined' && window.RadioNewsEngine && typeof window.RadioNewsEngine.initNewsPanel === 'function') {
-            window.RadioNewsEngine.initNewsPanel();
-          }
-        });
-      }
-    }
     this.panels.forEach(p => {
       const el = document.getElementById(`panel-${p}`);
       if (el) {
@@ -137,15 +83,6 @@ const PanelManager = {
     window.currentlyOpenPanel = null;
   },
   toggle(name) {
-    if (name === 'news' || name === 'radio') {
-      if (typeof ensureRadioNewsLoaded === 'function') {
-        ensureRadioNewsLoaded().then(() => {
-          if (typeof window !== 'undefined' && window.RadioNewsEngine && typeof window.RadioNewsEngine.initNewsPanel === 'function') {
-            window.RadioNewsEngine.initNewsPanel();
-          }
-        });
-      }
-    }
     const el = document.getElementById(`panel-${name}`);
     if (!el) return;
     if (el.classList.contains('hidden')) this.open(name);
@@ -1570,15 +1507,6 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
       return true;
     }
     return false;
-  }
-
-  if (actionName.startsWith('RadioNewsEngine.') && (typeof window === 'undefined' || !window.RadioNewsEngine)) {
-    if (typeof ensureRadioNewsLoaded === 'function') {
-      ensureRadioNewsLoaded().then(() => {
-        dispatchAction(actionName, args, event, targetElement);
-      });
-      return true;
-    }
   }
 
   // 1. Namensaufgelöster Lookup (Objekt-Pfade wie RadioNewsEngine.toggleNewsTickerEnabled oder Window-Funktionen)

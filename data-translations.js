@@ -40,49 +40,11 @@ async function loadLanguage(lang) {
   return TRANSLATIONS[lang] || TRANSLATIONS['en'] || TRANSLATIONS['de'];
 }
 
-let _customTranslationsPromise = null;
-async function loadCustomTranslations() {
-  if (typeof window !== 'undefined' && window.customTranslations) {
-    return window.customTranslations;
-  }
-  if (_customTranslationsPromise) return _customTranslationsPromise;
-  _customTranslationsPromise = new Promise((resolve) => {
-    try {
-      import('./data-custom-translations.js').then(() => {
-        resolve(typeof window !== 'undefined' ? window.customTranslations : null);
-      }).catch(() => {
-        if (typeof document !== 'undefined') {
-          const s = document.createElement('script');
-          s.src = 'data-custom-translations.js';
-          s.onload = () => resolve(typeof window !== 'undefined' ? window.customTranslations : null);
-          s.onerror = () => resolve(null);
-          document.head.appendChild(s);
-        } else {
-          resolve(null);
-        }
-      });
-    } catch (e) {
-      if (typeof document !== 'undefined') {
-        const s = document.createElement('script');
-        s.src = 'data-custom-translations.js';
-        s.onload = () => resolve(typeof window !== 'undefined' ? window.customTranslations : null);
-        s.onerror = () => resolve(null);
-        document.head.appendChild(s);
-      } else {
-        resolve(null);
-      }
-    }
-  });
-  return _customTranslationsPromise;
-}
-
 if (typeof window !== 'undefined') {
   window.TRANSLATIONS = TRANSLATIONS;
   window.loadLanguage = loadLanguage;
-  window.loadCustomTranslations = loadCustomTranslations;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.TRANSLATIONS = TRANSLATIONS;
   globalThis.loadLanguage = loadLanguage;
-  globalThis.loadCustomTranslations = loadCustomTranslations;
 }
