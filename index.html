@@ -136,7 +136,7 @@
           </button>
 
           <!-- TOOLS SPHERES POPOVER DROPDOWN -->
-          <div id="panel-header-tools" onmouseenter="showPanelHover('header-tools')" onmouseleave="hidePanelHover('header-tools')" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute top-[calc(100%+16px)] sm:top-[calc(100%+18px)] left-0 z-[150] w-[360px] sm:w-[395px] bg-[#0c0c14]/98 border border-purple-500/35 p-2.5 sm:p-3 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_40px_rgba(168,85,247,0.2)] backdrop-blur-2xl ring-1 ring-white/10 flex flex-col gap-2 sm:gap-2.5 text-left animate-fade-in cursor-default">
+          <div id="panel-header-tools" onmouseenter="showPanelHover('header-tools')" onmouseleave="hidePanelHover('header-tools')" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute top-[calc(100%+22px)] sm:top-[calc(100%+24px)] left-0 z-[150] w-[360px] sm:w-[395px] bg-[#0c0c14]/98 border border-purple-500/35 p-2.5 sm:p-3 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_40px_rgba(168,85,247,0.2)] backdrop-blur-2xl ring-1 ring-white/10 flex flex-col gap-2 sm:gap-2.5 text-left animate-fade-in cursor-default">
             
             <!-- 1. ALLTAG & LIFESTYLE -->
             <div class="p-2 sm:p-2.5 rounded-2xl bg-[#11131c]/85 border border-white/10 space-y-1.5 shadow-sm">
@@ -1968,21 +1968,21 @@
       <!-- 4. RECHTE ZONE: [PAUSE (SKY) + STATS (LIME)] | [OPTIONEN (PURPLE) + SOUND (ROSE)] -->
       <!-- ====================================================================== -->
       <div class="flex items-center gap-1.5 sm:gap-2 md:gap-2.5 shrink-0">
-        <!-- Pause & Erholung (Purple) -->
+        <!-- Pause & Erholung (Sky-Blue) -->
         <div id="header-btn-pause-container" class="relative group cursor-pointer shrink-0" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')">
-          <button type="button" onclick="event.stopPropagation(); togglePanel('pause-dropdown', event);" data-action="togglePanel" data-action-args='["pause-dropdown"]' class="h-[38px] px-2.5 sm:px-3 border border-purple-400/50 hover:border-purple-300 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 active:scale-95 text-purple-300 hover:text-purple-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(168,85,247,0.25)] group/pause-btn" data-i18n-title="pause_panel_title">
-            <!-- Animiertes Dampf-Tassen SVG Icon in Violett -->
-            <svg class="w-4 h-4 text-purple-300 steam-cup-icon shrink-0 overflow-visible" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <button type="button" onclick="event.stopPropagation(); togglePanel('pause-dropdown', event);" data-action="togglePanel" data-action-args='["pause-dropdown"]' class="h-[38px] px-2.5 sm:px-3 border border-sky-400/50 hover:border-sky-300 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 active:scale-95 text-sky-300 hover:text-sky-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(56,189,248,0.25)] group/pause-btn" data-i18n-title="pause_panel_title">
+            <!-- Animiertes Dampf-Tassen SVG Icon in Sky-Blue -->
+            <svg class="w-4 h-4 text-sky-300 steam-cup-icon shrink-0 overflow-visible" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
               <path d="M2 8h16v7a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4Z" />
               <line x1="6" x2="6" y1="1" y2="4" class="steam-line steam-line-1" stroke="currentColor" stroke-width="1.8" />
               <line x1="10" x2="10" y1="0.5" y2="4" class="steam-line steam-line-2" stroke="currentColor" stroke-width="1.8" />
               <line x1="14" x2="14" y1="1" y2="4" class="steam-line steam-line-3" stroke="currentColor" stroke-width="1.8" />
             </svg>
-            <span class="inline-block text-purple-300 font-bold group-hover/pause-btn:text-purple-100" data-i18n="pause_btn">Pause</span>
+            <span class="inline-block text-sky-300 font-bold group-hover/pause-btn:text-sky-100" data-i18n="pause_btn">Pause</span>
           </button>
           
-          <div id="panel-pause-dropdown" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute right-0 left-auto top-[calc(100%+8px)] z-[110] w-[300px] sm:w-[340px] bg-[#0c1017]/98 border border-purple-500/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left animate-fade-in">
+          <div id="panel-pause-dropdown" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute right-0 left-auto top-[calc(100%+8px)] z-[110] w-[300px] sm:w-[340px] bg-[#0c1017]/98 border border-sky-400/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-2.5 text-left animate-fade-in">
             <!-- Header -->
             <div class="flex items-center justify-between border-b border-white/10 pb-2">
               <div class="relative flex flex-col items-center justify-center shrink-0">
@@ -1993,7 +1993,7 @@
                   <span class="badge-tool-subtext select-none">PAUSE</span>
                 </div>
               </div>
-              <button data-action="togglePanel" data-action-args='["pause-dropdown"]' class="text-purple-300/80 hover:text-rose-300 text-xs p-1 rounded-lg transition">✕</button>
+              <button data-action="togglePanel" data-action-args='["pause-dropdown"]' class="text-sky-300/80 hover:text-rose-300 text-xs p-1 rounded-lg transition">✕</button>
             </div>
 
             <!-- Category Pills Selector (3 distinct non-repeating categories: Sky -> Amber -> Emerald) -->
@@ -2181,26 +2181,26 @@
 
         <!-- Dezente Trennlinie vor Optionen -->
         <div class="hidden sm:flex items-center justify-center px-0.5 shrink-0">
-          <div class="h-5 w-[1px] bg-sky-400/25 rounded-full"></div>
+          <div class="h-5 w-[1px] bg-purple-400/25 rounded-full"></div>
         </div>
 
-        <!-- Optionen & Farbschemata (Sky-Blue) -->
+        <!-- Optionen & Farbschemata (Purple) -->
         <div id="header-btn-options-container" class="relative group cursor-pointer" onmouseenter="showPanelHover('settings-dropdown')" onmouseleave="hidePanelHover('settings-dropdown')">
-            <button type="button" onclick="event.stopPropagation(); togglePanel('settings-dropdown', event);" data-action="togglePanel" data-action-args='["settings-dropdown"]' class="h-[38px] px-2.5 sm:px-3 2xl:px-4 flex items-center gap-1.5 border border-sky-400/50 hover:border-sky-300 active:scale-95 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 hover:text-sky-100 cursor-pointer transition shrink-0 shadow-[0_0_14px_rgba(56,189,248,0.25)] group/opt" data-i18n-title="options_title">
-              <i data-lucide="settings" class="w-4 h-4 text-sky-300 group-hover/opt:text-sky-100 transition-colors"></i>
-              <span class="text-xs sm:text-[13px] font-bold text-sky-300 group-hover/opt:text-sky-100 hidden xl:inline" data-i18n="settings">Options</span>
+            <button type="button" onclick="event.stopPropagation(); togglePanel('settings-dropdown', event);" data-action="togglePanel" data-action-args='["settings-dropdown"]' class="h-[38px] px-2.5 sm:px-3 2xl:px-4 flex items-center gap-1.5 border border-purple-400/50 hover:border-purple-300 active:scale-95 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 hover:text-purple-100 cursor-pointer transition shrink-0 shadow-[0_0_14px_rgba(168,85,247,0.25)] group/opt" data-i18n-title="options_title">
+              <i data-lucide="settings" class="w-4 h-4 text-purple-300 group-hover/opt:text-purple-100 transition-colors"></i>
+              <span class="text-xs sm:text-[13px] font-bold text-purple-300 group-hover/opt:text-purple-100 hidden xl:inline" data-i18n="settings">Options</span>
             </button>
 
-            <div id="panel-settings-dropdown" onmouseenter="showPanelHover('settings-dropdown')" onmouseleave="hidePanelHover('settings-dropdown')" class="hidden absolute right-0 top-[calc(100%+8px)] z-[120] w-[280px] bg-[#0f0f18]/98 border border-sky-400/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-3 text-left animate-fade-in" data-action="stopPropagation" data-stop-propagation="true">
+            <div id="panel-settings-dropdown" onmouseenter="showPanelHover('settings-dropdown')" onmouseleave="hidePanelHover('settings-dropdown')" class="hidden absolute right-0 top-[calc(100%+8px)] z-[120] w-[280px] bg-[#0f0f18]/98 border border-purple-400/40 p-3.5 rounded-3xl shadow-2xl backdrop-blur-xl flex flex-col gap-3 text-left animate-fade-in" data-action="stopPropagation" data-stop-propagation="true">
               <!-- Title & Close -->
               <div class="flex items-center justify-between border-b border-white/10 pb-2">
                 <div class="flex items-center gap-2">
-                  <div class="w-6 h-6 rounded-lg bg-sky-500/20 border border-sky-400/30 flex items-center justify-center text-sky-300">
+                  <div class="w-6 h-6 rounded-lg bg-purple-500/20 border border-purple-400/30 flex items-center justify-center text-purple-300">
                     <i data-lucide="settings" class="w-3.5 h-3.5"></i>
                   </div>
-                  <h4 class="font-bold text-xs font-display text-sky-300" data-i18n="settings_dropdown_title">Schnell-Optionen</h4>
+                  <h4 class="font-bold text-xs font-display text-purple-300" data-i18n="settings_dropdown_title">Schnell-Optionen</h4>
                 </div>
-                <button data-action="togglePanel" data-action-args='["settings-dropdown"]' aria-label="Settings schließen" class="text-sky-300/80 hover:text-rose-300 text-xs font-bold p-1 px-1.5 rounded-lg hover:bg-rose-500/15 transition cursor-pointer">✕</button>
+                <button data-action="togglePanel" data-action-args='["settings-dropdown"]' aria-label="Settings schließen" class="text-purple-300/80 hover:text-rose-300 text-xs font-bold p-1 px-1.5 rounded-lg hover:bg-rose-500/15 transition cursor-pointer">✕</button>
               </div>
 
               <!-- SECTION 1: SPRACHE (Übertitel: Cyan) -->
