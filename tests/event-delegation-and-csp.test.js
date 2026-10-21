@@ -61,6 +61,88 @@ describe('Phase 5 Architecture B: Event Delegation, CSP & Monolith-Aufteilung', 
     btn.remove();
   });
 
+  describe('Verhaltensgleiches Event-Bubbling & StopPropagation', () => {
+    it('(a) Kind- und Eltern-Element mit data-action: beide feuern in aufsteigender Reihenfolge', () => {
+      const calls = [];
+      window.testParentAction = () => {
+        calls.push('parent');
+      };
+      window.testChildAction = () => {
+        calls.push('child');
+      };
+
+      const parentEl = document.createElement('div');
+      parentEl.setAttribute('data-action', 'testParentAction');
+
+      const childEl = document.createElement('button');
+      childEl.setAttribute('data-action', 'testChildAction');
+
+      parentEl.appendChild(childEl);
+      document.body.appendChild(parentEl);
+
+      childEl.click();
+
+      expect(calls).toEqual(['child', 'parent']);
+
+      parentEl.remove();
+    });
+
+    it('(b) Kind ruft stopPropagation auf: Eltern-Element darf nicht feuern', () => {
+      const calls = [];
+      window.testParentAction = () => {
+        calls.push('parent');
+      };
+      window.testChildActionStop = (e) => {
+        calls.push('child');
+        if (e && e.stopPropagation) e.stopPropagation();
+      };
+
+      const parentEl = document.createElement('div');
+      parentEl.setAttribute('data-action', 'testParentAction');
+
+      const childEl = document.createElement('button');
+      childEl.setAttribute('data-action', 'testChildActionStop');
+      childEl.setAttribute('data-action-args', '["$event"]');
+
+      parentEl.appendChild(childEl);
+      document.body.appendChild(parentEl);
+
+      childEl.click();
+
+      expect(calls).toEqual(['child']);
+
+      parentEl.remove();
+    });
+
+    it('(c) Klick innerhalb eines Panels mit data-stop-propagation="true" löst keinen document-Klick-Handler aus', () => {
+      let documentHandlerRan = false;
+      const docListener = () => {
+        documentHandlerRan = true;
+      };
+      document.addEventListener('click', docListener);
+
+      const panel = document.createElement('div');
+      panel.setAttribute('data-action', 'stopPropagation');
+      panel.setAttribute('data-stop-propagation', 'true');
+
+      const innerBtn = document.createElement('button');
+      innerBtn.textContent = 'Inner Button';
+      panel.appendChild(innerBtn);
+      document.body.appendChild(panel);
+
+      if (typeof window.initStopPropagationWrappers === 'function') {
+        window.initStopPropagationWrappers();
+      }
+
+      innerBtn.click();
+
+      document.removeEventListener('click', docListener);
+      panel.remove();
+
+      expect(documentHandlerRan).toBe(false);
+    });
+  });
+
   it('Monolith-Aufteilung: app-core.js liegt unter 2000 Zeilen und app-backup.js ist modularisiert', () => {
     const appCorePath = path.join(rootDir, 'app-core.js');
     const appCoreLines = fs.readFileSync(appCorePath, 'utf8').split('\n').length;

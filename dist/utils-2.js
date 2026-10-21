@@ -401,6 +401,22 @@ if (typeof document !== 'undefined') {
         colsEl.classList.add('hidden');
       }
     }
+    // 9. Tools Spheres Popover
+    const toolsEl = document.getElementById('panel-header-tools');
+    const toolsBtn = document.getElementById('btn-header-tools');
+    if (toolsEl && !toolsEl.classList.contains('hidden')) {
+      if (!toolsEl.contains(e.target) && (!toolsBtn || !toolsBtn.contains(e.target))) {
+        toolsEl.classList.add('hidden');
+      }
+    }
+    // 10. Sound Volume Quick Popover
+    const soundVolEl = document.getElementById('header-sound-volume-popover');
+    const soundVolBtn = document.getElementById('header-sound-btn');
+    if (soundVolEl && !soundVolEl.classList.contains('hidden')) {
+      if (!soundVolEl.contains(e.target) && (!soundVolBtn || !soundVolBtn.contains(e.target))) {
+        soundVolEl.classList.add('hidden');
+      }
+    }
   });
 }
 

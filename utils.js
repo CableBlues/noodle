@@ -1602,46 +1602,94 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
 }
 
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('click', (event) => {
-    const actionEl = event.target.closest('[data-action]');
-    if (!actionEl) return;
+// Einmalige Initialisierung: Bubble-Listener an jedes Wrapper-Element mit data-stop-propagation="true"
+function initStopPropagationWrappers() {
+  if (typeof document === 'undefined') return;
+  const wrappers = document.querySelectorAll('[data-stop-propagation="true"]');
+  wrappers.forEach(el => {
+    if (!el.__stopPropInitialized) {
+      el.__stopPropInitialized = true;
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+  });
+}
 
-    // Optional: stopPropagation konfigurierbar via Attribut
-    if (actionEl.getAttribute('data-stop-propagation') === 'true') {
+if (typeof document !== 'undefined') {
+  // Capture-Listener am document, um event.stopPropagation() zu triggern oder stopPropagation vor anderen document-Listenern sicherzustellen
+  document.addEventListener('click', (event) => {
+    const stopEl = event.target && typeof event.target.closest === 'function' ? event.target.closest('[data-stop-propagation="true"]') : null;
+    if (stopEl) {
       event.stopPropagation();
     }
+  }, true);
 
-    const actionsStr = actionEl.getAttribute('data-action') || '';
-    const argsStr = actionEl.getAttribute('data-action-args');
-    let parsedArgs = [];
-    if (argsStr) {
-      try {
-        parsedArgs = JSON.parse(argsStr);
-        if (!Array.isArray(parsedArgs)) parsedArgs = [parsedArgs];
-      } catch (e) {
-        parsedArgs = argsStr.split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
+  // Delegation-Listener in der CAPTURE-FREIEN Bubble-Phase am document
+  document.addEventListener('click', (event) => {
+    let curr = event.target;
+    while (curr && curr !== document && curr !== document.documentElement) {
+      // Wenn stopPropagation bereits aufgerufen wurde (cancelBubble) -> abbrechen
+      if (event.cancelBubble) {
+        break;
       }
+
+      if (curr.hasAttribute && curr.hasAttribute('data-action')) {
+        const actionEl = curr;
+        const actionsStr = actionEl.getAttribute('data-action') || '';
+        const argsStr = actionEl.getAttribute('data-action-args');
+        let parsedArgs = [];
+        if (argsStr) {
+          try {
+            parsedArgs = JSON.parse(argsStr);
+            if (!Array.isArray(parsedArgs)) parsedArgs = [parsedArgs];
+          } catch (e) {
+            parsedArgs = argsStr.split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
+          }
+        }
+
+        // Unterstützt verkettete Aktionen (Semikolon-separiert)
+        const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
+        const isMultiArgs = Array.isArray(parsedArgs) && actionList.length > 1 && (parsedArgs.length === 0 || Array.isArray(parsedArgs[0]));
+
+        actionList.forEach((actionItem, idx) => {
+          if (event.cancelBubble) return;
+          const callArgs = isMultiArgs && Array.isArray(parsedArgs[idx])
+            ? parsedArgs[idx]
+            : (Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs]);
+          dispatchAction(actionItem, callArgs, event, actionEl);
+        });
+
+        // Stoppe, wenn eine Aktion event.stopPropagation() aufgerufen hat oder das Element data-stop-propagation="true" trägt
+        if (actionEl.getAttribute('data-stop-propagation') === 'true') {
+          event.stopPropagation();
+        }
+        if (event.cancelBubble) {
+          break;
+        }
+      } else if (curr.getAttribute && curr.getAttribute('data-stop-propagation') === 'true') {
+        event.stopPropagation();
+        break;
+      }
+
+      curr = curr.parentElement;
     }
-
-    // Unterstützt verkettete Aktionen (Semikolon-separiert)
-    const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
-    const isMultiArgs = Array.isArray(parsedArgs) && actionList.length > 1 && (parsedArgs.length === 0 || Array.isArray(parsedArgs[0]));
-
-    actionList.forEach((actionItem, idx) => {
-      const callArgs = isMultiArgs && Array.isArray(parsedArgs[idx])
-        ? parsedArgs[idx]
-        : (Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs]);
-      dispatchAction(actionItem, callArgs, event, actionEl);
-    });
   });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStopPropagationWrappers);
+  } else {
+    setTimeout(initStopPropagationWrappers, 0);
+  }
 }
 
 if (typeof window !== 'undefined') {
   window.dispatchAction = dispatchAction;
+  window.initStopPropagationWrappers = initStopPropagationWrappers;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.dispatchAction = dispatchAction;
+  globalThis.initStopPropagationWrappers = initStopPropagationWrappers;
 }
 
 

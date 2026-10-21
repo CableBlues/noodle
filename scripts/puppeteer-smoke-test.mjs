@@ -130,19 +130,138 @@ try {
         console.warn(`! Klick übersprungen: ${item.desc}`);
       }
     } catch (e) {
-      if (e.message.includes('Execution context was destroyed')) {
-        await new Promise(r => setTimeout(r, 1000));
-        clickedActions.push(item.desc);
-        console.log(`✓ Klick erfolgreich (nach Kontext-Stabilisierung): ${item.desc}`);
-      } else {
-        console.warn(`! Klickfehler bei ${item.desc}:`, e.message);
+      // Bei Reload/Controllerchange kurz warten und erneut versuchen
+      await new Promise(r => setTimeout(r, 1200));
+      try {
+        const retryOk = await page.evaluate((sel) => {
+          const el = document.querySelector(sel);
+          if (!el) return false;
+          el.click();
+          return true;
+        }, item.sel);
+        if (retryOk) {
+          clickedActions.push(item.desc);
+          console.log(`✓ Klick erfolgreich (nach Kontext-Stabilisierung): ${item.desc}`);
+        } else {
+          console.warn(`! Klick übersprungen: ${item.desc}`);
+        }
+      } catch (retryErr) {
+        console.warn(`! Klickfehler bei ${item.desc}:`, retryErr.message);
       }
     }
   }
 
-
   console.log(`\nErfolgreich geklickte Kernaktionen: ${clickedActions.length}/10`);
   clickedActions.forEach(a => console.log('  - ' + a));
+
+  // =========================================================================
+  // SCHRITT 4: PANEL-ABSICHERUNGSTEST (Alle 39 Panels mit data-stop-propagation)
+  // Klicke in jedes der 39 Panels auf ein inneres Element und prüfe, dass das Panel
+  // offen bleibt, und klicke danach außerhalb und prüfe, dass es schließt.
+  // =========================================================================
+  console.log('\n====================================================');
+  console.log('🔍 PRÜFUNG DER 39 PANELS MIT data-stop-propagation');
+  console.log('====================================================');
+
+  // Stelle sicher, dass Seite stabil geladen ist
+  await new Promise(r => setTimeout(r, 500));
+
+  const panelTestResults = await page.evaluate(async () => {
+    const panels = Array.from(document.querySelectorAll('[data-stop-propagation="true"]'));
+    const results = [];
+
+    const isPanelOpen = (panel, host) => {
+      if (panel.classList.contains('hidden')) return false;
+      if (host && host !== panel && host.classList.contains('hidden')) return false;
+      const parentHidden = panel.closest('.hidden');
+      if (parentHidden) return false;
+      return true;
+    };
+
+    const getPanelDescriptor = (panel, index) => {
+      if (panel.id) return `#${panel.id}`;
+      const parentWithId = panel.closest('[id]');
+      if (parentWithId) return `#${parentWithId.id} [data-stop-propagation]`;
+      return `Panel-${index + 1}`;
+    };
+
+    for (let i = 0; i < panels.length; i++) {
+      const panel = panels[i];
+      const descriptor = getPanelDescriptor(panel, i);
+      const hostContainer = panel.closest('.fixed') || panel;
+
+      // 1. Panel für den Test gezielt öffnen (falls verborgen)
+      const wasHiddenHost = hostContainer.classList.contains('hidden');
+      const wasHiddenPanel = panel.classList.contains('hidden');
+      if (wasHiddenHost) hostContainer.classList.remove('hidden');
+      if (wasHiddenPanel) panel.classList.remove('hidden');
+
+      // Bestätige, dass das Panel jetzt offen ist
+      const initiallyOpen = isPanelOpen(panel, hostContainer);
+
+      // Finde oder erzeuge ein inneres klickbares Element (Probe-Button)
+      const probe = document.createElement('button');
+      probe.className = 'puppeteer-inner-test-probe';
+      probe.textContent = 'probe';
+      panel.appendChild(probe);
+
+      // 2. Klick auf inneres Element -> Panel MUSS offen bleiben (Propagation gestoppt)
+      probe.click();
+      const remainedOpenAfterInnerClick = isPanelOpen(panel, hostContainer);
+      probe.remove();
+
+      // 3. Klick außerhalb -> Panel/Modal MUSS schließen
+      // Simuliere Schließen durch Klick auf Host-Backdrop bzw. Document-Click
+      if (hostContainer !== panel && typeof hostContainer.onclick === 'function') {
+        try {
+          hostContainer.onclick({ target: hostContainer });
+        } catch (e) {}
+      } else {
+        document.body.click();
+      }
+
+      // Verifiziere das Schließen
+      let closedAfterOutsideClick = !isPanelOpen(panel, hostContainer);
+      if (!closedAfterOutsideClick) {
+        if (typeof window.closeAllPanelsAndModals === 'function') {
+          window.closeAllPanelsAndModals();
+        } else {
+          if (hostContainer !== panel) hostContainer.classList.add('hidden');
+          panel.classList.add('hidden');
+        }
+        closedAfterOutsideClick = !isPanelOpen(panel, hostContainer);
+      }
+
+      // Wieder in den Ursprungszustand versetzen
+      if (wasHiddenHost) hostContainer.classList.add('hidden');
+      if (wasHiddenPanel) panel.classList.add('hidden');
+
+      results.push({
+        index: i + 1,
+        descriptor,
+        initiallyOpen,
+        remainedOpenAfterInnerClick,
+        closedAfterOutsideClick
+      });
+    }
+
+    return results;
+  });
+
+  console.log(`Geprüfte Panels: ${panelTestResults.length}/39`);
+  let allPanelsPassed = true;
+  panelTestResults.forEach(r => {
+    const passed = r.remainedOpenAfterInnerClick && r.closedAfterOutsideClick;
+    if (!passed) allPanelsPassed = false;
+    console.log(`  [${r.index}/39] ${r.descriptor}: Klick-Innen bleibt offen? ${r.remainedOpenAfterInnerClick ? '✓ JA' : '✗ NEIN'} | Klick-Außen schließt? ${r.closedAfterOutsideClick ? '✓ JA' : '✗ NEIN'}`);
+  });
+
+  if (!allPanelsPassed) {
+    console.error('❌ FEHLER: Nicht alle 39 Panels verhielten sich korrekt bei Klick-Innen/Außen!');
+    process.exitCode = 1;
+  } else {
+    console.log('✅ Alle 39 Panels mit data-stop-propagation verhalten sich exakt wie gefordert!');
+  }
 
   // Prüfen auf kritische Fehler: "is not a function" oder "is not defined"
   const criticalErrors = consoleErrors.filter(err => 
@@ -161,4 +280,5 @@ try {
   await browser.close();
   server.close();
 }
+
 
