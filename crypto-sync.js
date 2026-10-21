@@ -11,7 +11,7 @@
 
 const NoodleCrypto = {
   VERSION: 1,
-  ITERATIONS: 100000,
+  ITERATIONS: 600000,
   ALGO: 'AES-GCM',
   HASH: 'SHA-256',
 
@@ -55,7 +55,7 @@ const NoodleCrypto = {
   },
 
   // Leitet aus Passphrase + Salt einen 256-Bit AES-GCM CryptoKey via PBKDF2 ab
-  async deriveKey(passphrase, saltBytes) {
+  async deriveKey(passphrase, saltBytes, iterations = this.ITERATIONS) {
     if (!this.isSupported()) {
       throw new Error('WebCrypto API wird von dieser Umgebung nicht unterstützt.');
     }
@@ -76,7 +76,7 @@ const NoodleCrypto = {
       {
         name: 'PBKDF2',
         salt: saltBytes,
-        iterations: this.ITERATIONS,
+        iterations: iterations,
         hash: this.HASH
       },
       keyMaterial,
@@ -96,7 +96,8 @@ const NoodleCrypto = {
     }
     const salt = this.generateSalt(16);
     const iv = this.generateIv(12);
-    const key = await this.deriveKey(passphrase, salt);
+    const iterations = this.ITERATIONS;
+    const key = await this.deriveKey(passphrase, salt, iterations);
 
     const encoder = new TextEncoder();
     const plainBytes = encoder.encode(JSON.stringify(dataObj));
@@ -113,6 +114,7 @@ const NoodleCrypto = {
     return {
       _isEncrypted: true,
       cryptoVersion: this.VERSION,
+      iterations: iterations,
       cipher: this.bufferToBase64(cipherBuffer),
       salt: this.bufferToBase64(salt),
       iv: this.bufferToBase64(iv),
@@ -133,8 +135,11 @@ const NoodleCrypto = {
     const salt = this.base64ToBuffer(encryptedEnvelope.salt);
     const iv = this.base64ToBuffer(encryptedEnvelope.iv);
     const cipherBytes = this.base64ToBuffer(encryptedEnvelope.cipher);
+    const iterations = (typeof encryptedEnvelope.iterations === 'number' && encryptedEnvelope.iterations > 0)
+      ? encryptedEnvelope.iterations
+      : 100000;
 
-    const key = await this.deriveKey(passphrase, salt);
+    const key = await this.deriveKey(passphrase, salt, iterations);
 
     try {
       const decryptedBuffer = await crypto.subtle.decrypt(

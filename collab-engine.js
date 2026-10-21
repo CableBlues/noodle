@@ -264,49 +264,56 @@ const CollabEngine = (function() {
       const supa = FlowAuth.getSupabaseClient();
       if (supa && typeof supa.channel === 'function') {
         try {
-          if (realtimeChannel) {
-            supa.removeChannel(realtimeChannel);
-          }
-
-          realtimeChannel = supa.channel(`room_${activeRoom}`, {
-            config: {
-              private: true,
-              broadcast: { self: false },
-              presence: { key: user.id }
+          const subscribeToRoom = (isPrivate = true) => {
+            if (realtimeChannel) {
+              supa.removeChannel(realtimeChannel);
             }
-          });
 
-          // A. Broadcast Nachricht empfangen
-          realtimeChannel.on('broadcast', { event: 'collab_event' }, ({ payload }) => {
-            handleIncomingEvent(payload);
-          });
+            realtimeChannel = supa.channel(`room_${activeRoom}`, {
+              config: {
+                private: isPrivate,
+                broadcast: { self: false },
+                presence: { key: user.id }
+              }
+            });
 
-          // B. Presence Tracking (Aktive Teammitglieder)
-          realtimeChannel.on('presence', { event: 'sync' }, () => {
-            const stateObj = realtimeChannel.presenceState();
-            activeMembers.clear();
-            activeMembers.set(user.id, { ...user, isSelf: true, onlineAt: Date.now(), isSpeaking: isSpeaking });
+            // A. Broadcast Nachricht empfangen
+            realtimeChannel.on('broadcast', { event: 'collab_event' }, ({ payload }) => {
+              handleIncomingEvent(payload);
+            });
 
-            for (const key in stateObj) {
-              const presences = stateObj[key];
-              if (Array.isArray(presences) && presences.length > 0) {
-                const p = presences[0];
-                if (p && p.user && p.user.id !== user.id) {
-                  activeMembers.set(p.user.id, { ...p.user, isSelf: false, onlineAt: Date.now() });
+            // B. Presence Tracking (Aktive Teammitglieder)
+            realtimeChannel.on('presence', { event: 'sync' }, () => {
+              const stateObj = realtimeChannel.presenceState();
+              activeMembers.clear();
+              activeMembers.set(user.id, { ...user, isSelf: true, onlineAt: Date.now(), isSpeaking: isSpeaking });
+
+              for (const key in stateObj) {
+                const presences = stateObj[key];
+                if (Array.isArray(presences) && presences.length > 0) {
+                  const p = presences[0];
+                  if (p && p.user && p.user.id !== user.id) {
+                    activeMembers.set(p.user.id, { ...p.user, isSelf: false, onlineAt: Date.now() });
+                  }
                 }
               }
-            }
-            renderPresenceUI();
-          });
+              renderPresenceUI();
+            });
 
-          realtimeChannel.subscribe(async (status) => {
-            if (status === 'SUBSCRIBED') {
-              await realtimeChannel.track({
-                user: user,
-                online_at: new Date().toISOString()
-              });
-            }
-          });
+            realtimeChannel.subscribe(async (status) => {
+              if (status === 'SUBSCRIBED') {
+                await realtimeChannel.track({
+                  user: user,
+                  online_at: new Date().toISOString()
+                });
+              } else if (isPrivate && (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT')) {
+                console.warn(`[CollabEngine] Private Realtime-Channel Fehler (${status}), wechsle automatisch auf öffentlichen Channel.`);
+                subscribeToRoom(false);
+              }
+            });
+          };
+
+          subscribeToRoom(true);
         } catch (err) {
           console.warn('[CollabEngine] Supabase Realtime setup warning:', err);
         }
@@ -923,6 +930,10 @@ const CollabEngine = (function() {
       }
       mediaRecorder.stop();
     }
+  }
+
+  function cancelVoiceRecording() {
+    stopVoiceRecording(false);
   }
 
   function sendVoiceMessage(audioDataUrl, durationSecs) {
@@ -1812,6 +1823,7 @@ const CollabEngine = (function() {
     toggleMicrophone,
     startVoiceRecording,
     stopVoiceRecording,
+    cancelVoiceRecording,
     playVoiceMessage,
     updateVoiceAudioProgress,
     resetVoiceAudioUI,
