@@ -163,19 +163,17 @@ const AppStorage = {
       return true;
     } catch (e) {
       console.error(`[AppStorage] Fehler beim Schreiben von '${key}':`, e);
-      // Notfall-Trim bei QuotaExceededError
-      if (e && (e.name === 'QuotaExceededError' || e.code === 22 || String(e).includes('QuotaExceeded'))) {
-        try {
-          const hist = localStorage.getItem('flow_history');
-          if (hist) localStorage.removeItem('flow_history');
-          const backup = localStorage.getItem('flow_backup_before_sync');
-          if (backup) localStorage.removeItem('flow_backup_before_sync');
-          localStorage.setItem(key, JSON.stringify(value));
-          IDB_VAULT.set(key, value);
-          return true;
-        } catch (retryErr) {}
+      if (typeof ErrorDiagnostics !== 'undefined' && ErrorDiagnostics.record) {
+        ErrorDiagnostics.record('STORAGE_WRITE_ERROR', { key, error: String(e) });
       }
-      IDB_VAULT.set(key, value);
+      // Niemals Nutzerdaten, Verlaufsdaten oder Backups automatisch zerstören.
+      // Versuche persistente Sicherung im großzügigen IndexedDB-Vault (Quota im GB-Bereich).
+      try {
+        IDB_VAULT.set(key, value);
+      } catch (idbErr) {
+        console.error(`[AppStorage] Auch IDB-Vault fehlgeschlagen für '${key}':`, idbErr);
+      }
+      // Fehlgeschlagene localStorage-Schreibvorgänge dürfen niemals als erfolgreich (true) gemeldet werden!
       return false;
     }
   },
