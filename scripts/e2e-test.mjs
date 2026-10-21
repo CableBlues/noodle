@@ -545,20 +545,21 @@ try {
   console.log('🛡️ KONSOLEN- & CSP-SICHERHEITSPRÜFUNG');
   console.log('====================================================');
 
-  const criticalErrors = consoleErrors.filter(err =>
-    err.includes('is not a function') || err.includes('is not defined')
-  );
+  const jsErrors = consoleErrors.filter(err => {
+    if (/Failed to load resource|net::ERR_|404|favicon|status of 404|blocked by CORS policy|fetch at/i.test(err)) return false;
+    return true;
+  });
 
-  console.log(`Kritische JS-Fehler ("is not a function" / "is not defined"): ${criticalErrors.length}`);
-  if (criticalErrors.length > 0) {
-    criticalErrors.forEach(e => console.error('  -> ' + e));
+  console.log(`JS-Fehler (außer fehlenden Assets): ${jsErrors.length}`);
+  if (jsErrors.length > 0) {
+    jsErrors.forEach(e => console.error('  -> ' + e));
   } else {
-    console.log('✓ 0 kritische Funktions-/Definitions-Fehler');
+    console.log('✓ 0 JS-Fehler (außer fehlenden Assets)');
   }
 
   console.log(`CSP-Verletzungen: ${cspErrors.length}`);
   if (cspErrors.length > 0) {
-    cspErrors.forEach(e => console.error('  -> CSP: ' + e));
+    cspErrors.forEach(err => console.error('  -> CSP: ' + err));
   } else {
     console.log('✓ 0 CSP-Verletzungen');
   }
@@ -573,7 +574,7 @@ try {
     tickerLoadedWithin10s &&
     allLanguagesPassed &&
     allPanelsPassed &&
-    criticalErrors.length === 0 &&
+    jsErrors.length === 0 &&
     cspErrors.length === 0
   );
 

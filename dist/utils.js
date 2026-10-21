@@ -1488,7 +1488,7 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
     return allOk;
   }
 
-  // Auflösung von $event, $this und $value
+  // Auflösung von $event, $this, $value und $checked
   const resolvedArgs = (Array.isArray(args) ? args : [args]).map(arg => {
     if (arg === '$event') return event;
     if (arg === '$this') return targetElement;
@@ -1497,13 +1497,25 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
       if (event && event.target && typeof event.target.value !== 'undefined') return event.target.value;
       return '';
     }
+    if (arg === '$checked') {
+      if (targetElement && typeof targetElement.checked !== 'undefined') return !!targetElement.checked;
+      if (event && event.target && typeof event.target.checked !== 'undefined') return !!event.target.checked;
+      return false;
+    }
     return arg;
   });
 
-  // Special built-in: stopPropagation
+  // Special built-in: stopPropagation & preventDefault
   if (actionName === 'stopPropagation') {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
+      return true;
+    }
+    return false;
+  }
+  if (actionName === 'preventDefault') {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
       return true;
     }
     return false;
@@ -1635,6 +1647,51 @@ function submitOnEnter(event, actionName) {
 window.submitOnEnter = submitOnEnter;
 if (typeof globalThis !== 'undefined') globalThis.submitOnEnter = submitOnEnter;
 
+function executeActionsForElement(actionEl, event, eventType = 'click') {
+  if (!actionEl || !actionEl.getAttribute) return;
+  const attrName = (eventType === 'click') ? 'data-action' : `data-${eventType}`;
+  const argsAttrName = (eventType === 'click') ? 'data-action-args' : `data-${eventType}-args`;
+
+  let hasAction = actionEl.hasAttribute && actionEl.hasAttribute(attrName);
+  let usedAttrName = attrName;
+  let usedArgsAttrName = argsAttrName;
+
+  if (!hasAction && eventType === 'click' && actionEl.hasAttribute && actionEl.hasAttribute('data-click')) {
+    hasAction = true;
+    usedAttrName = 'data-click';
+    usedArgsAttrName = 'data-click-args';
+  }
+
+  if (hasAction) {
+    const actionsStr = actionEl.getAttribute(usedAttrName) || '';
+    const argsStr = actionEl.getAttribute(usedArgsAttrName);
+    let parsedArgs = [];
+    if (argsStr) {
+      try {
+        parsedArgs = JSON.parse(argsStr);
+        if (!Array.isArray(parsedArgs)) parsedArgs = [parsedArgs];
+      } catch (e) {
+        parsedArgs = argsStr.split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
+      }
+    }
+
+    const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
+    const isMultiArgs = Array.isArray(parsedArgs) && actionList.length > 1 && (parsedArgs.length === 0 || Array.isArray(parsedArgs[0]));
+
+    actionList.forEach((actionItem, idx) => {
+      if (event && event.cancelBubble) return;
+      const callArgs = isMultiArgs && Array.isArray(parsedArgs[idx])
+        ? parsedArgs[idx]
+        : (Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs]);
+      dispatchAction(actionItem, callArgs, event, actionEl);
+    });
+
+    if (actionEl.getAttribute('data-stop-propagation') === 'true' && eventType === 'click' && event) {
+      event.stopPropagation();
+    }
+  }
+}
+
 /**
  * Führt alle data-action (bzw. data-{eventType}) Aktionen von event.target aufwärts bis einschließlich boundaryEl (oder document) aus.
  * Bricht ab, sobald event.cancelBubble gesetzt wird (z. B. durch event.stopPropagation()).
@@ -1644,54 +1701,15 @@ function runDelegatedActions(event, boundaryEl = null, eventType = 'click') {
   let curr = event.target;
   const stopAt = boundaryEl ? boundaryEl.parentElement : null;
   const attrName = (eventType === 'click') ? 'data-action' : `data-${eventType}`;
-  const argsAttrName = (eventType === 'click') ? 'data-action-args' : `data-${eventType}-args`;
 
   while (curr && curr !== stopAt && curr !== document && curr !== document.documentElement) {
-    // Wenn stopPropagation bereits aufgerufen wurde (cancelBubble) -> abbrechen
     if (event.cancelBubble) {
       break;
     }
 
-    let hasAction = curr.hasAttribute && curr.hasAttribute(attrName);
-    let usedAttrName = attrName;
-    let usedArgsAttrName = argsAttrName;
-
-    if (!hasAction && eventType === 'click' && curr.hasAttribute && curr.hasAttribute('data-click')) {
-      hasAction = true;
-      usedAttrName = 'data-click';
-      usedArgsAttrName = 'data-click-args';
-    }
-
+    const hasAction = curr.hasAttribute && (curr.hasAttribute(attrName) || (eventType === 'click' && curr.hasAttribute('data-click')));
     if (hasAction) {
-      const actionEl = curr;
-      const actionsStr = actionEl.getAttribute(usedAttrName) || '';
-      const argsStr = actionEl.getAttribute(usedArgsAttrName);
-      let parsedArgs = [];
-      if (argsStr) {
-        try {
-          parsedArgs = JSON.parse(argsStr);
-          if (!Array.isArray(parsedArgs)) parsedArgs = [parsedArgs];
-        } catch (e) {
-          parsedArgs = argsStr.split(',').map(s => s.trim().replace(/^['"]|['"]$/g, ''));
-        }
-      }
-
-      // Unterstützt verkettete Aktionen (Semikolon-separiert)
-      const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
-      const isMultiArgs = Array.isArray(parsedArgs) && actionList.length > 1 && (parsedArgs.length === 0 || Array.isArray(parsedArgs[0]));
-
-      actionList.forEach((actionItem, idx) => {
-        if (event.cancelBubble) return;
-        const callArgs = isMultiArgs && Array.isArray(parsedArgs[idx])
-          ? parsedArgs[idx]
-          : (Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs]);
-        dispatchAction(actionItem, callArgs, event, actionEl);
-      });
-
-      // Stoppe, wenn eine Aktion event.stopPropagation() aufgerufen hat oder das Element data-stop-propagation="true" trägt
-      if (actionEl.getAttribute('data-stop-propagation') === 'true' && eventType === 'click') {
-        event.stopPropagation();
-      }
+      executeActionsForElement(curr, event, eventType);
       if (event.cancelBubble) {
         break;
       }
@@ -1724,11 +1742,45 @@ function initStopPropagationWrappers() {
 }
 
 if (typeof document !== 'undefined') {
-  // Delegation-Listener in der Bubble-Phase am document für click, change, input, keydown, submit
-  ['click', 'change', 'input', 'keydown', 'submit'].forEach(evt => {
+  // 1. Delegation-Listener in der Bubble-Phase am document für Standard-Events
+  ['click', 'change', 'input', 'keydown', 'keyup', 'submit', 'dblclick', 'contextmenu', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach(evt => {
     document.addEventListener(evt, (event) => {
       runDelegatedActions(event, null, evt);
     });
+  });
+
+  // 2. Focus / Blur Delegation über focusin / focusout
+  document.addEventListener('focusin', (event) => {
+    runDelegatedActions(event, null, 'focus');
+  });
+  document.addEventListener('focusout', (event) => {
+    runDelegatedActions(event, null, 'blur');
+  });
+
+  // 3. Mouseenter / Mouseleave Delegation über mouseover / mouseout
+  document.addEventListener('mouseover', (event) => {
+    let curr = event.target;
+    while (curr && curr !== document && curr !== document.documentElement) {
+      if (curr.hasAttribute && curr.hasAttribute('data-mouseenter')) {
+        const related = event.relatedTarget;
+        if (!related || !curr.contains(related)) {
+          executeActionsForElement(curr, event, 'mouseenter');
+        }
+      }
+      curr = curr.parentElement;
+    }
+  });
+  document.addEventListener('mouseout', (event) => {
+    let curr = event.target;
+    while (curr && curr !== document && curr !== document.documentElement) {
+      if (curr.hasAttribute && curr.hasAttribute('data-mouseleave')) {
+        const related = event.relatedTarget;
+        if (!related || !curr.contains(related)) {
+          executeActionsForElement(curr, event, 'mouseleave');
+        }
+      }
+      curr = curr.parentElement;
+    }
   });
 
   if (document.readyState === 'loading') {

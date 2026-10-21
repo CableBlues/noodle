@@ -82,6 +82,40 @@ if exist "tests" (
     )
 )
 
+REM 5. Alle MJS-Dateien (Root und scripts)
+for %%F in (*.mjs scripts\*.mjs) do (
+    if exist "%%F" (
+        echo [x] Fuege %%F hinzu...
+        (
+            echo.
+            echo ==============================================================================
+            echo DATEI: %%F
+            echo ==============================================================================
+            echo.
+            type "%%F"
+            echo.
+        ) >> "%OUTPUT_FILE%"
+    )
+)
+
+REM 6. JSON-Dateien in scripts (z. B. onclick-baseline.json)
+if exist "scripts" (
+    for %%F in (scripts\*.json) do (
+        if exist "%%F" (
+            echo [x] Fuege %%F hinzu...
+            (
+                echo.
+                echo ==============================================================================
+                echo DATEI: %%F
+                echo ==============================================================================
+                echo.
+                type "%%F"
+                echo.
+            ) >> "%OUTPUT_FILE%"
+        )
+    )
+)
+
 echo.
 echo ===================================================
 echo  Fertig! Der gesamte Code wurde gebuendelt in:
