@@ -126,10 +126,6 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
       <i data-lucide="footprints" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>
       <span>Steps</span>
     </button>
-    <button onclick="if(typeof openLinkToolModal === 'function') openLinkToolModal('${colId}', ${index}); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-cyan-300 hover:text-cyan-200 transition cursor-pointer text-left font-medium" title="Tool verknüpfen (Timer, Rezept, Sound, etc.)">
-      <i data-lucide="link" class="w-3.5 h-3.5 text-cyan-400"></i>
-      <span>${tr({ de: 'Verknüpfen', en: 'Link Tool', fr: 'Lier outil', it: 'Collega', es: 'Vincular', el: 'Σύνδεση' })}</span>
-    </button>
     
     <div class="h-[1px] bg-white/10 my-0.5"></div>
 
@@ -1997,9 +1993,7 @@ function renderApp() {
         const editTooltip = tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' });
         const completeTooltip = tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' });
         const is5MinClean = taskText.trim().toLowerCase() === '5min aufräumen' || taskText.trim().toLowerCase() === '5 min aufräumen' || !iconDetails.icon;
-        const toolBadgesHTML = (!is5MinClean && typeof renderTaskToolBadgesHTML === 'function')
-          ? renderTaskToolBadgesHTML(taskObj, id, index)
-          : '';
+        const toolBadgesHTML = '';
         const checkIconInner = (is5MinClean || !iconDetails.icon)
           ? ''
           : svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`);
@@ -2344,7 +2338,7 @@ function handleCompleteTask(category, index, event) {
         s.done.push(doneEntry);
       }
     }
-    if (category === 'occasionally' && (taskText.toLowerCase().includes('aufraum') || taskText.toLowerCase().includes('tidy'))) {
+    if (category === 'occasionally' && /(aufräum|aufraeum|aufraum|tidy|ordenar|ranger|riordinar|τακτοποί)/i.test(taskText)) {
       s.lastOccasionalAufräumenDoneDate = todayStr;
     }
   }
@@ -2487,7 +2481,7 @@ function deleteTask(category, index, event) {
   }
 
   if (curItems[category]) curItems[category].splice(index, 1);
-  if (category === 'occasionally' && String(taskText).toLowerCase().includes('aufraum')) {
+  if (category === 'occasionally' && /(aufräum|aufraeum|aufraum|tidy|ordenar|ranger|riordinar|τακτοποί)/i.test(taskText)) {
     const sState = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
     if (sState) sState.lastOccasionalAufräumenDoneDate = new Date().toISOString().split('T')[0];
   }
@@ -2950,7 +2944,7 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     }
 
     const hoverCheckMap = {
-      'header-tools': ['#header-tools-wrapper', '#panel-header-tools'],
+      'header-tools': ['#header-tools-wrapper', '#panel-header-tools', '#btn-dashboard-arrow-toggle'],
       'pause-dropdown': ['#header-btn-pause-container', '#panel-pause-dropdown'],
       'report': ['#header-btn-report-container', '#panel-report'],
       'settings-dropdown': ['#header-btn-options-container', '#panel-settings-dropdown'],
@@ -4153,8 +4147,10 @@ if (typeof window !== 'undefined') {
     const panel = document.getElementById('panel-header-tools');
     if (!panel) return;
 
+    const isCurrentlyPinned = panel.classList.contains('noodle-panel-pinned') || (typeof window !== 'undefined' && window.pinnedPanel === 'header-tools');
     const isCurrentlyOpen = !panel.classList.contains('hidden');
-    if (isCurrentlyOpen) {
+
+    if (isCurrentlyOpen && isCurrentlyPinned) {
       panel.classList.add('hidden');
       panel.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
       if (typeof window !== 'undefined') {

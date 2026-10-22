@@ -1488,17 +1488,34 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
     return allOk;
   }
 
-  // Auflösung von $event und $this
+  // Auflösung von $event, $this, $value und $checked
   const resolvedArgs = (Array.isArray(args) ? args : [args]).map(arg => {
     if (arg === '$event') return event;
     if (arg === '$this') return targetElement;
+    if (arg === '$value') {
+      if (targetElement && typeof targetElement.value !== 'undefined') return targetElement.value;
+      if (event && event.target && typeof event.target.value !== 'undefined') return event.target.value;
+      return '';
+    }
+    if (arg === '$checked') {
+      if (targetElement && typeof targetElement.checked !== 'undefined') return !!targetElement.checked;
+      if (event && event.target && typeof event.target.checked !== 'undefined') return !!event.target.checked;
+      return false;
+    }
     return arg;
   });
 
-  // Special built-in: stopPropagation
+  // Special built-in: stopPropagation & preventDefault
   if (actionName === 'stopPropagation') {
     if (event && typeof event.stopPropagation === 'function') {
       event.stopPropagation();
+      return true;
+    }
+    return false;
+  }
+  if (actionName === 'preventDefault') {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
       return true;
     }
     return false;
@@ -1602,18 +1619,52 @@ function dispatchAction(actionName, args = [], event = null, targetElement = nul
 }
 
 
-if (typeof document !== 'undefined') {
-  document.addEventListener('click', (event) => {
-    const actionEl = event.target.closest('[data-action]');
-    if (!actionEl) return;
-
-    // Optional: stopPropagation konfigurierbar via Attribut
-    if (actionEl.getAttribute('data-stop-propagation') === 'true') {
-      event.stopPropagation();
+// Helfer für Backdrop-Klicks (Schließen von Modals bei Klick außerhalb des Inhalts)
+function closeIfBackdrop(event, closeFnName) {
+  if (!event) return;
+  const target = event.target;
+  const current = event.currentTarget || (this instanceof Element ? this : null);
+  if (target && current && target === current) {
+    if (typeof closeFnName === 'function') {
+      closeFnName(event);
+    } else if (typeof closeFnName === 'string') {
+      dispatchAction(closeFnName, ['$event'], event, current);
     }
+  }
+}
+window.closeIfBackdrop = closeIfBackdrop;
+if (typeof globalThis !== 'undefined') globalThis.closeIfBackdrop = closeIfBackdrop;
 
-    const actionsStr = actionEl.getAttribute('data-action') || '';
-    const argsStr = actionEl.getAttribute('data-action-args');
+// Helfer für Enter-Taste (z. B. Hinzufügen von Elementen)
+function submitOnEnter(event, actionName) {
+  if (!event || event.key !== 'Enter') return;
+  if (typeof actionName === 'function') {
+    actionName(event);
+  } else if (typeof actionName === 'string') {
+    dispatchAction(actionName, ['$event'], event, event.target);
+  }
+}
+window.submitOnEnter = submitOnEnter;
+if (typeof globalThis !== 'undefined') globalThis.submitOnEnter = submitOnEnter;
+
+function executeActionsForElement(actionEl, event, eventType = 'click') {
+  if (!actionEl || !actionEl.getAttribute) return;
+  const attrName = (eventType === 'click') ? 'data-action' : `data-${eventType}`;
+  const argsAttrName = (eventType === 'click') ? 'data-action-args' : `data-${eventType}-args`;
+
+  let hasAction = actionEl.hasAttribute && actionEl.hasAttribute(attrName);
+  let usedAttrName = attrName;
+  let usedArgsAttrName = argsAttrName;
+
+  if (!hasAction && eventType === 'click' && actionEl.hasAttribute && actionEl.hasAttribute('data-click')) {
+    hasAction = true;
+    usedAttrName = 'data-click';
+    usedArgsAttrName = 'data-click-args';
+  }
+
+  if (hasAction) {
+    const actionsStr = actionEl.getAttribute(usedAttrName) || '';
+    const argsStr = actionEl.getAttribute(usedArgsAttrName);
     let parsedArgs = [];
     if (argsStr) {
       try {
@@ -1624,24 +1675,147 @@ if (typeof document !== 'undefined') {
       }
     }
 
-    // Unterstützt verkettete Aktionen (Semikolon-separiert)
     const actionList = actionsStr.split(';').map(a => a.trim()).filter(Boolean);
     const isMultiArgs = Array.isArray(parsedArgs) && actionList.length > 1 && (parsedArgs.length === 0 || Array.isArray(parsedArgs[0]));
 
     actionList.forEach((actionItem, idx) => {
+      if (event && event.cancelBubble) return;
       const callArgs = isMultiArgs && Array.isArray(parsedArgs[idx])
         ? parsedArgs[idx]
         : (Array.isArray(parsedArgs) ? parsedArgs : [parsedArgs]);
       dispatchAction(actionItem, callArgs, event, actionEl);
     });
+
+    if (actionEl.getAttribute('data-stop-propagation') === 'true' && eventType === 'click' && event) {
+      event.stopPropagation();
+    }
+  }
+}
+
+/**
+ * Führt alle data-action (bzw. data-{eventType}) Aktionen von event.target aufwärts bis einschließlich boundaryEl (oder document) aus.
+ * Bricht ab, sobald event.cancelBubble gesetzt wird (z. B. durch event.stopPropagation()).
+ */
+function runDelegatedActions(event, boundaryEl = null, eventType = 'click') {
+  if (!event || !event.target) return;
+  let curr = event.target;
+  const stopAt = boundaryEl ? boundaryEl.parentElement : null;
+  const attrName = (eventType === 'click') ? 'data-action' : `data-${eventType}`;
+
+  while (curr && curr !== stopAt && curr !== document && curr !== document.documentElement) {
+    if (event.cancelBubble) {
+      break;
+    }
+
+    const hasAction = curr.hasAttribute && (curr.hasAttribute(attrName) || (eventType === 'click' && curr.hasAttribute('data-click')));
+    if (hasAction) {
+      executeActionsForElement(curr, event, eventType);
+      if (event.cancelBubble) {
+        break;
+      }
+    } else if (curr.getAttribute && curr.getAttribute('data-stop-propagation') === 'true' && eventType === 'click') {
+      event.stopPropagation();
+      break;
+    }
+
+    if (curr === boundaryEl) {
+      break;
+    }
+
+    curr = curr.parentElement;
+  }
+}
+
+// Initialisierung: Bubble-Listener an jedes Wrapper-Element mit data-stop-propagation="true"
+function initStopPropagationWrappers() {
+  if (typeof document === 'undefined') return;
+  const wrappers = document.querySelectorAll('[data-stop-propagation="true"]');
+  wrappers.forEach(el => {
+    if (!el.__stopPropInitialized) {
+      el.__stopPropInitialized = true;
+      el.addEventListener('click', (e) => {
+        runDelegatedActions(e, el, 'click');
+        e.stopPropagation();
+      });
+    }
   });
+}
+
+if (typeof document !== 'undefined') {
+  // 1. Delegation-Listener in der Bubble-Phase am document für Standard-Events
+  ['click', 'change', 'input', 'keydown', 'keyup', 'submit', 'dblclick', 'contextmenu', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach(evt => {
+    document.addEventListener(evt, (event) => {
+      runDelegatedActions(event, null, evt);
+    });
+  });
+
+  // 2. Focus / Blur Delegation über focusin / focusout
+  document.addEventListener('focusin', (event) => {
+    runDelegatedActions(event, null, 'focus');
+  });
+  document.addEventListener('focusout', (event) => {
+    runDelegatedActions(event, null, 'blur');
+  });
+
+  // 3. Mouseenter / Mouseleave Delegation über mouseover / mouseout
+  document.addEventListener('mouseover', (event) => {
+    let curr = event.target;
+    while (curr && curr !== document && curr !== document.documentElement) {
+      if (curr.hasAttribute && curr.hasAttribute('data-mouseenter')) {
+        const related = event.relatedTarget;
+        if (!related || !curr.contains(related)) {
+          executeActionsForElement(curr, event, 'mouseenter');
+        }
+      }
+      curr = curr.parentElement;
+    }
+  });
+  document.addEventListener('mouseout', (event) => {
+    let curr = event.target;
+    while (curr && curr !== document && curr !== document.documentElement) {
+      if (curr.hasAttribute && curr.hasAttribute('data-mouseleave')) {
+        const related = event.relatedTarget;
+        if (!related || !curr.contains(related)) {
+          executeActionsForElement(curr, event, 'mouseleave');
+        }
+      }
+      curr = curr.parentElement;
+    }
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initStopPropagationWrappers);
+  } else {
+    setTimeout(initStopPropagationWrappers, 0);
+  }
+
+  // Gezielter MutationObserver auf Body-Kinderebene (Overlays/Modals) ohne tiefen Subtree-Overhead
+  if (typeof MutationObserver !== 'undefined') {
+    const observeContainers = () => {
+      if (document.body) {
+        const stopPropObserver = new MutationObserver(() => {
+          initStopPropagationWrappers();
+        });
+        stopPropObserver.observe(document.body, { childList: true, subtree: false });
+      }
+    };
+    if (document.body) {
+      observeContainers();
+    } else {
+      document.addEventListener('DOMContentLoaded', observeContainers);
+    }
+  }
 }
 
 if (typeof window !== 'undefined') {
   window.dispatchAction = dispatchAction;
+  window.runDelegatedActions = runDelegatedActions;
+  window.initStopPropagationWrappers = initStopPropagationWrappers;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.dispatchAction = dispatchAction;
+  globalThis.runDelegatedActions = runDelegatedActions;
+  globalThis.initStopPropagationWrappers = initStopPropagationWrappers;
 }
 
 

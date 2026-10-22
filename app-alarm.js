@@ -183,7 +183,7 @@ function renderAlarmPanel() {
   const panel = document.getElementById('panel-alarm');
   if (!panel) return;
   panel.style.width = "380px";
-  panel.style.maxWidth = "95vw";
+  panel.style.maxWidth = "calc(100vw - 24px)";
   const now = new Date();
   const timeFormatted = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   const lang = typeof currentLang !== 'undefined' ? currentLang : 'de';

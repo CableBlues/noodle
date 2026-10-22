@@ -835,6 +835,22 @@ function migrateState(raw, lang) {
     });
   }
 
+  // 8b. Migration: Entferne toolLinks von allen Aufgaben
+  const scrubToolLinks = (list) => {
+    if (!Array.isArray(list)) return;
+    list.forEach(item => {
+      if (item && typeof item === 'object' && item.toolLinks) {
+        delete item.toolLinks;
+      }
+    });
+  };
+  if (s.items) Object.values(s.items).forEach(scrubToolLinks);
+  if (s.workspaces) {
+    Object.values(s.workspaces).forEach(ws => {
+      if (ws && ws.items) Object.values(ws.items).forEach(scrubToolLinks);
+    });
+  }
+
   // 9. Duschen / 10. Aufräumen / 11. Kochen (nur bei Erst-Migration von < v3)
   const isV3Clean = !!(raw && raw.version >= 3 && raw._migrationV3TasksPlaced);
   if (!isV3Clean) {
@@ -864,7 +880,7 @@ function migrateState(raw, lang) {
       if (!Array.isArray(s.items.weekly)) s.items.weekly = [];
       const hasWeeklyClean = s.items.weekly.some(t => {
         const text = (typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '');
-        return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
+        return /(aufräum|aufraeum|aufraum|tidy|ordenar|ranger|riordinar|τακτοποί)/i.test(text);
       });
       if (!hasWeeklyClean && !raw) {
         s.items.weekly.unshift('Aufräumen');
@@ -911,6 +927,35 @@ function migrateState(raw, lang) {
   }
 
   s._migrationV3TasksPlaced = true;
+
+  // 12. Schutz vor mehrfach akkumulierten "Aufräumen"-Duplikaten (z.B. in occasionally)
+  const deduplicateCleaningTasks = (itemsObj) => {
+    if (!itemsObj || typeof itemsObj !== 'object') return;
+    Object.keys(itemsObj).forEach(cat => {
+      if (Array.isArray(itemsObj[cat])) {
+        let cleanFound = false;
+        itemsObj[cat] = itemsObj[cat].filter(item => {
+          const text = ((typeof item === 'object' && item !== null) ? (item.task || '') : String(item || '')).trim();
+          if (!text) return false;
+          if (/(aufräum|aufraeum|aufraum|tidy|ordenar|ranger|riordinar|τακτοποί)/i.test(text)) {
+            if (cleanFound) return false;
+            cleanFound = true;
+            return true;
+          }
+          return true;
+        });
+      }
+    });
+  };
+  deduplicateCleaningTasks(s.items);
+  if (s.workspaces) {
+    Object.keys(s.workspaces).forEach(wKey => {
+      if (s.workspaces[wKey] && s.workspaces[wKey].items) {
+        deduplicateCleaningTasks(s.workspaces[wKey].items);
+      }
+    });
+  }
+
   return s;
 }
 
@@ -2006,10 +2051,22 @@ function copyNoteText(noteIndex, event) {
 function checkOccasionalAufräumen(s) {
   if (!s || !s.items) return;
   if (!Array.isArray(s.items.occasionally)) s.items.occasionally = [];
-  const hasClean = s.items.occasionally.some(item => {
-    const text = typeof item === 'object' ? (item.task || '') : String(item || '');
-    return text.toLowerCase().includes('aufraum') || text.toLowerCase().includes('tidy');
+  const isCleanTask = (t) => {
+    const text = ((typeof t === 'object' && t !== null) ? (t.task || '') : String(t || '')).trim();
+    return /(aufräum|aufraeum|aufraum|tidy|ordenar|ranger|riordinar|τακτοποί)/i.test(text);
+  };
+
+  // Zuerst bestehende Duplikate in occasionally säubern
+  let cleanCount = 0;
+  s.items.occasionally = s.items.occasionally.filter(item => {
+    if (isCleanTask(item)) {
+      cleanCount++;
+      return cleanCount === 1; // Nur erstes Vorkommen behalten
+    }
+    return true;
   });
+
+  const hasClean = cleanCount > 0;
 
   // Nicht re-injizieren, wenn der Nutzer Aufräumen gelöscht oder die Spalte geleert hat
   const hash = typeof computeStringHash === 'function' ? computeStringHash('Aufräumen') : 'aufraum';

@@ -221,6 +221,7 @@ function toggleCalendarDropdown(event) {
       if (typeof PanelManager !== 'undefined' && PanelManager.closeAll) PanelManager.closeAll();
       calEl.classList.remove('hidden');
       renderMiniCalendar(true);
+      if (typeof adjustPanelPosition === 'function') adjustPanelPosition(calEl, 'calendar-dropdown');
     } else {
       calEl.classList.add('hidden');
     }
@@ -312,6 +313,7 @@ function openCalendarHover() {
   if (el) {
     el.classList.remove('hidden');
     renderMiniCalendar();
+    if (typeof adjustPanelPosition === 'function') adjustPanelPosition(el, 'calendar-dropdown');
   }
 }
 window.openCalendarHover = openCalendarHover;
@@ -399,6 +401,26 @@ if (typeof document !== 'undefined') {
     if (colsEl && !colsEl.classList.contains('hidden')) {
       if (!colsEl.contains(e.target) && (!colsBtn || !colsBtn.contains(e.target))) {
         colsEl.classList.add('hidden');
+      }
+    }
+    // 9. Tools Spheres Popover
+    const toolsEl = document.getElementById('panel-header-tools');
+    const toolsBtn = document.getElementById('btn-header-tools');
+    const arrowBtn = document.getElementById('btn-dashboard-arrow-toggle');
+    if (toolsEl && !toolsEl.classList.contains('hidden')) {
+      if (!toolsEl.contains(e.target) && (!toolsBtn || !toolsBtn.contains(e.target)) && (!arrowBtn || !arrowBtn.contains(e.target))) {
+        toolsEl.classList.add('hidden');
+        if (typeof window !== 'undefined' && typeof window.updateDashboardArrowUI === 'function') {
+          window.updateDashboardArrowUI(false);
+        }
+      }
+    }
+    // 10. Sound Volume Quick Popover
+    const soundVolEl = document.getElementById('header-sound-volume-popover');
+    const soundVolBtn = document.getElementById('header-sound-btn');
+    if (soundVolEl && !soundVolEl.classList.contains('hidden')) {
+      if (!soundVolEl.contains(e.target) && (!soundVolBtn || !soundVolBtn.contains(e.target))) {
+        soundVolEl.classList.add('hidden');
       }
     }
   });

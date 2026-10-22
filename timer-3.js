@@ -656,27 +656,27 @@ function renderTimerCockpitContent() {
       </div>
     `}
 
-    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO) - VISUELL DEUTLICH HERVORGEHOBEN -->
-    <div class="p-3 rounded-2xl bg-gradient-to-br from-teal-950/60 via-purple-950/40 to-black/80 border-2 border-teal-400/60 shadow-[0_0_20px_rgba(20,184,166,0.25)] ring-1 ring-white/10 flex flex-col gap-2.5">
+    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO) - DEZENT & ELEGANT -->
+    <div class="p-3 rounded-2xl bg-teal-950/20 border border-teal-500/25 shadow-xs flex flex-col gap-2.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-xs font-black text-teal-200 font-display flex items-center gap-2 drop-shadow-sm">
+        <span class="text-xs font-bold text-teal-200 font-display flex items-center gap-2">
           <i data-lucide="headphones" class="w-4 h-4 text-teal-300"></i>
           <span>Hintergrund-Audio</span>
         </span>
-        <span class="text-[10px] font-mono text-teal-100 bg-teal-500/35 px-2 py-0.5 rounded-full border border-teal-400/80 font-bold uppercase tracking-wider shadow-sm">
+        <span class="text-[10px] font-mono text-teal-200/90 bg-teal-500/15 px-2 py-0.5 rounded-full border border-teal-500/30 font-semibold uppercase tracking-wider">
           ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : '📻 Radio')}
         </span>
       </div>
 
-      <!-- 3 Haupt-Modi mit hoher Sichtbarkeit (ohne Stille) -->
+      <!-- 3 Haupt-Modi mit ausgewogener Farbintensität -->
       <div class="grid grid-cols-3 gap-2">
-        <button onclick="setTimerAudioMode('ambient');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-gradient-to-r from-teal-500 to-emerald-500 border-teal-300 text-black shadow-[0_0_15px_rgba(20,184,166,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('ambient');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-teal-500/20 border-teal-400/50 text-teal-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5'}">
           🌿 Sounds
         </button>
-        <button onclick="setTimerAudioMode('music');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-gradient-to-r from-purple-500 to-indigo-500 border-purple-300 text-white shadow-[0_0_15px_rgba(168,85,247,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('music');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-purple-500/20 border-purple-400/50 text-purple-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5'}">
           🎵 Musik
         </button>
-        <button onclick="setTimerAudioMode('radio');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-gradient-to-r from-sky-500 to-cyan-500 border-cyan-300 text-black shadow-[0_0_15px_rgba(6,182,212,0.6)] ring-2 ring-white/40' : 'bg-black/50 border-white/15 text-gray-200 hover:text-white hover:bg-white/10'}">
+        <button onclick="setTimerAudioMode('radio');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-sky-500/20 border-sky-400/50 text-sky-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5'}">
           📻 Radio
         </button>
       </div>
@@ -734,36 +734,36 @@ function renderTimerCockpitContent() {
       ` : ''}
     </div>
 
-    <!-- 4. SPRACHBEGLEITUNG (ZEITANZEIGE & MOTIVATIONSSPRÜCHE) - KONTRASTREICH & FARBENFROH -->
-    <div class="p-3 rounded-2xl bg-gradient-to-br from-indigo-950/40 via-purple-950/30 to-black/85 border-2 border-indigo-400/40 shadow-[0_0_20px_rgba(99,102,241,0.2)] ring-1 ring-white/10 flex flex-col gap-2.5">
+    <!-- 4. SPRACHBEGLEITUNG (ZEITANZEIGE & MOTIVATIONSSPRÜCHE) - DEZENT & RUHIG -->
+    <div class="p-3 rounded-2xl bg-indigo-950/20 border border-indigo-500/25 shadow-xs flex flex-col gap-2.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-xs font-black text-indigo-200 font-display flex items-center gap-2 drop-shadow-sm">
+        <span class="text-xs font-bold text-indigo-200 font-display flex items-center gap-2">
           <i data-lucide="mic" class="w-4 h-4 text-indigo-300"></i>
           <span>Sprachbegleitung & Sprüche</span>
         </span>
-        <span class="text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full border ${isVoiceActive ? 'text-emerald-300 bg-emerald-500/25 border-emerald-400/60 shadow-[0_0_8px_rgba(52,211,153,0.3)]' : 'text-gray-400 bg-black/40 border-white/10'}">
+        <span class="text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full border ${isVoiceActive ? 'text-emerald-300 bg-emerald-500/15 border-emerald-500/30' : 'text-gray-400 bg-black/40 border-white/10'}">
           ${isVoiceActive ? '● Aktiv' : '○ Aus'}
         </span>
       </div>
 
       <!-- Zeitanzeige & Motivationssprüche Buttons -->
       <div class="grid grid-cols-2 gap-2">
-        <!-- 1. ZEITANZEIGE / ZEITANSAGEN (Cyan / Sky) -->
-        <button onclick="toggleTimerVoiceFeature('time');" class="py-2.5 px-3 rounded-xl border-2 text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isTimeAnnounce ? 'bg-gradient-to-r from-cyan-500 to-sky-500 border-cyan-200 text-slate-950 font-black shadow-[0_0_18px_rgba(6,182,212,0.6)] ring-2 ring-white/40' : 'bg-black/60 border-cyan-500/30 text-cyan-200 hover:text-white hover:bg-cyan-950/40'}">
+        <!-- 1. ZEITANZEIGE / ZEITANSAGEN (Sky) -->
+        <button onclick="toggleTimerVoiceFeature('time');" class="py-2.5 px-3 rounded-xl border text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isTimeAnnounce ? 'bg-sky-500/20 border-sky-400/50 text-sky-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-sky-950/20'}">
           <span class="flex items-center gap-1.5 truncate">
             <span class="text-base leading-none">⏱️</span>
             <span class="truncate">Zeitanzeige</span>
           </span>
-          <span class="text-[9.5px] font-mono font-black px-1.5 py-0.5 rounded-md ${isTimeAnnounce ? 'bg-black/30 text-slate-950' : 'bg-white/10 text-cyan-300'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
+          <span class="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded-md ${isTimeAnnounce ? 'bg-sky-500/30 text-sky-200' : 'bg-white/10 text-gray-400'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
         </button>
 
-        <!-- 2. MOTIVATIONSSPRÜCHE (Amber / Warm Gold) -->
-        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-2.5 px-3 rounded-xl border-2 text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isMotivation ? 'bg-gradient-to-r from-amber-400 to-orange-500 border-amber-200 text-slate-950 font-black shadow-[0_0_18px_rgba(245,158,11,0.6)] ring-2 ring-white/40' : 'bg-black/60 border-amber-500/30 text-amber-200 hover:text-white hover:bg-amber-950/40'}">
+        <!-- 2. MOTIVATIONSSPRÜCHE (Amber) -->
+        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-2.5 px-3 rounded-xl border text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isMotivation ? 'bg-amber-500/20 border-amber-400/50 text-amber-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-amber-950/20'}">
           <span class="flex items-center gap-1.5 truncate">
             <span class="text-base leading-none">💡</span>
             <span class="truncate">Motivationssprüche</span>
           </span>
-          <span class="text-[9.5px] font-mono font-black px-1.5 py-0.5 rounded-md ${isMotivation ? 'bg-black/30 text-slate-950' : 'bg-white/10 text-amber-300'}">${isMotivation ? 'AN' : 'AUS'}</span>
+          <span class="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded-md ${isMotivation ? 'bg-amber-500/30 text-amber-200' : 'bg-white/10 text-gray-400'}">${isMotivation ? 'AN' : 'AUS'}</span>
         </button>
       </div>
 
