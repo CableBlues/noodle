@@ -406,9 +406,13 @@ if (typeof document !== 'undefined') {
     // 9. Tools Spheres Popover
     const toolsEl = document.getElementById('panel-header-tools');
     const toolsBtn = document.getElementById('btn-header-tools');
+    const arrowBtn = document.getElementById('btn-dashboard-arrow-toggle');
     if (toolsEl && !toolsEl.classList.contains('hidden')) {
-      if (!toolsEl.contains(e.target) && (!toolsBtn || !toolsBtn.contains(e.target))) {
+      if (!toolsEl.contains(e.target) && (!toolsBtn || !toolsBtn.contains(e.target)) && (!arrowBtn || !arrowBtn.contains(e.target))) {
         toolsEl.classList.add('hidden');
+        if (typeof window !== 'undefined' && typeof window.updateDashboardArrowUI === 'function') {
+          window.updateDashboardArrowUI(false);
+        }
       }
     }
     // 10. Sound Volume Quick Popover

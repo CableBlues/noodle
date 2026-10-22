@@ -835,6 +835,22 @@ function migrateState(raw, lang) {
     });
   }
 
+  // 8b. Migration: Entferne toolLinks von allen Aufgaben
+  const scrubToolLinks = (list) => {
+    if (!Array.isArray(list)) return;
+    list.forEach(item => {
+      if (item && typeof item === 'object' && item.toolLinks) {
+        delete item.toolLinks;
+      }
+    });
+  };
+  if (s.items) Object.values(s.items).forEach(scrubToolLinks);
+  if (s.workspaces) {
+    Object.values(s.workspaces).forEach(ws => {
+      if (ws && ws.items) Object.values(ws.items).forEach(scrubToolLinks);
+    });
+  }
+
   // 9. Duschen / 10. Aufräumen / 11. Kochen (nur bei Erst-Migration von < v3)
   const isV3Clean = !!(raw && raw.version >= 3 && raw._migrationV3TasksPlaced);
   if (!isV3Clean) {

@@ -2514,7 +2514,7 @@
 
     <!-- SIDEBAR / DASHBOARD TOGGLE ARROW (GANZ LINKS IN DER MITTE) -->
     <div class="fixed left-0 top-1/2 -translate-y-1/2 z-[120] flex items-center">
-      <button id="btn-dashboard-arrow-toggle" data-action="toggleDashboardOverlay" data-action-args='["$event"]' class="w-7 h-12 sm:w-8 sm:h-14 rounded-r-2xl bg-[#0e0d18]/90 hover:bg-[#1b172c] border-y border-r border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(168,85,247,0.35)] backdrop-blur-md transition-all duration-200 active:scale-95 group/arrow" title="Tools-Menü öffnen" aria-label="Tools-Menü umschalten">
+      <button id="btn-dashboard-arrow-toggle" data-action="toggleDashboardOverlay" data-action-args='["$event"]' data-mouseenter="showPanelHover" data-mouseenter-args='["header-tools", 0]' data-mouseleave="hidePanelHover" data-mouseleave-args='["header-tools"]' class="w-7 h-12 sm:w-8 sm:h-14 rounded-r-2xl bg-[#0e0d18]/90 hover:bg-[#1b172c] border-y border-r border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(168,85,247,0.35)] backdrop-blur-md transition-all duration-200 active:scale-95 group/arrow" title="Tools-Menü öffnen" aria-label="Tools-Menü umschalten">
         <i id="dashboard-arrow-icon" data-lucide="chevron-right" class="w-5 h-5 transition-transform duration-300 group-hover/arrow:translate-x-0.5"></i>
       </button>
     </div>

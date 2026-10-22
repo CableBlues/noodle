@@ -26,8 +26,8 @@ console.log('====================================================\n');
 
 // 0. Tailwind CSS vorkompilieren
 try {
-  console.log('⚡ Kompiliere Tailwind CSS vor...');
-  execSync('npx tailwindcss -i ./tailwind.input.css -o ./styles-tailwind.css --minify', { cwd: rootDir, stdio: 'pipe' });
+  const npxCmd = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+  execSync(`${npxCmd} tailwindcss -i ./tailwind.input.css -o ./styles-tailwind.css --minify`, { cwd: rootDir, stdio: 'pipe' });
   console.log('✓ styles-tailwind.css erfolgreich vorkompiliert');
 } catch (err) {
   const cssPath = path.join(rootDir, 'styles-tailwind.css');

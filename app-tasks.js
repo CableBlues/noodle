@@ -1993,9 +1993,7 @@ function renderApp() {
         const editTooltip = tr({ de: 'Klicken zum Bearbeiten', en: 'Click to edit', fr: 'Cliquer pour modifier', it: 'Clicca per modificare', es: 'Clic para editar', el: 'Κλικ για επεξεργασία' });
         const completeTooltip = tr({ de: 'Klicke zum Erledigt-Markieren ✔️', en: 'Click to mark as completed ✔️', fr: 'Cliquer pour marquer comme terminé ✔️', it: 'Clicca per segnare come completato ✔️', es: 'Clic para marcar como completada ✔️', el: 'Κλικ για σήμανση ως ολοκληρωμένο ✔️' });
         const is5MinClean = taskText.trim().toLowerCase() === '5min aufräumen' || taskText.trim().toLowerCase() === '5 min aufräumen' || !iconDetails.icon;
-        const toolBadgesHTML = (!is5MinClean && typeof renderTaskToolBadgesHTML === 'function')
-          ? renderTaskToolBadgesHTML(taskObj, id, index)
-          : '';
+        const toolBadgesHTML = '';
         const checkIconInner = (is5MinClean || !iconDetails.icon)
           ? ''
           : svgFn(iconDetails.icon, `task-default-icon w-3.5 h-3.5 ${isTaskActive ? 'text-amber-400' : (colorStyle.iconColor || colorStyle.text)} transition-all duration-200 group-hover/check:opacity-0 group-hover/check:scale-50`);
@@ -2946,7 +2944,7 @@ function hidePanelHover(panelName, gracePeriod = 260) {
     }
 
     const hoverCheckMap = {
-      'header-tools': ['#header-tools-wrapper', '#panel-header-tools'],
+      'header-tools': ['#header-tools-wrapper', '#panel-header-tools', '#btn-dashboard-arrow-toggle'],
       'pause-dropdown': ['#header-btn-pause-container', '#panel-pause-dropdown'],
       'report': ['#header-btn-report-container', '#panel-report'],
       'settings-dropdown': ['#header-btn-options-container', '#panel-settings-dropdown'],
@@ -4149,8 +4147,10 @@ if (typeof window !== 'undefined') {
     const panel = document.getElementById('panel-header-tools');
     if (!panel) return;
 
+    const isCurrentlyPinned = panel.classList.contains('noodle-panel-pinned') || (typeof window !== 'undefined' && window.pinnedPanel === 'header-tools');
     const isCurrentlyOpen = !panel.classList.contains('hidden');
-    if (isCurrentlyOpen) {
+
+    if (isCurrentlyOpen && isCurrentlyPinned) {
       panel.classList.add('hidden');
       panel.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
       if (typeof window !== 'undefined') {
