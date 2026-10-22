@@ -2780,10 +2780,6 @@ ${G}`}else A.title=V;A.onclick=G=>{G.stopPropagation();const j=document.getEleme
       <i data-lucide="footprints" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>
       <span>Steps</span>
     </button>
-    <button onclick="if(typeof openLinkToolModal === 'function') openLinkToolModal('${e}', ${n}); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-cyan-300 hover:text-cyan-200 transition cursor-pointer text-left font-medium" title="Tool verkn\xFCpfen (Timer, Rezept, Sound, etc.)">
-      <i data-lucide="link" class="w-3.5 h-3.5 text-cyan-400"></i>
-      <span>${tr({de:"Verkn\xFCpfen",en:"Link Tool",fr:"Lier outil",it:"Collega",es:"Vincular",el:"\u03A3\u03CD\u03BD\u03B4\u03B5\u03C3\u03B7"})}</span>
-    </button>
     
     <div class="h-[1px] bg-white/10 my-0.5"></div>
 
