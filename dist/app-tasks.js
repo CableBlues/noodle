@@ -2340,7 +2340,7 @@ function handleCompleteTask(category, index, event) {
         s.done.push(doneEntry);
       }
     }
-    if (category === 'occasionally' && (taskText.toLowerCase().includes('aufraum') || taskText.toLowerCase().includes('tidy'))) {
+    if (category === 'occasionally' && /(aufräum|aufraeum|aufraum|tidy|ordenar|ranger|riordinar|τακτοποί)/i.test(taskText)) {
       s.lastOccasionalAufräumenDoneDate = todayStr;
     }
   }
@@ -2483,7 +2483,7 @@ function deleteTask(category, index, event) {
   }
 
   if (curItems[category]) curItems[category].splice(index, 1);
-  if (category === 'occasionally' && String(taskText).toLowerCase().includes('aufraum')) {
+  if (category === 'occasionally' && /(aufräum|aufraeum|aufraum|tidy|ordenar|ranger|riordinar|τακτοποί)/i.test(taskText)) {
     const sState = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
     if (sState) sState.lastOccasionalAufräumenDoneDate = new Date().toISOString().split('T')[0];
   }

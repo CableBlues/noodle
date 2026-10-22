@@ -64,7 +64,7 @@
         data: explicitLinks.recipe
       });
     } else {
-      const recipeMatch = taskText.match(/@rezept(?::([\w-]+))?/i) || taskText.match(/\b(rezept|kochen|zubereiten|nudeln|pasta|curry|wrap|omelett|lachs)\b/i);
+      const recipeMatch = taskText.match(/@rezept(?::([\w-]+))?/i);
       if (recipeMatch) {
         const recipeId = recipeMatch[1] || null;
         links.push({
@@ -86,7 +86,7 @@
         color: 'text-emerald-300 border-emerald-500/40 bg-emerald-500/15 hover:bg-emerald-500/25',
         data: explicitLinks.shopping
       });
-    } else if (/@einkauf|@shopping|einkaufen|supermarkt|lebensmittel|zutaten/i.test(taskText)) {
+    } else if (/@einkauf|@shopping/i.test(taskText)) {
       links.push({
         type: 'shopping',
         icon: 'shopping-cart',
@@ -105,7 +105,7 @@
         color: 'text-indigo-300 border-indigo-500/40 bg-indigo-500/15 hover:bg-indigo-500/25',
         data: explicitLinks.sound
       });
-    } else if (/@sound(?::([\w-]+))?|@lofi|@rain|@focus|soundscape|hintergrundmusik/i.test(taskText)) {
+    } else if (/@sound(?::([\w-]+))?|@lofi|@rain/i.test(taskText)) {
       const soundMatch = taskText.match(/@sound(?::([\w-]+))?/i);
       links.push({
         type: 'sound',
@@ -125,7 +125,7 @@
         color: 'text-purple-300 border-purple-500/40 bg-purple-500/15 hover:bg-purple-500/25',
         data: explicitLinks.flashcards
       });
-    } else if (/@learn|@cards|@flashcards|vokabeln|lernen|prüfung|klausur|karteikarten/i.test(taskText)) {
+    } else if (/@learn|@cards|@flashcards/i.test(taskText)) {
       links.push({
         type: 'flashcards',
         icon: 'graduation-cap',
@@ -144,7 +144,7 @@
         color: 'text-teal-300 border-teal-500/40 bg-teal-500/15 hover:bg-teal-500/25',
         data: explicitLinks.brainstorm
       });
-    } else if (/@brainstorm|@mindmap|@ideen|brainstorming|konzept|entwurf/i.test(taskText)) {
+    } else if (/@brainstorm|@mindmap|@ideen/i.test(taskText)) {
       links.push({
         type: 'brainstorm',
         icon: 'lightbulb',
@@ -163,7 +163,7 @@
         color: 'text-cyan-300 border-cyan-500/40 bg-cyan-500/15 hover:bg-cyan-500/25',
         data: explicitLinks.clarity
       });
-    } else if (/@clarity|@breathe|@urge|atemübung|widerstand|aufschieben|blockade/i.test(taskText)) {
+    } else if (/@clarity|@breathe|@urge/i.test(taskText)) {
       links.push({
         type: 'clarity',
         icon: 'wind',
