@@ -136,25 +136,141 @@
     transform: scale(0.92) !important;
   }
 
+  /* Shared active state */
   .mobile-nav-item.active {
     color: #ffffff !important;
   }
 
   .mobile-nav-item.active i,
   .mobile-nav-item.active svg {
-    color: var(--accent, #a855f7) !important;
-    transform: translateY(-2px) scale(1.1) !important;
+    transform: translateY(-2px) scale(1.12) !important;
   }
 
   .mobile-nav-item.active::after {
     content: '' !important;
     position: absolute !important;
     bottom: calc(env(safe-area-inset-bottom, 0px) + 3px) !important;
-    width: 18px !important;
+    width: 20px !important;
     height: 3px !important;
-    background: var(--accent, #a855f7) !important;
     border-radius: 9999px !important;
-    box-shadow: 0 0 10px var(--accent-border, rgba(168, 85, 247, 0.8)) !important;
+    transition: all 0.25s ease !important;
+  }
+
+  /* --- Neon Farbschema für mobile Daumenzone (Planner, Focus, Audio, Tools, Menü) --- */
+
+  /* 1. PLANNER: Neon Cyan */
+  #mob-nav-planer i,
+  #mob-nav-planer svg {
+    color: #38bdf8 !important;
+    filter: drop-shadow(0 0 5px rgba(56, 189, 248, 0.5));
+  }
+  #mob-nav-planer:hover i,
+  #mob-nav-planer:hover svg,
+  #mob-nav-planer.active i,
+  #mob-nav-planer.active svg {
+    color: #00f0ff !important;
+    filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.95)) drop-shadow(0 0 16px rgba(56, 189, 248, 0.5));
+  }
+  #mob-nav-planer.active {
+    color: #e0f2fe !important;
+    text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+    background: radial-gradient(circle at 50% 90%, rgba(0, 240, 255, 0.12) 0%, transparent 72%) !important;
+  }
+  #mob-nav-planer.active::after {
+    background: #00f0ff !important;
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.95), 0 0 20px rgba(56, 189, 248, 0.6) !important;
+  }
+
+  /* 2. FOCUS: Neon Amber / Flame */
+  #mob-nav-focus i,
+  #mob-nav-focus svg {
+    color: #fbbf24 !important;
+    filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.5));
+  }
+  #mob-nav-focus:hover i,
+  #mob-nav-focus:hover svg,
+  #mob-nav-focus.active i,
+  #mob-nav-focus.active svg {
+    color: #ffb703 !important;
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.95)) drop-shadow(0 0 16px rgba(245, 158, 11, 0.5));
+  }
+  #mob-nav-focus.active {
+    color: #fef3c7 !important;
+    text-shadow: 0 0 8px rgba(251, 191, 36, 0.6);
+    background: radial-gradient(circle at 50% 90%, rgba(245, 158, 11, 0.12) 0%, transparent 72%) !important;
+  }
+  #mob-nav-focus.active::after {
+    background: #f59e0b !important;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.95), 0 0 20px rgba(251, 191, 36, 0.6) !important;
+  }
+
+  /* 3. AUDIO: Neon Purple / Violet */
+  #mob-nav-audio i,
+  #mob-nav-audio svg {
+    color: #c084fc !important;
+    filter: drop-shadow(0 0 5px rgba(192, 132, 252, 0.5));
+  }
+  #mob-nav-audio:hover i,
+  #mob-nav-audio:hover svg,
+  #mob-nav-audio.active i,
+  #mob-nav-audio.active svg {
+    color: #d946ef !important;
+    filter: drop-shadow(0 0 8px rgba(217, 70, 239, 0.95)) drop-shadow(0 0 16px rgba(168, 85, 247, 0.5));
+  }
+  #mob-nav-audio.active {
+    color: #fae8ff !important;
+    text-shadow: 0 0 8px rgba(217, 70, 239, 0.6);
+    background: radial-gradient(circle at 50% 90%, rgba(168, 85, 247, 0.12) 0%, transparent 72%) !important;
+  }
+  #mob-nav-audio.active::after {
+    background: #c084fc !important;
+    box-shadow: 0 0 10px rgba(192, 132, 252, 0.95), 0 0 20px rgba(168, 85, 247, 0.6) !important;
+  }
+
+  /* 4. TOOLS: Neon Emerald / Mint */
+  #mob-nav-tools i,
+  #mob-nav-tools svg {
+    color: #34d399 !important;
+    filter: drop-shadow(0 0 5px rgba(52, 211, 153, 0.5));
+  }
+  #mob-nav-tools:hover i,
+  #mob-nav-tools:hover svg,
+  #mob-nav-tools.active i,
+  #mob-nav-tools.active svg {
+    color: #10b981 !important;
+    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.95)) drop-shadow(0 0 16px rgba(52, 211, 153, 0.5));
+  }
+  #mob-nav-tools.active {
+    color: #d1fae5 !important;
+    text-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    background: radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.12) 0%, transparent 72%) !important;
+  }
+  #mob-nav-tools.active::after {
+    background: #10b981 !important;
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.95), 0 0 20px rgba(52, 211, 153, 0.6) !important;
+  }
+
+  /* 5. MENÜ: Neon Rose / Pink */
+  #mob-nav-menu i,
+  #mob-nav-menu svg {
+    color: #fb7185 !important;
+    filter: drop-shadow(0 0 5px rgba(251, 113, 133, 0.5));
+  }
+  #mob-nav-menu:hover i,
+  #mob-nav-menu:hover svg,
+  #mob-nav-menu.active i,
+  #mob-nav-menu.active svg {
+    color: #f43f5e !important;
+    filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.95)) drop-shadow(0 0 16px rgba(251, 113, 133, 0.5));
+  }
+  #mob-nav-menu.active {
+    color: #ffe4e6 !important;
+    text-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
+    background: radial-gradient(circle at 50% 90%, rgba(244, 63, 94, 0.12) 0%, transparent 72%) !important;
+  }
+  #mob-nav-menu.active::after {
+    background: #f43f5e !important;
+    box-shadow: 0 0 10px rgba(244, 63, 94, 0.95), 0 0 20px rgba(251, 113, 133, 0.6) !important;
   }
 
   /* ---------------- 4. VIEW-SWITCHING LOGIK (HAUPT-PANELS) ---------------- */
