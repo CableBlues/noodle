@@ -221,6 +221,7 @@ function toggleCalendarDropdown(event) {
       if (typeof PanelManager !== 'undefined' && PanelManager.closeAll) PanelManager.closeAll();
       calEl.classList.remove('hidden');
       renderMiniCalendar(true);
+      if (typeof adjustPanelPosition === 'function') adjustPanelPosition(calEl, 'calendar-dropdown');
     } else {
       calEl.classList.add('hidden');
     }
@@ -312,6 +313,7 @@ function openCalendarHover() {
   if (el) {
     el.classList.remove('hidden');
     renderMiniCalendar();
+    if (typeof adjustPanelPosition === 'function') adjustPanelPosition(el, 'calendar-dropdown');
   }
 }
 window.openCalendarHover = openCalendarHover;

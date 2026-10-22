@@ -428,6 +428,11 @@ window.addEventListener('keydown', (e) => {
       e.preventDefault();
       toggleTerminForm(true);
       break;
+    case 'arrowleft':
+    case 'arrowright':
+      e.preventDefault();
+      togglePanel('header-tools');
+      break;
   }
 });
 
@@ -537,7 +542,7 @@ function closeAllPanelsAndModals() {
     'header-sound-volume-popover', 'weather-search-results', 'cmd-palette-results',
     'panel-search', 'panel-settings-dropdown', 'panel-calendar-dropdown',
     'panel-weather', 'panel-pause-dropdown', 'panel-timer-presets', 'panel-feedback',
-    'panel-report', 'panel-labs-menu', 'panel-news'
+    'panel-report', 'panel-labs-menu', 'panel-news', 'panel-alarm'
   ];
   subheaderDropdowns.forEach(id => {
     const el = document.getElementById(id);

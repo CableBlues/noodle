@@ -1605,23 +1605,32 @@ window.isAnyAudioPlaying = isAnyAudioPlaying;
 function updateHeaderSoundBtnUI() {
   const btn = document.getElementById('header-btn-sound-toggle');
   const iconWrapper = document.getElementById('header-sound-icon-wrapper');
-  const eqBars = document.getElementById('header-sound-eq-bars');
   const label = document.getElementById('header-sound-label');
   if (!btn) return;
 
-  const isPlaying = isAnyAudioPlaying();
-  if (isPlaying) {
-    btn.className = 'h-[38px] w-[38px] p-0 border border-purple-400/60 rounded-xl bg-purple-600/25 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_12px_rgba(168,85,247,0.25)] shrink-0 group/sound-btn';
-    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound stummschalten (Klick)', en: 'Mute sound (Click)' }) : 'Sound stummschalten';
+  const isMuted = Boolean(isPlayerMuted);
+  const isPlaying = !isMuted && isAnyAudioPlaying();
+
+  if (isMuted) {
+    btn.className = 'h-[38px] w-[38px] p-0 border border-white/10 hover:border-rose-400/40 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-gray-400 hover:text-white flex items-center justify-center cursor-pointer transition shrink-0 group/sound-btn';
+    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound aktivieren (Klick) [M]', en: 'Turn sound on (Click) [M]' }) : 'Sound aktivieren [M]';
     if (iconWrapper) {
-      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-purple-200"></i>';
+      iconWrapper.innerHTML = '<i data-lucide="volume-x" class="w-[18px] h-[18px] text-gray-400 group-hover/sound-btn:text-rose-300 transition-colors"></i>';
+    }
+    if (label) label.textContent = '';
+  } else if (isPlaying) {
+    btn.className = 'h-[38px] w-[38px] p-0 border border-rose-400/60 rounded-xl bg-rose-600/25 active:scale-95 text-white flex items-center justify-center cursor-pointer transition shadow-[0_0_12px_rgba(244,63,94,0.35)] shrink-0 group/sound-btn';
+    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound stummschalten (Klick) [M]', en: 'Mute sound (Click) [M]' }) : 'Sound stummschalten [M]';
+    if (iconWrapper) {
+      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-rose-200"></i>';
     }
     if (label) label.textContent = '';
   } else {
-    btn.className = 'h-[38px] w-[38px] p-0 border border-white/10 hover:border-purple-400/40 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] active:scale-95 text-gray-400 hover:text-white flex items-center justify-center cursor-pointer transition shrink-0 group/sound-btn';
-    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound aktivieren (Klick)', en: 'Turn sound on (Click)' }) : 'Sound aktivieren';
+    // Sound standardmäßig aktiv & bereit
+    btn.className = 'h-[38px] w-[38px] p-0 border border-rose-400/45 hover:border-rose-300 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 active:scale-95 text-rose-300 hover:text-rose-100 flex items-center justify-center cursor-pointer transition shadow-[0_0_10px_rgba(244,63,94,0.2)] shrink-0 group/sound-btn';
+    btn.title = (typeof tr === 'function') ? tr({ de: 'Sound aktiv (Klicken zum Stummschalten) [M]', en: 'Sound active (Click to mute) [M]' }) : 'Sound aktiv [M]';
     if (iconWrapper) {
-      iconWrapper.innerHTML = '<i data-lucide="volume-x" class="w-[18px] h-[18px] text-gray-400 group-hover/sound-btn:text-purple-300 transition-colors"></i>';
+      iconWrapper.innerHTML = '<i data-lucide="volume-2" class="w-[18px] h-[18px] text-rose-300 group-hover/sound-btn:scale-105 transition-transform"></i>';
     }
     if (label) label.textContent = '';
   }
@@ -1630,29 +1639,36 @@ function updateHeaderSoundBtnUI() {
 window.updateHeaderSoundBtnUI = updateHeaderSoundBtnUI;
 
 function toggleMasterSound() {
-  if (isAnyAudioPlaying()) {
+  if (!isPlayerMuted) {
     if (typeof currentSoundType !== 'undefined' && currentSoundType) {
       window._lastPlayedSound = currentSoundType;
     }
     stopAllStudioAudio();
     isPlayerMuted = true;
     if (typeof applyDjVolumes === 'function') applyDjVolumes();
+    if (soundGainNode && audioCtx) {
+      try {
+        const now = audioCtx.currentTime;
+        soundGainNode.gain.cancelScheduledValues(now);
+        soundGainNode.gain.setValueAtTime(0, now);
+      } catch (e) {}
+    }
     if (typeof showToast === 'function') {
       showToast(tr({ de: 'Ton stummgeschaltet 🔇', en: 'Sound muted 🔇', fr: 'Son coupé 🔇', it: 'Audio disattivato 🔇', es: 'Sonido silenciado 🔇', el: 'Σίγαση ήχου 🔇' }));
     }
   } else {
-    // Unmute: Ton reaktivieren, aber KEINEN Track automatisch starten! Wiedergabe bleibt pausiert
+    // Ton reaktivieren
     isPlayerMuted = false;
     if (typeof applyDjVolumes === 'function') applyDjVolumes();
     if (soundGainNode && audioCtx) {
       try {
         const now = audioCtx.currentTime;
         soundGainNode.gain.cancelScheduledValues(now);
-        soundGainNode.gain.setValueAtTime(soundMasterVolume, now);
+        soundGainNode.gain.setValueAtTime(soundMasterVolume || 0.5, now);
       } catch (e) {}
     }
     if (typeof showToast === 'function') {
-      showToast(tr({ de: 'Stummschaltung aufgehoben 🔊 (Bereit)', en: 'Unmuted 🔊 (Ready)', fr: 'Son réactivé 🔊', it: 'Audio riattivato 🔊', es: 'Sonido activado 🔊', el: 'Ήχος ενεργός 🔊' }));
+      showToast(tr({ de: 'Sound aktiviert 🔊', en: 'Sound active 🔊', fr: 'Son activé 🔊', it: 'Audio attivato 🔊', es: 'Sonido activado 🔊', el: 'Ήχος ενεργός 🔊' }));
     }
   }
   updateHeaderSoundBtnUI();
