@@ -21,7 +21,7 @@ echo.
 ) > "%OUTPUT_FILE%"
 
 REM 1. Basis-Dateien und Konfigurationen
-for %%F in (index.html manifest.json package.json vitest.config.js config.js tailwind.config.js tailwind.input.css supabase-policies.sql) do (
+for %%F in (index.html manifest.json package.json vitest.config.js config.js tailwind.config.js tailwind.input.css supabase-policies.sql UPDATE_PLAN.md) do (
     if exist "%%F" (
         echo [x] Fuege %%F hinzu...
         (

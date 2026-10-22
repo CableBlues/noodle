@@ -1,6 +1,7 @@
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { fileURLToPath } from 'url';
 import puppeteer from 'puppeteer-core';
 
@@ -42,23 +43,44 @@ await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
 const port = server.address().port;
 console.log(`Server läuft auf http://127.0.0.1:${port}`);
 
-const browserPaths = [
-  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
-  'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
-  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
-  'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe'
-];
-
-let executablePath = null;
-for (const p of browserPaths) {
-  if (fs.existsSync(p)) {
-    executablePath = p;
-    break;
+function resolveBrowserPath() {
+  const env = process.env.CHROME_PATH;
+  if (env) {
+    if (fs.existsSync(env)) return env;
+    console.error(`CHROME_PATH ist gesetzt (${env}), die Datei existiert aber nicht.`);
+    return null;
   }
+  const home = os.homedir();
+  const byPlatform = {
+    win32: [
+      'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
+      'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
+      'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+      'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+      path.join(process.env.LOCALAPPDATA || '', 'Google\\Chrome\\Application\\chrome.exe')
+    ],
+    darwin: [
+      '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      '/Applications/Chromium.app/Contents/MacOS/Chromium',
+      '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+      path.join(home, 'Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
+    ],
+    linux: [
+      '/usr/bin/google-chrome',
+      '/usr/bin/google-chrome-stable',
+      '/usr/bin/chromium',
+      '/usr/bin/chromium-browser',
+      '/snap/bin/chromium',
+      '/usr/bin/microsoft-edge'
+    ]
+  };
+  const list = byPlatform[process.platform] || byPlatform.linux;
+  return list.find(p => p && fs.existsSync(p)) || null;
 }
 
+const executablePath = resolveBrowserPath();
 if (!executablePath) {
-  console.error('Kein Browser (Edge/Chrome) gefunden!');
+  console.error('FEHLER: Kein Chrome/Chromium/Edge gefunden. Setze die Umgebungsvariable CHROME_PATH auf die Browser-Programmdatei (z. B. CHROME_PATH="/usr/bin/chromium").');
   server.close();
   process.exit(1);
 }
