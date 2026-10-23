@@ -30,6 +30,12 @@ const clickWithin3s = async (handle) => {
 // ---------------------------------------------------------------------------
 const RUN_START = Date.now();
 const RUN_LIMIT_MS = 5 * 60 * 1000;
+const REPORT_PATH = path.join(rootDir, 'scripts', 'e2e-report.txt');
+function logReport(msg) {
+  const ts = new Date().toISOString();
+  fs.appendFileSync(REPORT_PATH, `[${ts}] ${msg}\n`);
+}
+logReport('E2E test started');
 const RUN_DEADLINE = RUN_START + RUN_LIMIT_MS;
 const panelProgress = { total: [], done: 0 };
 let browser = null; // wird beim Start gesetzt

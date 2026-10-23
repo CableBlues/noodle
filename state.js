@@ -1291,7 +1291,7 @@ function updateUndoUI() {
   if (undoBtn) {
     undoBtn.disabled = !hasHistory;
     if (hasHistory) {
-      undoBtn.classList.remove('opacity-40', 'opacity-30', 'pointer-events-none', 'grayscale');
+      undoBtn.classList.remove('opacity-70', 'opacity-60', 'opacity-40', 'opacity-30', 'pointer-events-none', 'grayscale');
       undoBtn.classList.add('opacity-100');
       const badge = undoBtn.querySelector('#undo-count-badge');
       if (badge) {
@@ -1299,7 +1299,7 @@ function updateUndoUI() {
         badge.classList.remove('hidden');
       }
     } else {
-      undoBtn.classList.add('opacity-40', 'pointer-events-none');
+      undoBtn.classList.add('opacity-70', 'pointer-events-none');
       undoBtn.classList.remove('opacity-100', 'grayscale');
       const badge = undoBtn.querySelector('#undo-count-badge');
       if (badge) badge.classList.add('hidden');

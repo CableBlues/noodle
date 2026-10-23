@@ -958,6 +958,18 @@ function renderZenSubtasks(taskText) {
   container.classList.remove('hidden');
   const completedMap = state.completedSteps?.[taskText] || [];
   
+  const STEP_TASK_COLORS = [
+    { text: 'text-[#89cff0]', hex: '#89cff0' },
+    { text: 'text-[#fb923c]', hex: '#fb923c' },
+    { text: 'text-[#4ade80]', hex: '#4ade80' },
+    { text: 'text-[#f472b6]', hex: '#f472b6' },
+    { text: 'text-[#60a5fa]', hex: '#60a5fa' },
+    { text: 'text-[#c084fc]', hex: '#c084fc' },
+    { text: 'text-[#fbbf24]', hex: '#fbbf24' },
+    { text: 'text-[#2dd4bf]', hex: '#2dd4bf' },
+    { text: 'text-[#a78bfa]', hex: '#a78bfa' }
+  ];
+
   container.innerHTML = `
     <div class="text-[10px] text-purple-300 font-bold uppercase tracking-wider mb-1 flex items-center gap-1">
       <i data-lucide="list-checks" class="w-3.5 h-3.5 text-purple-400"></i>
@@ -965,9 +977,10 @@ function renderZenSubtasks(taskText) {
     </div>
   ` + steps.map((step, idx) => {
     const isChecked = completedMap.includes(idx);
+    const color = STEP_TASK_COLORS[idx % STEP_TASK_COLORS.length];
     return `
-      <label class="flex items-start gap-2 p-1.5 rounded-lg hover:bg-white/5 cursor-pointer text-xs transition ${isChecked ? 'line-through text-gray-500 opacity-60' : 'text-gray-200'}">
-        <input type="checkbox" onchange="toggleZenStepCheck('${taskText.replace(/'/g, "\\'")}', ${idx})" ${isChecked ? 'checked' : ''} class="w-3.5 h-3.5 mt-0.5 rounded bg-black/60 border-white/20 text-purple-500 accent-purple-500 cursor-pointer" />
+      <label class="flex items-start gap-2 p-1.5 rounded-lg hover:bg-white/5 cursor-pointer text-xs transition ${isChecked ? 'line-through text-gray-500 opacity-60' : color.text}">
+        <input type="checkbox" onchange="toggleZenStepCheck('${taskText.replace(/'/g, "\\'")}', ${idx})" ${isChecked ? 'checked' : ''} class="w-3.5 h-3.5 mt-0.5 rounded bg-black/60 border-white/20 cursor-pointer" style="accent-color: ${color.hex};" />
         <span class="leading-tight font-medium">${step}</span>
       </label>
     `;

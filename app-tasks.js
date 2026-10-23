@@ -110,31 +110,36 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
   const taskObj = typeof rawTask === 'object' ? rawTask : { task: rawTask };
   const taskColor = taskObj.color || 'none';
 
-  menu.className = 'fixed z-[999999] w-[138px] p-1.5 bg-[#141422]/95 border border-white/20 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col gap-0.5 text-xs text-gray-200';
+  menu.className = 'fixed z-[999999] w-[165px] p-2 bg-[#141422]/98 border border-white/20 rounded-2xl shadow-2xl backdrop-blur-xl flex flex-col gap-0.5 text-xs text-gray-200 custom-scrollbar';
   
   menu.innerHTML = `
-    <!-- Timer, Chronometer & Steps ganz oben -->
-    <button onclick="startTaskTimerByIndex('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-amber-300 hover:text-amber-200 transition cursor-pointer text-left font-medium" title="Fokus-Timer für diese Aufgabe starten">
+    <!-- Steps, Timer & Chronometer ganz oben -->
+    <button onclick="openTaskStepsModal('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-white/10 text-[var(--accent-light)] hover:text-white transition cursor-pointer text-left font-medium" title="Schritte & Unteraufgaben aufklappen">
+      <i data-lucide="footprints" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>
+      <span>Steps</span>
+    </button>
+    <button onclick="toggleTimerSubmenu(this, '${colId}', ${index});" class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-white/10 text-amber-300 hover:text-amber-200 transition cursor-pointer text-left font-medium" title="Fokus-Timer für diese Aufgabe starten">
       <i data-lucide="timer" class="w-3.5 h-3.5 text-amber-400"></i>
       <span>Timer</span>
     </button>
-    <button onclick="startTaskChronometer('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-emerald-400 hover:text-emerald-300 transition cursor-pointer text-left font-medium" title="Chronometer / Stoppuhr starten (offene Zeiterfassung)">
+    <div class="timer-submenu hidden absolute right-0 mt-1 w-[120px] bg-[#141422]/95 border border-white/20 rounded-lg shadow-lg z-10">
+      <button onclick="startTaskTimerByIndex('${colId}', ${index}, event, 5); closeTaskOptionsMenu();" class="block w-full text-left px-2 py-1 text-sm text-amber-200 hover:bg-white/10">5 min</button>
+      <button onclick="startTaskTimerByIndex('${colId}', ${index}, event, 10); closeTaskOptionsMenu();" class="block w-full text-left px-2 py-1 text-sm text-amber-200 hover:bg-white/10">10 min</button>
+      <button onclick="startTaskTimerByIndex('${colId}', ${index}, event, 15); closeTaskOptionsMenu();" class="block w-full text-left px-2 py-1 text-sm text-amber-200 hover:bg-white/10">15 min</button>
+    </div>
+    <button onclick="startTaskChronometer('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-white/10 text-emerald-400 hover:text-emerald-300 transition cursor-pointer text-left font-medium" title="Chronometer / Stoppuhr starten (offene Zeiterfassung)">
       <i data-lucide="watch" class="w-3.5 h-3.5 text-emerald-400"></i>
       <span>Chrono</span>
-    </button>
-    <button onclick="openTaskStepsModal('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-[var(--accent-light)] hover:text-white transition cursor-pointer text-left font-medium" title="Schritte & Unteraufgaben aufklappen">
-      <i data-lucide="footprints" class="w-3.5 h-3.5 text-[var(--accent-light)]"></i>
-      <span>Steps</span>
     </button>
     
     <div class="h-[1px] bg-white/10 my-0.5"></div>
 
     <!-- Standard-Aktionen -->
-    <button onclick="editTaskInline('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 text-gray-200 hover:text-white transition cursor-pointer text-left font-medium">
+    <button onclick="editTaskInline('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-white/10 text-gray-200 hover:text-white transition cursor-pointer text-left font-medium">
       <i data-lucide="edit-3" class="w-3.5 h-3.5 text-purple-400"></i>
       <span>${tr({ de: 'Bearbeiten', en: 'Edit', fr: 'Modifier', it: 'Modifica', es: 'Editar', el: 'Επεξεργασία' })}</span>
     </button>
-    <button onclick="deleteTask('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-red-500/20 text-rose-400 hover:text-rose-300 transition cursor-pointer text-left font-medium">
+    <button onclick="deleteTask('${colId}', ${index}, event); closeTaskOptionsMenu();" class="flex items-center gap-2.5 px-2.5 py-1.5 rounded-lg hover:bg-red-500/20 text-rose-400 hover:text-rose-300 transition cursor-pointer text-left font-medium">
       <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
       <span>${tr({ de: 'Löschen', en: 'Delete', fr: 'Supprimer', it: 'Elimina', es: 'Eliminar', el: 'Διαγραφή' })}</span>
     </button>
@@ -143,29 +148,35 @@ function openTaskOptionsMenu(colId, index, anchorBtn) {
 
     <!-- Farbpalette (unten, extra klein & dezent) -->
     <div class="px-1.5 pt-0.5 pb-0.5">
-      <span class="text-[8px] font-bold text-purple-300 uppercase tracking-wider block mb-1">${tr({ de: 'Farbe 🎨', en: 'Color 🎨', fr: 'Couleur 🎨', it: 'Colore 🎨', es: 'Color 🎨', el: 'Χρώμα 🎨' })}</span>
+      <span class="text-[8px] font-bold text-purple-300 uppercase tracking-wider block mb-1">${tr({ de: 'Farbe 🎨', en: 'Color 🎨', fr: 'Couleur 🎨', it: 'Colore 🎨', es: 'Color 🎨', el: 'Χρώma 🎨' })}</span>
       <div class="flex items-center gap-1 justify-between">
-        <button onclick="setTaskColor('${colId}', ${index}, 'none', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}" class="w-2.5 h-2.5 rounded-full border border-gray-400 bg-transparent hover:scale-125 transition cursor-pointer ${taskColor === 'none' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}"></button>
-        <button onclick="setTaskColor('${colId}', ${index}, 'rose', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}" class="w-2.5 h-2.5 rounded-full bg-rose-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'rose' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}"></button>
-        <button onclick="setTaskColor('${colId}', ${index}, 'orange', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Orange', en: 'Orange', fr: 'Orange', it: 'Arancione', es: 'Naranja', el: 'Πορτοκαλί' })}" class="w-2.5 h-2.5 rounded-full bg-orange-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'orange' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Orange', en: 'Orange', fr: 'Orange', it: 'Arancione', es: 'Naranja', el: 'Πορτοκαλί' })}"></button>
-        <button onclick="setTaskColor('${colId}', ${index}, 'cyan', event); closeTaskOptionsMenu();" aria-label="Cyan" class="w-2.5 h-2.5 rounded-full bg-[#00f2ff] hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'cyan' ? 'ring-1 ring-white' : ''}" title="Cyan"></button>
-        <button onclick="setTaskColor('${colId}', ${index}, 'emerald', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Grün', en: 'Green', fr: 'Vert', it: 'Verde', es: 'Verde', el: 'Πράσινο' })}" class="w-2.5 h-2.5 rounded-full bg-[#00ff66] hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'emerald' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Grün', en: 'Green', fr: 'Vert', it: 'Verde', es: 'Verde', el: 'Πράσινο' })}"></button>
-        <button onclick="setTaskColor('${colId}', ${index}, 'sky', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Blau', en: 'Blue', fr: 'Bleu', it: 'Blu', es: 'Azul', el: 'Μπλε' })}" class="w-2.5 h-2.5 rounded-full bg-sky-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'sky' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Blau', en: 'Blue', fr: 'Bleu', it: 'Blu', es: 'Azul', el: 'Μπλε' })}"></button>
-        <button onclick="setTaskColor('${colId}', ${index}, 'purple', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Lila', en: 'Purple', fr: 'Violet', it: 'Viola', es: 'Morado', el: 'Μωβ' })}" class="w-2.5 h-2.5 rounded-full bg-purple-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'purple' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Lila', en: 'Purple', fr: 'Violet', it: 'Viola', es: 'Morado', el: 'Μωβ' })}"></button>
+        <button onclick="setTaskColor('${colId}', ${index}, 'none', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}" class="w-3 h-3 rounded-full border border-gray-400 bg-transparent hover:scale-125 transition cursor-pointer ${taskColor === 'none' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Standard', en: 'Default', fr: 'Par défaut', it: 'Predefinito', es: 'Por defecto', el: 'Προεπιλογή' })}"></button>
+        <button onclick="setTaskColor('${colId}', ${index}, 'rose', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}" class="w-3 h-3 rounded-full bg-rose-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'rose' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Rot', en: 'Red', fr: 'Rouge', it: 'Rosso', es: 'Rojo', el: 'Κόκκινο' })}"></button>
+        <button onclick="setTaskColor('${colId}', ${index}, 'orange', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Orange', en: 'Orange', fr: 'Orange', it: 'Arancione', es: 'Naranja', el: 'Πορτοκαλί' })}" class="w-3 h-3 rounded-full bg-orange-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'orange' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Orange', en: 'Orange', fr: 'Orange', it: 'Arancione', es: 'Naranja', el: 'Πορτοκαλί' })}"></button>
+        <button onclick="setTaskColor('${colId}', ${index}, 'cyan', event); closeTaskOptionsMenu();" aria-label="Cyan" class="w-3 h-3 rounded-full bg-[#00f2ff] hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'cyan' ? 'ring-1 ring-white' : ''}" title="Cyan"></button>
+        <button onclick="setTaskColor('${colId}', ${index}, 'emerald', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Grün', en: 'Green', fr: 'Vert', it: 'Verde', es: 'Verde', el: 'Πράσινο' })}" class="w-3 h-3 rounded-full bg-[#00ff66] hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'emerald' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Grün', en: 'Green', fr: 'Vert', it: 'Verde', es: 'Verde', el: 'Πράσινο' })}"></button>
+        <button onclick="setTaskColor('${colId}', ${index}, 'sky', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Blau', en: 'Blue', fr: 'Bleu', it: 'Blu', es: 'Azul', el: 'Μπλε' })}" class="w-3 h-3 rounded-full bg-sky-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'sky' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Blau', en: 'Blue', fr: 'Bleu', it: 'Blu', es: 'Azul', el: 'Μπλε' })}"></button>
+        <button onclick="setTaskColor('${colId}', ${index}, 'purple', event); closeTaskOptionsMenu();" aria-label="${tr({ de: 'Lila', en: 'Purple', fr: 'Violet', it: 'Viola', es: 'Morado', el: 'Μωβ' })}" class="w-3 h-3 rounded-full bg-purple-500 hover:scale-125 transition cursor-pointer shadow-sm ${taskColor === 'purple' ? 'ring-1 ring-white' : ''}" title="${tr({ de: 'Lila', en: 'Purple', fr: 'Violet', it: 'Viola', es: 'Morado', el: 'Μωβ' })}"></button>
       </div>
     </div>
   `;
 
   if (anchorBtn) {
     const rect = anchorBtn.getBoundingClientRect();
-    let top = rect.bottom + 4;
-    let left = rect.right - 138;
+    const menuWidth = 165;
+    const menuHeight = 265;
+    let left = rect.right - menuWidth;
     if (left < 10) left = 10;
-    if (top + 200 > window.innerHeight) {
-      top = rect.top - 200;
+    if (left + menuWidth > window.innerWidth - 10) left = window.innerWidth - menuWidth - 10;
+
+    let top = rect.bottom + 4;
+    if (top + menuHeight > window.innerHeight - 10) {
+      top = Math.max(10, rect.top - menuHeight - 4);
     }
     menu.style.top = `${top}px`;
     menu.style.left = `${left}px`;
+    menu.style.maxHeight = 'min(90vh, 320px)';
+    menu.style.overflowY = 'auto';
   }
   menu.classList.remove('hidden');
   renderLucideIcons();
@@ -965,7 +976,7 @@ function renderColumnsDropdownContent(dropdown) {
     </div>
 
     <!-- SPALTEN LISTE -->
-    <div class="space-y-1 max-h-[220px] overflow-y-auto custom-scrollbar pr-1">
+    <div class="space-y-1 max-h-[min(55vh,450px)] overflow-y-auto custom-scrollbar pr-1">
       ${allPossibleColumns.map(([id, icon, title, isCustom]) => {
         const isVisible = activeIds.has(id);
         const count = id === 'done' ? (getCurrentWorkspaceDone() || []).length : (curItems[id] || []).length;

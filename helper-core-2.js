@@ -44,6 +44,18 @@ function generateTaskSteps(specificTask) {
   currentGeneratedSteps = steps; resBox.innerHTML = '';
   if (!state.completedSteps) state.completedSteps = {};
   const completedIndices = state.completedSteps[val] || [];
+
+  const STEP_TASK_COLORS = [
+    { text: 'text-[#89cff0]', hex: '#89cff0', border: 'border-[#89cff0]/30', bg: 'bg-[#89cff0]/15', hoverBorder: 'hover:border-[#89cff0]/60' }, // Cyan
+    { text: 'text-[#fb923c]', hex: '#fb923c', border: 'border-[#fb923c]/30', bg: 'bg-[#fb923c]/15', hoverBorder: 'hover:border-[#fb923c]/60' }, // Orange
+    { text: 'text-[#4ade80]', hex: '#4ade80', border: 'border-[#4ade80]/30', bg: 'bg-[#4ade80]/15', hoverBorder: 'hover:border-[#4ade80]/60' }, // Emerald
+    { text: 'text-[#f472b6]', hex: '#f472b6', border: 'border-[#f472b6]/30', bg: 'bg-[#f472b6]/15', hoverBorder: 'hover:border-[#f472b6]/60' }, // Rose
+    { text: 'text-[#60a5fa]', hex: '#60a5fa', border: 'border-[#60a5fa]/30', bg: 'bg-[#60a5fa]/15', hoverBorder: 'hover:border-[#60a5fa]/60' }, // Sky
+    { text: 'text-[#c084fc]', hex: '#c084fc', border: 'border-[#c084fc]/30', bg: 'bg-[#c084fc]/15', hoverBorder: 'hover:border-[#c084fc]/60' }, // Purple
+    { text: 'text-[#fbbf24]', hex: '#fbbf24', border: 'border-[#fbbf24]/30', bg: 'bg-[#fbbf24]/15', hoverBorder: 'hover:border-[#fbbf24]/60' }, // Gold
+    { text: 'text-[#2dd4bf]', hex: '#2dd4bf', border: 'border-[#2dd4bf]/30', bg: 'bg-[#2dd4bf]/15', hoverBorder: 'hover:border-[#2dd4bf]/60' }, // Mint
+    { text: 'text-[#a78bfa]', hex: '#a78bfa', border: 'border-[#a78bfa]/30', bg: 'bg-[#a78bfa]/15', hoverBorder: 'hover:border-[#a78bfa]/60' }  // Lavender
+  ];
   
   if (steps.length === 0) {
     resBox.innerHTML = `<div class="text-center py-3 text-xs text-gray-400">Noch keine Teilschritte vorhanden. Füge unten eigene Schritte hinzu.</div>`;
@@ -51,13 +63,15 @@ function generateTaskSteps(specificTask) {
     steps.forEach((stepText, idx) => {
       const isChecked = completedIndices.includes(idx);
       const cleanedText = cleanStepText(stepText);
+      const color = STEP_TASK_COLORS[idx % STEP_TASK_COLORS.length];
       
       const stepDiv = document.createElement('div');
-      stepDiv.className = `group flex items-center justify-between gap-2.5 p-2.5 rounded-xl border transition-all duration-200 ${isChecked ? 'bg-white/[0.02] border-[#00ff66]/20 opacity-80' : 'bg-white/[0.04] border-white/10 hover:border-[#00f2ff]/40'} cursor-pointer`;
+      stepDiv.className = `group flex items-center justify-between gap-2.5 p-2.5 rounded-xl border transition-all duration-200 ${isChecked ? 'bg-white/[0.02] border-[#00ff66]/20 opacity-70' : `bg-white/[0.04] border-white/10 ${color.hoverBorder}`} cursor-pointer`;
       
       stepDiv.innerHTML = `
-        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleCustomStepCheck('${val.replace(/'/g, "\\'")}', ${idx}, event)" class="w-4 h-4 rounded text-[var(--accent)] cursor-pointer accent-[var(--accent)] shrink-0" />
-        <span class="step-text flex-1 text-xs leading-snug break-words font-medium ${isChecked ? 'line-through text-[#00ff66]' : 'text-[#c0caf5]'}" onclick="toggleCustomStepCheck('${val.replace(/'/g, "\\'")}', ${idx}, event)">${cleanedText}</span>
+        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleCustomStepCheck('${val.replace(/'/g, "\\'")}', ${idx}, event)" class="w-4 h-4 rounded cursor-pointer shrink-0" style="accent-color: ${color.hex};" />
+        <span class="step-badge text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md ${isChecked ? 'bg-white/5 text-gray-500' : `${color.bg} ${color.text}`} shrink-0">${idx + 1}</span>
+        <span class="step-text flex-1 text-xs leading-snug break-words font-medium ${isChecked ? 'line-through text-[#00ff66]/80' : color.text}" onclick="toggleCustomStepCheck('${val.replace(/'/g, "\\'")}', ${idx}, event)">${cleanedText}</span>
         <button onclick="deleteCustomStep('${val.replace(/'/g, "\\'")}', ${idx}, event)" aria-label="Schritt entfernen" class="opacity-0 group-hover:opacity-100 p-1 text-gray-500 hover:text-red-400 rounded transition cursor-pointer shrink-0" title="Schritt entfernen">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
         </button>
