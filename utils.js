@@ -1821,3 +1821,40 @@ if (typeof globalThis !== 'undefined') {
 
 
 
+
+function handleCollabChatEnter(event) {
+  if (!event || event.key !== 'Enter' || event.shiftKey) return;
+  event.preventDefault();
+  const el = event.target;
+  const v = (el.value || '').trim();
+  if (v && typeof CollabEngine !== 'undefined' && CollabEngine.sendMessage) {
+    CollabEngine.sendMessage(v);
+    el.value = '';
+  }
+}
+function handleWeatherEnter(event) {
+  if (event && event.key === 'Enter' && typeof searchWeatherCityInstant === 'function') {
+    searchWeatherCityInstant(event.target.value);
+  }
+}
+function handleWeatherChange(event) {
+  if (event && event.target && event.target.value && typeof searchWeatherCityInstant === 'function') {
+    searchWeatherCityInstant(event.target.value);
+  }
+}
+function handleTemplateEnter(event) {
+  if (event && event.key === 'Enter') {
+    event.preventDefault();
+    if (typeof addCustomTaskToTemplate === 'function') addCustomTaskToTemplate();
+  }
+}
+window.handleCollabChatEnter = handleCollabChatEnter;
+window.handleWeatherEnter = handleWeatherEnter;
+window.handleWeatherChange = handleWeatherChange;
+window.handleTemplateEnter = handleTemplateEnter;
+if (typeof globalThis !== 'undefined') {
+  globalThis.handleCollabChatEnter = handleCollabChatEnter;
+  globalThis.handleWeatherEnter = handleWeatherEnter;
+  globalThis.handleWeatherChange = handleWeatherChange;
+  globalThis.handleTemplateEnter = handleTemplateEnter;
+}
