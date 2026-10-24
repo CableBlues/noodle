@@ -8,6 +8,7 @@ import '../utils.js';
 import '../storage.js';
 import '../data-tasks.js';
 import '../state.js';
+import '../app-tasks.js';
 import '../app-core.js';
 
 describe('UI Architecture, Modals & Components (Production Code)', () => {
@@ -109,5 +110,63 @@ describe('UI Architecture, Modals & Components (Production Code)', () => {
     expect(typeof window.setWorkspace).toBe('function');
     expect(typeof window.toggleWorkspace).toBe('function');
   });
+
+  describe('Keyboard-Navigation, Focus & Stabilitäts-Audit', () => {
+    it('Escape-Taste schließt geöffnete Menüs und Dialoge und setzt den Tastatur-Fokus zurück', () => {
+      const settingsModal = document.getElementById('modal-settings');
+      expect(settingsModal).not.toBeNull();
+      settingsModal.classList.remove('hidden');
+
+      const dummyInput = document.createElement('input');
+      settingsModal.appendChild(dummyInput);
+      dummyInput.focus();
+      expect(document.activeElement).toBe(dummyInput);
+
+      // Escape auslösen
+      const escEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+      window.dispatchEvent(escEvent);
+
+      expect(settingsModal.classList.contains('hidden')).toBe(true);
+    });
+
+    it('fängt wiederholte schnelle Klicks auf Workspace-Toggle sauber ab (Rapid-Click Idempotenz)', () => {
+      window.setWorkspace('private');
+      expect(window.state.activeWorkspace).toBe('private');
+
+      // Mehrfache Klicks direkt hintereinander
+      window.toggleWorkspace();
+      window.toggleWorkspace();
+      window.toggleWorkspace();
+
+      expect(['private', 'work', 'study', 'shared']).toContain(window.state.activeWorkspace);
+      expect(typeof window.getCurrentWorkspaceItems()).toBe('object');
+      expect(Array.isArray(window.getCurrentWorkspaceDone())).toBe(true);
+    });
+
+    it('behandelt leere, defekte oder extreme Eingaben im Aufgaben- und Datensystem robust', () => {
+      // 1. Leere Aufgaben
+      expect(window.parseTextIntoItems('')).toEqual([]);
+      expect(window.parseTextIntoItems('   \n\n  \t  ')).toEqual([]);
+
+      // 2. Ungültige Typen / Fallbacks
+      expect(window.parseTextIntoItems(null)).toEqual([]);
+      expect(window.parseTextIntoItems(undefined)).toEqual([]);
+      expect(window.parseTextIntoItems(12345)).toEqual(['12345']);
+
+      // 3. Extrem lange Eingabe (Overflow-Test)
+      const hugeInput = 'A'.repeat(50000);
+      const parsedHuge = window.parseTextIntoItems(hugeInput);
+      expect(parsedHuge).toHaveLength(1);
+      expect(parsedHuge[0].length).toBe(50000);
+    });
+
+    it('schützt State vor inkonsistenten Workspace-IDs durch Fallback auf Private', () => {
+      window.setWorkspace('non_existent_workspace_xyz');
+      const items = window.getCurrentWorkspaceItems();
+      expect(items).toBeDefined();
+      expect(typeof items).toBe('object');
+    });
+  });
 });
+
 

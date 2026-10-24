@@ -1269,7 +1269,7 @@ if (typeof window !== 'undefined') window.duckAllAudioForSpeech = duckAllAudioFo
 if (typeof globalThis !== 'undefined') globalThis.duckAllAudioForSpeech = duckAllAudioForSpeech;
 
 // Globale, hochqualitative Sprach-Synthese mit organischen, menschlich-warmen Stimmen
-function speakWithProfile(text, profileIndex = null, onComplete = null) {
+function speakWithProfile(text, profileIndex = null, onComplete = null, keepDucked = false) {
   if (!timerSoundEnabled || timerVoiceEnabled === false) {
     if (typeof onComplete === 'function') setTimeout(onComplete, 50);
     return;

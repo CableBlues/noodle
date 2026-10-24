@@ -7,13 +7,25 @@
  * Verlauf häufig gekaufter Artikel sowie Markt-Übersicht.
  */
 
+var currentLang = (typeof currentLang !== 'undefined') ? currentLang : 'de';
+var escapeHtml = (typeof escapeHtml === 'function') 
+  ? escapeHtml 
+  : function(s) { 
+      return String(s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;'); 
+    };
+
 const SHOPPING_DEPARTMENTS = {
   produce: {
     icon: 'apple',
     color: 'emerald',
     title: { en: 'Produce (Fruits & Veggies)', de: 'Obst & Gemüse', fr: 'Fruits & Légumes', it: 'Frutta & Verdura', es: 'Frutas & Verduras', el: 'Φρούτα & Λαχανικά' },
     keywords: [
-      'apfel', 'apple', 'banan', 'tomate', 'salat', 'gurke', 'paprika', 'kartoffel', 'potato', 'zwiebel', 'onion', 'knoblauch', 'garlic', 'beere', 'berry', 'erdbeer', 'orange', 'zitrone', 'lemon', 'limette', 'avocado', 'karotte', 'carrot', 'spinat', 'spinach', 'pilz', 'mushroom', 'brokkoli', 'broccoli', 'blumenkohl', 'kohl', 'lauch', 'ingwer', 'ginger', 'kürbis', 'pumpkin', 'trauben', 'grape', 'birne', 'pear', 'mango', 'ananas', 'pineapple', 'kräuter', 'herbs', 'petersilie', 'basilikum', 'basil', 'rosmarin', 'rosemary', 'melone', 'melon', 'zucchini', 'aubergine', 'radieschen', 'pfirsich', 'peach', 'pflaume', 'plum', 'kirsche', 'cherry', 'kiwi', 'feige', 'fig'
+      'apfel', 'äpfel', 'apple', 'banan', 'tomate', 'salat', 'gurke', 'paprika', 'kartoffel', 'potato', 'zwiebel', 'onion', 'knoblauch', 'garlic', 'beere', 'berry', 'erdbeer', 'orange', 'zitrone', 'lemon', 'limette', 'avocado', 'karotte', 'carrot', 'spinat', 'spinach', 'pilz', 'mushroom', 'brokkoli', 'broccoli', 'blumenkohl', 'kohl', 'lauch', 'ingwer', 'ginger', 'kürbis', 'pumpkin', 'trauben', 'grape', 'birne', 'pear', 'mango', 'ananas', 'pineapple', 'kräuter', 'herbs', 'petersilie', 'basilikum', 'basil', 'rosmarin', 'rosemary', 'melone', 'melon', 'zucchini', 'aubergine', 'radieschen', 'pfirsich', 'peach', 'pflaume', 'plum', 'kirsche', 'cherry', 'kiwi', 'feige', 'fig'
     ]
   },
   dairy: {
@@ -181,13 +193,13 @@ function findBestDealForShoppingItem(name) {
     if (clean.includes('butter') && dealClean.includes('butter')) score += 5;
     if ((clean.includes('pasta') || clean.includes('nudel') || clean.includes('spaghetti')) && (dealClean.includes('pasta') || dealClean.includes('spaghetti'))) score += 5;
     if (clean.includes('kaffee') && (dealClean.includes('kaffee') || dealClean.includes('lavazza') || dealClean.includes('dallmayr') || dealClean.includes('jacobs'))) score += 5;
-    if (clean.includes('ei') && dealClean.includes('eier')) score += 5;
+    if (/\b(ei|eier)\b/i.test(clean) && dealClean.includes('eier')) score += 5;
     if (clean.includes('apfel') && dealClean.includes('äpfel')) score += 5;
     if (clean.includes('banan') && dealClean.includes('banan')) score += 5;
     if (clean.includes('hack') && dealClean.includes('hack')) score += 5;
     if (clean.includes('lachs') && dealClean.includes('lachs')) score += 5;
     if (clean.includes('käse') && dealClean.includes('gouda')) score += 4;
-    if (clean.includes('öl') && dealClean.includes('olivenöl')) score += 5;
+    if (/\b(öl|olivenöl)\b/i.test(clean) && dealClean.includes('olivenöl')) score += 5;
 
     if (score > highestScore && score >= 4) {
       highestScore = score;
@@ -223,9 +235,18 @@ function getShoppingListRadarMatches() {
 function getDepartmentForItem(name) {
   if (!name) return 'other';
   const clean = name.toLowerCase().trim();
+  if (clean.includes('zahnpasta') || clean.includes('toothpaste') || clean.includes('dentifrice')) {
+    return 'household';
+  }
   for (const deptKey in SHOPPING_DEPARTMENTS) {
     const dept = SHOPPING_DEPARTMENTS[deptKey];
-    if (dept.keywords.some(kw => clean.includes(kw))) {
+    if (dept.keywords.some(kw => {
+      if (kw.length <= 3) {
+        const regex = new RegExp(`(^|\\s|[-,./])${kw}($|\\s|[-,./])`, 'i');
+        return regex.test(clean);
+      }
+      return clean.includes(kw);
+    })) {
       return deptKey;
     }
   }
@@ -886,7 +907,7 @@ function updateShoppingListPopup(skipLucide = false) {
 
   const tipBox = document.getElementById('panel-daily') || document.getElementById('panel-shopping');
   if (tipBox) { generateSmartShoppingTips(tipBox); }
-  if (!skipLucide) { renderLucideIcons(); }
+  if (!skipLucide && typeof renderLucideIcons === 'function') { renderLucideIcons(); }
 }
 
 function generateSmartShoppingTips(container) {
@@ -1044,7 +1065,7 @@ function renderSupermarketModal() {
 
   html += '</div>';
   container.innerHTML = html;
-  renderLucideIcons();
+  if (typeof renderLucideIcons === 'function') renderLucideIcons();
 }
 
 function openShoppingModal() {
@@ -1325,13 +1346,14 @@ function calculateShoppingListTotal() {
   let hasPriceCount = 0;
 
   list.forEach(item => {
-    const qty = item.qty || 1;
-    if (item.dealInfo && typeof item.dealInfo.price === 'number') {
+    const rawQty = item.qty;
+    const qty = (typeof rawQty === 'number' && Number.isFinite(rawQty) && rawQty > 0) ? rawQty : 1;
+    if (item.dealInfo && typeof item.dealInfo.price === 'number' && Number.isFinite(item.dealInfo.price)) {
       total += item.dealInfo.price * qty;
       hasPriceCount++;
     } else {
       const bestDeal = findBestDealForShoppingItem(item.name);
-      if (bestDeal && bestDeal.deal && typeof bestDeal.deal.price === 'number') {
+      if (bestDeal && bestDeal.deal && typeof bestDeal.deal.price === 'number' && Number.isFinite(bestDeal.deal.price)) {
         total += bestDeal.deal.price * qty;
         hasPriceCount++;
       }

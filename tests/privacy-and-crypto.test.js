@@ -85,6 +85,27 @@ describe('Phase 6: Datenschutz, WebCrypto E2E & Developer-Modus', () => {
       const res = await NoodleCrypto.decrypt(plainLegacyData, 'AnyPassword');
       expect(res).toEqual(plainLegacyData);
     });
+
+    it('begrenzt PBKDF2-Iterationszahlen zuverlässig (Abwehr von DoS und ungültigen Werten)', async () => {
+      expect(NoodleCrypto.clampIterations(500000)).toBe(500000);
+      expect(NoodleCrypto.clampIterations(100)).toBe(NoodleCrypto.MIN_ITERATIONS); // 10000
+      expect(NoodleCrypto.clampIterations(-5)).toBe(NoodleCrypto.ITERATIONS); // 600000 Fallback
+      expect(NoodleCrypto.clampIterations(NaN)).toBe(NoodleCrypto.ITERATIONS);
+      expect(NoodleCrypto.clampIterations('invalid')).toBe(NoodleCrypto.ITERATIONS);
+      expect(NoodleCrypto.clampIterations(999999999)).toBe(NoodleCrypto.MAX_ITERATIONS); // 2000000
+
+      // Entschlüsselung eines manipulierten Containers mit exorbitanter Iterationsanzahl wird gedeckelt
+      const payload = { test: 'bounded-iterations' };
+      const passphrase = 'SafePassphrase2026';
+      const container = await NoodleCrypto.encrypt(payload, passphrase);
+
+      // Manipuliere iterations auf extremen DoS-Wert
+      container.iterations = 9999999999;
+      // Bei Deckelung wird mit MAX_ITERATIONS abgeleitet (führt zu Entschlüsselungsfehler statt Prozess-Freeze)
+      await expect(NoodleCrypto.decrypt(container, passphrase)).rejects.toThrow(
+        /Entschlüsselung fehlgeschlagen/
+      );
+    });
   });
 
   describe('2. Developer-Modus Schutz vor localStorage-Manipulationen', () => {

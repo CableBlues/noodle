@@ -15,6 +15,17 @@ let inlineEditingTaskInfo = null;
 let openTaskMenuMeta = null;
 let taskMenuCloseTimer = null;
 
+var escapeHtml = (typeof escapeHtml === 'function')
+  ? escapeHtml
+  : function(s) {
+      return String(s || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    };
+
 if (typeof window !== 'undefined' && !window.openTaskAddColumns) {
   window.openTaskAddColumns = {};
 }
@@ -1498,32 +1509,52 @@ const COLUMN_THEME_FALLBACK_CYCLE = [
   { color: 'text-teal-300',    bg: 'bg-teal-500/15 border-teal-400/35 shadow-xs' }
 ];
 
-function getCurrentWorkspaceItems() {
-  const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
-  if (s && s.activeWorkspace === 'study') {
-    if (!s.studyItems) s.studyItems = typeof createDefaultStudyItems === 'function' ? createDefaultStudyItems(typeof currentLang !== 'undefined' ? currentLang : 'en') : {};
-    return s.studyItems;
-  }
-  if (s && s.activeWorkspace === 'work') {
-    if (!s.workItems) s.workItems = typeof createDefaultWorkItems === 'function' ? createDefaultWorkItems(typeof currentLang !== 'undefined' ? currentLang : 'en') : {};
-    return s.workItems;
-  }
-  return s ? s.items : {};
-}
+var getCurrentWorkspaceItems = (typeof getCurrentWorkspaceItems === 'function')
+  ? getCurrentWorkspaceItems
+  : function() {
+      const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+      if (!s) return {};
+      if (s.activeWorkspace === 'study') {
+        if (!s.studyItems) s.studyItems = typeof createDefaultStudyItems === 'function' ? createDefaultStudyItems(typeof currentLang !== 'undefined' ? currentLang : 'en') : {};
+        return s.studyItems;
+      }
+      if (s.activeWorkspace === 'work') {
+        if (!s.workItems) s.workItems = typeof createDefaultWorkItems === 'function' ? createDefaultWorkItems(typeof currentLang !== 'undefined' ? currentLang : 'en') : {};
+        return s.workItems;
+      }
+      if (s.activeWorkspace === 'shared' && s.workspaces && s.workspaces.shared && s.workspaces.shared.items) {
+        return s.workspaces.shared.items;
+      }
+      return s.items || {};
+    };
 
-function getCurrentWorkspaceDone() {
-  const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
-  if (!s) return [];
-  if (s.activeWorkspace === 'study') {
-    if (!Array.isArray(s.studyDone)) s.studyDone = [];
-    return s.studyDone;
-  }
-  if (s.activeWorkspace === 'work') {
-    if (!Array.isArray(s.workDone)) s.workDone = [];
-    return s.workDone;
-  }
-  if (!Array.isArray(s.done)) s.done = [];
-  return s.done;
+var getCurrentWorkspaceDone = (typeof getCurrentWorkspaceDone === 'function')
+  ? getCurrentWorkspaceDone
+  : function() {
+      const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+      if (!s) return [];
+      if (s.activeWorkspace === 'study') {
+        if (!Array.isArray(s.studyDone)) s.studyDone = [];
+        return s.studyDone;
+      }
+      if (s.activeWorkspace === 'work') {
+        if (!Array.isArray(s.workDone)) s.workDone = [];
+        return s.workDone;
+      }
+      if (s.activeWorkspace === 'shared' && s.workspaces && s.workspaces.shared && Array.isArray(s.workspaces.shared.done)) {
+        return s.workspaces.shared.done;
+      }
+      if (!Array.isArray(s.done)) s.done = [];
+      return s.done;
+    };
+
+if (typeof window !== 'undefined') {
+  window.getCurrentWorkspaceItems = getCurrentWorkspaceItems;
+  window.getCurrentWorkspaceDone = getCurrentWorkspaceDone;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.getCurrentWorkspaceItems = getCurrentWorkspaceItems;
+  globalThis.getCurrentWorkspaceDone = getCurrentWorkspaceDone;
 }
 
 function renderApp() {
@@ -2050,7 +2081,7 @@ function renderApp() {
           curItems[id].push(taskObj);
           addInput.value = '';
           openTaskAddColumns[id] = false;
-          saveState(); renderApp(); populateHelperTaskSelect();
+          saveState(); renderApp(); if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
         }
         if (e.key === 'Escape') { openTaskAddColumns[id] = false; renderApp(); }
       };
@@ -2079,7 +2110,7 @@ function renderApp() {
             curItems[id].push(taskObj);
             addInput.value = '';
             openTaskAddColumns[id] = false;
-            saveState(); renderApp(); populateHelperTaskSelect();
+            saveState(); renderApp(); if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
           }
         };
         inputWrap.appendChild(submitAddBtn);
@@ -2501,10 +2532,10 @@ function deleteTask(category, index, event) {
   if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
     cloudSyncEngine.triggerImmediatePush();
   }
-  showToast(toastMsg, { undo: true, duration: 5000 });
-  renderApp();
-  updateZenView();
-  populateHelperTaskSelect();
+  if (typeof showToast === "function") showToast(toastMsg, { undo: true, duration: 5000 });
+  if (typeof renderApp === "function") renderApp();
+  if (typeof updateZenView === "function") updateZenView();
+  if (typeof populateHelperTaskSelect === "function") populateHelperTaskSelect();
 }
 
 
@@ -2651,6 +2682,9 @@ function rebindListDragHandlers(colId) {
   }
 }
 
+if (typeof window !== "undefined") window.moveTaskDOM = moveTaskDOM;
+if (typeof globalThis !== "undefined") globalThis.moveTaskDOM = moveTaskDOM;
+
 function moveTaskDOM(srcCat, srcIdx, targetCat, insertIdx) {
   const srcList = document.getElementById(`list-${srcCat}`);
   const targetList = document.getElementById(`list-${targetCat}`);
@@ -2737,7 +2771,7 @@ function handleItemDrop(e, targetCategory, targetIndex) {
   
   const moved = moveTaskDOM(srcCat, srcIdx, targetCategory, insertIdx);
   if (!moved) renderApp();
-  populateHelperTaskSelect();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
 }
 
 function handleDrop(e, targetCategory) {
@@ -2766,7 +2800,7 @@ function handleDrop(e, targetCategory) {
   
   const moved = moveTaskDOM(srcCat, srcIdx, targetCategory, insertIdx);
   if (!moved) renderApp();
-  populateHelperTaskSelect();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
 }
 
 if (typeof window !== 'undefined' && typeof window.currentlyOpenPanel === 'undefined') window.currentlyOpenPanel = null;
@@ -3121,6 +3155,7 @@ function updateTextImportPreview() {
 
 function parseTextIntoItems(rawText) {
   if (!rawText) return [];
+  if (typeof rawText !== 'string') rawText = String(rawText);
   const trimmed = rawText.trim();
 
   // 1. JSON-Unterstützung (Array von Strings oder Aufgaben-Objekten)
@@ -3271,7 +3306,7 @@ function executeTextImport() {
   saveState();
   closeTextImportModal();
   renderApp();
-  populateHelperTaskSelect();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   
   showToast(tr({
     de: `✅ ${items.length} Einträge in "${t(currentImportTargetCat)}" importiert!`,
@@ -3569,11 +3604,12 @@ function renderSampleManagerContent() {
     sec.items.forEach((itemText, idx) => {
       // Wenn das Board noch aktiv Items hat, prüfen ob dieses drin ist, sonst standardmäßig checked
       const isChecked = currentTasksInCat.length === 0 || currentTasksInCat.includes(itemText);
-      const safeEscaped = itemText.replace(/"/g, '&quot;');
+      const safeEscaped = (typeof escapeAttr === 'function') ? escapeAttr(itemText) : itemText.replace(/"/g, '&quot;');
+      const safeSpanText = (typeof escapeHtml === 'function') ? escapeHtml(itemText) : itemText;
       html += `
         <label class="flex items-center gap-2.5 p-2 bg-black/40 hover:bg-white/[0.04] border border-white/5 hover:border-purple-500/30 rounded-xl transition cursor-pointer text-xs group">
           <input type="checkbox" data-sample-cat="${sec.id}" data-sample-text="${safeEscaped}" ${isChecked ? 'checked' : ''} onchange="updateSampleSelectedCount()" class="w-4 h-4 rounded text-purple-600 bg-black/60 border-white/20 focus:ring-0 cursor-pointer accent-purple-500" />
-          <span class="text-gray-200 group-hover:text-white flex-1 font-medium select-none">${itemText}</span>
+          <span class="text-gray-200 group-hover:text-white flex-1 font-medium select-none">${safeSpanText}</span>
         </label>
       `;
     });
@@ -3632,7 +3668,7 @@ function applySampleManagerSelection() {
   saveState();
   closeSampleManagerModal();
   renderApp();
-  populateHelperTaskSelect();
+  if (typeof populateHelperTaskSelect === 'function') populateHelperTaskSelect();
   if (typeof triggerCelebration === 'function') triggerCelebration();
 
   showToast(tr({
@@ -4387,17 +4423,26 @@ if (typeof window !== 'undefined') {
           </span>
         `;
       } else {
-        chipsContainer.innerHTML = currentTasks.map(task => {
-          const safeTask = String(task).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        chipsContainer.innerHTML = currentTasks.map((task, idx) => {
+          const safeDisplay = escapeHtml(task);
           return `
             <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-xl bg-sky-500/15 border border-sky-400/40 text-sky-100 text-xs font-medium animate-fade-in group">
-              <span class="truncate max-w-[220px]">${task}</span>
-              <button type="button" onclick="removeTaskFromTemplate('${safeTask}')" class="w-4 h-4 rounded-full flex items-center justify-center text-sky-300 hover:text-rose-300 hover:bg-rose-500/20 transition cursor-pointer" title="Entfernen">
+              <span class="truncate max-w-[220px]">${safeDisplay}</span>
+              <button type="button" data-tpl-remove-idx="${idx}" class="btn-tpl-remove w-4 h-4 rounded-full flex items-center justify-center text-sky-300 hover:text-rose-300 hover:bg-rose-500/20 transition cursor-pointer" title="Entfernen">
                 ✕
               </button>
             </span>
           `;
         }).join('');
+
+        chipsContainer.querySelectorAll('.btn-tpl-remove').forEach(btn => {
+          btn.onclick = () => {
+            const idx = parseInt(btn.getAttribute('data-tpl-remove-idx'), 10);
+            if (!isNaN(idx) && currentTasks[idx]) {
+              removeTaskFromTemplate(currentTasks[idx]);
+            }
+          };
+        });
       }
     }
 
@@ -4409,16 +4454,25 @@ if (typeof window !== 'undefined') {
       const extraList = TEMPLATE_SUGGESTIONS_EXTRA[activeCat] || [];
       const combinedSuggestions = Array.from(new Set([...baseList, ...extraList]));
 
-      suggestionsContainer.innerHTML = combinedSuggestions.map(s => {
+      suggestionsContainer.innerHTML = combinedSuggestions.map((s, idx) => {
         const isSelected = currentTasks.includes(s);
-        const safeTask = String(s).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        const safeDisplay = escapeHtml(s);
         return `
-          <button type="button" onclick="toggleTaskInTemplate('${safeTask}')" class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-xl text-xs transition cursor-pointer active:scale-95 ${isSelected ? 'bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 font-bold shadow-xs' : 'bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
+          <button type="button" data-tpl-toggle-idx="${idx}" class="btn-tpl-toggle inline-flex items-center gap-1.5 py-1 px-2.5 rounded-xl text-xs transition cursor-pointer active:scale-95 ${isSelected ? 'bg-emerald-500/20 border border-emerald-400/60 text-emerald-200 font-bold shadow-xs' : 'bg-white/5 border border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}">
             <i data-lucide="${isSelected ? 'check' : 'plus'}" class="w-3 h-3 ${isSelected ? 'text-emerald-400' : 'text-gray-400'}"></i>
-            <span>${s}</span>
+            <span>${safeDisplay}</span>
           </button>
         `;
       }).join('');
+
+      suggestionsContainer.querySelectorAll('.btn-tpl-toggle').forEach(btn => {
+        btn.onclick = () => {
+          const idx = parseInt(btn.getAttribute('data-tpl-toggle-idx'), 10);
+          if (!isNaN(idx) && combinedSuggestions[idx]) {
+            toggleTaskInTemplate(combinedSuggestions[idx]);
+          }
+        };
+      });
     }
 
     if (typeof lucide !== 'undefined' && lucide.createIcons) {
@@ -4435,4 +4489,4 @@ if (typeof window !== 'undefined') {
   window.resetTemplateBuilderToDefault = resetTemplateBuilderToDefault;
   window.saveTemplateBuilder = saveTemplateBuilder;
   window.renderTemplateBuilderUI = renderTemplateBuilderUI;
-}
+}

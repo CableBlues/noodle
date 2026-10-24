@@ -181,9 +181,14 @@
 
     if (userVal) {
       if (userVal.startsWith('http://') || userVal.startsWith('https://')) {
-        targetUrl = userVal;
+        if (typeof isValidHttpUrl === 'function' ? isValidHttpUrl(userVal) : /^https?:\/\//i.test(userVal)) {
+          targetUrl = userVal;
+        } else {
+          if (typeof showToast === 'function') showToast('Ungültige Profil-URL (nur HTTP/HTTPS erlaubt).');
+          return;
+        }
       } else {
-        const cleanHandle = userVal.replace(/^@/, '');
+        const cleanHandle = userVal.replace(/^@/, '').replace(/[^a-zA-Z0-9._\-]/g, '');
         targetUrl = plat.profilePrefix + cleanHandle;
       }
     }
@@ -198,7 +203,14 @@
   }
 
   function saveUserProfile(platformKey, value) {
-    savedProfiles[platformKey] = value.trim();
+    const trimmed = (value || '').trim();
+    if (trimmed && (trimmed.startsWith('http://') || trimmed.startsWith('https://'))) {
+      if (typeof isValidHttpUrl === 'function' && !isValidHttpUrl(trimmed)) {
+        if (typeof showToast === 'function') showToast('Ungültige URL für Profil-Link.');
+        return;
+      }
+    }
+    savedProfiles[platformKey] = trimmed;
     saveSocialData();
     renderSocialHub();
     if (typeof showToast === 'function') showToast('Profil-Link gespeichert.');
@@ -218,16 +230,28 @@
       cleanUrl = 'https://' + cleanUrl;
     }
 
+    // Sicherheitsprüfung: Nur echte HTTP/HTTPS-URLs zulassen
+    if (typeof isValidHttpUrl === 'function' && !isValidHttpUrl(cleanUrl)) {
+      if (typeof showToast === 'function') showToast('Ungültige oder unsichere URL abgewiesen.');
+      return;
+    }
+
     let detectedPlatform = 'other';
-    if (cleanUrl.includes('instagram.com')) detectedPlatform = 'instagram';
-    else if (cleanUrl.includes('facebook.com')) detectedPlatform = 'facebook';
-    else if (cleanUrl.includes('tiktok.com')) detectedPlatform = 'tiktok';
-    else if (cleanUrl.includes('youtube.com') || cleanUrl.includes('youtu.be')) detectedPlatform = 'youtube';
-    else if (cleanUrl.includes('threads.net')) detectedPlatform = 'threads';
-    else if (cleanUrl.includes('x.com') || cleanUrl.includes('twitter.com')) detectedPlatform = 'x';
-    else if (cleanUrl.includes('linkedin.com')) detectedPlatform = 'linkedin';
-    else if (cleanUrl.includes('reddit.com')) detectedPlatform = 'reddit';
-    else if (cleanUrl.includes('pinterest.com')) detectedPlatform = 'pinterest';
+    try {
+      const parsedHost = new URL(cleanUrl).hostname.toLowerCase();
+      const matchHost = (dom) => parsedHost === dom || parsedHost.endsWith('.' + dom);
+      if (matchHost('instagram.com')) detectedPlatform = 'instagram';
+      else if (matchHost('facebook.com')) detectedPlatform = 'facebook';
+      else if (matchHost('tiktok.com')) detectedPlatform = 'tiktok';
+      else if (matchHost('youtube.com') || parsedHost === 'youtu.be') detectedPlatform = 'youtube';
+      else if (matchHost('threads.net')) detectedPlatform = 'threads';
+      else if (matchHost('x.com') || matchHost('twitter.com')) detectedPlatform = 'x';
+      else if (matchHost('linkedin.com')) detectedPlatform = 'linkedin';
+      else if (matchHost('reddit.com')) detectedPlatform = 'reddit';
+      else if (matchHost('pinterest.com') || matchHost('pin.it')) detectedPlatform = 'pinterest';
+    } catch (e) {
+      detectedPlatform = 'other';
+    }
 
     const newItem = {
       id: 'insp_' + Date.now(),
@@ -430,12 +454,16 @@
           </div>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-            ${PLATFORMS.slice(0, 4).map(p => `
+            ${PLATFORMS.slice(0, 4).map(p => {
+              const pVal = typeof escapeAttr === 'function' ? escapeAttr(savedProfiles[p.key] || '') : (savedProfiles[p.key] || '');
+              const pPh = typeof escapeAttr === 'function' ? escapeAttr(p.placeholder) : p.placeholder;
+              const pName = typeof escapeHtml === 'function' ? escapeHtml(p.name) : p.name;
+              return `
               <div class="flex items-center gap-1.5 bg-white/[0.02] p-1.5 rounded-xl border border-white/5">
-                <span class="text-[10px] font-bold text-gray-300 w-16 truncate">${p.name}:</span>
-                <input type="text" value="${savedProfiles[p.key] || ''}" placeholder="${p.placeholder}" onchange="SocialHubEngine.saveProfile('${p.key}', this.value)" class="flex-1 bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-lg px-2 py-0.5 text-[10px] text-white placeholder-gray-600 focus:outline-none transition">
+                <span class="text-[10px] font-bold text-gray-300 w-16 truncate">${pName}:</span>
+                <input type="text" value="${pVal}" placeholder="${pPh}" onchange="SocialHubEngine.saveProfile('${p.key}', this.value)" class="flex-1 bg-black/60 border border-white/10 focus:border-pink-500/60 rounded-lg px-2 py-0.5 text-[10px] text-white placeholder-gray-600 focus:outline-none transition">
               </div>
-            `).join('')}
+            `;}).join('')}
           </div>
         </div>
       `;
@@ -534,21 +562,27 @@
             </div>
             <div class="space-y-1.5 max-h-[260px] overflow-y-auto pr-1 custom-scrollbar">
               ${savedInspirations.length === 0 ? '<div class="text-xs text-gray-500 text-center py-4">Noch keine Links gespeichert. Füge oben einen Post-Link ein!</div>' : ''}
-              ${savedInspirations.map(item => `
+              ${savedInspirations.map(item => {
+                const safeTitle = typeof escapeHtml === 'function' ? escapeHtml(item.title) : String(item.title || '');
+                const safeUrl = typeof sanitizeUrl === 'function' ? sanitizeUrl(item.url) : String(item.url || '#');
+                const safeUrlAttr = typeof escapeAttr === 'function' ? escapeAttr(safeUrl) : safeUrl;
+                const safeId = typeof sanitizeIdentifier === 'function' ? sanitizeIdentifier(item.id, 'insp') : String(item.id || '').replace(/[^a-zA-Z0-9_-]/g, '');
+                const safePlatform = typeof escapeHtml === 'function' ? escapeHtml(item.platform || '') : String(item.platform || '');
+                return `
                 <div class="p-2 rounded-xl bg-white/[0.03] hover:bg-white/[0.06] border border-white/8 hover:border-pink-500/30 transition flex items-center justify-between gap-2 group">
                   <div class="min-w-0 flex-1">
                     <div class="flex items-center gap-1.5">
-                      <span class="px-1.5 py-0.2 rounded text-[8.5px] font-bold uppercase ${item.platform === 'instagram' ? 'bg-pink-500/20 text-pink-300' : (item.platform === 'facebook' ? 'bg-blue-500/20 text-blue-300' : 'bg-purple-500/20 text-purple-300')}">${item.platform}</span>
-                      <h5 class="text-xs font-bold text-white truncate">${item.title}</h5>
+                      <span class="px-1.5 py-0.2 rounded text-[8.5px] font-bold uppercase ${item.platform === 'instagram' ? 'bg-pink-500/20 text-pink-300' : (item.platform === 'facebook' ? 'bg-blue-500/20 text-blue-300' : 'bg-purple-500/20 text-purple-300')}">${safePlatform}</span>
+                      <h5 class="text-xs font-bold text-white truncate">${safeTitle}</h5>
                     </div>
-                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="text-[9px] text-gray-400 hover:text-pink-300 truncate block mt-0.5">${item.url}</a>
+                    <a href="${safeUrlAttr}" target="_blank" rel="noopener noreferrer" class="text-[9px] text-gray-400 hover:text-pink-300 truncate block mt-0.5">${safeTitle || safeUrlAttr}</a>
                   </div>
                   <div class="flex items-center gap-1 shrink-0">
-                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="p-1 rounded-lg bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 text-xs cursor-pointer" title="Öffnen">↗</a>
-                    <button onclick="SocialHubEngine.deleteInspiration('${item.id}')" class="p-1 rounded-lg hover:bg-rose-500/20 text-gray-500 hover:text-rose-400 text-xs cursor-pointer" title="Löschen">✕</button>
+                    <a href="${safeUrlAttr}" target="_blank" rel="noopener noreferrer" class="p-1 rounded-lg bg-pink-500/20 hover:bg-pink-500/30 text-pink-300 text-xs cursor-pointer" title="Öffnen">↗</a>
+                    <button onclick="SocialHubEngine.deleteInspiration('${safeId}')" class="p-1 rounded-lg hover:bg-rose-500/20 text-gray-500 hover:text-rose-400 text-xs cursor-pointer" title="Löschen">✕</button>
                   </div>
                 </div>
-              `).join('')}
+              `;}).join('')}
             </div>
           </div>
         </div>

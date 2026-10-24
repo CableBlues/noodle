@@ -372,7 +372,7 @@
           <div class="space-y-2">
             <span class="text-[10px] font-bold uppercase tracking-wider text-amber-300">Aktive Hintergrund-Prozesse</span>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              ${bgTasks.map(t => `
+              ${bgTasks.map((t, idx) => `
                 <div class="p-3 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-between gap-3">
                   <div class="flex items-center gap-2.5">
                     <span class="text-xl">${t.icon}</span>
@@ -381,7 +381,7 @@
                       <div class="text-[10px] text-gray-400">${escapeHtml(t.sub)}</div>
                     </div>
                   </div>
-                  <button onclick="(${t.action.toString()})(); closeMobileMultitaskingSheet();" class="px-3 py-1.5 rounded-xl bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs shadow-md">Öffnen</button>
+                  <button data-bgtask-idx="${idx}" class="btn-open-bgtask px-3 py-1.5 rounded-xl bg-purple-500 hover:bg-purple-400 text-white font-bold text-xs shadow-md cursor-pointer">Öffnen</button>
                 </div>
               `).join('')}
             </div>
@@ -421,6 +421,16 @@
         </button>
       </div>
     `;
+
+    sheet.querySelectorAll('.btn-open-bgtask').forEach(btn => {
+      btn.onclick = () => {
+        const idx = parseInt(btn.getAttribute('data-bgtask-idx'), 10);
+        if (!isNaN(idx) && bgTasks[idx] && typeof bgTasks[idx].action === 'function') {
+          try { bgTasks[idx].action(); } catch (e) { console.warn('[Multitasking] Action error:', e); }
+        }
+        closeMobileMultitaskingSheet();
+      };
+    });
 
     sheet.classList.remove('hidden');
     if (typeof renderLucideIcons === 'function') renderLucideIcons();

@@ -41,6 +41,8 @@ const CollabEngine = (function() {
   let voiceRecordingSeconds = 0;
   let isRecordingVoiceNote = false;
 
+  let hasRoomMembersTable = true;
+
   // Farbschema für zufällige Avatar-Farben
   const AVATAR_COLORS = [
     { bg: 'from-purple-600 to-indigo-600', text: '#c084fc', border: 'border-purple-400/50' },
@@ -270,13 +272,17 @@ const CollabEngine = (function() {
             }
 
             // Beim Raum-Erstellen/Beitreten (activeRoom) Eintrag in public.room_members (room_id, user_id) per upsert schreiben
-            if (isPrivate && supa && typeof supa.from === 'function') {
+            if (isPrivate && hasRoomMembersTable && supa && typeof supa.from === 'function') {
               try {
                 const { error } = await supa.from('room_members').upsert(
                   { room_id: activeRoom, user_id: user.id },
                   { onConflict: 'room_id,user_id' }
                 );
                 if (error) {
+                  // Wenn Tabelle im Schema Cache nicht existiert (404/PGRST205/PGRST204), zukünftige Anfragen unterdrücken
+                  if (error.code === 'PGRST205' || error.code === '42P01' || (typeof error.message === 'string' && error.message.includes('schema cache'))) {
+                    hasRoomMembersTable = false;
+                  }
                   console.warn('[CollabEngine] Fehler beim Beitritt in room_members, wechsle auf nicht-privaten Channel:', error.message || error);
                   return subscribeToRoom(false);
                 }
@@ -759,7 +765,7 @@ const CollabEngine = (function() {
           </div>
         </div>
         <div class="flex items-center gap-1.5 shrink-0">
-          <button onclick="CollabEngine.syncSharedDjTrack(${JSON.stringify(track).replace(/"/g, '&quot;')})" class="px-2.5 py-1 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-[10px] shadow-sm transition active:scale-95 cursor-pointer flex items-center gap-1">
+          <button id="collab-sync-shared-dj-btn" class="px-2.5 py-1 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-black font-extrabold text-[10px] shadow-sm transition active:scale-95 cursor-pointer flex items-center gap-1">
             <span>▶️ Mithören</span>
           </button>
           <button onclick="CollabEngine.openDjWorkstationFromChat()" class="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition cursor-pointer" title="DJ-Pult öffnen">
@@ -768,6 +774,14 @@ const CollabEngine = (function() {
         </div>
       </div>
     `;
+
+    const syncBtn = banner.querySelector('#collab-sync-shared-dj-btn');
+    if (syncBtn) {
+      syncBtn.onclick = () => {
+        CollabEngine.syncSharedDjTrack(track);
+      };
+    }
+
     banner.classList.remove('hidden');
   }
 

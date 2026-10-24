@@ -227,10 +227,13 @@ try {
 
 // 4. Generate dist/index.html (wires single bundled app.bundle.js)
 let indexHtml = fs.readFileSync(path.join(rootDir, 'index.html'), 'utf8');
-const moduleRegex = /(?:<!-- Noodle Studio Script-Loader -->\s*)?<script\s+type="module"\s+src="main\.js"><\/script>(?:\s*<script>[\s\S]*?<\/script>)?/;
+const moduleMarkerRegex = /<!-- NOODLE_SCRIPT_LOADER_START -->[\s\S]*?<!-- NOODLE_SCRIPT_LOADER_END -->/;
+const fallbackScriptRegex = /<script\s+type="module"\s+src="main\.js"><\/script>/;
 const scriptBlockRegex = /<script src="data-tasks-steps-1\.js"><\/script>[\s\S]*?<script src="app-core\.js"><\/script>/;
-if (moduleRegex.test(indexHtml)) {
-  indexHtml = indexHtml.replace(moduleRegex, '  <!-- Noodle Standalone Production Bundle -->\n  <script src="app.bundle.js"></script>');
+if (moduleMarkerRegex.test(indexHtml)) {
+  indexHtml = indexHtml.replace(moduleMarkerRegex, '  <!-- Noodle Standalone Production Bundle -->\n  <script src="app.bundle.js"></script>');
+} else if (fallbackScriptRegex.test(indexHtml)) {
+  indexHtml = indexHtml.replace(fallbackScriptRegex, '  <!-- Noodle Standalone Production Bundle -->\n  <script src="app.bundle.js"></script>');
 } else if (scriptBlockRegex.test(indexHtml)) {
   indexHtml = indexHtml.replace(scriptBlockRegex, '  <!-- Noodle Standalone Production Bundle -->\n  <script src="app.bundle.js"></script>');
 }

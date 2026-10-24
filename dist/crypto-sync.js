@@ -12,8 +12,22 @@
 const NoodleCrypto = {
   VERSION: 1,
   ITERATIONS: 600000,
+  MIN_ITERATIONS: 10000,
+  MAX_ITERATIONS: 2000000,
   ALGO: 'AES-GCM',
   HASH: 'SHA-256',
+
+  // Validiert und begrenzt die PBKDF2-Iterationszahl zur Vermeidung von DoS durch exorbitante Werte
+  clampIterations(rawIterations) {
+    const num = Number(rawIterations);
+    if (!Number.isFinite(num) || num <= 0) {
+      return this.ITERATIONS;
+    }
+    const intVal = Math.floor(num);
+    if (intVal < this.MIN_ITERATIONS) return this.MIN_ITERATIONS;
+    if (intVal > this.MAX_ITERATIONS) return this.MAX_ITERATIONS;
+    return intVal;
+  },
 
   // Prüft, ob WebCrypto verfügbar ist
   isSupported() {
@@ -63,6 +77,8 @@ const NoodleCrypto = {
       throw new Error('Passphrase darf nicht leer sein.');
     }
 
+    const safeIterations = this.clampIterations(iterations);
+
     const encoder = new TextEncoder();
     const keyMaterial = await crypto.subtle.importKey(
       'raw',
@@ -76,7 +92,7 @@ const NoodleCrypto = {
       {
         name: 'PBKDF2',
         salt: saltBytes,
-        iterations: iterations,
+        iterations: safeIterations,
         hash: this.HASH
       },
       keyMaterial,
@@ -135,9 +151,10 @@ const NoodleCrypto = {
     const salt = this.base64ToBuffer(encryptedEnvelope.salt);
     const iv = this.base64ToBuffer(encryptedEnvelope.iv);
     const cipherBytes = this.base64ToBuffer(encryptedEnvelope.cipher);
-    const iterations = (typeof encryptedEnvelope.iterations === 'number' && encryptedEnvelope.iterations > 0)
+    const rawIterations = (typeof encryptedEnvelope.iterations === 'number' && encryptedEnvelope.iterations > 0)
       ? encryptedEnvelope.iterations
       : 100000;
+    const iterations = this.clampIterations(rawIterations);
 
     const key = await this.deriveKey(passphrase, salt, iterations);
 

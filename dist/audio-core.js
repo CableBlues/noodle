@@ -398,7 +398,13 @@ var playlistTracks = [...DEFAULT_PRELOADED_TRACKS];
 var currentTrackIndex = 0;
 var isPlayerShuffleEnabled = true; // standardmäßig aktiv (zufällige Wiedergabe)
 var playerRepeatMode = 'all'; // 'off' | 'all' | 'one'
-var isPlayerMuted = false;
+var isPlayerMuted = (function() {
+  try {
+    const saved = localStorage.getItem('noodle_sound_muted');
+    if (saved !== null) return saved === 'true';
+  } catch (e) {}
+  return false;
+})();
 var volumeBeforeMute = 0.5;
 var draggedTrackIndex = null;
 var masterGainNode = null;
@@ -1645,6 +1651,7 @@ function toggleMasterSound() {
     }
     stopAllStudioAudio();
     isPlayerMuted = true;
+    try { localStorage.setItem('noodle_sound_muted', 'true'); } catch (e) {}
     if (typeof applyDjVolumes === 'function') applyDjVolumes();
     if (soundGainNode && audioCtx) {
       try {
@@ -1659,6 +1666,7 @@ function toggleMasterSound() {
   } else {
     // Ton reaktivieren
     isPlayerMuted = false;
+    try { localStorage.setItem('noodle_sound_muted', 'false'); } catch (e) {}
     if (typeof applyDjVolumes === 'function') applyDjVolumes();
     if (soundGainNode && audioCtx) {
       try {

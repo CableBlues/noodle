@@ -11,6 +11,13 @@
 // 1. LOKALES WETTER (WEATHER ENGINE)
 // ============================================================================
 
+var tr = (typeof tr === 'function' ? tr : function(obj) {
+  if (typeof window !== 'undefined' && typeof window.tr === 'function') return window.tr(obj);
+  if (typeof globalThis !== 'undefined' && typeof globalThis.tr === 'function') return globalThis.tr(obj);
+  const lang = (typeof currentLang !== 'undefined' ? currentLang : (typeof window !== 'undefined' && window.currentLang ? window.currentLang : 'de'));
+  return (obj && obj[lang]) || (obj && obj['de']) || (obj && obj['en']) || '';
+});
+
 const LANGUAGE_CAPITALS = {
   de: { name: 'Berlin', country: 'Deutschland', lat: 52.52, lon: 13.41, defaultTemp: 20, defaultCode: 1, flag: '🇩🇪' },
   en: { name: 'London', country: 'Großbritannien', lat: 51.5074, lon: -0.1278, defaultTemp: 18, defaultCode: 2, flag: '🇬🇧' },
@@ -449,9 +456,9 @@ function renderPinnedCitiesUI() {
     const iconUrl = getWeatherIconUrl(code, isDay);
 
     return `
-      <div onclick="selectWeatherCity('${city.name.replace(/'/g, "\\'")}', '${(city.country || '').replace(/'/g, "\\'")}', ${city.lat}, ${city.lon})" class="group/pin flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs transition cursor-pointer select-none ${isSelected ? 'bg-sky-500/25 border border-sky-400/80 text-sky-200 font-bold shadow-sm shadow-sky-500/20' : 'bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white'}">
-        <span class="text-xs shrink-0 flex items-center gap-1">${flag ? `<span class="text-[11px]">${flag}</span>` : ''}<img src="${iconUrl}" class="w-3.5 h-3.5 object-contain shrink-0" alt="Weather" loading="lazy" /></span>
-        <span class="truncate font-semibold max-w-[90px]">${city.name}</span>
+      <div onclick="selectPinnedCityByIndex(${idx})" class="group/pin flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs transition cursor-pointer select-none ${isSelected ? 'bg-sky-500/25 border border-sky-400/80 text-sky-200 font-bold shadow-sm shadow-sky-500/20' : 'bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white'}">
+        <span class="text-xs shrink-0 flex items-center gap-1">${flag ? `<span class="text-[11px]">${flag}</span>` : ''}<img src="${iconUrl}" width="14" height="14" decoding="async" class="w-3.5 h-3.5 object-contain shrink-0" alt="Weather" /></span>
+        <span class="truncate font-semibold max-w-[90px]">${typeof escapeHtml === 'function' ? escapeHtml(city.name) : city.name}</span>
         <span class="font-mono text-[11px] font-bold ${isSelected ? 'text-sky-300' : 'text-gray-400 group-hover/pin:text-gray-200'}">${tempStr}</span>
         ${!isCapital && pinnedWeatherCities.length > 1 ? `
           <button onclick="event.stopPropagation(); removePinnedCity(${idx})" class="text-gray-500 hover:text-rose-400 text-[10px] ml-0.5 opacity-60 hover:opacity-100 p-0.5 cursor-pointer" title="${tr({ de: 'Ort entfernen', en: 'Remove city', fr: 'Supprimer la ville', it: 'Rimuovi città', es: 'Eliminar ciudad', el: 'Αφαίρεση πόλης' })}">✕</button>
@@ -572,6 +579,7 @@ function updateDateWeatherWidget(data) {
   badgeEl.classList.add('flex');
 }
 window.updateDateWeatherWidget = updateDateWeatherWidget;
+  window.generateFallbackWeatherData = generateFallbackWeatherData;
 
 
 
@@ -621,7 +629,7 @@ function renderWeatherData(data) {
       hourlyPills += `
         <div class="flex flex-col items-center gap-1 p-2 bg-white/5 rounded-xl min-w-[54px] border border-white/5 shrink-0">
           <span class="text-[9px] text-gray-400 font-mono">${timeStr}</span>
-          <img src="${hIconUrl}" class="w-5 h-5 object-contain my-0.5" alt="Forecast" loading="lazy" />
+          <img src="${hIconUrl}" width="20" height="20" decoding="async" class="w-5 h-5 object-contain my-0.5" alt="Forecast" />
           <span class="text-[10px] font-bold text-white">${Math.round(hTemp)}°</span>
         </div>
       `;
@@ -652,7 +660,7 @@ function renderWeatherData(data) {
         <div class="flex items-center justify-between p-2 bg-black/30 rounded-xl border border-white/5 text-xs">
           <span class="font-bold text-gray-300 w-8 font-mono">${dName}</span>
           <div class="flex items-center gap-2 text-gray-200">
-            <img src="${dIconUrl}" class="w-4 h-4 object-contain shrink-0" alt="Day forecast" loading="lazy" />
+            <img src="${dIconUrl}" width="16" height="16" decoding="async" class="w-4 h-4 object-contain shrink-0" alt="Day forecast" />
             <span class="text-[10px] text-gray-400 truncate max-w-[90px]">${dInfo.text}</span>
           </div>
           <div class="font-mono text-[10px] space-x-1">
@@ -675,11 +683,11 @@ function renderWeatherData(data) {
           <div class="flex items-center gap-1.5 text-white font-bold text-sm">
             ${flag ? `<span class="text-sm shrink-0">${flag}</span>` : ''}
             <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sky-400"></i>
-            <span>${currentWeatherLocation.name}</span>
-            <span class="text-[10px] text-gray-400 font-normal">(${currentWeatherLocation.country || ''})</span>
+            <span>${typeof escapeHtml === 'function' ? escapeHtml(currentWeatherLocation.name) : (currentWeatherLocation.name || '')}</span>
+            <span class="text-[10px] text-gray-400 font-normal">(${typeof escapeHtml === 'function' ? escapeHtml(currentWeatherLocation.country || '') : (currentWeatherLocation.country || '')})</span>
           </div>
           <div class="text-[11px] text-sky-300 font-medium mt-1 flex items-center gap-2">
-            <img src="${mainIconUrl}" class="w-7 h-7 object-contain drop-shadow-sm shrink-0" alt="${info.text}" />
+            <img src="${mainIconUrl}" width="28" height="28" decoding="async" class="w-7 h-7 object-contain drop-shadow-sm shrink-0" alt="${info.text}" />
             <span>${info.text}</span>
           </div>
         </div>
@@ -836,6 +844,7 @@ const PRESET_CITY_COORDINATES = {
 };
 
 async function searchWeatherCity(query) {
+  if (typeof document === "undefined") return;
   if (!query || query.trim().length < 2) {
     const resultsContainer = document.getElementById('weather-search-results');
     if (resultsContainer) resultsContainer.classList.add('hidden');
@@ -997,6 +1006,15 @@ function localizeWeatherForLanguage(lang) {
   renderPinnedCitiesUI();
   fetchPinnedCitiesWeather();
 }
+
+function selectPinnedCityByIndex(index) {
+  if (index >= 0 && index < pinnedWeatherCities.length) {
+    const city = pinnedWeatherCities[index];
+    selectWeatherCity(city.name, city.country || '', city.lat, city.lon);
+  }
+}
+window.selectPinnedCityByIndex = selectPinnedCityByIndex;
+if (typeof globalThis !== 'undefined') globalThis.selectPinnedCityByIndex = selectPinnedCityByIndex;
 
 function selectWeatherCity(name, country, lat, lon, isUserExplicit = true) {
   currentWeatherLocation = { name, country: country || '', lat: Number(lat) || 52.52, lon: Number(lon) || 13.41 };
@@ -1267,5 +1285,6 @@ if (typeof globalThis !== 'undefined') {
   globalThis.selectWeatherCity = selectWeatherCity;
   globalThis.localizeWeatherForLanguage = localizeWeatherForLanguage;
   globalThis.updateDateWeatherWidget = updateDateWeatherWidget;
+  globalThis.generateFallbackWeatherData = generateFallbackWeatherData;
 }
 

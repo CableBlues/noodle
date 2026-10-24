@@ -377,23 +377,16 @@ function openCommandPalette() {
     modal.innerHTML = `
       <div id="command-palette-card" class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#111116]/98 border border-purple-500/30 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative flex flex-col overflow-hidden text-left" onclick="event.stopPropagation()">
         
-        <!-- Input Header -->
-        <div class="flex items-center gap-3 p-4 border-b border-white/10">
-          <i data-lucide="search" class="w-5 h-5 text-purple-400 shrink-0"></i>
-          <input type="text" id="command-palette-input" placeholder="Befehl oder Aufgabe suchen (z.B. Timer, Theme, Notiz)..." class="w-full bg-transparent text-sm text-white placeholder:text-gray-500 outline-none font-semibold" autocomplete="off" />
-          <kbd class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-mono text-gray-400 bg-white/5 border border-white/10 rounded-lg">ESC</kbd>
+                <!-- Kompakte, minimalistische Einzeilen-Suche mit Schließen-Button (X) -->
+        <div class="flex items-center gap-2 px-3 py-2.5 bg-[#12121c] border-b border-white/10">
+          <i data-lucide="search" class="w-4 h-4 text-cyan-400 shrink-0 ml-1"></i>
+          <input type="text" id="command-palette-input" placeholder="Suchen oder Befehl ausführen... (Strg+K)" class="flex-1 bg-transparent text-xs text-white placeholder:text-gray-500 outline-none font-medium" autocomplete="off" />
+          <button type="button" onclick="closeCommandPalette()" class="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/15 text-gray-400 hover:text-white flex items-center justify-center text-xs font-bold transition cursor-pointer shrink-0" title="Schließen (ESC)" aria-label="Schließen">✕</button>
         </div>
 
         <!-- Results List -->
         <div id="command-palette-results" class="max-h-[360px] overflow-y-auto p-2 space-y-1 custom-scrollbar">
         </div>
-
-        <!-- Footer -->
-        <div class="flex items-center justify-between p-2.5 px-4 bg-white/[0.02] border-t border-white/5 text-[11px] text-gray-400 font-mono">
-          <div class="flex items-center gap-2">
-            <span>↑↓ Navigieren</span>
-            <span>↵ Ausführen</span>
-          </div>
           <span class="text-purple-300/80 font-bold">Noodle Palette</span>
         </div>
       </div>

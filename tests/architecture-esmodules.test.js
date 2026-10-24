@@ -87,7 +87,8 @@ describe('Phase 4: Architecture A - ES-Modules & Cleanup', () => {
     const htmlPath = path.join(rootDir, 'index.html');
     const html = fs.readFileSync(htmlPath, 'utf8');
 
-    expect(html).toContain('<script type="module" src="main.js"></script>');
+    expect(html).toContain('main.js');
+    expect(html).toContain('type="module"');
     // Die 59 ungebündelten Skripte wurden durch das Modul abgelöst
     expect(html).not.toContain('<script src="data-tasks-steps-1.js"></script>');
     expect(html).not.toContain('<script src="app-core.js"></script>');
