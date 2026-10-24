@@ -17,6 +17,10 @@
 (function() {
   'use strict';
 
+  const escapeFn = (str) => ((typeof window !== 'undefined' && window.escapeHtml) || (typeof globalThis !== 'undefined' && globalThis.escapeHtml) || (typeof escapeHtml === 'function' ? escapeHtml : (s) => String(s || '')))(str);
+  const escapeAttrFn = (str) => ((typeof window !== 'undefined' && window.escapeAttr) || (typeof globalThis !== 'undefined' && globalThis.escapeAttr) || (typeof escapeAttr === 'function' ? escapeAttr : (s) => String(s || '')))(str);
+  const sanitizeUrlFn = (url, fallback) => ((typeof window !== 'undefined' && window.sanitizeUrl) || (typeof globalThis !== 'undefined' && globalThis.sanitizeUrl) || (typeof sanitizeUrl === 'function' ? sanitizeUrl : (u, f) => (u || f || '#')))(url, fallback);
+
   // ============================================================================
   // 1. SENDERVERZEICHNIS, SPRACHEN, REGIONEN, FEED-MODI & MEDIENQUELLEN
   // ============================================================================
@@ -2634,8 +2638,9 @@
       return;
     }
 
-    // 2. Live-Feed über RSS versuchen (inkl. aktuell gewähltem Medium)
-    if (typeof navigator !== 'undefined' && navigator.onLine && LOCAL_MEDIA_OUTLETS[reg]) {
+    // 2. Live-Feed über RSS versuchen (nur unter http/https; file:// blockiert Browser-CORS mit Origin 'null')
+    const isFileOrigin = typeof window !== 'undefined' && window.location && window.location.protocol === 'file:';
+    if (!isFileOrigin && typeof navigator !== 'undefined' && navigator.onLine && LOCAL_MEDIA_OUTLETS[reg]) {
       const outlets = LOCAL_MEDIA_OUTLETS[reg].filter(o => o.rss);
       if (outlets.length > 0) {
         isLiveFetching = true;
@@ -3334,23 +3339,31 @@
         ? `<span class="px-1.5 py-0.5 rounded text-[8px] font-mono bg-purple-500/20 text-purple-300 border border-purple-400/30" title="Automatisch übersetzt">${(item.originLang || '').toUpperCase()} → ${currentNewsLang.toUpperCase()}</span>`
         : '';
 
+      const safeTitle = typeof escapeHtml === 'function' ? escapeHtml(item.title) : String(item.title || '');
+      const safeSummary = typeof escapeHtml === 'function' ? escapeHtml(item.summary) : String(item.summary || '');
+      const safeSource = typeof escapeHtml === 'function' ? escapeHtml(item.source) : String(item.source || '');
+      const safeTime = typeof escapeHtml === 'function' ? escapeHtml(item.time || 'vorhin') : 'vorhin';
+      const safeCategory = typeof escapeHtml === 'function' ? escapeHtml(item.category || 'news') : 'news';
+      const safeUrl = typeof sanitizeUrl === 'function' ? sanitizeUrl(item.url) : String(item.url || '#');
+      const safeUrlAttr = typeof escapeAttr === 'function' ? escapeAttr(safeUrl) : safeUrl;
+
       return `
         <div id="news-card-${idx}" class="news-item-card p-3 rounded-2xl bg-[#12131e]/90 hover:bg-[#181928] border border-white/[0.08] hover:border-white/20 transition-all flex flex-col justify-between gap-2 text-left relative group">
           
           <!-- Card Header: Source Badge + Scope + Time + Controls -->
           <div class="flex items-center justify-between gap-1.5">
             <div class="flex items-center gap-1.5 min-w-0 flex-wrap">
-              <span class="px-2 py-0.5 rounded-md bg-white/[0.06] text-purple-200 border border-white/10 text-[9px] font-semibold font-mono tracking-wide truncate">${item.source}</span>
+              <span class="px-2 py-0.5 rounded-md bg-white/[0.06] text-purple-200 border border-white/10 text-[9px] font-semibold font-mono tracking-wide truncate">${safeSource}</span>
               ${scopeBadge}
               ${transBadge}
-              <span class="text-[9px] text-gray-500 font-mono shrink-0">${item.time || 'vorhin'}</span>
+              <span class="text-[9px] text-gray-500 font-mono shrink-0">${safeTime}</span>
             </div>
             <div class="flex items-center gap-1 shrink-0">
               <button onclick="RadioNewsEngine.startNewsReader(${idx})" class="p-1 rounded-lg bg-white/[0.04] hover:bg-purple-500/20 text-gray-400 hover:text-purple-300 transition cursor-pointer" title="Diesen Artikel vorlesen">
                 <i data-lucide="volume-2" class="w-3.5 h-3.5 news-speaker-icon"></i>
               </button>
-              ${item.url && item.url !== '#' ? `
-                <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="p-1 rounded-lg bg-white/[0.04] hover:bg-white/15 text-gray-400 hover:text-white transition" title="Originalquelle öffnen">
+              ${safeUrl !== '#' ? `
+                <a href="${safeUrlAttr}" target="_blank" rel="noopener noreferrer" class="p-1 rounded-lg bg-white/[0.04] hover:bg-white/15 text-gray-400 hover:text-white transition" title="Originalquelle öffnen">
                   <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
                 </a>
               ` : ''}
@@ -3359,13 +3372,13 @@
 
           <!-- Headline & Summary -->
           <div class="space-y-1">
-            <h4 class="text-xs font-bold text-white group-hover:text-purple-200 transition-colors leading-snug">${item.title}</h4>
-            <p class="text-[11px] text-gray-300 group-hover:text-white leading-relaxed font-normal">${item.summary}</p>
+            <h4 class="text-xs font-bold text-white group-hover:text-purple-200 transition-colors leading-snug">${safeTitle}</h4>
+            <p class="text-[11px] text-gray-300 group-hover:text-white leading-relaxed font-normal">${safeSummary}</p>
           </div>
 
           <!-- Bottom Tag -->
           <div class="flex items-center justify-between pt-1 border-t border-white/[0.04] text-[9px] text-gray-500">
-            <span class="capitalize">${item.category ? '#' + item.category : '#news'}</span>
+            <span class="capitalize">#${safeCategory}</span>
             <button onclick="RadioNewsEngine.startNewsReader(${idx})" class="text-purple-300/80 hover:text-purple-200 hover:underline cursor-pointer flex items-center gap-0.5 text-[9px]">
               <span>Anhören</span>
               <i data-lucide="chevron-right" class="w-2.5 h-2.5"></i>
@@ -3387,13 +3400,16 @@
       return;
     }
 
-    tickerContainer.innerHTML = items.slice(0, 10).map((it, idx) => `
+    tickerContainer.innerHTML = items.slice(0, 10).map((it, idx) => {
+      const safeTitle = typeof escapeHtml === 'function' ? escapeHtml(it.title) : String(it.title || '');
+      const safeSource = typeof escapeHtml === 'function' ? escapeHtml(it.source) : String(it.source || '');
+      return `
       <span class="inline-flex items-center gap-1.5 mx-3.5 text-xs text-gray-300 hover:text-white transition cursor-pointer" onclick="RadioNewsEngine.startNewsReader(${idx})">
         <span class="w-1.5 h-1.5 rounded-full bg-purple-400 shrink-0"></span>
-        <span class="font-medium text-gray-200 hover:underline">${it.title}</span>
-        <span class="text-[9px] text-gray-500 font-mono">(${it.source})</span>
+        <span class="font-medium text-gray-200 hover:underline">${safeTitle}</span>
+        <span class="text-[9px] text-gray-500 font-mono">(${safeSource})</span>
       </span>
-    `).join('');
+    `;}).join('');
   }
 
   function renderSubheaderTicker(items) {
@@ -3429,14 +3445,18 @@
     const currentItem = items[currentTickerIndex];
     const color = NEWS_VIBRANT_PALETTE[currentTickerIndex % NEWS_VIBRANT_PALETTE.length];
     const fullTitle = currentItem.title || '';
+    const safeTitle = escapeFn(fullTitle);
+    const safeSource = escapeFn(currentItem.source || '');
+    const safeTitleAttr = escapeAttrFn(fullTitle);
+    const safeSourceAttr = escapeAttrFn(currentItem.source || '');
 
     container.innerHTML = `
       <div id="ticker-headline-wrapper" class="inline-flex items-center gap-1.5 w-full max-w-full min-w-0 overflow-hidden cursor-pointer ${withAnimation ? 'animate-headline-swap' : ''}"
            onclick="RadioNewsEngine.handleNewsClick(${currentTickerIndex})"
-           title="${fullTitle} (${currentItem.source || ''})">
+           title="${safeTitleAttr} (${safeSourceAttr})">
         <span id="ticker-headline-text" class="news-ticker-text-headline font-bold tracking-wide font-display text-[11px] sm:text-[12px] whitespace-nowrap hover:underline py-0.5 inline-block" 
               style="color: ${color.hex}; text-shadow: 0 0 8px ${color.glow};">
-          ${fullTitle}
+          ${safeTitle}
         </span>
       </div>
     `;
@@ -3524,6 +3544,11 @@
     const color = NEWS_VIBRANT_PALETTE[idx % NEWS_VIBRANT_PALETTE.length];
     const fullTitle = currentItem.title || '';
     const fullSummary = currentItem.summary || '';
+    const safeTitle = escapeFn(fullTitle);
+    const safeSummary = escapeFn(fullSummary);
+    const safeSource = escapeFn(currentItem.source || 'Live');
+    const safeUrl = sanitizeUrlFn(currentItem.url);
+    const safeUrlAttr = escapeAttrFn(safeUrl);
     const regObj = REGIONS.find(r => r.id === currentRegion);
     const regionLabel = regObj ? `${regObj.flag} ${regObj.name}` : '📍 Lokal';
 
@@ -3541,7 +3566,7 @@
       <div class="flex items-center justify-between gap-2">
         <div class="flex items-center gap-1.5 min-w-0">
           <span class="px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold shrink-0 shadow-xs truncate" style="color: ${color.hex}; border: 1px solid ${color.border}; background-color: ${color.bg};">
-            ${currentItem.source || 'Live'}
+            ${safeSource}
           </span>
           <span class="text-[9.5px] font-mono text-gray-300 truncate">${regionLabel}</span>
         </div>
@@ -3554,11 +3579,11 @@
           </button>
         </div>
       </div>
-      <div class="text-xs font-bold text-white leading-snug">${fullTitle}</div>
-      ${fullSummary ? `<div class="text-[11px] text-gray-300 leading-relaxed max-h-[90px] overflow-y-auto pr-1 custom-scrollbar">${fullSummary}</div>` : ''}
+      <div class="text-xs font-bold text-white leading-snug">${safeTitle}</div>
+      ${safeSummary ? `<div class="text-[11px] text-gray-300 leading-relaxed max-h-[90px] overflow-y-auto pr-1 custom-scrollbar">${safeSummary}</div>` : ''}
       <div class="flex items-center justify-between pt-1.5 border-t border-white/5">
-        ${currentItem.url && currentItem.url !== '#' ? `
-          <a href="${currentItem.url}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1.5 transition border border-white/15" title="Vollständigen Artikel öffnen">
+        ${safeUrl !== '#' ? `
+          <a href="${safeUrlAttr}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white text-[11px] font-bold flex items-center gap-1.5 transition border border-white/15" title="Vollständigen Artikel öffnen">
             <span>Artikel öffnen</span>
             <i data-lucide="external-link" class="w-3 h-3"></i>
           </a>
@@ -3577,13 +3602,19 @@
     if (!hoverPill || !it) return;
 
     const color = NEWS_VIBRANT_PALETTE[idx % NEWS_VIBRANT_PALETTE.length];
+    const safeSource = escapeFn(it.source || 'Live');
+    const safeSourceAttr = escapeAttrFn(it.source || '');
+    const safeTime = escapeFn(it.time || 'Jetzt');
+    const safeUrl = sanitizeUrlFn(it.url);
+    const safeUrlAttr = escapeAttrFn(safeUrl);
+
     hoverPill.innerHTML = `
       <span class="px-2 py-0.5 rounded-lg text-[10px] sm:text-[11px] font-mono font-bold shrink-0 shadow-xs" style="color: ${color.hex}; border: 1px solid ${color.border}; background-color: ${color.bg};">
-        ${it.source || 'Live'}
+        ${safeSource}
       </span>
-      <span class="text-[10px] font-mono text-gray-300 shrink-0">${it.time || 'Jetzt'}</span>
-      ${it.url && it.url !== '#' ? `
-        <a href="${it.url}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold flex items-center gap-1 transition cursor-pointer border border-white/15 shadow-xs" title="Artikel auf ${it.source} öffnen">
+      <span class="text-[10px] font-mono text-gray-300 shrink-0">${safeTime}</span>
+      ${safeUrl !== '#' ? `
+        <a href="${safeUrlAttr}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-[10px] font-bold flex items-center gap-1 transition cursor-pointer border border-white/15 shadow-xs" title="Artikel auf ${safeSourceAttr} öffnen">
           <span>Öffnen</span>
           <i data-lucide="external-link" class="w-3 h-3"></i>
         </a>
@@ -3600,7 +3631,12 @@
     if (!items || !items[idx]) return;
     const it = items[idx];
     if (it.url && it.url !== '#') {
-      window.open(it.url, '_blank', 'noopener,noreferrer');
+      const isSafe = typeof isValidHttpUrl === 'function' ? isValidHttpUrl(it.url) : /^https?:\/\//i.test(it.url);
+      if (isSafe) {
+        window.open(it.url, '_blank', 'noopener,noreferrer');
+      } else {
+        RadioNewsEngine.startNewsReader(idx);
+      }
     } else {
       RadioNewsEngine.startNewsReader(idx);
     }
@@ -4753,6 +4789,7 @@
     getCurrentFeedMode: () => feedMixMode,
     getCurrentMedia: () => currentMedia,
     getFilteredNewsItems,
+    FALLBACK_NEWS_DATABASE,
     // Instruction Ticker Engine Coordination (Links nach Karten leeren - frameless)
     setTickerSuppressed,
     showInstructionHeadline,

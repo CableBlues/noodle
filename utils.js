@@ -44,17 +44,82 @@ function escapeAttr(str) {
   return escapeHtml(str);
 }
 
+/**
+ * Validiert, ob ein Hostname oder eine URL zu einer erlaubten Domain gehört.
+ * Verhindert unsichere Substring-Prüfungen wie includes('github.io').
+ * @param {string} urlOrHost - URL oder Hostname
+ * @param {string|string[]} allowedDomains - Erlaubte Domain(s)
+ * @returns {boolean}
+ */
+function isAllowedDomain(urlOrHost, allowedDomains) {
+  if (!urlOrHost || typeof urlOrHost !== 'string') return false;
+  let hostname = urlOrHost.trim().toLowerCase();
+  try {
+    if (hostname.includes('://') || hostname.startsWith('//')) {
+      const parsed = new URL(hostname.startsWith('//') ? 'https:' + hostname : hostname);
+      hostname = parsed.hostname.toLowerCase();
+    } else {
+      hostname = hostname.split('/')[0].split(':')[0].split('?')[0].split('#')[0];
+    }
+  } catch (e) {
+    return false;
+  }
+
+  if (!hostname) return false;
+
+  const list = Array.isArray(allowedDomains) ? allowedDomains : [allowedDomains];
+  return list.some(dom => {
+    if (!dom || typeof dom !== 'string') return false;
+    const cleanDom = dom.trim().toLowerCase().replace(/^\./, '');
+    return hostname === cleanDom || hostname.endsWith('.' + cleanDom);
+  });
+}
+
+/**
+ * Prüft strikt, ob ein Hostname oder eine URL eine legitime GitHub Pages Domain ist.
+ * Weist Angreifer-Domains wie evilgithub.io oder github.io.attacker.com strikt ab.
+ * @param {string} urlOrHost
+ * @returns {boolean}
+ */
+function isGithubPagesDomain(urlOrHost) {
+  return isAllowedDomain(urlOrHost, 'github.io');
+}
+
+/**
+ * Validiert, ob eine URL ein syntaktisch gültiges HTTP- oder HTTPS-Schema besitzt.
+ * Verhindert bösartige Schemata wie javascript:, data:, vbscript: etc.
+ * @param {string} url
+ * @returns {boolean}
+ */
+function isValidHttpUrl(url) {
+  if (!url || typeof url !== 'string') return false;
+  const trimmed = url.trim();
+  if (/[\x00-\x1f\x7f]/.test(trimmed)) return false;
+  try {
+    const parsed = new URL(trimmed);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch (e) {
+    return false;
+  }
+}
+
 if (typeof window !== 'undefined') {
   window.escapeHtml = escapeHtml;
   window.escapeAttr = escapeAttr;
   window.sanitizeUrl = sanitizeUrl;
   window.sanitizeIdentifier = sanitizeIdentifier;
+  window.isAllowedDomain = isAllowedDomain;
+  window.isGithubPagesDomain = isGithubPagesDomain;
+  window.isValidHttpUrl = isValidHttpUrl;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.escapeHtml = escapeHtml;
   globalThis.escapeAttr = escapeAttr;
   globalThis.sanitizeUrl = sanitizeUrl;
   globalThis.sanitizeIdentifier = sanitizeIdentifier;
+  globalThis.isAllowedDomain = isAllowedDomain;
+  globalThis.isGithubPagesDomain = isGithubPagesDomain;
+  globalThis.isValidHttpUrl = isValidHttpUrl;
 }
 
 // Zentraler Panel-Manager (für Dropdowns & Werkzeug-Panels)
@@ -101,7 +166,43 @@ window.togglePanel = togglePanel;
 
 // Zentraler Modal-Manager (für Dialoge & Overlays)
 const ModalManager = {
-  modals: ['brainstorm-modal', 'helper-whatnow-modal', 'helper-sport-modal', 'clarity-modal', 'feierabend-modal', 'mobile-menu-drawer', 'mobile-tools-sheet', 'app-confirm-modal'],
+  modals: [
+    'modal-settings',
+    'modal-learning-hub',
+    'modal-report-dashboard',
+    'modal-command-palette',
+    'modal-keyboard-shortcuts',
+    'modal-regulation',
+    'modal-undo-history',
+    'modal-template-builder',
+    'modal-app-install',
+    'modal-p2p-sync',
+    'modal-postpone-termin',
+    'supermarket-modal',
+    'sample-manager-modal',
+    'brainstorm-modal',
+    'clarity-modal',
+    'helper-whatnow-modal',
+    'helper-sport-modal',
+    'helper-break-modal',
+    'helper-steps-modal',
+    'helper-cleaning-modal',
+    'helper-safespace-modal',
+    'note-detail-modal',
+    'text-import-modal',
+    'report-export-modal',
+    'privacy-legal-modal',
+    'feierabend-celebration-modal',
+    'feierabend-modal',
+    'mobile-menu-drawer',
+    'mobile-tools-sheet',
+    'app-confirm-modal'
+  ],
+  register(id) {
+    if (id && !this.modals.includes(id)) {
+      this.modals.push(id);
+    }
+  },
   open(id) {
     const el = document.getElementById(id);
     if (el) el.classList.remove('hidden');
@@ -109,6 +210,10 @@ const ModalManager = {
   close(id) {
     const el = document.getElementById(id);
     if (el) el.classList.add('hidden');
+  },
+  isOpen(id) {
+    const el = document.getElementById(id);
+    return el ? !el.classList.contains('hidden') : false;
   },
   closeAll() {
     this.modals.forEach(id => {
@@ -118,6 +223,9 @@ const ModalManager = {
   }
 };
 window.ModalManager = ModalManager;
+if (typeof globalThis !== 'undefined') {
+  globalThis.ModalManager = ModalManager;
+}
 
 // Wiederverwendbarer Bestätigungsdialog (Ersatz für natives confirm())
 function showConfirmDialog(options = {}) {
@@ -958,6 +1066,7 @@ function playProceduralSound(idx = null) {
   try {
     initAudioContext();
     if (!audioCtx) return;
+    if (typeof isPlayerMuted !== 'undefined' && isPlayerMuted) return;
     const now = audioCtx.currentTime;
     const ctx = audioCtx;
 

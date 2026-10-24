@@ -758,12 +758,12 @@ function renderTimerCockpitContent() {
         </button>
 
         <!-- 2. MOTIVATIONSSPRÜCHE (Amber) -->
-        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-2.5 px-3 rounded-xl border text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isMotivation ? 'bg-amber-500/20 border-amber-400/50 text-amber-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-amber-950/20'}">
+        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-2.5 px-3 rounded-xl border text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isMotivation ? 'bg-violet-500/20 border-violet-400/50 text-violet-200 shadow-[0_0_10px_rgba(167,139,250,0.25)]' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-violet-950/20'}">
           <span class="flex items-center gap-1.5 truncate">
             <span class="text-base leading-none">💡</span>
             <span class="truncate">Motivationssprüche</span>
           </span>
-          <span class="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded-md ${isMotivation ? 'bg-amber-500/30 text-amber-200' : 'bg-white/10 text-gray-400'}">${isMotivation ? 'AN' : 'AUS'}</span>
+          <span class="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded-md ${isMotivation ? 'bg-violet-500/30 text-violet-200' : 'bg-white/10 text-gray-400'}">${isMotivation ? 'AN' : 'AUS'}</span>
         </button>
       </div>
 
@@ -795,10 +795,10 @@ function renderTimerCockpitContent() {
     </div>
 
     <!-- 5. FOKUS-ZIEL & STOPPUHR -->
-    <div class="p-2 rounded-2xl bg-amber-950/20 border border-amber-500/30 shadow-inner flex flex-col gap-1.5">
+    <div class="p-2.5 rounded-2xl bg-gradient-to-br from-indigo-950/30 via-[#0e101a] to-cyan-950/20 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.1)] flex flex-col gap-1.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-amber-300 font-display flex items-center gap-1.5">
-          <i data-lucide="target" class="w-3.5 h-3.5 text-amber-400"></i>
+        <span class="text-[10.5px] font-bold text-cyan-200 font-display flex items-center gap-1.5">
+          <i data-lucide="target" class="w-3.5 h-3.5 text-cyan-400"></i>
           <span>Fokus-Ziel (Aufgabe)</span>
         </span>
         <div class="flex items-center gap-1">
@@ -806,12 +806,12 @@ function renderTimerCockpitContent() {
             <i data-lucide="watch" class="w-2.5 h-2.5"></i>
             <span>${isChronoRunning ? 'Stoppuhr aktiv' : 'Stoppuhr'}</span>
           </button>
-          ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold">Verknüpft</span>` : ''}
+          ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold shadow-[0_0_8px_rgba(6,182,212,0.3)]">Verknüpft</span>` : ''}
         </div>
       </div>
 
       ${taskTitle ? `
-        <div class="flex items-center justify-between gap-1.5 p-1.5 bg-amber-500/15 border border-amber-500/35 rounded-xl text-[11px] text-amber-100 min-w-0 shadow-inner">
+        <div class="flex items-center justify-between gap-1.5 p-2 bg-cyan-950/30 border border-cyan-500/35 rounded-xl text-[11px] text-cyan-100 min-w-0 shadow-[0_0_10px_rgba(6,182,212,0.15)]">
           <span class="truncate font-medium">${(typeof escapeHtml === 'function') ? escapeHtml(taskTitle) : taskTitle}</span>
           <div class="flex items-center gap-1 shrink-0">
             <button onclick="completeActiveTimerTask(event)" class="px-2 py-0.5 bg-emerald-500/30 hover:bg-emerald-500/50 text-emerald-300 rounded-lg text-[9.5px] font-bold cursor-pointer transition" title="Aufgabe als erledigt markieren">✓ Erledigt</button>
@@ -819,7 +819,7 @@ function renderTimerCockpitContent() {
           </div>
         </div>
       ` : `
-        <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-black/60 border border-white/10 hover:border-amber-400/40 rounded-xl text-[10.5px] text-gray-200 outline-none cursor-pointer truncate transition">
+        <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-black/60 border border-white/10 hover:border-cyan-400/50 focus:border-cyan-400 rounded-xl text-[10.5px] text-gray-200 outline-none cursor-pointer truncate transition">
           <option value="" class="text-gray-500">-- Aufgabe aus Board verknüpfen --</option>
           ${(() => {
             const curItems = (typeof getCurrentWorkspaceItems === 'function')
@@ -854,7 +854,7 @@ function renderTimerCockpitContent() {
               groups[grp].push(t);
             });
             return Object.keys(groups).map(grpName => `
-              <optgroup label="${(typeof escapeHtml === 'function') ? escapeHtml(grpName) : grpName}" class="bg-[#161522] text-amber-300 font-bold">
+              <optgroup label="${(typeof escapeHtml === 'function') ? escapeHtml(grpName) : grpName}" class="bg-[#161522] text-cyan-300 font-bold">
                 ${groups[grpName].map(t => `
                   <option value="${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}" class="bg-[#12111a] text-white font-normal">
                     ${(typeof escapeHtml === 'function') ? escapeHtml(t.title) : t.title}

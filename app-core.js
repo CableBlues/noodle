@@ -797,24 +797,26 @@ function renderHistoryGallery() {
   customShots.forEach(shot => {
     const card = document.createElement('div');
     card.className = 'group relative rounded-2xl overflow-hidden border border-white/10 bg-black/40 hover:border-purple-500/50 transition flex flex-col justify-between';
-    card.innerHTML = `
-      <div class="relative overflow-hidden bg-black/60 cursor-pointer" onclick="window.open('${escapeHtml(shot.data)}', '_blank')">
-        <img src="${escapeHtml(shot.data)}" alt="${escapeHtml(shot.title)}" class="w-full h-32 object-cover transition transform duration-300 group-hover:scale-105" />
-        <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-bold gap-1">
-          <i data-lucide="maximize-2" class="w-4 h-4"></i>
-          <span>Öffnen</span>
-        </div>
-      </div>
-      <div class="p-2.5 flex items-center justify-between text-[11px] bg-[#111116]/90 border-t border-white/5 gap-2">
-        <div class="truncate">
-          <span class="truncate font-semibold text-white block">${escapeHtml(shot.title)}</span>
-          <span class="text-[9px] text-gray-500 font-mono">${escapeHtml(shot.date || '')}</span>
-        </div>
-        <button onclick="deleteHistoryScreenshot('${escapeHtml(shot.id)}')" aria-label="Screenshot löschen" class="p-1 rounded-lg bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-300 transition cursor-pointer shrink-0" title="Screenshot löschen">
-          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-        </button>
-      </div>
-    `;
+    const safeDataUrl = typeof sanitizeUrl === 'function' ? sanitizeUrl(shot.data) : (shot.data || '');
+    const safeTitle = typeof escapeHtml === 'function' ? escapeHtml(shot.title) : String(shot.title || '');
+    const safeDate = typeof escapeHtml === 'function' ? escapeHtml(shot.date || '') : String(shot.date || '');
+    const safeId = typeof escapeAttr === 'function' ? escapeAttr(shot.id) : String(shot.id || '');
+
+    card.innerHTML = `<div class="relative overflow-hidden bg-black/60 cursor-pointer btn-open-shot"><img src="${escapeAttr(safeDataUrl)}" alt="${safeTitle}" class="w-full h-32 object-cover transition transform duration-300 group-hover:scale-105" /><div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-bold gap-1"><i data-lucide="maximize-2" class="w-4 h-4"></i><span>Öffnen</span></div></div><div class="p-2.5 flex items-center justify-between text-[11px] bg-[#111116]/90 border-t border-white/5 gap-2"><div class="truncate"><span class="truncate font-semibold text-white block">${safeTitle}</span><span class="text-[9px] text-gray-500 font-mono">${safeDate}</span></div><button class="btn-delete-shot p-1 rounded-lg bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-300 transition cursor-pointer shrink-0" data-shot-id="${safeId}" aria-label="Screenshot löschen" title="Screenshot löschen"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button></div>`;
+
+    const openTrigger = card.querySelector('.btn-open-shot');
+    if (openTrigger) {
+      openTrigger.addEventListener('click', () => {
+        if (safeDataUrl && safeDataUrl !== '#') window.open(safeDataUrl, '_blank', 'noopener,noreferrer');
+      });
+    }
+    const delBtn = card.querySelector('.btn-delete-shot');
+    if (delBtn) {
+      delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        deleteHistoryScreenshot(shot.id);
+      });
+    }
     grid.appendChild(card);
   });
   renderLucideIcons();
@@ -1074,7 +1076,8 @@ function setThemeSlow(theme) {
 
 function setLanguage(lang, skipRender = false) {
   if (!lang) { lang = 'en'; }
-  if ((!TRANSLATIONS[lang] || Object.keys(TRANSLATIONS[lang]).length < 20) && typeof loadLanguage === 'function') {
+  const transMap = typeof TRANSLATIONS !== 'undefined' ? TRANSLATIONS : ((typeof window !== 'undefined' && window.TRANSLATIONS) ? window.TRANSLATIONS : null);
+  if (transMap && (!transMap[lang] || Object.keys(transMap[lang]).length < 20) && typeof loadLanguage === 'function') {
     loadLanguage(lang).then(() => {
       translateUI();
       if (!skipRender) {
@@ -1128,7 +1131,7 @@ function setLanguage(lang, skipRender = false) {
     window.updateWeatherDisplay();
   }
 
-  if (!skipRender) {
+  if (!skipRender && typeof renderLucideIcons === 'function') {
     renderLucideIcons();
   }
 }
@@ -1271,37 +1274,39 @@ function translateTaskCollection(collection, targetLang) {
 
 function translateUserTasks(fromLang, toLang) {
   if (fromLang === toLang) return;
+  const s = (typeof state !== 'undefined') ? state : ((typeof window !== 'undefined' && window.state) ? window.state : null);
+  if (!s) return;
   if (typeof saveHistory === 'function') saveHistory();
 
   // 1. Translate state.items (Personal workspace)
-  if (state.items) {
-    translateTaskCollection(state.items, toLang);
+  if (s.items) {
+    translateTaskCollection(s.items, toLang);
   }
 
   // 2. Translate state.workItems (Work workspace)
-  if (state.workItems) {
-    translateTaskCollection(state.workItems, toLang);
+  if (s.workItems) {
+    translateTaskCollection(s.workItems, toLang);
   }
 
   // 3. Translate state.studyItems (Study workspace)
-  if (state.studyItems) {
-    translateTaskCollection(state.studyItems, toLang);
+  if (s.studyItems) {
+    translateTaskCollection(s.studyItems, toLang);
   }
 
   // 4. Translate state.completedSteps
-  if (state.completedSteps) {
+  if (s.completedSteps) {
     const nextStepsObj = {};
-    for (let key in state.completedSteps) {
+    for (let key in s.completedSteps) {
       const translatedKey = translateTaskString(key, toLang);
-      nextStepsObj[translatedKey] = state.completedSteps[key];
+      nextStepsObj[translatedKey] = s.completedSteps[key];
     }
-    state.completedSteps = nextStepsObj;
+    s.completedSteps = nextStepsObj;
   }
 
   // 5. Translate completed tasks history
   ['completedTasks', 'workDone', 'studyDone'].forEach(prop => {
-    if (Array.isArray(state[prop])) {
-      state[prop] = state[prop].map(t => {
+    if (Array.isArray(s[prop])) {
+      s[prop] = s[prop].map(t => {
         if (!t) return t;
         if (typeof t === 'string') return translateTaskString(t, toLang);
         if (typeof t === 'object' && t.task) {
@@ -1313,11 +1318,11 @@ function translateUserTasks(fromLang, toLang) {
   });
 
   // 6. Translate active focus / timer task
-  if (state.currentFocusTask) {
-    state.currentFocusTask = translateTaskString(state.currentFocusTask, toLang);
+  if (s.currentFocusTask) {
+    s.currentFocusTask = translateTaskString(s.currentFocusTask, toLang);
   }
-  if (state.activeTimerTask) {
-    state.activeTimerTask = translateTaskString(state.activeTimerTask, toLang);
+  if (s.activeTimerTask) {
+    s.activeTimerTask = translateTaskString(s.activeTimerTask, toLang);
   }
 
   if (typeof saveState === 'function') saveState();
@@ -1972,23 +1977,20 @@ if (typeof window !== 'undefined') {
   window.toggleMobileVoiceInput = toggleMobileVoiceInput;
   window.submitMobileQuickAdd = submitMobileQuickAdd;
   window.toggleExtraThemesAccordion = toggleExtraThemesAccordion;
+  window.renderHistoryGallery = renderHistoryGallery;
+  window.deleteHistoryScreenshot = deleteHistoryScreenshot;
 }
-if (typeof globalThis !== 'undefined') {
-  globalThis.setTheme = setTheme;
-  globalThis.setLanguage = setLanguage;
-  globalThis.toggleMinimalist = toggleMinimalist;
-  globalThis.closeAllPanelsAndModals = closeAllPanelsAndModals;
-  if (typeof getTaskIconDetails !== 'undefined') globalThis.getTaskIconDetails = getTaskIconDetails;
-  if (typeof getTaskIcon !== 'undefined') globalThis.getTaskIcon = getTaskIcon;
-  if (typeof openCommandPalette !== 'undefined') globalThis.openCommandPalette = openCommandPalette;
-  if (typeof closeCommandPalette !== 'undefined') globalThis.closeCommandPalette = closeCommandPalette;
-  if (typeof switchMobileNavTab !== 'undefined') globalThis.switchMobileNavTab = switchMobileNavTab;
-  globalThis.openMobileQuickAddModal = openMobileQuickAddModal;
-  globalThis.closeMobileQuickAddModal = closeMobileQuickAddModal;
-  globalThis.selectMobileQuickAddCategory = selectMobileQuickAddCategory;
-  globalThis.selectMobilePriority = selectMobilePriority;
-  globalThis.toggleMobileVoiceInput = toggleMobileVoiceInput;
-  globalThis.submitMobileQuickAdd = submitMobileQuickAdd;
-  globalThis.toggleExtraThemesAccordion = toggleExtraThemesAccordion;
+if (typeof globalThis !== 'undefined' && typeof window !== 'undefined' && globalThis !== window) {
+  Object.assign(globalThis, {
+    setTheme, setLanguage, toggleMinimalist, closeAllPanelsAndModals,
+    getTaskIconDetails: typeof getTaskIconDetails !== 'undefined' ? getTaskIconDetails : undefined,
+    getTaskIcon: typeof getTaskIcon !== 'undefined' ? getTaskIcon : undefined,
+    openCommandPalette: typeof openCommandPalette !== 'undefined' ? openCommandPalette : undefined,
+    closeCommandPalette: typeof closeCommandPalette !== 'undefined' ? closeCommandPalette : undefined,
+    switchMobileNavTab: typeof switchMobileNavTab !== 'undefined' ? switchMobileNavTab : undefined,
+    openMobileQuickAddModal, closeMobileQuickAddModal, selectMobileQuickAddCategory,
+    selectMobilePriority, toggleMobileVoiceInput, submitMobileQuickAdd,
+    toggleExtraThemesAccordion, renderHistoryGallery, deleteHistoryScreenshot
+  });
 }
 

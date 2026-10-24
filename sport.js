@@ -92,25 +92,35 @@ function renderMovementHistoryUI() {
     return;
   }
 
-  listEl.innerHTML = history.map(item => `
+  const escapeFn = (typeof window !== 'undefined' && window.escapeHtml) || (typeof globalThis !== 'undefined' && globalThis.escapeHtml) || (typeof escapeHtml === 'function' ? escapeHtml : (s) => String(s || ''));
+  const sanitizeIdFn = (typeof window !== 'undefined' && window.sanitizeIdentifier) || (typeof globalThis !== 'undefined' && globalThis.sanitizeIdentifier) || (typeof sanitizeIdentifier === 'function' ? sanitizeIdentifier : (id, p) => String(id || p || 'item'));
+
+  listEl.innerHTML = history.map(item => {
+    const safeTitle = escapeFn(item.title);
+    const safeId = sanitizeIdFn(item.id, 'mov');
+    const safeDate = escapeFn(item.date);
+    const safeTime = escapeFn(item.time);
+    const duration = Number(item.durationMinutes) || 0;
+    const count = Number(item.exerciseCount) || 0;
+    return `
     <div class="p-3 rounded-2xl bg-white/[0.025] hover:bg-white/[0.05] border border-white/10 transition flex items-center justify-between gap-3">
       <div class="flex items-center gap-2.5 min-w-0">
         <div class="w-8 h-8 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0 text-xs">
           🏃
         </div>
         <div class="min-w-0">
-          <h4 class="text-xs font-bold text-white truncate font-display">${item.title}</h4>
-          <p class="text-[10px] text-gray-400 font-mono">${item.date} um ${item.time} · ${item.exerciseCount} Übung(en)</p>
+          <h4 class="text-xs font-bold text-white truncate font-display">${safeTitle}</h4>
+          <p class="text-[10px] text-gray-400 font-mono">${safeDate} um ${safeTime} · ${count} Übung(en)</p>
         </div>
       </div>
       <div class="flex items-center gap-2 shrink-0">
-        <span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">${item.durationMinutes} Min</span>
-        <button onclick="deleteMovementHistoryItem('${item.id}')" class="p-1 rounded-lg text-gray-500 hover:text-rose-400 hover:bg-white/10 transition cursor-pointer" title="Eintrag löschen">
+        <span class="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold border border-emerald-500/30">${duration} Min</span>
+        <button onclick="deleteMovementHistoryItem('${safeId}')" class="p-1 rounded-lg text-gray-500 hover:text-rose-400 hover:bg-white/10 transition cursor-pointer" title="Eintrag löschen">
           <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
         </button>
       </div>
     </div>
-  `).join('');
+  `;}).join('');
 
   if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }

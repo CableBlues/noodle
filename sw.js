@@ -8,7 +8,7 @@
  * verlässlich auch ohne bestehende Internetverbindung.
  */
 
-const CACHE_NAME = 'noodle-cache-v1734895211';
+const CACHE_NAME = 'noodle-cache-v2247703111';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -90,7 +90,15 @@ self.addEventListener('fetch', (event) => {
 
   // 3. Externe dynamische Ressourcen (Radio-Streams, Wetter-APIs, RSS-Feeds, Supabase) nicht abfangen
   if (url.origin !== self.location.origin) {
-    const isStaticCdn = url.hostname.includes('cdn') || url.hostname.includes('unpkg') || url.hostname.includes('fonts');
+    const ALLOWED_STATIC_CDNS = [
+      'cdn.jsdelivr.net',
+      'unpkg.com',
+      'fonts.googleapis.com',
+      'fonts.gstatic.com'
+    ];
+    const isStaticCdn = ALLOWED_STATIC_CDNS.some(function(dom) {
+      return url.hostname === dom || url.hostname.endsWith('.' + dom);
+    });
     if (!isStaticCdn) {
       return;
     }

@@ -989,7 +989,8 @@ function setWorkspace(mode) {
     };
   }
 
-  state.activeWorkspace = mode;
+  if (typeof state !== "undefined" && state) state.activeWorkspace = mode;
+  if (typeof window !== "undefined" && window.state) window.state.activeWorkspace = mode;
   saveState();
   updateWorkspaceSwitchUI();
   if (typeof renderApp === 'function') renderApp();
@@ -1037,6 +1038,48 @@ function toggleWorkspace() {
   setWorkspace(nextMode);
 }
 window.toggleWorkspace = toggleWorkspace;
+
+function getCurrentWorkspaceItems() {
+  const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+  if (!s) return {};
+  if (s.activeWorkspace === 'study') {
+    if (!s.studyItems) s.studyItems = typeof createDefaultStudyItems === 'function' ? createDefaultStudyItems(typeof currentLang !== 'undefined' ? currentLang : 'en') : {};
+    return s.studyItems;
+  }
+  if (s.activeWorkspace === 'work') {
+    if (!s.workItems) s.workItems = typeof createDefaultWorkItems === 'function' ? createDefaultWorkItems(typeof currentLang !== 'undefined' ? currentLang : 'en') : {};
+    return s.workItems;
+  }
+  if (s.activeWorkspace === 'shared' && s.workspaces && s.workspaces.shared && s.workspaces.shared.items) {
+    return s.workspaces.shared.items;
+  }
+  return s.items || {};
+}
+
+function getCurrentWorkspaceDone() {
+  const s = (typeof state !== 'undefined' && state) ? state : (typeof window !== 'undefined' && window.state ? window.state : null);
+  if (!s) return [];
+  if (s.activeWorkspace === 'study') {
+    if (!Array.isArray(s.studyDone)) s.studyDone = [];
+    return s.studyDone;
+  }
+  if (s.activeWorkspace === 'work') {
+    if (!Array.isArray(s.workDone)) s.workDone = [];
+    return s.workDone;
+  }
+  if (s.activeWorkspace === 'shared' && s.workspaces && s.workspaces.shared && Array.isArray(s.workspaces.shared.done)) {
+    return s.workspaces.shared.done;
+  }
+  if (!Array.isArray(s.done)) s.done = [];
+  return s.done;
+}
+
+window.getCurrentWorkspaceItems = getCurrentWorkspaceItems;
+window.getCurrentWorkspaceDone = getCurrentWorkspaceDone;
+if (typeof globalThis !== 'undefined') {
+  globalThis.getCurrentWorkspaceItems = getCurrentWorkspaceItems;
+  globalThis.getCurrentWorkspaceDone = getCurrentWorkspaceDone;
+}
 
 let headerWsDropdownTimer = null;
 
