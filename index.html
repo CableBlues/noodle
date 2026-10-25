@@ -2504,8 +2504,8 @@
     <!-- MOBILE: Horizontale Wisch-Leiste für Kategorie-Pills (nur auf Touch/Mobile sichtbar) -->
     <nav id="mobile-category-tabs" class="mobile-category-tabs flex-1 min-w-0" aria-label="Kategorien"></nav>
 
-    <!-- SIDEBAR / DASHBOARD TOGGLE ARROW (GANZ LINKS IN DER MITTE) -->
-    <div class="fixed left-0 top-1/2 -translate-y-1/2 z-[120] flex items-center">
+    <!-- SIDEBAR / DASHBOARD TOGGLE ARROW (GANZ LINKS IN DER MITTE) - Reversibel deaktiviert zugunsten von #btn-header-tools -->
+    <div class="hidden fixed left-0 top-1/2 -translate-y-1/2 z-[120] flex items-center" aria-hidden="true">
       <button id="btn-dashboard-arrow-toggle" data-action="toggleDashboardOverlay" data-action-args='["$event"]' data-mouseenter="showPanelHover" data-mouseenter-args='["header-tools", 0]' data-mouseleave="hidePanelHover" data-mouseleave-args='["header-tools"]' class="w-7 h-12 sm:w-8 sm:h-14 rounded-r-2xl bg-[#0e0d18]/90 hover:bg-[#1b172c] border-y border-r border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(168,85,247,0.35)] backdrop-blur-md transition-all duration-200 active:scale-95 group/arrow" title="Tools-Menü öffnen" aria-label="Tools-Menü umschalten">
         <i id="dashboard-arrow-icon" data-lucide="chevron-right" class="w-5 h-5 transition-transform duration-300 group-hover/arrow:translate-x-0.5"></i>
       </button>
@@ -3435,7 +3435,7 @@
 
   <!-- MODAL: MOBILE QUICK-ACTION HUB (UNTERES ACTION SHEET / BOTTOM DRAWER) -->
   <div id="modal-mobile-quick-menu" class="hidden fixed inset-0 z-[100000] flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeMobileQuickMenu"]'>
-    <div class="w-full max-w-md bg-[#111116]/98 border-t sm:border border-purple-500/30 p-5 rounded-t-3xl sm:rounded-3xl shadow-2xl backdrop-blur-xl text-white space-y-4 max-h-[85vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal w-full max-w-md p-5 rounded-t-3xl sm:rounded-3xl shadow-2xl backdrop-blur-xl text-white space-y-4 max-h-[85vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Drag Handle for Mobile -->
       <div class="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-1 sm:hidden"></div>
@@ -3450,7 +3450,7 @@
             <p class="text-[10px] text-gray-400" data-i18n="mobile_quick_desc">Essential functions on the go</p>
           </div>
         </div>
-        <button data-action="closeMobileQuickMenu" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer">
+        <button data-action="closeMobileQuickMenu" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -3608,7 +3608,7 @@
   <!-- MODAL: ENTSCHEIDUNGSHILFE ("WAS NUN?" / EXECUTIVE ASSISTANT)           -->
   <!-- ====================================================================== -->
   <div id="helper-pick-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeHelperModal"]'>
-    <div id="helper-pick-card" class="mobile-modal-card animate-spring-modal bg-[#111118] border border-orange-500/35 rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden text-left" data-action="stopPropagation" data-stop-propagation="true">
+    <div id="helper-pick-card" class="theme-surface-modal mobile-modal-card animate-spring-modal rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden text-left" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header im Brainstorming-Stil (Logo + Badge + Action Bar) -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -3626,11 +3626,11 @@
           </div>
         </div>
         <div class="flex items-center gap-1.5">
-          <button id="helper-pick-refresh-header" data-action="pickRandomTask" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-semibold transition cursor-pointer flex items-center gap-1" title="Anderer Vorschlag [W]">
+          <button id="helper-pick-refresh-header" data-action="pickRandomTask" class="btn-secondary p-2 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1" title="Anderer Vorschlag [W]">
             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
             <span class="hidden sm:inline" data-i18n="pick_next_btn">Neuer Vorschlag</span>
           </button>
-          <button data-action="closeHelperModal" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="Schließen" aria-label="Schließen">
+          <button data-action="closeHelperModal" class="btn-ghost p-2 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -3678,7 +3678,7 @@
 
         <!-- Footer Bar: Anderer Vorschlag & Tastatur-Hinweis -->
         <div class="flex items-center justify-between gap-2 pt-1 border-t border-white/5 text-[10px] text-gray-400">
-          <button id="helper-pick-next-btn" data-action="pickRandomTask" class="flex-1 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white font-bold rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 active:scale-95">
+          <button id="helper-pick-next-btn" data-action="pickRandomTask" class="btn-secondary flex-1 py-2 px-3 font-bold rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 active:scale-95">
             <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
             <span data-i18n="pick_next_btn">Anderer Vorschlag</span>
             <kbd class="px-1.5 py-0.2 rounded bg-black/40 border border-white/10 text-[9px] font-mono text-gray-400">[W]</kbd>
@@ -3699,15 +3699,15 @@
         <div class="space-y-2">
           <div>
             <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Option A:</label>
-            <input type="text" id="whatnow-dilemma-a" placeholder="Aufgabe / Option 1 eingeben..." class="w-full bg-black/50 border border-white/10 focus:border-orange-400 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 outline-none transition font-semibold" />
+            <input type="text" id="whatnow-dilemma-a" placeholder="Aufgabe / Option 1 eingeben..." class="theme-surface-input w-full rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 transition font-semibold" />
           </div>
           <div>
             <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Option B:</label>
-            <input type="text" id="whatnow-dilemma-b" placeholder="Aufgabe / Option 2 eingeben..." class="w-full bg-black/50 border border-white/10 focus:border-orange-400 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 outline-none transition font-semibold" />
+            <input type="text" id="whatnow-dilemma-b" placeholder="Aufgabe / Option 2 eingeben..." class="theme-surface-input w-full rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 transition font-semibold" />
           </div>
         </div>
 
-        <button data-action="flipWhatNowDilemma" class="w-full py-2.5 px-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-black font-black text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer active:scale-95">
+        <button data-action="flipWhatNowDilemma" class="btn-primary w-full py-2.5 px-4 font-black text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-2 cursor-pointer active:scale-95">
           <i data-lucide="circle-dot" class="w-4 h-4"></i>
           <span data-i18n="pick_coin_flip">Münze werfen & entscheiden</span>
         </button>
@@ -3720,7 +3720,7 @@
 
   <!-- BEWEGUNG & MODULARE HOME-WORKOUTS MODAL -->
   <div id="helper-sport-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md" data-action="closeIfBackdrop" data-action-args='["$event","closeSportModal"]'>
-    <div id="helper-sport-card" class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#0f1017]/98 border border-emerald-500/35 p-4 sm:p-6 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_35px_rgba(16,185,129,0.15)] backdrop-blur-2xl text-white relative transition-all duration-300 max-h-[92vh] flex flex-col" data-action="stopPropagation" data-stop-propagation="true">
+    <div id="helper-sport-card" class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-xl p-4 sm:p-6 rounded-3xl shadow-[0_25px_65px_-15px_rgba(0,0,0,0.95),0_0_35px_rgba(16,185,129,0.15)] backdrop-blur-2xl relative transition-all duration-300 max-h-[92vh] flex flex-col" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Modal Header -->
       <div class="flex items-center justify-between pb-3 border-b border-white/10 shrink-0">
@@ -3745,7 +3745,7 @@
             <span class="text-gray-600">|</span>
             <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3 text-emerald-400"></i> <strong class="text-emerald-300">0</strong>m</span>
           </div>
-          <button data-action="closeSportModal" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
+          <button data-action="closeSportModal" class="btn-ghost w-7 h-7 rounded-xl text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
         </div>
       </div>
 
@@ -3974,7 +3974,7 @@
 
   <!-- INTERAKTIVES PAUSEN- & ENTSPANNUNGS-MODAL (MIT TIMER & ANLEITUNG) -->
   <div id="helper-break-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md" data-action="closeIfBackdrop" data-action-args='["$event","closeBreakModal"]'>
-    <div id="helper-break-card" class="mobile-modal-card animate-spring-modal w-full max-w-md bg-[#111116]/95 border border-teal-500/40 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
+    <div id="helper-break-card" class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-md p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-4 pb-3 border-b border-white/10">
         <div class="flex items-center gap-2.5">
           <div class="relative flex flex-col items-center justify-center shrink-0">
@@ -3988,7 +3988,7 @@
           <span id="break-modal-title" class="hidden"></span>
           <span id="break-modal-subtitle" class="hidden"></span>
         </div>
-        <button data-action="closeBreakModal" class="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
+        <button data-action="closeBreakModal" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
       </div>
 
       <!-- Modal Body / Timer Section -->
@@ -4014,13 +4014,13 @@
 
         <!-- Timer Control Buttons -->
         <div class="flex items-center gap-2.5 w-full pt-1">
-          <button id="break-toggle-btn" data-action="toggleBreakTimer" class="flex-1 py-2.5 bg-teal-500 hover:bg-teal-400 text-black font-bold text-xs rounded-xl shadow-lg shadow-teal-500/20 transition flex items-center justify-center gap-1.5 cursor-pointer">
+          <button id="break-toggle-btn" data-action="toggleBreakTimer" class="btn-primary flex-1 py-2.5 font-bold text-xs rounded-xl shadow-lg transition flex items-center justify-center gap-1.5 cursor-pointer">
             <i data-lucide="play" class="w-4 h-4"></i> <span id="break-toggle-label">Pause starten</span>
           </button>
-          <button data-action="resetBreakTimer" class="px-3.5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1 cursor-pointer" title="Zurücksetzen">
+          <button data-action="resetBreakTimer" class="btn-secondary px-3.5 py-2.5 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1 cursor-pointer" title="Zurücksetzen">
             <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
           </button>
-          <button data-action="finishBreakEarly" class="px-3.5 py-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1 cursor-pointer" title="Frühzeitig beenden & belohnen">
+          <button data-action="finishBreakEarly" class="btn-secondary px-3.5 py-2.5 text-xs font-bold rounded-xl transition flex items-center justify-center gap-1 cursor-pointer" title="Frühzeitig beenden & belohnen">
             <i data-lucide="check" class="w-3.5 h-3.5"></i> Fertig
           </button>
         </div>
@@ -4030,7 +4030,7 @@
 
   <!-- AUTOMATISCHE SYNCHRONISATION & GERÄTE-KOPPLUNG MODAL -->
   <div id="modal-p2p-sync" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md" data-action="closeIfBackdrop" data-action-args='["$event","closeP2PSyncModal"]'>
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-sm bg-[#111116]/95 border border-emerald-500/40 p-5 rounded-3xl shadow-[0_10px_50px_rgba(16,185,129,0.25)] backdrop-blur-xl text-white relative transition-all duration-300 flex flex-col items-center gap-3 text-center max-h-[90vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-sm p-5 rounded-3xl shadow-[0_10px_50px_rgba(16,185,129,0.25)] backdrop-blur-xl relative transition-all duration-300 flex flex-col items-center gap-3 text-center max-h-[90vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       <!-- Header -->
       <div class="flex items-center justify-between w-full text-left border-b border-white/10 pb-3">
         <div class="flex items-center gap-3">
@@ -4042,7 +4042,7 @@
             <p class="text-[10px] text-teal-400 font-medium" data-i18n="settings_all_devices">Alle Geräte, QR-Direkt-Transfer & Offline-fähig</p>
           </div>
         </div>
-        <button data-action="closeP2PSyncModal" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer" title="Schließen" aria-label="Schließen">
+        <button data-action="closeP2PSyncModal" class="btn-ghost text-gray-400 hover:text-white p-1.5 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -4197,7 +4197,7 @@
   
   <!-- MODAL: DEEP LEARNING & WISSENS-LABOR (STANDALONE) -->
   <div id="modal-learning-hub" class="hidden fixed inset-0 z-[120000] bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeLearningHubModal"]'>
-    <div class="relative w-full max-w-4xl bg-[#101018] border border-amber-500/35 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal relative w-full max-w-4xl rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <div class="flex items-center gap-2">
           <div class="w-7 h-7 rounded-xl bg-blue-500/20 border border-blue-400/40 flex items-center justify-center text-blue-300 shadow-sm shrink-0">
@@ -4212,7 +4212,7 @@
             </div>
           </div>
         </div>
-        <button data-action="closeLearningHubModal" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer">
+        <button data-action="closeLearningHubModal" aria-label="Learning Hub schließen" class="btn-ghost p-2 rounded-xl text-gray-400 hover:text-white transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -4223,8 +4223,8 @@
   </div>
 
   <!-- MODAL: STATISTIK- & ANALYSE-DASHBOARD -->
-  <div id="modal-report-dashboard" class="hidden fixed inset-0 z-[120000] bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-5 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeReportDashboard"]'>
-    <div class="relative w-full max-w-4xl bg-[#0f0f18]/98 border border-purple-500/35 rounded-3xl p-5 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.85),0_0_35px_rgba(168,85,247,0.15)] space-y-5 max-h-[92vh] overflow-y-auto custom-scrollbar" data-action="stopPropagation" data-stop-propagation="true">
+  <div id="modal-report-dashboard" role="dialog" aria-modal="true" aria-labelledby="modal-report-dashboard-title" class="hidden fixed inset-0 z-[120000] bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-5 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeReportDashboard"]'>
+    <div class="theme-surface-modal relative w-full max-w-4xl rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto custom-scrollbar" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Dashboard Header -->
       <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
@@ -4233,7 +4233,7 @@
             <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="font-bold text-sm sm:text-base font-display text-white" data-i18n="report_dashboard_title">Statistiken & Fortschritt</h3>
+            <h3 id="modal-report-dashboard-title" class="font-bold text-sm sm:text-base font-display text-white" data-i18n="report_dashboard_title">Statistiken & Fortschritt</h3>
             <span class="text-[10px] text-gray-400 font-mono">Tages- & Wochenauswertung</span>
           </div>
         </div>
@@ -4241,12 +4241,12 @@
         <div class="flex items-center gap-2">
           <!-- Timeframe Selector -->
           <div id="dash-timeframe-selector-wrap" class="flex items-center bg-black/60 p-1 rounded-xl border border-white/10 text-xs font-bold">
-            <button data-action="setDashboardTimeframe" data-action-args='["today"]' id="dash-tab-today" class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer" data-i18n="today">Heute</button>
-            <button data-action="setDashboardTimeframe" data-action-args='["week"]' id="dash-tab-week" class="px-3 py-1.5 rounded-lg text-purple-300 bg-purple-500/25 font-bold transition cursor-pointer" data-i18n="week">7 Tage</button>
-            <button data-action="setDashboardTimeframe" data-action-args='["month"]' id="dash-tab-month" class="px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer" data-i18n="month">30 Tage</button>
+            <button data-action="setDashboardTimeframe" data-action-args='["today"]' id="dash-tab-today" class="btn-ghost btn-sm px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer" data-i18n="today">Heute</button>
+            <button data-action="setDashboardTimeframe" data-action-args='["week"]' id="dash-tab-week" class="btn-secondary btn-sm px-3 py-1.5 rounded-lg text-purple-300 font-bold transition cursor-pointer" data-i18n="week">7 Tage</button>
+            <button data-action="setDashboardTimeframe" data-action-args='["month"]' id="dash-tab-month" class="btn-ghost btn-sm px-3 py-1.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer" data-i18n="month">30 Tage</button>
           </div>
 
-          <button data-action="closeReportDashboard" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="Schließen">
+          <button data-action="closeReportDashboard" aria-label="Statistiken Dialog schließen" class="btn-ghost p-2 rounded-xl text-gray-400 hover:text-white transition cursor-pointer" title="Schließen">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -4327,7 +4327,7 @@
                 <span id="dash-history-badge" class="px-2 py-0.5 rounded-full text-[10px] bg-emerald-500/20 text-emerald-300 font-mono">0</span>
               </h4>
               <div class="relative w-full sm:w-64">
-                <input type="text" id="dash-search-input" data-input="filterDashboardHistory" data-input-args='["$value"]' placeholder="Aufgaben durchsuchen..." class="w-full pl-8 pr-3 py-1.5 bg-black/60 border border-white/10 rounded-xl text-xs text-white outline-none focus:border-purple-500 font-medium" />
+                <input type="text" id="dash-search-input" data-input="filterDashboardHistory" data-input-args='["$value"]' placeholder="Aufgaben durchsuchen..." class="theme-surface-input w-full pl-8 pr-3 py-1.5 rounded-xl text-xs text-white outline-none font-medium" />
                 <i data-lucide="search" class="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-2.5"></i>
               </div>
             </div>
@@ -4348,15 +4348,15 @@
           <span>100% lokal & privat gespeichert</span>
         </div>
         <div class="flex flex-wrap items-center gap-2">
-          <button data-action="copyComprehensiveReportText" class="px-3.5 py-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-xl text-xs font-semibold border border-white/10 transition cursor-pointer flex items-center gap-1.5">
+          <button data-action="copyComprehensiveReportText" class="btn-secondary px-3.5 py-2 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5">
             <i data-lucide="copy" class="w-3.5 h-3.5"></i>
             <span data-i18n="copy_report">Text kopieren</span>
           </button>
-          <button data-action="printReport" class="px-3.5 py-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-xl text-xs font-semibold border border-white/10 transition cursor-pointer flex items-center gap-1.5">
+          <button data-action="printReport" class="btn-secondary px-3.5 py-2 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5">
             <i data-lucide="printer" class="w-3.5 h-3.5"></i>
             <span>Drucken / PDF</span>
           </button>
-          <button data-action="exportWeeklyReportAsImage" class="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1.5 shadow-md shadow-purple-900/30 active:scale-95">
+          <button data-action="exportWeeklyReportAsImage" class="btn-primary px-4 py-2 text-xs font-bold transition cursor-pointer flex items-center gap-1.5 shadow-md active:scale-95">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
             <span data-i18n="export_image">Als Bild speichern 📷</span>
           </button>
@@ -4367,8 +4367,8 @@
   </div>
 
   <!-- MODAL: EINSTELLUNGEN & RECHTLICHES (IMPRESSUM, DATENSCHUTZ, LIZENZEN) -->
-  <div id="modal-settings" class="hidden fixed inset-0 z-[120000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeSettingsModal"]'>
-    <div class="relative w-full max-w-3xl bg-[#111118] border border-purple-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
+  <div id="modal-settings" role="dialog" aria-modal="true" aria-labelledby="modal-settings-title" class="hidden fixed inset-0 z-[120000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeSettingsModal"]'>
+    <div class="theme-surface-modal relative w-full max-w-3xl rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
@@ -4377,11 +4377,11 @@
             <i data-lucide="settings" class="w-5 h-5"></i>
           </div>
           <div>
-            <h3 class="font-bold text-base sm:text-lg font-display text-white" data-i18n="settings_modal_title">Einstellungen & Rechtliches</h3>
+            <h3 id="modal-settings-title" class="font-bold text-base sm:text-lg font-display text-white" data-i18n="settings_modal_title">Einstellungen & Rechtliches</h3>
             <p class="text-xs text-gray-400" data-i18n="settings_modal_subtitle">App-Optionen, Datenschutzerklärung und Open-Source-Transparenz</p>
           </div>
         </div>
-        <button data-action="closeSettingsModal" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer">
+        <button data-action="closeSettingsModal" class="btn-ghost p-2 rounded-xl text-gray-400 hover:text-white transition cursor-pointer" aria-label="Einstellungen schließen">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -4863,7 +4863,7 @@
 
   <!-- MODAL: SPOTLIGHT COMMAND PALETTE (STRG+K / CMD+K) -->
   <div id="modal-command-palette" class="hidden fixed inset-0 z-[130000] bg-black/75 backdrop-blur-md flex items-start justify-center pt-[12vh] p-3 sm:p-4 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeCommandPalette"]'>
-    <div class="relative w-full max-w-xl bg-[#111118]/95 border border-purple-500/30 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[75vh]" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal relative w-full max-w-xl rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[75vh]" data-action="stopPropagation" data-stop-propagation="true">
       
             <!-- Kompakte, minimalistische Einzeilen-Suche mit Schließen-Button (X) -->
       <div class="flex items-center gap-2 px-3 py-2.5 bg-[#12121c] border-b border-white/10">
@@ -4881,53 +4881,53 @@
   </div>
 
   <!-- MODAL: KEYBOARD SHORTCUTS CHEAT SHEET (?) -->
-  <div id="modal-keyboard-shortcuts" class="hidden fixed inset-0 z-[135000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeKeyboardShortcuts"]'>
-    <div class="relative w-full max-w-md bg-[#111118]/98 border border-purple-500/40 rounded-3xl shadow-2xl overflow-hidden flex flex-col p-5 text-white" data-action="stopPropagation" data-stop-propagation="true">
+  <div id="modal-keyboard-shortcuts" role="dialog" aria-modal="true" aria-labelledby="modal-shortcuts-title" class="hidden fixed inset-0 z-[135000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeKeyboardShortcuts"]'>
+    <div class="theme-surface-modal relative w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col p-5" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10">
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 text-sm font-mono font-bold">⌨️</div>
           <div>
-            <h3 class="font-bold text-sm text-white" data-i18n="shortcuts_title">Tastaturkürzel & Shortcuts</h3>
+            <h3 id="modal-shortcuts-title" class="font-bold text-sm text-white" data-i18n="shortcuts_title">Tastaturkürzel & Shortcuts</h3>
             <p class="text-[10px] text-gray-400" data-i18n="shortcuts_desc">Schnellere Bedienung ohne Maus</p>
           </div>
         </div>
-        <button data-action="closeKeyboardShortcuts" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer">
+        <button data-action="closeKeyboardShortcuts" aria-label="Tastaturkürzel Dialog schließen" class="btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
 
       <!-- Shortcuts Grid -->
       <div class="space-y-2 text-xs">
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/5">
+        <div class="theme-surface-subcard flex items-center justify-between p-2 rounded-xl">
           <span class="text-gray-300" data-i18n="shortcuts_spotlight">Spotlight Befehls-Palette</span>
           <kbd class="px-2 py-0.5 rounded-md bg-white/10 border border-white/20 font-mono text-[10px] font-bold text-purple-300">Strg + K</kbd>
         </div>
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/5">
+        <div class="theme-surface-subcard flex items-center justify-between p-2 rounded-xl">
           <span class="text-gray-300" data-i18n="shortcuts_new_task">Neue Aufgabe erstellen</span>
           <kbd class="px-2 py-0.5 rounded-md bg-white/10 border border-white/20 font-mono text-[10px] font-bold text-purple-300">N</kbd>
         </div>
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/5">
+        <div class="theme-surface-subcard flex items-center justify-between p-2 rounded-xl">
           <span class="text-gray-300" data-i18n="shortcuts_toggle_timer">Fokus-Timer umschalten</span>
           <kbd class="px-2 py-0.5 rounded-md bg-white/10 border border-white/20 font-mono text-[10px] font-bold text-purple-300">T</kbd>
         </div>
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/5">
+        <div class="theme-surface-subcard flex items-center justify-between p-2 rounded-xl">
           <span class="text-gray-300" data-i18n="shortcuts_toggle_zen">Zen-Fokusmodus an / aus</span>
           <kbd class="px-2 py-0.5 rounded-md bg-white/10 border border-white/20 font-mono text-[10px] font-bold text-purple-300">Z</kbd>
         </div>
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/5">
+        <div class="theme-surface-subcard flex items-center justify-between p-2 rounded-xl">
           <span class="text-gray-300" data-i18n="shortcuts_switch_ws">Privat / Arbeit Workspace</span>
           <div class="flex gap-1">
             <kbd class="px-1.5 py-0.5 rounded-md bg-white/10 border border-white/20 font-mono text-[10px] font-bold text-purple-300">1</kbd>
             <kbd class="px-1.5 py-0.5 rounded-md bg-white/10 border border-white/20 font-mono text-[10px] font-bold text-purple-300">2</kbd>
           </div>
         </div>
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/5">
+        <div class="theme-surface-subcard flex items-center justify-between p-2 rounded-xl">
           <span class="text-gray-300" data-i18n="shortcuts_open_overview">Diese Übersicht öffnen</span>
           <kbd class="px-2 py-0.5 rounded-md bg-white/10 border border-white/20 font-mono text-[10px] font-bold text-purple-300">?</kbd>
         </div>
-        <div class="flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/5">
+        <div class="theme-surface-subcard flex items-center justify-between p-2 rounded-xl">
           <span class="text-gray-300" data-i18n="shortcuts_close_modals">Modals & Popups schließen</span>
           <kbd class="px-2 py-0.5 rounded-md bg-white/10 border border-white/20 font-mono text-[10px] font-bold text-purple-300">ESC</kbd>
         </div>
@@ -4935,7 +4935,7 @@
 
       <!-- Footer Button -->
       <div class="mt-4 pt-3 border-t border-white/10 flex justify-end">
-        <button data-action="closeKeyboardShortcuts" class="px-4 py-1.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold transition cursor-pointer">
+        <button data-action="closeKeyboardShortcuts" class="btn-primary px-4 py-1.5 text-xs font-bold transition cursor-pointer">
           Verstanden ✓
         </button>
       </div>
@@ -4972,7 +4972,7 @@
 
   <!-- HELPER STEP-BY-STEP & CUSTOM SUBTASKS MODAL -->
   <div id="helper-steps-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md" data-action="closeIfBackdrop" data-action-args='["$event","closeHelperModal"]'>
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-xl sm:max-w-2xl max-h-[92vh] flex flex-col bg-[#111116]/98 border border-[var(--accent)]/35 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-xl sm:max-w-2xl max-h-[92vh] flex flex-col p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10 shrink-0">
         <div class="relative flex flex-col items-center justify-center shrink-0">
           <div class="relative overflow-hidden flex items-center justify-center">
@@ -4982,14 +4982,14 @@
             <span class="badge-tool-subtext select-none">STEPS</span>
           </div>
         </div>
-        <button data-action="closeHelperModal" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
+        <button data-action="closeHelperModal" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
       </div>
 
       <div class="space-y-3 min-h-0 flex-1 flex flex-col">
         <!-- Selected Task Selector -->
         <div class="shrink-0">
           <label class="text-[9px] text-gray-400 font-bold uppercase tracking-wider block mb-1">Aufgabe</label>
-          <select id="helper-task-select" data-change="onHelperSelectTask" class="w-full p-2.5 bg-[#12121e]/90 border border-white/10 rounded-xl text-xs text-purple-200 font-semibold outline-none focus:border-[var(--accent)] cursor-pointer"></select>
+          <select id="helper-task-select" data-change="onHelperSelectTask" class="theme-surface-input w-full p-2.5 rounded-xl text-xs font-semibold cursor-pointer"></select>
         </div>
 
         <!-- Custom Steps List Container -->
@@ -4997,8 +4997,8 @@
 
         <!-- Add Custom Step Input -->
         <div class="flex items-center gap-2 pt-1">
-          <input type="text" id="helper-new-step-input" placeholder="Eigenen Teilschritt eingeben (Enter)..." data-keydown="submitOnEnter" data-keydown-args='["$event","addCustomStepToActiveTask"]' class="flex-1 p-2.5 bg-black/50 border border-white/10 rounded-xl text-xs text-gray-200 outline-none focus:border-[var(--accent)] placeholder:text-gray-500 font-medium" />
-          <button data-action="addCustomStepToActiveTask" class="px-3.5 py-2.5 bg-[var(--accent)] hover:opacity-90 text-white rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1 shrink-0 shadow-md">
+          <input type="text" id="helper-new-step-input" placeholder="Eigenen Teilschritt eingeben (Enter)..." data-keydown="submitOnEnter" data-keydown-args='["$event","addCustomStepToActiveTask"]' class="theme-surface-input flex-1 p-2.5 rounded-xl text-xs text-gray-200 placeholder:text-gray-500 font-medium" />
+          <button data-action="addCustomStepToActiveTask" class="btn-primary px-3.5 py-2.5 rounded-xl text-xs font-bold transition cursor-pointer flex items-center gap-1 shrink-0 shadow-md">
             <i data-lucide="plus" class="w-3.5 h-3.5"></i>
             <span data-i18n="step">Schritt</span>
           </button>
@@ -5027,7 +5027,7 @@
 
   <!-- HELPER WOHNUNGS-RESET & LEVEL-PUTZ-GUIDE MODAL -->
   <div id="helper-cleaning-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md" data-action="closeIfBackdrop" data-action-args='["$event","closeCleaningGuideModal"]'>
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-xl bg-[#111116]/98 border border-emerald-500/30 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300 max-h-[90vh] flex flex-col text-left" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-xl p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl relative transition-all duration-300 max-h-[90vh] flex flex-col text-left" data-action="stopPropagation" data-stop-propagation="true">
 
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3 shrink-0">
@@ -5044,7 +5044,7 @@
             </div>
           </div>
         </div>
-        <button data-action="closeCleaningGuideModal" class="w-7 h-7 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
+        <button data-action="closeCleaningGuideModal" class="btn-ghost w-7 h-7 rounded-xl text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
       </div>
 
       <!-- Scrollable Body -->
@@ -5166,40 +5166,40 @@
 
   <!-- NOTIZ-DETAIL / BEARBEITEN MODAL -->
   <div id="note-detail-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md" data-action="closeIfBackdrop" data-action-args='["$event","closeNoteDetailModal"]'>
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-lg bg-[#111116]/95 border border-amber-500/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-lg p-6 rounded-3xl shadow-2xl backdrop-blur-xl relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
         <h3 class="text-white font-bold text-sm font-display flex items-center gap-2">
           <i data-lucide="sticky-note" class="w-4 h-4 text-amber-400"></i>
           <span>Notiz bearbeiten</span>
         </h3>
-        <button data-action="closeNoteDetailModal" class="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
+        <button data-action="closeNoteDetailModal" class="btn-ghost w-7 h-7 rounded-xl text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
       </div>
 
       <div class="space-y-3.5">
         <input type="hidden" id="note-detail-index" value="-1" />
-        <textarea id="note-detail-textarea" rows="7" placeholder="Notiztext hier bearbeiten..." class="w-full p-3.5 bg-black/50 border border-amber-500/30 rounded-xl text-xs text-amber-100 outline-none focus:border-amber-400 font-medium leading-relaxed resize-none shadow-inner"></textarea>
+        <textarea id="note-detail-textarea" rows="7" placeholder="Notiztext hier bearbeiten..." class="theme-surface-input w-full p-3.5 rounded-xl text-xs text-amber-100 outline-none font-medium leading-relaxed resize-none shadow-inner"></textarea>
 
         <div class="flex items-center justify-between gap-2 pt-1">
           <div class="flex items-center gap-1.5">
-            <button data-action="convertCurrentNoteDetailToTask" class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-300 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1">
+            <button data-action="convertCurrentNoteDetailToTask" class="btn-secondary btn-sm px-3 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1">
               <i data-lucide="arrow-right-circle" class="w-3.5 h-3.5"></i>
               <span>In To-Do umwandeln</span>
             </button>
-            <button data-action="openNoteScannerModal" data-action-args='["note-detail"]' class="px-2.5 py-1.5 bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1" title="Handschriftlichen Text / Foto scannen und anfügen">
+            <button data-action="openNoteScannerModal" data-action-args='["note-detail"]' class="btn-secondary btn-sm px-2.5 py-1.5 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1" title="Handschriftlichen Text / Foto scannen und anfügen">
               <i data-lucide="camera" class="w-3.5 h-3.5"></i>
               <span>Scan</span>
             </button>
-            <button data-action="copyCurrentNoteDetailText" class="p-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-xl transition cursor-pointer" title="Kopieren">
+            <button data-action="copyCurrentNoteDetailText" class="btn-ghost p-2 rounded-xl text-gray-300 hover:text-white transition cursor-pointer" title="Kopieren">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
             </button>
-            <button data-action="deleteCurrentNoteDetail" class="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-xl transition cursor-pointer" title="Löschen">
+            <button data-action="deleteCurrentNoteDetail" class="btn-danger p-2 rounded-xl transition cursor-pointer" title="Löschen">
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             </button>
           </div>
 
           <div class="flex items-center gap-2">
-            <button data-action="closeNoteDetailModal" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
-            <button data-action="saveNoteDetailModal" class="px-5 py-2 bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1">
+            <button data-action="closeNoteDetailModal" class="btn-secondary px-4 py-2 text-xs font-semibold transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
+            <button data-action="saveNoteDetailModal" class="btn-primary px-5 py-2 font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1">
               <i data-lucide="check" class="w-4 h-4"></i>
               <span data-i18n="save">Speichern</span>
             </button>
@@ -5213,7 +5213,7 @@
 
   <!-- SAMMEL-IMPORT MODAL (FÜR TO-DO, NOTIZEN & CO) -->
   <div id="text-import-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md" data-action="closeIfBackdrop" data-action-args='["$event","closeTextImportModal"]'>
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-lg bg-[#111116]/95 border border-[var(--accent)]/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-lg p-6 rounded-3xl shadow-2xl backdrop-blur-xl relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
         <h3 class="text-white font-bold text-sm font-display flex items-center gap-2">
           <i data-lucide="file-text" class="w-4 h-4 text-[var(--accent-light)]"></i>
@@ -5221,7 +5221,7 @@
           <span class="text-xs text-gray-400 font-normal">➔ Ziel:</span>
           <span id="text-import-cat-label" class="px-2 py-0.5 rounded-full bg-[var(--accent)]/20 text-[var(--accent-light)] text-[10px] font-bold uppercase tracking-wider font-mono">To-Do</span>
         </h3>
-        <button data-action="closeTextImportModal" class="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
+        <button data-action="closeTextImportModal" class="btn-ghost w-7 h-7 rounded-xl text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
       </div>
 
       <div class="space-y-3.5">
@@ -5231,7 +5231,7 @@
 
         <!-- FILE UPLOAD TRIGGER -->
         <div class="flex items-center gap-2">
-          <label class="flex-1 py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[var(--accent)]/40 rounded-xl text-xs font-semibold text-gray-300 hover:text-white transition cursor-pointer flex items-center justify-center gap-2">
+          <label class="btn-secondary flex-1 py-2 px-3 rounded-xl text-xs font-semibold text-gray-300 hover:text-white transition cursor-pointer flex items-center justify-center gap-2">
             <i data-lucide="upload-cloud" class="w-4 h-4 text-[var(--accent-light)]"></i>
             <span>Datei laden (.txt, .md, .csv, .json, .ics)</span>
             <input type="file" id="text-import-file-input" accept=".txt,.text,.md,.markdown,.csv,.json,.tsv,.ics,.log,.rtf" data-change="handleTextFileSelected" data-change-args='["$event"]' class="hidden" />
@@ -5241,13 +5241,13 @@
 
         <!-- PASTE TEXTAREA -->
         <div>
-          <textarea id="text-import-textarea" data-input="updateTextImportPreview" rows="6" placeholder="Aufgaben oder Notizen hier einfügen...&#10;&#10;Beispiel:&#10;Milch und Obst einkaufen&#10;Steuerunterlagen sortieren&#10;Fahrrad aufpumpen" class="w-full p-3 bg-black/50 border border-white/10 rounded-xl text-xs text-gray-200 outline-none focus:border-[var(--accent)] font-medium leading-relaxed resize-none"></textarea>
+          <textarea id="text-import-textarea" data-input="updateTextImportPreview" rows="6" placeholder="Aufgaben oder Notizen hier einfügen...&#10;&#10;Beispiel:&#10;Milch und Obst einkaufen&#10;Steuerunterlagen sortieren&#10;Fahrrad aufpumpen" class="theme-surface-input w-full p-3 rounded-xl text-xs text-gray-200 outline-none font-medium leading-relaxed resize-none"></textarea>
         </div>
 
         <!-- ACTION BUTTONS -->
         <div class="flex items-center justify-end gap-2 pt-1">
-          <button data-action="closeTextImportModal" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
-          <button data-action="executeTextImport" class="px-5 py-2 bg-[var(--accent)] hover:opacity-90 text-white font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5">
+          <button data-action="closeTextImportModal" class="btn-secondary px-4 py-2 text-xs font-semibold transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
+          <button data-action="executeTextImport" class="btn-primary px-5 py-2 font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5">
             <i data-lucide="plus-circle" class="w-4 h-4"></i>
             <span>Importieren</span>
           </button>
@@ -5258,7 +5258,7 @@
 
   <!-- TERMIN VERSCHIEBEN MODAL -->
   <div id="modal-postpone-termin" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closePostponeTerminModal"]'>
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-md bg-[#111118]/95 border border-sky-500/40 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300 space-y-4" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-md p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-xl relative transition-all duration-300 space-y-4" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
         <div class="flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-2xl bg-sky-500/20 text-sky-300 flex items-center justify-center border border-sky-500/40">
@@ -5269,7 +5269,7 @@
             <p id="postpone-termin-current-info" class="text-[11px] text-sky-300 font-mono">Aktuell: Unbekannt</p>
           </div>
         </div>
-        <button data-action="closePostponeTerminModal" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">✕</button>
+        <button data-action="closePostponeTerminModal" aria-label="Termin verschieben Dialog schließen" class="btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer">✕</button>
       </div>
 
       <div class="space-y-3">
@@ -5277,9 +5277,9 @@
         <div>
           <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1.5">Schnellauswahl:</label>
           <div class="grid grid-cols-3 gap-1.5">
-            <button type="button" data-action="quickPostponeTerminDays" data-action-args='[1]' class="py-1.5 px-2 rounded-xl bg-white/5 hover:bg-sky-500/20 border border-white/10 hover:border-sky-500/40 text-[11px] font-semibold text-gray-200 hover:text-sky-200 transition cursor-pointer text-center">+1 Tag (Morgen)</button>
-            <button type="button" data-action="quickPostponeTerminDays" data-action-args='[2]' class="py-1.5 px-2 rounded-xl bg-white/5 hover:bg-sky-500/20 border border-white/10 hover:border-sky-500/40 text-[11px] font-semibold text-gray-200 hover:text-sky-200 transition cursor-pointer text-center">+2 Tage</button>
-            <button type="button" data-action="quickPostponeTerminDays" data-action-args='[7]' class="py-1.5 px-2 rounded-xl bg-white/5 hover:bg-sky-500/20 border border-white/10 hover:border-sky-500/40 text-[11px] font-semibold text-gray-200 hover:text-sky-200 transition cursor-pointer text-center">+1 Woche</button>
+            <button type="button" data-action="quickPostponeTerminDays" data-action-args='[1]' class="btn-secondary btn-sm py-1.5 px-2 text-[11px] font-semibold transition cursor-pointer text-center">+1 Tag (Morgen)</button>
+            <button type="button" data-action="quickPostponeTerminDays" data-action-args='[2]' class="btn-secondary btn-sm py-1.5 px-2 text-[11px] font-semibold transition cursor-pointer text-center">+2 Tage</button>
+            <button type="button" data-action="quickPostponeTerminDays" data-action-args='[7]' class="btn-secondary btn-sm py-1.5 px-2 text-[11px] font-semibold transition cursor-pointer text-center">+1 Woche</button>
           </div>
         </div>
 
@@ -5287,24 +5287,24 @@
         <div class="grid grid-cols-2 gap-2">
           <div>
             <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Neues Datum:</label>
-            <input type="date" id="postpone-termin-date" class="w-full p-2 bg-black/60 border border-white/15 focus:border-sky-400 rounded-xl text-xs text-white outline-none transition font-semibold cursor-pointer" />
+            <input type="date" id="postpone-termin-date" class="theme-surface-input w-full p-2 rounded-xl text-xs text-white outline-none transition font-semibold cursor-pointer" />
           </div>
           <div>
             <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Neue Uhrzeit:</label>
-            <input type="time" id="postpone-termin-time" class="w-full p-2 bg-black/60 border border-white/15 focus:border-sky-400 rounded-xl text-xs text-white outline-none transition font-semibold cursor-pointer" />
+            <input type="time" id="postpone-termin-time" class="theme-surface-input w-full p-2 rounded-xl text-xs text-white outline-none transition font-semibold cursor-pointer" />
           </div>
         </div>
 
         <!-- Grund / Notiz (optional) -->
         <div>
           <label class="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-1">Notiz / Grund (optional):</label>
-          <input type="text" id="postpone-termin-reason" placeholder="z. B. Kunde krank, neuer Raum..." class="w-full p-2 bg-black/60 border border-white/15 focus:border-sky-400 rounded-xl text-xs text-white placeholder-gray-500 outline-none transition" />
+          <input type="text" id="postpone-termin-reason" placeholder="z. B. Kunde krank, neuer Raum..." class="theme-surface-input w-full p-2 rounded-xl text-xs text-white placeholder-gray-500 outline-none transition" />
         </div>
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-end gap-2 pt-2 border-t border-white/10">
-          <button type="button" data-action="closePostponeTerminModal" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 font-semibold text-xs rounded-xl transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
-          <button type="button" data-action="submitPostponeTermin" class="px-4 py-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+          <button type="button" data-action="closePostponeTerminModal" class="btn-secondary px-4 py-2 text-xs font-semibold transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
+          <button type="button" data-action="submitPostponeTermin" class="btn-primary px-4 py-2 font-bold text-xs shadow-lg transition cursor-pointer flex items-center gap-1.5 active:scale-95">
             <i data-lucide="calendar-sync" class="w-4 h-4"></i>
             <span>Verschieben & als verschoben markieren</span>
           </button>
@@ -5315,32 +5315,32 @@
 
   <!-- BERICHT-EXPORT MODAL (WOCHE & MONAT) -->
   <div id="report-export-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/75 backdrop-blur-md" data-action="closeIfBackdrop" data-action-args='["$event","closeReportExportModal"]'>
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-2xl bg-[#111116]/95 border border-purple-500/30 p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-2xl p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300" data-action="stopPropagation" data-stop-propagation="true">
       <div class="flex items-center justify-between mb-3 pb-2 border-b border-white/10">
         <h3 class="text-white font-bold text-sm md:text-base font-display flex items-center gap-2">
           <i data-lucide="file-text" class="w-4 h-4 text-purple-400"></i>
           <span data-i18n="report_title">Statistik- & Fortschrittsbericht</span>
           <span class="text-xs text-purple-300 font-mono font-normal">(Woche & Monat)</span>
         </h3>
-        <button data-action="closeReportExportModal" class="w-6 h-6 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-xs transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
+        <button data-action="closeReportExportModal" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">✕</button>
       </div>
 
       <div class="space-y-3.5">
         <div class="relative">
-          <textarea id="report-export-text-area" rows="12" readonly class="w-full p-4 bg-black/60 border border-white/10 rounded-xl text-xs font-mono text-gray-200 leading-relaxed outline-none focus:border-purple-400 select-all resize-none"></textarea>
+          <textarea id="report-export-text-area" rows="12" readonly class="theme-surface-input w-full p-4 rounded-xl text-xs font-mono text-gray-200 leading-relaxed select-all resize-none"></textarea>
         </div>
 
         <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
           <div class="flex items-center gap-2">
-            <button data-action="copyReportText" class="px-4 py-2 bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-200 text-xs font-bold rounded-xl transition cursor-pointer flex items-center gap-1.5 shadow-sm">
+            <button data-action="copyReportText" class="btn-primary px-4 py-2 font-bold text-xs shadow-sm transition cursor-pointer flex items-center gap-1.5">
               <i data-lucide="copy" class="w-3.5 h-3.5"></i>
               <span>Text kopieren</span>
             </button>
-            <button data-action="downloadReportFile" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1.5">
+            <button data-action="downloadReportFile" class="btn-secondary px-4 py-2 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5">
               <i data-lucide="download" class="w-3.5 h-3.5"></i>
               <span>Als .txt herunterladen</span>
             </button>
-            <button data-action="printReport" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1.5">
+            <button data-action="printReport" class="btn-secondary px-4 py-2 text-xs font-semibold transition cursor-pointer flex items-center gap-1.5">
               <i data-lucide="printer" class="w-3.5 h-3.5"></i>
               <span>Drucken / PDF</span>
             </button>
@@ -5352,13 +5352,13 @@
 
   <!-- NATIVES MOBILE MENÜ DRAWER -->
   <div id="mobile-menu-drawer" class="hidden fixed inset-0 z-[100002] flex items-end justify-center bg-black/75 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeMobileMenuDrawer"]'>
-    <div class="mobile-modal-card w-full max-w-lg bg-[#14141e] border-t border-white/15 rounded-t-3xl p-5 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto">
+    <div class="theme-surface-modal mobile-modal-card w-full max-w-lg rounded-t-3xl p-5 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <h3 class="font-display font-bold text-base text-white flex items-center gap-2">
           <i data-lucide="menu" class="w-4 h-4 text-purple-400"></i>
           <span data-i18n="mobile_menu_title">Menü & Einstellungen</span>
         </h3>
-        <button data-action="closeMobileMenuDrawer" class="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white">
+        <button data-action="closeMobileMenuDrawer" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -5461,252 +5461,9 @@
     </div>
   </div>
 
-  <!-- NATIVES MOBILE TOOLS SHEET -->
-  <div id="mobile-tools-sheet" class="hidden fixed inset-0 z-[100002] flex items-end justify-center bg-black/75 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeMobileToolsSheet"]'>
-    <div class="mobile-modal-card w-full max-w-lg bg-[#14141e] border-t border-white/15 rounded-t-3xl p-5 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto">
-      <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <h3 class="font-display font-bold text-base text-white flex items-center gap-2">
-          <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i>
-          <span>Werkzeuge & Noodle-Helfer</span>
-        </h3>
-        <button data-action="closeMobileToolsSheet" aria-label="Werkzeuge schließen" class="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2.5">
-        <!-- Live-Radio -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('radio'); if(window.RadioNewsEngine){ if(window.RadioNewsEngine.renderRadioPanelContent) window.RadioNewsEngine.renderRadioPanelContent(); if(window.RadioNewsEngine.probeAllStationsSignal) window.RadioNewsEngine.probeAllStationsSignal(); }" class="p-3 bg-white/[0.03] border border-purple-500/30 rounded-2xl text-left hover:bg-purple-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 shrink-0">
-            <i data-lucide="radio" class="w-4 h-4 text-purple-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-white leading-tight" data-i18n="tool_radio">Live-Radio</div>
-            <div class="text-[10px] text-gray-400">Web-Sender & Audio</div>
-          </div>
-        </button>
-
-        <!-- Nachrichten -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('news'); if(window.RadioNewsEngine && window.RadioNewsEngine.fetchNewsForRegion) RadioNewsEngine.fetchNewsForRegion();" class="p-3 bg-white/[0.03] border border-sky-500/30 rounded-2xl text-left hover:bg-sky-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-300 shrink-0">
-            <i data-lucide="newspaper" class="w-4 h-4 text-sky-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-white leading-tight" data-i18n="tool_news">Nachrichten</div>
-            <div class="text-[10px] text-gray-400">Ticker & Briefing</div>
-          </div>
-        </button>
-
-        <!-- Audio Studio -->
-        <button data-action="closeMobileToolsSheet; openAudioStudioMode" data-action-args='[[],["ambient"]]' class="col-span-2 p-3 bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-transparent border border-purple-500/30 rounded-2xl text-left hover:bg-purple-500/20 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 shrink-0">
-            <i data-lucide="headphones" class="w-4 h-4 text-purple-300"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="text-xs font-bold text-purple-200 leading-tight flex items-center justify-between">
-              <span data-i18n="audio_studio_full_title">Audio & Sound Studio</span>
-              <span class="text-[9px] font-mono text-purple-300/80 uppercase" data-i18n="badge_pro_studio">Pro Studio</span>
-            </div>
-            <div class="text-[10px] text-purple-300/70" data-i18n="audio_studio_sub">Naturklänge, Genre-Beats, MP3, Spotify & DJ</div>
-          </div>
-        </button>
-
-        <!-- Einkauf -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('shopping'); if(typeof switchShoppingTab==='function') switchShoppingTab('list');" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
-            <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-emerald-300 leading-tight" data-i18n="nav_shopping">Einkauf</div>
-            <div class="text-[10px] text-gray-400">Liste & Vorrat</div>
-          </div>
-        </button>
-
-        <!-- Kochen -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('cooking'); if(typeof renderCookingPanel==='function') renderCookingPanel(); if(typeof switchCookingTab==='function') switchCookingTab('recipes');" class="p-3 bg-white/[0.03] border border-orange-500/20 rounded-2xl text-left hover:bg-orange-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-300 shrink-0">
-            <i data-lucide="chef-hat" class="w-4 h-4 text-orange-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-orange-300 leading-tight" data-i18n="nav_cooking">Kochen</div>
-            <div class="text-[10px] text-gray-400">Rezepte & Timer</div>
-          </div>
-        </button>
-
-        <!-- Wecker & Alarm -->
-        <button onclick="closeMobileToolsSheet(); openAlarmModal();" class="p-3 bg-white/[0.03] border border-pink-500/20 rounded-2xl text-left hover:bg-pink-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-300 shrink-0">
-            <i data-lucide="alarm-clock" class="w-4 h-4 text-pink-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-pink-300 leading-tight" data-i18n="mobile_tools_alarm_title">Wecker</div>
-            <div class="text-[10px] text-gray-400">Termine & Alarme</div>
-          </div>
-        </button>
-
-        <!-- Sport & Körper -->
-        <button onclick="closeMobileToolsSheet(); openSportModal();" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
-            <i data-lucide="dumbbell" class="w-4 h-4 text-emerald-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-emerald-300 leading-tight" data-i18n="tool_sport">Bewegung</div>
-            <div class="text-[10px] text-gray-400" data-i18n="sport_1min_workouts">1-Minuten Workouts</div>
-          </div>
-        </button>
-
-        <!-- Gesundheit -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('health'); if(window.HealthEngine && window.HealthEngine.renderPanel) window.HealthEngine.renderPanel();" class="p-3 bg-white/[0.03] border border-rose-500/30 rounded-2xl text-left hover:bg-rose-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-300 shrink-0 shadow-sm">
-            <i data-lucide="shield-plus" class="w-4 h-4 text-rose-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-rose-300 leading-tight" data-i18n="tool_health">Gesundheit</div>
-            <div class="text-[10px] text-gray-400">Checkup-Radar & Meds</div>
-          </div>
-        </button>
-
-        <!-- Atem & Regulation -->
-        <button data-action="closeMobileToolsSheet; openRegulationModal" class="p-3 bg-white/[0.03] border border-teal-500/30 rounded-2xl text-left hover:bg-teal-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-teal-500/20 border border-teal-500/40 flex items-center justify-center text-teal-300 shrink-0 shadow-sm">
-            <i data-lucide="heart-pulse" class="w-4 h-4 text-teal-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-teal-300 leading-tight" data-i18n="tool_calm">Regulation</div>
-            <div class="text-[10px] text-gray-400">4-7-8 Atem & Erdung</div>
-          </div>
-        </button>
-
-        <!-- Klarheit -->
-        <button onclick="closeMobileToolsSheet(); openClarityModal();" class="p-3 bg-white/[0.03] border border-indigo-500/20 rounded-2xl text-left hover:bg-indigo-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-300 shrink-0">
-            <i data-lucide="anchor" class="w-4 h-4 text-indigo-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-indigo-300 leading-tight" data-i18n="tool_clarity">Klarheit</div>
-            <div class="text-[10px] text-gray-400">Impulskontrolle</div>
-          </div>
-        </button>
-
-        <!-- Safe Space -->
-        <button onclick="closeMobileToolsSheet(); openSafeSpaceModal();" class="p-3 bg-white/[0.03] border border-teal-500/20 rounded-2xl text-left hover:bg-teal-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-300 shrink-0">
-            <i data-lucide="coffee" class="w-4 h-4 text-teal-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-teal-300 leading-tight">Safe Space</div>
-            <div class="text-[10px] text-gray-400">Sensory Recovery</div>
-          </div>
-        </button>
-
-        <!-- Brainstorming -->
-        <button onclick="closeMobileToolsSheet(); openBrainstormModal();" class="p-3 bg-white/[0.03] border border-amber-500/20 rounded-2xl text-left hover:bg-amber-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 shrink-0">
-            <i data-lucide="brain" class="w-4 h-4 text-amber-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-amber-300 leading-tight">Brainstorming</div>
-            <div class="text-[10px] text-gray-400">Ideen & Transfer</div>
-          </div>
-        </button>
-
-        <!-- Wissens-Labor -->
-        <button data-action="closeMobileToolsSheet; openLearningHubModal" class="p-3 bg-white/[0.03] border border-blue-500/20 rounded-2xl text-left hover:bg-blue-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-300 shrink-0">
-            <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-blue-300 leading-tight" data-i18n="tool_learning">Wissens-Labor</div>
-            <div class="text-[10px] text-gray-400">Quiz & Lernen</div>
-          </div>
-        </button>
-
-        <!-- Fun-Labor -->
-        <button data-action="closeMobileToolsSheet; togglePanel" data-action-args='[[],["humor-lab"]]' class="p-3 bg-white/[0.03] border border-violet-500/20 rounded-2xl text-left hover:bg-violet-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-violet-300 shrink-0">
-            <i data-lucide="smile" class="w-4 h-4 text-violet-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-violet-300 leading-tight" data-i18n="tool_humor">Fun-Labor</div>
-            <div class="text-[10px] text-gray-400">Soundboard & Witze</div>
-          </div>
-        </button>
-
-        <!-- Grundreinigung -->
-        <button onclick="closeMobileToolsSheet(); if(typeof openCleaningGuideModal==='function') openCleaningGuideModal();" class="p-3 bg-white/[0.03] border border-cyan-500/20 rounded-2xl text-left hover:bg-cyan-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shrink-0">
-            <i data-lucide="brush" class="w-4 h-4 text-cyan-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-cyan-300 leading-tight" data-i18n="clean_guide_title">Putz-Guide</div>
-            <div class="text-[10px] text-gray-400">15m, 45m & Reizarm</div>
-          </div>
-        </button>
-
-        <!-- Social Hub -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('social'); if(window.SocialHubEngine) SocialHubEngine.render();" class="p-3 bg-white/[0.03] border border-pink-500/20 rounded-2xl text-left hover:bg-pink-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-300 shrink-0">
-            <i data-lucide="share-2" class="w-4 h-4 text-pink-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-pink-300 leading-tight" data-i18n="tool_social">Social Hub</div>
-            <div class="text-[10px] text-gray-400">Post-Planer</div>
-          </div>
-        </button>
-
-        <!-- Team Chat -->
-        <button data-action="closeMobileToolsSheet; togglePanel" data-action-args='[[],["collab-chat"]]' class="p-3 bg-white/[0.03] border border-violet-500/20 rounded-2xl text-left hover:bg-violet-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-violet-300 shrink-0">
-            <i data-lucide="message-square" class="w-4 h-4 text-violet-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-violet-300 leading-tight" data-i18n="tool_chat">Team Chat</div>
-            <div class="text-[10px] text-gray-400">Live-Collab</div>
-          </div>
-        </button>
-
-        <!-- Live-Wetter -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('weather'); if(typeof fetchLocalWeather==='function') fetchLocalWeather();" class="p-3 bg-white/[0.03] border border-sky-500/20 rounded-2xl text-left hover:bg-sky-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-300 shrink-0">
-            <i data-lucide="cloud-sun" class="w-4 h-4 text-sky-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-sky-300 leading-tight" data-i18n="dock_weather">Wetter</div>
-            <div class="text-[10px] text-gray-400">Live & 5-Tage</div>
-          </div>
-        </button>
-
-        <!-- Statistik -->
-        <button onclick="closeMobileToolsSheet(); openReportDashboard();" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
-            <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-emerald-300 leading-tight" data-i18n="mobile_stats_report">Statistik</div>
-            <div class="text-[10px] text-gray-400">Dashboard & Insights</div>
-          </div>
-        </button>
-
-        <!-- Live-Sync -->
-        <button onclick="closeMobileToolsSheet(); openP2PSyncModal();" class="col-span-2 p-3 bg-white/[0.03] border border-emerald-500/30 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
-              <i data-lucide="cloud" class="w-4 h-4 text-emerald-300"></i>
-            </div>
-            <div>
-              <div class="text-xs font-bold text-emerald-300 leading-tight">Cloud-Sync & Geräte-Kopplung</div>
-              <div class="text-[10px] text-gray-400">Auto-Sync, QR-Code & Direkt-Link</div>
-            </div>
-          </div>
-          <span class="sync-auth-indicator w-2.5 h-2.5 rounded-full bg-gray-500 shrink-0"></span>
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- REIZPAUSE & SAFE-SPACE MODAL (VOLLBILD RECOVERY STUDIO MIT 5 RECOVERY-MODI) -->
   <div id="helper-safespace-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeSafeSpaceModal"]'>
-    <div class="bg-[#111118] border border-teal-500/40 rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation();">
+    <div class="theme-surface-modal rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl relative flex flex-col gap-4 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation();">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -5723,7 +5480,7 @@
             </p>
           </div>
         </div>
-        <button data-action="closeSafeSpaceModal" aria-label="Safe Space schließen" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
+        <button data-action="closeSafeSpaceModal" aria-label="Safe Space schließen" class="btn-ghost text-gray-400 hover:text-white p-1.5 rounded-xl transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -5756,9 +5513,9 @@
       <div id="safespace-pane-breath" class="space-y-4 text-center py-1">
         <!-- Atem-Muster Selector -->
         <div class="flex items-center justify-center gap-1.5 p-1 bg-black/50 border border-white/10 rounded-xl max-w-sm mx-auto">
-          <button id="safespace-pat-444" data-action="setBreathPattern" data-action-args='["444"]' class="py-1 px-2.5 rounded-lg bg-teal-500/30 text-teal-200 border border-teal-400 font-bold text-xs transition cursor-pointer">4-4-4 Box</button>
-          <button id="safespace-pat-478" data-action="setBreathPattern" data-action-args='["478"]' class="py-1 px-2.5 rounded-lg bg-white/5 text-gray-400 hover:text-white border border-white/10 text-xs transition cursor-pointer">4-7-8 Deep</button>
-          <button id="safespace-pat-sigh" data-action="setBreathPattern" data-action-args='["sigh"]' class="py-1 px-2.5 rounded-lg bg-white/5 text-gray-400 hover:text-white border border-white/10 text-xs transition cursor-pointer">😮‍💨 Seufzer</button>
+          <button id="safespace-pat-444" data-action="setBreathPattern" data-action-args='["444"]' class="btn-secondary btn-sm py-1 px-2.5 rounded-lg text-teal-200 border border-teal-400 font-bold text-xs transition cursor-pointer">4-4-4 Box</button>
+          <button id="safespace-pat-478" data-action="setBreathPattern" data-action-args='["478"]' class="btn-ghost btn-sm py-1 px-2.5 rounded-lg text-gray-400 hover:text-white border border-white/10 text-xs transition cursor-pointer">4-7-8 Deep</button>
+          <button id="safespace-pat-sigh" data-action="setBreathPattern" data-action-args='["sigh"]' class="btn-ghost btn-sm py-1 px-2.5 rounded-lg text-gray-400 hover:text-white border border-white/10 text-xs transition cursor-pointer">😮‍💨 Seufzer</button>
         </div>
 
         <div class="flex flex-col items-center justify-center py-4">
@@ -5769,7 +5526,7 @@
         </div>
         
         <div class="flex items-center justify-center gap-2">
-          <button id="safespace-noise-btn" data-action="toggleSafeSpaceNoise" class="px-4 py-2 bg-teal-500/20 hover:bg-teal-500/30 border border-teal-500/40 text-teal-300 text-xs font-bold rounded-xl transition cursor-pointer flex items-center gap-2">
+          <button id="safespace-noise-btn" data-action="toggleSafeSpaceNoise" class="btn-secondary px-4 py-2 text-teal-300 text-xs font-bold rounded-xl transition cursor-pointer flex items-center gap-2">
             <i data-lucide="waves" class="w-4 h-4"></i>
             <span data-i18n="safespace_creek_sound">Bach-Sound ein</span>
           </button>
@@ -5790,10 +5547,10 @@
         </div>
 
         <div class="flex justify-between items-center pt-2">
-          <button data-action="resetAnchorSteps" class="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer">
+          <button data-action="resetAnchorSteps" class="btn-ghost px-3 py-1.5 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer">
             Neustart 🔄
           </button>
-          <button data-action="nextAnchorStep" class="px-4 py-2 bg-teal-500 hover:bg-teal-400 text-black font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5">
+          <button data-action="nextAnchorStep" class="btn-primary px-4 py-2 font-bold text-xs rounded-xl shadow-lg transition cursor-pointer flex items-center gap-1.5">
             <span>Weiter</span>
             <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </button>
@@ -5896,7 +5653,7 @@
 
   <!-- KLARHEIT & IMPULSKONTROLLE MODAL -->
   <div id="clarity-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeClarityModal"]'>
-    <div class="bg-[#101118] border border-teal-500/40 rounded-3xl max-w-xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal rounded-3xl max-w-xl w-full p-4 sm:p-6 shadow-2xl relative flex flex-col gap-4 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -5913,7 +5670,7 @@
             </div>
           </div>
         </div>
-        <button data-action="closeClarityModal" aria-label="Clarity Dialog schließen" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
+        <button data-action="closeClarityModal" aria-label="Clarity Dialog schließen" class="btn-ghost text-gray-400 hover:text-white p-1.5 rounded-xl transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -6152,8 +5909,8 @@
   <!-- MODAL: ZENTRALES OPTIONSFENSTER FÜR AUFGABEN                           -->
   <!-- INNERE RUHE & SOMATISCHE REGULATION MODAL -->
   <!-- ====================================================================== -->
-  <div id="modal-regulation" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeRegulationModal"]'>
-    <div class="bg-[#0c0e17] border border-teal-500/40 rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
+  <div id="modal-regulation" role="dialog" aria-modal="true" aria-label="Innere Ruhe &amp; Somatische Regulation" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeRegulationModal"]'>
+    <div class="theme-surface-modal rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6170,7 +5927,7 @@
             </div>
           </div>
         </div>
-        <button data-action="closeRegulationModal" aria-label="Regulation Dialog schließen" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
+        <button data-action="closeRegulationModal" aria-label="Regulation Dialog schließen" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -6220,7 +5977,7 @@
             </div>
           </div>
 
-          <button data-action="RegulationStudio.togglePacer" id="reg-pacer-toggle-btn" class="w-full py-2.5 bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-black text-xs font-bold rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 shadow-md active:scale-98">
+          <button data-action="RegulationStudio.togglePacer" id="reg-pacer-toggle-btn" class="btn-primary w-full py-2.5 text-xs font-bold rounded-xl transition cursor-pointer flex items-center justify-center gap-1.5 shadow-md active:scale-98">
             <i data-lucide="play" class="w-4 h-4"></i>
             <span data-i18n="calm_start_pacer">Geführten Atem-Pacer starten</span>
           </button>
@@ -6455,8 +6212,8 @@
   <!-- ====================================================================== -->
   <!-- SMART BRAINSTORMING STUDIO (IDEEN-LABOR) MODAL -->
   <!-- ====================================================================== -->
-  <div id="brainstorm-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeBrainstormModal"]'>
-    <div class="bg-[#111118] border border-teal-500/40 rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
+  <div id="brainstorm-modal" role="dialog" aria-modal="true" aria-label="Smart Brainstorming Studio" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeBrainstormModal"]'>
+    <div class="theme-surface-modal rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6470,14 +6227,14 @@
         </div>
         <span id="brainstorm-count-badge" class="hidden"></span>
         <div class="flex items-center gap-1.5">
-          <button data-action="copyBrainstormAsMarkdown" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-xs font-semibold transition cursor-pointer flex items-center gap-1" title="Als Markdown kopieren">
+          <button data-action="copyBrainstormAsMarkdown" class="btn-secondary p-2 rounded-xl text-xs font-semibold transition cursor-pointer flex items-center gap-1" title="Als Markdown kopieren">
             <i data-lucide="copy" class="w-3.5 h-3.5"></i>
             <span class="hidden sm:inline">Export</span>
           </button>
-          <button data-action="clearAllBrainstormIdeas" class="p-2 rounded-xl bg-white/5 hover:bg-rose-500/20 border border-white/10 hover:border-rose-500/30 text-gray-400 hover:text-rose-300 text-xs transition cursor-pointer" title="Alle Ideen leeren">
+          <button data-action="clearAllBrainstormIdeas" class="btn-danger p-2 rounded-xl text-xs transition cursor-pointer" title="Alle Ideen leeren">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
           </button>
-          <button data-action="closeBrainstormModal" aria-label="Brainstorm Dialog schließen" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer">
+          <button data-action="closeBrainstormModal" aria-label="Brainstorm Dialog schließen" class="btn-ghost p-2 rounded-xl text-gray-400 hover:text-white transition cursor-pointer">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -6491,7 +6248,7 @@
       <!-- Quick Input Bar -->
       <div class="space-y-2">
         <div class="flex items-center gap-2 bg-black/50 border border-white/15 focus-within:border-teal-500/70 p-1.5 rounded-2xl transition shadow-inner">
-          <select id="brainstorm-tag-select" class="bg-black/60 text-xs font-bold text-teal-300 border border-white/10 rounded-xl px-2 py-2 outline-none cursor-pointer">
+          <select id="brainstorm-tag-select" class="theme-surface-input text-xs font-bold text-teal-300 rounded-xl px-2 py-2 outline-none cursor-pointer">
             <option value="idea">💡 Idee</option>
             <option value="quickwin">⚡ Quick Win</option>
             <option value="project">🚀 Projekt</option>
@@ -6499,14 +6256,14 @@
             <option value="goal">🎯 Ziel</option>
           </select>
           <input type="text" id="brainstorm-quick-input" data-keydown="handleBrainstormInputKeydown" data-keydown-args='["$event"]' placeholder="Gedanken tippen (Enter zum Speichern)..." class="flex-1 bg-transparent border-0 text-xs sm:text-sm text-white placeholder:text-gray-500 outline-none font-medium px-1" />
-          <button data-action="submitBrainstormInput" aria-label="Gedanken hinzufügen" class="p-2.5 bg-teal-500 hover:bg-teal-400 text-black font-bold rounded-xl text-xs transition cursor-pointer shrink-0 shadow-md">
+          <button data-action="submitBrainstormInput" aria-label="Gedanken hinzufügen" class="btn-primary p-2.5 rounded-xl text-xs font-bold transition cursor-pointer shrink-0 shadow-md">
             <i data-lucide="plus" class="w-4 h-4"></i>
           </button>
-          <button id="brainstorm-mic-btn" data-action="toggleBrainstormRecording" class="p-2.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/30 text-teal-300 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shrink-0" title="Mikrofon-Spracheingabe">
+          <button id="brainstorm-mic-btn" data-action="toggleBrainstormRecording" class="btn-secondary p-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shrink-0" title="Mikrofon-Spracheingabe">
             <i data-lucide="mic" class="w-4 h-4"></i>
             <span class="hidden sm:inline">Mic</span>
           </button>
-          <button data-action="openNoteScannerModal" data-action-args='["brainstorm"]' class="p-2.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/30 text-teal-300 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shrink-0" title="Handschriftliche Notiz scannen / Foto hochladen (OCR)">
+          <button data-action="openNoteScannerModal" data-action-args='["brainstorm"]' class="btn-secondary p-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shrink-0" title="Handschriftliche Notiz scannen / Foto hochladen (OCR)">
             <i data-lucide="camera" class="w-4 h-4"></i>
             <span class="hidden sm:inline">Scan</span>
           </button>
@@ -6536,7 +6293,7 @@
           <button data-action="setBrainstormFilter" data-action-args='["goal"]' data-filter="goal" class="brainstorm-filter-btn px-2.5 py-1 rounded-xl text-xs font-semibold text-gray-400 hover:text-white bg-white/5 border border-white/5">🎯 Ziele</button>
         </div>
         <div class="relative min-w-[140px]">
-          <input type="text" id="brainstorm-search-input" data-input="handleBrainstormSearch" data-input-args='["$value"]' placeholder="Ideen durchsuchen..." class="w-full py-1 px-2.5 bg-black/40 border border-white/10 rounded-xl text-xs text-white placeholder:text-gray-500 outline-none focus:border-teal-500/50" />
+          <input type="text" id="brainstorm-search-input" data-input="handleBrainstormSearch" data-input-args='["$value"]' placeholder="Ideen durchsuchen..." class="theme-surface-input w-full py-1 px-2.5 rounded-xl text-xs text-white placeholder:text-gray-500 outline-none" />
         </div>
       </div>
 
@@ -6553,7 +6310,7 @@
 
   <!-- SAMPLE TASK MANAGER MODAL -->
   <div id="sample-manager-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeSampleManagerModal"]'>
-    <div class="bg-[#111118] border border-purple-500/40 rounded-3xl max-w-xl w-full p-5 shadow-2xl relative text-white flex flex-col gap-4 max-h-[90vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal rounded-3xl max-w-xl w-full p-5 shadow-2xl relative flex flex-col gap-4 max-h-[90vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6570,7 +6327,7 @@
             </p>
           </div>
         </div>
-        <button data-action="closeSampleManagerModal" aria-label="Beispiel-Aufgaben Dialog schließen" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
+        <button data-action="closeSampleManagerModal" aria-label="Beispiel-Aufgaben Dialog schließen" class="btn-ghost p-1.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -6578,10 +6335,10 @@
       <!-- Quick Action Buttons -->
       <div class="flex items-center justify-between text-xs pt-1">
         <div class="flex items-center gap-2">
-          <button data-action="toggleAllSampleCheckboxes" data-action-args='[true]' class="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-purple-300 rounded-lg font-semibold text-[11px] border border-white/10 transition cursor-pointer">
+          <button data-action="toggleAllSampleCheckboxes" data-action-args='[true]' class="btn-secondary btn-sm px-2.5 py-1 text-purple-300 font-semibold text-[11px] transition cursor-pointer">
             ✓ Alle anwählen
           </button>
-          <button data-action="toggleAllSampleCheckboxes" data-action-args='[false]' class="px-2.5 py-1 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-lg font-semibold text-[11px] border border-white/10 transition cursor-pointer">
+          <button data-action="toggleAllSampleCheckboxes" data-action-args='[false]' class="btn-ghost btn-sm px-2.5 py-1 text-gray-400 hover:text-white font-semibold text-[11px] transition cursor-pointer">
             ✕ Alle abwählen
           </button>
         </div>
@@ -6593,13 +6350,11 @@
 
       <!-- Footer Buttons -->
       <div class="flex gap-2 border-t border-white/10 pt-3">
-        <button data-action="applySampleManagerSelection" class="flex-1 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-lg flex items-center justify-center gap-2">
+        <button data-action="applySampleManagerSelection" class="btn-primary flex-1 py-2.5 font-bold text-xs transition cursor-pointer shadow-lg flex items-center justify-center gap-2">
           <i data-lucide="check" class="w-4 h-4"></i>
           <span data-i18n="sample_apply_btn">Auswahl ins Board übernehmen ✨</span>
         </button>
-        <button data-action="closeSampleManagerModal" class="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer" data-i18n="cancel">
-          Abbrechen
-        </button>
+        <button data-action="closeSampleManagerModal" class="btn-secondary px-4 py-2.5 text-xs font-semibold transition cursor-pointer" data-i18n="cancel">Abbrechen</button>
       </div>
 
     </div>
@@ -6607,7 +6362,7 @@
 
   <!-- SUPERMARKT MODUS MODAL (Vollbild / Touch-Fokus Ansicht) -->
   <div id="supermarket-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 md:p-6 bg-black/85 backdrop-blur-lg animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeSupermarketModal"]'>
-    <div class="bg-[#111118] border border-emerald-500/40 rounded-3xl max-w-2xl w-full p-4 md:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal rounded-3xl max-w-2xl w-full p-4 md:p-6 shadow-2xl relative flex flex-col gap-4 max-h-[92vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6622,7 +6377,7 @@
         <p class="hidden" id="supermarket-progress-text">
           Lade Einkaufsliste...
         </p>
-        <button data-action="closeSupermarketModal" aria-label="Supermarkt-Modus schließen" class="text-gray-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
+        <button data-action="closeSupermarketModal" aria-label="Supermarkt-Modus schließen" class="btn-ghost p-2 rounded-xl text-gray-400 hover:text-white transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -6634,8 +6389,8 @@
 
       <!-- Quick Add Input -->
       <div class="flex gap-2">
-        <input type="text" id="supermarket-add-input" placeholder="Schnell hinzufügen (z.B. 2x Hafermilch, Tomaten)..." class="flex-1 p-2.5 bg-black/50 border border-white/10 rounded-xl text-xs text-white outline-none focus:border-emerald-500 font-semibold" data-keydown="submitOnEnter" data-keydown-args='["$event","handleAddShoppingItem"]' />
-        <button data-action="handleAddShoppingItem" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs rounded-xl transition cursor-pointer flex items-center gap-1.5 shadow-md">
+        <input type="text" id="supermarket-add-input" placeholder="Schnell hinzufügen (z.B. 2x Hafermilch, Tomaten)..." class="theme-surface-input flex-1 p-2.5 rounded-xl text-xs text-white outline-none font-semibold" data-keydown="submitOnEnter" data-keydown-args='["$event","handleAddShoppingItem"]' />
+        <button data-action="handleAddShoppingItem" class="btn-primary px-4 py-2.5 font-bold text-xs transition cursor-pointer flex items-center gap-1.5 shadow-md">
           <i data-lucide="plus" class="w-4 h-4"></i>
           <span data-i18n="add">Hinzufügen</span>
         </button>
@@ -6646,7 +6401,7 @@
 
       <!-- Footer Buttons -->
       <div class="flex items-center justify-between border-t border-white/10 pt-3 text-xs">
-        <button data-action="clearShoppingList" class="px-3 py-2 bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-300 rounded-xl border border-white/10 hover:border-red-500/30 transition cursor-pointer">
+        <button data-action="clearShoppingList" class="btn-danger btn-sm px-3 py-2 transition cursor-pointer">
           Liste leeren 🗑️
         </button>
       </div>
@@ -6656,8 +6411,8 @@
 
   <!-- Feierabend & Tagesabschluss-Celebration-Modal -->
   <div id="feierabend-celebration-modal" class="hidden fixed inset-0 bg-black/85 backdrop-blur-xl flex items-center justify-center p-4 z-[10000] animate-fadeIn" data-action="closeIfBackdrop" data-action-args='["$event","closeFeierabendModal"]'>
-    <div class="bg-gradient-to-b from-[#161526]/98 to-[#0e0e17]/98 border border-purple-500/35 p-6 md:p-8 rounded-3xl max-w-md w-full shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_40px_rgba(168,85,247,0.15)] relative flex flex-col items-center text-center space-y-4" data-action="stopPropagation" data-stop-propagation="true">
-      <button data-action="closeFeierabendModal" class="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer" title="Schließen">
+    <div class="theme-surface-modal p-6 md:p-8 rounded-3xl max-w-md w-full shadow-2xl relative flex flex-col items-center text-center space-y-4" data-action="stopPropagation" data-stop-propagation="true">
+      <button data-action="closeFeierabendModal" class="btn-ghost absolute top-4 right-4 p-2 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
 
@@ -6681,19 +6436,19 @@
       <!-- 3 Stressfreie Pfade zur Deaktivierung der Arbeitsreize -->
       <div class="w-full pt-1 flex flex-col gap-2">
         <!-- 1. Zen-Feierabend: Blendet Board aus, startet ruhige Sounds -->
-        <button data-action="startFeierabendChillMode" class="w-full py-2.5 px-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs rounded-2xl transition cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-purple-900/30 active:scale-95">
+        <button data-action="startFeierabendChillMode" class="btn-primary w-full py-2.5 px-4 font-bold text-xs rounded-xl transition cursor-pointer flex items-center justify-center gap-2 shadow-md active:scale-95">
           <i data-lucide="moon" class="w-4 h-4 text-purple-200"></i>
           <span data-i18n="celebration_btn_chill">Feierabend & Zen-Modus 🍃</span>
         </button>
 
         <!-- 2. Direkter Übergang zum Tagesbericht -->
-        <button onclick="closeFeierabendModal(); if(typeof openReportDashboard==='function') openReportDashboard();" class="w-full py-2 px-4 bg-white/5 hover:bg-white/10 text-purple-200 hover:text-white text-xs font-semibold rounded-xl border border-white/10 transition cursor-pointer flex items-center justify-center gap-2">
+        <button onclick="closeFeierabendModal(); if(typeof openReportDashboard==='function') openReportDashboard();" class="btn-secondary w-full py-2 px-4 text-xs font-semibold rounded-xl transition cursor-pointer flex items-center justify-center gap-2">
           <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-purple-400"></i>
           <span data-i18n="celebration_btn_report">Tagesbilanz & Report ansehen 📊</span>
         </button>
 
         <!-- 3. Schließen und im Planer bleiben -->
-        <button data-action="closeFeierabendModal" class="w-full py-1.5 px-4 text-gray-400 hover:text-gray-200 text-xs font-medium rounded-xl hover:bg-white/5 transition cursor-pointer">
+        <button data-action="closeFeierabendModal" class="btn-ghost w-full py-1.5 px-4 text-xs font-medium rounded-xl transition cursor-pointer">
           <span data-i18n="celebration_btn_later">Im Planer bleiben ✓</span>
         </button>
       </div>
@@ -6704,7 +6459,7 @@
   <!-- CROSS-PLATFORM APP INSTALLATION & SETUP COCKPIT (WINDOWS, MAC, ANDROID, LINUX, IOS) -->
   <!-- ====================================================================== -->
   <div id="modal-app-install" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-xl animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeInstallModal"]'>
-    <div class="mobile-modal-card animate-spring-modal w-full max-w-2xl bg-[#0f0f18]/98 border border-purple-500/40 p-4 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300 flex flex-col gap-3.5 max-h-[92vh] overflow-y-auto custom-scrollbar" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-2xl p-4 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white relative transition-all duration-300 flex flex-col gap-3.5 max-h-[92vh] overflow-y-auto custom-scrollbar" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Top Window Header with Unified Controls -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -6727,7 +6482,7 @@
         </div>
 
         <div class="flex items-center gap-1">
-          <button data-action="closeInstallModal" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer" title="Schließen">
+          <button data-action="closeInstallModal" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -6750,7 +6505,7 @@
           </div>
         </div>
 
-        <button id="install-direct-pwa-btn" data-action="triggerDirectInstall" class="py-2.5 px-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-black text-xs rounded-xl shadow-lg shadow-purple-900/40 transition active:scale-95 flex items-center justify-center gap-2 shrink-0 cursor-pointer border border-purple-400/40 relative z-10">
+        <button id="install-direct-pwa-btn" data-action="triggerDirectInstall" class="btn-primary py-2.5 px-4 font-black text-xs rounded-xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2 shrink-0 cursor-pointer relative z-10">
           <i data-lucide="arrow-down-circle" class="w-4 h-4"></i>
           <span data-i18n="pwa_install_now_btn">Jetzt installieren 📲</span>
         </button>
@@ -6988,7 +6743,7 @@
           <i data-lucide="shield" class="w-3 h-3 text-emerald-400"></i>
           <span>100% Sicher · Keine Cloud-Pflicht · Open Web Standards</span>
         </div>
-        <button data-action="closeInstallModal" class="px-5 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-bold transition cursor-pointer" data-i18n="close">
+        <button data-action="closeInstallModal" class="btn-secondary px-5 py-2 text-xs font-bold transition cursor-pointer" data-i18n="close">
           Schließen
         </button>
       </div>
@@ -6998,7 +6753,7 @@
 
   <!-- DATENSCHUTZ & IMPRESSUM MODAL (DSGVO / PRIVACY BY DESIGN) -->
   <div id="privacy-legal-modal" class="hidden fixed inset-0 z-[200000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-xl animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closePrivacyModal"]'>
-    <div class="w-full max-w-xl bg-[#111118]/95 border border-purple-500/40 p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white flex flex-col gap-4 max-h-[88vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal w-full max-w-xl p-5 sm:p-6 rounded-3xl shadow-2xl backdrop-blur-2xl text-white flex flex-col gap-4 max-h-[88vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
@@ -7011,7 +6766,7 @@
             <span class="text-[10px] text-emerald-400 font-mono">100% Local-First · Zero Tracking-Cookies</span>
           </div>
         </div>
-        <button data-action="closePrivacyModal" class="p-1.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" aria-label="Schließen">
+        <button data-action="closePrivacyModal" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer" aria-label="Schließen">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -7095,7 +6850,7 @@
           </p>
           <div class="pt-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5">
             <span class="text-[10px] text-gray-300">Status für diesen Browser:</span>
-            <button data-action="toggleUmamiOptOut" class="umami-optout-btn px-3 py-1 rounded-xl text-[10px] font-semibold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/25 transition cursor-pointer shrink-0">
+            <button data-action="toggleUmamiOptOut" class="btn-secondary btn-sm umami-optout-btn px-3 py-1 rounded-xl text-[10px] font-semibold transition cursor-pointer shrink-0">
               <span class="flex items-center gap-1">
                 <i data-lucide="eye" class="w-3 h-3 text-emerald-400"></i>
                 <span>Analyse aktiv – Klick für Opt-Out</span>
@@ -7133,11 +6888,11 @@
 
       <!-- Modal Footer -->
       <div class="border-t border-white/10 pt-3 flex items-center justify-between gap-2">
-        <button onclick="closePrivacyModal(); if(typeof openSettingsModal==='function') { openSettingsModal(); switchSettingsTab('privacy'); }" class="px-3.5 py-2 bg-white/5 hover:bg-white/10 text-purple-300 hover:text-white rounded-xl font-semibold text-xs transition cursor-pointer flex items-center gap-1.5">
+        <button onclick="closePrivacyModal(); if(typeof openSettingsModal==='function') { openSettingsModal(); switchSettingsTab('privacy'); }" class="btn-secondary px-3.5 py-2 rounded-xl font-semibold text-xs transition cursor-pointer flex items-center gap-1.5">
           <i data-lucide="settings" class="w-3.5 h-3.5"></i>
           <span>Vollständige Einstellungen</span>
         </button>
-        <button data-action="closePrivacyModal" class="px-5 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-semibold text-xs transition cursor-pointer shadow-lg shadow-purple-900/30">
+        <button data-action="closePrivacyModal" class="btn-primary px-5 py-2 rounded-xl font-semibold text-xs transition cursor-pointer shadow-lg shadow-purple-900/30">
           Verstanden & Schließen
         </button>
       </div>
@@ -7177,7 +6932,7 @@
 
   <!-- MODAL: UNDO-VERLAUF & SCHRITTAUSWAHL -->
   <div id="modal-undo-history" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeUndoHistoryModal"]'>
-    <div class="bg-[#10111a] border border-cyan-500/40 rounded-3xl max-w-xl sm:max-w-2xl w-full p-4 sm:p-5 shadow-2xl relative text-white flex flex-col gap-3.5 max-h-[88vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal rounded-3xl max-w-xl sm:max-w-2xl w-full p-4 sm:p-5 shadow-2xl relative text-white flex flex-col gap-3.5 max-h-[88vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div class="flex items-center gap-2.5">
@@ -7194,7 +6949,7 @@
             </p>
           </div>
         </div>
-        <button data-action="closeUndoHistoryModal" aria-label="Verlaufsdialog schließen" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
+        <button data-action="closeUndoHistoryModal" aria-label="Verlaufsdialog schließen" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -7207,7 +6962,7 @@
       <!-- Modal Footer -->
       <div class="flex items-center justify-between border-t border-white/10 pt-3 text-xs">
         <span class="text-[11px] text-gray-400">Tipp: Schnelles Undo auch mit <kbd class="px-1.5 py-0.5 rounded bg-white/10 border border-white/20 font-mono text-[10px] text-cyan-300">Strg+Z</kbd></span>
-        <button data-action="closeUndoHistoryModal" class="px-4 py-2 bg-white/10 hover:bg-white/15 text-gray-200 hover:text-white rounded-xl text-xs font-semibold transition cursor-pointer" data-i18n="close">
+        <button data-action="closeUndoHistoryModal" class="btn-secondary px-4 py-2 text-xs font-semibold transition cursor-pointer" data-i18n="close">
           Schließen
         </button>
       </div>
@@ -7216,7 +6971,7 @@
 
   <!-- MODAL: EIGENE VORLAGE ERSTELLEN & ANPASSEN -->
   <div id="modal-template-builder" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeTemplateBuilderModal"]'>
-    <div class="bg-[#10111a] border border-sky-500/40 rounded-3xl max-w-xl w-full p-4 sm:p-5 shadow-2xl relative text-white flex flex-col gap-3.5 max-h-[88vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
+    <div class="theme-surface-modal rounded-3xl max-w-xl w-full p-4 sm:p-5 shadow-2xl relative text-white flex flex-col gap-3.5 max-h-[88vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-white/10 pb-3">
         <div class="flex items-center gap-2.5">
@@ -7233,7 +6988,7 @@
             </p>
           </div>
         </div>
-        <button data-action="closeTemplateBuilderModal" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer" title="Schließen">
+        <button data-action="closeTemplateBuilderModal" class="btn-ghost p-1.5 rounded-xl transition cursor-pointer" title="Schließen" aria-label="Schließen">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -7266,8 +7021,8 @@
             <span>Eigene Aufgabe hinzufügen:</span>
           </span>
           <div class="flex items-center gap-1.5">
-            <input id="template-builder-custom-input" type="text" placeholder="Aufgabenname eingeben..." class="flex-1 px-2.5 py-1.5 bg-black/50 border border-white/15 rounded-lg text-xs text-white placeholder-gray-500 focus:outline-none focus:border-sky-400" data-keydown="handleTemplateEnter" data-keydown-args='["$event"]'>
-            <button data-action="addCustomTaskToTemplate" class="px-3 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 hover:text-emerald-100 border border-emerald-500/40 rounded-lg text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95 shrink-0">
+            <input id="template-builder-custom-input" type="text" placeholder="Aufgabenname eingeben..." class="theme-surface-input flex-1 px-2.5 py-1.5 rounded-lg text-xs text-white placeholder-gray-500" data-keydown="handleTemplateEnter" data-keydown-args='["$event"]'>
+            <button data-action="addCustomTaskToTemplate" class="btn-secondary btn-sm px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition cursor-pointer active:scale-95 shrink-0">
               <i data-lucide="plus" class="w-3.5 h-3.5"></i>
               <span>Hinzufügen</span>
             </button>
@@ -7288,19 +7043,19 @@
 
       <!-- Modal Footer -->
       <div class="flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 text-xs">
-        <button data-action="resetTemplateBuilderToDefault" class="px-2.5 py-1.5 bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1" title="Zurück zu den Standard-Empfehlungen">
+        <button data-action="resetTemplateBuilderToDefault" class="btn-ghost btn-sm px-2.5 py-1.5 rounded-lg text-xs font-medium transition cursor-pointer flex items-center gap-1" title="Zurück zu den Standard-Empfehlungen">
           <i data-lucide="rotate-ccw" class="w-3 h-3"></i>
           <span>Standard-Vorschläge</span>
         </button>
         <div class="flex items-center gap-1.5">
-          <button data-action="closeTemplateBuilderModal" class="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-lg text-xs font-semibold transition cursor-pointer">
+          <button data-action="closeTemplateBuilderModal" class="btn-ghost btn-sm px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer">
             Abbrechen
           </button>
-          <button data-action="saveTemplateBuilder" data-action-args='[false]' class="px-3 py-1.5 bg-sky-500/20 hover:bg-sky-500/30 text-sky-200 hover:text-white border border-sky-400/40 rounded-lg text-xs font-bold transition cursor-pointer active:scale-95 flex items-center gap-1">
+          <button data-action="saveTemplateBuilder" data-action-args='[false]' class="btn-secondary btn-sm px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer active:scale-95 flex items-center gap-1">
             <i data-lucide="save" class="w-3.5 h-3.5"></i>
             <span>Vorlage speichern</span>
           </button>
-          <button data-action="saveTemplateBuilder" data-action-args='[true]' class="px-3 py-1.5 bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white font-bold rounded-lg text-xs transition cursor-pointer shadow-md active:scale-95 flex items-center gap-1">
+          <button data-action="saveTemplateBuilder" data-action-args='[true]' class="btn-primary btn-sm px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer shadow-md active:scale-95 flex items-center gap-1">
             <i data-lucide="play" class="w-3.5 h-3.5"></i>
             <span>Speichern & Anwenden</span>
           </button>

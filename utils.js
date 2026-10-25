@@ -220,11 +220,193 @@ const ModalManager = {
       const el = document.getElementById(id);
       if (el) el.classList.add('hidden');
     });
+    if (typeof ModalFocusManager !== 'undefined' && typeof ModalFocusManager.reset === 'function') {
+      ModalFocusManager.reset();
+    }
   }
 };
 window.ModalManager = ModalManager;
 if (typeof globalThis !== 'undefined') {
   globalThis.ModalManager = ModalManager;
+}
+
+// ============================================================================
+// MODAL FOCUS MANAGER (Tastaturfokus, Tab-Falle & Stack-Wiederherstellung)
+// ============================================================================
+const ModalFocusManager = {
+  stack: [],
+
+  isElementVisible(el) {
+    if (!el || el.nodeType !== 1) return false;
+    if (el.hasAttribute('disabled') || el.disabled) return false;
+    if (el.hasAttribute('hidden')) return false;
+    if (el.getAttribute('aria-hidden') === 'true') return false;
+
+    let curr = el;
+    while (curr && curr !== document.body && curr !== document.documentElement) {
+      if (curr.classList && curr.classList.contains('hidden')) return false;
+      if (curr.hasAttribute && curr.hasAttribute('hidden')) return false;
+      if (curr.getAttribute && curr.getAttribute('aria-hidden') === 'true') return false;
+      if (curr.style && (curr.style.display === 'none' || curr.style.visibility === 'hidden')) return false;
+      curr = curr.parentElement;
+    }
+    return true;
+  },
+
+  getFocusableElements(container) {
+    if (!container) return [];
+    const selector = 'button:not([disabled]), [href], input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex], [contenteditable="true"]';
+    const nodes = Array.from(container.querySelectorAll(selector));
+    return nodes.filter(el => {
+      if (!this.isElementVisible(el)) return false;
+      const tabIndex = el.getAttribute('tabindex');
+      if (tabIndex !== null && parseInt(tabIndex, 10) < 0) return false;
+      return true;
+    });
+  },
+
+  hasActiveModal() {
+    return this.stack.length > 0;
+  },
+
+  open(modalEl, preferredFocusEl = null, closeFn = null) {
+    if (typeof modalEl === 'string') modalEl = document.getElementById(modalEl);
+    if (!modalEl) return;
+
+    // Originalen returnEl beibehalten, falls Modal bereits im Stack getrackt ist
+    const existingIdx = this.stack.findIndex(e => e.modalEl === modalEl);
+    let returnEl = document.activeElement;
+    if (existingIdx !== -1) {
+      returnEl = this.stack[existingIdx].returnEl;
+      this.stack.splice(existingIdx, 1);
+    } else if (modalEl.contains(returnEl)) {
+      returnEl = document.body;
+    }
+
+    this.stack.push({
+      modalEl,
+      returnEl,
+      closeFn: typeof closeFn === 'function' ? closeFn : null,
+      preferredFocusEl: typeof preferredFocusEl === 'string' ? document.getElementById(preferredFocusEl) : preferredFocusEl
+    });
+
+    modalEl.classList.remove('hidden');
+
+    const focusables = this.getFocusableElements(modalEl);
+    let target = null;
+    const pref = typeof preferredFocusEl === 'string' ? document.getElementById(preferredFocusEl) : preferredFocusEl;
+    if (pref && this.isElementVisible(pref) && typeof pref.focus === 'function') {
+      target = pref;
+    } else if (focusables.length > 0) {
+      target = focusables[0];
+    }
+
+    if (target && typeof target.focus === 'function') {
+      try { target.focus(); } catch (err) {}
+    } else {
+      if (!modalEl.hasAttribute('tabindex')) modalEl.setAttribute('tabindex', '-1');
+      try { modalEl.focus(); } catch (err) {}
+    }
+  },
+
+  close(modalEl, options = {}) {
+    if (typeof modalEl === 'string') modalEl = document.getElementById(modalEl);
+    if (!modalEl) return;
+
+    const idx = this.stack.findIndex(e => e.modalEl === modalEl);
+    let entry = null;
+    if (idx !== -1) {
+      entry = this.stack[idx];
+      this.stack.splice(idx, 1);
+    }
+
+    modalEl.classList.add('hidden');
+
+    if (options.restoreFocus !== false && entry && entry.returnEl) {
+      const returnEl = entry.returnEl;
+      if (document.contains(returnEl) && this.isElementVisible(returnEl) && typeof returnEl.focus === 'function') {
+        try { returnEl.focus(); } catch (err) {}
+      }
+    }
+  },
+
+  closeTop() {
+    if (this.stack.length === 0) return false;
+    const top = this.stack[this.stack.length - 1];
+    if (typeof top.closeFn === 'function') {
+      top.closeFn();
+      if (this.stack.includes(top)) {
+        this.close(top.modalEl);
+      }
+    } else {
+      this.close(top.modalEl);
+    }
+    return true;
+  },
+
+  reset() {
+    this.stack = [];
+  },
+
+  handleKeydown(e) {
+    if (this.stack.length === 0) return;
+    const top = this.stack[this.stack.length - 1];
+    if (!top || !top.modalEl) return;
+
+    if (e.key === 'Tab') {
+      const focusables = this.getFocusableElements(top.modalEl);
+
+      if (focusables.length === 0) {
+        e.preventDefault();
+        if (!top.modalEl.hasAttribute('tabindex')) top.modalEl.setAttribute('tabindex', '-1');
+        try { top.modalEl.focus(); } catch (err) {}
+        return;
+      }
+
+      if (focusables.length === 1) {
+        e.preventDefault();
+        try { focusables[0].focus(); } catch (err) {}
+        return;
+      }
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+
+      if (!e.shiftKey) {
+        if (active === last || !top.modalEl.contains(active)) {
+          e.preventDefault();
+          try { first.focus(); } catch (err) {}
+        }
+      } else {
+        if (active === first || !top.modalEl.contains(active)) {
+          e.preventDefault();
+          try { last.focus(); } catch (err) {}
+        }
+      }
+      return;
+    }
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      if (typeof e.stopPropagation === 'function') e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+      this.closeTop();
+    }
+  }
+};
+
+window.ModalFocusManager = ModalFocusManager;
+if (typeof globalThis !== 'undefined') {
+  globalThis.ModalFocusManager = ModalFocusManager;
+}
+
+if (typeof document !== 'undefined') {
+  document.addEventListener('keydown', (e) => {
+    if (ModalFocusManager && ModalFocusManager.hasActiveModal()) {
+      ModalFocusManager.handleKeydown(e);
+    }
+  }, { capture: true });
 }
 
 // Wiederverwendbarer Bestätigungsdialog (Ersatz für natives confirm())
@@ -237,7 +419,7 @@ function showConfirmDialog(options = {}) {
     let title = '';
     let message = '';
     let confirmText = (typeof tr === 'function' ? tr({ de: 'Bestätigen', en: 'Confirm', fr: 'Confirmer', it: 'Conferma', es: 'Confirmar', el: 'Επιβεβαίωση' }) : 'Bestätigen');
-    let cancelText = (typeof tr === 'function' ? tr({ de: 'Abbrechen', en: 'Cancel', fr: 'Annuler', it: 'Annulla', es: 'Cancelar', el: 'Άκυρο' }) : 'Abbrechen');
+    let cancelText = (typeof tr === 'function' ? tr({ de: 'Abbrechen', en: 'Cancel', fr: 'Annuler', it: 'Annulla', es: 'Cancelar', el: 'Άκυro' }) : 'Abbrechen');
     let isDanger = true;
     let icon = 'alert-triangle';
 
@@ -291,7 +473,11 @@ function showConfirmDialog(options = {}) {
     const cleanup = (result) => {
       if (settled) return;
       settled = true;
-      modal.classList.add('hidden');
+      if (typeof ModalFocusManager !== 'undefined') {
+        ModalFocusManager.close(modal);
+      } else {
+        modal.classList.add('hidden');
+      }
       document.removeEventListener('keydown', keyHandler);
       resolve(result);
     };
@@ -315,8 +501,12 @@ function showConfirmDialog(options = {}) {
       if (e.target === modal) cleanup(false);
     };
 
-    modal.classList.remove('hidden');
-    if (okBtn) okBtn.focus();
+    if (typeof ModalFocusManager !== 'undefined') {
+      ModalFocusManager.open(modal, okBtn, () => cleanup(false));
+    } else {
+      modal.classList.remove('hidden');
+      if (okBtn) okBtn.focus();
+    }
   });
 }
 window.showConfirmDialog = showConfirmDialog;

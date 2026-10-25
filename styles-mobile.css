@@ -84,6 +84,20 @@
     z-index: 99992 !important;
   }
 
+  /* ---------------- 2b. HEADER-KOLLISIONSSCHUTZ AUF KOMPAKTEN SCREENS (< 640px) ---------------- */
+  @media (max-width: 640px) {
+    /* Text-Labels in kompakten Header-Buttons verbergen, um Klickzonen-Kollisionen zu verhindern */
+    #btn-whatnow-dance span:not([data-lucide]):not(.lucide),
+    #btn-label-report {
+      display: none !important;
+    }
+    #btn-whatnow-dance,
+    #header-btn-report-container button {
+      padding-left: 8px !important;
+      padding-right: 8px !important;
+    }
+  }
+
   /* ---------------- 3. FESTE BOTTOM NAVIGATION BAR (DAUMENZONE) ---------------- */
   #mobile-bottom-nav {
     display: flex !important;
@@ -644,6 +658,85 @@
 
   .text-gray-600:not(.text-muted-intentional) {
     color: #9ca3af !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   3. GEZIELTE TOUCH-ZIEL-OPTIMIERUNGEN (UI/UX SCHRITT 10)
+   -------------------------------------------------------------------------- */
+
+/* 3.1 Task-Checkbox Trefferfläche: Mindestens 40x40px Hitbox ohne visuelle Verformung */
+@media (max-width: 768px), (hover: none) and (pointer: coarse) {
+  .task-check-btn {
+    position: relative !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    touch-action: manipulation !important;
+  }
+
+  .task-check-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    pointer-events: auto !important;
+    z-index: 10 !important;
+  }
+}
+
+/* 3.2 Header Timer-Buttons: Touch-Optimierung für Mobilgeräte */
+@media (max-width: 768px) {
+  #btn-timer-presets {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    touch-action: manipulation !important;
+  }
+
+  #timer-play-btn,
+  #timer-pause-btn,
+  #timer-stop-btn {
+    min-width: 30px !important;
+    min-height: 30px !important;
+    padding: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    touch-action: manipulation !important;
+  }
+
+  /* Entzerrter Abstand zwischen Start/Pause und Reset/Stop */
+  #timer-trigger-container .border-l,
+  #timer-wrapper .border-l {
+    gap: 5px !important;
+    padding-left: 6px !important;
+  }
+}
+
+/* 3.3 Planer-Toolbar: Touch-Ziele für Sync und Undo auf mindestens 36x36px */
+@media (max-width: 768px) {
+  #header-sync-btn,
+  #btn-board-undo {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    touch-action: manipulation !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* Sicherer Abstand zwischen Ticker-Optionen und Undo gegen versehentliche Fehltaps */
+  #btn-board-undo {
+    margin-left: 4px !important;
   }
 }
 
