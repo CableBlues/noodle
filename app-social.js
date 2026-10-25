@@ -142,14 +142,27 @@
 
   function loadSocialData() {
     try {
-      const p = localStorage.getItem('noodle_social_profiles');
-      if (p) savedProfiles = JSON.parse(p);
+      if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+        const p = window.AppStorage.get('noodle_social_profiles');
+        if (p && typeof p === 'object') savedProfiles = p;
+      } else {
+        const p = localStorage.getItem('noodle_social_profiles');
+        if (p) savedProfiles = JSON.parse(p);
+      }
     } catch(e) { savedProfiles = {}; }
 
     try {
-      const i = localStorage.getItem('noodle_social_inspirations');
-      if (i) savedInspirations = JSON.parse(i);
-      else {
+      let loaded = null;
+      if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+        loaded = window.AppStorage.get('noodle_social_inspirations');
+      }
+      if (!loaded) {
+        const i = localStorage.getItem('noodle_social_inspirations');
+        if (i) loaded = JSON.parse(i);
+      }
+      if (Array.isArray(loaded)) {
+        savedInspirations = loaded;
+      } else {
         // Default initial inspiration item
         savedInspirations = [
           {
@@ -167,8 +180,13 @@
 
   function saveSocialData() {
     try {
-      localStorage.setItem('noodle_social_profiles', JSON.stringify(savedProfiles));
-      localStorage.setItem('noodle_social_inspirations', JSON.stringify(savedInspirations));
+      if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+        window.AppStorage.set('noodle_social_profiles', savedProfiles);
+        window.AppStorage.set('noodle_social_inspirations', savedInspirations);
+      } else {
+        localStorage.setItem('noodle_social_profiles', JSON.stringify(savedProfiles));
+        localStorage.setItem('noodle_social_inspirations', JSON.stringify(savedInspirations));
+      }
     } catch(e) {}
   }
 

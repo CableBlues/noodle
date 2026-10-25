@@ -100,6 +100,8 @@ import './app-core.js';
   if (typeof handleReset === 'function') w.handleReset = handleReset;
   if (typeof handleClearAllLists === 'function') w.handleClearAllLists = handleClearAllLists;
   if (typeof AppStorage !== 'undefined') w.AppStorage = AppStorage;
+  if (typeof NoodleEvents !== 'undefined') w.NoodleEvents = NoodleEvents;
+  if (typeof StateCore !== 'undefined') w.StateCore = StateCore;
   if (typeof FlowAuth !== 'undefined') w.FlowAuth = FlowAuth;
   if (typeof cloudSyncEngine !== 'undefined') w.cloudSyncEngine = cloudSyncEngine;
   if (typeof CollabEngine !== 'undefined') w.CollabEngine = CollabEngine;

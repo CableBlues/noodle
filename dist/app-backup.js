@@ -90,6 +90,10 @@ async function handleRestoreBackupFile(event) {
 
         if (typeof saveState === 'function') saveState();
 
+        if (Array.isArray(data.historyScreenshots) && typeof saveHistoryScreenshots === 'function') {
+          saveHistoryScreenshots(data.historyScreenshots);
+        }
+
         if (typeof cloudSyncEngine !== 'undefined' && typeof cloudSyncEngine.triggerImmediatePush === 'function') {
           cloudSyncEngine.triggerImmediatePush();
         }

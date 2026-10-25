@@ -329,6 +329,10 @@
 
   function getSRData() {
     try {
+      if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+        const stored = window.AppStorage.get(SR_STORAGE_KEY);
+        if (stored && typeof stored === 'object') return stored;
+      }
       const raw = localStorage.getItem(SR_STORAGE_KEY);
       return raw ? JSON.parse(raw) : {};
     } catch (e) {
@@ -338,7 +342,11 @@
 
   function saveSRData(data) {
     try {
-      localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(data));
+      if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+        window.AppStorage.set(SR_STORAGE_KEY, data);
+      } else {
+        localStorage.setItem(SR_STORAGE_KEY, JSON.stringify(data));
+      }
     } catch (e) {}
   }
 
@@ -401,11 +409,18 @@
 
   function loadLearningStorage() {
     try {
-      const savedCustom = localStorage.getItem(CUSTOM_PACKS_KEY);
-      if (savedCustom) customPacksStorage = JSON.parse(savedCustom);
+      if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+        const storedCustom = window.AppStorage.get(CUSTOM_PACKS_KEY);
+        if (storedCustom && typeof storedCustom === 'object') customPacksStorage = storedCustom;
+        const storedMistakes = window.AppStorage.get('flow_learning_mistakes');
+        if (Array.isArray(storedMistakes)) activeLearningSession.mistakesArchive = storedMistakes;
+      } else {
+        const savedCustom = localStorage.getItem(CUSTOM_PACKS_KEY);
+        if (savedCustom) customPacksStorage = JSON.parse(savedCustom);
 
-      const savedMistakes = localStorage.getItem('flow_learning_mistakes');
-      if (savedMistakes) activeLearningSession.mistakesArchive = JSON.parse(savedMistakes);
+        const savedMistakes = localStorage.getItem('flow_learning_mistakes');
+        if (savedMistakes) activeLearningSession.mistakesArchive = JSON.parse(savedMistakes);
+      }
     } catch (e) {
       console.warn('[LearningHub] Storage load error:', e);
     }
@@ -413,8 +428,13 @@
 
   function saveLearningStorage() {
     try {
-      localStorage.setItem(CUSTOM_PACKS_KEY, JSON.stringify(customPacksStorage));
-      localStorage.setItem('flow_learning_mistakes', JSON.stringify(activeLearningSession.mistakesArchive));
+      if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+        window.AppStorage.set(CUSTOM_PACKS_KEY, customPacksStorage);
+        window.AppStorage.set('flow_learning_mistakes', activeLearningSession.mistakesArchive);
+      } else {
+        localStorage.setItem(CUSTOM_PACKS_KEY, JSON.stringify(customPacksStorage));
+        localStorage.setItem('flow_learning_mistakes', JSON.stringify(activeLearningSession.mistakesArchive));
+      }
     } catch (e) {
       console.warn('[LearningHub] Storage save error:', e);
     }

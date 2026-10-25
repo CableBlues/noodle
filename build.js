@@ -26,8 +26,19 @@ console.log('====================================================\n');
 
 // 0. Tailwind CSS vorkompilieren
 try {
-  const npxCmd = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-  execSync(`${npxCmd} tailwindcss -i ./tailwind.input.css -o ./styles-tailwind.css --minify`, { cwd: rootDir, stdio: 'pipe' });
+  const localBin = path.join(rootDir, 'node_modules', '.bin', process.platform === 'win32' ? 'tailwindcss.cmd' : 'tailwindcss');
+  const tailwindCmd = fs.existsSync(localBin)
+    ? `"${localBin}"`
+    : (process.platform === 'win32' ? 'npx.cmd tailwindcss' : 'npx tailwindcss');
+  const nodeDir = path.dirname(process.execPath);
+  const pathSep = process.platform === 'win32' ? ';' : ':';
+  const customPath = process.env.PATH ? `${nodeDir}${pathSep}${process.env.PATH}` : nodeDir;
+  execSync(`${tailwindCmd} -i ./tailwind.input.css -o ./styles-tailwind.css --minify`, {
+    cwd: rootDir,
+    stdio: 'pipe',
+    timeout: 35000,
+    env: { ...process.env, PATH: customPath }
+  });
   console.log('✓ styles-tailwind.css erfolgreich vorkompiliert');
 } catch (err) {
   const cssPath = path.join(rootDir, 'styles-tailwind.css');

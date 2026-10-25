@@ -13,6 +13,10 @@ const MOVEMENT_HISTORY_KEY = 'noodle_movement_history_v1';
 
 function getMovementHistory() {
   try {
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+      const stored = window.AppStorage.get(MOVEMENT_HISTORY_KEY);
+      if (Array.isArray(stored)) return stored;
+    }
     const raw = localStorage.getItem(MOVEMENT_HISTORY_KEY);
     return raw ? JSON.parse(raw) : [];
   } catch (e) {
@@ -22,7 +26,12 @@ function getMovementHistory() {
 
 function saveMovementHistory(history) {
   try {
-    localStorage.setItem(MOVEMENT_HISTORY_KEY, JSON.stringify(history.slice(0, 100)));
+    const trimmed = Array.isArray(history) ? history.slice(0, 100) : [];
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+      window.AppStorage.set(MOVEMENT_HISTORY_KEY, trimmed);
+    } else {
+      localStorage.setItem(MOVEMENT_HISTORY_KEY, JSON.stringify(trimmed));
+    }
   } catch (e) {
     console.warn('saveMovementHistory error:', e);
   }
@@ -59,7 +68,11 @@ function deleteMovementHistoryItem(id) {
 
 function clearAllMovementHistory() {
   try {
-    localStorage.removeItem(MOVEMENT_HISTORY_KEY);
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.remove === 'function') {
+      window.AppStorage.remove(MOVEMENT_HISTORY_KEY);
+    } else {
+      localStorage.removeItem(MOVEMENT_HISTORY_KEY);
+    }
     renderMovementHistoryUI();
     if (typeof showToast === 'function') {
       showToast('Bewegungs-Tagebuch geleert.');
@@ -210,6 +223,10 @@ const WORKOUT_STATS_KEY = 'noodle_movement_stats_v1';
 
 function getMovementStats() {
   try {
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+      const stored = window.AppStorage.get(WORKOUT_STATS_KEY);
+      if (stored && typeof stored === 'object') return stored;
+    }
     const raw = localStorage.getItem(WORKOUT_STATS_KEY);
     return raw ? JSON.parse(raw) : { totalMinutes: 0, completedWorkouts: 0, lastWorkoutDate: null, streakDays: 0 };
   } catch (e) {
@@ -228,7 +245,11 @@ function recordCompletedWorkout(durationMinutes) {
       stats.streakDays = (stats.streakDays || 0) + 1;
       stats.lastWorkoutDate = todayStr;
     }
-    localStorage.setItem(WORKOUT_STATS_KEY, JSON.stringify(stats));
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+      window.AppStorage.set(WORKOUT_STATS_KEY, stats);
+    } else {
+      localStorage.setItem(WORKOUT_STATS_KEY, JSON.stringify(stats));
+    }
   } catch (e) {
     console.warn('recordCompletedWorkout error:', e);
   }

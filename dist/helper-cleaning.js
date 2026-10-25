@@ -187,11 +187,18 @@ function openCleaningGuideModal(defaultLevel = null) {
     activeCleaningLevel = defaultLevel;
   }
   
-  // Gespeicherten Zustand aus localStorage laden
+  // Gespeicherten Zustand aus AppStorage / localStorage laden
   try {
-    const saved = localStorage.getItem('flow_cleaning_state');
-    if (saved) {
-      activeCleaningCompletedSteps = JSON.parse(saved);
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+      const saved = window.AppStorage.get('flow_cleaning_state');
+      if (saved && typeof saved === 'object') {
+        activeCleaningCompletedSteps = saved;
+      }
+    } else {
+      const saved = localStorage.getItem('flow_cleaning_state');
+      if (saved) {
+        activeCleaningCompletedSteps = JSON.parse(saved);
+      }
     }
   } catch (e) {}
 
@@ -217,7 +224,11 @@ function toggleCleaningStep(stepId, event) {
   activeCleaningCompletedSteps[stepId] = !activeCleaningCompletedSteps[stepId];
   
   try {
-    localStorage.setItem('flow_cleaning_state', JSON.stringify(activeCleaningCompletedSteps));
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+      window.AppStorage.set('flow_cleaning_state', activeCleaningCompletedSteps);
+    } else {
+      localStorage.setItem('flow_cleaning_state', JSON.stringify(activeCleaningCompletedSteps));
+    }
   } catch (e) {}
   
   renderCleaningGuideUI();
@@ -232,7 +243,11 @@ function resetCleaningProgress() {
   });
   
   try {
-    localStorage.setItem('flow_cleaning_state', JSON.stringify(activeCleaningCompletedSteps));
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+      window.AppStorage.set('flow_cleaning_state', activeCleaningCompletedSteps);
+    } else {
+      localStorage.setItem('flow_cleaning_state', JSON.stringify(activeCleaningCompletedSteps));
+    }
   } catch (e) {}
   
   renderCleaningGuideUI();

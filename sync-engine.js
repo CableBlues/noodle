@@ -612,6 +612,11 @@ const cloudSyncEngine = {
 
 
   async pushState(isRetry = false) {
+    if (this.isSyncing) {
+      this.markPendingSync();
+      return { inProgress: true };
+    }
+
     if (typeof FlowAuth === 'undefined' || !FlowAuth.isLoggedIn()) return { skipped: true };
 
     if (typeof navigator !== 'undefined' && !navigator.onLine) {
@@ -700,10 +705,20 @@ const cloudSyncEngine = {
       return { success: false, error: e.message };
     } finally {
       this.isSyncing = false;
+      if (this.isPendingSync() && !this.retryTimer && typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
+        if (this.syncDebounceTimer) clearTimeout(this.syncDebounceTimer);
+        this.syncDebounceTimer = setTimeout(() => {
+          this.pushState();
+        }, 100);
+      }
     }
   },
 
   async pullState() {
+    if (this.isSyncing) {
+      return { inProgress: true };
+    }
+
     if (typeof FlowAuth === 'undefined' || !FlowAuth.isLoggedIn()) return { skipped: true };
 
     if (typeof navigator !== 'undefined' && !navigator.onLine) {
