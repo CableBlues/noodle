@@ -2504,8 +2504,8 @@
     <!-- MOBILE: Horizontale Wisch-Leiste für Kategorie-Pills (nur auf Touch/Mobile sichtbar) -->
     <nav id="mobile-category-tabs" class="mobile-category-tabs flex-1 min-w-0" aria-label="Kategorien"></nav>
 
-    <!-- SIDEBAR / DASHBOARD TOGGLE ARROW (GANZ LINKS IN DER MITTE) -->
-    <div class="fixed left-0 top-1/2 -translate-y-1/2 z-[120] flex items-center">
+    <!-- SIDEBAR / DASHBOARD TOGGLE ARROW (GANZ LINKS IN DER MITTE) - Reversibel deaktiviert zugunsten von #btn-header-tools -->
+    <div class="hidden fixed left-0 top-1/2 -translate-y-1/2 z-[120] flex items-center" aria-hidden="true">
       <button id="btn-dashboard-arrow-toggle" data-action="toggleDashboardOverlay" data-action-args='["$event"]' data-mouseenter="showPanelHover" data-mouseenter-args='["header-tools", 0]' data-mouseleave="hidePanelHover" data-mouseleave-args='["header-tools"]' class="w-7 h-12 sm:w-8 sm:h-14 rounded-r-2xl bg-[#0e0d18]/90 hover:bg-[#1b172c] border-y border-r border-purple-500/50 hover:border-purple-400 text-purple-300 hover:text-white flex items-center justify-center cursor-pointer shadow-[0_4px_20px_rgba(168,85,247,0.35)] backdrop-blur-md transition-all duration-200 active:scale-95 group/arrow" title="Tools-Menü öffnen" aria-label="Tools-Menü umschalten">
         <i id="dashboard-arrow-icon" data-lucide="chevron-right" class="w-5 h-5 transition-transform duration-300 group-hover/arrow:translate-x-0.5"></i>
       </button>
@@ -4223,7 +4223,7 @@
   </div>
 
   <!-- MODAL: STATISTIK- & ANALYSE-DASHBOARD -->
-  <div id="modal-report-dashboard" class="hidden fixed inset-0 z-[120000] bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-5 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeReportDashboard"]'>
+  <div id="modal-report-dashboard" role="dialog" aria-modal="true" aria-labelledby="modal-report-dashboard-title" class="hidden fixed inset-0 z-[120000] bg-black/85 backdrop-blur-xl flex items-center justify-center p-3 sm:p-5 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeReportDashboard"]'>
     <div class="theme-surface-modal relative w-full max-w-4xl rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto custom-scrollbar" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Dashboard Header -->
@@ -4233,7 +4233,7 @@
             <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
           </div>
           <div>
-            <h3 class="font-bold text-sm sm:text-base font-display text-white" data-i18n="report_dashboard_title">Statistiken & Fortschritt</h3>
+            <h3 id="modal-report-dashboard-title" class="font-bold text-sm sm:text-base font-display text-white" data-i18n="report_dashboard_title">Statistiken & Fortschritt</h3>
             <span class="text-[10px] text-gray-400 font-mono">Tages- & Wochenauswertung</span>
           </div>
         </div>
@@ -4367,7 +4367,7 @@
   </div>
 
   <!-- MODAL: EINSTELLUNGEN & RECHTLICHES (IMPRESSUM, DATENSCHUTZ, LIZENZEN) -->
-  <div id="modal-settings" class="hidden fixed inset-0 z-[120000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeSettingsModal"]'>
+  <div id="modal-settings" role="dialog" aria-modal="true" aria-labelledby="modal-settings-title" class="hidden fixed inset-0 z-[120000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeSettingsModal"]'>
     <div class="theme-surface-modal relative w-full max-w-3xl rounded-3xl p-5 sm:p-7 shadow-2xl space-y-5 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Modal Header -->
@@ -4377,7 +4377,7 @@
             <i data-lucide="settings" class="w-5 h-5"></i>
           </div>
           <div>
-            <h3 class="font-bold text-base sm:text-lg font-display text-white" data-i18n="settings_modal_title">Einstellungen & Rechtliches</h3>
+            <h3 id="modal-settings-title" class="font-bold text-base sm:text-lg font-display text-white" data-i18n="settings_modal_title">Einstellungen & Rechtliches</h3>
             <p class="text-xs text-gray-400" data-i18n="settings_modal_subtitle">App-Optionen, Datenschutzerklärung und Open-Source-Transparenz</p>
           </div>
         </div>
@@ -4881,7 +4881,7 @@
   </div>
 
   <!-- MODAL: KEYBOARD SHORTCUTS CHEAT SHEET (?) -->
-  <div id="modal-keyboard-shortcuts" class="hidden fixed inset-0 z-[135000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeKeyboardShortcuts"]'>
+  <div id="modal-keyboard-shortcuts" role="dialog" aria-modal="true" aria-labelledby="modal-shortcuts-title" class="hidden fixed inset-0 z-[135000] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeKeyboardShortcuts"]'>
     <div class="theme-surface-modal relative w-full max-w-md rounded-3xl shadow-2xl overflow-hidden flex flex-col p-5" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
@@ -4889,7 +4889,7 @@
         <div class="flex items-center gap-2.5">
           <div class="w-8 h-8 rounded-xl bg-purple-500/20 flex items-center justify-center text-purple-400 text-sm font-mono font-bold">⌨️</div>
           <div>
-            <h3 class="font-bold text-sm text-white" data-i18n="shortcuts_title">Tastaturkürzel & Shortcuts</h3>
+            <h3 id="modal-shortcuts-title" class="font-bold text-sm text-white" data-i18n="shortcuts_title">Tastaturkürzel & Shortcuts</h3>
             <p class="text-[10px] text-gray-400" data-i18n="shortcuts_desc">Schnellere Bedienung ohne Maus</p>
           </div>
         </div>
@@ -5461,249 +5461,6 @@
     </div>
   </div>
 
-  <!-- NATIVES MOBILE TOOLS SHEET -->
-  <div id="mobile-tools-sheet" class="hidden fixed inset-0 z-[100002] flex items-end justify-center bg-black/75 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeMobileToolsSheet"]'>
-    <div class="mobile-modal-card w-full max-w-lg bg-[#14141e] border-t border-white/15 rounded-t-3xl p-5 shadow-2xl space-y-4 max-h-[85vh] overflow-y-auto">
-      <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <h3 class="font-display font-bold text-base text-white flex items-center gap-2">
-          <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i>
-          <span>Werkzeuge & Noodle-Helfer</span>
-        </h3>
-        <button data-action="closeMobileToolsSheet" aria-label="Werkzeuge schließen" class="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white">
-          <i data-lucide="x" class="w-4 h-4"></i>
-        </button>
-      </div>
-
-      <div class="grid grid-cols-2 gap-2.5">
-        <!-- Live-Radio -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('radio'); if(window.RadioNewsEngine){ if(window.RadioNewsEngine.renderRadioPanelContent) window.RadioNewsEngine.renderRadioPanelContent(); if(window.RadioNewsEngine.probeAllStationsSignal) window.RadioNewsEngine.probeAllStationsSignal(); }" class="p-3 bg-white/[0.03] border border-purple-500/30 rounded-2xl text-left hover:bg-purple-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 shrink-0">
-            <i data-lucide="radio" class="w-4 h-4 text-purple-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-white leading-tight" data-i18n="tool_radio">Live-Radio</div>
-            <div class="text-[10px] text-gray-400">Web-Sender & Audio</div>
-          </div>
-        </button>
-
-        <!-- Nachrichten -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('news'); if(window.RadioNewsEngine && window.RadioNewsEngine.fetchNewsForRegion) RadioNewsEngine.fetchNewsForRegion();" class="p-3 bg-white/[0.03] border border-sky-500/30 rounded-2xl text-left hover:bg-sky-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-300 shrink-0">
-            <i data-lucide="newspaper" class="w-4 h-4 text-sky-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-white leading-tight" data-i18n="tool_news">Nachrichten</div>
-            <div class="text-[10px] text-gray-400">Ticker & Briefing</div>
-          </div>
-        </button>
-
-        <!-- Audio Studio -->
-        <button data-action="closeMobileToolsSheet; openAudioStudioMode" data-action-args='[[],["ambient"]]' class="col-span-2 p-3 bg-gradient-to-r from-purple-500/15 via-pink-500/10 to-transparent border border-purple-500/30 rounded-2xl text-left hover:bg-purple-500/20 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 shrink-0">
-            <i data-lucide="headphones" class="w-4 h-4 text-purple-300"></i>
-          </div>
-          <div class="flex-1 min-w-0">
-            <div class="text-xs font-bold text-purple-200 leading-tight flex items-center justify-between">
-              <span data-i18n="audio_studio_full_title">Audio & Sound Studio</span>
-              <span class="text-[9px] font-mono text-purple-300/80 uppercase" data-i18n="badge_pro_studio">Pro Studio</span>
-            </div>
-            <div class="text-[10px] text-purple-300/70" data-i18n="audio_studio_sub">Naturklänge, Genre-Beats, MP3, Spotify & DJ</div>
-          </div>
-        </button>
-
-        <!-- Einkauf -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('shopping'); if(typeof switchShoppingTab==='function') switchShoppingTab('list');" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
-            <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-emerald-300 leading-tight" data-i18n="nav_shopping">Einkauf</div>
-            <div class="text-[10px] text-gray-400">Liste & Vorrat</div>
-          </div>
-        </button>
-
-        <!-- Kochen -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('cooking'); if(typeof renderCookingPanel==='function') renderCookingPanel(); if(typeof switchCookingTab==='function') switchCookingTab('recipes');" class="p-3 bg-white/[0.03] border border-orange-500/20 rounded-2xl text-left hover:bg-orange-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-300 shrink-0">
-            <i data-lucide="chef-hat" class="w-4 h-4 text-orange-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-orange-300 leading-tight" data-i18n="nav_cooking">Kochen</div>
-            <div class="text-[10px] text-gray-400">Rezepte & Timer</div>
-          </div>
-        </button>
-
-        <!-- Wecker & Alarm -->
-        <button onclick="closeMobileToolsSheet(); openAlarmModal();" class="p-3 bg-white/[0.03] border border-pink-500/20 rounded-2xl text-left hover:bg-pink-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-300 shrink-0">
-            <i data-lucide="alarm-clock" class="w-4 h-4 text-pink-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-pink-300 leading-tight" data-i18n="mobile_tools_alarm_title">Wecker</div>
-            <div class="text-[10px] text-gray-400">Termine & Alarme</div>
-          </div>
-        </button>
-
-        <!-- Sport & Körper -->
-        <button onclick="closeMobileToolsSheet(); openSportModal();" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
-            <i data-lucide="dumbbell" class="w-4 h-4 text-emerald-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-emerald-300 leading-tight" data-i18n="tool_sport">Bewegung</div>
-            <div class="text-[10px] text-gray-400" data-i18n="sport_1min_workouts">1-Minuten Workouts</div>
-          </div>
-        </button>
-
-        <!-- Gesundheit -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('health'); if(window.HealthEngine && window.HealthEngine.renderPanel) window.HealthEngine.renderPanel();" class="p-3 bg-white/[0.03] border border-rose-500/30 rounded-2xl text-left hover:bg-rose-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center text-rose-300 shrink-0 shadow-sm">
-            <i data-lucide="shield-plus" class="w-4 h-4 text-rose-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-rose-300 leading-tight" data-i18n="tool_health">Gesundheit</div>
-            <div class="text-[10px] text-gray-400">Checkup-Radar & Meds</div>
-          </div>
-        </button>
-
-        <!-- Atem & Regulation -->
-        <button data-action="closeMobileToolsSheet; openRegulationModal" class="p-3 bg-white/[0.03] border border-teal-500/30 rounded-2xl text-left hover:bg-teal-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-teal-500/20 border border-teal-500/40 flex items-center justify-center text-teal-300 shrink-0 shadow-sm">
-            <i data-lucide="heart-pulse" class="w-4 h-4 text-teal-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-teal-300 leading-tight" data-i18n="tool_calm">Regulation</div>
-            <div class="text-[10px] text-gray-400">4-7-8 Atem & Erdung</div>
-          </div>
-        </button>
-
-        <!-- Klarheit -->
-        <button onclick="closeMobileToolsSheet(); openClarityModal();" class="p-3 bg-white/[0.03] border border-indigo-500/20 rounded-2xl text-left hover:bg-indigo-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-300 shrink-0">
-            <i data-lucide="anchor" class="w-4 h-4 text-indigo-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-indigo-300 leading-tight" data-i18n="tool_clarity">Klarheit</div>
-            <div class="text-[10px] text-gray-400">Impulskontrolle</div>
-          </div>
-        </button>
-
-        <!-- Safe Space -->
-        <button onclick="closeMobileToolsSheet(); openSafeSpaceModal();" class="p-3 bg-white/[0.03] border border-teal-500/20 rounded-2xl text-left hover:bg-teal-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-teal-300 shrink-0">
-            <i data-lucide="coffee" class="w-4 h-4 text-teal-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-teal-300 leading-tight">Safe Space</div>
-            <div class="text-[10px] text-gray-400">Sensory Recovery</div>
-          </div>
-        </button>
-
-        <!-- Brainstorming -->
-        <button onclick="closeMobileToolsSheet(); openBrainstormModal();" class="p-3 bg-white/[0.03] border border-amber-500/20 rounded-2xl text-left hover:bg-amber-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-300 shrink-0">
-            <i data-lucide="brain" class="w-4 h-4 text-amber-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-amber-300 leading-tight">Brainstorming</div>
-            <div class="text-[10px] text-gray-400">Ideen & Transfer</div>
-          </div>
-        </button>
-
-        <!-- Wissens-Labor -->
-        <button data-action="closeMobileToolsSheet; openLearningHubModal" class="p-3 bg-white/[0.03] border border-blue-500/20 rounded-2xl text-left hover:bg-blue-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-300 shrink-0">
-            <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-blue-300 leading-tight" data-i18n="tool_learning">Wissens-Labor</div>
-            <div class="text-[10px] text-gray-400">Quiz & Lernen</div>
-          </div>
-        </button>
-
-        <!-- Fun-Labor -->
-        <button data-action="closeMobileToolsSheet; togglePanel" data-action-args='[[],["humor-lab"]]' class="p-3 bg-white/[0.03] border border-violet-500/20 rounded-2xl text-left hover:bg-violet-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-violet-300 shrink-0">
-            <i data-lucide="smile" class="w-4 h-4 text-violet-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-violet-300 leading-tight" data-i18n="tool_humor">Fun-Labor</div>
-            <div class="text-[10px] text-gray-400">Soundboard & Witze</div>
-          </div>
-        </button>
-
-        <!-- Grundreinigung -->
-        <button onclick="closeMobileToolsSheet(); if(typeof openCleaningGuideModal==='function') openCleaningGuideModal();" class="p-3 bg-white/[0.03] border border-cyan-500/20 rounded-2xl text-left hover:bg-cyan-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-300 shrink-0">
-            <i data-lucide="brush" class="w-4 h-4 text-cyan-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-cyan-300 leading-tight" data-i18n="clean_guide_title">Putz-Guide</div>
-            <div class="text-[10px] text-gray-400">15m, 45m & Reizarm</div>
-          </div>
-        </button>
-
-        <!-- Social Hub -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('social'); if(window.SocialHubEngine) SocialHubEngine.render();" class="p-3 bg-white/[0.03] border border-pink-500/20 rounded-2xl text-left hover:bg-pink-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-pink-500/20 border border-pink-500/30 flex items-center justify-center text-pink-300 shrink-0">
-            <i data-lucide="share-2" class="w-4 h-4 text-pink-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-pink-300 leading-tight" data-i18n="tool_social">Social Hub</div>
-            <div class="text-[10px] text-gray-400">Post-Planer</div>
-          </div>
-        </button>
-
-        <!-- Team Chat -->
-        <button data-action="closeMobileToolsSheet; togglePanel" data-action-args='[[],["collab-chat"]]' class="p-3 bg-white/[0.03] border border-violet-500/20 rounded-2xl text-left hover:bg-violet-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-violet-500/20 border border-violet-500/30 flex items-center justify-center text-violet-300 shrink-0">
-            <i data-lucide="message-square" class="w-4 h-4 text-violet-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-violet-300 leading-tight" data-i18n="tool_chat">Team Chat</div>
-            <div class="text-[10px] text-gray-400">Live-Collab</div>
-          </div>
-        </button>
-
-        <!-- Live-Wetter -->
-        <button onclick="closeMobileToolsSheet(); togglePanel('weather'); if(typeof fetchLocalWeather==='function') fetchLocalWeather();" class="p-3 bg-white/[0.03] border border-sky-500/20 rounded-2xl text-left hover:bg-sky-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-300 shrink-0">
-            <i data-lucide="cloud-sun" class="w-4 h-4 text-sky-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-sky-300 leading-tight" data-i18n="dock_weather">Wetter</div>
-            <div class="text-[10px] text-gray-400">Live & 5-Tage</div>
-          </div>
-        </button>
-
-        <!-- Statistik -->
-        <button onclick="closeMobileToolsSheet(); openReportDashboard();" class="p-3 bg-white/[0.03] border border-emerald-500/20 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
-            <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-300"></i>
-          </div>
-          <div>
-            <div class="text-xs font-bold text-emerald-300 leading-tight" data-i18n="mobile_stats_report">Statistik</div>
-            <div class="text-[10px] text-gray-400">Dashboard & Insights</div>
-          </div>
-        </button>
-
-        <!-- Live-Sync -->
-        <button onclick="closeMobileToolsSheet(); openP2PSyncModal();" class="col-span-2 p-3 bg-white/[0.03] border border-emerald-500/30 rounded-2xl text-left hover:bg-emerald-500/10 active:scale-95 transition flex items-center justify-between gap-3">
-          <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-300 shrink-0">
-              <i data-lucide="cloud" class="w-4 h-4 text-emerald-300"></i>
-            </div>
-            <div>
-              <div class="text-xs font-bold text-emerald-300 leading-tight">Cloud-Sync & Geräte-Kopplung</div>
-              <div class="text-[10px] text-gray-400">Auto-Sync, QR-Code & Direkt-Link</div>
-            </div>
-          </div>
-          <span class="sync-auth-indicator w-2.5 h-2.5 rounded-full bg-gray-500 shrink-0"></span>
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- REIZPAUSE & SAFE-SPACE MODAL (VOLLBILD RECOVERY STUDIO MIT 5 RECOVERY-MODI) -->
   <div id="helper-safespace-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeSafeSpaceModal"]'>
     <div class="theme-surface-modal rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl relative flex flex-col gap-4 max-h-[92vh] overflow-y-auto" onclick="event.stopPropagation();">
@@ -6152,7 +5909,7 @@
   <!-- MODAL: ZENTRALES OPTIONSFENSTER FÜR AUFGABEN                           -->
   <!-- INNERE RUHE & SOMATISCHE REGULATION MODAL -->
   <!-- ====================================================================== -->
-  <div id="modal-regulation" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeRegulationModal"]'>
+  <div id="modal-regulation" role="dialog" aria-modal="true" aria-label="Innere Ruhe &amp; Somatische Regulation" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeRegulationModal"]'>
     <div class="theme-surface-modal rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-y-auto" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->
@@ -6455,7 +6212,7 @@
   <!-- ====================================================================== -->
   <!-- SMART BRAINSTORMING STUDIO (IDEEN-LABOR) MODAL -->
   <!-- ====================================================================== -->
-  <div id="brainstorm-modal" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeBrainstormModal"]'>
+  <div id="brainstorm-modal" role="dialog" aria-modal="true" aria-label="Smart Brainstorming Studio" class="hidden fixed inset-0 z-[100000] flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-fade-in" data-action="closeIfBackdrop" data-action-args='["$event","closeBrainstormModal"]'>
     <div class="theme-surface-modal rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden" data-action="stopPropagation" data-stop-propagation="true">
       
       <!-- Header -->

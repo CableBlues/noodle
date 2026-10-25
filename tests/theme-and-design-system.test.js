@@ -7,11 +7,13 @@ describe('Design-System & Theme-Konsistenz (Schritt 2)', () => {
   const base2Path = path.resolve(__dirname, '../styles-base-2.css');
   const indexPath = path.resolve(__dirname, '../index.html');
   const appCorePath = path.resolve(__dirname, '../app-core.js');
+  const mobilePath = path.resolve(__dirname, '../styles-mobile.css');
 
   const cssBase1 = fs.readFileSync(base1Path, 'utf8');
   const cssBase2 = fs.readFileSync(base2Path, 'utf8');
   const indexHtml = fs.readFileSync(indexPath, 'utf8');
   const appCoreCode = fs.readFileSync(appCorePath, 'utf8');
+  const cssMobile = fs.readFileSync(mobilePath, 'utf8');
 
   describe('1. Theme-Definitionen und CSS Custom Properties', () => {
     const ALL_23_THEMES = [
@@ -241,4 +243,28 @@ describe('Design-System & Theme-Konsistenz (Schritt 2)', () => {
       expect(appCoreCode).toContain('setTheme');
     });
   });
+
+  describe('7. UI/UX-Schritt 8: Desktop-Rand-Pfeil und Mobile-Bereinigung', () => {
+    it('sollte den Rand-Pfeil #btn-dashboard-arrow-toggle reversibel im DOM deaktivieren', () => {
+      expect(indexHtml).toContain('id="btn-dashboard-arrow-toggle"');
+      expect(indexHtml).toMatch(/<div class="hidden[^"]*"\s+aria-hidden="true">\s*<button id="btn-dashboard-arrow-toggle"/);
+    });
+
+    it('sollte den primären Tools-Einstieg über #btn-header-tools gewährleisten', () => {
+      expect(indexHtml).toContain('id="btn-header-tools"');
+      expect(indexHtml).toContain('data-action="togglePanel" data-action-args=\'["header-tools"]\'');
+    });
+
+    it('sollte das verwaiste #mobile-tools-sheet entfernt haben, während #modal-mobile-quick-menu gesichert bleibt', () => {
+      expect(indexHtml).not.toContain('id="mobile-tools-sheet"');
+      expect(indexHtml).toContain('id="modal-mobile-quick-menu"');
+    });
+
+    it('sollte den Header-Kollisionsschutz für schmale Bildschirme (< 640px) definieren', () => {
+      expect(cssMobile).toContain('@media (max-width: 640px)');
+      expect(cssMobile).toContain('#btn-label-report');
+      expect(cssMobile).toContain('display: none !important');
+    });
+  });
 });
+

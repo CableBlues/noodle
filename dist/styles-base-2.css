@@ -351,5 +351,15 @@ canvas#spectrum-canvas,
   color: #f8fafc !important;
 }
 
+/* ========================================================================== */
+/* BARRIEREFREIHEIT / ACCESSIBILITY: TASTENFOKUS & FOCUS-WITHIN REGELN        */
+/* ========================================================================== */
+.focus-within\:opacity-100:focus-within,
+.group:focus-within .group-focus-within\:opacity-100 {
+  opacity: 1 !important;
+}
 
-
+.focus-within\:pointer-events-auto:focus-within,
+.group:focus-within .group-focus-within\:pointer-events-auto {
+  pointer-events: auto !important;
+}

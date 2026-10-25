@@ -291,18 +291,14 @@ function rotatePremiumDance() {
 // Globaler Tastatur- & Shortcut-Handler
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' || e.code === 'Escape') {
-    if (document.activeElement && typeof document.activeElement.blur === 'function') {
-      try { document.activeElement.blur(); } catch(err) {}
-    }
+    try { document.activeElement?.blur?.(); } catch(err) {}
     e.preventDefault();
     closeAllPanelsAndModals();
     return;
   }
 
-  const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
-  if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select' || (document.activeElement && document.activeElement.isContentEditable)) {
-    return;
-  }
+  const activeTag = document.activeElement?.tagName?.toLowerCase() || '';
+  if (['input', 'textarea', 'select'].includes(activeTag) || document.activeElement?.isContentEditable) return;
 
   const pickModal = document.getElementById('helper-pick-modal');
   const isPickModalOpen = pickModal && !pickModal.classList.contains('hidden');
@@ -310,6 +306,9 @@ window.addEventListener('keydown', (e) => {
 
   // Space / Leertaste -> Timer pausieren / starten
   if (e.key === ' ' || e.code === 'Space') {
+    const isInteractive = (el) => el && typeof el.closest === 'function' && (el.isContentEditable || Boolean(el.closest('button, input, textarea, select, summary, a[href], [contenteditable="true"], [role="button"], [role="checkbox"], [role="radio"], [role="switch"], [role="menuitem"], [role="option"], [role="tab"]')));
+    if (isInteractive(document.activeElement) || isInteractive(e.target)) return;
+
     if (isPickModalOpen) {
       e.preventDefault();
       if (typeof currentWhatNowChosen !== 'undefined' && currentWhatNowChosen && currentWhatNowChosen.task) {
@@ -564,6 +563,7 @@ function closeAllPanelsAndModals() {
   // 7. PanelManager & ModalManager Fallback
   if (typeof PanelManager !== 'undefined' && typeof PanelManager.closeAll === 'function') PanelManager.closeAll();
   if (typeof ModalManager !== 'undefined' && typeof ModalManager.closeAll === 'function') ModalManager.closeAll();
+  if (typeof ModalFocusManager !== 'undefined' && typeof ModalFocusManager.reset === 'function') ModalFocusManager.reset();
 
   // 8. Reset active state on mac dock and clear pinned panel state
   if (typeof currentlyOpenPanel !== 'undefined') currentlyOpenPanel = null;
@@ -690,15 +690,21 @@ window.triggerSparkleEffect = triggerSparkleEffect;
 function openSettingsModal(tab = 'general') {
   const modal = document.getElementById('modal-settings');
   if (!modal) return;
-  modal.classList.remove('hidden');
   switchSettingsTab(tab);
+  if (typeof ModalFocusManager !== 'undefined') {
+    ModalFocusManager.open(modal, document.getElementById(`settings-tab-${tab}`), closeSettingsModal);
+  } else { modal.classList.remove('hidden'); }
   renderLucideIcons();
 }
+window.openSettingsModal = openSettingsModal;
 
 function closeSettingsModal() {
   const modal = document.getElementById('modal-settings');
-  if (modal) modal.classList.add('hidden');
+  if (!modal) return;
+  if (typeof ModalFocusManager !== 'undefined') ModalFocusManager.close(modal);
+  else modal.classList.add('hidden');
 }
+window.closeSettingsModal = closeSettingsModal;
 
 function switchSettingsTab(tabName) {
   const tabs = ['general', 'history', 'impressum', 'privacy', 'licenses'];
@@ -1486,7 +1492,8 @@ function handleAddTermin() {
 function openKeyboardShortcuts() {
   const m = document.getElementById('modal-keyboard-shortcuts');
   if (m) {
-    m.classList.remove('hidden');
+    if (typeof ModalFocusManager !== 'undefined') ModalFocusManager.open(m, null, closeKeyboardShortcuts);
+    else m.classList.remove('hidden');
     renderLucideIcons();
   }
 }
@@ -1494,7 +1501,10 @@ window.openKeyboardShortcuts = openKeyboardShortcuts;
 
 function closeKeyboardShortcuts() {
   const m = document.getElementById('modal-keyboard-shortcuts');
-  if (m) m.classList.add('hidden');
+  if (m) {
+    if (typeof ModalFocusManager !== 'undefined') ModalFocusManager.close(m);
+    else m.classList.add('hidden');
+  }
 }
 window.closeKeyboardShortcuts = closeKeyboardShortcuts;
 
@@ -1971,15 +1981,7 @@ if (typeof window !== 'undefined') {
   if (typeof openCommandPalette !== 'undefined') window.openCommandPalette = openCommandPalette;
   if (typeof closeCommandPalette !== 'undefined') window.closeCommandPalette = closeCommandPalette;
   if (typeof switchMobileNavTab !== 'undefined') window.switchMobileNavTab = switchMobileNavTab;
-  window.openMobileQuickAddModal = openMobileQuickAddModal;
-  window.closeMobileQuickAddModal = closeMobileQuickAddModal;
-  window.selectMobileQuickAddCategory = selectMobileQuickAddCategory;
-  window.selectMobilePriority = selectMobilePriority;
-  window.toggleMobileVoiceInput = toggleMobileVoiceInput;
-  window.submitMobileQuickAdd = submitMobileQuickAdd;
-  window.toggleExtraThemesAccordion = toggleExtraThemesAccordion;
-  window.renderHistoryGallery = renderHistoryGallery;
-  window.deleteHistoryScreenshot = deleteHistoryScreenshot;
+  Object.assign(window, { openMobileQuickAddModal, closeMobileQuickAddModal, selectMobileQuickAddCategory, selectMobilePriority, toggleMobileVoiceInput, submitMobileQuickAdd, toggleExtraThemesAccordion, renderHistoryGallery, deleteHistoryScreenshot });
 }
 if (typeof globalThis !== 'undefined' && typeof window !== 'undefined' && globalThis !== window) {
   Object.assign(globalThis, {
@@ -1994,4 +1996,3 @@ if (typeof globalThis !== 'undefined' && typeof window !== 'undefined' && global
     toggleExtraThemesAccordion, renderHistoryGallery, deleteHistoryScreenshot
   });
 }
-
