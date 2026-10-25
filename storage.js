@@ -142,7 +142,12 @@ const IDB_VAULT = {
 
 let hasShownQuotaToast = false;
 
-function triggerQuotaToastOnce() {
+function triggerQuotaToastOnce(err = null) {
+  if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.emit === 'function') {
+    try {
+      NoodleEvents.emit('storage:quota-exceeded', { error: err });
+    } catch (e) {}
+  }
   if (!hasShownQuotaToast) {
     hasShownQuotaToast = true;
     if (typeof showToast === 'function') {
@@ -358,9 +363,77 @@ function showCrashRecoveryScreen(errorMsg = '') {
   document.body.appendChild(overlay);
 }
 
+const NoodleEvents = (typeof window !== 'undefined' && window.NoodleEvents && window.NoodleEvents._listeners)
+  ? window.NoodleEvents
+  : ((typeof globalThis !== 'undefined' && globalThis.NoodleEvents && globalThis.NoodleEvents._listeners)
+    ? globalThis.NoodleEvents
+    : {
+        _listeners: new Map(),
+
+        on(event, callback) {
+          if (typeof callback !== 'function') return () => {};
+          if (!this._listeners.has(event)) {
+            this._listeners.set(event, new Set());
+          }
+          this._listeners.get(event).add(callback);
+          return () => this.off(event, callback);
+        },
+
+        off(event, callback) {
+          if (!this._listeners.has(event)) return;
+          if (callback) {
+            const set = this._listeners.get(event);
+            set.delete(callback);
+            if (set.size === 0) {
+              this._listeners.delete(event);
+            }
+          } else {
+            this._listeners.delete(event);
+          }
+        },
+
+        once(event, callback) {
+          if (typeof callback !== 'function') return () => {};
+          const wrapper = (...args) => {
+            this.off(event, wrapper);
+            try {
+              callback(...args);
+            } catch (err) {
+              console.error(`[NoodleEvents] Fehler in once-Handler für '${event}':`, err);
+            }
+          };
+          return this.on(event, wrapper);
+        },
+
+        emit(event, payload) {
+          if (!this._listeners.has(event)) return;
+          const callbacks = Array.from(this._listeners.get(event));
+          for (const cb of callbacks) {
+            try {
+              cb(payload);
+            } catch (err) {
+              console.error(`[NoodleEvents] Fehler im Handler für '${event}':`, err);
+              if (typeof ErrorDiagnostics !== 'undefined' && ErrorDiagnostics.record) {
+                ErrorDiagnostics.record('EVENT_BUS_ERROR', { event, error: String(err) });
+              }
+            }
+          }
+        },
+
+        listenerCount(event) {
+          if (!this._listeners.has(event)) return 0;
+          return this._listeners.get(event).size;
+        },
+
+        clear() {
+          this._listeners.clear();
+        }
+      });
+
 if (typeof window !== 'undefined') {
   window.IDB_VAULT = IDB_VAULT;
   window.AppStorage = AppStorage;
+  window.NoodleEvents = NoodleEvents;
   window.ErrorDiagnostics = ErrorDiagnostics;
   window.showCrashRecoveryScreen = showCrashRecoveryScreen;
   window.__resetQuotaToastForTesting = () => { hasShownQuotaToast = false; };
@@ -368,6 +441,7 @@ if (typeof window !== 'undefined') {
 if (typeof globalThis !== 'undefined') {
   globalThis.IDB_VAULT = IDB_VAULT;
   globalThis.AppStorage = AppStorage;
+  globalThis.NoodleEvents = NoodleEvents;
   globalThis.ErrorDiagnostics = ErrorDiagnostics;
   globalThis.showCrashRecoveryScreen = showCrashRecoveryScreen;
   globalThis.__resetQuotaToastForTesting = () => { hasShownQuotaToast = false; };

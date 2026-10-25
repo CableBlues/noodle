@@ -129,7 +129,15 @@ function getBrainstormStorageKey() {
 
 function loadBrainstormIdeas() {
   try {
-    const raw = localStorage.getItem(getBrainstormStorageKey());
+    const key = getBrainstormStorageKey();
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+      const stored = window.AppStorage.get(key);
+      if (Array.isArray(stored)) {
+        brainstormIdeas = stored;
+        return;
+      }
+    }
+    const raw = localStorage.getItem(key);
     if (raw) {
       brainstormIdeas = JSON.parse(raw);
     } else {
@@ -143,7 +151,12 @@ function loadBrainstormIdeas() {
 
 function saveBrainstormIdeas() {
   try {
-    localStorage.setItem(getBrainstormStorageKey(), JSON.stringify(brainstormIdeas));
+    const key = getBrainstormStorageKey();
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+      window.AppStorage.set(key, brainstormIdeas);
+    } else {
+      localStorage.setItem(key, JSON.stringify(brainstormIdeas));
+    }
   } catch (e) {
     console.warn('[Brainstorm] Save error:', e);
   }

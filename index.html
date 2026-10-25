@@ -400,10 +400,10 @@
                       <span class="text-xs text-white truncate font-medium" id="news-tts-current-title">Wird vorgelesen...</span>
                     </div>
                     <div class="flex items-center gap-1 shrink-0">
-                      <button data-action="RadioNewsEngine.prevNewsItem" class="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer"><i data-lucide="skip-back" class="w-3.5 h-3.5"></i></button>
-                      <button id="news-tts-pause-btn" data-action="RadioNewsEngine.toggleNewsReaderPause" class="p-1 rounded-lg bg-purple-500 hover:bg-purple-400 text-white cursor-pointer"><i data-lucide="pause" class="w-3.5 h-3.5 fill-white"></i></button>
-                      <button data-action="RadioNewsEngine.nextNewsItem" class="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer"><i data-lucide="skip-forward" class="w-3.5 h-3.5"></i></button>
-                      <button data-action="RadioNewsEngine.stopNewsReader" class="p-1 rounded-lg bg-rose-500/30 hover:bg-rose-500/50 text-rose-200 cursor-pointer ml-1"><i data-lucide="square" class="w-3.5 h-3.5"></i></button>
+                      <button data-action="RadioNewsEngine.prevNewsItem" aria-label="Vorherige Nachricht" class="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer"><i data-lucide="skip-back" class="w-3.5 h-3.5"></i></button>
+                      <button id="news-tts-pause-btn" data-action="RadioNewsEngine.toggleNewsReaderPause" aria-label="Vorlesen pausieren oder fortsetzen" class="p-1 rounded-lg bg-purple-500 hover:bg-purple-400 text-white cursor-pointer"><i data-lucide="pause" class="w-3.5 h-3.5 fill-white"></i></button>
+                      <button data-action="RadioNewsEngine.nextNewsItem" aria-label="Nächste Nachricht" class="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-white cursor-pointer"><i data-lucide="skip-forward" class="w-3.5 h-3.5"></i></button>
+                      <button data-action="RadioNewsEngine.stopNewsReader" aria-label="Vorlesen stoppen" class="p-1 rounded-lg bg-rose-500/30 hover:bg-rose-500/50 text-rose-200 cursor-pointer ml-1"><i data-lucide="square" class="w-3.5 h-3.5"></i></button>
                     </div>
                   </div>
 
@@ -718,9 +718,9 @@
                           <button data-action="toggleMusicRepeat" id="music-btn-repeat" class="p-1 rounded-lg text-gray-400 hover:text-white transition cursor-pointer" title="Wiederholen"><i data-lucide="repeat" class="w-3 h-3"></i></button>
                         </div>
                         <div class="flex items-center gap-1.5">
-                          <button data-action="playPrevMusicTrack" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"><i data-lucide="skip-back" class="w-3.5 h-3.5"></i></button>
-                          <button data-action="toggleMusicPlayback" id="music-play-pause-btn" class="p-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition cursor-pointer shadow-md"><i data-lucide="play" class="w-4 h-4"></i></button>
-                          <button data-action="playNextMusicTrack" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"><i data-lucide="skip-forward" class="w-3.5 h-3.5"></i></button>
+                          <button data-action="playPrevMusicTrack" aria-label="Vorheriger Track" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"><i data-lucide="skip-back" class="w-3.5 h-3.5"></i></button>
+                          <button data-action="toggleMusicPlayback" id="music-play-pause-btn" aria-label="Musik abspielen oder pausieren" class="p-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white transition cursor-pointer shadow-md"><i data-lucide="play" class="w-4 h-4"></i></button>
+                          <button data-action="playNextMusicTrack" aria-label="Nächster Track" class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-white transition cursor-pointer"><i data-lucide="skip-forward" class="w-3.5 h-3.5"></i></button>
                         </div>
                         <div class="flex items-center gap-1 w-20">
                           <i data-lucide="volume-2" class="w-3 h-3 text-gray-400"></i>
@@ -5010,13 +5010,13 @@
           <div id="helper-steps-timer-widget" class="flex items-center gap-1.5 bg-black/40 border border-white/10 px-2 py-1 rounded-xl">
             <span id="helper-steps-timer-task" class="hidden"></span>
             <span id="helper-steps-timer-display" class="font-mono font-bold text-xs text-gray-300">02:00</span>
-            <button id="helper-steps-timer-play" data-action="startTimer" class="p-1 hover:bg-emerald-500/20 text-emerald-400 rounded transition cursor-pointer">
+            <button id="helper-steps-timer-play" data-action="startTimer" aria-label="Timer starten" class="p-1 hover:bg-emerald-500/20 text-emerald-400 rounded transition cursor-pointer">
               <i data-lucide="play" class="w-3 h-3"></i>
             </button>
-            <button id="helper-steps-timer-pause" data-action="pauseTimer" class="p-1 hover:bg-amber-500/20 text-amber-400 rounded transition cursor-pointer hidden">
+            <button id="helper-steps-timer-pause" data-action="pauseTimer" aria-label="Timer pausieren" class="p-1 hover:bg-amber-500/20 text-amber-400 rounded transition cursor-pointer hidden">
               <i data-lucide="pause" class="w-3 h-3"></i>
             </button>
-            <button id="helper-steps-timer-stop" data-action="stopTimer" class="p-1 hover:bg-rose-500/20 text-rose-400 rounded transition cursor-pointer">
+            <button id="helper-steps-timer-stop" data-action="stopTimer" aria-label="Timer stoppen" class="p-1 hover:bg-rose-500/20 text-rose-400 rounded transition cursor-pointer">
               <i data-lucide="square" class="w-3 h-3"></i>
             </button>
           </div>
@@ -5469,7 +5469,7 @@
           <i data-lucide="lightbulb" class="w-4 h-4 text-amber-400"></i>
           <span>Werkzeuge & Noodle-Helfer</span>
         </h3>
-        <button data-action="closeMobileToolsSheet" class="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white">
+        <button data-action="closeMobileToolsSheet" aria-label="Werkzeuge schließen" class="p-1 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -5723,7 +5723,7 @@
             </p>
           </div>
         </div>
-        <button data-action="closeSafeSpaceModal" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
+        <button data-action="closeSafeSpaceModal" aria-label="Safe Space schließen" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -5913,7 +5913,7 @@
             </div>
           </div>
         </div>
-        <button data-action="closeClarityModal" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
+        <button data-action="closeClarityModal" aria-label="Clarity Dialog schließen" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -6170,7 +6170,7 @@
             </div>
           </div>
         </div>
-        <button data-action="closeRegulationModal" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
+        <button data-action="closeRegulationModal" aria-label="Regulation Dialog schließen" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -6477,7 +6477,7 @@
           <button data-action="clearAllBrainstormIdeas" class="p-2 rounded-xl bg-white/5 hover:bg-rose-500/20 border border-white/10 hover:border-rose-500/30 text-gray-400 hover:text-rose-300 text-xs transition cursor-pointer" title="Alle Ideen leeren">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
           </button>
-          <button data-action="closeBrainstormModal" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer">
+          <button data-action="closeBrainstormModal" aria-label="Brainstorm Dialog schließen" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer">
             <i data-lucide="x" class="w-4 h-4"></i>
           </button>
         </div>
@@ -6499,7 +6499,7 @@
             <option value="goal">🎯 Ziel</option>
           </select>
           <input type="text" id="brainstorm-quick-input" data-keydown="handleBrainstormInputKeydown" data-keydown-args='["$event"]' placeholder="Gedanken tippen (Enter zum Speichern)..." class="flex-1 bg-transparent border-0 text-xs sm:text-sm text-white placeholder:text-gray-500 outline-none font-medium px-1" />
-          <button data-action="submitBrainstormInput" class="p-2.5 bg-teal-500 hover:bg-teal-400 text-black font-bold rounded-xl text-xs transition cursor-pointer shrink-0 shadow-md">
+          <button data-action="submitBrainstormInput" aria-label="Gedanken hinzufügen" class="p-2.5 bg-teal-500 hover:bg-teal-400 text-black font-bold rounded-xl text-xs transition cursor-pointer shrink-0 shadow-md">
             <i data-lucide="plus" class="w-4 h-4"></i>
           </button>
           <button id="brainstorm-mic-btn" data-action="toggleBrainstormRecording" class="p-2.5 rounded-xl bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/30 text-teal-300 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer shrink-0" title="Mikrofon-Spracheingabe">
@@ -6570,7 +6570,7 @@
             </p>
           </div>
         </div>
-        <button data-action="closeSampleManagerModal" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
+        <button data-action="closeSampleManagerModal" aria-label="Beispiel-Aufgaben Dialog schließen" class="text-gray-400 hover:text-white p-1 rounded-lg transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -6622,7 +6622,7 @@
         <p class="hidden" id="supermarket-progress-text">
           Lade Einkaufsliste...
         </p>
-        <button data-action="closeSupermarketModal" class="text-gray-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
+        <button data-action="closeSupermarketModal" aria-label="Supermarkt-Modus schließen" class="text-gray-400 hover:text-white p-2 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
@@ -7194,7 +7194,7 @@
             </p>
           </div>
         </div>
-        <button data-action="closeUndoHistoryModal" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
+        <button data-action="closeUndoHistoryModal" aria-label="Verlaufsdialog schließen" class="text-gray-400 hover:text-white p-1.5 rounded-xl bg-white/5 hover:bg-white/10 transition cursor-pointer">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>

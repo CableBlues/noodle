@@ -724,20 +724,23 @@ function switchSettingsTab(tabName) {
 
 function getHistoryScreenshots() {
   try {
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+      const stored = window.AppStorage.get('flow_history_screenshots');
+      if (Array.isArray(stored)) return stored;
+    }
     const saved = localStorage.getItem('flow_history_screenshots');
     return saved ? JSON.parse(saved) : [];
-  } catch (e) {
-    console.warn('getHistoryScreenshots error:', e);
-    return [];
-  }
+  } catch (e) { return []; }
 }
 
 function saveHistoryScreenshots(list) {
   try {
-    localStorage.setItem('flow_history_screenshots', JSON.stringify(list));
-  } catch (e) {
-    console.warn('saveHistoryScreenshots error:', e);
-  }
+    if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+      window.AppStorage.set('flow_history_screenshots', list);
+    } else {
+      localStorage.setItem('flow_history_screenshots', JSON.stringify(list));
+    }
+  } catch (e) {}
 }
 
 function handleHistoryScreenshotUpload(event) {
@@ -751,15 +754,9 @@ function handleHistoryScreenshotUpload(event) {
       de: 'Titel oder Notiz für diesen Screenshot (z. B. "Früher Prototyp"):',
       en: 'Title or note for this screenshot (e.g. "Early Prototype"):'
     }) : 'Titel oder Notiz für diesen Screenshot:';
-    
     const userTitle = prompt(promptMsg, defaultTitle) || defaultTitle;
     const list = getHistoryScreenshots();
-    list.unshift({
-      id: 'shot_' + Date.now(),
-      title: userTitle.trim(),
-      date: new Date().toLocaleDateString(),
-      data: base64
-    });
+    list.unshift({ id: 'shot_' + Date.now(), title: userTitle.trim(), date: new Date().toLocaleDateString(), data: base64 });
     saveHistoryScreenshots(list);
     renderHistoryGallery();
   };
@@ -767,9 +764,7 @@ function handleHistoryScreenshotUpload(event) {
 }
 
 function deleteHistoryScreenshot(id) {
-  let list = getHistoryScreenshots();
-  list = list.filter(item => item.id !== id);
-  saveHistoryScreenshots(list);
+  saveHistoryScreenshots(getHistoryScreenshots().filter(item => item.id !== id));
   renderHistoryGallery();
 }
 
@@ -873,6 +868,12 @@ async function clearAllApplicationData() {
 
   if (confirmed) {
     try {
+      if (typeof IDB_VAULT !== 'undefined' && IDB_VAULT && typeof IDB_VAULT.getAllKeys === 'function') {
+        const keys = await IDB_VAULT.getAllKeys();
+        for (const k of keys) {
+          try { await IDB_VAULT.remove(k); } catch (err) {}
+        }
+      }
       localStorage.clear();
       sessionStorage.clear();
       window.location.reload();

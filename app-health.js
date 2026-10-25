@@ -217,9 +217,15 @@
 
   function loadProfile() {
     try {
-      const stored = localStorage.getItem('flow_health_profile');
-      if (stored) {
-        return { ...DEFAULT_HEALTH_PROFILE, ...JSON.parse(stored) };
+      if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.get === 'function') {
+        const stored = window.AppStorage.get('flow_health_profile');
+        if (stored && typeof stored === 'object') {
+          return { ...DEFAULT_HEALTH_PROFILE, ...stored };
+        }
+      }
+      const raw = localStorage.getItem('flow_health_profile');
+      if (raw) {
+        return { ...DEFAULT_HEALTH_PROFILE, ...JSON.parse(raw) };
       }
     } catch (e) {}
     return { ...DEFAULT_HEALTH_PROFILE };
@@ -229,7 +235,11 @@
     try {
       const current = loadProfile();
       const merged = { ...current, ...updated };
-      localStorage.setItem('flow_health_profile', JSON.stringify(merged));
+      if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
+        window.AppStorage.set('flow_health_profile', merged);
+      } else {
+        localStorage.setItem('flow_health_profile', JSON.stringify(merged));
+      }
       renderHealthPanel();
       if (typeof window.showToast === 'function') {
         window.showToast('✓ Gesundheitsprofil gespeichert 🛡️');

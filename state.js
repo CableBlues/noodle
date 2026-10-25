@@ -962,18 +962,27 @@ function migrateState(raw, lang) {
 window.migrateState = migrateState;
 
 function loadState() {
+  let loaded = null;
   try {
     const saved = localStorage.getItem(STORE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
       if (parsed) {
-        return migrateState(parsed, typeof currentLang !== 'undefined' ? currentLang : 'de');
+        loaded = migrateState(parsed, typeof currentLang !== 'undefined' ? currentLang : 'de');
       }
     }
   } catch (e) {
     console.warn('[State] loadState parse warning, returning migrated defaults:', e);
   }
-  return migrateState(null, typeof currentLang !== 'undefined' ? currentLang : 'de');
+  if (!loaded) {
+    loaded = migrateState(null, typeof currentLang !== 'undefined' ? currentLang : 'de');
+  }
+  if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.emit === 'function') {
+    try {
+      NoodleEvents.emit('state:loaded', { state: loaded });
+    } catch (evErr) {}
+  }
+  return loaded;
 }
 
 function setWorkspace(mode) {
@@ -991,6 +1000,11 @@ function setWorkspace(mode) {
 
   if (typeof state !== "undefined" && state) state.activeWorkspace = mode;
   if (typeof window !== "undefined" && window.state) window.state.activeWorkspace = mode;
+  if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.emit === 'function') {
+    try {
+      NoodleEvents.emit('workspace:changed', { mode });
+    } catch (evErr) {}
+  }
   saveState();
   updateWorkspaceSwitchUI();
   if (typeof renderApp === 'function') renderApp();
@@ -1272,12 +1286,16 @@ function saveState(skipP2PSync = false) {
   if (currentState) {
     currentState.updatedAt = new Date().toISOString();
   }
+  let saveSuccess = false;
+  let saveError = null;
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify(currentState));
     if (typeof IDB_VAULT !== 'undefined' && IDB_VAULT && typeof IDB_VAULT.set === 'function') {
       IDB_VAULT.set(STORE_KEY, currentState);
     }
+    saveSuccess = true;
   } catch (e) {
+    saveError = e;
     console.warn('[State] Storage quota exceeded or write failed, attempting emergency trim:', e);
     try {
       if (currentState && Array.isArray(currentState.archive) && currentState.archive.length > 30) {
@@ -1295,29 +1313,57 @@ function saveState(skipP2PSync = false) {
       if (typeof IDB_VAULT !== 'undefined' && IDB_VAULT && typeof IDB_VAULT.set === 'function') {
         IDB_VAULT.set(STORE_KEY, currentState);
       }
+      saveSuccess = true;
+      saveError = null;
     } catch (err) {
+      saveError = err;
       console.error('[State] Critical failure writing state to localStorage:', err);
       if (typeof IDB_VAULT !== 'undefined' && IDB_VAULT && typeof IDB_VAULT.set === 'function') {
-        IDB_VAULT.set(STORE_KEY, currentState);
+        try { IDB_VAULT.set(STORE_KEY, currentState); } catch (idbErr) {}
       }
     }
   }
+
+  if (!saveSuccess) {
+    if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.emit === 'function') {
+      try {
+        NoodleEvents.emit('state:save-failed', { error: saveError, state: currentState });
+      } catch (evErr) {}
+    }
+    return false;
+  }
+
   if (!skipP2PSync && typeof p2pSyncEngine !== 'undefined' && p2pSyncEngine.isConnected()) {
     p2pSyncEngine.broadcastStateUpdate();
   }
   if (!skipP2PSync && typeof cloudSyncEngine !== 'undefined' && typeof FlowAuth !== 'undefined' && FlowAuth.isLoggedIn()) {
     cloudSyncEngine.triggerAutoPush();
   }
+  if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.emit === 'function') {
+    try {
+      NoodleEvents.emit('state:saved', { state: currentState, skipP2PSync });
+    } catch (evErr) {}
+  }
+  return true;
 }
 
 function persistHistory() {
+  const activeStack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : historyStack;
   try {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(historyStack));
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(activeStack));
   } catch (e) {
-    if (Array.isArray(historyStack) && historyStack.length > 5) {
-      historyStack = historyStack.slice(-5);
+    if (Array.isArray(activeStack) && activeStack.length > 5) {
+      const trimmed = activeStack.slice(-5);
+      historyStack = trimmed;
+      if (typeof window !== 'undefined') {
+        window.historyStack.length = 0;
+        window.historyStack.push(...trimmed);
+      }
+      if (typeof globalThis !== 'undefined' && globalThis.historyStack !== (typeof window !== 'undefined' ? window.historyStack : null)) {
+        globalThis.historyStack = trimmed;
+      }
       try {
-        localStorage.setItem(HISTORY_KEY, JSON.stringify(historyStack));
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(trimmed));
       } catch (e2) {
         try { localStorage.removeItem(HISTORY_KEY); } catch (e3) {}
       }
@@ -1428,6 +1474,11 @@ function saveHistory(actionInfo = null) {
     if (typeof globalThis !== 'undefined') globalThis.historyStack = stack;
     persistHistory();
     updateUndoUI();
+    if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.emit === 'function') {
+      try {
+        NoodleEvents.emit('history:saved', { label, snapshot: listSnapshot });
+      } catch (evErr) {}
+    }
   }
 }
 
@@ -1640,6 +1691,11 @@ function handleUndo() {
   persistHistory();
   updateUndoUI();
   saveState();
+  if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.emit === 'function') {
+    try {
+      NoodleEvents.emit('history:undo', { restoredSnapshot: popped });
+    } catch (evErr) {}
+  }
 
   const undoneAction = popped._actionLabel ? ` (${popped._actionLabel})` : '';
   const undoMsg = (typeof tr === 'function')
@@ -2356,6 +2412,7 @@ if (typeof window !== 'undefined') {
   window.loadState = loadState;
   window.saveHistory = saveHistory;
   window.loadHistory = loadHistory;
+  window.persistHistory = persistHistory;
   window.migrateState = migrateState;
   window.handleUndo = handleUndo;
   window.updateUndoUI = updateUndoUI;
@@ -2413,6 +2470,95 @@ if (typeof globalThis !== 'undefined') {
   globalThis.WORK_CATEGORIES_ORDER = WORK_CATEGORIES_ORDER;
   globalThis.t = t;
   globalThis.tr = tr;
+}
+
+// ============================================================================
+// ARCHITEKTUR-FASSADE: StateCore
+// Bietet eine saubere, modulare Schnittstelle für State-Zugriff, Mutationen
+// und Entkopplung über den NoodleEvents-Bus ohne globale Seiteneffekte.
+// ============================================================================
+const StateCore = (typeof window !== 'undefined' && window.StateCore)
+  ? window.StateCore
+  : ((typeof globalThis !== 'undefined' && globalThis.StateCore)
+    ? globalThis.StateCore
+    : {
+        get() {
+          return (typeof window !== 'undefined' && window.state) ? window.state : (typeof globalThis !== 'undefined' && globalThis.state ? globalThis.state : state);
+        },
+        getActiveWorkspace() {
+          const s = this.get();
+          return (s && s.activeWorkspace) ? s.activeWorkspace : 'private';
+        },
+        setWorkspace(mode) {
+          return setWorkspace(mode);
+        },
+        save(skipP2PSync = false) {
+          return saveState(skipP2PSync);
+        },
+        load() {
+          return loadState();
+        },
+        saveHistory(actionInfo = null) {
+          return saveHistory(actionInfo);
+        },
+        undo() {
+          return handleUndo();
+        },
+        undoToStep(targetIndex) {
+          return handleUndoToStep(targetIndex);
+        },
+        on(event, callback) {
+          if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.on === 'function') {
+            return NoodleEvents.on(event, callback);
+          }
+          return () => {};
+        },
+        off(event, callback) {
+          if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.off === 'function') {
+            return NoodleEvents.off(event, callback);
+          }
+        },
+        emit(event, data) {
+          if (typeof NoodleEvents !== 'undefined' && NoodleEvents && typeof NoodleEvents.emit === 'function') {
+            NoodleEvents.emit(event, data);
+          }
+        }
+      });
+
+if (typeof window !== 'undefined') {
+  window.StateCore = StateCore;
+
+  // Multi-Tab Konsistenz: storage-Event-Synchronisation
+  window.addEventListener('storage', (event) => {
+    if (event.key === STORE_KEY && event.newValue) {
+      try {
+        const remoteState = JSON.parse(event.newValue);
+        if (!remoteState || typeof remoteState !== 'object') return;
+        const currentState = (typeof window !== 'undefined' && window.state) ? window.state : state;
+        
+        // Timestamp-Vergleich: Nur aktualisieren, wenn der Stand aus dem anderen Tab neuer ist
+        const currentTs = currentState && currentState.updatedAt ? new Date(currentState.updatedAt).getTime() : 0;
+        const incomingTs = remoteState.updatedAt ? new Date(remoteState.updatedAt).getTime() : 0;
+        
+        if (incomingTs > currentTs) {
+          const migrated = migrateState(remoteState, typeof currentLang !== 'undefined' ? currentLang : 'de');
+          if (typeof window !== 'undefined') window.state = migrated;
+          state = migrated;
+          if (typeof NoodleEvents !== 'undefined' && NoodleEvents.emit) {
+            NoodleEvents.emit('state:loaded', { state: migrated, source: 'tab-sync' });
+          }
+          if (typeof renderApp === 'function') {
+            renderApp();
+          }
+        }
+      } catch (err) {
+        console.warn('[State] Fehler bei Multi-Tab Storage-Synchronisation:', err);
+      }
+    }
+  });
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.StateCore = StateCore;
 }
 
 
