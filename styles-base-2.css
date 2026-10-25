@@ -145,4 +145,211 @@ html body #app .premium-glow-btn i {
   will-change: transform;
 }
 
+/* ========================================================================== */
+/* DESIGN-SYSTEM: KONSISTENTE THEME-OBERFLÄCHEN (SURFACES & DESIGN-TOKENS)   */
+/* ========================================================================== */
+
+/* Modale Oberflächen mit Theme-Tokens */
+.theme-surface-modal {
+  background-color: var(--bg-modal, #0a1222) !important;
+  color: var(--text-main, #f8fafc) !important;
+  border-color: var(--border-main, rgba(137, 207, 240, 0.25)) !important;
+}
+
+/* Card- und Hauptoberflächen mit Theme-Tokens */
+.theme-surface-card {
+  background-color: var(--bg-card, rgba(16, 30, 52, 0.92)) !important;
+  color: var(--text-main, #f8fafc) !important;
+  border-color: var(--border-main, rgba(137, 207, 240, 0.22)) !important;
+}
+
+.theme-surface-card-hover:hover {
+  background-color: var(--bg-card-hover, rgba(22, 40, 70, 0.98)) !important;
+  border-color: var(--accent, #89cff0) !important;
+}
+
+/* Sub-Cards / Kacheln innerhalb von Modals und Panels */
+.theme-surface-subcard {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  color: var(--text-main, #f8fafc) !important;
+  border: 1px solid var(--border-main, rgba(255, 255, 255, 0.08)) !important;
+}
+
+/* Panel-Oberflächen */
+.theme-surface-panel {
+  background-color: var(--bg-panel, #0a1222) !important;
+  color: var(--text-main, #f8fafc) !important;
+  border-color: var(--border-main, rgba(137, 207, 240, 0.25)) !important;
+}
+
+/* Header-Oberflächen */
+.theme-surface-header {
+  background-color: var(--bg-header, rgba(12, 22, 40, 0.96)) !important;
+  color: var(--text-header, #ffffff) !important;
+  border-color: var(--border-main, rgba(137, 207, 240, 0.22)) !important;
+}
+
+/* Formulareingabefelder & Dropdowns */
+.theme-surface-input {
+  background-color: rgba(0, 0, 0, 0.28) !important;
+  color: var(--text-main, #f8fafc) !important;
+  border: 1px solid var(--border-main, rgba(255, 255, 255, 0.15)) !important;
+}
+
+.theme-surface-input:focus {
+  border-color: var(--accent, #89cff0) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--accent-border, rgba(137, 207, 240, 0.35)) !important;
+}
+
+.theme-surface-input:focus-visible {
+  outline: 2px solid var(--accent, #89cff0) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px var(--accent-border, rgba(137, 207, 240, 0.35)) !important;
+}
+
+/* ========================================================================== */
+/* BUTTON-DESIGN-SYSTEM (Primary, Secondary, Ghost, Danger)                   */
+/* Standardisierte Rundung: rounded-xl (12px / 0.75rem)                       */
+/* ========================================================================== */
+
+.btn-noodle-base,
+.btn-primary,
+.btn-secondary,
+.btn-ghost,
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border-radius: 0.75rem; /* rounded-xl Standard */
+  line-height: 1.25;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+/* 1. PRIMARY: Akzentfarbe des aktuellen Themes, hohe visuelle Priorität */
+.btn-primary {
+  background-color: var(--accent) !important;
+  background: var(--accent) !important;
+  color: #0b1118 !important;
+  border: 1px solid var(--accent-light, var(--accent)) !important;
+  box-shadow: 0 2px 10px var(--accent-border, rgba(137, 207, 240, 0.35)) !important;
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 18px var(--accent-glow, rgba(137, 207, 240, 0.5)) !important;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  filter: brightness(0.96);
+}
+
+/* 2. SECONDARY: Dezente Card-Oberfläche mit Theme-Border */
+.btn-secondary {
+  background-color: var(--bg-card, rgba(255, 255, 255, 0.05)) !important;
+  color: var(--text-main, #f8fafc) !important;
+  border: 1px solid var(--border-main, rgba(255, 255, 255, 0.12)) !important;
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-card-hover, rgba(255, 255, 255, 0.12)) !important;
+  border-color: var(--accent-border, var(--accent)) !important;
+  color: #ffffff !important;
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+/* 3. GHOST: Ruhig & zurückhaltend, hover-hervorgehoben */
+.btn-ghost {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--text-muted, #94a3b8) !important;
+  border: 1px solid transparent !important;
+}
+
+.btn-ghost:hover {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: var(--text-main, #ffffff) !important;
+  border-color: var(--border-main, rgba(255, 255, 255, 0.1)) !important;
+}
+
+.btn-ghost:active {
+  transform: translateY(0);
+}
+
+/* 4. DANGER: Warn- und Abbruchaktionen (Löschen, Reset) */
+.btn-danger {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.35) !important;
+}
+
+.btn-danger:hover {
+  background-color: rgba(239, 68, 68, 0.24) !important;
+  border-color: rgba(239, 68, 68, 0.65) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(239, 68, 68, 0.25) !important;
+  transform: translateY(-1px);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
+}
+
+/* Button-Größen-Modifikatoren */
+.btn-sm {
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.75rem !important;
+}
+
+.btn-md {
+  padding: 0.375rem 0.75rem !important;
+  font-size: 0.8125rem !important;
+}
+
+.btn-lg {
+  padding: 0.5rem 1rem !important;
+  font-size: 0.875rem !important;
+}
+
+/* Tastatur-Fokuszustände für Button-Design-System (:focus-visible) */
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.btn-ghost:focus-visible,
+.btn-danger:focus-visible,
+.btn-noodle-base:focus-visible {
+  outline: 2px solid var(--accent, #89cff0) !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 3px var(--accent-border, rgba(137, 207, 240, 0.35)) !important;
+}
+
+/* ========================================================================== */
+/* BEIBEHALTENE AUSNAHMEN: INTENTIONAL DARK SURFACES                          */
+/* Audio-Visualizer, Spectrum-Displays, DJ-Vinyl und Retro-Konsolen bleiben   */
+/* stets dunkel für maximale Oszilloskop- & Neon-Sichtbarkeit                */
+/* ========================================================================== */
+.intentional-dark-surface,
+.dj-vinyl-pro,
+canvas#audio-visualizer-canvas,
+canvas#spectrum-canvas,
+#audio-visualizer-container,
+#radio-frequency-display,
+#night-clock-display {
+  background-color: #0b0c10 !important;
+  color: #f8fafc !important;
+}
+
+
 
