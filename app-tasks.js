@@ -87,6 +87,7 @@ function toggleTaskOptionsMenu(colId, index, event) {
   }
   openTaskOptionsMenu(colId, index, event ? event.currentTarget : null);
 }
+window.toggleTaskOptionsMenu = toggleTaskOptionsMenu;
 
 function closeTaskOptionsMenu(force = false) {
   cancelCloseTaskMenu();
@@ -101,6 +102,16 @@ function closeTaskOptionsMenu(force = false) {
   else if (typeof window !== 'undefined' && typeof window.syncHeaderToolsMenuState === 'function') window.syncHeaderToolsMenuState();
   openTaskMenuMeta = null;
 }
+window.closeTaskOptionsMenu = closeTaskOptionsMenu;
+
+function toggleTimerSubmenu(triggerBtn, colId, index) {
+  const container = triggerBtn ? triggerBtn.parentElement : document.getElementById('task-context-dropdown');
+  if (!container) return;
+  const submenu = container.querySelector('.timer-submenu');
+  if (!submenu) return;
+  submenu.classList.toggle('hidden');
+}
+window.toggleTimerSubmenu = toggleTimerSubmenu;
 
 function openTaskOptionsMenu(colId, index, anchorBtn) {
   cancelCloseTaskMenu();
@@ -320,6 +331,7 @@ function setTaskColor(columnId, index, color, e) {
   saveState();
   renderApp();
 }
+window.setTaskColor = setTaskColor;
 
 // saveCategoriesOrder handled by state.js
 
@@ -4007,6 +4019,11 @@ if (typeof window !== 'undefined') {
   window.toggleColumnOptionsMenu = toggleColumnOptionsMenu;
   window.openColumnOptionsMenu = openColumnOptionsMenu;
   window.closeColumnOptionsMenu = closeColumnOptionsMenu;
+  window.toggleTaskOptionsMenu = toggleTaskOptionsMenu;
+  window.openTaskOptionsMenu = openTaskOptionsMenu;
+  window.closeTaskOptionsMenu = closeTaskOptionsMenu;
+  window.toggleTimerSubmenu = toggleTimerSubmenu;
+  window.setTaskColor = setTaskColor;
   window.cancelCloseColumnOptionsMenu = cancelCloseColumnOptionsMenu;
   window.scheduleCloseColumnOptionsMenu = scheduleCloseColumnOptionsMenu;
   window.clearColumnTasks = clearColumnTasks;
@@ -4073,6 +4090,11 @@ if (typeof globalThis !== 'undefined') {
   globalThis.toggleColumnOptionsMenu = toggleColumnOptionsMenu;
   globalThis.openColumnOptionsMenu = openColumnOptionsMenu;
   globalThis.closeColumnOptionsMenu = closeColumnOptionsMenu;
+  globalThis.toggleTaskOptionsMenu = toggleTaskOptionsMenu;
+  globalThis.openTaskOptionsMenu = openTaskOptionsMenu;
+  globalThis.closeTaskOptionsMenu = closeTaskOptionsMenu;
+  globalThis.toggleTimerSubmenu = toggleTimerSubmenu;
+  globalThis.setTaskColor = setTaskColor;
   globalThis.cancelCloseColumnOptionsMenu = cancelCloseColumnOptionsMenu;
   globalThis.scheduleCloseColumnOptionsMenu = scheduleCloseColumnOptionsMenu;
   globalThis.clearColumnTasks = clearColumnTasks;
