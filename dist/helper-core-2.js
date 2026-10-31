@@ -6,6 +6,20 @@
  * benutzerdefinierte Teilschritte (`state.customSteps`) und die Fortschrittsanzeige
  * innerhalb des Aufgaben-Assistenten.
  */
+var currentActiveTaskRef = (typeof currentActiveTaskRef !== 'undefined') ? currentActiveTaskRef : ((typeof window !== 'undefined' && window.currentActiveTaskRef) || null);
+var currentGeneratedSteps = (typeof currentGeneratedSteps !== 'undefined') ? currentGeneratedSteps : ((typeof window !== 'undefined' && window.currentGeneratedSteps) || []);
+
+var cleanStepText = (typeof cleanStepText === 'function') 
+  ? cleanStepText 
+  : ((typeof window !== 'undefined' && typeof window.cleanStepText === 'function') 
+      ? window.cleanStepText 
+      : function(text) {
+          if (!text) return '';
+          let cleaned = String(text).replace(/^(?:schritt|step|schritte|steps|paso|etapa|βήμα|βημα)?\s*\d+[\s.:)\-]*\s*/i, '');
+          cleaned = cleaned.replace(/^[\s.\-\u2022\u25CF\u25CB\u25AA\u25AB]+\s*/, '');
+          return cleaned.trim();
+        });
+
 function getTaskStepsList(taskName) {
   if (!taskName) return [];
   if (state.customSteps && state.customSteps[taskName] && state.customSteps[taskName].length > 0) {
@@ -15,13 +29,14 @@ function getTaskStepsList(taskName) {
   const taskDb = (typeof window !== 'undefined' && window.TASK_STEPS_DATABASE) 
     ? window.TASK_STEPS_DATABASE 
     : ((typeof TASK_STEPS_DATABASE !== 'undefined') ? TASK_STEPS_DATABASE : null);
-  const dbExists = taskDb && taskDb[deKey];
-  let steps = dbExists ? taskDb[deKey][currentLang] : null;
+  const matchedEntry = taskDb && (taskDb[deKey] || taskDb[taskName]);
+  const lang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang.slice(0, 2).toLowerCase() : 'de';
+  let steps = matchedEntry ? (matchedEntry[lang] || matchedEntry['de'] || matchedEntry['en'] || Object.values(matchedEntry)[0]) : null;
   if (!steps || steps.length === 0) {
     const templates = (typeof window !== 'undefined' && window.FALLBACK_STEPS) 
       ? window.FALLBACK_STEPS 
       : ((typeof FALLBACK_STEPS !== 'undefined') ? FALLBACK_STEPS : null);
-    const template = templates ? (templates[currentLang] || templates['en']) : ["1. {task} vorbereiten", "2. Den ersten Minischritt ausführen", "3. Hauptteil erledigen", "4. Fertigstellen & abhaken!"];
+    const template = templates ? (templates[lang] || templates['de'] || templates['en']) : ["1. {task} vorbereiten", "2. Den ersten Minischritt ausführen", "3. Hauptteil erledigen", "4. Fertigstellen & abhaken!"];
     steps = template.map(step => step.replace('{task}', taskName));
   }
   return steps;
@@ -37,7 +52,11 @@ function generateTaskSteps(specificTask) {
     if (resBox) resBox.innerHTML = `<p class="text-xs text-gray-400 italic text-center py-4">${tr({ de: 'Bitte wähle oben eine Aufgabe aus.', en: 'Please select a task.', es: 'Por favor, selecciona una tarea arriba.', el: 'Παρακαλώ επίλεξε μια εργασία παραπάνω.', fr: 'Merci de choisir une tâche ci-dessus.', it: "Seleziona un'attività qui sopra." })}</p>`;
     return;
   }
-  if (!currentActiveTaskRef || currentActiveTaskRef.task !== val) currentActiveTaskRef = { task: val };
+  if (!currentActiveTaskRef || currentActiveTaskRef.task !== val) {
+    currentActiveTaskRef = { task: val };
+    if (typeof window !== 'undefined') window.currentActiveTaskRef = currentActiveTaskRef;
+    if (typeof globalThis !== 'undefined') globalThis.currentActiveTaskRef = currentActiveTaskRef;
+  }
   const resBox = document.getElementById('helper-steps-result'); if (!resBox) return;
   
   const steps = getTaskStepsList(val);
@@ -68,18 +87,43 @@ function generateTaskSteps(specificTask) {
       const stepDiv = document.createElement('div');
       stepDiv.className = `group flex items-center justify-between gap-2.5 p-2.5 rounded-xl border transition-all duration-200 ${isChecked ? 'bg-white/[0.02] border-[#00ff66]/20 opacity-70' : `bg-white/[0.04] border-white/10 ${color.hoverBorder}`} cursor-pointer`;
       
-      stepDiv.innerHTML = `
-        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleCustomStepCheck('${val.replace(/'/g, "\\'")}', ${idx}, event)" class="w-4 h-4 rounded cursor-pointer shrink-0" style="accent-color: ${color.hex};" />
-        <span class="step-badge text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md ${isChecked ? 'bg-white/5 text-gray-500' : `${color.bg} ${color.text}`} shrink-0">${idx + 1}</span>
-        <span class="step-text flex-1 text-xs leading-snug break-words font-medium ${isChecked ? 'line-through text-[#00ff66]/80' : color.text}" onclick="toggleCustomStepCheck('${val.replace(/'/g, "\\'")}', ${idx}, event)">${cleanedText}</span>
-        <button onclick="deleteCustomStep('${val.replace(/'/g, "\\'")}', ${idx}, event)" aria-label="Schritt entfernen" class="opacity-0 group-hover:opacity-100 p-1 text-gray-500 hover:text-red-400 rounded transition cursor-pointer shrink-0" title="Schritt entfernen">
-          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-        </button>
-      `;
+      const checkInput = document.createElement('input');
+      checkInput.type = 'checkbox';
+      checkInput.checked = isChecked;
+      checkInput.className = 'w-4 h-4 rounded cursor-pointer shrink-0';
+      checkInput.style.accentColor = color.hex;
+      checkInput.onchange = (e) => toggleCustomStepCheck(val, idx, e);
+
+      const badgeSpan = document.createElement('span');
+      badgeSpan.className = `step-badge text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-md ${isChecked ? 'bg-white/5 text-gray-500' : `${color.bg} ${color.text}`} shrink-0`;
+      badgeSpan.textContent = String(idx + 1);
+
+      const textSpan = document.createElement('span');
+      textSpan.className = `step-text flex-1 text-xs leading-snug break-words font-medium ${isChecked ? 'line-through text-[#00ff66]/80' : color.text}`;
+      textSpan.textContent = cleanedText;
+      textSpan.onclick = (e) => toggleCustomStepCheck(val, idx, e);
+
+      const delBtn = document.createElement('button');
+      delBtn.setAttribute('aria-label', 'Schritt entfernen');
+      delBtn.setAttribute('title', 'Schritt entfernen');
+      delBtn.className = 'opacity-0 group-hover:opacity-100 p-1 text-gray-500 hover:text-red-400 rounded transition cursor-pointer shrink-0';
+      delBtn.innerHTML = '<i data-lucide="trash-2" class="w-3.5 h-3.5"></i>';
+      delBtn.onclick = (e) => deleteCustomStep(val, idx, e);
+
+      stepDiv.appendChild(checkInput);
+      stepDiv.appendChild(badgeSpan);
+      stepDiv.appendChild(textSpan);
+      stepDiv.appendChild(delBtn);
       resBox.appendChild(stepDiv);
     });
   }
-  if (typeof lucide !== 'undefined') lucide.createIcons();
+  try {
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
+    }
+  } catch (e) {
+    console.warn('[HelperSteps] Icon rendering notice:', e);
+  }
 }
 
 function addCustomStepToActiveTask() {
@@ -180,16 +224,34 @@ function toggleCustomStepCheck(targetTask, stepIndex, event) {
       saveState();
       
       let targetCat = currentActiveTaskRef?.category;
-      let catToUse = targetCat; let idxToUse = -1;
-      if (catToUse && state.items[catToUse]) {
-        idxToUse = state.items[catToUse].indexOf(targetTask);
+      let catToUse = targetCat; 
+      let idxToUse = -1;
+      const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state?.items || {});
+
+      function findTaskIndexInList(list, name) {
+        if (!Array.isArray(list)) return -1;
+        return list.findIndex(item => {
+          const text = (typeof item === 'object' && item) ? (item.task || item.title || item.name || item.text) : item;
+          return text === name;
+        });
       }
-      if (idxToUse === -1) {
-        for (const cat of ['daily', 'weekly', 'todo', 'occasionally', 'termine']) {
-          const idx = (state?.items?.[cat] || []).indexOf(targetTask);
+
+      if (catToUse && curItems?.[catToUse]) {
+        idxToUse = findTaskIndexInList(curItems[catToUse], targetTask);
+      }
+      if (idxToUse === -1 && curItems) {
+        for (const cat of Object.keys(curItems)) {
+          const idx = findTaskIndexInList(curItems[cat], targetTask);
           if (idx !== -1) { catToUse = cat; idxToUse = idx; break; }
         }
       }
+      if (idxToUse === -1 && state?.items) {
+        for (const cat of ['daily', 'weekly', 'todo', 'occasionally', 'termine']) {
+          const idx = findTaskIndexInList(state.items[cat], targetTask);
+          if (idx !== -1) { catToUse = cat; idxToUse = idx; break; }
+        }
+      }
+
       if (catToUse && idxToUse !== -1) {
         handleCompleteTask(catToUse, idxToUse);
       } else {
@@ -315,6 +377,12 @@ if (typeof window !== 'undefined') {
   if (typeof saveBrainDumpAsTask !== 'undefined') window.saveBrainDumpAsTask = saveBrainDumpAsTask;
   if (typeof populateWhatNowDilemmaDefaults !== 'undefined') window.populateWhatNowDilemmaDefaults = populateWhatNowDilemmaDefaults;
   if (typeof suggestBoostActivity !== 'undefined') window.suggestBoostActivity = suggestBoostActivity;
+  if (typeof addCustomStepToActiveTask !== 'undefined') window.addCustomStepToActiveTask = addCustomStepToActiveTask;
+  if (typeof loadDefaultStepSuggestions !== 'undefined') window.loadDefaultStepSuggestions = loadDefaultStepSuggestions;
+  if (typeof deleteCustomStep !== 'undefined') window.deleteCustomStep = deleteCustomStep;
+  if (typeof toggleCustomStepCheck !== 'undefined') window.toggleCustomStepCheck = toggleCustomStepCheck;
+  if (typeof startZenFromStepsModal !== 'undefined') window.startZenFromStepsModal = startZenFromStepsModal;
+  if (typeof getTaskStepsList !== 'undefined') window.getTaskStepsList = getTaskStepsList;
 }
 
 if (typeof globalThis !== 'undefined') {
@@ -341,4 +409,10 @@ if (typeof globalThis !== 'undefined') {
   if (typeof saveBrainDumpAsTask !== 'undefined') globalThis.saveBrainDumpAsTask = saveBrainDumpAsTask;
   if (typeof populateWhatNowDilemmaDefaults !== 'undefined') globalThis.populateWhatNowDilemmaDefaults = populateWhatNowDilemmaDefaults;
   if (typeof suggestBoostActivity !== 'undefined') globalThis.suggestBoostActivity = suggestBoostActivity;
+  if (typeof addCustomStepToActiveTask !== 'undefined') globalThis.addCustomStepToActiveTask = addCustomStepToActiveTask;
+  if (typeof loadDefaultStepSuggestions !== 'undefined') globalThis.loadDefaultStepSuggestions = loadDefaultStepSuggestions;
+  if (typeof deleteCustomStep !== 'undefined') globalThis.deleteCustomStep = deleteCustomStep;
+  if (typeof toggleCustomStepCheck !== 'undefined') globalThis.toggleCustomStepCheck = toggleCustomStepCheck;
+  if (typeof startZenFromStepsModal !== 'undefined') globalThis.startZenFromStepsModal = startZenFromStepsModal;
+  if (typeof getTaskStepsList !== 'undefined') globalThis.getTaskStepsList = getTaskStepsList;
 }

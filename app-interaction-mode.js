@@ -221,6 +221,8 @@
     if (!winBox) return;
 
     if (isModalOverlay(el)) {
+      winBox.classList.remove('hidden');
+      winBox.style.removeProperty('display');
       if (!isMobile) {
         el.classList.add('noodle-floating-modal-backdrop');
         winBox.classList.add('noodle-floating-modal-card');
@@ -584,6 +586,7 @@
 
     const winBox = getMovableWindowBox(el);
     if (winBox && winBox !== el) {
+      winBox.classList.remove('hidden');
       winBox.style.removeProperty('display');
     }
 
@@ -636,7 +639,11 @@
       el.classList.remove('noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'noodle-panel-peeking', 'noodle-panel-minimized', 'noodle-panel-snapped');
       const winBox = getMovableWindowBox(el);
       if (winBox && winBox !== el) {
-        winBox.classList.add('hidden');
+        if (!isModalOverlay(el)) {
+          winBox.classList.add('hidden');
+        } else {
+          winBox.classList.remove('hidden');
+        }
         winBox.classList.remove('noodle-panel-fullscreen');
         winBox.style.removeProperty('display');
       }

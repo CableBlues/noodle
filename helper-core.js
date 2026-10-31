@@ -7,9 +7,19 @@
  * A-vs.-B-Münzwurf-Entscheider sowie Sprachausgabe-Unterstützung.
  */
 var currentZenTaskInfo = (typeof window !== 'undefined' && window.currentZenTaskInfo) || null;
-let currentActiveTaskRef = null;
-let currentGeneratedSteps = [];
-let currentDopamineTask = null;
+var currentActiveTaskRef = (typeof currentActiveTaskRef !== 'undefined') ? currentActiveTaskRef : ((typeof window !== 'undefined' && window.currentActiveTaskRef) || null);
+var currentGeneratedSteps = (typeof currentGeneratedSteps !== 'undefined') ? currentGeneratedSteps : ((typeof window !== 'undefined' && window.currentGeneratedSteps) || []);
+var currentDopamineTask = (typeof currentDopamineTask !== 'undefined') ? currentDopamineTask : ((typeof window !== 'undefined' && window.currentDopamineTask) || null);
+if (typeof window !== 'undefined') {
+  window.currentActiveTaskRef = currentActiveTaskRef;
+  window.currentGeneratedSteps = currentGeneratedSteps;
+  window.currentDopamineTask = currentDopamineTask;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.currentActiveTaskRef = currentActiveTaskRef;
+  globalThis.currentGeneratedSteps = currentGeneratedSteps;
+  globalThis.currentDopamineTask = currentDopamineTask;
+}
 
 let suggestionCycleCount = 0;
 let lastSuggestionThemeIndex = -1;
@@ -67,42 +77,152 @@ function cleanStepText(text) {
   return cleaned.trim();
 }
 
-function openHelperModal(type) {
+function openHelperModal(type, force = false) {
   if (type === 'pick') {
     const modal = document.getElementById('helper-pick-modal');
-    if (modal) modal.classList.remove('hidden');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      const card = modal.firstElementChild || modal.querySelector('.theme-surface-modal');
+      if (card) {
+        card.classList.remove('hidden');
+        card.style.removeProperty('display');
+      }
+    }
     suggestedTaskNamesInCurrentRun = []; 
     resetDopamineBox(); 
     pickRandomTask();
   } else if (type === 'steps') {
     const modal = document.getElementById('helper-steps-modal');
-    if (modal) modal.classList.remove('hidden');
-    populateHelperTaskSelect();
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.style.display = 'flex';
+      const card = modal.firstElementChild || modal.querySelector('.theme-surface-modal');
+      if (card) {
+        card.classList.remove('hidden');
+        card.style.removeProperty('display');
+      }
+    }
+    populateHelperTaskSelect(force);
   }
 }
 
-function openTaskStepsModal(category, index, event) {
-  if (event) event.stopPropagation();
-  const raw = state?.items?.[category]?.[index]; if (!raw) return;
-  const task = typeof raw === 'object' ? raw.task : raw;
+var safeTranslate = (typeof safeTranslate === 'function')
+  ? safeTranslate
+  : function(key) {
+      if (typeof t === 'function') return t(key);
+      if (typeof TRANSLATIONS === 'undefined') return key;
+      const lang = typeof currentLang !== 'undefined' ? currentLang : 'en';
+      return TRANSLATIONS[lang]?.[key] || TRANSLATIONS.de?.[key] || key;
+    };
+
+function openTaskStepsModal(category, index, event, taskNameFallback) {
+  if (event && typeof event.stopPropagation === 'function') {
+    try { event.stopPropagation(); } catch (e) {}
+  }
+  if (typeof closeTaskOptionsMenu === 'function') {
+    try { closeTaskOptionsMenu(true); } catch (e) {}
+  } else if (typeof window !== 'undefined' && typeof window.closeTaskOptionsMenu === 'function') {
+    try { window.closeTaskOptionsMenu(true); } catch (e) {}
+  }
+
+  const curItems = (typeof getCurrentWorkspaceItems === 'function')
+    ? getCurrentWorkspaceItems()
+    : (state?.items || {});
+  let raw = curItems?.[category]?.[index];
+  if (!raw && state?.items?.[category]?.[index]) {
+    raw = state.items[category][index];
+  }
+  if (!raw && state?.workItems?.[category]?.[index]) {
+    raw = state.workItems[category][index];
+  }
+  if (!raw && state?.studyItems?.[category]?.[index]) {
+    raw = state.studyItems[category][index];
+  }
+  if (!raw && category === 'termine' && Array.isArray(state?.termine)) {
+    raw = state.termine[index];
+  }
+  if (!raw && typeof category === 'string' && (index === undefined || index === null)) {
+    raw = category;
+  }
+  if (!raw && taskNameFallback) {
+    raw = taskNameFallback;
+  }
+  if (!raw && curItems?.[category] && taskNameFallback) {
+    const found = curItems[category].find(item => {
+      const t = (typeof item === 'object' && item) ? (item.task || item.title || item.name || item.text) : item;
+      return t === taskNameFallback;
+    });
+    if (found) raw = found;
+  }
+  if (!raw) return;
+  const task = typeof raw === 'object' && raw
+    ? (raw.task || raw.title || raw.name || raw.text || '')
+    : String(raw || '');
+  if (!task) return;
+
   currentActiveTaskRef = { category, index, task };
-  openHelperModal('steps');
+  if (typeof window !== 'undefined') window.currentActiveTaskRef = currentActiveTaskRef;
+  if (typeof globalThis !== 'undefined') globalThis.currentActiveTaskRef = currentActiveTaskRef;
+  
+  openHelperModal('steps', true);
+
   const select = document.getElementById('helper-task-select');
   if (select) {
     let found = false;
     for (let opt of select.options) {
-      if (opt.value === task) { select.value = task; found = true; break; }
+      if (opt.value === task) { opt.selected = true; found = true; break; }
     }
-    if (!found) select.value = '';
+    if (!found) {
+      const opt = document.createElement('option');
+      opt.value = task;
+      opt.innerText = task;
+      opt.selected = true;
+      select.appendChild(opt);
+    }
+    select.value = task;
   }
-  generateTaskSteps(task);
+
+  const modal = document.getElementById('helper-steps-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+    const card = modal.firstElementChild || modal.querySelector('.theme-surface-modal');
+    if (card) {
+      card.classList.remove('hidden');
+      card.style.removeProperty('display');
+    }
+  }
+
+  if (typeof generateTaskSteps === 'function') {
+    generateTaskSteps(task);
+  } else if (typeof window !== 'undefined' && typeof window.generateTaskSteps === 'function') {
+    window.generateTaskSteps(task);
+  }
 }
 
 function closeHelperModal() {
   const pickModal = document.getElementById('helper-pick-modal');
   const stepsModal = document.getElementById('helper-steps-modal');
-  if (pickModal) pickModal.classList.add('hidden');
-  if (stepsModal) stepsModal.classList.add('hidden');
+  if (pickModal) {
+    pickModal.classList.add('hidden');
+    pickModal.style.display = '';
+    const card = pickModal.firstElementChild || pickModal.querySelector('.theme-surface-modal');
+    if (card) {
+      card.classList.remove('hidden');
+      card.style.removeProperty('display');
+    }
+  }
+  if (stepsModal) {
+    stepsModal.classList.add('hidden');
+    stepsModal.style.display = '';
+    const card = stepsModal.firstElementChild || stepsModal.querySelector('.theme-surface-modal');
+    if (card) {
+      card.classList.remove('hidden');
+      card.style.removeProperty('display');
+    }
+  }
+  _lastPopulatedHelperTaskKey = null;
   stopSpeaking();
 }
 
@@ -128,9 +248,18 @@ function populateHelperTaskSelect(force = false) {
 
   select.innerHTML = `<option value="">${safeTranslate('dropdown_placeholder')}</option>`;
   const allTasks = [];
+  const curItems = (typeof getCurrentWorkspaceItems === 'function') ? getCurrentWorkspaceItems() : (state?.items || {});
+  if (curItems && typeof curItems === 'object') {
+    Object.values(curItems).forEach(list => {
+      (Array.isArray(list) ? list : []).filter(Boolean).forEach(task => {
+        const name = typeof task === 'object' && task ? (task.task || task.title || task.name || task.text) : task;
+        if (name && !allTasks.includes(name)) allTasks.push(name);
+      });
+    });
+  }
   ['daily', 'weekly', 'todo', 'occasionally'].forEach(cat => {
     (state?.items?.[cat] || []).filter(Boolean).forEach(task => { 
-      const name = typeof task === 'object' ? task.task : task;
+      const name = typeof task === 'object' && task ? (task.task || task.title || task.name || task.text) : task;
       if (name && !allTasks.includes(name)) allTasks.push(name); 
     });
   });
