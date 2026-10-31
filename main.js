@@ -132,6 +132,9 @@ import './app-core.js';
   if (typeof openModal === 'function') w.openModal = openModal;
   if (typeof closeModal === 'function') w.closeModal = closeModal;
   if (typeof showToast === 'function') w.showToast = showToast;
+  if (typeof openTaskStepsModal === 'function') w.openTaskStepsModal = openTaskStepsModal;
+  if (typeof closeHelperModal === 'function') w.closeHelperModal = closeHelperModal;
+  if (typeof generateTaskSteps === 'function') w.generateTaskSteps = generateTaskSteps;
 
   console.log('⚡ [Noodle] ES-Module Pipeline & Window-Kompatibilitätsschicht aktiv.');
 })(typeof window !== 'undefined' ? window : (typeof globalThis !== 'undefined' ? globalThis : null));
