@@ -301,7 +301,7 @@ function toggleTimerVoiceFeature(feature) {
   renderTimerCockpitContent();
   if (typeof showToast === 'function') {
     if (feature === 'time') {
-      showToast(timerVoiceTimeAnnounce ? '⏱️ Zeitanzeige & Ansagen: An' : '⏱️ Zeitanzeige & Ansagen: Aus');
+      showToast(timerVoiceTimeAnnounce ? '⏱️ Zeitansagen: An' : '⏱️ Zeitansagen: Aus');
     } else if (feature === 'motivation') {
       showToast(timerVoiceMotivation ? '💡 Motivationssprüche: An' : '💡 Motivationssprüche: Aus');
     }
@@ -600,13 +600,13 @@ function renderTimerCockpitContent() {
 
   panel.innerHTML = `
     <!-- 1. KOPFZEILE: NOODLE LOGO + STATUS (LINKS) | LAUTSTÄRKE & CLOSE (RECHTS) -->
-    <div class="flex items-center justify-between pb-2 border-b border-white/10 select-none">
+    <div class="flex items-center justify-between pb-1.5 border-b border-white/10 select-none">
       <div class="flex items-center gap-2">
         <div class="relative flex flex-col items-center justify-center shrink-0">
           <div class="relative overflow-hidden flex items-center justify-center">
-            <img src="logo-noodle.png" alt="Noodle" class="h-[22px] w-auto max-w-none object-contain select-none pointer-events-none" />
+            <img src="logo-noodle.png" alt="Noodle" class="h-[20px] w-auto max-w-none object-contain select-none pointer-events-none" />
           </div>
-          <div class="relative h-[9px] w-full flex items-center justify-center overflow-hidden mt-0.5">
+          <div class="relative h-[8px] w-full flex items-center justify-center overflow-hidden mt-0.5">
             <span class="badge-tool-subtext select-none">${isChronoRunning ? 'CHRONO' : 'TIMER'}</span>
           </div>
         </div>
@@ -614,69 +614,69 @@ function renderTimerCockpitContent() {
       </div>
 
       <!-- Rechts: Lautstärke & Schließen -->
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5">
         <!-- Vertikaler Lautstärke-Controller Popover -->
         <div class="relative group/vol flex items-center">
-          <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="h-7 px-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-purple-300 hover:text-white transition cursor-pointer flex items-center gap-1.5 shadow-sm" title="Lautstärke anpassen">
-            <i data-lucide="${!isMuted ? 'volume-2' : 'volume-x'}" class="w-3.5 h-3.5 ${!isMuted ? 'text-purple-300' : 'text-gray-500'}"></i>
-            <span class="text-[9.5px] font-mono text-purple-200/90 font-bold">${currentVolPct}%</span>
+          <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="h-6.5 px-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-purple-300 hover:text-white transition cursor-pointer flex items-center gap-1.5 shadow-sm" title="Lautstärke anpassen">
+            <i data-lucide="${!isMuted ? 'volume-2' : 'volume-x'}" class="w-3 h-3 ${!isMuted ? 'text-purple-300' : 'text-gray-500'}"></i>
+            <span class="text-[9px] font-mono text-purple-200/90 font-bold">${currentVolPct}%</span>
           </button>
 
           <!-- Vertikaler Slider (Hover/Active Popover) -->
-          <div class="hidden group-hover/vol:flex absolute right-0 top-full mt-2 z-[300] bg-[#0c0918]/98 border border-purple-500/40 p-2.5 rounded-2xl shadow-2xl backdrop-blur-2xl flex-col items-center gap-2 animate-fade-in ring-1 ring-purple-500/30">
+          <div class="hidden group-hover/vol:flex absolute right-0 top-full mt-2 z-[300] bg-[#0c0918]/98 border border-purple-500/40 p-2 rounded-2xl shadow-2xl backdrop-blur-2xl flex-col items-center gap-1.5 animate-fade-in ring-1 ring-purple-500/30">
             <span class="text-[9px] font-mono font-bold text-purple-200">${currentVolPct}%</span>
-            <div class="h-24 flex items-center justify-center py-1">
+            <div class="h-20 flex items-center justify-center py-1">
               <input type="range" min="0" max="1" step="0.02" value="${isMuted ? 0 : masterVol}" 
                      oninput="handleHeaderVolumeInput(this.value)" 
-                     class="h-20 w-1.5 accent-purple-400 cursor-pointer" 
+                     class="h-16 w-1.5 accent-purple-400 cursor-pointer" 
                      style="writing-mode: vertical-lr; direction: rtl;">
             </div>
-            <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="text-[8.5px] font-mono font-bold px-2 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition cursor-pointer">
+            <button onclick="toggleMasterSound(); renderTimerCockpitContent();" class="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded-lg bg-white/10 hover:bg-white/20 text-gray-300 hover:text-white transition cursor-pointer">
               ${isMuted ? 'Unmute' : 'Mute'}
             </button>
           </div>
         </div>
 
-        <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" class="w-7 h-7 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white text-xs font-bold flex items-center justify-center transition cursor-pointer" title="Schließen">✕</button>
+        <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden')" class="w-6.5 h-6.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white text-xs font-bold flex items-center justify-center transition cursor-pointer" title="Schließen">✕</button>
       </div>
     </div>
 
     ${isChronoRunning ? `
       <!-- CHRONOMETER AKTIV BANNER -->
-      <div class="p-2.5 rounded-2xl bg-gradient-to-r from-emerald-950/40 to-teal-950/40 border border-emerald-500/40 shadow-inner flex flex-col gap-2 animate-fade-in">
+      <div class="p-2 rounded-2xl bg-gradient-to-r from-emerald-950/40 to-teal-950/40 border border-emerald-500/40 shadow-inner flex flex-col gap-1.5 animate-fade-in">
         <div class="flex items-center justify-between">
-          <span class="text-[11px] font-bold text-emerald-300 font-display flex items-center gap-1.5">
+          <span class="text-[10.5px] font-bold text-emerald-300 font-display flex items-center gap-1.5">
             <i data-lucide="watch" class="w-3.5 h-3.5 text-emerald-400 animate-pulse"></i>
             <span>Stoppuhr / Chronometer läuft</span>
           </span>
-          <span class="text-[12px] font-mono font-black text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-lg border border-emerald-500/40 animate-pulse">
+          <span class="text-[11.5px] font-mono font-black text-emerald-300 bg-emerald-500/20 px-2 py-0.5 rounded-lg border border-emerald-500/40 animate-pulse">
             ${formatChronometerTime(typeof chronometerSeconds !== 'undefined' ? chronometerSeconds : 0)}
           </span>
         </div>
         <div class="flex items-center gap-1.5">
-          <button onclick="stopChronometer(false); renderTimerCockpitContent();" class="flex-1 py-1 px-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold text-[10.5px] flex items-center justify-center gap-1 transition cursor-pointer active:scale-95">
+          <button onclick="stopChronometer(false); renderTimerCockpitContent();" class="flex-1 py-1 px-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 border border-rose-500/40 text-rose-300 font-bold text-[10px] flex items-center justify-center gap-1 transition cursor-pointer active:scale-95">
             <i data-lucide="square" class="w-3 h-3"></i>
             <span>Stoppen</span>
           </button>
-          <button onclick="stopChronometer(false); setTimerPreset(currentMins); renderTimerCockpitContent();" class="py-1 px-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[10px] font-medium transition cursor-pointer">
+          <button onclick="stopChronometer(false); setTimerPreset(currentMins); renderTimerCockpitContent();" class="py-1 px-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium transition cursor-pointer">
             Zurück zu Timer
           </button>
         </div>
       </div>
     ` : `
       <!-- 2. ZEIT-SCHNELLWAHL (KOMPAKT & MINIMAL) -->
-      <div class="p-2 rounded-2xl bg-purple-950/20 border border-purple-500/25 shadow-inner flex flex-col gap-1.5">
+      <div class="p-1.5 sm:p-2 rounded-2xl bg-purple-950/20 border border-purple-500/25 shadow-inner flex flex-col gap-1">
         <div class="flex items-center justify-between px-0.5">
-          <span class="text-[10.5px] font-bold text-purple-200 font-display flex items-center gap-1.5">
-            <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-400"></i>
+          <span class="text-[10px] font-bold text-purple-200 font-display flex items-center gap-1.5">
+            <i data-lucide="clock" class="w-3 h-3 text-purple-400"></i>
             <span>Dauer wählen</span>
           </span>
-          <span class="text-[9.5px] font-mono font-bold text-purple-300/90 bg-purple-500/20 px-2 py-0.5 rounded-lg border border-purple-500/30">${currentMins} Min.</span>
+          <span class="text-[9px] font-mono font-bold text-purple-300/90 bg-purple-500/20 px-1.5 py-0.2 rounded-lg border border-purple-500/30">${currentMins} Min.</span>
         </div>
 
         <div class="grid grid-cols-4 gap-1">
           ${presets.map(p => `
-            <button onclick="setCustomTimerDirect(${p.mins});" data-mins="${p.mins}" class="timer-preset-btn py-1 px-1 rounded-xl ${p.mins === currentMins ? 'bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_8px_rgba(168,85,247,0.35)]' : 'bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white'} border border-white/10 text-[10.5px] font-mono transition text-center cursor-pointer truncate active:scale-95">
+            <button onclick="setCustomTimerDirect(${p.mins});" data-mins="${p.mins}" class="timer-preset-btn py-1 px-1 rounded-xl ${p.mins === currentMins ? 'bg-gradient-to-r from-purple-600/70 to-indigo-600/70 border-purple-400 text-white font-bold ring-1 ring-purple-400/70 shadow-[0_0_8px_rgba(168,85,247,0.35)]' : 'bg-white/5 hover:bg-purple-600/20 text-gray-300 hover:text-white'} border border-white/10 text-[10px] font-mono transition text-center cursor-pointer truncate active:scale-95">
               ${p.label}
             </button>
           `).join('')}
@@ -684,27 +684,27 @@ function renderTimerCockpitContent() {
       </div>
     `}
 
-    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO) - DEZENT & ELEGANT -->
-    <div class="p-3 rounded-2xl bg-teal-950/20 border border-teal-500/25 shadow-xs flex flex-col gap-2.5">
+    <!-- 3. HINTERGRUND-AUDIO (SOUNDS · MUSIK · RADIO) -->
+    <div class="p-2 sm:p-2.5 rounded-2xl bg-teal-950/20 border border-teal-500/25 shadow-xs flex flex-col gap-1.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-xs font-bold text-teal-200 font-display flex items-center gap-2">
-          <i data-lucide="headphones" class="w-4 h-4 text-teal-300"></i>
+        <span class="text-[11px] font-bold text-teal-200 font-display flex items-center gap-1.5">
+          <i data-lucide="headphones" class="w-3.5 h-3.5 text-teal-300"></i>
           <span>Hintergrund-Audio</span>
         </span>
-        <span class="text-[10px] font-mono text-teal-200/90 bg-teal-500/15 px-2 py-0.5 rounded-full border border-teal-500/30 font-semibold uppercase tracking-wider">
+        <span class="text-[9.5px] font-mono text-teal-200/90 bg-teal-500/15 px-2 py-0.2 rounded-full border border-teal-500/30 font-semibold uppercase tracking-wider">
           ${currentAudioMode === 'ambient' ? '🌿 Sounds' : (currentAudioMode === 'soundmachine' || currentAudioMode === 'music' ? '🎵 Musik' : '📻 Radio')}
         </span>
       </div>
 
-      <!-- 3 Haupt-Modi mit ausgewogener Farbintensität -->
-      <div class="grid grid-cols-3 gap-2">
-        <button onclick="setTimerAudioMode('ambient');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-teal-500/20 border-teal-400/50 text-teal-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5'}">
+      <!-- 3 Haupt-Modi -->
+      <div class="grid grid-cols-3 gap-1.5">
+        <button onclick="setTimerAudioMode('ambient');" class="py-1.5 px-1.5 rounded-xl border text-[10px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'ambient' ? 'bg-teal-500/20 border-teal-400/50 text-teal-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5'}">
           🌿 Sounds
         </button>
-        <button onclick="setTimerAudioMode('music');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-purple-500/20 border-purple-400/50 text-purple-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5'}">
+        <button onclick="setTimerAudioMode('music');" class="py-1.5 px-1.5 rounded-xl border text-[10px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? 'bg-purple-500/20 border-purple-400/50 text-purple-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5'}">
           🎵 Musik
         </button>
-        <button onclick="setTimerAudioMode('radio');" class="py-2.5 px-2 rounded-xl border text-[11px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-sky-500/20 border-sky-400/50 text-sky-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5'}">
+        <button onclick="setTimerAudioMode('radio');" class="py-1.5 px-1.5 rounded-xl border text-[10px] font-bold transition text-center cursor-pointer truncate active:scale-95 ${currentAudioMode === 'radio' ? 'bg-sky-500/20 border-sky-400/50 text-sky-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/5'}">
           📻 Radio
         </button>
       </div>
@@ -712,13 +712,13 @@ function renderTimerCockpitContent() {
       <!-- Detail-Auswahl-Tray für die aktive Kategorie -->
       ${currentAudioMode === 'ambient' ? `
         <div class="pt-1 border-t border-teal-500/20 flex flex-col gap-1 animate-fade-in">
-          <div class="flex items-center justify-between text-[8.5px] font-mono text-teal-300/80 px-0.5">
+          <div class="flex items-center justify-between text-[8px] font-mono text-teal-300/80 px-0.5">
             <span>Sound wählen:</span>
             <span class="text-teal-200 font-bold">${currentSound === 'mix' ? 'Mix (Zufall)' : currentSound}</span>
           </div>
           <div class="grid grid-cols-5 gap-1">
             ${ambientSoundsList.map(s => `
-              <button onclick="setTimerAudioMode('ambient', '${s.id}');" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentSound === s.id ? 'bg-teal-500/30 border-teal-400 text-white font-bold shadow-xs ring-1 ring-teal-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${s.label}">
+              <button onclick="setTimerAudioMode('ambient', '${s.id}');" class="py-0.5 px-1 rounded-lg border text-[8.5px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentSound === s.id ? 'bg-teal-500/30 border-teal-400 text-white font-bold shadow-xs ring-1 ring-teal-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${s.label}">
                 ${s.label}
               </button>
             `).join('')}
@@ -728,13 +728,13 @@ function renderTimerCockpitContent() {
 
       ${currentAudioMode === 'music' || currentAudioMode === 'soundmachine' ? `
         <div class="pt-1 border-t border-purple-500/20 flex flex-col gap-1 animate-fade-in">
-          <div class="flex items-center justify-between text-[8.5px] font-mono text-purple-300/80 px-0.5">
+          <div class="flex items-center justify-between text-[8px] font-mono text-purple-300/80 px-0.5">
             <span>Track wählen:</span>
             <span class="text-purple-200 font-bold truncate max-w-[140px]">${musicTracksList[currentMusicIdx]?.label || 'Track ' + (currentMusicIdx + 1)}</span>
           </div>
           <div class="grid grid-cols-3 gap-1">
             ${musicTracksList.map(t => `
-              <button onclick="setTimerAudioMode('music', ${t.id});" class="py-1 px-1 rounded-lg border text-[9px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentMusicIdx === t.id ? 'bg-purple-500/30 border-purple-400 text-white font-bold shadow-xs ring-1 ring-purple-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${t.label}">
+              <button onclick="setTimerAudioMode('music', ${t.id});" class="py-0.5 px-1 rounded-lg border text-[8.5px] font-medium transition text-center truncate cursor-pointer active:scale-95 ${currentMusicIdx === t.id ? 'bg-purple-500/30 border-purple-400 text-white font-bold shadow-xs ring-1 ring-purple-400/40' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-white/10'}" title="${t.label}">
                 ${t.label}
               </button>
             `).join('')}
@@ -743,78 +743,78 @@ function renderTimerCockpitContent() {
       ` : ''}
 
       ${currentAudioMode === 'radio' ? `
-        <div class="pt-2 border-t border-cyan-500/25 flex items-center justify-between gap-2.5 animate-fade-in text-xs bg-cyan-950/25 p-2.5 rounded-xl border border-cyan-500/30">
+        <div class="pt-1 border-t border-cyan-500/25 flex items-center justify-between gap-2 animate-fade-in text-xs bg-cyan-950/25 p-2 rounded-xl border border-cyan-500/30">
           <div class="flex items-center gap-2 min-w-0">
-            <span class="w-2.5 h-2.5 rounded-full ${isRadioLive ? 'bg-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.9)] animate-pulse' : 'bg-gray-500'} shrink-0"></span>
+            <span class="w-2 h-2 rounded-full ${isRadioLive ? 'bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.9)] animate-pulse' : 'bg-gray-500'} shrink-0"></span>
             <div class="min-w-0">
-              <div class="text-[9px] font-mono text-cyan-300/80 uppercase font-bold tracking-wider flex items-center gap-1">
+              <div class="text-[8.5px] font-mono text-cyan-300/80 uppercase font-bold tracking-wider flex items-center gap-1">
                 <i data-lucide="radio" class="w-3 h-3 text-cyan-400"></i>
-                <span>Noodle Radio gekoppelt</span>
+                <span>Noodle Radio</span>
               </div>
-              <div class="text-[11.5px] font-bold text-white truncate" title="${activeRadioStationName}">${activeRadioStationName}</div>
+              <div class="text-[10.5px] font-bold text-white truncate" title="${activeRadioStationName}">${activeRadioStationName}</div>
             </div>
           </div>
-          <button type="button" onclick="openRadioPanelFromTimer();" class="py-1.5 px-3 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-400/50 text-cyan-200 hover:text-white text-[10.5px] font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0 active:scale-95 shadow-sm" title="Sender im Noodle Radio auswählen">
-            <i data-lucide="sliders" class="w-3.5 h-3.5 text-cyan-300"></i>
-            <span>Sender wählen ↗</span>
+          <button type="button" onclick="openRadioPanelFromTimer();" class="py-1 px-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/35 border border-cyan-400/50 text-cyan-200 hover:text-white text-[9.5px] font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0 active:scale-95 shadow-sm" title="Sender im Noodle Radio auswählen">
+            <i data-lucide="sliders" class="w-3 h-3 text-cyan-300"></i>
+            <span>Sender ↗</span>
           </button>
         </div>
       ` : ''}
     </div>
 
-    <!-- 4. SPRACHBEGLEITUNG (ZEITANZEIGE & MOTIVATIONSSPRÜCHE) - DEZENT & RUHIG -->
-    <div class="p-3 rounded-2xl bg-indigo-950/20 border border-indigo-500/25 shadow-xs flex flex-col gap-2.5">
+    <!-- 4. SPRACHBEGLEITUNG (ZEITANSAGEN & MOTIVATIONSSPRÜCHE) -->
+    <div class="p-2 sm:p-2.5 rounded-2xl bg-indigo-950/20 border border-indigo-500/25 shadow-xs flex flex-col gap-1.5">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-xs font-bold text-indigo-200 font-display flex items-center gap-2">
-          <i data-lucide="mic" class="w-4 h-4 text-indigo-300"></i>
+        <span class="text-[11px] font-bold text-indigo-200 font-display flex items-center gap-1.5">
+          <i data-lucide="mic" class="w-3.5 h-3.5 text-indigo-300"></i>
           <span>Sprachbegleitung & Sprüche</span>
         </span>
-        <span class="text-[9.5px] font-mono font-bold px-2 py-0.5 rounded-full border ${isVoiceActive ? 'text-emerald-300 bg-emerald-500/15 border-emerald-500/30' : 'text-gray-400 bg-black/40 border-white/10'}">
+        <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded-full border ${isVoiceActive ? 'text-emerald-300 bg-emerald-500/15 border-emerald-500/30' : 'text-gray-400 bg-black/40 border-white/10'}">
           ${isVoiceActive ? '● Aktiv' : '○ Aus'}
         </span>
       </div>
 
-      <!-- Zeitanzeige & Motivationssprüche Buttons -->
-      <div class="grid grid-cols-2 gap-2">
-        <!-- 1. ZEITANZEIGE / ZEITANSAGEN (Sky) -->
-        <button onclick="toggleTimerVoiceFeature('time');" class="py-2.5 px-3 rounded-xl border text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isTimeAnnounce ? 'bg-sky-500/20 border-sky-400/50 text-sky-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-sky-950/20'}">
-          <span class="flex items-center gap-1.5 truncate">
-            <span class="text-base leading-none">⏱️</span>
-            <span class="truncate">Zeitanzeige</span>
+      <!-- Zeitansagen & Motivationssprüche Buttons -->
+      <div class="grid grid-cols-2 gap-1.5">
+        <!-- 1. ZEITANSAGEN (Sky) -->
+        <button onclick="toggleTimerVoiceFeature('time');" class="py-1.5 px-2 rounded-xl border text-[10px] font-bold flex items-center justify-between gap-1 transition-all cursor-pointer truncate active:scale-95 ${isTimeAnnounce ? 'bg-sky-500/20 border-sky-400/50 text-sky-200 shadow-xs' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-sky-950/20'}" title="Sprachansage der verbleibenden Zeit">
+          <span class="flex items-center gap-1 truncate">
+            <span class="text-sm leading-none">⏱️</span>
+            <span class="truncate">Zeitansagen</span>
           </span>
-          <span class="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded-md ${isTimeAnnounce ? 'bg-sky-500/30 text-sky-200' : 'bg-white/10 text-gray-400'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
+          <span class="text-[8.5px] font-mono font-bold px-1.5 py-0.2 rounded-md ${isTimeAnnounce ? 'bg-sky-500/30 text-sky-200' : 'bg-white/10 text-gray-400'}">${isTimeAnnounce ? 'AN' : 'AUS'}</span>
         </button>
 
-        <!-- 2. MOTIVATIONSSPRÜCHE (Amber) -->
-        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-2.5 px-3 rounded-xl border text-[11px] font-bold flex items-center justify-between gap-1.5 transition-all cursor-pointer truncate active:scale-95 ${isMotivation ? 'bg-violet-500/20 border-violet-400/50 text-violet-200 shadow-[0_0_10px_rgba(167,139,250,0.25)]' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-violet-950/20'}">
-          <span class="flex items-center gap-1.5 truncate">
-            <span class="text-base leading-none">💡</span>
-            <span class="truncate">Motivationssprüche</span>
+        <!-- 2. MOTIVATIONSSPRÜCHE (Violet) -->
+        <button onclick="toggleTimerVoiceFeature('motivation');" class="py-1.5 px-2 rounded-xl border text-[10px] font-bold flex items-center justify-between gap-1 transition-all cursor-pointer truncate active:scale-95 ${isMotivation ? 'bg-violet-500/20 border-violet-400/50 text-violet-200 shadow-[0_0_10px_rgba(167,139,250,0.25)]' : 'bg-black/40 border-white/10 text-gray-300 hover:text-white hover:bg-violet-950/20'}" title="Aufmunternde Motivationssprüche">
+          <span class="flex items-center gap-1 truncate">
+            <span class="text-sm leading-none">💡</span>
+            <span class="truncate">Motivation</span>
           </span>
-          <span class="text-[9.5px] font-mono font-bold px-1.5 py-0.5 rounded-md ${isMotivation ? 'bg-violet-500/30 text-violet-200' : 'bg-white/10 text-gray-400'}">${isMotivation ? 'AN' : 'AUS'}</span>
+          <span class="text-[8.5px] font-mono font-bold px-1.5 py-0.2 rounded-md ${isMotivation ? 'bg-violet-500/30 text-violet-200' : 'bg-white/10 text-gray-400'}">${isMotivation ? 'AN' : 'AUS'}</span>
         </button>
       </div>
 
       <div class="pt-1 border-t border-indigo-500/20 flex flex-col gap-1">
         <div class="flex items-center justify-between px-0.5">
-          <span class="text-[9px] font-semibold text-indigo-300 flex items-center gap-1">
+          <span class="text-[8.5px] font-semibold text-indigo-300 flex items-center gap-1">
             <span>🎭</span>
-            <span>Wechselnde Stimmen</span>
+            <span>Wechselnde Stimmen:</span>
           </span>
-          <span class="text-[8.5px] font-mono text-indigo-200/90 bg-indigo-500/20 px-1.5 py-0.2 rounded border border-indigo-500/30">
+          <span class="text-[8px] font-mono text-indigo-200/90 bg-indigo-500/20 px-1.5 py-0.2 rounded border border-indigo-500/30">
             Frau · Mann · Kind
           </span>
         </div>
         <div class="grid grid-cols-3 gap-1">
-          <button onclick="previewVoiceCategory('female');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Frauenstimmen">
+          <button onclick="previewVoiceCategory('female');" class="py-0.5 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[8.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Frauenstimmen">
             <span>👩</span>
             <span class="truncate">Frauen</span>
           </button>
-          <button onclick="previewVoiceCategory('male');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Männerstimmen">
+          <button onclick="previewVoiceCategory('male');" class="py-0.5 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[8.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Männerstimmen">
             <span>👨</span>
             <span class="truncate">Männer</span>
           </button>
-          <button onclick="previewVoiceCategory('child');" class="py-1 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[9.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Kinderstimmen">
+          <button onclick="previewVoiceCategory('child');" class="py-0.5 px-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white text-[8.5px] font-medium flex items-center justify-center gap-1 transition cursor-pointer active:scale-95" title="Hörprobe: Kinderstimmen">
             <span>🧒</span>
             <span class="truncate">Kinder</span>
           </button>
@@ -823,55 +823,44 @@ function renderTimerCockpitContent() {
     </div>
 
     <!-- 5. FOKUS-ZIEL & STOPPUHR -->
-    <div class="p-2.5 rounded-2xl bg-gradient-to-br from-indigo-950/30 via-[#0e101a] to-cyan-950/20 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.1)] flex flex-col gap-1.5">
+    <div class="p-1.5 sm:p-2 rounded-2xl bg-gradient-to-br from-indigo-950/30 via-[#0e101a] to-cyan-950/20 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.1)] flex flex-col gap-1">
       <div class="flex items-center justify-between px-0.5">
-        <span class="text-[10.5px] font-bold text-cyan-200 font-display flex items-center gap-1.5">
-          <i data-lucide="target" class="w-3.5 h-3.5 text-cyan-400"></i>
+        <span class="text-[10px] font-bold text-cyan-200 font-display flex items-center gap-1">
+          <i data-lucide="target" class="w-3 h-3 text-cyan-400"></i>
           <span>Fokus-Ziel (Aufgabe)</span>
         </span>
         <div class="flex items-center gap-1">
-          <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); toggleChronometer();" class="px-2 py-0.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-mono text-[9px] font-bold flex items-center gap-1 transition cursor-pointer active:scale-95" title="Stoppuhr / Zeiterfassung starten">
+          <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); toggleChronometer();" class="px-1.5 py-0.2 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/40 text-emerald-300 font-mono text-[8.5px] font-bold flex items-center gap-1 transition cursor-pointer active:scale-95" title="Stoppuhr starten">
             <i data-lucide="watch" class="w-2.5 h-2.5"></i>
             <span>${isChronoRunning ? 'Stoppuhr aktiv' : 'Stoppuhr'}</span>
           </button>
-          ${taskTitle ? `<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold shadow-[0_0_8px_rgba(6,182,212,0.3)]">Verknüpft</span>` : ''}
+          ${taskTitle ? `<span class="text-[8px] px-1.5 py-0.2 rounded-full bg-cyan-500/20 text-cyan-300 font-mono font-bold shadow-[0_0_8px_rgba(6,182,212,0.3)]">Verknüpft</span>` : ''}
         </div>
       </div>
 
       ${taskTitle ? `
-        <div class="flex items-center justify-between gap-1.5 p-2 bg-cyan-950/30 border border-cyan-500/35 rounded-xl text-[11px] text-cyan-100 min-w-0 shadow-[0_0_10px_rgba(6,182,212,0.15)]">
+        <div class="flex items-center justify-between gap-1 p-1.5 bg-cyan-950/30 border border-cyan-500/35 rounded-xl text-[10.5px] text-cyan-100 min-w-0 shadow-[0_0_10px_rgba(6,182,212,0.15)]">
           <span class="truncate font-medium">${(typeof escapeHtml === 'function') ? escapeHtml(taskTitle) : taskTitle}</span>
           <div class="flex items-center gap-1 shrink-0">
-            <button onclick="completeActiveTimerTask(event)" class="px-2 py-0.5 bg-emerald-500/30 hover:bg-emerald-500/50 text-emerald-300 rounded-lg text-[9.5px] font-bold cursor-pointer transition" title="Aufgabe als erledigt markieren">✓ Erledigt</button>
+            <button onclick="completeActiveTimerTask(event)" class="px-1.5 py-0.2 bg-emerald-500/30 hover:bg-emerald-500/50 text-emerald-300 rounded-lg text-[9px] font-bold cursor-pointer transition" title="Aufgabe als erledigt markieren">✓ Erledigt</button>
             <button onclick="unlinkTimerTask(event)" class="text-gray-400 hover:text-rose-400 text-xs px-1 cursor-pointer transition" title="Verknüpfung lösen">✕</button>
           </div>
         </div>
       ` : `
-        <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1.5 px-2 bg-black/60 border border-white/10 hover:border-cyan-400/50 focus:border-cyan-400 rounded-xl text-[10.5px] text-gray-200 outline-none cursor-pointer truncate transition">
-          <option value="" class="text-gray-500">-- Aufgabe aus Board verknüpfen --</option>
+        <select id="timer-task-select" onchange="if(this.value) linkTaskToTimer(this.value)" class="w-full py-1 px-1.5 bg-black/60 border border-white/10 hover:border-cyan-400/50 focus:border-cyan-400 rounded-xl text-[10px] text-gray-200 outline-none cursor-pointer truncate transition">
+          <option value="" class="text-gray-500">-- Aufgabe verknüpfen --</option>
           ${(() => {
             const curItems = (typeof getCurrentWorkspaceItems === 'function')
               ? getCurrentWorkspaceItems()
               : ((typeof state !== 'undefined' && state?.items) || (typeof window !== 'undefined' && window.state?.items) || {});
-            const colLabels = {
-              daily: 'Tagesaufgaben',
-              weekly: 'Wochenaufgaben',
-              todo: 'To-Do Liste',
-              occasionally: 'Gelegentlich',
-              termine: 'Termine'
-            };
+            const colLabels = { daily: 'Tagesaufgaben', weekly: 'Wochenaufgaben', todo: 'To-Do Liste', occasionally: 'Gelegentlich', termine: 'Termine' };
             const openTasks = [];
             ['daily', 'weekly', 'todo', 'occasionally', 'termine'].forEach(colId => {
               const list = Array.isArray(curItems[colId]) ? curItems[colId] : [];
               list.forEach((t, idx) => {
                 const title = typeof t === 'object' && t ? (t.task || t.title || t.name || '') : String(t || '');
                 if (title && title.trim()) {
-                  openTasks.push({
-                    colId,
-                    colLabel: colLabels[colId] || colId,
-                    index: idx,
-                    title: title.trim()
-                  });
+                  openTasks.push({ colId, colLabel: colLabels[colId] || colId, index: idx, title: title.trim() });
                 }
               });
             });
@@ -897,7 +886,7 @@ function renderTimerCockpitContent() {
 
     <!-- 6. WECKER & ERINNERUNGEN FOOTER -->
     <div class="pt-0.5 border-t border-white/10 flex items-center justify-between">
-      <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); openAlarmModal('alarms');" class="w-full py-1 px-3 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center gap-1.5 transition cursor-pointer text-[10.5px]" title="Wecker & Erinnerungen öffnen">
+      <button onclick="document.getElementById('panel-timer-presets').classList.add('hidden'); openAlarmModal('alarms');" class="w-full py-1 px-2.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/25 hover:border-cyan-400/40 text-cyan-300 font-bold flex items-center justify-center gap-1.5 transition cursor-pointer text-[10px]" title="Wecker & Erinnerungen öffnen">
         <i data-lucide="bell" class="w-3 h-3"></i>
         <span>Wecker & Erinnerungen öffnen ↗</span>
       </button>
