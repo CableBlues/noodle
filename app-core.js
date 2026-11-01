@@ -1542,8 +1542,8 @@ function triggerPwaInstall() {
   } else {
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: 'Installiere Noodle über dein Browsermenü („Zum Startbildschirm hinzufügen“ oder „App installieren“)',
-        en: 'Install Noodle via your browser menu ("Add to Home Screen" or "Install App")'
+        de: 'Installiere Noodle Studio über dein Browsermenü („Zum Startbildschirm hinzufügen“ oder „App installieren“)',
+        en: 'Install Noodle Studio via your browser menu ("Add to Home Screen" or "Install App")'
       }));
     }
   }

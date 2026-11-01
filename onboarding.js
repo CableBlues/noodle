@@ -83,8 +83,8 @@ const ONBOARDING_STATIONS = [
       en: "Guided Micro-Steps, Instant Start & The “What Now?” Assistant"
     },
     description: {
-      de: "Gegen Entscheidungsmüdigkeit und das Gefühl des Überwältigtseins: Noodle bricht große Hürden in machbare Einzelschritte herunter, filtert automatisch nach den Aufgaben von heute und schirmt störende Reize im Zen-Modus komplett ab.",
-      en: "Overcome decision fatigue and overwhelm. Noodle breaks mountains into doable micro-steps, filters automatically for today’s essentials, and shields distractions in Zen Mode."
+      de: "Gegen Entscheidungsmüdigkeit und das Gefühl des Überwältigtseins: Noodle Studio bricht große Hürden in machbare Einzelschritte herunter, filtert automatisch nach den Aufgaben von heute und schirmt störende Reize im Zen-Modus komplett ab.",
+      en: "Overcome decision fatigue and overwhelm. Noodle Studio breaks mountains into doable micro-steps, filters automatically for today’s essentials, and shields distractions in Zen Mode."
     },
     action: {
       label: { de: "Fokus-Cockpit öffnen ⏱️", en: "Open Focus Cockpit ⏱️" },
@@ -191,8 +191,8 @@ const ONBOARDING_STATIONS = [
       en: "Nutrition, Smart Groceries, Guided Reset & Rituals"
     },
     description: {
-      de: "Ein nachhaltiger Arbeitstag braucht ausgewogene Ernährung, Bewegung und echte Erholung. Noodle verbindet Aufgabenmanagement mit einem Koch- und Vorratsstudio, smarter Einkaufsliste, physiologischen Atem-Pausen und einem bewussten Feierabend-Ritual.",
-      en: "Sustainable productivity requires healthy nutrition, movement, and genuine recovery. Noodle pairs task flows with a smart cooking & pantry hub, aisle-sorted grocery shopping, breathing resets, and evening closure."
+      de: "Ein nachhaltiger Arbeitstag braucht ausgewogene Ernährung, Bewegung und echte Erholung. Noodle Studio verbindet Aufgabenmanagement mit einem Koch- und Vorratsstudio, smarter Einkaufsliste, physiologischen Atem-Pausen und einem bewussten Feierabend-Ritual.",
+      en: "Sustainable productivity requires healthy nutrition, movement, and genuine recovery. Noodle Studio pairs task flows with a smart cooking & pantry hub, aisle-sorted grocery shopping, breathing resets, and evening closure."
     },
     action: {
       label: { de: "Pause & Safe Space ansehen ☕", en: "Explore Pause & Safe Space ☕" },
@@ -245,11 +245,11 @@ const ONBOARDING_STATIONS = [
       en: "Zero Tracking, No Mandatory Account, P2P Sync & Offline PWA"
     },
     description: {
-      de: "Noodle arbeitet nach dem Local-First-Prinzip. Alle deine Aufgaben, Notizen, Rezepte und Routinen verbleiben auf deinem Gerät. Du kannst Noodle als native Desktop- oder Mobil-App installieren und deine Geräte ohne Drittanbieter-Server synchronisieren.",
-      en: "Noodle operates on a Local-First philosophy. All your boards, checklists, and notes stay securely on your hardware. Install Noodle as a native app and sync devices without commercial surveillance."
+      de: "Noodle Studio arbeitet nach dem Local-First-Prinzip. Alle deine Aufgaben, Notizen, Rezepte und Routinen verbleiben auf deinem Gerät. Du kannst Noodle Studio als native Desktop- oder Mobil-App installieren und deine Geräte ohne Drittanbieter-Server synchronisieren.",
+      en: "Noodle Studio operates on a Local-First philosophy. All your boards, checklists, and notes stay securely on your hardware. Install Noodle Studio as a native app and sync devices without commercial surveillance."
     },
     action: {
-      label: { de: "Noodle als App installieren 📲", en: "Install Noodle as App 📲" },
+      label: { de: "Noodle Studio als App installieren 📲", en: "Install Noodle Studio as App 📲" },
       icon: "download",
       fn: "triggerPwaInstallFromTour"
     },
@@ -279,7 +279,7 @@ const ONBOARDING_STATIONS = [
         icon: "smartphone",
         tag: { de: "Offline", en: "Offline" },
         title: { de: "PWA / Standalone Installation", en: "PWA Standalone App" },
-        desc: { de: "Installiere Noodle direkt im Browser als native App mit Desktop-Icon und 100% Offline-Betrieb.", en: "Install directly from browser with dock icon, full window mode, and offline caching." },
+        desc: { de: "Installiere Noodle Studio direkt im Browser als native App mit Desktop-Icon und 100% Offline-Betrieb.", en: "Install Noodle Studio directly from browser with dock icon, full window mode, and offline caching." },
         shortcut: "Desktop & Mobil"
       }
     ]
