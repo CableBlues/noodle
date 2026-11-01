@@ -1723,6 +1723,10 @@ function updateUmamiOptOutUI() {
 }
 
 function openPrivacyModal() {
+  if (typeof openSettingsModal === 'function') {
+    openSettingsModal('privacy');
+    return;
+  }
   const modal = document.getElementById('privacy-legal-modal');
   if (modal) {
     modal.classList.remove('hidden');

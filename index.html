@@ -107,7 +107,7 @@
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <!-- 1. Kombinierter NOODLE TOOLS & LOGO BUTTON -->
         <div class="relative flex items-center shrink-0" id="header-tools-wrapper" onmouseenter="showPanelHover('header-tools', 0)" onmouseleave="hidePanelHover('header-tools')">
-          <button id="btn-header-tools" data-action="togglePanel" data-action-args='["header-tools"]' class="flow-logo-container relative inline-flex items-center gap-1 sm:gap-1.5 h-[38px] px-2.5 sm:px-3 rounded-2xl bg-gradient-to-br from-[#1b162a]/95 via-[#13111c]/95 to-[#1f1633]/95 hover:from-[#251d3a] hover:to-[#2b1d47] border border-purple-500/45 hover:border-purple-400 shadow-[0_0_18px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 cursor-pointer ring-1 ring-white/10" title="Noodle Tools" data-noodle-tooltip="Noodle Tools" aria-label="Noodle Tools">
+          <button id="btn-header-tools" onclick="if(window.innerWidth <= 768){ event.stopPropagation(); if(typeof switchMobileNavTab==='function') switchMobileNavTab('planer'); return; }" data-action="togglePanel" data-action-args='["header-tools"]' class="flow-logo-container relative inline-flex items-center gap-1 sm:gap-1.5 h-[38px] px-2.5 sm:px-3 rounded-2xl bg-gradient-to-br from-[#1b162a]/95 via-[#13111c]/95 to-[#1f1633]/95 hover:from-[#251d3a] hover:to-[#2b1d47] border border-purple-500/45 hover:border-purple-400 shadow-[0_0_18px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] active:scale-95 transition-all duration-300 group/logo select-none shrink-0 cursor-pointer ring-1 ring-white/10" title="Noodle Tools" data-noodle-tooltip="Noodle Tools" aria-label="Noodle Tools">
             <!-- Sanfter Shimmer-Lichtreflex über den gesamten Button -->
             <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
               <div class="w-1/2 h-full bg-gradient-to-r from-transparent via-white/[0.07] to-transparent -skew-x-12 animate-[shimmer_5s_infinite]"></div>
@@ -1709,7 +1709,7 @@
                         </div>
                         <div>
                           <label class="block text-[10px] font-mono text-gray-400 uppercase tracking-wider mb-1" data-i18n="collab_direct_msg_label">Nachricht (optional):</label>
-                          <input type="text" id="collab-direct-message" placeholder="Hallo! Lass uns auf Noodle kollaborieren..." class="w-full bg-black/50 border border-white/10 focus:border-cyan-500/60 rounded-xl px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none transition">
+                          <input type="text" id="collab-direct-message" placeholder="Hallo! Lass uns auf Noodle Studio kollaborieren..." class="w-full bg-black/50 border border-white/10 focus:border-cyan-500/60 rounded-xl px-3 py-1.5 text-xs text-white placeholder-gray-500 focus:outline-none transition">
                         </div>
                       </div>
 
@@ -1785,7 +1785,7 @@
       <!-- ====================================================================== -->
       <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
         <!-- Wecker & Reminder (Warmes Amber) -->
-        <div id="header-btn-alarm-container" class="relative flex items-center shrink-0 mr-1 sm:mr-1.5">
+        <div id="header-btn-alarm-container" class="relative hidden sm:flex items-center shrink-0 mr-1 sm:mr-1.5">
           <button id="btn-header-alarm" type="button" onclick="event.stopPropagation(); toggleAlarmDropdown(event);" class="h-[38px] w-[38px] flex items-center justify-center rounded-xl bg-amber-500/15 hover:bg-amber-500/25 active:scale-95 border border-amber-400/45 hover:border-amber-300 text-amber-300 hover:text-amber-200 cursor-pointer transition-all duration-200 shadow-[0_0_12px_rgba(245,158,11,0.2)] shrink-0 group relative select-none" title="Wecker & Reminder" aria-label="Wecker & Reminder">
             <i data-lucide="alarm-clock" class="w-4 h-4 text-amber-300 group-hover:text-amber-200 group-hover:scale-110 transition-transform shrink-0"></i>
             <span id="alarm-active-badge" class="hidden absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-amber-400 shadow-xs"></span>
@@ -1852,12 +1852,12 @@
       <!-- ====================================================================== -->
       <div class="flex items-center justify-center gap-1.5 sm:gap-2 shrink-0">
         <!-- Brainstorming Studio (Leuchtendes Fuchsia/Violet - unterscheidet sich von Emerald links & Sky rechts) -->
-        <button id="btn-header-brainstorm" onclick="openBrainstormModal()" class="flex items-center justify-center h-[38px] w-[38px] rounded-xl text-fuchsia-300 hover:text-fuchsia-100 bg-fuchsia-500/15 hover:bg-fuchsia-500/28 active:scale-95 border border-fuchsia-400/45 hover:border-fuchsia-300 cursor-pointer transition-all duration-300 shrink-0 shadow-[0_0_12px_rgba(217,70,239,0.22)] group" title="Brainstorming Studio: Ideen erfassen & Mikrofon [B]" aria-label="Brainstorming Studio">
+        <button id="btn-header-brainstorm" onclick="openBrainstormModal()" class="desktop-only-header flex items-center justify-center h-[38px] w-[38px] rounded-xl text-fuchsia-300 hover:text-fuchsia-100 bg-fuchsia-500/15 hover:bg-fuchsia-500/28 active:scale-95 border border-fuchsia-400/45 hover:border-fuchsia-300 cursor-pointer transition-all duration-300 shrink-0 shadow-[0_0_12px_rgba(217,70,239,0.22)] group" title="Brainstorming Studio: Ideen erfassen & Mikrofon [B]" aria-label="Brainstorming Studio">
           <i data-lucide="brain" class="w-[18px] h-[18px] text-fuchsia-300 group-hover:scale-110 group-hover:text-fuchsia-200 transition-transform shrink-0"></i>
         </button>
 
         <!-- Wetter & Datum mit Monatskalender -->
-        <div id="date-container" class="flex items-center justify-center h-[38px] px-2 sm:px-2.5 lg:px-3 rounded-xl shrink-0 transition-all duration-200 relative group select-none">
+        <div id="date-container" class="hidden sm:flex items-center justify-center h-[38px] px-2 sm:px-2.5 lg:px-3 rounded-xl shrink-0 transition-all duration-200 relative group select-none">
           <div class="flex items-center gap-1 sm:gap-1.5 px-0.5">
             <!-- Wetter & Temperatur Pill (Sky) -->
             <div id="date-weather-badge" data-action="toggleWeatherDropdown" data-action-args='["$event"]' class="flex items-center gap-1 h-[24px] px-1.5 rounded-lg bg-sky-500/20 border border-sky-400/45 hover:bg-sky-500/30 hover:border-sky-300 text-[9.5px] font-bold text-sky-300 transition cursor-pointer relative select-none shadow-sm group/weather" title="Local Weather" data-i18n-title="weather_title">
@@ -1969,7 +1969,7 @@
       <!-- ====================================================================== -->
       <div class="flex items-center gap-1.5 sm:gap-2 md:gap-2.5 shrink-0">
         <!-- Pause & Erholung (Purple) -->
-        <div id="header-btn-pause-container" class="relative group cursor-pointer shrink-0" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')">
+        <div id="header-btn-pause-container" class="desktop-only-header relative group cursor-pointer shrink-0" onmouseenter="showPanelHover('pause-dropdown')" onmouseleave="hidePanelHover('pause-dropdown')">
           <button type="button" onclick="event.stopPropagation(); togglePanel('pause-dropdown', event);" data-action="togglePanel" data-action-args='["pause-dropdown"]' class="h-[38px] px-2.5 sm:px-3 border border-lime-500/50 hover:border-lime-400 rounded-xl bg-lime-500/15 hover:bg-lime-500/25 active:scale-95 text-lime-300 hover:text-lime-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(132,204,22,0.25)] group/pause-btn" data-i18n-title="pause_panel_title">
             <!-- Animiertes Dampf-Tassen SVG Icon in Lime -->
             <svg class="w-4 h-4 text-lime-300 steam-cup-icon shrink-0 overflow-visible" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2144,7 +2144,7 @@
         </div>
 
         <!-- Statistik (Lime / Bewegung-Farbe) -->
-        <div id="header-btn-report-container" class="relative group cursor-pointer" onmouseenter="showPanelHover('report')" onmouseleave="hidePanelHover('report')">
+        <div id="header-btn-report-container" class="desktop-only-header relative group cursor-pointer" onmouseenter="showPanelHover('report')" onmouseleave="hidePanelHover('report')">
             <button type="button" onclick="event.stopPropagation(); togglePanel('report', event);" data-action="togglePanel" data-action-args='["report"]' class="h-[38px] px-2.5 sm:px-3 border border-purple-400/50 hover:border-purple-300 rounded-xl bg-purple-500/15 hover:bg-purple-500/25 active:scale-95 text-purple-300 hover:text-purple-100 flex items-center gap-1.5 text-xs sm:text-[13px] font-bold cursor-pointer transition whitespace-nowrap shadow-[0_0_14px_rgba(168,85,247,0.25)] group/report-btn" data-i18n-title="report_title">
               <i data-lucide="bar-chart-3" class="w-4 h-4 text-purple-300"></i>
               <span class="inline-block text-purple-300 font-bold group-hover/report-btn:text-purple-100" id="btn-label-report" data-i18n="report">Stats</span>
@@ -2185,7 +2185,7 @@
         </div>
 
         <!-- Optionen & Farbschemata (Sky-Blue) -->
-        <div id="header-btn-options-container" class="relative group cursor-pointer" onmouseenter="showPanelHover('settings-dropdown')" onmouseleave="hidePanelHover('settings-dropdown')">
+        <div id="header-btn-options-container" class="desktop-only-header relative group cursor-pointer" onmouseenter="showPanelHover('settings-dropdown')" onmouseleave="hidePanelHover('settings-dropdown')">
             <button type="button" onclick="event.stopPropagation(); togglePanel('settings-dropdown', event);" data-action="togglePanel" data-action-args='["settings-dropdown"]' class="h-[38px] px-2.5 sm:px-3 2xl:px-4 flex items-center gap-1.5 border border-sky-400/50 hover:border-sky-300 active:scale-95 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 text-sky-300 hover:text-sky-100 cursor-pointer transition shrink-0 shadow-[0_0_14px_rgba(56,189,248,0.25)] group/opt" data-i18n-title="options_title">
               <i data-lucide="settings" class="w-4 h-4 text-sky-300 group-hover/opt:text-sky-100 transition-colors"></i>
               <span class="text-xs sm:text-[13px] font-bold text-sky-300 group-hover/opt:text-sky-100 hidden xl:inline" data-i18n="settings">Options</span>
@@ -2247,14 +2247,14 @@
                 </div>
               </div>
 
-              <!-- SECTION 3: DIREKTZUGRIFF & RECHTLICHES -->
+              <!-- SECTION 3: EINSTELLUNGEN & SYNC -->
               <div class="pt-1.5 border-t border-white/10 space-y-1.5">
                 <div class="text-[9px] font-bold uppercase tracking-wider text-purple-300 font-mono flex items-center justify-between">
-                  <span>Optionen & Rechtliches</span>
+                  <span>Optionen & Sync</span>
                 </div>
                 <div class="grid grid-cols-2 gap-1.5">
-                  <!-- 1. Alle Einstellungen -->
-                  <button onclick="openSettingsModal('general'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-2 bg-purple-500/15 hover:bg-purple-500/25 text-purple-200 hover:text-white border border-purple-500/30 hover:border-purple-400/50 rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs active:scale-95" title="Alle Einstellungen öffnen">
+                  <!-- 1. Alle Einstellungen (Großes Menü inkl. Impressum, Datenschutz & Lizenzen) -->
+                  <button onclick="openSettingsModal('general'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-2 bg-purple-500/15 hover:bg-purple-500/25 text-purple-200 hover:text-white border border-purple-500/30 hover:border-purple-400/50 rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs active:scale-95" title="Großes Einstellungsmenü öffnen">
                     <i data-lucide="sliders" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
                     <span class="truncate">Einstellungen</span>
                   </button>
@@ -2263,22 +2263,6 @@
                   <button onclick="openP2PSyncModal(); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-2 bg-teal-500/15 hover:bg-teal-500/25 text-teal-200 hover:text-white border border-teal-500/30 hover:border-teal-400/50 rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs active:scale-95" title="Geräte koppeln & Cloud-Sync">
                     <i data-lucide="smartphone" class="w-3.5 h-3.5 text-teal-300 shrink-0"></i>
                     <span class="truncate">Geräte & Sync</span>
-                  </button>
-                </div>
-
-                <!-- 3. Schnelleinstieg Rechtliches: Impressum, Datenschutz, Lizenzen -->
-                <div class="grid grid-cols-3 gap-1 pt-0.5">
-                  <button onclick="openSettingsModal('impressum'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-1 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 rounded-xl text-[10.5px] font-medium transition flex items-center justify-center gap-1 cursor-pointer truncate active:scale-95" title="Impressum anzeigen">
-                    <i data-lucide="building" class="w-3 h-3 text-purple-400 shrink-0"></i>
-                    <span class="truncate">Impressum</span>
-                  </button>
-                  <button onclick="openSettingsModal('privacy'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-1 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 rounded-xl text-[10.5px] font-medium transition flex items-center justify-center gap-1 cursor-pointer truncate active:scale-95" title="Datenschutzerklärung anzeigen">
-                    <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400 shrink-0"></i>
-                    <span class="truncate">Datenschutz</span>
-                  </button>
-                  <button onclick="openSettingsModal('licenses'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-1 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 rounded-xl text-[10.5px] font-medium transition flex items-center justify-center gap-1 cursor-pointer truncate active:scale-95" title="Lizenzen & Haftung anzeigen">
-                    <i data-lucide="scale" class="w-3 h-3 text-amber-400 shrink-0"></i>
-                    <span class="truncate">Lizenzen</span>
                   </button>
                 </div>
 
@@ -2293,7 +2277,7 @@
           </div>
 
         <!-- Sound Master Mute / Unmute Toggle (Rose/Pink - unterscheidet sich von Purple Options links) -->
-        <div id="header-btn-sound-container" class="relative shrink-0" onclick="toggleSoundVolumePopover(event)" onmouseenter="showSoundHoverSlider()" onmouseleave="hideSoundHoverSlider()">
+        <div id="header-btn-sound-container" class="desktop-only-header relative shrink-0" onclick="toggleSoundVolumePopover(event)" onmouseenter="showSoundHoverSlider()" onmouseleave="hideSoundHoverSlider()">
           <button id="header-btn-sound-toggle" onclick="event.stopPropagation(); toggleMasterSound();" class="h-[38px] w-[38px] border border-rose-400/45 hover:border-rose-300 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 active:scale-95 text-rose-300 hover:text-rose-100 flex items-center justify-center cursor-pointer transition shrink-0 shadow-[0_0_12px_rgba(244,63,94,0.2)] group/sound-btn" title="Sound aktiv (Klicken zum Stummschalten) [M]" aria-label="Sound ein-/ausschalten">
             <span id="header-sound-icon-wrapper" class="flex items-center justify-center">
               <i data-lucide="volume-2" class="w-[18px] h-[18px] text-rose-300 group-hover/sound-btn:scale-105 transition-transform"></i>
@@ -3655,10 +3639,10 @@
         </div>
       </div>
 
-      <!-- 2 Fokussierte Haupt-Tabs im Brainstorming-Stil -->
-      <div class="grid grid-cols-2 gap-1.5 p-1 bg-black/50 border border-white/10 rounded-2xl text-[11px] font-bold">
-        <button id="whatnow-tab-suggestion" data-action="switchWhatNowTab" data-action-args='["suggestion"]' class="py-2 px-3 rounded-xl bg-gradient-to-r from-orange-500/20 to-amber-600/20 border border-orange-400/40 text-orange-200 text-center transition cursor-pointer flex items-center justify-center gap-1.5 shadow-xs">
-          <i data-lucide="crosshair" class="w-3.5 h-3.5 text-orange-400"></i>
+      <!-- 2 Fokussierte Haupt-Tabs im ruhigen Fokus-Stil -->
+      <div class="grid grid-cols-2 gap-1.5 p-1 bg-black/40 border border-white/10 rounded-2xl text-[11px] font-bold">
+        <button id="whatnow-tab-suggestion" data-action="switchWhatNowTab" data-action-args='["suggestion"]' class="py-2 px-3 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-200 text-center transition cursor-pointer flex items-center justify-center gap-1.5 shadow-xs">
+          <i data-lucide="crosshair" class="w-3.5 h-3.5 text-purple-400"></i>
           <span data-i18n="pick_tab_suggestion">Fokus-Vorschlag</span>
         </button>
         <button id="whatnow-tab-dilemma" data-action="switchWhatNowTab" data-action-args='["dilemma"]' class="py-2 px-3 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-1.5 border border-transparent">
@@ -3678,7 +3662,7 @@
             <span data-i18n="pick_energy_low">Kurz</span>
             <span class="text-[8px] font-mono opacity-60">2-5 Min</span>
           </button>
-          <button data-action="setWhatNowEnergyLevel" data-action-args='["med"]' id="whatnow-energy-med" class="py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-orange-200 bg-orange-500/20 border border-orange-500/40 transition cursor-pointer flex flex-col items-center gap-0.5 shadow-sm">
+          <button data-action="setWhatNowEnergyLevel" data-action-args='["med"]' id="whatnow-energy-med" class="py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-purple-200 bg-purple-500/20 border border-purple-500/40 transition cursor-pointer flex flex-col items-center gap-0.5 shadow-sm">
             <span data-i18n="pick_energy_med">Fokus</span>
             <span class="text-[8px] font-mono opacity-80">15-25 Min</span>
           </button>
@@ -3710,8 +3694,8 @@
       <!-- TAB 2: A vs. B ENTSCHEIDER (DILEMMA-SOLVER) -->
       <!-- ========================================== -->
       <div id="whatnow-pane-dilemma" class="hidden space-y-3.5">
-        <div class="p-3 bg-orange-500/10 border border-orange-500/20 rounded-2xl text-[11px] text-orange-200/90 leading-relaxed flex items-center gap-2">
-          <i data-lucide="scale" class="w-4 h-4 text-orange-400 shrink-0"></i>
+        <div class="p-3 bg-purple-500/10 border border-purple-500/20 rounded-2xl text-[11px] text-purple-200/90 leading-relaxed flex items-center gap-2">
+          <i data-lucide="scale" class="w-4 h-4 text-purple-400 shrink-0"></i>
           <span data-i18n="pick_dilemma_hint">Zwischen zwei Optionen unentschlossen? Lass den Münzwurf entscheiden – dein Bauchgefühl reagiert sofort auf das Ergebnis.</span>
         </div>
 
@@ -3731,7 +3715,7 @@
           <span data-i18n="pick_coin_flip">Münze werfen & entscheiden</span>
         </button>
 
-        <div id="whatnow-dilemma-result" class="hidden p-4 rounded-2xl bg-black/50 border border-orange-500/30 text-center space-y-2 animate-fade-in"></div>
+        <div id="whatnow-dilemma-result" class="hidden p-4 rounded-2xl bg-black/50 border border-purple-500/30 text-center space-y-2 animate-fade-in"></div>
       </div>
 
     </div>
@@ -4448,7 +4432,7 @@
           <div class="space-y-0.5">
             <span class="font-bold text-white text-xs flex items-center gap-1.5">
               <i data-lucide="download" class="w-3.5 h-3.5 text-purple-400"></i>
-              <span data-i18n="settings_install_local_title">Noodle als lokale Anwendung installieren</span>
+              <span data-i18n="settings_install_local_title">Noodle Studio als lokale Anwendung installieren</span>
               <span class="px-1.5 py-0.2 rounded text-[9px] font-mono text-purple-300 bg-purple-500/20">PWA / Standalone</span>
             </span>
             <p class="text-[11px] text-gray-400 leading-relaxed">
@@ -4549,10 +4533,10 @@
             <span>Angaben gemäß § 5 Digitale-Dienste-Gesetz (DDG)</span>
           </h4>
           <div class="space-y-1.5 text-gray-300">
-            <p class="font-semibold text-white">Noodle</p>
+            <p class="font-semibold text-white">Noodle Studio</p>
             <p>Freie, barrierefreie Open-Web Progressive Web App (PWA) für allumfassende Alltags-, Lern- und Arbeitsorganisation.</p>
             <p class="pt-2 text-gray-400"><strong>Dienstanbieter / Betreiber:</strong></p>
-            <p>Noodle Entwicklerteam & Open-Source-Gemeinschaft</p>
+            <p>Noodle Studio Entwicklerteam & Open-Source-Gemeinschaft</p>
             <p class="text-[11px] text-gray-400">Bereitstellung als statische Web-Applikation über GitHub Pages.</p>
             <p class="pt-2 text-gray-400"><strong>Kontakt & Support:</strong></p>
             <p>E-Mail: <a href="mailto:support@noodlestudio.app" class="text-purple-300 hover:underline">support@noodlestudio.app</a></p>
@@ -4595,8 +4579,8 @@
             <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">100% Client-Side</span>
           </div>
           <p class="text-gray-300 text-[11px] leading-relaxed">
-            Deine Privatsphäre und die absolute Souveränität über deine Daten stehen bei Noodle an oberster Stelle. 
-            Noodle arbeitet nach dem <strong>Local-First-Prinzip</strong>: Deine Aufgaben, Checklisten, Routinen, Notizen, Einkaufslisten, Timer, Wecker, Sport- und Gesundheits-Logs, Audioeinstellungen sowie Farbthemen verbleiben <strong>vollständig auf deinem eigenen Gerät</strong>. Es besteht kein Registrierungszwang, keine Werbetracker und kein Verkauf von Nutzerdaten.
+            Deine Privatsphäre und die absolute Souveränität über deine Daten stehen bei Noodle Studio an oberster Stelle. 
+            Noodle Studio arbeitet nach dem <strong>Local-First-Prinzip</strong>: Deine Aufgaben, Checklisten, Routinen, Notizen, Einkaufslisten, Timer, Wecker, Sport- und Gesundheits-Logs, Audioeinstellungen sowie Farbthemen verbleiben <strong>vollständig auf deinem eigenen Gerät</strong>. Es besteht kein Registrierungszwang, keine Werbetracker und kein Verkauf von Nutzerdaten.
           </p>
         </div>
 
@@ -4607,7 +4591,7 @@
             <span>1. Verantwortliche Stelle & Rechtsgrundlagen der Verarbeitung</span>
           </h4>
           <p class="text-[11px] text-gray-400">
-            Verantwortlich für die Datenverarbeitung im Sinne der EU-Datenschutz-Grundverordnung (DSGVO) und des Digitale-Dienste-Gesetzes (DDG) ist das Noodle-Entwicklerteam (Kontakt: <a href="mailto:support@noodlestudio.app" class="text-purple-300 hover:underline">support@noodlestudio.app</a>).
+            Verantwortlich für die Datenverarbeitung im Sinne der EU-Datenschutz-Grundverordnung (DSGVO) und des Digitale-Dienste-Gesetzes (DDG) ist das Noodle Studio-Entwicklerteam (Kontakt: <a href="mailto:support@noodlestudio.app" class="text-purple-300 hover:underline">support@noodlestudio.app</a>).
           </p>
           <p class="text-[11px] text-gray-400">
             Die Rechtsgrundlagen unserer Datenverarbeitung ergeben sich aus:
@@ -4627,7 +4611,7 @@
             <span>2. Lokale Speicherung & Verzicht auf Tracking-Cookies (§ 25 TDDDG)</span>
           </h4>
           <p class="text-[11px] text-gray-400">
-            Noodle setzt <strong>keine einwilligungspflichtigen Werbe- oder Marketing-Cookies</strong> ein. Ein Cookie-Banner ist daher nach § 25 Abs. 2 TDDDG rechtlich nicht erforderlich.
+            Noodle Studio setzt <strong>keine einwilligungspflichtigen Werbe- oder Marketing-Cookies</strong> ein. Ein Cookie-Banner ist daher nach § 25 Abs. 2 TDDDG rechtlich nicht erforderlich.
           </p>
           <p class="text-[11px] text-gray-400">
             Zur Gewährleistung der Offline-Funktionsfähigkeit und Speicherung deiner Arbeitsdaten nutzt die App folgende lokale Webtechnologien deines Browsers:
@@ -4635,7 +4619,7 @@
           <ul class="list-disc pl-4 space-y-1 text-[11px] text-gray-400">
             <li><code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">localStorage</code> & <code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">sessionStorage</code>: Speichert Aufgabenstände, Routinen, Favoriten, aktive Ansichten, Farbschemata und UI-Optionen.</li>
             <li><code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">IndexedDB</code>: Für strukturierte Datenablage (Offline-Notizen, Snapshots, Historie).</li>
-            <li><code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">CacheStorage & Service Worker (sw.js)</code>: Cacht App-Ressourcen (HTML, CSS, JS, Schriften, Icons), damit Noodle auch ohne Internetverbindung blitzschnell und autark startet.</li>
+            <li><code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">CacheStorage & Service Worker (sw.js)</code>: Cacht App-Ressourcen (HTML, CSS, JS, Schriften, Icons), damit Noodle Studio auch ohne Internetverbindung blitzschnell und autark startet.</li>
           </ul>
         </div>
 
@@ -4691,7 +4675,7 @@
             <span>5. Optionale Cloud-Synchronisation & Peer-to-Peer-Kopplung</span>
           </h4>
           <p class="text-[11px] text-gray-400">
-            Noodle ist ohne Benutzerkonto nutzbar. Entscheidest du dich freiwillig für die geräteübergreifende Synchronisation:
+            Noodle Studio ist ohne Benutzerkonto nutzbar. Entscheidest du dich freiwillig für die geräteübergreifende Synchronisation:
           </p>
           <ul class="list-disc pl-4 space-y-1.5 text-[11px] text-gray-400">
             <li>Erfolgt die Authentifizierung passwortlos via E-Mail (Magic-Link) oder anonyme Session-IDs über <strong>Supabase Inc.</strong></li>
@@ -4713,7 +4697,7 @@
           <p class="text-[11px] text-gray-400 leading-relaxed">
             Ausschließlich beim Aufruf der gehosteten Webversion auf GitHub Pages nutzen wir den datenschutzfreundlichen Open-Source-Dienst <strong>Umami Analytics</strong>. 
             Umami setzt <strong>keine Cookies</strong>, speichert keine personenbezogenen Daten, erzeugt keine geräteübergreifenden Profile und anonymisiert deine IP-Adresse sofort. 
-            Es dient rein der statistischen Auswertung, um festzustellen, welche Features genutzt werden und wie Noodle verbessert werden kann. Browsereinstellungen wie <em>„Do Not Track“ (DNT)</em> oder <em>Global Privacy Control (GPC)</em> werden automatisch strikt respektiert.
+            Es dient rein der statistischen Auswertung, um festzustellen, welche Features genutzt werden und wie Noodle Studio verbessert werden kann. Browsereinstellungen wie <em>„Do Not Track“ (DNT)</em> oder <em>Global Privacy Control (GPC)</em> werden automatisch strikt respektiert.
           </p>
           <div class="pt-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 p-3 rounded-xl bg-black/40 border border-white/5">
             <div class="text-[11px]">
@@ -4741,7 +4725,7 @@
           <ul class="list-disc pl-4 space-y-1 text-[11px] text-gray-400">
             <li><strong>Recht auf Datenübertragbarkeit (Art. 20 DSGVO):</strong> Du kannst deinen gesamten lokalen Datenbestand jederzeit mit 1 Klick als maschinenlesbare JSON-Datei exportieren (Reiter „Allgemein“ &rarr; Backup).</li>
             <li><strong>Recht auf Löschung (Art. 17 DSGVO):</strong> Über den Button „Alle Daten zurücksetzen“ kannst du sämtliche auf deinem Gerät gespeicherten Datensätze unwiderruflich und rückstandsfrei entfernen.</li>
-            <li><strong>Recht auf Auskunft (Art. 15 DSGVO) & Berichtigung (Art. 16 DSGVO):</strong> Über alle in Noodle verarbeiteten Daten hast du durch die lokale Speicherung direkte und vollständige Einsicht.</li>
+            <li><strong>Recht auf Auskunft (Art. 15 DSGVO) & Berichtigung (Art. 16 DSGVO):</strong> Über alle in Noodle Studio verarbeiteten Daten hast du durch die lokale Speicherung direkte und vollständige Einsicht.</li>
             <li><strong>Widerspruchsrecht (Art. 21 DSGVO) & Widerruf (Art. 7 Abs. 3 DSGVO):</strong> Einwilligungen können jederzeit mit Wirkung für die Zukunft widerrufen werden.</li>
             <li><strong>Beschwerderecht bei einer Aufsichtsbehörde (Art. 77 DSGVO):</strong> Du hast das Recht, dich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung deiner personenbezogenen Daten zu beschweren.</li>
           </ul>
@@ -4768,7 +4752,7 @@
             <span>Haftungsausschluss & Nutzungshinweis</span>
           </h4>
           <p class="text-[11px] text-gray-300">
-            Noodle ist ein persönliches Organisations- und Strukturierungswerkzeug. Für das zuverlässige Auslösen von browserbasierten Weck- und Terminsignalen bei geschlossenen Browser-Tabs, aktiviertem Ruhezustand, Hardware-Energiesparmodi oder Betriebssystembeschränkungen wird keine Gewähr oder Haftung übernommen.
+            Noodle Studio ist ein persönliches Organisations- und Strukturierungswerkzeug. Für das zuverlässige Auslösen von browserbasierten Weck- und Terminsignalen bei geschlossenen Browser-Tabs, aktiviertem Ruhezustand, Hardware-Energiesparmodi oder Betriebssystembeschränkungen wird keine Gewähr oder Haftung übernommen.
           </p>
         </div>
 
@@ -4900,7 +4884,7 @@
           </button>
         </div>
         <p class="text-[11px] text-gray-300 mt-1 leading-snug" data-i18n="pwa_install_desc">
-          Installiere Noodle als Desktop- oder Homescreen-App für blitzschnellen Offline-Zugriff.
+          Installiere Noodle Studio als Desktop- oder Homescreen-App für blitzschnellen Offline-Zugriff.
         </p>
         <div class="flex items-center gap-2 mt-3">
           <button data-action="triggerPwaInstall" class="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition cursor-pointer shadow-md shadow-purple-900/30" data-i18n="pwa_install_btn">
@@ -5044,7 +5028,7 @@
               <i data-lucide="music" class="w-3 h-3 text-purple-400"></i>
               <span data-i18n="clean_lofi_btn">LoFi-Musik</span>
             </button>
-            <button data-action="transferCleaningStepsToBoard" data-action-args='["weekly"]' class="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 rounded-xl text-[10px] font-bold text-emerald-300 transition cursor-pointer flex items-center gap-1" title="Als Aufgaben ins Noodle-Board übernehmen">
+            <button data-action="transferCleaningStepsToBoard" data-action-args='["weekly"]' class="px-2.5 py-1 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 rounded-xl text-[10px] font-bold text-emerald-300 transition cursor-pointer flex items-center gap-1" title="Als Aufgaben ins Noodle Studio-Board übernehmen">
               <i data-lucide="plus-circle" class="w-3 h-3"></i>
               <span data-i18n="clean_transfer_board">In Board übernehmen</span>
             </button>
@@ -5376,7 +5360,7 @@
         <button onclick="closeMobileMenuDrawer(); if(typeof openInstallModal==='function') openInstallModal(); else triggerPwaInstall();" class="w-full py-2.5 px-3 bg-gradient-to-r from-amber-500/20 via-orange-500/20 to-amber-500/20 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/40 text-amber-200 rounded-xl text-xs font-bold transition flex items-center justify-between cursor-pointer">
           <div class="flex items-center gap-2">
             <i data-lucide="download" class="w-4 h-4 text-amber-400"></i>
-            <span data-i18n="mobile_install_app">Noodle als App installieren 📲</span>
+            <span data-i18n="mobile_install_app">Noodle Studio als App installieren 📲</span>
           </div>
           <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 font-mono">PWA</span>
         </button>
@@ -5397,10 +5381,6 @@
             <span data-i18n="mobile_options">Optionen</span>
           </button>
         </div>
-        <button data-action="closeMobileMenuDrawer; openPrivacyModal" class="w-full py-2 bg-white/[0.02] hover:bg-white/[0.06] border border-white/5 text-emerald-400 hover:text-emerald-300 rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer">
-          <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
-          <span>Datenschutz & Impressum (100% Local-First)</span>
-        </button>
       </div>
     </div>
   </div>
@@ -6545,7 +6525,7 @@
         </div>
 
         <div class="p-3.5 bg-emerald-950/20 border border-emerald-500/30 rounded-2xl text-[11px] text-emerald-200">
-          💡 <strong>Offline-Vorteil:</strong> Einmal geöffnet, funktioniert die gesamte Noodle App dank des integrierten Offline-Service-Workers auch im Flugmodus oder bei Verbindungsabbrüchen.
+          💡 <strong>Offline-Vorteil:</strong> Einmal geöffnet, funktioniert die gesamte Noodle Studio App dank des integrierten Offline-Service-Workers auch im Flugmodus oder bei Verbindungsabbrüchen.
         </div>
       </div>
 
@@ -6672,7 +6652,7 @@
             <div class="font-bold text-white flex items-center gap-1.5">
               <span>💾</span> <span>Portable Standalone-App (USB-Stick / Offline)</span>
             </div>
-            <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="offline_download_desc">Lade die komplette Noodle App als portable Offline-Datei für unterwegs herunter.</p>
+            <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="offline_download_desc">Lade die komplette Noodle Studio App als portable Offline-Datei für unterwegs herunter.</p>
           </div>
           <button data-action="downloadDesktopLauncher" data-action-args='["offline-pack"]' class="py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/20 text-gray-200 rounded-xl font-bold transition flex items-center gap-1.5 cursor-pointer shrink-0">
             <i data-lucide="download" class="w-3.5 h-3.5"></i>
@@ -6728,7 +6708,7 @@
             <span class="px-2 py-0.5 rounded-full text-[9px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Lokal gespeichert</span>
           </div>
           <p class="text-[11px] text-emerald-100/90 leading-relaxed">
-            Noodle ist als <strong>Local-First Progressive Web App</strong> konzipiert. Deine Aufgaben, Routinen, Notizen, Einkaufslisten, Timer, Wecker, Sport- und Gesundheits-Logs, Audio- und Farbeinstellungen werden <strong>ausschließlich lokal auf deinem eigenen Endgerät</strong> im Browser (localStorage & IndexedDB) gespeichert. Es gibt keinen Registrierungszwang, keine Werbetracker und kein Profiling.
+            Noodle Studio ist als <strong>Local-First Progressive Web App</strong> konzipiert. Deine Aufgaben, Routinen, Notizen, Einkaufslisten, Timer, Wecker, Sport- und Gesundheits-Logs, Audio- und Farbeinstellungen werden <strong>ausschließlich lokal auf deinem eigenen Endgerät</strong> im Browser (localStorage & IndexedDB) gespeichert. Es gibt keinen Registrierungszwang, keine Werbetracker und kein Profiling.
           </p>
         </div>
 
@@ -6739,7 +6719,7 @@
             <span>1. Lokale Speicherung & Verzicht auf Tracking-Cookies (§ 25 TDDDG)</span>
           </h4>
           <p class="text-[11px] text-gray-400 leading-relaxed">
-            Noodle setzt <strong>keine einwilligungspflichtigen Marketing- oder Tracking-Cookies</strong> ein. Der lokale Browserspeicher (<code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">localStorage</code>, <code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">IndexedDB</code> und Service Worker Cache) dient rein der Bereitstellung der von dir gewünschten App-Funktionen und des Offline-Betriebs (§ 25 Abs. 2 Nr. 2 TDDDG).
+            Noodle Studio setzt <strong>keine einwilligungspflichtigen Marketing- oder Tracking-Cookies</strong> ein. Der lokale Browserspeicher (<code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">localStorage</code>, <code class="bg-black/40 px-1 py-0.5 rounded text-cyan-300">IndexedDB</code> und Service Worker Cache) dient rein der Bereitstellung der von dir gewünschten App-Funktionen und des Offline-Betriebs (§ 25 Abs. 2 Nr. 2 TDDDG).
           </p>
         </div>
 
@@ -6821,8 +6801,8 @@
             <span>7. Impressum (§ 5 Digitale-Dienste-Gesetz - DDG)</span>
           </h4>
           <div class="text-[11px] text-gray-400 space-y-0.5">
-            <p><strong class="text-white">Noodle</strong> — Freie Open-Web Progressive Web App.</p>
-            <p><strong>Diensteanbieter / Betreiber:</strong> Noodle Entwicklerteam & Open-Source-Gemeinschaft.</p>
+            <p><strong class="text-white">Noodle Studio</strong> — Freie Open-Web Progressive Web App.</p>
+            <p><strong>Diensteanbieter / Betreiber:</strong> Noodle Studio Entwicklerteam & Open-Source-Gemeinschaft.</p>
             <p><strong>Kontakt:</strong> <a href="mailto:support@noodlestudio.app" class="text-purple-300 hover:underline">support@noodlestudio.app</a> · <a href="https://github.com/cableblues/noodle" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:underline">github.com/cableblues/noodle</a></p>
             <p class="pt-1 text-[10px] text-gray-400">EU-Streitschlichtung gemäß Art. 14 Abs. 1 ODR-VO: <a href="https://ec.europa.eu/consumers/odr" target="_blank" rel="noopener noreferrer" class="text-purple-300 hover:underline">ec.europa.eu/consumers/odr</a> (§ 36 VSBG).</p>
           </div>

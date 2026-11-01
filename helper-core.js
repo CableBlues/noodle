@@ -315,9 +315,9 @@ function switchWhatNowTab(tabName) {
     }
     if (tabBtn) {
       if (t === normTab) {
-        tabBtn.className = 'py-2 px-3 rounded-xl bg-gradient-to-r from-amber-500/25 to-amber-600/25 border border-amber-400/40 text-amber-200 text-center transition cursor-pointer flex items-center justify-center gap-2 shadow-sm font-bold';
+        tabBtn.className = 'py-2 px-3 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-200 text-center transition cursor-pointer flex items-center justify-center gap-1.5 shadow-xs font-bold';
       } else {
-        tabBtn.className = 'py-2 px-3 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-2 border border-transparent font-bold';
+        tabBtn.className = 'py-2 px-3 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-1.5 border border-transparent font-bold';
       }
     }
   });
@@ -334,7 +334,7 @@ function setWhatNowEnergyLevel(level) {
     const btn = document.getElementById(`whatnow-energy-${l}`);
     if (!btn) return;
     if (l === level) {
-      btn.className = 'py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-amber-200 bg-amber-500/20 border border-amber-500/40 transition cursor-pointer flex flex-col items-center gap-0.5 shadow-sm';
+      btn.className = 'py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-purple-200 bg-purple-500/20 border border-purple-500/40 transition cursor-pointer flex flex-col items-center gap-0.5 shadow-sm';
     } else {
       btn.className = 'py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-gray-400 hover:text-white transition cursor-pointer flex flex-col items-center gap-0.5 border border-transparent';
     }
@@ -616,14 +616,15 @@ function pickRandomTask() {
       el: 'Όλες οι εργασίες ολοκληρώθηκαν. Καλή δουλειά!' 
     });
 
-    box.className = "p-6 rounded-2xl bg-black/40 border border-emerald-500/30 text-center space-y-3";
+    box.className = "p-6 rounded-3xl bg-[#13131c]/90 border border-emerald-500/30 text-center space-y-3.5 shadow-[0_0_40px_rgba(16,185,129,0.1)]";
     box.innerHTML = `
-      <div class="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center justify-center mx-auto shadow-sm">
-        <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+      <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 flex items-center justify-center mx-auto shadow-sm">
+        <i data-lucide="check-circle-2" class="w-6 h-6"></i>
       </div>
-      <div class="text-emerald-300 font-display font-bold text-sm leading-snug">${doneMsg}</div>
-      <button onclick="startZenWithTask('Freie Fokus-Session', 'todo')" class="mt-2 py-2 px-4 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-bold transition cursor-pointer">
-        Freie Fokus-Session starten
+      <div class="text-white font-display font-bold text-base leading-snug">${doneMsg}</div>
+      <p class="text-xs text-gray-400 max-w-sm mx-auto">Keine dringenden Aufgaben mehr offen. Möchtest du im Zen-Modus frei fokussieren?</p>
+      <button onclick="startZenWithTask('Freie Fokus-Session', 'todo')" class="mt-2 py-2.5 px-5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-2xl text-xs transition cursor-pointer shadow-lg active:scale-95">
+        Freie Fokus-Session starten 🧘
       </button>
     `;
     activeTimerTask = "";
@@ -670,50 +671,59 @@ function pickRandomTask() {
     `;
   }
 
-  box.className = "p-4 sm:p-5 rounded-2xl bg-gradient-to-b from-[#161624] to-[#0f1019] border border-orange-500/25 shadow-xl space-y-3.5 text-left transition-all duration-300";
+  box.className = "p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-[#13131c]/95 to-[#0c0d14]/95 border border-purple-500/25 shadow-[0_0_40px_rgba(139,92,246,0.12)] space-y-4 text-left transition-all duration-300";
   box.innerHTML = `
-    <!-- Oberes Meta-Band: Kategorie, Dauer & Prioritaet dezent & harmonisch -->
+    <!-- Oberes Meta-Band im Fokus/Zen-Stil: Minimal, beruhigend, fokussiert -->
     <div class="flex items-center justify-between gap-2 text-xs">
-      <div class="flex items-center gap-1.5 flex-wrap">
-        <span class="px-2.5 py-0.5 rounded-lg bg-orange-500/15 border border-orange-500/30 text-orange-200 font-semibold text-[10.5px] uppercase tracking-wider font-mono">
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-bold text-[10px] uppercase tracking-wider flex items-center gap-1.5 font-mono">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
           ${escapeHtml(catLabel)}
         </span>
-        <span class="px-2 py-0.5 rounded-lg bg-white/5 border border-white/10 text-gray-300 text-[10.5px] font-mono flex items-center gap-1">
-          <i data-lucide="clock" class="w-3 h-3 text-orange-400"></i> ~${chosen.estMinutes} Min
+        <span class="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-[10.5px] font-mono flex items-center gap-1.5">
+          <i data-lucide="timer" class="w-3 h-3 text-purple-400"></i> ~${chosen.estMinutes} Min
         </span>
       </div>
-      <span class="text-[10px] px-2 py-0.5 rounded-lg bg-white/5 border border-white/10 text-gray-300 font-medium font-mono shrink-0">
+      <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-400 font-medium font-mono shrink-0">
         ${escapeHtml(chosen.reasonLabel.replace(/[💡📌🔥🪜]/g, '').trim())}
       </span>
     </div>
 
-    <!-- Hauptfokus-Aufgabe mit klarer visueller Hierarchie -->
-    <div class="space-y-2">
-      <h2 class="text-lg sm:text-xl font-display font-extrabold text-white leading-snug tracking-tight break-words">
+    <!-- Aktueller Vorschlag mit Fokus-Typografie -->
+    <div class="space-y-2.5 pt-1">
+      <h2 class="text-xl sm:text-2xl font-display font-black text-white leading-snug tracking-tight break-words">
         ${escapeHtml(chosen.task)}
       </h2>
-      <div class="flex items-start gap-2 p-2.5 rounded-xl bg-black/40 border border-white/5 text-[11px] text-gray-300 font-medium">
-        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400 mt-0.5 shrink-0"></i>
-        <span class="leading-relaxed"><strong class="text-orange-200 font-bold">Erster Schritt:</strong> ${escapeHtml(firstStep)}</span>
+      <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-black/40 border border-purple-500/20 text-xs text-purple-200/90 font-medium">
+        <i data-lucide="sparkles" class="w-4 h-4 text-amber-400 mt-0.5 shrink-0"></i>
+        <span class="leading-relaxed"><strong class="text-white font-bold">Erster Schritt:</strong> ${escapeHtml(firstStep)}</span>
       </div>
     </div>
 
     ${stepsListHtml}
 
-    <!-- Kompakte, moderne Aktionsleiste -->
-    <div class="space-y-2 pt-1">
-      <button onclick="startInstantGuidedFlow('${safeTask}', '${chosen.cat}', ${chosen.estMinutes})" class="w-full py-2.5 px-4 bg-gradient-to-r from-orange-500 via-amber-500 to-yellow-500 hover:from-orange-400 hover:to-yellow-400 text-black font-extrabold text-xs rounded-xl shadow-[0_0_15px_rgba(249,115,22,0.3)] transition transform active:scale-98 cursor-pointer flex items-center justify-center gap-2">
-        <i data-lucide="zap" class="w-4 h-4 fill-black"></i>
-        <span>Instant-Start (Fokus-Timer)</span>
-      </button>
+    <!-- Hauptaktionen: Instant-Fokus & Anderer Vorschlag direkt am Vorschlag -->
+    <div class="pt-2 space-y-2.5">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <button onclick="startInstantGuidedFlow('${safeTask}', '${chosen.cat}', ${chosen.estMinutes})" class="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs rounded-2xl shadow-[0_0_20px_rgba(139,92,246,0.35)] transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
+          <i data-lucide="zap" class="w-4 h-4 text-amber-300 fill-amber-300"></i>
+          <span>Instant-Start (Fokus-Timer)</span>
+        </button>
 
-      <div class="grid grid-cols-2 gap-2">
-        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2 px-3 bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 hover:text-white rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95" title="2-Minuten-Timer starten">
-          <i data-lucide="timer" class="w-3.5 h-3.5 text-orange-400"></i>
+        <button onclick="pickRandomTask()" class="w-full py-3 px-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/25 text-white font-bold text-xs rounded-2xl transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-2 shadow-sm" title="Anderen Vorschlag laden [W]">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-purple-400"></i>
+          <span>Anderer Vorschlag</span>
+          <kbd class="hidden sm:inline px-1.5 py-0.5 rounded bg-black/50 border border-white/10 text-[9px] font-mono text-gray-400">[W]</kbd>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/5">
+        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2 px-3 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-300 hover:text-white rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95" title="2-Minuten-Kickstart: Einfach anfangen">
+          <i data-lucide="timer" class="w-3.5 h-3.5 text-purple-400"></i>
           <span>2-Min Start</span>
         </button>
 
-        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2 px-3 bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/35 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95" title="Als erledigt markieren">
+        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2 px-3 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95" title="Als erledigt markieren">
           <i data-lucide="check" class="w-3.5 h-3.5"></i>
           <span>Als erledigt abhaken</span>
         </button>

@@ -1899,7 +1899,7 @@ function updateChronometerDisplay() {
     }
   }
 
-  document.title = `(${str}) ⏱️ Chrono — Noodle`;
+  document.title = `(${str}) ⏱️ Chrono — Noodle Studio`;
 }
 
 function updateChronometerUI(isActive) {

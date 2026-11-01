@@ -78,13 +78,24 @@
     justify-content: space-between !important;
     align-items: center !important;
     border-radius: 16px !important;
-    background: rgba(16, 16, 26, 0.98) !important;
+    background: rgba(14, 13, 22, 0.98) !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
     z-index: 99992 !important;
   }
 
-  /* ---------------- 2b. HEADER-KOLLISIONSSCHUTZ AUF KOMPAKTEN SCREENS (< 640px) ---------------- */
+  /* ---------------- 2b. HEADER-KOLLISIONSSCHUTZ AUF MOBILGERÄTEN (< 768px) ---------------- */
+  /* Redundante Desktop-Container auf Smartphones ausblenden, da diese vollumfänglich in der
+     Bottom-Bar (Planner, Focus, Audio, Tools, Menü) erreichbar sind */
+  .desktop-only-header,
+  #btn-header-brainstorm,
+  #header-btn-pause-container,
+  #header-btn-report-container,
+  #header-btn-options-container,
+  #header-btn-sound-container {
+    display: none !important;
+  }
+
   @media (max-width: 640px) {
     /* Text-Labels in kompakten Header-Buttons verbergen, um Klickzonen-Kollisionen zu verhindern */
     #btn-whatnow-dance span:not([data-lucide]):not(.lucide),
@@ -95,6 +106,10 @@
     #header-btn-report-container button {
       padding-left: 8px !important;
       padding-right: 8px !important;
+    }
+    #date-container,
+    #header-btn-alarm-container {
+      display: none !important;
     }
   }
 
@@ -241,27 +256,27 @@
     box-shadow: 0 0 10px rgba(192, 132, 252, 0.95), 0 0 20px rgba(168, 85, 247, 0.6) !important;
   }
 
-  /* 4. TOOLS: Neon Emerald / Mint */
+  /* 4. TOOLS: Neon Violet / Noodle Purple (Harmonisch & Dunkel) */
   #mob-nav-tools i,
   #mob-nav-tools svg {
-    color: #34d399 !important;
-    filter: drop-shadow(0 0 5px rgba(52, 211, 153, 0.5));
+    color: #c084fc !important;
+    filter: drop-shadow(0 0 5px rgba(192, 132, 252, 0.5));
   }
   #mob-nav-tools:hover i,
   #mob-nav-tools:hover svg,
   #mob-nav-tools.active i,
   #mob-nav-tools.active svg {
-    color: #10b981 !important;
-    filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.95)) drop-shadow(0 0 16px rgba(52, 211, 153, 0.5));
+    color: #a855f7 !important;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.95)) drop-shadow(0 0 16px rgba(192, 132, 252, 0.5));
   }
   #mob-nav-tools.active {
-    color: #d1fae5 !important;
-    text-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
-    background: radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.12) 0%, transparent 72%) !important;
+    color: #f3e8ff !important;
+    text-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+    background: radial-gradient(circle at 50% 90%, rgba(168, 85, 247, 0.16) 0%, transparent 72%) !important;
   }
   #mob-nav-tools.active::after {
-    background: #10b981 !important;
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.95), 0 0 20px rgba(52, 211, 153, 0.6) !important;
+    background: #a855f7 !important;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.95), 0 0 20px rgba(192, 132, 252, 0.6) !important;
   }
 
   /* 5. MENÜ: Neon Rose / Pink */
@@ -313,6 +328,8 @@
     padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important;
     box-sizing: border-box !important;
     animation: mobileFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    background: #0b0a13 !important;
+    background-color: #0b0a13 !important;
   }
 
   body[data-mobile-nav="focus"] #mobile-view-focus,
@@ -320,6 +337,48 @@
   body[data-mobile-nav="tools"] #mobile-view-tools,
   .mobile-view-pane.mobile-tab-active {
     display: block !important;
+  }
+
+  /* ---------------- 4b. TOOLS HUB: SATTER OBSIDIAN DARK HINTERGRUND & KONTRAST ---------------- */
+  #mobile-view-tools {
+    background: #0b0a13 !important;
+    background-color: #0b0a13 !important;
+  }
+
+  /* Solide, kontrastreiche Bento-Karten statt 97% transparentem Weiß/Hintergrundglow */
+  #mobile-view-tools .grid > div {
+    background: #141322 !important;
+    background-color: #141322 !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  #mobile-view-tools .grid > div:hover,
+  #mobile-view-tools .grid > div:active {
+    background: #1d1b30 !important;
+    background-color: #1d1b30 !important;
+    border-color: rgba(168, 85, 247, 0.45) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 0 0 14px rgba(168, 85, 247, 0.2) !important;
+    transform: translateY(-2px) scale(0.99) !important;
+  }
+
+  #mobile-view-tools .grid > div h4 {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  #mobile-view-tools .grid > div p {
+    color: #a1a1aa !important;
+    font-weight: 500 !important;
+  }
+
+  /* Hub Banner oben im Tools-Menü */
+  #mobile-view-tools > div > div:first-child {
+    background: linear-gradient(135deg, #181329 0%, #11101d 100%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.35) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6) !important;
   }
 
   @keyframes mobileFadeIn {
@@ -433,6 +492,9 @@
     border-radius: 22px !important;
     margin: 0 auto !important;
     box-sizing: border-box !important;
+    background: #11101c !important;
+    background-color: #11101c !important;
+    color: #ffffff !important;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.92) !important;
   }
 
@@ -497,6 +559,9 @@
     box-sizing: border-box !important;
     z-index: 99995 !important;
     border-radius: 22px !important;
+    background: #100f1c !important;
+    background-color: #100f1c !important;
+    color: #ffffff !important;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), 0 0 0 1px rgba(255, 255, 255, 0.14) !important;
   }
 
