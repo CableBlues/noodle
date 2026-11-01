@@ -1,3 +1,6 @@
+var lastChimePatternIndex = typeof lastChimePatternIndex !== 'undefined' ? lastChimePatternIndex : (typeof window !== 'undefined' && typeof window.lastChimePatternIndex !== 'undefined' ? window.lastChimePatternIndex : -1);
+var currentEndingPatternIndex = typeof currentEndingPatternIndex !== 'undefined' ? currentEndingPatternIndex : (typeof window !== 'undefined' && typeof window.currentEndingPatternIndex !== 'undefined' ? window.currentEndingPatternIndex : 0);
+
 /**
  * @file timer-2.js
  * @module FocusTimerChimes
@@ -385,6 +388,7 @@ if (typeof window !== 'undefined') {
   window.stopPleasantRinging = stopPleasantRinging;
   window.showRingingModal = showRingingModal;
   window.hideRingingModal = hideRingingModal;
+  window.isTimerSoundActiveInChime = isTimerSoundActiveInChime;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.playMinuteChime = playMinuteChime;
@@ -393,6 +397,7 @@ if (typeof globalThis !== 'undefined') {
   globalThis.stopPleasantRinging = stopPleasantRinging;
   globalThis.showRingingModal = showRingingModal;
   globalThis.hideRingingModal = hideRingingModal;
+  globalThis.isTimerSoundActiveInChime = isTimerSoundActiveInChime;
 }
 
 

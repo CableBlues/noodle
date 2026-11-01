@@ -373,6 +373,7 @@ function updateMixerUI() {
 var audioCtx = null;
 var currentSoundType = null;
 var soundGainNode = null;
+var lastSelectedSound = "lofi";
 var soundOscillators = [];
 var soundMasterVolume = 0.5;
 var activeUserAudio = null; // Speichert das aktive HTML5-Audio-Objekt
@@ -436,6 +437,34 @@ function initAudioContext() {
       masterGainNode = audioCtx.createGain();
       masterGainNode.gain.setValueAtTime(1.0, audioCtx.currentTime);
       masterGainNode.connect(audioCtx.destination);
+    }
+    if (typeof window !== 'undefined') {
+      window.audioCtx = audioCtx;
+      window.masterGainNode = masterGainNode;
+      window.soundMasterVolume = soundMasterVolume;
+      window.activeNodes = activeNodes;
+      window.activeTimeouts = activeTimeouts;
+    }
+    if (typeof globalThis !== 'undefined') {
+      globalThis.audioCtx = audioCtx;
+      globalThis.masterGainNode = masterGainNode;
+      globalThis.soundMasterVolume = soundMasterVolume;
+      globalThis.activeNodes = activeNodes;
+      globalThis.activeTimeouts = activeTimeouts;
+    }
+    if (typeof window !== 'undefined') {
+      window.audioCtx = audioCtx;
+      window.masterGainNode = masterGainNode;
+      window.soundMasterVolume = soundMasterVolume;
+      window.activeNodes = activeNodes;
+      window.activeTimeouts = activeTimeouts;
+    }
+    if (typeof globalThis !== 'undefined') {
+      globalThis.audioCtx = audioCtx;
+      globalThis.masterGainNode = masterGainNode;
+      globalThis.soundMasterVolume = soundMasterVolume;
+      globalThis.activeNodes = activeNodes;
+      globalThis.activeTimeouts = activeTimeouts;
     }
   } catch (e) {
     console.warn("AudioContext init warning:", e);
@@ -566,9 +595,24 @@ function playAmbientSound(type, crossfade = false) {
   soundGainNode = audioCtx.createGain();
   soundGainNode.gain.setValueAtTime(soundMasterVolume * 1.0, audioCtx.currentTime);
   soundGainNode.connect(getMasterAudioDestination() || audioCtx.destination);
+  if (typeof window !== 'undefined') {
+    window.currentSoundType = currentSoundType;
+    window.soundGainNode = soundGainNode;
+  }
+  if (typeof globalThis !== 'undefined') {
+    globalThis.currentSoundType = currentSoundType;
+    globalThis.soundGainNode = soundGainNode;
+  }
 
   // Generatoren anstoßen
-  startAmbientGeneratorForType(normalizedType);
+  const genFn = (typeof startAmbientGeneratorForType === 'function')
+    ? startAmbientGeneratorForType
+    : (typeof window !== 'undefined' && typeof window.startAmbientGeneratorForType === 'function' ? window.startAmbientGeneratorForType : null);
+  if (genFn) {
+    genFn(normalizedType);
+  } else {
+    console.warn('[Audio] startAmbientGeneratorForType not found');
+  }
 
   if (typeof updateMiniAudioPlayer === 'function') {
     const soundTitle = (typeof getNoodleSoundDisplayName === 'function') ? getNoodleSoundDisplayName(normalizedType) : normalizedType;
@@ -2120,6 +2164,17 @@ if (typeof window !== 'undefined') {
   window.playGameSound = playGameSound;
   window.playUiSound = playUiSound;
   window.playMenuSound = playMenuSound;
+  window.getNoiseBuffer = getNoiseBuffer;
+  window.clearActiveTimeouts = clearActiveTimeouts;
+  window.duckAmbientVolume = duckAmbientVolume;
+  window.restoreAmbientVolume = restoreAmbientVolume;
+  window.fadeOutAmbientSound = fadeOutAmbientSound;
+  window.handleHeaderVolumeInput = handleHeaderVolumeInput;
+  window.currentSoundType = currentSoundType;
+  window.soundGainNode = soundGainNode;
+  window.activeNodes = activeNodes;
+  window.activeTimeouts = activeTimeouts;
+  window.masterGainNode = masterGainNode;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.audioCtx = audioCtx;
@@ -2163,5 +2218,16 @@ if (typeof globalThis !== 'undefined') {
   globalThis.playGameSound = playGameSound;
   globalThis.playUiSound = playUiSound;
   globalThis.playMenuSound = playMenuSound;
+  globalThis.getNoiseBuffer = getNoiseBuffer;
+  globalThis.clearActiveTimeouts = clearActiveTimeouts;
+  globalThis.duckAmbientVolume = duckAmbientVolume;
+  globalThis.restoreAmbientVolume = restoreAmbientVolume;
+  globalThis.fadeOutAmbientSound = fadeOutAmbientSound;
+  globalThis.handleHeaderVolumeInput = handleHeaderVolumeInput;
+  globalThis.currentSoundType = currentSoundType;
+  globalThis.soundGainNode = soundGainNode;
+  globalThis.activeNodes = activeNodes;
+  globalThis.activeTimeouts = activeTimeouts;
+  globalThis.masterGainNode = masterGainNode;
 }
 

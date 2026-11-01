@@ -434,3 +434,45 @@ function startStreamWaterSound() {
 
   scheduleStreamBubbles();
 }
+
+if (typeof window !== 'undefined') {
+  window.startAmbientGeneratorForType = startAmbientGeneratorForType;
+  window.startCosmicSpaceDrone = startCosmicSpaceDrone;
+  window.startForestBreezeSound = startForestBreezeSound;
+  window.playTactileClickSound = playTactileClickSound;
+  window.playRhodesChime = playRhodesChime;
+  window.startOceanWavesSound = startOceanWavesSound;
+  window.startRainSound = startRainSound;
+  window.startStreamWaterSound = startStreamWaterSound;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.startAmbientGeneratorForType = startAmbientGeneratorForType;
+  globalThis.startCosmicSpaceDrone = startCosmicSpaceDrone;
+  globalThis.startForestBreezeSound = startForestBreezeSound;
+  globalThis.playTactileClickSound = playTactileClickSound;
+  globalThis.playRhodesChime = playRhodesChime;
+  globalThis.startOceanWavesSound = startOceanWavesSound;
+  globalThis.startRainSound = startRainSound;
+  globalThis.startStreamWaterSound = startStreamWaterSound;
+}
+
+if (typeof window !== 'undefined') {
+  window.startAmbientGeneratorForType = startAmbientGeneratorForType;
+  window.startCosmicSpaceDrone = startCosmicSpaceDrone;
+  window.startForestBreezeSound = startForestBreezeSound;
+  window.playTactileClickSound = playTactileClickSound;
+  window.playRhodesChime = playRhodesChime;
+  window.startOceanWavesSound = startOceanWavesSound;
+  window.startRainSound = startRainSound;
+  window.startStreamWaterSound = startStreamWaterSound;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.startAmbientGeneratorForType = startAmbientGeneratorForType;
+  globalThis.startCosmicSpaceDrone = startCosmicSpaceDrone;
+  globalThis.startForestBreezeSound = startForestBreezeSound;
+  globalThis.playTactileClickSound = playTactileClickSound;
+  globalThis.playRhodesChime = playRhodesChime;
+  globalThis.startOceanWavesSound = startOceanWavesSound;
+  globalThis.startRainSound = startRainSound;
+  globalThis.startStreamWaterSound = startStreamWaterSound;
+}

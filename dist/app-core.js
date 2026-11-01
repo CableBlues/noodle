@@ -13,7 +13,7 @@
 var currentZenTaskInfo = (typeof window !== 'undefined' && window.currentZenTaskInfo) || null;
 if (typeof window !== 'undefined') window.currentZenTaskInfo = currentZenTaskInfo;
 if (typeof globalThis !== 'undefined') globalThis.currentZenTaskInfo = currentZenTaskInfo;
-let lastSelectedSound = 'birds';
+var lastSelectedSound = typeof lastSelectedSound !== 'undefined' ? lastSelectedSound : 'birds';
 let draggedColumnId = null;
 let selectedCalendarDate = null; 
 

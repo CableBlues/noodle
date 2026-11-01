@@ -1115,9 +1115,9 @@ const CHRONOMETER_STOP_PHRASES = {
 };
 
 // Zuletzt verwendete Sprüche merken, damit sich innerhalb einer Sitzung nichts unmittelbar wiederholt
-let lastMotivationByTier = {};
-let lastSessionStartPhrase = null;
-let lastChimePatternIndex = -1;
+var lastMotivationByTier = {};
+var lastSessionStartPhrase = null;
+var lastChimePatternIndex = -1;
 
 function pickWithoutImmediateRepeat(list, lastValue) {
   if (!list || list.length === 0) return "";
@@ -1270,11 +1270,13 @@ if (typeof globalThis !== 'undefined') globalThis.duckAllAudioForSpeech = duckAl
 
 // Globale, hochqualitative Sprach-Synthese mit organischen, menschlich-warmen Stimmen
 function speakWithProfile(text, profileIndex = null, onComplete = null, keepDucked = false) {
-  if (!timerSoundEnabled || timerVoiceEnabled === false) {
+  const isSoundOn = (typeof window !== 'undefined' && typeof window.timerSoundEnabled !== 'undefined') ? window.timerSoundEnabled : (typeof timerSoundEnabled !== 'undefined' ? timerSoundEnabled : true);
+  const isVoiceOn = (typeof window !== 'undefined' && typeof window.timerVoiceEnabled !== 'undefined') ? window.timerVoiceEnabled : (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  if (!isSoundOn || !isVoiceOn) {
     if (typeof onComplete === 'function') setTimeout(onComplete, 50);
     return;
   }
-  if (!('speechSynthesis' in window)) {
+  if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') {
     if (typeof onComplete === 'function') setTimeout(onComplete, 50);
     return;
   }
@@ -1479,7 +1481,9 @@ function speakWithProfile(text, profileIndex = null, onComplete = null, keepDuck
 
 // Chaining von Ansagen mit wechselnden Stimmen (z. B. Zeitansage durch Stimme A -> Spruch durch Stimme B)
 function speakVoiceSequence(items, onComplete = null, allowWhenStopped = false) {
-  if (!timerSoundEnabled || timerVoiceEnabled === false) {
+  const isSoundOnSeq = (typeof window !== 'undefined' && typeof window.timerSoundEnabled !== 'undefined') ? window.timerSoundEnabled : (typeof timerSoundEnabled !== 'undefined' ? timerSoundEnabled : true);
+  const isVoiceOnSeq = (typeof window !== 'undefined' && typeof window.timerVoiceEnabled !== 'undefined') ? window.timerVoiceEnabled : (typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : true);
+  if (!isSoundOnSeq || !isVoiceOnSeq) {
     if (typeof onComplete === 'function') setTimeout(onComplete, 50);
     return;
   }
@@ -1497,7 +1501,10 @@ function speakVoiceSequence(items, onComplete = null, allowWhenStopped = false) 
   let idx = 0;
 
   function runNext() {
-    const isTimingActive = (typeof timerRunning !== 'undefined' && timerRunning) || (typeof chronometerActive !== 'undefined' && chronometerActive);
+    const isTimingActive = (typeof window !== 'undefined' && window.timerRunning) || 
+      (typeof timerRunning !== 'undefined' && timerRunning) || 
+      (typeof window !== 'undefined' && window.chronometerActive) || 
+      (typeof chronometerActive !== 'undefined' && chronometerActive);
     if (!isTimingActive && !allowWhenStopped) {
       duckAllAudioForSpeech(false);
       if (typeof onComplete === 'function') onComplete();
@@ -1861,6 +1868,20 @@ if (typeof window !== 'undefined') {
   window.getChronometerMotivation = getChronometerMotivation;
   window.getChronometerStopPhrase = getChronometerStopPhrase;
   window.getCurrentPresetMinutes = getCurrentPresetMinutes;
+  window.SESSION_START_PHRASES = SESSION_START_PHRASES;
+  window.SESSION_START_TASK_PHRASES = SESSION_START_TASK_PHRASES;
+  window.TASK_AWARE_MOTIVATIONS = TASK_AWARE_MOTIVATIONS;
+  window.TASK_AWARE_CHRONOMETER_MOTIVATIONS = TASK_AWARE_CHRONOMETER_MOTIVATIONS;
+  window.TIME_UP_PHRASES = TIME_UP_PHRASES;
+  window.MOTIVATIONAL_CHUNKS = MOTIVATIONAL_CHUNKS;
+  window.OVERDUE_30S_LABELS = OVERDUE_30S_LABELS;
+  window.OVERDUE_MINUTE_LABELS = OVERDUE_MINUTE_LABELS;
+  window.TIMER_AMBIENTS = TIMER_AMBIENTS;
+  window.duckAllAudioForSpeech = duckAllAudioForSpeech;
+  window.pickWithoutImmediateRepeat = pickWithoutImmediateRepeat;
+  window.lastSessionStartPhrase = lastSessionStartPhrase;
+  window.lastMotivationByTier = lastMotivationByTier;
+  window.lastChimePatternIndex = lastChimePatternIndex;
 }
 if (typeof globalThis !== 'undefined') {
   globalThis.VOICE_PROFILES = VOICE_PROFILES;
@@ -1884,5 +1905,19 @@ if (typeof globalThis !== 'undefined') {
   globalThis.getChronometerMotivation = getChronometerMotivation;
   globalThis.getChronometerStopPhrase = getChronometerStopPhrase;
   globalThis.getCurrentPresetMinutes = getCurrentPresetMinutes;
+  globalThis.SESSION_START_PHRASES = SESSION_START_PHRASES;
+  globalThis.SESSION_START_TASK_PHRASES = SESSION_START_TASK_PHRASES;
+  globalThis.TASK_AWARE_MOTIVATIONS = TASK_AWARE_MOTIVATIONS;
+  globalThis.TASK_AWARE_CHRONOMETER_MOTIVATIONS = TASK_AWARE_CHRONOMETER_MOTIVATIONS;
+  globalThis.TIME_UP_PHRASES = TIME_UP_PHRASES;
+  globalThis.MOTIVATIONAL_CHUNKS = MOTIVATIONAL_CHUNKS;
+  globalThis.OVERDUE_30S_LABELS = OVERDUE_30S_LABELS;
+  globalThis.OVERDUE_MINUTE_LABELS = OVERDUE_MINUTE_LABELS;
+  globalThis.TIMER_AMBIENTS = TIMER_AMBIENTS;
+  globalThis.duckAllAudioForSpeech = duckAllAudioForSpeech;
+  globalThis.pickWithoutImmediateRepeat = pickWithoutImmediateRepeat;
+  globalThis.lastSessionStartPhrase = lastSessionStartPhrase;
+  globalThis.lastMotivationByTier = lastMotivationByTier;
+  globalThis.lastChimePatternIndex = lastChimePatternIndex;
 }
 

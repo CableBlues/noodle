@@ -6,6 +6,26 @@
  * Verknüpfung mit offenen Aufgaben des Kanban-Boards sowie Synchronisation
  * der Header- und Popover-Anzeigen.
  */
+var timerSeconds = typeof timerSeconds !== 'undefined' ? timerSeconds : (typeof window !== 'undefined' && typeof window.timerSeconds !== 'undefined' ? window.timerSeconds : 180);
+var timerInitialSeconds = typeof timerInitialSeconds !== 'undefined' ? timerInitialSeconds : (typeof window !== 'undefined' && typeof window.timerInitialSeconds !== 'undefined' ? window.timerInitialSeconds : 180);
+var timerRunning = typeof timerRunning !== 'undefined' ? timerRunning : (typeof window !== 'undefined' && typeof window.timerRunning !== 'undefined' ? window.timerRunning : false);
+var timerInterval = typeof timerInterval !== 'undefined' ? timerInterval : (typeof window !== 'undefined' && typeof window.timerInterval !== 'undefined' ? window.timerInterval : null);
+var activeTimerTask = typeof activeTimerTask !== 'undefined' ? activeTimerTask : (typeof window !== 'undefined' && typeof window.activeTimerTask !== 'undefined' ? window.activeTimerTask : null);
+var timerTargetEndTime = typeof timerTargetEndTime !== 'undefined' ? timerTargetEndTime : (typeof window !== 'undefined' && typeof window.timerTargetEndTime !== 'undefined' ? window.timerTargetEndTime : null);
+var timerSoundEnabled = typeof timerSoundEnabled !== 'undefined' ? timerSoundEnabled : (typeof window !== 'undefined' && typeof window.timerSoundEnabled !== 'undefined' ? window.timerSoundEnabled : true);
+var timerVoiceEnabled = typeof timerVoiceEnabled !== 'undefined' ? timerVoiceEnabled : (typeof window !== 'undefined' && typeof window.timerVoiceEnabled !== 'undefined' ? window.timerVoiceEnabled : true);
+var timerVoiceTimeAnnounce = typeof timerVoiceTimeAnnounce !== 'undefined' ? timerVoiceTimeAnnounce : (typeof window !== 'undefined' && typeof window.timerVoiceTimeAnnounce !== 'undefined' ? window.timerVoiceTimeAnnounce : true);
+var timerVoiceMotivation = typeof timerVoiceMotivation !== 'undefined' ? timerVoiceMotivation : (typeof window !== 'undefined' && typeof window.timerVoiceMotivation !== 'undefined' ? window.timerVoiceMotivation : true);
+var timerAudioMode = typeof timerAudioMode !== 'undefined' ? timerAudioMode : (typeof window !== 'undefined' && typeof window.timerAudioMode !== 'undefined' ? window.timerAudioMode : 'ambient');
+var selectedTimerSound = typeof selectedTimerSound !== 'undefined' ? selectedTimerSound : (typeof window !== 'undefined' && typeof window.selectedTimerSound !== 'undefined' ? window.selectedTimerSound : 'lofi');
+var selectedTimerRadio = typeof selectedTimerRadio !== 'undefined' ? selectedTimerRadio : (typeof window !== 'undefined' && typeof window.selectedTimerRadio !== 'undefined' ? window.selectedTimerRadio : 'groovesalad');
+var selectedTimerMusicIndex = typeof selectedTimerMusicIndex !== 'undefined' ? selectedTimerMusicIndex : (typeof window !== 'undefined' && typeof window.selectedTimerMusicIndex !== 'undefined' ? window.selectedTimerMusicIndex : 0);
+var currentSpeechSessionId = typeof currentSpeechSessionId !== 'undefined' ? currentSpeechSessionId : (typeof window !== 'undefined' && typeof window.currentSpeechSessionId !== 'undefined' ? window.currentSpeechSessionId : 0);
+var lastSessionStartPhrase = typeof lastSessionStartPhrase !== 'undefined' ? lastSessionStartPhrase : (typeof window !== 'undefined' && typeof window.lastSessionStartPhrase !== 'undefined' ? window.lastSessionStartPhrase : null);
+var lastMotivationByTier = typeof lastMotivationByTier !== 'undefined' ? lastMotivationByTier : (typeof window !== 'undefined' && typeof window.lastMotivationByTier !== 'undefined' ? window.lastMotivationByTier : {});
+
+var ringInterval = null;
+var ringTimeout = null;
 var timerHasTriggeredZero = false;
 
 function isTimerSoundActive() {
@@ -14,6 +34,10 @@ function isTimerSoundActive() {
   if (typeof globalThis !== 'undefined' && typeof globalThis.timerSoundEnabled !== 'undefined') return globalThis.timerSoundEnabled;
   return true;
 }
+if (typeof window !== 'undefined') window.isTimerSoundActive = isTimerSoundActive;
+if (typeof globalThis !== 'undefined') globalThis.isTimerSoundActive = isTimerSoundActive;
+if (typeof window !== 'undefined') window.isTimerSoundActive = isTimerSoundActive;
+if (typeof globalThis !== 'undefined') globalThis.isTimerSoundActive = isTimerSoundActive;
 
 function getAllOpenBoardTasks() {
   try {
@@ -468,9 +492,13 @@ function setTimerPreset(mins) {
   }
   timerRunning = false; 
   timerTargetEndTime = null;
+  if (typeof window !== 'undefined') { window.timerRunning = false; window.timerTargetEndTime = null; }
+  if (typeof globalThis !== 'undefined') { globalThis.timerRunning = false; globalThis.timerTargetEndTime = null; }
   timerHasTriggeredZero = false;
   timerSeconds = mins * 60;
   timerInitialSeconds = mins * 60;
+  if (typeof window !== 'undefined') { window.timerSeconds = timerSeconds; window.timerInitialSeconds = timerInitialSeconds; }
+  if (typeof globalThis !== 'undefined') { globalThis.timerSeconds = timerSeconds; globalThis.timerInitialSeconds = timerInitialSeconds; }
   
   if (typeof stopAmbientSound === 'function') stopAmbientSound(true);
   if (typeof stopLookaheadSequencer === 'function') stopLookaheadSequencer();
@@ -1009,7 +1037,11 @@ function startTimer() {
   }
   
   timerRunning = true;
+  if (typeof window !== 'undefined') window.timerRunning = true;
+  if (typeof globalThis !== 'undefined') globalThis.timerRunning = true;
   timerTargetEndTime = Date.now() + (timerSeconds * 1000);
+  if (typeof window !== 'undefined') window.timerTargetEndTime = timerTargetEndTime;
+  if (typeof globalThis !== 'undefined') globalThis.timerTargetEndTime = timerTargetEndTime;
   updateTimerDisplay();
   updateTimerUI();
   updateMuteButtonsUI();
@@ -1032,23 +1064,39 @@ function startTimer() {
       const startMins = Math.round(timerInitialSeconds / 60);
       const activeTaskName = typeof activeTimerTask === 'object' && activeTimerTask ? (activeTimerTask.title || activeTimerTask.task) : (activeTimerTask || '');
       
+      const pickFn = (typeof pickWithoutImmediateRepeat === 'function')
+        ? pickWithoutImmediateRepeat
+        : (typeof window !== 'undefined' && typeof window.pickWithoutImmediateRepeat === 'function'
+            ? window.pickWithoutImmediateRepeat
+            : (list => (list && list[0]) || ''));
+      const startPhrases = (typeof SESSION_START_PHRASES !== 'undefined')
+        ? SESSION_START_PHRASES
+        : (typeof window !== 'undefined' ? window.SESSION_START_PHRASES : null);
+      const startTaskPhrases = (typeof SESSION_START_TASK_PHRASES !== 'undefined')
+        ? SESSION_START_TASK_PHRASES
+        : (typeof window !== 'undefined' ? window.SESSION_START_TASK_PHRASES : null);
+      const lastStartPhrase = typeof lastSessionStartPhrase !== 'undefined'
+        ? lastSessionStartPhrase
+        : (typeof window !== 'undefined' ? window.lastSessionStartPhrase : null);
+
       const speechItems = [];
       if (isTimeAnnounceActive) {
         let timeText = "";
         if (activeTaskName && typeof activeTaskName === 'string' && activeTaskName.trim()) {
           const cleanTask = activeTaskName.trim().replace(/^[\d\.\-\*•✓\s]+/, '');
-          const phraseList = (typeof SESSION_START_TASK_PHRASES !== 'undefined' && SESSION_START_TASK_PHRASES[lang]) 
-            ? SESSION_START_TASK_PHRASES[lang] 
-            : (typeof SESSION_START_TASK_PHRASES !== 'undefined' ? SESSION_START_TASK_PHRASES.de : null);
+          const phraseList = (startTaskPhrases && startTaskPhrases[lang]) 
+            ? startTaskPhrases[lang] 
+            : (startTaskPhrases ? startTaskPhrases.de : null);
+          const fallbackList = (startPhrases && (startPhrases[lang] || startPhrases.de)) || ['Fokuszeit gestartet, {mins} Minuten.'];
           const phrase = (phraseList && phraseList.length > 0)
-            ? pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase)
-            : (SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de)[0];
-          lastSessionStartPhrase = phrase;
+            ? pickFn(phraseList, lastStartPhrase)
+            : fallbackList[0];
+          if (typeof window !== 'undefined') window.lastSessionStartPhrase = phrase;
           timeText = phrase.replace('{mins}', startMins).replace('{task}', cleanTask);
         } else {
-          const phraseList = SESSION_START_PHRASES[lang] || SESSION_START_PHRASES.de;
-          const phrase = pickWithoutImmediateRepeat(phraseList, lastSessionStartPhrase);
-          lastSessionStartPhrase = phrase;
+          const phraseList = (startPhrases && (startPhrases[lang] || startPhrases.de)) || ['Fokuszeit gestartet, {mins} Minuten.'];
+          const phrase = pickFn(phraseList, lastStartPhrase);
+          if (typeof window !== 'undefined') window.lastSessionStartPhrase = phrase;
           timeText = phrase.replace('{mins}', startMins);
         }
         if (startMins === 1 && timeText) {
@@ -1058,25 +1106,39 @@ function startTimer() {
       }
 
       if (isMotivationActive) {
-        const motiv = getContextMotivation(timerSeconds, timerInitialSeconds, activeTaskName);
+        const getMotivFn = (typeof getContextMotivation === 'function')
+          ? getContextMotivation
+          : (typeof window !== 'undefined' ? window.getContextMotivation : null);
+        const motiv = getMotivFn ? getMotivFn(timerSeconds, timerInitialSeconds, activeTaskName) : '';
         if (motiv) speechItems.push({ text: motiv });
       }
 
       if (speechItems.length > 0) {
-        const startSessionToken = currentSpeechSessionId;
+        const startSessionToken = typeof currentSpeechSessionId !== 'undefined' ? currentSpeechSessionId : (window.currentSpeechSessionId || 0);
         const startTimeout = setTimeout(() => {
-          if (!timerRunning || currentSpeechSessionId !== startSessionToken) return;
+          const curToken = typeof currentSpeechSessionId !== 'undefined' ? currentSpeechSessionId : (window.currentSpeechSessionId || 0);
+          const isTimerNowRunning = typeof timerRunning !== 'undefined' ? timerRunning : (window.timerRunning || false);
+          if (!isTimerNowRunning || curToken !== startSessionToken) return;
           if (typeof speakVoiceSequence === 'function') {
             speakVoiceSequence(speechItems);
-          } else {
+          } else if (typeof window !== 'undefined' && typeof window.speakVoiceSequence === 'function') {
+            window.speakVoiceSequence(speechItems);
+          } else if (typeof speakSoftlyDynamic === 'function') {
             speakSoftlyDynamic(speechItems.map(s => s.text).join('. '), timerSeconds, timerInitialSeconds);
+          } else if (typeof window !== 'undefined' && typeof window.speakSoftlyDynamic === 'function') {
+            window.speakSoftlyDynamic(speechItems.map(s => s.text).join('. '), timerSeconds, timerInitialSeconds);
           }
         }, 400);
-        if (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts)) {
-          activeTimeouts.push(startTimeout);
+        const timeoutsArr = (typeof activeTimeouts !== 'undefined' && Array.isArray(activeTimeouts))
+          ? activeTimeouts
+          : (typeof window !== 'undefined' && Array.isArray(window.activeTimeouts) ? window.activeTimeouts : null);
+        if (timeoutsArr) {
+          timeoutsArr.push(startTimeout);
         }
       }
-    } catch(e) {}
+    } catch(e) {
+      console.warn("[TimerSpeech] startTimer speech error:", e);
+    }
   }
   
   let lastAnnouncedElapsedMinute = 0;
@@ -1089,6 +1151,8 @@ function startTimer() {
     const now = Date.now();
     const prevSecs = timerSeconds;
     timerSeconds = Math.round((timerTargetEndTime - now) / 1000);
+    if (typeof window !== 'undefined') window.timerSeconds = timerSeconds;
+    if (typeof globalThis !== 'undefined') globalThis.timerSeconds = timerSeconds;
     
     // Punktgenauer Null-Übergang (wird exakt einmal ausgelöst!)
     if (timerSeconds <= 0 && !timerHasTriggeredZero && prevSecs > 0) {
@@ -1279,6 +1343,8 @@ function pauseTimer() {
   }
   timerTargetEndTime = null;
   timerRunning = false;
+  if (typeof window !== 'undefined') { window.timerRunning = false; window.timerTargetEndTime = null; window.timerSeconds = timerSeconds; }
+  if (typeof globalThis !== 'undefined') { globalThis.timerRunning = false; globalThis.timerTargetEndTime = null; globalThis.timerSeconds = timerSeconds; }
   updateTimerUI();
   
   if (typeof stopPleasantRinging === 'function') {
@@ -1325,6 +1391,8 @@ function stopTimer() {
   timerRunning = false;
   timerHasTriggeredZero = false;
   timerSeconds = timerInitialSeconds; 
+  if (typeof window !== 'undefined') { window.timerRunning = false; window.timerTargetEndTime = null; window.timerSeconds = timerSeconds; }
+  if (typeof globalThis !== 'undefined') { globalThis.timerRunning = false; globalThis.timerTargetEndTime = null; globalThis.timerSeconds = timerSeconds; }
   activeTimerTask = null;
   
   if (typeof stopPleasantRinging === 'function') {
