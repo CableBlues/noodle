@@ -1,3 +1,13 @@
+var soundGainNode = typeof soundGainNode !== 'undefined' ? soundGainNode : (typeof window !== 'undefined' ? window.soundGainNode : null);
+var currentSoundType = typeof currentSoundType !== 'undefined' ? currentSoundType : (typeof window !== 'undefined' ? window.currentSoundType : null);
+var activeNodes = typeof activeNodes !== 'undefined' ? activeNodes : (typeof window !== 'undefined' && window.activeNodes ? window.activeNodes : []);
+var activeTimeouts = typeof activeTimeouts !== 'undefined' ? activeTimeouts : (typeof window !== 'undefined' && window.activeTimeouts ? window.activeTimeouts : []);
+var pendingCrossfadeNodes = typeof pendingCrossfadeNodes !== 'undefined' ? pendingCrossfadeNodes : (typeof window !== 'undefined' && window.pendingCrossfadeNodes ? window.pendingCrossfadeNodes : []);
+var pendingCrossfadeGains = typeof pendingCrossfadeGains !== 'undefined' ? pendingCrossfadeGains : (typeof window !== 'undefined' && window.pendingCrossfadeGains ? window.pendingCrossfadeGains : []);
+var isBeatPlaying = false;
+var audioCtx = typeof audioCtx !== 'undefined' ? audioCtx : (typeof window !== 'undefined' ? window.audioCtx : null);
+var soundMasterVolume = typeof soundMasterVolume !== 'undefined' ? soundMasterVolume : (typeof window !== 'undefined' ? window.soundMasterVolume : 0.5);
+
 /**
  * @file audio-scheduler-3.js
  * @module AudioSchedulerNatureAndControl
@@ -866,5 +876,120 @@ function startBeatLookaheadLoop(type, defaultBpm) {
 }
 window.startBeatLookaheadLoop = startBeatLookaheadLoop;
 
- 
- 
+if (typeof window !== 'undefined') {
+  window.stopAmbientSound = stopAmbientSound;
+  window.scheduleTypewriterClicks = scheduleTypewriterClicks;
+  window.playTypewriterClick = playTypewriterClick;
+  window.playTypewriterBell = playTypewriterBell;
+  window.scheduleStormThunderRumbles = scheduleStormThunderRumbles;
+  window.playStormThunder = playStormThunder;
+  window.scheduleFrogsChirpsAndCroaks = scheduleFrogsChirpsAndCroaks;
+  window.playFrogCroak = playFrogCroak;
+  window.playTeichCricketChirp = playTeichCricketChirp;
+  window.playDrumKick = playDrumKick;
+  window.playDrumSnare = playDrumSnare;
+  window.playDrumHiHat = playDrumHiHat;
+  window.playSynthBass = playSynthBass;
+  window.playSynthwavePad = playSynthwavePad;
+  window.play808SubBass = play808SubBass;
+  window.playHouseBass = playHouseBass;
+  window.playPhonkCowbell = playPhonkCowbell;
+  window.playJazzPianoChord = playJazzPianoChord;
+  window.playRhodesChord = playRhodesChord;
+  window.playHypnoticNote = playHypnoticNote;
+  window.runBeatLookaheadScheduler = runBeatLookaheadScheduler;
+  window.scheduleBeat16thStep = scheduleBeat16thStep;
+  window.startBeatLookaheadLoop = startBeatLookaheadLoop;
+  window.setBeatBpm = setBeatBpm;
+  window.changeBeatBpm = changeBeatBpm;
+  window.toggleGenreBeat = toggleGenreBeat;
+  window.setSequencerBpm = setSequencerBpm;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.stopAmbientSound = stopAmbientSound;
+  globalThis.scheduleTypewriterClicks = scheduleTypewriterClicks;
+  globalThis.playTypewriterClick = playTypewriterClick;
+  globalThis.playTypewriterBell = playTypewriterBell;
+  globalThis.scheduleStormThunderRumbles = scheduleStormThunderRumbles;
+  globalThis.playStormThunder = playStormThunder;
+  globalThis.scheduleFrogsChirpsAndCroaks = scheduleFrogsChirpsAndCroaks;
+  globalThis.playFrogCroak = playFrogCroak;
+  globalThis.playTeichCricketChirp = playTeichCricketChirp;
+  globalThis.playDrumKick = playDrumKick;
+  globalThis.playDrumSnare = playDrumSnare;
+  globalThis.playDrumHiHat = playDrumHiHat;
+  globalThis.playSynthBass = playSynthBass;
+  globalThis.playSynthwavePad = playSynthwavePad;
+  globalThis.play808SubBass = play808SubBass;
+  globalThis.playHouseBass = playHouseBass;
+  globalThis.playPhonkCowbell = playPhonkCowbell;
+  globalThis.playJazzPianoChord = playJazzPianoChord;
+  globalThis.playRhodesChord = playRhodesChord;
+  globalThis.playHypnoticNote = playHypnoticNote;
+  globalThis.runBeatLookaheadScheduler = runBeatLookaheadScheduler;
+  globalThis.scheduleBeat16thStep = scheduleBeat16thStep;
+  globalThis.startBeatLookaheadLoop = startBeatLookaheadLoop;
+  globalThis.setBeatBpm = setBeatBpm;
+  globalThis.changeBeatBpm = changeBeatBpm;
+  globalThis.toggleGenreBeat = toggleGenreBeat;
+  globalThis.setSequencerBpm = setSequencerBpm;
+}
+
+if (typeof window !== 'undefined') {
+  window.stopAmbientSound = stopAmbientSound;
+  window.scheduleTypewriterClicks = scheduleTypewriterClicks;
+  window.playTypewriterClick = playTypewriterClick;
+  window.playTypewriterBell = playTypewriterBell;
+  window.scheduleStormThunderRumbles = scheduleStormThunderRumbles;
+  window.playStormThunder = playStormThunder;
+  window.scheduleFrogsChirpsAndCroaks = scheduleFrogsChirpsAndCroaks;
+  window.playFrogCroak = playFrogCroak;
+  window.playTeichCricketChirp = playTeichCricketChirp;
+  window.playDrumKick = playDrumKick;
+  window.playDrumSnare = playDrumSnare;
+  window.playDrumHiHat = playDrumHiHat;
+  window.playSynthBass = playSynthBass;
+  window.playSynthwavePad = playSynthwavePad;
+  window.play808SubBass = play808SubBass;
+  window.playHouseBass = playHouseBass;
+  window.playPhonkCowbell = playPhonkCowbell;
+  window.playJazzPianoChord = playJazzPianoChord;
+  window.playRhodesChord = playRhodesChord;
+  window.playHypnoticNote = playHypnoticNote;
+  window.runBeatLookaheadScheduler = runBeatLookaheadScheduler;
+  window.scheduleBeat16thStep = scheduleBeat16thStep;
+  window.startBeatLookaheadLoop = startBeatLookaheadLoop;
+  window.setBeatBpm = setBeatBpm;
+  window.changeBeatBpm = changeBeatBpm;
+  window.toggleGenreBeat = toggleGenreBeat;
+  window.setSequencerBpm = setSequencerBpm;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.stopAmbientSound = stopAmbientSound;
+  globalThis.scheduleTypewriterClicks = scheduleTypewriterClicks;
+  globalThis.playTypewriterClick = playTypewriterClick;
+  globalThis.playTypewriterBell = playTypewriterBell;
+  globalThis.scheduleStormThunderRumbles = scheduleStormThunderRumbles;
+  globalThis.playStormThunder = playStormThunder;
+  globalThis.scheduleFrogsChirpsAndCroaks = scheduleFrogsChirpsAndCroaks;
+  globalThis.playFrogCroak = playFrogCroak;
+  globalThis.playTeichCricketChirp = playTeichCricketChirp;
+  globalThis.playDrumKick = playDrumKick;
+  globalThis.playDrumSnare = playDrumSnare;
+  globalThis.playDrumHiHat = playDrumHiHat;
+  globalThis.playSynthBass = playSynthBass;
+  globalThis.playSynthwavePad = playSynthwavePad;
+  globalThis.play808SubBass = play808SubBass;
+  globalThis.playHouseBass = playHouseBass;
+  globalThis.playPhonkCowbell = playPhonkCowbell;
+  globalThis.playJazzPianoChord = playJazzPianoChord;
+  globalThis.playRhodesChord = playRhodesChord;
+  globalThis.playHypnoticNote = playHypnoticNote;
+  globalThis.runBeatLookaheadScheduler = runBeatLookaheadScheduler;
+  globalThis.scheduleBeat16thStep = scheduleBeat16thStep;
+  globalThis.startBeatLookaheadLoop = startBeatLookaheadLoop;
+  globalThis.setBeatBpm = setBeatBpm;
+  globalThis.changeBeatBpm = changeBeatBpm;
+  globalThis.toggleGenreBeat = toggleGenreBeat;
+  globalThis.setSequencerBpm = setSequencerBpm;
+}

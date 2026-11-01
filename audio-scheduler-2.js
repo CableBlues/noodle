@@ -210,3 +210,52 @@ function playMonasteryOhmChant() {
   osc2.stop(now + 4.0);
 }
 
+if (typeof window !== 'undefined') {
+  window.scheduleTrainSteamChuffs = scheduleTrainSteamChuffs;
+  window.playTrainChuff = playTrainChuff;
+  window.playTrainTrackClack = playTrainTrackClack;
+  window.scheduleArcadeChiptunes = scheduleArcadeChiptunes;
+  window.playArcadeBeep = playArcadeBeep;
+  window.scheduleGuitarPadMelody = scheduleGuitarPadMelody;
+  window.playGuitarPadChord = playGuitarPadChord;
+  window.scheduleMonasteryElements = scheduleMonasteryElements;
+  window.playZenSingingBowl = playZenSingingBowl;
+  window.playMonasteryOhmChant = playMonasteryOhmChant;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.scheduleTrainSteamChuffs = scheduleTrainSteamChuffs;
+  globalThis.playTrainChuff = playTrainChuff;
+  globalThis.playTrainTrackClack = playTrainTrackClack;
+  globalThis.scheduleArcadeChiptunes = scheduleArcadeChiptunes;
+  globalThis.playArcadeBeep = playArcadeBeep;
+  globalThis.scheduleGuitarPadMelody = scheduleGuitarPadMelody;
+  globalThis.playGuitarPadChord = playGuitarPadChord;
+  globalThis.scheduleMonasteryElements = scheduleMonasteryElements;
+  globalThis.playZenSingingBowl = playZenSingingBowl;
+  globalThis.playMonasteryOhmChant = playMonasteryOhmChant;
+}
+
+if (typeof window !== 'undefined') {
+  window.scheduleTrainSteamChuffs = scheduleTrainSteamChuffs;
+  window.playTrainChuff = playTrainChuff;
+  window.playTrainTrackClack = playTrainTrackClack;
+  window.scheduleArcadeChiptunes = scheduleArcadeChiptunes;
+  window.playArcadeBeep = playArcadeBeep;
+  window.scheduleGuitarPadMelody = scheduleGuitarPadMelody;
+  window.playGuitarPadChord = playGuitarPadChord;
+  window.scheduleMonasteryElements = scheduleMonasteryElements;
+  window.playZenSingingBowl = playZenSingingBowl;
+  window.playMonasteryOhmChant = playMonasteryOhmChant;
+}
+if (typeof globalThis !== 'undefined') {
+  globalThis.scheduleTrainSteamChuffs = scheduleTrainSteamChuffs;
+  globalThis.playTrainChuff = playTrainChuff;
+  globalThis.playTrainTrackClack = playTrainTrackClack;
+  globalThis.scheduleArcadeChiptunes = scheduleArcadeChiptunes;
+  globalThis.playArcadeBeep = playArcadeBeep;
+  globalThis.scheduleGuitarPadMelody = scheduleGuitarPadMelody;
+  globalThis.playGuitarPadChord = playGuitarPadChord;
+  globalThis.scheduleMonasteryElements = scheduleMonasteryElements;
+  globalThis.playZenSingingBowl = playZenSingingBowl;
+  globalThis.playMonasteryOhmChant = playMonasteryOhmChant;
+}

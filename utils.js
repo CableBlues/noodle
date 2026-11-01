@@ -1254,11 +1254,15 @@ let lastProceduralSoundIndex = -1;
 // Erzeugt 12 mathematisch unterschiedliche Belohnungsklänge über die Web Audio API (wechselt zufällig)
 function playProceduralSound(idx = null) {
   try {
-    initAudioContext();
-    if (!audioCtx) return;
+    if (typeof initAudioContext === 'function') {
+      initAudioContext();
+    } else if (typeof window !== 'undefined' && typeof window.initAudioContext === 'function') {
+      window.initAudioContext();
+    }
+    const ctx = (typeof audioCtx !== 'undefined' && audioCtx) || (typeof window !== 'undefined' ? window.audioCtx : null);
+    if (!ctx) return;
     if (typeof isPlayerMuted !== 'undefined' && isPlayerMuted) return;
-    const now = audioCtx.currentTime;
-    const ctx = audioCtx;
+    const now = ctx.currentTime;
 
     // Wenn kein Index übergeben oder 'random', wechsle zufällig ohne direkte Wiederholung
     if (idx === null || idx === undefined || idx === 'random') {
@@ -1382,6 +1386,8 @@ function playProceduralSound(idx = null) {
     console.error("Fehler beim prozeduralen Sound:", e);
   }
 }
+window.playProceduralSound = playProceduralSound;
+if (typeof globalThis !== 'undefined') globalThis.playProceduralSound = playProceduralSound;
 
 
 // Interaktiver Logo-Klick-Effekt mit Wellen-Ausbreitung und Sound
