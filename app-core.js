@@ -707,7 +707,7 @@ function closeSettingsModal() {
 window.closeSettingsModal = closeSettingsModal;
 
 function switchSettingsTab(tabName) {
-  const tabs = ['general', 'history', 'impressum', 'privacy', 'licenses'];
+  const tabs = ['general', 'impressum', 'privacy', 'licenses'];
   tabs.forEach(t => {
     const btn = document.getElementById(`settings-tab-${t}`);
     const pane = document.getElementById(`settings-pane-${t}`);
@@ -723,10 +723,12 @@ function switchSettingsTab(tabName) {
       else pane.classList.add('hidden');
     }
   });
-  if (tabName === 'history') renderHistoryGallery();
   if (tabName === 'privacy' && typeof updateUmamiOptOutUI === 'function') updateUmamiOptOutUI();
-  renderLucideIcons();
+  if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  else if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
+window.switchSettingsTab = switchSettingsTab;
+if (typeof globalThis !== 'undefined') globalThis.switchSettingsTab = switchSettingsTab;
 
 function getHistoryScreenshots() {
   try {
@@ -738,7 +740,6 @@ function getHistoryScreenshots() {
     return saved ? JSON.parse(saved) : [];
   } catch (e) { return []; }
 }
-
 function saveHistoryScreenshots(list) {
   try {
     if (typeof window !== 'undefined' && window.AppStorage && typeof window.AppStorage.set === 'function') {
@@ -748,18 +749,14 @@ function saveHistoryScreenshots(list) {
     }
   } catch (e) {}
 }
-
 function handleHistoryScreenshotUpload(event) {
-  const file = event.target.files && event.target.files[0];
+  const file = event?.target?.files?.[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = (e) => {
     const base64 = e.target.result;
     const defaultTitle = 'Screenshot ' + new Date().toLocaleDateString();
-    const promptMsg = typeof tr === 'function' ? tr({
-      de: 'Titel oder Notiz für diesen Screenshot (z. B. "Früher Prototyp"):',
-      en: 'Title or note for this screenshot (e.g. "Early Prototype"):'
-    }) : 'Titel oder Notiz für diesen Screenshot:';
+    const promptMsg = typeof tr === 'function' ? tr({ de: 'Titel oder Notiz für diesen Screenshot:', en: 'Title or note for this screenshot:' }) : 'Titel oder Notiz:';
     const userTitle = prompt(promptMsg, defaultTitle) || defaultTitle;
     const list = getHistoryScreenshots();
     list.unshift({ id: 'shot_' + Date.now(), title: userTitle.trim(), date: new Date().toLocaleDateString(), data: base64 });
@@ -768,33 +765,22 @@ function handleHistoryScreenshotUpload(event) {
   };
   reader.readAsDataURL(file);
 }
-
 function deleteHistoryScreenshot(id) {
   saveHistoryScreenshots(getHistoryScreenshots().filter(item => item.id !== id));
   renderHistoryGallery();
 }
-
 function renderHistoryGallery() {
   const grid = document.getElementById('history-gallery-grid');
   const countEl = document.getElementById('history-gallery-count');
   if (!grid) return;
   grid.innerHTML = '';
-
   const customShots = getHistoryScreenshots();
   if (countEl) countEl.innerText = `${customShots.length} ${customShots.length === 1 ? 'Bild' : 'Bilder'}`;
-
   if (customShots.length === 0) {
-    grid.innerHTML = `
-      <div class="col-span-full p-8 text-center border border-dashed border-white/10 rounded-2xl text-gray-400 space-y-2">
-        <i data-lucide="image" class="w-8 h-8 text-gray-500 mx-auto mb-1"></i>
-        <div class="font-bold text-xs text-gray-300">Noch keine Screenshots hinterlegt</div>
-        <div class="text-[11px] text-gray-500 max-w-sm mx-auto leading-normal">Klicke oben auf „Screenshot hinzufügen 📷“, um Bilder früherer Versionen und Meilensteine hier zu sammeln.</div>
-      </div>
-    `;
+    grid.innerHTML = `<div class="col-span-full p-8 text-center border border-dashed border-white/10 rounded-2xl text-gray-400 space-y-2"><i data-lucide="image" class="w-8 h-8 text-gray-500 mx-auto mb-1"></i><div class="font-bold text-xs text-gray-300">Keine Screenshots hinterlegt</div></div>`;
     renderLucideIcons();
     return;
   }
-
   customShots.forEach(shot => {
     const card = document.createElement('div');
     card.className = 'group relative rounded-2xl overflow-hidden border border-white/10 bg-black/40 hover:border-purple-500/50 transition flex flex-col justify-between';
@@ -802,9 +788,7 @@ function renderHistoryGallery() {
     const safeTitle = typeof escapeHtml === 'function' ? escapeHtml(shot.title) : String(shot.title || '');
     const safeDate = typeof escapeHtml === 'function' ? escapeHtml(shot.date || '') : String(shot.date || '');
     const safeId = typeof escapeAttr === 'function' ? escapeAttr(shot.id) : String(shot.id || '');
-
     card.innerHTML = `<div class="relative overflow-hidden bg-black/60 cursor-pointer btn-open-shot"><img src="${escapeAttr(safeDataUrl)}" alt="${safeTitle}" class="w-full h-32 object-cover transition transform duration-300 group-hover:scale-105" /><div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-bold gap-1"><i data-lucide="maximize-2" class="w-4 h-4"></i><span>Öffnen</span></div></div><div class="p-2.5 flex items-center justify-between text-[11px] bg-[#111116]/90 border-t border-white/5 gap-2"><div class="truncate"><span class="truncate font-semibold text-white block">${safeTitle}</span><span class="text-[9px] text-gray-500 font-mono">${safeDate}</span></div><button class="btn-delete-shot p-1 rounded-lg bg-white/5 hover:bg-red-500/20 text-gray-400 hover:text-red-300 transition cursor-pointer shrink-0" data-shot-id="${safeId}" aria-label="Screenshot löschen" title="Screenshot löschen"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button></div>`;
-
     const openTrigger = card.querySelector('.btn-open-shot');
     if (openTrigger) {
       openTrigger.addEventListener('click', () => {
@@ -857,6 +841,8 @@ function saveGeneralSetting(key, val) {
     console.warn('saveGeneralSetting error:', e);
   }
 }
+window.saveGeneralSetting = saveGeneralSetting;
+if (typeof globalThis !== 'undefined') globalThis.saveGeneralSetting = saveGeneralSetting;
 
 async function clearAllApplicationData() {
   const msg = typeof tr === 'function' ? tr({

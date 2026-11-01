@@ -170,7 +170,10 @@
   function isModalOverlay(el) {
     if (!el || !el.id) return false;
     if (EXCLUDED_MODAL_IDS.has(el.id)) return false;
-    return el.id.endsWith('-modal') || el.id.startsWith('modal-');
+    const tag = el.tagName ? el.tagName.toUpperCase() : '';
+    if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'SPAN', 'BUTTON', 'INPUT', 'LABEL', 'A'].includes(tag)) return false;
+    if (el.id.endsWith('-title') || el.id.endsWith('-desc') || el.id.endsWith('-subtitle') || el.id.endsWith('-body') || el.id.endsWith('-content') || el.id.endsWith('-header') || el.id.endsWith('-footer')) return false;
+    return el.id.endsWith('-modal') || el.id.startsWith('modal-') || (el.id.startsWith('helper-') && el.id.endsWith('-modal'));
   }
 
   function getMovableWindowBox(el) {
@@ -783,14 +786,17 @@
     return false;
   }
 
-  // Findet oder erzeugt das deutliche 3er-Kontrollfeld [—] [□] [✕] im Fenster-Header
   function decoratePanel(el, panelName) {
     if (!el || EXCLUDED_MODAL_IDS.has(el.id)) return;
+    const tag = el.tagName ? el.tagName.toUpperCase() : '';
+    if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'SPAN', 'BUTTON', 'INPUT', 'LABEL', 'A'].includes(tag)) return;
+    if (el.id && (el.id.endsWith('-title') || el.id.endsWith('-desc') || el.id.endsWith('-subtitle') || el.id.endsWith('-body') || el.id.endsWith('-content') || el.id.endsWith('-header') || el.id.endsWith('-footer'))) return;
     const clean = normalizePanelName(panelName || el.id);
-    if (!clean || clean === 'header-tools') return;
+    if (!clean || clean === 'header-tools' || clean.endsWith('-title') || clean.endsWith('-desc')) return;
 
     const winBox = getMovableWindowBox(el);
     if (!winBox) return;
+    if (winBox.querySelector('.noodle-win-controls')) return;
 
     const isFullscreen = el.classList.contains('noodle-panel-fullscreen') || winBox.classList.contains('noodle-panel-fullscreen');
 
@@ -948,8 +954,8 @@
             }
           }
         } else if (m.type === 'childList') {
-          const el = m.target.closest ? m.target.closest('.dock-popover-panel, [id^="panel-"], [id$="-modal"], [id*="modal-"]') : null;
-          if (el && el.id && !el.classList.contains('hidden')) {
+          const el = m.target.closest ? m.target.closest('.dock-popover-panel, [id^="panel-"], [id$="-modal"], [id^="modal-"]') : null;
+          if (el && el.id && !el.classList.contains('hidden') && isModalOverlay(el)) {
             const winBox = getMovableWindowBox(el);
             if (winBox && !winBox.querySelector('.noodle-win-controls')) {
               decoratePanel(el, normalizePanelName(el.id));
@@ -959,8 +965,11 @@
       }
     });
 
-    document.querySelectorAll('.dock-popover-panel, [id^="panel-"], .modal, [id$="-modal"], [id*="modal-"]').forEach(el => {
+    document.querySelectorAll('.dock-popover-panel, [id^="panel-"], .modal, [id$="-modal"], [id^="modal-"]').forEach(el => {
       if (!el.id || EXCLUDED_MODAL_IDS.has(el.id)) return;
+      const tag = el.tagName ? el.tagName.toUpperCase() : '';
+      if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'SPAN', 'BUTTON', 'INPUT', 'LABEL', 'A'].includes(tag)) return;
+      if (el.id.endsWith('-title') || el.id.endsWith('-desc') || el.id.endsWith('-subtitle') || el.id.endsWith('-body') || el.id.endsWith('-content') || el.id.endsWith('-header') || el.id.endsWith('-footer')) return;
       el._noodleWasHidden = el.classList.contains('hidden');
       classObserver.observe(el, { attributes: true, attributeFilter: ['class'] });
     });
@@ -988,8 +997,11 @@
 
     const scanAndDecorate = () => {
       portalToolPanelsToBody();
-      document.querySelectorAll('.dock-popover-panel, [id^="panel-"], .modal, [id$="-modal"], [id*="modal-"]').forEach(el => {
+      document.querySelectorAll('.dock-popover-panel, [id^="panel-"], .modal, [id$="-modal"], [id^="modal-"]').forEach(el => {
         if (!el.id || EXCLUDED_MODAL_IDS.has(el.id)) return;
+        const tag = el.tagName ? el.tagName.toUpperCase() : '';
+        if (['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'SPAN', 'BUTTON', 'INPUT', 'LABEL', 'A'].includes(tag)) return;
+        if (el.id.endsWith('-title') || el.id.endsWith('-desc') || el.id.endsWith('-subtitle') || el.id.endsWith('-body') || el.id.endsWith('-content') || el.id.endsWith('-header') || el.id.endsWith('-footer')) return;
         const panelName = normalizePanelName(el.id);
         decoratePanel(el, panelName);
       });

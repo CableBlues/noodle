@@ -1833,7 +1833,7 @@
           </div>
 
           <!-- Timer Presets Popover Dropdown (Cockpit Container) -->
-          <div id="panel-timer-presets" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute top-[calc(100%+8px)] left-0 z-[250] w-[355px] sm:w-[385px] max-w-[96vw] bg-[#0c0b16]/98 border border-purple-500/45 p-3 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.95),0_0_40px_rgba(168,85,247,0.25)] backdrop-blur-2xl ring-1 ring-purple-500/30 flex flex-col gap-2.5 text-left animate-fade-in cursor-default">
+          <div id="panel-timer-presets" data-action="stopPropagation" data-stop-propagation="true" class="hidden absolute top-[calc(100%+8px)] left-0 z-[250] w-[355px] sm:w-[385px] max-w-[96vw] max-h-[min(88vh,620px)] overflow-y-auto custom-scrollbar bg-[#0c0b16]/98 border border-purple-500/45 p-2.5 sm:p-3 rounded-2xl shadow-[0_25px_70px_rgba(0,0,0,0.95),0_0_40px_rgba(168,85,247,0.25)] backdrop-blur-2xl ring-1 ring-purple-500/30 flex flex-col gap-2 text-left animate-fade-in cursor-default">
             <!-- Dynamisch gerendert via renderTimerCockpitContent() -->
           </div>
         </div>
@@ -2247,19 +2247,38 @@
                 </div>
               </div>
 
-              <!-- SECTION 3: DIREKTZUGRIFF (Kompakt & Schlank) -->
-              <div class="pt-1.5 border-t border-white/10">
-                <div class="grid grid-cols-2 gap-1.5 pt-0.5">
-                  <!-- 1. Geräte koppeln & Sync -->
+              <!-- SECTION 3: DIREKTZUGRIFF & RECHTLICHES -->
+              <div class="pt-1.5 border-t border-white/10 space-y-1.5">
+                <div class="text-[9px] font-bold uppercase tracking-wider text-purple-300 font-mono flex items-center justify-between">
+                  <span>Optionen & Rechtliches</span>
+                </div>
+                <div class="grid grid-cols-2 gap-1.5">
+                  <!-- 1. Alle Einstellungen -->
+                  <button onclick="openSettingsModal('general'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-2 bg-purple-500/15 hover:bg-purple-500/25 text-purple-200 hover:text-white border border-purple-500/30 hover:border-purple-400/50 rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs active:scale-95" title="Alle Einstellungen öffnen">
+                    <i data-lucide="sliders" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
+                    <span class="truncate">Einstellungen</span>
+                  </button>
+
+                  <!-- 2. Geräte koppeln & Sync -->
                   <button onclick="openP2PSyncModal(); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-2 bg-teal-500/15 hover:bg-teal-500/25 text-teal-200 hover:text-white border border-teal-500/30 hover:border-teal-400/50 rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs active:scale-95" title="Geräte koppeln & Cloud-Sync">
                     <i data-lucide="smartphone" class="w-3.5 h-3.5 text-teal-300 shrink-0"></i>
                     <span class="truncate">Geräte & Sync</span>
                   </button>
+                </div>
 
-                  <!-- 2. Alle Einstellungen -->
-                  <button onclick="openSettingsModal('general'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-2 bg-purple-500/15 hover:bg-purple-500/25 text-purple-200 hover:text-white border border-purple-500/30 hover:border-purple-400/50 rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-xs active:scale-95" title="Alle Einstellungen öffnen">
-                    <i data-lucide="sliders" class="w-3.5 h-3.5 text-purple-300 shrink-0"></i>
-                    <span class="truncate">Alle Einstellungen</span>
+                <!-- 3. Schnelleinstieg Rechtliches: Impressum, Datenschutz, Lizenzen -->
+                <div class="grid grid-cols-3 gap-1 pt-0.5">
+                  <button onclick="openSettingsModal('impressum'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-1 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 rounded-xl text-[10.5px] font-medium transition flex items-center justify-center gap-1 cursor-pointer truncate active:scale-95" title="Impressum anzeigen">
+                    <i data-lucide="building" class="w-3 h-3 text-purple-400 shrink-0"></i>
+                    <span class="truncate">Impressum</span>
+                  </button>
+                  <button onclick="openSettingsModal('privacy'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-1 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 rounded-xl text-[10.5px] font-medium transition flex items-center justify-center gap-1 cursor-pointer truncate active:scale-95" title="Datenschutzerklärung anzeigen">
+                    <i data-lucide="shield-check" class="w-3 h-3 text-emerald-400 shrink-0"></i>
+                    <span class="truncate">Datenschutz</span>
+                  </button>
+                  <button onclick="openSettingsModal('licenses'); document.getElementById('panel-settings-dropdown').classList.add('hidden');" class="py-1.5 px-1 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10 rounded-xl text-[10.5px] font-medium transition flex items-center justify-center gap-1 cursor-pointer truncate active:scale-95" title="Lizenzen & Haftung anzeigen">
+                    <i data-lucide="scale" class="w-3 h-3 text-amber-400 shrink-0"></i>
+                    <span class="truncate">Lizenzen</span>
                   </button>
                 </div>
 
@@ -4381,32 +4400,28 @@
             <p class="text-xs text-gray-400" data-i18n="settings_modal_subtitle">App-Optionen, Datenschutzerklärung und Open-Source-Transparenz</p>
           </div>
         </div>
-        <button data-action="closeSettingsModal" class="btn-ghost p-2 rounded-xl text-gray-400 hover:text-white transition cursor-pointer" aria-label="Einstellungen schließen">
+        <button onclick="closeSettingsModal()" data-action="closeSettingsModal" class="btn-ghost p-2 rounded-xl text-gray-400 hover:text-white transition cursor-pointer" aria-label="Einstellungen schließen">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <!-- Navigation Tabs (5 Tabs) -->
-      <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 p-1 bg-black/60 border border-white/10 rounded-2xl text-xs font-bold">
-        <button data-action="switchSettingsTab" data-action-args='["general"]' id="settings-tab-general" class="py-2 px-2.5 rounded-xl bg-purple-600 text-white transition cursor-pointer flex items-center justify-center gap-1.5">
+      <!-- Navigation Tabs (4 Tabs: Allgemein, Impressum, Datenschutz, Lizenzen & Haftung) -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1 bg-black/60 border border-white/10 rounded-2xl text-xs font-bold">
+        <button type="button" onclick="switchSettingsTab('general')" data-action="switchSettingsTab" data-action-args='["general"]' id="settings-tab-general" class="py-2 px-2.5 rounded-xl bg-purple-600 text-white transition cursor-pointer flex items-center justify-center gap-1.5">
           <i data-lucide="sliders" class="w-3.5 h-3.5"></i>
           <span data-i18n="tab_general">Allgemein</span>
         </button>
-        <button data-action="switchSettingsTab" data-action-args='["history"]' id="settings-tab-history" class="py-2 px-2.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5">
-          <i data-lucide="history" class="w-3.5 h-3.5"></i>
-          <span data-i18n="tab_history">History</span>
-        </button>
-        <button data-action="switchSettingsTab" data-action-args='["impressum"]' id="settings-tab-impressum" class="py-2 px-2.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5">
-          <i data-lucide="scale" class="w-3.5 h-3.5"></i>
+        <button type="button" onclick="switchSettingsTab('impressum')" data-action="switchSettingsTab" data-action-args='["impressum"]' id="settings-tab-impressum" class="py-2 px-2.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5">
+          <i data-lucide="building" class="w-3.5 h-3.5"></i>
           <span data-i18n="tab_impressum">Impressum</span>
         </button>
-        <button data-action="switchSettingsTab" data-action-args='["privacy"]' id="settings-tab-privacy" class="py-2 px-2.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5">
+        <button type="button" onclick="switchSettingsTab('privacy')" data-action="switchSettingsTab" data-action-args='["privacy"]' id="settings-tab-privacy" class="py-2 px-2.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5">
           <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
           <span data-i18n="tab_privacy">Datenschutz</span>
         </button>
-        <button data-action="switchSettingsTab" data-action-args='["licenses"]' id="settings-tab-licenses" class="py-2 px-2.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5">
-          <i data-lucide="code-2" class="w-3.5 h-3.5"></i>
-          <span data-i18n="tab_licenses">Lizenzen</span>
+        <button type="button" onclick="switchSettingsTab('licenses')" data-action="switchSettingsTab" data-action-args='["licenses"]' id="settings-tab-licenses" class="py-2 px-2.5 rounded-xl text-gray-400 hover:text-white transition cursor-pointer flex items-center justify-center gap-1.5">
+          <i data-lucide="scale" class="w-3.5 h-3.5"></i>
+          <span data-i18n="tab_licenses">Lizenzen & Haftung</span>
         </button>
       </div>
 
@@ -4446,51 +4461,15 @@
           </button>
         </div>
 
-
-
-        <!-- Sprache (Language Selection - An dritter Stelle) -->
-        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2.5">
-          <div class="flex items-center justify-between">
-            <div>
-              <label class="font-bold text-gray-200 block text-xs flex items-center gap-1.5" data-i18n="settings_section_lang">
-                <i data-lucide="globe" class="w-3.5 h-3.5 text-purple-400"></i>
-                <span>🌐 Select Language</span>
-              </label>
-              <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="mobile_quick_lang_sub">6 Languages (EN, DE, ES, EL, FR, IT)</p>
-            </div>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-6 gap-2 pt-1">
-            <button data-action="setLanguage" data-action-args='["en"]' class="py-2 px-3 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/30 text-gray-200 font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-xs">
-              <span class="text-base">🇬🇧</span> <span>English</span>
-            </button>
-            <button data-action="setLanguage" data-action-args='["de"]' class="py-2 px-3 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/30 text-gray-200 font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-xs">
-              <span class="text-base">🇩🇪</span> <span>Deutsch</span>
-            </button>
-            <button data-action="setLanguage" data-action-args='["es"]' class="py-2 px-3 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/30 text-gray-200 font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-xs">
-              <span class="text-base">🇪🇸</span> <span>Español</span>
-            </button>
-            <button data-action="setLanguage" data-action-args='["el"]' class="py-2 px-3 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/30 text-gray-200 font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-xs">
-              <span class="text-base">🇬🇷</span> <span>Ελληνικά</span>
-            </button>
-            <button data-action="setLanguage" data-action-args='["fr"]' class="py-2 px-3 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/30 text-gray-200 font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-xs">
-              <span class="text-base">🇫🇷</span> <span>Français</span>
-            </button>
-            <button data-action="setLanguage" data-action-args='["it"]' class="py-2 px-3 rounded-xl bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/30 text-gray-200 font-bold transition cursor-pointer flex items-center justify-center gap-1.5 text-xs">
-              <span class="text-base">🇮🇹</span> <span>Italiano</span>
-            </button>
-          </div>
-        </div>
-
-
         <!-- Standard Timer-Dauer -->
         <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2">
           <label class="font-bold text-gray-200 block text-xs" data-i18n="setting_default_timer">Standard Fokus-Dauer</label>
           <p class="text-[11px] text-gray-400" data-i18n="settings_timer_preset_desc">Voreingestellte Minuten für neue Timer-Sitzungen.</p>
           <div class="grid grid-cols-4 gap-2">
-            <button data-action="saveGeneralSetting" data-action-args='["defaultTimer",15]' id="setting-timer-15" class="py-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-mono font-bold hover:text-white cursor-pointer">15 Min</button>
-            <button data-action="saveGeneralSetting" data-action-args='["defaultTimer",25]' id="setting-timer-25" class="py-1.5 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono font-bold cursor-pointer">25 Min</button>
-            <button data-action="saveGeneralSetting" data-action-args='["defaultTimer",45]' id="setting-timer-45" class="py-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-mono font-bold hover:text-white cursor-pointer">45 Min</button>
-            <button data-action="saveGeneralSetting" data-action-args='["defaultTimer",60]' id="setting-timer-60" class="py-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-mono font-bold hover:text-white cursor-pointer">60 Min</button>
+            <button onclick="saveGeneralSetting('defaultTimer',15)" data-action="saveGeneralSetting" data-action-args='["defaultTimer",15]' id="setting-timer-15" class="py-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-mono font-bold hover:text-white cursor-pointer">15 Min</button>
+            <button onclick="saveGeneralSetting('defaultTimer',25)" data-action="saveGeneralSetting" data-action-args='["defaultTimer",25]' id="setting-timer-25" class="py-1.5 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-300 font-mono font-bold cursor-pointer">25 Min</button>
+            <button onclick="saveGeneralSetting('defaultTimer',45)" data-action="saveGeneralSetting" data-action-args='["defaultTimer",45]' id="setting-timer-45" class="py-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-mono font-bold hover:text-white cursor-pointer">45 Min</button>
+            <button onclick="saveGeneralSetting('defaultTimer',60)" data-action="saveGeneralSetting" data-action-args='["defaultTimer",60]' id="setting-timer-60" class="py-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-300 font-mono font-bold hover:text-white cursor-pointer">60 Min</button>
           </div>
         </div>
 
@@ -4557,41 +4536,6 @@
               <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
               <span data-i18n="setting_clear_data">Alle lokalen App-Daten löschen</span>
             </button>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- TAB: SCREENSHOT- & VERSIONS-GALERIE -->
-      <div id="settings-pane-history" class="hidden space-y-4 text-xs">
-        <div class="p-4 rounded-2xl bg-white/[0.025] border border-white/10 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h4 class="font-bold text-sm text-white flex items-center gap-2">
-              <i data-lucide="image" class="w-4 h-4 text-purple-400"></i>
-              <span>Screenshot- & Versions-Galerie</span>
-            </h4>
-            <p class="text-[11px] text-gray-400 mt-0.5" data-i18n="history_subtitle">Sammle und betrachte Screenshots früherer Versionen und Entwicklungsstände</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="document.getElementById('history-screenshot-input').click()" class="py-2 px-3.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-xl font-bold transition cursor-pointer flex items-center gap-1.5 shadow-lg shadow-purple-900/30">
-              <i data-lucide="image-plus" class="w-4 h-4"></i>
-              <span data-i18n="settings_add_screenshot">Screenshot hinzufügen 📷</span>
-            </button>
-            <input type="file" id="history-screenshot-input" data-change="handleHistoryScreenshotUpload" data-change-args='["$event"]' accept="image/*" class="hidden" />
-          </div>
-        </div>
-
-        <!-- Galerie-Kacheln für Screenshots -->
-        <div class="p-4 rounded-2xl bg-white/[0.02] border border-white/10 space-y-3">
-          <div class="flex items-center justify-between border-b border-white/5 pb-2">
-            <h5 class="text-xs font-bold text-gray-200 flex items-center gap-2">
-              <i data-lucide="images" class="w-4 h-4 text-purple-400"></i>
-              <span>Gespeicherte Screenshots</span>
-            </h5>
-            <span id="history-gallery-count" class="text-[10px] font-mono text-purple-300 font-bold">0 Bilder</span>
-          </div>
-          <div id="history-gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-            <!-- Dynamisch befüllte Galerie-Bilder -->
           </div>
         </div>
 
