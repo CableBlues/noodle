@@ -192,23 +192,59 @@ function toggleBrainstormRecording() {
   }
 }
 
-function startBrainstormRecording() {
+async function startBrainstormRecording() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const livePill = document.getElementById('brainstorm-live-transcript');
+
   if (!SpeechRecognition) {
     if (typeof showToast === 'function') {
       showToast(tr({
-        de: '🎙️ Spracherkennung in diesem Browser nicht verfügbar. Bitte Tastatur nutzen.',
-        en: '🎙️ Speech recognition not supported in this browser. Please type.',
-        fr: '🎙️ Reconnaissance vocale non supportée par ce navigateur.',
-        it: '🎙️ Riconoscimento vocale non supportato su questo browser.',
-        es: '🎙️ Reconocimiento de voz no compatible en este navegador.',
-        el: '🎙️ Η αναγνώριση φωνής δεν υποστηρίζεται σε αυτό το πρόγραμμα περιήγησης.'
+        de: '🎙️ Spracherkennung (Web Speech API) in diesem Browser nicht verfügbar. Bitte Google Chrome, Edge oder Safari nutzen.',
+        en: '🎙️ Speech recognition not supported in this browser. Please use Chrome, Edge or Safari.',
+        fr: '🎙️ Reconnaissance vocale non supportée. Veuillez utiliser Chrome, Edge ou Safari.',
+        it: '🎙️ Riconoscimento vocale non supportato. Usa Chrome, Edge o Safari.',
+        es: '🎙️ Reconocimiento de voz no compatible. Usa Chrome, Edge o Safari.',
+        el: '🎙️ Η αναγνώριση φωνής απαιτεί Chrome, Edge ή Safari.'
       }));
     }
     return;
   }
 
+  // Sofort visuelles Feedback anzeigen
+  isBrainstormRecording = true;
+  updateBrainstormMicBtnUI(true);
+  if (livePill) {
+    livePill.classList.remove('hidden');
+    livePill.innerText = tr({ de: '🎙️ Verbinde mit Mikrofon... sprich deinen Gedanken aus', en: '🎙️ Connecting microphone... speak your thoughts' });
+  }
+
+  // Mikrofon-Berechtigung vorab prüfen / anfragen, falls noch nicht erteilt
+  if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
+    try {
+      const probeStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      probeStream.getTracks().forEach(t => t.stop());
+    } catch (permErr) {
+      if (permErr.name === 'NotAllowedError' || permErr.name === 'PermissionDeniedError') {
+        isBrainstormRecording = false;
+        updateBrainstormMicBtnUI(false);
+        if (livePill) livePill.classList.add('hidden');
+        if (typeof showToast === 'function') {
+          showToast(tr({
+            de: '⚠️ Mikrofon-Zugriff verweigert. Bitte erteile im Browser die Mikrofon-Erlaubnis.',
+            en: '⚠️ Microphone access denied. Please allow microphone in browser.'
+          }));
+        }
+        return;
+      }
+    }
+  }
+
   try {
+    if (brainstormRecognition) {
+      try { brainstormRecognition.abort(); } catch (e) {}
+      brainstormRecognition = null;
+    }
+
     brainstormRecognition = new SpeechRecognition();
     brainstormRecognition.continuous = true;
     brainstormRecognition.interimResults = true;
@@ -216,8 +252,6 @@ function startBrainstormRecording() {
     // Sprache an aktuelle App-Sprache anpassen
     const langMap = { de: 'de-DE', en: 'en-US', fr: 'fr-FR', it: 'it-IT', es: 'es-ES', el: 'el-GR' };
     brainstormRecognition.lang = (typeof currentLang !== 'undefined' && langMap[currentLang]) ? langMap[currentLang] : 'de-DE';
-
-    const livePill = document.getElementById('brainstorm-live-transcript');
 
     brainstormRecognition.onstart = () => {
       isBrainstormRecording = true;
@@ -246,7 +280,18 @@ function startBrainstormRecording() {
 
       if (finalTranscript.trim()) {
         const text = finalTranscript.trim();
-        addBrainstormIdea(text, 'idea');
+        const tagSelect = document.getElementById('brainstorm-tag-select');
+        const selectedTag = (tagSelect && tagSelect.value) ? tagSelect.value : 'idea';
+        if (typeof window !== 'undefined' && typeof window.addBrainstormIdea === 'function') {
+          window.addBrainstormIdea(text, selectedTag);
+        } else {
+          addBrainstormIdea(text, selectedTag);
+        }
+        if (typeof playProceduralSound === 'function') {
+          playProceduralSound(3);
+        } else if (typeof playSound === 'function') {
+          playSound('success');
+        }
         if (livePill) {
           livePill.innerText = `✓ „${text}“ als Idee erfasst`;
           setTimeout(() => {
@@ -260,12 +305,48 @@ function startBrainstormRecording() {
 
     brainstormRecognition.onerror = (e) => {
       console.warn('[Brainstorm] Speech recognition error:', e);
+      // 'no-speech' ist kein fataler Fehler: Sprechpause ignorieren und weiterhören
+      if (e.error === 'no-speech') {
+        return;
+      }
+      
+      const errType = e.error || '';
       stopBrainstormRecording();
+
+      if (typeof showToast === 'function') {
+        if (errType === 'not-allowed' || errType === 'service-not-allowed') {
+          showToast(tr({
+            de: '⚠️ Mikrofon-Zugriff verweigert. Bitte im Browser freigeben.',
+            en: '⚠️ Microphone permission denied. Please allow in browser.'
+          }));
+        } else if (errType === 'network') {
+          showToast(tr({
+            de: '⚠️ Spracherkennungsdienst nicht erreichbar (Offline oder Netzwerk blockiert).',
+            en: '⚠️ Speech service unreachable (offline or network blocked).'
+          }));
+        } else if (errType === 'audio-capture') {
+          showToast(tr({
+            de: '⚠️ Kein funktionierendes Mikrofon gefunden.',
+            en: '⚠️ No microphone found or audio capture failed.'
+          }));
+        }
+      }
     };
 
     brainstormRecognition.onend = () => {
+      // Wenn der Nutzer nicht gestoppt hat, automatische Wiederaufnahme (Chrome-Ende-Schutz)
       if (isBrainstormRecording) {
-        stopBrainstormRecording();
+        setTimeout(() => {
+          if (isBrainstormRecording && brainstormRecognition) {
+            try {
+              brainstormRecognition.start();
+            } catch (err) {
+              if (err.name !== 'InvalidStateError') {
+                stopBrainstormRecording();
+              }
+            }
+          }
+        }, 150);
       }
     };
 
@@ -273,6 +354,12 @@ function startBrainstormRecording() {
   } catch (e) {
     console.warn('[Brainstorm] Failed to start recognition:', e);
     stopBrainstormRecording();
+    if (typeof showToast === 'function') {
+      showToast(tr({
+        de: '⚠️ Spracheingabe konnte nicht gestartet werden.',
+        en: '⚠️ Could not start voice recognition.'
+      }));
+    }
   }
 }
 

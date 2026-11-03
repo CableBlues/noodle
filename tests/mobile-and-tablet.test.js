@@ -82,4 +82,25 @@ describe('Responsive Tablet & Mobile Architecture', () => {
     // Sicherheitsabstand zu Ticker-Optionen
     expect(mobileCss).toMatch(/#btn-board-undo\s*\{[^}]*margin-left:\s*4px/);
   });
+
+  it('9. Native compact mobile header contains Workspace Switcher, List Switcher, Undo and Quick-Add', () => {
+    expect(indexHtml).toContain('id="mobile-header-bar"');
+    expect(indexHtml).toContain('id="mobile-header-ws-btn"');
+    expect(indexHtml).toContain('id="mobile-header-list-btn"');
+    expect(indexHtml).toContain('id="mobile-header-undo-btn"');
+    expect(indexHtml).toContain('id="mobile-header-add-btn"');
+    expect(indexHtml).toContain('id="mobile-header-timer-pill"');
+    expect(mobileCss).toContain('#mobile-header-bar');
+    expect(mobileCss).toContain('#board-top-bar');
+  });
+
+  it('10. Tables & task lists bottom-sheet modal provides direct access to all workspace lists', () => {
+    const appTasksJs = fs.readFileSync(path.resolve(__dirname, '../app-tasks.js'), 'utf8');
+    expect(indexHtml).toContain('id="modal-mobile-lists-sheet"');
+    expect(indexHtml).toContain('id="mobile-lists-sheet-grid"');
+    expect(appTasksJs).toContain('function openMobileListsSheet(');
+    expect(appTasksJs).toContain('function renderMobileListsSheet(');
+    expect(appTasksJs).toContain('function updateMobileHeaderUI(');
+    expect(appTasksJs).toContain('openMobileListsSheet()');
+  });
 });

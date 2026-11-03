@@ -253,6 +253,29 @@ html body #app .premium-glow-btn i {
   filter: brightness(0.96);
 }
 
+/* Differenziertes, edles Violett/Indigo Design für den Fokus-Start-Button in "Was nun?" */
+#whatnow-start-btn {
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%) !important;
+  background-color: #7c3aed !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(196, 181, 253, 0.45) !important;
+  box-shadow: 0 4px 18px rgba(124, 58, 237, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25) !important;
+}
+
+#whatnow-start-btn:hover {
+  background: linear-gradient(135deg, #8b5cf6 0%, #4f46e5 100%) !important;
+  color: #ffffff !important;
+  border-color: rgba(221, 214, 254, 0.6) !important;
+  box-shadow: 0 6px 24px rgba(139, 92, 246, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-1px);
+}
+
+#whatnow-start-btn:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.35) !important;
+}
+
 /* 2. SECONDARY: Dezente Card-Oberfläche mit Theme-Border */
 .btn-secondary {
   background-color: var(--bg-card, rgba(255, 255, 255, 0.05)) !important;

@@ -2189,6 +2189,13 @@ function renderMobileCategoryTabs() {
   }
   document.body.dataset.mobileCat = activeCat;
 
+  const allListsBtnHtml = `
+    <button onclick="openMobileListsSheet()" class="mobile-tab-btn bg-purple-500/20 hover:bg-purple-500/30 border border-purple-400/50 text-purple-200 hover:text-white font-bold shrink-0 shadow-sm" title="${tr({ de: 'Alle Tabellen & Listen anzeigen', en: 'Show all tables & lists', es: 'Mostrar todas las listas', fr: 'Afficher toutes les listes', it: 'Mostra tutti gli elenchi', el: 'Εμφάνιση όλων των λιστών' })}">
+      <i data-lucide="layout-grid" class="w-3.5 h-3.5 text-purple-300"></i>
+      <span>${tr({ de: 'Alle Listen', en: 'All Lists', es: 'Todas', fr: 'Toutes', it: 'Tutte', el: 'Όλες' })}</span>
+    </button>
+  `;
+
   const tabsHtml = activeOrder.map(([id, iconKey, customTitle]) => {
     const isActive = id === activeCat;
     const isDone = id === 'done';
@@ -2212,11 +2219,15 @@ function renderMobileCategoryTabs() {
     </button>
   `;
 
-  bar.innerHTML = tabsHtml + addListBtnHtml;
+  bar.innerHTML = allListsBtnHtml + tabsHtml + addListBtnHtml;
   renderLucideIcons(false, bar);
+  if (typeof updateMobileHeaderUI === 'function') updateMobileHeaderUI();
 }
 
 function setMobileCategory(id) {
+  if (document.body.dataset.mobileNav && document.body.dataset.mobileNav !== 'planer') {
+    if (typeof switchMobileNavTab === 'function') switchMobileNavTab('planer');
+  }
   document.body.dataset.mobileCat = id;
   localStorage.setItem('flowPlannerMobileCategory', id);
   document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
@@ -2226,9 +2237,14 @@ function setMobileCategory(id) {
       btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
   });
+  document.querySelectorAll('main > article').forEach(col => {
+    const isAct = col.dataset.category === id || col.id === `col-${id}`;
+    col.classList.toggle('mobile-active-col', isAct);
+  });
   const main = document.querySelector('main');
   if (main) main.scrollIntoView({ behavior: 'instant', block: 'start' });
   window.scrollTo({ top: 0, behavior: 'instant' });
+  if (typeof updateMobileHeaderUI === 'function') updateMobileHeaderUI();
 }
 
 function stepMobileCategory(direction = 1) {
@@ -2238,6 +2254,179 @@ function stepMobileCategory(direction = 1) {
   if (idx === -1) return;
   const nextIdx = (idx + direction + activeOrder.length) % activeOrder.length;
   setMobileCategory(activeOrder[nextIdx][0]);
+}
+
+/**
+ * Updates the compact mobile header bar (Workspace label, active list title, count, undo badge).
+ */
+function updateMobileHeaderUI() {
+  if (typeof document === 'undefined') return;
+  const currentWs = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
+
+  // 1. Workspace Pill
+  const wsIcon = document.getElementById('mobile-ws-icon');
+  const wsLabel = document.getElementById('mobile-ws-label');
+  if (wsIcon && wsLabel) {
+    if (currentWs === 'shared') {
+      wsIcon.textContent = '👥';
+      wsLabel.textContent = 'Team';
+    } else if (currentWs === 'study') {
+      wsIcon.textContent = '🎓';
+      wsLabel.textContent = typeof t === 'function' ? t('workspace_study') : 'Studium';
+    } else if (currentWs === 'work') {
+      wsIcon.textContent = '💼';
+      wsLabel.textContent = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
+    } else {
+      wsIcon.textContent = '🏠';
+      wsLabel.textContent = typeof t === 'function' ? t('workspace_private') : 'Privat';
+    }
+  }
+
+  // 2. Active List Pill
+  const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
+  const currentCat = document.body.dataset.mobileCat || (activeOrder[0] ? activeOrder[0][0] : 'daily');
+  const catObj = activeOrder.find(([id]) => id === currentCat);
+  const curItems = typeof getCurrentWorkspaceItems === 'function' ? (getCurrentWorkspaceItems() || {}) : {};
+  const doneList = typeof getCurrentWorkspaceDone === 'function' ? (getCurrentWorkspaceDone() || []) : [];
+
+  const count = currentCat === 'done' ? doneList.length : (curItems[currentCat] || []).length;
+  const title = catObj ? (catObj[2] || (typeof t === 'function' ? t(catObj[0]) : catObj[0])) : currentCat;
+  const shortTitle = title.replace(/\s*\(.*?\)\s*$/, '');
+  const iconKey = catObj ? catObj[1] : 'list-todo';
+
+  const listTitleEl = document.getElementById('mobile-header-list-title');
+  const listCountEl = document.getElementById('mobile-header-list-count');
+  const listIconEl = document.getElementById('mobile-header-list-icon');
+  if (listTitleEl) listTitleEl.textContent = shortTitle;
+  if (listCountEl) listCountEl.textContent = String(count);
+  if (listIconEl && iconKey) {
+    listIconEl.setAttribute('data-lucide', iconKey);
+    if (typeof renderLucideIcons === 'function') renderLucideIcons(false, listIconEl.parentElement);
+  }
+
+  // 3. Undo Badge & Button state
+  const stack = (typeof window !== 'undefined' && Array.isArray(window.historyStack)) ? window.historyStack : (typeof historyStack !== 'undefined' && Array.isArray(historyStack) ? historyStack : []);
+  const hasHistory = stack.length > 0;
+  const undoBtn = document.getElementById('mobile-header-undo-btn');
+  const undoBadge = document.getElementById('mobile-undo-badge');
+  if (undoBtn) {
+    undoBtn.disabled = !hasHistory;
+    undoBtn.classList.toggle('opacity-40', !hasHistory);
+    undoBtn.classList.toggle('pointer-events-none', !hasHistory);
+  }
+  if (undoBadge) {
+    if (hasHistory) {
+      undoBadge.textContent = stack.length;
+      undoBadge.classList.remove('hidden');
+    } else {
+      undoBadge.classList.add('hidden');
+    }
+  }
+}
+
+/**
+ * Opens the native Bottom-Sheet modal with all tables/lists for the active workspace.
+ */
+function openMobileListsSheet() {
+  const modal = document.getElementById('modal-mobile-lists-sheet');
+  if (!modal) return;
+  renderMobileListsSheet();
+  modal.classList.remove('hidden');
+}
+
+function closeMobileListsSheet() {
+  const modal = document.getElementById('modal-mobile-lists-sheet');
+  if (modal) modal.classList.add('hidden');
+}
+
+function toggleMobileWorkspaceSheet(event) {
+  if (event) event.stopPropagation();
+  const dropdown = document.getElementById('dropdown-mobile-workspace');
+  if (!dropdown) return;
+  dropdown.classList.toggle('hidden');
+}
+
+function closeMobileWorkspaceDropdown() {
+  const dropdown = document.getElementById('dropdown-mobile-workspace');
+  if (dropdown) dropdown.classList.add('hidden');
+}
+
+/**
+ * Renders the lists and tables cards inside the Bottom-Sheet.
+ */
+function renderMobileListsSheet() {
+  const container = document.getElementById('mobile-lists-sheet-grid');
+  const subTitle = document.getElementById('mobile-lists-sheet-subtitle');
+  if (!container) return;
+
+  const currentWs = (state && state.activeWorkspace) ? state.activeWorkspace : 'private';
+  const isWork = currentWs === 'work';
+  const isStudy = currentWs === 'study';
+  const isShared = currentWs === 'shared';
+  const wsLabel = isShared ? 'Team' : (isStudy ? (typeof t === 'function' ? t('workspace_study') : 'Studium') : (isWork ? (typeof t === 'function' ? t('workspace_work') : 'Arbeit') : (typeof t === 'function' ? t('workspace_private') : 'Privat')));
+  if (subTitle) subTitle.textContent = `${tr({ de: 'Arbeitsbereich', en: 'Workspace', es: 'Espacio', fr: 'Espace', it: 'Spazio', el: 'Χώρος' })}: ${wsLabel}`;
+
+  // Update workspace buttons inside sheet
+  ['private', 'work', 'study', 'shared'].forEach(ws => {
+    const btn = document.getElementById(`mob-sheet-ws-${ws}`);
+    if (btn) {
+      const isSel = currentWs === ws;
+      btn.className = `py-1.5 px-1 rounded-xl text-center transition cursor-pointer text-xs font-semibold ${
+        isSel
+          ? 'bg-purple-600/40 text-white border border-purple-400/60 shadow-sm'
+          : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
+      }`;
+    }
+  });
+
+  const curItems = typeof getCurrentWorkspaceItems === 'function' ? (getCurrentWorkspaceItems() || {}) : {};
+  const doneList = typeof getCurrentWorkspaceDone === 'function' ? (getCurrentWorkspaceDone() || []) : [];
+  const activeOrder = typeof getActiveCategoriesOrder === 'function' ? getActiveCategoriesOrder() : categoriesOrder;
+  const currentCat = document.body.dataset.mobileCat || (activeOrder[0] ? activeOrder[0][0] : 'daily');
+
+  let html = '';
+  activeOrder.forEach(([id, iconKey, customTitle]) => {
+    const isActive = id === currentCat;
+    const isDone = id === 'done';
+    const count = isDone ? doneList.length : (curItems[id] || []).length;
+    const title = customTitle || (typeof t === 'function' ? t(id) : id);
+    const shortTitle = title.replace(/\s*\(.*?\)\s*$/, '');
+
+    html += `
+      <button type="button" onclick="setMobileCategory('${id}'); closeMobileListsSheet();" class="w-full p-2.5 rounded-2xl border transition-all flex items-center justify-between gap-3 cursor-pointer text-left active:scale-[0.98] ${
+        isActive
+          ? 'bg-purple-500/20 border-purple-400/60 shadow-[0_0_15px_rgba(168,85,247,0.25)] ring-1 ring-purple-400/30'
+          : 'bg-white/[0.04] border-white/10 hover:bg-white/[0.08] hover:border-white/20'
+      }">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${
+            isActive ? 'bg-purple-500/30 text-purple-200 border border-purple-400/40' : 'bg-white/5 text-gray-300 border border-white/10'
+          }">
+            <i data-lucide="${iconKey || 'list'}" class="w-4 h-4"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="text-xs font-bold ${isActive ? 'text-white' : 'text-gray-200'} truncate flex items-center gap-1.5">
+              <span>${shortTitle}</span>
+              ${isActive ? '<span class="text-[8.5px] px-1.5 py-0.2 rounded-full bg-purple-500/30 text-purple-200 border border-purple-400/40 font-mono font-bold">Aktiv</span>' : ''}
+            </div>
+            <div class="text-[10.5px] text-gray-400 truncate mt-0.5">
+              ${count} ${count === 1 ? tr({ de: 'Aufgabe', en: 'Task', es: 'Tarea', fr: 'Tâche', it: 'Attività', el: 'Εργασία' }) : tr({ de: 'Aufgaben', en: 'Tasks', es: 'Tareas', fr: 'Tâches', it: 'Attività', el: 'Εργασίες' })}
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span class="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
+            isActive ? 'bg-purple-500 text-white shadow-xs' : 'bg-white/10 text-gray-300'
+          }">${count}</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5 ${isActive ? 'text-purple-300' : 'text-gray-500'}"></i>
+        </div>
+      </button>
+    `;
+  });
+
+  container.innerHTML = html;
+  if (typeof renderLucideIcons === 'function') renderLucideIcons(false, container);
+  else if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
 }
 
 /**
@@ -2291,6 +2480,7 @@ function switchMobileNavTab(tabName) {
 
   try { window.scrollTo({ top: 0, behavior: 'instant' }); } catch (e) { window.scrollTo(0, 0); }
   if (typeof renderLucideIcons === 'function') renderLucideIcons();
+  if (typeof updateMobileHeaderUI === 'function') updateMobileHeaderUI();
 }
 
 /** Opens the shopping panel directly on the pantry tab (used by the mobile tools view). */
@@ -2316,6 +2506,13 @@ function closeHubModal() {
 window.setMobileCategory = setMobileCategory;
 window.stepMobileCategory = stepMobileCategory;
 window.switchMobileNavTab = switchMobileNavTab;
+window.openMobileListsSheet = openMobileListsSheet;
+window.closeMobileListsSheet = closeMobileListsSheet;
+window.renderMobileListsSheet = renderMobileListsSheet;
+window.toggleMobileWorkspaceSheet = toggleMobileWorkspaceSheet;
+window.closeMobileWorkspaceDropdown = closeMobileWorkspaceDropdown;
+window.updateMobileHeaderUI = updateMobileHeaderUI;
+
 if (typeof window.openPantryModal !== 'function') window.openPantryModal = openPantryModal;
 if (typeof window.openRecipeModal !== 'function') window.openRecipeModal = openRecipeModal;
 if (typeof window.closeHubModal !== 'function') window.closeHubModal = closeHubModal;
@@ -2323,6 +2520,12 @@ if (typeof globalThis !== 'undefined') {
   globalThis.setMobileCategory = setMobileCategory;
   globalThis.stepMobileCategory = stepMobileCategory;
   globalThis.switchMobileNavTab = switchMobileNavTab;
+  globalThis.openMobileListsSheet = openMobileListsSheet;
+  globalThis.closeMobileListsSheet = closeMobileListsSheet;
+  globalThis.renderMobileListsSheet = renderMobileListsSheet;
+  globalThis.toggleMobileWorkspaceSheet = toggleMobileWorkspaceSheet;
+  globalThis.closeMobileWorkspaceDropdown = closeMobileWorkspaceDropdown;
+  globalThis.updateMobileHeaderUI = updateMobileHeaderUI;
 }
 
 function animateTaskToDone(taskEl, targetSelector, onComplete) {
@@ -3110,9 +3313,12 @@ document.addEventListener('pointerdown', (e) => {
   }
 });
 
-// Escape-Taste schließt aktive Header-Dropdowns
+// Escape-Taste schließt aktive Header-Dropdowns und Menüs
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
+  if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
+    if (typeof closeAllPanelsAndModals === 'function') {
+      closeAllPanelsAndModals();
+    }
     const activeName = (typeof window !== 'undefined' && window.pinnedPanel) || pinnedPanel || currentlyOpenPanel;
     if (activeName) {
       const el = document.getElementById(`panel-${activeName}`);

@@ -1561,6 +1561,16 @@ function updateTimerDisplay() {
     }
   }
 
+  // Mobile Header Dynamic Timer Pill
+  const mobHeaderTimerPill = document.getElementById('mobile-header-timer-pill');
+  if (mobHeaderTimerPill) {
+    if (timerRunning) {
+      mobHeaderTimerPill.classList.remove('hidden');
+    } else {
+      mobHeaderTimerPill.classList.add('hidden');
+    }
+  }
+
   // Browser-Tab-Titel bei laufendem Timer & Flow-Verlängerung aktualisieren
   if (timerRunning) {
     if (isNegative) {

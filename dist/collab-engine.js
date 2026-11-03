@@ -791,6 +791,12 @@ const CollabEngine = (function() {
   async function toggleMicrophone() {
     if (isMicMuted) {
       try {
+        if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
+          if (typeof showToast === 'function') {
+            showToast('⚠️ Mikrofon-Zugriff erfordert HTTPS oder wird nicht unterstützt.');
+          }
+          return;
+        }
         if (!localAudioStream) {
           localAudioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
           setupAudioAnalyser(localAudioStream);
@@ -801,12 +807,16 @@ const CollabEngine = (function() {
         voiceRoomActive = true;
         updateMicButtonUI();
         if (typeof showToast === 'function') {
-          showToast('Mikrofon aktiv.');
+          showToast('🎙️ Mikrofon aktiv (Voice Room).');
         }
       } catch (err) {
         console.warn('[VoiceChat] Microphone access warning:', err);
         if (typeof showToast === 'function') {
-          showToast('Mikrofon-Zugriff nicht verfügbar.');
+          if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+            showToast('⚠️ Mikrofon-Zugriff im Browser verweigert.');
+          } else {
+            showToast('⚠️ Mikrofon-Zugriff nicht verfügbar.');
+          }
         }
       }
     } else {
@@ -874,29 +884,57 @@ const CollabEngine = (function() {
 
   function updateMicButtonUI() {
     const micBtn = document.getElementById('collab-mic-toggle-btn');
-    const micIcon = document.getElementById('collab-mic-icon');
-    const micStatus = document.getElementById('collab-mic-status-label');
-
     if (!micBtn) return;
 
     if (!isMicMuted) {
-      micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-emerald-500 text-black font-bold text-xs flex items-center gap-1.5 transition active:scale-95 cursor-pointer';
-      if (micIcon) micIcon.innerHTML = '<i data-lucide="mic" class="w-3.5 h-3.5"></i>';
-      if (micStatus) micStatus.innerText = 'Mic An';
+      micBtn.className = 'px-2 py-1 rounded-lg bg-emerald-500/25 hover:bg-emerald-500/35 border border-emerald-400/60 text-emerald-200 text-[10px] font-bold transition active:scale-95 cursor-pointer flex items-center gap-1 shadow-sm';
+      micBtn.innerHTML = '<i data-lucide="mic" class="w-3 h-3 text-emerald-300 animate-pulse"></i><span class="text-[9.5px]">Mic An</span>';
+      micBtn.title = 'Live Mikrofon aktiv (klicken zum Stummschalten)';
     } else {
-      micBtn.className = 'px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 font-semibold text-xs flex items-center gap-1.5 border border-white/10 transition active:scale-95 cursor-pointer';
-      if (micIcon) micIcon.innerHTML = '<i data-lucide="mic-off" class="w-3.5 h-3.5"></i>';
-      if (micStatus) micStatus.innerText = 'Mic Stumm';
+      micBtn.className = 'px-2 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 text-[10px] font-medium transition active:scale-95 cursor-pointer flex items-center gap-1';
+      micBtn.innerHTML = '<i data-lucide="mic-off" class="w-3 h-3 text-rose-400"></i><span class="text-[9.5px]">Mic</span>';
+      micBtn.title = 'Live Mikrofon (Voice Room) einschalten';
     }
-    if (typeof lucide !== 'undefined') lucide.createIcons();
+    if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') lucide.createIcons();
+    else if (typeof renderLucideIcons === 'function') renderLucideIcons();
   }
 
   // Voice Note Recorder (Sprachnachricht im Chat aufnehmen)
   async function startVoiceRecording() {
     try {
+      if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== 'function') {
+        if (typeof showToast === 'function') {
+          showToast('⚠️ Sprachaufnahmen erfordern HTTPS oder Browser-Unterstützung.');
+        }
+        return;
+      }
+      if (typeof MediaRecorder === 'undefined') {
+        if (typeof showToast === 'function') {
+          showToast('⚠️ MediaRecorder wird in diesem Browser nicht unterstützt.');
+        }
+        return;
+      }
+
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       voiceRecordingChunks = [];
-      mediaRecorder = new MediaRecorder(stream);
+
+      // Unterstützte MIME-Types für Cross-Browser (Chrome, Firefox, Safari iOS)
+      let selectedMime = '';
+      const candidateMimes = [
+        'audio/webm;codecs=opus',
+        'audio/webm',
+        'audio/mp4',
+        'audio/aac',
+        'audio/ogg'
+      ];
+      for (const m of candidateMimes) {
+        if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(m)) {
+          selectedMime = m;
+          break;
+        }
+      }
+
+      mediaRecorder = selectedMime ? new MediaRecorder(stream, { mimeType: selectedMime }) : new MediaRecorder(stream);
 
       mediaRecorder.ondataavailable = (e) => {
         if (e.data && e.data.size > 0) {
@@ -907,7 +945,8 @@ const CollabEngine = (function() {
       mediaRecorder.onstop = () => {
         stream.getTracks().forEach(t => t.stop());
         if (voiceRecordingChunks.length > 0) {
-          const blob = new Blob(voiceRecordingChunks, { type: 'audio/webm' });
+          const finalMime = mediaRecorder.mimeType || selectedMime || 'audio/webm';
+          const blob = new Blob(voiceRecordingChunks, { type: finalMime });
           const reader = new FileReader();
           reader.onloadend = () => {
             const base64Audio = reader.result;
@@ -917,7 +956,8 @@ const CollabEngine = (function() {
         }
       };
 
-      mediaRecorder.start();
+      // Timeslice 250ms for reliable chunks across browsers
+      mediaRecorder.start(250);
       isRecordingVoiceNote = true;
       voiceRecordingSeconds = 0;
 
@@ -926,10 +966,12 @@ const CollabEngine = (function() {
       if (recordBar) recordBar.classList.remove('hidden');
       if (standardBar) standardBar.classList.add('hidden');
 
+      const timerLabel = document.getElementById('collab-voice-record-timer');
+      if (timerLabel) timerLabel.innerText = '00:00';
+
       if (voiceRecordingTimer) clearInterval(voiceRecordingTimer);
       voiceRecordingTimer = setInterval(() => {
         voiceRecordingSeconds++;
-        const timerLabel = document.getElementById('collab-voice-record-timer');
         if (timerLabel) {
           const m = Math.floor(voiceRecordingSeconds / 60);
           const s = voiceRecordingSeconds % 60;
@@ -937,8 +979,13 @@ const CollabEngine = (function() {
         }
       }, 1000);
     } catch (e) {
+      console.warn('[VoiceNote] startVoiceRecording error:', e);
       if (typeof showToast === 'function') {
-        showToast('⚠️ Mikrofon-Zugriff fehlgeschlagen.');
+        if (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError') {
+          showToast('⚠️ Mikrofon-Zugriff im Browser verweigert.');
+        } else {
+          showToast('⚠️ Mikrofon-Zugriff fehlgeschlagen.');
+        }
       }
     }
   }
@@ -1506,8 +1553,17 @@ const CollabEngine = (function() {
     if (!audio) return;
 
     if (audio.paused) {
-      audio.play();
-      if (btn) btn.innerText = '⏸';
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          if (btn) btn.innerText = '⏸';
+        }).catch(err => {
+          console.warn('[VoiceNote] Audio playback failed:', err);
+          if (btn) btn.innerText = '▶';
+        });
+      } else {
+        if (btn) btn.innerText = '⏸';
+      }
     } else {
       audio.pause();
       if (btn) btn.innerText = '▶';

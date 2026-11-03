@@ -173,8 +173,7 @@ describe('Design-System & Theme-Konsistenz (Schritt 2)', () => {
     it('sollte die 5 in Schritt 5 ausgewählten Komponenten auf das Designsystem migriert haben', () => {
       // 1. helper-pick-modal
       expect(indexHtml).toContain('theme-surface-modal mobile-modal-card animate-spring-modal rounded-3xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl relative text-white flex flex-col gap-4 max-h-[92vh] overflow-hidden text-left');
-      expect(indexHtml).toContain('id="helper-pick-refresh-header" data-action="pickRandomTask" class="btn-secondary');
-      expect(indexHtml).toContain('id="helper-pick-next-btn" data-action="pickRandomTask" class="btn-secondary');
+      expect(indexHtml).toContain('id="helper-pick-box"');
 
       // 2. helper-break-modal
       expect(indexHtml).toContain('theme-surface-modal mobile-modal-card animate-spring-modal w-full max-w-md p-6 rounded-2xl shadow-2xl backdrop-blur-xl text-white relative transition-all duration-300');

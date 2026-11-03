@@ -1189,6 +1189,26 @@ function updateWorkspaceSwitchUI() {
     }
   }
 
+  // 1b. MOBILER HEADER WORKSPACE PILL
+  const mobWsIcon = document.getElementById('mobile-ws-icon');
+  const mobWsLabel = document.getElementById('mobile-ws-label');
+  if (mobWsIcon && mobWsLabel) {
+    if (currentWs === 'shared') {
+      mobWsIcon.textContent = '👥';
+      mobWsLabel.textContent = 'Team';
+    } else if (currentWs === 'study') {
+      mobWsIcon.textContent = '🎓';
+      mobWsLabel.textContent = typeof t === 'function' ? t('workspace_study') : 'Studium';
+    } else if (currentWs === 'work') {
+      mobWsIcon.textContent = '💼';
+      mobWsLabel.textContent = typeof t === 'function' ? t('workspace_work') : 'Arbeit';
+    } else {
+      mobWsIcon.textContent = '🏠';
+      mobWsLabel.textContent = typeof t === 'function' ? t('workspace_private') : 'Privat';
+    }
+  }
+  if (typeof updateMobileHeaderUI === 'function') updateMobileHeaderUI();
+
   // Active option highlight inside Header Dropdown (Dezent & aufgeräumt)
   const optPriv = document.getElementById('header-ws-opt-private');
   const optWork = document.getElementById('header-ws-opt-work');
@@ -1404,6 +1424,10 @@ function updateUndoUI() {
       triggerBtn.classList.add('opacity-30', 'pointer-events-none');
       triggerBtn.classList.remove('opacity-100');
     }
+  }
+
+  if (typeof updateMobileHeaderUI === 'function') {
+    updateMobileHeaderUI();
   }
 }
 

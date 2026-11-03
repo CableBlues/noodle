@@ -18,61 +18,20 @@ let draggedColumnId = null;
 let selectedCalendarDate = null; 
 
 const HOVER_COLOR_PAIRS = [
-  { hoverIcon: 'group-hover/task:text-emerald-400', text: 'group-hover/task:text-emerald-300' },
-  { hoverIcon: 'group-hover/task:text-cyan-400', text: 'group-hover/task:text-cyan-300' },
-  { hoverIcon: 'group-hover/task:text-amber-400', text: 'group-hover/task:text-amber-300' },
-  { hoverIcon: 'group-hover/task:text-rose-400', text: 'group-hover/task:text-rose-300' },
-  { hoverIcon: 'group-hover/task:text-purple-400', text: 'group-hover/task:text-purple-300' },
-  { hoverIcon: 'group-hover/task:text-blue-400', text: 'group-hover/task:text-blue-300' },
-  { hoverIcon: 'group-hover/task:text-pink-400', text: 'group-hover/task:text-pink-300' },
-  { hoverIcon: 'group-hover/task:text-teal-400', text: 'group-hover/task:text-teal-300' },
-  { hoverIcon: 'group-hover/task:text-orange-400', text: 'group-hover/task:text-orange-300' },
-  { hoverIcon: 'group-hover/task:text-sky-400', text: 'group-hover/task:text-sky-300' }
+  { hoverIcon: 'group-hover/task:text-emerald-400', text: 'group-hover/task:text-emerald-300' }, { hoverIcon: 'group-hover/task:text-cyan-400', text: 'group-hover/task:text-cyan-300' },
+  { hoverIcon: 'group-hover/task:text-amber-400', text: 'group-hover/task:text-amber-300' }, { hoverIcon: 'group-hover/task:text-rose-400', text: 'group-hover/task:text-rose-300' },
+  { hoverIcon: 'group-hover/task:text-purple-400', text: 'group-hover/task:text-purple-300' }, { hoverIcon: 'group-hover/task:text-blue-400', text: 'group-hover/task:text-blue-300' },
+  { hoverIcon: 'group-hover/task:text-pink-400', text: 'group-hover/task:text-pink-300' }, { hoverIcon: 'group-hover/task:text-teal-400', text: 'group-hover/task:text-teal-300' },
+  { hoverIcon: 'group-hover/task:text-orange-400', text: 'group-hover/task:text-orange-300' }, { hoverIcon: 'group-hover/task:text-sky-400', text: 'group-hover/task:text-sky-300' }
 ];
 
 const INSPIRATION_SAYINGS = {
-  de: [
-    "Du musst eine Aufgabe nicht perfekt machen. Sie unvollständig zu erledigen, ist unendlich viel besser, als sie gar nicht zu tun.",
-    "Wenn dir der Anfang schwerfällt, nimm dir vor, nur eine einzige Minute daran zu arbeiten. Danach darfst du jederzeit aufhören.",
-    "Dein Gehirn ist ein Prozessor, kein Datenspeicher. Schreib den Gedanken auf, um wertvollen Arbeitsspeicher im Kopf freizugeben.",
-    "Manchmal ist eine Pause kein Luxus, sondern eine notwendige Wartung deines Systems. Gönne dir diesen Moment ohne Schuldgefühle.",
-    "Fehlentscheidungen sind nur Datenpunkte. Sie zeigen dir, was nicht funktioniert, und helfen dir, deinen Weg feinzujustieren."
-  ],
-  en: [
-    "You don't have to do a task perfectly. Doing it incompletely is infinitely better than not doing it at all.",
-    "If starting feels hard, plan to work on it for just one minute. You can stop at any time after that.",
-    "Your brain is a storage device. Write thoughts down to free up valuable memory in your head.",
-    "Sometimes a break isn't a luxury, but a necessary maintenance of your system. Enjoy this moment guilt-free.",
-    "Mistakes are simply data points. They show you what doesn't work and help you fine-tune your own path."
-  ],
-  es: [
-    "No tienes que hacer una tarea a la perfección. Hacerla de forma incompleta es infinitamente mejor que no hacerla en absoluto.",
-    "Si empezar te cuesta, plantéate trabajar solo un minuto en ello. Después puedes parar cuando quieras.",
-    "Tu cerebro es un procesador, no un almacén de datos. Escribe tus pensamientos para liberar memoria valiosa en tu mente.",
-    "A veces un descanso no es un lujo, sino un mantenimiento necesario de tu sistema. Date ese momento sin sentir culpa.",
-    "Los errores son solo datos. Te muestran qué no funciona y te ayudan a ajustar tu propio camino."
-  ],
-  el: [
-    "Δεν χρειάζεται να κάνεις μια εργασία τέλεια. Το να την κάνεις ημιτελή είναι απείρως καλύτερο από το να μην την κάνεις καθόλου.",
-    "Αν το ξεκίνημα σου φαίνεται δύσκολο, σκέψου να δουλέψεις πάνω της μόνο για ένα λεπτό. Μετά μπορείς να σταματήσεις όποτε θέλεις.",
-    "Ο εγκέφαλός σου είναι επεξεργαστής, όχι αποθηκευτικός χώρος. Γράψε τις σκέψεις σου για να ελευθερώσεις πολύτιμη μνήμη στο μυαλό σου.",
-    "Μερικές φορές ένα διάλειμμα δεν είναι πολυτέλεια, αλλά απαραίτητη συντήρηση του συστήματός σου. Χάρισε στον εαυτό σου αυτή τη στιγμή χωρίς ενοχές.",
-    "Τα λάθη είναι απλώς δεδομένα. Σου δείχνουν τι δεν λειτουργεί και σε βοηθούν να βελτιώσεις τον δικό σου δρόμο."
-  ],
-  fr: [
-    "Tu n'as pas besoin de faire une tâche à la perfection. La faire de façon incomplète est infiniment mieux que ne pas la faire du tout.",
-    "Si commencer te semble difficile, prévois de n'y travailler qu'une seule minute. Ensuite, tu peux t'arrêter à tout moment.",
-    "Ton cerveau est un processeur, pas un espace de stockage. Note tes pensées pour libérer de la mémoire précieuse dans ta tête.",
-    "Parfois, une pause n'est pas un luxe, mais un entretien nécessaire de ton système. Offre-toi ce moment sans culpabilité.",
-    "Les erreurs ne sont que des données. Elles te montrent ce qui ne fonctionne pas et t'aident à ajuster ton propre chemin."
-  ],
-  it: [
-    "Non devi fare un'attività alla perfezione. Farla in modo incompleto è infinitamente meglio che non farla affatto.",
-    "Se iniziare ti sembra difficile, prevedi di lavorarci solo per un minuto. Dopo puoi fermarti quando vuoi.",
-    "Il tuo cervello è un processore, non uno spazio di archiviazione. Scrivi i tuoi pensieri per liberare memoria preziosa nella tua mente.",
-    "A volte una pausa non è un lusso, ma una manutenzione necessaria del tuo sistema. Concediti questo momento senza sensi di colpa.",
-    "Gli errori sono solo dati. Ti mostrano cosa non funziona e ti aiutano a perfezionare il tuo percorso."
-  ]
+  de: ["Du musst eine Aufgabe nicht perfekt machen. Sie unvollständig zu erledigen, ist unendlich viel besser, als sie gar nicht zu tun.", "Wenn dir der Anfang schwerfällt, nimm dir vor, nur eine einzige Minute daran zu arbeiten. Danach darfst du jederzeit aufhören.", "Dein Gehirn ist ein Prozessor, kein Datenspeicher. Schreib den Gedanken auf, um wertvollen Arbeitsspeicher im Kopf freizugeben.", "Manchmal ist eine Pause kein Luxus, sondern eine notwendige Wartung deines Systems. Gönne dir diesen Moment ohne Schuldgefühle.", "Fehlentscheidungen sind nur Datenpunkte. Sie zeigen dir, was nicht funktioniert, und helfen dir, deinen Weg feinzujustieren."],
+  en: ["You don't have to do a task perfectly. Doing it incompletely is infinitely better than not doing it at all.", "If starting feels hard, plan to work on it for just one minute. You can stop at any time after that.", "Your brain is a storage device. Write thoughts down to free up valuable memory in your head.", "Sometimes a break isn't a luxury, but a necessary maintenance of your system. Enjoy this moment guilt-free.", "Mistakes are simply data points. They show you what doesn't work and help you fine-tune your own path."],
+  es: ["No tienes que hacer una tarea a la perfección. Hacerla de forma incompleta es infinitamente mejor que no hacerla en absoluto.", "Si empezar te cuesta, plantéate trabajar solo un minuto en ello. Después puedes parar cuando quieras.", "Tu cerebro es un procesador, no un almacén de datos. Escribe tus pensamientos para liberar memoria valiosa en tu mente.", "A veces un descanso no es un lujo, sino un mantenimiento necesario de tu sistema. Date ese momento sin sentir culpa.", "Los errores son solo datos. Te muestran qué no funciona y te ayudan a ajustar tu propio camino."],
+  el: ["Δεν χρειάζεται να κάνεις μια εργασία τέλεια. Το να την κάνεις ημιτελή είναι απείρως καλύτερο από το να μην την κάνεις καθόλου.", "Αν το ξεκίνημα σου φαίνεται δύσκολο, σκέψου να δουλέψεις πάνω της μόνο για ένα λεπτό. Μετά μπορείς να σταματήσεις όποτε θέλεις.", "Ο εγκέφαλός σου είναι επεξεργαστής, όχι αποθηκευτικός χώρος. Γράψε τις σκέψεις σου για να ελευθερώσεις πολύτιμη μνήμη στο μυαλό σου.", "Μερικές φορές ένα διάλειμμα δεν είναι πολυτέλεια, αλλά απαραίτητη συντήρηση του συστήματός σου. Χάρισε στον εαυτό σου αυτή τη στιγμή χωρίς ενοχές.", "Τα λάθη είναι απλώς δεδομένα. Σου δείχνουν τι δεν λειτουργεί και σε βοηθούν να βελτιώσεις τον δικό σου δρόμο."],
+  fr: ["Tu n'as pas besoin de faire une tâche à la perfection. La faire de façon incomplète est infiniment mieux que ne pas la faire du tout.", "Si commencer te semble difficile, prévois de n'y travailler qu'une seule minute. Ensuite, tu peux t'arrêter à tout moment.", "Ton cerveau est un processeur, pas un espace de stockage. Note tes pensées pour libérer de la mémoire précieuse dans ta tête.", "Parfois, une pause n'est pas un luxe, mais un entretien nécessaire de ton système. Offre-toi ce moment sans culpabilité.", "Les erreurs ne sont que des données. Elles te montrent ce qui ne fonctionne pas et t'aident à ajuster ton propre chemin."],
+  it: ["Non devi fare un'attività alla perfezione. Farla in modo incompleto è infinitamente meglio che non farla affatto.", "Se iniziare ti sembra difficile, prevedi di lavorarci solo per un minuto. Dopo puoi fermarti quando vuoi.", "Il tuo cervello è un processore, non uno spazio di archiviazione. Scrivi i tuoi pensieri per liberare memoria preziosa nella tua mente.", "A volte una pausa non è un lusso, ma una manutenzione necessaria del tuo sistema. Concediti questo momento senza sensi di colpa.", "Gli errori sono solo dati. Ti mostrano cosa non funziona e ti aiutano a perfezionare il tuo percorso."]
 };
 
 function suggestInspirationQuote() {
@@ -288,9 +247,18 @@ function rotatePremiumDance() {
   // Neutralized for calm dark design system
 }
 
+const handleGlobalEscape = (e) => {
+  if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
+    try { document.activeElement?.blur?.(); } catch(err) {}
+    if (typeof closeAllPanelsAndModals === 'function') closeAllPanelsAndModals();
+  }
+};
+if (typeof window !== 'undefined') window.addEventListener('keydown', handleGlobalEscape, { capture: true });
+if (typeof document !== 'undefined') document.addEventListener('keydown', handleGlobalEscape, { capture: true });
+
 // Globaler Tastatur- & Shortcut-Handler
 window.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' || e.code === 'Escape') {
+  if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
     try { document.activeElement?.blur?.(); } catch(err) {}
     e.preventDefault();
     closeAllPanelsAndModals();
@@ -311,8 +279,10 @@ window.addEventListener('keydown', (e) => {
 
     if (isPickModalOpen) {
       e.preventDefault();
-      if (typeof currentWhatNowChosen !== 'undefined' && currentWhatNowChosen && currentWhatNowChosen.task) {
-        startZenWithTask(currentWhatNowChosen.task, currentWhatNowChosen.cat || 'todo');
+      if (typeof startWhatNowCurrentFocus === 'function') {
+        startWhatNowCurrentFocus();
+      } else if (typeof currentWhatNowChosen !== 'undefined' && currentWhatNowChosen && currentWhatNowChosen.task) {
+        startZenWithTask(currentWhatNowChosen.task, currentWhatNowChosen.cat || 'todo', (typeof currentWhatNowSelectedMinutes !== 'undefined' ? currentWhatNowSelectedMinutes : 25));
       }
       return;
     }
@@ -326,8 +296,10 @@ window.addEventListener('keydown', (e) => {
   if (isPickModalOpen) {
     if (e.key === 'Enter') {
       e.preventDefault();
-      if (typeof currentWhatNowChosen !== 'undefined' && currentWhatNowChosen && currentWhatNowChosen.task) {
-        startZenWithTask(currentWhatNowChosen.task, currentWhatNowChosen.cat || 'todo');
+      if (typeof startWhatNowCurrentFocus === 'function') {
+        startWhatNowCurrentFocus();
+      } else if (typeof currentWhatNowChosen !== 'undefined' && currentWhatNowChosen && currentWhatNowChosen.task) {
+        startZenWithTask(currentWhatNowChosen.task, currentWhatNowChosen.cat || 'todo', (typeof currentWhatNowSelectedMinutes !== 'undefined' ? currentWhatNowSelectedMinutes : 25));
       }
       return;
     }
@@ -336,24 +308,10 @@ window.addEventListener('keydown', (e) => {
       if (typeof pickRandomTask === 'function') pickRandomTask();
       return;
     }
-    if (key === '1') {
+    const energyMap = { '1': 'low', '2': 'med', '3': 'high', '4': 'random' };
+    if (energyMap[key]) {
       e.preventDefault();
-      if (typeof setWhatNowEnergyLevel === 'function') setWhatNowEnergyLevel('low');
-      return;
-    }
-    if (key === '2') {
-      e.preventDefault();
-      if (typeof setWhatNowEnergyLevel === 'function') setWhatNowEnergyLevel('med');
-      return;
-    }
-    if (key === '3') {
-      e.preventDefault();
-      if (typeof setWhatNowEnergyLevel === 'function') setWhatNowEnergyLevel('high');
-      return;
-    }
-    if (key === '4') {
-      e.preventDefault();
-      if (typeof setWhatNowEnergyLevel === 'function') setWhatNowEnergyLevel('random');
+      if (typeof setWhatNowEnergyLevel === 'function') setWhatNowEnergyLevel(energyMap[key]);
       return;
     }
   }
@@ -436,7 +394,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 function closeAllPanelsAndModals() {
-  // 1. Cancel all active hover timeouts
+  // 1. Cancel all active hover timeouts & dropdown timers
   if (typeof hoverPanelShowTimeout !== 'undefined' && hoverPanelShowTimeout) {
     clearTimeout(hoverPanelShowTimeout);
     hoverPanelShowTimeout = null;
@@ -448,6 +406,10 @@ function closeAllPanelsAndModals() {
   if (typeof taskMenuCloseTimer !== 'undefined' && taskMenuCloseTimer) {
     clearTimeout(taskMenuCloseTimer);
     taskMenuCloseTimer = null;
+  }
+  if (typeof headerWsDropdownTimer !== 'undefined' && headerWsDropdownTimer) {
+    clearTimeout(headerWsDropdownTimer);
+    headerWsDropdownTimer = null;
   }
 
   // 2. Close all floating desktop tool windows (Shopping, Cooking, Radio, Audio/DJ, News, Alarm, Daily, Impulse, etc.)
@@ -463,102 +425,96 @@ function closeAllPanelsAndModals() {
   document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window').forEach(box => {
     box.classList.add('hidden');
     box.style.removeProperty('display');
+    box.classList.remove('noodle-panel-pinned', 'noodle-panel-peeking', 'noodle-panel-fullscreen', 'noodle-panel-focused');
   });
 
-  // 3. Modal close helpers
-  if (typeof closeHelperModal === 'function') closeHelperModal();
-  if (typeof closeCleaningGuideModal === 'function') closeCleaningGuideModal();
-  if (typeof closeSportModal === 'function') closeSportModal();
-  if (typeof closeSafeSpaceModal === 'function') closeSafeSpaceModal();
-  if (typeof closeClarityModal === 'function') closeClarityModal();
-  if (typeof closeRegulationModal === 'function') closeRegulationModal();
-  if (typeof closeCustomItemModal === 'function') closeCustomItemModal();
-  if (typeof closePrivacyModal === 'function') closePrivacyModal();
-  if (typeof closeArchiveModal === 'function') closeArchiveModal();
-  if (typeof closeExportModal === 'function') closeExportModal();
-  if (typeof closeImportModal === 'function') closeImportModal();
-  if (typeof closeDiceModal === 'function') closeDiceModal();
-  if (typeof closeRouletteModal === 'function') closeRouletteModal();
-  if (typeof closeReportDashboard === 'function') closeReportDashboard();
-  if (typeof closeSettingsModal === 'function') closeSettingsModal();
-  if (typeof closeInstallModal === 'function') closeInstallModal();
-  if (typeof closeUndoHistoryModal === 'function') closeUndoHistoryModal();
-  if (typeof closePostponeTerminModal === 'function') closePostponeTerminModal();
-  if (typeof closeTextImportModal === 'function') closeTextImportModal();
-  if (typeof closeReportExportModal === 'function') closeReportExportModal();
-  if (typeof closeSampleManagerModal === 'function') closeSampleManagerModal();
-  if (typeof closeSupermarketModal === 'function') closeSupermarketModal();
-  if (typeof closeFeierabendModal === 'function') closeFeierabendModal();
-  if (typeof closeCommandPalette === 'function') closeCommandPalette();
-  if (typeof closeKeyboardShortcuts === 'function') closeKeyboardShortcuts();
-  if (typeof closeP2PSyncModal === 'function') closeP2PSyncModal();
-  if (typeof closeMobileQuickMenu === 'function') closeMobileQuickMenu();
-  if (typeof closeMobileMenuDrawer === 'function') closeMobileMenuDrawer();
-  if (typeof closeMobileToolsSheet === 'function') closeMobileToolsSheet();
-  if (typeof closeBreakModal === 'function') closeBreakModal();
-  if (typeof closeStepsModal === 'function') closeStepsModal();
-  if (typeof closeNoteModal === 'function') closeNoteModal();
-  if (typeof closeNoteDetailModal === 'function') closeNoteDetailModal();
-  if (typeof closeBrainstormModal === 'function') closeBrainstormModal();
-  if (typeof closeLearningHubModal === 'function') closeLearningHubModal();
-  if (typeof closeNoteScannerModal === 'function') closeNoteScannerModal();
-  if (typeof toggleTerminForm === 'function') toggleTerminForm(false);
-  if (typeof closeTaskOptionsMenu === 'function') closeTaskOptionsMenu();
-  if (typeof closeTemplateBuilderModal === 'function') closeTemplateBuilderModal();
-  if (typeof hideSoundHoverSlider === 'function') hideSoundHoverSlider();
+  // 3. Modal & menu close helpers
+  const closeFns = [
+    typeof closeHelperModal === 'function' && closeHelperModal, typeof closeCleaningGuideModal === 'function' && closeCleaningGuideModal,
+    typeof closeSportModal === 'function' && closeSportModal, typeof closeSafeSpaceModal === 'function' && closeSafeSpaceModal,
+    typeof closeClarityModal === 'function' && closeClarityModal, typeof closeRegulationModal === 'function' && closeRegulationModal,
+    typeof closeCustomItemModal === 'function' && closeCustomItemModal, typeof closePrivacyModal === 'function' && closePrivacyModal,
+    typeof closeArchiveModal === 'function' && closeArchiveModal, typeof closeExportModal === 'function' && closeExportModal,
+    typeof closeImportModal === 'function' && closeImportModal, typeof closeDiceModal === 'function' && closeDiceModal,
+    typeof closeRouletteModal === 'function' && closeRouletteModal, typeof closeReportDashboard === 'function' && closeReportDashboard,
+    typeof closeSettingsModal === 'function' && closeSettingsModal, typeof closeInstallModal === 'function' && closeInstallModal,
+    typeof closeUndoHistoryModal === 'function' && closeUndoHistoryModal, typeof closePostponeTerminModal === 'function' && closePostponeTerminModal,
+    typeof closeTextImportModal === 'function' && closeTextImportModal, typeof closeReportExportModal === 'function' && closeReportExportModal,
+    typeof closeSampleManagerModal === 'function' && closeSampleManagerModal, typeof closeSupermarketModal === 'function' && closeSupermarketModal,
+    typeof closeFeierabendModal === 'function' && closeFeierabendModal, typeof closeCommandPalette === 'function' && closeCommandPalette,
+    typeof closeKeyboardShortcuts === 'function' && closeKeyboardShortcuts, typeof closeP2PSyncModal === 'function' && closeP2PSyncModal,
+    typeof closeMobileQuickMenu === 'function' && closeMobileQuickMenu, typeof closeMobileMenuDrawer === 'function' && closeMobileMenuDrawer,
+    typeof closeMobileToolsSheet === 'function' && closeMobileToolsSheet, typeof closeMobileListsSheet === 'function' && closeMobileListsSheet,
+    typeof closeMobileQuickAddModal === 'function' && closeMobileQuickAddModal, typeof closeMobileWorkspaceDropdown === 'function' && closeMobileWorkspaceDropdown,
+    typeof closeBreakModal === 'function' && closeBreakModal, typeof closeStepsModal === 'function' && closeStepsModal,
+    typeof closeNoteModal === 'function' && closeNoteModal, typeof closeNoteDetailModal === 'function' && closeNoteDetailModal,
+    typeof closeBrainstormModal === 'function' && closeBrainstormModal, typeof closeLearningHubModal === 'function' && closeLearningHubModal,
+    typeof closeNoteScannerModal === 'function' && closeNoteScannerModal, typeof closeTaskOptionsMenu === 'function' && closeTaskOptionsMenu,
+    typeof closeTemplateBuilderModal === 'function' && closeTemplateBuilderModal, typeof hideSoundHoverSlider === 'function' && hideSoundHoverSlider,
+    typeof closeManageTablesDropdown === 'function' && closeManageTablesDropdown, typeof closeManageColumnsDropdown === 'function' && closeManageColumnsDropdown,
+    typeof closeOnboardingTour === 'function' && closeOnboardingTour, typeof dismissActiveAlarm === 'function' && dismissActiveAlarm
+  ];
+  closeFns.forEach(fn => { if (fn) try { fn(); } catch (e) {} });
+  if (typeof toggleTerminForm === 'function') try { toggleTerminForm(false); } catch (e) {}
+  if (typeof closeHeaderWorkspaceDropdown === 'function') try { closeHeaderWorkspaceDropdown(true); } catch (e) {}
+  if (typeof toggleAddListPopover === 'function') try { toggleAddListPopover(null, false); } catch (e) {}
+  if (typeof RadioNewsEngine !== 'undefined' && typeof RadioNewsEngine.closeTickerSettingsDropdown === 'function') {
+    try { RadioNewsEngine.closeTickerSettingsDropdown(); } catch (e) {}
+  }
 
   // 4. Close all specific and generic modal elements
   const modalIds = [
-    'modal-template-builder',
-    'brainstorm-modal', 'clarity-modal', 'sample-manager-modal', 'supermarket-modal',
-    'feierabend-celebration-modal', 'privacy-legal-modal', 'note-detail-modal',
-    'helper-safespace-modal', 'helper-pick-modal', 'helper-sport-modal',
-    'helper-break-modal', 'helper-steps-modal', 'helper-cleaning-modal', 'modal-p2p-sync',
-    'modal-regulation', 'note-scanner-modal', 'modal-learning-hub',
-    'modal-report-dashboard', 'modal-settings', 'modal-command-palette',
-    'modal-keyboard-shortcuts', 'text-import-modal', 'report-export-modal',
-    'mobile-menu-drawer', 'mobile-tools-sheet', 'modal-mobile-quick-menu',
-    'modal-custom-item', 'modal-dice', 'modal-roulette', 'modal-archive',
-    'modal-app-install', 'modal-undo-history', 'modal-postpone-termin',
-    'app-confirm-modal', 'confirm-dialog-modal'
+    'modal-template-builder', 'brainstorm-modal', 'clarity-modal', 'sample-manager-modal', 'supermarket-modal',
+    'feierabend-celebration-modal', 'privacy-legal-modal', 'note-detail-modal', 'helper-safespace-modal',
+    'helper-pick-modal', 'helper-sport-modal', 'helper-break-modal', 'helper-steps-modal', 'helper-cleaning-modal',
+    'modal-p2p-sync', 'modal-regulation', 'note-scanner-modal', 'modal-learning-hub', 'modal-report-dashboard',
+    'modal-settings', 'modal-command-palette', 'modal-keyboard-shortcuts', 'text-import-modal', 'report-export-modal',
+    'mobile-menu-drawer', 'mobile-tools-sheet', 'modal-mobile-quick-menu', 'modal-mobile-lists-sheet',
+    'modal-mobile-quick-add', 'modal-custom-item', 'modal-dice', 'modal-roulette', 'modal-archive',
+    'modal-app-install', 'modal-undo-history', 'modal-postpone-termin', 'app-confirm-modal', 'confirm-dialog-modal',
+    'onboarding-modal', 'alarm-trigger-popup', 'alarm-ring-modal', 'alarm-active-modal', 'praise-overlay'
   ];
   modalIds.forEach(id => {
     const el = document.getElementById(id);
-    if (el) {
-      el.classList.add('hidden');
-      el.style.display = '';
-    }
+    if (el) { el.classList.add('hidden'); el.style.display = ''; }
   });
   document.querySelectorAll('.modal, [id$="-modal"], [id*="modal-"], [id*="-modal"], .app-modal').forEach(el => {
-    el.classList.add('hidden');
-    el.style.display = '';
+    el.classList.add('hidden'); el.style.display = '';
+  });
+  document.querySelectorAll('dialog[open]').forEach(d => {
+    try { d.close(); } catch(e) {}
+    d.classList.add('hidden');
   });
 
   // 5. Close all subheader and header dropdowns, tools hub and popovers
   const subheaderDropdowns = [
-    'dropdown-header-workspace', 'dropdown-manage-tables', 'dropdown-manage-columns',
-    'popover-add-list', 'floating-add-list-container', 'panel-header-tools',
-    'header-sound-volume-popover', 'weather-search-results', 'cmd-palette-results',
-    'panel-search', 'panel-settings-dropdown', 'panel-calendar-dropdown',
-    'panel-weather', 'panel-pause-dropdown', 'panel-timer-presets', 'panel-feedback',
-    'panel-report', 'panel-labs-menu', 'panel-news', 'panel-alarm'
+    'dropdown-header-workspace', 'dropdown-mobile-workspace', 'dropdown-manage-tables', 'dropdown-manage-columns',
+    'popover-add-list', 'floating-add-list-container', 'panel-header-tools', 'header-sound-volume-popover',
+    'weather-search-results', 'cmd-palette-results', 'panel-search', 'panel-settings-dropdown', 'panel-calendar-dropdown',
+    'panel-weather', 'panel-pause-dropdown', 'panel-timer-presets', 'panel-feedback', 'panel-report', 'panel-labs-menu',
+    'panel-news', 'panel-alarm', 'panel-shopping', 'panel-cooking', 'panel-audio', 'panel-radio', 'panel-health',
+    'panel-humor-lab', 'panel-social', 'panel-collab-chat', 'ticker-settings-popover', 'task-context-dropdown',
+    'task-options-menu', 'mob-nav-menu'
   ];
   subheaderDropdowns.forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.classList.add('hidden');
       el.style.display = '';
-      el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+      el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'ticker-popover-open');
     }
   });
 
   // 6. Close all dock popover panels, dropdowns, context menus, and hover popovers
-  const allPanels = document.querySelectorAll('.dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], [id$="-popover"], #task-context-dropdown, #header-sound-volume-popover, .context-menu');
+  const allPanels = document.querySelectorAll('.dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], [id$="-popover"], [id*="dropdown-"], #task-context-dropdown, #header-sound-volume-popover, .context-menu, .task-options-menu, [data-task-menu], .popover');
   allPanels.forEach(p => {
     p.classList.add('hidden');
     p.style.display = '';
-    p.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned');
+    p.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'noodle-panel-focused', 'ticker-popover-open');
   });
+
+  const tickerWrapper = document.getElementById('ticker-options-wrapper');
+  if (tickerWrapper) tickerWrapper.classList.remove('ticker-popover-open');
 
   // 7. PanelManager & ModalManager Fallback
   if (typeof PanelManager !== 'undefined' && typeof PanelManager.closeAll === 'function') PanelManager.closeAll();
@@ -1571,9 +1527,13 @@ if (typeof document !== 'undefined') {
     }
 
     // Escape -> Close active popovers and dropdowns
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
+      try { document.activeElement?.blur?.(); } catch(err) {}
       if (typeof closeManageTablesDropdown === 'function') closeManageTablesDropdown();
+      if (typeof closeManageColumnsDropdown === 'function') closeManageColumnsDropdown();
       if (typeof closeHeaderWorkspaceDropdown === 'function') closeHeaderWorkspaceDropdown(true);
+      if (typeof closeMobileWorkspaceDropdown === 'function') closeMobileWorkspaceDropdown();
+      if (typeof toggleAddListPopover === 'function') toggleAddListPopover(null, false);
       const toolsPanel = document.getElementById('panel-header-tools');
       if (toolsPanel && !toolsPanel.classList.contains('hidden')) {
         if (typeof toggleDashboardOverlay === 'function') toggleDashboardOverlay();
@@ -1795,16 +1755,7 @@ function renderMobileQuickAddChips() {
   container.innerHTML = activeOrder.map(([id, iconKey, customTitle]) => {
     const isSel = id === selectedMobileQuickAddCat;
     const title = customTitle || t(id);
-    return `
-      <button type="button" onclick="selectMobileQuickAddCategory('${id}')" class="px-3 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
-        isSel 
-          ? 'bg-purple-600 text-white border border-purple-400 shadow-sm scale-105' 
-          : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10'
-      }">
-        <i data-lucide="${iconKey}" class="w-3.5 h-3.5"></i>
-        <span>${title}</span>
-      </button>
-    `;
+    return `<button type="button" onclick="selectMobileQuickAddCategory('${id}')" class="px-3 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${isSel ? 'bg-purple-600 text-white border border-purple-400 shadow-sm scale-105' : 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10'}"><i data-lucide="${iconKey}" class="w-3.5 h-3.5"></i><span>${title}</span></button>`;
   }).join('');
   
   if (typeof renderLucideIcons === 'function') renderLucideIcons();
@@ -1818,61 +1769,131 @@ function selectMobileQuickAddCategory(catId) {
 
 function selectMobilePriority(prio) {
   selectedMobileQuickAddPrio = prio;
+  const activeStyles = { high: 'border-rose-400 bg-rose-500/30', medium: 'border-amber-400 bg-amber-500/30', normal: 'border-purple-400 bg-purple-500/30' };
   ['high', 'medium', 'normal'].forEach(p => {
     const btn = document.getElementById(`mob-prio-${p}`);
     if (btn) {
-      if (p === prio) {
-        if (p === 'high') btn.className = 'mob-prio-btn py-2 px-2.5 rounded-xl border border-rose-400 bg-rose-500/30 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md scale-105';
-        else if (p === 'medium') btn.className = 'mob-prio-btn py-2 px-2.5 rounded-xl border border-amber-400 bg-amber-500/30 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md scale-105';
-        else btn.className = 'mob-prio-btn py-2 px-2.5 rounded-xl border border-purple-400 bg-purple-500/30 text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md scale-105';
-      } else {
-        btn.className = `mob-prio-btn py-2 px-2.5 rounded-xl border border-white/10 bg-white/5 text-gray-400 text-xs font-bold transition flex items-center justify-center gap-1.5 opacity-60`;
-      }
+      btn.className = (p === prio)
+        ? `mob-prio-btn py-2 px-2.5 rounded-xl border ${activeStyles[p]} text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-md scale-105`
+        : 'mob-prio-btn py-2 px-2.5 rounded-xl border border-white/10 bg-white/5 text-gray-400 text-xs font-bold transition flex items-center justify-center gap-1.5 opacity-60';
     }
   });
 }
 
-function toggleMobileVoiceInput() {
+async function toggleMobileVoiceInput() {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const micBtn = document.getElementById('mobile-mic-voice-btn');
+  const textarea = document.getElementById('mobile-quick-add-input');
+
   if (!SpeechRecognition) {
-    if (typeof showToast === 'function') showToast(tr({ de: 'Spracheingabe im Browser nicht verfügbar.', en: 'Voice input not available in this browser.' }));
+    if (typeof showToast === 'function') {
+      showToast(tr({
+        de: '🎙️ Spracherkennung in diesem Browser nicht verfügbar. Bitte Chrome, Edge oder Safari nutzen.',
+        en: '🎙️ Voice input not supported in this browser. Please use Chrome, Edge or Safari.'
+      }));
+    }
     return;
   }
   
-  const micBtn = document.getElementById('mobile-mic-voice-btn');
   if (mobileSpeechRecognition) {
     try { mobileSpeechRecognition.stop(); } catch(e){}
     mobileSpeechRecognition = null;
-    if (micBtn) micBtn.classList.remove('bg-rose-500', 'text-white', 'animate-pulse');
+    if (micBtn) {
+      micBtn.classList.remove('bg-rose-500', 'text-white', 'animate-pulse');
+      micBtn.classList.add('bg-white/10', 'text-gray-300');
+    }
     return;
   }
-  
-  mobileSpeechRecognition = new SpeechRecognition();
-  mobileSpeechRecognition.continuous = false;
-  mobileSpeechRecognition.interimResults = false;
-  mobileSpeechRecognition.lang = typeof currentLang !== 'undefined' ? (currentLang === 'de' ? 'de-DE' : currentLang === 'fr' ? 'fr-FR' : currentLang === 'el' ? 'el-GR' : 'en-US') : 'de-DE';
-  
-  if (micBtn) micBtn.classList.add('bg-rose-500', 'text-white', 'animate-pulse');
-  
-  mobileSpeechRecognition.onresult = (e) => {
-    const transcript = e.results[0][0].transcript;
-    const textarea = document.getElementById('mobile-quick-add-input');
-    if (textarea) {
-      textarea.value = (textarea.value ? textarea.value + ' ' : '') + transcript;
+
+  // Sofort visuelles Feedback
+  if (micBtn) {
+    micBtn.classList.remove('bg-white/10', 'text-gray-300');
+    micBtn.classList.add('bg-rose-500', 'text-white', 'animate-pulse');
+  }
+
+  // Vorab Mikrofon-Berechtigung anfragen/prüfen
+  if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
+    try {
+      const probe = await navigator.mediaDevices.getUserMedia({ audio: true });
+      probe.getTracks().forEach(t => t.stop());
+    } catch (permErr) {
+      if (permErr.name === 'NotAllowedError' || permErr.name === 'PermissionDeniedError') {
+        if (micBtn) {
+          micBtn.classList.remove('bg-rose-500', 'text-white', 'animate-pulse');
+          micBtn.classList.add('bg-white/10', 'text-gray-300');
+        }
+        if (typeof showToast === 'function') {
+          showToast(tr({
+            de: '⚠️ Mikrofon-Zugriff verweigert. Bitte im Browser erlauben.',
+            en: '⚠️ Microphone permission denied. Please allow in browser.'
+          }));
+        }
+        return;
+      }
     }
-  };
-  
-  mobileSpeechRecognition.onend = () => {
+  }
+
+  try {
+    mobileSpeechRecognition = new SpeechRecognition();
+    mobileSpeechRecognition.continuous = true;
+    mobileSpeechRecognition.interimResults = true;
+    
+    const langMap = { de: 'de-DE', en: 'en-US', fr: 'fr-FR', it: 'it-IT', es: 'es-ES', el: 'el-GR' };
+    mobileSpeechRecognition.lang = (typeof currentLang !== 'undefined' && langMap[currentLang]) ? langMap[currentLang] : 'de-DE';
+
+    let initialVal = textarea ? textarea.value : '';
+
+    mobileSpeechRecognition.onresult = (e) => {
+      let interim = '';
+      let finalStr = '';
+      for (let i = 0; i < e.results.length; ++i) {
+        if (e.results[i].isFinal) finalStr += e.results[i][0].transcript;
+        else interim += e.results[i][0].transcript;
+      }
+      if (textarea) {
+        const spacer = (initialVal && !initialVal.endsWith(' ')) ? ' ' : '';
+        const currentSpoken = (finalStr + (interim ? (finalStr ? ' ' : '') + interim : '')).trim();
+        textarea.value = (initialVal ? initialVal + spacer : '') + currentSpoken;
+        textarea.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    };
+    
+    mobileSpeechRecognition.onerror = (e) => {
+      console.warn('[MobileVoice] Speech recognition error:', e);
+      if (e.error === 'no-speech') return; // Kurze Sprechpause ignorieren
+
+      mobileSpeechRecognition = null;
+      if (micBtn) {
+        micBtn.classList.remove('bg-rose-500', 'text-white', 'animate-pulse');
+        micBtn.classList.add('bg-white/10', 'text-gray-300');
+      }
+      if (typeof showToast === 'function') {
+        if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
+          showToast(tr({ de: '⚠️ Mikrofon-Zugriff verweigert. Bitte im Browser erlauben.', en: '⚠️ Microphone permission denied.' }));
+        } else if (e.error === 'network') {
+          showToast(tr({ de: '⚠️ Spracherkennungsdienst nicht erreichbar.', en: '⚠️ Speech service unreachable.' }));
+        }
+      }
+    };
+
+    mobileSpeechRecognition.onend = () => {
+      mobileSpeechRecognition = null;
+      if (micBtn) {
+        micBtn.classList.remove('bg-rose-500', 'text-white', 'animate-pulse');
+        micBtn.classList.add('bg-white/10', 'text-gray-300');
+      }
+      if (typeof playProceduralSound === 'function') playProceduralSound(3);
+    };
+
+    mobileSpeechRecognition.start();
+  } catch (err) {
+    console.warn('[MobileVoice] Failed to start:', err);
     mobileSpeechRecognition = null;
-    if (micBtn) micBtn.classList.remove('bg-rose-500', 'text-white', 'animate-pulse');
-  };
-  
-  mobileSpeechRecognition.onerror = () => {
-    mobileSpeechRecognition = null;
-    if (micBtn) micBtn.classList.remove('bg-rose-500', 'text-white', 'animate-pulse');
-  };
-  
-  mobileSpeechRecognition.start();
+    if (micBtn) {
+      micBtn.classList.remove('bg-rose-500', 'text-white', 'animate-pulse');
+      micBtn.classList.add('bg-white/10', 'text-gray-300');
+    }
+  }
 }
 
 function submitMobileQuickAdd() {
@@ -1957,28 +1978,16 @@ if (typeof document !== 'undefined') {
   });
 }
 
-if (typeof window !== 'undefined') {
-  window.setTheme = setTheme;
-  window.setLanguage = setLanguage;
-  window.toggleMinimalist = toggleMinimalist;
-  window.closeAllPanelsAndModals = closeAllPanelsAndModals;
-  if (typeof getTaskIconDetails !== 'undefined') window.getTaskIconDetails = getTaskIconDetails;
-  if (typeof getTaskIcon !== 'undefined') window.getTaskIcon = getTaskIcon;
-  if (typeof openCommandPalette !== 'undefined') window.openCommandPalette = openCommandPalette;
-  if (typeof closeCommandPalette !== 'undefined') window.closeCommandPalette = closeCommandPalette;
-  if (typeof switchMobileNavTab !== 'undefined') window.switchMobileNavTab = switchMobileNavTab;
-  Object.assign(window, { openMobileQuickAddModal, closeMobileQuickAddModal, selectMobileQuickAddCategory, selectMobilePriority, toggleMobileVoiceInput, submitMobileQuickAdd, toggleExtraThemesAccordion, renderHistoryGallery, deleteHistoryScreenshot });
-}
-if (typeof globalThis !== 'undefined' && typeof window !== 'undefined' && globalThis !== window) {
-  Object.assign(globalThis, {
-    setTheme, setLanguage, toggleMinimalist, closeAllPanelsAndModals,
-    getTaskIconDetails: typeof getTaskIconDetails !== 'undefined' ? getTaskIconDetails : undefined,
-    getTaskIcon: typeof getTaskIcon !== 'undefined' ? getTaskIcon : undefined,
-    openCommandPalette: typeof openCommandPalette !== 'undefined' ? openCommandPalette : undefined,
-    closeCommandPalette: typeof closeCommandPalette !== 'undefined' ? closeCommandPalette : undefined,
-    switchMobileNavTab: typeof switchMobileNavTab !== 'undefined' ? switchMobileNavTab : undefined,
-    openMobileQuickAddModal, closeMobileQuickAddModal, selectMobileQuickAddCategory,
-    selectMobilePriority, toggleMobileVoiceInput, submitMobileQuickAdd,
-    toggleExtraThemesAccordion, renderHistoryGallery, deleteHistoryScreenshot
-  });
-}
+const globalCoreExports = {
+  setTheme, setLanguage, toggleMinimalist, closeAllPanelsAndModals,
+  getTaskIconDetails: typeof getTaskIconDetails !== 'undefined' ? getTaskIconDetails : undefined,
+  getTaskIcon: typeof getTaskIcon !== 'undefined' ? getTaskIcon : undefined,
+  openCommandPalette: typeof openCommandPalette !== 'undefined' ? openCommandPalette : undefined,
+  closeCommandPalette: typeof closeCommandPalette !== 'undefined' ? closeCommandPalette : undefined,
+  switchMobileNavTab: typeof switchMobileNavTab !== 'undefined' ? switchMobileNavTab : undefined,
+  openMobileQuickAddModal, closeMobileQuickAddModal, selectMobileQuickAddCategory,
+  selectMobilePriority, toggleMobileVoiceInput, submitMobileQuickAdd,
+  toggleExtraThemesAccordion, renderHistoryGallery, deleteHistoryScreenshot
+};
+if (typeof window !== 'undefined') Object.assign(window, globalCoreExports);
+if (typeof globalThis !== 'undefined') Object.assign(globalThis, globalCoreExports);
