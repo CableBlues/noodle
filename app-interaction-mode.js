@@ -734,14 +734,15 @@
   }
 
   function closeAllWindows() {
-    const list = Array.from(new Set([...activeWindows, ...minimizedWindows]));
+    const list = Array.from(new Set([...activeWindows, ...minimizedWindows, ...FLOATING_TOOL_NAMES, ...TRANSIENT_DROPDOWN_NAMES]));
     list.forEach(w => {
       try { closeWindow(w); } catch (e) {}
     });
     if (typeof document !== 'undefined') {
-      document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window').forEach(box => {
+      document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window, .dock-popover-panel').forEach(box => {
         box.classList.add('hidden');
         box.style.removeProperty('display');
+        box.classList.remove('noodle-panel-pinned', 'noodle-panel-peeking', 'noodle-panel-fullscreen', 'noodle-panel-focused');
       });
     }
     activeWindows.clear();
@@ -988,10 +989,14 @@
     applyModeClasses(currentMode);
     portalToolPanelsToBody();
 
-    // ESC schließt alle offenen Fenster & Tools
+    // ESC schließt alle offenen Fenster, Menüs & Tools
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' || e.code === 'Escape') {
+      if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
+        try { document.activeElement?.blur?.(); } catch (err) {}
         closeAllWindows();
+        if (typeof window !== 'undefined' && typeof window.closeAllPanelsAndModals === 'function') {
+          window.closeAllPanelsAndModals();
+        }
       }
     }, true);
 

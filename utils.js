@@ -387,7 +387,7 @@ const ModalFocusManager = {
       return;
     }
 
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
       e.preventDefault();
       if (typeof e.stopPropagation === 'function') e.stopPropagation();
       if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
@@ -513,22 +513,31 @@ window.showConfirmDialog = showConfirmDialog;
 window.confirmModal = showConfirmDialog;
 
 
-// Globaler Escape-Key Handler
+// Globaler Escape-Key Handler (Capture- & Bubble-Phase)
 if (typeof document !== 'undefined') {
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      if (typeof window.closeAllPanelsAndModals === 'function') {
+  const handleGlobalEscape = (e) => {
+    if (e.key === 'Escape' || e.code === 'Escape' || e.key === 'Esc') {
+      try { document.activeElement?.blur?.(); } catch (err) {}
+      if (typeof window !== 'undefined' && typeof window.closeAllPanelsAndModals === 'function') {
         window.closeAllPanelsAndModals();
       } else {
-        PanelManager.closeAll();
-        ModalManager.closeAll();
+        if (typeof PanelManager !== 'undefined' && PanelManager.closeAll) PanelManager.closeAll();
+        if (typeof ModalManager !== 'undefined' && ModalManager.closeAll) ModalManager.closeAll();
+        if (typeof ModalFocusManager !== 'undefined' && ModalFocusManager.reset) ModalFocusManager.reset();
+        document.querySelectorAll('.modal, [id$="-modal"], [id*="modal-"], .app-modal, .dock-popover-panel, [id^="panel-"], [id$="-dropdown"], [id*="-popover"], [id$="-popover"], [id*="dropdown-"], #task-context-dropdown, #header-sound-volume-popover, .context-menu, .noodle-window-box, .noodle-floating-tool-window').forEach(el => {
+          el.classList.add('hidden');
+          el.style.removeProperty('display');
+          el.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'noodle-panel-fullscreen', 'noodle-panel-focused');
+        });
         const wsEl = document.getElementById('dropdown-header-workspace');
         if (wsEl) wsEl.classList.add('hidden');
         const colsEl = document.getElementById('dropdown-manage-columns');
         if (colsEl) colsEl.classList.add('hidden');
       }
     }
-  });
+  };
+  document.addEventListener('keydown', handleGlobalEscape, true);
+  document.addEventListener('keydown', handleGlobalEscape, false);
 }
 
 const _lucideSvgCache = new Map();

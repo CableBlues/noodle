@@ -301,6 +301,7 @@ function isHouseworkTask(taskText) {
 
 let currentWhatNowEnergyLevel = 'med';
 let currentWhatNowChosen = null;
+let currentWhatNowSelectedMinutes = 25;
 
 function switchWhatNowTab(tabName) {
   const normTab = (tabName === 'dilemma') ? 'dilemma' : 'suggestion';
@@ -315,9 +316,9 @@ function switchWhatNowTab(tabName) {
     }
     if (tabBtn) {
       if (t === normTab) {
-        tabBtn.className = 'py-2 px-3 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-200 text-center transition cursor-pointer flex items-center justify-center gap-1.5 shadow-xs font-bold';
+        tabBtn.className = 'btn-secondary btn-sm px-3.5 py-1.5 rounded-lg text-purple-300 font-bold transition cursor-pointer flex-1 flex items-center justify-center gap-1.5 shadow-xs';
       } else {
-        tabBtn.className = 'py-2 px-3 rounded-xl text-gray-400 hover:text-white text-center transition cursor-pointer flex items-center justify-center gap-1.5 border border-transparent font-bold';
+        tabBtn.className = 'btn-ghost btn-sm px-3.5 py-1.5 rounded-lg text-gray-400 hover:text-white transition cursor-pointer flex-1 flex items-center justify-center gap-1.5';
       }
     }
   });
@@ -330,20 +331,85 @@ function switchWhatNowTab(tabName) {
 
 function setWhatNowEnergyLevel(level) {
   currentWhatNowEnergyLevel = level;
+  const ENERGY_CONFIG = {
+    low: {
+      active: 'py-1 px-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex flex-col items-center gap-0.5 bg-teal-500/20 text-teal-300 border border-teal-500/40 shadow-xs',
+      inactive: 'py-1 px-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex flex-col items-center gap-0.5 text-gray-400 hover:text-teal-300 bg-white/5 border border-white/5'
+    },
+    med: {
+      active: 'py-1 px-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex flex-col items-center gap-0.5 bg-purple-500/20 text-purple-300 border border-purple-500/40 shadow-xs',
+      inactive: 'py-1 px-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex flex-col items-center gap-0.5 text-gray-400 hover:text-purple-300 bg-white/5 border border-white/5'
+    },
+    high: {
+      active: 'py-1 px-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex flex-col items-center gap-0.5 bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-xs',
+      inactive: 'py-1 px-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex flex-col items-center gap-0.5 text-gray-400 hover:text-sky-300 bg-white/5 border border-white/5'
+    },
+    random: {
+      active: 'py-1 px-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex flex-col items-center gap-0.5 bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-xs',
+      inactive: 'py-1 px-1.5 rounded-lg text-xs font-semibold transition cursor-pointer flex flex-col items-center gap-0.5 text-gray-400 hover:text-amber-300 bg-white/5 border border-white/5'
+    }
+  };
+
   ['low', 'med', 'high', 'random'].forEach(l => {
     const btn = document.getElementById(`whatnow-energy-${l}`);
     if (!btn) return;
-    if (l === level) {
-      btn.className = 'py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-purple-200 bg-purple-500/20 border border-purple-500/40 transition cursor-pointer flex flex-col items-center gap-0.5 shadow-sm';
-    } else {
-      btn.className = 'py-1.5 px-1.5 rounded-xl text-[10px] font-bold text-gray-400 hover:text-white transition cursor-pointer flex flex-col items-center gap-0.5 border border-transparent';
-    }
+    const cfg = ENERGY_CONFIG[l] || ENERGY_CONFIG.med;
+    btn.className = (l === level) ? cfg.active : cfg.inactive;
   });
+
+  // Dauer exakt an die gewählte Kategorie koppeln
+  if (level === 'low') {
+    currentWhatNowSelectedMinutes = 5;
+  } else if (level === 'high') {
+    currentWhatNowSelectedMinutes = 45;
+  } else {
+    currentWhatNowSelectedMinutes = 25;
+  }
+
   suggestedTaskNamesInCurrentRun = [];
   pickRandomTask();
 }
 
-function startZenWithTask(taskText, cat = 'todo') {
+/**
+ * Erlaubt dem Nutzer, die Fokus-Dauer interaktiv selbst zu wählen
+ */
+function setWhatNowDuration(mins) {
+  const num = parseInt(mins, 10);
+  if (isNaN(num) || num <= 0) return;
+  currentWhatNowSelectedMinutes = num;
+
+  // Alle Chips visuell aktualisieren (im differenzierten Brainstorming & Statistik Filter-Design)
+  [5, 15, 25, 45, 60].forEach(m => {
+    const chip = document.getElementById(`whatnow-chip-${m}`);
+    if (chip) {
+      if (m === num) {
+        chip.className = 'whatnow-dur-chip py-1 px-2 rounded-lg text-xs font-bold transition cursor-pointer text-center bg-purple-500/25 text-purple-200 border border-purple-400/50 shadow-xs';
+      } else {
+        chip.className = 'whatnow-dur-chip py-1 px-2 rounded-lg text-xs font-semibold transition cursor-pointer text-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white border border-white/5';
+      }
+    }
+  });
+
+  const disp = document.getElementById('whatnow-custom-duration-display');
+  if (disp) disp.innerText = `${num} Min.`;
+
+  const metaTimer = document.getElementById('whatnow-meta-timer-label');
+  if (metaTimer) metaTimer.innerText = `${num} Min.`;
+
+  const startBtnLabel = document.getElementById('whatnow-start-btn-label');
+  if (startBtnLabel) startBtnLabel.innerText = `Fokus starten (${num} Min.)`;
+}
+
+/**
+ * Startet den Fokus mit der vom Nutzer aktuell ausgewählten Dauer
+ */
+function startWhatNowCurrentFocus() {
+  if (!currentWhatNowChosen || !currentWhatNowChosen.task) return;
+  const mins = currentWhatNowSelectedMinutes || 25;
+  startInstantGuidedFlow(currentWhatNowChosen.task, currentWhatNowChosen.cat || 'todo', mins);
+}
+
+function startZenWithTask(taskText, cat = 'todo', minutes = null) {
   closeHelperModal();
   if (!isMinimalist) {
     toggleMinimalist();
@@ -357,17 +423,18 @@ function startZenWithTask(taskText, cat = 'todo') {
   if (zenTaskText) zenTaskText.innerText = taskText;
   if (zenCatEl) zenCatEl.innerText = `${t(cat)}`;
   
-  setTimerPreset(25);
+  const timerDuration = (minutes && Number.isFinite(minutes) && minutes > 0) ? minutes : 25;
+  setTimerPreset(timerDuration);
   startTimer();
   renderZenSubtasks(taskText);
   
   showToast(tr({
-    de: `Fokus gestartet: "${taskText}" 🧘`,
-    en: `Focus started: "${taskText}" 🧘`,
-    es: `Enfoque iniciado: "${taskText}" 🧘`,
-    el: `Η εστίαση ξεκίνησε: "${taskText}" 🧘`,
-    fr: `Focus démarré : "${taskText}" 🧘`,
-    it: `Focus avviato: "${taskText}" 🧘`
+    de: `Fokus gestartet: "${taskText}" (${timerDuration} Min.) 🧘`,
+    en: `Focus started: "${taskText}" (${timerDuration} min.) 🧘`,
+    es: `Enfoque iniciado: "${taskText}" (${timerDuration} min.) 🧘`,
+    el: `Η εστίαση ξεκίνησε: "${taskText}" (${timerDuration} λεπ.) 🧘`,
+    fr: `Focus démarré : "${taskText}" (${timerDuration} min.) 🧘`,
+    it: `Focus avviato: "${taskText}" (${timerDuration} min.) 🧘`
   }));
 }
 
@@ -484,6 +551,88 @@ function flipWhatNowDilemma() {
 }
 
 /**
+ * Schätzt die Dauer einer Aufgabe in Minuten präzise anhand von:
+ * 1. Expliziten Task-Attributen (estimatedMinutes, estMinutes, duration)
+ * 2. Zeitangaben im Tasktext (z.B. "5 Min", "15m", "1h", "90 min", "2 Stunden")
+ * 3. Anzahl der Teilschritte (Checklisten-Umfang)
+ * 4. Semantischen Signalwörtern (Quick-Win vs. Deep-Work)
+ * 5. Kategorie-Standardwerten
+ */
+function estimateTaskDuration(rawItem, taskText, cat, totalSteps = 0) {
+  const isObj = typeof rawItem === 'object' && rawItem !== null;
+
+  // 1. Explizite numerische Attribute am Objekt
+  if (isObj) {
+    if (typeof rawItem.estimatedMinutes === 'number' && rawItem.estimatedMinutes > 0) {
+      return Math.round(rawItem.estimatedMinutes);
+    }
+    if (typeof rawItem.estMinutes === 'number' && rawItem.estMinutes > 0) {
+      return Math.round(rawItem.estMinutes);
+    }
+    if (rawItem.duration) {
+      const durStr = String(rawItem.duration).trim();
+      const numMatch = durStr.match(/(\d+)/);
+      if (numMatch) {
+        let mins = parseInt(numMatch[1], 10);
+        if (/stunde|std|hour|hr|h\b/i.test(durStr)) mins *= 60;
+        if (mins > 0) return mins;
+      }
+    }
+  }
+
+  const text = String(taskText || '').trim();
+
+  // 2. Zeitangaben im Text erkennen
+  // a) Stunden: z.B. "(1.5 Std)", "1h", "2 Stunden"
+  const hourMatch = text.match(/(?:^|\s|\()(\d+(?:[.,]\d+)?)\s*(?:stunden?|std\.?|hours?|hrs?|h)(?:\b|\)|\.|\/)/i);
+  if (hourMatch) {
+    const val = parseFloat(hourMatch[1].replace(',', '.'));
+    if (!isNaN(val) && val > 0) {
+      return Math.round(val * 60);
+    }
+  }
+
+  // b) Minuten: z.B. "(15 Min.)", "5min", "25 Min", "90m"
+  const minMatch = text.match(/(?:^|\s|\()(\d+)\s*(?:minuten?|mins?|m)(?:\b|\)|\.|\/)/i);
+  if (minMatch) {
+    const val = parseInt(minMatch[1], 10);
+    if (!isNaN(val) && val > 0) {
+      return val;
+    }
+  }
+
+  const lower = text.toLowerCase();
+
+  // 3. Teilschritte: Wenn viele Subtasks da sind, ist es Deep Work
+  if (totalSteps >= 5) return 50;
+  if (totalSteps >= 3) return 30;
+
+  // 4. Signalwörter für Quick Win (2-10 Min)
+  const isQuickWord = /(?:^|\b)(?:kurz|quick|anrufen|call|mail|email|e-mail|nachricht|chat|check|überprüfen|pruefen|senden|abschicken|müll|abwasch|spülen|bett|lüften|wasser|medis|medikament|zähne|trinken|überweisen|bezahlen|bestellen|buchen|notieren|aufräumen|ordnen)(?:\b|$)/i.test(lower);
+  if (isQuickWord) {
+    if (cat === 'daily' || isHouseworkTask(taskText)) return 5;
+    return 10;
+  }
+
+  // 5. Signalwörter für Deep Work (40+ Min)
+  const isDeepWord = /(?:^|\b)(?:deep\s*work|projekt|project|konzept|programmieren|coding|develop|entwickeln|recherche|research|ausarbeiten|schreiben|write|essay|thesis|arbeit|kapitel|analyse|lernen|klausur|prüfung|exam|studie|vorbereitung|präsentation|slides|refactor|architektur)(?:\b|$)/i.test(lower);
+  if (isDeepWord) {
+    return 50;
+  }
+
+  // 6. Kategorie-Standardwerte
+  if (cat === 'daily' || isHouseworkTask(taskText)) return 5;
+  if (cat === 'occasionally') return 15;
+  if (cat === 'work_focus' || cat === 'study_focus') return 25;
+  if (cat === 'weekly') return 30;
+  if (cat === 'work_backlog' || cat === 'study_modules') return 45;
+  if (cat === 'termine') return 20;
+
+  // Standard To-Do
+  return 20;
+}
+
+/**
  * Intelligente Priorisierungs-Engine fuer "Was nun?"
  * Berechnet fuer jede offene Aufgabe einen qualifizierten Score
  */
@@ -525,11 +674,8 @@ function pickRandomTask() {
         stepsCompleted = (state.completedSteps && state.completedSteps[taskText]) ? state.completedSteps[taskText].length : 0;
       }
 
-      // Basis-Dauer schaetzen
-      let estMinutes = 20;
-      if (cat === 'daily' || isHouseworkTask(taskText)) estMinutes = 10;
-      else if (cat === 'todo' || cat === 'work_backlog') estMinutes = 30;
-      if (isObj && rawItem.estimatedMinutes) estMinutes = rawItem.estimatedMinutes;
+      // Basis-Dauer präzise gemäß Text, Attributen und Kategorie schätzen
+      const estMinutes = estimateTaskDuration(rawItem, taskText, cat, totalSteps);
 
       // Executive Scoring
       let score = 50;
@@ -584,25 +730,32 @@ function pickRandomTask() {
   }
 
   if (currentWhatNowEnergyLevel === 'low') {
-    // Quick Win: 2-5 Min (bevorzugt kurze Tasks, Dailies, Haushalt, oder Teilschritte)
-    filteredCandidates.sort((a, b) => {
-      const aQuick = (a.estMinutes <= 10 || a.cat === 'daily' || a.isHousework) ? 1 : 0;
-      const bQuick = (b.estMinutes <= 10 || b.cat === 'daily' || b.isHousework) ? 1 : 0;
-      return (bQuick * 100 + b.score) - (aQuick * 100 + a.score);
+    // ⚡ QUICK WIN: Dauer <= 12 Min. (Dailies, Haushalt, Teilschritte, kurze To-Dos)
+    const quickPool = filteredCandidates.filter(c => c.estMinutes <= 12 || c.cat === 'daily' || c.isHousework);
+    const poolToUse = quickPool.length > 0 ? quickPool : filteredCandidates;
+    poolToUse.sort((a, b) => {
+      if (quickPool.length === 0) return a.estMinutes - b.estMinutes;
+      return b.score - a.score;
     });
+    filteredCandidates = poolToUse;
   } else if (currentWhatNowEnergyLevel === 'high') {
-    // Deep Work: 45+ Min (bevorzugt grosse To-Dos, Projekte)
-    filteredCandidates.sort((a, b) => {
-      const aDeep = (a.cat === 'todo' || a.cat === 'work_backlog' || a.estMinutes >= 25) ? 1 : 0;
-      const bDeep = (b.cat === 'todo' || b.cat === 'work_backlog' || b.estMinutes >= 25) ? 1 : 0;
-      return (bDeep * 100 + b.score) - (aDeep * 100 + a.score);
+    // 🧠 DEEP WORK: Dauer >= 35 Min. (Projekte, Backlog, viele Teilschritte, lange Tasks)
+    const deepPool = filteredCandidates.filter(c => c.estMinutes >= 35 || c.cat === 'work_backlog' || c.cat === 'study_modules' || c.totalSteps >= 4);
+    const poolToUse = deepPool.length > 0 ? deepPool : filteredCandidates;
+    poolToUse.sort((a, b) => {
+      if (deepPool.length === 0) return b.estMinutes - a.estMinutes;
+      return b.score - a.score;
     });
+    filteredCandidates = poolToUse;
   } else if (currentWhatNowEnergyLevel === 'random') {
-    // Zufall
+    // 🎲 ZUFALL: Zufällig gemischt
     filteredCandidates.sort(() => Math.random() - 0.5);
   } else {
-    // Standard 'med' (Fokus): Höchster Score gewinnt
-    filteredCandidates.sort((a, b) => b.score - a.score);
+    // 🎯 FOKUS: Standard Fokus-Aufgaben (12 - 35 Min.)
+    const focusPool = filteredCandidates.filter(c => c.estMinutes >= 12 && c.estMinutes <= 35);
+    const poolToUse = focusPool.length > 0 ? focusPool : filteredCandidates;
+    poolToUse.sort((a, b) => b.score - a.score);
+    filteredCandidates = poolToUse;
   }
 
   const chosen = filteredCandidates[0] || null;
@@ -622,8 +775,8 @@ function pickRandomTask() {
         <i data-lucide="check-circle-2" class="w-6 h-6"></i>
       </div>
       <div class="text-white font-display font-bold text-base leading-snug">${doneMsg}</div>
-      <p class="text-xs text-gray-400 max-w-sm mx-auto">Keine dringenden Aufgaben mehr offen. Möchtest du im Zen-Modus frei fokussieren?</p>
-      <button onclick="startZenWithTask('Freie Fokus-Session', 'todo')" class="mt-2 py-2.5 px-5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold rounded-2xl text-xs transition cursor-pointer shadow-lg active:scale-95">
+      <p class="text-xs text-gray-400 max-w-sm mx-auto">Keine offenen Aufgaben in dieser Kategorie. Möchtest du im Zen-Modus frei fokussieren?</p>
+      <button onclick="startInstantGuidedFlow('Freie Fokus-Session', 'todo', 25)" class="mt-2 py-2.5 px-5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-zinc-950 font-black rounded-2xl text-xs transition cursor-pointer shadow-lg active:scale-95">
         Freie Fokus-Session starten 🧘
       </button>
     `;
@@ -651,8 +804,8 @@ function pickRandomTask() {
   if (steps && steps.length > 0) {
     stepsListHtml = `
       <div class="mt-3 pt-2.5 border-t border-white/10 space-y-1.5">
-        <div class="flex items-center justify-between text-[10px] text-purple-300 font-bold uppercase tracking-wider">
-          <span class="flex items-center gap-1"><i data-lucide="footprints" class="w-3 h-3 text-purple-400"></i> Teilschritte (${completedIndices.length}/${steps.length})</span>
+        <div class="flex items-center justify-between text-[10px] text-amber-300 font-bold uppercase tracking-wider">
+          <span class="flex items-center gap-1"><i data-lucide="footprints" class="w-3 h-3 text-amber-400"></i> Teilschritte (${completedIndices.length}/${steps.length})</span>
           <span class="text-[9px] text-gray-400">Direkt anklickbar</span>
         </div>
         <div class="space-y-1 max-h-32 overflow-y-auto pr-1 custom-scrollbar">
@@ -671,62 +824,90 @@ function pickRandomTask() {
     `;
   }
 
-  box.className = "p-5 sm:p-6 rounded-3xl bg-gradient-to-b from-[#13131c]/95 to-[#0c0d14]/95 border border-purple-500/25 shadow-[0_0_40px_rgba(139,92,246,0.12)] space-y-4 text-left transition-all duration-300";
+  box.className = "p-3 sm:p-4 rounded-2xl bg-white/[0.025] border border-white/10 space-y-2.5 text-left transition-all duration-300";
   box.innerHTML = `
-    <!-- Oberes Meta-Band im Fokus/Zen-Stil: Minimal, beruhigend, fokussiert -->
-    <div class="flex items-center justify-between gap-2 text-xs">
-      <div class="flex items-center gap-2 flex-wrap">
-        <span class="px-2.5 py-0.5 rounded-full bg-purple-500/20 border border-purple-500/40 text-purple-300 font-bold text-[10px] uppercase tracking-wider flex items-center gap-1.5 font-mono">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+    <!-- Bento Header: Kategorie, Dauer & Begründung -->
+    <div class="flex items-center justify-between gap-1.5 text-xs flex-wrap">
+      <div class="flex items-center gap-1.5">
+        <span class="px-2 py-0.5 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 font-bold text-[10px] uppercase tracking-wider flex items-center gap-1 font-mono shadow-xs">
+          <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping"></span>
           ${escapeHtml(catLabel)}
         </span>
-        <span class="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-300 text-[10.5px] font-mono flex items-center gap-1.5">
-          <i data-lucide="timer" class="w-3 h-3 text-purple-400"></i> ~${chosen.estMinutes} Min
+        <span class="px-2 py-0.5 rounded-lg bg-white/5 border border-white/10 text-gray-300 text-[11px] font-mono font-bold flex items-center gap-1">
+          <i data-lucide="timer" class="w-3 h-3 text-purple-400"></i>
+          <span id="whatnow-meta-timer-label">${currentWhatNowSelectedMinutes} Min.</span>
         </span>
+        ${steps && steps.length > 0 ? `
+          <span class="px-2 py-0.5 rounded-lg bg-white/5 border border-white/10 text-amber-300/90 text-[10px] font-mono flex items-center gap-1">
+            <i data-lucide="footprints" class="w-3 h-3 text-amber-400"></i>
+            <span>${completedIndices.length}/${steps.length} Schritte</span>
+          </span>
+        ` : ''}
       </div>
-      <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-gray-400 font-medium font-mono shrink-0">
+      <span class="text-[10px] px-2 py-0.5 rounded-lg bg-white/5 border border-white/10 text-gray-400 font-medium font-mono shrink-0">
         ${escapeHtml(chosen.reasonLabel.replace(/[💡📌🔥🪜]/g, '').trim())}
       </span>
     </div>
 
     <!-- Aktueller Vorschlag mit Fokus-Typografie -->
-    <div class="space-y-2.5 pt-1">
-      <h2 class="text-xl sm:text-2xl font-display font-black text-white leading-snug tracking-tight break-words">
+    <div class="space-y-1.5 pt-0.5">
+      <h2 class="text-base sm:text-lg font-display font-bold text-white leading-snug tracking-tight break-words">
         ${escapeHtml(chosen.task)}
       </h2>
-      <div class="flex items-start gap-2.5 p-3 rounded-2xl bg-black/40 border border-purple-500/20 text-xs text-purple-200/90 font-medium">
-        <i data-lucide="sparkles" class="w-4 h-4 text-amber-400 mt-0.5 shrink-0"></i>
-        <span class="leading-relaxed"><strong class="text-white font-bold">Erster Schritt:</strong> ${escapeHtml(firstStep)}</span>
+      <!-- Creative Sparks Bar (wie im Brainstorming Studio) -->
+      <div class="p-2 rounded-xl bg-white/[0.03] border border-white/10 flex items-center gap-2 text-xs text-gray-200">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5 text-amber-400 shrink-0"></i>
+        <span class="truncate leading-normal"><strong class="text-white font-semibold">Schritt 1:</strong> <span class="text-teal-200/90 font-medium">${escapeHtml(firstStep)}</span></span>
       </div>
     </div>
 
-    ${stepsListHtml}
+    <!-- Interaktive Dauer-Auswahl (Filter-Chips wie im Brainstorming & Statistik Dashboard) -->
+    <div class="p-1.5 sm:p-2 rounded-xl bg-black/40 border border-white/10 flex items-center justify-between gap-1.5">
+      <div class="flex items-center gap-1.5 text-xs text-gray-300 shrink-0 font-medium">
+        <i data-lucide="clock" class="w-3.5 h-3.5 text-purple-400"></i>
+        <span class="text-[11px] font-semibold text-gray-400 hidden sm:inline">Dauer:</span>
+        <span id="whatnow-custom-duration-display" class="font-mono font-bold text-purple-300 text-xs px-1.5 py-0.5 rounded bg-purple-500/15 border border-purple-500/30">${currentWhatNowSelectedMinutes} Min.</span>
+      </div>
+      
+      <div class="flex items-center gap-1">
+        ${[5, 15, 25, 45, 60].map(m => {
+          const isActive = (m === currentWhatNowSelectedMinutes);
+          const chipCls = isActive 
+            ? 'whatnow-dur-chip py-1 px-2 rounded-lg text-xs font-bold transition cursor-pointer text-center bg-purple-500/25 text-purple-200 border border-purple-400/50 shadow-xs' 
+            : 'whatnow-dur-chip py-1 px-2 rounded-lg text-xs font-semibold transition cursor-pointer text-center bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white border border-white/5';
+          return `<button type="button" onclick="setWhatNowDuration(${m})" id="whatnow-chip-${m}" class="${chipCls}">${m} Min</button>`;
+        }).join('')}
+      </div>
+    </div>
 
-    <!-- Hauptaktionen: Instant-Fokus & Anderer Vorschlag direkt am Vorschlag -->
-    <div class="pt-2 space-y-2.5">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-        <button onclick="startInstantGuidedFlow('${safeTask}', '${chosen.cat}', ${chosen.estMinutes})" class="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-xs rounded-2xl shadow-[0_0_20px_rgba(139,92,246,0.35)] transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-2">
-          <i data-lucide="zap" class="w-4 h-4 text-amber-300 fill-amber-300"></i>
-          <span>Instant-Start (Fokus-Timer)</span>
+    <!-- Hauptaktionen: Fokus starten & Anderer Vorschlag -->
+    <div class="pt-0.5 space-y-1.5">
+      <div class="grid grid-cols-2 gap-2">
+        <!-- 1. Fokus starten: btn-primary mit edlem Violett/Indigo Design -->
+        <button id="whatnow-start-btn" onclick="startWhatNowCurrentFocus()" class="btn-primary w-full py-2.5 px-3 font-bold text-xs rounded-xl transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 shadow-md">
+          <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i>
+          <span id="whatnow-start-btn-label">Fokus starten (${currentWhatNowSelectedMinutes} Min.)</span>
+          <kbd class="hidden sm:inline px-1 py-0.5 rounded bg-black/30 border border-white/15 text-[9px] font-mono font-bold opacity-80">[Space]</kbd>
         </button>
 
-        <button onclick="pickRandomTask()" class="w-full py-3 px-4 bg-white/5 hover:bg-white/10 border border-white/15 hover:border-white/25 text-white font-bold text-xs rounded-2xl transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-2 shadow-sm" title="Anderen Vorschlag laden [W]">
-          <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-purple-400"></i>
+        <!-- 2. Anderer Vorschlag: btn-secondary im stilvollen Brainstorming/Statistik Look -->
+        <button id="helper-pick-next-btn" onclick="pickRandomTask()" class="btn-secondary w-full py-2.5 px-3 text-purple-200 hover:text-white font-bold text-xs rounded-xl transition transform active:scale-95 cursor-pointer flex items-center justify-center gap-1.5 shadow-xs" title="Anderen Vorschlag laden [W]">
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-purple-300"></i>
           <span>Anderer Vorschlag</span>
-          <kbd class="hidden sm:inline px-1.5 py-0.5 rounded bg-black/50 border border-white/10 text-[9px] font-mono text-gray-400">[W]</kbd>
+          <kbd class="hidden sm:inline px-1.5 py-0.5 rounded bg-black/40 border border-white/10 text-[9px] font-mono text-purple-300/80">[W]</kbd>
         </button>
       </div>
 
-      <div class="grid grid-cols-2 gap-2 pt-1 border-t border-white/5">
-        <button onclick="start2MinKickstart('${safeTask}', '${chosen.cat}')" class="py-2 px-3 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 text-gray-300 hover:text-white rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95" title="2-Minuten-Kickstart: Einfach anfangen">
-          <i data-lucide="timer" class="w-3.5 h-3.5 text-purple-400"></i>
-          <span>2-Min Start</span>
+      <!-- Footer-Aktionen: Erledigen & Info -->
+      <div class="flex items-center justify-between gap-2 text-[10.5px] px-0.5 pt-0.5">
+        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-1 px-2.5 rounded-lg bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 hover:text-emerald-200 border border-emerald-500/25 font-semibold transition flex items-center gap-1 cursor-pointer active:scale-95">
+          <i data-lucide="check" class="w-3 h-3 text-emerald-400"></i>
+          <span>Schon erledigt? Abhaken</span>
         </button>
-
-        <button onclick="completeWhatNowTask('${chosen.cat}', ${chosen.idx})" class="py-2 px-3 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-xl text-[11px] font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95" title="Als erledigt markieren">
-          <i data-lucide="check" class="w-3.5 h-3.5"></i>
-          <span>Als erledigt abhaken</span>
-        </button>
+        <span class="text-gray-400 truncate hidden sm:inline flex items-center gap-1">
+          <i data-lucide="sparkles" class="w-3 h-3 text-teal-400"></i>
+          <span>Startet den Timer im Zen-Fokus</span>
+        </span>
       </div>
     </div>
   `;
@@ -739,21 +920,19 @@ function pickRandomTask() {
  */
 function startInstantGuidedFlow(taskName, category, estMinutes = 20) {
   if (typeof window !== 'undefined') window._isGuidedFlowActive = true;
-  if (typeof setTimerPreset === 'function') {
-    const minutesToSet = Math.max(2, Math.min(60, estMinutes || 20));
-    setTimerPreset(minutesToSet);
-  }
+  const minutesToSet = Math.max(2, Math.min(120, estMinutes || 20));
   if (typeof startZenWithTask === 'function') {
-    startZenWithTask(taskName, category);
-  } else if (typeof startTimer === 'function') {
-    startTimer();
-  }
-  if (typeof closeHelperModal === 'function') closeHelperModal();
-  if (typeof showToast === 'function') {
-    showToast(tr({
-      de: `⚡ Instant-Ablauf gestartet: ${taskName} (${estMinutes} Min.)`,
-      en: `⚡ Instant flow started: ${taskName} (${estMinutes} min.)`
-    }));
+    startZenWithTask(taskName, category, minutesToSet);
+  } else {
+    if (typeof setTimerPreset === 'function') setTimerPreset(minutesToSet);
+    if (typeof startTimer === 'function') startTimer();
+    if (typeof closeHelperModal === 'function') closeHelperModal();
+    if (typeof showToast === 'function') {
+      showToast(tr({
+        de: `⚡ Fokus gestartet: "${taskName}" (${minutesToSet} Min.)`,
+        en: `⚡ Focus started: "${taskName}" (${minutesToSet} min.)`
+      }));
+    }
   }
 }
 if (typeof window !== 'undefined') {
@@ -767,6 +946,8 @@ if (typeof window !== 'undefined') {
   window.cleanStepText = cleanStepText;
   window.switchWhatNowTab = switchWhatNowTab;
   window.setWhatNowEnergyLevel = setWhatNowEnergyLevel;
+  window.setWhatNowDuration = setWhatNowDuration;
+  window.startWhatNowCurrentFocus = startWhatNowCurrentFocus;
   window.startZenWithTask = startZenWithTask;
   window.start2MinKickstart = start2MinKickstart;
   window.completeWhatNowTask = completeWhatNowTask;
@@ -786,6 +967,8 @@ if (typeof globalThis !== 'undefined') {
   globalThis.cleanStepText = cleanStepText;
   globalThis.switchWhatNowTab = switchWhatNowTab;
   globalThis.setWhatNowEnergyLevel = setWhatNowEnergyLevel;
+  globalThis.setWhatNowDuration = setWhatNowDuration;
+  globalThis.startWhatNowCurrentFocus = startWhatNowCurrentFocus;
   globalThis.startZenWithTask = startZenWithTask;
   globalThis.start2MinKickstart = start2MinKickstart;
   globalThis.completeWhatNowTask = completeWhatNowTask;

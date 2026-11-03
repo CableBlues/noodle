@@ -71,9 +71,9 @@
 
   header {
     flex-wrap: nowrap !important;
-    height: 42px !important;
-    min-height: 42px !important;
-    padding: 2px 8px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 4px 8px !important;
     margin-bottom: 6px !important;
     justify-content: space-between !important;
     align-items: center !important;
@@ -82,17 +82,41 @@
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6) !important;
     z-index: 99992 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+  }
+
+  #mobile-header-bar {
+    display: flex !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    box-sizing: border-box !important;
   }
 
   /* ---------------- 2b. HEADER-KOLLISIONSSCHUTZ AUF MOBILGERÄTEN (< 768px) ---------------- */
   /* Redundante Desktop-Container auf Smartphones ausblenden, da diese vollumfänglich in der
      Bottom-Bar (Planner, Focus, Audio, Tools, Menü) erreichbar sind */
   .desktop-only-header,
+  #header-tools-wrapper,
+  #timer-wrapper,
+  #btn-whatnow-dance,
+  #date-container,
+  #header-btn-alarm-container,
   #btn-header-brainstorm,
   #header-btn-pause-container,
   #header-btn-report-container,
   #header-btn-options-container,
   #header-btn-sound-container {
+    display: none !important;
+  }
+
+  /* Board Sub-Bar auf Mobile ausblenden (wird vollständig durch den mobilen Header & Bottom-Sheet ersetzt) */
+  #board-top-bar {
     display: none !important;
   }
 
