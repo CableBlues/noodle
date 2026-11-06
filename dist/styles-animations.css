@@ -870,7 +870,7 @@ main article .group:hover {
 
 /* 8. PRO DJ WORKSTATION & ATMOSPHERE STUDIO STYLES */
 @media (min-width: 860px) {
-  #panel-audio[data-active-tab="dj"] {
+  #panel-audio[data-active-tab="dj"]:not(.hidden) {
     width: 860px !important;
     max-width: calc(100vw - 60px) !important;
   }
@@ -1251,11 +1251,23 @@ body.has-tool-panel-open .badge-tools {
    PRO DJ WORKSTATION CONSOLE (PIONEER / TRAKTOR HIGH-END STYLE)
    ============================================================================ */
 
+#panel-audio.hidden,
+.dock-popover-panel.hidden,
+.noodle-window-box.hidden,
+.noodle-floating-tool-window.hidden,
+.modal.hidden,
+.app-modal.hidden,
+[id^="panel-"].hidden,
+[id$="-modal"].hidden,
+[id^="modal-"].hidden {
+  display: none !important;
+}
+
 #panel-audio {
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-#panel-audio.is-dj-mode {
+#panel-audio.is-dj-mode:not(.hidden) {
   width: min(860px, calc(100vw - 390px)) !important;
   max-width: calc(100vw - 370px) !important;
   max-height: calc(100dvh - 72px) !important;
@@ -1265,7 +1277,7 @@ body.has-tool-panel-open .badge-tools {
 }
 
 @media (max-width: 1024px) {
-  #panel-audio.is-dj-mode {
+  #panel-audio.is-dj-mode:not(.hidden) {
     width: calc(100vw - 16px) !important;
     max-width: calc(100vw - 16px) !important;
     max-height: calc(100dvh - 85px) !important;

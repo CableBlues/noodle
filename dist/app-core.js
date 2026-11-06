@@ -425,7 +425,7 @@ function closeAllPanelsAndModals() {
   document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window').forEach(box => {
     box.classList.add('hidden');
     box.style.removeProperty('display');
-    box.classList.remove('noodle-panel-pinned', 'noodle-panel-peeking', 'noodle-panel-fullscreen', 'noodle-panel-focused');
+    box.classList.remove('noodle-panel-pinned', 'noodle-panel-peeking', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'is-dj-mode');
   });
 
   // 3. Modal & menu close helpers
@@ -510,11 +510,13 @@ function closeAllPanelsAndModals() {
   allPanels.forEach(p => {
     p.classList.add('hidden');
     p.style.display = '';
-    p.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'noodle-panel-focused', 'ticker-popover-open');
+    p.classList.remove('noodle-panel-peeking', 'noodle-panel-pinned', 'noodle-panel-focused', 'ticker-popover-open', 'is-dj-mode');
   });
 
   const tickerWrapper = document.getElementById('ticker-options-wrapper');
   if (tickerWrapper) tickerWrapper.classList.remove('ticker-popover-open');
+  const audioPanelResetEl = document.getElementById('panel-audio');
+  if (audioPanelResetEl) audioPanelResetEl.classList.remove('is-dj-mode');
 
   // 7. PanelManager & ModalManager Fallback
   if (typeof PanelManager !== 'undefined' && typeof PanelManager.closeAll === 'function') PanelManager.closeAll();

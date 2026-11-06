@@ -654,6 +654,13 @@
         activeWindows.delete(el.id);
         minimizedWindows.delete(el.id);
       }
+      if (el.id === 'panel-audio' || clean === 'dj' || clean === 'audio' || clean === 'music' || clean === 'ambient' || clean === 'sounds') {
+        el.classList.remove('is-dj-mode');
+        ['panel-audio', 'audio', 'dj', 'music', 'ambient', 'sounds'].forEach(alias => {
+          activeWindows.delete(alias);
+          minimizedWindows.delete(alias);
+        });
+      }
     }
 
     activeWindows.delete(panelName);
@@ -742,7 +749,7 @@
       document.querySelectorAll('.noodle-window-box, .noodle-floating-tool-window, .dock-popover-panel').forEach(box => {
         box.classList.add('hidden');
         box.style.removeProperty('display');
-        box.classList.remove('noodle-panel-pinned', 'noodle-panel-peeking', 'noodle-panel-fullscreen', 'noodle-panel-focused');
+        box.classList.remove('noodle-panel-pinned', 'noodle-panel-peeking', 'noodle-panel-fullscreen', 'noodle-panel-focused', 'is-dj-mode');
       });
     }
     activeWindows.clear();

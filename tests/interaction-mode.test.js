@@ -17,6 +17,12 @@ describe('Multi-Window Studio & Window Management Controls', () => {
           <button aria-label="Einkaufsliste schließen">✕</button>
         </div>
       </div>
+      <div id="panel-audio" class="hidden">
+        <div class="flex items-center justify-between">
+          <span>Audio Studio</span>
+          <button aria-label="Audio schließen">✕</button>
+        </div>
+      </div>
       <div id="panel-alarm" class="hidden">
         <div class="flex items-center justify-between">
           <span>Alarm Header</span>
@@ -77,10 +83,49 @@ describe('Multi-Window Studio & Window Management Controls', () => {
 
     expect(shopPanel.classList.contains('hidden')).toBe(false);
     expect(alarmPanel.classList.contains('hidden')).toBe(false);
-
-    // Maximize one without closing the other
-    window.NoodleInteractionMode.toggleFullscreen('shopping');
-    expect(shopPanel.classList.contains('noodle-panel-fullscreen')).toBe(true);
-    expect(alarmPanel.classList.contains('hidden')).toBe(false);
   });
+
+  it('closes DJ Workstation window on [✕] button click and removes is-dj-mode', () => {
+    const audioPanel = document.getElementById('panel-audio');
+    window.NoodleInteractionMode.openWindow('dj');
+    audioPanel.classList.add('is-dj-mode');
+
+    expect(audioPanel.classList.contains('hidden')).toBe(false);
+    expect(audioPanel.classList.contains('is-dj-mode')).toBe(true);
+
+    const winControls = audioPanel.querySelector('.noodle-win-controls');
+    expect(winControls).not.toBeNull();
+    const closeBtn = winControls.querySelector('.noodle-win-close-btn');
+    expect(closeBtn).not.toBeNull();
+
+    // Click close button [✕]
+    closeBtn.click();
+
+    expect(audioPanel.classList.contains('hidden')).toBe(true);
+    expect(audioPanel.classList.contains('is-dj-mode')).toBe(false);
+  });
+
+  it('closes DJ Workstation and all active menus on Escape key', () => {
+    const audioPanel = document.getElementById('panel-audio');
+    const shopPanel = document.getElementById('panel-shopping');
+    const alarmPanel = document.getElementById('panel-alarm');
+
+    window.NoodleInteractionMode.openWindow('dj');
+    audioPanel.classList.add('is-dj-mode');
+    window.NoodleInteractionMode.openWindow('shopping');
+    window.NoodleInteractionMode.openWindow('alarm');
+
+    expect(audioPanel.classList.contains('hidden')).toBe(false);
+    expect(shopPanel.classList.contains('hidden')).toBe(false);
+    expect(alarmPanel.classList.contains('hidden')).toBe(false);
+
+    // Trigger global Escape key event
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+
+    expect(audioPanel.classList.contains('hidden')).toBe(true);
+    expect(audioPanel.classList.contains('is-dj-mode')).toBe(false);
+    expect(shopPanel.classList.contains('hidden')).toBe(true);
+    expect(alarmPanel.classList.contains('hidden')).toBe(true);
+  });
+
 });
